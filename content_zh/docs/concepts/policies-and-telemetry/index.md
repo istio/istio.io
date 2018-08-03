@@ -2,7 +2,7 @@
 title: 策略与遥测
 description: 描述策略实施和遥测机制。
 weight: 40
-keywords: [policies,telemetry,control,config]
+keywords: [策略,遥测,控制,配置]
 ---
 
 Istio 提供灵活的模型来执行授权策略，并为网格中的服务收集遥测数据。

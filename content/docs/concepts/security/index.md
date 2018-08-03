@@ -27,8 +27,7 @@ In particular, Istio security mitigates both insider and external threats agains
 
 {{< image width="80%" ratio="56.25%"
     link="./overview.svg"
-    alt="Istio security overview."
-    caption="Istio Security Architecture"
+    caption="Istio Security Overview"
     >}}
 
 The Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization
@@ -58,7 +57,6 @@ Security in Istio involves multiple components:
 
 {{< image width="80%" ratio="56.25%"
     link="./architecture.svg"
-    alt="Istio architecture."
     caption="Istio Security Architecture"
     >}}
 
@@ -103,7 +101,7 @@ For example, in Kubernetes, the X.509 certificate has the URI field in the forma
 "spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>".
 This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
 
-However, Istio security and SPIFFE/SPIRE differ in the PKI implementation details.
+Istio security and [SPIRE](https://spiffe.io/spire/), which is the implementation of SPIFFE, differ in the PKI implementation details.
 Istio provides a more comprehensive security solution, including authentication, authorization, and auditing.
 
 ## PKI
@@ -117,8 +115,8 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 ### Kubernetes scenario
 
-1. Citadel watches the Kubernetes `apiserver`, creates a SPIFFE certificate and key pair for each of the existing and new service accounts,
-   and sends them to the `apiserver`. Citadel stores the certificate and key pairs as
+1. Citadel watches the Kubernetes `apiserver`, creates a SPIFFE certificate and key pair for each of the existing and new service accounts.
+   Citadel stores the certificate and key pairs as
    [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
 1. When you create a pod, Kubernetes mounts the certificate and key pair to the pod according to its service account via
@@ -132,7 +130,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 ### on-premises machines scenario
 
-1. Citadel creates a gRPC service to take CSR requests.
+1. Citadel creates a gRPC service to take [Certificate Signing Requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 
 1. Node agent generates a private key and CSR, and sends the CSR with its credentials to Citadel for signing.
 
@@ -141,7 +139,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
 1. The node agent sends both, the certificate received from Citadel and the
    private key, to Envoy.
 
-1. The above CSR process repeats periodically for rotation.
+1. The above CSR process repeats periodically for certificate and key rotation.
 
 ### Node Agent in Kubernetes (in development)
 
@@ -150,8 +148,7 @@ Note that the identity provision flow for on-premises machines is the same so we
 
 {{< image width="80%" ratio="56.25%"
     link="./node_agent.svg"
-    alt="PKI with node agents in Kubernetes."
-    caption="Istio Security Architecture"
+    caption="PKI with node agents in Kubernetes"
     >}}
 
 The flow goes as follows:
@@ -166,7 +163,7 @@ The flow goes as follows:
 
 1. The node agent sends the certificate received from Citadel and the private key to Envoy, via the Envoy SDS API.
 
-1. The above CSR process repeats periodically for rotation.
+1. The above CSR process repeats periodically for certificate and key rotation.
 
 ## Best practices
 
@@ -176,7 +173,7 @@ In this section, we provide a few deployment guidelines and discuss a real-world
 
 If there are multiple service operators (a.k.a. [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering))
 deploying different services in a medium- or large-size cluster, we recommend creating a separate
-[namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/) for each SRE team to isolate their access.
+[Kubernetes namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/) for each SRE team to isolate their access.
  For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
 that both teams cannot access each other's services.
 
@@ -203,14 +200,15 @@ team creates one service account to run the `datastore` service in the
 control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
-In this setup, Citadel can provide certificate and key management for all namespaces,
-isolate the microservice deployments and enforce different access control rules to the services.
+In this setup, Kubernetes can isolate the operator privileges on managing the services.
+Istio manages certificates and keys in all namespaces
+and enforces different access control rules to the services.
 
 ## Authentication
 
 Istio provides two types of authentication:
 
-- Transport authentication, also known as service-to-service authentication:
+- **Transport authentication**, also known as **service-to-service authentication**:
   verifies the direct client making the connection. Istio offers [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
   as a full stack solution for transport authentication. You can
   easily turn on this feature without requiring service code changes. This
@@ -223,7 +221,7 @@ Istio provides two types of authentication:
     - Provides a key management system to automate key and certificate
       generation, distribution, rotation, and revocation.
 
-- Origin authentication, also known as end-user authentication: verifies the
+- **Origin authentication**, also known as **end-user authentication**: verifies the
   original client making the request as an end-user or device.
   Istio enables request-level authentication with JSON Web Token (JWT) validation
   and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),

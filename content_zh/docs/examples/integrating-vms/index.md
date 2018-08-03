@@ -2,7 +2,7 @@
 title: 虚拟机集成
 description: 在单一服务网格中，如何使用 Istio 对 Kubernetes 集群以及虚拟机进行控制。
 weight: 60
-keywords: [vms]
+keywords: [虚拟机]
 ---
 
 这个例子把 Bookinfo 服务部署到 Kubernetes 集群和一组虚拟机上，然后演示从单一服务网格的角度，如何使用 Istio 来对其进行控制。

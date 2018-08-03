@@ -2,7 +2,7 @@
 title: 设置请求超时
 description: 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
 weight: 28
-keywords: [traffic-management,timeouts]
+keywords: [流量管理,超时]
 ---
 
 > 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)

@@ -2,7 +2,7 @@
 title: 故障注入
 description: 此任务说明如何注入延迟并测试应用程序的弹性。
 weight: 20
-keywords: [traffic-management,fault-injection]
+keywords: [流量管理,故障注入]
 ---
 
 > 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
