@@ -9,30 +9,44 @@ keywords: [platform-setup,alicloud,aliyun]
 
 Follow these instructions to prepare an AliCloud Kubernetes cluster for Istio.
 
-You can deploy a Kubernetes cluster to AliCloud quickly and easily in the Container Service console, which fully supports Istio.
+You can deploy a Kubernetes cluster to AliCloud quickly and easily in the 
+`Container Service console`, which fully supports Istio.
 
 ## Prerequisites
 
-1. [Follow the instructions](https://www.alibabacloud.com/help/doc-detail/53752.htm) to activate the following services: Container Service, Resource Orchestration Service (ROS), and RAM.
+1. [Follow the AliCloud instructions](https://www.alibabacloud.com/help/doc-detail/53752.htm) 
+to activate the following services: Container Service, Resource Orchestration
+ Service (ROS), and RAM.
 
 ## Procedure
 
-1. Log on to the `Container Service console`, and click `Clusters` under `Kubernetes` in the left-side navigation pane to enter the Cluster List page.
+1. Log on to the `Container Service console`, and click **Clusters** under 
+**Kubernetes** in the left-side navigation pane to enter the **Cluster List** page.
 
-1. Click `Create Kubernetes Cluster` in the upper-right corner.
+1. Click the **Create Kubernetes Cluster** button in the upper-right corner.
 
-1. Enter the cluster name. The cluster name can be 1–63 characters long and contain numbers, Chinese characters, English letters, and hyphens (-).
+1. Enter the cluster name. The cluster name can be 1–63 characters long and 
+it can contain numbers, Chinese characters, English letters, and hyphens (-).
 
-1. Select the region and zone in which the cluster resides.
+1. Select the **region** and **zone** in which the cluster resides.
 
-1. Set the cluster network type. Kubernetes clusters only support the VPC network type now.
+1. Set the cluster network type. Kubernetes clusters only support the VPC 
+network type now.
 
 1. Configure the node type, Pay-As-You-Go and Subscription types are supported.
 
-1. Configure the master nodes. Select the generation, family, and type for the master nodes.
+1. Configure the master nodes. Select the generation, family, and type for the 
+master nodes.
 
-1. Configure the worker nodes. Select whether to create a worker node or add an existing ECS instance as the worker node.
+1. Configure the worker nodes. Select whether to create a worker node or add an
+ existing ECS instance as the worker node.
 
-1. Configure the logon mode, and configure the Pod Network CIDR and Service CIDR.
+1. Configure the logon mode, and configure the Pod Network CIDR and Service 
+CIDR.
 
-1. See the step by step details from [the instructions](https://www.alibabacloud.com/help/doc-detail/53752.htm).
+1. Below is showing the GUI where all the previous steps are being performed.
+
+{{< image width="100%" ratio="67.17%"
+    link="./csconsole.png"
+    caption="Console"
+    >}}

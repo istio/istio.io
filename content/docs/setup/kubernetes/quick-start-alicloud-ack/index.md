@@ -5,49 +5,57 @@ weight: 12
 keywords: [kubernetes,alicloud,aliyun]
 ---
 
-Quick Start instructions to install and run Istio in [AliCloud Kubernetes Container Service](https://cs.console.aliyun.com/) using Application Catalog.
+Follow these instructions to install and run Istio in the 
+[AliCloud Kubernetes Container Service](https://cs.console.aliyun.com/) 
+using the `Application Catalog`.
 
-This Quick Start installs the current release version of Istio and then deploys the [Bookinfo](/docs/examples/bookinfo/) sample
-application.  It uses Application Catalog to automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine.
+This guide installs the current release version of Istio and deploys the 
+[Bookinfo](/docs/examples/bookinfo/) sample application.  
+To automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/)
+for Kubernetes Engine.
 
 ## Prerequisites
 
-- This sample assumes that you already have an avaiable AliCloud Kubernetes cluster. Otherwise, you can create a Kubernetes cluster quickly and easily in the Container Service console.
+- You have an avaiable AliCloud Kubernetes cluster. Otherwise, create a 
+Kubernetes cluster quickly and easily in the `Container Service console`.
 
-- Make sure that `kubectl` can work fine for your Kubernetes cluster.
+- `kubectl` works fine for your Kubernetes cluster.
 
-- Create a namespace to deploy Istio components, e.g. `istio-system`:
+- You can create a namespace to deploy Istio components. The following example
+ creates the `istio-system` namespace:
 
 {{< text bash >}}
     $ kubectl create namespace istio-system
 {{< /text >}}
 
-- If a service account has not already been installed for Tiller, install one:
+- You installed a service account for Tiller. To install one if you haven't, 
+run the following command:
 
 {{< text bash >}}
     $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
 {{< /text >}}
 
-- Install Tiller on your cluster with the service account:
+- You installed Tiller on your cluster. To install Tiller with the service 
+account if you haven't, run the following command:
 
 {{< text bash >}}
     $ helm init --service-account tiller
 {{< /text >}}
 
-## Setup
+## Deploy Istio via Application Catalog
 
-### Deploy Istio through Application Catalog
-
--  Log on to the AliCloud Container Service console, and click `Application Catalog` in the left navigation pane, then select `ack-istio` in the right panel.
+- Log on to the **AliCloud Container Service** console.
+- Click **Application Catalog** in the left navigation pane.
+- Select the **ack-istio** in the right panel.
 
 {{< image width="100%" ratio="67.17%"
     link="./app-catalog-istio-1.0.0.png"
     caption="Istio"
     >}}
 
--  Customization with Parameters
+### Customize the installation with parameters
 
-The Helm chart ships with reasonable default configuration options which are explained in the following table:
+The following table explains the default configuration options shipped with Helm chart:
 
 | Parameter                            | Description                                                  | Default                                    |
 | ------------------------------------ | ------------------------------------------------------------ | ------------------------------------------ |
@@ -65,18 +73,26 @@ The Helm chart ships with reasonable default configuration options which are exp
 | `global.arch.ppc64le` | Specifies the scheduling policy for ppc64le architectures| `2` |
 | `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires k8s >= 1.9 | `false` |
 
-The Helm chart also offers significant customization options per individual service. Customize these per-service options at your own risk. The per-service options are exposed via the Parameters tab.
+Passive voice issue:
 
-Wait until Istio is fully deployed. Note that this can take up to several minutes.
+The Parameters tab exposes the per-service options.
+
+{{< idea_icon >}} Before moving on, wait until Istio is fully deployed. 
+Deployment can take up to several minutes.
 
 ## What's next
 
-You can further explore the Istio functionality by following any of the tutorials in the [Guides](/docs/guides/) section. However, to do this you need to install `istioctl` to interact with Istio.
+To further explore the Istio functionality, follow any of the tutorials in the 
+[Guides](/docs/guides/) section. Before you do, install `istioctl` to interact 
+with Istio. 
 
-The articles in this [series](https://yq.aliyun.com/articles/599874) provide detailed instructions about how to use Istio on AliCloud Kubernetes Container Service.
+Next, you can follow the detailed instructions on 
+[how to use Istio on AliCloud Kubernetes Container Service](https://yq.aliyun.com/articles/599874).
 
 ## Uninstalling
 
-1. Navigate to the Release section of the AliCloud Container Service console at [https://cs.console.aliyun.com/#/k8s/release/list](https://cs.console.aliyun.com/#/k8s/release/list)
+1. Visit [the Release section of the AliCloud Container Service console](https://cs.console.aliyun.com/#/k8s/release/list).
 
-1. Select the Release and click **Delete**. This will remove all the deployed Istio artifacts.
+1. Select the release where you wish to uninstall Istio.
+
+1. Click the **Delete** button to remove all the deployed Istio artifacts.
