@@ -1,6 +1,6 @@
 ---
 title: Traffic Mirroring with Istio for Testing in Production
-description: An introduction to safer, lower-risk deployments and release to production
+description: An introduction to safer, lower-risk deployments and release to production.
 publishdate: 2018-02-08
 subtitle: Routing rules for HTTP traffic
 attribution: Christian Posta

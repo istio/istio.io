@@ -59,12 +59,12 @@ check_content() {
 }
 
 check_content content --en-us
-check_content content_zh --zh-cn
+#check_content content_zh --zh-cn
 
-grep -nr -e "ERROR: markdown" ./public
+grep -nr -e "MARKDOWN ERROR:" ./public
 if [ "$?" == "0" ]
 then
-    echo "Ensure text blocks are either not indented, or indented by a multiple of 4 spaces"
+    echo "Errors found in the markdown content"
     FAILED=1
 fi
 
