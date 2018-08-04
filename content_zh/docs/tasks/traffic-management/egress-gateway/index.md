@@ -7,7 +7,7 @@ keywords: [traffic-management,egress]
 
 > 此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/) 。旧的 API 已被弃用并将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。请注意，此任务引入了一个新概念，即 Egress 网关，这在以前的 Istio 版本中是不存在的。
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。快速提醒：默认情况下，启用 Istio 的应用程序无法访问群集外的 URL。要启用此类访问，必须定义外部服务的[服务条目](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。快速提醒：默认情况下，启用 Istio 的应用程序无法访问群集外的 URL。要启用此类访问，必须定义外部服务的[服务条目](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
 
 [Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务演示了如何允许应用程序将 HTTP 请求发送到需要 HTTPS 的外部服务器。
 
@@ -17,7 +17,7 @@ keywords: [traffic-management,egress]
 
 考虑一个具有严格安全要求的组织。根据这些要求，离​​开服务网格的所有流量必须流经一组专用节点。这些节点将在专用计算机上运行，​​与用于在群集中运行应用程序的其余节点分开运行。特殊节点将用于 egress 流量的策略实施，并且将比其余节点进行更详细地监控。
 
-Istio 0.8 引入了 [ingress 和 egress 网关](/zh/docs/reference/config/istio.networking.v1alpha3/#Gateway)的概念。 Ingress 网关允许定义进入服务网格的入口点，所有入站流量都通过该入口点。 _Egress gateway_  是一个对称的概念，它定义了网格的出口点。 Egress 网关允许将 Istio 功能（例如，监控和路由规则）应用于离开网格的流量。
+Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.networking.v1alpha3/#Gateway)的概念。 Ingress 网关允许定义进入服务网格的入口点，所有入站流量都通过该入口点。 _Egress gateway_  是一个对称的概念，它定义了网格的出口点。 Egress 网关允许将 Istio 功能（例如，监控和路由规则）应用于离开网格的流量。
 
 另一个用例是应用程序节点没有公共 IP 的集群，因此在其上运行的网格内服务无法访问 Internet。定义 egress 网关，通过它引导所有出口流量并将公共 IP 分配给 egress 网关节点，允许应用节点以受控方式访问外部服务。
 
@@ -27,7 +27,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/zh/docs/reference/config/istio.
 
 *   启动 [sleep]({{<github_tree>}}/samples/sleep)，它将被用作外部调用的测试源。
 
-    如果您已经启用了 [automatic sidecar injection](/zh/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行此操作
+    如果您已经启用了 [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请执行此操作
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -621,7 +621,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
 
 ## 故障排除
 
-1.  检查您是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/mutual-tls/#verifying-istio-s-mutual-tls-authentication-setup)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注 _如果您在 Istio 中启用了双向 TLS 认证，则必须创建..._ ）。
+1.  检查您是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/docs/tasks/security/mutual-tls/#verifying-istio-s-mutual-tls-authentication-setup)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注 _如果您在 Istio 中启用了双向 TLS 认证，则必须创建..._ ）。
 
 1.  如果[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)启用后, 验证 egress 网关的证书：
 
