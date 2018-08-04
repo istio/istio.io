@@ -1,6 +1,6 @@
 ---
 title: Distributed Tracing
-description: How to configure the proxies to send tracing requests to Zipkin or Jaeger
+description: How to configure the proxies to send tracing requests to Zipkin or Jaeger.
 weight: 10
 keywords: [telemetry,tracing]
 aliases:

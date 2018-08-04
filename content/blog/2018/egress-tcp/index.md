@@ -1,6 +1,6 @@
 ---
 title: Consuming External TCP Services
-description: Describes a simple scenario based on Istio Bookinfo sample
+description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-02-06
 subtitle: Mesh-external Service Entries for TCP traffic
 attribution: Vadim Eisenberg

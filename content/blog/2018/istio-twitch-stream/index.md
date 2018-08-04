@@ -1,7 +1,7 @@
 ---
 title: All Day Istio Twitch Stream
 subtitle:
-description: Istio hosting an all day twitch stream to celebrate the 1.0 release
+description: Istio hosting an all day Twitch stream to celebrate the 1.0 release.
 publishdate: 2018-08-03
 attribution: Spencer Krum, IBM
 weight: 83

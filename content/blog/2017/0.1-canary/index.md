@@ -1,6 +1,6 @@
 ---
 title: Canary Deployments using Istio
-description: Using Istio to create autoscaled canary deployments
+description: Using Istio to create autoscaled canary deployments.
 publishdate: 2017-06-14
 attribution: Frank Budinsky
 weight: 98
