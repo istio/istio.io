@@ -435,7 +435,7 @@ For example
 {{< text plain >}}
 ---
 title: Frequently Asked Questions
-description: Questions Asked Frequently
+description: Questions Asked Frequently.
 weight: 12
 aliases:
     - /faq
@@ -450,7 +450,7 @@ You can also add many redirects like so:
 {{< text plain >}}
 ---
 title: Frequently Asked Questions
-description: Questions Asked Frequently
+description: Questions Asked Frequently.
 weight: 12
 aliases:
     - /faq
