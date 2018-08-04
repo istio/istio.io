@@ -6,6 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#466BB0"/>
 
+        {{ with .Page.Description }}
+            {{ if not (or (strings.HasSuffix . ".") (strings.HasSuffix . "。")) }}
+            {{ end }}
+        {{ end }}
+
         {{ define "description" }}{{ with .Page.Description }}{{ . }}{{ else }}Connect, secure, control, and observe services.{{ end }}{{ end }}
 
         <meta name="title" content="{{ .Title }}">

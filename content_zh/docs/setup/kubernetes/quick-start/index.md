@@ -215,7 +215,7 @@ $ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace ku
 您应该可以看到 `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook` 标志：
 
 {{< text plain >}}
-      --admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
+--admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
 {{< /text >}}
 
 ## 下载和准备安装

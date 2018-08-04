@@ -1,6 +1,6 @@
 ---
 title: Authorization
-description: Shows how to set up role-based access control for services in Istio mesh.
+description: Shows how to set up role-based access control for services in the mesh.
 weight: 40
 keywords: [security,access-control,rbac,authorization]
 ---

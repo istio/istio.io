@@ -1,13 +1,13 @@
 ---
 title: Introducing Istio
-description: Istio 0.1 announcement
+description: Istio 0.1 announcement.
 publishdate: 2017-05-24
 subtitle: A robust service mesh for microservices
 attribution: The Istio Team
 weight: 100
 aliases:
     - /blog/istio-service-mesh-for-microservices.html
-    - /blog/0.1-announcement.html   
+    - /blog/0.1-announcement.html
 ---
 
 Google, IBM, and Lyft are proud to announce the first public release of [Istio](/): an open source project that provides a uniform way to connect, secure, manage and monitor microservices. Our current release is targeted at the [Kubernetes](https://kubernetes.io/) environment; we intend to add support for other environments such as virtual machines and Cloud Foundry in the coming months.

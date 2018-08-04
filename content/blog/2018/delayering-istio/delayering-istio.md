@@ -1,6 +1,6 @@
 ---
 title: Delayering Istio with AppSwitch
-description: Automatic application onboarding and latency optimizations using AppSwitch
+description: Automatic application onboarding and latency optimizations using AppSwitch.
 publishdate: 2018-07-30
 subtitle:
 attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
