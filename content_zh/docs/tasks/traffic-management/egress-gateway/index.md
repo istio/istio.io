@@ -240,7 +240,7 @@ $ istioctl delete virtualservice direct-through-egress-gateway
 $ istioctl delete destinationrule set-sni-for-egress-gateway
 {{< /text >}}
 
-##  Egress `Gateway` 执行 TLS
+## Egress `Gateway` 执行 TLS
 
 让我们用 egress `Gateway` 执行 TLS，类似于 [TLS Origination for Egress Traffic](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务。请注意，在这种情况下，TLS 将由 egress 网关服务器完成，而不是前一任务中的 sidecar。
 
@@ -283,7 +283,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
 1.  为  _edition.cnn.com_  创建 egress `Gateway` ，端口 443。
 
     如果在 Istio 中启用了 [双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/) ，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 mTLS，将 SNI 设置为 `edition.cnn.com`。
-    
+
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
     kind: Gateway
