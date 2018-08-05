@@ -88,7 +88,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
 
 这个方案使用 Istio 代理绕过 TCP。通过 ESP 的流量是安全的。这不是推荐的方法。
 
-1.  将 HTTP port 的名字更新为 `tcp`
+1. 将 HTTP port 的名字更新为 `tcp`
 
     {{< text yaml >}}
     - port: 80
@@ -97,9 +97,9 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
       name: tcp
     {{< /text >}}
 
-1.  更新网格服务部署。请参阅 [Pods 和 Services 要求](/zh/docs/setup/kubernetes/sidecar-injection/#对-pod-的要求)中端口命名的规则。
+1. 更新网格服务部署。请参阅 [Pods 和 Services 要求](/zh/docs/setup/kubernetes/spec-requirements)中端口命名的规则。
 
-1.  你可以通过安全的 Ingress 访问 Endpoints 服务来验证：
+1. 你可以通过安全的 Ingress 访问 Endpoints 服务来验证：
 
     {{< text bash >}}
     $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
