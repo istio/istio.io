@@ -31,6 +31,12 @@ parameter.
 {{ $title := or (.Get "title") (.Get "caption") }}
 {{ $alt := or (.Get "alt") (.Get "title") (.Get "caption") }}
 
+{{ with $caption }}
+{{ if (strings.HasSuffix . ".") }}
+MARKDOWN ERROR: image caption ends with a period.
+{{ end }}
+{{ end }}
+
 {{/* Turn relative values for $link into absolute URLs */}}
 {{ .Scratch.Set "link" $link }}
 

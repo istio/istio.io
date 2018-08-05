@@ -431,7 +431,7 @@ The following example shows the `peers:` section enabling transport
 authentication using mutual TLS.
 
 {{< text yaml >}}
- peers:
+peers:
   - mtls: {}
 {{< /text >}}
 

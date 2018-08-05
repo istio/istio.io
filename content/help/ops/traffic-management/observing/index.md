@@ -1,6 +1,6 @@
 ---
 title: Observing Traffic Management
-description: Describes tools and techniques to observe traffic management or issues related to traffic management 
+description: Describes tools and techniques to observe traffic management or issues related to traffic management.
 weight: 5
 ---
 

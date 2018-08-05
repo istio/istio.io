@@ -621,7 +621,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
 
 ## 故障排除
 
-1.  检查您是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/docs/tasks/security/mutual-tls/#verifying-istio-s-mutual-tls-authentication-setup)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注 _如果您在 Istio 中启用了双向 TLS 认证，则必须创建..._ ）。
+1.  检查您是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注 _如果您在 Istio 中启用了双向 TLS 认证，则必须创建..._ ）。
 
 1.  如果[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)启用后, 验证 egress 网关的证书：
 
