@@ -240,6 +240,16 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
           - name: egressgateway-ca-certs
             secretName: istio-egressgateway-ca-certs
             mountPath: /etc/istio/egressgateway-ca-certs
+        configVolumes:
+          - name: sni-proxy-config
+            configMapName: egress-sni-proxy-configmap
+        additionalContainers:
+        - name: sni-proxy
+          image: nginx
+          volumeMounts:
+          - name: sni-proxy-config
+            mountPath: /etc/nginx
+            readOnly: true
     EOF
     {{< /text >}}
 
