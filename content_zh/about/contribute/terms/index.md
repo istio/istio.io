@@ -1,6 +1,6 @@
 ---
 title: 术语和习惯用语
-description: 翻译 Istio 文档时常见术语的中文翻译
+description: 翻译 Istio 文档时常见术语的中文翻译。
 weight: 70
 keywords: [翻译，贡献]
 ---

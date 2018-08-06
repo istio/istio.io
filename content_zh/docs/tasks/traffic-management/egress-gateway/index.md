@@ -1,6 +1,6 @@
 ---
 title: 配置 Egress 网关
-description: 描述如何通过专用网关服务将流量定向到外部服务来配置 Istio 。
+description: 描述如何通过专用网关服务将流量定向到外部服务来配置 Istio。
 weight: 43
 keywords: [traffic-management,egress]
 ---
@@ -62,14 +62,14 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
     spec:
       hosts:
       - edition.cnn.com
-      ports:
+        ports:
       - number: 80
         name: http-port
         protocol: HTTP
       - number: 443
         name: https
         protocol: HTTPS
-      resolution: DNS
+        resolution: DNS
     EOF
     {{< /text >}}
 
@@ -93,7 +93,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
 
 1.  创建 egress `Gateway` 为 _edition.cnn.com_ ，端口 80。
 
-    如果在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 mTLS，将 SNI 设置为 `edition.cnn.com`。
+    如果在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 双向 TLS，将 SNI 设置为 `edition.cnn.com`。
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -170,10 +170,10 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
     spec:
       hosts:
       - edition.cnn.com
-      gateways:
+        gateways:
       - istio-egressgateway
       - mesh
-      http:
+        http:
       - match:
         - gateways:
           - mesh
@@ -183,7 +183,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
             host: istio-egressgateway.istio-system.svc.cluster.local
             port:
               number: 80
-          weight: 100
+            weight: 100
       - match:
         - gateways:
           - istio-egressgateway
@@ -193,7 +193,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
             host: edition.cnn.com
             port:
               number: 80
-          weight: 100
+            weight: 100
     EOF
     {{< /text >}}
 
@@ -215,7 +215,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
 
     输出应与步骤2中的输出相同。
 
-1.  检查  _istio-egressgateway_ pod 的日志，并查看与我们的请求对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
+1.  检查  `istio-egressgateway` pod 的日志，并查看与我们的请求对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
@@ -255,14 +255,14 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
-      ports:
+        ports:
       - number: 80
         name: http-port
         protocol: HTTP
       - number: 443
         name: http-port-for-tls-origination
         protocol: HTTP
-      resolution: DNS
+        resolution: DNS
     EOF
     {{< /text >}}
 
@@ -282,7 +282,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
 
 1.  为  _edition.cnn.com_  创建 egress `Gateway`，端口 443。
 
-    如果在 Istio 中启用了 [双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/) ，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 mTLS，将 SNI 设置为 `edition.cnn.com`。
+    如果在 Istio 中启用了 [双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/) ，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 双向 TLS，将 SNI 设置为 `edition.cnn.com`。
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -359,10 +359,10 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
-      gateways:
+        gateways:
       - istio-egressgateway
       - mesh
-      http:
+        http:
       - match:
         - gateways:
           - mesh
@@ -372,7 +372,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
             host: istio-egressgateway.istio-system.svc.cluster.local
             port:
               number: 443
-          weight: 100
+            weight: 100
       - match:
         - gateways:
           - istio-egressgateway
@@ -382,7 +382,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
             host: edition.cnn.com
             port:
               number: 443
-          weight: 100
+            weight: 100
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -413,7 +413,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
 
     输出应与 [TLS Origination for Egress Traffic](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务中的输出相同，TLS 来源：没有  _301 Moved Permanently_ 信息。
 
-1.  检查  _istio-egressgateway_ pod 的日志，并查看与我们的请求相对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
+1.  检查  `istio-egressgateway` pod 的日志，并查看与我们的请求相对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
@@ -452,11 +452,11 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
-      ports:
+        ports:
       - number: 443
         name: tls
         protocol: TLS
-      resolution: DNS
+        resolution: DNS
     EOF
     {{< /text >}}
 
@@ -473,7 +473,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
 
 1.  为  _edition.cnn.com_  创建 egress `Gateway` ，端口 443，TLS 协议。
 
-    如果在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/) ，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 mTLS，将 SNI 设置为 `edition.cnn.com`。
+    如果在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/) ，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 双向 TLS，将 SNI 设置为 `edition.cnn.com`。
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -553,10 +553,10 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
-      gateways:
+        gateways:
       - istio-egressgateway
       - mesh
-      tls:
+        tls:
       - match:
         - gateways:
           - mesh
@@ -568,7 +568,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
             host: istio-egressgateway.istio-system.svc.cluster.local
             port:
               number: 443
-          weight: 100
+            weight: 100
       - match:
         - gateways:
           - istio-egressgateway
@@ -580,7 +580,7 @@ $ istioctl delete destinationrule set-sni-for-egress-gateway
             host: edition.cnn.com
             port:
               number: 443
-          weight: 100
+            weight: 100
     EOF
     {{< /text >}}
 

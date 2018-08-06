@@ -1,6 +1,6 @@
 ---
 title: 宣布 Istio 0.2
-description: Istio 0.2 公告
+description: Istio 0.2 公告。
 publishdate: 2017-10-10
 subtitle: 改善网格并支持多种环境
 attribution: The Istio Team

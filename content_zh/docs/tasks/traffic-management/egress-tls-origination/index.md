@@ -1,6 +1,6 @@
 ---
 title: 出口流量的 TLS
-description: 此任务描述 Istio 如何配置出口流量的 TLS
+description: 此任务描述 Istio 如何配置出口流量的 TLS。
 weight: 42
 ---
 

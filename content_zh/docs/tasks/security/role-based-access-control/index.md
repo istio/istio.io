@@ -1,6 +1,6 @@
 ---
 title: 基于角色的访问控制
-description: 展示如何在 Istio 服务网格中进行基于角色的访问控制
+description: 展示如何在 Istio 服务网格中进行基于角色的访问控制。
 weight: 40
 keywords: [安全,访问控制,rbac,鉴权]
 ---
@@ -115,7 +115,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
           source.namespace: "istio-system"
       - properties:
           source.namespace: "default"
-      roleRef:
+        roleRef:
         kind: ServiceRole
         name: "service-viewer"
     {{< /text >}}
@@ -185,7 +185,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yam
     spec:
       subjects:
       - user: "*"
-      roleRef:
+        roleRef:
         kind: ServiceRole
         name: "productpage-viewer"
     {{< /text >}}
@@ -231,7 +231,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy
     spec:
       subjects:
       - user: "spiffe://cluster.local/ns/default/sa/bookinfo-productpage"
-      roleRef:
+        roleRef:
         kind: ServiceRole
         name: "details-reviews-viewer"
     {{< /text >}}
@@ -277,7 +277,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
     spec:
       subjects:
       - user: "spiffe://cluster.local/ns/default/sa/bookinfo-reviews"
-      roleRef:
+        roleRef:
         kind: ServiceRole
         name: "ratings-viewer"
     {{< /text >}}

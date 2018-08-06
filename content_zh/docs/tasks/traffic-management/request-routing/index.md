@@ -52,7 +52,7 @@ keywords: [流量管理,路由]
     spec:
       hosts:
       - details
-      http:
+        http:
       - route:
         - destination:
             host: details
@@ -67,9 +67,9 @@ keywords: [流量管理,路由]
       gateways:
       - bookinfo-gateway
       - mesh
-      hosts:
+        hosts:
       - productpage
-      http:
+        http:
       - route:
         - destination:
             host: productpage
@@ -83,7 +83,7 @@ keywords: [流量管理,路由]
     spec:
       hosts:
       - ratings
-      http:
+        http:
       - route:
         - destination:
             host: ratings
@@ -97,7 +97,7 @@ keywords: [流量管理,路由]
     spec:
       hosts:
       - reviews
-      http:
+        http:
       - route:
         - destination:
             host: reviews
@@ -135,7 +135,7 @@ keywords: [流量管理,路由]
     spec:
       hosts:
       - reviews
-      http:
+        http:
       - match:
         - headers:
             end-user:

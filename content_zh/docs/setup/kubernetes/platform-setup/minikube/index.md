@@ -1,6 +1,6 @@
 ---
 title: Minikube
-description: 对 Minikube 集群进行配置以便安装运行 Istio
+description: 对 Minikube 集群进行配置以便安装运行 Istio。
 weight: 15
 keywords: [platform-setup,kubernetes,minikube]
 ---
