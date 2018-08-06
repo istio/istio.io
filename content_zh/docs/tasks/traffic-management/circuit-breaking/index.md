@@ -1,6 +1,6 @@
 ---
 title: 熔断
-description: 演示弹性应用所需的熔断能力
+description: 演示弹性应用所需的熔断能力。
 weight: 50
 keywords: [流量管理,熔断]
 ---

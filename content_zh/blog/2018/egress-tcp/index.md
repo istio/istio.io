@@ -1,6 +1,6 @@
 ---
 title: 使用外部 TCP 服务
-description: 描述基于 Istio 的 Bookinfo 示例的简单场景
+description: 描述基于 Istio 的 Bookinfo 示例的简单场景。
 publishdate: 2018-02-06
 subtitle: 网格外部 TCP 流量的服务入口
 attribution: Vadim Eisenberg
@@ -220,9 +220,9 @@ keywords: [流量管理,egress,tcp]
     spec:
       hosts:
       - $MYSQL_DB_HOST
-      addresses:
+        addresses:
       - $MYSQL_DB_IP/32
-      ports:
+        ports:
       - name: tcp
         number: $MYSQL_DB_PORT
          protocol: tcp

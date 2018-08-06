@@ -1,6 +1,6 @@
 ---
 title: Istio v1aplha3 路由 API 介绍
-description: Istio v1alpha3 路由 API 介绍,动机及其设计原则
+description: Istio v1alpha3 路由 API 介绍,动机及其设计原则。
 publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
@@ -195,7 +195,7 @@ spec:
     route:
     - destination:
         host: ratings
-      ...
+        ...
 {{< /text >}}
 
 实际上在 `VirtualService` 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。

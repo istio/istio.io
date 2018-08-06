@@ -59,7 +59,7 @@ check_content() {
 }
 
 check_content content --en-us
-#check_content content_zh --zh-cn
+check_content content_zh --zh-cn
 
 grep -nr -e "MARKDOWN ERROR:" ./public
 if [ "$?" == "0" ]
