@@ -20,7 +20,7 @@ configuration items for all the _wikipedia_ sites, without the need to specify t
 
 ## Before you begin
 
-This examples assumes you deployed Istio with mutual [mutual TLS Authentication](/docs/tasks/security/mutual-tls/)
+This examples assumes you deployed Istio with [mutual TLS Authentication](/docs/tasks/security/mutual-tls/)
 enabled. Follow the steps in the [Before you begin](/docs/examples/advanced-egress/egress-gateway/#before-you-begin)
 section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
 
