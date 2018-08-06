@@ -293,7 +293,9 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-1.  Edit the generated configuration file `$HOME/istio-egressgateway-with-sni-proxy.yaml` for the new egress gateway.
+1.  For Istio releases before 1.1, edit the generated configuration file `$HOME/istio-egressgateway-with-sni-proxy.yaml`
+ for the new egress gateway. Starting from Istio 1.1, the command above will add the required parts automatically and
+ no manual editing will be needed.
 
     1.  Add a definition of a container with Nginx proxy, to the `Deployment` of `istio-egressgateway-with-sni-proxy`.
     The definition is as follows:
