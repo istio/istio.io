@@ -55,7 +55,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
 
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS; and a destination rule to set the
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway; and also a virtual service to direct the
-    traffic destined to _*.wikipedia.org_ to the gateway.
+    traffic destined for _*.wikipedia.org_ to the gateway.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -99,7 +99,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
     EOF
     {{< /text >}}
 
-1.  Route the traffic destined to _*.wikipedia.org_ to the egress gateway and from the egress gateway to
+1.  Route the traffic destined for _*.wikipedia.org_ to the egress gateway and from the egress gateway to
   _www.wikipedia.org_.
    You can use this trick since all the _*.wikipedia.org_ sites are apparently served by each of the
    _wikipedia.org_ servers. It means that you can route the traffic to an IP of any _*.wikipedia.org_ sites, in
@@ -207,8 +207,9 @@ to the egress gateway and its destination IP address is the IP address of the ga
 
 In short, the Istio gateway based on Envoy cannot route traffic to an arbitrary, not preconfigured host, and AS-IS is
 unable to perform traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any
-TLS), you need to deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests sent to a wildcarded
-domain to the SNI forward proxy, which, in turn, will forward the requests to the destination by the value of SNI.
+TLS), you need to deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests destined for a
+wildcarded domain to the SNI forward proxy, which, in turn, will forward the requests to the destination by the value of
+SNI.
 
 In this section you will configure Istio to route HTTPS traffic to arbitrary wildcarded domains, through an egress
 gateway.
@@ -411,7 +412,7 @@ to hold the configuration of the Nginx SNI proxy:
 
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, a destination rule to set the
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
-    traffic destined to _*.wikipedia.org_ to the gateway.
+    traffic destined for _*.wikipedia.org_ to the gateway.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -455,7 +456,7 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-1.  Route the traffic destined to _*.wikipedia.org_ to the egress gateway and from the egress gateway to the SNI proxy.
+1.  Route the traffic destined for _*.wikipedia.org_ to the egress gateway and from the egress gateway to the SNI proxy.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
