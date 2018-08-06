@@ -2,7 +2,7 @@
 title: 查询 Prometheus 的指标
 description: 此任务说明如何使用 Prometheus 查询 Istio 指标。
 weight: 30
-keywords: [telemetry,metrics]
+keywords: [遥测,指标]
 ---
 
 此任务说明如何使用 Prometheus 查询 Istio 指标, 作为此任务的一部分，使用基于 Web 的界面进行指标查询。

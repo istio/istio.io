@@ -2,7 +2,7 @@
 title: 熔断
 description: 演示弹性应用所需的熔断能力
 weight: 50
-keywords: [traffic-management,circuit-breaking]
+keywords: [流量管理,熔断]
 ---
 
 > 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
@@ -11,7 +11,7 @@ keywords: [traffic-management,circuit-breaking]
 
 ## 开始之前
 
-* 跟随 [安装指南](/zh/docs/setup) 设置 Istio。
+* 跟随[安装指南](/zh/docs/setup) 设置 Istio。
 * 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
 
     如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，只需运行：

@@ -2,7 +2,7 @@
 title: Google Kubernetes Engine
 description: 基于 GKE 的 Istio 多集群安装。
 weight: 65
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,多集群]
 ---
 
 本文示例演示了如何使用 Istio 多集群功能，借助 [Istio 多集群设置](/zh/docs/setup/kubernetes/multicluster-install/)将两个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群连接起来。

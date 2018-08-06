@@ -88,10 +88,10 @@ still expect the end-to-end flow to continue without any errors.
     7 seconds. However, there is a problem: the Reviews section displays an error
     message:
 
-     {{< text plain >}}
-     Error fetching product reviews!
-     Sorry, product reviews are currently unavailable for this book.
-     {{< /text >}}
+    {{< text plain >}}
+    Error fetching product reviews!
+    Sorry, product reviews are currently unavailable for this book.
+    {{< /text >}}
 
 1. View the web page response times:
     1. Open the *Developer Tools* menu in you web browser.
