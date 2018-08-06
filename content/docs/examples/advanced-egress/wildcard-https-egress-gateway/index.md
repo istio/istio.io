@@ -507,9 +507,9 @@ to hold the configuration of the Nginx SNI proxy:
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to our
-    requests to _*.wikipedia.org_ (the counter for the SNI proxy). If Istio is deployed in the `istio-system` namespace,
-    the command to print the counter is:
+1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to our requests to
+    _*.wikipedia.org_ (the counter for the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
+    to print the counter is:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway-with-sni-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
