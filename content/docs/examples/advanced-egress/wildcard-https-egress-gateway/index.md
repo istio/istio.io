@@ -330,6 +330,15 @@ to hold the configuration of the Nginx SNI proxy:
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
     {{< /text >}}
 
+1.  Verify that the new egress gateway is running. Note that the pod has two containers (one is the Envoy proxy and the
+    second one is the SNI proxy).
+
+    {{< text bash >}}
+    $ kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system
+    NAME                                                  READY     STATUS    RESTARTS   AGE
+    istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
+    {{< /text >}}
+
 1.  Create a service entry with a static address equal to 127.0.0.1 (`localhost`), and disable mutual TLS on the traffic directed to the new
     service entry:
 
