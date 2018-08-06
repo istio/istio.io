@@ -105,7 +105,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
    _wikipedia.org_ servers. It means that you can route the traffic to an IP of any _*.wikipedia.org_ sites, in
    particular to _www.wikipedia.org_, and the server at that IP will
    [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting) any of the Wikipedia sites.
-   For a general case, in which the all the domain names of a `ServiceEntry` are not served by all the hosting
+   For a general case, in which all the domain names of a `ServiceEntry` are not served by all the hosting
    servers, a more complex configuration is required. Note that you must create a `ServiceEntry` for _www.wikipedia.org_
    with resolution `DNS` so the gateway will be able to perform the routing.
 
