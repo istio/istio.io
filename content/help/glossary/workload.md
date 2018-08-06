@@ -1,9 +1,11 @@
 ---
 title: Workload
 ---
-A process/binary deployed by operators in Istio, typically represented by entities such as containers, pods, or VMs.
+A binary deployed by operators to deliver some function in Istio. Workloads have names, namespaces, and unique ids. These properties are available in policy and telemetry configuration
+using the following [attributes](#attribute):
 
-* A workload can expose zero or more [service endpoints](#service-endpoint).
-* A workload can consume zero or more [services](#service).
-* Each workload has a single canonical [service name](#service-name) associated with it, but
-may also represent additional service names.
+* `source.workload.name`, `source.workload.namespace`, `source.workload.uid`
+* `destination.workload.name`, `destination.workload.namespace`, `destination.workload.uid`
+
+In Kubernetes, a workload typically corresponds to a Kubernetes deployment, while a workload instance corresponds to an individual pod managed
+by the deployment.
