@@ -8,6 +8,7 @@
 
         {{ with .Page.Description }}
             {{ if not (or (strings.HasSuffix . ".") (strings.HasSuffix . "。")) }}
+                MARKDOWN ERROR: page description doesn't end with a period
             {{ end }}
         {{ end }}
 
