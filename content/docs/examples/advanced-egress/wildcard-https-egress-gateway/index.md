@@ -196,9 +196,9 @@ served by each of the _wikipedia.org_ servers. However, this may not always be t
 configure egress control for HTTPS access to `*.com` or `*.org` domains, or even to `*` (all the domains). Configuring
 traffic to arbitrary wildcarded domains introduces a challenge for Istio gateways. In the previous section you directed
 the traffic to _www.wikipedia.org_, and this host was known to your gateway during the configuration.
-The gateway, however, cannot know an IP of an arbitrary host it receives a request for. Would you want to control access
- to `*.com`, and send requests to _www.cnn.com_ and _www.abc.com_, the Istio gateway would not know which IP to forward
- the requests.
+The gateway, however, cannot know an IP address of an arbitrary host it receives a request for. Would you want to
+control access to `*.com`, and send requests to _www.cnn.com_ and _www.abc.com_, the Istio gateway would not know which
+IP address to forward the requests.
 This limitation is due to the limitation of Envoy, the proxy Istio is based on. Envoy route traffic either to a
 predefined host, or a predefined IP, or to the original destination IP of the request. In the case of the gateway the
 original destination IP of the request is lost (since the request was routed to the egress gateway and its destination
