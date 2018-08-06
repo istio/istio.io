@@ -166,7 +166,7 @@ keywords: [流量管理,egress,tcp]
 
 1. 将发往 _reviews_ 服务的所有流量路由到 _v3_ 版本，这样做是为了确保 _reviews_ 服务始终调用 _ratings_ 服务，此外，将发往 _ratings_ 服务的所有流量路由到使用外部数据库的 _ratings v2-mysql_。
 
-    通过添加两个 [虚拟服务(virtual service)](/zh/docs/reference/config/istio.networking.v1alpha3/#虚拟服务)，可以为上述两种服务指定路由。这些虚拟服务在 Istio 发行档案的 `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` 中指定。
+    通过添加两个[虚拟服务(virtual service)](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)，可以为上述两种服务指定路由。这些虚拟服务在 Istio 发行档案的 `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` 中指定。
     ***注意：***确保你在完成了[添加默认目标路由](/docs/examples/bookinfo/#apply-default-destination-rules)才执行下面的命令。
 
     {{< text bash >}}
@@ -243,7 +243,7 @@ keywords: [流量管理,egress,tcp]
 
 请注意，对于 TCP 服务入口，将 `tcp` 指定为入口 "port" 的 "protocol" 的值，另请注意，要在 "addresses" 列表里面指定外部服务的 IP 地址，作为一个 `32` 为后缀的 [CIDR](https://tools.ietf.org/html/rfc2317) 块。
 
-[下面](#TCP流量的服务入口)我将详细讨论 TCP 服务入口。现在先来验证我们添加的出口规则是否解决了问题。访问网页看看评星是否回来了。
+[下面](#tcp-流量的服务入口)我将详细讨论 TCP 服务入口。现在先来验证我们添加的出口规则是否解决了问题。访问网页看看评星是否回来了。
 
 有效！ 访问应用程序的网页会显示评级而不会出现错误：
 
