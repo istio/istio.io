@@ -508,7 +508,7 @@ to hold the configuration of the Nginx SNI proxy:
     {{< /text >}}
 
 1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to our requests to
-    _*.wikipedia.org_ (the counter for the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
+    _*.wikipedia.org_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
     to print the counter is:
 
     {{< text bash >}}
