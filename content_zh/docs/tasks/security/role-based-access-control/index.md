@@ -2,7 +2,7 @@
 title: 基于角色的访问控制
 description: 展示如何在 Istio 服务网格中进行基于角色的访问控制
 weight: 40
-keywords: [security,access-control,rbac,authorization]
+keywords: [安全,访问控制,rbac,鉴权]
 ---
 
 在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/zh/docs/concepts/security/#授权和鉴权)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。

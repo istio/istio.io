@@ -1,6 +1,6 @@
 ---
 title: Using Istio to Improve End-to-End Security
-description: Istio Auth 0.1 announcement
+description: Istio Auth 0.1 announcement.
 publishdate: 2017-05-25
 subtitle: Secure by default service to service communications
 attribution: The Istio Team

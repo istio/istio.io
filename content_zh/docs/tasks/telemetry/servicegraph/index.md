@@ -2,7 +2,7 @@
 title: 生成服务图
 description: 此任务说明如何在 Istio 网格中生成服务图。
 weight: 50
-keywords: [telemetry,visualization]
+keywords: [遥测,可视化]
 ---
 
 此任务说明如何在Istio网格中生成服务图。
