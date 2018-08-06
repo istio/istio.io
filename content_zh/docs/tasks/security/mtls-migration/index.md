@@ -1,6 +1,6 @@
 ---
 title: 双向 TLS 的迁移
-description: 如何渐进式的为现有 Istio 服务添加双向 TLS 支持
+description: 如何渐进式的为现有 Istio 服务添加双向 TLS 支持。
 weight: 80
 keywords: [安全,认证,迁移]
 ---
@@ -60,7 +60,7 @@ metadata:
 spec:
   targets:
   - name: httpbin
-  peers:
+    peers:
   - mtls:
       mode: PERMISSIVE
 EOF
@@ -120,7 +120,7 @@ metadata:
 spec:
   targets:
   - name: httpbin
-  peers:
+    peers:
   - mtls:
       mode: STRICT
 EOF

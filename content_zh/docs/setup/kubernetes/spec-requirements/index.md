@@ -1,6 +1,6 @@
 ---
 title: Istio 对 Pod 和服务的要求
-description:  这里讲述了 Istio 对 Kubernetes 中 Pod 和服务的要求
+description:  这里讲述了 Istio 对 Kubernetes 中 Pod 和服务的要求。
 weight: 80
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
