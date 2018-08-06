@@ -317,8 +317,8 @@ to hold the configuration of the Nginx SNI proxy:
             readOnly: true
         {{< /text >}}
 
-    1.  Add the `nginx-config` [volume](https://kubernetes.io/docs/concepts/storage/volumes/) to the `Deployment` of
-        `istio-egressgateway-with-sni-proxy`:
+    1.  Add the `sni-proxy-config` [configMap volume](https://kubernetes.io/docs/concepts/storage/volumes/#configmap) to
+     the `Deployment` of `istio-egressgateway-with-sni-proxy`:
 
         {{< text yaml >}}
         - name: sni-proxy-config
