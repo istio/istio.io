@@ -210,6 +210,10 @@ access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded dom
 
 ### Prepare a new egress gateway with an SNI proxy
 
+In this subsection you deploy an egress gateway with an SNI proxy, in addition to the standard Istio Envoy proxy. You
+can use any SNI proxy that is capable to route traffic according to arbitrary, not-preconfigured SNI values; we used
+[Nginx](http://nginx.org) for that functionality.
+
 1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
 
     {{< text bash >}}
