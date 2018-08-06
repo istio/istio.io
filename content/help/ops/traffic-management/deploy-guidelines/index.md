@@ -1,6 +1,6 @@
 ---
 title: Deployment and Configuration Guidelines
-description: Provides specific deployment or configuration guidelines or issue avoidance
+description: Provides specific deployment and configuration guidelines.
 weight: 5
 ---
 

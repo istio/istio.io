@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting Networking Issues
-description: Describes tools and techniques that can be used to root cause networking issues
+description: Describes tools and techniques that can be used to root cause networking issues.
 weight: 5
 ---
 

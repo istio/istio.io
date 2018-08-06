@@ -30,17 +30,22 @@ be invalid HTML
 {{ $scratch.Set "syntax" (.Get 0) }}
 {{ $scratch.Set "output" (.Get 1) }}
 {{ else }}
-{{ $scratch.Set "syntax" "plain" }}
-{{ $scratch.Set "text" "ERROR: markdown content did not indicate syntax" }}
+{{ $scratch.Set "syntax" "error" }}
+{{ $scratch.Set "text" "MARKDOWN ERROR: text block does not specify syntax" }}
+{{ end }}
+{{ if (hasPrefix ($scratch.Get "text") " ") }}
+{{ $scratch.Set "syntax" "error" }}
+{{ $scratch.Set "text" "MARKDOWN ERROR: text blocks need to not be indented, or indented by a multiple of 4 spaces" }}
 {{ end }}
 {{ if eq ($scratch.Get "syntax") "bash" }}
 {{ if not (hasPrefix ($scratch.Get "text") "$") }}
-{{ $scratch.Set "syntax" "plain" }}
-{{ $scratch.Set "text" "ERROR: markdown specified a bash syntax, but first line didn't start with $" }}
-{{ end }}
+{{ $scratch.Set "syntax" "error" }}
+{{ $scratch.Set "text" "MARKDOWN ERROR: text block specifies a bash syntax, but first line does not start with $" }}
+{{ else }}
 {{ if hasPrefix (trim ($scratch.Get "text") " ") "$ cat <<EOF " }}{{ $scratch.Set "text" (replace ($scratch.Get "text") "$ cat" "cat") }}
 {{ else }}{{ $scratch.Set "syntax" "command" }}
 {{ if ($scratch.Get "output") }}{{ $scratch.Set "syntax" (printf "command-output-as-%s" ($scratch.Get "output")) }}{{ end }}
+{{ end }}
 {{ end }}
 {{ end }}
 {{ if $scratch.Get "downloadas"}}

@@ -2,10 +2,7 @@
 title: 样式指南
 description: 编写 Istio 文档时候的“要”和“不要”。
 weight: 70
-aliases:
-    - /docs/welcome/contribute/style-guide.html
-    - /docs/reference/contribute/style-guide.html
-keywords: [contribute]
+keywords: [贡献]
 ---
 
 本文为 Istio 文档提供内容指南。这是建议，不是规范，所以作者应自行做出最佳判断，也可以随时对本文以 PR 的形式提出变更建议。

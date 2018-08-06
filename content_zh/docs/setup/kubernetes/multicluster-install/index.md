@@ -2,7 +2,7 @@
 title: Istio 多集群设置
 description: 安装支持多集群的 Istio。
 weight: 65
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,多集群]
 ---
 
 介绍 Istio 多集群的安装过程。
