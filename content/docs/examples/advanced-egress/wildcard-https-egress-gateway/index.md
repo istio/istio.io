@@ -203,14 +203,15 @@ IP address to forward the requests.
 This limitation is due to the limitation of [Envoy](https://www.envoyproxy.io), the proxy Istio is based on. Envoy
 routes traffic either to predefined hosts, or to predefined IP addresses, or to the original destination IP address of
 the request. In the case of the gateway the original destination IP of the request is lost (since the request was routed
- to the egress gateway and its destination IP address is the IP address of the gateway).
+to the egress gateway and its destination IP address is the IP address of the gateway).
 
-In short, the Istio gateway based on Envoy cannot route traffic to an arbitrary, not preconfigured host, and AS-IS is unable to perform
-traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any TLS), you need to
-deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests sent to a wildcarded domain to the SNI
-forward proxy, which, in turn, will forward the requests to the destination by the value of SNI.
+In short, the Istio gateway based on Envoy cannot route traffic to an arbitrary, not preconfigured host, and AS-IS is
+unable to perform traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any
+TLS), you need to deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests sent to a wildcarded
+domain to the SNI forward proxy, which, in turn, will forward the requests to the destination by the value of SNI.
 
-In this section you will configure Istio to route HTTPS traffic to arbitrary wildcarded domains, through an egress gateway.
+In this section you will configure Istio to route HTTPS traffic to arbitrary wildcarded domains, through an egress
+gateway.
 
 ### Prepare a new egress gateway with an SNI proxy
 
