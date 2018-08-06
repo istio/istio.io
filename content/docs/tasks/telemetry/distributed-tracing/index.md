@@ -56,16 +56,13 @@ The page should look something like this:
     caption="Detailed Trace View"
     >}}
 
-As you can see, the trace is comprised of spans,
+As you can see, the trace is comprised of a set of spans,
 where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
-Although every service has the same label, `istio-proxy`, because the tracing is being done by
-the Istio sidecar (Envoy proxy) which wraps the call to the actual service,
-the label of the destination (to the right) identifies the service for which the time is represented by each line.
 
-The call from `productpage` to `reviews` is represented by two spans in the trace. The first of the two spans (labeled `productpage
-reviews.default.svc.cluster.local:9080/`) represents the client-side span for the call. It took 24.13ms . The second span
-(labeled `reviews reviews.default.svc.cluster.local:9080/`) is a child of the first span and represents the server-side
-span for the call. It took 22.99ms .
+Every RPC is represented by two spans in the trace. For example, the call from `productpage` to `reviews` starts
+with the span labeled `productpage reviews.default.svc.cluster.local:9080/`, which represents the client-side
+span for the call. It took 24.13ms . The second span (labeled `reviews reviews.default.svc.cluster.local:9080/`)
+is a child of the first span and represents the server-side span for the call. It took 22.99ms .
 
 The trace for the call to the `reviews` services reveals two subsequent RPC's in the trace. The first is to the `istio-policy`
 service, reflecting the server-side Check call made for the service to authorize access. The second is the call out to
@@ -136,6 +133,34 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 {{< /text >}}
 
 When you make downstream calls in your applications, make sure to include these headers.
+
+## Trace sampling
+
+Istio captures a trace for all requests by default. For example, when
+using the Bookinfo sample application above, every time you access
+`/productpage` you see a corresponding trace in the Jaeger
+dashboard. This sampling rate is suitable for a test or low traffic
+mesh. For a high traffic mesh you can lower the trace sampling
+percentage in one of two ways:
+
+* During the mesh setup, use the Helm option `pilot.traceSampling` to
+  set the percentage of trace sampling. See the
+  [Helm Install](/docs/setup/kubernetes/helm-install/) documentation for
+  details on setting options.
+* In a running mesh, edit the `istio-pilot` deployment and
+  change the environment variable with the following steps:
+
+    1. To open your text editor with the deployment configuration file
+       loaded, run the following command:
+
+        {{< text bash >}}
+        $ kubectl -n istio-system edit deploy istio-pilot
+        {{< /text >}}
+
+    1. Find the `PILOT_TRACE_SAMPLING` environment variable, and change
+       the `value:` to your desired percentage.
+
+In both cases, valid values are from 0.0 to 100.0 with a precision of 0.01.
 
 ## Cleanup
 

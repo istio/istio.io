@@ -1,6 +1,6 @@
 ---
 title: Configure an Egress Gateway
-description: Describes how to configure Istio to direct traffic to external services through a dedicated gateway.
+description: Describes how to configure Istio to direct traffic to external services through a dedicated gateway service
 weight: 43
 keywords: [traffic-management,egress]
 ---
