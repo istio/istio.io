@@ -214,6 +214,42 @@ In this subsection you deploy an egress gateway with an SNI proxy, in addition t
 can use any SNI proxy that is capable to route traffic according to arbitrary, not-preconfigured SNI values; we used
 [Nginx](http://nginx.org) for that functionality.
 
+1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
+    settings, if required.
+
+    {{< text bash >}}
+    $ cat <<EOF > $HOME/sni-proxy.conf
+    user www-data;
+
+    events {
+    }
+
+    stream {
+      log_format log_stream '\$remote_addr [\$time_local] \$protocol [\$ssl_preread_server_name]'
+      '\$status \$bytes_sent \$bytes_received \$session_time';
+
+      access_log /var/log/nginx/access.log log_stream;
+      error_log  /var/log/nginx/error.log;
+
+      # tcp forward proxy by SNI
+      server {
+        resolver 8.8.8.8 ipv6=off;
+        listen       127.0.0.1:8443;
+        proxy_pass   \$ssl_preread_server_name:443;
+        ssl_preread  on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+to hold the configuration of the Nginx SNI proxy:
+
+    {{< text bash >}}
+    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=$HOME/sni-proxy.conf
+    {{< /text >}}
+
+
 1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
 
     {{< text bash >}}
@@ -279,41 +315,6 @@ can use any SNI proxy that is capable to route traffic according to arbitrary, n
           configMap:
             name: egress-sni-proxy-configmap
         {{< /text >}}
-
-1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
-    settings, if required.
-
-    {{< text bash >}}
-    $ cat <<EOF > $HOME/sni-proxy.conf
-    user www-data;
-
-    events {
-    }
-
-    stream {
-      log_format log_stream '\$remote_addr [\$time_local] \$protocol [\$ssl_preread_server_name]'
-      '\$status \$bytes_sent \$bytes_received \$session_time';
-
-      access_log /var/log/nginx/access.log log_stream;
-      error_log  /var/log/nginx/error.log;
-
-      # tcp forward proxy by SNI
-      server {
-        resolver 8.8.8.8 ipv6=off;
-        listen       127.0.0.1:8443;
-        proxy_pass   \$ssl_preread_server_name:443;
-        ssl_preread  on;
-      }
-    }
-    EOF
-    {{< /text >}}
-
-1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
-to hold the configuration of the Nginx SNI proxy:
-
-    {{< text bash >}}
-    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=$HOME/sni-proxy.conf
-    {{< /text >}}
 
 1.  Deploy the new egress gateway:
 
