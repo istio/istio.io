@@ -10,6 +10,7 @@
 
     .directory {
         padding-left: .5em;
+        border-left: 1px solid $dividerBarColor;
 
         @supports ((position:-webkit-sticky) or (position:sticky)) {
             max-height: calc(100vh - 9rem);
