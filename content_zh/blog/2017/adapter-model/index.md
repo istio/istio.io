@@ -1,6 +1,6 @@
 ---
 title: Mixer 适配器模型
-description: 概要说明 Mixer 的插件架构
+description: 概要说明 Mixer 的插件架构。
 publishdate: 2017-11-03
 subtitle: 将 Istio 与后端基础设施整合
 attribution: Martin Taillefer
