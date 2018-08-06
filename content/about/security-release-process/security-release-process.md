@@ -5,7 +5,7 @@ weight: 35
 page_icon: /img/security-release.svg
 ---
 
-Istio follows the following process when releasing patches for critical
+The Istio team follows the process below when releasing patches for critical
 security vulnerabilities.
 
 ## Security vulnerability disclosures
@@ -15,11 +15,11 @@ Please refer to the [disclosure process](/about/security-vulnerabilities/).
 ## Istio security team
 
 Security vulnerabilities should be handled quickly and privately.
-The primary goal of this process is to reduce the total time users are
+The primary goal of this process is to reduce the total time customers are
 vulnerable to publicly known exploits.
 
 The Istio security team is responsible for organizing the entire response
-including internal communication and external disclosure. The team will need help
+including internal communication and external disclosure. The team enlists help
 from relevant developers and release leads to successfully run this process.
 
 The Istio security team consists of volunteers subscribed to the
@@ -28,30 +28,30 @@ list.
 
 ### Istio security team membership
 
-Membership to the Istio security team is based on roles defined below.
+Membership to the Istio security team is based on the roles defined below.
 
 #### Roles
 
-##### Fix lead
+* Fix lead
 
 Per issue, Fix Lead sees the issue through to the end.
 
-##### Release lead
+* Release lead
 
 Per issue, Release Lead is in charge of releasing the fix.
 
-##### Disclosure lead
+* Disclosure lead
 
 Handles public messaging around the bug, and the documentation of how to upgrade.
 Explains the severity of the vulnerability and requests CVEs (Common Vulnerability Exposures).
 
-##### Triage
+* Triage
 
 Makes sure the relevant people are notified, also responds to issues
 that are not actually security vulnerability issues.
 This person is the escalation path for a vulnerability if it is one.
 
-##### Infra
+* Infra
 
 Makes sure the fixes are tested appropriately. This person is the build cop.
 It is the person you call when you need help testing, or the release branch is all
@@ -88,12 +88,12 @@ The following steps should be completed within the 1-7 days of the disclosure.
 
 - Fix Lead and the fix team will create a [CVSS](https://www.first.org/cvss/specification-document)
 using the [CVSS Calculator](https://www.first.org/cvss/calculator/3.0).
-They will also use the [Severity Thresholds - How We Do Vulnerability Scoring](#severity-thresholds-how-we-do-vulnerability-scoring)
+They will also use the [Common Vulnerability Scoring System](https://www.first.org/cvss/specification-document#1-1-Metrics)
 to determine the effect and severity of the vulnerability. Fix Lead makes the final call on the
 calculated risk; it is better to move quickly than make the perfect assessment.
 - The fix team will notify Fix Lead once the fix is ready to be released.
 
-If the CVSS score is under 4.0 ([a low severity score](https://www.first.org/cvss/specification-document#i5))
+If the CVSS score is under 4.0 ([a low severity score](https://www.first.org/cvss/specification-document#5-Qualitative-Severity-Rating-Scale))
 or the assessed risk is low, the fix team can decide to slow the release process down in the face of
 holidays, developer bandwidth, and etc. These decisions must be discussed on
 the private [`istio-security-vulnerabilities@google.com`](mailto:istio-security-vulnerabilities@google.com)
