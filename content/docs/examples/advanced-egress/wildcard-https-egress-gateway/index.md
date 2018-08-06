@@ -13,9 +13,9 @@ example to `*.wikipedia.org`, without the need to specify each and every host.
 
 ## Background
 
-Suppose we want to enable secure egress traffic control in Istio for the `wikipedia.org` sites in all the languages.
+Suppose you want to enable secure egress traffic control in Istio for the `wikipedia.org` sites in all the languages.
 Each version of `wikipedia.org` in a particular language has its own hostname, e.g. `en.wikipedia.org` and
-`de.wikipedia.org` in the English and the German languages, respectively. We want to enable the egress traffic by common
+`de.wikipedia.org` in the English and the German languages, respectively. You want to enable the egress traffic by common
 configuration items for all the _wikipedia_ sites, without the need to specify the sites in all the languages.
 
 ## Before you begin
@@ -101,12 +101,12 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
 
 1.  Route the traffic destined to _*.wikipedia.org_ to the egress gateway and from the egress gateway to
   _www.wikipedia.org_.
-   We can use this trick since all the _*.wikipedia.org_ sites are apparently served by each of the
-   _wikipedia.org_ servers. It means that we can route the traffic to an IP of any _*.wikipedia.org_ sites, in
+   You can use this trick since all the _*.wikipedia.org_ sites are apparently served by each of the
+   _wikipedia.org_ servers. It means that you can route the traffic to an IP of any _*.wikipedia.org_ sites, in
    particular to _www.wikipedia.org_, and the server at that IP will
    [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting) any of the Wikipedia sites.
    For a general case, in which the all the domain names of a `ServiceEntry` are not served by all the hosting
-   servers, a more complex configuration is required. Note that we must create a `ServiceEntry` for _www.wikipedia.org_
+   servers, a more complex configuration is required. Note that you must create a `ServiceEntry` for _www.wikipedia.org_
    with resolution `DNS` so the gateway will be able to perform the routing.
 
     {{< text bash >}}
@@ -192,18 +192,18 @@ $ kubectl delete destinationrule set-sni-for-egress-gateway
 ## Enable HTTPS traffic to arbitrary wildcarded domains
 
 The configuration in the previous section works thanks to the fact that all the _*.wikipedia.org_ sites are apparently
-served by each of the _wikipedia.org_ servers. This could not always be the case. In many cases we may want to configure
+served by each of the _wikipedia.org_ servers. This could not always be the case. In many cases you may want to configure
 egress control for HTTPS access to `*.com` or `*.org` domains, or even to `*` (all the domains). Configuring traffic to
 arbitrary wildcarded domains introduces a challenge for Istio gateways. In the previous section you directed the traffic
 to _www.wikipedia.org_, and this host was known to your gateway during the configuration. The gateway, however, cannot
-know an IP of an arbitrary host it receives a request for. Would we want to control access to `*.com`, and send
+know an IP of an arbitrary host it receives a request for. Would you want to control access to `*.com`, and send
 requests to _www.cnn.com_ and _www.abc.com_, the Istio gateway would not know which IP to forward the requests.
 This limitation is due to the limitation of Envoy, the proxy Istio is based on. Envoy route traffic either to a
 predefined host, or a predefined IP, or to the original destination IP of the request. In the case of the gateway the
 original destination IP of the request is lost (since the request was routed to the egress gateway and its destination
 IP is the IP of the gateway).
 In short, the Istio gateway based on Envoy, cannot route traffic to an arbitrary host, and AS-IS, is unable to perform
-traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any TLS), we need to
+traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any TLS), you need to
 deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests to a wildcarded domain to the SNI
 forward proxy, which, in turn, will forward the request to the destination by the value of SNI. Let's reconfigure our
 access to _*.wikipedia.org_ to support HTTPS traffic to arbitrary wildcarded domains.
