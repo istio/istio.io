@@ -199,10 +199,10 @@ the traffic to _www.wikipedia.org_, and this host was known to your gateway duri
 The gateway, however, cannot know an IP address of an arbitrary host it receives a request for. Would you want to
 control access to `*.com`, and send requests to _www.cnn.com_ and _www.abc.com_, the Istio gateway would not know which
 IP address to forward the requests.
-This limitation is due to the limitation of Envoy, the proxy Istio is based on. Envoy route traffic either to a
-predefined host, or a predefined IP, or to the original destination IP of the request. In the case of the gateway the
-original destination IP of the request is lost (since the request was routed to the egress gateway and its destination
-IP is the IP of the gateway).
+This limitation is due to the limitation of [Envoy](https://www.envoyproxy.io), the proxy Istio is based on. Envoy route
+ traffic either to a predefined host, or a predefined IP, or to the original destination IP of the request. In the case
+ of the gateway the original destination IP of the request is lost (since the request was routed to the egress gateway
+and its destination IP is the IP of the gateway).
 
 In short, the Istio gateway based on Envoy, cannot route traffic to an arbitrary host, and AS-IS, is unable to perform
 traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any TLS), you need to
