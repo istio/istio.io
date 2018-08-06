@@ -205,7 +205,7 @@ routes traffic either to predefined hosts, or to predefined IP addresses, or to 
 the request. In the case of the gateway the original destination IP of the request is lost (since the request was routed
  to the egress gateway and its destination IP address is the IP address of the gateway).
 
-In short, the Istio gateway based on Envoy, cannot route traffic to an arbitrary host, and AS-IS, is unable to perform
+In short, the Istio gateway based on Envoy cannot route traffic to an arbitrary host, and AS-IS is unable to perform
 traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any TLS), you need to
 deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests to a wildcarded domain to the SNI
 forward proxy, which, in turn, will forward the request to the destination by the value of SNI. Let's reconfigure our
