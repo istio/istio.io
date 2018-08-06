@@ -222,7 +222,8 @@ port other than the ports specified for the egress `Gateway` and for the `Virtua
 will forward the traffic to the port `443`.
 
 1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
-    settings, if required.
+    settings, if required. Note that the `server`'s `listen` directive specifies the port `8443`, its `proxy_pass`
+    directive uses `ssl_preread_server_name` with port `443` and `ssl_preread` directive enables `SNI` reading.
 
     {{< text bash >}}
     $ cat <<EOF > $HOME/sni-proxy.conf
