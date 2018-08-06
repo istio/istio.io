@@ -1,6 +1,6 @@
 ---
 title: Deployment and Configuration Guidelines
-description: Provides specific deployment or configuration guidelines or issue avoidance
+description: Provides specific deployment and configuration guidelines.
 weight: 5
 ---
 
@@ -15,9 +15,9 @@ causing a TLS conflict for the service.
 For example, if you configure mutual TLS in the cluster globally, the `DestinationRule` must include the following `trafficPolicy`:
 
 {{< text yaml >}}
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
+trafficPolicy:
+  tls:
+    mode: ISTIO_MUTUAL
 {{< /text >}}
 
 Otherwise, the mode defaults to `DISABLED` causing client proxy sidecars to make plain HTTP requests

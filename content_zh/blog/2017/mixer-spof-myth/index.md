@@ -1,6 +1,6 @@
 ---
 title: Mixer 和 SPOF 神话
-description: 提高可用，降低延迟
+description: 提高可用，降低延迟。
 subtitle: 提高可用，降低延迟
 publishdate: 2017-12-07
 attribution: Martin Taillefer
