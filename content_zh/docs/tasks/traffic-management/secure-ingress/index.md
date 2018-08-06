@@ -2,7 +2,7 @@
 title: 用 HTTPS 加密 Gateway
 description: 配置 Istio 令其以 TLS 或双向 TLS 的方式在网格外公开服务。
 weight: 31
-keywords: [traffic-management,ingress]
+keywords: [流量管理,ingress]
 ---
 
 > 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)

@@ -2,7 +2,7 @@
 title: 控制 Egress 流量
 description: 在 Istio 中配置从网格内访问外部服务的流量路由。
 weight: 40
-keywords: [traffic-management,egress]
+keywords: [流量管理,egress]
 ---
 
 > 这一任务使用的是新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧版本的 API 已经过时，会在 Istio 的下一个版本中弃用。如果需要使用旧版本，请阅读[旧版文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)。

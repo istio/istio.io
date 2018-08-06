@@ -61,6 +61,20 @@
         width: 18rem;
         margin: 1rem;
         box-shadow: 3px 3px 8px $landingCardShadowColor;
+
+        a {
+            text-decoration: none;
+            color: $textColor;
+
+            &:hover {
+                color: $textColor;
+                text-decoration: none;
+            }
+        }
+
+        &:hover {
+            box-shadow: 3px 3px 8px $landingCardShadowHoverColor;
+        }
     }
 
     .card-title {

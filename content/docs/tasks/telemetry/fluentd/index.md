@@ -1,6 +1,6 @@
 ---
 title: Logging with Fluentd
-description: This task shows you how to configure Istio to log to a Fluentd daemon
+description: This task shows you how to configure Istio to log to a Fluentd daemon.
 weight: 60
 keywords: [telemetry,logging]
 ---
