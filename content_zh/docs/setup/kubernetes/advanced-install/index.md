@@ -1,6 +1,6 @@
 ---
 title: 高级安装选项
-description: 定制 Istio 安装的介绍
+description: 定制 Istio 安装的介绍。
 weight: 20
 keywords: [kubernetes]
 draft: true
