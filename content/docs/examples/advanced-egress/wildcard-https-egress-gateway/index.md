@@ -217,7 +217,9 @@ gateway.
 
 In this subsection you deploy an egress gateway with an SNI proxy, in addition to the standard Istio Envoy proxy. You
 can use any SNI proxy that is capable to route traffic according to arbitrary, not-preconfigured SNI values; we used
-[Nginx](http://nginx.org) to achieve this functionality.
+[Nginx](http://nginx.org) to achieve this functionality. The SNI proxy will listen on the port `8443`, you can use any
+port other than the ports specified for the egress `Gateway` and for the `VirtualServices` defined on it. The SNI proxy
+will forward the traffic to the port `443`.
 
 1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
     settings, if required.
