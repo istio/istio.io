@@ -53,8 +53,8 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, a destination rule to set the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
+1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS; and a destination rule to set the
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway; and also a virtual service to direct the
     traffic destined to _*.wikipedia.org_ to the gateway.
 
     {{< text bash >}}
