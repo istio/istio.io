@@ -4,6 +4,7 @@ description: Explains the mechanics of creating new documentation pages.
 weight: 30
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
+    - /docs/reference/contribute/writing-a-new-topic.html
 keywords: [contribute]
 ---
 
