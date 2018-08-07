@@ -1,20 +1,20 @@
 ---
-title: AliCloud
-description: Instructions to setup an AliCloud Kubernetes cluster for Istio.
+title: Alibaba Cloud
+description: Instructions to setup an Alibaba Cloud Kubernetes cluster for Istio.
 weight: 3
 skip_toc: true
 skip_seealso: true
-keywords: [platform-setup,alicloud,aliyun]
+keywords: [platform-setup,Alibaba Cloud,aliyun,alicloud]
 ---
 
-Follow these instructions to prepare an AliCloud Kubernetes cluster for Istio.
+Follow these instructions to prepare an Alibaba Cloud Kubernetes cluster for Istio.
 
-You can deploy a Kubernetes cluster to AliCloud quickly and easily in the 
+You can deploy a Kubernetes cluster to Alibaba Cloud quickly and easily in the 
 `Container Service console`, which fully supports Istio.
 
 ## Prerequisites
 
-1. [Follow the AliCloud instructions](https://www.alibabacloud.com/help/doc-detail/53752.htm) 
+1. [Follow the Alibaba Cloud instructions](https://www.alibabacloud.com/help/doc-detail/53752.htm) 
 to activate the following services: Container Service, Resource Orchestration
  Service (ROS), and RAM.
 
@@ -44,7 +44,7 @@ master nodes.
 1. Configure the logon mode, and configure the Pod Network CIDR and Service 
 CIDR.
 
-1. Below is showing the GUI where all the previous steps are being performed.
+The image below shows the GUI where you complete all the previous steps:
 
 {{< image width="100%" ratio="67.17%"
     link="./csconsole.png"

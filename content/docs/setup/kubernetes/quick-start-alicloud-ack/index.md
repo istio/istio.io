@@ -10,39 +10,37 @@ Follow these instructions to install and run Istio in the
 using the `Application Catalog`.
 
 This guide installs the current release version of Istio and deploys the 
-[Bookinfo](/docs/examples/bookinfo/) sample application.  
-To automate the steps detailed in the [Istio on Kubernetes setup guide](/docs/setup/kubernetes/quick-start/)
-for Kubernetes Engine.
+[Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Prerequisites
 
 - You have an avaiable AliCloud Kubernetes cluster. Otherwise, create a 
 Kubernetes cluster quickly and easily in the `Container Service console`.
 
-- `kubectl` works fine for your Kubernetes cluster.
+- Ensure `kubectl` works fine for your Kubernetes cluster.
 
 - You can create a namespace to deploy Istio components. The following example
  creates the `istio-system` namespace:
 
 {{< text bash >}}
-    $ kubectl create namespace istio-system
+$ kubectl create namespace istio-system
 {{< /text >}}
 
 - You installed a service account for Tiller. To install one if you haven't, 
 run the following command:
 
 {{< text bash >}}
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+$ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
 {{< /text >}}
 
 - You installed Tiller on your cluster. To install Tiller with the service 
 account if you haven't, run the following command:
 
 {{< text bash >}}
-    $ helm init --service-account tiller
+$ helm init --service-account tiller
 {{< /text >}}
 
-## Deploy Istio via Application Catalog
+## Deploy Istio via the Application Catalog
 
 - Log on to the **AliCloud Container Service** console.
 - Click **Application Catalog** in the left navigation pane.
@@ -72,8 +70,6 @@ The following table explains the default configuration options shipped with Helm
 | `global.arch.s390x` | Specifies the scheduling policy for s390x architectures | `2` |
 | `global.arch.ppc64le` | Specifies the scheduling policy for ppc64le architectures| `2` |
 | `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires k8s >= 1.9 | `false` |
-
-Passive voice issue:
 
 The Parameters tab exposes the per-service options.
 
