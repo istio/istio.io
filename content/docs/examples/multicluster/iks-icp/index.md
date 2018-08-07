@@ -1,7 +1,7 @@
 ---
 title: IBM Cloud Kubernetes Service (IKS) & IBM Cloud Private(ICP)
 description: Example multicluster between IKS & ICP
-weight: 70
+weight: 75
 keywords: [kubernetes,multicluster,hybrid]
 ---
 
@@ -38,9 +38,7 @@ Since these two clusters are in isolated network environments we need to set up 
 
     1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html).
 
-    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html).
-
-        Example configuration parameters from config.yaml:
+    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html), Example configuration parameters from config.yaml.
 
         {{< text plain >}}
         ipsec.auto: add
@@ -54,12 +52,10 @@ Since these two clusters are in isolated network environments we need to set up 
         {{< /text >}}
 
 1.  Set up strongSwan in ICP.
-    
+
     1.  Complete the strongSwan IPSec VPN workarounds for ICP by following [these instructions](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html).
 
-    1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html).
-
-        Example configuration parameters:
+    1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html), Example configuration parameters.
 
         {{< text plain >}}
         Namespace: default
@@ -85,12 +81,10 @@ Since these two clusters are in isolated network environments we need to set up 
     64 bytes from 10.1.14.30: icmp_seq=1 ttl=59 time=51.8 ms
     {{< /text >}}
 
-The steps in this section enables Pod communication across clusters.
-
 ## Install Istio for multicluster.
 
 [Follow the multicluster installation steps](/docs/setup/kubernetes/multicluster-install/) to install and configure
- Istio local control plane and Istio remote on `ICP` and `IKS`.
+Istio local control plane and Istio remote on `ICP` and `IKS`.
 
 This example uses `ICP` as the Istio local control plane and `IKS` as the Istio remote.
 
