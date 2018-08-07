@@ -1,12 +1,12 @@
 ---
-title: Quick Start with AliCloud Kubernetes Container Service
-description: Quick Start instructions to setup the Istio service using AliCloud Kubernetes Container Service
+title: Quick Start with Alibaba Cloud Kubernetes Container Service
+description: Quick Start instructions to setup the Istio service using Alibaba Cloud Kubernetes Container Service
 weight: 12
 keywords: [kubernetes,alicloud,aliyun]
 ---
 
 Follow these instructions to install and run Istio in the 
-[AliCloud Kubernetes Container Service](https://cs.console.aliyun.com/) 
+[Alibaba Cloud Kubernetes Container Service](https://cs.console.aliyun.com/) 
 using the `Application Catalog`.
 
 This guide installs the current release version of Istio and deploys the 
@@ -14,7 +14,7 @@ This guide installs the current release version of Istio and deploys the
 
 ## Prerequisites
 
-- You have an avaiable AliCloud Kubernetes cluster. Otherwise, create a 
+- You have an avaiable Alibaba Cloud Kubernetes cluster. Otherwise, create a 
 Kubernetes cluster quickly and easily in the `Container Service console`.
 
 - Ensure `kubectl` works fine for your Kubernetes cluster.
@@ -42,7 +42,7 @@ $ helm init --service-account tiller
 
 ## Deploy Istio via the Application Catalog
 
-- Log on to the **AliCloud Container Service** console.
+- Log on to the **Alibaba Cloud Container Service** console.
 - Click **Application Catalog** in the left navigation pane.
 - Select the **ack-istio** in the right panel.
 
@@ -83,11 +83,11 @@ To further explore the Istio functionality, follow any of the tutorials in the
 with Istio. 
 
 Next, you can follow the detailed instructions on 
-[how to use Istio on AliCloud Kubernetes Container Service](https://yq.aliyun.com/articles/599874).
+[how to use Istio on Alibaba Cloud Kubernetes Container Service](https://yq.aliyun.com/articles/599874).
 
 ## Uninstalling
 
-1. Visit [the Release section of the AliCloud Container Service console](https://cs.console.aliyun.com/#/k8s/release/list).
+1. Visit [the Release section of the Alibaba Cloud Container Service console](https://cs.console.aliyun.com/#/k8s/release/list).
 
 1. Select the release where you wish to uninstall Istio.
 
