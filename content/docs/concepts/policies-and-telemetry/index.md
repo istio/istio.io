@@ -7,6 +7,8 @@ aliases:
     - /docs/concepts/policy-and-control/mixer.html
     - /docs/concepts/policy-and-control/mixer-config.html
     - /docs/concepts/policy-and-control/attributes.html
+    - /docs/concepts/policies-and-telemetry/overview/
+    - /docs/concepts/policies-and-telemetry/config/
 ---
 
 Istio provides a flexible model to enforce authorization policies and collect telemetry for the
