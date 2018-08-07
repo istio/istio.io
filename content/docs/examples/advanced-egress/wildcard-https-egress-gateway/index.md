@@ -554,8 +554,5 @@ to hold the configuration of the Nginx SNI proxy:
 
 ## Cleanup
 
-Shutdown the [sleep](https://github.com/istio/istio/tree/{{<branch_name>}}/samples/sleep) service:
-
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-{{< /text >}}
+Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
+section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
