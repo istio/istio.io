@@ -35,7 +35,7 @@ Since these two clusters are in isolated network environments we need to set up 
 
 1.  Set up strongSwan in IKS.
 
-    1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html)
+    1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html).
 
     1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html). Example configuration parameters from config.yaml:
 
@@ -52,12 +52,12 @@ Since these two clusters are in isolated network environments we need to set up 
 
 1.  Set up strongSwan in ICP.
 
-    1.  Complete the strongSwan IPSec VPN workarounds for ICP by following [these instructions](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html)
+    1.  Complete the strongSwan IPSec VPN workarounds for ICP by following [these instructions](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html).
 
     1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html).
 
     Example configuration parameters:
-         
+
          {{< text plain >}}
          Namespace: default
          Operation at startup: start
@@ -75,7 +75,7 @@ Since these two clusters are in isolated network environments we need to set up 
         {{< /text >}}.
 
 1.  Confirm across pod communication by pinging pod IP in ICP from IKS.
-    
+
     {{< text bash >}}
     $ ping 10.1.14.30
     PING 10.1.14.30 (10.1.14.30) 56(84) bytes of data.
