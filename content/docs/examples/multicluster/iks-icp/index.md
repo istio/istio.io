@@ -22,7 +22,7 @@ using the [Kubernetes multicluster installation instructions](/docs/setup/kubern
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1.  [Request One IBM Kubernetes Service clusters](https://console.bluemix.net/docs/containers/container_index.html#container_index).
+1.  [Request One IBM Kubernetes Service clusters](https://console.bluemix.net/docs/containers/container_index.html).
     __NOTE__: By default, when you have provisioned a IKS cluster, the CIDR is as below.
 
      {{< text plain >}}
@@ -30,18 +30,17 @@ using the [Kubernetes multicluster installation instructions](/docs/setup/kubern
      service subnet CIDR: 172.21.0.0/16.
      {{< /text >}}
 
-
 ## Configure Pod Communication Across ICP & IKS
 
-Since these two clusters are in isolated network environments we need to set up VPN connection between them. You can use [strongSwan](https://www.strongswan.org/) for this purpose.
-
+Since these two clusters are in isolated network environments we need to set up VPN connection between them.
 
 1.  Set up strongSwan in IKS.
 
-    1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html#helm)
+    1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html)
 
-    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html#vpn).
+    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html).
     Example configuration parameters from config.yaml:
+  
         {{< text plain >}}
         ipsec.auto: add
         remote.subnet: 10.0.0.0/24,10.1.0.0/16
@@ -60,6 +59,7 @@ Since these two clusters are in isolated network environments we need to set up 
     1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html)
 
          Example configuration parameters:
+         
          {{< text plain >}}
          Namespace: default
          Operation at startup: start
@@ -75,7 +75,9 @@ Since these two clusters are in isolated network environments we need to set up 
         $ export STRONGSWAN_POD=$(kubectl get pod -l app=strongswan,release=vpn -o jsonpath='{ .items[0].metadata.name }')
         $ kubectl exec $STRONGSWAN_POD -- ipsec status
         {{< /text >}}.
+
 1.  Confirm across pod communication by pinging pod IP in ICP from IKS.
+    
     {{< text bash >}}
     $ping 10.1.14.30
     PING 10.1.14.30 (10.1.14.30) 56(84) bytes of data.
