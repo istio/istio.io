@@ -20,7 +20,7 @@ page_icon: /img/notes.svg
 - **属性更新**。用于描述流量来源和目的地的一组[属性](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)已经完全改进，以便更加精确和全面。
 - **缓存策略检查**。Mixer 现在具有用于策略检查的大型 2 级缓存，补充了 sidecar 代理中存在的 1 级缓存。这进一步减少了外部强制执行的策略检查的平均延迟。
 - **遥测缓冲**。Mixer 现在在调度到适配器之前缓冲报告调用，这使适配器有机会以更大的块处理遥测数据，从而减少了 Mixer 及其适配器的总体计算开销。
-- **进程外适配器**。Mixer 现在包括对进程外适配器的初始支持。这是与 Mixer 集成的推荐方法。关于如何构建进程外适配器的初始文档见[进程外 个PRC 适配器开发指南](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)和 [gRPC 适配器开发解析](https://github.com/istio/istio/wiki/gRPC-Adapter-Walkthrough)。
+- **进程外适配器**。Mixer 现在包括对进程外适配器的初始支持。这是与 Mixer 集成的推荐方法。关于如何构建进程外适配器的初始文档见[进程外适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide)和 [进程外 gRPC 适配器开发解析](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Walkthrough)。
 - **客户端遥测**。除了服务器端遥测之外，现在可以从交互的客户端收集遥测。
 
 ### 适配器
