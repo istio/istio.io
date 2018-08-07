@@ -93,7 +93,7 @@ page_icon: /img/feature-status.svg
 | [基本配置资源验证](https://github.com/istio/istio/issues/1894) | Alpha
 | [Mixer 遥测收集（追踪、日志记录、监控）](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [自定义 Mixer 构建模型](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
-| [进程外 Mixer 适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
+| [进程外 Mixer 适配器（ gRPC Adapters ）](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Alpha
 | 使用 IDL 启用 API 属性 | Alpha
 | [Helm](/zh/docs/setup/kubernetes/helm-install/) | Beta
 | [多集群 Mesh](/zh/docs/setup/kubernetes/multicluster-install/) | Alpha
