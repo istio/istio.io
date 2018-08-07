@@ -6,8 +6,7 @@ keywords: [kubernetes,multicluster,hybrid]
 ---
 
 This example demonstrates how to use Istio's multicluster feature to join one
-[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and one [IBM Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html#container_index) together,
-using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and one [IBM Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster together, using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Set Up two clusters
 
@@ -55,7 +54,9 @@ Since these two clusters are in isolated network environments we need to set up 
 
     1.  Complete the strongSwan IPSec VPN workarounds for ICP by following [these instructions](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html)
 
-    1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html). Example configuration parameters:
+    1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html).
+
+    Example configuration parameters:
          
          {{< text plain >}}
          Namespace: default
@@ -76,7 +77,7 @@ Since these two clusters are in isolated network environments we need to set up 
 1.  Confirm across pod communication by pinging pod IP in ICP from IKS.
     
     {{< text bash >}}
-    $ping 10.1.14.30
+    $ ping 10.1.14.30
     PING 10.1.14.30 (10.1.14.30) 56(84) bytes of data.
     64 bytes from 10.1.14.30: icmp_seq=1 ttl=59 time=51.8 ms
     {{< /text >}}
