@@ -38,9 +38,8 @@ Since these two clusters are in isolated network environments we need to set up 
 
     1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html)
 
-    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html).
-    Example configuration parameters from config.yaml:
-  
+    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html). Example configuration parameters from config.yaml:
+
         {{< text plain >}}
         ipsec.auto: add
         remote.subnet: 10.0.0.0/24,10.1.0.0/16
@@ -56,9 +55,7 @@ Since these two clusters are in isolated network environments we need to set up 
 
     1.  Complete the strongSwan IPSec VPN workarounds for ICP by following [these instructions](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html)
 
-    1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html)
-
-         Example configuration parameters:
+    1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html). Example configuration parameters:
          
          {{< text plain >}}
          Namespace: default
