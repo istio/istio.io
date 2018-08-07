@@ -13,7 +13,7 @@ page_icon: /img/notes.svg
 - **使用 Virtual Service 进行 SNI 路由**。[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 中新引入的 TLS 部分可用于根据 SNI 值路由 TLS 流量。名为 TLS/HTTPS 的服务端口可与虚拟服务 TLS 路由一起使用。没有附带虚拟服务的 TLS/HTTPS 端口将被视为不透明 TCP。
 - **流式 gRPC 恢复**。Istio 0.8 导致长时间运行的流 gRPC 连接的周期性终止。这已在 1.0 中修复。
 - **旧版本（v1alpha1）的网络 API 被移除**。 已删除对旧的 `v1alpha1` 流量管理模型的支持。
-- **Istio Ingress 被弃用**。Istio Ingress 已弃用。默认情况下，旧的 Istio ingress 已被弃用和禁用。我们鼓励用户使用 [gateway](/zh/docs/concepts/traffic-management/#gateway) 。
+- **Istio Ingress 被弃用**。Istio Ingress 已弃用。默认情况下，旧的 Istio ingress 已被弃用和禁用。我们鼓励用户使用 [gateway](/zh/docs/concepts/traffic-management/#gateway)。
 
 ## 策略和遥测
 
