@@ -1,5 +1,5 @@
 ---
-title: Consul - 如何取消最后由kubectl更改的上下文？
+title: Consul - 如何取消最后由 kubectl 更改的上下文？
 weight: 50
 ---
 
