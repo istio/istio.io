@@ -6,7 +6,7 @@ keywords: [kubernetes,multicluster,hybrid]
 ---
 
 This example demonstrates how to use Istio's multicluster feature to join one
-[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and one [IBM Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html#container_index) together.
+[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and one [IBM Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html#container_index) together,
 using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Set Up two clusters
@@ -26,7 +26,7 @@ using the [Kubernetes multicluster installation instructions](/docs/setup/kubern
     __NOTE__: By default, when you have provisioned a IKS cluster, the CIDR is as below.
 
      {{< text plain >}}
-     pod subnet CIDR: 172.30.0.0/16. 
+     pod subnet CIDR: 172.30.0.0/16.
      service subnet CIDR: 172.21.0.0/16.
      {{< /text >}}
 
@@ -41,13 +41,11 @@ Since these two clusters are in isolated network environments we need to set up 
     1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html#helm)
 
     1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html#vpn).
-         
-         Example configuration parameters from config.yaml:
-
-          {{< text plain >}}
-          ipsec.auto: add
-          remote.subnet: 10.0.0.0/24,10.1.0.0/16
-          {{< /text >}}
+    Example configuration parameters from config.yaml:
+        {{< text plain >}}
+        ipsec.auto: add
+        remote.subnet: 10.0.0.0/24,10.1.0.0/16
+        {{< /text >}}
 
     1.  Get the External IP of the vpn-strongswan service.
 
@@ -62,25 +60,22 @@ Since these two clusters are in isolated network environments we need to set up 
     1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html)
 
          Example configuration parameters:
-
-          {{< text plain >}}
-          Namespace: default
-          Operation at startup: start
-          Local subnets: 10.0.0.0/24,10.1.0.0/16
-          Remote gateway: Public IP of IKS vpn-strongswan service that you get earlier
-          Remote subnets: 172.30.0.0/16,172.21.0.0/16
-          Privileged authority for VPN pod: checked
-          {{< /text >}}
+         {{< text plain >}}
+         Namespace: default
+         Operation at startup: start
+         Local subnets: 10.0.0.0/24,10.1.0.0/16
+         Remote gateway: Public IP of IKS vpn-strongswan service that you get earlier
+         Remote subnets: 172.30.0.0/16,172.21.0.0/16
+         Privileged authority for VPN pod: checked
+         {{< /text >}}
 
     1.  Verify that ICP can connect to IKS by running the following command against the IKS:
 
         {{< text bash >}}
         $ export STRONGSWAN_POD=$(kubectl get pod -l app=strongswan,release=vpn -o jsonpath='{ .items[0].metadata.name }')
         $ kubectl exec $STRONGSWAN_POD -- ipsec status
-        {{< /text >}}
-
-1.  Confirm across pod communication by pinging pod IP in ICP from IKS. 
-
+        {{< /text >}}.
+1.  Confirm across pod communication by pinging pod IP in ICP from IKS.
     {{< text bash >}}
     $ping 10.1.14.30
     PING 10.1.14.30 (10.1.14.30) 56(84) bytes of data.
