@@ -88,4 +88,3 @@ Istio local control plane and Istio remote on IBM Cloud Private and IBM Cloud Ku
 
 This example uses IBM Cloud Private as the Istio local control plane and IBM Cloud Kubernetes Service as the Istio remote.
 
-## Deploy Bookinfo Example Across Clusters by following [these instructions](/docs/examples/multicluster/icp/)
