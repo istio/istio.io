@@ -6,7 +6,8 @@ keywords: [kubernetes,multicluster,hybrid]
 ---
 
 This example demonstrates how to use Istio's multicluster feature to join one
-[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and one [IBM Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster together, using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and one [IBM Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster together,
+using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Set Up two clusters
 
@@ -37,7 +38,9 @@ Since these two clusters are in isolated network environments we need to set up 
 
     1.  Set up Helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html).
 
-    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html). Example configuration parameters from config.yaml:
+    1.  Install strongSwan using Helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html).
+
+        Example configuration parameters from config.yaml:
 
         {{< text plain >}}
         ipsec.auto: add
@@ -51,21 +54,21 @@ Since these two clusters are in isolated network environments we need to set up 
         {{< /text >}}
 
 1.  Set up strongSwan in ICP.
-
+    
     1.  Complete the strongSwan IPSec VPN workarounds for ICP by following [these instructions](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html).
 
     1.  Install the strongSwan from the Catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html).
 
-    Example configuration parameters:
+        Example configuration parameters:
 
-         {{< text plain >}}
-         Namespace: default
-         Operation at startup: start
-         Local subnets: 10.0.0.0/24,10.1.0.0/16
-         Remote gateway: Public IP of IKS vpn-strongswan service that you get earlier
-         Remote subnets: 172.30.0.0/16,172.21.0.0/16
-         Privileged authority for VPN pod: checked
-         {{< /text >}}
+        {{< text plain >}}
+        Namespace: default
+        Operation at startup: start
+        Local subnets: 10.0.0.0/24,10.1.0.0/16
+        Remote gateway: Public IP of IKS vpn-strongswan service that you get earlier
+        Remote subnets: 172.30.0.0/16,172.21.0.0/16
+        Privileged authority for VPN pod: checked
+        {{< /text >}}
 
     1.  Verify that ICP can connect to IKS by running the following command against the IKS:
 
@@ -84,7 +87,7 @@ Since these two clusters are in isolated network environments we need to set up 
 
 The steps in this section enables Pod communication across clusters.
 
-## Install Istio for multicluster
+## Install Istio for multicluster.
 
 [Follow the multicluster installation steps](/docs/setup/kubernetes/multicluster-install/) to install and configure
  Istio local control plane and Istio remote on `ICP` and `IKS`.
