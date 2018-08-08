@@ -4,6 +4,7 @@ description: Explains the mechanics of creating new documentation pages.
 weight: 30
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
+    - /docs/reference/contribute/writing-a-new-topic.html
 keywords: [contribute]
 ---
 
@@ -435,7 +436,7 @@ For example
 {{< text plain >}}
 ---
 title: Frequently Asked Questions
-description: Questions Asked Frequently
+description: Questions Asked Frequently.
 weight: 12
 aliases:
     - /faq
@@ -450,7 +451,7 @@ You can also add many redirects like so:
 {{< text plain >}}
 ---
 title: Frequently Asked Questions
-description: Questions Asked Frequently
+description: Questions Asked Frequently.
 weight: 12
 aliases:
     - /faq
