@@ -5,6 +5,7 @@ weight: 40
 type: section-index
 aliases:
     - /docs/reference/config/mixer/adapters/index.html
+    - /docs/reference/config/adapters/
 ---
 
 To implement a new adapter for Mixer, please refer to the

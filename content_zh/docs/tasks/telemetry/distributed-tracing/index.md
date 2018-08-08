@@ -1,6 +1,6 @@
 ---
 title: 分布式跟踪
-description: 如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger
+description: 如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger。
 weight: 10
 keywords: [遥测,跟踪]
 ---
@@ -71,7 +71,6 @@ def getForwardHeaders(request):
 
     if 'user' in session:
         headers['end-user'] = session['user']
-
     incoming_headers = [ 'x-request-id',
                          'x-b3-traceid',
                          'x-b3-spanid',
@@ -80,13 +79,11 @@ def getForwardHeaders(request):
                          'x-b3-flags',
                          'x-ot-span-context'
     ]
-
     for ihdr in incoming_headers:
         val = request.headers.get(ihdr)
         if val is not None:
             headers[ihdr] = val
             #print "incoming: "+ihdr+":"+val
-
     return headers
 {{< /text >}}
 

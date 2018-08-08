@@ -1,6 +1,6 @@
 ---
 title: 用于在生产环境进行测试的 Istio 流量镜像功能
-description: 介绍更安全，低风险的部署和发布到生产
+description: 介绍更安全，低风险的部署和发布到生产。
 publishdate: 2018-02-08
 subtitle: Routing rules for HTTP traffic
 attribution: Christian Posta

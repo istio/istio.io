@@ -6,6 +6,35 @@ weight: 5
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
 
+## 503 errors after setting destination rule
+
+If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
+and the errors continue until you remove or revert the `DestinationRule`, then the `DesintationRule` is probably
+causing a TLS conflict for the service.
+
+For example, if you configure mutual TLS in the cluster globally, the `DestinationRule` must include the following `trafficPolicy`:
+
+{{< text yaml >}}
+trafficPolicy:
+  tls:
+    mode: ISTIO_MUTUAL
+{{< /text >}}
+
+Otherwise, the mode defaults to `DISABLED` causing client proxy sidecars to make plain HTTP requests
+instead of TLS encrypted requests. Thus, the requests conflict with the server proxy because the server proxy expects
+encrypted requests.
+
+To confirm there is a conflict, check whether the `STATUS` field in the output of the `istioctl authn tls-check` command
+is set to `CONFLICT` for your service. For example:
+
+{{< text bash >}}
+$ istioctl authn tls-check httpbin.default.svc.cluster.local
+HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
+httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
+{{< /text >}}
+
+Whenever you apply a `DestinationRule`, ensure the `trafficPolicy` TLS mode matches the global server configuration.
+
 ## 503 errors while reconfiguring service routes
 
 When setting route rules to direct traffic to specific versions (subsets) of a service, care must be taken to ensure

@@ -1,6 +1,6 @@
 ---
 title: 编写新主题
-description: 编写新的文档页面的方法
+description: 编写新的文档页面的方法。
 weight: 30
 ---
 
