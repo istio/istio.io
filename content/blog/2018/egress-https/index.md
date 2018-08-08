@@ -52,7 +52,7 @@ The updated architecture of the application now looks as follows:
 
 Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dashed line.
 
-Now let's direct all the traffic destined to the _details_ microservice, to _details version v2_.
+Now direct all the traffic destined to the _details_ microservice, to _details version v2_.
 
 1.  Define _destination rules_ to enable routing for the application.
 
@@ -76,7 +76,7 @@ Now let's direct all the traffic destined to the _details_ microservice, to _det
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     {{< /text >}}
 
-Let's access the web page of the application, after [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+Access the web page of the application, after [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
 Oops... Instead of the book details we have the _Error fetching product details_ message displayed:
 
@@ -91,7 +91,7 @@ So what might have gone wrong? Ah... The answer is that I forgot to enable traff
 
 ### Enable access to the Google Books web service
 
-No worries, let's define a **mesh-external service entry** and fix your application. We also must define a _virtual
+No worries, define a **mesh-external service entry** and fix your application. We also must define a _virtual
 service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
 
 {{< text bash >}}
