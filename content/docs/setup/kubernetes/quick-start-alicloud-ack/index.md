@@ -5,16 +5,16 @@ weight: 12
 keywords: [kubernetes,alicloud,aliyun]
 ---
 
-Follow these instructions to install and run Istio in the 
-[Alibaba Cloud Kubernetes Container Service](https://cs.console.aliyun.com/) 
+Follow these instructions to install and run Istio in the
+[Alibaba Cloud Kubernetes Container Service](https://cs.console.aliyun.com/)
 using the `Application Catalog`.
 
-This guide installs the current release version of Istio and deploys the 
+This guide installs the current release version of Istio and deploys the
 [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Prerequisites
 
-- You have an avaiable Alibaba Cloud Kubernetes cluster. Otherwise, create a 
+- You have an available Alibaba Cloud Kubernetes cluster. Otherwise, create a
 Kubernetes cluster quickly and easily in the `Container Service console`.
 
 - Ensure `kubectl` works fine for your Kubernetes cluster.
@@ -26,14 +26,14 @@ Kubernetes cluster quickly and easily in the `Container Service console`.
 $ kubectl create namespace istio-system
 {{< /text >}}
 
-- You installed a service account for Tiller. To install one if you haven't, 
+- You installed a service account for Tiller. To install one if you haven't,
 run the following command:
 
 {{< text bash >}}
 $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
 {{< /text >}}
 
-- You installed Tiller on your cluster. To install Tiller with the service 
+- You installed Tiller on your cluster. To install Tiller with the service
 account if you haven't, run the following command:
 
 {{< text bash >}}
@@ -57,32 +57,31 @@ The following table explains the default configuration options shipped with Helm
 
 | Parameter                            | Description                                                  | Default                                    |
 | ------------------------------------ | ------------------------------------------------------------ | ------------------------------------------ |
-| `global.hub` | Specifies the HUB for most images used by Istio | registry.cn-hangzhou.aliyuncs.com/aliacs-app-catalog |
+| `global.hub` | Specifies the images hub for Istio | `registry.cn-hangzhou.aliyuncs.com/aliacs-app-catalog` |
 | `global.tag`                     | Specifies the TAG for most images used by Istio |    0.8       |
-| `global.proxy.image`             | Specifies the proxy image name         | istio-proxyv2         |
+| `global.proxy.image`             | Specifies the proxy image name         | `proxyv2`        |
 | `global.imagePullPolicy`       | Specifies the image pull policy          | `IfNotPresent`        |
-| `global.controlPlaneSecurityEnabled` | Specifies whether control plane mTLS is enabled | `false` |
-| `global.mtls.enabled`        | Specifies whether mTLS is enabled by default between services| `false`  |
-| `global.mtls.mtlsExcludedServices`  | List of FQDNs to exclude from mTLS | -"kubernetes.default.svc.cluster.local" |
+| `global.controlPlaneSecurityEnabled` | Specifies whether control plane `mTLS` is enabled | `false` |
+| `global.mtls.enabled`        | Specifies whether `mTLS` is enabled by default between services| `false`  |
+| `global.mtls.mtlsExcludedServices`  | List of `FQDNs` to exclude from `mTLS` | -`kubernetes.default.svc.cluster.local` |
 | `global.rbacEnabled` | Specifies whether to create Istio RBAC rules or not | `true` |
 | `global.refreshInterval` | Specifies the mesh discovery refresh interval | `10s` |
-| `global.arch.amd64` | Specifies the scheduling policy for amd64 architectures | `2` |
-| `global.arch.s390x` | Specifies the scheduling policy for s390x architectures | `2` |
-| `global.arch.ppc64le` | Specifies the scheduling policy for ppc64le architectures| `2` |
-| `galley.enabled` | Specifies whether Galley should be installed for server-side config validation. Requires k8s >= 1.9 | `false` |
+| `global.arch.amd64` | Specifies the scheduling policy for `amd64` architectures | `2` |
+| `global.arch.s390x` | Specifies the scheduling policy for `s390x` architectures | `2` |
+| `global.arch.ppc64le` | Specifies the scheduling policy for `ppc64le` architectures| `2` |
 
 The Parameters tab exposes the per-service options.
 
-{{< idea_icon >}} Before moving on, wait until Istio is fully deployed. 
+{{< idea_icon >}} Before moving on, wait until Istio is fully deployed.
 Deployment can take up to several minutes.
 
 ## What's next
 
-To further explore the Istio functionality, follow any of the tutorials in the 
-[Guides](/docs/guides/) section. Before you do, install `istioctl` to interact 
-with Istio. 
+To further explore the Istio functionality, follow any of the tutorials in the
+[Guides](/docs/guides/) section. Before you do, install `istioctl` to interact
+with Istio.
 
-Next, you can follow the detailed instructions on 
+Next, you can follow the detailed instructions on
 [how to use Istio on Alibaba Cloud Kubernetes Container Service](https://yq.aliyun.com/articles/599874).
 
 ## Uninstalling
