@@ -25,10 +25,10 @@ using the [Kubernetes multicluster installation instructions](/docs/setup/kubern
 1.  [Request One IBM Cloud Kubernetes Service clusters](https://console.bluemix.net/docs/containers/container_index.html).
     __NOTE__: By default, when you have provisioned a IBM Cloud Kubernetes Service cluster, the CIDR is as below.
 
-     {{< text plain >}}
-     pod subnet CIDR: 172.30.0.0/16.
-     service subnet CIDR: 172.21.0.0/16.
-     {{< /text >}}
+    {{< text plain >}}
+    pod subnet CIDR: 172.30.0.0/16.
+    service subnet CIDR: 172.21.0.0/16.
+    {{< /text >}}
 
 ## Configure pod communication across IBM Cloud Kubernetes Service & IBM Cloud Private
 
