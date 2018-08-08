@@ -154,6 +154,13 @@ and see in the output that the egress rule is deleted.
 
 Accessing the web page after deleting the egress rule produces the same error that we experienced before, namely _Error fetching product details_. As we can see, the egress rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
+## Cleanup
+
+{{< text bash >}}
+$ kubectl delete serviceentry googleapis
+$ kubectl delete virtualservice googleapis
+{{< /text >}}
+
 ## Issues with Istio egress traffic control
 
 ### TLS origination by Istio
