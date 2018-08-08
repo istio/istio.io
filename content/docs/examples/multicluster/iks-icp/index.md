@@ -38,7 +38,7 @@ Since these two clusters are in isolated network environments we need to set up 
 
     1.  Set up helm in IBM Cloud Kubernetes Service by following [these instructions](https://console.bluemix.net/docs/containers/cs_integrations.html).
 
-    1.  Install strongSwan using helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html),Example configuration parameters from config.yaml:
+    1.  Install strongSwan using helm chart by following [these instructions](https://console.bluemix.net/docs/containers/cs_vpn.html),Example configuration parameters from `config.yaml`:
 
         {{< text plain >}}
         ipsec.auto: add
@@ -88,4 +88,4 @@ Istio local control plane and Istio remote on IBM Cloud Private and IBM Cloud Ku
 
 This example uses IBM Cloud Private as the Istio local control plane and IBM Cloud Kubernetes Service as the Istio remote.
 
-## Deploy bookinfo example across clusters by following [these instructions](/docs/examples/multicluster/icp/)
+## Deploy Bookinfo example across clusters by following [these instructions](/docs/examples/multicluster/icp/)
