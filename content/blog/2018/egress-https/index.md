@@ -2,7 +2,7 @@
 title: Consuming External Web Services
 description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-01-31
-subtitle: Egress Rules for HTTPS traffic
+subtitle: Mesh-external service entries for egress HTTPS traffic
 attribution: Vadim Eisenberg
 weight: 93
 keywords: [traffic-management,egress,https]
