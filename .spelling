@@ -194,6 +194,7 @@ accesslogs
 accounts.my
 addon
 addons
+strongSwan
 admissionregistration
 admissionregistration.k8s.io
 analytics
@@ -524,4 +525,3 @@ MB
 CPU
 CPUs
 add-ons
-strongSwan
