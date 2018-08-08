@@ -36,11 +36,11 @@ Istio 的命令行配置工具。
 
 这一组命令用于同 Istio 认证策略进行沟通。
 
-### 子命令
+该命令支持的子命令列表如下：
 
 - `tls-check`
 
-### 示例
+典型用例：
 
 检查认证策略和目标规则之间的 TLS 设置是否匹配：
 
@@ -52,19 +52,19 @@ $ istioctl authn tls-check
 
 要求 Pilot 进行检查，服务注册表中的每个服务都在使用什么认证策略以及目标规则，以及 TLS 设置是否匹配。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl [<服务>] [选项]
 {{< /text >}}
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-检查服务注册表中所有已知服务的设置
+# 检查服务注册表中所有已知服务的设置
 istioclt authn tls-check
 
-检查特定的某个服务
+# 检查特定的某个服务
 istioclt authn tls-check foo.bar.svc.cluster.local
 {{< /text >}}
 
@@ -72,22 +72,22 @@ istioclt authn tls-check foo.bar.svc.cluster.local
 
 在非 Kubernetes 环境中为 `istioctl` 创建一个 kubeconfig 文件。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl context-create --api-server http://<ip 地址>:<端口> [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
 |`--api-server <string>`|| Istio api-server 的 URL（缺省值 `''`）|
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-为 API Server 创建一个配置文件：
+# 为 API Server 创建一个配置文件：
 istioctl context-create --api-server http://127.0.0.1:8080
 {{< /text >}}
 
@@ -95,19 +95,19 @@ istioctl context-create --api-server http://127.0.0.1:8080
 
 创建策略或规则。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl create [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
 |`--file <string>`|-f|用包含配置对象内容的文件作为命令输入（如果没有设置，命令会从标准输入中进行读取，缺省值 `''`）|
 
-### 示例
+典型用例：
 
 {{< text bash >}}
 $ istioctl create -f example-routing.yaml
@@ -121,19 +121,19 @@ $ istioctl create -f example-routing.yaml
 istioctl delete <类型> <名称> [<名称2> ... <名称 N>] [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
 |`--file <string>`|-f|用包含配置对象内容的文件作为命令输入（如果没有设置，命令会从标准输入中进行读取，缺省值 `''`）|
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-删除在文件 example-routing.yaml 中定义的规则
+# 删除在文件 example-routing.yaml 中定义的规则
 istioctl delete -f example-routing.yaml
 
-删除 bookinfo 虚拟服务
+# 删除 bookinfo 虚拟服务
 istioctl delete virtualservice bookinfo
 {{< /text >}}
 
@@ -149,7 +149,7 @@ $ istioctl deregister <服务名称> <ip 地址> [选项]
 
 实验性命令，未来可能会修改或者弃用。
 
-### 子命令
+该命令支持的子命令列表如下：
 
 - `convert-ingress`
 - `metrics`
@@ -159,19 +159,19 @@ $ istioctl deregister <服务名称> <ip 地址> [选项]
 
 将 Ingress 转化为 VirtualService 配置。其输出内容可以作为 Istio 配置的起点，可能需要进行一些小修改。如果指定配置无法完美的完成转化，就会出现警告信息。输入内容必须是 Kubernetes Ingress。`Istioctl` 中已经移除了对 v1alpha1 的 Istio 规则的转换支持。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl experimental convert-ingress [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
-|`--filenames <stringSlice>`|-f|输入文件名称（缺省值 `[]`）|
+|`--filenames <stringSlice>`|`-f`|输入文件名称（缺省值 `[]`）|
 
-### 示例
+典型用例：
 
 {{< text bash >}}
 $ istioctl experimental convert-ingress -f samples/bookinfo/platform/kube/bookinfo-ingress.yaml
@@ -189,12 +189,12 @@ $ istioctl experimental convert-ingress -f samples/bookinfo/platform/kube/bookin
 $ istioctl experimental metrics <工作负载名称>...
 {{< /text >}}
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-获取工作负载  productpage-v1 的指标数据
+# 获取工作负载  productpage-v1 的指标数据
 istioctl experimental metrics productpage-v1
-获取多个不同命名空间中不同服务的指标数据
+# 获取多个不同命名空间中不同服务的指标数据
 istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 {{< /text >}}
 
@@ -203,7 +203,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 这一组命令用来操作 Istio RBAC 策略。例如查询特定请求在当前 Istio RBAC 策略中是否会被拒绝。
 
 {{< text shell >}}
-查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
+# 查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
 istioctl experimental rbac can -u test GET rating /v1/health
 {{< /text >}}
 
@@ -211,7 +211,7 @@ istioctl experimental rbac can -u test GET rating /v1/health
 
 这一命令可以用来查询特定请求在当前 Istio RBAC 策略之中，是否会被拒绝。其原理是根据命令行中提供的主体和动作，构建一个请求，用来检查当前 Istio RBAC 策略是否会按照设计进行工作。需要注意的是，这个请求只会在本地用来评估 Istio RBAC 策略的实际效果，并不会产生真正的请求。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl experimental rbac can <方法> <服务> <路径> [选项]
@@ -221,22 +221,22 @@ $ istioctl experimental rbac can <方法> <服务> <路径> [选项]
 - **服务**：服务名称。
 - **路径**：服务中的 HTTP 路径。
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
-|`--action-properties <stringArray>`|-a|动作的附加数据。用 `name1=value1,name2=value2,...` 的方式赋值（缺省值为 `[]`）|
-|`--groups <string>`|-g|主体的组名称或者 ID（缺省值 `''`）|
-|`--subject-properties <stringArray>`|-s|主体的附加数据。用 `name1=value1,name2=value2,...` 的方式赋值（缺省值为 `[]`）
+|`--action-properties <stringArray>`|`-a`|动作的附加数据。用 `name1=value1,name2=value2,...` 的方式赋值（缺省值为 `[]`）|
+|`--groups <string>`|`-g`|主体的组名称或者 ID（缺省值 `''`）|
+|`--subject-properties <stringArray>`|`-s`|主体的附加数据。用 `name1=value1,name2=value2,...` 的方式赋值（缺省值为 `[]`）
 |`--user <string>`|`-u`|主体的用户名称或者 ID（缺省值 `''`）|
 
-### 示例
+典型用例：
 
 {{< text script >}}
-查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
+# 查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
 istioctl experimental rbac can -u test GET rating /v1/health
 
-查询是否允许 product-page 服务对 ratings 服务的 /data 路径发起 POST 请求，其中的 ratings 服务需带有标签：version=dev
+# 查询是否允许 product-page 服务对 ratings 服务的 /data 路径发起 POST 请求，其中的 ratings 服务需带有标签：version=dev
 istioctl experimental rbac can -s service=product-page POST rating /data -a version=dev
 {{< /text >}}
 
@@ -244,13 +244,13 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 
 用于生成 Istio 的部署文件。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl gen-deploy [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|描述|
 |---|---|
@@ -261,7 +261,7 @@ $ istioctl gen-deploy [选项]
 |`--ingress-node-port <uint16>`|如果指定了这一选项，Istio ingress 会以 NodePort 的形式运行，并映射到这一选项指定的端口。注意，如果 `ingress` 选项没有打开，这一选项会被忽略（缺省值 `0`）|
 |`--values <string>`|`values.yaml` 文件的路径，在使用 `--out=yaml` 时，会用来在本地渲染 YAML。如果直接使用这一文件，会忽略上面的选项值（缺省值 `''`）|
 
-### 示例
+典型用例：
 
 {{< text bash >}}
 $ istioctl gen-deploy --values myvalues.yaml
@@ -271,13 +271,13 @@ $ istioctl gen-deploy --values myvalues.yaml
 
 获取规则和策略。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl get <类型> [<名称>] [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
@@ -285,16 +285,16 @@ $ istioctl get <类型> [<名称>] [选项]
 |`--namespace <string>`|`-n`|目标命名空间（缺省值 `''`）|
 |`--output <string>`|`-o`|输出格式，可选内容包括 `yaml` 以及 `short`（缺省值 `short`）|
 
-### 示例
+典型用例：
 
 {{< text script >}}
-列出所有虚拟服务
+# 列出所有虚拟服务
 istioctl get virtualservices
 
-列出所有目标规则
+# 列出所有目标规则
 istioctl get destinationrules
 
-获取名为 bookinfo 的虚拟服务
+# 获取名为 bookinfo 的虚拟服务
 istioctl get virtualservice bookinfo
 {{< /text >}}
 
@@ -308,13 +308,13 @@ Istio 项目是一个持续进化的项目，所以 Istio sidecar 的配置可�
 
 `istioctl` 中内置了缺省的 Sidecar 注入模板，还可以使用参数 `--injectConfigFile` 或者 `--injectConfigMapName` 进行覆盖。这两个参数会覆盖其他的模板配置参数，例如 `--hub` 和 `--tag`。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl kube-inject [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
@@ -323,19 +323,19 @@ $ istioctl kube-inject [选项]
 |`--injectConfigMapName <string>`||Istio sidecar 注入配置的 ConfigMap 名称，Key 名称是 `config`。这个选项会覆盖任何其他的 Sidecar 注入配置选项，例如 `--hub`（缺省值 `istio-sidecar-injector`）|
 |`--output <string>`|`-o`|注入后输出的资源文件名（缺省值 `''`）|
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-在 Apply 之前进行对资源文件进行更新。
+# 在 Apply 之前进行对资源文件进行更新。
 kubectl apply -f <(istioctl kube-inject -f <resource.yaml>)
 
-对资源文件执行 Envoy sidecar 注入之后，保存为文件。
+# 对资源文件执行 Envoy sidecar 注入之后，保存为文件。
 istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
 
-在线修改一个正在运行的 Deployment
+# 在线修改一个正在运行的 Deployment。
 kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 
-使用 Configmap `istio-inject` 进行 Envoy sidecar 的注入，并生成持久化文件。
+# 使用 Configmap `istio-inject` 进行 Envoy sidecar 的注入，并生成持久化文件。
 istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-inject
 {{< /text >}}
 
@@ -343,22 +343,22 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 
 这一组命令用来从 Envoy 中获取配置信息。
 
-### 子命令
+该命令支持的子命令列表如下：
 
 - bootstrap
 - cluster
 - route
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
 |`--output <string>`|`-o`|输出格式，可选 `json` 或者 `short`（缺省值 `short`）|
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-从 Envoy 实例中获取代理配置方面的信息
+# 从 Envoy 实例中获取代理配置方面的信息
 istioctl proxy-config <clusters|listeners|routes|bootstap> <pod-name>
 {{< /text >}}
 
@@ -366,22 +366,22 @@ istioctl proxy-config <clusters|listeners|routes|bootstap> <pod-name>
 
 在指定 Pod 中获取 Envoy 实例的启动信息。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
-istioctl proxy-config bootstrap <pod-name> [flags]
+$ istioctl proxy-config bootstrap <pod-name> [flags]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
 |`--output <string>`|`-o`|输出格式，可选 `json` 或者 `short`（缺省值 `short`）|
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-在指定 Pod 的 Envoy 中获取完整的 Bootstrap 信息。
+# 在指定 Pod 的 Envoy 中获取完整的 Bootstrap 信息。
 istioctl proxy-config bootstrap <pod-name>
 {{< /text >}}
 
@@ -389,13 +389,13 @@ istioctl proxy-config bootstrap <pod-name>
 
 从指定 Pod 中的 Envoy 实例里读取集群配置信息。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl proxy-config cluster <pod-name> [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
@@ -405,16 +405,16 @@ $ istioctl proxy-config cluster <pod-name> [选项]
 |`--port <int>`||使用 `port` 字段对集群进行过滤 (缺省值 `0`)|
 |`--subset <string>`||使用 `subset` 字段对集群进行过滤 (缺省值 `''`)|
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-从选定 Pod 的 Envoy 中获取集群配置的概要信息。
+# 从选定 Pod 的 Envoy 中获取集群配置的概要信息。
 istioctl proxy-config clusters <pod-name>
 
-使用 9080 端口获取集群概要信息。
+# 使用 9080 端口获取集群概要信息。
 istioctl proxy-config clusters <pod-name> --port 9080
 
-获取 FQDN 为 details.default.svc.cluster.local 的完整的集群信息
+# 获取 FQDN 为 details.default.svc.cluster.local 的完整的集群信息
 istioctl proxy-config clusters <pod-name> --fqdn details.default.svc.cluster.local --direction inbound -o json
 {{< /text >}}
 
@@ -422,13 +422,13 @@ istioctl proxy-config clusters <pod-name> --fqdn details.default.svc.cluster.loc
 
 从选定 Pod 的 Envoy 中获取监听器信息。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl proxy-config listener <pod-name> [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
@@ -437,16 +437,16 @@ $ istioctl proxy-config listener <pod-name> [选项]
 |`--port <int>`||使用 `port` 对监听器进行过滤（缺省值 `0`）|
 |`--type <string>`||使用 `type` 对监听器进行过滤（缺省值 `''`）|
 
-### 示例
+典型用例：
 
-{{< text bash >}}
-从指定 Pod 的 Envoy 中获取监听器配置概要信息。
+{{< text shell >}}
+# 从指定 Pod 的 Envoy 中获取监听器配置概要信息。
 istioctl proxy-config listeners <pod-name>
 
-获取 9080 端口的监听器概要信息。
+# 获取 9080 端口的监听器概要信息。
 istioctl proxy-config listeners <pod-name> --port 9080
 
-使用通配符地址（0.0.0.0）获取完整的 HTTP 监听器信息。
+# 使用通配符地址（0.0.0.0）获取完整的 HTTP 监听器信息。
 istioctl proxy-config listeners <pod-name> --type HTTP --address 0.0.0.0 -o json
 {{< /text >}}
 
@@ -454,19 +454,19 @@ istioctl proxy-config listeners <pod-name> --type HTTP --address 0.0.0.0 -o json
 
 获取最后发送和最后确认的从 Pilot 到网格中每个 Envoy 的 xDS 同步信息。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl proxy-status [<proxy-name>] [参数]
 {{< /text >}}
 
-### 示例
+典型用例：
 
 {{< text shell >}}
-获取网格中每个 Envoy 的同步状态。
+# 获取网格中每个 Envoy 的同步状态。
 istioctl proxy-status
 
-获取单一 Envoy 的同步信息。
+# 获取单一 Envoy 的同步信息。
 istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
 {{< /text >}}
 
@@ -474,15 +474,16 @@ istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
 
 把一个服务实例（例如虚拟机）注册到网格之中。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl register <svcname> <ip> [name1:]port1 [name2:]port2 ... [flags]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
+|---|---|---|
 |`--annotations <stringSlice>`|`-a`|一个字符串列表，用于给注册服务或者端点提供注解，例如 `-a foo=bar,test,x=y` （缺省值 `[]`）|
 |`--serviceaccount <string>`|`-s`|绑定到该服务的 Service account（缺省值 `default`）|
 
@@ -490,19 +491,19 @@ $ istioctl register <svcname> <ip> [name1:]port1 [name2:]port2 ... [flags]
 
 替换现存的策略和规则。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl replace [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
 |选项|缩写|描述|
 |---|---|---|
 |`--file <string>`|`-f`|用包含配置对象内容的文件作为命令输入（如果没有设置，命令会从标准输入中进行读取，缺省值 `''`）|
 
-### 示例
+典型用例：
 
 {{< text bash >}}
 $ istioctl replace -f example-routing.yaml
@@ -512,12 +513,14 @@ $ istioctl replace -f example-routing.yaml
 
 输出版本信息。
 
-### 用法
+基本用法：
 
 {{< text bash >}}
 $ istioctl version [选项]
 {{< /text >}}
 
-### 选项
+可用参数列表如下：
 
+|选项|缩写|描述|
+|---|---|---|
 |`--short`|`-s`|显示摘要信息|
