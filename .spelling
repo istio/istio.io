@@ -32,6 +32,7 @@ Acmeair
 Ansible
 AppOptics
 Auth0
+Auth
 args.yaml
 AuthPolicy
 Autoscalers
