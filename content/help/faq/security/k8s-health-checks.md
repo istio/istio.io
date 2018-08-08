@@ -12,7 +12,8 @@ Please keep in mind that mutual TLS is not enforced since others can
 communicate with the service with http traffic.
 
 You can use a separate port for health check and enable mutual TLS only
-on the regular service port. Refer to [Health checking of Istio services]
+on the regular service port. Refer to [Health checking of Istio
+services](/docs/tasks/traffic-management/app-health-check/)
 for more information.
 
 Another workaround is to use a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
