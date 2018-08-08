@@ -55,7 +55,7 @@ Since these two clusters are in isolated network environments we need to set up 
 
     1.  Complete the strongSwan workarounds for IBM Cloud Private by following [these instructions](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html).
 
-    1.  Install the strongSwan from the catalog in the management consoleby following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html),Example configuration parameters:
+    1.  Install the strongSwan from the catalog in the management console by following [these instructions](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html),example configuration parameters:
 
         {{< text plain >}}
         Namespace: default
