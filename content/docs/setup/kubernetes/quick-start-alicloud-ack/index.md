@@ -6,7 +6,7 @@ keywords: [kubernetes,alicloud,aliyun]
 ---
 
 Follow these instructions to install and run Istio in the
-[Alibaba Cloud Kubernetes Container Service](https://cs.console.aliyun.com/)
+[Alibaba Cloud Kubernetes Container Service](https://www.alibabacloud.com/product/kubernetes)
 using the `Application Catalog`.
 
 This guide installs the current release version of Istio and deploys the
@@ -86,7 +86,7 @@ Next, you can follow the detailed instructions on
 
 ## Uninstalling
 
-1. Visit [the Release section of the Alibaba Cloud Container Service console](https://cs.console.aliyun.com/#/k8s/release/list).
+1. Visit [the Release section of the Alibaba Cloud Container Service console](https://www.alibabacloud.com/product/kubernetes).
 
 1. Select the release where you wish to uninstall Istio.
 
