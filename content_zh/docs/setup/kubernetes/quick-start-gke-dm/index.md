@@ -1,6 +1,6 @@
 ---
 title: 使用 Google Kubernetes Engine 快速开始
-description: 快速开始操作指南，用 Google Kubernetes Engine (GKE) 安装 Istio 服务。
+description: 如何使用 Google Kubernetes Engine (GKE) 快速搭建 Istio 服务。
 weight: 11
 keywords: [kubernetes,gke]
 ---
@@ -118,7 +118,7 @@ deploy/reviews-v3       1         1         1            1           7m
 现在获取 `istio-ingress` 的 IP：
 
 {{< text bash >}}
-$ kubectl get svc istio-ingress -n istio-system
+$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
 {{< /text >}}
