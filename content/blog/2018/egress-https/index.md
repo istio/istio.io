@@ -46,23 +46,29 @@ The updated architecture of the application now looks as follows:
 
 Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dashed line.
 
-Now let's direct all the traffic destined to the _details_ microservice, to _details version v2_, using the following _route rule_:
+Now let's direct all the traffic destined to the _details_ microservice, to _details version v2_.
 
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
-metadata:
-  name: details-v2
-  namespace: default
-spec:
-  destination:
-    name: details
-  route:
-  - labels:
-      version: v2
-EOF
-{{< /text >}}
+1.  Define _destination rules_ to enable routing for the application.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
+    command:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+    otherwise:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+2.  Define a _virtual service_ to direct all the traffic destined to the _details_ microservice, to _details version
+    v2_:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
+    {{< /text >}}
 
 Let's access the web page of the application, after [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
