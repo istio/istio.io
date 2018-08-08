@@ -31,10 +31,11 @@ Perform the steps in the [Deploying the application](http://localhost:1313/docs/
 
 ### Bookinfo with details version 2
 
-Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
+Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). We set `DO_NOT_ENCRYPT` environment to false to
+perform HTTPS calls to the external service.
 
 {{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@)
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - 'DO_NOT_ENCRYPT=false' -o yaml | kubectl apply -f -
 {{< /text >}}
 
 The updated architecture of the application now looks as follows:
