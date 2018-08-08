@@ -85,13 +85,13 @@ Oops... Instead of the book details we have the _Error fetching product details_
     caption="The Error Fetching Product Details Message"
     >}}
 
-The good news is that our application did not crash. With a good microservice design, we do not have **failure propagation**. In our case, the failing _details_ microservice does not cause the `productpage` microservice to fail. Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
+The good news is that your application did not crash. With a good microservice design, we do not have **failure propagation**. In your case, the failing _details_ microservice does not cause the `productpage` microservice to fail. Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. We have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
 
 So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
 
 ### Enable access to the Google Books web service
 
-No worries, let's define a **mesh-external service entry** and fix our application. We also must define a _virtual
+No worries, let's define a **mesh-external service entry** and fix your application. We also must define a _virtual
 service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
 
 {{< text bash >}}
@@ -138,7 +138,7 @@ Now accessing the web page of the application displays the book details without 
     caption="Book Details Displayed Correctly"
     >}}
 
-You can query our service entries:
+You can query your service entries:
 
 {{< text bash >}}
 $ kubectl get serviceentries
@@ -147,7 +147,7 @@ googleapis   8m
 
 {{< /text >}}
 
-You can delete our service entry:
+You can delete your service entry:
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
