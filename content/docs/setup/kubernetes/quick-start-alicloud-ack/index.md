@@ -7,7 +7,7 @@ keywords: [kubernetes,alicloud,aliyun]
 
 Follow these instructions to install and run Istio in the
 [Alibaba Cloud Kubernetes Container Service](https://www.alibabacloud.com/product/kubernetes)
-using the `Application Catalog`.
+using the `Application Catalog` module.
 
 This guide installs the current release version of Istio and deploys the
 [Bookinfo](/docs/examples/bookinfo/) sample application.
