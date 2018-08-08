@@ -504,6 +504,8 @@ Knative
 Apigee
 SLOs
 serverless
+Alibaba
+ack-istio
 subresources
 re-patch
 re-applied
