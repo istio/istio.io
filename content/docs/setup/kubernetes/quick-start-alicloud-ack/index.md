@@ -1,7 +1,7 @@
 ---
 title: Quick Start with Alibaba Cloud Kubernetes Container Service
-description: Quick Start instructions to setup the Istio service using Alibaba Cloud Kubernetes Container Service.
-weight: 12
+description: How to quickly setup Istio using Alibaba Cloud Kubernetes Container Service.
+weight: 21
 keywords: [kubernetes,alicloud,aliyun]
 ---
 
@@ -53,7 +53,7 @@ $ helm init --service-account tiller
 
 ### Customize the installation with parameters
 
-The following table explains the default configuration options shipped with Helm chart:
+The following table explains the default configuration options shipped with the Helm chart:
 
 | Parameter                            | Description                                                  | Default                                    |
 | ------------------------------------ | ------------------------------------------------------------ | ------------------------------------------ |
@@ -73,16 +73,7 @@ The following table explains the default configuration options shipped with Helm
 The Parameters tab exposes the per-service options.
 
 {{< idea_icon >}} Before moving on, wait until Istio is fully deployed.
-Deployment can take up to several minutes.
-
-## What's next
-
-To further explore the Istio functionality, follow any of the tutorials in the
-[Guides](/docs/guides/) section. Before you do, install `istioctl` to interact
-with Istio.
-
-Next, you can follow the detailed instructions on
-[how to use Istio on Alibaba Cloud Kubernetes Container Service](https://yq.aliyun.com/articles/599874).
+Deployment can take several minutes.
 
 ## Uninstalling
 
