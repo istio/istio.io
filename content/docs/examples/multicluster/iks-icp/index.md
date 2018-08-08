@@ -30,7 +30,7 @@ using the [Kubernetes multicluster installation instructions](/docs/setup/kubern
      service subnet CIDR: 172.21.0.0/16.
      {{< /text >}}
 
-## Configure Pod Communication Across IBM Cloud Kubernetes Service & IBM Cloud Private
+## Configure pod communication across IBM Cloud Kubernetes Service & IBM Cloud Private
 
 Since these two clusters are in isolated network environments we need to set up VPN connection between them.
 
@@ -88,4 +88,4 @@ Istio local control plane and Istio remote on IBM Cloud Private and IBM Cloud Ku
 
 This example uses IBM Cloud Private as the Istio local control plane and IBM Cloud Kubernetes Service as the Istio remote.
 
-## Deploy Bookinfo Example Across Clusters by following [these instructions](/docs/examples/multicluster/icp/)
+## Deploy bookinfo example across clusters by following [these instructions](/docs/examples/multicluster/icp/)
