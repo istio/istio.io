@@ -27,7 +27,11 @@ Here is a copy of the end-to-end architecture of the application from the origin
     caption="The Original Bookinfo Application"
     >}}
 
-Perform the steps in the [Deploying the application](http://localhost:1313/docs/examples/bookinfo/#deploying-the-application) section.
+Perform the steps in the
+[Deploying the application](http://localhost:1313/docs/examples/bookinfo/#deploying-the-application),
+[Confirm the app is running](http://localhost:1313/docs/examples/bookinfo/#confirm-the-app-is-running), and
+[Apply default destination rules](http://localhost:1313/docs/examples/bookinfo/#apply-default-destination-rules)
+sections.
 
 ### Bookinfo with details version 2
 
