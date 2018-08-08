@@ -1,6 +1,5 @@
 ---
 title: istioctl
-# description: 部署一个用于演示多种 Istio 特性的应用，由四个单独的微服务构成。
 weight: 30
 ---
 
@@ -10,7 +9,7 @@ Istio 的命令行配置工具。
 
 可用的路由和流量管理配置类型：
 
-[virtualservice gateway destinationrule serviceentry httpapispec httpapispecbinding quotaspec quotaspecbinding servicerole servicerolebinding policy]
+[`virtualservice` `gateway` `destinationrule` `serviceentry` `httpapispec` `httpapispecbinding` `quotaspec` `quotaspecbinding` `servicerole` `servicerolebinding` `policy`]
 
 阅读[参考文档](https://istio.io/docs/reference/)，可以获知更多 Istio 路由方面的内容。
 
@@ -33,13 +32,13 @@ Istio 的命令行配置工具。
 |`--namespace <string>`|`-n`|配置所在命名空间 （缺省值 ``）|
 |`--platform <string>`|`-p`|Istio 主机平台（缺省值 `kube`）|
 
-## istioctl authn
+## `istioctl authn`
 
 这一组命令用于同 Istio 认证策略进行沟通。
 
 ### 子命令
 
-- tls-check
+- `tls-check`
 
 ### 示例
 
@@ -49,7 +48,7 @@ Istio 的命令行配置工具。
 $ istioctl authn tls-check
 {{< /text >}}
 
-## istioctl authn tls-check
+## `istioctl authn tls-check`
 
 要求 Pilot 进行检查，服务注册表中的每个服务都在使用什么认证策略以及目标规则，以及 TLS 设置是否匹配。
 
@@ -62,16 +61,16 @@ $ istioctl [<服务>] [选项]
 ### 示例
 
 {{< text shell >}}
-# 检查服务注册表中所有已知服务的设置
+检查服务注册表中所有已知服务的设置
 istioclt authn tls-check
 
-# 检查特定的某个服务
+检查特定的某个服务
 istioclt authn tls-check foo.bar.svc.cluster.local
 {{< /text >}}
 
-## istioctl context-create
+## `istioctl context-create`
 
-在非 Kubernetes 环境中为 istioctl 创建一个 kubecofig 文件。
+在非 Kubernetes 环境中为 `istioctl` 创建一个 kubeconfig 文件。
 
 ### 用法
 
@@ -83,16 +82,16 @@ $ istioctl context-create --api-server http://<ip 地址>:<端口> [选项]
 
 |选项|缩写|描述|
 |---|---|---|
-|`--api-server <string>`|| Istio api server 的 URL（缺省值 `''`）|
+|`--api-server <string>`|| Istio api-server 的 URL（缺省值 `''`）|
 
 ### 示例
 
 {{< text shell >}}
-# 为 API Server 创建一个配置文件：
+为 API Server 创建一个配置文件：
 istioctl context-create --api-server http://127.0.0.1:8080
 {{< /text >}}
 
-## istioctl create
+## `istioctl create`
 
 创建策略或规则。
 
@@ -114,7 +113,7 @@ $ istioctl create [选项]
 $ istioctl create -f example-routing.yaml
 {{< /text >}}
 
-## istioctl delete
+## `istioctl delete`
 
 删除策略或规则。
 
@@ -131,14 +130,14 @@ istioctl delete <类型> <名称> [<名称2> ... <名称 N>] [选项]
 ### 示例
 
 {{< text shell >}}
-# 删除在文件 example-routing.yaml 中定义的规则
+删除在文件 example-routing.yaml 中定义的规则
 istioctl delete -f example-routing.yaml
 
-# 删除 bookinfo 虚拟服务
+删除 bookinfo 虚拟服务
 istioctl delete virtualservice bookinfo
 {{< /text >}}
 
-## istioctl deregister
+## `istioctl deregister`
 
 解除服务实例的注册。
 
@@ -146,19 +145,19 @@ istioctl delete virtualservice bookinfo
 $ istioctl deregister <服务名称> <ip 地址> [选项]
 {{< /text >}}
 
-## istioctl experimental
+## `istioctl experimental`
 
 实验性命令，未来可能会修改或者弃用。
 
 ### 子命令
 
-- convert-ingress
-- metrics
-- rbac
+- `convert-ingress`
+- `metrics`
+- `rbac`
 
-## istioctl experimental convert-ingress
+## `istioctl experimental convert-ingress`
 
-将 Ingress 转化为 VirtualService 配置。其输出内容可以作为 Istio 配置的起点，可能需要进行一些小修改。如果指定配置无法完美的完成转化，就会出现警告信息。输入内容必须是 Kubernetes Ingress。Istioctl 中已经移除了对 v1alpha1 的 Istio 规则的转换支持。
+将 Ingress 转化为 VirtualService 配置。其输出内容可以作为 Istio 配置的起点，可能需要进行一些小修改。如果指定配置无法完美的完成转化，就会出现警告信息。输入内容必须是 Kubernetes Ingress。`Istioctl` 中已经移除了对 v1alpha1 的 Istio 规则的转换支持。
 
 ### 用法
 
@@ -178,11 +177,11 @@ $ istioctl experimental convert-ingress [选项]
 $ istioctl experimental convert-ingress -f samples/bookinfo/platform/kube/bookinfo-ingress.yaml
 {{< /text >}}
 
-## istioctl experimental metrics
+## `istioctl experimental metrics`
 
 在 Kubernetes 中可以使用这一命令打印指定服务的指标数据。
 
-该命令会查找 Istio 系统命名空间中运行的 Prometheus Pod；接下来会为每个工作负载执行一系列的查询，得出以下指标：每秒总请求数、错误率以及请求延迟的 p50、p90 和 p99 分布。查询结果会输出到控制台，用工作负载名称进行分组。
+该命令会查找 Istio 系统命名空间中运行的 Prometheus Pod；接下来会为每个工作负载执行一系列的查询，得出以下指标：每秒总请求数、错误率以及请求延迟的 `p50`、`p90` 和 `p99` 分布。查询结果会输出到控制台，用工作负载名称进行分组。
 
 返回的所有指标都是来自于服务端的报告的。这意味着延迟和错误率数据是来自于服务自身，而不是客户端（也不是客户端的聚合）。错误率和延迟的计算周期为一分钟。
 
@@ -193,22 +192,22 @@ $ istioctl experimental metrics <工作负载名称>...
 ### 示例
 
 {{< text shell >}}
-# 获取工作负载  productpage-v1 的指标数据
+获取工作负载  productpage-v1 的指标数据
 istioctl experimental metrics productpage-v1
-# 获取多个不同命名空间中不同服务的指标数据
+获取多个不同命名空间中不同服务的指标数据
 istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 {{< /text >}}
 
-## istioctl experimental rbac
+## `istioctl experimental rbac`
 
 这一组命令用来操作 Istio RBAC 策略。例如查询特定请求在当前 Istio RBAC 策略中是否会被拒绝。
 
 {{< text shell >}}
-# 查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
+查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
 istioctl experimental rbac can -u test GET rating /v1/health
 {{< /text >}}
 
-## istioctl experimental rbac can
+## `istioctl experimental rbac can`
 
 这一命令可以用来查询特定请求在当前 Istio RBAC 策略之中，是否会被拒绝。其原理是根据命令行中提供的主体和动作，构建一个请求，用来检查当前 Istio RBAC 策略是否会按照设计进行工作。需要注意的是，这个请求只会在本地用来评估 Istio RBAC 策略的实际效果，并不会产生真正的请求。
 
@@ -229,19 +228,19 @@ $ istioctl experimental rbac can <方法> <服务> <路径> [选项]
 |`--action-properties <stringArray>`|-a|动作的附加数据。用 `name1=value1,name2=value2,...` 的方式赋值（缺省值为 `[]`）|
 |`--groups <string>`|-g|主体的组名称或者 ID（缺省值 `''`）|
 |`--subject-properties <stringArray>`|-s|主体的附加数据。用 `name1=value1,name2=value2,...` 的方式赋值（缺省值为 `[]`）
-|`--user <string>`|-u|主体的用户名称或者 ID（缺省值 `''`）|
+|`--user <string>`|`-u`|主体的用户名称或者 ID（缺省值 `''`）|
 
 ### 示例
 
 {{< text script >}}
-# 查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
+查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
 istioctl experimental rbac can -u test GET rating /v1/health
 
-# 查询是否允许 product-page 服务对 ratings 服务的 /data 路径发起 POST 请求，其中的 ratings 服务需带有标签：version=dev
+查询是否允许 product-page 服务对 ratings 服务的 /data 路径发起 POST 请求，其中的 ratings 服务需带有标签：version=dev
 istioctl experimental rbac can -s service=product-page POST rating /data -a version=dev
 {{< /text >}}
 
-## istioctl gen-deploy
+## `istioctl gen-deploy`
 
 用于生成 Istio 的部署文件。
 
@@ -268,7 +267,7 @@ $ istioctl gen-deploy [选项]
 $ istioctl gen-deploy --values myvalues.yaml
 {{< /text >}}
 
-## istioctl get
+## `istioctl get`
 
 获取规则和策略。
 
@@ -289,25 +288,25 @@ $ istioctl get <类型> [<名称>] [选项]
 ### 示例
 
 {{< text script >}}
-# 列出所有虚拟服务
+列出所有虚拟服务
 istioctl get virtualservices
 
-# 列出所有目标规则
+列出所有目标规则
 istioctl get destinationrules
 
-# 获取名为 bookinfo 的虚拟服务
+获取名为 bookinfo 的虚拟服务
 istioctl get virtualservice bookinfo
 {{< /text >}}
 
-## istioctl kube-inject
+## `istioctl kube-inject`
 
 `kube-inject` 子命令用来将 Envoy sidecar 注入到 Kubernetes 负载之中。执行过程中如果遇到无法支持的资源，会保持原样不进行修改，因此对于复杂应用中包含多种资源的输入文件来说，该命令也是安全的。资源初创时就是该操作的最佳执行时机。
 
-目前 Job、DaemonSet、ReplicaSet、Pod 以及 Deployment 对象的 YAML 文档，都可以使用这一命令进行处理，修改其中的 [Pod Template](https://k8s.io/docs/concepts/workloads/pods/pod-overview/#pod-templates)，如果有必要的话，可以加入更多对基于 Pod 的资源类型的支持。
+目前 `Job`、`DaemonSet`、`ReplicaSet`、`Pod` 以及 `Deployment` 对象的 YAML 文档，都可以使用这一命令进行处理，修改其中的 [Pod Template](https://k8s.io/docs/concepts/workloads/pods/pod-overview/#pod-templates)，如果有必要的话，可以加入更多对基于 Pod 的资源类型的支持。
 
 Istio 项目是一个持续进化的项目，所以 Istio sidecar 的配置可能在不经公示的情况下发生变更。在怀疑配置过期的时候，可以重新运行注入命令来更新注入代码。
 
-istioctl 中内置了缺省的 sidecar 注入模板，还可以使用参数 `--injectConfigFile` 或者 `--injectConfigMapName` 进行覆盖。这两个参数会覆盖其他的模板配置参数，例如 `--hub` 和 `--tag`。
+`istioctl` 中内置了缺省的 Sidecar 注入模板，还可以使用参数 `--injectConfigFile` 或者 `--injectConfigMapName` 进行覆盖。这两个参数会覆盖其他的模板配置参数，例如 `--hub` 和 `--tag`。
 
 ### 用法
 
@@ -327,20 +326,20 @@ $ istioctl kube-inject [选项]
 ### 示例
 
 {{< text shell >}}
-# 在 Apply 之前进行对资源文件进行更新。
+在 Apply 之前进行对资源文件进行更新。
 kubectl apply -f <(istioctl kube-inject -f <resource.yaml>)
 
-# 对资源文件执行 Envoy sidecar 注入之后，保存为文件。
+对资源文件执行 Envoy sidecar 注入之后，保存为文件。
 istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
 
-# 在线修改一个正在运行的 Deployment
+在线修改一个正在运行的 Deployment
 kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 
-# 使用 Configmap `istio-inject` 进行 Envoy sidecar 的注入，并生成持久化文件。
+使用 Configmap `istio-inject` 进行 Envoy sidecar 的注入，并生成持久化文件。
 istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-inject
 {{< /text >}}
 
-## istioctl proxy-config
+## `istioctl proxy-config`
 
 这一组命令用来从 Envoy 中获取配置信息。
 
@@ -359,11 +358,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 ### 示例
 
 {{< text shell >}}
-# 从 Envoy 实例中获取代理配置方面的信息
+从 Envoy 实例中获取代理配置方面的信息
 istioctl proxy-config <clusters|listeners|routes|bootstap> <pod-name>
 {{< /text >}}
 
-## istioctl proxy-config bootstrap
+## `istioctl proxy-config bootstrap`
 
 在指定 Pod 中获取 Envoy 实例的启动信息。
 
@@ -382,11 +381,11 @@ istioctl proxy-config bootstrap <pod-name> [flags]
 ### 示例
 
 {{< text shell >}}
-# 在指定 Pod 的 Envoy 中获取完整的 Bootstrap 信息。
+在指定 Pod 的 Envoy 中获取完整的 Bootstrap 信息。
 istioctl proxy-config bootstrap <pod-name>
 {{< /text >}}
 
-## istioctl proxy-config cluster
+## `istioctl proxy-config cluster`
 
 从指定 Pod 中的 Envoy 实例里读取集群配置信息。
 
@@ -408,18 +407,18 @@ $ istioctl proxy-config cluster <pod-name> [选项]
 
 ### 示例
 
-{{< text bash >}}
-# 从选定 Pod 的 Envoy 中获取集群配置的概要信息。
+{{< text shell >}}
+从选定 Pod 的 Envoy 中获取集群配置的概要信息。
 istioctl proxy-config clusters <pod-name>
 
-# 使用 9080 端口获取集群概要信息。
+使用 9080 端口获取集群概要信息。
 istioctl proxy-config clusters <pod-name> --port 9080
 
-# 获取 FQDN 为 details.default.svc.cluster.local 的完整的集群信息
+获取 FQDN 为 details.default.svc.cluster.local 的完整的集群信息
 istioctl proxy-config clusters <pod-name> --fqdn details.default.svc.cluster.local --direction inbound -o json
 {{< /text >}}
 
-## istioctl proxy-config listener
+## `istioctl proxy-config listener`
 
 从选定 Pod 的 Envoy 中获取监听器信息。
 
@@ -441,17 +440,17 @@ $ istioctl proxy-config listener <pod-name> [选项]
 ### 示例
 
 {{< text bash >}}
-# 从指定 Pod 的 Envoy 中获取监听器配置概要信息。
+从指定 Pod 的 Envoy 中获取监听器配置概要信息。
 istioctl proxy-config listeners <pod-name>
 
-# 获取 9080 端口的监听器概要信息。
+获取 9080 端口的监听器概要信息。
 istioctl proxy-config listeners <pod-name> --port 9080
 
-# 使用通配符地址（0.0.0.0）获取完整的 HTTP 监听器信息。
+使用通配符地址（0.0.0.0）获取完整的 HTTP 监听器信息。
 istioctl proxy-config listeners <pod-name> --type HTTP --address 0.0.0.0 -o json
 {{< /text >}}
 
-## istioctl proxy-config route
+## `istioctl proxy-config route`
 
 获取最后发送和最后确认的从 Pilot 到网格中每个 Envoy 的 xDS 同步信息。
 
@@ -464,14 +463,14 @@ $ istioctl proxy-status [<proxy-name>] [参数]
 ### 示例
 
 {{< text shell >}}
-# 获取网格中每个 Envoy 的同步状态。
+获取网格中每个 Envoy 的同步状态。
 istioctl proxy-status
 
-# 获取单一 Envoy 的同步信息。
+获取单一 Envoy 的同步信息。
 istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system
 {{< /text >}}
 
-## istioctl register
+## `istioctl register`
 
 把一个服务实例（例如虚拟机）注册到网格之中。
 
@@ -487,7 +486,7 @@ $ istioctl register <svcname> <ip> [name1:]port1 [name2:]port2 ... [flags]
 |`--annotations <stringSlice>`|`-a`|一个字符串列表，用于给注册服务或者端点提供注解，例如 `-a foo=bar,test,x=y` （缺省值 `[]`）|
 |`--serviceaccount <string>`|`-s`|绑定到该服务的 Service account（缺省值 `default`）|
 
-## istioctl replace
+## `istioctl replace`
 
 替换现存的策略和规则。
 
@@ -509,7 +508,7 @@ $ istioctl replace [选项]
 $ istioctl replace -f example-routing.yaml
 {{< /text >}}
 
-## istioctl version
+## `istioctl version`
 
 输出版本信息。
 
