@@ -84,23 +84,44 @@ The good news is that our application did not crash. With a good microservice de
 
 So what might have gone wrong? Ah... The answer is that I forgot to enable traffic from inside the mesh to an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable such traffic, we must define an [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
 
-### Egress rule for the Google Books web service
+### Enable access to the Google Books web service
 
-No worries, let's define an **egress rule** and fix our application:
+No worries, let's define a **Service Entry** and fix our application. We also must define a _virtual service_ to perform
+routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: config.istio.io/v1alpha2
-kind: EgressRule
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
 metadata:
   name: googleapis
-  namespace: default
 spec:
-  destination:
-      service: "*.googleapis.com"
+  hosts:
+  - www.googleapis.com
   ports:
-      - port: 443
-        protocol: https
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: googleapis
+spec:
+  hosts:
+  - www.googleapis.com
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - www.googleapis.com
+    route:
+    - destination:
+        host: www.googleapis.com
+        port:
+          number: 443
+      weight: 100
 EOF
 {{< /text >}}
 
@@ -113,19 +134,20 @@ Now accessing the web page of the application displays the book details without 
 
 Note that our egress rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example that the applications in our Istio service mesh must access multiple subdomains of _googleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule allows traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since they both match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains using a single egress rule.
 
-We can query our egress rules:
+You can query our service entries:
 
 {{< text bash >}}
-$ kubectl get egressrules
-NAME        KIND                                NAMESPACE
-googleapis  EgressRule.v1alpha2.config.istio.io default
+$ kubectl get serviceentries
+NAME         AGE
+googleapis   8m
+
 {{< /text >}}
 
-We can delete our egress rule:
+You can delete our service entry:
 
 {{< text bash >}}
-$ kubectl delete egressrule googleapis -n default
-Deleted config: egressrule googleapis
+$ kubectl delete serviceentry googleapis
+serviceentry "googleapis" deleted
 {{< /text >}}
 
 and see in the output that the egress rule is deleted.
