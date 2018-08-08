@@ -86,8 +86,8 @@ So what might have gone wrong? Ah... The answer is that I forgot to enable traff
 
 ### Enable access to the Google Books web service
 
-No worries, let's define a **Service Entry** and fix our application. We also must define a _virtual service_ to perform
-routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
+No worries, let's define a **mesh-external service entry** and fix our application. We also must define a _virtual
+service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -102,6 +102,7 @@ spec:
   - number: 443
     name: https
     protocol: HTTPS
+  location: MESH_EXTERNAL
   resolution: DNS
 ---
 apiVersion: networking.istio.io/v1alpha3
