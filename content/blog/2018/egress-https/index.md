@@ -138,8 +138,6 @@ Now accessing the web page of the application displays the book details without 
     caption="Book Details Displayed Correctly"
     >}}
 
-Note that our egress rule allows traffic to any domain matching _*.googleapis.com_, on port 443, using the HTTPS protocol. Let's assume for the sake of the example that the applications in our Istio service mesh must access multiple subdomains of _googleapis.com_, for example _www.googleapis.com_ and also _fcm.googleapis.com_. Our rule allows traffic to both _www.googleapis.com_ and _fcm.googleapis.com_, since they both match  _*.googleapis.com_. This **wildcard** feature allows us to enable traffic to multiple domains using a single egress rule.
-
 You can query our service entries:
 
 {{< text bash >}}
