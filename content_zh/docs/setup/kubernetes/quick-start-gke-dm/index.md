@@ -1,6 +1,6 @@
 ---
 title: 使用 Google Kubernetes Engine 快速开始
-description: 快速开始操作指南，用 Google Kubernetes Engine (GKE) 安装 Istio 服务
+description: 快速开始操作指南，用 Google Kubernetes Engine (GKE) 安装 Istio 服务。
 weight: 11
 keywords: [kubernetes,gke]
 ---

@@ -2,9 +2,7 @@
 title: 配置请求路由
 description: 此任务向您展示如何根据权重和 HTTP header配置动态请求路由。
 weight: 10
-aliases:
-    - /docs/tasks/request-routing.html
-keywords: [traffic-management,routing]
+keywords: [流量管理,路由]
 ---
 
 > 该任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧版本的API已被弃用，并将在下一个 Istio 版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。
@@ -54,7 +52,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - details
-      http:
+        http:
       - route:
         - destination:
             host: details
@@ -69,9 +67,9 @@ keywords: [traffic-management,routing]
       gateways:
       - bookinfo-gateway
       - mesh
-      hosts:
+        hosts:
       - productpage
-      http:
+        http:
       - route:
         - destination:
             host: productpage
@@ -85,7 +83,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - ratings
-      http:
+        http:
       - route:
         - destination:
             host: ratings
@@ -99,7 +97,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - reviews
-      http:
+        http:
       - route:
         - destination:
             host: reviews
@@ -137,7 +135,7 @@ keywords: [traffic-management,routing]
     spec:
       hosts:
       - reviews
-      http:
+        http:
       - match:
         - headers:
             end-user:
@@ -161,7 +159,7 @@ keywords: [traffic-management,routing]
 在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。 然后再设置了一条路由规则，该路由规则在 `productpage` 服务中添加基于请求的 "end-user" 自定义 header 选择性地将特定的流量路由到了 reviews 服务的 v2 版本。
 
 请注意，为了利用 Istio 的 L7 路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
-参考 [sidecar 注入文档](/zh/docs/setup/kubernetes/sidecar-injection/#对-pod-的要求)了解详情。
+参考 [sidecar 注入文档](/zh/docs/setup/kubernetes/spec-requirements)了解详情。
 
 在[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting)任务中，您将按照在此处学习的相同基本模式来配置路由规则，以逐步将流量从服务的一个版本发送到另一个版本。
 

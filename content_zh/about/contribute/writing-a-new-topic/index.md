@@ -1,6 +1,6 @@
 ---
 title: 编写新主题
-description: 编写新的文档页面的方法
+description: 编写新的文档页面的方法。
 weight: 30
 ---
 
@@ -336,7 +336,7 @@ aliases:
 {{< text plain >}}
 ---
 title: Frequently Asked Questions
-description: Questions Asked Frequently
+description: Questions Asked Frequently.
 weight: 12
 aliases:
     - /faq
@@ -350,7 +350,7 @@ aliases:
 {{< text plain >}}
 ---
 title: Frequently Asked Questions
-description: Questions Asked Frequently
+description: Questions Asked Frequently.
 weight: 12
 aliases:
     - /faq

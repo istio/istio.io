@@ -13,5 +13,7 @@ request.path: xyz/abc
 request.size: 234
 request.time: 12:34:56.789 04/17/2017
 source.ip: 192.168.0.1
-destination.service: example
+destination.workload.name: example
 {{< /text >}}
+
+Attributes are used by Istio's [policy and telemetry](/docs/concepts/policies-and-telemetry/) features.

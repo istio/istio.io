@@ -1,10 +1,8 @@
 ---
 title: 分布式跟踪
-description: 如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger
+description: 如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger。
 weight: 10
-keywords: [telemetry,tracing]
-aliases:
-    - /docs/tasks/zipkin-tracing.html
+keywords: [遥测,跟踪]
 ---
 
 本文任务演示如何让 Istio 网格中的应用能够进行跟踪 Span 的收集。完成这一任务之后，读者会理解所有关于应用的先决条件，以便将应用加入跟踪过程。这一过程对实现应用的语言、架构以及平台等并无关联。
@@ -73,7 +71,6 @@ def getForwardHeaders(request):
 
     if 'user' in session:
         headers['end-user'] = session['user']
-
     incoming_headers = [ 'x-request-id',
                          'x-b3-traceid',
                          'x-b3-spanid',
@@ -82,13 +79,11 @@ def getForwardHeaders(request):
                          'x-b3-flags',
                          'x-ot-span-context'
     ]
-
     for ihdr in incoming_headers:
         val = request.headers.get(ihdr)
         if val is not None:
             headers[ihdr] = val
             #print "incoming: "+ihdr+":"+val
-
     return headers
 {{< /text >}}
 

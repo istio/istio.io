@@ -2,7 +2,7 @@
 title: Istio Service 健康检查
 description: 展示如何对 Istio service 进行健康检查。
 weight: 65
-keywords: [security,health-check]
+keywords: [安全,健康检查]
 ---
 
 此任务展示了如何使用 [Kubernetes liveness 和 readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/) 在 Istio Service 上进行健康检查。
