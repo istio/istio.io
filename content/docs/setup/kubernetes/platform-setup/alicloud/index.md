@@ -2,7 +2,6 @@
 title: Alibaba Cloud
 description: Instructions to setup an Alibaba Cloud Kubernetes cluster for Istio.
 weight: 3
-skip_toc: true
 skip_seealso: true
 keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 ---
