@@ -27,6 +27,8 @@ Here is a copy of the end-to-end architecture of the application from the origin
     caption="The Original Bookinfo Application"
     >}}
 
+Perform the steps in the [Deploying the application](http://localhost:1313/docs/examples/bookinfo/#deploying-the-application) section.
+
 ### Bookinfo with details version 2
 
 Let's add a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started).
