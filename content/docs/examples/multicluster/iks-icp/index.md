@@ -1,6 +1,6 @@
 ---
 title: IBM Cloud Kubernetes Service & IBM Cloud Private
-description: Example multicluster between IBM Cloud Kubernetes Service & IBM Cloud Private
+description: Example multicluster between IBM Cloud Kubernetes Service & IBM Cloud Private.
 weight: 75
 keywords: [kubernetes,multicluster,hybrid]
 ---
