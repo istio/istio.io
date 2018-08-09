@@ -243,8 +243,9 @@ In the next section you will configure TLS origination for accessing an external
 ## Bookinfo with TLS origination to a Google Books web service
 
 1.  Deploy a version of _details v2_ that sends an HTTP request to
-    [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). The `DO_NOT_ENCRYPT` is set to
-    true in [bookinfo-details-v2.yaml]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml)
+    [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). The `DO_NOT_ENCRYPT` variable
+    is set to true in
+    [bookinfo-details-v2.yaml]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml)
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
