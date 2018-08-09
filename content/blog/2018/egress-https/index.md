@@ -277,6 +277,13 @@ In the next section you will configure TLS origination for accessing an external
 
 ### Cleanup of TLS origination to a Google Books web service
 
+{{< text bash >}}
+$ kubectl delete serviceentry googleapis
+$ kubectl delete destinationrule originate-tls-for-googleapis
+$ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
+{{< /text >}}
+
 ## Istio egress traffic control
 
 ### Relation to Istio mutual TLS
