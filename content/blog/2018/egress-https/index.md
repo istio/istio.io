@@ -31,7 +31,7 @@ Perform the steps in the
 [Apply default destination rules](http://localhost:1313/docs/examples/bookinfo/#apply-default-destination-rules)
 sections.
 
-## Bookinfo with details version 2
+## Bookinfo with HTTPS access to a Google Books web service
 
 Deploy a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). Run the following command; it sets the
 `DO_NOT_ENCRYPT` environment variable of the service's container to `false`. This setting will instruct the deployed
@@ -75,7 +75,7 @@ an external service, in this case to the Google Books web service. By default, t
 such traffic, you must define an
 [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
 
-### Enable HTTPS access to the Google Books web service
+### Enable HTTPS access to a Google Books web service
 
 No worries, define a **mesh-external service entry** and fix your application. You also must define a _virtual
 service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
@@ -144,7 +144,7 @@ and see in the output that the egress rule is deleted.
 
 Accessing the web page after deleting the egress rule produces the same error that you experienced before, namely _Error fetching product details_. As you can see, the egress rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
-#### Cleanup
+### Cleanup of HTTPS access to a Google Books web service
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
@@ -152,7 +152,7 @@ $ kubectl delete virtualservice googleapis
 $ kubectl delete -f samples/bookinfo/networking/virtual-service-details-v2.yaml
 {{< /text >}}
 
-### TLS origination by Istio
+## TLS origination by Istio
 
 There is a caveat to this story. Suppose you want to monitor which specific set of
 [Google APIs](https://developers.google.com/apis-explorer/) your microservices use. Suppose you want to enforce a
@@ -208,7 +208,11 @@ env:
   value: "true"
 {{< /text >}}
 
-Let me show you how you can configure TLS origination for accessing the external web service.
+In the next section you will configure TLS origination for accessing an external web service.
+
+## Bookinfo with TLS origination to a Google Books web service
+
+### Cleanup of TLS origination to a Google Books web service
 
 ## Istio egress traffic control
 
