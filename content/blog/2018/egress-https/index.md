@@ -10,7 +10,10 @@ keywords: [traffic-management,egress,https]
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the microservices-based applications use functionality provided by legacy systems that reside outside the mesh. You may want to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the applications inside the mesh. In other cases, the applications use web services provided by external organizations, often over the World Wide Web.
 
-In this blog post, I modify the [Istio Bookinfo Sample Application](/docs/examples/bookinfo/) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how to enable external HTTPS traffic in Istio by using an _egress rule_. Finally, I explain the current issues related to the egress traffic control in Istio.
+In this blog post, I modify the [Istio Bookinfo Sample Application](/docs/examples/bookinfo/) to fetch book details from
+an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how
+to enable egress HTTPS traffic in Istio by using _mesh-external service entries_. I provide two options for egress
+HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
