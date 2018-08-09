@@ -189,7 +189,7 @@ Suppose you want to enforce a policy that using only
 [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is allowed. Suppose you want to monitor the
 book identifiers that your microservices access. For these monitoring and policy tasks you need to know the URL path.
 Consider for example the URL
-[www.googleapis.com/books/v1/volumes?q=isbn:0486424618](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618).
+[`www.googleapis.com/books/v1/volumes?q=isbn:0486424618`](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618).
 In that URL, [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is specified by the path segment
 `/books`, and the [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number) number by the path segment
 `/volumes?q=isbn:0486424618`. However, in HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted and
