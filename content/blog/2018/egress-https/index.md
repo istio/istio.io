@@ -79,8 +79,8 @@ The good news is that your application did not crash. With a good microservice d
 So what might have gone wrong? Ah... The answer is that I forgot to tell you to enable traffic from inside the mesh to
 an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
 ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable
-such traffic, you must define an
-[egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
+such traffic, you must define a
+[mesh-external service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
 
 ### Enable HTTPS access to a Google Books web service
 
@@ -147,9 +147,12 @@ $ kubectl delete serviceentry googleapis
 serviceentry "googleapis" deleted
 {{< /text >}}
 
-and see in the output that the egress rule is deleted.
+and see in the output that the service entry is deleted.
 
-Accessing the web page after deleting the egress rule produces the same error that you experienced before, namely _Error fetching product details_. As you can see, the egress rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
+Accessing the web page after deleting the service entry produces the same error that you experienced before, namely
+_Error fetching product details_. As you can see, the service entries are defined **dynamically**, as many other Istio
+configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to
+access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
 ### Cleanup of HTTPS access to a Google Books web service
 
