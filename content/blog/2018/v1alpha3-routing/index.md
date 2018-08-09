@@ -192,7 +192,7 @@ spec:
       version: v2
 {{< /text >}}
 
-In `v1alph3`, we provide the same configuration in a single `VirtualService` resource:
+In `v1alpha3`, we provide the same configuration in a single `VirtualService` resource:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
