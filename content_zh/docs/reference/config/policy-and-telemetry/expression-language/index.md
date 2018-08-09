@@ -1,6 +1,6 @@
 ---
 title: 表达式语言
-description: Mixer 的配置表达式语言参考
+description: Mixer 的配置表达式语言参考。
 weight: 20
 aliases:
     - /docs/reference/config/mixer/expression-language.html
