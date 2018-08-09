@@ -251,13 +251,13 @@ In the next section you will configure TLS origination for accessing an external
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
     {{< /text >}}
 
-2.  Direct the traffic destined to the _details_ microservice, to _details version v2_.
+1.  Direct the traffic destined to the _details_ microservice, to _details version v2_.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     {{< /text >}}
 
-3.  Create a mesh-external service entry for `www.google.apis` and a destination rule to perform TLS origination.
+1.  Create a mesh-external service entry for `www.google.apis` and a destination rule to perform TLS origination.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -296,9 +296,9 @@ In the next section you will configure TLS origination for accessing an external
     [This example](http://localhost:1313/docs/examples/advanced-egress/egress-tls-origination/) shows how to perform TLS
     origination with port rewriting.
 
-4.  Access the web page of the application and verify that the book details are displayed without errors.
+1.  Access the web page of the application and verify that the book details are displayed without errors.
 
-5.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
+1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis
