@@ -12,9 +12,7 @@ In many cases, not all the parts of a microservices-based application reside in 
 
 In this blog post, I modify the [Istio Bookinfo Sample Application](/docs/examples/bookinfo/) to fetch book details from an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how to enable external HTTPS traffic in Istio by using an _egress rule_. Finally, I explain the current issues related to the egress traffic control in Istio.
 
-## Bookinfo sample application with external details web service
-
-### Initial setting
+## Initial setting
 
 To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
 
@@ -33,7 +31,7 @@ Perform the steps in the
 [Apply default destination rules](http://localhost:1313/docs/examples/bookinfo/#apply-default-destination-rules)
 sections.
 
-### Bookinfo with details version 2
+## Bookinfo with details version 2
 
 Deploy a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). Run the following command; it sets the
 `DO_NOT_ENCRYPT` environment variable of the service's container to `false`. This setting will instruct the deployed
@@ -146,15 +144,13 @@ and see in the output that the egress rule is deleted.
 
 Accessing the web page after deleting the egress rule produces the same error that you experienced before, namely _Error fetching product details_. As you can see, the egress rules are defined **dynamically**, as many other Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
-## Cleanup
+#### Cleanup
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
 $ kubectl delete virtualservice googleapis
 $ kubectl delete -f samples/bookinfo/networking/virtual-service-details-v2.yaml
 {{< /text >}}
-
-## Issues with Istio egress traffic control
 
 ### TLS origination by Istio
 
@@ -196,7 +192,9 @@ env:
   value: "true"
 {{< /text >}}
 
-#### Relation to Istio mutual TLS
+## Istio egress traffic control
+
+### Relation to Istio mutual TLS
 
 Note that the TLS origination in this case is unrelated to [the mutual TLS](/docs/concepts/security/#mutual-tls-authentication) applied by Istio. The TLS origination for the external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the case of the **external services**, you have **one-way** TLS, the same mechanism used to secure communication between a web browser and a web server. TLS is applied to the communication with external services to verify the identity of the external server and to encrypt the traffic.
 
