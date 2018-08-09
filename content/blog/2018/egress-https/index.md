@@ -154,43 +154,61 @@ $ kubectl delete -f samples/bookinfo/networking/virtual-service-details-v2.yaml
 
 ### TLS origination by Istio
 
-There is a caveat to this story. In HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted, so Istio cannot know the destination domain of the encrypted requests. Well, Istio could know the destination domain by the  [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field. This feature, however, is not yet implemented in Istio. Therefore, currently Istio cannot perform filtering of HTTPS requests based on the destination domains.
+There is a caveat to this story. Suppose you want to monitor which specific set of
+[Google APIs](https://developers.google.com/apis-explorer/) your microservices use. Suppose you want to enforce a
+policy that using only [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is allowed. Suppose you
+want to monitor the book identifiers that your microservices access. For these monitoring and policy tasks you need to
+know the URL path. Consider for example the URL
+[www.googleapis.com/books/v1/volumes?q=isbn:0486424618](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618).
+In that URL, [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is specified by the path segment
+`/books`, and the [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number) number by the path segment
+`/volumes?q=isbn:0486424618`. However, in HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted and
+such monitoring and policy enforcement are not possible. Istio can only know the server name of the encrypted
+requests by the [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field, in this case
+`www.googleapis.com`.
 
-To allow Istio to perform filtering of egress requests based on domains, the microservices must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code of the microservices must be written differently or configured differently, according to whether the microservice runs inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/concepts/what-is-istio/#design-goals). Sometimes you need to compromise...
+To allow Istio to perform monitoring and policy enforcement of egress requests based on HTTP details, the microservices
+must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code
+of the microservices must be written differently or configured differently, according to whether the microservice runs
+inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/concepts/what-is-istio/#design-goals). Sometimes you need to compromise...
 
-The diagram below shows how the HTTPS traffic to external services is performed. On the top, a microservice outside an Istio service mesh
-sends regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice inside an Istio service mesh must send unencrypted HTTP requests inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the traffic between the pod and the external service is encrypted.
+The diagram below shows how the HTTPS traffic to external services is performed. On the top, a microservice sends
+regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice sends unencrypted HTTP requests
+inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the
+traffic between the pod and the external service is encrypted.
 
 {{< image width="80%" ratio="65.16%"
     link="./https_from_the_app.svg"
     caption="HTTPS traffic to external services, from outside vs. from inside an Istio service mesh"
     >}}
 
-Here is how you code this behavior in the [Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb), using the Ruby [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
+Here is how you code this behavior in the
+[Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb), using the Ruby
+[net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
 http = Net::HTTP.new(uri.host, uri.port)
 ...
-unless ENV['WITH_ISTIO'] === 'true' then
+unless ENV['DO_NOT_ENCRYPT'] === 'true' then
      http.use_ssl = true
 end
 {{< /text >}}
 
-Note that the port is derived by the `URI.parse` from the URI's schema (`https://`) to be `443`, the default HTTPS port. The
-microservice, when running inside a mesh, must issue HTTP requests to the port `443`, which is the port the external service listens to.
+Note that the port is derived by the `URI.parse` from the URI's schema (`https://`) to be `443`, the default HTTPS port.
+When the `DO_NOT_ENCRYPT` environment variable is defined, the request is performed without SSL (plain HTTP).
 
-When the `WITH_ISTIO` environment variable is defined, the request is performed without SSL (plain HTTP).
-
-We set the `WITH_ISTIO` environment variable to _"true"_ in the
+You can set the `DO_NOT_ENCRYPT` environment variable to _"true"_ in the
 [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
 the `container` section:
 
 {{< text yaml >}}
 env:
-- name: WITH_ISTIO
+- name: DO_NOT_ENCRYPT
   value: "true"
 {{< /text >}}
+
+Let me show you how you can configure TLS origination for accessing the external web service.
 
 ## Istio egress traffic control
 
