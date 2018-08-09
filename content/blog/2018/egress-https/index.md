@@ -8,6 +8,10 @@ weight: 93
 keywords: [traffic-management,egress,https]
 ---
 
+> This blog post was updated on August 09, 2018. It reflects the functionality of Istio 1.0 and uses the new
+[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow the docs
+[here](https://archive.istio.io/v0.7/blog/2018/egress-https.html).
+
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the
 microservices-based applications use functionality provided by legacy systems that reside outside the mesh. You may want
 to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the
