@@ -182,10 +182,13 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 ## TLS origination by Istio
 
 There is a caveat to this story. Suppose you want to monitor which specific set of
-[Google APIs](https://developers.google.com/apis-explorer/) your microservices use. Suppose you want to enforce a
-policy that using only [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is allowed. Suppose you
-want to monitor the book identifiers that your microservices access. For these monitoring and policy tasks you need to
-know the URL path. Consider for example the URL
+[Google APIs](https://developers.google.com/apis-explorer/) your microservices use
+([Books](https://developers.google.com/books/docs/v1/getting_started),
+[Calendar](https://developers.google.com/calendar/), [Tasks](https://developers.google.com/tasks/) etc.)
+Suppose you want to enforce a policy that using only
+[Books APIs](https://developers.google.com/books/docs/v1/getting_started) is allowed. Suppose you want to monitor the
+book identifiers that your microservices access. For these monitoring and policy tasks you need to know the URL path.
+Consider for example the URL
 [www.googleapis.com/books/v1/volumes?q=isbn:0486424618](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618).
 In that URL, [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is specified by the path segment
 `/books`, and the [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number) number by the path segment
