@@ -309,7 +309,6 @@ In the next section you will configure TLS origination for accessing an external
     Note the URL path in the log, the path can be monitored and access policies can be applied based on it. To read more
     about monitoring and access policies for HTTP egress traffic, check [this blog post](https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging).
 
-
 ### Cleanup of TLS origination to a Google Books web service
 
 {{< text bash >}}
