@@ -77,7 +77,7 @@ an external service, in this case to the Google Books web service. By default, t
 such traffic, you must define an
 [egress rule](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule).
 
-### Enable access to the Google Books web service
+### Enable HTTPS access to the Google Books web service
 
 No worries, define a **mesh-external service entry** and fix your application. You also must define a _virtual
 service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
