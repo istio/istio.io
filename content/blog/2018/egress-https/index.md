@@ -100,7 +100,7 @@ such traffic, you must define a
 
 ### Enable HTTPS access to a Google Books web service
 
-No worries, define a **mesh-external service entry** and fix your application. You also must define a _virtual
+No worries, define a **mesh-external service entry** and fix your application. You must also define a _virtual
 service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
 
 {{< text bash >}}
