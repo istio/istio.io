@@ -292,5 +292,9 @@ Note that the TLS origination in this case is unrelated to [the mutual TLS](/doc
 
 In this blog post I demonstrated how the microservices in an Istio service mesh can consume external web services by
 HTTPS. By default, Istio blocks all the traffic to the hosts outside the cluster. To enable such traffic, mesh-external
-service entries must be created for the service mesh. It is possible to access the external sites by HTTPS, either by
-issuing HTTPS requests, or by issuing HTTP requests with Istio performing TLS origination.
+service entries must be created for the service mesh. It is possible to access the external sites either by
+issuing HTTPS requests, or by issuing HTTP requests with Istio performing TLS origination. When the microservices issue
+HTTPS requests, the traffic is encrypted end-to-end, however Istio cannot monitor HTTP details like the URL paths of the
+requests. When the microservices issue HTTP requests, Istio can monitor the HTTP details of the requests and enforce
+HTTP-based access policies. However, in that case the traffic between microservice and the sidecar proxy is unencrypted.
+Having part of the traffic unencrypted can be forbidden in organizations with very strict security requirements.
