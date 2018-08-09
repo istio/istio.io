@@ -291,5 +291,3 @@ Note that the TLS origination in this case is unrelated to [the mutual TLS](/doc
 ## Conclusion
 
 In this blog post I demonstrated how the microservices in an Istio service mesh can consume external web services via HTTPS. By default, Istio blocks all the traffic to the hosts outside the cluster. To enable such traffic, egress rules must be created for the service mesh. It is possible to access the external sites by HTTPS, however the microservices must issue HTTP requests while Istio will perform TLS origination. Currently, no tracing, telemetry and Mixer checks are enabled for the egress traffic. Egress rules are currently not a security feature, so additional mechanisms are required for securing egress traffic. We're working to enable logging/telemetry and security policies for the egress traffic in future releases.
-
-To read more about Istio egress traffic control, see [Control Egress Traffic Task](/docs/tasks/traffic-management/egress/).
