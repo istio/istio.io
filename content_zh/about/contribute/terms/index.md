@@ -47,6 +47,7 @@ keywords: [翻译，贡献]
 |scalability|可伸缩性|
 |scale|伸缩|
 |security|安全|
+|sidecar||
 |status|状态|
 |tcp||
 |telemetry|遥测|
