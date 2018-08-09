@@ -212,6 +212,68 @@ In the next section you will configure TLS origination for accessing an external
 
 ## Bookinfo with TLS origination to a Google Books web service
 
+1.  Deploy a version of _details v2_ that sends an HTTP request to
+    [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). The `DO_NOT_ENCRYPT` is set to
+    true in [bookinfo-details-v2.yaml]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml)
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
+    {{< /text >}}
+
+2.  Direct the traffic destined to the _details_ microservice, to _details version v2_.
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
+    {{< /text >}}
+
+3.  Create a mesh-external service entry for `www.google.apis` and a destination rule to perform TLS origination.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: googleapis
+    spec:
+      hosts:
+      - www.googleapis.com
+      ports:
+      - number: 443
+        name: http-port-for-tls-origination
+        protocol: HTTP
+      resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-tls-for-googleapis
+    spec:
+      host: www.googleapis.com
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+    EOF
+    {{< /text >}}
+
+4.  Access the web page of the application and verify that the book details are displayed without errors.
+
+5.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
+
+    {{< text bash >}}
+    $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis
+    [2018-08-09T11:32:58.171Z] "GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1" 200 - 0 1050 264 264 "-" "Ruby" "b993bae7-4288-9241-81a5-4cde93b2e3a6" "www.googleapis.com:443" "172.217.20.74:443"
+    EOF
+    {{< /text >}}
+
+    Note the URL path in the log, the path can be monitored and access policies can be applied based on it. To read more
+    about monitoring and access policies for HTTP egress traffic, check [this blog post](https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging).
+
+
 ### Cleanup of TLS origination to a Google Books web service
 
 ## Istio egress traffic control
