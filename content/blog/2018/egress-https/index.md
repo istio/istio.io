@@ -50,7 +50,7 @@ sections.
 
 ## Bookinfo with HTTPS access to a Google Books web service
 
-Deploy a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). Run the following command; it sets the
+Deploy a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started). Run the following command; it sets the
 `DO_NOT_ENCRYPT` environment variable of the service's container to `false`. This setting will instruct the deployed
 service to use HTTPS (instead of HTTP) in access to the external service.
 
@@ -243,7 +243,7 @@ In the next section you will configure TLS origination for accessing an external
 ## Bookinfo with TLS origination to a Google Books web service
 
 1.  Deploy a version of _details v2_ that sends an HTTP request to
-    [Google Books APIs](https://developers.googleapis.com/books/docs/v1/getting_started). The `DO_NOT_ENCRYPT` variable
+    [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started). The `DO_NOT_ENCRYPT` variable
     is set to true in
     [bookinfo-details-v2.yaml]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml)
 
