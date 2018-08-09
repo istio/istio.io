@@ -21,11 +21,17 @@ HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch book details, such as the number of pages and the publisher. The original _details_ microservice provides the book details without consulting any external service.
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy
+[Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
+book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
+details without consulting any external service.
 
-The example commands in this blog post work with Istio 1.0+, with or without [mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled. The Bookinfo configuration files reside in the `samples/bookinfo` directory of the Istio release archive.
+The example commands in this blog post work with Istio 1.0+, with or without
+[mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled. The Bookinfo configuration files reside in the
+`samples/bookinfo` directory of the Istio release archive.
 
-Here is a copy of the end-to-end architecture of the application from the original [Bookinfo sample application](/docs/examples/bookinfo/).
+Here is a copy of the end-to-end architecture of the application from the original
+[Bookinfo sample application](/docs/examples/bookinfo/).
 
 {{< image width="80%" ratio="59.08%"
     link="/docs/examples/bookinfo/withistio.svg"
@@ -55,7 +61,8 @@ The updated architecture of the application now looks as follows:
     caption="The Bookinfo Application with details V2"
     >}}
 
-Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dashed line.
+Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dashed
+line.
 
 Now direct all the traffic destined to the _details_ microservice, to _details version v2_.
 
@@ -65,7 +72,8 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 
 Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](http://localhost:1313/docs/examples/bookinfo/#apply-default-destination-rules) section.
 
-Access the web page of the application, after [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+Access the web page of the application, after
+[determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
 Oops... Instead of the book details you have the _Error fetching product details_ message displayed:
 
@@ -74,7 +82,11 @@ Oops... Instead of the book details you have the _Error fetching product details
     caption="The Error Fetching Product Details Message"
     >}}
 
-The good news is that your application did not crash. With a good microservice design, you do not have **failure propagation**. In your case, the failing _details_ microservice does not cause the `productpage` microservice to fail. Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. You have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the application is still useful.
+The good news is that your application did not crash. With a good microservice design, you do not have **failure
+propagation**. In your case, the failing _details_ microservice does not cause the `productpage` microservice to fail.
+Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. You
+have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the
+application is still useful.
 
 So what might have gone wrong? Ah... The answer is that I forgot to tell you to enable traffic from inside the mesh to
 an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
@@ -296,7 +308,13 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 
 ### Relation to Istio mutual TLS
 
-Note that the TLS origination in this case is unrelated to [the mutual TLS](/docs/concepts/security/#mutual-tls-authentication) applied by Istio. The TLS origination for the external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the case of the **external services**, you have **one-way** TLS, the same mechanism used to secure communication between a web browser and a web server. TLS is applied to the communication with external services to verify the identity of the external server and to encrypt the traffic.
+Note that the TLS origination in this case is unrelated to
+[the mutual TLS](/docs/concepts/security/#mutual-tls-authentication) applied by Istio. The TLS origination for the
+external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures
+service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the
+case of the **external services**, you have **one-way** TLS, the same mechanism used to secure communication between a
+web browser and a web server. TLS is applied to the communication with external services to verify the identity of the
+external server and to encrypt the traffic.
 
 ## Conclusion
 
