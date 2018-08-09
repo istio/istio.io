@@ -151,6 +151,7 @@ Accessing the web page after deleting the egress rule produces the same error th
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
 $ kubectl delete virtualservice googleapis
+$ kubectl delete -f samples/bookinfo/networking/virtual-service-details-v2.yaml
 {{< /text >}}
 
 ## Issues with Istio egress traffic control
