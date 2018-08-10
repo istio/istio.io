@@ -263,7 +263,7 @@ Envoy at the same time?*
 Given two failure recovery policies for the same destination service, **the
 more restrictive of the two will be triggered when failures occur**.  For example, you have two timeouts -- one set in Envoy and another in an application's library. In this
 example, if the application sets a 5 second timeout for an API call to a
-service, while the you configured a 10 second timeout in Envoy, the
+service, while you configured a 10 second timeout in Envoy, the
 application's timeout will kick in first. Similarly, if Envoy's circuit
 breaker triggers before the application's circuit breaker, API calls to the
 service will get a 503 from Envoy.
