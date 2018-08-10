@@ -10,7 +10,7 @@ this page, feel free to send an email to `istio-security@googlegroups.com` for h
 
 > {{< idea_icon >}}
 It would be very helpful to also include a cluster state archive in your email by following instructions in
-[reporting bugs](/help/bugs).
+[reporting bugs](/about/bugs).
 
 ## Ensure Authorization is Enabled Correctly
 
