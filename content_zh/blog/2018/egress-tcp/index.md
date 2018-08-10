@@ -5,8 +5,6 @@ publishdate: 2018-02-06
 subtitle: 网格外部 TCP 流量的服务入口
 attribution: Vadim Eisenberg
 weight: 92
-aliases:
-  - /zh/docs/tasks/traffic-management/egress-tcp/
 keywords: [流量管理,egress,tcp]
 ---
 

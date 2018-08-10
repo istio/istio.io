@@ -212,7 +212,7 @@ metadata:
 spec:
   hosts:
   - "*"
-    gateways:
+  gateways:
   - httpbin-gateway
     http:
   - match:
