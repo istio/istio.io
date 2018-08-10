@@ -24,9 +24,9 @@ keywords: [kubernetes,ansible]
 
 ## 使用 Ansible 进行部署
 
-{{< warning_icon >}} 所有 Ansible playbooks 的操作都必须在 Istio 的 `install/kubernetes/ansible` 路径中进行。
+**重要**：`Ansible playbook` 的所有执行都必须在 Istio 的 `install/kubernetes/ansible` 路径中进行。
 
-该 playbook 将把 Istio 本地安装到你的机器。要在 OpenShift 上部署 Istio 的默认设置，可以使用以下命令：
+此 `playbook` 将在您的机器上下载并本地安装 Istio。需要在 OpenShift 上部署默认配置的 Istio，可以使用以下命令：
 
 {{< text bash >}}
 $ ansible-playbook main.yml
