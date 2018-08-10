@@ -1,10 +1,11 @@
 ---
 title: Reporting Bugs
 description: What to do if you find a bug.
-weight: 35
+weight: 34
 aliases:
     - /bugs.html
     - /bugs/index.html
+    - /help/bugs/
 page_icon: /img/bugs.svg
 ---
 
@@ -16,8 +17,8 @@ it. If you don't find your problem in the database, please open a [new
 issue](https://github.com/istio/istio/issues/new/choose) and let us know
 what's going on.
 
-If you think it is a security vulnerability, report it following the procedure
-detailed in our [security vulnerabilities reporting](/about/security-vulnerabilities/).
+If you think a bug is in fact a security vulnerability, please visit [Reporting Security Vulnerabilities](/about/security-vulnerabilities/)
+to learn what to do.
 
 If you're running on Kubernetes, consider including a [cluster state
 archive](#generating-a-cluster-state-archive) in your bug report.
