@@ -1,10 +1,16 @@
 .faq {
     .question {
-    font-weight: $faqQuestionWeight;
+        font-weight: $faqQuestionWeight;
         text-transform: uppercase;
     }
 
     .answer {
         margin-left: 2.5em;
     }
+
+    h5[id]:before {
+        margin-top: -2.8em;
+        height: 2.8em;
+    }
+
 }
