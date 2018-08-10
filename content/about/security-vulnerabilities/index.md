@@ -12,7 +12,7 @@ To make a report, send an email to the private
 [`istio-security-vulnerabilities@google.com`](mailto:istio-security-vulnerabilities@google.com)
 mailing list with the vulnerability details. For normal product bugs
 unrelated to latent security vulnerabilities, please head to
-our [Reporting Bugs](/help/bugs/) page to learn what to do.
+our [Reporting Bugs](/about/bugs/) page to learn what to do.
 
 ## When to report a security vulnerability?
 
