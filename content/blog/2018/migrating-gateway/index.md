@@ -3,7 +3,7 @@ title: Migrating to the Istio Gateway
 subtitle: Replace your Ingresses with Gateways using Istio 1.0
 description: Converting and replacing your Kubernetes Ingresses with Istio Gateways
 publishdate: 2018-08-15
-attribution: The Istio Team
+attribution: Ed Snible
 weight: 50
 ---
 
@@ -54,7 +54,7 @@ spec:
 EOF
 ```
 
-The default for Istio 1.0 is to use only the newer IngressGateway.  This igress will
+The default for Istio 1.0 is to use only the newer IngressGateway.  This ingress will
 not work unless you configured Istio to include Ingress support.  We don't need to do that
 because we will immediately convert this Ingress to the new format.
 
