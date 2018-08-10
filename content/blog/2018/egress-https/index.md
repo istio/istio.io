@@ -207,7 +207,7 @@ regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservi
 inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the
 traffic between the pod and the external service is encrypted.
 
-{{< image width="80%" ratio="95.14%"
+{{< image width="60%" ratio="95.14%"
     link="./https_from_the_app.svg"
     caption="HTTPS traffic to external services, with TLS originated by the microservice vs. by the sidecar proxy"
     >}}
