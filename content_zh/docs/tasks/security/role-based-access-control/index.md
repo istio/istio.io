@@ -1,6 +1,6 @@
 ---
 title: 基于角色的访问控制
-description: 展示如何在 Istio 服务网格中进行基于角色的访问控制。
+description: 展示如何在服务网格中进行基于角色的访问控制。
 weight: 40
 keywords: [安全,访问控制,rbac,鉴权]
 ---
