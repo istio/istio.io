@@ -9,7 +9,11 @@ keywords: [kubernetes,ansible]
 
 ## 先决条件
 
-以下说明需要 [Ansible 2.4](https://docs.ansible.com/ansible/latest/intro_installation.html)。此外还需要 Kubernetes **1.9.0或更新版本**。
+1. [下载对应的 Istio 版本](/docs/setup/kubernetes/download-release/)。
+
+1. 执行所有必要的[平台特定配置](/docs/setup/kubernetes/platform-setup/)。
+
+1. [安装 Ansible 2.4](https://docs.ansible.com/ansible/latest/intro_installation.html).
 
 如果使用 OpenShift，必须满足以下先决条件。
 
@@ -20,7 +24,7 @@ keywords: [kubernetes,ansible]
 
 ## 使用 Ansible 进行部署
 
-**重要**：`Ansible playbook` 的所有执行都必须在 Istio 的 `install/ansible` 路径中进行。
+**重要**：`Ansible playbook` 的所有执行都必须在 Istio 的 `install/kubernetes/ansible` 路径中进行。
 
 此 `playbook` 将在您的机器上下载并本地安装 Istio。需要在 OpenShift 上部署默认配置的 Istio，可以使用以下命令：
 
@@ -37,11 +41,8 @@ $ ansible-playbook main.yml
 | 参数 | 描述 | 值 | 默认值 |
 | --- | --- | --- | --- |
 | `cluster_flavour` | 定义目标集群类型 | `k8s` 或 `ocp` | `ocp` |
-| `github_api_token` | 用于 GitHub 身份认证的有效 GitHub API 身份认证令牌 | 空 |
 | `cmd_path` | 自定义 `kubectl` 或 `oc` 路径 | 到 `kubectl` 或 `oc` 二进制文件的有效路径 | `$PATH/oc` |
-| `istio.dest` | Istio 将要被安装到的目标机器的目录 | 任何具有读写权限的目录 | `~/.istio` |
 | `istio.auth` | 使用双向 TLS 进行安装 | `true` 或 `false` | `false` |
-| `istio.namespace` | 安装 Istio 的 Kubernetes namespace | 可以指定任意 namespace | `istio-system` |
 | `istio.addon` | 要安装的 Istio 插件 | 包含任何 `kiali` 的数组 | Istio 已经默认安装了 `grafana`、`prometheus`、`jaeger` |
 | `istio.delete_resources` | 删除 Istio namespace 下安装的资源 | `true` 或 `false` | false |
 | `istio.samples` | 包含应该安装的示例的名称的数组 | `bookinfo`, `helloworld`, `httpbin`, `sleep` | none |
