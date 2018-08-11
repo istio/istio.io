@@ -2,8 +2,6 @@
 title: 表达式语言
 description: Mixer 的配置表达式语言参考。
 weight: 20
-aliases:
-    - /docs/reference/config/mixer/expression-language.html
 ---
 这个页面描述了如何使用 Mixer 的配置表达式语言 (Mixer configuration expression language，或缩写 CEXL)
 
