@@ -20,7 +20,7 @@
       {{ if and (not $post.Draft) $post.IsPage }}
         <item>
           <title>{{ $post.Title }}</title>
-          <description>{{ $post.Description }}</description>
+          <description>{{ $post.Content | html }}</description>
           <pubDate>{{ $post.PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
           <link>{{ $post.Permalink }}</link>
           <author>{{ $post.Params.attribution }}</author>
