@@ -102,7 +102,7 @@ The policy does the following:
 *   Creates a `ServiceRole` `service-viewer` which allows read access to any service in the `default` namespace that has
 the `app` label
 set to one of the values `productpage`, `details`, `reviews`, or `ratings`. Note that there is a
-constraint\ specifying that
+constraint specifying that
 the services must have one of the listed `app` labels.
 
     {{< text yaml >}}
