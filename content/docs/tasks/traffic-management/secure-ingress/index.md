@@ -343,7 +343,7 @@ they have valid values, according to the output of the following commands:
 1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
 
     {{< text bash >}}
-        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
@@ -371,7 +371,7 @@ In addition to the steps in the previous section, perform the following:
 1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
 
     {{< text bash >}}
-        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
 ## Cleanup
