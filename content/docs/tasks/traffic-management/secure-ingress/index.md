@@ -384,6 +384,12 @@ In addition to the steps in the previous section, perform the following:
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     {{< /text >}}
 
+1.  Delete the directories of the certificates and the repository used to generate them:
+
+    {{< text bash >}}
+    $ rm -rf httpbin.example.com bookinfo.com mtls-go-example
+    {{< /text >}}
+
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
     {{< text bash >}}
