@@ -71,11 +71,11 @@ Choose a title for your topic that has the keywords you want search engines to f
 Create a filename for your topic that uses the words in your title, separated by hyphens,
 all in lower case.
 
-## Updating the front matter
+## Updating front matter
 
 Every documentation file needs to start with
 [front matter](https://gohugo.io/content-management/front-matter/).
-The front matter is a block of YAML that is between the
+The front matter is a block of YAML that is between
 triple-dashed lines at the top of each file. Here's the
 chunk of front matter you should start with:
 
@@ -101,14 +101,15 @@ The available front matter fields are:
 |`publishdate`  | For blog posts, indicates the date of publication of the post
 |`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
 |`attribution`  | For blog posts, supplies an optional author's name
+|`aliases`      | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
+|`page_icon`    | Set this to the path of an image file in order to get an icon displayed next to the main title
 |`skip_toc`     | Set this to true to prevent the page from having a table of contents generated for it
-|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
-|`force_inline_toc` | Set this to true to force the generated table of contents from being inserted inline in the text instead of in a sidebar
+|`skip_seealso` | Set this to true to prevent the page from having a "See also" section generated for it
+|`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 
 ## Adding images
 
 Put image files in the same directory as your markdown file. The preferred image format is SVG.
-
 Within markdown, use the following sequence to add the image:
 
 {{< text html >}}
@@ -356,7 +357,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 
 ### Files and snippets
 
-It is often useful to display files or portions of a file. You can annotate a text file to create named snippets within the file by
+It is often useful to display a file or a portion of a file. You can annotate a text file to create named snippets within the file by
 using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
 
 {{< text_file file="examples/snippet_example.txt" syntax="plain" >}}
@@ -369,7 +370,7 @@ and in your markdown file, you can then reference a particular snippet with:
 
 where `file` specifies the relative path of the text file within the documentation repo, `syntax` specifies
 the syntax to use for syntax coloring (use `plain` for generic text), and `snippet` specifies the name of the
-snippet. If you omit the `snippet` attribute, then the whole file is inserted verbatim.
+snippet.
 
 The above snippet produces this output:
 
@@ -459,15 +460,3 @@ aliases:
     - /faq3
 ---
 {{< /text >}}
-
-## Things to watch for
-
-There are unfortunately a few complications around writing content for istio.io. You need to know about these in order for your
-content to be handled correctly by the site infrastructure:
-
-- Make sure code blocks are always indented by a multiple of 4 spaces. Otherwise, the
-indent of the code block in the rendered page will be off, and there will be spaces inserted
-in the code block itself, making cut & paste not work right.
-
-- Make sure all images have valid width and aspect ratios. Otherwise, they will render
-in odd ways, depending on screen size.
