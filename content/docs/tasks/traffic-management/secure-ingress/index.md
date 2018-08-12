@@ -35,20 +35,30 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     {{< /text >}}
 
 1.  Change directory to the cloned repository:
-
     {{< text bash >}}
-    $ cd mtls-go-example
+    $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates (use any password):
+1.  Generate the certificates for `httpbin.example.com`. Use any password with the following command:
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
-     When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
-     `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
-     procedures below.
+    When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
+   `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
+    procedures below.
+
+1.  Move the certificates into `httpbin.example.com` directory:
+
+    {{< text bash >}}
+    $ mkdir ~+1/httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/httpbin.example.com
+    {{< /text >}}
+
+1.  Change directory back:
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
 
 ## Configure a TLS ingress gateway
 
@@ -62,7 +72,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     > be mounted and available to the Istio gateway.
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key 3_application/private/httpbin.example.com.key.pem --cert 3_application/certs/httpbin.example.com.cert.pem
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key httpbin.example.com/3_application/private/httpbin.example.com.key.pem --cert httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     secret "istio-ingressgateway-certs" created
     {{< /text >}}
 
@@ -136,7 +146,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
     {{< text bash >}}
-    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     Server certificate:
       subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=httpbin.example.com
@@ -183,7 +193,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     > be mounted and available to the Istio gateway.
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
     secret "istio-ingressgateway-ca-certs" created
     {{< /text >}}
 
@@ -220,7 +230,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 1.  Access the `httpbin` service by HTTPS as in the previous section:
 
     {{< text bash >}}
-    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
 
@@ -234,7 +244,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
  and your private key (the `--key` option):
 
     {{< text bash >}}
-    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem --cert 4_client/certs/httpbin.example.com.cert.pem --key 4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
 
     -=[ teapot ]=-
 
