@@ -90,7 +90,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: httpbin-gateway
+      name: mygateway
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
@@ -120,7 +120,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
       hosts:
       - "httpbin.example.com"
       gateways:
-      - httpbin-gateway
+      - mygateway
       http:
       - match:
         - uri:
@@ -208,7 +208,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: httpbin-gateway
+      name: mygateway
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
@@ -420,7 +420,7 @@ In addition to the steps in the previous section, perform the following:
 1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
 
     {{< text bash >}}
-    $ kubectl delete gateway httpbin-gateway
+    $ kubectl delete gateway mygateway
     $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     {{< /text >}}
