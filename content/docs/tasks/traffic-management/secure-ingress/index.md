@@ -413,6 +413,22 @@ In this subsection, perform the same steps as in the [Generate client and server
     $ curl -o /dev/null -s -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
     {{< /text >}}
 
+1.  Verify that `httbin.example.com` is accessible as previously. Send a request to it and see again the teapot you
+    should already love:
+
+    {{< text bash >}}
+    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    ...
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+    {{< /text >}}
 ## Troubleshooting
 
 1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
