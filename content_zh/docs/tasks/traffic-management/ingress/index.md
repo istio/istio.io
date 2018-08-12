@@ -7,7 +7,7 @@ keywords: [流量管理,ingress]
 
 > 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
-在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在群集外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio `Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 。 `Gateway` 允许将 Istio 功能（例如，监控和路由规则）应用于进入群集的流量。
+在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在集群外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio `Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 。 `Gateway` 允许将 Istio 功能（例如，监控和路由规则）应用于进入集群的流量。
 
 此任务描述如何配置 Istio 以使用 Istio 在服务网格外部公开服务 `Gateway`。
 
@@ -35,7 +35,7 @@ $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
 
 ### 确定入口 IP 和端口
 
-执行以下命令以确定您的 Kubernetes 群集是否在支持外部负载均衡器的环境中运行。
+执行以下命令以确定您的 Kubernetes 集群是否在支持外部负载均衡器的环境中运行。
 
 {{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system

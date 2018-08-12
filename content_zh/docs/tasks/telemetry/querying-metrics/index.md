@@ -11,11 +11,11 @@ keywords: [遥测,指标]
 
 ## 前提条件
 
-[安装 Istio](/zh/docs/setup/) 在您的群集中并部署应用程序。
+[安装 Istio](/zh/docs/setup/) 在您的集群中并部署应用程序。
 
 ## 查询 Istio 度量标准
 
-1.  验证 `prometheus` 服务是否在您的群集中运行（从 0.8 开始， 默认情况下 `prometheus` 设置包含在 `istio.yaml` 和 `istio-demo-auth.yaml` 中）
+1.  验证 `prometheus` 服务是否在您的集群中运行（从 0.8 开始， 默认情况下 `prometheus` 设置包含在 `istio.yaml` 和 `istio-demo-auth.yaml` 中）
 
     在 Kubernetes 环境中，执行以下命令：
 
