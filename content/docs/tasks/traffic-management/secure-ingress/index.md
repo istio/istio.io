@@ -259,6 +259,46 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 
     This time the server performed client authentication successfully and you received the pretty teapot drawing again.
 
+## Configure a TLS ingress gateway for multiple hosts
+
+In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`. The ingress gateway will present the client the correct certificate according to the requested server.
+
+### Generate client and server certificates and keys for bookinfo.com
+
+In this subsection, perform the same steps as in the [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys) subsection. I list them below for your convenience.
+
+1.  Change directory to the cloned repository:
+    {{< text bash >}}
+    $ pushd mtls-go-example
+    {{< /text >}}
+
+1.  Generate the certificates for `bookinfo.com`. Use any password with the following command:
+
+    {{< text bash >}}
+    $ ./generate.sh bookinfo.com <password>
+    {{< /text >}}
+
+    When prompted, select `y` for all the questions.
+
+1.  Move the certificates into `bookinfo.com` directory:
+
+    {{< text bash >}}
+    $ mkdir ~+1/bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ~+1/bookinfo.com
+    {{< /text >}}
+
+1.  Change directory back:
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
+
+### Configure bookinfo.com host
+
+1.  Deploy the bookinfo sample application, without a gateway:
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+    {{< /text >}}
+
 ## Troubleshooting
 
 1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
