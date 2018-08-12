@@ -375,6 +375,44 @@ In this subsection, perform the same steps as in the [Generate client and server
     EOF
     {{< /text >}}
 
+1.  Configure the routes for `bookinfo.com`. Define a `VirtualService` similarly to the one in
+    [samples/bookinfo/networking/bookinfo-gateway.yaml]({{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml):
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: bookinfo
+    spec:
+      hosts:
+      - "bookinfo.com"
+      gateways:
+      - mygateway
+      http:
+      - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/products
+        route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+    EOF
+    {{< /text >}}
+
+1.  Send a request to the _bookinfo productpage:
+
+    {{< text bash >}}
+    $ curl -o /dev/null -s -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    {{< /text >}}
+
 ## Troubleshooting
 
 1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
@@ -458,6 +496,7 @@ In addition to the steps in the previous section, perform the following:
     $ kubectl delete gateway mygateway
     $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
+    $ kubectl delete --ignore-not-found=true -n istio-system virtualservice bookinfo
     {{< /text >}}
 
 1.  Delete the directories of the certificates and the repository used to generate them:
