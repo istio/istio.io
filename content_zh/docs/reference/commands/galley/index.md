@@ -16,10 +16,10 @@ Galley 为 Istio 提供配置管理服务。
 |`--log_as_json`|是否将输出格式化为 JSON，缺省情况下会以控制台友好的纯文本格式进行输出|
 |`--log_caller <string>`|以逗号作为分隔符的列表，用于指定日志中包含的调用者信息的范围，范围可以从这一列表中选择：`[ads, default, model, rbac]` （缺省值 `''`）
 |`--log_output_level <string>`|以逗号作为分隔符的列表，指定每个范围的日志级别，格式为 `<scope>:<level>,<scope>:<level>...`，`scope` 是 `[ads, default, model, rbac]` 中的一个，日志级别可以选择 `[debug, info, warn, error, none]`（缺省值 `default:info`）|
-|`--log_rotate <string>`|日志翻转文件的路径（缺省值 `''`）
-|`--log_rotate_max_age <int>`|日志文件的最大寿命，以天为单位，超出之后会进行翻转（`0` 代表无限制，缺省值 `30`）
+|`--log_rotate <string>`|日志轮转文件的路径（缺省值 `''`）
+|`--log_rotate_max_age <int>`|日志文件的最大寿命，以天为单位，超出之后会进行轮转（`0` 代表无限制，缺省值 `30`）
 |`--log_rotate_max_backups <int>`|日志文件备份的最大数量，超出这一数量之后就会删除比较陈旧的文件。（`0` 代表无限制，缺省值 `1000`）
-|`--log_rotate_max_size <int>`|日志文件的最大尺寸，以 M 为单位，超出限制之后会进行翻转（缺省值 `104857600`）|
+|`--log_rotate_max_size <int>`|日志文件的最大尺寸，以 M 为单位，超出限制之后会进行轮转（缺省值 `104857600`）|
 |`--log_stacktrace_level <string>`|以逗号作为分隔符的列表，用于指定 Stack trace 时每个范围的最小日志级别，大致是 `<scope>:<level>,<scope:level>...` 的形式，`scope` 是 `[ads, default, model, rbac]` 中的一个，日志级别可以选择 `[debug, info, warn, error, none]`，（缺省值 `default:none`）|
 |`--log_target <stringArray>`|一组用于输出日志的路径。可以是任何路径，也可以是 `stdout` 和 `stderr` 之类的特殊值。（缺省值 `[stdout]`）|
 |`--resyncPeriod <duration>`|Kubernetes 资源扫描的同步周期。（缺省值 `0s`）|
