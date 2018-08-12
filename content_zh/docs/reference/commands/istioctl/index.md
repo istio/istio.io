@@ -1,7 +1,10 @@
 ---
 title: istioctl
 weight: 30
+description: Istio 控制界面。
 ---
+
+## 简介
 
 Istio 的命令行配置工具。
 
@@ -12,6 +15,8 @@ Istio 的命令行配置工具。
 [`virtualservice` `gateway` `destinationrule` `serviceentry` `httpapispec` `httpapispecbinding` `quotaspec` `quotaspecbinding` `servicerole` `servicerolebinding` `policy`]
 
 阅读[参考文档](https://istio.io/docs/reference/)，可以获知更多 Istio 路由方面的内容。
+
+## 全局选项
 
 下表为全局参数，在每个子命令中都可以使用表格中的选项。
 
