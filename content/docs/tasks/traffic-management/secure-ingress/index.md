@@ -291,6 +291,47 @@ In this subsection, perform the same steps as in the [Generate client and server
     $ popd
     {{< /text >}}
 
+### Redeploy istio-ingressgateway with the new certificates
+
+1. Create a new secret to hold the certificate for bookinfo.com
+
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com/3_application/private/bookinfo.com.key.pem --cert bookinfo.com/3_application/certs/bookinfo.com.cert.pem
+    secret "istio-ingressgateway-bookinfo-certs" created
+    {{< /text >}}
+
+1.  Generate `istio-ingressgateway` deployment with a volume to be mounted from the new secret. Use the same options you
+    used for generating your `istio.yaml`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio/ --name istio-ingressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
+    --set gateways.istio-ingressgateway.secretVolumes[0].name=ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[0].secretName=istio-ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[0].mountPath=/etc/istio/ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].name=ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].secretName=istio-ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].mountPath=/etc/istio/ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].name=ingressgateway-bookinfo-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].secretName=istio-ingressgateway-bookinfo-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].mountPath=/etc/istio/ingressgateway-bookinfo-certs > \
+    $HOME/istio-ingressgateway.yaml
+    {{< /text >}}
+
+1.  Redeploy the istio-ingressgateway:
+
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio-ingressgateway.yaml
+    deployment "istio-ingressgateway" configured
+    {{< /text >}}
+
+1.  Verify that the key and the certificate are successfully loaded in the `istio-ingressgateway` pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-bookinfo-certs
+    {{< /text >}}
+
+    `tls.crt` and `tls.key` should exist in the directory contents.
+
 ### Configure bookinfo.com host
 
 1.  Deploy the bookinfo sample application, without a gateway:
@@ -388,6 +429,12 @@ In addition to the steps in the previous section, perform the following:
 
     {{< text bash >}}
     $ rm -rf httpbin.example.com bookinfo.com mtls-go-example
+    {{< /text >}}
+
+1.  Remove the file you used for redeployment of `istio-ingressgateway`:
+
+    {{< text bash >}}
+    $ rm -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
