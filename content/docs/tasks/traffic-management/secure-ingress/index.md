@@ -407,7 +407,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     EOF
     {{< /text >}}
 
-1.  Send a request to the _bookinfo productpage:
+1.  Send a request to the _bookinfo productpage_:
 
     {{< text bash >}}
     $ curl -o /dev/null -s -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
