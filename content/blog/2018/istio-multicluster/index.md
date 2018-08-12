@@ -8,7 +8,7 @@ weight: 82
 keywords: [multi-cluster]
 ---
 
-In Istio 0.8 we introduced the Istio Multicluster support that expand the services mesh of a local cluster with services from remote cluster(s). In this approach the user is installing only the critical components necessary to connect remote services to to the local Istio mesh. The advantages of one mesh are clear yet there are some scenarios when this is not feasible to create a Multi-cluster topology. The major one is that it requires that the Pod/Service CIDR addresses will be unique across the connected clusters while some cloud provider can not guarantee to that.
+There are several ways to target integration between clusters. In Istio 0.8, for instance, we introduced the Istio Multicluster support that expand the services mesh of a local cluster with services from remote cluster(s). In this approach the user is installing only the critical components necessary to connect remote services to the local Istio mesh. The advantages of one mesh are clear yet there are some scenarios when this is not feasible to create a Multi-cluster topology. This is because it requires that the Pod/Service CIDR addresses will be unique across the connected clusters while some cloud providers (such as [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/container-service)) can not guarantee to that.
 
 In this blog post we describe another approach for Istio Multi-Cluster that leverages its own capabilities of routing and ingress/egress to support sharing services between clusters. We also share an example of a distributed Bookinfo app that demonstrates the use of this approach.
 
@@ -112,7 +112,11 @@ data:
 
 ## Security
 
-A separate root CA cluster issues/rotates certs of cluster local CAs. This allows cross cluster communication using mutual TLS, as there is a shared root of trust. Within a cluster, istio mTLS authentication is used to secure traffic between two endpoints.
+Each Istio running on a cluster can be configured to have an mTLS connections between the Istio control plane components and between the mesh services. Can we also have an end-to-end mTLS between local caller service and a remote callee service? The answer is yes as long as there is a shared root of trust common to both clusters and accessible for CA validation. Having a common root CA for all local generated CAs will enable the mTLS connection between the egress gateway of _Cluster A_ and ingress gateway of _Cluster B_. And vice versa.
+
+Each local Citadel [can be configured](https://istio.io/docs/tasks/security/plugin-ca-cert/) with the common root CA as well as an upstream CA address and the same mechanism is used by Istio to generate and rotate certificates by the local Citadel. The only difference is the generated CAs will have the root CA in their certificates chain.
+
+If necessary the Istio Citadel can also play the role of the root CA and this can be achieved by running the Citadel as a standalone service on a cluster accessible by both clusters.
 
 [Permission to put Shriram's diagram here]
 
