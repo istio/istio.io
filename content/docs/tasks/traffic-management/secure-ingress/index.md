@@ -340,6 +340,41 @@ In this subsection, perform the same steps as in the [Generate client and server
     $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
     {{< /text >}}
 
+1.  Redeploy the `Gateway` definition with a host for `bookinfo.com`:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: mygateway
+    spec:
+      selector:
+        istio: ingressgateway # use istio default ingress gateway
+      servers:
+      - port:
+          number: 443
+          name: https-httpbin
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+          privateKey: /etc/istio/ingressgateway-certs/tls.key
+        hosts:
+        - "httpbin.example.com"
+      - port:
+          number: 443
+          name: https-bookinfo
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/istio/ingressgateway-bookinfo-certs/tls.crt
+          privateKey: /etc/istio/ingressgateway-bookinfo-certs/tls.key
+        hosts:
+        - "bookinfo.com"
+    EOF
+    {{< /text >}}
+
 ## Troubleshooting
 
 1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
