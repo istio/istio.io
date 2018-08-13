@@ -1,6 +1,6 @@
 ---
 title: Securing Gateways with HTTPS
-description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS.
+description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS, Mutual TLS or JWT authentication.
 weight: 31
 keywords: [traffic-management,ingress]
 ---
@@ -443,6 +443,62 @@ In this subsection, perform the same steps as in the [Generate client and server
       |       ;/
       \_     _/
         `"""`
+
+## Configure end-user authentication on ingress gateway
+
+Ingress gateway supports end-user authentication by setting up JWT authentication policy on `istio-ingressgateway`, unauthenticated requests will be rejected at ingress gateway level and won't be able to access services inside the mesh. This section shows how to use authentication policy to setup end-user authentication on `istio-ingressgateway`.
+
+1. Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin), verify the setup by running curl command from before will return with 200.
+
+    {{< text bash >}}
+    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
+    HTTP/1.1 200 OK
+    {{< /text >}}
+
+1. Add a policy that requires end-user JWT on `istio-ingressgateway`.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "ingressgateway"
+      namespace: istio-system
+    spec:
+      targets:
+      - name: istio-ingressgateway
+      origins:
+      - jwt:
+          issuer: "testing@secure.istio.io"
+          jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      principalBinding: USE_ORIGIN
+    EOF
+    {{< /text >}}
+
+1. The same curl command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
+
+    {{< text bash >}}
+    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
+    HTTP/1.1 401 Unauthorized
+    content-length: 29
+    content-type: text/plain
+    date: Mon, 13 Aug 2018 22:33:32 GMT
+    server: envoy
+    {{< /text >}}
+
+1.  Attaching the valid token returns success:
+
+    {{< text bash >}}
+    $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
+    $ curl --header "Authorization: Bearer $TOKEN" -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
+    HTTP/1.1 200 OK
+    server: envoy
+    date: Mon, 13 Aug 2018 22:37:10 GMT
+    content-type: text/html; charset=utf-8
+    access-control-allow-origin: *
+    access-control-allow-credentials: true
+    content-length: 0
+    x-envoy-upstream-service-time: 10
     {{< /text >}}
 
 ## Troubleshooting
