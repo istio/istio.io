@@ -2,7 +2,7 @@
 title: 调试授权 
 description: 展示如何调试授权功能。 
 weight: 5
-keywords: [debug,security,authorization,RBAC]
+keywords: [调试,安全,授权,RBAC]
 ---
 
 这篇文章展示了如何调试 Istio 的授权。如果在本文的指导下你还是没有找到解决方案。我们很乐意你向 `istio-security@googlegroups.com` 发送邮件以寻求帮助。
@@ -20,7 +20,7 @@ keywords: [debug,security,authorization,RBAC]
     $ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
     {{< /text >}}
 
-1. 确保 `RbacConfig` 只有**一个**实例，并且名为 `default`。否则 Istio 会关闭授权功能，并且忽略所有的授权策略
+1. 确保 `RbacConfig` 只有**一个**实例，并且名为 `default`。否则 Istio 会关闭授权功能，并且忽略所有的授权策略。
 
     {{< text plain >}}
     NAMESPACE   NAME      AGE
@@ -84,13 +84,13 @@ Pilot 将授权策略转换并且分发给代理。下面的步骤可以帮你�
     它表示 Pilot 生成了：
 
     * 由于没有匹配上任何授权策略，为 `sleep.foo.svc.cluster.local` 生成了一个空的配置。并且 Istio 默认会拒绝所有访问这个服务的请求。
-    * 为 `productpage.default.svc.cluster.local` 生成了一个配置,并且 Istio 会允许任何人通过 GET 方法访问它。
+    * 为 `productpage.default.svc.cluster.local` 生成了一个配置，并且 Istio 会允许任何人通过 GET 方法访问它。
 
 ## 确保 Pilot 成功的将授权策略分发给了代理
 
 Pilot 将授权策略分发给代理。下面的步骤能帮助你确认这一步是正常工作的：
 
-> 注意：这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo),如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
+> 注意：这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo)，如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
 
 1. 运行下面的命令来获取 `productpage` 服务的代理配置文件拷贝:
 
@@ -105,7 +105,7 @@ Pilot 将授权策略分发给代理。下面的步骤能帮助你确认这一�
 
 1. 下面的输出表示 `productpage` 的代理启用了 `envoy.filters.http.rbac` 过滤器。里面的规则是所有人都能通过 `GET` 方法访问。`shadow_rules` 并没有被使用，你可以忽略它。
 
-    {{< text plain >}}
+    {{< text json >}}
     {
      "name": "envoy.filters.http.rbac",
      "config": {
@@ -155,7 +155,7 @@ Pilot 将授权策略分发给代理。下面的步骤能帮助你确认这一�
 
 代理是最终执行授权策略的部分。下面的步骤可以帮助你确定代理是正常工作的。
 
-> 注意：这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo),如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
+> 注意：这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo)，如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
 
 1. 通过一下命令打开授权 debug 日志：
 
@@ -173,7 +173,7 @@ Pilot 将授权策略分发给代理。下面的步骤能帮助你确认这一�
 
 1. 在你的浏览器访问 `productpage` 生成一些日志。
 
-1. 通过下面的命令打印代理的日志
+1. 通过下面的命令打印代理的日志。
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
