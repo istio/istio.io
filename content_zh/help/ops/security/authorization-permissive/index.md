@@ -6,7 +6,7 @@ weight: 50
 
 如果已经对一个服务启用了授权，但是对这个服务的请求没有被阻止，那么很有可能是授权没有成功启用。通过以下步骤可以检查这种情况：
 
-1. 检查[启用授权文档](/docs/concepts/security/#enabling-authorization)来正确的启用 Istio 授权。
+1. 检查[启用授权文档](/zh/docs/concepts/security/)来正确的启用 Istio 授权。
 
 1. 避免为 Istio 控制面组件启用授权，包括 Mixer，Pilot 和 Ingress。Istio 的授权是设计用于 Istio Mesh 下的服务之间的授权的。对 Istio 组件启用授权会引发不可预料的行为。
 
