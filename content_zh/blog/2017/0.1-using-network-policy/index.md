@@ -1,12 +1,10 @@
 ---
-title: 在 Istio 下使用 Network Policy
+title: 在 Istio 下使用 Network Policy（网络授权策略）
 description: Kubernetes 中的 Network Policy 如何与 Istio 策略关联。
 publishdate: 2017-08-10
 subtitle:
 attribution: Spike Curtis
 weight: 97
-aliases: 
-    - /zh/blog/using-network-policy-in-concert-with-istio.html
 ---
 
 对 Kubernetes 上的应用使用 Network Policy 来保证安全是广泛使用的工业化最佳实践之一。Istio 也支持 policy（授权策略）,我们这里会花些时间来说明 Istio 中的授权策略和 Kubernetes 中的 Network Policy 是如何相互影响，相互支持，从而保障应用的安全性的。
@@ -21,7 +19,7 @@ aliases:
 
 ## 网络层
 
-Istio 授权策略作用在应用的“服务”层。在OSI模型中，这属于第七层，但是事实上，在云原生应用中，第七层实际上包括了至少两层：服务层和内容层。服务层的典型代表是HTTP，它包裹了实际的应用数据（内容层）。Istio 的 Envoy 代理就是在这一层生效的。相比较下， Network Policy 在 OSI 模型的第三层（网络）和第四层（传输）生效。
+Istio 授权策略作用在应用的“服务”层。在OSI模型中，这属于第七层，但是事实上，在云原生应用中，第七层实际上包括了至少两层：服务层和内容层。服务层的典型代表是HTTP，它包裹了实际的应用数据（内容层）。Istio 的 Envoy 代理就是在这一层生效的。相比较下，Network Policy 在 OSI 模型的第三层（网络）和第四层（传输）生效。
 
 由于 Envoy 工作在七层，它能够解析协议,包括HTTP/1.1 和 HTTP/2(gRPC 基于HTTP/2)。这样 Envoy 能够提供丰富的授权策略，例如你可以依据虚拟主机，URL,或者 HTTP header来制定策略。在未来，Istio 会支持更多的七层协议，同时也会支持通用的 TCP 和 UDP 传输。
 
@@ -35,16 +33,16 @@ Network Policy 数据面是典型的内核空间实现（例如：使用 iptable
 
 ## 执行点
 
-Envoy proxy 的策略执行是在 pod 内实现的，它会作为与容器在相同网络命名空间下的 sidecar 。这样部署模式比较简单。有的容器有权限重新配置 pod 内的网络(CAP_NET_ADMIN)。如果这样的服务实例被攻击了，或者是有异常行为(就像在恶意的租户中一样),Envoy 代理会被绕过。
+Envoy proxy 的策略执行是在 pod 内实现的，它会作为与容器在相同网络命名空间下的 sidecar 。这样部署模式比较简单。有的容器有权限重新配置 pod 内的网络(CAP_NET_ADMIN)。如果这样的服务实例被攻击了，或者是有异常行为(就像在恶意的租户中一样)，Envoy 代理会被绕过。
 
-但是这只要它们正确配置的话，并不会让攻击者能够访问其他使用 Istio 的 pods，于是在劫持了pod后它几个攻击目标如下：
+但是这只要它们正确配置的话，并不会让攻击者能够访问其他使用 Istio 的 pods，于是在劫持了 pod 后它几个攻击目标如下：
 - 攻击没有保护的 pods
 - 尝试通过大量流量来让受保护的 pods 拒绝服务
 - 篡改 pod 中收集的数据
-- 攻击 cluster 基础设施(服务器或者是 Kubernetes 服务)
-- 攻击 mesh 之外的服务，例如数据库，存储，或者是遗留系统。
+- 攻击集群基础设施(服务器或者是 Kubernetes 服务)
+- 攻击网格之外的服务，例如数据库，存储，或者是遗留系统。
 
-Network Policy 通常在主机节点上执行，它是在pods的网络命名空间之外的。这也就是说那些被攻击或者行为不正常的 pods 必须打破根命名空间来避免强制执行。随着 Kubernetes 1.8 增加了 egress 策略，这个差异让网络策略成为来保护你的基础设施免受于攻击的关键所在。
+Network Policy 通常在主机节点上执行，它是在 pods 的网络命名空间之外的。这也就是说那些被攻击或者行为不正常的 pods 必须打破根命名空间来避免强制执行。随着 Kubernetes 1.8 增加了 egress 策略，这个差异让网络策略成为来保护你的基础设施免受于攻击的关键所在。
 
 ## 例子
 
@@ -128,6 +126,6 @@ spec:
 
 ## 总结
 
-我们认为，Istio 和 Network Policy 在安全策略上有不同的优势。Istio 是感知应用协议的，具有较高的灵活性，使其成为支撑运维目标策略的理想选择，例如服务路由，重试，环路断开等等，同时也适用于应用层的安全，例如token验证。Network Policy 是通用的，高效的，并且在pods之间是隔离的，这使得它在网络安全方面的策略成为理想选择。进一步说，在不同的层有不同的策略的优点是，它赋予了每个网络层独立的上下文，并且独立运作而不用考虑其他网络层的事情。
-这个博客是基于 Spike Curtis 的三篇博客系列完成的。他是Tigera的 Istio团队成为之一，完整的内容可以在这里找到：<https://www.projectcalico.org/using-network-policy-in-concert-with-istio/>
+我们认为，Istio 和 Network Policy 在安全策略上有不同的优势。Istio 是感知应用协议的，具有较高的灵活性，使其成为支撑运维目标策略的理想选择，例如服务路由、重试、环路断开等等，同时也适用于应用层的安全，例如token验证。Network Policy 是通用的，高效的，并且在 pods 之间是隔离的，这使得它在网络安全方面的策略成为理想选择。进一步说，在不同的层有不同的策略的优点是，它赋予了每个网络层独立的上下文，并且独立运作而不用考虑其他网络层的事情。
+这个博客是基于 Spike Curtis 的三篇博客系列完成的。他是 Tigera 的 Istio团队成员之一，完整的内容可以在这里找到：<https://www.projectcalico.org/using-network-policy-in-concert-with-istio/>
 
