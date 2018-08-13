@@ -35,6 +35,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     {{< /text >}}
 
 1.  Change directory to the cloned repository:
+
     {{< text bash >}}
     $ pushd mtls-go-example
     {{< /text >}}
@@ -56,6 +57,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     {{< /text >}}
 
 1.  Change directory back:
+
     {{< text bash >}}
     $ popd
     {{< /text >}}
@@ -268,6 +270,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
 In this subsection, perform the same steps as in the [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys) subsection. I list them below for your convenience.
 
 1.  Change directory to the cloned repository:
+
     {{< text bash >}}
     $ pushd mtls-go-example
     {{< /text >}}
@@ -287,6 +290,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     {{< /text >}}
 
 1.  Change directory back:
+
     {{< text bash >}}
     $ popd
     {{< /text >}}
@@ -439,6 +443,7 @@ In this subsection, perform the same steps as in the [Generate client and server
       \_     _/
         `"""`
     {{< /text >}}
+
 ## Troubleshooting
 
 1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
