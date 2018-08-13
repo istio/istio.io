@@ -410,7 +410,7 @@ In this subsection, perform the same steps as in the [Generate client and server
 1.  Send a request to the _bookinfo productpage_:
 
     {{< text bash >}}
-    $ curl -o /dev/null -s -v -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    $ curl -o /dev/null -s -v -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
     ...
     Server certificate:
       subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=bookinfo.com
@@ -427,7 +427,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     should already love:
 
     {{< text bash >}}
-    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem -HHost:httpbin.example.com  https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     -=[ teapot ]=-
 
