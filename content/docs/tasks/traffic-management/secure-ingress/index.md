@@ -265,7 +265,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 
 In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`. The ingress gateway will present the client the correct certificate according to the requested server.
 
-### Generate client and server certificates and keys for bookinfo.com
+### Generate client and server certificates and keys for `bookinfo.com`
 
 In this subsection, perform the same steps as in the [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys) subsection. I list them below for your convenience.
 
@@ -295,16 +295,16 @@ In this subsection, perform the same steps as in the [Generate client and server
     $ popd
     {{< /text >}}
 
-### Redeploy istio-ingressgateway with the new certificates
+### Redeploy `istio-ingressgateway` with the new certificates
 
-1. Create a new secret to hold the certificate for bookinfo.com
+1. Create a new secret to hold the certificate for `bookinfo.com`
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com/3_application/private/bookinfo.com.key.pem --cert bookinfo.com/3_application/certs/bookinfo.com.cert.pem
     secret "istio-ingressgateway-bookinfo-certs" created
     {{< /text >}}
 
-1.  Generate `istio-ingressgateway` deployment with a volume to be mounted from the new secret. Use the same options you
+1.  Generate the `istio-ingressgateway` deployment with a volume to be mounted from the new secret. Use the same options you
     used for generating your `istio.yaml`:
 
     {{< text bash >}}
@@ -321,7 +321,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
-1.  Redeploy the istio-ingressgateway:
+1.  Redeploy `istio-ingressgateway`:
 
     {{< text bash >}}
     $ kubectl apply -f $HOME/istio-ingressgateway.yaml
@@ -336,9 +336,9 @@ In this subsection, perform the same steps as in the [Generate client and server
 
     `tls.crt` and `tls.key` should exist in the directory contents.
 
-### Configure bookinfo.com host
+### Configure traffic for the `bookinfo.com` host
 
-1.  Deploy the bookinfo sample application, without a gateway:
+1.  Deploy the [Bookinfo sample application](/docs/examples/bookinfo/), without a gateway:
 
     {{< text bash >}}
     $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
@@ -380,7 +380,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     {{< /text >}}
 
 1.  Configure the routes for `bookinfo.com`. Define a `VirtualService` similarly to the one in
-    [samples/bookinfo/networking/bookinfo-gateway.yaml]({{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml):
+    [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml):
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -411,7 +411,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     EOF
     {{< /text >}}
 
-1.  Send a request to the _bookinfo productpage_:
+1.  Send a request to the _Bookinfo_ `productpage`:
 
     {{< text bash >}}
     $ curl -o /dev/null -s -v -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
