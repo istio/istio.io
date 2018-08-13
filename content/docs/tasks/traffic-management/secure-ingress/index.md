@@ -522,7 +522,7 @@ In addition to the steps in the previous section, perform the following:
     $ kubectl delete gateway mygateway
     $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
-    $ kubectl delete --ignore-not-found=true -n istio-system virtualservice bookinfo
+    $ kubectl delete --ignore-not-found=true virtualservice bookinfo
     {{< /text >}}
 
 1.  Delete the directories of the certificates and the repository used to generate them:
