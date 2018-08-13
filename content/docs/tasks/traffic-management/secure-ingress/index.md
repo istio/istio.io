@@ -410,7 +410,17 @@ In this subsection, perform the same steps as in the [Generate client and server
 1.  Send a request to the _bookinfo productpage_:
 
     {{< text bash >}}
-    $ curl -o /dev/null -s -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    $ curl -o /dev/null -s -v -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    ...
+    Server certificate:
+      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=bookinfo.com
+      start date: Aug 12 13:50:05 2018 GMT
+      expire date: Aug 22 13:50:05 2019 GMT
+      common name: bookinfo.com (matched)
+      issuer: C=US; ST=Denial; O=Dis; CN=bookinfo.com
+    SSL certificate verify ok.
+    ...
+    200
     {{< /text >}}
 
 1.  Verify that `httbin.example.com` is accessible as previously. Send a request to it and see again the teapot you
