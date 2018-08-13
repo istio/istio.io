@@ -3,9 +3,9 @@ title: 报告 Bugs
 description: 如果你发现了 bug 该怎么做。 
 weight: 34
 aliases:
-    - /bugs.html
-    - /bugs/index.html
-    - /help/bugs/
+    - /zh/bugs.html
+    - /zh/bugs/index.html
+    - /zh/help/bugs/
 page_icon: /img/bugs.svg
 ---
 
@@ -37,7 +37,7 @@ page_icon: /img/bugs.svg
 
 如果你不能使用上面的脚本，请附上如下信息：
 
-* 所有命名空间下的 Pods, services, deployments, 和 endpoints
+* 所有命名空间下的 Pods、services、deployments 和 endpoints
 
     {{< text bash >}}
     $ kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml
