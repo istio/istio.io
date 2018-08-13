@@ -117,7 +117,7 @@ plane**.
 
 The following diagram shows the different components that make up each plane:
 
-{{< image width="80%" ratio="56.25%"
+{{< image width="80%" ratio="80%"
     link="./arch.svg"
     alt="The overall architecture of an Istio-based application."
     caption="Istio Architecture"
