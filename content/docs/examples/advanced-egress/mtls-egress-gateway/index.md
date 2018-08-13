@@ -17,9 +17,47 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
 
 ## Generate client and server certificates and keys
 
-Generate the certificates and keys as described in the [Securing Gateways with HTTPS](docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys).
+Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys).
+
+1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
+
+    {{< text bash >}}
+    $ git clone https://github.com/nicholasjackson/mtls-go-example
+    {{< /text >}}
+
+1.  Change directory to the cloned repository:
+
+    {{< text bash >}}
+    $ pushd mtls-go-example
+    {{< /text >}}
+
+1.  Generate the certificates for `nginx.example.com`. Use any password with the following command:
+
+    {{< text bash >}}
+    $ ./generate.sh nginx.example.com <password>
+    {{< /text >}}
+
+    When prompted, select `y` for all the questions.
+
+1.  Move the certificates into `nginx.example.com` directory:
+
+    {{< text bash >}}
+    $ mkdir ~+1/nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/nginx.example.com
+    {{< /text >}}
+
+1.  Change directory back:
+
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
 
 ## Cleanup
 
-Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
-section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
+1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
+    section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
+
+1.  Delete the directory of the certificates and the repository used to generate them:
+
+    {{< text bash >}}
+    $ rm -rf nginx.example.com mtls-go-example
+    {{< /text >}}
