@@ -6,7 +6,7 @@ weight: 42
 
 > 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
 
-[控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问群集外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
+[控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问集群外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
 
 此任务描述 Istio 如何配置出口流量的 TLS。
 
