@@ -85,6 +85,11 @@ to manage the lifecycle of Istio.
     {{< text bash >}}
     $ helm init --service-account tiller
     {{< /text >}}
+    
+1. Install CRDs:
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+    {{< /text >}}
 
 1. Install Istio:
 
