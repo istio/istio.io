@@ -11,6 +11,9 @@ header {
             left: 1.3em;
             position: fixed;
             fill: $textBrandColor;
+            transition-duration: 0.8s;
+            transition-property: transform;
+            transform-origin: 50% 45%;
 
             circle {
                 fill: $mainBrandColor;
@@ -21,6 +24,10 @@ header {
                 width: 3em;
                 left: 0.8em;
             }
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
         }
 
         .brand-name {
