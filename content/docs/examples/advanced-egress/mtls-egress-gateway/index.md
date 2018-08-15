@@ -67,12 +67,11 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and
-   client's certificates and private keys.
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and CA
+   certificates.
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
-    $ kubectl create -n istio-system secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
     $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
@@ -174,7 +173,17 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-## Cleanup
+##  Redeploy the Egress Gateway with the client certificates
+
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
+   certificates.
+
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
+    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
+    {{< /text >}}
+
+##  Cleanup
 
 1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
     section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
@@ -183,7 +192,7 @@ to hold the configuration of the Nginx SNI proxy:
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-    $ kubectl delete secret nginx-client-certs -n istio-system
+    $ kubectl delete secret nginx-client-certs nginx-ca-certs -n istio-system
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
