@@ -23,7 +23,7 @@ keywords: [流量管理,超时]
 
 ## 请求超时
 
-可以在路由规则的 `httpReqTimeout` 字段中来给 http 请求设置请求超时。缺省情况下，超时被设置为 15 秒钟，本文任务中，会把 `reviews` 服务的超时设置为一秒钟。为了能观察设置的效果，还需要在对 `ratings` 服务的调用中加入两秒钟的延迟。
+可以在[路由规则](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute)的 `timeout` 字段中来给 http 请求设置请求超时。缺省情况下，超时被设置为 15 秒钟，本文任务中，会把 `reviews` 服务的超时设置为一秒钟。为了能观察设置的效果，还需要在对 `ratings` 服务的调用中加入两秒钟的延迟。
 
 1. 到 `reviews:v2` 服务的路由定义：
 
