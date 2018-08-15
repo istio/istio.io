@@ -57,13 +57,77 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     $ popd
     {{< /text >}}
 
+## Deploy an Nginx server
+
+1.  Create a namespace `mesh-external` to represent services outside the Istio mesh. Note that the sidecar proxy will
+    not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
+    [enabled](/docs/setup/kubernetes/sidecar-injection/#deploying-an-app) on it.
+
+    {{< text bash >}}
+    $ kubectl create namespace mesh-external
+    {{< /text >}}
+
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and
+   client's certificates and private keys.
+
+    {{< text bash >}}
+    $ kubectl create -n mesh-external secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
+    $ kubectl create -n istio-system secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
+    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
+    {{< /text >}}
+
+1.  Create a configuration file for the NGINX server:
+
+    {{< text bash >}}
+    $ cat <<EOF > ./nginx.conf
+    events {
+    }
+
+    stream {
+      log_format log_stream '\$remote_addr [\$time_local] \$protocol'
+      '\$status \$bytes_sent \$bytes_received \$session_time';
+
+      access_log /var/log/nginx/access.log log_stream;
+      error_log  /var/log/nginx/error.log;
+
+      server {
+        listen 443 ssl;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        server_name localhost;
+        ssl_certificate /etc/nginx-server-certificates/tls.crt;
+        ssl_certificate_key /etc/nginx-server-certificates/tls.key;
+        ssl_client_certificate /etc/nginx-client-certificates/ca-chain.cert.pem;
+        ssl_verify_client on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+
 ## Cleanup
 
 1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
     section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
 
+1.  Remove created Kubernetes resources:
+
+    {{< text bash >}}
+    $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete secret nginx-client-certs -n istio-system
+    $ kubectl delete namespace mesh-external
+    {{< /text >}}
+
 1.  Delete the directory of the certificates and the repository used to generate them:
 
     {{< text bash >}}
     $ rm -rf nginx.example.com mtls-go-example
+    {{< /text >}}
+
+1.  Delete the generated configuration files used in this example:
+
+    {{< text bash >}}
+    $ rm -f ./nginx.conf
     {{< /text >}}
