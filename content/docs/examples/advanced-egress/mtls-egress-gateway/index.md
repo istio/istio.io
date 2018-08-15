@@ -113,6 +113,67 @@ to hold the configuration of the Nginx SNI proxy:
     $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
+1.  Deploy the NGINX server:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+      labels:
+        run: my-nginx
+    spec:
+      ports:
+      - port: 80
+        protocol: TCP
+      selector:
+        run: my-nginx
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+    spec:
+      selector:
+        matchLabels:
+          run: my-nginx
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            run: my-nginx
+        spec:
+          containers:
+          - name: my-nginx
+            image: nginx
+            ports:
+            - containerPort: 80
+            volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx
+              readOnly: true
+            - name: nginx-server-certs
+              mountPath: /etc/nginx-server-certs
+              readOnly: true
+            - name: nginx-ca-certs
+              mountPath: /etc/nginx-ca-certs
+              readOnly: true
+          volumes:
+          - name: nginx-config
+            configMap:
+              name: nginx-configmap
+          - name: nginx-server-certs
+            secret:
+              secretName: nginx-server-certs
+          - name: nginx-ca-certs
+            secret:
+              secretName: nginx-ca-certs
+    EOF
+    {{< /text >}}
+
 ## Cleanup
 
 1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
@@ -124,6 +185,8 @@ to hold the configuration of the Nginx SNI proxy:
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
     $ kubectl delete secret nginx-client-certs -n istio-system
     $ kubectl delete configmap nginx-configmap -n mesh-external
+    $ kubectl delete service my-nginx -n mesh-external
+    $ kubectl delete deployment my-nginx -n mesh-external
     $ kubectl delete namespace mesh-external
     {{< /text >}}
 
