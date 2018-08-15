@@ -83,11 +83,11 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     events {
     }
 
-    stream {
-      log_format log_stream '\$remote_addr [\$time_local] \$protocol'
-      '\$status \$bytes_sent \$bytes_received \$session_time';
-
-      access_log /var/log/nginx/access.log log_stream;
+    http {
+      log_format main '$remote_addr - $remote_user [$time_local]  $status '
+      '"$request" $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"';
+      access_log /var/log/nginx/access.log main;
       error_log  /var/log/nginx/error.log;
 
       server {
@@ -96,10 +96,10 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
         root /usr/share/nginx/html;
         index index.html;
 
-        server_name localhost;
-        ssl_certificate /etc/nginx-server-certificates/tls.crt;
-        ssl_certificate_key /etc/nginx-server-certificates/tls.key;
-        ssl_client_certificate /etc/nginx-client-certificates/ca-chain.cert.pem;
+        server_name nginx.example.com;
+        ssl_certificate /etc/nginx-server-certs/tls.crt;
+        ssl_certificate_key /etc/nginx-server-certs/tls.key;
+        ssl_client_certificate /etc/nginx-ca-certs/ca-chain.cert.pem;
         ssl_verify_client on;
       }
     }
