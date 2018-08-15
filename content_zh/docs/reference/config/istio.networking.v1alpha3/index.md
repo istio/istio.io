@@ -60,7 +60,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`maxConnections`|`int32`|到目标主机的 HTTP1/TCP 最大连接数。|
-|`connectTimeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|TCP 连接超时|
+|`connectTimeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|TCP 连接超时|
 
 ## `CorsPolicy`
 
@@ -102,8 +102,8 @@ spec:
 |`allowMethods`|`string[]`|允许访问资源的 HTTP 方法，字段内容会进行序列化之后保存到 `Access-Control-Allow-Methods` Header 之中。|
 |`allowHeaders`|`string[]`|在请求资源时可以使用的 HTTP Header 列表，会被序列化后保存到 `Access-Control-Allow-Methods` Header 之中。 |
 |`exposeHeaders`|`string[]`|一个允许浏览器访问的 HTTP Header 白名单，会被序列化后保存到 `Access-Control-Expose-Headers` Header 之中。|
-|`maxAge`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|可以缓存预检请求结果的有效期。保存到 `Access-Control-Max-Age` Header 之中。|
-|`allowCredentials`|[`google.protobuf.BoolValue`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue)|是否允许调用者携带认证信息对资源发起实际请求（非预检）。会保存到 `Access-Control-Allow-Credentials` Header 之中。|
+|`maxAge`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|可以缓存预检请求结果的有效期。保存到 `Access-Control-Max-Age` Header 之中。|
+|`allowCredentials`|[`google.protobuf.BoolValue`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|是否允许调用者携带认证信息对资源发起实际请求（非预检）。会保存到 `Access-Control-Allow-Credentials` Header 之中。|
 
 ## `Destination`
 
@@ -391,7 +391,7 @@ spec:
 |`insertPosition`|[`EnvoyFilter.InsertPosition`](#EnvoyFilter-InsertPosition)|在过滤器链条中的插入位置，缺省为 `FIRST`。|
 |`filterType`|[`EnvoyFilter.Filter.FilterType`](#EnvoyFilter-Filter-FilterType)|必要字段。要实例化的过滤器的类型。|
 |`filterName`|`string`|必要字段。要初始化的过滤器的名称。名字必须能够匹配到支持的编译进 Envoy 的过滤器。|
-|`filterConfig`|[`google.protobuf.Struct`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)|必要字段。为实例化的过滤器指定配置内容。|
+|`filterConfig`|[`google.protobuf.Struct`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|必要字段。为实例化的过滤器指定配置内容。|
 
 ## `EnvoyFilter.Filter.FilterType`
 
@@ -633,7 +633,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`percent`|`int32`|取值范围在 0 和 100 之间，用来指定注入延迟的比例。如果没有指定 `percent`，为所有请求进行延迟注入。|
-|`fixedDelay`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|必要字段。在请求转发之前加入的固定延迟。可选单位包括小时（`h`）、分钟（`m`）、秒钟（`s`）以及毫秒（`ms`），允许的最小值是 `1ms`。|
+|`fixedDelay`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|必要字段。在请求转发之前加入的固定延迟。可选单位包括小时（`h`）、分钟（`m`）、秒钟（`s`）以及毫秒（`ms`），允许的最小值是 `1ms`。|
 
 ## `HTTPMatchRequest`
 
@@ -724,7 +724,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`attempts`|`uint32`|必要字段。为特定请求设置重试次数。重试之间的间隔是自动决定的（最少 25 毫秒）。实际重试次数还受[路由规则](#HTTPRoute)中 `timeout` 设置的限制。|
-|`perTryTimeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|每次重试的超时时间。可选单位包括小时（`h`）、分钟（`m`）、秒钟（`s`）以及毫秒（`ms`），允许的最小值是 `1ms`。|
+|`perTryTimeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|每次重试的超时时间。可选单位包括小时（`h`）、分钟（`m`）、秒钟（`s`）以及毫秒（`ms`），允许的最小值是 `1ms`。|
 
 ## `HTTPRewrite`
 
@@ -844,7 +844,7 @@ spec:
 |---|---|---|
 |`name`|`string`|必要字段。Cookie 的名称。|
 |`path`|`string`|设置 Cookie 的路径。|
-|`ttl`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|必要字段。Cookie 的生命期。|
+|`ttl`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|必要字段。Cookie 的生命期。|
 
 ## `LoadBalancerSettings.SimpleLB`
 
@@ -886,8 +886,8 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`consecutiveErrors`|`int32`|超过这一错误数量之后，主机将会被移出连接池。缺省值为 5。当上游服务是 HTTP 服务时，`5xx` 的返回码会被记为错误；当上游主机提供的是 TCP 服务时，TCP 连接超时和连接错误/故障事件会被记为错误。|
-|`interval`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|在移除检测之间的时间间隔。缺省值为 `10s`，必须大于或等于 `1ms`。|
-|`baseEjectionTime`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|最小的移除时间长度。主机每次被移除后的隔离时间等于被移除的次数和最小移除时间的乘积。这样的实现，让系统能够自动增加不健康上游服务实例的隔离时间。缺省为值为 `30s`。|
+|`interval`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|在移除检测之间的时间间隔。缺省值为 `10s`，必须大于或等于 `1ms`。|
+|`baseEjectionTime`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|最小的移除时间长度。主机每次被移除后的隔离时间等于被移除的次数和最小移除时间的乘积。这样的实现，让系统能够自动增加不健康上游服务实例的隔离时间。缺省为值为 `30s`。|
 |`maxEjectionPercent`|`int32`|上游服务的负载均衡池中允许被移除的主机的最大百分比。缺省值为 `10%`|
 
 ## `Port`
