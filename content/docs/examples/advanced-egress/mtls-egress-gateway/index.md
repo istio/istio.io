@@ -106,6 +106,12 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     EOF
     {{< /text >}}
 
+1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+to hold the configuration of the Nginx SNI proxy:
+
+    {{< text bash >}}
+    $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
+    {{< /text >}}
 
 ## Cleanup
 
@@ -117,6 +123,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
     $ kubectl delete secret nginx-client-certs -n istio-system
+    $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete namespace mesh-external
     {{< /text >}}
 
