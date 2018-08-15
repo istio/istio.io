@@ -430,7 +430,7 @@ spec:
 |`portNumber`|`uint32`|进行通信的服务或网关端口。如果没有指定这一字段，则匹配所有的监听器。即使是为实例或者 Pod 生成的入站连接监听器，也只应该使用服务端口进行匹配。|
 |`portNamePrefix`|`string`|除了用具体端口之外，还可以用端口名称的前缀进行大小写无关的匹配。例如 `mongo` 前缀可以匹配 `mongo-port`、`mongo`、`mongoDB` 以及 `MONGO` 等。|
 |`listenerType`|[`EnvoyFilter.ListenerMatch.ListenerType`](#EnvoyFilter-ListenerMatch-ListenerType)|入站和出站两种类型。如果没有指定，则匹配所有监听器。|
-|`listenerProtocol`|[`EnvoyFilter.ListenerMatch.ListenerProtocol`](#EnvoyFilter.ListenerMatch.ListenerProtocol)|为同一协议指定监听器。如果没有指定，会把监听器应用到所有协议上。协议选择可以是所有 HTTP 监听器（包括 HTTP2/gRPC/HTTPS（Envoy 作为 TLS 终结器） ）或者所有 TCP 监听器（包括利用 SNI 进行的 HTTPS 透传）。|
+|`listenerProtocol`|[`EnvoyFilter.ListenerMatch.ListenerProtocol`](#envoyfilter-listenermatch-listenerprotocol)|为同一协议指定监听器。如果没有指定，会把监听器应用到所有协议上。协议选择可以是所有 HTTP 监听器（包括 HTTP2/gRPC/HTTPS（Envoy 作为 TLS 终结器） ）或者所有 TCP 监听器（包括利用 SNI 进行的 HTTPS 透传）。|
 |`address`|`string[]`|监听器绑定的一或多个 IP 地址。如果不为空，应该至少匹配其中一个地址。|
 
 ## `EnvoyFilter.ListenerMatch.ListenerProtocol`
