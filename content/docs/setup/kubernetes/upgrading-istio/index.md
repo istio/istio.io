@@ -21,7 +21,7 @@ and change directory to the new release directory.
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@ -n istio-system
 {{< /text >}}
 
 ### Control plane upgrade
