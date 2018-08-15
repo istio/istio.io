@@ -102,8 +102,8 @@ spec:
 |`allowMethods`|`string[]`|允许访问资源的 HTTP 方法，字段内容会进行序列化之后保存到 `Access-Control-Allow-Methods` Header 之中。|
 |`allowHeaders`|`string[]`|在请求资源时可以使用的 HTTP Header 列表，会被序列化后保存到 `Access-Control-Allow-Methods` Header 之中。 |
 |`exposeHeaders`|`string[]`|一个允许浏览器访问的 HTTP Header 白名单，会被序列化后保存到 `Access-Control-Expose-Headers` Header 之中。|
-|`maxAge`|`[google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)`|可以缓存预检请求结果的有效期。保存到 `Access-Control-Max-Age` Header 之中。|
-|`allowCredentials`|`[google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue)`|是否允许调用者携带认证信息对资源发起实际请求（非预检）。会保存到 `Access-Control-Allow-Credentials` Header 之中。|
+|`maxAge`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|可以缓存预检请求结果的有效期。保存到 `Access-Control-Max-Age` Header 之中。|
+|`allowCredentials`|[`google.protobuf.BoolValue`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue)|是否允许调用者携带认证信息对资源发起实际请求（非预检）。会保存到 `Access-Control-Allow-Credentials` Header 之中。|
 
 ## `Destination`
 
@@ -179,7 +179,7 @@ spec:
 
 要控制向网格之外发出的流量，外部服务首先要以 `ServiceEntry` 资源的形式在 Istio 内部的服务注册表中进行定义。定义完成之后，就可以使用 `ServiceEntry` 资源来控制到这些外部服务的流量了。例如下面的规则为 `wikipedia.org` 定义了一个服务，并为 http 请求设置了一个 5 秒钟的超时。
 
-{{< text bash >}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -383,7 +383,7 @@ spec:
 
 ## `EnvoyFilter.Filter`
 
-要加入过滤器联调的 Envoy 过滤器。
+要加入过滤器链条的 Envoy 过滤器。
 
 |字段|类型|描述|
 |---|---|---|
@@ -423,7 +423,7 @@ spec:
 
 ## `EnvoyFilter.ListenerMatch`
 
-选择一个监听器，在符合条件的情况下加入过滤器配置。`ListenerMatch` 中列出的所有条件全部符合（“与”）的情况下才能进行插入。
+选择一个监听器，在符合条件的情况下加入过滤器配置。`ListenerMatch` 中列出的所有条件全部符合（逻辑与）的情况下才能进行插入。
 
 |字段|类型|描述|
 |---|---|---|
@@ -806,14 +806,14 @@ spec:
 而接下来例子，则为 `ratings` 设置了会话黏连模式的负载均衡，黏连模式所使用的哈希根据 Cookie 中的 `user` 数据得来。
 
 {{< text yaml >}}
- apiVersion: networking.istio.io/v1alpha3
- kind: DestinationRule
- metadata:
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
    name: bookinfo-ratings
- spec:
+spec:
    host: ratings.prod.svc.cluster.local
    trafficPolicy:
-     loadBalancer:
+      loadBalancer:
        consistentHash:
          httpCookie:
            name: user
@@ -852,7 +852,7 @@ spec:
 
 |字段|描述|
 |---|---|
-|`ROUND_ROBIN`|轮询调度策略。缺省|
+|`ROUND_ROBIN`|轮询调度策略。缺省。|
 |`LEAST_CONN`|使用一个 O(1) 复杂度的算法：随机选择两个健康主机，从中选择一个较少请求的主机提供服务。|
 |`RANDOM`|随机的负载均衡算法会随机选择一个健康主机。在没有健康检查策略的情况下，随机策略通常会比轮询调度策略更加高效。|
 |`PASSTHROUGH`|这个策略会直接把请求发给客户端要求的地址上。这个选项需要慎重使用。这是一种高级用例。参考 [Envoy 的 Original destination 负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#original-destination) 一文进一步了解其应用方式。|
