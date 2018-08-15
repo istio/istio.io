@@ -1,11 +1,7 @@
 ---
 title: 报告 Bugs
-description: 如果你发现了 bug 该怎么做。 
+description: 如果你发现了 bug 该怎么做。
 weight: 34
-aliases:
-    - /zh/bugs.html
-    - /zh/bugs/index.html
-    - /zh/help/bugs/
 page_icon: /img/bugs.svg
 ---
 
