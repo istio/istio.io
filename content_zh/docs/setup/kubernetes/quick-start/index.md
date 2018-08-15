@@ -76,7 +76,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
 $ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
 {{< /text >}}
 
-或者创建一个新的付费群集：
+或者创建一个新的付费集群：
 
 {{< text bash >}}
 $ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.7

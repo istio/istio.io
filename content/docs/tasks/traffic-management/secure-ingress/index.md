@@ -136,7 +136,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
     {{< text bash >}}
-    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     Server certificate:
       subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=httpbin.example.com
@@ -220,7 +220,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 1.  Access the `httpbin` service by HTTPS as in the previous section:
 
     {{< text bash >}}
-    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
 
@@ -234,7 +234,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
  and your private key (the `--key` option):
 
     {{< text bash >}}
-    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem --cert 4_client/certs/httpbin.example.com.cert.pem --key 4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem --cert 4_client/certs/httpbin.example.com.cert.pem --key 4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
 
     -=[ teapot ]=-
 

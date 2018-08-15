@@ -11,7 +11,7 @@ keywords: [遥测,可视化]
 
 ## 前提条件
 
-* 在群集中[安装 Istio](/zh/docs/setup/) 并部署应用程序。
+* 在集群中[安装 Istio](/zh/docs/setup/) 并部署应用程序。
 * [安装 Prometheus 附加组件](/zh/docs/tasks/telemetry/querying-metrics/)。
 
 ## 查看 Istio 仪表板
@@ -24,7 +24,7 @@ keywords: [遥测,可视化]
     $ kubectl apply -f install/kubernetes/addons/grafana.yaml
     {{< /text >}}
 
-1.  验证服务是否在群集中运行。
+1.  验证服务是否在集群中运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
