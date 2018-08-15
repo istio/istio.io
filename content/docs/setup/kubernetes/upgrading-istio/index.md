@@ -22,7 +22,7 @@ First, generate the desired Istio control plane yaml file, e.g.
 
 {{< text bash >}}
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio.yaml \
+  --values @install/kubernetes/helm/istio/values-istio.yaml@ \
   install/kubernetes/helm/istio >> install/kubernetes/istio.yaml
 {{< /text >}}
 
@@ -30,7 +30,7 @@ or
 
 {{< text bash >}}
 $ helm template --namespace istio-system --set global.proxy.image=proxy \
-  --values install/kubernetes/helm/istio/values-istio-auth.yaml \
+  --values @install/kubernetes/helm/istio/values-istio-auth.yaml@ \
   install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
 {{< /text >}}
 
