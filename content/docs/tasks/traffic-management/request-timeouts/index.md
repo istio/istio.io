@@ -24,7 +24,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 
 ## Request timeouts
 
-A timeout for http requests can be specified using the *httpReqTimeout* field of a routing rule.
+A timeout for http requests can be specified using the *timeout* field of the [route rule](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute).
 By default, the timeout is 15 seconds, but in this task you override the `reviews` service
 timeout to 1 second.
 To see its effect, however, you also introduce an artificial 2 second delay in calls
