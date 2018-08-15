@@ -8,6 +8,12 @@ keywords: [traffic-management,egress]
 The [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example describes how to configure
 Istio to direct the egress traffic through a dedicated service called _Egress Gateway_. This examples shows how to
 configure an Egress Gateway to perform mutual TLS to external services.
+You will deploy an [NGINX](https://www.nginx.com/) server in your Kubernetes cluster without injecting Istio sidecar
+proxy into it.
+This server will exemplify a server outside the Istio service mesh. Then you will confifure the Egress Gateway to
+perform mutual TLS with this server.
+Finally, you will direct the traffic from the application pods inside the mesh to the server outside the mesh through
+the Egress Gateway.
 
 ## Before you begin
 
