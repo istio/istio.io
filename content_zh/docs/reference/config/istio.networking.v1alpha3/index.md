@@ -64,7 +64,7 @@ spec:
 
 ## `CorsPolicy`
 
-为服务定义跨来源资源共享（[Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/AccesscontrolCORS)，缩写为 CORS）策略。例如下面的规则对来自 `example.com` 域的跨来源请求进行了限制：
+为服务定义跨来源资源共享（[Cross-Origin Resource Sharing](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)，缩写为 CORS）策略。例如下面的规则对来自 `example.com` 域的跨来源请求进行了限制：
 
 - 仅允许 `POST` 和 `GET` 操作。
 - 设置 `Access-Control-Allow-Credentials` Header 的值为 False。
@@ -769,7 +769,7 @@ spec:
 |`retries`|[`HTTPRetry`](#HTTPRetry)|HTTP 请求的重试设置。|
 |`fault`|[`HTTPFaultInjection`](#HTTPFaultInjection)|应用到 HTTP 请求客户端的故障注入策略。**注意：客户端启用了故障注入之后，超时和重试会被忽略。**|
 |`mirror`|[`mirror`](#Destination)|在把 HTTP 请求转发给预期目标的同时，对流量进行镜像并发送给其他目标。出于性能方面的考虑，Sidecar/Gateway 在返回预期目标的响应之前不会等待镜像目标的响应。被镜像的目标同样也会生成统计信息。|
-|`corsPolicy`|[`CorsPolicy`](#CorsPolicy)|跨来源资源共享（[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/AccesscontrolCORS)）。|
+|`corsPolicy`|[`CorsPolicy`](#CorsPolicy)|跨来源资源共享（[CORS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)）。|
 |`appendHeaders`|`map<string, string>`|在向目标服务转发请求之前，加入额外的 HTTP Header。|
 
 ## `L4MatchAttributes`
