@@ -234,6 +234,20 @@ to hold the configuration of the NGINX:
             image: tutum/curl
             command: ["/bin/sleep","infinity"]
             imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: nginx-client-certs
+              mountPath: /etc/nginx-client-certs
+              readOnly: true
+            - name: nginx-ca-certs
+              mountPath: /etc/nginx-ca-certs
+              readOnly: true
+          volumes:
+          - name: nginx-client-certs
+            secret:
+              secretName: nginx-client-certs
+          - name: nginx-ca-certs
+            secret:
+              secretName: nginx-ca-certs
     EOF
     {{< /text >}}
 
