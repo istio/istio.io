@@ -3,15 +3,22 @@ title: 安全
 description: 描述 Istio 的授权与鉴权功能。
 weight: 30
 keywords: [安全,认证,鉴权,rbac,访问控制]
+aliases:
+    - /docs/concepts/network-and-auth/auth.html
+    - /docs/concepts/security/authn-policy/
+    - /docs/concepts/security/mutual-tls/
+    - /docs/concepts/security/rbac/
 ---
 
-在不修改代码的情况下，增强微服务自身以及微服务之间通信的安全性，是 Istio 的重要目标。它负责提供以下功能：
+将单一应用程序分解为微服务可提供各种好处，包括更好的灵活性、可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：
 
-* 为每个服务提供强认证，认证身份和角色相结合，能够在不同的集群甚至不同云上进行互操作
-* 加密服务和服务之间、最终用户和服务之间的通信
-* 提供密钥管理系统，完成密钥和证书的生成、分发、轮转以及吊销操作
+- 为了抵御中间人攻击，需要流量加密。
+- 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略。
+- 要审核谁在什么时候做了什么，需要审计工具。
 
-下图展示了 Istio 安全相关的架构，其中包含了三个主要的组件：认证、密钥管理以及通信安全。图中的 `frontend` 服务以 Service account `frontend-team` 的身份运行；`backend` 服务以 Service account `backend-team` 的身份运行，Istio 会对这两个服务之间的通信进行加密。除了运行在 Kubernetes 上的服务之外，Istio 还能为虚拟机和物理机上的服务提供支持。
+Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。
+
+本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据，端点，通信和平台的内部和外部威胁。
 
 {{< image width="80%" ratio="56.25%"
     link="/docs/concepts/security/auth.svg"
@@ -19,7 +26,22 @@ keywords: [安全,认证,鉴权,rbac,访问控制]
     caption="Istio 安全架构"
     >}}
 
+Istio 安全功能提供强大的身份，强大的策略，透明的TLS加密以及用于保护您的服务和数据的身份验证，授权和审计（AAA）工具。 Istio 安全的目标是：
+
+- **默认安全** : 应用程序代码和基础结构无需更改
+
+- **深度防御** : 与现有安全系统集成，提供多层防御
+
+- **零信任网络** : 在不受信任的网络上构建安全解决方案
+
+访问我们的[Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/)，开始在部署的服务中使用Istio安全功能。
+请访问我们的[安全任务](/docs/tasks/security/)，有关使用安全功能的详细说明。
+
 如图所示，Istio 的 Citadel 用加载 Secret 卷的方式在 Kubernetes 容器中完成证书和密钥的分发。如果服务运行在虚拟机或物理机上，则会使用运行在本地的 Node agent，它负责在本地生成私钥和 CSR（证书签发申请），把 CSR 发送给 Citadel 进行签署，并把生成的证书和私钥分发给 Envoy。
+
+## 高级架构
+
+Istio中的安全性涉及多个组件：
 
 ## 双向 TLS 认证
 
