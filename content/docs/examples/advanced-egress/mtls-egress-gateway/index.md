@@ -220,6 +220,158 @@ to hold the configuration of the Nginx SNI proxy:
     `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
     `/etc/istio/nginx-ca-certs`.
 
+## Mutual TLS origination for egress traffic
+
+1.  Define a `ServiceEntry` for `my-nginx.mesh-external.svc.cluster.local`:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: nginx
+    spec:
+      hosts:
+      - my-nginx.mesh-external.svc.cluster.local
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+      - number: 443
+        name: http-port-for-tls-origination
+        protocol: HTTP
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
+    virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
+    service.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - my-nginx.mesh-external.svc.cluster.local
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-nginx
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: nginx
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: my-nginx.mesh-external.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  Define a `VirtualService` to direct the traffic through the egress gateway, and a `DestinationRule` to perform
+    mutual TLS origination:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-nginx-through-egress-gateway
+    spec:
+      hosts:
+      - my-nginx.mesh-external.svc.cluster.local
+      gateways:
+      - istio-egressgateway
+      - mesh
+      http:
+      - match:
+        - gateways:
+          - mesh
+          port: 80
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: nginx
+            port:
+              number: 443
+          weight: 100
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: my-nginx.mesh-external.svc.cluster.local
+            port:
+              number: 443
+          weight: 100
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      host: my-nginx.mesh-external.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: MUTUAL
+            clientCertificate: /etc/nginx-client-certs/tls.crt
+            privateKey: /etc/nginx-client-certs/tls.key
+            caCertificates: /etc/nginx-ca-certs/ca-chain.cert.pem
+            sni: my-nginx.mesh-external.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    HTTP/1.1 200 OK
+    ...
+    content-length: 150793
+    ...
+    {{< /text >}}
+
+1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in
+    the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    {{< /text >}}
+
+    We should see a line related to our request, similar to the following:
+
+    {{< text plain>}}
+    "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "my-nginx.mesh-external.svc.cluster.local" "151.101.65.67:443"
+    {{< /text >}}
+
 ##  Cleanup
 
 1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
@@ -234,6 +386,11 @@ to hold the configuration of the Nginx SNI proxy:
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
     $ kubectl delete namespace mesh-external
+    $ kubectl delete gateway istio-egressgateway
+    $ kubectl delete serviceentry nginx
+    $ kubectl delete virtualservice direct-nginx-through-egress-gateway
+    $ kubectl delete destinationrule originate-mtls-for-nginx
+    $ kubectl delete destinationrule egressgateway-for-nginx
     {{< /text >}}
 
 1.  Delete the directory of the certificates and the repository used to generate them:
