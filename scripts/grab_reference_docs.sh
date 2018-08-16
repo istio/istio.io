@@ -9,32 +9,33 @@
 # Additionally, this script also builds Istio components and runs them to extract their command-line docs which it
 # copies to content/docs/reference/commands.
 
-#set -e
-
-ISTIO_BRANCH=master
-
-#####################
-
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
 export GOPATH=$(mktemp -d)
 WORK_DIR=${GOPATH}/src/istio.io
-COMMAND_DIR=$ISTIO_BASE/content/docs/reference/commands
+COMP_OUTPUT_DIR=$ISTIO_BASE/content/docs/reference/commands
+echo "WORK_DIR =" $WORK_DIR
 
-echo $WORK_DIR
+# The repos to mine for docs, just add new entries here to pull in more repos.
+REPOS=(
+    https://github.com/istio/istio.git@master
+    https://github.com/istio/api.git@master
+    https://github.com/apigee/istio-mixer-adapter.git@master
+)
 
-# Get the source code
-mkdir -p ${WORK_DIR}
-pushd $WORK_DIR
-git clone https://github.com/istio/api.git
-cd api
-git checkout $ISTIO_BRANCH
-cd ..
-git clone https://github.com/istio/istio.git
-cd istio
-git checkout $ISTIO_BRANCH
-cd ..
-git clone https://github.com/apigee/istio-mixer-adapter.git
-popd
+# The components to build and extract usage docs from.
+COMPONENTS=(
+    ${WORK_DIR}/istio/mixer/cmd/mixc:mixc
+    ${WORK_DIR}/istio/mixer/cmd/mixs:mixs
+    ${WORK_DIR}/istio/istioctl/cmd/istioctl:istioctl
+    ${WORK_DIR}/istio/pilot/cmd/pilot-agent:pilot-agent
+    ${WORK_DIR}/istio/pilot/cmd/pilot-discovery:pilot-discovery
+    ${WORK_DIR}/istio/pilot/cmd/sidecar-injector:sidecar-injector
+    ${WORK_DIR}/istio/security/cmd/istio_ca:istio_ca
+    ${WORK_DIR}/istio/security/cmd/node_agent:node_agent
+    ${WORK_DIR}/istio/galley/cmd/galley:galley
+)
+
+#####################
 
 # Given the name of a .pb.html file, extracts the $location marker and then proceeds to
 # copy the file to the corresponding content/docs/ hierarchy.
@@ -56,50 +57,48 @@ locate_file() {
     sed -e 's/href="https:\/\/istio.io/href="/g' ${FILENAME} >content/docs${PP}/${FN}/index.html
 }
 
-# Given the path and name to an Istio command, builds the command and then
+# Given the path and name to an Istio component, builds the component and then
 # runs it to extract its command-line docs
-get_command_doc() {
-    COMMAND_PATH=$1
-    COMMAND=$2
+get_component_doc() {
+    COMP_PATH=$1
+    COMP_NAME=$2
 
-    pushd ${COMMAND_PATH}
+    pushd ${COMP_PATH}
     go build
-    mkdir -p ${COMMAND_DIR}/${COMMAND}
-    ./${COMMAND} collateral -o ${COMMAND_DIR}/${COMMAND} --html_fragment_with_front_matter
-    mv ${COMMAND_DIR}/${COMMAND}/${COMMAND}.html ${COMMAND_DIR}/${COMMAND}/index.html
-    rm ${COMMAND} 2>/dev/null
+    mkdir -p ${COMP_OUTPUT_DIR}/${COMP_NAME}
+    ./${COMP_NAME} collateral -o ${COMP_OUTPUT_DIR}/${COMP_NAME} --html_fragment_with_front_matter
+    mv ${COMP_OUTPUT_DIR}/${COMP_NAME}/${COMP_NAME}.html ${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html
+    rm ${COMP_NAME} 2>/dev/null
     popd
 }
 
-# delete all the current generated files so that any stale files are removed
+# Prepare the work directory by cloning all the repos into it
+mkdir -p ${WORK_DIR}
+pushd $WORK_DIR
+for repo in "${REPOS[@]}"
+do
+    REPO_URL=$(echo $repo | cut -d @ -f 1)
+    REPO_BRANCH=$(echo $repo | cut -d @ -f 2)
+
+    git clone -b $REPO_BRANCH $REPO_URL
+done
+popd
+
+# delete all the existing generated files so that any stale files are removed
 find content/docs/reference -name '*.html' -type f|xargs rm 2>/dev/null
 
-get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixc mixc
-get_command_doc ${WORK_DIR}/istio/mixer/cmd/mixs mixs
-get_command_doc ${WORK_DIR}/istio/istioctl/cmd/istioctl istioctl
-get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-agent pilot-agent
-get_command_doc ${WORK_DIR}/istio/pilot/cmd/pilot-discovery pilot-discovery
-get_command_doc ${WORK_DIR}/istio/pilot/cmd/sidecar-injector sidecar-injector
-get_command_doc ${WORK_DIR}/istio/security/cmd/istio_ca istio_ca
-get_command_doc ${WORK_DIR}/istio/security/cmd/node_agent node_agent
-get_command_doc ${WORK_DIR}/istio/galley/cmd/galley galley
-
-# delete the vendor dir so we don't get .pb.html out of there
-rm -fr $WORK_DIR/istio/vendor
-
-for f in `find $WORK_DIR/istio -type f -name '*.pb.html'`
+for comp in "${COMPONENTS[@]}"
 do
-    echo "processing $f"
-    locate_file ${f}
+    COMP_PATH=$(echo $comp | cut -d : -f 1)
+    COMP_NAME=$(echo $comp | cut -d : -f 2)
+
+    get_component_doc $COMP_PATH $COMP_NAME
 done
 
-for f in `find $WORK_DIR/api -type f -name '*.pb.html'`
-do
-    echo "processing $f"
-    locate_file ${f}
-done
+# delete the vendor directories so we don't get .pb.html out of there
+rm -fr $WORK_DIR/*/vendor
 
-for f in `find $WORK_DIR/istio-mixer-adapter -type f -name '*.pb.html'`
+for f in `find $WORK_DIR -type f -name '*.pb.html'`
 do
     echo "processing $f"
     locate_file ${f}
