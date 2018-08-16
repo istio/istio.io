@@ -7,7 +7,7 @@ keywords: [kubernetes,multicluster,hybrid]
 
 This example demonstrates how to use Istio's multicluster feature to join 1
 [IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and 1 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster together,
-using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+using the [multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Set up two clusters
 
