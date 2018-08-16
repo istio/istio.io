@@ -251,6 +251,47 @@ to hold the configuration of the NGINX:
     EOF
     {{< /text >}}
 
+1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) container to send requests to the NGINX server:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl -v --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://my-nginx.mesh-external.svc.cluster.local
+    ...
+    Server certificate:
+      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=my-nginx.mesh-external.svc.cluster.local
+      start date: 2018-08-16 04:31:20 GMT
+      expire date: 2019-08-26 04:31:20 GMT
+      common name: my-nginx.mesh-external.svc.cluster.local (matched)
+      issuer: C=US; ST=Denial; O=Dis; CN=my-nginx.mesh-external.svc.cluster.local
+      SSL certificate verify ok.
+    > GET / HTTP/1.1
+    > User-Agent: curl/7.35.0
+    > Host: my-nginx.mesh-external.svc.cluster.local
+    ...
+    < HTTP/1.1 200 OK
+
+    < Server: nginx/1.15.2
+    ...
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
+    ...
+    {{< /text >}}
+
+1.  Verify that the server requires the client's certificate:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl --cacert /etc/nginx-ca-certs/ca-chain.cert.pem https://my-nginx.mesh-external.svc.cluster.local
+    <html>
+    <head><title>400 No required SSL certificate was sent</title></head>
+    <body bgcolor="white">
+    <center><h1>400 Bad Request</h1></center>
+    <center>No required SSL certificate was sent</center>
+    <hr><center>nginx/1.15.2</center>
+    </body>
+    </html>
+    {{< /text >}}
+
 1.  Cleanup:
 
     {{< text bash >}}
