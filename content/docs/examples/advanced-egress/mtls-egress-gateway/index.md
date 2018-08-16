@@ -1,13 +1,13 @@
 ---
-title: Configure an Egress Gateway with mutual TLS
-description: Describes how to configure an Egress Gateway to perform mutual TLS to external services
+title: Mutual TLS origination by Egress Gateway
+description: Describes how to configure an Egress Gateway to perform mutual TLS origination to external services
 weight: 45
 keywords: [traffic-management,egress]
 ---
 
 The [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example describes how to configure
 Istio to direct the egress traffic through a dedicated service called _Egress Gateway_. This examples shows how to
-configure an Egress Gateway to perform mutual TLS to external services.
+configure an Egress Gateway to perform mutual TLS origination to external services.
 You will deploy an [NGINX](https://www.nginx.com/) server in your Kubernetes cluster without injecting Istio sidecar
 proxy into it.
 This server will simulate a server outside the Istio service mesh. Then you will configure the Egress Gateway to
