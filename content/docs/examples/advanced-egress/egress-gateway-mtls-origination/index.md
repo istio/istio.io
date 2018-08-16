@@ -174,7 +174,7 @@ to hold the configuration of the NGINX:
     EOF
     {{< /text >}}
 
-###  Test the NGINX deployment
+### Test the NGINX deployment
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates:
@@ -300,7 +300,7 @@ to hold the configuration of the NGINX:
     $ kubectl delete -n mesh-external secret nginx-client-certs
     {{< /text >}}
 
-##  Redeploy the Egress Gateway with the client certificates
+## Redeploy the Egress Gateway with the client certificates
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.
@@ -499,7 +499,7 @@ to hold the configuration of the NGINX:
     [2018-08-16T07:33:57.569Z] "GET / HTTP/1.1" 200 - 0 612 13 5 "172.30.146.79" "curl/7.35.0" "935a0aba-cc97-9492-9040-3778edfc493a" "my-nginx.mesh-external.svc.cluster.local" "172.21.143.121:443"
     {{< /text >}}
 
-##  Cleanup
+## Cleanup
 
 1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
     section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
