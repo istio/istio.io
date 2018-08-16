@@ -110,6 +110,20 @@ spec:
         host: helloworld
         subset: v2
       weight: 10
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: helloworld
+spec:
+  host: helloworld
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
 EOF
 {{< /text >}}
 
