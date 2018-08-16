@@ -58,7 +58,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     $ popd
     {{< /text >}}
 
-## Deploy an Nginx server
+## Deploy an NGINX server
 
 1.  Create a namespace `mesh-external` to represent services outside the Istio mesh. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
@@ -107,7 +107,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     {{< /text >}}
 
 1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
-to hold the configuration of the Nginx SNI proxy:
+to hold the configuration of the NGINX:
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
@@ -174,7 +174,7 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-##  Test the NGINX deployment
+###  Test the NGINX deployment
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.
