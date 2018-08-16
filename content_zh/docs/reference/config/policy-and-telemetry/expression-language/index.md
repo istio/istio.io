@@ -56,7 +56,7 @@ Mixer 在校验配置信息时，会校验其中的 CEXL 表达式，并将它�
 
 |表达式|返回类型|说明|
 |-----------|------------|-----------|
-|`request.size` <code>&#124;</code> `300` |  **int** | 如果 `request.size` 存在，则返回，否则表达式值为整型 200
+|`request.size` <code>&#124;</code> `300` | `int` | 如果 `request.size` 存在，则返回，否则表达式值为整型 200
 |`request.headers["X-FORWARDED-HOST"] == "myhost"`| **boolean**
 |`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`| **boolean**| 如果用户为 admin，或者用户属于 admin 组，表达式为 true
 |`(request.auth.principal` <code>&#124;</code> `"nobody" ) == "user1"` | **boolean** | 如果 `request.auth.principal` 的值的是 "user1"，表达式值为 true，表达式解析不会因为 `request.auth.principal` 不存在而失败
