@@ -23,7 +23,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
 
 ## Generate client and server certificates and keys
 
-Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys).
+Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys).
 
 1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
 
