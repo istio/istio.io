@@ -126,7 +126,7 @@ to hold the configuration of the Nginx SNI proxy:
         run: my-nginx
     spec:
       ports:
-      - port: 80
+      - port: 443
         protocol: TCP
       selector:
         run: my-nginx
@@ -150,7 +150,7 @@ to hold the configuration of the Nginx SNI proxy:
           - name: my-nginx
             image: nginx
             ports:
-            - containerPort: 80
+            - containerPort: 443
             volumeMounts:
             - name: nginx-config
               mountPath: /etc/nginx
