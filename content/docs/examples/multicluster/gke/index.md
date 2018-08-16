@@ -7,7 +7,7 @@ keywords: [kubernetes,multicluster]
 
 This example demonstrates how to use Istio's multicluster feature to join 2
 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters together,
-using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+using the [multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Before you begin
 
