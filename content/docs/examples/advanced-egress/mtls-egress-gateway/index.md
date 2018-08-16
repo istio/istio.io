@@ -1,6 +1,6 @@
 ---
 title: Mutual TLS origination by Egress Gateway
-description: Describes how to configure an Egress Gateway to perform mutual TLS origination to external services
+description: Describes how to configure an Egress Gateway to perform mutual TLS origination to external services.
 weight: 45
 keywords: [traffic-management,egress]
 ---
