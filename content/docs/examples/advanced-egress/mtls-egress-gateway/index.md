@@ -174,6 +174,77 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
+##  Test the NGINX deployment
+
+1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
+   certificates.
+
+    {{< text bash >}}
+    $ kubectl create -n mesh-external secret tls nginx-client-certs --key my-nginx.mesh-external.svc.cluster.local/4_client/private/my-nginx.mesh-external.svc.cluster.local.key.pem --cert my-nginx.mesh-external.svc.cluster.local/4_client/certs/my-nginx.mesh-external.svc.cluster.local.cert.pem
+    {{< /text >}}
+
+1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample with mounted client and CA certificates to test sending
+    requests to the NGINX server.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n mesh-external -f -
+    # Copyright 2017 Istio Authors
+    #
+    #   Licensed under the Apache License, Version 2.0 (the "License");
+    #   you may not use this file except in compliance with the License.
+    #   You may obtain a copy of the License at
+    #
+    #       http://www.apache.org/licenses/LICENSE-2.0
+    #
+    #   Unless required by applicable law or agreed to in writing, software
+    #   distributed under the License is distributed on an "AS IS" BASIS,
+    #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    #   See the License for the specific language governing permissions and
+    #   limitations under the License.
+
+    ##################################################################################################
+    # Sleep service
+    ##################################################################################################
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: sleep
+      labels:
+        app: sleep
+    spec:
+      ports:
+      - port: 80
+        name: http
+      selector:
+        app: sleep
+    ---
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: sleep
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: sleep
+        spec:
+          containers:
+          - name: sleep
+            image: tutum/curl
+            command: ["/bin/sleep","infinity"]
+            imagePullPolicy: IfNotPresent
+    EOF
+    {{< /text >}}
+
+1.  Cleanup:
+
+    {{< text bash >}}
+    $ kubectl delete -n mesh-external service sleep
+    $ kubectl delete -n mesh-external deployment sleep
+    $ kubectl delete -n mesh-external secret nginx-client-certs
+    {{< /text >}}
+
 ##  Redeploy the Egress Gateway with the client certificates
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
