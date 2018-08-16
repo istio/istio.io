@@ -37,18 +37,30 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
 1.  Change directory to the cloned repository:
 
     {{< text bash >}}
-    $ cd mtls-go-example
+    $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates (use any password):
+1.  Generate the certificates for `httpbin.example.com`. Use any password with the following command:
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
-     When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
-     `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
-     procedures below.
+    When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
+   `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
+    procedures below.
+
+1.  Move the certificates into `httpbin.example.com` directory:
+
+    {{< text bash >}}
+    $ mkdir ~+1/httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/httpbin.example.com
+    {{< /text >}}
+
+1.  Change directory back:
+
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
 
 ## Configure a TLS ingress gateway
 
@@ -62,7 +74,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     > be mounted and available to the Istio gateway.
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key 3_application/private/httpbin.example.com.key.pem --cert 3_application/certs/httpbin.example.com.cert.pem
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key httpbin.example.com/3_application/private/httpbin.example.com.key.pem --cert httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     secret "istio-ingressgateway-certs" created
     {{< /text >}}
 
@@ -80,7 +92,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: httpbin-gateway
+      name: mygateway
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
@@ -110,7 +122,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
       hosts:
       - "httpbin.example.com"
       gateways:
-      - httpbin-gateway
+      - mygateway
       http:
       - match:
         - uri:
@@ -136,7 +148,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     Server certificate:
       subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=httpbin.example.com
@@ -183,7 +195,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     > be mounted and available to the Istio gateway.
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
     secret "istio-ingressgateway-ca-certs" created
     {{< /text >}}
 
@@ -198,7 +210,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: httpbin-gateway
+      name: mygateway
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
@@ -220,7 +232,8 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 1.  Access the `httpbin` service by HTTPS as in the previous section:
 
     {{< text bash >}}
-    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+
+    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
 
@@ -234,7 +247,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
  and your private key (the `--key` option):
 
     {{< text bash >}}
-    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem --cert 4_client/certs/httpbin.example.com.cert.pem --key 4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
 
     -=[ teapot ]=-
 
@@ -248,6 +261,189 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     {{< /text >}}
 
     This time the server performed client authentication successfully and you received the pretty teapot drawing again.
+
+## Configure a TLS ingress gateway for multiple hosts
+
+In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`. The ingress gateway will present the client the correct certificate according to the requested server.
+
+### Generate client and server certificates and keys for `bookinfo.com`
+
+In this subsection, perform the same steps as in the [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys) subsection. I list them below for your convenience.
+
+1.  Change directory to the cloned repository:
+
+    {{< text bash >}}
+    $ pushd mtls-go-example
+    {{< /text >}}
+
+1.  Generate the certificates for `bookinfo.com`. Use any password with the following command:
+
+    {{< text bash >}}
+    $ ./generate.sh bookinfo.com <password>
+    {{< /text >}}
+
+    When prompted, select `y` for all the questions.
+
+1.  Move the certificates into `bookinfo.com` directory:
+
+    {{< text bash >}}
+    $ mkdir ~+1/bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ~+1/bookinfo.com
+    {{< /text >}}
+
+1.  Change directory back:
+
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
+
+### Redeploy `istio-ingressgateway` with the new certificates
+
+1. Create a new secret to hold the certificate for `bookinfo.com`
+
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com/3_application/private/bookinfo.com.key.pem --cert bookinfo.com/3_application/certs/bookinfo.com.cert.pem
+    secret "istio-ingressgateway-bookinfo-certs" created
+    {{< /text >}}
+
+1.  Generate the `istio-ingressgateway` deployment with a volume to be mounted from the new secret. Use the same options you
+    used for generating your `istio.yaml`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio/ --name istio-ingressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
+    --set gateways.istio-ingressgateway.secretVolumes[0].name=ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[0].secretName=istio-ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[0].mountPath=/etc/istio/ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].name=ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].secretName=istio-ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].mountPath=/etc/istio/ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].name=ingressgateway-bookinfo-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].secretName=istio-ingressgateway-bookinfo-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].mountPath=/etc/istio/ingressgateway-bookinfo-certs > \
+    $HOME/istio-ingressgateway.yaml
+    {{< /text >}}
+
+1.  Redeploy `istio-ingressgateway`:
+
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio-ingressgateway.yaml
+    deployment "istio-ingressgateway" configured
+    {{< /text >}}
+
+1.  Verify that the key and the certificate are successfully loaded in the `istio-ingressgateway` pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-bookinfo-certs
+    {{< /text >}}
+
+    `tls.crt` and `tls.key` should exist in the directory contents.
+
+### Configure traffic for the `bookinfo.com` host
+
+1.  Deploy the [Bookinfo sample application](/docs/examples/bookinfo/), without a gateway:
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+    {{< /text >}}
+
+1.  Redeploy the `Gateway` definition with a host for `bookinfo.com`:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: mygateway
+    spec:
+      selector:
+        istio: ingressgateway # use istio default ingress gateway
+      servers:
+      - port:
+          number: 443
+          name: https-httpbin
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+          privateKey: /etc/istio/ingressgateway-certs/tls.key
+        hosts:
+        - "httpbin.example.com"
+      - port:
+          number: 443
+          name: https-bookinfo
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/istio/ingressgateway-bookinfo-certs/tls.crt
+          privateKey: /etc/istio/ingressgateway-bookinfo-certs/tls.key
+        hosts:
+        - "bookinfo.com"
+    EOF
+    {{< /text >}}
+
+1.  Configure the routes for `bookinfo.com`. Define a `VirtualService` similarly to the one in
+    [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml):
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: bookinfo
+    spec:
+      hosts:
+      - "bookinfo.com"
+      gateways:
+      - mygateway
+      http:
+      - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/products
+        route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+    EOF
+    {{< /text >}}
+
+1.  Send a request to the _Bookinfo_ `productpage`:
+
+    {{< text bash >}}
+    $ curl -o /dev/null -s -v -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    ...
+    Server certificate:
+      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=bookinfo.com
+      start date: Aug 12 13:50:05 2018 GMT
+      expire date: Aug 22 13:50:05 2019 GMT
+      common name: bookinfo.com (matched)
+      issuer: C=US; ST=Denial; O=Dis; CN=bookinfo.com
+    SSL certificate verify ok.
+    ...
+    200
+    {{< /text >}}
+
+1.  Verify that `httbin.example.com` is accessible as previously. Send a request to it and see again the teapot you
+    should already love:
+
+    {{< text bash >}}
+    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem -HHost:httpbin.example.com  https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    ...
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+    {{< /text >}}
 
 ## Troubleshooting
 
@@ -293,7 +489,7 @@ they have valid values, according to the output of the following commands:
 1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
 
     {{< text bash >}}
-        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
@@ -321,7 +517,7 @@ In addition to the steps in the previous section, perform the following:
 1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
 
     {{< text bash >}}
-        $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
 ## Cleanup
@@ -329,9 +525,22 @@ In addition to the steps in the previous section, perform the following:
 1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
 
     {{< text bash >}}
-    $ kubectl delete gateway httpbin-gateway
+    $ kubectl delete gateway mygateway
     $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
+    $ kubectl delete --ignore-not-found=true virtualservice bookinfo
+    {{< /text >}}
+
+1.  Delete the directories of the certificates and the repository used to generate them:
+
+    {{< text bash >}}
+    $ rm -rf httpbin.example.com bookinfo.com mtls-go-example
+    {{< /text >}}
+
+1.  Remove the file you used for redeployment of `istio-ingressgateway`:
+
+    {{< text bash >}}
+    $ rm -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
