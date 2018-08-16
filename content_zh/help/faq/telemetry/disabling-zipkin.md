@@ -17,4 +17,4 @@ $ kubectl -n istio-system edit deployment istio-telemetry
 
 然后按照[分布式追踪任务的清理部分](/zh/docs/tasks/telemetry/distributed-tracing/#清理)的步骤进行操作。
 
-如果完全不想使用追踪功能，可在 [istio-demo.yaml 或 istio-demo-auth.yaml](/zh/docs/tasks/telemetry/distributed-tracing/#开始之前) 中禁用追踪功能，或者在安装 Istio 时不启用它。
+如果完全不想使用追踪功能，可在 [`istio-demo.yaml`](/zh/docs/tasks/telemetry/distributed-tracing/#开始之前) 或 [`istio-demo-auth.yaml`](/zh/docs/tasks/telemetry/distributed-tracing/#开始之前) 中禁用追踪功能，或者在安装 Istio 时不启用它。
