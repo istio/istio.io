@@ -177,14 +177,14 @@ to hold the configuration of the NGINX:
 ###  Test the NGINX deployment
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
-   certificates.
+   certificates:
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-client-certs --key my-nginx.mesh-external.svc.cluster.local/4_client/private/my-nginx.mesh-external.svc.cluster.local.key.pem --cert my-nginx.mesh-external.svc.cluster.local/4_client/certs/my-nginx.mesh-external.svc.cluster.local.cert.pem
     {{< /text >}}
 
 1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample with mounted client and CA certificates to test sending
-    requests to the NGINX server.
+    requests to the NGINX server:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n mesh-external -f -
