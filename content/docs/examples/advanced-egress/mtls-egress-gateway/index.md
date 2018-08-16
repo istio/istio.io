@@ -183,6 +183,42 @@ to hold the configuration of the Nginx SNI proxy:
     $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
+1.  Generate the `istio-egressgateway` deployment with a volume to be mounted from the new secrets. Use the same options
+    you used for generating your `istio.yaml`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
+    --set gateways.istio-egressgateway.secretVolumes[0].name=egressgateway-certs \
+    --set gateways.istio-egressgateway.secretVolumes[0].secretName=istio-egressgateway-certs \
+    --set gateways.istio-egressgateway.secretVolumes[0].mountPath=/etc/istio/egressgateway-certs \
+    --set gateways.istio-egressgateway.secretVolumes[1].name=egressgateway-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[1].secretName=istio-egressgateway-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[1].mountPath=/etc/istio/egressgateway-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[2].name=nginx-client-certs \
+    --set gateways.istio-egressgateway.secretVolumes[2].secretName=nginx-client-certs \
+    --set gateways.istio-egressgateway.secretVolumes[2].mountPath=/etc/nginx-client-certs \
+    --set gateways.istio-egressgateway.secretVolumes[3].name=nginx-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[3].secretName=nginx-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[3].mountPath=/etc/nginx-ca-certs > \
+    ./istio-egressgateway.yaml
+    {{< /text >}}
+
+1.  Redeploy `istio-egressgateway`:
+
+    {{< text bash >}}
+    $ kubectl apply -f ./istio-egressgateway.yaml
+    deployment "istio-egressgateway" configured
+    {{< /text >}}
+
+1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/nginx-client-certs /etc/nginx-ca-certs
+    {{< /text >}}
+
+    `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
+    `/etc/istio/nginx-ca-certs`.
+
 ##  Cleanup
 
 1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
@@ -208,5 +244,5 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Delete the generated configuration files used in this example:
 
     {{< text bash >}}
-    $ rm -f ./nginx.conf
+    $ rm -f ./nginx.conf ./istio-egressgateway.yaml
     {{< /text >}}
