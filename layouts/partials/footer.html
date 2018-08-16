@@ -54,7 +54,10 @@
                 {{ if .Site.Data.args.archive }}
                     Archived on {{ dateFormat "January 2, 2006" .Site.Data.args.archive_date }}
                 {{ else }}
-                    Page last modified: {{ .Page.Lastmod.Format "January 2, 2006" }}
+                    {{ $lastmod := .Page.Lastmod.Format "January 2, 2006" }}
+                    {{ if ne $lastmod "January 1, 0001" }}
+                        Page last modified: {{ $lastmod }}
+                    {{ end }}
                 {{ end }}
             </p>
         </div>

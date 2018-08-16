@@ -1,25 +1,9 @@
 @media screen {
-    // This is a hack such that when we link to a fragment on a page, the page
-    // scrolls correctly in relation to the fixed header. Without this hack, the
-    // page scrolls with the fragment at the top of the page, below the header!
-    h2[id]:before, h3[id]:before, h4[id]:before, h5[id]:before, h6[id]:before, dt[id]:before {
-          display: block;
-          content: ' ';
-          margin-top: -1.8em;
-          height: 1.8em;
-          visibility: hidden;
-    }
-
-    h2[id]:before {
-        width: 2.5rem;
-        border-bottom: 4px solid $mainBrandColor;
-        margin-bottom: .8rem;
-        visibility: visible;
-    }
-
-    dt[id]:before {
-        margin-top: -2.8em;
-        height: 2.8em;
+    :target::before {
+        content: "";
+        display: block;
+        height: $headerHeight;
+        margin-top: -$headerHeight;
     }
 
     html {
@@ -29,7 +13,7 @@
     }
 
     body {
-        padding-top: $headerHeight;
+        margin-top: $headerHeight;
         margin-bottom: calc(#{$footerHeight} + 3rem);
         font-family: "work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         color: $textColor;
@@ -291,6 +275,15 @@ h2 {
     font-weight: $h2Weight;
     margin-top: 3rem;
     margin-bottom: 1.8rem;
+
+    &:before {
+        display: block;
+        content: ' ';
+        width: 5rem;
+        border-bottom: 2px solid $mainBrandColor;
+        margin-bottom: 1.1rem;
+        visibility: visible;
+    }
 }
 
 h3 {

@@ -230,11 +230,10 @@ and prevent localized failures from cascading instability to other nodes.
 
 ### Fine tuning
 
-Istio's traffic management rules allow you to set global defaults for failure recovery per
-service/version. However, consumers of a service can also override
-[timeout](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)
-and
-[retry](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)
+Istio's traffic management rules allow you to set defaults for failure recovery per
+service and version that apply to all callers. However, consumers of a service can also
+override [timeout](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)
+and [retry](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)
 defaults by providing request-level overrides through special HTTP headers.
 With the Envoy proxy implementation, the headers are `x-envoy-upstream-rq-timeout-ms` and
 `x-envoy-max-retries`, respectively.
@@ -263,7 +262,7 @@ Envoy at the same time?*
 Given two failure recovery policies for the same destination service, **the
 more restrictive of the two will be triggered when failures occur**.  For example, you have two timeouts -- one set in Envoy and another in an application's library. In this
 example, if the application sets a 5 second timeout for an API call to a
-service, while the you configured a 10 second timeout in Envoy, the
+service, while you configured a 10 second timeout in Envoy, the
 application's timeout will kick in first. Similarly, if Envoy's circuit
 breaker triggers before the application's circuit breaker, API calls to the
 service will get a 503 from Envoy.

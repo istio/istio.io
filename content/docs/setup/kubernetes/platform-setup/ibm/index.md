@@ -2,7 +2,6 @@
 title: IBM Cloud
 description: Instructions to setup an IBM Cloud cluster for Istio.
 weight: 12
-skip_toc: true
 skip_seealso: true
 keywords: [platform-setup,ibm,iks]
 ---
