@@ -559,13 +559,12 @@ In the following example, Istio authorization is enabled for the `default`
 namespace.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: RbacConfig
 metadata:
   name: default
-  namespace: istio-system
 spec:
-  mode: ON_WITH_INCLUSION
+  mode: 'ON_WITH_INCLUSION'
   inclusion:
     namespaces: ["default"]
 {{< /text >}}
