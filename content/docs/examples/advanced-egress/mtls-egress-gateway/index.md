@@ -37,18 +37,19 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `nginx.example.com`. Use any password with the following command:
+1.  Generate the certificates for `my-nginx.mesh-external.svc.cluster.local`.
+    Use any password with the following command:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
+    $ ./generate.sh my-nginx.mesh-external.svc.cluster.local <password>
     {{< /text >}}
 
     When prompted, select `y` for all the questions.
 
-1.  Move the certificates into `nginx.example.com` directory:
+1.  Move the certificates into `my-nginx.mesh-external.svc.cluster.local` directory:
 
     {{< text bash >}}
-    $ mkdir ~+1/nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/nginx.example.com
+    $ mkdir ~+1/my-nginx.mesh-external.svc.cluster.local && mv 1_root 2_intermediate 3_application 4_client ~+1/my-nginx.mesh-external.svc.cluster.local
     {{< /text >}}
 
 1.  Change directory back:
@@ -71,8 +72,8 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
    certificates.
 
     {{< text bash >}}
-    $ kubectl create -n mesh-external secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
-    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local/3_application/private/my-nginx.mesh-external.svc.cluster.local.key.pem --cert my-nginx.mesh-external.svc.cluster.local/3_application/certs/my-nginx.mesh-external.svc.cluster.local.cert.pem
+    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=my-nginx.mesh-external.svc.cluster.local/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
 1.  Create a configuration file for the NGINX server:
@@ -95,7 +96,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
         root /usr/share/nginx/html;
         index index.html;
 
-        server_name nginx.example.com;
+        server_name my-nginx.mesh-external.svc.cluster.local;
         ssl_certificate /etc/nginx-server-certs/tls.crt;
         ssl_certificate_key /etc/nginx-server-certs/tls.key;
         ssl_client_certificate /etc/nginx-ca-certs/ca-chain.cert.pem;
@@ -179,8 +180,8 @@ to hold the configuration of the Nginx SNI proxy:
    certificates.
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
-    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n istio-system secret tls nginx-client-certs --key my-nginx.mesh-external.svc.cluster.local/4_client/private/my-nginx.mesh-external.svc.cluster.local.key.pem --cert my-nginx.mesh-external.svc.cluster.local/4_client/certs/my-nginx.mesh-external.svc.cluster.local.cert.pem
+    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=my-nginx.mesh-external.svc.cluster.local/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
 1.  Generate the `istio-egressgateway` deployment with a volume to be mounted from the new secrets. Use the same options
@@ -238,7 +239,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Delete the directory of the certificates and the repository used to generate them:
 
     {{< text bash >}}
-    $ rm -rf nginx.example.com mtls-go-example
+    $ rm -rf my-nginx.mesh-external.svc.cluster.local mtls-go-example
     {{< /text >}}
 
 1.  Delete the generated configuration files used in this example:
