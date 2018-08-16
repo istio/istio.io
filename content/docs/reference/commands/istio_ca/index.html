@@ -1,6 +1,6 @@
 ---
 title: istio_ca
-description: Istio Certificate Authority (CA).
+description: Istio Certificate Authority (CA)
 generator: pkg-collateral-docs
 number_of_entries: 4
 ---
@@ -26,6 +26,14 @@ number_of_entries: 4
 <td>Namespace where the Citadel pod is running. Will not be used if explicit file or other storage mechanism is specified.  (default `istio-system`)</td>
 </tr>
 <tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
 <td><code>--custom-dns-names &lt;string&gt;</code></td>
 <td>The list of account.namespace:customdns names, separated by comma.  (default ``)</td>
 </tr>
@@ -34,16 +42,24 @@ number_of_entries: 4
 <td>Enabling profiling when monitoring Citadel. </td>
 </tr>
 <tr>
+<td><code>--experimental-dual-use</code></td>
+<td>Enable dual-use mode. Generates certificates with a CommonName identical to the SAN. </td>
+</tr>
+<tr>
 <td><code>--grpc-host-identities &lt;string&gt;</code></td>
 <td>The list of hostnames for istio ca server, separated by comma.  (default `istio-ca,istio-citadel`)</td>
 </tr>
 <tr>
 <td><code>--grpc-hostname &lt;string&gt;</code></td>
-<td>DEPRECATED, use --grpc-host-identites.  (default `istio-ca`)</td>
+<td>DEPRECATED, use --grpc-host-identities.  (default `istio-ca`)</td>
 </tr>
 <tr>
 <td><code>--grpc-port &lt;int&gt;</code></td>
 <td>The port number for Citadel GRPC server. If unspecified, Citadel will not serve GRPC requests.  (default `8060`)</td>
+</tr>
+<tr>
+<td><code>--identity-domain &lt;string&gt;</code></td>
+<td>The domain to use for identities (default: cluster.local)  (default `cluster.local`)</td>
 </tr>
 <tr>
 <td><code>--key-size &lt;int&gt;</code></td>
@@ -134,10 +150,6 @@ number_of_entries: 4
 <td>The TTL of self-signed CA root certificate  (default `8760h0m0s`)</td>
 </tr>
 <tr>
-<td><code>--self-signed-ca-org &lt;string&gt;</code></td>
-<td>The issuer organization used in self-signed CA certificate (default to k8s.cluster.local)  (default `k8s.cluster.local`)</td>
-</tr>
-<tr>
 <td><code>--sign-ca-certs</code></td>
 <td>Whether Citadel signs certificates for other CAs </td>
 </tr>
@@ -177,6 +189,14 @@ number_of_entries: 4
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
 <tr>
 <td><code>--interval &lt;duration&gt;</code></td>
 <td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
@@ -234,6 +254,16 @@ number_of_entries: 4
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
 <tr>
 <td><code>--log_as_json</code></td>
 <td></td>
