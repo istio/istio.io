@@ -20,7 +20,7 @@ page_icon: /img/helm.svg
 
 但是，我们建议您在生产环境使用 [Helm Chart](/zh/docs/setup/kubernetes/helm-install/) 安装 Istio。通过此安装，您可以利用所有选项来根据需要配置和自定义 Istio。
 
-## 选项1：通过 `helm template` 安装 Helm
+## 选项1：通过 Helm 的 `helm template` 安装 Istio
 
 1. 将 Istio 的核心组件呈现为名为 `istio.yaml` 的 Kubernetes 清单文件：
 
@@ -35,7 +35,7 @@ page_icon: /img/helm.svg
     $ kubectl create -f $HOME/istio.yaml
     {{< /text >}}
 
-## 选项2：通过 `helm install` 安装 Helm 和 Tiller
+## 选项2：通过 Helm 和 Tiller 的 `helm install` 安装 Istio
 
 此选项允许 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 管理 Istio 的生命周期。
 
