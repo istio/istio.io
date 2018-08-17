@@ -361,11 +361,11 @@ to hold the configuration of the NGINX:
       - my-nginx.mesh-external.svc.cluster.local
       ports:
       - number: 80
-        name: http-port
+        name: http
         protocol: HTTP
       - number: 443
-        name: http-port-for-tls-origination
-        protocol: HTTP
+        name: https
+        protocol: HTTPS
       resolution: DNS
     EOF
     {{< /text >}}
