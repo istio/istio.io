@@ -52,7 +52,7 @@ sections.
 
 Deploy a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started). Run the following command; it sets the
 `DO_NOT_ENCRYPT` environment variable of the service's container to `false`. This setting will instruct the deployed
-service to use HTTPS (instead of HTTP) in access to the external service.
+service to use HTTPS (instead of HTTP) to access to the external service.
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - 'DO_NOT_ENCRYPT=false' -o yaml | kubectl apply -f -
