@@ -25,6 +25,39 @@ modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your d
 For this task you set up an instance of [MongoDB](https://www.mongodb.com). You can use any MongoDB instance; I used
 [Compose for MongoDB](https://www.ibm.com/cloud/compose/mongodb).
 
+1. Set an environment variable for the password of your `admin` user. To prevent the password being preserved in the Bash
+   history, remove the command from the history immediately after
+   running the command, using [history -d _offset_](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
+
+    {{< text bash >}}
+    $ export MONGO_ADMIN_PASSWORD=<your MongoDB admin password>
+    {{< /text >}}
+
+1.  Set an environment variable for the password of the new user, you will create, namely `bookinfo`.
+    Remove the command from the history using
+    [history -d _offset_](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
+
+    {{< text bash >}}
+    $ export BOOKINFO_PASSWORD=<password>
+    {{< /text >}}
+
+1.  Set environment variables for your MongoDB, `MONGODB_HOST` and `MONGODB_PORT`.
+
+1. Create the `bookinfo` user:
+
+    {{< text bash >}}
+    $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+    use test
+    db.createUser(
+       {
+         user: "bookinfo",
+         pwd: "$BOOKINFO_PASSWORD",
+         roles: [ "read"]
+       }
+    );
+    EOF
+    {{< /text >}}
+
 ### Initial setting of Bookinfo application
 
 To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
@@ -183,7 +216,20 @@ As with service entries for HTTP/HTTPS, you can delete and create service entrie
 
 ## Cleanup
 
-1.  Drop the `test` database and the `bookinfo` user:
+1.  Drop the `bookinfo` user:
+
+    {{< text bash >}}
+    $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+    use test
+    db.dropUser("bookinfo");
+    EOF
+    {{< /text >}}
+
+1.  Unset the environment variables you used:
+
+    {{< text bash >}}
+    $ unset MONGO_ADMIN_PASSWORD BOOKINFO_PASSWORD
+    {{< /text >}}
 
 1.  Remove the virtual services:
 
