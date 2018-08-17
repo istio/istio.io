@@ -27,7 +27,7 @@ All times are `PDT`.
 
 | Time | Speaker | Affiliation |
 | --- | --- | --- |
-| 10:00 - 10:30 | `Spencer Krum + Lisa Marie-Numphy` | `IBM / Portworx` |
+| 10:00 - 10:30 | `Spencer Krum + Lisa-Marie Namphy` | `IBM / Portworx` |
 | 10:30 - 11:00 | `Lin Sun / Spencer Krum / Sven Mawson` | `IBM / Google` |
 | 11:00 - 11:10 | `Lin Sun / Spencer Krum` | `IBM` |
 | 11:10 - 11:30 | `Jason Yee / Ilan Rabinovich` | `Datadog` |
