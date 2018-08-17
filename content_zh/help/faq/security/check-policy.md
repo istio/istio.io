@@ -11,4 +11,4 @@ HOST:PORT                                  STATUS     SERVER     CLIENT     AUTH
 httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       default/            default/default
 {{< /text >}}
 
-更多详细信息，请参见[验证双向 TLS 配置](/zh/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration)。
+更多详细信息，请参见[检查双向 TLS 配置](/zh/docs/tasks/security/mutual-tls/#检查-istio-双向-tls-认证的配置)。
