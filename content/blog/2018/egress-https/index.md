@@ -166,8 +166,8 @@ serviceentry "googleapis" deleted
 and see in the output that the service entry is deleted.
 
 Accessing the web page after deleting the service entry produces the same error that you experienced before, namely
-_Error fetching product details_. As you can see, the service entries are defined **dynamically**, as many other Istio
-configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to
+_Error fetching product details_. As you can see, the service entries are defined **dynamically**, as are many other
+Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to
 access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
 
 ### Cleanup of HTTPS access to a Google Books web service
