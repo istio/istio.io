@@ -142,88 +142,25 @@ to hold the configuration of the NGINX:
     EOF
     {{< /text >}}
 
-### Test the NGINX deployment
-
-1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the CA certificate:
-
-    {{< text bash >}}
-    $ kubectl create secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
-    {{< /text >}}
-
-1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample with mounted client and CA certificates to test sending
-    requests to the NGINX server:
+1.  To test that the NGINX server was deployed successfully, send a request to the server from its sidecar proxy,
+    ignoring the certificate:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply  -f -
-    # Copyright 2017 Istio Authors
-    #
-    #   Licensed under the Apache License, Version 2.0 (the "License");
-    #   you may not use this file except in compliance with the License.
-    #   You may obtain a copy of the License at
-    #
-    #       http://www.apache.org/licenses/LICENSE-2.0
-    #
-    #   Unless required by applicable law or agreed to in writing, software
-    #   distributed under the License is distributed on an "AS IS" BASIS,
-    #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    #   See the License for the specific language governing permissions and
-    #   limitations under the License.
-
-    ##################################################################################################
-    # Sleep service
-    ##################################################################################################
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: sleep
-      labels:
-        app: sleep
-    spec:
-      ports:
-      - port: 80
-        name: http
-      selector:
-        app: sleep
-    ---
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: sleep
-    spec:
-      replicas: 1
-      template:
-        metadata:
-          labels:
-            app: sleep
-        spec:
-          containers:
-          - name: sleep
-            image: tutum/curl
-            command: ["/bin/sleep","infinity"]
-            imagePullPolicy: IfNotPresent
-            volumeMounts:
-            - name: nginx-ca-certs
-              mountPath: /etc/nginx-ca-certs
-              readOnly: true
-          volumes:
-          - name: nginx-ca-certs
-            secret:
-              secretName: nginx-ca-certs
-    EOF
-    {{< /text >}}
-
-1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) container to send requests to the NGINX server:
-
-    {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod  -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -v --cacert /etc/nginx-ca-certs/ca-chain.cert.pem https://nginx.example.com
+    $ kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
     ...
-    Server certificate:
-      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
-      start date: 2018-08-16 04:31:20 GMT
-      expire date: 2019-08-26 04:31:20 GMT
+    SSL connection using TLS1.2 / ECDHE_RSA_AES_128_GCM_SHA256
+      server certificate verification SKIPPED
+      server certificate status verification SKIPPED
       common name: nginx.example.com (matched)
-      issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
-      SSL certificate verify ok.
+      server certificate expiration date OK
+      server certificate activation date OK
+      certificate public key: RSA
+      certificate version: #3
+      subject: C=US,ST=Denial,L=Springfield,O=Dis,CN=nginx.example.com
+      start date: Wed, 15 Aug 2018 07:29:07 GMT
+      expire date: Sun, 25 Aug 2019 07:29:07 GMT
+      issuer: C=US,ST=Denial,O=Dis,CN=nginx.example.com
+
     > GET / HTTP/1.1
     > User-Agent: curl/7.35.0
     > Host: nginx.example.com
@@ -237,14 +174,6 @@ to hold the configuration of the NGINX:
     <head>
     <title>Welcome to nginx!</title>
     ...
-    {{< /text >}}
-
-1.  Cleanup:
-
-    {{< text bash >}}
-    $ kubectl delete  service sleep
-    $ kubectl delete  deployment sleep
-    $ kubectl delete  secret nginx-ca-certs
     {{< /text >}}
 
 ## Cleanup
