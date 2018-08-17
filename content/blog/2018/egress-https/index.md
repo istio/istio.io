@@ -329,7 +329,7 @@ external server and to encrypt the traffic.
 
 ## Conclusion
 
-In this blog post I demonstrated how the microservices in an Istio service mesh can consume external web services by
+In this blog post I demonstrated how microservices in an Istio service mesh can consume external web services by
 HTTPS. By default, Istio blocks all the traffic to the hosts outside the cluster. To enable such traffic, mesh-external
 service entries must be created for the service mesh. It is possible to access the external sites either by
 issuing HTTPS requests, or by issuing HTTP requests with Istio performing TLS origination. When the microservices issue
