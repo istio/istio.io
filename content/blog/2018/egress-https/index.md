@@ -201,7 +201,7 @@ must issue HTTP requests. Istio then opens an HTTPS connection to the destinatio
 of the microservices must be written differently or configured differently, according to whether the microservice runs
 inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/concepts/what-is-istio/#design-goals). Sometimes you need to compromise...
 
-The diagram below shows two options of sending HTTPS traffic to external services. On the top, a microservice sends
+The diagram below shows two options for sending HTTPS traffic to external services. On the top, a microservice sends
 regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice sends unencrypted HTTP requests
 inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the
 traffic between the pod and the external service is encrypted.
