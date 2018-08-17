@@ -21,6 +21,30 @@ The stream is going to be a full day of Istio content. Hopefully we'll have a go
 
 It's easy! Just navigate [here](https://twitch.tv/ibmcode) on August 17th starting at 10 AM Pacific.
 
+## Schedule
+
+All times are `PDT`.
+
+| Time | Speaker | Affiliation |
+| --- | --- | --- |
+| 10:00 - 10:30 | `Spencer Krum + Lisa Marie-Numphy` | `IBM / Portworx` |
+| 10:30 - 11:00 | `Lin Sun / Spencer Krum / Sven Mawson` | `IBM / Google` |
+| 11:00 - 11:10 | `Lin Sun / Spencer Krum` | `IBM` |
+| 11:10 - 11:30 | `Jason Yee / Ilan Rabinovich` | `Datadog` |
+| 11:30 - 11:50  | `April Nassl` | `Google` |
+| 11:50 - 12:10  | `Spike Curtis` | `Tigera` |
+| 12:10 - 12:30  | `Shannon Coen` | `Pivotal` |
+| 12:30 - 1:00  | `Matt Klein` | `Lyft` |
+| 1:00 - 1:20  | `Zach Jory` | `F5/Aspen Mesh` |
+| 1:20 - 1:40  | `Dan Ciruli` | `Google` |
+| 1:40 - 2:00 | `Isaiah Snell-Feikema` / `Greg Hanson` | `IBM` |
+| 2:00 - 2:20  | `Zach Butcher` | `Tetrate` |
+| 2:20 - 2:40   | `Ray Hudaihed` | `American Airlines` |
+| 2:40 - 3:00  | `Christian Posta` | `Red Hat` |
+| 3:00 - 3:20  | `Google/IBM China` | `Google / IBM` |
+| 3:20 - 3:40 | `Colby Dyess` | `Tuffin` |
+| 3:40 - 4:00  | `Rohit Agarwalla` | `Cisco` |
+
 ## I'd like to be on the stream
 
 Oh good! We'd like to have you on as well. Reach out to ``@nibalizer`` on the Istio slack or rocket chat to get started.
