@@ -5,7 +5,7 @@ weight: 50
 # keywords: [kubernetes,helm]
 ---
 
-路由方面的配置，下面列出一系列这方面的上下文中有关的词汇。
+路由方面的配置，下面列出的是与该配置上下文有关的词汇。
 
 `Service（服务）`：服务注册表中的一个单位，具备唯一名称，代表了一个应用。一个服务是由多个网络端点构成的，这些端点是由运行在 Pod、容器或者虚拟机上的工作负载实例实现的。
 
@@ -49,7 +49,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`http1MaxPendingRequests`|`int32`|针对一个目标的 HTTP 请求的最大排队数量，缺省值为 1024。|
-|`http2MaxRequests`|`int32`|对一个后端的最大请求数，缺省值为 1024.|
+|`http2MaxRequests`|`int32`|对一个后端的最大请求数，缺省值为 1024。|
 |`maxRequestsPerConnection`|`int32`|对某一后端的请求中，一个连接内能够发出的最大请求数量。如果将这一参数设置为 1 则会禁止 `keep alive` 特性。|
 |`maxRetries`|`int32`|在给定时间内，集群中所有主机可以执行的最大重试次数。|
 
@@ -68,7 +68,7 @@ spec:
 
 - 仅允许 `POST` 和 `GET` 操作。
 - 设置 `Access-Control-Allow-Credentials` Header 的值为 False。
-- 只开放 `X-Foo-bar` Header.
+- 只开放 `X-Foo-bar` Header。
 - 设置过期时间为 1 天。
 
 {{< text yaml >}}
@@ -210,9 +210,9 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#ServiceEntry) 注册中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
+|`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#ServiceEntry) 资源中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
 |`subset`|`string`|服务子集的名称。仅对网格中的服务有效。必须在 `DestinationRule` 中定义子集。|
-|`port`|[`PortSelector`](#PortSelector)|指定目标主机的端口。如果一个服务只暴露了为以的端口，那么就无需显式的进行端口选择。|
+|`port`|[`PortSelector`](#PortSelector)|指定目标主机的端口。如果一个服务只暴露了一个端口，那么就无需显式的进行端口选择。|
 
 ## `DestinationRule`
 
@@ -277,7 +277,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#ServiceEntry) 注册中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 `default` 命名空间的一条规则中包含了一个 `reivews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
-|`trafficPolicy`|[`TrafficPolicy`](#TrafficPolicy)|流量策略（负载均衡策略、间接池尺寸、外部检测）|
+|`trafficPolicy`|[`TrafficPolicy`](#TrafficPolicy)|流量策略（负载均衡策略、间接池尺寸、外部检测）。|
 |`subsets`|[`Subset`](#Subset)|一或多个服务版本。在子集的级别可以覆盖服务一级的流量策略定义。|
 
 ## `DestinationWeight`
@@ -373,13 +373,13 @@ spec:
     filterType: HTTP
     filterConfig:
       inlineCode: |
-        ... lua code ...
+        ... lua code .
 {{< /text >}}
 
 |字段|类型|描述|
 |---|---|---|
 |`workloadLabels`|`map<string, string>`|一或多个标签，用于标识一组 Pod/虚拟机。这一组工作负载实例中的代理会被配置使用附加的过滤器配置。标签的搜索范围是平台相关的。例如在 Kubernetes 中，生效范围会包括所有可达的命名空间。如果省略这一字段，配置将会应用到网格中的所有 Envoy 代理实例中。注意：一个工作负载只应该使用一个 `EnvoyFilter`。如果多个 `EnvoyFilter` 被绑定到同一个工作负载上，会产生不可预测的行为。|
-|`filters`|[`EnvoyFilter.Filter[]`](#EnvoyFilter-Filter)|必要字段。要加入指定监听器之中的Envoy 网络过滤器/HTTP 过滤器配置信息。当给 http 连接加入网络过滤器的时候，应该注意确保该过滤器应早于 `envoy.httpconnectionmanager`|
+|`filters`|[`EnvoyFilter.Filter[]`](#EnvoyFilter-Filter)|必要字段。要加入指定监听器之中的Envoy 网络过滤器/HTTP 过滤器配置信息。当给 http 连接加入网络过滤器的时候，应该注意确保该过滤器应早于 `envoy.httpconnectionmanager`。|
 
 ## `EnvoyFilter.Filter`
 
@@ -397,9 +397,9 @@ spec:
 
 |字段|描述|
 |---|---|
-|`INVALID`|占位符|
-|`HTTP`|Http 过滤器|
-|`NETWORK`|网络过滤器|
+|`INVALID`|占位符。|
+|`HTTP`|Http 过滤器。|
+|`NETWORK`|网络过滤器。|
 
 ## `EnvoyFilter.InsertPosition`
 
@@ -691,7 +691,7 @@ spec:
   redirect:
     uri: /v1/bookRatings
     authority: newratings.default.svc.cluster.local
-  ...
+  ..
 {{< /text >}}
 
 |字段|类型|描述|
@@ -827,7 +827,7 @@ spec:
 
 ## `LoadBalancerSettings.ConsistentHashLB`
 
-基于一致性哈希的负载均衡可以根据 HTTP Header、Cookie 以及其他属性来提供会话黏连功能。这话总负载均衡策略只对 HTTP 连接有效。某一目标的黏连关系，会因为负载均衡池中的节点数量的变化而被重置。
+基于一致性哈希的负载均衡可以根据 HTTP Header、Cookie 以及其他属性来提供会话黏连功能。这种负载均衡策略只对 HTTP 连接有效。某一目标的黏连关系，会因为负载均衡池中的节点数量的变化而被重置。
 
 |字段|类型|描述|
 |---|---|---|
@@ -1287,9 +1287,9 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`extract`|`string`|完全匹配|
-|`prefix`|`string`|前缀匹配|
-|`regex`|`string`|`ECMAscript` 风格的正则表达式匹配|
+|`extract`|`string`|完全匹配。|
+|`prefix`|`string`|前缀匹配。|
+|`regex`|`string`|`ECMAscript` 风格的正则表达式匹配。|
 
 ## `subset`
 
