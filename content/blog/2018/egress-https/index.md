@@ -322,8 +322,8 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 Note that the TLS origination in this case is unrelated to
 [the mutual TLS](/docs/concepts/security/#mutual-tls-authentication) applied by Istio. The TLS origination for the
 external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures
-service-to-service communication **inside** the service mesh and provides each service with a strong identity. In the
-case of the **external services**, you have **one-way** TLS, the same mechanism used to secure communication between a
+service-to-service communication **inside** the service mesh and provides each service with a strong identity. The
+**external services** in this blog post were accessed using **one-way TLS**, the same mechanism used to secure communication between a
 web browser and a web server. TLS is applied to the communication with external services to verify the identity of the
 external server and to encrypt the traffic.
 
