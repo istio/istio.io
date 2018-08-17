@@ -211,7 +211,7 @@ traffic between the pod and the external service is encrypted.
     caption="HTTPS traffic to external services, with TLS originated by the microservice vs. by the sidecar proxy"
     >}}
 
-Here is how you code this behavior in the
+Here is how both patterns are supported in the
 [Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb), using the Ruby
 [net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
 
