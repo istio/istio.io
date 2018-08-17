@@ -27,15 +27,15 @@ All times are `PDT`.
 
 | Time | Speaker | Affiliation |
 | --- | --- | --- |
-| 10:00 - 10:30 | `Spencer + Lisa` | `IBM / Portworx` |
-| 10:30 - 11:00 | `Lin Sun / Spencer Krum / Sven` | `IBM / Google` |
-| 11:00 - 11:10 | `Lin / Spencer` | `IBM` |
+| 10:00 - 10:30 | `Spencer Krum + Lisa Marie-Numphy` | `IBM / Portworx` |
+| 10:30 - 11:00 | `Lin Sun / Spencer Krum / Sven Mawson` | `IBM / Google` |
+| 11:00 - 11:10 | `Lin Sun / Spencer Krum` | `IBM` |
 | 11:10 - 11:30 | `Jason Yee / Ilan Rabinovich` | `Datadog` |
 | 11:30 - 11:50  | `April Nassl` | `Google` |
 | 11:50 - 12:10  | `Spike Curtis` | `Tigera` |
 | 12:10 - 12:30  | `Shannon Coen` | `Pivotal` |
 | 12:30 - 1:00  | `Matt Klein` | `Lyft` |
-| 1:00 - 1:20  | `Aspen Mesh` | `F5/Aspen Mesh` |
+| 1:00 - 1:20  | `Zach Jory` | `F5/Aspen Mesh` |
 | 1:20 - 1:40  | `Dan Ciruli` | `Google` |
 | 1:40 - 2:00 | `Isaiah Snell-Feikema` / `Greg Hanson` | `IBM` |
 | 2:00 - 2:20  | `Zach Butcher` | `Tetrate` |
