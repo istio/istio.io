@@ -12,3 +12,4 @@ httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       defa
 {{< /text >}}
 
 更多详细信息，请参见[检查双向 TLS 配置](/zh/docs/tasks/security/mutual-tls/#检查-istio-双向-tls-认证的配置)。
+
