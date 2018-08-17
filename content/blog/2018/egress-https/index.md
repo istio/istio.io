@@ -192,7 +192,7 @@ Consider for example the URL
 In that URL, [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is specified by the path segment
 `/books`, and the [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number) number by the path segment
 `/volumes?q=isbn:0486424618`. However, in HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted and
-such monitoring and policy enforcement by the sidecar proxies are not possible. Istio can only know the server name of
+such monitoring and policy enforcement by the sidecar proxies is not possible. Istio can only know the server name of
 the encrypted requests by the [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field,
 in this case `www.googleapis.com`.
 
