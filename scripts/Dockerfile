@@ -17,8 +17,8 @@ RUN apk add --no-cache \
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted gnu-libiconv
 
 ENV HUGO_VERSION=0.47
-ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz /tmp
-RUN tar -xf /tmp/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
+ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz /tmp
+RUN tar -xf /tmp/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
     && mkdir -p /usr/local/sbin \
     && mv /tmp/hugo /usr/local/sbin/hugo \
     && rm -rf /tmp/hugo_${HUGO_VERSION}_linux_amd64 \
@@ -27,8 +27,6 @@ RUN tar -xf /tmp/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
     && rm -rf /tmp/README.md
 
 RUN npm install -g \
-    sass \
-    uglify-js \
     markdown-spellcheck
 
 RUN gem install \

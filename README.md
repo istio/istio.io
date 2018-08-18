@@ -45,7 +45,6 @@ run 3 linters as a precommit requirement:
 You can run these linters locally using:
 
 ```bash
-$ make build
 $ make gen
 $ make lint
 ```
@@ -67,16 +66,6 @@ markdown files which Hugo processes into HTML.
 
 * Additional site content is in the `static` directory. These are files that
 Hugo directly copies to the site without any processing.
-
-*   The `src` directory contains the source material for certain files from the
-`static` directory. You use
-
-    ```bash
-    $ make build
-    ```
-
-    to build the material from the `src` directory and refresh what's in the `static`
-    directory.
 
 ## Versions and releases
 
