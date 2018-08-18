@@ -75,7 +75,7 @@ title: Istio
                 <a href="/docs/concepts/traffic-management/">
                     <div class="card-img-top">
                         {{< inline_image "landing/routing-and-load-balancing.svg" >}}
-                     </div>
+                    </div>
                     <div class="card-body">
                         <hr class="card-line">
                         <h5 class="card-title text-center">Connect</h5>
@@ -134,7 +134,7 @@ title: Istio
                             See what's happening with rich automatic tracing, monitoring, and logging of all your services.
                        </p>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

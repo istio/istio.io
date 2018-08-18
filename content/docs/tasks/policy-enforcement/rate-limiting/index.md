@@ -40,7 +40,7 @@ IP address. You will also use a conditional rate limit that exempts logged in us
 For convenience, you configure the
 [memory quota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
 (`memquota`) adapter to enable rate limiting. On a production system, however,
-you need [Redis](https://redis.io/), and you configure the [Redis
+you need [Redis](http://redis.io/), and you configure the [Redis
 quota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 (`redisquota`) adapter. Both the `memquota` and `redisquota` adapters support
 the [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/),
