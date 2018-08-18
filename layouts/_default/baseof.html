@@ -90,17 +90,24 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
 
         {{ if .Site.Data.args.archive }}
-            <link rel="stylesheet" href="/css/light_theme_archive.css" title="light">
-            <link rel="alternate stylesheet" href="/css/dark_theme_archive.css" title="dark">
+            {{ $style := resources.Get "sass/light_theme_archive.scss" | toCSS (dict "targetPath" "/css/light.css" "enableSourceMap" true) | minify | fingerprint }}
+            <link rel="stylesheet" href="{{ $style.Permalink }}" title="light">
+            {{ $style := resources.Get "sass/dark_theme_archive.scss" | toCSS (dict "targetPath" "/css/dark.css" "enableSourceMap" true) | minify | fingerprint }}
+            <link rel="stylesheet" href="{{ $style.Permalink }}" title="dark">
         {{ else if .Site.Data.args.preliminary }}
-            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="light">
-            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="dark">
+            {{ $style := resources.Get "sass/light_theme_preliminary.scss" | toCSS (dict "targetPath" "/css/light.css" "enableSourceMap" true) | minify | fingerprint }}
+            <link rel="stylesheet" href="{{ $style.Permalink }}" title="light">
+            {{ $style := resources.Get "sass/dark_theme_preliminary.scss" | toCSS (dict "targetPath" "/css/dark.css" "enableSourceMap" true) | minify | fingerprint }}
+            <link rel="stylesheet" href="{{ $style.Permalink }}" title="dark">
         {{ else }}
-            <link rel="stylesheet" href="/css/light_theme_normal.css" title="light">
-            <link rel="alternate stylesheet" href="/css/dark_theme_normal.css" title="dark">
+            {{ $style := resources.Get "sass/light_theme_normal.scss" | toCSS (dict "targetPath" "/css/light.css" "enableSourceMap" true) | minify | fingerprint }}
+            <link rel="stylesheet" href="{{ $style.Permalink }}" title="light">
+            {{ $style := resources.Get "sass/dark_theme_normal.scss" | toCSS (dict "targetPath" "/css/dark.css" "enableSourceMap" true) | minify | fingerprint }}
+            <link rel="stylesheet" href="{{ $style.Permalink }}" title="dark">
         {{ end }}
 
-        <script src="/js/styleSwitcher.min.js"></script>
+        {{ $js := resources.Get "js/styleSwitcher.js" | minify }}
+        <script src="{{ $js.Permalink }}"></script>
     </head>
 
     <body class="language-unknown">
@@ -119,6 +126,10 @@
         <script src="https://www.google.com/cse/brand?form=search_form"></script>
 
         <!-- our own scripts -->
-        <script src="/js/all.min.js" data-manual></script>
+        {{ $misc := resources.Get "js/misc.js" | minify }}
+        {{ $prism := resources.Get "js/prism.js" | minify }}
+        {{ $utils := resources.Get "js/utils.js" | minify }}
+        {{ $all := slice $misc $prism $utils | resources.Concat "/js/all.js" }}
+        <script src="{{ $all.Permalink }}"></script>
     </body>
 </html>
