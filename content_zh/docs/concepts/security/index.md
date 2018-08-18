@@ -57,7 +57,7 @@ Istio 支持运行于 Kubernetes、虚拟机以及物理机之上的服务。对
 
 对于运行在 Kubernetes 集群中的服务，每个集群的 Citadel 会扮演证书颁发机构的角色，负责自动化执行密钥和证书管理流程。它主要执行四个关键操作：
 
-* 为每个 Service account 生成一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书
+* 为每个 Service account 生成一个 [SPIFFE](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) 密钥和证书
 
 * 根据 Service account 将密钥和证书分发给每个 Pod
 
@@ -75,7 +75,7 @@ Istio 安全工作流由部署和运行两阶段组成。Kubernetes 和虚拟机
 
 1. Citadel 观察 Kubernetes API Server。
 
-1. Citadel 为每个现有和新的 Service account 创建一个 [SPIFFE](https://spiffe.github.io/docs/svid) 密钥和证书对。
+1. Citadel 为每个现有和新的 Service account 创建一个 [SPIFFE](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) 密钥和证书对。
 
 1. Citadel 将上一步新建的内容其发送到 API Server。
 
