@@ -1,6 +1,6 @@
 ---
 title: Securing Gateways with HTTPS
-description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS, Mutual TLS or JWT authentication.
+description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS, mutual TLS or JWT authentication.
 weight: 31
 keywords: [traffic-management,ingress]
 ---
@@ -446,16 +446,16 @@ In this subsection, perform the same steps as in the [Generate client and server
 
 ## Configure end-user authentication on ingress gateway
 
-Ingress gateway supports end-user authentication by setting up JWT authentication policy on `istio-ingressgateway`, unauthenticated requests will be rejected at ingress gateway level and won't be able to access services inside the mesh. This section shows how to use authentication policy to setup end-user authentication on `istio-ingressgateway`.
+The Istio ingress gateway supports end-user authentication by setting up a JWT authentication policy in the `istio-ingressgateway` file. The ingress gateway rejects the unauthenticated requests and the request can't access the services inside the mesh. This section shows how to use the authentication policy to setup the end-user authentication for the Istio ingress gateway.
 
-1. Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin), verify the setup by running curl command from before will return with 200.
+1. To verify the setup, run the following curl command and confirm a return value of 200:
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
     HTTP/1.1 200 OK
     {{< /text >}}
 
-1. Add a policy that requires end-user JWT on `istio-ingressgateway`.
+1. Add the policy requiring the end-user JWT authentication for the `istio-ingressgateway` pod.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -475,7 +475,7 @@ Ingress gateway supports end-user authentication by setting up JWT authenticatio
     EOF
     {{< /text >}}
 
-1. The same curl command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
+1. Run the following curl command and note the return value of 401. Istio returns this error code value because the server expects a JWT but the ingress gateway did not provide one:
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
@@ -486,7 +486,7 @@ Ingress gateway supports end-user authentication by setting up JWT authenticatio
     server: envoy
     {{< /text >}}
 
-1.  Attaching the valid token returns success:
+1.  Attach the valid JWT for the request to succeed. The following example shows the proper syntax and the expected output:
 
     {{< text bash >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
