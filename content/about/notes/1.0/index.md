@@ -1,7 +1,7 @@
 ---
 title: Istio 1.0
 weight: 92
-page_icon: /img/notes.svg
+icon: /img/notes.svg
 ---
 
 We're proud to release Istio 1.0! Istio has been in development for nearly two years, and the 1.0 release represents a substantial

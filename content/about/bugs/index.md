@@ -6,7 +6,7 @@ aliases:
     - /bugs.html
     - /bugs/index.html
     - /help/bugs/
-page_icon: /img/bugs.svg
+icon: /img/bugs.svg
 ---
 
 Oh no! You found a bug?
