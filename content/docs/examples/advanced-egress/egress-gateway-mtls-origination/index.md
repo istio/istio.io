@@ -15,12 +15,6 @@ Then you will configure the Egress Gateway to perform mutual TLS with this serve
 Finally, you will direct the traffic from the application pods inside the mesh to the server outside the mesh through
 the Egress Gateway. The Egress Gateway will perform mutual TLS origination with the NGINX server.
 
-## Before you begin
-
-This examples assumes you deployed Istio with [mutual TLS Authentication](/docs/tasks/security/mutual-tls/)
-enabled. Follow the steps in the [Before you begin](/docs/examples/advanced-egress/egress-gateway/#before-you-begin)
-section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
-
 ## Generate client and server certificates and keys
 
 Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys).
