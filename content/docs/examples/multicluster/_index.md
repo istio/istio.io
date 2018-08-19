@@ -4,5 +4,5 @@ description: A variety of fully working multicluster examples for Istio that you
 weight: 100
 type: section-index
 keywords: [multicluster]
-page_icon: /img/examples.svg
+icon: /img/examples.svg
 ---

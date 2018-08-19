@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: gcr.io/istio-testing/website-builder:2018-07-14
+      - image: gcr.io/istio-testing/website-builder:2018-08-17
 
     working_directory: ~/site
 
@@ -13,21 +13,6 @@ jobs:
           name: Generating Site
           command: scripts/gen_site.sh "" -no_minify
 
-      # We have a cache of URLs to help improve the chances of htmlproofer not hitting a timeout
-      # when probing links for validity. Alas, this cache is only for a given pull request due to
-      # the key. Ideally, this key would be using today's date as part of the key instead, such that
-      # a single daily build would need to update the cache, and it would then it reused for the
-      # subsequent builds for that day. Alas, I can't figure out how to get the current date and use it
-      # as a component of the key.
-      - restore_cache:
-          keys:
-          - htmlproofer-cache-{{ .Environment.CIRCLE_PULL_REQUEST }}
-
       - run:
           name: Running Linters
           command: scripts/lint_site.sh
-
-      - save_cache:
-          key: htmlproofer-cache-{{ .Environment.CIRCLE_PULL_REQUEST }}
-          paths:
-            - .htmlproofer

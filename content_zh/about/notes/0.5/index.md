@@ -1,7 +1,7 @@
 ---
 title: Istio 0.5
 weight: 96
-page_icon: /img/notes.svg
+icon: /img/notes.svg
 ---
 
 在平淡无奇的问题修复和性能增强之外，这一版本包含了部分全新的功能，以及对现有功能的改进，具体包括以下内容。

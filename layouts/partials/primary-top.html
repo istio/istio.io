@@ -37,19 +37,27 @@
                 {{ end }}
 
                 <h1 id="title">
-                    {{ if .Params.page_icon }}
-                        <img src="{{ .Params.page_icon }}" alt="Icon" class="page_icon" />
+                    {{ if .Params.icon }}
+                        <img src="{{ .Params.icon }}" alt="Icon" class="page_icon" />
                     {{ end }}
                     {{ .Title }}
                 </h1>
 
                 {{ if .Params.subtitle }}
-                    <p class="subtitle">{{ .Params.subtitle }}</p>
+                    {{ if (strings.HasSuffix .Params.subtitle ".") }}
+                        <P>MARKDOWN ERROR: subtitles should not end in a period</p>
+                    {{ else }}
+                        <p class="subtitle">{{ .Params.subtitle }}</p>
+                    {{ end }}
                 {{ end }}
 
                 {{ if .Params.attribution }}
                     <p class="byline">
-                        By <span class="attribution">{{ .Params.attribution }}</span> /
+                        By <span class="attribution">{{ .Params.attribution }}</span>
+                        {{ if .Params.twitter }}
+                            (<a href="https://twitter.com/{{ .Params.twitter }}">@{{.Params.twitter}}</a>)
+                        {{ end }}
+                        /
                         <span class="publish_date">{{ .PublishDate.Format "January 2, 2006" }}</span>
                     </p>
                 {{ end }}

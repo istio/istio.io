@@ -5,7 +5,7 @@ description: 了解如何部署、使用和运维 Istio。
 weight: 1
 sidebar_multicard: true
 type: section-index
-page_icon: /img/docs.svg
+icon: /img/docs.svg
 ---
 
 另外，您可能会发现这些有趣的链接：
