@@ -512,13 +512,13 @@ to hold the configuration of the NGINX:
     the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system | grep 'nginx.example.com' | grep HTTP
     {{< /text >}}
 
     You should see a line related to your request, similar to the following:
 
     {{< text plain>}}
-    [2018-08-16T07:33:57.569Z] "GET / HTTP/1.1" 200 - 0 612 13 5 "172.30.146.79" "curl/7.35.0" "935a0aba-cc97-9492-9040-3778edfc493a" "nginx.example.com" "172.21.143.121:443"
+    [2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "nginx.example.com" "172.21.72.197:443"
     {{< /text >}}
 
 ## Cleanup
