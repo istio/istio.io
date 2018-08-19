@@ -8,5 +8,5 @@ aliases:
     - /troubleshooting/index.html
     - /help/troubleshooting/index.html
     - /ops
-page_icon: /img/guide.svg
+icon: /img/guide.svg
 ---

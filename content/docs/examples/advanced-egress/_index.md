@@ -4,5 +4,5 @@ description: A variety of fully working examples for egress traffic control in I
 weight: 61
 type: section-index
 keywords: [egress, gateway]
-page_icon: /img/examples.svg
+icon: /img/examples.svg
 ---
