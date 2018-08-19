@@ -254,7 +254,7 @@ to hold the configuration of the NGINX server:
       <html>
       <head>
       <title>Welcome to nginx!</title>
-    {{< /text>}}
+    {{< /text >}}
 
 ## Cleanup
 
