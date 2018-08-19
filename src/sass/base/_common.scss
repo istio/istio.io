@@ -267,6 +267,7 @@ h1 {
     font-size: $font-size--xxl;
     color: $h1Color;
     font-weight: $h1Weight;
+    margin-bottom: 0;
 }
 
 h2 {
@@ -329,6 +330,13 @@ h6 {
     top: -.1em;
     opacity: 0;
     font-size: 0.6em;
+}
+
+.subtitle {
+    margin-top: .15rem;
+    margin-bottom: 1rem;
+    padding: 0 0 0 0;
+    font-size: 125%;
 }
 
 h2:hover .header-link,

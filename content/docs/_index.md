@@ -5,7 +5,7 @@ description: Learn how to deploy, use, and operate Istio.
 weight: 1
 sidebar_multicard: true
 type: section-index
-page_icon: /img/docs.svg
+icon: /img/docs.svg
 ---
 
 In addition, you might find these links interesting:
