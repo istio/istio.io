@@ -75,7 +75,7 @@ then
     FAILED=1
 fi
 
-htmlproofer ./public --assume-extension --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
+htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
 if [ "$?" != "0" ]
 then
     FAILED=1
