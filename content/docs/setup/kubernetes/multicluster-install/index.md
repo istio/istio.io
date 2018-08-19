@@ -103,7 +103,7 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 1.  Instantiate the remote cluster's connection to the Istio control plane:
 
     {{< text bash >}}
-    $ kubectl create -f $HOME/istio-remote.yaml
+    $ kubectl apply -f $HOME/istio-remote.yaml
     {{< /text >}}
 
 1.  Label all the remote cluster's namespaces requiring auto-sidecar injection.  The following example labels the `default` namespace.
@@ -120,7 +120,7 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 install one:
 
     {{< text bash >}}
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1.  Initialize Helm:
@@ -299,7 +299,7 @@ The following procedure is to be performed against the remote cluster.
 1.  Instantiate the remote cluster's connection to the Istio control plane:
 
     {{< text bash >}}
-    $ kubectl create -f $HOME/istio-remote_noautoinj.yaml
+    $ kubectl apply -f $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
 1.  [Generate kubeconfig for remote clusters](#generate-kubeconfigs-for-remote-clusters)
@@ -434,7 +434,7 @@ allow the remote sidecars to resolve the `istio-pilot.istio-system` hostname via
           --set security.selfSigned=false \
           --set global.controlPlaneSecurityEnabled=true \
           install/kubernetes/helm/istio > ${HOME}/istio-auth.yaml
-        $ kubectl create -f ${HOME}/istio-auth.yaml
+        $ kubectl apply -f ${HOME}/istio-auth.yaml
         {{< /text >}}
 
 1.  *Remote Cluster.*  Deployment of remote cluster's istio components
@@ -463,7 +463,7 @@ allow the remote sidecars to resolve the `istio-pilot.istio-system` hostname via
           --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
           --set global.proxy.envoyStatsd.enabled=true \
           --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > ${HOME}/istio-remote-auth.yaml
-        $ kubectl create -f ${HOME}/istio-remote-auth.yaml
+        $ kubectl apply -f ${HOME}/istio-remote-auth.yaml
         {{< /text >}}
 
     1.  [Generate kubeconfig for remote cluster](#generate-kubeconfigs-for-remote-clusters)
