@@ -17,6 +17,10 @@
         <meta name="title" content="{{ .Title }}">
         <meta name="description" content="{{ template "description" . }}">
 
+        {{ if .Page.Params.attribution }}
+            <meta name="author" content="{{ .Page.Params.attribution }}">
+        {{ end }}
+
         {{ if .Page.Params.keywords }}
             <meta name="keywords" content="microservices,services,mesh,{{ delimit .Page.Params.keywords "," }}">
         {{ else }}
@@ -24,10 +28,24 @@
         {{ end }}
 
         <!-- Open Graph protocol -->
-        <meta name="og:title" content="{{ .Title }}">
-        <meta name="og:description" content="{{ template "description" . }}">
-        <meta name="og:url" content="{{ .Permalink }}">
-        <meta name="og.site_name" content="Istio">
+        <meta property="og:title" content="{{ .Title }}">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="{{ template "description" . }}">
+        {{ if .Permalink }}
+            <meta property="og:url" content="{{ .Permalink }}">
+        {{ end }}
+        <meta property="og:image" content="{{ .Site.BaseURL }}/img/istio-logo-blue-background.svg">
+        <meta property="og:image:alt" content="Istio Logo">
+        <meta property="og:image:width" content="112">
+        <meta property="og:image:height" content="150">
+        <meta property="og:site_name" content="Istio">
+
+        <!-- Twitter card -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IstioMesh">
+        {{ if .Page.Params.twitter }}
+            <meta name="twitter:creator" content="@{{ .Page.Params.twitter }}">
+        {{ end }}
 
         {{ if .Site.Data.args.archive }}
             {{ if eq .Title "Istio" }}
