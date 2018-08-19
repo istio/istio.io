@@ -497,7 +497,7 @@ to hold the configuration of the NGINX:
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
     {{< /text >}}
 
-    We should see a line related to our request, similar to the following:
+    You should see a line related to your request, similar to the following:
 
     {{< text plain>}}
     [2018-08-16T07:33:57.569Z] "GET / HTTP/1.1" 200 - 0 612 13 5 "172.30.146.79" "curl/7.35.0" "935a0aba-cc97-9492-9040-3778edfc493a" "nginx.example.com" "172.21.143.121:443"
