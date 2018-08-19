@@ -10,7 +10,7 @@ ingress access to an HTTP service. This example describes how to configure ingre
 
 ## Generate client and server certificates and keys
 
-Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys).
+Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys) task.
 
 1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
 
