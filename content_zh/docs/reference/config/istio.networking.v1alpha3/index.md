@@ -277,12 +277,12 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#ServiceEntry) 注册中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 `default` 命名空间的一条规则中包含了一个 `reivews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
-|`trafficPolicy`|[`TrafficPolicy`](#TrafficPolicy)|流量策略（负载均衡策略、间接池尺寸、外部检测）。|
-|`subsets`|[`Subset`](#Subset)|一或多个服务版本。在子集的级别可以覆盖服务一级的流量策略定义。|
+|`trafficPolicy`|[`TrafficPolicy`](#TrafficPolicy)|流量策略（负载均衡策略、间接池尺寸和外部检测）。|
+|`subsets`|[`Subset`](#Subset)|一个或多个服务版本。在子集的级别可以覆盖服务一级的流量策略定义。|
 
 ## `DestinationWeight`
 
-每一条路由规则都会对应到一或多个服务版本上（可以参考本文顶端的名词解释）。每个版本的权重决定了这一版本会收到的流量的多少。例如下面的规则会将 `reviews` 服务的流量进行拆分，其中 25% 进入 `v2` 版本，其余部分（也就是 75%）进入 `v1`。
+每一条路由规则都会对应到一个或多个服务版本上（可以参考本文顶端的名词解释）。每个版本的权重决定了这一版本会收到的流量的多少。例如下面的规则会将 `reviews` 服务的流量进行拆分，其中 25% 进入 `v2` 版本，其余部分（也就是 75%）进入 `v1`。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -378,8 +378,8 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`workloadLabels`|`map<string, string>`|一或多个标签，用于标识一组 Pod/虚拟机。这一组工作负载实例中的代理会被配置使用附加的过滤器配置。标签的搜索范围是平台相关的。例如在 Kubernetes 中，生效范围会包括所有可达的命名空间。如果省略这一字段，配置将会应用到网格中的所有 Envoy 代理实例中。注意：一个工作负载只应该使用一个 `EnvoyFilter`。如果多个 `EnvoyFilter` 被绑定到同一个工作负载上，会产生不可预测的行为。|
-|`filters`|[`EnvoyFilter.Filter[]`](#EnvoyFilter-Filter)|必要字段。要加入指定监听器之中的Envoy 网络过滤器/HTTP 过滤器配置信息。当给 http 连接加入网络过滤器的时候，应该注意确保该过滤器应早于 `envoy.httpconnectionmanager`。|
+|`workloadLabels`|`map<string, string>`|一个或多个标签，用于标识一组 Pod/虚拟机。这一组工作负载实例中的代理会被配置使用附加的过滤器配置。标签的搜索范围是平台相关的。例如在 Kubernetes 中，生效范围会包括所有可达的命名空间。如果省略这一字段，配置将会应用到网格中的所有 Envoy 代理实例中。注意：一个工作负载只应该使用一个 `EnvoyFilter`。如果多个 `EnvoyFilter` 被绑定到同一个工作负载上，会产生不可预测的行为。|
+|`filters`|[`EnvoyFilter.Filter[]`](#EnvoyFilter-Filter)|必要字段。要加入指定监听器之中的 Envoy 网络过滤器/HTTP 过滤器配置信息。当给 http 连接加入网络过滤器的时候，应该注意确保该过滤器应早于 `envoy.httpconnectionmanager`。|
 
 ## `EnvoyFilter.Filter`
 
@@ -431,7 +431,7 @@ spec:
 |`portNamePrefix`|`string`|除了用具体端口之外，还可以用端口名称的前缀进行大小写无关的匹配。例如 `mongo` 前缀可以匹配 `mongo-port`、`mongo`、`mongoDB` 以及 `MONGO` 等。|
 |`listenerType`|[`EnvoyFilter.ListenerMatch.ListenerType`](#EnvoyFilter-ListenerMatch-ListenerType)|入站和出站两种类型。如果没有指定，则匹配所有监听器。|
 |`listenerProtocol`|[`EnvoyFilter.ListenerMatch.ListenerProtocol`](#envoyfilter-listenermatch-listenerprotocol)|为同一协议指定监听器。如果没有指定，会把监听器应用到所有协议上。协议选择可以是所有 HTTP 监听器（包括 HTTP2/gRPC/HTTPS（Envoy 作为 TLS 终结器） ）或者所有 TCP 监听器（包括利用 SNI 进行的 HTTPS 透传）。|
-|`address`|`string[]`|监听器绑定的一或多个 IP 地址。如果不为空，应该至少匹配其中一个地址。|
+|`address`|`string[]`|监听器绑定的一个或多个 IP 地址。如果不为空，应该至少匹配其中一个地址。|
 
 ## `EnvoyFilter.ListenerMatch.ListenerProtocol`
 
@@ -567,7 +567,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`servers`|[`Server`](#Server)|必要字段。`Server` 定义列表。|
-|`selector`|`map<string, string>`|必要字段。用一或多个标签来选择一组 Pod 或虚拟机，用于应用 `Gateway` 配置。标签选择的范围是平台相关的。例如在 Kubernetes 上，选择范围包含所有可达的命名空间。|
+|`selector`|`map<string, string>`|必要字段。用一个或多个标签来选择一组 Pod 或虚拟机，用于应用 `Gateway` 配置。标签选择的范围是平台相关的。例如在 Kubernetes 上，选择范围包含所有可达的命名空间。|
 
 ## `HTTPFaultInjection`
 
@@ -669,7 +669,7 @@ spec:
 |`authority`|[`StringMatch`](#StringMatch)|HTTP 认证值的匹配要求，大小写敏感。|
 |`headers`|`map<string,` [`StringMatch`](#StringMatch)`>`|Header 的键必须是小写的，使用连字符作为分隔符，例如 `x-request-id`。Headers 的匹配同样是大小写敏感的。**注意在 Header 中的 `uri`、`shceme`、`method` 以及 `authority` 会被忽略。**|
 |`port`|`uint32`|指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。|
-|`sourceLabels`|`map<string, string>`|用一或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
+|`sourceLabels`|`map<string, string>`|用一个或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
 |`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gatewas` 匹配是独立于 `sourceLabels` 的。|
 
 ## `HTTPRedirect`
@@ -782,7 +782,7 @@ spec:
 |---|---|---|
 |`destinationSubnets`|`string[]`|目标的 `IPv4` 或者 `IPv6` 地址，可能带有子网标识，`a.b.c.d/xx` 或者 `a.b.c.d` 都有可能。|
 |`port`|`uint32`|指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。|
-|`sourceLabels`|`map<string, string>`|用一或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
+|`sourceLabels`|`map<string, string>`|用一个或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
 |`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gatewas` 匹配是独立于 `sourceLabels` 的。|
 
 ## `LoadBalancerSettings`
@@ -1359,7 +1359,7 @@ TLS 连接属性匹配。
 |`sniHosts`|`string[]`|必要字段。要匹配的 SNI（服务器名称指示）。可以在 SNI 匹配值中使用通配符。比如 `*.com` 可以同时匹配 `foo.example.com` 和 `example.com`。|
 |`destinationSubnets`|`string[]`|`IPv4` 或者 `IPv6` 的目标地址，可能带有子网信息，例如 `a.b.c.d` 形式或者 `a.b.c.d`。|
 |`port`|`uint32`|指定主机服务的监听端口。很多服务只暴露一个端口，或者用协议前缀给端口命名，这种情况下就都不需要显式的指定端口号。|
-|`sourceLabels`|`map<string, string>`|一或多个标签用于指示规则在工作负载中的的适用范围。如果 `VirtualService` 中指定了 `gateway`，要使用标签过滤，还要加入 `mesh` 这一缺省网关才能生效。|
+|`sourceLabels`|`map<string, string>`|一个或多个标签用于指示规则在工作负载中的的适用范围。如果 `VirtualService` 中指定了 `gateway`，要使用标签过滤，还要加入 `mesh` 这一缺省网关才能生效。|
 |`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gatewas` 匹配是独立于 `sourceLabels` 的。|
 
 ## `TLSRoute`
@@ -1497,7 +1497,7 @@ TLS 连接模式。
 
 匹配规则中还包含了对流量发起方的定义，这样一来，规则还可以针对特定客户上下文进行定制。
 
-接下来是一个 Kubernetes 上的例子，缺省把所有的 HTTP 流量发送给 `reviews` 服务中标签为 `version: v1` 的 Pod。另外包含 `/wpcatalog/`, `/consumercatalog/` URL 前缀的会被重写为 `/newcatalog` 并发送给标签为 `version: v2` 的 Pod。
+接下来是一个 Kubernetes 上的例子，缺省把所有的 HTTP 流量发送给 `reviews` 服务中标签为 `version: v1` 的 Pod。另外包含 `/wpcatalog/` 或 `/consumercatalog/` URL 前缀的请求会被重写为 `/newcatalog` 并发送给标签为 `version: v2` 的 Pod。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -1546,7 +1546,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`hosts`|`string[]`|必要字段：流量的目标主机。可以是带有通配符前缀的 DNS 名称，也可以是 IP 地址。根据所在平台情况，还可能使用短名称来代替 FQDN。这种场景下，短名称到 FQDN 的具体转换过程是要靠下层平台完成的。**一个主机名只能在一个 `VirtualService` 中定义。**同一个 `VirtualService` 中可以用于控制多个 HTTP 和 TCP 端口的流量属性。 Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。**为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。** `hosts` 字段对 HTTP 和 TCP 服务都是有效的。网格中的服务也就是在服务注册表中注册的服务，必须使用他们的注册名进行引用；只有 `Gateway` 定义的服务才可以使用 IP 地址。|
-|`gateways`|`string[]`|`Gateway` 名称列表，Sidecar 会据此使用路由。`VirtualService` 对象可以用于网格中的 Sidecar，也可以用于一或多个 `Gateway`。这里公开的选择条件可以在协议相关的路由过滤条件中进行覆盖。保留字 `mesh` 用来指代网格中的所有 Sidecar。当这一字段被省略时，就会使用缺省值（`mesh`），也就是针对网格中的所谓 Sidecar 生效。如果提供了 `gateways` 字段，这一规则就只会应用到声明的 `Gateway` 之中。要让规则同时对 `Gateway` 和网格内服务生效，需要显式的将 `mesh` 加入 `gateways` 列表。|
+|`gateways`|`string[]`|`Gateway` 名称列表，Sidecar 会据此使用路由。`VirtualService` 对象可以用于网格中的 Sidecar，也可以用于一个或多个 `Gateway`。这里公开的选择条件可以在协议相关的路由过滤条件中进行覆盖。保留字 `mesh` 用来指代网格中的所有 Sidecar。当这一字段被省略时，就会使用缺省值（`mesh`），也就是针对网格中的所谓 Sidecar 生效。如果提供了 `gateways` 字段，这一规则就只会应用到声明的 `Gateway` 之中。要让规则同时对 `Gateway` 和网格内服务生效，需要显式的将 `mesh` 加入 `gateways` 列表。|
 |`http`|[`HTTPRoute[]`](#HTTPRoute)|HTTP 流量规则的有序列表。这个列表对名称前缀为 `http-`、`http2-`、`grpc-` 的服务端口，或者协议为 `HTTP`、`HTTP2`、`GRPC` 以及终结的 TLS，另外还有使用 `HTTP`、`HTTP2` 以及 `GRPC` 协议的 `ServiceEntry` 都是有效的。进入流量会使用匹配到的第一条规则。|
 |`tls`|[`TLSRoute[]`](#TLSRoute)|一个有序列表，对应的是透传 TLS 和 HTTPS 流量。路由过程通常利用 `ClientHello` 消息中的 SNI 来完成。TLS 路由通常应用在 `https-`、`tls-` 前缀的平台服务端口，或者经 `Gateway` 透传的 HTTPS、TLS 协议 端口，以及使用 HTTPS 或者 TLS 协议的 `ServiceEntry` 端口上。**注意：没有关联 `VirtualService` 的 `https-` 或者 `tls-` 端口流量会被视为透传 TCP 流量。**|
 |`tcp`|[`TCPRoute[]`](#TCPRoute)|一个针对透传 TCP 流量的有序路由列表。TCP 路由对所有 HTTP 和 TLS 之外的端口生效。进入流量会使用匹配到的第一条规则。|
