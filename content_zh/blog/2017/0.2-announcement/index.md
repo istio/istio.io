@@ -5,8 +5,6 @@ publishdate: 2017-10-10
 subtitle: 改善网格并支持多种环境
 attribution: The Istio Team
 weight: 96
-aliases:
-    - /blog/istio-0.2-announcement.html
 ---
 
 我在2017年5月24日发布了 Istio ，它是一个用于连接、管理、监控和保护微服务的开放平台。看着饱含浓厚兴趣的开发者、运营商、合作伙伴和不断发展的社区，我们感到十分的欣慰。我们 0.1 版本的重点是展示 Istio 在 Kubernetes 中的所有概念。
@@ -17,7 +15,7 @@ aliases:
 
 ### 可用性改进
 
-* _支持多命名空间_:  Istio 现在可以跨多个名称空间在群集范围内工作，这也是来自 0.1 版本中社区最强烈的要求之一。
+* _支持多命名空间_:  Istio 现在可以跨多个名称空间在集群范围内工作，这也是来自 0.1 版本中社区最强烈的要求之一。
 * _TCP 服务的策略与安全_: 除了 HTTP ，我们还为 TCP 服务增加了透明双向 TLS 认证和策略实施。这将让拥有像遥测，策略和安全等 Istio 功能的同时，保护更多 Kubernetes deployment 。
 * _自动注入 sidecar_: 通过利用 Kubernetes 1.7 提供的 alpha  [初始化程序](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) ，当您的集群启用了该程序时，envoy sidecar 就可以自动注入到应用的 deployment 里。  这使得你可以使用  `kubectl` 命令部署微服务， 这与您通常在没有 Istio 的情况下部署微服务的命令完全相同。
 * _扩展 Istio_ : 改进的 Mixer 设计，可以允许供应商编写 Mixer 适配器以实现对其自身系统的支持，例如应用管理或策略实施。该 [Mixer 适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) 可以轻松的帮你将 Istio 集成于你的解决方案。

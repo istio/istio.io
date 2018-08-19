@@ -76,7 +76,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
 $ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
 {{< /text >}}
 
-或者创建一个新的付费群集：
+或者创建一个新的付费集群：
 
 {{< text bash >}}
 $ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.7
@@ -268,11 +268,11 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 或者
 
-*  [使用 Helm 渲染出 Kubernetes 配置清单然后使用 `kubectl` 部署](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-template-安装-helm)
+*  [使用 Helm 渲染出 Kubernetes 配置清单然后使用 `kubectl` 部署](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-的-helm-template-安装-istio)
 
 或者
 
-*  [使用 Helm 和 Tiller 管理 Istio 部署](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-install-安装-helm-和-tiller)
+*  [使用 Helm 和 Tiller 管理 Istio 部署](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-和-tiller-的-helm-install-安装-istio)
 
 ## 确认安装
 

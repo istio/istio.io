@@ -96,7 +96,7 @@ Istio service identities on different platforms:
 The [SPIFFE](https://spiffe.io/) standard provides a specification for a framework capable of bootstrapping and issuing identities to services
 across heterogeneous environments.
 
-Istio and SPIFFE share the same identity document: [SVID](https://spiffe.io/docs/svid/) (SPIFFE Verifiable Identity Document).
+Istio and SPIFFE share the same identity document: [SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) (SPIFFE Verifiable Identity Document).
 For example, in Kubernetes, the X.509 certificate has the URI field in the format of
 "spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>".
 This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
@@ -108,7 +108,7 @@ Istio provides a more comprehensive security solution, including authentication,
 
 The Istio PKI is built on top of Istio Citadel and securely provisions strong workload identities to every workload.
 Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
-The PKI also automates the key & certificate rotation and revocation at scale.
+The PKI also automates the key & certificate rotation at scale.
 
 Istio supports services running on both Kubernetes pods and on-premises machines.
 Currently we use different certificate key provisioning mechanisms for each scenario.
@@ -219,7 +219,7 @@ Istio provides two types of authentication:
     - Secures service-to-service communication and end-user-to-service
       communication.
     - Provides a key management system to automate key and certificate
-      generation, distribution, rotation, and revocation.
+      generation, distribution, and rotation.
 
 - **Origin authentication**, also known as **end-user authentication**: verifies the
   original client making the request as an end-user or device.
@@ -559,13 +559,12 @@ In the following example, Istio authorization is enabled for the `default`
 namespace.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: RbacConfig
 metadata:
   name: default
-  namespace: istio-system
 spec:
-  mode: ON_WITH_INCLUSION
+  mode: 'ON_WITH_INCLUSION'
   inclusion:
     namespaces: ["default"]
 {{< /text >}}

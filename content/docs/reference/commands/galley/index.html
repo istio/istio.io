@@ -21,11 +21,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -45,7 +45,7 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -81,11 +81,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -105,7 +105,7 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -132,8 +132,20 @@ number_of_entries: 6
 </thead>
 <tbody>
 <tr>
+<td><code>--accessListFile &lt;string&gt;</code></td>
+<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/istio/config/accesslist.yaml`)</td>
+</tr>
+<tr>
 <td><code>--address &lt;string&gt;</code></td>
-<td>Address to use for Galley&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default `tcp://127.0.0.1:9901`)</td>
+<td>Address to use for Galley&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default `tcp://0.0.0.0:9901`)</td>
+</tr>
+<tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td>The location of the certificate file for the root certificate authority  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--certFile &lt;string&gt;</code></td>
+<td>The location of the certificate file for mutual TLS  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
@@ -142,6 +154,14 @@ number_of_entries: 6
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td>Use insecure gRPC communication </td>
+</tr>
+<tr>
+<td><code>--keyFile &lt;string&gt;</code></td>
+<td>The location of the key file for mutual TLS  (default `/etc/istio/certs/key.pem`)</td>
 </tr>
 <tr>
 <td><code>--kubeConfig &lt;string&gt;</code></td>
@@ -165,11 +185,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -189,7 +209,7 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -245,7 +265,7 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td>Configure how frequently the health check file specified by --healhCheckFile should be updated  (default `0s`)</td>
+<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
@@ -257,11 +277,11 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -281,7 +301,7 @@ number_of_entries: 6
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -337,12 +357,12 @@ number_of_entries: 6
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -367,7 +387,7 @@ number_of_entries: 6
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, mcp, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>

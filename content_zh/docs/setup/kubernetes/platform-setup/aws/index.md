@@ -2,6 +2,8 @@
 title: Amazon Web Services
 description: 对 AWS 中以 Kops 安装的集群进行配置以便安装运行 Istio。
 weight: 3
+skip_toc: true
+skip_seealso: true
 keywords: [platform-setup,aws]
 ---
 
