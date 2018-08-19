@@ -367,6 +367,10 @@ to hold the configuration of the NGINX:
         name: https
         protocol: HTTPS
       resolution: DNS
+      endpoints:
+      - address: my-nginx.mesh-external.svc.cluster.local
+        ports:
+          https: 443
     EOF
     {{< /text >}}
 
