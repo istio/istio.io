@@ -7,7 +7,7 @@ keywords: [kubernetes,multicluster]
 
 This example demonstrates how to use Istio's multicluster feature to join two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters together,
-using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+using the [multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Create the IBM Cloud Private Clusters
 
