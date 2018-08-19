@@ -7,6 +7,9 @@ keywords: [traffic-management,ingress, https]
 
 The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/) task describes how to configure HTTPS
 ingress access to an HTTP service. This example describes how to configure ingress access to an HTTPS service.
+You will deploy an [NGINX](https://www.nginx.com) server to your Kubernetes cluster to provide an HTTPS Kubernetes
+service. Then you will configure a gateway to provide ingress access to this service via the `nginx.example.com` host.
+
 
 ## Generate client and server certificates and keys
 
