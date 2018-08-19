@@ -168,20 +168,64 @@ to hold the configuration of the NGINX:
     EOF
     {{< /text >}}
 
-### Test the NGINX deployment
+1.  Define a `ServiceEntry` and a `VirtualService` for `nginx.example.com` to instruct Istio to direct traffic destined
+    to `nginx.example.com` to your NGINX server:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: nginx
+    spec:
+      hosts:
+      - nginx.example.com
+      ports:
+      - number: 443
+        name: https
+        protocol: HTTPS
+      resolution: DNS
+      endpoints:
+      - address: my-nginx.mesh-external.svc.cluster.local
+        ports:
+          https: 443
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: nginx
+    spec:
+      hosts:
+      - nginx.example.com
+      tls:
+      - match:
+        - port: 443
+          sni_hosts:
+          - nginx.example.com
+        route:
+        - destination:
+            host: nginx.example.com
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+## Deploy a container to test the NGINX deployment
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates:
 
     {{< text bash >}}
-    $ kubectl create -n mesh-external secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
+    $ kubectl create secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
+    $ kubectl create secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
 1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample with mounted client and CA certificates to test sending
     requests to the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -n mesh-external -f -
+    $ cat <<EOF | kubectl apply -f -
     # Copyright 2017 Istio Authors
     #
     #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -245,10 +289,21 @@ to hold the configuration of the NGINX:
     EOF
     {{< /text >}}
 
-1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) container to send requests to the NGINX server:
+1.  Define an environment variable to hold the name of the `sleep` pod:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl -v --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
+1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) container to send requests to the NGINX server. Since
+    the host `nginx.example.com` does not exist and will not be resolved by DNS, use the `--resolve` option of `curl` to
+    resolve the hostname manually. You can provide any IP to the `--resolve` option, except for `127.0.0.1`, for example
+    `1.1.1.1`.
+    Istio will route the request correctly to your NGINX server. In the real life scenarios, a DNS entry will exist for
+    the destination hostname and providing `--resolve` option to `curl` will not be required.
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
     ...
     Server certificate:
       subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
@@ -275,7 +330,7 @@ to hold the configuration of the NGINX:
 1.  Verify that the server requires the client's certificate:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl --cacert /etc/nginx-ca-certs/ca-chain.cert.pem https://nginx.example.com
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -k --resolve nginx.example.com:443:1.1.1.1 https://nginx.example.com
     <html>
     <head><title>400 No required SSL certificate was sent</title></head>
     <body bgcolor="white">
@@ -284,14 +339,6 @@ to hold the configuration of the NGINX:
     <hr><center>nginx/1.15.2</center>
     </body>
     </html>
-    {{< /text >}}
-
-1.  Cleanup:
-
-    {{< text bash >}}
-    $ kubectl delete -n mesh-external service sleep
-    $ kubectl delete -n mesh-external deployment sleep
-    $ kubectl delete -n mesh-external secret nginx-client-certs
     {{< /text >}}
 
 ## Redeploy the Egress Gateway with the client certificates
@@ -506,6 +553,7 @@ to hold the configuration of the NGINX:
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete secret nginx-client-certs nginx-ca-certs
     $ kubectl delete secret nginx-client-certs nginx-ca-certs -n istio-system
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
@@ -528,4 +576,11 @@ to hold the configuration of the NGINX:
 
     {{< text bash >}}
     $ rm -f ./nginx.conf ./istio-egressgateway.yaml
+    {{< /text >}}
+
+1.  Delete the `sleep` service and deployment:
+
+    {{< text bash >}}
+    $ kubectl delete service sleep
+    $ kubectl delete deployment sleep
     {{< /text >}}
