@@ -392,32 +392,6 @@ to hold the configuration of the NGINX:
 
 ## Mutual TLS origination for egress traffic
 
-1.  Define a `ServiceEntry` for `nginx.example.com`:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: nginx
-    spec:
-      hosts:
-      - nginx.example.com
-      ports:
-      - number: 80
-        name: http
-        protocol: HTTP
-      - number: 443
-        name: https
-        protocol: HTTPS
-      resolution: DNS
-      endpoints:
-      - address: my-nginx.mesh-external.svc.cluster.local
-        ports:
-          https: 443
-    EOF
-    {{< /text >}}
-
 1.  Create an egress `Gateway` for `nginx.example.com`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
     service.
