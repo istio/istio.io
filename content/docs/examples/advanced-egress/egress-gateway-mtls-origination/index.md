@@ -181,6 +181,9 @@ to hold the configuration of the NGINX:
       hosts:
       - nginx.example.com
       ports:
+      - number: 80
+        name: http
+        protocol: HTTP
       - number: 443
         name: https
         protocol: HTTPS
