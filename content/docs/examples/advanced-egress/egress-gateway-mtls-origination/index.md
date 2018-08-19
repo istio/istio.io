@@ -500,7 +500,7 @@ to hold the configuration of the NGINX:
 1.  Send an HTTP request to `http://nginx.example.com`:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s http://nginx.example.com
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s --resolve nginx.example.com:80:1.1.1.1 http://nginx.example.com
     <!DOCTYPE html>
     <html>
     <head>
