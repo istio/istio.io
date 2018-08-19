@@ -176,6 +176,81 @@ to hold the configuration of the NGINX:
     ...
     {{< /text >}}
 
+## Configure an ingress gateway
+
+1.  Define a `Gateway` with a `server` section for port 443.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: mygateway
+    spec:
+      selector:
+        istio: ingressgateway # use istio default ingress gateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        tls:
+          mode: PASSTHROUGH
+        hosts:
+        - nginx.example.com
+    EOF
+    {{< /text >}}
+
+1.  Configure routes for traffic entering via the `Gateway`:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: nginx
+    spec:
+      hosts:
+      - nginx.example.com
+      gateways:
+      - mygateway
+      tls:
+      - match:
+        - port: 443
+          sni_hosts:
+          - nginx.example.com
+        route:
+        - destination:
+            host: my-nginx
+            port:
+              number: 443
+    EOF
+    {{< /text >}}
+
+1.  Follow the instructions in
+    https://istio.io/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports to define the
+    `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
+
+1.  Access the NGINX service from outside the cluster.
+
+    {{< text bash >}}
+    $ curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert nginx.example.com/2_intermediate/certs/ca-chain.cert.pem https://nginx.example.com:$SECURE_INGRESS_PORT
+    Server certificate:
+      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
+      start date: Aug 15 07:29:07 2018 GMT
+      expire date: Aug 25 07:29:07 2019 GMT
+      common name: nginx.example.com (matched)
+      issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
+      SSL certificate verify ok.
+
+      < HTTP/1.1 200 OK
+      < Server: nginx/1.15.2
+      ...
+      <html>
+      <head>
+      <title>Welcome to nginx!</title>
+    {{< /text>}}
+
 ## Cleanup
 
 1.  Remove created Kubernetes resources:
@@ -185,6 +260,8 @@ to hold the configuration of the NGINX:
     $ kubectl delete configmap nginx-configmap
     $ kubectl delete service my-nginx
     $ kubectl delete deployment my-nginx
+    $ kubectl delete gateway mygateway
+    $ kubectl delete virtualservice nginx
     {{< /text >}}
 
 1.  Delete the directory of the certificates and the repository used to generate them:
