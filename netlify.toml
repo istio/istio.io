@@ -3,4 +3,4 @@
     command = "make netlify"
 
 [build.environment]
-    HUGO_VERSION = "0.44"
+    HUGO_VERSION = "0.47"
