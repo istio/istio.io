@@ -146,7 +146,8 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 1.  To test that the NGINX server was deployed successfully, send a request to the server from its sidecar proxy,
-    ignoring the certificate:
+    without checking the server's certificate (use the `-k` option of `curl`). Note that the server's certificate is
+    printed correctly, e.g. `common name` is equal to `nginx.example.com`.
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
@@ -181,7 +182,8 @@ to hold the configuration of the NGINX server:
 
 ## Configure an ingress gateway
 
-1.  Define a `Gateway` with a `server` section for port 443.
+1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` `tls` `mode`, the gateway will pass
+    the ingress traffic AS IS, without terminating TLS.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -234,7 +236,8 @@ to hold the configuration of the NGINX server:
     https://istio.io/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports to define the
     `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
-1.  Access the NGINX service from outside the cluster.
+1.  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and
+    it is successfully verified (_SSL certificate verify ok_ is printed).
 
     {{< text bash >}}
     $ curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert nginx.example.com/2_intermediate/certs/ca-chain.cert.pem https://nginx.example.com:$SECURE_INGRESS_PORT
