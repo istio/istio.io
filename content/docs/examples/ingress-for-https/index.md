@@ -10,7 +10,6 @@ ingress access to an HTTP service. This example describes how to configure ingre
 You will deploy an [NGINX](https://www.nginx.com) server to your Kubernetes cluster to provide an HTTPS Kubernetes
 service. Then you will configure a gateway to provide ingress access to this service via the `nginx.example.com` host.
 
-
 ## Generate client and server certificates and keys
 
 Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys) task.
