@@ -83,7 +83,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     {{< /text >}}
 
 1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
-to hold the configuration of the NGINX:
+to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap  --from-file=nginx.conf=./nginx.conf
