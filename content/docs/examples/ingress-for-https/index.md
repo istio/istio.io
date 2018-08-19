@@ -88,7 +88,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
 to hold the configuration of the NGINX server:
 
     {{< text bash >}}
-    $ kubectl create configmap nginx-configmap  --from-file=nginx.conf=./nginx.conf
+    $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
 1.  Deploy the NGINX server:
