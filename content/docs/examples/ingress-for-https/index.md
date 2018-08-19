@@ -47,7 +47,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
 
 ## Deploy an NGINX server
 
-1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's
+1. Create a Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's
    certificate.
 
     {{< text bash >}}
