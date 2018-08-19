@@ -262,7 +262,7 @@ TCP mesh-external service entries come to our rescue.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
+    apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
       name: mysql-external
