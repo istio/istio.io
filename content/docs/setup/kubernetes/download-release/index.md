@@ -19,7 +19,7 @@ services from all other namespaces.
     $ curl -L https://git.io/getLatestIstio | sh -
     {{< /text >}}
 
-1.  Move to the Istio package directory . For example, if the package is
+1.  Move to the Istio package directory. For example, if the package is
     istio-{{< istio_version >}}.0:
 
     {{< text bash >}}
