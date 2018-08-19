@@ -37,19 +37,19 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `my-nginx.mesh-external.svc.cluster.local`.
+1.  Generate the certificates for `nginx.example.com`.
     Use any password with the following command:
 
     {{< text bash >}}
-    $ ./generate.sh my-nginx.mesh-external.svc.cluster.local <password>
+    $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
     When prompted, select `y` for all the questions.
 
-1.  Move the certificates into `my-nginx.mesh-external.svc.cluster.local` directory:
+1.  Move the certificates into `nginx.example.com` directory:
 
     {{< text bash >}}
-    $ mkdir ~+1/my-nginx.mesh-external.svc.cluster.local && mv 1_root 2_intermediate 3_application 4_client ~+1/my-nginx.mesh-external.svc.cluster.local
+    $ mkdir ~+1/nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/nginx.example.com
     {{< /text >}}
 
 1.  Change directory back:
@@ -72,8 +72,8 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
    certificates.
 
     {{< text bash >}}
-    $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local/3_application/private/my-nginx.mesh-external.svc.cluster.local.key.pem --cert my-nginx.mesh-external.svc.cluster.local/3_application/certs/my-nginx.mesh-external.svc.cluster.local.cert.pem
-    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=my-nginx.mesh-external.svc.cluster.local/2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n mesh-external secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
+    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
 1.  Create a configuration file for the NGINX server:
@@ -96,7 +96,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
         root /usr/share/nginx/html;
         index index.html;
 
-        server_name my-nginx.mesh-external.svc.cluster.local;
+        server_name nginx.example.com;
         ssl_certificate /etc/nginx-server-certs/tls.crt;
         ssl_certificate_key /etc/nginx-server-certs/tls.key;
         ssl_client_certificate /etc/nginx-ca-certs/ca-chain.cert.pem;
@@ -180,7 +180,7 @@ to hold the configuration of the NGINX:
    certificates:
 
     {{< text bash >}}
-    $ kubectl create -n mesh-external secret tls nginx-client-certs --key my-nginx.mesh-external.svc.cluster.local/4_client/private/my-nginx.mesh-external.svc.cluster.local.key.pem --cert my-nginx.mesh-external.svc.cluster.local/4_client/certs/my-nginx.mesh-external.svc.cluster.local.cert.pem
+    $ kubectl create -n mesh-external secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
     {{< /text >}}
 
 1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample with mounted client and CA certificates to test sending
@@ -254,18 +254,18 @@ to hold the configuration of the NGINX:
 1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) container to send requests to the NGINX server:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl -v --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl -v --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
     ...
     Server certificate:
-      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=my-nginx.mesh-external.svc.cluster.local
+      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
       start date: 2018-08-16 04:31:20 GMT
       expire date: 2019-08-26 04:31:20 GMT
-      common name: my-nginx.mesh-external.svc.cluster.local (matched)
-      issuer: C=US; ST=Denial; O=Dis; CN=my-nginx.mesh-external.svc.cluster.local
+      common name: nginx.example.com (matched)
+      issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
       SSL certificate verify ok.
     > GET / HTTP/1.1
     > User-Agent: curl/7.35.0
-    > Host: my-nginx.mesh-external.svc.cluster.local
+    > Host: nginx.example.com
     ...
     < HTTP/1.1 200 OK
 
@@ -281,7 +281,7 @@ to hold the configuration of the NGINX:
 1.  Verify that the server requires the client's certificate:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl --cacert /etc/nginx-ca-certs/ca-chain.cert.pem https://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec -it $(kubectl get pod -n mesh-external -l app=sleep -o jsonpath={.items..metadata.name}) -n mesh-external -- curl --cacert /etc/nginx-ca-certs/ca-chain.cert.pem https://nginx.example.com
     <html>
     <head><title>400 No required SSL certificate was sent</title></head>
     <body bgcolor="white">
@@ -306,8 +306,8 @@ to hold the configuration of the NGINX:
    certificates.
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls nginx-client-certs --key my-nginx.mesh-external.svc.cluster.local/4_client/private/my-nginx.mesh-external.svc.cluster.local.key.pem --cert my-nginx.mesh-external.svc.cluster.local/4_client/certs/my-nginx.mesh-external.svc.cluster.local.cert.pem
-    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=my-nginx.mesh-external.svc.cluster.local/2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n istio-system secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
+    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
 1.  Generate the `istio-egressgateway` deployment with a volume to be mounted from the new secrets. Use the same options
@@ -348,7 +348,7 @@ to hold the configuration of the NGINX:
 
 ## Mutual TLS origination for egress traffic
 
-1.  Define a `ServiceEntry` for `my-nginx.mesh-external.svc.cluster.local`:
+1.  Define a `ServiceEntry` for `nginx.example.com`:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -358,7 +358,7 @@ to hold the configuration of the NGINX:
       name: nginx
     spec:
       hosts:
-      - my-nginx.mesh-external.svc.cluster.local
+      - nginx.example.com
       ports:
       - number: 80
         name: http
@@ -374,7 +374,7 @@ to hold the configuration of the NGINX:
     EOF
     {{< /text >}}
 
-1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
+1.  Create an egress `Gateway` for `nginx.example.com`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
     service.
 
@@ -393,7 +393,7 @@ to hold the configuration of the NGINX:
           name: https
           protocol: HTTPS
         hosts:
-        - my-nginx.mesh-external.svc.cluster.local
+        - nginx.example.com
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
@@ -416,7 +416,7 @@ to hold the configuration of the NGINX:
               number: 443
             tls:
               mode: ISTIO_MUTUAL
-              sni: my-nginx.mesh-external.svc.cluster.local
+              sni: nginx.example.com
     EOF
     {{< /text >}}
 
@@ -431,7 +431,7 @@ to hold the configuration of the NGINX:
       name: direct-nginx-through-egress-gateway
     spec:
       hosts:
-      - my-nginx.mesh-external.svc.cluster.local
+      - nginx.example.com
       gateways:
       - istio-egressgateway
       - mesh
@@ -453,7 +453,7 @@ to hold the configuration of the NGINX:
           port: 443
         route:
         - destination:
-            host: my-nginx.mesh-external.svc.cluster.local
+            host: nginx.example.com
             port:
               number: 443
           weight: 100
@@ -463,7 +463,7 @@ to hold the configuration of the NGINX:
     metadata:
       name: originate-mtls-for-nginx
     spec:
-      host: my-nginx.mesh-external.svc.cluster.local
+      host: nginx.example.com
       trafficPolicy:
         loadBalancer:
           simple: ROUND_ROBIN
@@ -475,14 +475,14 @@ to hold the configuration of the NGINX:
             clientCertificate: /etc/nginx-client-certs/tls.crt
             privateKey: /etc/nginx-client-certs/tls.key
             caCertificates: /etc/nginx-ca-certs/ca-chain.cert.pem
-            sni: my-nginx.mesh-external.svc.cluster.local
+            sni: nginx.example.com
     EOF
     {{< /text >}}
 
-1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
+1.  Send an HTTP request to `http://nginx.example.com`:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s http://nginx.example.com
     <!DOCTYPE html>
     <html>
     <head>
@@ -500,7 +500,7 @@ to hold the configuration of the NGINX:
     We should see a line related to our request, similar to the following:
 
     {{< text plain>}}
-    [2018-08-16T07:33:57.569Z] "GET / HTTP/1.1" 200 - 0 612 13 5 "172.30.146.79" "curl/7.35.0" "935a0aba-cc97-9492-9040-3778edfc493a" "my-nginx.mesh-external.svc.cluster.local" "172.21.143.121:443"
+    [2018-08-16T07:33:57.569Z] "GET / HTTP/1.1" 200 - 0 612 13 5 "172.30.146.79" "curl/7.35.0" "935a0aba-cc97-9492-9040-3778edfc493a" "nginx.example.com" "172.21.143.121:443"
     {{< /text >}}
 
 ## Cleanup
@@ -527,7 +527,7 @@ to hold the configuration of the NGINX:
 1.  Delete the directory of the certificates and the repository used to generate them:
 
     {{< text bash >}}
-    $ rm -rf my-nginx.mesh-external.svc.cluster.local mtls-go-example
+    $ rm -rf nginx.example.com mtls-go-example
     {{< /text >}}
 
 1.  Delete the generated configuration files used in this example:
