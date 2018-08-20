@@ -91,21 +91,27 @@ keywords: [keyword1,keyword2,...]
 Copy the above at the start of your new markdown file and update the information fields.
 The available front matter fields are:
 
+|Field              | Description
+|-------------------|------------
+|`title`            | The short title of the page
+|`subtitle`         | An optional subtitle which gets displayed below the main title
+|`description`      | A one-line description of what the page is about
+|`icon`             | An optional path to an image file which gets displayed next to the main title
+|`weight`           | An integer used to determine the sort order of this page relative to other pages in the same directory
+|`keywords`         | An array of keywords describing the page, used to create the web of See Also links
+|`draft`            | When true, prevents the page from showing up in any navigation area
+|`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
+|`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
+|`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+
+There are a few more front matter fields available specifically for blog posts:
+
 |Field          | Description
 |---------------|------------
-|`title`        | The short title of the page
-|`description`  | A one-line description of what the topic is about
-|`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory
-|`keywords`     | An array of keywords describing the page, used to create the web of See Also links
-|`draft`        | When true, prevents the page from showing up in any navigation area
-|`publishdate`  | For blog posts, indicates the date of publication of the post
-|`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
-|`attribution`  | For blog posts, supplies an optional author's name
-|`aliases`      | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
-|`page_icon`    | Set this to the path of an image file in order to get an icon displayed next to the main title
-|`skip_toc`     | Set this to true to prevent the page from having a table of contents generated for it
-|`skip_seealso` | Set this to true to prevent the page from having a "See also" section generated for it
-|`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+|`publishdate`  | Date of the post's publication
+|`attribution`  | Optional name of the post's author
+|`twitter`      | Optional Twitter of the post's author
 
 ## Adding images
 

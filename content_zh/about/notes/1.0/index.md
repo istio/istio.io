@@ -1,7 +1,7 @@
 ---
 title: Istio 1.0
 weight: 92
-page_icon: /img/notes.svg
+icon: /img/notes.svg
 ---
 
 我们很自豪地发布了 Istio 1.0！ Istio 至今已经开发了近两年，1.0 版本对我们来说是一个重要的里程碑。我们所有的[核心功能](/zh/about/feature-stages/)现在都可以用于生产。

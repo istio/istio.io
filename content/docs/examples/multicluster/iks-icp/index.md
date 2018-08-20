@@ -7,7 +7,7 @@ keywords: [kubernetes,multicluster,hybrid]
 
 This example demonstrates how to use Istio's multicluster feature to join 1
 [IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and 1 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster together,
-using the [Kubernetes multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+using the [multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
 
 ## Set up two clusters
 
@@ -71,7 +71,7 @@ Since these two clusters are in isolated network environments we need to set up 
         {{< text bash >}}
         $ export STRONGSWAN_POD=$(kubectl get pod -l app=strongswan,release=vpn -o jsonpath='{ .items[0].metadata.name }')
         $ kubectl exec $STRONGSWAN_POD -- ipsec status
-        {{< /text >}}.
+        {{< /text >}}
 
 1.  Confirm pods can communicate by pinging pod IP in IBM Cloud Private from IBM Cloud Kubernetes Service.
 
