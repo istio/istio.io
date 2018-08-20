@@ -235,10 +235,10 @@ This should stop Istio from restarting Envoy and disconnecting TCP connections.
 
 ## Multiple host gateway with SSL
 
-When configuration of a TLS ingress gateway for multiple hosts is deployed, be sure to have unique port name has bellow: 
+When configuration of a TLS ingress gateway for multiple hosts is deployed, be sure to have unique port name has bellow:
 
 {{< text bash >}}
-cat <<EOF | kubectl apply -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -272,7 +272,7 @@ EOF
 
 If port name is not unique you will see:
 
-{{< text bash >}}
+{{< text plain >}}
 port https.443.HTTPS: non unique port name for HTTPS port
 {{< /text >}}
 
