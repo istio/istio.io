@@ -34,8 +34,8 @@ Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密
 
 - **零信任网络** : 在不受信任的网络上构建安全解决方案
 
-访问我们的[Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/)，开始在部署的服务中使用Istio安全功能。
-请访问我们的[安全任务](/docs/tasks/security/)，有关使用安全功能的详细说明。
+访问我们的[Mutual TLS Migration docs](/zh/docs/tasks/security/mtls-migration/)，开始在部署的服务中使用Istio安全功能。
+请访问我们的[安全任务](/zh/docs/tasks/security/)，有关使用安全功能的详细说明。
 
 如图所示，Istio 的 Citadel 用加载 Secret 卷的方式在 Kubernetes 容器中完成证书和密钥的分发。如果服务运行在虚拟机或物理机上，则会使用运行在本地的 Node agent，它负责在本地生成私钥和 CSR（证书签发申请），把 CSR 发送给 Citadel 进行签署，并把生成的证书和私钥分发给 Envoy。
 
@@ -47,7 +47,7 @@ Istio 中的安全性涉及多个组件：
 
 - **Sidecar 和周边代理** 实现客户端和服务器之间的安全通信
 
-- **Pilot** 将[授权策略](/docs/concepts/security/#授权策略)和[安全命名信息](/zh/docs/concepts/security/#安全命名)分发给代理
+- **Pilot** 将[授权策略](/zh/docs/concepts/security/#授权策略)和[安全命名信息](/zh/docs/concepts/security/#安全命名)分发给代理
 
 - **Mixer** 管理授权和审计
 
@@ -161,7 +161,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`，`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend`服务可以访问`photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend`服务无法访问 `datastore`。
 
-在这种情况下，集群管理员创建三个名称空间：`istio-citadel-ns`，`photo-ns`和`datastore-ns`。管理员可以访问所有名称空间，每个团队只能访问自己的名称空间。照片SRE团队创建了两个服务帐户，分别在`photo-ns`命名空间中运行`photo-frontend`和`photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在`datastore-ns`命名空间中运行`datastore`服务。此外，我们需要在 [Istio Mixer](/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得`photo-frontend`无法访问数据存储区。
+在这种情况下，集群管理员创建三个名称空间：`istio-citadel-ns`，`photo-ns`和`datastore-ns`。管理员可以访问所有名称空间，每个团队只能访问自己的名称空间。照片SRE团队创建了两个服务帐户，分别在`photo-ns`命名空间中运行`photo-frontend`和`photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在`datastore-ns`命名空间中运行`datastore`服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得`photo-frontend`无法访问数据存储区。
 
 在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有名称空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
@@ -205,7 +205,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。 Pilot，Istio 控制器，监视配置存储。在任何策略变更后，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。 Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序窗格以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。 Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/docs/concepts/traffic-management/#destination-rules)。运营商可以使用目标规则来指示客户端代理使用TLS与服务器端预期的证书进行初始连接。您可以在[PKI和身份部分](/docs/concepts/security/mutual-tls/)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/docs/concepts/traffic-management/#destination-rules)。运营商可以使用目标规则来指示客户端代理使用TLS与服务器端预期的证书进行初始连接。您可以在[PKI和身份部分](/docs/concepts/security/#mutual-tls/)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
 {{< image width="60%" ratio="67.12%"
     link="/docs/concepts/security/authn.svg"
@@ -330,7 +330,7 @@ principalBinding: USE_ORIGIN
 
 您可以随时更改身份认证策略，Istio 几乎实时地将更改推送到端点。但是，Istio 无法保证所有端点同时收到新策略。以下是在更新身份认证策略时避免中断的建议：
 
-- 启用或禁用双向 TLS：使用带有`mode：`键和`PERMISSIVE`值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration)。
+- 启用或禁用双向 TLS：使用带有`mode：`键和`PERMISSIVE`值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[Mutual TLS Migration tutorial](/zh/docs/tasks/security/mtls-migration)。
 
 {{< text yaml >}}
 peers:
@@ -550,4 +550,4 @@ spec:
 ### 使用其他授权机制
 
 虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。
-要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/docs/concepts/policies-and-telemetry/#adapters)。
+要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/concepts/policies-and-telemetry/#适配器)。
