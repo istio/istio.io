@@ -47,7 +47,7 @@ Istio 中的安全性涉及多个组件：
 
 - **Sidecar 和周边代理** 实现客户端和服务器之间的安全通信
 
-- **Pilot** 将[认证策略](/docs/concepts/security/#authentication-policies)和[安全命名信息](/docs/concepts/security/#secure-naming)分发给代理
+- **Pilot** 将[授权策略](/docs/concepts/security/#授权策略)和[安全命名信息](/zh/docs/concepts/security/#安全命名)分发给代理
 
 - **Mixer** 管理授权和审计
 
@@ -61,8 +61,8 @@ Istio 中的安全性涉及多个组件：
 ## Istio 身份
 
 身份是任何安全基础架构的基本概念。在服务到服务通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。
-在客户端，根据[安全命名](/docs/concepts/security/#secure-naming)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
-在服务器端，服务器可以根据[授权策略](/docs/concepts/security/#authorization-policy) 确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
+在客户端，根据[安全命名](/zh/docs/concepts/security/#安全命名)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
+在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略) 确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
 
 在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。
 这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。
@@ -110,7 +110,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 1. Citadel 监视每个证书的生命周期，并通过重写 Kubernetes 秘密自动轮换证书。
 
-1. Pilot 生成[安全命名](/docs/concepts/security/#secure-naming)信息，该信息定义了哪些服务帐户可以运行某个服务。 Pilot 然后将安全命名信息传递给sidecar特使。
+1. Pilot 生成[安全命名](/zh/docs/concepts/security/#安全命名)信息，该信息定义了哪些服务帐户可以运行某个服务。 Pilot 然后将安全命名信息传递给sidecar特使。
 
 ### 本地机器方案
 
@@ -177,9 +177,9 @@ Istio 提供两种类型的身份验证：
     - 保护服务到服务通信和最终用户到服务通信。
     - 提供密钥管理系统，以自动执行密钥和证书生成，分发和轮换。
 
-- **来源身份认证**，也称为**最终用户身份验证**：验证原始客户端将请求作为最终用户或设备。 Istio 通过 JSON Web Token（JWT）验证和 [Auth0](https://auth0.com/)、[Firebase Auth](https://firebase.google.com/docs/auth/) 、[Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
+- **来源身份认证**，也称为**最终用户身份验证**：验证原始客户端将请求作为最终用户或设备。 Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
 
-在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份验证策略存储在`Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
+在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在`Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
 ### 双向 TLS 认证
 
@@ -187,7 +187,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
 
-1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还执行[安全命名](/docs/concepts/security/#secure-naming)检查，以验证服务器证书中提供的服务帐户是否有权运行目标服务。
+1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还执行[安全命名](/zh/docs/concepts/security/#安全命名)检查，以验证服务器证书中提供的服务帐户是否有权运行目标服务。
 
 1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端Envoy。
 
@@ -203,7 +203,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 ### 认证架构
 
-您可以使用身份验证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。 Pilot，Istio 控制器，监视配置存储。在任何策略变更后，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。 Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序窗格以进行双向 TLS。您可以在 [PKI 部分](/docs/concepts/security/#pki)中找到更多信息。 Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
+您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。 Pilot，Istio 控制器，监视配置存储。在任何策略变更后，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。 Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序窗格以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。 Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
 发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/docs/concepts/traffic-management/#destination-rules)。运营商可以使用目标规则来指示客户端代理使用TLS与服务器端预期的证书进行初始连接。您可以在[PKI和身份部分](/docs/concepts/security/mutual-tls/)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
@@ -212,11 +212,11 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
     caption="认证架构"
     >}}
 
-Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[authorization](/docs/concepts/security/#authorization)。此外，运维操作者可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
+Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#授权和鉴权)。此外，运维操作者可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
 
-### 验证策略
+### 认证策略
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
 下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
 
@@ -234,7 +234,7 @@ spec:
 
 #### 策略存储范围
 
-Istio 可以在名称空间范围或网络范围存储中存储身份验证策略：
+Istio 可以在名称空间范围或网络范围存储中存储身份认证策略：
 
 - 为 `kind` 字段指定了网格范围策略，其值为 `MeshPolicy`，名称为 `default`。例如：
 
@@ -261,11 +261,11 @@ Istio 可以在名称空间范围或网络范围存储中存储身份验证策�
       - mtls: {}
     {{< /text >}}
 
-命名空间范围存储中的策略只能影响同一命名空间中的服务。 mesh-scope 中的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为`default`并且有一个空的`targets：`部分。您可以在我们的[目标选择器部分](/docs/concepts/security/#target-selectors)中找到更多信息。
+命名空间范围存储中的策略只能影响同一命名空间中的服务。 mesh-scope 中的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为`default`并且有一个空的`targets：`部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#目标选择器)中找到更多信息。
 
 #### 目标选择器
 
-身份验证策略的目标指定策略适用的服务。以下示例显示了一个`targets：`部分，指定该策略适用于：
+身份认证策略的目标指定策略适用的服务。以下示例显示了一个`targets：`部分，指定该策略适用于：
 
 - 任何端口上的`product-page`服务。
 - 端口`9000`上的评论服务。
@@ -288,7 +288,7 @@ targets:
 
 对于每项服务，Istio 都应用最窄的匹配策略。顺序是：**特定于服务>名称空间范围>网格范围**。如果多个特定于服务的策略与服务匹配，则 Istio 随机选择其中一个。运营商在配置其策略时必须避免此类冲突。
 
-为了强制网状范围和命名空间范围的策略的唯一性，Istio 每个网格只接受一个身份验证策略，每个命名空间只接受一个身份验证策略。 Istio 还要求网格范围和命名空间范围的策略具有特定名称`default`。
+为了强制网状范围和命名空间范围的策略的唯一性，Istio 每个网格只接受一个身份认证策略，每个命名空间只接受一个身份认证策略。 Istio 还要求网格范围和命名空间范围的策略具有特定名称`default`。
 
 #### 传输认证
 
@@ -328,7 +328,7 @@ principalBinding: USE_ORIGIN
 
 ### 更新认证策略
 
-您可以随时更改身份验证策略，Istio 几乎实时地将更改推送到端点。但是，Istio 无法保证所有端点同时收到新策略。以下是在更新身份验证策略时避免中断的建议：
+您可以随时更改身份认证策略，Istio 几乎实时地将更改推送到端点。但是，Istio 无法保证所有端点同时收到新策略。以下是在更新身份认证策略时避免中断的建议：
 
 - 启用或禁用双向 TLS：使用带有`mode：`键和`PERMISSIVE`值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration)。
 
@@ -340,7 +340,7 @@ peers:
 
 - 对于 JWT 身份验证迁移：在更改策略之前，请求应包含新的 JWT。一旦服务器端完全切换到新策略，旧JWT（如果有的话）可以被删除。需要更改客户端应用程序才能使这些更改生效。
 
-## 授权
+## 授权和鉴权
 
 Istio 的授权功能 - 也称为基于角色的访问控制（RBAC） - 为 Istio Mesh 中的服务提供命名空间级别，服务级别和方法级别的访问控制。它的特点是：
 
@@ -443,7 +443,7 @@ spec:
 
 此外，我们支持规则中所有字段的前缀匹配和后缀匹配。例如，您可以在 `default`命名空间中定义具有以下权限的 `tester` 角色：
 
-- 完全访问前缀为 `test-*` 的所有服务，例如：`test-bookstore`，`test-performance`，`test-api.default.svc.cluster.local`。 
+- 完全访问前缀为 `test-*` 的所有服务，例如：`test-bookstore`，`test-performance`，`test-api.default.svc.cluster.local`。
 - 阅读（``GET``）使用``*/reviews``后缀访问所有路径，例如：`/books/reviews`,`/events/booksale/reviews`，`/reviews` in service`bookstore .default.svc.cluster.local`。
 
 {{< text yaml >}}
@@ -550,4 +550,4 @@ spec:
 ### 使用其他授权机制
 
 虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。
-要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/docs/concepts/policies-and-telemetry/#adigters)。
+要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/docs/concepts/policies-and-telemetry/#adapters)。
