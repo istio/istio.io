@@ -693,9 +693,9 @@ Also note that Istio itself *cannot securely enforce* that all the egress traffi
 
 ## Apply Kubernetes Network Policies
 
-In this section you will create a  
+In this section you create a
 [Kubernetes Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) to prevent
-bypassing the egress gateway. To test the Network Policy, you will create a namespace, namely `test-egress`, and deploy
+bypassing the egress gateway. To test the Network Policy, you create a namespace, namely `test-egress`, and deploy
 to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
 1.  Follow the steps in the
@@ -813,8 +813,8 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     {{< /text >}}
 
 1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it should succeed
-    since the traffic will flow to `istio-egressgateway` in the `istio-system` namespace, which is allowed by the
-    Network Policy you defined. `istio-egressgateway` will forward the traffic to `edition.cnn.com`.
+    since the traffic flows to `istio-egressgateway` in the `istio-system` namespace, which is allowed by the
+    Network Policy you defined. `istio-egressgateway` forwards the traffic to `edition.cnn.com`.
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
