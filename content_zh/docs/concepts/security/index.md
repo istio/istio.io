@@ -86,7 +86,7 @@ Istio 中的安全性涉及多个组件：
 
 [SPIFFE](https://spiffe.io/) 标准提供了一个框架规范，该框架能够跨异构环境引导和向服务发布身份。
 
-Istio 和 SPIFFE 共享相同的身份文件：[SVID](https://spiffe.io/docs/svid/) (SPIFFE可验证身份证件）。
+Istio 和 SPIFFE 共享相同的身份文件：[SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) (SPIFFE可验证身份证件）。
 例如，在 Kubernetes 中，X.509 证书的 URI 字段格式为"spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>"。
 这使 Istio 服务能够建立和接受与其他 SPIFFE 兼容系统的连接。
 
