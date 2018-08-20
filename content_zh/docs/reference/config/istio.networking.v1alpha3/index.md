@@ -670,7 +670,7 @@ spec:
 |`headers`|`map<string,` [`StringMatch`](#StringMatch)`>`|Header 的键必须是小写的，使用连字符作为分隔符，例如 `x-request-id`。Headers 的匹配同样是大小写敏感的。**注意在 Header 中的 `uri`、`shceme`、`method` 以及 `authority` 会被忽略。**|
 |`port`|`uint32`|指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。|
 |`sourceLabels`|`map<string, string>`|用一个或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
-|`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gatewas` 匹配是独立于 `sourceLabels` 的。|
+|`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gateways` 匹配是独立于 `sourceLabels` 的。|
 
 ## `HTTPRedirect`
 
@@ -783,7 +783,7 @@ spec:
 |`destinationSubnets`|`string[]`|目标的 `IPv4` 或者 `IPv6` 地址，可能带有子网标识，`a.b.c.d/xx` 或者 `a.b.c.d` 都有可能。|
 |`port`|`uint32`|指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。|
 |`sourceLabels`|`map<string, string>`|用一个或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
-|`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gatewas` 匹配是独立于 `sourceLabels` 的。|
+|`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gateways` 匹配是独立于 `sourceLabels` 的。|
 
 ## `LoadBalancerSettings`
 
@@ -803,7 +803,7 @@ spec:
       simple: ROUND_ROBIN
 {{< /text >}}
 
-而接下来例子，则为 `ratings` 设置了会话黏连模式的负载均衡，黏连模式所使用的哈希根据 Cookie 中的 `user` 数据得来。
+而接下来例子，则为 `ratings` 设置了会话粘连（Soft session affinity）模式的负载均衡，粘连模式所使用的哈希根据 Cookie 中的 `user` 数据得来。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -827,7 +827,7 @@ spec:
 
 ## `LoadBalancerSettings.ConsistentHashLB`
 
-基于一致性哈希的负载均衡可以根据 HTTP Header、Cookie 以及其他属性来提供会话黏连功能。这种负载均衡策略只对 HTTP 连接有效。某一目标的黏连关系，会因为负载均衡池中的节点数量的变化而被重置。
+基于一致性哈希的负载均衡可以根据 HTTP Header、Cookie 以及其他属性来提供会话粘连（Soft session affinity）功能。这种负载均衡策略只对 HTTP 连接有效。某一目标的粘连关系，会因为负载均衡池中的节点数量的变化而被重置。
 
 |字段|类型|描述|
 |---|---|---|
@@ -908,7 +908,7 @@ spec:
 
 ## `Server`
 
-`Server` 描述了指定负载均衡端口上的代理副武器属性，例如：
+`Server` 描述了指定负载均衡端口上的代理服务器属性，例如：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -971,7 +971,7 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`port`|['Port'](#Port)|必要字段。代理服务器监听的端口，用于接收连接。|
+|`port`|[`Port`](#Port)|必要字段。代理服务器监听的端口，用于接收连接。|
 |`hosts`|`string[]`|必要字段。`Gateway` 公开的主机名列表。最少要有一条记录。在通常的 HTTP 服务之外，也可以用于带有 SNI 的 TLS 服务。可以使用包含通配符前缀的域名，例如 `*.foo.com` 匹配 `bar.foo.com`，`*.com` 匹配 `bar.foo.com` 以及 `example.com`。**注意**：绑定在 `Gateway` 上的 `VirtualService` 必须有一个或多个能够和 `Server` 中的 `hosts` 字段相匹配的主机名。匹配可以是完全匹配或是后缀匹配。例如 `server` 的 `hosts` 字段为 `*.example.com`，如果 `VirtualService` 的 `hosts` 字段定义为 `dev.example.com` 和 `prod.example.com`，就是可以匹配的；而如果`VirtualService` 的 `hosts` 字段是 `example.com` 或者 `newexample.com` 则无法匹配。|
 |`tls`|[`Server.TLSOptions`](#Server-TLSOptions)|一组 TLS 相关的选项。这些选项可以把 http 请求重定向为 https，并且设置 TLS 的模式。|
 
@@ -1249,7 +1249,7 @@ spec:
 |`addresss`|`string[]`|服务相关的虚拟 IP。可以是 CIDR 前缀。对 HTTP 服务来说，这一字段会被忽略，而会使用 HTTP 的 `HOST/Authority` Header。而对于非 HTTP 服务，例如 `mongo`、TCP 以及 HTTPS 中，这些主机会被忽略。如果指定了一个或者多个 IP 地址，对于在列表范围内的 IP 的访问会被判定为属于这一服务。如果地址字段为空，服务的鉴别就只能靠目标端口了。在这种情况下，被访问服务的端口一定不能和其他网格内的服务进行共享。换句话说，这里的 Sidecar 会简单的做为 TCP 代理，将特定端口的访问转发到指定目标端点的 IP、主机上去。就无法支持 Unix socket 了。|
 |`ports`|[`Port[]`](#Port)|必要字段。和外部服务关联的端口。如果 `endpoints` 是 Unix socket 地址，这里必须只有一个端口。|
 |`location`|[`ServiceEntry.Location`](#ServiceEntry-Location)|用于指定该服务的位置，属于网格内部还是外部。|
-|`respolution`|[`ServiceEntry.Resolution`](#ServiceEntry-Resolution)|必要字段。主机的服务发现模式。在没有附带IP地址的情况下，为TCP端口设置分辨率模式为NONE时必须小心。在这种情况下，对任何 IP 的指定端口的流量都是允许的（例如 `0.0.0.0:`）。|
+|`resolution`|[`ServiceEntry.Resolution`](#ServiceEntry-Resolution)|必要字段。主机的服务发现模式。在没有附带 IP 地址的情况下，为 TCP 端口设置解析模式为 NONE 时必须小心。在这种情况下，对任何 IP 的指定端口的流量都是允许的（例如 `0.0.0.0:`）。|
 |`endpoints`|[`ServiceEntry.Endpoint[]`](#ServiceEntry-Endpoint)|一个或者多个关联到这一服务的 `endpoint`。|
 
 ## `ServiceEntry.Endpoint`
@@ -1360,7 +1360,7 @@ TLS 连接属性匹配。
 |`destinationSubnets`|`string[]`|`IPv4` 或者 `IPv6` 的目标地址，可能带有子网信息，例如 `a.b.c.d` 形式或者 `a.b.c.d`。|
 |`port`|`uint32`|指定主机服务的监听端口。很多服务只暴露一个端口，或者用协议前缀给端口命名，这种情况下就都不需要显式的指定端口号。|
 |`sourceLabels`|`map<string, string>`|一个或多个标签用于指示规则在工作负载中的的适用范围。如果 `VirtualService` 中指定了 `gateway`，要使用标签过滤，还要加入 `mesh` 这一缺省网关才能生效。|
-|`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gatewas` 匹配是独立于 `sourceLabels` 的。|
+|`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gateways` 匹配是独立于 `sourceLabels` 的。|
 
 ## `TLSRoute`
 
@@ -1453,7 +1453,7 @@ spec:
 |`clientCertificate`|`string`|`mode` 字段为 `MUTUAL` 的情况下，该字段为必要字段。字段值代表用于客户端 TLS 认证的证书。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
 |`privateKey`|`string`|`mode` 字段为 `MUTUAL` 的情况下，该字段为必要字段。该字段的值代表客户端私钥文件。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
 |`caCertificates`|`string`|可选字段。这一字段包含了用于验证服务端证书的 ca 证书。如果省略该字段，则不会对服务端证书进行校验。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
-|`subjectAltNames`|`string[]`|一个可选名称列表，用于校验证书中的主体标识。如果该字段有赋值，代理服务器会检查服务器证书中的记录是否在该字段的范围之内。。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
+|`subjectAltNames`|`string[]`|一个可选名称列表，用于校验证书中的主体标识。如果该字段有赋值，代理服务器会检查服务器证书中的记录是否在该字段的范围之内。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
 |`sni`|`string`|TLS 握手过程中使用的 SNI 字符串。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
 
 ## `TLSSettings.TLSmode`
