@@ -181,7 +181,7 @@ Istio 提供两种类型的身份验证：
 
 在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在`Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
-### 双向TLS认证
+### 双向 TLS 认证
 
 Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代理](https://envoyproxy.github.io/envoy/)。对于客户端调用服务器，遵循的步骤是：
 
@@ -205,7 +205,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。 Pilot，Istio 控制器，监视配置存储。在任何策略变更后，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。 Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序窗格以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。 Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/docs/concepts/traffic-management/#destination-rules)。运营商可以使用目标规则来指示客户端代理使用TLS与服务器端预期的证书进行初始连接。您可以在[PKI和身份部分](/zh/docs/concepts/security/#双向TLS认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/docs/concepts/traffic-management/#destination-rules)。运营商可以使用目标规则来指示客户端代理使用TLS与服务器端预期的证书进行初始连接。您可以在[PKI和身份部分](/zh/docs/concepts/security/#双向-TLS-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
 {{< image width="60%" ratio="67.12%"
     link="/docs/concepts/security/authn.svg"
