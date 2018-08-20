@@ -844,15 +844,20 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
-### Cleanup of the Network Policies
+### Cleanup of the network policies
 
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
-$ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
-$ kubectl label namespace kube-system kube-system-
-$ kubectl label namespace istio-system istio-
-$ kubectl delete namespace test-egress
-{{< /text >}}
+1.  Delete the resources created in this section:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+    $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
+    $ kubectl label namespace kube-system kube-system-
+    $ kubectl label namespace istio-system istio-
+    $ kubectl delete namespace test-egress
+    {{< /text >}}
+
+1.  Perform the [Cleanup](#cleanup-of-the-egress-gateway-for-https-traffic) part of
+    [Direct HTTPS traffic through an egress gateway](#direct-https-traffic-through-an-egress-gateway) section
 
 ## Troubleshooting
 
