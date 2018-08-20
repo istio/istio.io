@@ -42,9 +42,9 @@ Here is a copy of the end-to-end architecture of the application from the origin
     >}}
 
 Perform the steps in the
-[Deploying the application](http://localhost:1313/docs/examples/bookinfo/#deploying-the-application),
-[Confirm the app is running](http://localhost:1313/docs/examples/bookinfo/#confirm-the-app-is-running), and
-[Apply default destination rules](http://localhost:1313/docs/examples/bookinfo/#apply-default-destination-rules)
+[Deploying the application](/docs/examples/bookinfo/#deploying-the-application),
+[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-running), and
+[Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)
 sections.
 
 ## Bookinfo with HTTPS access to a Google Books web service
@@ -73,7 +73,7 @@ Now direct all the traffic destined to the _details_ microservice, to _details v
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 {{< /text >}}
 
-Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](http://localhost:1313/docs/examples/bookinfo/#apply-default-destination-rules) section.
+Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) section.
 
 Access the web page of the application, after
 [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
@@ -292,7 +292,7 @@ In the next section you will configure TLS origination for accessing an external
 
     Note that port `443` is designated by a name with the prefix `http-`, and its protocol is specified as `HTTP`. Note
     that you are not required to use port 443 to send HTTP requests for TLS origination.
-    [This example](http://localhost:1313/docs/examples/advanced-egress/egress-tls-origination/) shows how to perform TLS
+    [This example](/docs/examples/advanced-egress/egress-tls-origination/) shows how to perform TLS
     origination with port rewriting.
 
 1.  Access the web page of the application and verify that the book details are displayed without errors.
