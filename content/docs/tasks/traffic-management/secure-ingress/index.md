@@ -341,7 +341,6 @@ In this subsection, perform the same steps as in the [Generate client and server
 
 > {{< warning_icon >}} port name must be distinct for HTTPS.
 
-
 1.  Deploy the [Bookinfo sample application](/docs/examples/bookinfo/), without a gateway:
 
     {{< text bash >}}
