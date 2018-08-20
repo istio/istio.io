@@ -835,6 +835,8 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
 $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
+$ kubectl label namespace kube-system kube-system-
+$ kubectl label namespace istio-system istio-
 $ kubectl delete namespace test-egress
 {{< /text >}}
 
