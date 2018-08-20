@@ -708,8 +708,8 @@ the egress gateways.
 ## Apply Kubernetes network policies
 
 In this section you create a
-[Kubernetes Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) to prevent
-bypassing the egress gateway. To test the Network Policy, you create a namespace, namely `test-egress`, and deploy
+[Kubernetes network policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) to prevent
+bypassing the egress gateway. To test the network policy, you create a namespace, namely `test-egress`, and deploy
 to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
 1.  Follow the steps in the
@@ -785,10 +785,10 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     {{< /text >}}
 
 1.  Resend the previous HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it
-    should fail since the traffic is blocked by the Network Policy. Note that the `sleep` pod cannot bypass
+    should fail since the traffic is blocked by the network policy. Note that the `sleep` pod cannot bypass
     `istio-egressgateway`. The only way it can access `edition.cnn.com` is by using an Istio sidecar proxy and by
     directing the traffic to `istio-egressgateway`. This setting demonstrates that even if some malicious pod manages to
-    bypass its sidecar proxy, it will not be able to access external sites and will be blocked by the Network Policy.
+    bypass its sidecar proxy, it will not be able to access external sites and will be blocked by the network policy.
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -v https://edition.cnn.com/politics
