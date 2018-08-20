@@ -5,8 +5,6 @@ weight: 40
 keywords: [流量管理,egress]
 ---
 
-> 这一任务使用的是新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧版本的 API 已经过时，会在 Istio 的下一个版本中弃用。如果需要使用旧版本，请阅读[旧版文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)。
-
 缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外的 URL，而只能处理集群内部的目标。
 
 本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
@@ -15,7 +13,7 @@ keywords: [流量管理,egress]
 
 * 根据[安装指南](/zh/docs/setup)的内容，部署 Istio。
 
-* 启动  [sleep]({{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
+* 启动 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
     如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，运行：
 
     {{< text bash >}}
@@ -30,7 +28,7 @@ keywords: [流量管理,egress]
 
     实际上任何可以 `exec` 和 `curl` 的 Pod 都可以用来完成这一任务。
 
-## Istio 中配置外部服务
+## 在 Istio 中配置外部服务
 
 通过配置 Istio `ServiceEntry`，可以从 Istio 集群中访问外部任意的可用服务。这里我们会使用 [httpbin.org](http://httpbin.org) 以及 [www.google.com](https://www.google.com) 进行试验。
 
@@ -39,7 +37,7 @@ keywords: [流量管理,egress]
 1. 创建一个 `ServiceEntry` 对象，放行对一个外部 HTTP 服务的访问：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -51,17 +49,18 @@ keywords: [流量管理,egress]
       - number: 80
         name: http
         protocol: HTTP
+      resolution: DNS
     EOF
     {{< /text >}}
 
-1. 另外创建一个 `ServiceEntry` 对象，允许访问对一个外部 HTTPS 服务的访问：
+1. 创建一个 `ServiceEntry` 以及 `VirtualService`，允许访问外部 HTTPS 服务。注意：包括 HTTPS 在内的 TLS 协议，在 `ServiceEntry` 之外，还需要创建 TLS `VirtualService`。
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
-      name: google-ext
+      name: google
     spec:
       hosts:
       - www.google.com
@@ -69,6 +68,26 @@ keywords: [流量管理,egress]
       - number: 443
         name: https
         protocol: HTTPS
+      resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: google
+    spec:
+      hosts:
+      - www.google.com
+      tls:
+      - match:
+        - port: 443
+          sni_hosts:
+          - www.google.com
+        route:
+        - destination:
+            host: www.google.com
+            port:
+              number: 443
+          weight: 100
     EOF
     {{< /text >}}
 
@@ -95,9 +114,9 @@ keywords: [流量管理,egress]
 
 ### 为外部服务设置路由规则
 
-通过 `ServiceEntry` 访问外部服务的流量，和网格内流量类似，都可以进行 Istio [路由规则](/zh/docs/concepts/traffic-management/#规则配置) 的配置。下面我们使用 [`istioctl`](/docs/reference/commands/istioctl/) 为 httpbin.org 服务设置一个超时规则。
+通过 `ServiceEntry` 访问外部服务的流量，和网格内流量类似，都可以进行 Istio [路由规则](/zh/docs/concepts/traffic-management/#规则配置) 的配置。下面我们使用 [`istioctl`](/zh/docs/reference/commands/istioctl/) 为 httpbin.org 服务设置一个超时规则。
 
-1. 在测试 Pod 内部，调用 httpbin.org 这一外部服务的 `/delay` 端点：
+1. 在测试 Pod 内部，使用 `curl` 调用 httpbin.org 这一外部服务的 `/delay` 端点：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep bash
@@ -147,7 +166,7 @@ keywords: [流量管理,egress]
 
 ## 直接调用外部服务
 
-如果想要跳过 Istio，直接访问某个 IP 范围内的外部服务，就需要对 Envoy sidecar 进行配置，阻止 Envoy 对外部请求的[劫持](/zh/docs/concepts/traffic-management/#服务之间的通讯)。可以在 [Helm](/docs/reference/config/installation-options/) 中设置 `global.proxy.includeIPRanges` 变量，然后使用 `kubectl apply` 命令来更新名为 `istio-sidecar-injector` 的 `Configmap`。在 `istio-sidecar-injector` 更新之后，`global.proxy.includeIPRanges` 会在所有未来部署的 Pod 中生效。
+如果想要跳过 Istio，直接访问某个 IP 范围内的外部服务，就需要对 Envoy sidecar 进行配置，阻止 Envoy 对外部请求的[劫持](/zh/docs/concepts/traffic-management/#服务之间的通讯)。可以在 [Helm](/zh/docs/reference/config/installation-options/) 中设置 `global.proxy.includeIPRanges` 变量，然后使用 `kubectl apply` 命令来更新名为 `istio-sidecar-injector` 的 `Configmap`。在 `istio-sidecar-injector` 更新之后，`global.proxy.includeIPRanges` 会在所有未来部署的 Pod 中生效。
 
 使用 `global.proxy.includeIPRanges` 变量的最简单方式就是把内部服务的 IP 地址范围传递给它，这样就在 Sidecar proxy 的重定向列表中排除掉了外部服务的地址了。
 
@@ -214,7 +233,7 @@ $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata
 $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 {{< /text >}}
 
-## 总结
+## 理解原理
 
 这个任务中，我们使用两种方式从 Istio 服务网格内部来完成对外部服务的调用：
 
@@ -231,8 +250,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 1. 删除规则：
 
     {{< text bash >}}
-    $ istioctl delete serviceentry httpbin-ext google-ext
-    $ istioctl delete virtualservice httpbin-ext
+    $ kubectl delete serviceentry httpbin-ext google
+    $ kubectl delete virtualservice httpbin-ext google
     {{< /text >}}
 
 1. 停止 [sleep]({{< github_tree >}}/samples/sleep) 服务：

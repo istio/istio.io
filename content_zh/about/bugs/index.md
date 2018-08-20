@@ -2,7 +2,7 @@
 title: 报告 Bugs
 description: 如果你发现了 bug 该怎么做。
 weight: 34
-page_icon: /img/bugs.svg
+icon: /img/bugs.svg
 ---
 
 哦不！你发现了bug？

@@ -6,7 +6,7 @@ keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
-page_icon: /img/helm.svg
+icon: /img/helm.svg
 ---
 
 Quick start instructions for the setup and configuration of Istio using Helm.
@@ -65,7 +65,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ kubectl create -f $HOME/istio.yaml
+    $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -77,7 +77,7 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
