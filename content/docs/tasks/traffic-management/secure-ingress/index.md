@@ -447,7 +447,7 @@ In this subsection, perform the same steps as in the [Generate client and server
 
 ## Configure end-user authentication on ingress gateway
 
-The Istio ingress gateway supports end-user authentication by setting up a JWT
+To support end-user authentication, the Istio ingress gateway sets up a JWT
 authentication policy in the `istio-ingressgateway` file. The ingress gateway
 rejects the unauthenticated requests and the request can't access the services
 inside the mesh. This section shows how to use the authentication policy to
@@ -461,7 +461,7 @@ setup the end-user authentication for the Istio ingress gateway.
     {{< /text >}}
 
 1. Add the policy requiring the end-user JWT authentication for the
-   `istio-ingressgateway` pod.
+   `istio-ingressgateway` service.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -498,15 +498,15 @@ setup the end-user authentication for the Istio ingress gateway.
     server: envoy
     {{< /text >}}
 
-1.  Run the following curl command, attach the valid JWT:
+1.  Run the following curl command with the valid JWT:
 
     {{< text bash >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
     $ curl --header "Authorization: Bearer $TOKEN" -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
     {{< /text >}}
 
-1.  Note the return value of 200. Istio returns successful code because request
-    is attached the valid JWT:
+1.  Note the return value of 200. Istio returns a successful code because the
+    request had the valid JWT attached:
 
     {{< text bash >}}
     $ HTTP/1.1 200 OK
