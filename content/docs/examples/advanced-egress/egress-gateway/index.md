@@ -690,10 +690,8 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the cluster administrator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
 
 Istio *cannot securely enforce* that all the egress traffic actually flows through the egress gateways. Istio only
-enables said flow through its sidecar proxies. If a malicious application attacks the sidecar proxy attached to the
-application's pod, the malicious application could bypass the sidecar proxy. Having bypassed the sidecar proxy, the
-malicious application could try to exit the service mesh and bypass the egress gateway. Thus, the malicious application
-escapes Istio's control and monitoring.
+enables said flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access
+external services without traversing the egressgateway. Thus, the attackers escape Istio's control and monitoring.
 The cluster administrator or the cloud provider must ensure that no traffic leaves the mesh bypassing the egress
 gateway. Mechanisms external to Istio must enforce this requirement. For example, a firewall can deny all traffic not
 coming from the egress gateway. The
