@@ -7,9 +7,9 @@ keywords: [traffic-management,egress]
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the Kubernetes cluster) HTTP and HTTPS services can be accessed from applications inside the mesh. A quick reminder: by default, Istio-enabled applications are unable to access URLs outside the cluster. To enable such access, a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be defined, or, alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly) must be configured.
 
-The [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
+The [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example demonstrates how to allow the applications to send HTTP requests to external servers that require HTTPS.
 
-This example describes how to configure Istio to direct the egress traffic through a dedicated service called _Egress Gateway_. We achieve the same functionality as described in the [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example, only this time we accomplish it with the addition of an egress gateway.
+This example describes how to configure Istio to direct the egress traffic through a dedicated service called _Egress Gateway_. We achieve the same functionality as described in the [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example, only this time we accomplish it with the addition of an egress gateway.
 
 ## Use case
 
