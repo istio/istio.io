@@ -755,7 +755,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     {{< /text >}}
 
 1.  Define a `NetworkPolicy` to limit the egress traffic from the `test-egress` namespace to traffic destined to
-    `istio-system`, and to `kube-system` DNS service (port 53):
+    `istio-system`, and to the `kube-system` DNS service (port 53):
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n test-egress -f -
