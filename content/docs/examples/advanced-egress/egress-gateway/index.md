@@ -713,7 +713,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
 1.  Follow the steps in the
     [Direct HTTPS traffic through an egress gateway](#direct-https-traffic-through-an-egress-gateway) section.
 
-1.  Create `test-egress` namespace:
+1.  Create the `test-egress` namespace:
 
     {{< text bash >}}
     $ kubectl create namespace test-egress
