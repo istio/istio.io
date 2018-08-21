@@ -114,23 +114,13 @@ As a reminder, here is the end-to-end architecture of the application from the
 
 1.  Modify the deployment spec of a version of the _ratings_ microservice that uses a mongodb database, to use your
 database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml)
-of an Istio release archive. Edit the following lines:
-
-    {{< text yaml >}}
-    - name: MONGO_DB_URL
-      value: mongodb://mongodb:27017/test
-    {{< /text >}}
-
-    Replace the values in the snippet above, specifying the database host, port, user, and password. Note that the
-    correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this
-     example task only, you may want to write the password directly in the deployment spec.  **Do not do it** in a real
-     environment! I also assume everyone realizes that `"password"` should not be used as a password...
+of an Istio release archive.
 
 1.  Apply the modified spec to deploy the version of the _ratings_ microservice, _v2_, that will use your
     database.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - "MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&ssl=true" -o yaml | kubectl apply -f -
     deployment "ratings-v2" created
     {{< /text >}}
 
