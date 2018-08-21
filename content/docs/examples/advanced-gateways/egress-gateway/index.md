@@ -91,7 +91,7 @@ First direct HTTP traffic without TLS origination
     {{< /text >}}
 
     The output should be the same as in the
-    [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example, without TLS
+    [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example, without TLS
     origination.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and destination rules and virtual services to
@@ -256,7 +256,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ## Perform TLS origination with the egress `Gateway`
 
-Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example.  Note that in this case the TLS origination will
+Let's perform TLS origination with the egress `Gateway`, similar to the [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example.  Note that in this case the TLS origination will
 be done by the egress Gateway server, as opposed to by the sidecar in the previous example.
 
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
@@ -440,7 +440,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     ...
     {{< /text >}}
 
-    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/examples/advanced-egress/egress-tls-origination/) example, with TLS origination: without the _301 Moved Permanently_ message.
+    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example, with TLS origination: without the _301 Moved Permanently_ message.
 
 1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
