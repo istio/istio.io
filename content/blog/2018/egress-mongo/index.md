@@ -250,7 +250,7 @@ As with service entries for HTTP/HTTPS, you can delete and create service entrie
 1.  Unset the environment variables you used:
 
     {{< text bash >}}
-    $ unset MONGO_ADMIN_PASSWORD BOOKINFO_PASSWORD
+    $ unset MONGO_ADMIN_PASSWORD BOOKINFO_PASSWORD MONGODB_HOST MONGODB_PORT
     {{< /text >}}
 
 1.  Remove the virtual services:
