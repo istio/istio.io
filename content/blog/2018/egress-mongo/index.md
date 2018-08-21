@@ -71,6 +71,25 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
     EOF
     {{< /text >}}
 
+1.  Check that `bookinfo` user can get ratings:
+
+    {{< text bash >}}
+    $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u bookinfo -p $BOOKINFO_PASSWORD --authenticationDatabase test
+    use test
+    db.ratings.find({});
+    EOF
+    {{< /text >}}
+
+    The output should be similar to:
+
+    {{< text plain >}}
+    MongoDB server version: 3.4.10
+    switched to db test
+    { "_id" : ObjectId("5b7c29efd7596e65b6ed2572"), "rating" : 1 }
+    { "_id" : ObjectId("5b7c29efd7596e65b6ed2573"), "rating" : 4 }
+    bye
+    {{< /text >}}
+
 ### Initial setting of Bookinfo application
 
 To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
