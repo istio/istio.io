@@ -315,10 +315,16 @@ $ ORIGINAL_SVC_MANIFEST=mysvc-v1.yaml
 $ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfigMapName istio -f ${ORIGINAL_SVC_MANIFEST} | kubectl apply -f -
 {{< /text >}}
 
-## Accessing Services from different clusters
+## Accessing services from different clusters
 
-To access a service, the client first needs to resolve the service DNS name to an IP address. Once the name is resolved, Istio will handle routing to service endpoints in any cluster.
-Kubernetes DNS resolution is scoped to the cluster, so you should ensure services objects are defined in every cluster where a client may be running, regardless of the location of their endpoints. The simplest approach is to duplicate (e.g., using `kubectl`) the service object to every cluster. This will ensure that the service name can be resolved in that cluster. Note that since service objects are namespace scoped, cluster should also define the required namespaces in all clusters.
+Kubernetes resolves DNS on a cluster basis. Because DNS resolution is tied to
+the cluster, you must define the service object in every cluster where a
+client runs, regardless of the location of the service's endpoints.
+To ensure this is the case, duplicate the service object to every cluster
+using `kubectl`. Duplication ensures Kubernetes can resolve the service name
+in any cluster. Since the service objects are defined in a namespace, you must
+define the namespace if it doesn't exist, and include it in the service
+definitions in all clusters.
 
 ## Deployment considerations
 
