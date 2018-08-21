@@ -392,17 +392,17 @@ The steps to enable control plane security are as follows:
 
 1.  Istio control plane cluster deployed with
     1.  control plane security enabled
-    2.  `citadel` certificate self signing disabled
-    3.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+    1.  `citadel` certificate self signing disabled
+    1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
 
-2.  Istio remote clusters deployed with
+1.  Istio remote clusters deployed with
     1.  control plane security enabled
-    2.  `citadel` certificate self signing disabled
-    3.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+    1.  `citadel` certificate self signing disabled
+    1.  a secret named `cacerts` in the Istio control plane namespace with the [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
         1.  The CA certificate for the remote clusters needs to be signed by the same CA or root CA as the main cluster.
-    4.  Istio pilot service hostname resolvable via DNS
+    1.  Istio pilot service hostname resolvable via DNS
         1.  Required because Istio configures the sidecar to verify the certificate subject names using the `istio-pilot.<namespace>` subject name format.
-    5.  Control plane IPs or resolvable host names set
+    1.  Control plane IPs or resolvable host names set
 
 ### Mutual TLS between application pods
 
