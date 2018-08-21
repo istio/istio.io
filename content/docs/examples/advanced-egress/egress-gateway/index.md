@@ -734,7 +734,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     {{< /text >}}
 
 1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics) from the `sleep` pod in
-    the `test-egress` namespace. The request must succeed since you did not define any restrictive policies yet.
+    the `test-egress` namespace. The request will succeed since you did not define any restrictive policies yet.
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
