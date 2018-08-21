@@ -227,7 +227,7 @@ The filename for a cluster is the same as the original `kubeconfig` cluster name
 ## Instantiate the credentials for each remote cluster
 
 Execute this work on the cluster running the Istio control
-plane using the `WORK_DIR`, `CLUSTER_NAME`, and `NAMESPACE` environment values set during the
+plane using the `WORK_DIR`, `CLUSTER_NAME` and `NAMESPACE` environment values set during the
 [Generate kubeconfig for remote clusters](#generate-kubeconfigs-for-remote-clusters) steps.
 
 * _(Optional)_  Source the environment variables file created for the remote cluster secret:
