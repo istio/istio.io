@@ -10,7 +10,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 In the [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post, I described how external services
 can be consumed by in-mesh Istio applications via TCP. In this post, I demonstrate consuming external MongoDB services.
-You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
+You use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
 ratings data is persisted in a MongoDB database. You deploy this database outside the cluster and configure the
 _ratings_ microservice to use it. You will learn multiple options of controlling external MongoDB services and their
 pros and cons.
@@ -64,7 +64,7 @@ To demonstrate the scenario of using an external database, you start with a Kube
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 This application uses the `ratings` microservice to fetch book ratings, a number between 1 and 5. The ratings are
-displayed as stars for each review. There are several versions of the `ratings` microservice. You will deploy the
+displayed as stars for each review. There are several versions of the `ratings` microservice. You deploy the
 version that uses [MongoDB](https://www.mongodb.com) as the ratings database.
 
 The example commands in this blog post work with Istio 1.0, with
