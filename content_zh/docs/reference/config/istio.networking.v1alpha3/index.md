@@ -2,7 +2,6 @@
 title: 通信路由
 description: 流量路由配置。
 weight: 50
-# keywords: [kubernetes,helm]
 ---
 
 路由方面的配置，下面列出的是与该配置上下文有关的词汇。
@@ -39,8 +38,8 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`tcp`|[`ConnectionPoolSettings.TCPSettings`](#ConnectionPoolSettings-TCPSettings)|连接数限制，对 HTTP 和 TCP 都有效。|
-|`http`|[`ConnectionPoolSettings.HTTPSettings`](#ConnectionPoolSettings-HTTPSettings)|HTTP 连接池设置。|
+|`tcp`|[`ConnectionPoolSettings.TCPSettings`](#connectionpoolsettings-tcpsettings)|连接数限制，对 HTTP 和 TCP 都有效。|
+|`http`|[`ConnectionPoolSettings.HTTPSettings`](#connectionpoolsettings-httpsettings)|HTTP 连接池设置。|
 
 ## `ConnectionPoolSettings.HTTPSettings`
 
@@ -107,7 +106,7 @@ spec:
 
 ## `Destination`
 
-`Destination` 用于定义在网络中可寻址的服务，请求或连接在经过路由规则的处理之后，就会被发送给 `Destination`。`destination.host` 应该明确指向服务注册表中的一个服务。Istio 的服务注册表除包含平台服务注册表中的所有服务（例如 Kubernetes 服务、Consul 服务）之外，还包含了 [`ServiceEntry`](#ServiceEntry) 资源所定义的服务。
+`Destination` 用于定义在网络中可寻址的服务，请求或连接在经过路由规则的处理之后，就会被发送给 `Destination`。`destination.host` 应该明确指向服务注册表中的一个服务。Istio 的服务注册表除包含平台服务注册表中的所有服务（例如 Kubernetes 服务、Consul 服务）之外，还包含了 [`ServiceEntry`](#serviceentry) 资源所定义的服务。
 
 > Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。**为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**
 
@@ -210,9 +209,9 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#ServiceEntry) 资源中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
+|`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#serviceentry) 资源中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
 |`subset`|`string`|服务子集的名称。仅对网格中的服务有效。必须在 `DestinationRule` 中定义子集。|
-|`port`|[`PortSelector`](#PortSelector)|指定目标主机的端口。如果一个服务只暴露了一个端口，那么就无需显式的进行端口选择。|
+|`port`|[`PortSelector`](#portselector)|指定目标主机的端口。如果一个服务只暴露了一个端口，那么就无需显式的进行端口选择。|
 
 ## `DestinationRule`
 
@@ -276,9 +275,9 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#ServiceEntry) 注册中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 `default` 命名空间的一条规则中包含了一个 `reivews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
-|`trafficPolicy`|[`TrafficPolicy`](#TrafficPolicy)|流量策略（负载均衡策略、间接池尺寸和外部检测）。|
-|`subsets`|[`Subset`](#Subset)|一个或多个服务版本。在子集的级别可以覆盖服务一级的流量策略定义。|
+|`host`|`string`|必要字段。目标服务的名称。流量目标对应的服务，会在在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 [`ServiceEntry`](#serviceentry) 注册中进行查找，如果查找失败，则丢弃流量。**Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 `default` 命名空间的一条规则中包含了一个 `reivews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**|
+|`trafficPolicy`|[`TrafficPolicy`](#trafficpolicy)|流量策略（负载均衡策略、间接池尺寸和外部检测）。|
+|`subsets`|[`Subset`](#subset)|一个或多个服务版本。在子集的级别可以覆盖服务一级的流量策略定义。|
 
 ## `DestinationWeight`
 
@@ -344,7 +343,7 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`destination`|[`Destination`](#Destination)|必要字段。流量将会被导入这一字段所指代的服务。|
+|`destination`|[`Destination`](#destination)|必要字段。流量将会被导入这一字段所指代的服务。|
 |`weight`|`int32`|必要字段。转发给一个服务版本的流量占总流量的百分比。几个目标的**百分比之和必须等于 100**。如果一条规则中只有一个目标，会假设其权重为 100。|
 
 ## `EnvoyFilter`
@@ -379,7 +378,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`workloadLabels`|`map<string, string>`|一个或多个标签，用于标识一组 Pod/虚拟机。这一组工作负载实例中的代理会被配置使用附加的过滤器配置。标签的搜索范围是平台相关的。例如在 Kubernetes 中，生效范围会包括所有可达的命名空间。如果省略这一字段，配置将会应用到网格中的所有 Envoy 代理实例中。注意：一个工作负载只应该使用一个 `EnvoyFilter`。如果多个 `EnvoyFilter` 被绑定到同一个工作负载上，会产生不可预测的行为。|
-|`filters`|[`EnvoyFilter.Filter[]`](#EnvoyFilter-Filter)|必要字段。要加入指定监听器之中的 Envoy 网络过滤器/HTTP 过滤器配置信息。当给 http 连接加入网络过滤器的时候，应该注意确保该过滤器应早于 `envoy.httpconnectionmanager`。|
+|`filters`|[`EnvoyFilter.Filter[]`](#envoyfilter-filter)|必要字段。要加入指定监听器之中的 Envoy 网络过滤器/HTTP 过滤器配置信息。当给 http 连接加入网络过滤器的时候，应该注意确保该过滤器应早于 `envoy.httpconnectionmanager`。|
 
 ## `EnvoyFilter.Filter`
 
@@ -387,9 +386,9 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`listenerMatch`|[`EnvoyFilter.ListenerMatch`](#EnvoyFilter-ListenerMatch)|只有在符合匹配条件的情况下，过滤器才会加入这一监听器之中。如果没有指定该字段，会在所有监听器中加入这一过滤器。|
-|`insertPosition`|[`EnvoyFilter.InsertPosition`](#EnvoyFilter-InsertPosition)|在过滤器链条中的插入位置，缺省为 `FIRST`。|
-|`filterType`|[`EnvoyFilter.Filter.FilterType`](#EnvoyFilter-Filter-FilterType)|必要字段。要实例化的过滤器的类型。|
+|`listenerMatch`|[`EnvoyFilter.ListenerMatch`](#envoyfilter-listenermatch)|只有在符合匹配条件的情况下，过滤器才会加入这一监听器之中。如果没有指定该字段，会在所有监听器中加入这一过滤器。|
+|`insertPosition`|[`EnvoyFilter.InsertPosition`](#envoyfilter-insertposition)|在过滤器链条中的插入位置，缺省为 `FIRST`。|
+|`filterType`|[`EnvoyFilter.Filter.FilterType`](#envoyfilter-filter-filtertype)|必要字段。要实例化的过滤器的类型。|
 |`filterName`|`string`|必要字段。要初始化的过滤器的名称。名字必须能够匹配到支持的编译进 Envoy 的过滤器。|
 |`filterConfig`|[`google.protobuf.Struct`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|必要字段。为实例化的过滤器指定配置内容。|
 
@@ -407,7 +406,7 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`index`|[`EnvoyFilter.InsertPosition.Index`](#EnvoyFilter-InsertPosition-Index)|过滤器在链条中的位置。|
+|`index`|[`EnvoyFilter.InsertPosition.Index`](#envoyfilter-insertposition-index)|过滤器在链条中的位置。|
 |`relativeTo`|`string`|如果指定了 `BEFORE` 或者 `AFTER`，这里就要输入相对位置所参考的过滤器名称。|
 
 ## `EnvoyFilter.InsertPosition.Index`
@@ -429,7 +428,7 @@ spec:
 |---|---|---|
 |`portNumber`|`uint32`|进行通信的服务或网关端口。如果没有指定这一字段，则匹配所有的监听器。即使是为实例或者 Pod 生成的入站连接监听器，也只应该使用服务端口进行匹配。|
 |`portNamePrefix`|`string`|除了用具体端口之外，还可以用端口名称的前缀进行大小写无关的匹配。例如 `mongo` 前缀可以匹配 `mongo-port`、`mongo`、`mongoDB` 以及 `MONGO` 等。|
-|`listenerType`|[`EnvoyFilter.ListenerMatch.ListenerType`](#EnvoyFilter-ListenerMatch-ListenerType)|入站和出站两种类型。如果没有指定，则匹配所有监听器。|
+|`listenerType`|[`EnvoyFilter.ListenerMatch.ListenerType`](#envoyfilter-listenermatch-listenertype)|入站和出站两种类型。如果没有指定，则匹配所有监听器。|
 |`listenerProtocol`|[`EnvoyFilter.ListenerMatch.ListenerProtocol`](#envoyfilter-listenermatch-listenerprotocol)|为同一协议指定监听器。如果没有指定，会把监听器应用到所有协议上。协议选择可以是所有 HTTP 监听器（包括 HTTP2/gRPC/HTTPS（Envoy 作为 TLS 终结器） ）或者所有 TCP 监听器（包括利用 SNI 进行的 HTTPS 透传）。|
 |`address`|`string[]`|监听器绑定的一个或多个 IP 地址。如果不为空，应该至少匹配其中一个地址。|
 
@@ -566,15 +565,15 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`servers`|[`Server`](#Server)|必要字段。`Server` 定义列表。|
+|`servers`|[`Server`](#server)|必要字段。`Server` 定义列表。|
 |`selector`|`map<string, string>`|必要字段。用一个或多个标签来选择一组 Pod 或虚拟机，用于应用 `Gateway` 配置。标签选择的范围是平台相关的。例如在 Kubernetes 上，选择范围包含所有可达的命名空间。|
 
 ## `HTTPFaultInjection`
 
 |字段|类型|描述|
 |---|---|---|
-|`delay`|[`HTTPFaultInjection.Delay`](#HTTPFaultInjection-Delay)|转发之前加入延迟，用于模拟网络故障、上游服务过载等故障。|
-|`abort`|[`HTTPFaultInjection.Abort`](#HTTPFaultInjection-Abort)|终止请求并向下游服务返回错误代码，模拟上游服务出错的状况。|
+|`delay`|[`HTTPFaultInjection.Delay`](#httpfaultinjection-delay)|转发之前加入延迟，用于模拟网络故障、上游服务过载等故障。|
+|`abort`|[`HTTPFaultInjection.Abort`](#httpfaultinjection-abort)|终止请求并向下游服务返回错误代码，模拟上游服务出错的状况。|
 
 ## `HTTPFaultInjection.Abort`
 
@@ -663,11 +662,11 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`uri`|[`StringMatch`](#StringMatch)|URI 的匹配要求，大小写敏感。|
-|`scheme`|[`StringMatch`](#StringMatch)|URI 模式的匹配要求，大小写敏感。|
-|`method`|[`StringMatch`](#StringMatch)|HTTP 方法的匹配条件，大小写敏感。|
-|`authority`|[`StringMatch`](#StringMatch)|HTTP 认证值的匹配要求，大小写敏感。|
-|`headers`|`map<string,` [`StringMatch`](#StringMatch)`>`|Header 的键必须是小写的，使用连字符作为分隔符，例如 `x-request-id`。Headers 的匹配同样是大小写敏感的。**注意在 Header 中的 `uri`、`shceme`、`method` 以及 `authority` 会被忽略。**|
+|`uri`|[`StringMatch`](#stringmatch)|URI 的匹配要求，大小写敏感。|
+|`scheme`|[`StringMatch`]|URI 模式的匹配要求，大小写敏感。|
+|`method`|[`StringMatch`]|HTTP 方法的匹配条件，大小写敏感。|
+|`authority`|[`StringMatch`]|HTTP 认证值的匹配要求，大小写敏感。|
+|`headers`|`map<string,` [`StringMatch`]`>`|Header 的键必须是小写的，使用连字符作为分隔符，例如 `x-request-id`。Headers 的匹配同样是大小写敏感的。**注意在 Header 中的 `uri`、`shceme`、`method` 以及 `authority` 会被忽略。**|
 |`port`|`uint32`|指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。|
 |`sourceLabels`|`map<string, string>`|用一个或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
 |`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gateways` 匹配是独立于 `sourceLabels` 的。|
@@ -723,7 +722,7 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`attempts`|`uint32`|必要字段。为特定请求设置重试次数。重试之间的间隔是自动决定的（最少 25 毫秒）。实际重试次数还受[路由规则](#HTTPRoute)中 `timeout` 设置的限制。|
+|`attempts`|`uint32`|必要字段。为特定请求设置重试次数。重试之间的间隔是自动决定的（最少 25 毫秒）。实际重试次数还受[路由规则]中 `timeout` 设置的限制。|
 |`perTryTimeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|每次重试的超时时间。可选单位包括小时（`h`）、分钟（`m`）、秒钟（`s`）以及毫秒（`ms`），允许的最小值是 `1ms`。|
 
 ## `HTTPRewrite`
@@ -757,19 +756,19 @@ spec:
 
 ## `HTTPRoute`
 
-为 HTTP/1.1、HTTP2 以及 gRPC 流量描述匹配条件和对应动作。可以参考 [`VirtualService`](#VirtualService) 查看使用方法。
+为 HTTP/1.1、HTTP2 以及 gRPC 流量描述匹配条件和对应动作。可以参考 [`VirtualService`](#virtualservice) 查看使用方法。
 
 |字段|类型|描述|
 |---|---|---|
-|`match`|[`HTTPMatchRequest[]`](#HTTPMatchRequest)|激活规则所需的匹配条件。一个 `match` 块内条件之间都是逻辑与关系；`match` 块之间是逻辑或关系。任何一个 `match` 块匹配成功，都会激活规则。|
-|`route`|[`DestinationWeight[]`](#DestinationWeight)|HTTP 规则对流量可能进行重定向或者转发（缺省）。转发目标可以是服务的多个版本中的一个。服务版本所关联的 [`DestinationWeight`](#DestinationWeight) 则决定了不同目标之间的流量分配比重。|
-|`redirect`|[`HTTPRedirect`](#HTTPRedirect)|HTTP 规则对流量可能进行重定向或者转发（缺省）。如果启用了流量透传选项，会无视 `route` 以及 `redirect` 设置。重定向原语会发送 HTTP 301 指令指向不同的 URI 或认证部分。|
-|`rewrite`|[`HTTPRewrite`](#HTTPRewrite)|`Rewrite` HTTP URI 和认证部分。`rewrite` 不能和 `redirect` 共用，并且会在转发之前生效。|
-|`timeout`|[`google.protobuf.Duration`]()|HTTP 请求的超时设置。|
-|`retries`|[`HTTPRetry`](#HTTPRetry)|HTTP 请求的重试设置。|
-|`fault`|[`HTTPFaultInjection`](#HTTPFaultInjection)|应用到 HTTP 请求客户端的故障注入策略。**注意：客户端启用了故障注入之后，超时和重试会被忽略。**|
-|`mirror`|[`mirror`](#Destination)|在把 HTTP 请求转发给预期目标的同时，对流量进行镜像并发送给其他目标。出于性能方面的考虑，Sidecar/Gateway 在返回预期目标的响应之前不会等待镜像目标的响应。被镜像的目标同样也会生成统计信息。|
-|`corsPolicy`|[`CorsPolicy`](#CorsPolicy)|跨来源资源共享（[CORS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)）。|
+|`match`|[`HTTPMatchRequest[]`](#httpmatchrequest)|激活规则所需的匹配条件。一个 `match` 块内条件之间都是逻辑与关系；`match` 块之间是逻辑或关系。任何一个 `match` 块匹配成功，都会激活规则。|
+|`route`|[`DestinationWeight[]`](#destinationweight)|HTTP 规则对流量可能进行重定向或者转发（缺省）。转发目标可以是服务的多个版本中的一个。服务版本所关联的 [`DestinationWeight`](#destinationweight) 则决定了不同目标之间的流量分配比重。|
+|`redirect`|[`HTTPRedirect`](#httpredirect)|HTTP 规则对流量可能进行重定向或者转发（缺省）。如果启用了流量透传选项，会无视 `route` 以及 `redirect` 设置。重定向原语会发送 HTTP 301 指令指向不同的 URI 或认证部分。|
+|`rewrite`|[`HTTPRewrite`](#httprewrite)|`Rewrite` HTTP URI 和认证部分。`rewrite` 不能和 `redirect` 共用，并且会在转发之前生效。|
+|`timeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|HTTP 请求的超时设置。|
+|`retries`|[`HTTPRetry`](#httpretry)|HTTP 请求的重试设置。|
+|`fault`|[`HTTPFaultInjection`](#httpfaultinjection)|应用到 HTTP 请求客户端的故障注入策略。**注意：客户端启用了故障注入之后，超时和重试会被忽略。**|
+|`mirror`|[`mirror`](#destination)|在把 HTTP 请求转发给预期目标的同时，对流量进行镜像并发送给其他目标。出于性能方面的考虑，Sidecar/Gateway 在返回预期目标的响应之前不会等待镜像目标的响应。被镜像的目标同样也会生成统计信息。|
+|`corsPolicy`|[`CorsPolicy`](#corspolicy)|跨来源资源共享（[CORS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)）。|
 |`appendHeaders`|`map<string, string>`|在向目标服务转发请求之前，加入额外的 HTTP Header。|
 
 ## `L4MatchAttributes`
@@ -822,8 +821,8 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`simple`|[`LoadBalancerSettings.SimpleLB`](#LoadBalancerSettings-SimpleLB)||
-|`consistentHash`|[`LoadBalancerSettings.ConsistentHashLB`](#LoadBalancerSettings-ConsistentHashLB)||
+|`simple`|[`LoadBalancerSettings.SimpleLB`](#loadbalancersettings-simplelb)||
+|`consistentHash`|[`LoadBalancerSettings.ConsistentHashLB`](#loadbalancersettings-consistenthashlb)||
 
 ## `LoadBalancerSettings.ConsistentHashLB`
 
@@ -832,7 +831,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`httpHeaderName`|`string`|根据 HTTP Header 获得哈希。|
-|`httpCookie`|[`LoadBalancerSettings.ConsistentHashLB.HTTPCookie`](#LoadBalancerSettings-ConsistentHashLB-HTTPCookie)|根据 HTTP Cookie 获得哈希。|
+|`httpCookie`|[`LoadBalancerSettings.ConsistentHashLB.HTTPCookie`](#loadbalancersettings-consistenthashlb-httpcookie)|根据 HTTP Cookie 获得哈希。|
 |`useSourceIp`|`bool`|根据源 IP 获得哈希。|
 |`minimumRingSize`|`uint64`|哈希环所需的最小虚拟节点数量。缺省值为 1024。较大的值会获得较粗糙的负载分布。如果负载均衡池中的主机数量大于虚拟节点数量，每个主机都会被分配一个虚拟节点。|
 
@@ -971,16 +970,16 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`port`|[`Port`](#Port)|必要字段。代理服务器监听的端口，用于接收连接。|
+|`port`|[`Port`](#port)|必要字段。代理服务器监听的端口，用于接收连接。|
 |`hosts`|`string[]`|必要字段。`Gateway` 公开的主机名列表。最少要有一条记录。在通常的 HTTP 服务之外，也可以用于带有 SNI 的 TLS 服务。可以使用包含通配符前缀的域名，例如 `*.foo.com` 匹配 `bar.foo.com`，`*.com` 匹配 `bar.foo.com` 以及 `example.com`。**注意**：绑定在 `Gateway` 上的 `VirtualService` 必须有一个或多个能够和 `Server` 中的 `hosts` 字段相匹配的主机名。匹配可以是完全匹配或是后缀匹配。例如 `server` 的 `hosts` 字段为 `*.example.com`，如果 `VirtualService` 的 `hosts` 字段定义为 `dev.example.com` 和 `prod.example.com`，就是可以匹配的；而如果`VirtualService` 的 `hosts` 字段是 `example.com` 或者 `newexample.com` 则无法匹配。|
-|`tls`|[`Server.TLSOptions`](#Server-TLSOptions)|一组 TLS 相关的选项。这些选项可以把 http 请求重定向为 https，并且设置 TLS 的模式。|
+|`tls`|[`Server.TLSOptions`](#server-tlsoptions)|一组 TLS 相关的选项。这些选项可以把 http 请求重定向为 https，并且设置 TLS 的模式。|
 
 ## `Server.TLSOptions`
 
 |字段|类型|描述|
 |---|---|---|
 |`httpsRedirect`|`bool`|如果设置为真，负载均衡器会给所有 http 连接发送 301 转向指令，要求客户端使用 HTTPS。|
-|`mode`|[`Server.TLSOptions.TLSmode`](#Server-TLSOptions-TLSmode)|可选字段：这一字段的值决定了如何使用 TLS。|
+|`mode`|[`Server.TLSOptions.TLSmode`](#server-tlsoptions-tlsmode)|可选字段：这一字段的值决定了如何使用 TLS。|
 |`serverCertificate`|`string`|必要字段。如果 `mode` 设置为 `SIMPLE` 或者 `MUTUAL`，这一字段指定了服务端的 TLS 证书。|
 |`privateKey`|`string`|必要字段。如果 `mode` 设置为 `SIMPLE` 或者 `MUTUAL`，这一字段指定了服务端的 TLS 密钥。|
 |`caCertificates`|`string`|必要字段。如果 `mode` 设置为 `MUTUAL`，这一字段包含了用于验证客户端证书的 ca 证书。|
@@ -1247,10 +1246,10 @@ spec:
 |---|---|---|
 |`hosts`|`string[]`|必要字段。绑定到 `ServiceEntry` 上的主机名。可以是一个带有通配符前缀的 DNS 名称。如果服务不是 HTTP 协议的，例如 `mongo`、TCP 以及 HTTPS 中，`hosts` 中的 DNS 名称会被忽略，这种情况下会使用 `endpoints` 中的 `address` 以及 `port` 来甄别调用目标。|
 |`addresss`|`string[]`|服务相关的虚拟 IP。可以是 CIDR 前缀。对 HTTP 服务来说，这一字段会被忽略，而会使用 HTTP 的 `HOST/Authority` Header。而对于非 HTTP 服务，例如 `mongo`、TCP 以及 HTTPS 中，这些主机会被忽略。如果指定了一个或者多个 IP 地址，对于在列表范围内的 IP 的访问会被判定为属于这一服务。如果地址字段为空，服务的鉴别就只能靠目标端口了。在这种情况下，被访问服务的端口一定不能和其他网格内的服务进行共享。换句话说，这里的 Sidecar 会简单的做为 TCP 代理，将特定端口的访问转发到指定目标端点的 IP、主机上去。就无法支持 Unix socket 了。|
-|`ports`|[`Port[]`](#Port)|必要字段。和外部服务关联的端口。如果 `endpoints` 是 Unix socket 地址，这里必须只有一个端口。|
-|`location`|[`ServiceEntry.Location`](#ServiceEntry-Location)|用于指定该服务的位置，属于网格内部还是外部。|
-|`resolution`|[`ServiceEntry.Resolution`](#ServiceEntry-Resolution)|必要字段。主机的服务发现模式。在没有附带 IP 地址的情况下，为 TCP 端口设置解析模式为 NONE 时必须小心。在这种情况下，对任何 IP 的指定端口的流量都是允许的（例如 `0.0.0.0:`）。|
-|`endpoints`|[`ServiceEntry.Endpoint[]`](#ServiceEntry-Endpoint)|一个或者多个关联到这一服务的 `endpoint`。|
+|`ports`|[`Port[]`](#port)|必要字段。和外部服务关联的端口。如果 `endpoints` 是 Unix socket 地址，这里必须只有一个端口。|
+|`location`|[`ServiceEntry.Location`](#serviceentry-Location)|用于指定该服务的位置，属于网格内部还是外部。|
+|`resolution`|[`ServiceEntry.Resolution`](#serviceentry-Resolution)|必要字段。主机的服务发现模式。在没有附带 IP 地址的情况下，为 TCP 端口设置解析模式为 NONE 时必须小心。在这种情况下，对任何 IP 的指定端口的流量都是允许的（例如 `0.0.0.0:`）。|
+|`endpoints`|[`ServiceEntry.Endpoint[]`](#serviceentry-Endpoint)|一个或者多个关联到这一服务的 `endpoint`。|
 
 ## `ServiceEntry.Endpoint`
 
@@ -1291,9 +1290,9 @@ spec:
 |`prefix`|`string`|前缀匹配。|
 |`regex`|`string`|`ECMAscript` 风格的正则表达式匹配。|
 
-## `subset`
+## `Subset`
 
-`Subset` 是服务端点的一个成员，可以用于 A/B 测试或者分版本路由等场景。参考 [`VirtualService`](#VirtualService) 文档，其中会有更多这方面应用的例子。另外服务级的流量策略可以在 `subset` 级中进行覆盖。下面的规则针对的是一个名为 `testversion` 的子集，这个子集是根据标签（`version: v3`）选出的，为这个子集使用了轮询调度的负载均衡策略。
+`Subset` 是服务端点的一个成员，可以用于 A/B 测试或者分版本路由等场景。参考 [`VirtualService`](#virtualservice) 文档，其中会有更多这方面应用的例子。另外服务级的流量策略可以在 `subset` 级中进行覆盖。下面的规则针对的是一个名为 `testversion` 的子集，这个子集是根据标签（`version: v3`）选出的，为这个子集使用了轮询调度的负载均衡策略。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -1321,7 +1320,7 @@ spec:
 |---|---|---|
 |`name`|`string`|必要字段。服务名和 `subset` 名称可以用于路由规则中的流量拆分。|
 |`labels`|`map<string, string>`|必要字段。使用标签对服务注册表中的服务端点进行筛选。|
-|`trafficPolicy`|[`TrafficPolicy`](#TrafficPolicy)|应用到这一子集的流量策略。缺省情况下子集会继承 `DestinationRule` 级别的策略，这一字段的定义则会覆盖缺省的继承策略。|
+|`trafficPolicy`|[`TrafficPolicy`](#trafficpolicy)|应用到这一子集的流量策略。缺省情况下子集会继承 `DestinationRule` 级别的策略，这一字段的定义则会覆盖缺省的继承策略。|
 
 ## `TCPRoute`
 
@@ -1347,8 +1346,8 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`match`|[`L4MatchAttributes[]`](#L4MatchAttributes)|激活规则所需的匹配条件。一个 `match` 块内条件之间都是逻辑与关系；`match` 块之间是逻辑或关系。任何一个 `match` 块匹配成功，都会激活规则。|
-|`route`|[`DestinationWeight[]`](#DestinationWeight)|流量的转发目标。目前 TCP 服务只允许一个转发目标。当 Envoy 支持 TCP 权重路由之后，这里就可以使用多个目标了。|
+|`match`|[`L4MatchAttributes[]`](#l4matchattributes)|激活规则所需的匹配条件。一个 `match` 块内条件之间都是逻辑与关系；`match` 块之间是逻辑或关系。任何一个 `match` 块匹配成功，都会激活规则。|
+|`route`|[`DestinationWeight[]`](#destinationweight)|流量的转发目标。目前 TCP 服务只允许一个转发目标。当 Envoy 支持 TCP 权重路由之后，这里就可以使用多个目标了。|
 
 ## `TLSMatchAttributes`
 
@@ -1395,8 +1394,8 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`match`|[`TLSMatchAttributes[]`](#TLSMatchAttributes)|必要字段。激活规则所需的匹配条件。一个 `match` 块内条件之间都是逻辑与关系；`match` 块之间是逻辑或关系。任何一个 `match` 块匹配成功，都会激活规则。|
-|`route`|[`DestinationWeight[]`](#DestinationWeight)|流量的转发目标。目前 TLS 服务只允许一个转发目标。当 Envoy 支持 TCP 权重路由之后，这里就可以使用多个目标了。|
+|`match`|[`TLSMatchAttributes[]`](#tlsmatchattributes)|必要字段。激活规则所需的匹配条件。一个 `match` 块内条件之间都是逻辑与关系；`match` 块之间是逻辑或关系。任何一个 `match` 块匹配成功，都会激活规则。|
+|`route`|[`DestinationWeight[]`](#destinationweight)|流量的转发目标。目前 TLS 服务只允许一个转发目标。当 Envoy 支持 TCP 权重路由之后，这里就可以使用多个目标了。|
 
 ## `TLSSettings`
 
@@ -1449,7 +1448,7 @@ spec:
 
 |字段|类型|描述|
 |---|---|---|
-|`mode`|[`TLSSettings.TLSmode`](#TLSSettings-TLSmode)|必要字段。连接该端口是否需要使用 TLS。这个字段的值决定了端口的加密要求。|
+|`mode`|[`TLSSettings.TLSmode`](#tlssettings-tlsmode)|必要字段。连接该端口是否需要使用 TLS。这个字段的值决定了端口的加密要求。|
 |`clientCertificate`|`string`|`mode` 字段为 `MUTUAL` 的情况下，该字段为必要字段。字段值代表用于客户端 TLS 认证的证书。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
 |`privateKey`|`string`|`mode` 字段为 `MUTUAL` 的情况下，该字段为必要字段。该字段的值代表客户端私钥文件。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
 |`caCertificates`|`string`|可选字段。这一字段包含了用于验证服务端证书的 ca 证书。如果省略该字段，则不会对服务端证书进行校验。如果 `mode` 取值为 `ISTIO_MUTUAL`，该字段应该为空。|
@@ -1473,11 +1472,11 @@ TLS 连接模式。
 
 |字段|类型|描述|
 |---|---|---|
-|`loadBalancer`|[`LoadBalancerSettings`](#LoadBalancerSettings)|设置负载均衡算法。|
-|`connectionPool`|[`ConnectionPoolSettings`](#ConnectionPoolSettings)|设置上游服务的连接池。|
-|`outlierDetection`|[`OutlierDetection`](#OutlierDetection)|从负载均衡池中移除不健康主机的设置。|
-|`tls`|[`TLSSettings`](#TLSSettings)|和上游服务进行 TLS 连接的相关设置。|
-|`portLevelSettings`|[`TrafficPolicy.PortTrafficPolicy[]`](#TrafficPolicy-PortTrafficPolicy)|针对单独端口设置的流量策略。端口级别的策略设置会覆盖目标级别的策略，另外在端口级别策略中省略的字段会以缺省值进行工作，而不会继承目标级策略中的设置。|
+|`loadBalancer`|[`LoadBalancerSettings`](#loadbalancersettings)|设置负载均衡算法。|
+|`connectionPool`|[`ConnectionPoolSettings`](#connectionpoolsettings)|设置上游服务的连接池。|
+|`outlierDetection`|[`OutlierDetection`](#outlierdetection)|从负载均衡池中移除不健康主机的设置。|
+|`tls`|[`TLSSettings`](#tlssettings)|和上游服务进行 TLS 连接的相关设置。|
+|`portLevelSettings`|[`TrafficPolicy.PortTrafficPolicy[]`](#trafficpolicy-porttrafficpolicy)|针对单独端口设置的流量策略。端口级别的策略设置会覆盖目标级别的策略，另外在端口级别策略中省略的字段会以缺省值进行工作，而不会继承目标级策略中的设置。|
 
 ## `TrafficPolicy.PortTrafficPolicy`
 
@@ -1485,11 +1484,11 @@ TLS 连接模式。
 
 |字段|类型|描述|
 |---|---|---|
-|`port`|[`PortSelector`](#PortSelector)||
-|`loadBalancer`|[`LoadBalancerSettings`](#LoadBalancerSettings)|设置负载均衡算法。|
-|`connectionPool`|[`ConnectionPoolSettings`](#ConnectionPoolSettings)|设置上游服务的连接池。|
-|`outlierDetection`|[`OutlierDetection`](#OutlierDetection)|从负载均衡池中移除不健康主机的设置。|
-|`tls`|[`TLSSettings`](#TLSSettings)|和上游服务进行 TLS 连接的相关设置。|
+|`port`|[`PortSelector`](#portselector)||
+|`loadBalancer`|[`LoadBalancerSettings`](#loadbalancersettings)|设置负载均衡算法。|
+|`connectionPool`|[`ConnectionPoolSettings`](#connectionpoolsettings)|设置上游服务的连接池。|
+|`outlierDetection`|[`OutlierDetection`](#outlierdetection)|从负载均衡池中移除不健康主机的设置。|
+|`tls`|[`TLSSettings`](#tlssettings)|和上游服务进行 TLS 连接的相关设置。|
 
 ## `VirtualService`
 
@@ -1547,6 +1546,6 @@ spec:
 |---|---|---|
 |`hosts`|`string[]`|必要字段：流量的目标主机。可以是带有通配符前缀的 DNS 名称，也可以是 IP 地址。根据所在平台情况，还可能使用短名称来代替 FQDN。这种场景下，短名称到 FQDN 的具体转换过程是要靠下层平台完成的。**一个主机名只能在一个 `VirtualService` 中定义。**同一个 `VirtualService` 中可以用于控制多个 HTTP 和 TCP 端口的流量属性。 Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。**为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。** `hosts` 字段对 HTTP 和 TCP 服务都是有效的。网格中的服务也就是在服务注册表中注册的服务，必须使用他们的注册名进行引用；只有 `Gateway` 定义的服务才可以使用 IP 地址。|
 |`gateways`|`string[]`|`Gateway` 名称列表，Sidecar 会据此使用路由。`VirtualService` 对象可以用于网格中的 Sidecar，也可以用于一个或多个 `Gateway`。这里公开的选择条件可以在协议相关的路由过滤条件中进行覆盖。保留字 `mesh` 用来指代网格中的所有 Sidecar。当这一字段被省略时，就会使用缺省值（`mesh`），也就是针对网格中的所谓 Sidecar 生效。如果提供了 `gateways` 字段，这一规则就只会应用到声明的 `Gateway` 之中。要让规则同时对 `Gateway` 和网格内服务生效，需要显式的将 `mesh` 加入 `gateways` 列表。|
-|`http`|[`HTTPRoute[]`](#HTTPRoute)|HTTP 流量规则的有序列表。这个列表对名称前缀为 `http-`、`http2-`、`grpc-` 的服务端口，或者协议为 `HTTP`、`HTTP2`、`GRPC` 以及终结的 TLS，另外还有使用 `HTTP`、`HTTP2` 以及 `GRPC` 协议的 `ServiceEntry` 都是有效的。进入流量会使用匹配到的第一条规则。|
-|`tls`|[`TLSRoute[]`](#TLSRoute)|一个有序列表，对应的是透传 TLS 和 HTTPS 流量。路由过程通常利用 `ClientHello` 消息中的 SNI 来完成。TLS 路由通常应用在 `https-`、`tls-` 前缀的平台服务端口，或者经 `Gateway` 透传的 HTTPS、TLS 协议 端口，以及使用 HTTPS 或者 TLS 协议的 `ServiceEntry` 端口上。**注意：没有关联 `VirtualService` 的 `https-` 或者 `tls-` 端口流量会被视为透传 TCP 流量。**|
-|`tcp`|[`TCPRoute[]`](#TCPRoute)|一个针对透传 TCP 流量的有序路由列表。TCP 路由对所有 HTTP 和 TLS 之外的端口生效。进入流量会使用匹配到的第一条规则。|
+|`http`|[`HTTPRoute[]`](#httproute)|HTTP 流量规则的有序列表。这个列表对名称前缀为 `http-`、`http2-`、`grpc-` 的服务端口，或者协议为 `HTTP`、`HTTP2`、`GRPC` 以及终结的 TLS，另外还有使用 `HTTP`、`HTTP2` 以及 `GRPC` 协议的 `ServiceEntry` 都是有效的。进入流量会使用匹配到的第一条规则。|
+|`tls`|[`TLSRoute[]`](#tlsroute)|一个有序列表，对应的是透传 TLS 和 HTTPS 流量。路由过程通常利用 `ClientHello` 消息中的 SNI 来完成。TLS 路由通常应用在 `https-`、`tls-` 前缀的平台服务端口，或者经 `Gateway` 透传的 HTTPS、TLS 协议 端口，以及使用 HTTPS 或者 TLS 协议的 `ServiceEntry` 端口上。**注意：没有关联 `VirtualService` 的 `https-` 或者 `tls-` 端口流量会被视为透传 TCP 流量。**|
+|`tcp`|[`TCPRoute[]`](#tcproute)|一个针对透传 TCP 流量的有序路由列表。TCP 路由对所有 HTTP 和 TLS 之外的端口生效。进入流量会使用匹配到的第一条规则。|
