@@ -292,7 +292,7 @@ In the next section you will configure TLS origination for accessing an external
 
     Note that port `443` is designated by a name with the prefix `http-`, and its protocol is specified as `HTTP`. Note
     that you are not required to use port 443 to send HTTP requests for TLS origination.
-    [This example](/docs/examples/advanced-egress/egress-tls-origination/) shows how to perform TLS
+    [This example](/docs/examples/advanced-gateways/egress-tls-origination/) shows how to perform TLS
     origination with port rewriting.
 
 1.  Access the web page of the application and verify that the book details are displayed without errors.
