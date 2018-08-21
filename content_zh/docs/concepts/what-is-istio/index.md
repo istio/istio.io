@@ -73,7 +73,7 @@ Istio 服务网格逻辑上分为**数据平面**和**控制平面**。
 
 下图显示了构成每个面板的不同组件：
 
-{{< image width="80%" ratio="56.25%"
+{{< image width="80%" ratio="80%"
     link="/docs/concepts/what-is-istio/arch.svg"
     alt="基于 Istio 的应用程序架构概览"
     caption="Istio 架构"
