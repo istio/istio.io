@@ -103,7 +103,7 @@ Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应�
 
 ### 微调
 
-Istio 的流量管理规则允许运维人员为每个服务和适用于所有调用者的版本设置故障恢复的默认值。然而，服务的消费者也可以覆盖[超时](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)和[重试](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
+Istio 的流量管理规则允许运维人员为每个服务和适用于所有调用者的版本设置故障恢复的默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖[超时](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)和[重试](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
 
 ### FAQ
 
@@ -143,7 +143,7 @@ metadata:
 spec:
   hosts:
   - reviews
-    http:
+  http:
   - route:
     - destination:
         host: reviews
@@ -204,7 +204,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - match:
       sourceLabels:
         app: reviews
@@ -223,7 +223,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - match:
     - sourceLabels:
         app: reviews
@@ -264,7 +264,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - match:
     - sourceLabels:
         app: reviews
@@ -285,7 +285,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - match:
     - sourceLabels:
         app: reviews
@@ -380,7 +380,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - fault:
       delay:
         percent: 10
@@ -401,7 +401,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - fault:
       abort:
         percent: 10
@@ -422,7 +422,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - match:
     - sourceLabels:
         app: reviews
@@ -459,7 +459,7 @@ metadata:
 spec:
   hosts:
   - reviews
-    http:
+  http:
   - match:
     - headers:
         Foo:
@@ -590,7 +590,7 @@ metadata:
 spec:
   hosts:
   - reviews
-    http:
+  http:
   - route:
     - destination:
         host: reviews
@@ -684,7 +684,7 @@ spec:
     - bookinfo.com
   gateways:
   - bookinfo-gateway # <---- 绑定到 Gateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /reviews
