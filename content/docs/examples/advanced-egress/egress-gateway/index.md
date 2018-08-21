@@ -803,14 +803,14 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     connect to 151.101.65.67 port 443 failed: Connection timed out
     {{< /text >}}
 
-1.  Now inject an Istio sidecar proxy into the `sleep` pod in the `test-egress` namespace. To that purpose enable
+1.  Now inject an Istio sidecar proxy into the `sleep` pod in the `test-egress` namespace by first enabling
     automatic sidecar proxy injection in the `test-egress` namespace:
 
     {{< text bash >}}
     $ kubectl label namespace test-egress istio-injection=enabled
     {{< /text >}}
 
-1.  Redeploy the `sleep` deployment:
+1.  Then redeploy the `sleep` deployment:
 
     {{< text bash >}}
     $ kubectl delete deployment sleep -n test-egress
