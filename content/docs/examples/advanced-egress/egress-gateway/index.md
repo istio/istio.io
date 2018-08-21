@@ -725,7 +725,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  Check that the deployed pod has a single container, no Istio sidecar was attached:
+1.  Check that the deployed pod has a single container with no Istio sidecar attached:
 
     {{< text bash >}}
     $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress
