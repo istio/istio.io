@@ -570,6 +570,9 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 {{< /text >}}
 
+JWT policy could also be setup on `istio-ingressgateway`, see the
+[configure end-user authentication on ingress gateway](/docs/tasks/traffic-management/secure-ingress/) for more details.
+
 ### End-user authentication with mutual TLS
 
 End-user authentication and mutual TLS can be used together. Modify the policy above to define both mutual TLS and end-user JWT authentication:
