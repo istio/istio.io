@@ -156,9 +156,10 @@ EOF
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.legacy: 200
+sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
+sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
 {{< /text >}}
 
 > 当启用全局双向 TLS 认证时，这种方法也可以用来配置 Kubernetes 的 API 服务器。如下是一个示例配置：

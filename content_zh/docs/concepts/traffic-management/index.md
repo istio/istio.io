@@ -103,7 +103,7 @@ Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应�
 
 ### 微调
 
-Istio 的流量管理规则允许运维人员为每个服务/版本设置故障恢复的全局默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖[超时](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)和[重试](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
+Istio 的流量管理规则允许运维人员为每个服务和适用于所有调用者的版本设置故障恢复的默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖[超时](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)和[重试](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
 
 ### FAQ
 
@@ -269,7 +269,7 @@ spec:
     - sourceLabels:
         app: reviews
         version: v2
-      headers:
+        headers:
         end-user:
           exact: jason
     ...
@@ -315,11 +315,11 @@ spec:
     - destination:
         host: reviews
         subset: v1
-      weight: 75
+        weight: 75
     - destination:
         host: reviews
         subset: v2
-      weight: 25
+        weight: 25
 {{< /text >}}
 
 ### 超时和重试
@@ -358,8 +358,8 @@ spec:
         host: ratings
         subset: v1
     retries:
-      attempts: 3
-      perTryTimeout: 2s
+        attempts: 3
+        perTryTimeout: 2s
 {{< /text >}}
 
 注意请求的重试和超时还可以[针对每个请求分别设置](/zh/docs/concepts/traffic-management/#微调)。
@@ -428,9 +428,9 @@ spec:
         app: reviews
         version: v2
     fault:
-      delay:
+        delay:
         fixedDelay: 5s
-      abort:
+        abort:
         percent: 10
         httpStatus: 400
     route:
@@ -611,7 +611,7 @@ metadata:
 spec:
   hosts:
   - *.foo.com
-  ports:
+    ports:
   - number: 80
     name: http
     protocol: HTTP

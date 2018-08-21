@@ -372,13 +372,13 @@ Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获�
  在以下示例中，为`default`命名空间启用了 Istio 授权。
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: RbacConfig
 metadata:
   name: default
   namespace: istio-system
 spec:
-  mode: ON_WITH_INCLUSION
+  mode: 'ON_WITH_INCLUSION'
   inclusion:
     namespaces: ["default"]
 {{< /text >}}
