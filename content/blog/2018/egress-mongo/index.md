@@ -58,6 +58,19 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
     EOF
     {{< /text >}}
 
+1.  Create a _collection_ to hold ratings:
+
+    {{< text bash >}}
+    $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+    use test
+    db.createCollection("ratings");
+    db.ratings.insert(
+      [{rating: 1},
+       {rating: 4}]
+    );
+    EOF
+    {{< /text >}}
+
 ### Initial setting of Bookinfo application
 
 To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
@@ -222,6 +235,15 @@ As with service entries for HTTP/HTTPS, you can delete and create service entrie
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
     use test
     db.dropUser("bookinfo");
+    EOF
+    {{< /text >}}
+
+1. Drop the _ratings_ collection:
+
+    {{< text bash >}}
+    $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+    use test
+    db.ratings.drop();
     EOF
     {{< /text >}}
 
