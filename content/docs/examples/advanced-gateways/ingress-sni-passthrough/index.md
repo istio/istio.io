@@ -35,13 +35,13 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
 
     When prompted, select `y` for all the questions.
 
-1.  Move the certificates into `nginx.example.com` directory:
+1.  Move the certificates into the `nginx.example.com` directory:
 
     {{< text bash >}}
     $ mkdir ~+1/nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/nginx.example.com
     {{< /text >}}
 
-1.  Change directory back:
+1.  Return to the root directory:
 
     {{< text bash >}}
     $ popd
@@ -144,9 +144,9 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-1.  To test that the NGINX server was deployed successfully, send a request to the server from its sidecar proxy,
-    without checking the server's certificate (use the `-k` option of `curl`). Note that the server's certificate is
-    printed correctly, e.g. `common name` is equal to `nginx.example.com`.
+1.  To test that the NGINX server was deployed successfully, send a request to the server from its sidecar proxy
+    without checking the server's certificate (use the `-k` option of `curl`). Ensure that the server's certificate is
+    printed correctly, i.e., `common name` is equal to `nginx.example.com`.
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
@@ -181,8 +181,8 @@ to hold the configuration of the NGINX server:
 
 ## Configure an ingress gateway
 
-1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` `tls` `mode`, the gateway passes
-    the ingress traffic AS IS, without terminating TLS.
+1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` `tls` `mode` which instructs
+    the gateway to pass the ingress traffic AS IS, without terminating TLS.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -269,7 +269,7 @@ to hold the configuration of the NGINX server:
     $ kubectl delete virtualservice nginx
     {{< /text >}}
 
-1.  Delete the directory of the certificates and the repository used to generate them:
+1.  Delete the directory containing the certificates and the repository used to generate them:
 
     {{< text bash >}}
     $ rm -rf nginx.example.com mtls-go-example
