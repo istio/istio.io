@@ -58,7 +58,8 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
     EOF
     {{< /text >}}
 
-1.  Create a _collection_ to hold ratings:
+1.  Create a _collection_ to hold ratings. The following command sets both ratings to be equal `1` to provide a visual
+    clue when your database is used by the Bookinfo _ratings_ service (the default Bookinfo _ratings_ are `4` and `5`).
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
@@ -66,7 +67,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
     db.createCollection("ratings");
     db.ratings.insert(
       [{rating: 1},
-       {rating: 4}]
+       {rating: 1}]
     );
     EOF
     {{< /text >}}
@@ -86,7 +87,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
     MongoDB server version: 3.4.10
     switched to db test
     { "_id" : ObjectId("5b7c29efd7596e65b6ed2572"), "rating" : 1 }
-    { "_id" : ObjectId("5b7c29efd7596e65b6ed2573"), "rating" : 4 }
+    { "_id" : ObjectId("5b7c29efd7596e65b6ed2573"), "rating" : 1 }
     bye
     {{< /text >}}
 
