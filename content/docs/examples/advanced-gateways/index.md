@@ -1,14 +1,14 @@
 ---
-title: Ingress Gateway for an HTTPS service
-description: Describes how to configure an Ingress Gateway for an HTTPS service.
+title: Ingress gateway without TLS termination
+description: Describes how to configure SNI passthrough for an ingress gateway.
 weight: 31
 keywords: [traffic-management,ingress, https]
 ---
 
 The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/) task describes how to configure HTTPS
 ingress access to an HTTP service. This example describes how to configure ingress access to an HTTPS service.
-You will deploy an [NGINX](https://www.nginx.com) server to your Kubernetes cluster to provide an HTTPS Kubernetes
-service. Then you will configure a gateway to provide ingress access to this service via the `nginx.example.com` host.
+You deploy an [NGINX](https://www.nginx.com) server to your Kubernetes cluster to provide an HTTPS Kubernetes
+service. Then you configure a gateway to provide ingress access to this service via the `nginx.example.com` host.
 
 ## Generate client and server certificates and keys
 
@@ -181,7 +181,7 @@ to hold the configuration of the NGINX server:
 
 ## Configure an ingress gateway
 
-1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` `tls` `mode`, the gateway will pass
+1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` `tls` `mode`, the gateway passes
     the ingress traffic AS IS, without terminating TLS.
 
     {{< text bash >}}
