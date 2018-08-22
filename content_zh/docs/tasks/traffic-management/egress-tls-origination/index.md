@@ -58,7 +58,7 @@ weight: 42
     spec:
       hosts:
       - "*.cnn.com"
-        ports:
+      ports:
       - number: 80
         name: http-port
         protocol: HTTP
@@ -114,7 +114,7 @@ $ istioctl delete serviceentry cnn
     spec:
       hosts:
       - edition.cnn.com
-        ports:
+      ports:
       - number: 80
         name: http-port
         protocol: HTTP
@@ -130,7 +130,7 @@ $ istioctl delete serviceentry cnn
     spec:
       hosts:
       - edition.cnn.com
-        http:
+      http:
       - match:
           - port: 80
         route:
