@@ -171,69 +171,60 @@ egress control in Istio.
 
 ## Egress control for TLS
 
-### Mesh-external service entry for an external mongodb instance
-
-TCP mesh-external service entries come to our rescue.
-
-1.  Get the IP address of your mongodb database instance. As an option, you can use the
-    [host](https://linux.die.net/man/1/host) command:
-
-    {{< text bash >}}
-    $ export mongodb_DB_IP=$(host $mongodb_DB_HOST | grep " has address " | cut -d" " -f4)
-    {{< /text >}}
-
-    For a local database, set `mongodb_DB_IP` to contain the IP of your machine, accessible from your cluster.
-
-1.  Define a TCP mesh-external service entry:
+1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: networking.istio.io/v1alpha3 $mongodb_DB_PORT
-    kind: ServiceEntry
-    metadata:
-      name: mongodb-external
-    spec:
-      hosts:
-      - $mongodb_DB_HOST
-      addresses:
-      - $mongodb_DB_IP/32
-      ports:
-      - name: tcp
-        number: $mongodb_DB_PORT
-        protocol: tcp
-      location: MESH_EXTERNAL
-    EOF
-    {{< /text >}}
-
-1.  Review the service entry you just created and check that it contains the correct values:
-
-    {{< text bash >}}
-    $ kubectl get serviceentry mongodb-external -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
-    ...
+      name: mongo
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      ports:
+      - number: $MONGODB_PORT
+        name: tls
+        protocol: TLS
+      resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: mongo
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      tls:
+      - match:
+        - port: $MONGODB_PORT
+          sni_hosts:
+          - $MONGODB_HOST
+        route:
+        - destination:
+            host: $MONGODB_HOST
+            port:
+              number: $MONGODB_PORT
+          weight: 100
+    EOF
     {{< /text >}}
 
-Note that for a TCP service entry, you specify `tcp` as the protocol of a port of the entry. Also note that you have to
-specify the IP of the external service in the list of addresses, as a [CIDR](https://tools.ietf.org/html/rfc2317) block
-with suffix `32`.
-
-I will talk more about TCP service entries
-[below](#service-entries-for-tcp-traffic). For now, verify that the service entry we added fixed the problem. Access the
-webpage and see if the stars are back.
-
-It worked! Accessing the web page of the application displays the ratings without error:
+1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
 {{< image width="80%" ratio="36.69%"
-    link="./externalMySQLRatings.png"
+    link="./externalDBRatings.png"
     caption="Book Ratings Displayed Correctly"
     >}}
 
-Note that you see a one-star rating for both displayed reviews, as expected. You changed the ratings to be one star to
-provide us with a visual clue that our external database is indeed being used.
+Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
+provide you with a visual clue that your external database is indeed being used.
 
-As with service entries for HTTP/HTTPS, you can delete and create service entries for TCP using `kubectl`, dynamically.
+### Cleanup of the egress configuration for TLS
+
+{{< text bash >}}
+$ kubectl delete serviceentry mongo
+$ kubectl delete virtualservice mongo
+{{< /text >}}
 
 ## Cleanup
 
@@ -274,13 +265,6 @@ As with service entries for HTTP/HTTPS, you can delete and create service entrie
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
     deployment "ratings-v2" deleted
-    {{< /text >}}
-
-1.  Delete the service entry:
-
-    {{< text bash >}}
-    $ kubectl delete serviceentry mongodb-external -n default
-    Deleted config: serviceentry mongodb-external
     {{< /text >}}
 
 ## Conclusion
