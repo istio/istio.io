@@ -765,7 +765,7 @@ spec:
 |`route`|[`DestinationWeight[]`](#DestinationWeight)|HTTP 规则对流量可能进行重定向或者转发（缺省）。转发目标可以是服务的多个版本中的一个。服务版本所关联的 [`DestinationWeight`](#DestinationWeight) 则决定了不同目标之间的流量分配比重。|
 |`redirect`|[`HTTPRedirect`](#HTTPRedirect)|HTTP 规则对流量可能进行重定向或者转发（缺省）。如果启用了流量透传选项，会无视 `route` 以及 `redirect` 设置。重定向原语会发送 HTTP 301 指令指向不同的 URI 或认证部分。|
 |`rewrite`|[`HTTPRewrite`](#HTTPRewrite)|`Rewrite` HTTP URI 和认证部分。`rewrite` 不能和 `redirect` 共用，并且会在转发之前生效。|
-|`timeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration)|HTTP 请求的超时设置。|
+|`timeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|HTTP 请求的超时设置。|
 |`retries`|[`HTTPRetry`](#HTTPRetry)|HTTP 请求的重试设置。|
 |`fault`|[`HTTPFaultInjection`](#HTTPFaultInjection)|应用到 HTTP 请求客户端的故障注入策略。**注意：客户端启用了故障注入之后，超时和重试会被忽略。**|
 |`mirror`|[`mirror`](#Destination)|在把 HTTP 请求转发给预期目标的同时，对流量进行镜像并发送给其他目标。出于性能方面的考虑，Sidecar/Gateway 在返回预期目标的响应之前不会等待镜像目标的响应。被镜像的目标同样也会生成统计信息。|
