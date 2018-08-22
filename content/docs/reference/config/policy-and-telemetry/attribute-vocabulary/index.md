@@ -49,6 +49,8 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `request.headers` | map[string, string] | HTTP request headers. For gRPC, its metadata will be here. | |
 | `request.id` | string | An ID for the request with statistically low probability of collision. | |
 | `request.path` | string | The HTTP URL path including query string | |
+| `request.url_path` | string | The path part of HTTP URL, with query string being stripped | |
+| `request.query_params` | map[string, string] | A map of query parameters extracted from the HTTP URL. | |
 | `request.host` | string | HTTP/1.x host header or HTTP/2 authority header. | `redis-master:3337` |
 | `request.method` | string | The HTTP method. | |
 | `request.reason` | string | The request reason used by auditing systems. | |
