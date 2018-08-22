@@ -315,6 +315,17 @@ $ ORIGINAL_SVC_MANIFEST=mysvc-v1.yaml
 $ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfigMapName istio -f ${ORIGINAL_SVC_MANIFEST} | kubectl apply -f -
 {{< /text >}}
 
+## Accessing services from different clusters
+
+Kubernetes resolves DNS on a cluster basis. Because DNS resolution is tied to
+the cluster, you must define the service object in every cluster where a
+client runs, regardless of the location of the service's endpoints.
+To ensure this is the case, duplicate the service object to every cluster
+using `kubectl`. Duplication ensures Kubernetes can resolve the service name
+in any cluster. Since the service objects are defined in a namespace, you must
+define the namespace if it doesn't exist, and include it in the service
+definitions in all clusters.
+
 ## Deployment considerations
 
 The above procedure provides a simple and step by step guide to deploy a multicluster

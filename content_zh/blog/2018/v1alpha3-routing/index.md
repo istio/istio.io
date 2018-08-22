@@ -140,7 +140,7 @@ spec:
       version: v2
 {{< /text >}}
 
-在 `v1alph3`，可以在单个 `VirtualService` 资源中提供相同的配置：
+在 `v1alpha3`，可以在单个 `VirtualService` 资源中提供相同的配置：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
