@@ -423,6 +423,332 @@ $ kubectl delete virtualservice direct-mongo-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-mongo
 {{< /text >}}
 
+## Enable Egress MongoDB traffic to arbitrary wildcarded domains
+
+In this subsection you configure egress traffic for a wildcarded domain, namely `*.com` and direct that traffic through
+an egress gateway.
+
+### Prepare a new egress gateway with an SNI proxy
+
+In this subsection you deploy an egress gateway with an SNI proxy, in addition to the standard Istio Envoy proxy. You
+can use any SNI proxy that is capable to route traffic according to arbitrary, not-preconfigured SNI values; we used
+[Nginx](http://nginx.org) to achieve this functionality.
+
+1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
+    settings, if required.
+
+    {{< text bash >}}
+    $ cat <<EOF > ./sni-proxy.conf
+    user www-data;
+
+    events {
+    }
+
+    stream {
+      log_format log_stream '\$remote_addr [\$time_local] \$protocol [\$ssl_preread_server_name]'
+      '\$status \$bytes_sent \$bytes_received \$session_time';
+
+      access_log /var/log/nginx/access.log log_stream;
+      error_log  /var/log/nginx/error.log;
+
+      # tcp forward proxy by SNI
+      server {
+        resolver 8.8.8.8 ipv6=off;
+        listen       127.0.0.1:$MONGODB_PORT;
+        proxy_pass   \$ssl_preread_server_name:$MONGODB_PORT;
+        ssl_preread  on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+to hold the configuration of the Nginx SNI proxy:
+
+    {{< text bash >}}
+    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
+    {{< /text >}}
+
+
+1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
+
+    {{< text bash >}}
+    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set  global.mtls.enabled=true --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
+    gateways:
+      enabled: true
+      istio-ingressgateway:
+        enabled: false
+      istio-egressgateway:
+        enabled: false
+      istio-egressgateway-with-sni-proxy:
+        enabled: true
+        labels:
+          app: istio-egressgateway-with-sni-proxy
+          istio: egressgateway-with-sni-proxy
+        replicaCount: 1
+        autoscaleMin: 1
+        autoscaleMax: 5
+        serviceAnnotations: {}
+        type: ClusterIP
+        ports:
+          - port: 443
+            name: https
+        secretVolumes:
+          - name: egressgateway-certs
+            secretName: istio-egressgateway-certs
+            mountPath: /etc/istio/egressgateway-certs
+          - name: egressgateway-ca-certs
+            secretName: istio-egressgateway-ca-certs
+            mountPath: /etc/istio/egressgateway-ca-certs
+        configVolumes:
+          - name: sni-proxy-config
+            configMapName: egress-sni-proxy-configmap
+        additionalContainers:
+        - name: sni-proxy
+          image: nginx
+          volumeMounts:
+          - name: sni-proxy-config
+            mountPath: /etc/nginx
+            readOnly: true
+    EOF
+    {{< /text >}}
+
+1.  For Istio releases before 1.0.1, edit the generated configuration file `./istio-egressgateway-with-sni-proxy.yaml`
+ for the new egress gateway. Starting from Istio 1.0.1, the command above adds the required parts automatically and
+ no manual editing is required.
+
+    1.  Add a definition of a container with NGINX proxy, to the `Deployment` of `istio-egressgateway-with-sni-proxy`.
+    The definition is as follows:
+
+        {{< text yaml >}}
+        - name: sni-proxy
+          image: nginx
+          volumeMounts:
+          - name: sni-proxy-config
+            mountPath: /etc/nginx
+            readOnly: true
+        {{< /text >}}
+
+    1.  Add the `sni-proxy-config` [configMap volume](https://kubernetes.io/docs/concepts/storage/volumes/#configmap) to the `Deployment` of `istio-egressgateway-with-sni-proxy`:
+
+        {{< text yaml >}}
+        - name: sni-proxy-config
+          configMap:
+            name: egress-sni-proxy-configmap
+        {{< /text >}}
+
+1.  Deploy the new egress gateway:
+
+    {{< text bash >}}
+    $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
+    serviceaccount "istio-egressgateway-with-sni-proxy-service-account" created
+    clusterrole "istio-egressgateway-with-sni-proxy-istio-system" created
+    clusterrolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
+    service "istio-egressgateway-with-sni-proxy" created
+    deployment "istio-egressgateway-with-sni-proxy" created
+    horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
+    {{< /text >}}
+
+1.  Verify that the new egress gateway is running. Note that the pod has two containers (one is the Envoy proxy and the
+    second one is the SNI proxy).
+
+    {{< text bash >}}
+    $ kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system
+    NAME                                                  READY     STATUS    RESTARTS   AGE
+    istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
+    {{< /text >}}
+
+1.  Create a service entry with a static address equal to 127.0.0.1 (`localhost`), and disable mutual TLS on the traffic directed to the new
+    service entry:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: sni-proxy
+    spec:
+      hosts:
+      - sni-proxy.local
+      location: MESH_EXTERNAL
+      ports:
+      - number: $MONGODB_PORT
+        name: tcp
+        protocol: TCP
+      resolution: STATIC
+      endpoints:
+      - address: 127.0.0.1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: disable-mtls-for-sni-proxy
+    spec:
+      host: sni-proxy.local
+      trafficPolicy:
+        tls:
+          mode: DISABLE
+    EOF
+    {{< /text >}}
+
+### Configure access to `*.com` using the egress gateway with SNI proxy
+
+1.  Define a `ServiceEntry` for `*.com`:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: mongo
+    spec:
+      hosts:
+      - "*.com"
+      ports:
+      - number: 443
+        name: tls
+        protocol: TLS
+      - number: $MONGODB_PORT
+        name: tls-mongodb
+        protocol: TLS
+    EOF
+    {{< /text >}}
+
+1.  Create an egress `Gateway` for _*.com_, port 443, protocol TLS, a destination rule to set the
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
+    traffic destined for _*.com_ to the gateway.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway-with-sni-proxy
+    spec:
+      selector:
+        istio: egressgateway-with-sni-proxy
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - "*.com"
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: set-sni-for-egress-gateway
+    spec:
+      host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+      subsets:
+        - name: mongo
+          trafficPolicy:
+            loadBalancer:
+              simple: ROUND_ROBIN
+            portLevelSettings:
+            - port:
+                number: 443
+              tls:
+                mode: ISTIO_MUTUAL
+                sni: placeholder.com
+    EOF
+    {{< /text >}}
+
+1.  Route the traffic destined for _*.com_ to the egress gateway and from the egress gateway to the SNI proxy.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-mongo-through-egress-gateway
+    spec:
+      hosts:
+      - "*.com"
+      gateways:
+      - mesh
+      - istio-egressgateway-with-sni-proxy
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: $MONGODB_PORT
+          sni_hosts:
+          - "*.com"
+        route:
+        - destination:
+            host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+            subset: mongo
+            port:
+              number: 443
+          weight: 100
+      tcp:
+      - match:
+        - gateways:
+          - istio-egressgateway-with-sni-proxy
+          port: 443
+        route:
+        - destination:
+            host: sni-proxy.local
+            port:
+              number: $MONGODB_PORT
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
+
+1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to our requests to
+    _*.com_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
+    to print the counter is:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
+    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 1
+    {{< /text >}}
+
+1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
+    log is:
+
+    {{< text bash >}}
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -c sni-proxy
+    127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 1863 482 0.089
+    127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
+    {{< /text >}}
+
+### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
+
+1.  Delete the configuration items for _*.com_:
+
+    {{< text bash >}}
+    $ kubectl delete serviceentry mongo
+    $ kubectl delete gateway istio-egressgateway-with-sni-proxy
+    $ kubectl delete virtualservice direct-mongo-through-egress-gateway
+    $ kubectl delete destinationrule set-sni-for-egress-gateway
+    {{< /text >}}
+
+1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
+
+    {{< text bash >}}
+    $ kubectl delete serviceentry sni-proxy
+    $ kubectl delete destinationrule disable-mtls-for-sni-proxy
+    $ kubectl delete -f ./istio-egressgateway-with-sni-proxy.yaml
+    $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+    {{< /text >}}
+
+1.  Remove the configuration files you created:
+
+    {{< text bash >}}
+    $ rm ./istio-egressgateway-with-sni-proxy.yaml
+    $ rm ./nginx-sni-proxy.conf
+    {{< /text >}}
+
 ## Cleanup
 
 1.  Drop the `bookinfo` user:
