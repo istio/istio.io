@@ -314,12 +314,12 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用程序 p
 1.  部署了 Istio 控制平面的集群
     1.  启用控制平面安全
     1.  禁用自制 `citadel` 证书
-    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)并名为 `cacerts` 的 secret
+    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)并名为 `cacerts` 的 secret
 
 1.  部署了 Istio 的远程集群
     1.  启用控制平面安全
     1.  禁用自制 `citadel` 证书
-    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)并名为 `cacerts` 的 secret
+    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)并名为 `cacerts` 的 secret
         1.  远程集群的 CA 证书需要由与主集群相同的 CA 或根 CA 签名。
     1.  Istio 试验服务主机名可通过 DNS 解析
         1.  此项操作是必须的，因为 Istio 使用 `istio-pilot.<namespace>` 名称格式配置 sidecar 以验证证书使用者名称。
@@ -332,12 +332,12 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用程序 p
 1.  部署了 Istio 控制平面的集群
     1.  开启全局双向 TLS
     1.  禁用自制 `citadel` 证书
-    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)并名为 `cacerts` 的 secret
+    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)并名为 `cacerts` 的 secret
 
 1.  部署了 Istio 的远程集群
     1.  开启全局双向 TLS
     1.  禁用自制 `citadel` 证书
-    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)并名为 `cacerts` 的 secret
+    1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)并名为 `cacerts` 的 secret
         1.  远程群集的 CA 证书需要由与主群集相同的CA或根CA签名。
 
 > 对于控制平面安全和应用程序 pod 安全步骤而言，CA 证书步骤是相同的。
