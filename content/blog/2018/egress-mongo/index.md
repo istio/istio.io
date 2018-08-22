@@ -149,7 +149,7 @@ to the virtual services we added. According to the virtual services, the traffic
     caption="The Bookinfo application with ratings v2 and an external MongoDB database"
     >}}
 
-Note that the mongodb database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The
+Note that the MongoDB database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The
 boundary of the service mesh is marked by a dashed line.
 
 ### Access the webpage
@@ -157,7 +157,8 @@ boundary of the service mesh is marked by a dashed line.
 Access the webpage of the application, after
 [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
-You have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
+Since you did not configure the egress traffic control yet, the access to the MongoDB instance is blocked by Istio.
+This is why instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
  displayed below each review:
 
 {{< image width="80%" ratio="36.19%"
@@ -165,13 +166,10 @@ You have a problem... Instead of the rating stars, the message _"Ratings service
     caption="The Ratings service error messages"
     >}}
 
-As in [Consuming External Web Services](/blog/2018/egress-https/), you experience **graceful service degradation**,
-which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the
-application correctly displayed the book information, the details, and the reviews, just without the rating stars.
+In the following sections you will configure egress access to the external MongoDB instance, using different options for
+egress control in Istio.
 
-You have the same problem as in [Consuming External Web Services](/blog/2018/egress-https/), namely all the traffic
-outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic
- for TCP, a mesh-external service entry for TCP must be defined.
+## Egress control for TLS
 
 ### Mesh-external service entry for an external mongodb instance
 
