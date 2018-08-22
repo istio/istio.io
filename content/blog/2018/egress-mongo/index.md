@@ -226,6 +226,203 @@ $ kubectl delete serviceentry mongo
 $ kubectl delete virtualservice mongo
 {{< /text >}}
 
+## Directing TLS Egress traffic through the egress gateway
+
+1.  Create a `ServiceEntry` for the MongoDB service:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: mongo
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      ports:
+      - number: $MONGODB_PORT
+        name: tls
+        protocol: TLS
+      - number: 443
+        name: tls-port-for-egress-gateway
+        protocol: TLS
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Refresh the web page of the application and verify that the ratings are displayed correctly.
+
+1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services
+    to direct the traffic through the egress gateway and from the egress gateway to the external service.
+
+    If you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, use the following
+    command.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - $MONGODB_HOST
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-mongo
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: mongo
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: $MONGODB_HOST
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-mongo-through-egress-gateway
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: $MONGODB_PORT
+          sni_hosts:
+          - $MONGODB_HOST
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: mongo
+            port:
+              number: 443
+      tcp:
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: $MONGODB_HOST
+            port:
+              number: $MONGODB_PORT
+          weight: 100
+    EOF
+    {{< /text >}}
+
+    otherwise:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - $MONGODB_HOST
+        tls:
+          mode: PASSTHROUGH
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-mongo
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: mongo
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-mongo-through-egress-gateway
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: $MONGODB_PORT
+          sni_hosts:
+          - $MONGODB_HOST
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: mongo
+            port:
+              number: 443
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+          sni_hosts:
+          - $MONGODB_HOST
+        route:
+        - destination:
+            host: $MONGODB_HOST
+            port:
+              number: $MONGODB_PORT
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
+
+1.  Check the statistics of the egress gateway's Envoy and see a counter that corresponds to your
+    requests to MongoDB instance. If Istio is deployed in the `istio-system` namespace, the command to print the
+    counter is:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway -n istio-system -- curl -s localhost:15000/stats | grep $MONGODB_PORT | grep ${MONGODB_HOST}.upstream_cx_total
+    cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
+    {{< /text >}}
+
+### Cleanup after directing TLS Egress traffic through the egress gateway
+
+{{< text bash >}}
+$ kubectl delete serviceentry mongo
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-mongo
+{{< /text >}}
+
 ## Cleanup
 
 1.  Drop the `bookinfo` user:
