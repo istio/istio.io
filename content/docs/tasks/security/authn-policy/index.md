@@ -570,10 +570,9 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 {{< /text >}}
 
-You can add a JWT policy on `istio-ingressgateway`. This is often used in the
-scenario that you want to define JWT policies that apply at the Gateway level,
-instead of at individual services. See the
-[configure end-user authentication on ingress gateway](/docs/tasks/traffic-management/secure-ingress/) for more details.
+You can add a JWT policy on `istio-ingressgateway`. This is often used to define
+JWT policies that apply at the gateway, instead of for individual services. See
+the [configure end-user authentication on ingress gateway](/docs/tasks/traffic-management/secure-ingress/) for more details.
 
 ### End-user authentication with mutual TLS
 
