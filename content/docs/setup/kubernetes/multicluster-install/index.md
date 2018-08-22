@@ -5,6 +5,7 @@ weight: 60
 keywords: [kubernetes,multicluster]
 ---
 
+
 Instructions for the installation of Istio multicluster.
 
 ## Prerequisites
