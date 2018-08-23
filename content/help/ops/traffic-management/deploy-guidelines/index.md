@@ -8,7 +8,7 @@ This section provides specific deployment or configuration guidelines to avoid n
 
 ## Virtual service and destination rule host configuration merging
 
-In situations where it is inconvenient to define the complete set of route rule or policies for a particular
+In situations where it is inconvenient to define the complete set of route rules or policies for a particular
 host in a single `VirtualService` or `DestinationRule` resource, it may be possible to incrementally specify
 the configuration for the host in separate resources, which will be merged when they are applied.
 
@@ -49,7 +49,7 @@ See [Route rules have no effect on ingress gateway requests](#route-rules-have-n
 for details.
 
 To avoid this problem, it may be preferable to break up the configuration of `myapp.com` into several
-fragment `VirtualServices`, one per implementation service. For example:
+`VirtualService` fragments, one per implementation service. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -108,10 +108,10 @@ limitations with this feature that must be considered carefully when using it.
 
 A `DestinationRule` can also be fragmented with similar merge semantic and restrictions.
 
-1. The first definition of any given subset (e.g., `s1`) is used, any following duplicates are discarded.
+1. The first definition of any given subset (e.g., `s1`) is used. Any following duplicates are discarded.
    Therefore, there should not be more than one definition of subset `s1` across the fragments,
    to make sure the same one will always be used.
-1. The first top level `trafficPolicy` is used, any following top level `trafficPolicy` configuration are discarded. 
+1. The first top-level `trafficPolicy` is used. Any following top-level `trafficPolicy` configuration is discarded.
 
 ## 503 errors after setting destination rule
 
