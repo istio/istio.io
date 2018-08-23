@@ -58,7 +58,7 @@ $ helm init --service-account tiller
 | `global.refreshInterval` | 指定网格发现刷新间隔 | `10s` |
 | `global.arch.amd64` | 指定 `amd64` 架构的调度策略 | `2` |
 | `global.arch.s390x` | 指定 `s390x` 架构的调度策略 | `2` |
-| `global.arch.ppc64le` | 指定 `ppc64le` | `2` |
+| `global.arch.ppc64le` | 指定 `ppc64le` 架构的调度策略 | `2` |
 
 参数选项卡公开每个服务选项。
 
