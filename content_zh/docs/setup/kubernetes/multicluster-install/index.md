@@ -51,7 +51,7 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 * 通过 [Helm + Tiller](#使用-helm-tiller-进行远程集群的连接)
 
-* 使用 *sidecar 注入。*  默认操作是在远程群集上启用自动 sidecar 注入，更多手动 sidecar 注入示例，详见[手动 sidecar 注入示例](#远程集群手动-sidecar-注入示例)
+* 使用 *sidecar 注入。*  默认操作是在远程集群上启用自动 sidecar 注入，更多手动 sidecar 注入示例，详见[手动 sidecar 注入示例](#远程集群手动-sidecar-注入示例)
 
 ### 使用 Helm + `kubectl` 把远程集群连接到本地
 
@@ -112,24 +112,24 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 为了使远程集群的 sidecar 与 Istio 控制平面进行交互，`pilot`、
 `policy`、`telemetry`、`statsd` 和跟踪服务端点需要在 `istio-remote` Helm chart中配置。
-该 chart 默认启用远程集群中的自动 sidecar 注入，但可以通 chart 变量禁用。以下表格描述了
+该 chart 默认启用远程集群中的自动 sidecar 注入，但可以通过 chart 变量禁用。以下表格描述了
 `istio-remote` Helm chart的配置参数。
 
 | Helm 变量 | 可接受取值 | 默认 | 用途 |
 | --- | --- | --- | --- |
 | `global.remotePilotAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面辅助 Pod IP 地址或远程集群的 DNS 可解析主机名 |
-| `global.remotePolicyAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的策略 Pod IP 地址或远程群集 DNS 可解析主机名 |
-| `global.remoteTelemetryAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的遥测 Pod IP 地址或远程群集 DNS 可解析主机名 |
+| `global.remotePolicyAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的策略 Pod IP 地址或远程集群 DNS 可解析主机名 |
+| `global.remoteTelemetryAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的遥测 Pod IP 地址或远程集群 DNS 可解析主机名 |
 | `global.proxy.envoyStatsd.enabled` | true, false | false | 指定 Istio 控制平面是否启用了 Envoy Statsd |
 | `global.proxy.envoyStatsd.host` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的 `statsd-prom-bridge` Pod IP 地址或远程集群 DNS 可解析主机名。如果 `global.proxy.envoyStatsd.enabled = false` 则忽略。 |
-| `global.remoteZipkinAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的跟踪应用程序 Pod IP 地址或远程群集 DNS 可解析主机名，例如 `zipkin` 或 `jaeger`。|
-| `sidecarInjectorWebhook.enabled` | true, false | true | 指定是否在远程群集上启用自动 sidecar 注入 |
-| `global.remotePilotCreateSvcEndpoint` | true, false | false | 如果设置，使用 `remotePilotAddress` IP `istio-pilot` 的无选择器服务和端点将会被创建，这将确保 `istio-pilot.<namespace>` 在远程集群中是DNS可解析的。|
+| `global.remoteZipkinAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的跟踪应用程序 Pod IP 地址或远程集群 DNS 可解析主机名，例如 `zipkin` 或 `jaeger`。|
+| `sidecarInjectorWebhook.enabled` | true, false | true | 指定是否在远程集群上启用自动 sidecar 注入 |
+| `global.remotePilotCreateSvcEndpoint` | true, false | false | 如果设置，使用 `remotePilotAddress` IP `istio-pilot` 的无选择器服务和端点将会被创建，这将确保 `istio-pilot.<namespace>` 在远程集群中是 DNS 可解析的。|
 
 ## 为远程集群生成 `kubeconfigs`
 
-Istio 控制平面需要访问网格中的所有群集才能发现服务、endpoint 和 pod 属性。 以下将描述如何生成一个 `kubeconfig` 文件用于 Istio 控制平面使用的远程集群。
-在远程集群中，`istio-remote` Helm chart创建了一个名字叫 `istio-multi` 的 Kubernetes service account，它用于最小的 RBAC 访问权限。以下使用 `istio-remote` Helm chart 生成一个 `kubeconfig` 文件给远程集群，用于创建 `istio-multi` service account 的证书。应在要添加到服务网格的每个远程群集上执行以下过程，该过程要求集群管理员用户访问远程群集。
+Istio 控制平面需要访问网格中的所有集群才能发现服务、endpoint 和 pod 属性。 以下将描述如何生成一个 `kubeconfig` 文件用于 Istio 控制平面使用的远程集群。
+在远程集群中，`istio-remote` Helm chart 创建了一个名字叫 `istio-multi` 的 Kubernetes service account，它用于最小的 RBAC 访问权限。以下使用 `istio-remote` Helm chart 生成一个 `kubeconfig` 文件给远程集群，用于创建 `istio-multi` service account 的证书。应在要添加到服务网格的每个远程集群上执行以下过程，该过程要求集群管理员用户访问远程集群。
 
 1.  准备环境变量为 `ServiceAccount` `istio-multi` 构建 `kubeconfig` 文件：
 
@@ -196,7 +196,7 @@ Istio 控制平面需要访问网格中的所有群集才能发现服务、endpo
 
 Istio 可以安装在除 istio-system 之外的其他命名空间中。
 
-运行 Istio 控制平面的本地群集不需要存储和标记它的 secret。
+运行 Istio 控制平面的本地集群不需要存储和标记它的 secret。
 本地节点始终知道其 Kubernetes 凭据，但本地节点不知道远程节点的凭据。
 
 为每个远程集群创建一个 secret 并适当标记它：
@@ -231,7 +231,7 @@ $ helm delete --purge istio-remote
 以下示例显示如何使用 `helm template` 命令为禁用自动 sidecar 注入的远程集群生成清单。
 此外，该示例还指示如何使用远程集群的 configmaps 和 `istioctl kube-inject` 命令为远程集群生成任何应用程序清单。
 
-将对远程群集执行以下过程。
+将对远程集群执行以下过程。
 
 > 端点 IP 环境变量需要像[上一节](#从-istio-控制平面设置-istio-远程组件所需的-pod-ip-环境变量)中那样设置
 
@@ -259,7 +259,7 @@ $ helm delete --purge istio-remote
 
 ### 手动将 sidecars 注入应用程序清单
 
-以下是用于将 sidecars 注入应用程序清单的 `istioctl` 命令示例。 这些命令应该在 shell 中运行，并为远程集群设置 `kubeconfig` 上下文。
+以下是用于将 sidecar 注入应用程序清单的 `istioctl` 命令示例。 这些命令应该在 shell 中运行，并为远程集群设置 `kubeconfig` 上下文。
 
 {{< text bash >}}
 $ ORIGINAL_SVC_MANIFEST=mysvc-v1.yaml
@@ -268,14 +268,14 @@ $ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfig
 
 ## 从不同集群访问服务
 
-Kubernetes 在集群基础上解析DNS。 由于 DNS 解析与集群相关联，因此无论服务端点的位置如何，都必须在运行客户端的每个群集中定义服务对象。
-为确保这种情况，请使用 `kubectl` 将服务对象复制到每个集群，复制可确保 Kubernetes 可以解析任何群集中的服务名称。由于服务对象是在命名空间中定义的，因此必须定义命名空间（如果该命名空间不存在），并将其包含在所有集群的服务定义中。
+Kubernetes 在集群基础上解析DNS。 由于 DNS 解析与集群相关联，因此无论服务端点的位置如何，都必须在运行客户端的每个集群中定义服务对象。
+为确保这种情况，请使用 `kubectl` 将服务对象复制到每个集群，复制可确保 Kubernetes 可以解析任何集群中的服务名称。由于服务对象是在命名空间中定义的，因此必须定义命名空间（如果该命名空间不存在），并将其包含在所有集群的服务定义中。
 
 ## 部署注意事项
 
-上述过程提供了部署多集群环境的简单分步指南，生产环境可能需要其他步骤或更复杂的部署选项。该过程收集 Istio 服务的端点 IP 并使用它们来调用 Helm，这将在远程群集上创建 Istio 服务。
+上述过程提供了部署多集群环境的简单分步指南，生产环境可能需要其他步骤或更复杂的部署选项。该过程收集 Istio 服务的端点 IP 并使用它们来调用 Helm，这将在远程集群上创建 Istio 服务。
 作为在远程集群中创建这些服务和端点的一部分，Kubernetes 会将 DNS 条目添加到 kube-dns 中。这允许远程集群中的 kube-dns 解析这些远程集群中所有 envoy sidecar 的 Istio 服务名称。
-由于 Kubernetes pod 没有固定的 IP，因此重新启动控制平面群集中的任何 Istio 服务 pod 将导致其端点发生更改。因此，从远程群集到该端点的任何连接都将被破坏，这在 [Istio issue #4822](https://github.com/istio/istio/issues/4822) 中有记录。
+由于 Kubernetes pod 没有固定的 IP，因此重新启动控制平面集群中的任何 Istio 服务 pod 将导致其端点发生更改。因此，从远程集群到该端点的任何连接都将被破坏，这在 [Istio issue #4822](https://github.com/istio/istio/issues/4822) 中有记录。
 
 有许多方法可以避免或解决这种情况，本节提供了这些选项的高级概述。
 
@@ -286,7 +286,7 @@ Kubernetes 在集群基础上解析DNS。 由于 DNS 解析与集群相关联，
 ### 更新 DNS 条目
 
 在任何故障或 pod 重启时，可以使用 Istio 服务正确的映射端点，更新远程集群上的 kube-dns。
-有很多方法可以做到这一点，最明显的是在控制平面集群上的 Istio 服务重新启动后重新运行远程群集中的 Helm 安装。
+有很多方法可以做到这一点，最明显的是在控制平面集群上的 Istio 服务重新启动后重新运行远程集群中的 Helm 安装。
 
 ### 使用负载均衡器服务类型
 
@@ -295,7 +295,7 @@ pod 重启问题的一个简单解决方案是为 Istio 服务使用负载平衡
 然后，您可以使用负载均衡器 IP 作为 Istio 服务的端点 IP 来配置远程集群。
 您可能需要这些 Istio 服务的平衡器 IP：`istio-pilot，istio-telemetry，istio-policy，istio-statsd-prom-bridge，zipkin`
 
-目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 但您可以自己修改 Istio Helm chart或 Istio 清单。
+目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 但您可以自己修改 Istio Helm chart 或 Istio 清单。
 
 ### 通过网关发布 Istio 服务
 
@@ -338,7 +338,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用程序 p
     1.  开启全局双向 TLS
     1.  禁用自制 `citadel` 证书
     1.  在 Istio 控制平面中带有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)并名为 `cacerts` 的 secret
-        1.  远程群集的 CA 证书需要由与主群集相同的CA或根CA签名。
+        1.  远程集群的 CA 证书需要由与主集群相同的CA或根CA签名。
 
 > 对于控制平面安全和应用程序 pod 安全步骤而言，CA 证书步骤是相同的。
 
@@ -398,6 +398,6 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用程序 p
 
     1.  [为远程集群生成 kubeconfig](#为远程集群生成-kubeconfigs)
 
-1.  *主集群*  [实例化每个远程群集的凭据](#实例化每个远程集群的凭据)
+1.  *主集群*  [实例化每个远程集群的凭据](#实例化每个远程集群的凭据)
 
 此时，在应用程序 sidecar 和控制平面组件之间以及其他应用程序 sidecar 之间，两个集群中的所有 Istio 组件都配置了双向 TLS。
