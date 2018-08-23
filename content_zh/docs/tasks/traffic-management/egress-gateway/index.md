@@ -295,6 +295,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -317,30 +318,28 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
-    除此之外：
+    如果没有启用双向 TLS 认证：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
+    apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
       name: istio-egressgateway
@@ -354,6 +353,15 @@ $ kubectl delete destinationrule egressgateway-for-cnn
           protocol: HTTP
         hosts:
         - edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
     EOF
     {{< /text >}}
 
@@ -364,14 +372,14 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
-        gateways:
+      gateways:
       - istio-egressgateway
       - mesh
-        http:
+      http:
       - match:
         - gateways:
           - mesh
@@ -379,9 +387,10 @@ $ kubectl delete destinationrule egressgateway-for-cnn
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 443
-            weight: 100
+          weight: 100
       - match:
         - gateways:
           - istio-egressgateway
@@ -391,7 +400,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
             host: edition.cnn.com
             port:
               number: 443
-            weight: 100
+          weight: 100
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -439,11 +448,11 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 删除我们创建的 Istio 配置项：
 
 {{< text bash >}}
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule originate-tls-for-edition-cnn-com
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
+$ kubectl delete destinationrule originate-tls-for-edition-cnn-com
+$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## 通过 egress 网关定向 HTTPS 流量
