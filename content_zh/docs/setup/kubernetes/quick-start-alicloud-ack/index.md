@@ -7,15 +7,15 @@ keywords: [kubernetes,阿里云]
 
 在[阿里云 Kubernetes 容器服务](https://www.alibabacloud.com/product/kubernetes)中使用‘应用程序目录’中的项目，按照说明安装和运行 Istio 。
 
-本向导安装 Istio 的当前版本并发布一个名为 [Bookinfo](https://preliminary.istio.io/zh/docs/examples/bookinfo/) 的样例应用。
+本向导安装 Istio 的当前版本并发布一个名为 [Bookinfo](https://preliminary.istio.io/zh/docs/examples/bookinfo/) 的样例应用。
 
 ## 前置条件
 
-- 你需要有一个可用的阿里云 Kubernetes 集群。否则，需要使用“容器服务控制台”快速简单的创建一个 Kubernetes 集群。
+- 你需要有一个可用的阿里云 Kubernetes 集群。否则，需要使用“容器服务控制台”快速简单的创建一个 Kubernetes 集群。
 
-- 确保 “kubectl” 对您的 Kubernetes 集群工作正常。
+- 确保 `kubectl` 对你的 Kubernetes 集群工作正常
 
-- 你可以创建一个命名空间用来部署 Istio 组建。例如如下创建的命名空间 “istio-system”：
+- 你可以创建一个命名空间用来部署 Istio 组建。例如如下创建的命名空间 “istio-system”：
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
@@ -50,8 +50,8 @@ $ helm init --service-account tiller
 | `global.hub` | 为 Istio 指定镜像 hub | `registry.cn-hangzhou.aliyuncs.com/aliacs-app-catalog` |
 | `global.tag`                     | 为 Istio 为大多数镜像指定 TAG |    0.8       |
 | `global.proxy.image`             | 指定代理镜像的名称         | `proxyv2`        |
-| `global.imagePullPolicy`       | 指定镜像的获取策略          | `IfNotPresent`        |
-| `global.controlPlaneSecurityEnabled` | 指定是否用了控制平面 `mTLS` | `false` |
+| `global.imagePullPolicy`       | 指定镜像的获取策略          | `IfNotPresent`        |
+| `global.controlPlaneSecurityEnabled` | 指定是否用了控制平面 `mTLS` | `false` |
 | `global.mtls.enabled`        | 指定是否在服务之间默认启用 `mTLS`| `false`  |
 | `global.mtls.mtlsExcludedServices`  | 从 `mTLS` 中排除 `FQDNs`表 | -`kubernetes.default.svc.cluster.local` |
 | `global.rbacEnabled` | 指定是否创建 Istio RBAC 规则 | `true` |
