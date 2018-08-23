@@ -101,7 +101,7 @@ response_code: response.code
 destination_version: destination.labels["version"] | "unknown"
 {{< /text >}}
 
-冒号右侧的序列是属性表达式的最简单形式。前两行只包括了属性名称。`response_code` 标签的内容来自于 `request.code` 属性。
+冒号右侧的序列是属性表达式的最简单形式。前两行只包括了属性名称。`response_code` 标签的内容来自于 `response.code` 属性。
 
 以下是条件表达式的示例：
 
