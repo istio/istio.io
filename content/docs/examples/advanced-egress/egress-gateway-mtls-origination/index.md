@@ -29,7 +29,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
 1.  Change directory to the cloned repository:
 
     {{< text bash >}}
-    $ pushd mtls-go-example
+    $ cd mtls-go-example
     {{< /text >}}
 
 1.  Generate the certificates for `nginx.example.com`.
@@ -44,13 +44,13 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
 1.  Move the certificates into `nginx.example.com` directory:
 
     {{< text bash >}}
-    $ mkdir ~+1/nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/nginx.example.com
+    $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
     {{< /text >}}
 
 1.  Change directory back:
 
     {{< text bash >}}
-    $ popd
+    $ cd ..
     {{< /text >}}
 
 ## Deploy an NGINX server
