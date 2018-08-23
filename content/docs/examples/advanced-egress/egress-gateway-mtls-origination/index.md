@@ -53,7 +53,7 @@ the egress gateway.
 
 ## Deploy an NGINX server
 
-1.  Create a namespace `mesh-external` to represent services outside the Istio mesh. Note that the sidecar proxy will
+1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
     [enabled](/docs/setup/kubernetes/sidecar-injection/#deploying-an-app) on it.
 
