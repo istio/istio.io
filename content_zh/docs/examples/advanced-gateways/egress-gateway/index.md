@@ -9,9 +9,9 @@ keywords: [traffic-management,egress]
 
 [控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。快速提醒：默认情况下，启用 Istio 的应用程序无法访问集群外的 URL。要启用此类访问，必须定义外部服务的[服务条目](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
 
-[Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务演示了如何允许应用程序将 HTTP 请求发送到需要 HTTPS 的外部服务器。
+[Egress 流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务演示了如何允许应用程序将 HTTP 请求发送到需要 HTTPS 的外部服务器。
 
-此任务描述了通过名为  _Egress Gateway_  的专用服务如何配置 Istio 引导出口流量。我们实现了与 [Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务中描述的相同功能，这次我们通过添加 egress 网关来完成它。
+此任务描述了通过名为  _Egress Gateway_  的专用服务如何配置 Istio 引导出口流量。我们实现了与 [Egress 流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务中描述的相同功能，这次我们通过添加 egress 网关来完成它。
 
 ## 用例
 
@@ -89,7 +89,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
     ...
     {{< /text >}}
 
-    输出应与 [Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务中的输出相同，不带 TLS。
+    输出应与 [Egress 流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务中的输出相同，不带 TLS。
 
 1.  创建 egress `Gateway` 为 _edition.cnn.com_ ，端口 80。除此之外还创建了一个 `DestinationRule` 和 `VirtualService` 来引导流量通过 egress 网关与外部服务通信。
 
@@ -251,7 +251,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ## Egress `Gateway` 执行 TLS
 
-让我们用 egress `Gateway` 执行 TLS，类似于 [TLS Origination for Egress Traffic](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务。请注意，在这种情况下，TLS 将由 egress 网关服务器完成，而不是前一任务中的 sidecar。
+让我们用 egress `Gateway` 执行 TLS，类似于 [TLS Origination for Egress Traffic](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务。请注意，在这种情况下，TLS 将由 egress 网关服务器完成，而不是前一任务中的 sidecar。
 
 1.  为 `edition.cnn.com` 定义 `ServiceEntry`：
 
@@ -429,7 +429,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     ...
     {{< /text >}}
 
-    输出应与 [TLS Origination for Egress Traffic](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务中的输出相同，TLS 来源：没有  _301 Moved Permanently_ 信息。
+    输出应与 [TLS Origination for Egress Traffic](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务中的输出相同，TLS 来源：没有  _301 Moved Permanently_ 信息。
 
 1.  检查  `istio-egressgateway` pod 的日志，并查看与我们的请求相对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
