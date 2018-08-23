@@ -1,6 +1,6 @@
 ---
 title: 使用阿里云 Kubernetes 容器服务快速启动
-description: 如何使用阿里云 Kubernetes 容器服务快速安装 Istio.
+description: 如何使用阿里云 Kubernetes 容器服务快速安装 Istio。
 weight: 21
 keywords: [kubernetes,阿里云]
 ---
