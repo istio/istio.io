@@ -257,7 +257,7 @@ $ helm delete --purge istio-remote
 
 1.  [实例化每个远程集群的凭据](#实例化每个远程集群的凭据)
 
-### 手动将 sidecars 注入应用程序清单
+### 手动将 sidecar 注入应用程序清单
 
 以下是用于将 sidecar 注入应用程序清单的 `istioctl` 命令示例。 这些命令应该在 shell 中运行，并为远程集群设置 `kubeconfig` 上下文。
 
@@ -344,7 +344,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用程序 p
 
 ### 部署示例
 
-以下是安装 Istio 的示例过程，同时启用了控制平面双向 TLS 和应用程序 pod 双向 TLS。该示例设置了一个远程集群，该集群具有无选择器服务和 `istio-pilot` 端点，允许远程 sidecars 通过其本地 Kubernetes DNS 解析`istio-pilot.istio-system` 主机名。
+以下是安装 Istio 的示例过程，同时启用了控制平面双向 TLS 和应用程序 pod 双向 TLS。该示例设置了一个远程集群，该集群具有无选择器服务和 `istio-pilot` 端点，允许远程 sidecar 通过其本地 Kubernetes DNS 解析`istio-pilot.istio-system` 主机名。
 
 1.  *主集群*  部署 Istio 控制平面集群
 
