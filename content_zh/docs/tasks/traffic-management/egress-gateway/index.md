@@ -62,7 +62,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
     spec:
       hosts:
       - edition.cnn.com
-        ports:
+      ports:
       - number: 80
         name: http-port
         protocol: HTTP
@@ -91,71 +91,79 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
 
     输出应与 [Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress-tls-origination/) 任务中的输出相同，不带 TLS。
 
-1.  创建 egress `Gateway` 为 _edition.cnn.com_ ，端口 80。
+1.  创建 egress `Gateway` 为 _edition.cnn.com_ ，端口 80。除此之外还创建了一个 `DestinationRule` 和 `VirtualService` 来引导流量通过 egress 网关与外部服务通信。
 
-    如果在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 双向 TLS，将 SNI 设置为 `edition.cnn.com`。
+    如果在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
-      kind: Gateway
-      metadata:
-        name: istio-egressgateway
-      spec:
-        selector:
-          istio: egressgateway
-        servers:
-        - port:
-            number: 80
-            name: https
-            protocol: HTTPS
-          hosts:
-          - edition.cnn.com
-          tls:
-            mode: MUTUAL
-            serverCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: https
+          protocol: HTTPS
+        hosts:
+        - edition.cnn.com
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 80
-          tls:
-            mode: MUTUAL
-            clientCertificate: /etc/certs/cert-chain.pem
-            privateKey: /etc/certs/key.pem
-            caCertificates: /etc/certs/root-cert.pem
-            subjectAltNames:
-            - spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-            sni: edition.cnn.com
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 80
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
-    除此之外：
+    如果没有启用双向 TLS 认证：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
-      kind: Gateway
-      metadata:
-        name: istio-egressgateway
-      spec:
-        selector:
-          istio: egressgateway
-        servers:
-        - port:
-            number: 80
-            name: http
-            protocol: HTTP
-          hosts:
-          - edition.cnn.com
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
     EOF
     {{< /text >}}
 
