@@ -100,7 +100,7 @@ the egress gateway.
     {{< /text >}}
 
 1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
-to hold the configuration of the NGINX:
+to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
