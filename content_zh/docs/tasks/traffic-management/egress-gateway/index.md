@@ -243,10 +243,10 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
 在继续下一步之前删除先前的定义：
 
 {{< text bash >}}
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Egress `Gateway` 执行 TLS
