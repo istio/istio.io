@@ -289,9 +289,9 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     如果你看到输出结果中包含  _301 Moved Permanently_ ，说明 `ServiceEntry` 配置正确。退出代码 _35_ 是由于 Istio 没有执行 TLS。 为了让 Egress 网关执行 TLS，请继续执行以下步骤进行配置。
 
-1.  为  _edition.cnn.com_  创建 egress `Gateway`，端口 443。
+1.  为  _edition.cnn.com_  创建 egress `Gateway`，端口 443。除此之外还创建了一个 `DestinationRule` 和 `VirtualService` 来引导流量通过 egress 网关与外部服务通信。
 
-    如果在 Istio 中启用了 [双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/) ，请使用以下命令。请注意，除了创建 `Gateway` 之外，它还创建了一个 `DestinationRule` 来指定 egress 网关的 双向 TLS，将 SNI 设置为 `edition.cnn.com`。
+    如果在 Istio 中启用了 [双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/) ，请使用以下命令。
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
