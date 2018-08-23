@@ -297,12 +297,11 @@ to hold the configuration of the NGINX server:
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) pod to send requests to the NGINX server. Since
-    the host `nginx.example.com` does not exist and will not be resolved by DNS, use the `--resolve` option of `curl` to
-    resolve the hostname manually. You can provide any IP to the `--resolve` option, except for `127.0.0.1`, for example
-    `1.1.1.1`.
-    Istio will route the request correctly to your NGINX server. In the real life scenarios, a DNS entry will exist for
-    the destination hostname and providing `--resolve` option to `curl` will not be required.
+1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) pod to send requests to the NGINX server.
+    Since the `nginx.example.com` host does not exist, the DNS cannot resolve the hostname. The following command uses the
+    `--resolve` option of `curl` to resolve the hostname manually. You can provide any IP to the `--resolve` option,
+    except for `127.0.0.1`. If you use, for example, `1.1.1.1`, Istio routes the request correctly to your NGINX server.
+    Normally, a DNS entry exists for the destination hostname and you must not use the `--resolve` option of `curl`.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
