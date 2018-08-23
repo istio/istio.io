@@ -41,7 +41,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
 
     When prompted, select `y` for all the questions.
 
-1.  Move the certificates into `nginx.example.com` directory:
+1.  Move the certificates into the `nginx.example.com` directory:
 
     {{< text bash >}}
     $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
