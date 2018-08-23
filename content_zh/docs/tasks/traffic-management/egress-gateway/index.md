@@ -174,14 +174,14 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
-        gateways:
+      gateways:
       - istio-egressgateway
       - mesh
-        http:
+      http:
       - match:
         - gateways:
           - mesh
@@ -189,9 +189,10 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 80
-            weight: 100
+          weight: 100
       - match:
         - gateways:
           - istio-egressgateway
@@ -201,7 +202,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
             host: edition.cnn.com
             port:
               number: 80
-            weight: 100
+          weight: 100
     EOF
     {{< /text >}}
 
