@@ -297,7 +297,7 @@ to hold the configuration of the NGINX server:
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) container to send requests to the NGINX server. Since
+1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) pod to send requests to the NGINX server. Since
     the host `nginx.example.com` does not exist and will not be resolved by DNS, use the `--resolve` option of `curl` to
     resolve the hostname manually. You can provide any IP to the `--resolve` option, except for `127.0.0.1`, for example
     `1.1.1.1`.
