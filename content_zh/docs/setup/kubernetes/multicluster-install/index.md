@@ -21,7 +21,7 @@ keywords: [kubernetes,多集群]
 
 多集群是在 Kubernetes 控制平面上运行远程配置，连接到 **同一个** Istio 控制平面。（主控）Istio 在连接了一个或多个 Kubernetes 集群之后，Envoy 就能和这个 Istio 控制平面进行通信，并生成一个跨越多个 Kubernetes 集群的网格网络。
 
-本指南介绍如何通过使用 Istio 仓库里提供的清单和 Helm 图表安装一个多集群 Istio 拓扑。
+本指南介绍如何通过使用 Istio 仓库里提供的清单和 Helm chart安装一个多集群 Istio 拓扑。
 
 ## 在本地部署 Istio 的控制平面
 
@@ -49,7 +49,7 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 * 通过 [`kubectl` + Helm](#使用-helm-kubectl-把远程集群连接到本地)
 
-* 通过 [Helm plus Tiller](#使用-helm-tiller-进行远程集群的连接)
+* 通过 [Helm + Tiller](#使用-helm-tiller-进行远程集群的连接)
 
 * 使用 *sidecar 注入。*  默认操作是在远程群集上启用自动 sidecar 注入，更多手动 sidecar 注入示例，详见[手动 sidecar 注入示例](#远程集群手动-sidecar-注入示例)
 
@@ -111,9 +111,9 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 ### Helm 配置参数
 
 为了使远程集群的 sidecar 与 Istio 控制平面进行交互，`pilot`、
-`policy`、`telemetry`、`statsd` 和跟踪服务端点需要在 `istio-remote` Helm 图表中配置。
-该图表默认启用远程集群中的自动 sidecar 注入，但可以通过图表变量禁用。以下表格描述了
-`istio-remote` Helm 图表的配置参数。
+`policy`、`telemetry`、`statsd` 和跟踪服务端点需要在 `istio-remote` Helm chart中配置。
+该 chart 默认启用远程集群中的自动 sidecar 注入，但可以通 chart 变量禁用。以下表格描述了
+`istio-remote` Helm chart的配置参数。
 
 | Helm 变量 | 可接受取值 | 默认 | 用途 |
 | --- | --- | --- | --- |
@@ -129,7 +129,7 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 ## 为远程集群生成 `kubeconfigs`
 
 Istio 控制平面需要访问网格中的所有群集才能发现服务、endpoint 和 pod 属性。 以下将描述如何生成一个 `kubeconfig` 文件用于 Istio 控制平面使用的远程集群。
-在远程集群中，`istio-remote` Helm 图表创建了一个名字叫 `istio-multi` 的 Kubernetes service account，它用于最小的 RBAC 访问权限。以下使用 `istio-remote` Helm chart 生成一个 `kubeconfig` 文件给远程集群，用于创建 `istio-multi` service account 的证书。应在要添加到服务网格的每个远程群集上执行以下过程，该过程要求集群管理员用户访问远程群集。
+在远程集群中，`istio-remote` Helm chart创建了一个名字叫 `istio-multi` 的 Kubernetes service account，它用于最小的 RBAC 访问权限。以下使用 `istio-remote` Helm chart 生成一个 `kubeconfig` 文件给远程集群，用于创建 `istio-multi` service account 的证书。应在要添加到服务网格的每个远程群集上执行以下过程，该过程要求集群管理员用户访问远程群集。
 
 1.  准备环境变量为 `ServiceAccount` `istio-multi` 构建 `kubeconfig` 文件：
 
@@ -208,7 +208,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 {{< warning_icon >}}
 Kubernetes secret 数据秘钥必须遵守 `DNS-1123 subdomain`
-[格式](https://tools.ietf.org/html/rfc1123#page-13), 所以文件名不能有像下划线这样的符号。 要解决任何问题，您只需更改文件名即可符合格式。
+[格式](https://tools.ietf.org/html/rfc1123#page-13), 所以文件名不能有像下划线这样的符号。要解决任何问题，您只需更改文件名即可符合格式。
 
 ## 删除
 
@@ -228,7 +228,7 @@ $ helm delete --purge istio-remote
 
 ## 远程集群手动 sidecar 注入示例
 
-以下示例显示如何使用 `helm template` 命令为禁用自动边车注入的远程集群生成清单。
+以下示例显示如何使用 `helm template` 命令为禁用自动 sidecar 注入的远程集群生成清单。
 此外，该示例还指示如何使用远程集群的 configmaps 和 `istioctl kube-inject` 命令为远程集群生成任何应用程序清单。
 
 将对远程群集执行以下过程。
@@ -295,13 +295,13 @@ pod 重启问题的一个简单解决方案是为 Istio 服务使用负载平衡
 然后，您可以使用负载均衡器 IP 作为 Istio 服务的端点 IP 来配置远程集群。
 您可能需要这些 Istio 服务的平衡器 IP：`istio-pilot，istio-telemetry，istio-policy，istio-statsd-prom-bridge，zipkin`
 
-目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 但您可以自己修改 Istio Helm 图表或 Istio 清单。
+目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 但您可以自己修改 Istio Helm chart或 Istio 清单。
 
 ### 通过网关发布 Istio 服务
 
 该操作使用了 Istio Ingress 网关功能，远程集群拥有 `istio-pilot，istio-telemetry，istio-policy，istio-statsd-prom-bridge，zipkin` 服务，他们指向了 Istio ingress 的负载均衡 IP。所有服务都可以指向相同的 IP，向 ingress 网关提供目的地规则以在主集群中到达适当的 Istio 服务。
 
-在此选项中有 2 个子选项。 一种是重新使用默认 Istio ingress 网关提供的清单或 Helm 图表，另一种选择是专门为多集群创建另一个 Istio ingress 网关。
+在此选项中有 2 个子选项。 一种是重新使用默认 Istio ingress 网关提供的清单或 Helm chart，另一种选择是专门为多集群创建另一个 Istio ingress 网关。
 
 ## 安全
 
