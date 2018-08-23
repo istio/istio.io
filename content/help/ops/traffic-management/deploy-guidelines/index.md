@@ -233,10 +233,12 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 This should stop Istio from restarting Envoy and disconnecting TCP connections.
 
-## Configure a multiple host gateway with SSL
+## Configuring multiple TLS hosts in a gateway
 
-To configure the ingress gateway with TLS correctly for you to deploy multiple
-hosts, you must configure a unique port name with the following command:
+If you configure multiple gateway servers, either in a single Gateway,
+or spread across more than one that use the same selector labels,
+with the same port number and protocol HTTPS,
+then you must ensure that the corresponding port names are unique. For example:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
