@@ -40,7 +40,7 @@ $ helm init --service-account tiller
 - 在右侧的导航栏总选择 **ack-istio** 。
 
 {{< image width="100%" ratio="67.17%"
-    link="./app-catalog-istio-1.0.0.png"
+    link="/docs/setup/kubernetes/quick-start-alicloud-ack/app-catalog-istio-1.0.0.png"
     caption="Istio"
     >}}
 
