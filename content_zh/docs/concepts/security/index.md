@@ -38,7 +38,7 @@ Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密
 
 Istio 中的安全性涉及多个组件：
 
-- **堡垒** 用于密钥和证书管理
+- **Citadel** 用于密钥和证书管理
 
 - **Sidecar 和周边代理** 实现客户端和服务器之间的安全通信
 
@@ -51,7 +51,7 @@ Istio 中的安全性涉及多个组件：
     caption="Istio 安全架构"
     >}}
 
-在线面的部分中，我们将详细介绍 Istio 安全功能。
+在下面的部分中，我们将详细介绍 Istio 安全功能。
 
 ## Istio 身份
 
@@ -148,7 +148,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 ### 部署指南
 
-如果有多个服务运维团队（又名[SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的[Kubernetes名称空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 名称空间，为 `team2` 创建 `team2-ns` 名称空间，这样两个团队都无法访问彼此的服务。
+如果有多个服务运维团队（又名[SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的[Kubernetes命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
 
 > {{<warning_icon>}}如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
 
@@ -156,9 +156,9 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`，`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend`服务可以访问`photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend`服务无法访问 `datastore`。
 
-在这种情况下，集群管理员创建三个名称空间：`istio-citadel-ns`，`photo-ns`和`datastore-ns`。管理员可以访问所有名称空间，每个团队只能访问自己的名称空间。照片SRE团队创建了两个服务帐户，分别在`photo-ns`命名空间中运行`photo-frontend`和`photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在`datastore-ns`命名空间中运行`datastore`服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得`photo-frontend`无法访问数据存储区。
+在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`，`photo-ns`和`datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片SRE团队创建了两个服务帐户，分别在`photo-ns`命名空间中运行`photo-frontend`和`photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在`datastore-ns`命名空间中运行`datastore`服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得`photo-frontend`无法访问数据存储区。
 
-在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有名称空间中的证书和密钥，并对服务实施不同的访问控制规则。
+在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
 ## 认证
 
@@ -200,7 +200,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。 Pilot，Istio 控制器，监视配置存储。在任何策略变更后，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。 Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序窗格以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。 Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/docs/concepts/traffic-management/#destination-rules)。运营商可以使用目标规则来指示客户端代理使用TLS与服务器端预期的证书进行初始连接。您可以在[PKI和身份部分](/zh/docs/concepts/security/#双向-TLS-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。运营商可以使用目标规则来指示客户端代理使用TLS与服务器端预期的证书进行初始连接。您可以在[PKI和身份部分](/zh/docs/concepts/security/#双向-TLS-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
 {{< image width="60%" ratio="67.12%"
     link="/docs/concepts/security/authn.svg"
@@ -229,7 +229,7 @@ spec:
 
 #### 策略存储范围
 
-Istio 可以在名称空间范围或网络范围存储中存储身份认证策略：
+Istio 可以在命名空间范围或网络范围存储中存储身份认证策略：
 
 - 为 `kind` 字段指定了网格范围策略，其值为 `MeshPolicy`，名称为 `default`。例如：
 
@@ -243,7 +243,7 @@ Istio 可以在名称空间范围或网络范围存储中存储身份认证策�
       - mtls: {}
     {{< /text >}}
 
-- 为 `kind` 字段和指定的命名空间指定名称空间范围策略，其值为 `Policy`。如果未指定，则使用默认命名空间。例如，名称空间 `ns1`：
+- 为 `kind` 字段和指定的命名空间指定命名空间范围策略，其值为 `Policy`。如果未指定，则使用默认命名空间。例如，命名空间 `ns1`：
 
     {{< text yaml >}}
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -277,11 +277,11 @@ targets:
 
 - 网格范围策略：在网格范围存储中定义的策略，没有目标选择器部分。**网格中**最多只能有**一个**网格范围的策略。
 
-- 命名空间范围的策略：在命名空间范围存储中定义的策略，名称为 `default` 且没有目标选择器部分。**每个命名空间**最多只能有**一个**名称空间范围的策略。
+- 命名空间范围的策略：在命名空间范围存储中定义的策略，名称为 `default` 且没有目标选择器部分。**每个命名空间**最多只能有**一个**命名空间范围的策略。
 
 - 特定于服务的策略：在命名空间范围存储中定义的策略，具有非空目标选择器部分。命名空间可以具有**零个，一个或多个**特定于服务的策略。
 
-对于每项服务，Istio 都应用最窄的匹配策略。顺序是：**特定于服务>名称空间范围>网格范围**。如果多个特定于服务的策略与服务匹配，则 Istio 随机选择其中一个。运营商在配置其策略时必须避免此类冲突。
+对于每项服务，Istio 都应用最窄的匹配策略。顺序是：**特定于服务>命名空间范围>网格范围**。如果多个特定于服务的策略与服务匹配，则 Istio 随机选择其中一个。运营商在配置其策略时必须避免此类冲突。
 
 为了强制网状范围和命名空间范围的策略的唯一性，Istio 每个网格只接受一个身份认证策略，每个命名空间只接受一个身份认证策略。 Istio 还要求网格范围和命名空间范围的策略具有特定名称`default`。
 
@@ -325,7 +325,7 @@ principalBinding: USE_ORIGIN
 
 您可以随时更改身份认证策略，Istio 几乎实时地将更改推送到端点。但是，Istio 无法保证所有端点同时收到新策略。以下是在更新身份认证策略时避免中断的建议：
 
-- 启用或禁用双向 TLS：使用带有`mode：`键和`PERMISSIVE`值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[Mutual TLS Migration tutorial](/zh/docs/tasks/security/mtls-migration)。
+- 启用或禁用双向 TLS：使用带有`mode：`键和`PERMISSIVE`值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[双向 TLS 的迁移](/zh/docs/tasks/security/mtls-migration)。
 
 {{< text yaml >}}
 peers:
@@ -364,10 +364,10 @@ Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获�
 
 在`RbacConfig`对象中，运算符可以指定`mode`值，它可以是：
 
-- **`OFF` **：禁用 Istio 授权。
-- **`ON` **：为网格中的所有服务启用了 Istio 授权。
-- **`ON_WITH_INCLUSION` **：仅对`包含`字段中指定的服务和命名空间启用 Istio 授权。
-- **`ON_WITH_EXCLUSION` **：除了`排除`字段中指定的服务和命名空间外，网格中的所有服务都启用了 Istio 授权。
+- **`OFF`**：禁用 Istio 授权。
+- **`ON`**：为网格中的所有服务启用了 Istio 授权。
+- **`ON_WITH_INCLUSION`**：仅对`包含`字段中指定的服务和命名空间启用 Istio 授权。
+- **`ON_WITH_EXCLUSION`**：除了`排除`字段中指定的服务和命名空间外，网格中的所有服务都启用了 Istio 授权。
 
  在以下示例中，为`default`命名空间启用了 Istio 授权。
 
@@ -387,8 +387,8 @@ spec:
 
 要配置 Istio 授权策略，请指定`ServiceRole`和`ServiceRoleBinding`。与其他 Istio 配置对象一样，它们被定义为Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)对象。
 
-- **`ServiceRole` **定义了一组访问服务的权限。
-- **`ServiceRoleBinding` **向特定主题授予 `ServiceRole`，例如用户，组或服务。
+- **`ServiceRole`**定义了一组访问服务的权限。
+- **`ServiceRoleBinding`**向特定主题授予 `ServiceRole`，例如用户，组或服务。
 
 `ServiceRole` 和 `ServiceRoleBinding` 的组合规定： 允许**谁**在 **哪些条件**下 **做什么** 。特别：
 
@@ -461,7 +461,7 @@ spec:
 如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
 
 例如，下面的 `ServiceRole` 定义添加了一个约束，`request.headers [version]`是`v1`或`v2`扩展了以前的`products-viewer`角色。
-约束支持的`key`值列在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中。在属性是`map`的情况下，例如`request.headers`，`key`是地图中的一个条目，例如`request.headers [version]`。
+约束支持的`key`值列在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中。在属性是`map`的情况下，例如`request.headers`，`key`是map中的一个条目，例如`request.headers [version]`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -490,7 +490,7 @@ spec:
 下面的例子显示了一个名为 `test-binding-products` 的 `ServiceRoleBinding`，它将两个主题绑定到名为`product-viewer` 的 `ServiceRole` 并具有以下 `subject`
 
 - 代表服务的服务帐户 **a**，``service-account-a``。
-- 代表 Ingress 服务的服务帐户`istio-ingress-service-account`**and**，其中 JWT `mail` 声明为 `a@foo.com`。
+- 代表 Ingress 服务的服务帐户`istio-ingress-service-account` **并且** JWT中的 `mail` 项声明为 `a@foo.com`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
