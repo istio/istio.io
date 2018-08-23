@@ -174,14 +174,14 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: direct-through-egress-gateway
+      name: direct-cnn-through-egress-gateway
     spec:
       hosts:
       - edition.cnn.com
-        gateways:
+      gateways:
       - istio-egressgateway
       - mesh
-        http:
+      http:
       - match:
         - gateways:
           - mesh
@@ -189,9 +189,10 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 80
-            weight: 100
+          weight: 100
       - match:
         - gateways:
           - istio-egressgateway
@@ -201,7 +202,7 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
             host: edition.cnn.com
             port:
               number: 80
-            weight: 100
+          weight: 100
     EOF
     {{< /text >}}
 
@@ -242,10 +243,10 @@ Istio 0.8 引入了 [ingress 和 egress 网关](/docs/reference/config/istio.net
 在继续下一步之前删除先前的定义：
 
 {{< text bash >}}
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete serviceentry cnn
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Egress `Gateway` 执行 TLS
