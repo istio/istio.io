@@ -104,14 +104,14 @@ caveats with this feature that must be considered carefully when using it.
    are no conflicting rules or order dependency between rules across fragments.
 1. There should only be one "catch-all" rule (i.e., a rule that matches any request path or header) in the fragments.
    All such "catch-all" rules will be moved to the end of the list in the merged configuration, but
-   since they are "catch-alls", whichever is applied first will essentially override and disable any others.
+   since they catch all requests, whichever is applied first will essentially override and disable any others.
 1. A `VirtualService` can only be fragmented this way if it is bound to a gateway.
    Host merging is not supported in sidecars.
 
 A `DestinationRule` can also be fragmented with similar merge semantic and restrictions.
 
-1. There should only be one definition of any given subset (e.g., `s1`) across multiple destination rules for the same host.
-   If there is more than one, the first definition is used and any following duplicates are discarded.
+1. There should only be one definition of any given subset across multiple destination rules for the same host.
+   If there is more than one with the same name, the first definition is used and any following duplicates are discarded.
    No merging of subset content is supported.
 1. There should only be one top-level `trafficPolicy` for the same host.
    When top-level traffic policies are defined in multiple destination rules, the first one will be used.
