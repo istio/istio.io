@@ -140,9 +140,9 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 ##### **策略**
 
-`disabled` - Sidecar 注入器缺省不会向 Pod 进行注入。在 Pod 模板中加入 `sidecar.istio.io/inject` 注解并赋值为 `true` 才能启用注入。
+`disabled` - Sidecar 注入器缺省不会向 Pod 进行注入。在 Pod 模板中加入 `sidecar.istio.io/inject` 注解并赋值为 `true` 才能覆盖缺省值并启用注入。
 
-`enabled` - Sidecar 注入器缺省会对 Pod 进行注入。在 Pod 模板中加入 `sidecar.istio.io/inject` 注解并赋值为 `false` 就会阻止对这一 Pod 的注入。
+`enabled` - Sidecar 注入器缺省会对 Pod 进行注入。在 Pod 模板中加入 `sidecar.istio.io/inject` 注解并赋值为 `false` 才能覆盖缺省值并阻止对这一 Pod 的注入。
 
 下面的例子用 `sidecar.istio.io/inject` 注解来禁用 Sidecar 注入：
 
