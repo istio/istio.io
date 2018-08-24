@@ -6,11 +6,13 @@ weight: 5
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
 
-## Virtual service and destination rule host configuration merging
+## Multiple virtual services and destination rules for the same host
 
 In situations where it is inconvenient to define the complete set of route rules or policies for a particular
-host in a single `VirtualService` or `DestinationRule` resource, it may be possible to incrementally specify
-the configuration for the host in separate resources, which will be merged when they are applied.
+host in a single `VirtualService` or `DestinationRule` resource, it may be preferable to incrementally specify
+the configuration for the host in multiple resources.
+Starting in Istio 1.0.1, an experimental feature has been added to merge such destination rules
+and merge such virtual services if they are bound to a gateway.
 
 Consider the case of a `VirtualService` bound to an ingress gateway exposing an application host which uses
 path-based delegation to several implementation services, something like this:
@@ -49,7 +51,7 @@ See [Route rules have no effect on ingress gateway requests](#route-rules-have-n
 for details.
 
 To avoid this problem, it may be preferable to break up the configuration of `myapp.com` into several
-`VirtualService` fragments, one per implementation service. For example:
+`VirtualService` fragments, one per backend service. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -92,9 +94,9 @@ metadata:
   name: myapp-...
 {{< /text >}}
 
-When a second and subsequent `VirtualService` for an existing host is applied, istio-pilot will merge
+When a second and subsequent `VirtualService` for an existing host is applied, `istio-pilot` will merge
 the additional route rules into the existing configuration of the host. There are, however, several
-limitations with this feature that must be considered carefully when using it.
+caveats with this feature that must be considered carefully when using it.
 
 1. Although the order of evaluation for rules in any given source `VirtualService` will be retained,
    the cross-resource order is UNDEFINED. In other words, there is no guaranteed order of evaluation
@@ -103,15 +105,18 @@ limitations with this feature that must be considered carefully when using it.
 1. There should only be one "catch-all" rule (i.e., a rule that matches any request path or header) in the fragments.
    All such "catch-all" rules will be moved to the end of the list in the merged configuration, but
    since they are "catch-alls", whichever is applied first will essentially override and disable any others.
-1. A `VirtualService` can only be fragmented this way if it is bound to an ingress `Gateway`, i.e.,
-   host merging is currently only implemented by `istio-ingressgateway`. The feature is not supported in sidecars.
+1. A `VirtualService` can only be fragmented this way if it is bound to a gateway.
+   Host merging is not supported in sidecars.
 
 A `DestinationRule` can also be fragmented with similar merge semantic and restrictions.
 
-1. The first definition of any given subset (e.g., `s1`) is used. Any following duplicates are discarded.
-   Therefore, there should not be more than one definition of subset `s1` across the fragments,
-   to make sure the same one will always be used.
-1. The first top-level `trafficPolicy` is used. Any following top-level `trafficPolicy` configuration is discarded.
+1. There should only be one definition of any given subset (e.g., `s1`) across multiple destination rules for the same host.
+   If there is more than one, the first definition is used and any following duplicates are discarded.
+   No merging of subset content is supported.
+1. There should only be one top-level `trafficPolicy` for the same host.
+   When top-level traffic policies are defined in multiple destination rules, the first one will be used.
+   Any following top-level `trafficPolicy` configuration is discarded.
+1. Unlike virtual service merging, destination rule merging works in both sidecars and gateways.
 
 ## 503 errors after setting destination rule
 
