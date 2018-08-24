@@ -661,10 +661,10 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 ### 清除 HTTPS 流量的 egress 网关
 
 {{< text bash >}}
-$ istioctl delete serviceentry cnn
-$ istioctl delete gateway istio-egressgateway
-$ istioctl delete virtualservice direct-through-egress-gateway
-$ istioctl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## 其他安全因素
