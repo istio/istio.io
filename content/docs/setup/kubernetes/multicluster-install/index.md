@@ -138,7 +138,7 @@ install one:
 ### Helm configuration parameters
 
 In order for the remote cluster's sidecars interaction with the Istio control plane, the `pilot`,
-`policy`, `telemetry`, `statsd`, and tracing service endpoints need to be configured in
+`policy`, `telemetry`, `statsd` and tracing service endpoints need to be configured in
 the `istio-remote` Helm chart.  The chart enables automatic sidecar injection in the remote
 cluster by default but it can be disabled via a chart variable.  The following table describes
 the `istio-remote` Helm chart's configuration values.
