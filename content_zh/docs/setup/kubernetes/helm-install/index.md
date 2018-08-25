@@ -42,7 +42,7 @@ icon: /img/helm.svg
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
-    {{< /text >}
+    {{< /text >}}
 
 1. 从下面的两个选项中选择一个，**相互排斥** 选项描述如下
 
