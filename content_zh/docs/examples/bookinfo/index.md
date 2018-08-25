@@ -169,7 +169,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-1. __Note for Consul users:__ 在一下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
+1. __Note for Consul users:__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
 
 ## 确认应用在运行中
 
