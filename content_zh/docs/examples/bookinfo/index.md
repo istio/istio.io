@@ -48,8 +48,8 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 接下来可以根据 Istio 的运行环境，按照下面的讲解完成应用的部署。
 
-* [如果你在 Kubernetes 中运行](#if-you-are-running-on-kubernetes)
-* [如果在 Docker 和 Consul 环境中运行](#if-you-are-running-on-docker-with-consul)
+* [如果在 Kubernetes 中运行](#如果在 Kubernetes 中运行)
+* [如果在 Docker 和 Consul 环境中运行](#如果在 Docker 和 Consul 环境中运行)
 
 ### 如果在 Kubernetes 中运行
 
