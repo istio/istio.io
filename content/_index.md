@@ -142,7 +142,7 @@ title: Istio
     <div id="buttons" class="buttons container-fluid">
         <div class="row justify-content-center">
             <a class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
-            <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD</a>
+            <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD {{< istio_full_version >}}</a>
         </div>
     </div>
 </main>
