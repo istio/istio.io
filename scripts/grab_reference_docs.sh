@@ -20,6 +20,7 @@ REPOS=(
     https://github.com/istio/istio.git@master
     https://github.com/istio/api.git@master
     https://github.com/apigee/istio-mixer-adapter.git@master
+    https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
 )
 
 # The components to build and extract usage docs from.

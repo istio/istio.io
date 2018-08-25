@@ -103,7 +103,7 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 1.  Instantiate the remote cluster's connection to the Istio control plane:
 
     {{< text bash >}}
-    $ kubectl create -f $HOME/istio-remote.yaml
+    $ kubectl apply -f $HOME/istio-remote.yaml
     {{< /text >}}
 
 1.  Label all the remote cluster's namespaces requiring auto-sidecar injection.  The following example labels the `default` namespace.
@@ -120,7 +120,7 @@ Proceed to one of the options for connecting the remote cluster to the local clu
 install one:
 
     {{< text bash >}}
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1.  Initialize Helm:
@@ -138,7 +138,7 @@ install one:
 ### Helm configuration parameters
 
 In order for the remote cluster's sidecars interaction with the Istio control plane, the `pilot`,
-`policy`, `telemetry`, `statsd`, and tracing service endpoints need to be configured in
+`policy`, `telemetry`, `statsd` and tracing service endpoints need to be configured in
 the `istio-remote` Helm chart.  The chart enables automatic sidecar injection in the remote
 cluster by default but it can be disabled via a chart variable.  The following table describes
 the `istio-remote` Helm chart's configuration values.
@@ -299,7 +299,7 @@ The following procedure is to be performed against the remote cluster.
 1.  Instantiate the remote cluster's connection to the Istio control plane:
 
     {{< text bash >}}
-    $ kubectl create -f $HOME/istio-remote_noautoinj.yaml
+    $ kubectl apply -f $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
 1.  [Generate kubeconfig for remote clusters](#generate-kubeconfigs-for-remote-clusters)
@@ -314,6 +314,17 @@ The following is an example `istioctl` command to inject sidecars into applicati
 $ ORIGINAL_SVC_MANIFEST=mysvc-v1.yaml
 $ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfigMapName istio -f ${ORIGINAL_SVC_MANIFEST} | kubectl apply -f -
 {{< /text >}}
+
+## Accessing services from different clusters
+
+Kubernetes resolves DNS on a cluster basis. Because DNS resolution is tied to
+the cluster, you must define the service object in every cluster where a
+client runs, regardless of the location of the service's endpoints.
+To ensure this is the case, duplicate the service object to every cluster
+using `kubectl`. Duplication ensures Kubernetes can resolve the service name
+in any cluster. Since the service objects are defined in a namespace, you must
+define the namespace if it doesn't exist, and include it in the service
+definitions in all clusters.
 
 ## Deployment considerations
 
@@ -434,7 +445,7 @@ allow the remote sidecars to resolve the `istio-pilot.istio-system` hostname via
           --set security.selfSigned=false \
           --set global.controlPlaneSecurityEnabled=true \
           install/kubernetes/helm/istio > ${HOME}/istio-auth.yaml
-        $ kubectl create -f ${HOME}/istio-auth.yaml
+        $ kubectl apply -f ${HOME}/istio-auth.yaml
         {{< /text >}}
 
 1.  *Remote Cluster.*  Deployment of remote cluster's istio components
@@ -463,7 +474,7 @@ allow the remote sidecars to resolve the `istio-pilot.istio-system` hostname via
           --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
           --set global.proxy.envoyStatsd.enabled=true \
           --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > ${HOME}/istio-remote-auth.yaml
-        $ kubectl create -f ${HOME}/istio-remote-auth.yaml
+        $ kubectl apply -f ${HOME}/istio-remote-auth.yaml
         {{< /text >}}
 
     1.  [Generate kubeconfig for remote cluster](#generate-kubeconfigs-for-remote-clusters)
