@@ -1,4 +1,5 @@
 version: "1.0"
+full_version: "1.0.1"
 preliminary: false
 archive: false
 archive_date: YYYY-MM-DD
