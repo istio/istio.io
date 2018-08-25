@@ -671,7 +671,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 请注意，在 Istio 中定义 egress `Gateway` 本身并不为运行 egress 网关服务的节点提供任何特殊处理。集群管理员或云提供商可以在专用节点上部署 egress 网关，并引入额外的安全措施，使这些节点比网格的其余部分更安全。
 
-另请注意，实际上 Istio 本身无法安全地强制将所有 egress 流量流经 egress 网关，Istio 仅通过其 sidecar 代理启用此类流量。如果恶意应用程序攻击连接到应用程序 pod 的 sidecar 代理，它可能会绕过 sidecar 代理。绕过 sidecar 代理后，恶意应用程序可能会尝试绕过 egress 网关退出服务网格，以逃避 Istio 的控制和监控。由集群管理员或云提供商来强制执行没有流量绕过 egress 网关的网格。这种强制执行必须由 Istio 以外的机制执行。例如，防火墙可以拒绝其源不是 egress 网关的所有流量。 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也可以禁止所有不在 egress 网关中出口的 egress 流量。另一种可能的安全措施涉及以这样的方式配置网络：应用节点不能访问因特网而不将 egress 流量引导到将被监视和控制的网关。这种网络配置的一个例子是将公共 IP 专门分配给网关。
+另请注意，实际上 Istio 本身无法安全地强制将所有 egress 流量流经 egress 网关，Istio 仅通过其 sidecar 代理启用此类流量。如果恶意应用程序攻击连接到应用程序 pod 的 sidecar 代理，它可能会绕过 sidecar 代理。绕过 sidecar 代理后，恶意应用程序可能会尝试绕过 egress 网关直接与网格外面的服务通信，以逃避 Istio 的控制和监控。由集群管理员或云服务商通过 Istio 以外的机制来确保没有流量绕过 egress 网关直接与网格外面的服务通信。例如，防火墙可以拒绝其源不是 egress 网关的所有流量。 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也可以禁止所有不经过 egress 网关出口的 egress 流量。另一种可能的安全措施涉及以这样的方式配置网络：由于应用节点不能直接访问因特网，必须将 egress 流量引导到 egress 网关才能访问因特网。这种网络配置的一个例子是只给 egress 网关分配外网 IP。
 
 ## 故障排除
 
