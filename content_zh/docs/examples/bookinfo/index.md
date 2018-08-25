@@ -116,7 +116,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 #### 确定 Ingress 的 IP 和端口
 
-现在 Bookinfo 服务启动并运行中，你需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。一个 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 应用到了目标中。
+现在 Bookinfo 服务启动并运行中，你需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。一个 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateway) 应用到了目标中。
 
 1. 为应用程序定义入口网关：
 
