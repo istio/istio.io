@@ -7,7 +7,7 @@ keywords: [kubernetes,阿里云]
 
 在[阿里云 Kubernetes 容器服务](https://www.alibabacloud.com/product/kubernetes)中使用‘应用程序目录’中的项目，按照说明安装和运行 Istio 。
 
-本向导安装 Istio 的当前版本并发布一个名为 [Bookinfo](https://preliminary.istio.io/zh/docs/examples/bookinfo/) 的样例应用。
+本向导安装 Istio 的当前版本并发布一个名为 [Bookinfo](/zh/docs/examples/bookinfo/) 的样例应用。
 
 ## 前置条件
 
