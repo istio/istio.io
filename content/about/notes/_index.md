@@ -10,6 +10,7 @@ aliases:
 icon: /img/notes.svg
 ---
 
+- [Istio 1.1](./1.1)
 - [Istio 1.0](./1.0)
 - [Istio 0.8](./0.8)
 - [Istio 0.7](./0.7)
@@ -20,18 +21,7 @@ icon: /img/notes.svg
 - [Istio 0.2](./0.2)
 - [Istio 0.1](./0.1)
 
-The latest Istio snapshot release is {{< istio_version >}} ([release notes](/about/notes/{{< istio_version >}}/)). You can
-[download {{< istio_version >}}](https://github.com/istio/istio/releases) with:
+Check out our [release page](https://github.com/istio/istio/releases) to download Istio binaries.
 
-{{< text bash >}}
-$ curl -L https://git.io/getLatestIstio | sh -
-{{< /text >}}
-
-The most recent stable release is 0.8. You can download 0.8 with:
-
-{{< text bash >}}
-$ curl -L https://git.io/getIstio | sh -
-{{< /text >}}
-
-> As we don't control the `git.io` domain, please examine the output of the `curl` command before piping it to a shell if running in any
-sensitive or non-sandboxed environment.
+If you're on the lookout for info on ancient Istio releases, head straight for
+our [archive of the earlier releases' documentation](https://archive.istio.io/).
