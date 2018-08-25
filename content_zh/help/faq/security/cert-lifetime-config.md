@@ -1,5 +1,5 @@
 ---
-title: 如何配置 Istio 证书的？
+title: 如何配置 Istio 证书的有效期？
 weight: 70
 ---
 
@@ -30,18 +30,18 @@ spec:
           - --max-workload-cert-ttl=48h # Citadel 签发给 Kubernetes 工作负载的证书的最大有效期。
 {{< /text >}}
 
-对于运行于裸金属或者虚拟机上的工作负载来说，他们的 Istio 证书有效期是由每个 Node agent 的 `workload-cert-ttl` 决定的。其缺省值同样也是 90 天，这个值也不允许超出 Citadel 的 `max-workload-cert-ttl` 选项的值。
+对于运行于物理机或者虚拟机上的工作负载来说，他们的 Istio 证书有效期是由每个 Node agent 的 `workload-cert-ttl` 决定的。其缺省值同样也是 90 天，这个值也不允许超出 Citadel 的 `max-workload-cert-ttl` 选项的值。
 
 要定制这一配置，要在完成[设置虚拟机](/zh/docs/setup/kubernetes/mesh-expansion/#设置虚拟机)步骤之后，对 Node agent 服务（`/lib/systemd/system/istio-auth-node-agent.service`）的参数进行修改。
 
 {{< text plain >}}
 ...
 [Service]
-ExecStart=/usr/local/bin/node_agent --workload-cert-ttl=24h # Specify certificate lifetime for workloads on this machine.
+ExecStart=/usr/local/bin/node_agent --workload-cert-ttl=24h # 设置本机的证书有效时间。
 Restart=always
 StartLimitInterval=0
 RestartSec=10
 ...
 {{< /text >}}
 
-上面的配置中要求 Istio 为虚拟机或裸金属上运行的工作负载签发 24 小时有效期的证书。完成服务配置之后，需要重新启动 Node agent 服务。
+上面的配置中要求 Istio 为虚拟机或物理机上运行的工作负载签发 24 小时有效期的证书。完成服务配置之后，需要重新启动 Node agent 服务。
