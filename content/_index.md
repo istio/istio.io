@@ -62,7 +62,7 @@ title: Istio
     <div class="container-fluid">
         <div class="row justify-content-center">
             {{< inline_image "landing/istio-logo.svg" >}}
-            <div style="width: 20rem; margin-left: 3rem">
+            <div class="hero-text">
                 <h1 class="hero-label">Istio</h1>
                 <h1 class="hero-lead">Connect, secure, control, and observe services.
             </div>
