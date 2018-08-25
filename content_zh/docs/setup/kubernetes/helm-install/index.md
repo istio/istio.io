@@ -46,7 +46,7 @@ icon: /img/helm.svg
 
 1. 从下面的两个选项中选择一个，**相互排斥** 选项描述如下
 
-### 选项 1:通过 Helm 的 `helm template` 安装 Istio
+### 选项 1：通过 `helm template` 安装
 
 1. 将 Istio 的核心组件呈现为名为 `istio.yaml` 的 Kubernetes 清单文件：
 
@@ -61,7 +61,7 @@ icon: /img/helm.svg
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
-## 选项 2：通过 Helm 和 Tiller 的 `helm install` 安装 Istio
+### 选项 2：通过 `helm install` 安装 Helm 和 Tiller
 
 此选项允许 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 管理 Istio 的生命周期。
 
@@ -136,6 +136,7 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
+
 * 如果需要，可以删除 CRDs：
 
     {{< text bash >}}
