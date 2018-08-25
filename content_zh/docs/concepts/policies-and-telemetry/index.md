@@ -33,7 +33,7 @@ Mixer 是负责提供策略控制和遥测收集的 Istio 组件：
 
 ## 适配器
 
-Mixer 是高度模块化和可扩展的组件。他的一个关键功能就是把不同后端的策略和遥测收集系统的细节抽象出来，使得 Istio 的其余部分对这些后端不知情。
+Mixer 是高度模块化和可扩展的组件。它的一个关键功能就是把不同后端的策略和遥测收集系统的细节进行抽象，完成 Istio 其余部分和这些后端的隔离。
 
 Mixer 处理不同基础设施后端的灵活性是通过使用通用插件模型实现的。每个插件都被称为 **Adapter**，Mixer通过它们与不同的基础设施后端连接，这些后端可提供核心功能，例如日志、监控、配额、ACL 检查等。通过配置能够决定在运行时使用的确切的适配器套件，并且可以轻松扩展到新的或定制的基础设施后端。
 
@@ -48,7 +48,7 @@ Mixer 处理不同基础设施后端的灵活性是通过使用通用插件模�
 Mixer 是一种高度可用的组件，其设计有助于提高整体可用性并减少网格中服务的平均延迟。其设计的关键方面带来以下好处：
 
 - **无状态**。Mixer 是无状态的，因为它不管理任何自己的持久化存储。
-- **硬化**。Mixer 本身被设计成高度可靠的组件。设计目标是为任何单独的 Mixer 实例实现 > 99.999％ 的正常运行时间。
+- **加固**。Mixer 本身被设计成高度可靠的组件。设计目标是为任何单独的 Mixer 实例实现 > 99.999％ 的正常运行时间。
 - **缓存和缓冲**。Mixer 被设计为累积大量瞬态短暂状态。
 
 位于网格中每个服务实例旁边的sidecar代理必须在内存消耗方面节约，这限制了本地缓存和缓冲的可能数量。然而，Mixer独立运行，可以使用相当大的缓存和输出缓冲区。因此，Mixer可用作Sidecar的高度扩展且高度可用的二级缓存。
@@ -89,7 +89,7 @@ Mixer 是 Istio 中用于实现策略和遥测功能的组件。Mixer 本质上�
 
 给定的 Istio 部署中具有其可理解的一组固定的属性词汇表。具体词汇表由部署中使用的一组属性生成器确定。Istio 中的主要属性生产者是 Envoy，但专用的 Mixer 适配器也可以生成属性。
 
-[这里](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)定义了大多数 Istio 部署中可用的通用基准属性集。
+[这里](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)定义了大多数 Istio 部署中可用的通用基准属性集。
 
 ### 属性表达式
 
@@ -111,13 +111,13 @@ destination_version: destination.labels["version"] | "unknown"
 
 上面的表达式里，`destination_version` 标签被赋值为 `destination.labels["version"]`，如果 `destination.labels["version"]` 为空，则使用 `"unknown"` 代替。
 
-有关详细信息，请参阅[属性表达式引用](/docs/reference/config/policy-and-telemetry/expression-language/)。
+有关详细信息，请阅读[属性表达式参考](/zh/docs/reference/config/policy-and-telemetry/expression-language/)。
 
 ## 配置模型
 
 控制策略和遥测功能涉及配置三种类型的资源：
 
-- 配置一组处理程序，用于确定正在使用的适配器组及其操作方式。处理程序配置的一个例子：为 Statsd 后端提供带有 IP 地址的 `statsd` 适配器。
+- 配置一组处理器（Handler），用于确定正在使用的适配器组及其操作方式。处理器配置的一个例子如：为 Statsd 后端提供带有 IP 地址的 `statsd` 适配器。
 - 配置一组*实例* ，描述如何将请求属性映射到适配器输入。实例表示一个或多个适配器将操作的大量数据。例如，运维人员可能决定从诸如 `destination.service` 和 `response.code` 之类的属性中生成 `requestcount` metric 实例。
 - 配置一组规则，这些规则描述了何时调用特定适配器及哪些实例。规则包含 *match* 表达式和 *action* 。匹配表达式控制何时调用适配器，而动作决定了要提供给适配器的一组实例。例如，规则可能会将生成的 `requestcount`  metric 实例发送到 `statsd` 适配器。
 
@@ -145,7 +145,7 @@ spec:
 
 `{metadata.name}.{kind}.{metadata.namespace}` 是 Handler 的完全限定名。上面定义的对象的 FQDN 就是 `staticversion.listchecker.istio-system`，他必须是唯一的。`spec` 中的数据结构则依赖于对应的适配器的要求。
 
-有些适配器实现的功能就不仅仅是把 Mixer 和后端连接起来。例如 `prometheus` 适配器消费指标并以可配置的方式将它们聚合成分布或计数器。
+有些适配器实现的功能就不仅仅是把 Mixer 和后端连接起来。例如 `prometheus` 适配器采集指标并以可配置的方式将它们聚合成分布或计数器。
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -175,7 +175,7 @@ spec:
       bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
     {{< /text >}}
 
-每个适配器都定义了自己格式的配置数据。适配器及其配置的详尽列表可以在[这里](/docs/reference/config/policy-and-telemetry/adapters/)找到。
+每个适配器都定义了自己格式的配置数据。适配器及其配置的详尽列表可以在[这里](/zh/docs/reference/config/policy-and-telemetry/adapters/)找到。
 
 ## 实例（Instance）
 
@@ -196,7 +196,7 @@ spec:
   monitored_resource_type: '"UNSPECIFIED"'
 {{< /text >}}
 
-注意 Handler 配置中需要的所有维度都定义在这一映射之中。每个模板都有自己格式的配置数据。完整的模板及其特定配置格式可以在[这里](/docs/reference/config/policy-and-telemetry/templates/)查阅。
+注意 Handler 配置中需要的所有维度都定义在这一映射之中。每个模板都有自己格式的配置数据。完整的模板及其特定配置格式可以在[这里](/zh/docs/reference/config/policy-and-telemetry/templates/)查阅。
 
 ## 规则（Rule）
 
