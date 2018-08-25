@@ -2,9 +2,6 @@
 title: Bookinfo 应用
 description: 部署一个用于演示多种 Istio 特性的应用，由四个单独的微服务构成。
 weight: 10
-aliases:
-    - /zh/docs/samples/bookinfo.html
-    - /zh/docs/guides/bookinfo/index.html
 ---
 
 部署一个样例应用，它由四个单独的微服务构成，用来演示多种 Istio 特性。这个应用模仿在线书店的一个分类，显示一本书的信息。页面上会显示一本书的描述，书籍的细节（ISBN、页数等），以及关于这本书的一些评论。

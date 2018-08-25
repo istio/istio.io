@@ -3,9 +3,6 @@ title: 使用 Helm 进行安装
 description: 使用内含的 Helm chart 安装 Istio。
 weight: 30
 keywords: [kubernetes,helm]
-aliases:
-    - /zh/docs/setup/kubernetes/helm.html
-    - /zh/docs/tasks/integrating-services-into-istio.html
 icon: /img/helm.svg
 ---
 
