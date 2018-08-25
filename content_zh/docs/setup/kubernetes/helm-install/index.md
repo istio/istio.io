@@ -58,7 +58,7 @@ icon: /img/helm.svg
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ kubectl create -f $HOME/istio.yaml
+    $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
 ## 选项 2：通过 Helm 和 Tiller 的 `helm install` 安装 Istio
@@ -68,7 +68,7 @@ icon: /img/helm.svg
 1. 如果还没有为 Tiller 配置 service account，请配置一个：
 
     {{< text bash >}}
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1. 使用 service account 在您的集群中安装 Tiller：
@@ -115,7 +115,7 @@ istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 在这个最小集合之下，您安装您自己的应用并为实例[配置请求路由](/zh/docs/tasks/traffic-management/request-routing/)。
 您需要[手动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)。
 
-[安装选项](/docs/reference/config/installation-options/) 中有选项的完整列表，可以让您根据自己的需要对 Istio 安装进行裁剪。
+[安装选项](/docs/reference/config/installation-options/) 中有选项的完整列表，可以让您根据自己的需要对 Istio 安装进行裁剪。在 `helm 安装` 中 使用 `--set` 覆盖默认参数之前，请先检查 `install/kubernetes/helm/istio/values.yaml` 中的配置项，并根据需要添加或删除备注。
 
 ## 卸载
 
