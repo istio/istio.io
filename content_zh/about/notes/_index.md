@@ -2,11 +2,6 @@
 title: 发行说明
 description: 每个 Istio 版本的功能和改进说明。
 weight: 5
-aliases:
-  - /zh/docs/reference/release-notes.html
-  - /zh/release-notes
-  - /zh/docs/welcome/notes/index.html
-  - /zh/docs/references/notes
 icon: /img/notes.svg
 ---
 
