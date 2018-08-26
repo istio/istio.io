@@ -136,22 +136,27 @@ code {
 }
 
 pre {
-    margin: 1em;
+    margin: 1em 0 1em 1em;
+    @media (min-width: $bp-md) {
+        margin: 1em;
+    }
+
     max-height: 31em;
     border: 1px solid $preBlockBorderColor;
     border-left: 5px solid $preBlockBorderColor;
     border-radius: 4px;
     box-shadow: 3px 3px 8px $preBlockShadowColor;
-	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
-	word-wrap: normal;
-	line-height: 1.5;
-	tab-size: 4;
-	hyphens: none;
-	background: $preBlockBackgroundColor;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    tab-size: 4;
+    hyphens: none;
+    background: $preBlockBackgroundColor;
+    display: flex;
 
     code {
         display: block;
@@ -166,19 +171,28 @@ pre {
         padding: 0;
 
         .command {
-            padding: .5em .5em 0 .5em;
+            padding: 1.5em 1em;
+            @media (min-width: $bp-md) {
+                padding: .5em .5em 0 .5em;
+            }
         }
 
         .output {
             color: $preBlockCommandOutputTextColor;
             background-color: $preBlockCommandOutputBackgroundColor;
             font-style: italic;
-            padding: 0 .5em .5em .5em;
+            padding: 1em;
+            @media (min-width: $bp-md) {
+                padding: 0 .5em .5em .5em;
+            }
         }
 
         // if the output div is empty, we need extra padding
         div:only-of-type {
-            padding: .5em;
+            padding: 1.5em 1em;
+            @media (min-width: $bp-md) {
+                padding: .5em;
+            }
         }
     }
 
@@ -369,7 +383,11 @@ img {
 
 blockquote {
     display: block;
-    margin: 1em 3em;
+    margin: 1em 0 1em 2em;
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
     padding-left: 1em;
     padding-right: 1em;
     background-color: $blockQuoteBackgroundColor;
