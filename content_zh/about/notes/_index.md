@@ -16,6 +16,6 @@ icon: /img/notes.svg
 - [Istio 0.2](./0.2)
 - [Istio 0.1](./0.1)
 
-点击我们的[下载页面](https://github.com/istio/istio/releases) 下载Istio二进制文件.
+点击我们的[下载页面](https://github.com/istio/istio/releases) 下载 Istio 二进制文件.
 
 如果你正在找早期的 Istio 版本, 那就点击我们的 [早期版本文档](https://archive.istio.io/).
