@@ -42,6 +42,8 @@ weight: 10
 | `request.headers` | map[string, string] | HTTP 请求头，或者是 gRPC 的元数据。 | |
 | `request.id` | string | 从统计角度上拥有低碰撞概率的请求 ID。 | |
 | `request.path` | string | 包括 query string 的 HTTP URL 路径。 | |
+| `request.url_path` | string | 带有分离 query string 的 HTTP URL 路径部分。 | |
+| `request.query_params` | map[string, string] | 从 HTTP URL 提取的 query 参数的 map。 | |
 | `request.host` | string | HTTP/1.x 请求头中的 Host 字段或者是 HTTP/2 请求头中的 authority 字段。 | `redis-master:3337` |
 | `request.method` | string | HTTP 请求方法。 | |
 | `request.reason` | string | 审计系统用到的请求理由。 | |
