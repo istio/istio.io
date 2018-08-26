@@ -3,15 +3,34 @@ title: 流量管理
 description: 介绍 Istio 中关于流量路由与控制的各项功能。
 weight: 20
 keywords: [流量管理]
+aliases:
+    - /zh/docs/concepts/traffic-management/overview
+    - /zh/docs/concepts/traffic-management/pilot
+    - /zh/docs/concepts/traffic-management/rules-configuration
+    - /zh/docs/concepts/traffic-management/fault-injection
+    - /zh/docs/concepts/traffic-management/handling-failures
+    - /zh/docs/concepts/traffic-management/load-balancing
+    - /zh/docs/concepts/traffic-management/request-routing
 ---
 
 本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的顶层设计架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
+
+使用 Istio 的流量管理模型本质上是分离流量流和基础设施扩展，可以让你通过 Pilot 指定它们希望流量遵循的规则，而不是由特定的 pods/VMs 应该遵循的规则接收流量 - Pilot 和智能 Envoy 代理管理。例如，你可以通过 Pilot 指定 %5 的流量到特定的服务执行的金丝雀版本而不需要金丝雀发布的大小，或者根据请求的内容将流量发送到特定到版本上。
+
+{{< image width="85%" ratio="75%"
+    link="./TrafficManagementOverview.svg"
+    caption="Traffic Management with Istio"
+    >}}
+
+将流量流与基础设置扩展分离可以实现 Istio 提供了多种存在应用程序代码外到流量管理功能。以及对 A/B 测试的动态[请求路由](#request-routing)，渐进发布和金丝雀发行版，它也能管理[故障发现]](#handling-failures)，使用超时、重试、断路器和[故障注入](#fault-injection)来测试服务器之间故障发现策略的兼容性。这些能力都是通过 Envoy sidecars/proxies 在服务网格中实现的。
 
 ## Pilot 和 Envoy
 
 Istio 流量管理的核心组件是 [Pilot](#pilot-和-envoy)，它管理和配置部署在特定 Istio 服务网格中的所有 Envoy 代理实例。它允许您指定在 Envoy 代理之间使用什么样的路由流量规则，并配置故障恢复功能，如超时、重试和熔断器。它还维护了网格中所有服务的规范模型，并使用这个模型通过发现服务让 Envoy 了解网格中的其他实例。
 
-每个 Envoy 实例都会维护[负载均衡信息](#服务发现和负载均衡)，这些信息来自 Pilot 以及对负载均衡池中其他实例的定期健康检查。从而允许其在目标实例之间智能分配流量，同时遵循其指定的路由规则。
+每个 Envoy 实例都会维护[负载均衡信息](#服务发现和负载均衡)信息，这些信息来自 Pilot 以及对负载均衡池中其他实例的定期健康检查。从而允许其在目标实例之间智能分配流量，同时遵循其指定的路由规则。
+
+Pilot 的责任是通过 Istio 服务网格来
 
 ## 流量管理的好处
 
