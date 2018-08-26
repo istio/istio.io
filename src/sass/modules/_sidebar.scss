@@ -16,7 +16,7 @@
     }
 
     .row-offcanvas.active .sidebar-offcanvas {
-        left: 2rem;
+        left: 0;
     }
 }
 
@@ -128,7 +128,7 @@
 .sidebar-toggler {
     position: absolute;
     top: 0;
-    left: 10px;
+    right: 10px;
     z-index: 99;
     outline: none;
     background-color: rgba($backgroundColor, .7);
