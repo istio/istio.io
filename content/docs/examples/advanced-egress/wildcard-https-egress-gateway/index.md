@@ -536,7 +536,7 @@ to hold the configuration of the Nginx SNI proxy:
 
     {{< text bash >}}
     $ rm $HOME/istio-egressgateway-with-sni-proxy.yaml
-    $ rm $HOME/nginx-sni-proxy.conf
+    $ rm $HOME/sni-proxy.conf
     {{< /text >}}
 
 ## Cleanup
