@@ -62,7 +62,7 @@ title: Istio
     <div class="container-fluid">
         <div class="row justify-content-center">
             {{< inline_image "landing/istio-logo.svg" >}}
-            <div style="width: 20rem; margin-left: 3rem">
+            <div class="hero-text">
                 <h1 class="hero-label">Istio</h1>
                 <h1 class="hero-lead">Connect, secure, control, and observe services.
             </div>
@@ -142,7 +142,7 @@ title: Istio
     <div id="buttons" class="buttons container-fluid">
         <div class="row justify-content-center">
             <a class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
-            <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD</a>
+            <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD {{< istio_full_version >}}</a>
         </div>
     </div>
 </main>

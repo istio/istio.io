@@ -17,7 +17,7 @@ weight: 10
 | `source.labels`             | map[string, string] | 源实例附带的键值对 map 。 | version => v1 |
 | `source.name`               | string | 源工作负载实例的名称。 | `redis-master-2353460263-1ecey` |
 | `source.namespace`          | string | 源工作负载实例的命名空间。 | `my-namespace` |
-| `source.principal`          | string | 源工作负载的标识符。 | `service-account-foo` |
+| `source.principal`          | string | 源工作负载的运行基于的认证机构。 | `service-account-foo` |
 | `source.owner`              | string | 控制源工作负载实例的工作负载。 | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid`       | string | 源工作负载的唯一标识符。 | `istio://istio-system/workloads/istio-policy` |
 | `source.workload.name`      | string | 源工作负载的名称。 | `istio-policy` |
@@ -28,7 +28,7 @@ weight: 10
 | `destination.labels`            | map[string, string] | 服务器实例附带的键值对 map 。 | version => v2 |
 | `destination.name`              | string | 目标工作负载实例的名称。 | `istio-telemetry-2359333` |
 | `destination.namespace`         | string | 目标工作负载实例的命名空间。 | `istio-system` |
-| `destination.principal`         | string | 目标工作负载的标识符。 | `service-account` |
+| `destination.principal`         | string | 目标工作负载运行所基于的认证机构。 | `service-account` |
 | `destination.owner`             | string | 控制目标工作负载实例的工作负载。 | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | 目标工作负载的唯一标识符。 | `istio://istio-system/workloads/istio-telemetry` |
 | `destination.workload.name`     | string | 目标工作负载的名称。 | `istio-telemetry` |

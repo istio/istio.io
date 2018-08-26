@@ -1,7 +1,7 @@
 ---
 title: Istio 0.2
 weight: 99
-page_icon: /img/notes.svg
+icon: /img/notes.svg
 ---
 
 ## General
