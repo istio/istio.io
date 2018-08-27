@@ -135,7 +135,7 @@ keywords: [流量管理,路由]
     spec:
       hosts:
       - reviews
-        http:
+      http:
       - match:
         - headers:
             end-user:
