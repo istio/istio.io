@@ -86,7 +86,7 @@ keywords: [流量管理,ingress]
       name: mygateway
     spec:
       selector:
-        istio: ingressgateway # use istio default ingress gateway
+        istio: ingressgateway # 使用 Istio 的缺省 Gateway
       servers:
       - port:
           number: 443
@@ -258,7 +258,7 @@ keywords: [流量管理,ingress]
 
     出现提示时，为所有问题选择 `y` 。
 
-1. 将证书移动到`bookinfo.com`目录：
+1. 将证书移动到 `bookinfo.com` 目录：
 
     {{< text bash >}}
     $ mkdir ~+1/bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ~+1/bookinfo.com
@@ -308,9 +308,9 @@ keywords: [流量管理,ingress]
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-bookinfo-certs
     {{< /text >}}
 
-    `tls.crt`和`tls.key`应存在于目录内容中。
+    `tls.crt` 和 `tls.key` 应存在于目录内容中。
     
-### 配置`bookinfo.com`主机的流量
+### 配置 `bookinfo.com` 主机的流量
 
 1. 在没有网关的情况下部署[Bookinfo示例应用程序](/zh/docs/examples/bookinfo/)：
 
@@ -353,7 +353,7 @@ keywords: [流量管理,ingress]
     EOF
     {{< /text >}}
 
-1. 配置`bookinfo.com`的路由。定义一个类似于[`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{<github_file>}}/samples/bookinfo/networking/bookinfo-gateway.yaml)中的`VirtualService`：
+1. 配置 `bookinfo.com` 的路由。定义一个类似于 [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{<github_file>}}/samples/bookinfo/networking/bookinfo-gateway.yaml) 中的 `VirtualService` ：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -400,7 +400,7 @@ keywords: [流量管理,ingress]
     200
     {{< /text >}}
 
-1. 验证可以像以前一样访问`httbin.example.com`。向它发送请求，再次看到你应该喜欢的茶壶：
+1. 验证可以像以前一样访问 `httbin.example.com`。向它发送请求，再次看到你应该喜欢的茶壶：
 
     {{< text bash >}}
     $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
