@@ -64,7 +64,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
 
 请参阅 [Istio 认证](/zh/docs/concepts/security/#认证) 一节，可以了解更多**服务认证**方面的内容。
 
-## 检查 `istio` 双向 tls 认证的配置
+## 检查 `istio` 双向 `tls` 认证的配置
 
 您可以使用 `istioctl` 工具检查有效的双向 TLS 设置。标识用于的身份验证策略和目标规则
 `httpbin.default.svc.cluster.local` 配置和使用的模式，使用以下命令：
