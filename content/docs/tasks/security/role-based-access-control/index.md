@@ -322,6 +322,165 @@ the "black" and "red" ratings in the "Book Reviews" section.
 
 > There may be some delays due to caching and other propagation overhead.
 
+## RBAC policy permissive mode
+
+RBAC policy permissive mode is for testing a new RBAC policy works as expected
+before rolling out to production. This sections shows how permissive mode is used.
+
+Before you start, please make sure that:
+
+* You have finished [step 1](#step-1-allowing-access-to-the-productpage-service)
+  in above [Service-level access control](#service-level-access-control).
+* Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should see the
+  "Bookinfo Sample" page. But there are errors `Error fetching product details`
+  and `Error fetching product reviews` on the page.
+
+1.  Before rolling out a new policy in production, apply it in permissive mode.
+
+    Run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml
+    {{< /text >}}
+
+    The policy is the same as defined in [allowing access to the details and
+    reviews services](#step-2-allowing-access-to-the-details-and-reviews-services) in above [Service-level access control](#service-level-access-control)
+    except `PERMISSIVE` mode is set in ServiceRoleBinding.
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-details-reviews
+      namespace: default
+    spec:
+      subjects:
+      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+      roleRef:
+        kind: ServiceRole
+        name: "details-reviews-viewer"
+      mode: PERMISSIVE
+    {{< /text >}}
+
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should still
+    see there are errors `Error fetching product details` and `Error fetching
+    product reviews` on the page. These errors are expected because the policy is
+    in `PERMISSIVE` mode.
+
+1.  Create a new YAML file to hold configuration for the permissive mode metric
+    collection.
+
+    Save the following as `telemetry_permissive.yaml`:
+
+    {{< text yaml >}}
+    kind: logentry
+    metadata:
+      name: newlog
+      namespace: istio-system
+    spec:
+      severity: '"warning"'
+      timestamp: request.time
+      variables:
+        source: source.labels["app"] | source.workload.name | "unknown"
+        user: source.user | "unknown"
+        destination: destination.labels["app"] | destination.workload.name | "unknown"
+        responseCode: response.code | 0
+        responseSize: response.size | 0
+        latency: response.duration | "0ms"
+        shadowResponseCode: rbac.permissive.response_code
+        shadowResponsePolicyID: rbac.permissive.effective_policy_id
+      monitored_resource_type: '"UNSPECIFIED"'
+    ---
+    # Configuration for a stdio handler
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stdio
+    metadata:
+      name: newhandler
+      namespace: istio-system
+    spec:
+     severity_levels:
+       warning: 1 # Params.Level.WARNING
+     outputAsJson: true
+    ---
+    # Rule to send logentry instances to a stdio handler
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: newlogstdio
+      namespace: istio-system
+    spec:
+      match: "true" # match for all requests
+      actions:
+       - handler: newhandler.stdio
+         instances:
+         - newlog.logentry
+    ---
+    {{< /text >}}
+
+1.  Push the configuration.
+
+    {{< text bash >}}
+    $ kubectl apply -f telemetry_permissive.yaml
+    logentry.config.istio.io/newlog created
+    stdio.config.istio.io/newhandler created
+    rule.config.istio.io/newlogstdio created
+    {{< /text >}}
+
+1.  Send traffic to the sample application.
+
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
+
+    {{< text bash >}}
+    $ curl http://$GATEWAY_URL/productpage
+    {{< /text >}}
+
+1.  Verify that the logs stream has been created and check `permissiveResponseCode`.
+
+    In a Kubernetes environment, search through the logs for the istio-telemetry
+    pod as follows:
+
+    {{< text bash json >}}
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"
+    {"level":"warn","time":"2018-08-27T20:56:57.103073Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"337.203µs","permissiveResponseCode":"200","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
+    {"level":"warn","time":"2018-08-27T20:56:57.111046Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"208.089µs","permissiveResponseCode":"200","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
+    {"level":"warn","time":"2018-08-27T20:56:57.112604Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"332.858µs","permissiveResponseCode":"200","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
+    {{< /text >}}
+
+    In telemetry logs above,  the `responseCode` is 403 which is what user see now.
+    The `permissiveResponseCode` is 200 which is what user will see after switching policy
+    from `PERMISSIVE` mode to `ENFORCED` mode, which indicates the new policy will work
+    as expected after rolling to production.
+
+1.  Switch policy mode from `PERMISSIVE` mode to `ENFORCED` mode.
+
+    Run the following command:
+
+    {{< text bash >}}
+    $ kubectl replace -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-enforced.yaml@
+    {{< /text >}}
+
+    details-reviews-policy-enforced.yaml just switch mode of `bind-details-reviews` to `ENFORCED`.
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-details-reviews
+      namespace: default
+    spec:
+      subjects:
+      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+      roleRef:
+        kind: ServiceRole
+        name: "details-reviews-viewer"
+      mode: ENFORCED
+    {{< /text >}}
+
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), now you should
+    see the "Bookinfo Sample" page with "Book Details" on the lower left part, and
+    "Book Reviews" on the lower right part.
+
 ## Cleanup
 
 *   Remove Istio authorization policy configuration:
