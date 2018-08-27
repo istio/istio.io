@@ -171,7 +171,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
     200
     {{< /text >}}
 
-> Istio 使 [Kubernetes 服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)作为服务标识，
+> Istio 使 [Kubernetes Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)作为服务标识，
 提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#Istio-身份)）。因此，Istio 使用的证书
 没有服务名称，这是 `curl` 需要验证服务器身份的信息。为了防止 `curl` 客户端中止，我们使用 `curl`
 使用 `-k` 选项。该选项可防止客户端验证和查找服务器名称，例如，`httpbin.default.svc.cluster.local`
