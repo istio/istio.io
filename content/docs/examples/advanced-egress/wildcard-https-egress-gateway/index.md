@@ -391,6 +391,11 @@ to hold the configuration of the Nginx SNI proxy:
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
     traffic destined for _*.wikipedia.org_ to the gateway.
 
+    If you want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
+    your application pods and the egress gateway, use the following command. (You may want to enable mutual TLS to let
+    the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
+    identity.)
+
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
@@ -416,7 +421,7 @@ to hold the configuration of the Nginx SNI proxy:
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-wikipedia
     spec:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
       subsets:
@@ -430,6 +435,39 @@ to hold the configuration of the Nginx SNI proxy:
               tls:
                 mode: ISTIO_MUTUAL
                 sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
+    EOF
+    {{< /text >}}
+
+    Otherwise, if you do not need to enable mutual TLS Authentication between the sidecar proxies of your application
+    pods and the egress gateway, perform:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway-with-sni-proxy
+    spec:
+      selector:
+        istio: egressgateway-with-sni-proxy
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - "*.wikipedia.org"
+        tls:
+          mode: PASSTHROUGH
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-wikipedia
+    spec:
+      host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+      subsets:
+        - name: wikipedia
     EOF
     {{< /text >}}
 
@@ -520,7 +558,7 @@ to hold the configuration of the Nginx SNI proxy:
     $ kubectl delete serviceentry wikipedia
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
-    $ kubectl delete destinationrule set-sni-for-egress-gateway
+    $ kubectl delete destinationrule egressgateway-for-wikipedia
     {{< /text >}}
 
 1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
