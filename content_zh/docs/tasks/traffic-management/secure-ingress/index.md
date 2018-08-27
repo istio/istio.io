@@ -58,7 +58,6 @@ keywords: [流量管理,ingress]
     $ popd
     {{< /text >}}
 
-
 ## 配置 TLS ingress gateway
 
 接下来就要为 Ingress gateway 开放一个 443 端口，用于提供 HTTPS 服务。首先使用密钥和证书作为输入，创建一个 Secret 。然后定义 Gateway 对象，其中包含了一个使用 `443` 端口的 `server`。
@@ -309,10 +308,10 @@ keywords: [流量管理,ingress]
     {{< /text >}}
 
     `tls.crt` 和 `tls.key` 应存在于目录内容中。
-    
+
 ### 配置 `bookinfo.com` 主机的流量
 
-1. 在没有网关的情况下部署[Bookinfo示例应用程序](/zh/docs/examples/bookinfo/)：
+1. 在没有网关的情况下部署[Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)：
 
     {{< text bash >}}
     $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
@@ -416,7 +415,6 @@ keywords: [流量管理,ingress]
         `"""`
     {{< /text >}}
 
-
 ## 常见问题
 
 1. 查看 `INGRESS_HOST` 以及 `SECURE_INGRESS_PORT` 这两个环境变量，确定它们的正确取值，具体命令：
@@ -457,7 +455,7 @@ keywords: [流量管理,ingress]
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  如果创建了密钥但未安装密钥，则终止入口网关pod并强制它重新加载证书：
+1.  如果创建了密钥但未安装密钥，则终止入口网关 pod 并强制它重新加载证书：
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
