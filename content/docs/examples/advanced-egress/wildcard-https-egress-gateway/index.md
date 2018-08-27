@@ -702,7 +702,7 @@ to hold the configuration of the Nginx SNI proxy:
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-#### Cleanup of the monitoring and policy
+#### Cleanup of monitoring and policy enforcement
 
 {{< text bash >}}
 $ kubectl delete rule handle-wikipedia-access check-wikipedia-access -n istio-system
