@@ -120,7 +120,7 @@ Istio 默认捕获所有请求的跟踪。例如，何时每次访问时都使�
 对于高流量网格，您可以降低跟踪采样以下两种方式之一的百分比：
 
 * 在网格设置期间，使用 Helm 选项 `pilot.traceSampling` 来设置跟踪采样的百分比。
-有关设置选项的详细信息，请参阅[Helm Install](/zh/docs/setup/kubernetes/helm-install/)文档。
+有关设置选项的详细信息，请参阅 [Helm 安装](/zh/docs/setup/kubernetes/helm-install/)文档。
 * 在运行的网格中，编辑 `istio-pilot` 部署并使用以下步骤更改环境变量：
 
     1. 要在加载了部署配置文件的情况下打开文本编辑器，请运行以下命令：
