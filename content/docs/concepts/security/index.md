@@ -492,7 +492,7 @@ recommendations to avoid disruption when updating your authentication policies:
 
 {{< text yaml >}}
 peers:
-- mTLS:
+- mtls:
     mode: PERMISSIVE
 {{< /text >}}
 
