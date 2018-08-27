@@ -184,7 +184,7 @@ keywords: [策略,限额]
 
     或者
 
-    确认已创建 `redisquota` 处理程序：
+    确认已创建 `redisquota` handler ：
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get redisquota handler -o yaml
@@ -238,7 +238,7 @@ keywords: [策略,限额]
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels [“app”]`，`destination.service.host`或``unknown“`中的第一个非空值。有关表达式的更多信息，请参阅[表达式
+    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels [“app”]`，`destination.service.host`或`"unknown"`中的第一个非空值。有关表达式的更多信息，请参阅[表达式
 
 1. 确认已创建 `quota rule`：
 
@@ -298,7 +298,7 @@ keywords: [策略,限额]
 
 1. 在浏览器中刷新 `productpage` 页面。
 
-    `request-count`配额适用于 `productpage` ，每 5 秒允许 2 个请求。如果你不断刷新页面，你会看到 `RESOURCE_EXHAUSTED：配额已用尽：requestcount`。
+    `request-count`配额适用于 `productpage` ，每 5 秒允许 2 个请求。如果你不断刷新页面，你会看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`。
 
 ## 有条件的速率限制
 
