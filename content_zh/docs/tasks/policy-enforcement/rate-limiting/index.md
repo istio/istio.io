@@ -21,23 +21,26 @@ keywords: [策略,限额]
 
     这里需要设置一个到某版本的缺省路由，否则当发送请求到 `reviews` 服务的时候，Istio 会随机路由到某个版本，有时候显示评级图标，有时不显示。
 
-1. 把每个服务的缺省路由设置到 v1 版本，如果已经给示例应用创建了路由规则，那么下面的命令中应该使用 `replace` 而不是 `create`。
+1. 将所有服务的默认版本设置为v1。
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
-
-1. 为 `reviews` 服务编写基于应用版本的路由，将来自 "jason" 用户的请求发送到版本 "v2"，其他请求发送到版本 "v3"。
-
-    {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 ## 速率限制
 
-Istio 允许用户对服务进行限流。
+在此任务中，您将Istio配置为根据IP地址将流量限制到“productpage”
+原始客户。您将使用`X-Forwarded-For`请求标头作为客户端
+IP地址。您还将使用免除登录用户的条件速率限制。
 
-假设 `ratings` 是一个像 `Rotten Tomatoes®` 这样的付费的外部服务，但是他提供了 `1 qps` 的免费额度可以使用。下面我们尝试使用 Istio 来确保只使用这免费的 `1 qps`。
+为方便起见，您可以配置
+[内存配额](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
+（`memquota`）适配器启用速率限制。但是，在生产系统上，
+你需要[Redis](http://redis.io/)，然后配置[Redis
+配额](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+（`redisquota`）适配器。 'memquota`和`redisquota`适配器都支持
+[quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，
+因此，在两个适配器上启用速率限制的配置是相同的。
 
 1. 用浏览器打开 Bookinfo 的 `productpage` 页面（`http://$GATEWAY_URL/productpage`）。
 
