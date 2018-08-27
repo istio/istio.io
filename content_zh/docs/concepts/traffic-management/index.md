@@ -187,7 +187,7 @@ spec:
 
 可以使用 `kubectl` 命令配置规则。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
-以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络引用](/zh/docs/reference/config/istio.networking.v1alpha3/)
+以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)
 
 ## Virtual Service
 
