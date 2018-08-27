@@ -31,11 +31,8 @@ keywords: [策略,限额]
 
 在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到 `productpage` 原始客户。您将使用 `X-Forwarded-For` 请求标头作为客户端 IP 地址。您还将使用免除登录用户的条件速率限制。
 
-为方便起见，您可以配置
-[memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
-（`memquota`）适配器启用速率限制。但是，在生产系统上，
-你需要 [Redis](http://redis.io/) ，然后配置 [redisquota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
-（`redisquota`）适配器。 `memquota` 和 `redisquota` 适配器都支持
+为方便起见，您可以配置 [memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，
+你需要 [Redis](http://redis.io/) ，然后配置 [redisquota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持
 [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，
 因此，在两个适配器上启用速率限制的配置是相同的。
 
@@ -147,9 +144,9 @@ keywords: [策略,限额]
         #  - service: '*'  # Uncomment this to bind *all* services to request-count
     ---
     {{< /text >}}
-
+    
     运行以下命令以使用 redisquota 启用速率限制：
-
+    
     {{< text bash >}}
     $ kubectl apply -f redisquota.yaml
     {{< /text >}}
@@ -170,18 +167,18 @@ keywords: [策略,限额]
         validDuration: 1s
         - dimensions:
             destination: reviews
-          maxAmount: 1
-          validDuration: 5s
+            maxAmount: 1
+            validDuration: 5s
         - dimensions:
             destination: productpage
-          maxAmount: 2
-          validDuration: 5s
+            maxAmount: 2
+            validDuration: 5s
     {{< /text >}}
 
     `memquota` 处理程序定义了3种不同的速率限制方案。如果没有覆盖匹配，则请求限制默认值为每秒 `500`次。还定义了两个覆盖：
 
-    * 第一条 `overrides` 条目的条件如果是 `destination` 值为 `reviews` ，那么限制值为每 5 秒 1 次。
-    * 第二条 `overrides` 条目的条件如果是 `destination` 值为 `productpage` ，那么限制值为每 5 秒 2 次。
+    * 第一 如果覆盖 `destination` 值为 `reviews` ，那么限制值为每 5 秒 1 次。
+    * 第二 如果覆盖 `destination` 值为 `productpage` ，那么限制值为每 5 秒 2 次。
 
     处理请求时，将选择第一个匹配覆盖（从上到下阅读）。
 
@@ -207,21 +204,21 @@ keywords: [策略,限额]
         overrides:
         - dimensions:
             destination: reviews
-          maxAmount: 1
+            maxAmount: 1
         - dimensions:
             destination: productpage
             source: 10.28.11.20
-          maxAmount: 500
+            maxAmount: 500
         - dimensions:
             destination: productpage
-          maxAmount: 2
+            maxAmount: 2
     {{< /text >}}
 
     `redisquota` 处理程序定义了 4 种不同的速率限制方案。如果没有覆盖匹配，则请求限制默认值为每秒 `500`次。它使用 `ROLLING_WINDOW` 算法进行配额检查，因此为 `ROLLING_WINDOW` 算法定义了 500ms 的`bucketDuration`。还定义了三个覆盖：
 
-    * 第一条 如果 `destination` 的值为 `reviews`是 那么最大请求配额为 `1`。
-    * 第二条 如果 `destination` 的值为 `productpage` 并且来源是 `10.28.11.20` 那么最大请求配额为 `500`，
-    * 第三条 如果 `destination` 的值为 `productpage` 那么最大请求配额为`2`。
+    * 第一 如果覆盖 `destination` 的值为 `reviews`是 那么最大请求配额为 `1`。
+    * 第二 如果覆盖 `destination` 的值为 `productpage` 并且来源是 `10.28.11.20` 那么最大请求配额为 `500`，
+    * 第三 如果覆盖 `destination` 的值为 `productpage` 那么最大请求配额为`2`。
 
     处理请求时，将选择第一个匹配覆盖（从上到下阅读）。
 
@@ -291,7 +288,7 @@ keywords: [策略,限额]
       quotaSpecs:
       - name: request-count
         namespace: istio-system
-      services:
+        services:
       - name: productpage
         namespace: default
       # - service: '*'
