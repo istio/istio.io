@@ -3,6 +3,14 @@ title: 流量管理
 description: 介绍 Istio 中关于流量路由与控制的各项功能。
 weight: 20
 keywords: [流量管理]
+aliases:
+    - /zh/docs/concepts/traffic-management/overview
+    - /zh/docs/concepts/traffic-management/pilot
+    - /zh/docs/concepts/traffic-management/rules-configuration
+    - /zh/docs/concepts/traffic-management/fault-injection
+    - /zh/docs/concepts/traffic-management/handling-failures
+    - /zh/docs/concepts/traffic-management/load-balancing
+    - /zh/docs/concepts/traffic-management/request-routing
 ---
 
 本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的顶层设计架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
@@ -77,7 +85,7 @@ Pilot 使用来自服务注册的信息，并提供与平台无关的服务发�
 
 {{< image width="55%" ratio="80%"
     link="/docs/concepts/traffic-management/LoadBalancing.svg"
-    caption="发现与负载均衡">}}
+    caption="服务发现与负载均衡">}}
 
 如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种[复杂的负载均衡算法](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing)，但 Istio 目前仅允许三种负载均衡模式：轮循、随机和带权重的最少请求。
 
