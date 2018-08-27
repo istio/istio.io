@@ -34,10 +34,9 @@ keywords: [策略,限额]
 IP 地址。您还将使用免除登录用户的条件速率限制。
 
 为方便起见，您可以配置
-[内存配额](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
+[memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
 （`memquota`）适配器启用速率限制。但是，在生产系统上，
-你需要 [Redis](http://redis.io/) ，然后配置 [Redis
-配额](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+你需要 [Redis](http://redis.io/) ，然后配置 [redisquota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 （`redisquota`）适配器。 `memquota` 和 `redisquota` 适配器都支持
 [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，
 因此，在两个适配器上启用速率限制的配置是相同的。
