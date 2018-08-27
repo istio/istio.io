@@ -162,7 +162,7 @@ keywords: [流量管理,ingress]
 
     查看 `curl` 命令返回内容中的 `Server certificate` 部分，注意其中的 `common name`：`common name: httpbin.example.com (matched)`。另外输出中还包含了 `SSL certificate verify ok`，这说明对服务器的证书校验是成功的，返回状态码为 418 和一只茶杯犬。
 
-如果需要支持 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication)，请继续下一节内容。
+如果需要支持 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) ，请继续下一节内容。
 
 ## 配置 Ingress gateway 的双向 TLS 支持
 
@@ -311,7 +311,7 @@ keywords: [流量管理,ingress]
 
 ### 配置 `bookinfo.com` 主机的流量
 
-1. 在没有网关的情况下部署[Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)：
+1. 在没有网关的情况下部署 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)：
 
     {{< text bash >}}
     $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
