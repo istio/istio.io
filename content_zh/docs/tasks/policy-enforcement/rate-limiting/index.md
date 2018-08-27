@@ -178,10 +178,10 @@ keywords: [策略,限额]
           validDuration: 5s
     {{< /text >}}
 
-    `memquota`处理程序定义了3种不同的速率限制方案。如果没有覆盖匹配，则默认值为每秒`500`请求（`1s`）。还定义了两个覆盖：
+    `memquota` 处理程序定义了3种不同的速率限制方案。如果没有覆盖匹配，则请求限制默认值为每秒 `500`次。还定义了两个覆盖：
 
-    * 第一个是 `1` 请求（ `maxAmount` 字段）每个 `5s` （`validDuration`字段），如果 `destination` 是 `reviews` 。
-    * 第二个是 `2` 请求每个 `5s`，如果 `destination` 是 `productpage`。
+    * 第一条 `overrides` 条目的条件如果是 `destination` 值为 `reviews` ，那么限制值为每 5 秒 1 次。
+    * 第二条 `overrides` 条目的条件如果是 `destination` 值为 `productpage` ，那么限制值为每 5 秒 2 次。
 
     处理请求时，将选择第一个匹配覆盖（从上到下阅读）。
 
@@ -217,11 +217,11 @@ keywords: [策略,限额]
           maxAmount: 2
     {{< /text >}}
 
-    `redisquota`处理程序定义了4种不同的速率限制方案。如果没有覆盖匹配，则默认值为每秒 `500` 请求（`1s`）。它使用 `ROLLING_WINDOW` 算法进行配额检查，因此为 `ROLLING_WINDOW` 算法定义了 500ms 的`bucketDuration`。还定义了三个覆盖：
+    `redisquota` 处理程序定义了 4 种不同的速率限制方案。如果没有覆盖匹配，则请求限制默认值为每秒 `500`次。它使用 `ROLLING_WINDOW` 算法进行配额检查，因此为 `ROLLING_WINDOW` 算法定义了 500ms 的`bucketDuration`。还定义了三个覆盖：
 
-    * 第一个是 `1` 请求（ `maxAmount` 字段），如果 `destination` 是 `reviews`。
-    * 第二个是 `500`，如果目的地是 `productpage` 而源是 `10.28.11.20`
-    * 第三个是 `2` ，如果 `destination` 是 `productpage`。
+    * 第一条 如果 `destination` 的值为 `reviews`是 那么最大请求配额为 `1`。
+    * 第二条 如果 `destination` 的值为 `productpage` 并且来源是 `10.28.11.20` 那么最大请求配额为 `500`，
+    * 第三条 如果 `destination` 的值为 `productpage` 那么最大请求配额为`2`。
 
     处理请求时，将选择第一个匹配覆盖（从上到下阅读）。
 
