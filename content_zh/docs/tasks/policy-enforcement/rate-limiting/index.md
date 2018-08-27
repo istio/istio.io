@@ -29,9 +29,7 @@ keywords: [策略,限额]
 
 ## 速率限制
 
-在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到 `productpage` 
-原始客户。您将使用 `X-Forwarded-For` 请求标头作为客户端 
-IP 地址。您还将使用免除登录用户的条件速率限制。
+在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到 `productpage` 原始客户。您将使用 `X-Forwarded-For` 请求标头作为客户端 IP 地址。您还将使用免除登录用户的条件速率限制。
 
 为方便起见，您可以配置
 [memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
@@ -228,7 +226,7 @@ IP 地址。您还将使用免除登录用户的条件速率限制。
     处理请求时，将选择第一个匹配覆盖（从上到下阅读）。
 
     确认已创建 `quota instance` ：
-    
+
     {{< text bash yaml >}}
     $ kubectl -n istio-system get quotas requestcount -o yaml
     apiVersion: config.istio.io/v1alpha2
@@ -337,7 +335,7 @@ spec:
 1. 未登录时验证速率限制*是否适用*。
 
     注销为 `jason` 并反复刷新 `productpage` 。
-    
+
     您应该再次看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount` 。
 
 ## 理解速率限制
