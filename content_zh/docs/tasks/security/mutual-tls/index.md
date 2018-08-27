@@ -11,8 +11,8 @@ keywords: [安全,双向 TLS]
 * 您已完成[身份验证策略](/zh/docs/tasks/security/authn-policy/)任务。
 * 您熟悉使用身份验证策略来启用双向 TLS。
 * Istio 在 Kubernetes 上运行，启用全局双向 TLS。您可以按照我们的[安装 Istio 的说明](/zh/docs/setup/kubernetes/)。
-如果您已经安装了 Istio，则可以添加或修改身份验证策略和目标规则以启用双向 TLS，如[task](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-TLS-认证)中所述。
-* 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了[httpbin]({{< github_tree >}}/samples/httpbin)和[sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用[manual sidecar injection](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-Sidecar)部署这些服务的命令：
+如果您已经安装了 Istio，则可以添加或修改身份验证策略和目标规则以启用双向 TLS，如 [task](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-TLS-认证) 中所述。
+* 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [manual sidecar injection](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-Sidecar)部署这些服务的命令：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
@@ -171,8 +171,8 @@ $ kubectl delete --ignore-not-found=true bad-rule
     200
     {{< /text >}}
 
-> Istio 使用[Kubernetes 服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)作为服务标识，
-提供比服务名称更强的安全性（有关更多详细信息，请参阅[Istio 身份](/zh/docs/concepts/security/#Istio-身份)）。因此，Istio 使用的证书
+> Istio 使 [Kubernetes 服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)作为服务标识，
+提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#Istio-身份)）。因此，Istio 使用的证书
 没有服务名称，这是 `curl` 需要验证服务器身份的信息。为了防止 `curl` 客户端中止，我们使用 `curl`
 使用 `-k` 选项。该选项可防止客户端验证和查找服务器名称，例如，`httpbin.default.svc.cluster.local`
 服务器提供的证书。
