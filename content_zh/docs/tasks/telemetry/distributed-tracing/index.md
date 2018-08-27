@@ -119,7 +119,7 @@ Istio 默认捕获所有请求的跟踪。例如，何时每次访问时都使�
 `/ productpage`你在 Jaeger 看到了相应的痕迹仪表板。此采样率适用于测试或低流量目。
 对于高流量网格，您可以降低跟踪采样以下两种方式之一的百分比：
 
-* 在网格设置期间，使用Helm选项`pilot.traceSampling`来设置跟踪采样的百分比。
+* 在网格设置期间，使用 Helm 选项 `pilot.traceSampling` 来设置跟踪采样的百分比。
 有关设置选项的详细信息，请参阅[Helm Install](/zh/docs/setup/kubernetes/helm-install/)文档。
 * 在运行的网格中，编辑 `istio-pilot` 部署并使用以下步骤更改环境变量：
 
