@@ -64,7 +64,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
 
 请参阅 [Istio 认证](/zh/docs/concepts/security/#认证) 一节，可以了解更多**服务认证**方面的内容。
 
-## 检查 istio 双向 tls 认证的配置
+## 检查 `istio` 双向 tls 认证的配置
 
 您可以使用 `istioctl` 工具检查有效的双向 TLS 设置。标识用于的身份验证策略和目标规则
 `httpbin.default.svc.cluster.local` 配置和使用的模式，使用以下命令：
@@ -136,7 +136,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
 
 ## 验证请求
 
-此任务显示具有双向TLS的服务器如何启用对以下请求的响应：
+此任务显示具有双向 TLS 的服务器如何启用对以下请求的响应：
 
 * 在纯文本中
 * 使用 TLS 但没有客户端证书
@@ -154,7 +154,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
 
     > 请注意，退出代码为56.代码转换为无法接收网络数据。
 
-1. 确认没有客户端证书的TLS请求也会失败：
+1. 确认没有客户端证书的 TLS 请求也会失败：
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' -k
@@ -164,7 +164,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
 
     > 这次，退出代码为35，这对应于 SSL/TLS 握手中某处发生的问题。
 
-1. 使用客户端证书确认TLS请求成功：
+1. 使用客户端证书确认 TLS 请求成功：
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
