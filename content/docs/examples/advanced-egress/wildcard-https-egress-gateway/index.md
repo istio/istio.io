@@ -82,7 +82,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: egressgateway-for-wikipedia
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
       subsets:
@@ -186,7 +186,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
 $ kubectl delete serviceentry wikipedia www-wikipedia
 $ kubectl delete gateway istio-egressgateway
 $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
-$ kubectl delete destinationrule set-sni-for-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
 ## Enable HTTPS traffic to arbitrary wildcarded domains
