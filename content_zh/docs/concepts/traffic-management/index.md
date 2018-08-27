@@ -3,14 +3,6 @@ title: 流量管理
 description: 介绍 Istio 中关于流量路由与控制的各项功能。
 weight: 20
 keywords: [流量管理]
-aliases:
-    - /zh/docs/concepts/traffic-management/overview
-    - /zh/docs/concepts/traffic-management/pilot
-    - /zh/docs/concepts/traffic-management/rules-configuration
-    - /zh/docs/concepts/traffic-management/fault-injection
-    - /zh/docs/concepts/traffic-management/handling-failures
-    - /zh/docs/concepts/traffic-management/load-balancing
-    - /zh/docs/concepts/traffic-management/request-routing
 ---
 
 本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的顶层设计架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
@@ -19,7 +11,7 @@ aliases:
 
 {{< image width="85%" ratio="75%"
     link="/docs/concepts/traffic-management/TrafficManagementOverview.svg"
-    caption="Traffic Management with Istio"
+    caption=" Istio 流量管理"
     >}}
 
 将流量从基础设施扩展中解耦，这样就可以让 Istio 提供各种独立于应用程序代码之外的流量管理功能。除了 A/B 测试的动态[请求路由](#请求路由)，逐步推出和金丝雀发布之外，它还使用超时、重试和熔断器来处理[故障恢复](#故障处理)，最后还可以通过[故障注入](#故障注入)来测试服务之间故障恢复策略的兼容性。这些功能都是通过在服务网格中部署的 Envoy sidecar/代理来实现的。
@@ -34,7 +26,7 @@ Pilot 负责管理通过 Istio 服务网格发布的 Envoy 实例的生命周期
 
 {{< image width="60%" ratio="70%"
     link="/docs/concepts/traffic-management/PilotAdapters.svg"
-    caption="Pilot Architecture"
+    caption="Pilot 架构"
     >}}
 
 如上图所示，在网格中 Pilot 维护了一个服务的规则表示并独立于底层平台。Pilot中的特定于平台的适配器负责适当地填充这个规范模型。例如，在 Pilot 中的 Kubernetes 适配器实现了必要的控制器，来观察 Kubernetes API 服务器，用于更改 pod 的注册信息、入口资源以及存储流量管理规则的第三方资源。这些数据被转换为规范表示。然后根据规范表示生成特定的 Envoy 的配置。
