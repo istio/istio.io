@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1000" height="400">
+ <defs>
+  <clipPath id="clipPath4">
+   <path d="M 0,-1 V 82 H 55.937 V 318 H 1.523 v 82 H 196.172 V 318 H 140.234 V 82 h 54.414 V -1 Z m 554.023,1 v 82 h 55.938 v 236 h -54.414 v 82 H 694.258 V 171.838 l 82.656,228.084 1.68,0.04 81.172,-228.123 V 400 H 1000 V 318 H 944.062 V 82 h 54.415 V 0 H 842.148 L 777.422,182.887 711.875,0 Z" />
+   <path d="m 222.227,0 v 82 h 55.937 v 130 h 215.313 v -24.928 c 0,0 18.011,-14.042 23.75,-27.367 L 528.75,133.85 c 0,0 5.352,-14.472 5.352,-27.405 l -2.305,-25.855 c 0,0 -3.616,-21.063 -9.922,-27.328 L 499.609,27.367 C 499.609,27.367 471.276,0 433.75,0 Z m 140.234,82 h 81.992 v 76 h -81.992 z" id="2" />
+   <use xlink:href="#2" transform="matrix(1,0,0,-1,0,400)" />
+  </clipPath>
+ </defs>
+ <path d="M 0,13.683 H 1030 V 66.915 H 0 m 0,53.232 h 975 v 53.242 H 0 v 53.222 h 975 v 53.222 H 0 m 0,53.242 h 1030 v 53.242 H 0" clip-path="url(#clipPath4)" style="fill:none;stroke:#1f70c1;stroke-width:27.37" />
+</svg>

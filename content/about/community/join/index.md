@@ -1,12 +1,10 @@
 ---
-title: Join Our Community
+title: Getting Involved
 description: Information on the various ways to participate and interact with the Istio community.
-weight: 90
+weight: 10
 keywords: [community]
 type: community
-aliases:
-    - /community
-icon: /img/community.svg
+page_icon: /img/community.svg
 ---
 Istio is an open source project with an active community that supports its use and on-going development. We'd love for you
 to join us and get involved!
