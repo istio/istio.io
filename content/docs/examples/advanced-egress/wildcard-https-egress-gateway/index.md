@@ -435,6 +435,42 @@ to hold the configuration of the Nginx SNI proxy:
               tls:
                 mode: ISTIO_MUTUAL
                 sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-wikipedia-through-egress-gateway
+    spec:
+      hosts:
+      - "*.wikipedia.org"
+      gateways:
+      - mesh
+      - istio-egressgateway-with-sni-proxy
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - "*.wikipedia.org"
+        route:
+        - destination:
+            host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+            subset: wikipedia
+            port:
+              number: 443
+          weight: 100
+      tcp:
+      - match:
+        - gateways:
+          - istio-egressgateway-with-sni-proxy
+          port: 443
+        route:
+        - destination:
+            host: sni-proxy.local
+            port:
+              number: 8443
+          weight: 100
     EOF
     {{< /text >}}
 
@@ -468,13 +504,7 @@ to hold the configuration of the Nginx SNI proxy:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
       subsets:
         - name: wikipedia
-    EOF
-    {{< /text >}}
-
-1.  Route the traffic destined for _*.wikipedia.org_ to the egress gateway and from the egress gateway to the SNI proxy.
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -499,11 +529,12 @@ to hold the configuration of the Nginx SNI proxy:
             port:
               number: 443
           weight: 100
-      tcp:
       - match:
         - gateways:
           - istio-egressgateway-with-sni-proxy
           port: 443
+          sni_hosts:
+          - "*.wikipedia.org"
         route:
         - destination:
             host: sni-proxy.local
