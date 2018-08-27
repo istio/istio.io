@@ -21,7 +21,7 @@ keywords: [策略,限额]
 
     这里需要设置一个到某版本的缺省路由，否则当发送请求到 `reviews` 服务的时候，Istio 会随机路由到某个版本，有时候显示评级图标，有时不显示。
 
-1. 将所有服务的默认版本设置为v1。
+1. 将所有服务的默认版本设置为 v1。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -29,29 +29,29 @@ keywords: [策略,限额]
 
 ## 速率限制
 
-在此任务中，您将Istio配置为根据IP地址将流量限制到`productpage`
-原始客户。您将使用`X-Forwarded-For`请求标头作为客户端
-IP地址。您还将使用免除登录用户的条件速率限制。
+在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到 `productpage` 
+原始客户。您将使用 `X-Forwarded-For` 请求标头作为客户端 
+IP 地址。您还将使用免除登录用户的条件速率限制。
 
 为方便起见，您可以配置
 [内存配额](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
 （`memquota`）适配器启用速率限制。但是，在生产系统上，
-你需要[Redis](http://redis.io/)，然后配置[Redis
+你需要 [Redis](http://redis.io/) ，然后配置 [Redis
 配额](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
-（`redisquota`）适配器。 'memquota`和`redisquota`适配器都支持
+（`redisquota`）适配器。 `memquota` 和 `redisquota` 适配器都支持
 [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，
 因此，在两个适配器上启用速率限制的配置是相同的。
 
 1. 速率限制配置分为两部分。
     * 客户端
-        * `QuotaSpec`定义客户端应该请求的配额名称和金额。
-        * `QuotaSpecBinding`有条件地将`QuotaSpec`与一个或多个服务相关联。
+        * `QuotaSpec` 定义客户端应该请求的配额名称和金额。
+        * `QuotaSpecBinding` 有条件地将 `QuotaSpec` 与一个或多个服务相关联。
     * Mixer 端
-        * `quota instance`定义了Mixer如何确定配额的大小。
-        * `memquota adapter`定义了memquota适配器配置。
-        * `quota rule`定义何时将配额实例分派给memquota适配器。
+        * `quota instance` 定义了 Mixer 如何确定配额的大小。
+        * `memquota adapter` 定义了 memquota 适配器配置。
+        * `quota rule` 定义何时将配额实例分派给 memquota 适配器。
 
-    运行以下命令以使用memquota启用速率限制：
+    运行以下命令以使用 memquota 启用速率限制：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
@@ -59,7 +59,7 @@ IP地址。您还将使用免除登录用户的条件速率限制。
 
     或者
 
-将以下yaml文件另存为`redisquota.yaml`。替换[rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
+将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
 [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params)包含配置值。
 
     {{< text yaml >}}
@@ -151,7 +151,7 @@ IP地址。您还将使用免除登录用户的条件速率限制。
     ---
     {{< /text >}}
 
-    运行以下命令以使用redisquota启用速率限制：
+    运行以下命令以使用 redisquota 启用速率限制：
 
     {{< text bash >}}
     $ kubectl apply -f redisquota.yaml
@@ -183,8 +183,8 @@ IP地址。您还将使用免除登录用户的条件速率限制。
 
     `memquota`处理程序定义了3种不同的速率限制方案。如果没有覆盖匹配，则默认值为每秒`500`请求（`1s`）。还定义了两个覆盖：
 
-    * 第一个是`1`请求（`maxAmount`字段）每个`5s`（`validDuration`字段），如果`destination`是`reviews`。
-    * 第二个是`2`请求每个`5s`，如果`destination`是`productpage`。
+    * 第一个是 `1` 请求（ `maxAmount` 字段）每个 `5s` （`validDuration`字段），如果 `destination` 是 `reviews` 。
+    * 第二个是 `2` 请求每个 `5s`，如果 `destination` 是 `productpage`。
 
     处理请求时，将选择第一个匹配覆盖（从上到下阅读）。
 
@@ -220,15 +220,15 @@ IP地址。您还将使用免除登录用户的条件速率限制。
           maxAmount: 2
     {{< /text >}}
 
-    `redisquota`处理程序定义了4种不同的速率限制方案。如果没有覆盖匹配，则默认值为每秒“500”请求（“1s”）。它使用`ROLLING_WINDOW`算法进行配额检查，因此为`ROLLING_WINDOW`算法定义了500ms的`bucketDuration`。还定义了三个覆盖：
+    `redisquota`处理程序定义了4种不同的速率限制方案。如果没有覆盖匹配，则默认值为每秒 `500` 请求（`1s`）。它使用 `ROLLING_WINDOW` 算法进行配额检查，因此为 `ROLLING_WINDOW` 算法定义了 500ms 的`bucketDuration`。还定义了三个覆盖：
 
-    * 第一个是`1`请求（`maxAmount`字段），如果`destination`是`reviews`。
-    * 第二个是“500”，如果目的地是“productpage”而源是“10.28.11.20”
-    * 第三个是`2`，如果`destination`是`productpage`。
+    * 第一个是 `1` 请求（ `maxAmount` 字段），如果 `destination` 是 `reviews`。
+    * 第二个是 `500`，如果目的地是 `productpage` 而源是 `10.28.11.20`
+    * 第三个是 `2` ，如果 `destination` 是 `productpage`。
 
     处理请求时，将选择第一个匹配覆盖（从上到下阅读）。
 
-    确认已创建`quota instance`：
+    确认已创建 `quota instance` ：
     
     {{< text bash yaml >}}
     $ kubectl -n istio-system get quotas requestcount -o yaml
@@ -244,9 +244,9 @@ IP地址。您还将使用免除登录用户的条件速率限制。
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    `quota`模板定义了`memquota`或`redisquota`使用的三个维度，用于设置匹配某些属性的请求。 `destination`将被设置为`destination.labels [“app”]`，`destination.service.host`或``unknown“`中的第一个非空值。有关表达式的更多信息，请参阅[表达式
+    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels [“app”]`，`destination.service.host`或``unknown“`中的第一个非空值。有关表达式的更多信息，请参阅[表达式
 
-1. 确认已创建`quota rule`：
+1. 确认已创建 `quota rule`：
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get rules quota -o yaml
@@ -304,7 +304,7 @@ IP地址。您还将使用免除登录用户的条件速率限制。
 
 1. 在浏览器中刷新 `productpage` 页面。
 
-    `request-count`配额适用于`productpage`，每5秒允许2个请求。如果你不断刷新页面，你会看到`RESOURCE_EXHAUSTED：配额已用尽：requestcount`。
+    `request-count`配额适用于 `productpage` ，每 5 秒允许 2 个请求。如果你不断刷新页面，你会看到 `RESOURCE_EXHAUSTED：配额已用尽：requestcount`。
 
 ## 有条件的速率限制
 
@@ -328,18 +328,18 @@ spec:
     - requestcount.quota
 {{< /text >}}
 
-只有当请求中没有`user = <username>`cookie时，才会调度`memquota`或`redisquota`适配器。
+只有当请求中没有 `user = <username>` cookie 时，才会调度 `memquota` 或 `redisquota` 适配器。
 这可确保登录用户不受此配额的约束。
 
 1. 验证速率限制不适用于登录用户。
 
-    以`jason`身份登录并反复刷新`productpage`。现在你应该能够毫无问题地做到这一点。
+    以 `jason` 身份登录并反复刷新 `productpage`。现在你应该能够毫无问题地做到这一点。
 
 1. 未登录时验证速率限制*是否适用*。
 
-    注销为`jason`并反复刷新`productpage`。
+    注销为 `jason` 并反复刷新 `productpage` 。
     
-    您应该再次看到`RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`。
+    您应该再次看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount` 。
 
 ## 理解速率限制
 
@@ -355,7 +355,7 @@ spec:
 
 ## 清理
 
-1. 如果使用`memquota`，删除`memquota`速率限制配置：
+1. 如果使用 `memquota` ，删除 `memquota` 速率限制配置：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
@@ -363,7 +363,7 @@ spec:
 
     或者
 
-    如果使用`redisquota`，请删除`redisquota`速率限制配置：
+    如果使用 `redisquota` ，请删除 `redisquota` 速率限制配置：
 
     {{< text bash >}}
     $ kubectl delete -f redisquota.yaml
