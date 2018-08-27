@@ -575,11 +575,85 @@ to hold the configuration of the Nginx SNI proxy:
     log is:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'
+    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'; done
     {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"placeholder.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/default/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
     {{< /text >}}
 
     Note the `requestedServerName` attribute.
+
+### Monitor the SNI and enforce access policies based on it
+
+1.  Create the `logentry`, `rules` and `handlers`:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl create -f -
+    # Log entry for egress access
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: logentry
+    metadata:
+      name: egress-access
+      namespace: istio-system
+    spec:
+      severity: '"info"'
+      timestamp: context.time | timestamp("2017-01-01T00:00:00Z")
+      variables:
+        connectionEvent: connection.event | ""
+        source: source.labels["app"] | "unknown"
+        sourceNamespace: source.namespace | "unknown"
+        sourceWorkload: source.workload.name | ""
+        sourcePrincipal: source.principal | "unknown"
+        requestedServerName: connection.requested_server_name | "unknown"
+        destinationApp: destination.labels["app"] | ""
+      monitored_resource_type: '"UNSPECIFIED"'
+    ---
+    # Handler for info egress access entries
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stdio
+    metadata:
+      name: egress-access-logger
+      namespace: istio-system
+    spec:
+      severity_levels:
+        info: 0 # output log level as info
+      outputAsJson: true
+    ---
+    # Rule to handle access to *.wikipedia.org
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: handle-wikipedia-access
+      namespace: istio-system
+    spec:
+      match: source.labels["app"] == "istio-egressgateway-with-sni-proxy" && destination.labels["app"] == "" && connection.event == "close"
+      actions:
+      - handler: egress-access-logger.stdio
+        instances:
+          - egress-access.logentry
+    EOF
+    {{< /text >}}
+
+1.  Send HTTPS requests to
+        [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    <title>Wikipedia, the free encyclopedia</title>
+    <title>Wikipedia – Die freie Enzyklopädie</title>
+    {{< /text >}}
+
+1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD mixer | grep 'egress-access.logentry.istio-system'; done
+    {{< /text >}}
+
+#### Cleanup of the monitoring and policy
+
+{{< text bash >}}
+$ kubectl delete logentry egress-access -n istio-system
+$ kubectl delete stdio egress-access-logger -n istio-system
+$ kubectl delete rule handle-wikipedia-access -n istio-system
+{{< /text >}}
 
 ### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
 
