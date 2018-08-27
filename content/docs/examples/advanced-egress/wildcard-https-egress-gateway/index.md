@@ -227,7 +227,7 @@ will forward the traffic to the port `443`.
     directive uses `ssl_preread_server_name` with port `443` and `ssl_preread` directive enables `SNI` reading.
 
     {{< text bash >}}
-    $ cat <<EOF > $HOME/sni-proxy.conf
+    $ cat <<EOF > ./sni-proxy.conf
     user www-data;
 
     events {
@@ -255,14 +255,14 @@ will forward the traffic to the port `443`.
 to hold the configuration of the Nginx SNI proxy:
 
     {{< text bash >}}
-    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=$HOME/sni-proxy.conf
+    $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
 
 1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
 
     {{< text bash >}}
-    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set  global.mtls.enabled=true --set global.istioNamespace=istio-system -f - > $HOME/istio-egressgateway-with-sni-proxy.yaml
+    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set  global.mtls.enabled=true --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
     gateways:
       enabled: true
       istio-ingressgateway:
@@ -307,7 +307,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Deploy the new egress gateway:
 
     {{< text bash >}}
-    $ kubectl apply -f $HOME/istio-egressgateway-with-sni-proxy.yaml
+    $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
     serviceaccount "istio-egressgateway-with-sni-proxy-service-account" created
     clusterrole "istio-egressgateway-with-sni-proxy-istio-system" created
     clusterrolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
@@ -566,15 +566,15 @@ to hold the configuration of the Nginx SNI proxy:
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy
     $ kubectl delete destinationrule disable-mtls-for-sni-proxy
-    $ kubectl delete -f $HOME/istio-egressgateway-with-sni-proxy.yaml
+    $ kubectl delete -f ./istio-egressgateway-with-sni-proxy.yaml
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     {{< /text >}}
 
 1.  Remove the configuration files you created:
 
     {{< text bash >}}
-    $ rm $HOME/istio-egressgateway-with-sni-proxy.yaml
-    $ rm $HOME/sni-proxy.conf
+    $ rm ./istio-egressgateway-with-sni-proxy.yaml
+    $ rm ./sni-proxy.conf
     {{< /text >}}
 
 ## Cleanup
