@@ -147,7 +147,7 @@ with open('index.md', 'r') as f:
 
         # Print encoded string dictionary
         for k, v in od.items():
-            print ("## `%s` configuration options\n" % k)
+            print ("## `%s` options\n" % k)
             print '| Key | Default Value | Description |'
             print '| --- | --- | --- |'
             for value in v:

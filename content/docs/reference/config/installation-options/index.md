@@ -9,7 +9,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 <!-- AUTO-GENERATED-START -->
-## `certmanager` configuration options
+## `certmanager` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -18,7 +18,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `certmanager.tag` | `v0.3.1` |  |
 | `certmanager.resources` | `{}` |  |
 
-## `galley` configuration options
+## `galley` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -26,7 +26,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `galley.replicaCount` | `1` |  |
 | `galley.image` | `galley` |  |
 
-## `gateways` configuration options
+## `gateways` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -95,7 +95,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ilbgateway.enabled.secretVolumes.secretName` | `istio-ilbgateway-ca-certs` |  |
 | `gateways.istio-ilbgateway.enabled.secretVolumes.mountPath` | `/etc/istio/ilbgateway-ca-certs` |  |
 
-## `global` configuration options
+## `global` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -134,7 +134,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `global.priorityClassName` | `""` |  |
 | `global.crds` | `true` |  |
 
-## `grafana` configuration options
+## `grafana` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -150,7 +150,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `grafana.service.externalPort` | `3000` |  |
 | `grafana.service.internalPort` | `3000` |  |
 
-## `ingress` configuration options
+## `ingress` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -166,7 +166,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `ingress.service.ports.name` | `https` |  |
 | `ingress.service.selector.istio` | `ingress` |  |
 
-## `kiali` configuration options
+## `kiali` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -178,7 +178,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `kiali.dashboard.username` | `admin` |  |
 | `kiali.dashboard.passphrase` | `admin` |  |
 
-## `mixer` configuration options
+## `mixer` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -198,7 +198,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `mixer.prometheusStatsdExporter.hub` | `docker.io/prom` |  |
 | `mixer.prometheusStatsdExporter.tag` | `v0.6.0` |  |
 
-## `pilot` configuration options
+## `pilot` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -212,7 +212,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `pilot.resources.requests.cpu` | `500m` |  |
 | `pilot.resources.requests.memory` | `2048Mi` |  |
 
-## `prometheus` configuration options
+## `prometheus` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -224,7 +224,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `prometheus.service.nodePort.enabled` | `false` |  |
 | `prometheus.service.nodePort.port` | `32090` |  |
 
-## `security` configuration options
+## `security` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -232,7 +232,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `security.image` | `citadel` |  |
 | `security.selfSigned` | `true # indicate if self-signed CA is used.` |  |
 
-## `servicegraph` configuration options
+## `servicegraph` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -246,7 +246,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `servicegraph.ingress.enabled` | `false` |  |
 | `servicegraph.prometheusAddr` | `http://prometheus:9090` |  |
 
-## `sidecarInjectorWebhook` configuration options
+## `sidecarInjectorWebhook` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -255,7 +255,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `sidecarInjectorWebhook.image` | `sidecar_injector` |  |
 | `sidecarInjectorWebhook.enableNamespacesByDefault` | `false` |  |
 
-## `telemetry-gateway` configuration options
+## `telemetry-gateway` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -263,7 +263,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `telemetry-gateway.grafanaEnabled` | `true` |  |
 | `telemetry-gateway.prometheusEnabled` | `true` |  |
 
-## `tracing` configuration options
+## `tracing` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -282,6 +282,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `tracing.ingress.enabled` | `false` |  |
 
 <!-- AUTO-GENERATED-END -->
+
 
 
 
