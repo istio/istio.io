@@ -45,7 +45,7 @@ keywords: [流量管理,故障注入]
     spec:
       hosts:
       - ratings
-        http:
+      http:
       - fault:
           delay:
             fixedDelay: 7s
