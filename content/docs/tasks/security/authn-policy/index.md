@@ -584,7 +584,7 @@ spec:
   targets:
   - name: httpbin
   peers:
-  - mTLS: {}
+  - mtls: {}
   origins:
   - jwt:
       issuer: "testing@secure.istio.io"
@@ -613,7 +613,7 @@ EOF
 {{< /text >}}
 
 > If you already enable mutual TLS mesh-wide or namespace-wide, the host `httpbin.foo` is already covered by the other destination rule.
-Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mTLS` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
+Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mtls` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
 
 After these changes, traffic from Istio services, including ingress gateway, to `httpbin.foo` will use mutual TLS. The test command above will still work. Requests from Istio services directly to `httpbin.foo` also work, given the correct token:
 
