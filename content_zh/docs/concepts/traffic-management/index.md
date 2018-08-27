@@ -7,31 +7,31 @@ keywords: [流量管理]
 
 本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的顶层设计架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
 
+使用 Istio 的流量管理模型，本质上是将流量与基础设施扩容解耦，让运维人员可以通过 Pilot 指定流量遵循什么规则，而不是指定哪些 pod/VM 应该接收流量——Pilot 和智能 Envoy 代理会帮我们搞定。因此，例如，您可以通过 Pilot 指定特定服务的 5％ 流量可以转到金丝雀版本，而不必考虑金丝雀部署的大小，或根据请求的内容将流量发送到特定版本。
+
+{{< image width="85%" ratio="75%"
+    link="/docs/concepts/traffic-management/TrafficManagementOverview.svg"
+    caption=" Istio 流量管理"
+    >}}
+
+将流量从基础设施扩展中解耦，这样就可以让 Istio 提供各种独立于应用程序代码之外的流量管理功能。除了 A/B 测试的动态[请求路由](#请求路由)，逐步推出和金丝雀发布之外，它还使用超时、重试和熔断器来处理[故障恢复](#故障处理)，最后还可以通过[故障注入](#故障注入)来测试服务之间故障恢复策略的兼容性。这些功能都是通过在服务网格中部署的 Envoy sidecar/代理来实现的。
+
 ## Pilot 和 Envoy
 
 Istio 流量管理的核心组件是 [Pilot](#pilot-和-envoy)，它管理和配置部署在特定 Istio 服务网格中的所有 Envoy 代理实例。它允许您指定在 Envoy 代理之间使用什么样的路由流量规则，并配置故障恢复功能，如超时、重试和熔断器。它还维护了网格中所有服务的规范模型，并使用这个模型通过发现服务让 Envoy 了解网格中的其他实例。
 
-每个 Envoy 实例都会维护[负载均衡信息](#服务发现和负载均衡)，这些信息来自 Pilot 以及对负载均衡池中其他实例的定期健康检查。从而允许其在目标实例之间智能分配流量，同时遵循其指定的路由规则。
+每个 Envoy 实例都会维护[负载均衡信息](#服务发现和负载均衡)信息，这些信息来自 Pilot 以及对负载均衡池中其他实例的定期健康检查。从而允许其在目标实例之间智能分配流量，同时遵循其指定的路由规则。
 
-## 流量管理的好处
+Pilot 负责管理通过 Istio 服务网格发布的 Envoy 实例的生命周期。
 
-使用 Istio 的流量管理模型，本质上是将流量与基础设施扩容解耦，让运维人员可以通过 Pilot 指定流量遵循什么规则，而不是指定哪些 pod/VM 应该接收流量——Pilot 和智能 Envoy 代理会帮我们搞定。因此，例如，您可以通过 Pilot 指定特定服务的 5％ 流量可以转到金丝雀版本，而不必考虑金丝雀部署的大小，或根据请求的内容将流量发送到特定版本。
-
-{{< image width="85%" ratio="69.52%"
-    link="/docs/concepts/traffic-management/TrafficManagementOverview.svg"
-    caption="Istio 中的流量管理">}}
-
-将流量从基础设施扩展中解耦，这样就可以让 Istio 提供各种独立于应用程序代码之外的流量管理功能。除了 A/B 测试的动态[请求路由](#请求路由)，逐步推出和金丝雀发布之外，它还使用超时、重试和熔断器来处理[故障恢复](#故障处理)，最后还可以通过[故障注入](#故障注入)来测试服务之间故障恢复策略的兼容性。这些功能都是通过在服务网格中部署的 Envoy sidecar/代理来实现的。
-
-Pilot 负责部署在 Istio 服务网格中的 Envoy 实例的生命周期管理。
-
-{{<image width="60%" ratio="72.17%"
+{{< image width="60%" ratio="70%"
     link="/docs/concepts/traffic-management/PilotAdapters.svg"
-    caption="Pilot 架构">}}
+    caption="Pilot 架构"
+    >}}
 
-如上图所示，Pilot 维护了网格中的服务的规范表示，这个表示是独立于底层平台的。Pilot 中的平台特定适配器负责适当填充此规范模型。例如，Pilot 中的 Kubernetes 适配器实现必要的控制器来监视 Kubernetes API server 中 pod 注册信息、ingress 资源以及用于存储流量管理规则的第三方资源的更改。该数据被翻译成规范表示。Envoy 特定配置是基于规范表示生成的。
+如上图所示，在网格中 Pilot 维护了一个服务的规则表示并独立于底层平台。Pilot中的特定于平台的适配器负责适当地填充这个规范模型。例如，在 Pilot 中的 Kubernetes 适配器实现了必要的控制器，来观察 Kubernetes API 服务器，用于更改 pod 的注册信息、入口资源以及存储流量管理规则的第三方资源。这些数据被转换为规范表示。然后根据规范表示生成特定的 Envoy 的配置。
 
-Pilot 公开了用于[服务发现](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds) 、[负载均衡池](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)和[路由表](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds)的动态更新的 API。这些 API 将 Envoy 从平台特有的细微差别中解脱出来，简化了设计并提升了跨平台的可移植性。
+Pilot 公开了用于[服务发现](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds) 、[负载均衡池](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)和[路由表](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds)的动态更新的 API。
 
 运维人员可以通过 [Pilot 的 Rules API](/zh/docs/reference/config/istio.networking.v1alpha3/) 指定高级流量管理规则。这些规则被翻译成低级配置，并通过 discovery API 分发到 Envoy 实例。
 
@@ -61,7 +61,7 @@ Istio 不提供 DNS。应用程序可以尝试使用底层平台（kube-dns、me
 
 Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理进行传输。通过将 Envoy 代理部署在服务之前，运维人员可以针对面向用户的服务进行 A/B 测试、部署金丝雀服务等。类似地，通过使用 Envoy 将流量路由到外部 Web 服务（例如，访问 Maps API 或视频服务 API）的方式，运维人员可以为这些服务添加超时控制、重试、断路器等功能，同时还能从服务连接中获取各种细节指标。
 
-{{< image width="60%" ratio="28.88%"
+{{< image width="85%" ratio="35.51%"
     link="/docs/concepts/traffic-management/ServiceModel_RequestFlow.svg"
     alt="通过 Envoy 的 Ingress 和 Egress。"
     caption="请求流"
@@ -69,11 +69,13 @@ Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理�
 
 ## 服务发现和负载均衡
 
-**服务注册**：Istio 假定存在服务注册表，以跟踪应用程序中服务的 pod/VM。它还假设服务的新实例自动注册到服务注册表，并且不健康的实例将被自动删除。诸如 Kubernetes、Mesos 等平台已经为基于容器的应用程序提供了这样的功能。为基于虚拟机的应用程序提供的解决方案就更多了。
+Istio 负载均衡服务网格中实例之间的通信。
 
-**服务发现**：Pilot 使用来自服务注册的信息，并提供与平台无关的服务发现接口。网格中的 Envoy 实例执行服务发现，并相应地动态更新其负载均衡池。
+Istio 假定存在服务注册表，以跟踪应用程序中服务的 pod/VM。它还假设服务的新实例自动注册到服务注册表，并且不健康的实例将被自动删除。诸如 Kubernetes、Mesos 等平台已经为基于容器的应用程序提供了这样的功能。为基于虚拟机的应用程序提供的解决方案就更多了。
 
-{{<image width="80%" ratio="74.79%"
+Pilot 使用来自服务注册的信息，并提供与平台无关的服务发现接口。网格中的 Envoy 实例执行服务发现，并相应地动态更新其负载均衡池。
+
+{{< image width="55%" ratio="80%"
     link="/docs/concepts/traffic-management/LoadBalancing.svg"
     caption="发现与负载均衡">}}
 
@@ -127,11 +129,19 @@ Istio 能在不杀死 Pod 的情况下，将特定协议的故障注入到网络
 
 运维人员可以为符合特定条件的请求配置故障，还可以进一步限制遭受故障的请求的百分比。可以注入两种类型的故障：延迟和中断。延迟是计时故障，模拟网络延迟上升或上游服务超载的情况。中断是模拟上游服务的崩溃故障。中断通常以 HTTP 错误代码或 TCP 连接失败的形式表现。
 
-有关详细信息，请参阅 [Istio 的流量管理规则](#规则配置)。
-
 ## 规则配置
 
 Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用部署内多个服务之间的四层通信。运维人员可以使用这个模型来配置服务级别的属性，这些属性可以是断路器、超时、重试，以及一些普通的持续发布任务，例如金丝雀发布、A/B 测试、使用百分比对流量进行控制，从而完成应用的逐步发布等。
+
+Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry` 以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
+
+* [`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
+
+* [`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 是 `VirtualService` 路由生效后，配置应用与请求的策略集
+
+* [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 是通常用于在 Istio 服务网格之外启用对服务的请求。
+
+* [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#Gateway) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
 
 例如，将 `reviews` 服务 100％ 的传入流量发送到 `v1` 版本，这一需求可以用下面的规则来实现：
 
@@ -152,6 +162,10 @@ spec:
 
 这个配置的用意是，发送到 `reviews` 服务（在 `host` 字段中标识）的流量应该被路由到 `reviews` 服务实例的 `v1` 子集中。路由中的 `subset` 制定了一个预定义的子集名称，子集的定义来自于目标规则配置：
 
+子集指定了一个或多个特定版本的实例标签。例如，在 Kubernetes 中部署 Istio 时，"version: v1" 表示只有包含 "version: v1" 标签版本的 pods 才会接收流量。
+
+在 `DestinationRule` 中，你可以添加其他策略，例如：下面的定义指定使用随机负载均衡模式：
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -159,6 +173,9 @@ metadata:
   name: reviews
 spec:
   host: reviews
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
   subsets:
   - name: v1
     labels:
@@ -168,11 +185,9 @@ spec:
       version: v2
 {{< /text >}}
 
-子集中会指定一或多个标签，用这些标签来区分不同版本的实例。假设在 Kubernetes 上的 Istio 服务网格之中有一个服务，`version: v1` 代表只有标签中包含 "version:v1" 的 Pod 才会收到流量。
+可以使用 `kubectl` 命令配置规则。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
-规则可以使用 [`istioctl` 客户端工具](/zh/docs/reference/commands/istioctl/) 进行配置，如果是 Kubernetes 部署，还可以使用 `kubectl` 命令完成同样任务，但是只有 `istioctl` 会在这个过程中对模型进行检查，所以我们推荐使用 `istioctl`。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
-
-Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry` 以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
+以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)
 
 ## Virtual Service
 
@@ -284,6 +299,8 @@ spec:
         host: ratings
         subset: v1
 {{< /text >}}
+
+可以使用其他类型的故障，终止、提前终止请求。例如，模拟失败。
 
 接下来，在目标为 `ratings:v1` 服务的流量中，对其中的 10% 注入 HTTP 400 错误。
 
@@ -430,9 +447,9 @@ spec:
   http:
   - match:
     - sourceLabels:
-        app: reviews
-        version: v2
-        headers:
+          app: reviews
+          version: v2
+      headers:
         end-user:
           exact: jason
     ...
@@ -553,6 +570,8 @@ spec:
         tcp:
           maxConnections: 100
 {{< /text >}}
+
+查看断路器演示请查看 [断路器任务](/zh/docs/tasks/traffic-management/circuit-breaking/)
 
 ### 规则评估
 
