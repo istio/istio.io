@@ -10,7 +10,7 @@ build:
 	$(docker) scripts/build_site.sh
 
 gen:
-	$(docker) scripts/gen_site.sh ""
+	$(docker) scripts/gen_site.sh "" -no_minify
 
 lint:
 	$(docker) scripts/lint_site.sh
