@@ -3,8 +3,6 @@ title: 故障注入
 description: 此任务说明如何注入延迟并测试应用程序的弹性。
 weight: 20
 keywords: [流量管理,故障注入]
-aliases:
-    - /zh/docs/tasks/fault-injection.html
 ---
 
 此任务说明如何注入延迟并测试应用程序的弹性。
