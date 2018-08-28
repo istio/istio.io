@@ -10,7 +10,7 @@ icon: /img/helm.svg
 ---
 
 Quick start instructions for the minimal setup and configuration of Istio using Helm.
-This minimal install provides the traffic management feature of Istio.
+This minimal install provides traffic management features of Istio.
 
 ## Prerequisites
 
