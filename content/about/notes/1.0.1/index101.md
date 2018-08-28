@@ -11,8 +11,7 @@ These release notes describe what's different between Istio 1.0 and Istio 1.0.1.
 ## Networking
 - Pilot scability and Envoy sidecar startup improvement.
 - Fixed virtual service host mismatch issue when port is added.
-- Allow multiple destination rules with different subsets for the same host.
-- Ability to merge non conflict http routes in multiple virtual service resources that are bounded to the same gateway resource.
+- Added limited support for [merging multiple virtual service or destination rule definitions](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) for the same host.
 - Allow outliner ConsecutiveErrors for Gateway resources when using HTTP
 
 ## Environment
