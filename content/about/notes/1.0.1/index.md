@@ -1,8 +1,7 @@
 ---
-title: Istio 1.1
-weight: 90
+title: Istio 1.0.1
+weight: 91
 icon: /img/notes.svg
-draft: true
 ---
 
 TBD
