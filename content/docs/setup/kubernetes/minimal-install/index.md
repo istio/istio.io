@@ -110,7 +110,7 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
     $ helm delete --purge istio-minimal
     {{< /text >}}
 
-    If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+    If your Helm version is less than 2.10.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
 
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
