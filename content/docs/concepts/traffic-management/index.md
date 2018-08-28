@@ -451,7 +451,7 @@ spec:
     timeout: 10s
 {{< /text >}}
 
-You can also specify the number of retry attempts for an HTTP request in a route rule.
+You can also specify the number of retry attempts for an HTTP request in a VirtualService.
 The maximum number of retry attempts, or the number of attempts possible within the default or overridden timeout period, can be set as follows:
 
 {{< text yaml >}}
@@ -479,7 +479,7 @@ See the [request timeouts task](/docs/tasks/traffic-management/request-timeouts)
 
 #### Injecting faults
 
-A route rule can specify one or more faults to inject
+A VirtualService can specify one or more faults to inject
 while forwarding HTTP requests to the rule's corresponding request destination.
 The faults can be either delays or aborts.
 
