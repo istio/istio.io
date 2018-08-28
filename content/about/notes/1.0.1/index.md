@@ -17,7 +17,7 @@ This release addresses some critical issues found by the community when using Is
 
 - Made it possible to use Pilot standalone, for those users who want to only leverage Istio's traffic management functionality.
 - Introduced the convenient values-istio-gateway.yaml configuration that enables users to run standalone gateways.
-- Fixed a variety of Helmo installation issues, including an issue with `istio-sidecar-injector` configmap not being found.
+- Fixed a variety of Helm installation issues, including an issue with `istio-sidecar-injector` configmap not being found.
 - Fixed the Istio installation error with Galley not being ready.
 - Fixed a variety of issues around mesh expansion.
 
