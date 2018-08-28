@@ -33,3 +33,6 @@ This release addresses some critical issues found by the community when using Is
 ## Galley
 
 - Improved configuration validation for health checks.
+
+{{< relnote_links >}}
+

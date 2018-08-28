@@ -96,3 +96,5 @@ in the `istio-system` namespace and wait a few seconds after all the Istio pods 
 [issue](https://github.com/istio/istio/pull/1055).
 
 - **A service with Istio Auth enabled can't communicate with a service without Istio**: This limitation will be removed in the near future.
+
+{{< relnote_links >}}
