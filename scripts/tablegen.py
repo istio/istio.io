@@ -14,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import collections
+import linecache
 import string
 import sys
-import linecache
 
 from ruamel.yaml import YAML
 
@@ -54,10 +55,13 @@ def endOfTheList(context, lineNum, lastLineNum, totalNum):
 
     return True, valueList
 
+prdict = collections.defaultdict(list)
+
 def decode_helm_yaml(s):
     level = 0
     ret_val = ''
     key = ''
+    storekey = ''
     desc = ''
     possible = ''
     newkey = ''
@@ -91,6 +95,13 @@ def decode_helm_yaml(s):
             if isEnd == True:
                 flag = 1;
 
+        storekey = key
+        sk = storekey.split('.', 2)
+        if len(sk) > 1:
+            storekey = '.'.join(sk[:1]).lstrip('.')
+        else:
+            storekey = '.'.join(sk[:0]).lstrip('.')
+        
         if  len(context[lastLineNum].lstrip()) != 0 and '#' != context[lastLineNum].lstrip()[0]:
             isEnd, ValueList  = endOfTheList(context, lineNum, lastLineNum, totalNum)
             if (isEnd == True):
@@ -103,7 +114,7 @@ def decode_helm_yaml(s):
                 ValueStr = (' ').join(ValueList)
                 if ValueStr:
                     desc = ''
-                    print ("| `%s` | `%s` | %s |" % (newkey, ValueStr, desc))
+                    prdict[storekey].append("| `%s` | `%s` | %s |" % (newkey, ValueStr, desc))
                 desc = ''
 
                 key = newkey
@@ -120,16 +131,28 @@ with open('index.md', 'r') as f:
     for d in data:
         print d
         if "<!-- AUTO-GENERATED-START -->" in d:
-            print '| Key | Default Value | Description |'
-            print '| --- | --- | --- |'
             break
 
     with open('values.yaml', 'r') as f_v:
         d_v = f_v.read()
+
+        # transform values.yaml into a encoded string dictionary
         yaml = YAML()
         code = yaml.load(d_v)
         yaml.explicit_start = True
         yaml.dump(code, sys.stdout, transform=decode_helm_yaml)
+
+        # Order the encoded string dictionary
+        od = collections.OrderedDict(sorted(prdict.items(), key=lambda t: t[0]))
+
+        # Print encoded string dictionary
+        for k, v in od.items():
+            print ("## `%s` options\n" % k)
+            print '| Key | Default Value | Description |'
+            print '| --- | --- | --- |'
+            for value in v:
+                print ('%s' % (value))
+            print ('')
 
     for d in data:
         if "<!-- AUTO-GENERATED-END -->" in d:
