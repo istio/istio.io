@@ -19,7 +19,7 @@ The stream is going to be a full day of Istio content. Hopefully we'll have a go
 
 ## Recordings
 
-Recordings are avail [here](https://www.youtube.com/playlist?list=PLzpeuWUENMK0V3dwpx5gPJun-SLG0USqU).
+Recordings are available [here](https://www.youtube.com/playlist?list=PLzpeuWUENMK0V3dwpx5gPJun-SLG0USqU).
 
 ## Schedule
 
