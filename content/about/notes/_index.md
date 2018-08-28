@@ -11,6 +11,7 @@ icon: /img/notes.svg
 ---
 
 - [Istio 1.1](./1.1)
+- [Istio 1.0.1](./1.0.1)
 - [Istio 1.0](./1.0)
 - [Istio 0.8](./0.8)
 - [Istio 0.7](./0.7)
