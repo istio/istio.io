@@ -329,7 +329,7 @@ principalBinding: USE_ORIGIN
 
 {{< text yaml >}}
 peers:
-- mTLS:
+- mtls:
     mode: PERMISSIVE
 {{< /text >}}
 
