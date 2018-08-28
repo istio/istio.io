@@ -131,7 +131,7 @@ keywords: [流量管理,ingress]
 
     `--resolve` 选项要求 `curl` 通过域名 `httpbin.example.com` 使用 TLS 访问 Gateway 地址，这样也就符合了证书的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 要求。`--cacert` 参数则让 `curl` 命令使用刚刚生成的证书来对服务器进行校验。
 
-    发送请求到 `/status/418`，会看到漂亮的返回内容，这说明我们成功访问了 `httpbin`。`httpbin` 服务会返回 [418 我是一个茶壶](https://tools.ietf.org/html/rfc7168#section-2.3.3)。
+    发送请求到 `/status/418`，会看到漂亮的返回内容，这说明我们成功访问了 `httpbin`。`httpbin` 服务会返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3)。
 
     {{< text bash >}}
     $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
