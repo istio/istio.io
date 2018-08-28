@@ -31,7 +31,7 @@ disable policy enforcement at the Mixer.
 
 ## Customization Example: Traffic Management And Security Minimal Set
 
-Istio has a rich feature set, but you may only want to use a subset of these. For instance, you might be only interested in installing the minimum necessary to support traffic management and security functionality.
+Istio has a rich feature set, but you may only want to use a subset of these. For instance, you might be only interested in installing the minimum necessary services to support traffic management and security functionality.
 
 This example shows how to install the minimal set of components necessary to use [traffic management](/docs/tasks/traffic-management/) features.
 
