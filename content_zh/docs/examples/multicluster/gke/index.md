@@ -307,7 +307,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ## 卸载
 
-除了卸载 Istio 之外，还应该执行以下操作 [Kubernetes multicluster 安装说明](/zh/docs/setup/kubernetes/multicluster-install/)：
+除了卸载 Istio 之外，还应该执行以下操作 [Kubernetes 多集群安装说明](/zh/docs/setup/kubernetes/multicluster-install/)：
 
 1. 删除 Google Cloud 防火墙规则：
 
