@@ -50,7 +50,7 @@ keywords: [策略,限额]
 
     或者
 
-将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
+    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
 [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params)包含配置值。
 
     {{< text yaml >}}
@@ -141,9 +141,9 @@ keywords: [策略,限额]
         #  - service: '*'  # Uncomment this to bind *all* services to request-count
     ---
     {{< /text >}}
-    
+
     运行以下命令以使用 redisquota 启用速率限制：
-    
+
     {{< text bash >}}
     $ kubectl apply -f redisquota.yaml
     {{< /text >}}
