@@ -47,7 +47,7 @@ After installed, you can find the Istio from **Helm Releases** page with its rel
     caption="IBM Cloud Private - Istio Installation"
     >}}
 
-## Upgrate and Rollback
+## Upgrate or Rollback
 - Log on to the **IBM Cloud Private** console.
 - Click the menu button on left of the navigation bar.
 - Click **Workloads** and select **Helm Releases**
