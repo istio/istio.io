@@ -72,45 +72,49 @@ keywords: [流量管理,故障注入]
 
 1. 使用用户 `jason` 登陆到 `/productpage` 界面。
 
-    你期望 Bookinfo 主页在大约 7 秒钟加载完成并且没有错误。但是，出现了一个问题，评论部分显示了错误消息：
+    你期望 Bookinfo 主页在大约 7 秒钟加载完成并且没有错误。但是，出现了一个问题，Reviews 部分显示了错误消息：
 
     {{< text plain >}}
-    获取产品评论错误!
-    抱歉, 本书目前没有可用的评论。
+    Error fetching product reviews!
+    Sorry, product reviews are currently unavailable for this book.
     {{< /text >}}
+
+1. 查看页面的返回时间：
+   1. 打开浏览器的 *Developer Tools* 菜单
+   1. 打开 Network 标签
+   1. 重新加载 `productpage` 页面，你会看到页面实际上用了大约 6s。
 
 ## 了解发生了什么
 
-整个评论服务失败的原因是我们的 Bookinfo 应用程序有错误。
-产品页面和评论服务之间的超时（评分为 3 次+ 1 次重试 = 总共 6 次）比评论和评级服务之间的超时时间（硬编码连接超时为 10 秒）。
-这些类型的错误可能发生在典型的企业应用程序中，其中不同的团队独立地开发不同的微服务。
-Istio 的故障注入规则可帮助您识别此类异常，而不会影响最终用户。
+你发现了一个 bug 。在微服务中有硬编码超时，导致 `reviews` 服务失败。
+在 `productpage` 和 `reviews` 服务之间超时时间是 6s - 编码 3s + 1 重试总共 6s ，`reviews` 和 `ratings` 服务之间的硬编码连接超时为 10s 。由于我们引入的延时，`/productpage` 提前超时并引发错误。
 
-> 请注意，我们仅限制用户 "jason” 的失败影响。, 如果您以任何其他用户身份登录，则不会遇到任何延迟。
+这些类型的错误可能发生在典型的企业应用程序中，其中不同的团队独立地开发不同的微服务。Istio 的故障注入规则可帮助您识别此类异常，而不会影响最终用户。
+
+> 请注意，我们仅限制用户 "jason” 的失败影响。如果您以任何其他用户身份登录，则不会遇到任何延迟。
 
 ## 错误修复
 
 你通常会解决这样的问题：
 
-1. 此时我们通常会通过增加产品页面超时或减少评级服务超时的评论来解决问题，
-1. 终止并重启固定的微服务
-1. 确认 `productpage` 返回其响应, 没有任何错误。
+1. 要么增加 `/productpage` 的超时或者减少 `reviews` 到 `ratings` 服务的超时
+1. 终止并重启微服务
+1. 确认 `productpage` 正常响应并且没有任何错误。
 
-但是，我们已经在评论服务的第 3 版中运行此修复程序，
-因此我们可以通过将所有流量迁移到 `reviews:v3` 来解决问题，
+但是，我们已经在 `reviews` 服务的 v3 版中运行此修复程序，因此我们可以通过将所有流量迁移到 `reviews:v3` 来解决问题，
 如[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)中所述任务。
 
 ## 练习
 
-（作为读者的练习 - 将延迟规则更改为使用 2.8 秒延迟，然后针对 v3 版本的评论运行它。）
+将延迟规则更改为使用 2.8 秒延迟，然后针对 v3 版本的 `reviews` 运行它。
 
-## 使用 HTTP Abort 进行故障注入
+## 使用 HTTP abort 进行故障注入
 
-作为弹性的另一个测试，我们将在 ratings 服务中，给用户 jason 的调用加上一个 HTTP 中断。
+测试微服务弹性的另一种方法是引入 HTTP abort 故障。在这个任务中，在 ratings 微服务中引入 HTTP abort ，测试用户为 `jason` 。
 
-我们希望页面能够立即加载，而不像延迟示例那样显示"产品评级不可用”消息。
+在这个案例中，我们希望页面能够立即加载，同时显示 `product ratings not available` 这样的消息。
 
-1. 为用户 "jason” 创建故障注入规则发送 HTTP 中止
+1. 为用户 "jason” 创建故障注入规则发送 HTTP abort
 
     {{< text bash >}}
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
@@ -153,9 +157,9 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
 
 1. 使用用户 `jason` 登陆到 `/productpage` 界面。
 
-    如果规则成功传播到所有的 pod ，您应该能立即看到页面加载"产品评级不可用”消息。
+    如果规则成功传播到所有的 pod，您应该能立即看到页面加载并看到 `Ratings service is currently unavailable` 消息。
 
-1. 注销用户 "jason”，您应该会在产品页面网页上看到评级星标的评论成功显示。
+1. 注销用户 `jason`，您应该会在 `/productpage` 网页上看到评级星标的评论成功显示。
 
 ## 清理
 
