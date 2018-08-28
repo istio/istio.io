@@ -235,8 +235,8 @@ This should stop Istio from restarting Envoy and disconnecting TCP connections.
 
 ## Configuring multiple TLS hosts in a gateway
 
-If you configure multiple gateway servers, either in a single Gateway,
-or spread across more than one that use the same selector labels,
+If you configure multiple gateway servers, either in a single `Gateway`,
+or spread across more than one that use the same `selector` labels,
 with the same port number and protocol HTTPS,
 then you must ensure that the corresponding port names are unique. For example:
 
@@ -273,10 +273,10 @@ spec:
 EOF
 {{< /text >}}
 
-If the port name is not unique, the `istio-pilot` pod returns the following error:
+If the port names are not unique, `istio-pilot` will return the following error in the log:
 
 {{< text plain >}}
 port https.443.HTTPS: non unique port name for HTTPS port
 {{< /text >}}
 
-If you run a `curl` command, Istio returns the same error under the `SSL_SYSCALL_ERROR` value.
+If you run a `curl` command, command returns 0 and print `SSL_SYSCALL_ERROR`.
