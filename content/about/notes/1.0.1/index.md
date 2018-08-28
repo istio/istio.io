@@ -17,7 +17,7 @@ This release note describes what's different between Istio 1.0 and Istio 1.0.1.
 
 ## Environment
 
-- Ability to run Pilot only for users who wants to leverage traffic management feature of Istio. 
+- Ability to run Pilot only for users who wants to leverage traffic management feature of Istio.
 - Convenient values-istio-gateway.yaml for users to run standalone gateways.
 - Various fixes for our helm based installation, including a prior issue with istio-sidecar-injector configmap not found.
 - Fixed the Istio installation error with endpoint galley not ready.
@@ -30,8 +30,8 @@ This release note describes what's different between Istio 1.0 and Istio 1.0.1.
 
 ### Adapters
 
-- Ability to specify sink options for the stackdriver adapter.
+- Ability to specify sink options for the Stackdriver adapter.
 
 ## Galley
 
-- Config validation improvement for health checks.
+- Configuration  validation improvement for health checks.
