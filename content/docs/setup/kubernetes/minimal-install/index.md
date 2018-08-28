@@ -25,7 +25,6 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
 
-
 1. Choose one of the following two
 **mutually exclusive** options described below.
 
@@ -34,7 +33,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system 
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system
       --set security.enabled=false \
       --set ingress.enabled=false \
       --set gateways.istio-ingressgateway.enabled=false \
@@ -75,7 +74,7 @@ to manage the lifecycle of Istio.
 1. Install Istio:
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system 
+    $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system
       --set security.enabled=false \
       --set ingress.enabled=false \
       --set gateways.istio-ingressgateway.enabled=false \
