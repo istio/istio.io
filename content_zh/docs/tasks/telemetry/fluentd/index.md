@@ -1,6 +1,6 @@
 ---
 title: 使用 Fluentd 记录日志
-description: 此任务将展示如何配置 Istio 将日志记录到 Fluentd 守护进程
+description: 此任务将展示如何配置 Istio 将日志记录到 Fluentd 守护进程。
 weight: 60
 keywords: [遥测,日志]
 ---
@@ -246,6 +246,8 @@ spec:
 
 创建资源:
 
+<div class="workaround_for_hugo_bug">
+
 {{< text bash >}}
 $ kubectl apply -f logging-stack.yaml
 namespace "logging" created
@@ -257,6 +259,8 @@ configmap "fluentd-es-config" created
 service "kibana" created
 deployment "kibana" created
 {{< /text >}}
+
+</div>
 
 ## 配置 Istio
 
