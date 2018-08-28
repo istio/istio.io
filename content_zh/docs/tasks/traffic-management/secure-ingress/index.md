@@ -38,7 +38,7 @@ keywords: [流量管理,ingress]
     $ pushd mtls-go-example
     {{< /text >}}
 
-1. 为 `httpbin.example.com` 生成证书。使用以下命令的任何密码：
+1. 使用以下的命令（密码任意指定）为 `httpbin.example.com` 生成证书：
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com <password>
@@ -243,13 +243,13 @@ keywords: [流量管理,ingress]
 
 在本小节中，执行与[生成客户端和服务器证书和密钥](/zh/docs/tasks/traffic-management/secure-ingress/#生成客户端与服务器的证书和密钥)子部分相同的步骤。为方便起见，我在下面列出它们。
 
-1. 进入克隆的存储库目录：
+1. 进入代码目录：
 
     {{< text bash >}}
     $ pushd mtls-go-example
     {{< /text >}}
 
-1. 为 `bookinfo.com` 生成证书。使用以下命令的任何密码：
+1. 使用以下的命令（密码任意指定）为 `httpbin.example.com` 生成证书：
 
     {{< text bash >}}
     $ ./generate.sh bookinfo.com <password>
@@ -271,14 +271,14 @@ keywords: [流量管理,ingress]
 
 ### 使用新证书重新部署 `istio-ingressgateway`
 
-1. 创建一个新秘密来保存 `bookinfo.com` 的证书
+1. 创建一个新 Secret 来保存 `bookinfo.com` 的证书
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com/3_application/private/bookinfo.com.key.pem --cert bookinfo.com/3_application/certs/bookinfo.com.cert.pem
     secret "istio-ingressgateway-bookinfo-certs" created
     {{< /text >}}
 
-1. 使用要从新秘密安装的卷生成 `istio-ingressgateway` 部署。使用与生成 `istio.yaml` 相同的选项：
+1. 通过使用新 Secret 的 volume 生成部署 `istio-ingressgateway` 的 deployment。生成 `istio.yaml` 时使用与生成 `istio-ingressgateway` 相同的选项：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio/ --name istio-ingressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
@@ -307,7 +307,7 @@ keywords: [流量管理,ingress]
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-bookinfo-certs
     {{< /text >}}
 
-    `tls.crt` 和 `tls.key` 应存在于目录内容中。
+    `tls.crt` 和 `tls.key` 应存在于目录中。
 
 ### 配置 `bookinfo.com` 主机的流量
 
@@ -317,7 +317,7 @@ keywords: [流量管理,ingress]
     $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
     {{< /text >}}
 
-1. 使用 `bookinfo.com` 的主机重新部署 `Gateway` 定义：
+1. 使用 `bookinfo.com` 的主机重新部署 `Gateway` ：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -399,7 +399,7 @@ keywords: [流量管理,ingress]
     200
     {{< /text >}}
 
-1. 验证可以像以前一样访问 `httbin.example.com`。向它发送请求，再次看到你应该喜欢的茶壶：
+1. 像以前一样访问 `httbin.example.com` 的方式验证一下。向它发送请求，你应该再次看到喜欢的茶壶：
 
     {{< text bash >}}
     $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -455,7 +455,7 @@ keywords: [流量管理,ingress]
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  如果创建了密钥但未安装密钥，则终止入口网关 pod 并强制它重新加载证书：
+1.  如果创建了 secret 但未挂载 secret，则终止入口网关 pod 并强制它重新加载证书：
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
