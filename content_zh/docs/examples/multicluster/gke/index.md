@@ -307,8 +307,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ## 卸载
 
-除了卸载Istio之外，还应该执行以下操作
-[Kubernetes multicluster安装说明](/zh/docs/setup/kubernetes/multicluster-install/)：
+除了卸载 Istio 之外，还应该执行以下操作 [Kubernetes multicluster 安装说明](/zh/docs/setup/kubernetes/multicluster-install/)：
 
 1. 删除 Google Cloud 防火墙规则：
 
@@ -316,13 +315,13 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ gcloud compute firewall-rules delete istio-multicluster-test-pods --quiet
     {{< /text >}}
 
-1. 从不再用于 Istio 的每个集群中删除 `cluster-admin` 集群角色绑定：
+1. 从不再用于 Istio 的每个集群中删除 `cluster-admin` 角色绑定：
 
     {{< text bash >}}
     $ kubectl delete clusterrolebinding gke-cluster-admin-binding
     {{< /text >}}
 
-1. 删除不再使用的任何 GKE 群集。以下是远程集群 `cluster-2` 的示例 delete 命令：
+1. 删除不再使用的任何 GKE 集群。以下是远程集群 `cluster-2` 的示例 delete 命令：
 
     {{< text bash >}}
     $ gcloud container clusters delete cluster-2 --zone $zone
