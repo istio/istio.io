@@ -131,7 +131,7 @@ keywords: [流量管理,ingress]
 
     `--resolve` 选项要求 `curl` 通过域名 `httpbin.example.com` 使用 TLS 访问 Gateway 地址，这样也就符合了证书的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 要求。`--cacert` 参数则让 `curl` 命令使用刚刚生成的证书来对服务器进行校验。
 
-    发送请求到 `/status/418`，会看到漂亮的返回内容，这说明我们成功访问了 `httpbin`。`httpbin` 服务会返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3)。
+    发送请求到 `/status/418`，会看到漂亮的返回内容，这说明我们成功访问了 `httpbin`。`httpbin` 服务会返回 [418 我是一个茶壶](https://tools.ietf.org/html/rfc7168#section-2.3.3)。
 
     {{< text bash >}}
     $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -160,7 +160,7 @@ keywords: [流量管理,ingress]
     > Gateway 定义的传播可能需要一些时间，在传播完成之间的访问，可能会得到这样的错误响应：
     > `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`。只需等待一分钟，重新访问即可。
 
-    查看 `curl` 命令返回内容中的 `Server certificate` 部分，注意其中的 `common name`：`common name: httpbin.example.com (matched)`。另外输出中还包含了 `SSL certificate verify ok`，这说明对服务器的证书校验是成功的，返回状态码为 418 和一只茶杯犬。
+    查看 `curl` 命令返回内容中的 `Server certificate` 部分，注意其中的 `common name`：`common name: httpbin.example.com (matched)`。另外输出中还包含了 `SSL certificate verify ok`，这说明对服务器的证书校验是成功的，返回状态码为 418 和一个茶壶画。
 
 如果需要支持 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) ，请继续下一节内容。
 
@@ -399,7 +399,7 @@ keywords: [流量管理,ingress]
     200
     {{< /text >}}
 
-1. 像以前一样访问 `httbin.example.com` 的方式验证一下。向它发送请求，你应该再次看到喜欢的茶壶：
+1. 像以前一样访问 `httbin.example.com` 的方式验证一下。向它发送请求，你应该再次看到喜欢的茶壶画：
 
     {{< text bash >}}
     $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
