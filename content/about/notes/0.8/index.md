@@ -6,6 +6,8 @@ icon: /img/notes.svg
 
 This is a major release for Istio on the road to 1.0. There are a great many new features and architectural improvements in addition to the usual pile of bug fixes and performance improvements.
 
+{{< relnote_links >}}
+
 ## Networking
 
 - **Revamped Traffic Management Model**. We're finally ready to take the wraps off our
