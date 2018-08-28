@@ -12,7 +12,7 @@ This release note describes what's different between Istio 1.0 and Istio 1.0.1.
 
 - Pilot scalability and Envoy sidecar startup improvement.
 - Fixed virtual service host mismatch issue when port is added.
-- Added limited support for [merging multiple virtual service or destination rule definitions](../../../help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) for the same host.
+- Added limited support for [merging multiple virtual service or destination rule definitions](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) for the same host.
 - Allow [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection.html) consecutive gateway failures when using HTTP.
 
 ## Environment
