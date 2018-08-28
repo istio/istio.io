@@ -4,7 +4,7 @@ weight: 91
 icon: /img/notes.svg
 ---
 
-We're proud to release Istio 1.0.1! Within this release, we have been addressing some critical issues found by the community when using Istio 1.0.
+Within this release, we have been addressing some critical issues found by the community when using Istio 1.0.
 
 This release note describes what's different between Istio 1.0 and Istio 1.0.1.
 
