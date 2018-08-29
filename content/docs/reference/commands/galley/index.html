@@ -2,128 +2,10 @@
 title: galley
 description: Galley provides configuration management services for Istio.
 generator: pkg-collateral-docs
-number_of_entries: 6
+number_of_entries: 4
 ---
 <p>Galley provides configuration management services for Istio.</p>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--resyncPeriod &lt;duration&gt;</code></td>
-<td>Resync period for rescanning Kubernetes resources  (default `0s`)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="galley-probe">galley probe</h2>
-<p>Check the liveness or readiness of a locally-running server</p>
-<pre class="language-bash"><code>galley probe [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--interval &lt;duration&gt;</code></td>
-<td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--probe-path &lt;string&gt;</code></td>
-<td>Path of the file for checking the availability.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--resyncPeriod &lt;duration&gt;</code></td>
-<td>Resync period for rescanning Kubernetes resources  (default `0s`)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="galley-server">galley server</h2>
-<p>Starts Galley as a server</p>
-<pre class="language-bash"><code>galley server [flags]
+<pre class="language-bash"><code>galley [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -136,16 +18,8 @@ number_of_entries: 6
 <td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/istio/config/accesslist.yaml`)</td>
 </tr>
 <tr>
-<td><code>--address &lt;string&gt;</code></td>
-<td>Address to use for Galley&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default `tcp://0.0.0.0:9901`)</td>
-</tr>
-<tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
-<td>The location of the certificate file for the root certificate authority  (default `/etc/istio/certs/root-cert.pem`)</td>
-</tr>
-<tr>
-<td><code>--certFile &lt;string&gt;</code></td>
-<td>The location of the certificate file for mutual TLS  (default `/etc/istio/certs/cert-chain.pem`)</td>
+<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
@@ -156,102 +30,6 @@ number_of_entries: 6
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
-<td><code>--insecure</code></td>
-<td>Use insecure gRPC communication </td>
-</tr>
-<tr>
-<td><code>--keyFile &lt;string&gt;</code></td>
-<td>The location of the key file for mutual TLS  (default `/etc/istio/certs/key.pem`)</td>
-</tr>
-<tr>
-<td><code>--kubeConfig &lt;string&gt;</code></td>
-<td>Path to the Kube config file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
-</tr>
-<tr>
-<td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
-<td>Interval of updating file for the liveness probe.  (default `0s`)</td>
-</tr>
-<tr>
-<td><code>--livenessProbePath &lt;string&gt;</code></td>
-<td>Path to the file for the liveness probe.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--maxConcurrentStreams &lt;uint&gt;</code></td>
-<td>Maximum number of outstanding RPCs per connection  (default `1024`)</td>
-</tr>
-<tr>
-<td><code>--maxReceivedMessageSize &lt;uint&gt;</code></td>
-<td>Maximum size of individual gRPC messages  (default `1048576`)</td>
-</tr>
-<tr>
-<td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
-<td>Interval of updating file for the readiness probe.  (default `0s`)</td>
-</tr>
-<tr>
-<td><code>--readinessProbePath &lt;string&gt;</code></td>
-<td>Path to the file for the readiness probe.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--resyncPeriod &lt;duration&gt;</code></td>
-<td>Resync period for rescanning Kubernetes resources  (default `0s`)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="galley-validator">galley validator</h2>
-<p>Runs an https server for Istio configuration validation. Uses k8s validating webhooks to validate Pilot and Mixer configuration.</p>
-<pre class="language-bash"><code>galley validator [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<th>Flags</th>
-<th>Description</th>
-</thead>
-<tbody>
-<tr>
-<td><code>--caCertFile &lt;string&gt;</code></td>
-<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
-</tr>
-<tr>
 <td><code>--deployment-name &lt;string&gt;</code></td>
 <td>Name of the deployment for the validation pod  (default `istio-galley`)</td>
 </tr>
@@ -260,16 +38,28 @@ number_of_entries: 6
 <td>Namespace of the deployment for the validation pod  (default `istio-system`)</td>
 </tr>
 <tr>
-<td><code>--healthCheckFile &lt;string&gt;</code></td>
-<td>File that should be periodically updated if health checking is enabled  (default ``)</td>
+<td><code>--enable-server</code></td>
+<td>Run galley server mode </td>
 </tr>
 <tr>
-<td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
+<td><code>--enable-validation</code></td>
+<td>Run galley validation mode </td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td>Use insecure gRPC communication </td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
+<td>Interval of updating file for the Galley liveness probe.  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--livenessProbePath &lt;string&gt;</code></td>
+<td>Path to the file for the Galley liveness probe.  (default `/healthLiveness`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -312,12 +102,28 @@ number_of_entries: 6
 <td>Port to use for the exposing self-monitoring information  (default `9093`)</td>
 </tr>
 <tr>
-<td><code>--port &lt;uint&gt;</code></td>
-<td>HTTPS port of the validation service. Must be 443 if service has more than one port   (default `443`)</td>
+<td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
+<td>Interval of updating file for the Galley readiness probe.  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--readinessProbePath &lt;string&gt;</code></td>
+<td>Path to the file for the Galley readiness probe.  (default `/healthReadiness`)</td>
 </tr>
 <tr>
 <td><code>--resyncPeriod &lt;duration&gt;</code></td>
 <td>Resync period for rescanning Kubernetes resources  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--server-address &lt;string&gt;</code></td>
+<td>Address to use for Galley&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default `tcp://0.0.0.0:9901`)</td>
+</tr>
+<tr>
+<td><code>--server-maxConcurrentStreams &lt;uint&gt;</code></td>
+<td>Maximum number of outstanding RPCs per connection  (default `1024`)</td>
+</tr>
+<tr>
+<td><code>--server-maxReceivedMessageSize &lt;uint&gt;</code></td>
+<td>Maximum size of individual gRPC messages  (default `1048576`)</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
@@ -328,7 +134,159 @@ number_of_entries: 6
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
 </tr>
 <tr>
-<td><code>--webhook-config-file &lt;string&gt;</code></td>
+<td><code>--validation-port &lt;uint&gt;</code></td>
+<td>HTTPS port of the validation service. Must be 443 if service has more than one port   (default `443`)</td>
+</tr>
+<tr>
+<td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
+<td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="galley-probe">galley probe</h2>
+<p>Check the liveness or readiness of a locally-running server</p>
+<pre class="language-bash"><code>galley probe [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--accessListFile &lt;string&gt;</code></td>
+<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/istio/config/accesslist.yaml`)</td>
+</tr>
+<tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--deployment-name &lt;string&gt;</code></td>
+<td>Name of the deployment for the validation pod  (default `istio-galley`)</td>
+</tr>
+<tr>
+<td><code>--deployment-namespace &lt;string&gt;</code></td>
+<td>Namespace of the deployment for the validation pod  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--enable-server</code></td>
+<td>Run galley server mode </td>
+</tr>
+<tr>
+<td><code>--enable-validation</code></td>
+<td>Run galley validation mode </td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td>Use insecure gRPC communication </td>
+</tr>
+<tr>
+<td><code>--interval &lt;duration&gt;</code></td>
+<td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
+<td>Interval of updating file for the Galley liveness probe.  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--livenessProbePath &lt;string&gt;</code></td>
+<td>Path to the file for the Galley liveness probe.  (default `/healthLiveness`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, runtime, snapshot] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--monitoringPort &lt;uint&gt;</code></td>
+<td>Port to use for the exposing self-monitoring information  (default `9093`)</td>
+</tr>
+<tr>
+<td><code>--probe-path &lt;string&gt;</code></td>
+<td>Path of the file for checking the availability.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
+<td>Interval of updating file for the Galley readiness probe.  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--readinessProbePath &lt;string&gt;</code></td>
+<td>Path to the file for the Galley readiness probe.  (default `/healthReadiness`)</td>
+</tr>
+<tr>
+<td><code>--resyncPeriod &lt;duration&gt;</code></td>
+<td>Resync period for rescanning Kubernetes resources  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--server-address &lt;string&gt;</code></td>
+<td>Address to use for Galley&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default `tcp://0.0.0.0:9901`)</td>
+</tr>
+<tr>
+<td><code>--server-maxConcurrentStreams &lt;uint&gt;</code></td>
+<td>Maximum number of outstanding RPCs per connection  (default `1024`)</td>
+</tr>
+<tr>
+<td><code>--server-maxReceivedMessageSize &lt;uint&gt;</code></td>
+<td>Maximum size of individual gRPC messages  (default `1048576`)</td>
+</tr>
+<tr>
+<td><code>--tlsCertFile &lt;string&gt;</code></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsKeyFile &lt;string&gt;</code></td>
+<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--validation-port &lt;uint&gt;</code></td>
+<td>HTTPS port of the validation service. Must be 443 if service has more than one port   (default `443`)</td>
+</tr>
+<tr>
+<td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
 <td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
 </tr>
 </tbody>
@@ -345,9 +303,64 @@ number_of_entries: 6
 </thead>
 <tbody>
 <tr>
+<td><code>--accessListFile &lt;string&gt;</code></td>
+<td></td>
+<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/istio/config/accesslist.yaml`)</td>
+</tr>
+<tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--deployment-name &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the deployment for the validation pod  (default `istio-galley`)</td>
+</tr>
+<tr>
+<td><code>--deployment-namespace &lt;string&gt;</code></td>
+<td></td>
+<td>Namespace of the deployment for the validation pod  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--enable-server</code></td>
+<td></td>
+<td>Run galley server mode </td>
+</tr>
+<tr>
+<td><code>--enable-validation</code></td>
+<td></td>
+<td>Run galley validation mode </td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td></td>
+<td>Use insecure gRPC communication </td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td></td>
 <td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval of updating file for the Galley liveness probe.  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--livenessProbePath &lt;string&gt;</code></td>
+<td></td>
+<td>Path to the file for the Galley liveness probe.  (default `/healthLiveness`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -395,14 +408,64 @@ number_of_entries: 6
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--monitoringPort &lt;uint&gt;</code></td>
+<td></td>
+<td>Port to use for the exposing self-monitoring information  (default `9093`)</td>
+</tr>
+<tr>
+<td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval of updating file for the Galley readiness probe.  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--readinessProbePath &lt;string&gt;</code></td>
+<td></td>
+<td>Path to the file for the Galley readiness probe.  (default `/healthReadiness`)</td>
+</tr>
+<tr>
 <td><code>--resyncPeriod &lt;duration&gt;</code></td>
 <td></td>
 <td>Resync period for rescanning Kubernetes resources  (default `0s`)</td>
 </tr>
 <tr>
+<td><code>--server-address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to use for Galley&#39;s gRPC API, e.g. tcp://127.0.0.1:9092 or unix:///path/to/file  (default `tcp://0.0.0.0:9901`)</td>
+</tr>
+<tr>
+<td><code>--server-maxConcurrentStreams &lt;uint&gt;</code></td>
+<td></td>
+<td>Maximum number of outstanding RPCs per connection  (default `1024`)</td>
+</tr>
+<tr>
+<td><code>--server-maxReceivedMessageSize &lt;uint&gt;</code></td>
+<td></td>
+<td>Maximum size of individual gRPC messages  (default `1048576`)</td>
+</tr>
+<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
+</tr>
+<tr>
+<td><code>--tlsCertFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsKeyFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--validation-port &lt;uint&gt;</code></td>
+<td></td>
+<td>HTTPS port of the validation service. Must be 443 if service has more than one port   (default `443`)</td>
+</tr>
+<tr>
+<td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
+<td></td>
+<td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
 </tr>
 </tbody>
 </table>
