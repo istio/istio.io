@@ -10,7 +10,7 @@ icon: /img/docs.svg
 
 另外，您可能会发现这些有趣的链接：
 
-- 查看我们的[帮助](/help)部分，其中包括我们的[操作指南](/help/ops)，我们的[FAQ](/help/faq)和我们的[词汇表](/help/glossary)。
+- 查看我们的[帮助](/zh/help)部分，其中包括我们的[操作指南](/zh/help/ops)，我们的[FAQ](/zh/help/faq)和我们的[词汇表](/zh/help/glossary)。
 
 - 有关各个 Istio 版本的信息，请参阅我们的[发行说明](/zh/about/notes)。
 
