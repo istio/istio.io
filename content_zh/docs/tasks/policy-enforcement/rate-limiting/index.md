@@ -21,34 +21,131 @@ keywords: [策略,限额]
 
     这里需要设置一个到某版本的缺省路由，否则当发送请求到 `reviews` 服务的时候，Istio 会随机路由到某个版本，有时候显示评级图标，有时不显示。
 
-1. 把每个服务的缺省路由设置到 v1 版本，如果已经给示例应用创建了路由规则，那么下面的命令中应该使用 `replace` 而不是 `create`。
+1. 将所有服务的默认版本设置为 v1。
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
-
-1. 为 `reviews` 服务编写基于应用版本的路由，将来自 "jason" 用户的请求发送到版本 "v2"，其他请求发送到版本 "v3"。
-
-    {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 ## 速率限制
 
-Istio 允许用户对服务进行限流。
+在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到访问 `productpage` 的用户。您将使用 `X-Forwarded-For` 请求 http header 作为客户端 IP 地址。您还将使用免除登录用户的条件速率限制。
 
-假设 `ratings` 是一个像 `Rotten Tomatoes®` 这样的付费的外部服务，但是他提供了 `1 qps` 的免费额度可以使用。下面我们尝试使用 Istio 来确保只使用这免费的 `1 qps`。
+为方便起见，您可以配置 [memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，你需要 [`Redis`](http://redis.io/) ，然后配置 [`redisquota`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持 [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，因此，在两个适配器上启用速率限制的配置是相同的。
 
-1. 用浏览器打开 Bookinfo 的 `productpage` 页面（`http://$GATEWAY_URL/productpage`）。
+1. 速率限制配置分为两部分。
+    * 客户端
+        * `QuotaSpec` 定义客户端应该请求的配额名称和金额。
+        * `QuotaSpecBinding` 有条件地将 `QuotaSpec` 与一个或多个服务相关联。
+    * Mixer 端
+        * `quota instance` 定义了 Mixer 如何确定配额的大小。
+        * `memquota adapter` 定义了 memquota 适配器配置。
+        * `quota rule` 定义何时将配额实例分派给 memquota 适配器。
 
-    如果用 "jason" 的身份登录，应该能看到黑色评级图标，这说明 `ratings` 服务正在被 `reviews:v2` 服务调用。
-
-    如果用其他身份登录，就会看到红色的评级图标，这表明调用 `ratings` 服务的是 `reviews:v3` 服务。
-
-1. 为实现速率限制，需要配置 `memquota`、`quota`、`rule`、`QuotaSpec` 以及 `QuotaSpecBinding` 五个对象：
+    运行以下命令以使用 memquota 启用速率限制：
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
+    {{< /text >}}
+
+    或者
+
+    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
+[`redis_server_url`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params)包含配置值。
+
+    {{< text yaml >}}
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: redisquota
+    metadata:
+      name: handler
+      namespace: istio-system
+    spec:
+      quotas:
+      - name: requestcount.quota.istio-system
+        maxAmount: 500
+        validDuration: 1s
+        bucketDuration: 500ms
+        rateLimitAlgorithm: <rate_limit_algorithm>
+        # The first matching override is applied.
+        # A requestcount instance is checked against override dimensions.
+        overrides:
+        # The following override applies to 'reviews' regardless
+        # of the source.
+        - dimensions:
+            destination: reviews
+          maxAmount: 1
+          validDuration: 5s
+        # The following override applies to 'productpage' when
+        # the source is a specific ip address.
+        - dimensions:
+            destination: productpage
+            source: "10.28.11.20"
+          maxAmount: 500
+          validDuration: 1s
+        # The following override applies to 'productpage' regardless
+        # of the source.
+        - dimensions:
+            destination: productpage
+          maxAmount: 2
+          validDuration: 5s
+        redisServerUrl: <redis_server_url>
+        connectionPoolSize: 10
+    ---
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: quota
+    metadata:
+      name: requestcount
+      namespace: istio-system
+    spec:
+      dimensions:
+        source: request.headers["x-forwarded-for"] | "unknown"
+        destination: destination.labels["app"] | destination.workload.name | "unknown"
+        destinationVersion: destination.labels["version"] | "unknown"
+    ---
+    apiVersion: config.istio.io/v1alpha2
+    kind: rule
+    metadata:
+      name: quota
+      namespace: istio-system
+    spec:
+      # quota only applies if you are not logged in.
+      # match: match(request.headers["cookie"], "user=*") == false
+      actions:
+      - handler: handler.redisquota
+        instances:
+        - requestcount.quota
+    ---
+    apiVersion: config.istio.io/v1alpha2
+    kind: QuotaSpec
+    metadata:
+      name: request-count
+      namespace: istio-system
+    spec:
+      rules:
+      - quotas:
+        - charge: 1
+          quota: requestcount
+    ---
+    apiVersion: config.istio.io/v1alpha2
+    kind: QuotaSpecBinding
+    metadata:
+      name: request-count
+      namespace: istio-system
+    spec:
+      quotaSpecs:
+      - name: request-count
+        namespace: istio-system
+      services:
+      - name: productpage
+        namespace: default
+        #  - service: '*'  # Uncomment this to bind *all* services to request-count
+    ---
+    {{< /text >}}
+
+    运行以下命令以使用 redisquota 启用速率限制：
+
+    {{< text bash >}}
+    $ kubectl apply -f redisquota.yaml
     {{< /text >}}
 
 1. 检查 `memquota` 的创建情况：
@@ -62,25 +159,69 @@ Istio 允许用户对服务进行限流。
       namespace: istio-system
     spec:
       quotas:
+
       - name: requestcount.quota.istio-system
-        maxAmount: 5000
+        maxAmount: 500
         validDuration: 1s
-        overrides:
         - dimensions:
-            destination: ratings
-            source: reviews
-            sourceVersion: v3
-          maxAmount: 1
-          validDuration: 5s
+            destination: reviews
+            maxAmount: 1
+            validDuration: 5s
         - dimensions:
-            destination: ratings
-          maxAmount: 5
-          validDuration: 10s
+            destination: productpage
+            maxAmount: 2
+            validDuration: 5s
     {{< /text >}}
 
-    `memquota` 定义了三个不同的速率限制。在没有 `overrides` 生效的缺省情况下，每秒限制 5000 请求、另外还定义了两个 `overrides` 条目。如果 `destination` 的值为 `ratings`，来源为 `reviews` 并且 `sourceVersion` 是 `v3`，限制值为每 5 秒 1 次；如果 `destination` 是 `ratings`；第二条 `overrides` 条目的条件是 `destinatin` 等于 `ratings` 的时候限制为每 10 秒 5 个请求。Istio 会选择第一条符合条件的 `overrides`（读取顺序为从上到下）应用到请求上。
+    `memquota` 处理程序定义了 3 种不同的速率限制方案。在没有 `overrides` 生效的缺省情况下，每秒限制请求为 `500` 次。还定义了两个 `overrides` 条目：
 
-1. 确认 `quota` 的创建情况。
+    * 如果 `destination` 值为 `reviews` ，限制值为每 5 秒 1 次。
+    * 如果 `destination` 值为 `productpage` ，限制值为每 5 秒 2 次。
+
+    处理请求时，Istio 会选择第一条符合条件的 `overrides`（读取顺序为从上到下）应用到请求上。
+
+    或者
+
+    确认已创建 `redisquota` handler ：
+
+    {{< text bash yaml >}}
+    $ kubectl -n istio-system get redisquota handler -o yaml
+    apiVersion: config.istio.io/v1alpha2
+    kind: redisquota
+    metadata:
+      name: handler
+      namespace: istio-system
+    spec:
+      connectionPoolSize: 10
+      quotas:
+
+      - name: requestcount.quota.istio-system
+        maxAmount: 500
+        validDuration: 1s
+        bucketDuration: 500ms
+        rateLimitAlgorithm: ROLLING_WINDOW
+        overrides:
+        - dimensions:
+            destination: reviews
+            maxAmount: 1
+        - dimensions:
+            destination: productpage
+            source: 10.28.11.20
+            maxAmount: 500
+        - dimensions:
+            destination: productpage
+            maxAmount: 2
+    {{< /text >}}
+
+    `redisquota` handler 定义了 4 种不同的速率限制方案。在没有 `overrides` 生效的缺省情况下，每秒限制请求为 `500`次。它使用 `ROLLING_WINDOW` 算法进行配额检查，因此为 `ROLLING_WINDOW` 算法定义了 500ms 的 `bucketDuration`。还定义了 `overrides` 条目：
+
+    * 如果 `destination` 的值为 `reviews`是 那么最大请求配额为 `1`。
+    * 如果 `destination` 的值为 `productpage` 并且来源是 `10.28.11.20` 那么最大请求配额为 `500`，
+    * 如果 `destination` 的值为 `productpage` 那么最大请求配额为`2`。
+
+    处理请求时，Istio 会选择第一条符合条件的 `overrides`（读取顺序为从上到下）应用到请求上。
+
+    确认 `quota instance` 的创建情况：
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get quotas requestcount -o yaml
@@ -91,15 +232,14 @@ Istio 允许用户对服务进行限流。
       namespace: istio-system
     spec:
       dimensions:
-        source: source.labels["app"] | source.service | "unknown"
-        sourceVersion: source.labels["version"] | "unknown"
-        destination: destination.labels["app"] | destination.service | "unknown"
+        source: request.headers["x-forwarded-for"] | "unknown"
+        destination: destination.labels["app"] | destination.service.host | "unknown"
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    `quota` 模板为 `memquota` 定义了 4 个 `demensions` 条目，用于在符合条件的请求上设置 `overrides`。`destination` 会被设置为 `destination.labels["app"]` 中的第一个非空的值。可以在[表达式语言文档](/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
+    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels [“app”]`，`destination.service.host`或`"unknown"`中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
 
-1. 确认 `rule` 的创建情况：
+1. 确认 `quota rule` 的创建情况：
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get rules quota -o yaml
@@ -147,26 +287,17 @@ Istio 允许用户对服务进行限流。
       quotaSpecs:
       - name: request-count
         namespace: istio-system
-      services:
-      - name: ratings
-        namespace: default
-      - name: reviews
-        namespace: default
-      - name: details
-        namespace: default
+        services:
       - name: productpage
         namespace: default
+      # - service: '*'
     {{< /text >}}
 
     `QuotaSpecBinding` 把前面的 `QuotaSpec` 绑定到需要应用限流的服务上。因为 `QuotaSpecBinding` 所属命名空间和这些服务是不一致的，所以这里必须定义每个服务的 `namespace`。
 
 1. 在浏览器中刷新 `productpage` 页面。
 
-    如果处于登出状态，`reviews-v3` 服务的限制是每 5 秒 1 次请求。持续刷新页面，会发现每 5 秒钟评级图标只会显示大概 1 次。
-
-    如果使用 "jason" 登录，`reviews-v2` 服务的速率限制是每 10 秒钟 5 次请求。如果持续刷新页面，会发现 10 秒钟之内，评级图标大概只会显示 5 次。
-
-    所有其他的服务则会适用于 5000 qps 的缺省速率限制。
+    `request-count` 配额适用于 `productpage` ，每 5 秒允许 2 个请求。如果你不断刷新页面，你会看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`。
 
 ## 有条件的速率限制
 
@@ -175,20 +306,33 @@ Istio 允许用户对服务进行限流。
 例如下面的配置：
 
 {{< text yaml >}}
+$ kubectl -n istio-system edit rules quota
+
 apiVersion: config.istio.io/v1alpha2
 kind: rule
 metadata:
   name: quota
   namespace: istio-system
 spec:
-  match: source.namespace != destination.namespace
+  match: match(request.headers["cookie"], "user=*") == false
   actions:
   - handler: handler.memquota
     instances:
     - requestcount.quota
 {{< /text >}}
 
-如果一个请求的源服务和目的服务处于不同的命名空间，这个配额限制就会生效。
+只有当请求中没有 `user = <username>` cookie 时，才会调度 `memquota` 或 `redisquota` 适配器。
+这可确保登录用户不受此配额的约束。
+
+1. 验证速率限制不适用于登录用户。
+
+    以 `jason` 身份登录并反复刷新 `productpage`。现在你应该能够毫无问题地做到这一点。
+
+1. 未登录时验证速率限制*是否适用*。
+
+    注销 `jason` 并反复刷新 `productpage` 。
+
+    您应该再次看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount` 。
 
 ## 理解速率限制
 
@@ -204,16 +348,24 @@ spec:
 
 ## 清理
 
-1. 删除速率限制配置：
+1. 如果使用 `memquota` ，删除 `memquota` 速率限制相关的配置：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    {{< /text >}}
+
+    或者
+
+    如果使用 `redisquota` ，删除 `redisquota` 速率限制相关的配置：
+
+    {{< text bash >}}
+    $ kubectl delete -f redisquota.yaml
     {{< /text >}}
 
 1. 删除应用路由规则：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. 如果不准备尝试后续任务，可参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的介绍关停应用。
