@@ -43,4 +43,4 @@ All times are `PDT`.
 | 2:40 - 3:00  | `Christian Posta` | `Red Hat` |
 | 3:00 - 3:20  | `Google/IBM China` | `Google / IBM` |
 | 3:20 - 3:40 | `Colby Dyess` | `Tuffin` |
-| 3:40 - 4:00  | `Rohit Agarwalla` | `Cisco` | 
+| 3:40 - 4:00  | `Rohit Agarwalla` | `Cisco` |
