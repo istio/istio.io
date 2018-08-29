@@ -19,7 +19,7 @@ This guide installs the current release version of Istio.
 
 - Log on to the **IBM Cloud Private** console.
 - Click **Catalog** on right of the navigation bar.
-- Click **Filter** on right of the search box and select the **ibm-charts** checkbox
+- Click **Filter** on right of the search box and select the `ibm-charts` checking box
 - Click **Operations** on the left navigation pane.
 
 {{< image width="100%" ratio="50%"
@@ -27,14 +27,14 @@ This guide installs the current release version of Istio.
     caption="IBM Cloud Private - Istio Catalog"
     >}}
 
-- Click the **ibm-istio** in the right panel.
+- Click the `ibm-istio` in the right panel.
 
 {{< image width="100%" ratio="50%"
     link="./istio-catalog-2.png"
     caption="IBM Cloud Private - Istio Catalog"
     >}}
 
-- (Optional) You can change the Istio version from **CHART VERSION** dropdown box as you desire
+- (Optional) You can change the Istio version from **CHART VERSION** drop down box as you desire
 - Click the **Configure** button.
 
 {{< image width="100%" ratio="50%"
@@ -59,29 +59,31 @@ After installed, you can find the Istio from **Helm Releases** page with its rel
     caption="IBM Cloud Private - Istio Installation"
     >}}
 
-## Upgrate or Rollback
+## Upgrade or Rollback
+
 - Log on to the **IBM Cloud Private** console.
 - Click the menu button on left of the navigation bar.
 - Click **Workloads** and select **Helm Releases**
-- Find the istalled Istio with its release name.
-- Click **Action** link and selete upgrate or rollback action.
+- Find the installed Istio with its release name.
+- Click **Action** link and select `upgrade` or `rollback` action.
 
 {{< image width="100%" ratio="50%"
     link="./istio-upgrade-1.png"
-    caption="IBM Cloud Private - Istio Upgrate or Rollback"
+    caption="IBM Cloud Private - Istio Upgrade or Rollback"
     >}}
 
 {{< image width="100%" ratio="50%"
     link="./istio-upgrade-2.png"
-    caption="IBM Cloud Private - Istio Upgrate or Rollback"
+    caption="IBM Cloud Private - Istio Upgrade or Rollback"
     >}}
 
 ## Uninstalling
+
 - Log on to the **IBM Cloud Private** console.
 - Click the menu button on left of the navigation bar.
 - Click **Workloads** and select **Helm Releases**
-- Find the istalled Istio with its release name.
-- Click **Action** link and selete delete action.
+- Find the installed Istio with its release name.
+- Click **Action** link and select `delete` action.
 
 {{< image width="100%" ratio="50%"
     link="./istio-deletion.png"
