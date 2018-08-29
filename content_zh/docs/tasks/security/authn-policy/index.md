@@ -5,7 +5,7 @@ weight: 10
 keywords: [安全,认证]
 ---
 
-此任务涵盖启用，配置和使用 Istio 身份验证策略时可能需要执行的主要活动。了解更多信息
+此任务涵盖启用、配置和使用 Istio 身份验证策略时可能需要执行的主要活动。了解更多信息
 [认证概述](/zh/docs/concepts/security/#认证)中的基本概念。
 
 ## 开始之前
@@ -15,13 +15,13 @@ keywords: [安全,认证]
 
 * 拥有一个安装好 Istio 的 Kubernetes 集群，并且全局双向 TLS 处于禁用状态
 (可使用[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中提供的示例配置
- `install/kubernetes/istio.yaml`，或者使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 
+ `install/kubernetes/istio.yaml`，或者使用 [Helm](/zh/docs/setup/kubernetes/helm-install/)
  设置 `global.mtls.enabled` 为 false)。
 
 ### 安装
 
 为了演示，需要创建两个命名空间 `foo` 和 `bar`，并且在两个空间中都部署带有 sidecar 的
- [httpbin]({{< github_tree >}}/samples/httpbin) 应用和带 sidecar 的 
+ [httpbin]({{< github_tree >}}/samples/httpbin) 应用和带 sidecar 的
  [sleep]({{< github_tree >}}/samples/sleep) 应用。同时，
  运行另外一份不带有 sidecar 的 httpbin 和 sleep 应用(为了保证独立性，
  在 `legacy` 命名空间中运行它们)。如果您在尝试任务时想要使用相同的示例，
@@ -39,8 +39,8 @@ $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n legacy
 $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
 {{< /text >}}
 
-通过从任意客户端(例如 `sleep.foo`、`sleep.bar` 和 `sleep.legacy`) 向任意服务端 
-( `httpbin.foo` 、 `httpbin.bar` 或 `httpbin.legacy` ) 发送 HTTP 请求
+通过从任意客户端(例如 `sleep.foo`、`sleep.bar` 和 `sleep.legacy`) 向任意服务端
+ ( `httpbin.foo` 、 `httpbin.bar` 或 `httpbin.legacy` ) 发送 HTTP 请求
 (可以使用 curl 命令)来验证以上设置。所有请求都应该成功进行并且返回的 HTTP 状态码为 200。
 
 以下是一个检查从 `sleep.bar` 到 `httpbin.foo` 可达性的命令示例：
@@ -108,7 +108,7 @@ EOF
 `MeshPolicy` 。策略的名称必须是 `default`，并且它不包含 `targets` 规范
 （因为它旨在应用于网格中的所有服务）。
 
-此时，只有接收方被配置为使用双向 TLS。如果你在 * Istio 服务* 之间运行 `curl` 命令（即那些带有 sidecar 的服务），
+此时，只有接收方被配置为使用双向 TLS。如果你在 *Istio 服务* 之间运行 `curl` 命令（即那些带有 sidecar 的服务），
 所有请求都将失败并显示 503 错误代码，因为客户端仍在使用明文请求（即 HTTP ）。
 
 {{< text bash >}}
@@ -145,8 +145,8 @@ EOF
 它的内部实施。
 
 不要忘记目标规则也用于非身份验证原因，例如设置 canarying，但适用相同的优先顺序。所以，如果一个服务
-由于任何原因需要特定的目标规则 
-- 例如，对于配置负载平衡器 
+由于任何原因需要特定的目标规则
+- 例如，对于配置负载平衡器
 - 规则必须包含类似的 TLS 块
 `ISTIO_MUTUAL` 模式，否则它将覆盖网格或命名空间范围的 TLS 设置并禁用 TLS。
 
@@ -234,7 +234,7 @@ EOF
 {{< /text >}}
 
 > 如果使用[默认双向 TLS 选项](/zh/docs/setup/kubernetes/quick-start/#安装步骤)安装 Istio，
-  此规则与上述全局身份验证策略和目标规则一起将在安装过程中注入系统。
+此规则与上述全局身份验证策略和目标规则一起将在安装过程中注入系统。
 
 重新运行上面的测试命令以确认在添加规则后它返回200：
 
@@ -607,10 +607,10 @@ spec:
 EOF
 {{< /text >}}
 
-> 如果已在网状范围或命名空间范围内启用了双向 TLS，则主机 “httpbin.foo” 已被其他目标规则覆盖。
-  因此，您不需要添加此目标规则。另一方面，您仍然需要将 `mtls` 节添加到身份验证策略，因为特定于服务的策略将完全覆盖整个网格范围（或命名空间范围）策略。
+> 如果已在网状范围或命名空间范围内启用了双向 TLS，则主机 `httpbin.foo` 已被其他目标规则覆盖。
+因此，您不需要添加此目标规则。另一方面，您仍然需要将 `mtls` 节添加到身份验证策略，因为特定于服务的策略将完全覆盖整个网格范围（或命名空间范围）策略。
 
-在这些更改之后，来自 Istio 服务（包括 ingress gateway ）到 `httpbin.foo` 的流量将使用双向 TLS。上面的测试命令仍然有效。在给定正确的令牌的情况下，Istio 服务直接向 `httpbin.foo` 发出的请求也可以正常工作：  
+在这些更改之后，来自 Istio 服务（包括 ingress gateway ）到 `httpbin.foo` 的流量将使用双向 TLS。上面的测试命令仍然有效。在给定正确的令牌的情况下，Istio 服务直接向 `httpbin.foo` 发出的请求也可以正常工作：
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
