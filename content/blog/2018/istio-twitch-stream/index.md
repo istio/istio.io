@@ -17,9 +17,9 @@ To celebrate the 1.0 release and to promote the software to a wider audience, th
 
 The stream is going to be a full day of Istio content. Hopefully we'll have a good mix of deep technical content, beginner content and line-of-business content for our audience. We'll have developers, users, and evangelists on throughout the day to share their demos and stories. Expect live coding, q and a, and some surprises. We have stellar guests lined up from IBM, Google, Datadog, Pivotal, and more!
 
-## How do I watch?
+## Recordings
 
-It's easy! Just navigate [here](https://twitch.tv/ibmcode) on August 17th starting at 10 AM Pacific.
+Recordings are available [here](https://www.youtube.com/playlist?list=PLzpeuWUENMK0V3dwpx5gPJun-SLG0USqU).
 
 ## Schedule
 
@@ -43,8 +43,4 @@ All times are `PDT`.
 | 2:40 - 3:00  | `Christian Posta` | `Red Hat` |
 | 3:00 - 3:20  | `Google/IBM China` | `Google / IBM` |
 | 3:20 - 3:40 | `Colby Dyess` | `Tuffin` |
-| 3:40 - 4:00  | `Rohit Agarwalla` | `Cisco` |
-
-## I'd like to be on the stream
-
-Oh good! We'd like to have you on as well. Reach out to ``@nibalizer`` on the Istio slack or rocket chat to get started.
+| 3:40 - 4:00  | `Rohit Agarwalla` | `Cisco` | 
