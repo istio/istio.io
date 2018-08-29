@@ -1,0 +1,1 @@
+{{ if .Site.Data.args.preliminary }}https://github.com/istio/istio/releases/{{ else }}https://github.com/istio/istio/releases/tag/{{ .Site.Data.args.full_version }}{{ end }}
