@@ -10,10 +10,10 @@ keywords: [授权,基于角色的访问控制,安全]
 
  Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域，并允许组织使用将工作负载彼此隔离并单独保护它们。
  [Istio 的授权功能](/zh/docs/concepts/security/#授权和鉴权)也称为 Istio 基于角色的访问控制，为 Istio 网格中的服务提供
-  Micro-Segmentation 。它的特点是：
+  Micro-Segmentation。它的特点是：
 
-* 不同粒度级别的授权，包括命名空间级别，服务级别和方法级别。
-* 服务到服务和最终用户到服务授权。
+* 不同粒度级别的授权、包括命名空间级别、服务级别和方法级别。
+* 服务间和最终用户到服务授权。
 * 高性能，因为它在 Envoy 上本地执行。
 * 基于角色的语义，使其易于使用。
 * 灵活性高，因为它允许用户定义条件[属性组合](/docs/reference/config/authorization/constraints-and-properties/).
@@ -24,8 +24,8 @@ keywords: [授权,基于角色的访问控制,安全]
 
 ### RPC 级别授权
 
-授权在各个 RPC 级别执行。具体来说，它控制"谁可以访问我的 `bookstore` 服务"，或者"谁可以在我的 `bookstore` 服务中访问
- `getBook` 方法 "。它不是为了控制对特定于应用程序的访问而设计的
+授权在各个 RPC 级别执行。具体来说，它控制“谁可以访问我的 `bookstore` 服务“，或者“谁可以在我的 `bookstore` 服务中访问
+ `getBook` 方法 “。它不是为了控制对特定于应用程序的访问而设计的
 资源实例，例如访问“存储桶 X ”或访问“第二层架上的第 3 本书”。今天这种应用特定的访问控制逻辑需要由应用程序本身处理。
 
 ### 具有条件的基于角色的访问控制
@@ -58,7 +58,7 @@ keywords: [授权,基于角色的访问控制,安全]
 你有一个调用服务（`Bookstore frontend`）和最终用户（`Alice`）的组合身份。
 
 要提高安全性，您应该启用[认证功能](/zh/docs/concepts/security/#认证),并在授权策略中使用经过验证的身份。但是，
-使用授权不强迫一定要有身份验证。 Istio 授权可以使用或不使用身份。如果您正在使用遗留系统，您可能没有网格的双向 TLS 或 JWT 身份验证
+使用授权不强迫一定要有身份验证。Istio 授权可以使用或不使用身份。如果您正在使用遗留系统，您可能没有网格的双向 TLS 或 JWT 身份验证
 设置。在这种情况下，识别客户端的唯一方法是，例如，通过 IP。您仍然可以使用 Istio 授权来控制允许哪些 IP 地址或 IP 范围访问您的服务。
 
 ## 示例
@@ -103,13 +103,13 @@ spec:
 上面的 `ServiceRole` 和 `ServiceRoleBinding` 表示“允许*谁* 在 *条件*下执行*什么* ”
 （RBAC +条件）。特别：
 
-* **"谁”** 是 `frontend` 命名空间中的服务。
-* **"什么”** 是在 `backend` 命名空间中调用服务。
-* **"条件”** 是具有值 `external` 的目标服务的 `visibility` 标签。
+* **“谁”** 是 `frontend` 命名空间中的服务。
+* **“什么”** 是在 `backend` 命名空间中调用服务。
+* **“条件”** 是具有值 `external` 的目标服务的 `visibility` 标签。
 
 ### 具有/不具有主要身份的服务/方法级别隔离
 
-这是演示另一个服务/方法级别的细粒度访问控制的示例。第一步是定义一个 `book-reader` `ServiceRole`，它允许对 `bookstore` 服务中的`/books/*`资源进行 READ 访问。
+这是演示另一个服务/方法级别的细粒度访问控制的示例。第一步是定义一个 `book-reader` `ServiceRole`，它允许对 `bookstore` 服务中的 `/books/*` 资源进行 READ 访问。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -143,7 +143,7 @@ spec:
     name: "book-reader"
 {{< /text >}}
 
-您可能希望通过添加“仅属于 `qualified-reviewer` 组的用户的条件来进一步限制此操作允许阅读书籍“。 `qualified-reviewer` 组是经过身份验证的最终用户身份 [JWT 身份验证](/zh/docs/concepts/security/#认证)。在这种情况下，客户端服务标识的组合（`bookstore-frontend`）和最终用户身份（`qualified-reviewer`）在授权策略中使用。
+您可能希望通过添加“仅属于 `qualified-reviewer` 组的用户的条件来进一步限制此操作允许阅读书籍“。`qualified-reviewer` 组是经过身份验证的最终用户身份 [JWT 身份验证](/zh/docs/concepts/security/#认证)。在这种情况下，客户端服务标识的组合（`bookstore-frontend`）和最终用户身份（`qualified-reviewer`）在授权策略中使用。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -183,4 +183,4 @@ spec:
 
 ## 概要
 
-Istio 在命名空间级别，服务级别和方法级别粒度上提供授权功能。它采用“ RBAC +条件”模型，使其成为易于使用和理解的 RBAC 系统，同时提供 ABAC 系统级别的灵活性。 在 Envoy 本地上会执行 Istio 授权。虽然它通过与一起提供最好的安全性 [Istio 认证功能](/zh/docs/concepts/security/#认证),也可以使用 Istio 授权为没有身份验证的旧系统提供访问控制。
+Istio 在命名空间级别，服务级别和方法级别粒度上提供授权功能。它采用“ RBAC +条件”模型，使其成为易于使用和理解的 RBAC 系统，同时提供 ABAC 系统级别的灵活性。在 Envoy 本地上会执行 Istio 授权。虽然它通过与一起提供最好的安全性 [Istio 认证功能](/zh/docs/concepts/security/#认证),也可以使用 Istio 授权为没有身份验证的旧系统提供访问控制。
