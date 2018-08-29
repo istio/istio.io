@@ -2,12 +2,12 @@
 title: 没有 TLS 的 Ingress Gateway
 description: 介绍如何为入口网关配置 SNI 直通。
 weight: 31
-keywords: [traffic-management,ingress, https]
+keywords: [流量管理,ingress, https]
 ---
 
 [使用 HTTPS 保护网关](/zh/docs/tasks/traffic-management/secure-ingress/)任务描述了如何配置 HTTPS
 入口访问 HTTP 服务。此示例介绍如何配置对 HTTPS 服务的入口访问。
-您将[NGINX](https://www.nginx.com)服务器部署到 Kubernetes 集群以提供 HTTPS 的 Kubernetes
+您将 [NGINX](https://www.nginx.com) 服务器部署到 Kubernetes 集群以提供 HTTPS 的 Kubernetes
 服务。然后配置网关以通过 `nginx.example.com` 主机提供对此服务的入口访问。
 
 ## 生成客户端和服务器证书和密钥
@@ -32,7 +32,7 @@ keywords: [traffic-management,ingress, https]
     $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
-    When prompted, select `y` for all the questions.
+    遇见所有的问题请输入 `y` 来回答。
 
 1.  将证书移动到 `nginx.example.com` 目录：
 
@@ -82,14 +82,14 @@ keywords: [traffic-management,ingress, https]
     EOF
     {{< /text >}}
 
-1.  创建Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
-    保持NGINX服务器的配置：
+1.  创建 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+    保持 NGINX 服务器的配置：
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
-1.  部署NGINX服务器：
+1.  部署 NGINX 服务器：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -177,7 +177,7 @@ keywords: [traffic-management,ingress, https]
     ...
     {{< /text >}}
 
-## 配置入口网关
+## 配置 Ingress Gateway
 
 1.  为端口 443 定义一个带有 `server` 部分的 `Gateway` 。注意 `PASSTHROUGH` `tls` `mode` 指示网关按原样传递入口流量，
 而不终止 TLS。
@@ -190,7 +190,7 @@ keywords: [traffic-management,ingress, https]
       name: mygateway
     spec:
       selector:
-        istio: ingressgateway # use istio default ingress gateway
+        istio: ingressgateway # 使用 istio 默认的 ingress gateway
       servers:
       - port:
           number: 443
