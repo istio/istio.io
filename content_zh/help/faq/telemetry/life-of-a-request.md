@@ -30,7 +30,7 @@ weight: 80
 * Mixer AccessLogs: Mixer 所记录的访问日志包含了请求的一些信息。 用户可以通过如下命令来获取：
 
     {{< text plain >}}
-    # 使用 istio 网格的命名空间来填充 <istio namespace>。Ex: istio-system
+    # 使用 istio 网格的命名空间来填充 <istio namespace>。例如: istio-system
     $ TELEMETRY_POD=`kubectl get po -n <istio namespace> | grep istio-telemetry | awk '{print $1;}'`
     $ kubectl logs $TELEMETRY_POD -c mixer  -n istio-system  | grep accesslog
     {{< /text >}}
