@@ -5,13 +5,13 @@ weight: 30
 keywords: [安全,认证,鉴权,rbac,访问控制]
 ---
 
-将单体应用分解为微服务可提供各种好处，包括更好的灵活性、可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：
+将单一应用程序分解为微服务可提供各种好处，包括更好的灵活性、可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：
 
 - 为了抵御中间人攻击，需要流量加密。
 - 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略。
 - 要审核谁在什么时候做了什么，需要审计工具。
 
-Istio 安全尝试提供全面的安全解决方案来解决所有这些问题。
+Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。
 
 本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据，端点，通信和平台的内部和外部威胁。
 
@@ -21,7 +21,7 @@ Istio 安全尝试提供全面的安全解决方案来解决所有这些问题�
     caption="Istio 安全概述"
     >}}
 
-Istio 安全功能提供强大的身份、强大的策略、透明的 TLS 加密以及用于保护您的服务和数据的身份验证、授权和审计（AAA）工具。 Istio 安全的目标是：
+Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密以及用于保护您的服务和数据的身份验证，授权和审计（AAA）工具。 Istio 安全的目标是：
 
 - **默认安全** : 应用程序代码和基础结构无需更改
 
@@ -29,18 +29,18 @@ Istio 安全功能提供强大的身份、强大的策略、透明的 TLS 加密
 
 - **零信任网络** : 在不受信任的网络上构建安全解决方案
 
-访问我们的[双向 TLS 迁移文档](/zh/docs/tasks/security/mtls-migration/)，开始在部署的服务中使用 Istio 安全功能。
+访问我们的[Mutual TLS Migration docs](/zh/docs/tasks/security/mtls-migration/)，开始在部署的服务中使用Istio安全功能。
 请访问我们的[安全任务](/zh/docs/tasks/security/)，有关使用安全功能的详细说明。
 
 如图所示，Istio 的 Citadel 用加载 Secret 卷的方式在 Kubernetes 容器中完成证书和密钥的分发。如果服务运行在虚拟机或物理机上，则会使用运行在本地的 Node agent，它负责在本地生成私钥和 CSR（证书签发申请），把 CSR 发送给 Citadel 进行签署，并把生成的证书和私钥分发给 Envoy。
 
-## 顶层架构
+## 高级架构
 
 Istio 中的安全性涉及多个组件：
 
 - **Citadel** 用于密钥和证书管理
 
-- **Sidecar 和周边代理**实现客户端和服务器之间的安全通信
+- **Sidecar 和周边代理** 实现客户端和服务器之间的安全通信
 
 - **Pilot** 将[授权策略](/zh/docs/concepts/security/#授权策略)和[安全命名信息](/zh/docs/concepts/security/#安全命名)分发给代理
 
@@ -57,7 +57,7 @@ Istio 中的安全性涉及多个组件：
 
 身份是任何安全基础架构的基本概念。在服务到服务通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。
 在客户端，根据[安全命名](/zh/docs/concepts/security/#安全命名)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
-在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费，他们可以拒绝为任何未能支付账单的客户提供服务。
+在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略) 确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
 
 在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。
 这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。
@@ -71,7 +71,7 @@ Istio 中的安全性涉及多个组件：
 
 - **GCP**: GCP 服务帐户
 
-- **AWS**: AWS IAM 用户/角色帐户
+- **AWS**: AWS IAM 用户/角色 帐户
 
 - **On-premises （非 Kubernetes）**: 用户帐户、自定义服务帐户、服务名称、istio 服务帐户或 GCP 服务帐户。
 
@@ -148,40 +148,39 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 ### 部署指南
 
-如果有多个服务运维团队（又名 [SRE](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的 [Kubernetes 命名空间（namespace）](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离自己的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns`  命名空间，这样两个团队都无法访问彼此的服务。
+如果有多个服务运维团队（又名[SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的[Kubernetes命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
 
-> {{<warning_icon>}}如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问集群。
+> {{<warning_icon>}}如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
 
 ### 示例
 
-让我们考虑一个带有三个服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。`photo-frontend`服务可以访问`photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend`服务无法访问 `datastore`。
+让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`，`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend`服务可以访问`photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend`服务无法访问 `datastore`。
 
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
+在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`，`photo-ns`和`datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片SRE团队创建了两个服务帐户，分别在`photo-ns`命名空间中运行`photo-frontend`和`photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在`datastore-ns`命名空间中运行`datastore`服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得`photo-frontend`无法访问数据存储区。
 
-在此设置中，Kubernetes 可以隔离运维人员管理服务的权限。Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
+在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
 ## 认证
 
 Istio 提供两种类型的身份验证：
 
-- **传输身份验证**，也称为**服务间身份验证**：验证直接客户端进行连接。
-  Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
+- **传输身份验证**，也称为**服务到服务身份验证**：验证直接客户端进行连接。
+  Istio 提供 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
   您可以轻松打开此功能，而无需更改服务代码。这个解决方案：
-    - 为每个服务提供强大的身份，表示其角色，以实现跨集群和云的互操作性。
-    - 保护服务间通信和最终用户到服务通信。
-    - 提供密钥管理系统，以自动执行密钥和证书生成、分发和轮换。
 
-- **来源身份认证**，也称为**最终用户身份验证**：验证最终用户或设备请求的来始客户端。 Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
+    - 为每个服务提供强大的身份，表示其角色，以实现跨群集和云的互操作性。
+    - 保护服务到服务通信和最终用户到服务通信。
+    - 提供密钥管理系统，以自动执行密钥和证书生成，分发和轮换。
 
-在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio Config Store `中。Pilot 会在适当的时候为每个代理以及密钥更新为最新状态。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
+- **来源身份认证**，也称为**最终用户身份验证**：验证原始客户端将请求作为最终用户或设备。Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
+
+在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
 ### 双向 TLS 认证
 
-Istio 隧道通过客户端和服务器端进行服务间通信 [Envoy 代理](https://envoyproxy.github.io/envoy/)。对于客户端调用服务器，遵循的步骤是：
+Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代理](https://envoyproxy.github.io/envoy/)。对于客户端调用服务器，遵循的步骤是：
 
 1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
-
-1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还执行[安全命名](/zh/docs/concepts/security/#安全命名)检查，以验证服务器证书中提供的服务帐户是否有权运行目标服务。
 
 1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
 
@@ -255,11 +254,11 @@ Istio 可以在命名空间范围或网络范围存储中存储身份认证策�
       - mtls: {}
     {{< /text >}}
 
-命名空间范围存储中的策略只能影响同一命名空间中的服务。网格范围内的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets：` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#目标选择器)中找到更多信息。
+命名空间范围存储中的策略只能影响同一命名空间中的服务。网格范围内的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets:` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#目标选择器)中找到更多信息。
 
 #### 目标选择器
 
-身份认证策略的目标指定策略适用的服务。以下示例展示的是一个 `targets：` 部分，指定该策略适用于：
+身份认证策略的目标指定策略适用的服务。以下示例展示的是一个 `targets:` 部分，指定该策略适用于：
 
 - 任何端口上的 `product-page` 服务。
 - 端口 `9000` 上的评论服务。
@@ -273,7 +272,7 @@ targets:
    - number: 9000
 {{< /text >}}
 
-如果您未提供 `targets：` 部分，则 Istio 将策略与策略存储范围内的所有服务匹配。因此，`targets：` 部分可以帮助您指定策略的范围：
+如果您未提供 `targets:` 部分，则 Istio 将策略与策略存储范围内的所有服务匹配。因此，`targets:` 部分可以帮助您指定策略的范围：
 
 - 网格范围策略：在网格范围存储中定义的策略，没有目标选择器部分。**网格中**最多只能有**一个**网格范围的策略。
 
@@ -287,16 +286,16 @@ targets:
 
 #### 传输认证
 
-`peers：` 部分定义了策略中传输身份验证支持的身份验证方法和相关参数。该部分可以列出多个方法，并且只有一个方法必须满足认证才能通过。但是，从 Istio 0.7 版本开始，当前支持的唯一传输身份验证方法是双向 TLS。如果您不需要传输身份验证，请完全跳过此部分。
+`peers:` 部分定义了策略中传输身份验证支持的身份验证方法和相关参数。该部分可以列出多个方法，并且只有一个方法必须满足认证才能通过。但是，从 Istio 0.7 版本开始，当前支持的唯一传输身份验证方法是双向 TLS。如果您不需要传输身份验证，请完全跳过此部分。
 
-以下示例显示了使用双向 TLS 启用传输身份验证的 `peers：` 部分。
+以下示例显示了使用双向 TLS 启用传输身份验证的 `peers:` 部分。
 
 {{< text yaml >}}
 peers:
   - mtls: {}
 {{< /text >}}
 
-目前，双向 TLS 设置不需要任何参数。因此，`-mtls：{}`、`- mtls：` 或 `- mtls：null` 声明被视为相同。将来，双向 TLS 设置可以携带参数以提供不同的双向 TLS 实现。
+目前，双向 TLS 设置不需要任何参数。因此，`-mtls: {}`、`- mtls:` 或 `- mtls: null` 声明被视为相同。将来，双向 TLS 设置可以携带参数以提供不同的双向 TLS 实现。
 
 #### 来源身份认证
 
@@ -313,7 +312,7 @@ origins:
 
 #### 主认证绑定
 
-主认证关系用键值对的方式存储绑定关系。默认情况下，Istio 使用 `peers:` 部分中配置的身份验证。如果在 `peers：` 部分中未配置身份验证，则 Istio 将保留身份验证。策略编写者可以使用 `USE_ORIGIN` 值覆盖此行为。此值将 Istio 配置为使用 origin 的身份验证作为主体身份验证。将来，我们将支持条件绑定，例如：当传输体为 X 时为 `USE_PEER`，否则为 `USE_ORIGIN` 。
+主认证关系用键值对的方式存储绑定关系。默认情况下，Istio 使用 `peers:` 部分中配置的身份验证。如果在 `peers:` 部分中未配置身份验证，则 Istio 将保留身份验证。策略编写者可以使用 `USE_ORIGIN` 值覆盖此行为。此值将 Istio 配置为使用 origin 的身份验证作为主体身份验证。将来，我们将支持条件绑定，例如：当传输体为 X 时为 `USE_PEER`，否则为 `USE_ORIGIN` 。
 
 以下示例显示了 `principalBinding` 键，其值为 `USE_ORIGIN`：
 
@@ -325,7 +324,7 @@ principalBinding: USE_ORIGIN
 
 您可以随时更改身份认证策略，Istio 几乎实时地将更改推送到端点。但是，Istio 无法保证所有端点同时收到新策略。以下是在更新身份认证策略时避免中断的建议：
 
-- 启用或禁用双向 TLS：使用带有`mode：`键和`PERMISSIVE`值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[双向 TLS 的迁移](/zh/docs/tasks/security/mtls-migration)。
+- 启用或禁用双向 TLS：使用带有 `mode:` 键和 `PERMISSIVE` 值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[双向 TLS 的迁移](/zh/docs/tasks/security/mtls-migration)。
 
 {{< text yaml >}}
 peers:
@@ -356,20 +355,20 @@ Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Ist
 
 Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获取更新的授权策略。 Pilot 将 Istio 授权策略分发给与服务实例位于同一位置的 Envoy 代理。
 
-每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果`ALLOW`或`DENY`。
+每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果 `ALLOW` 或 `DENY`。
 
 ### 启用授权
 
-您可以使用 `RbacConfig` 对象启用 Istio Authorization。 `RbacConfig`对象是一个网格范围的单例，其固定名称值为`default`。您只能在网格中使用一个`RbacConfig`实例。与其他 Istio 配置对象一样，`RbacConfig`被定义为Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)对象。
+您可以使用 `RbacConfig` 对象启用 Istio Authorization。`RbacConfig` 对象是一个网格范围的单例，其固定名称值为 `default`。您只能在网格中使用一个`RbacConfig` 实例。与其他 Istio 配置对象一样，`RbacConfig` 被定义为Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)对象。
 
-在`RbacConfig`对象中，运算符可以指定`mode`值，它可以是：
+在 `RbacConfig` 对象中，运算符可以指定 `mode` 值，它可以是：
 
 - **`OFF`**：禁用 Istio 授权。
 - **`ON`**：为网格中的所有服务启用了 Istio 授权。
 - **`ON_WITH_INCLUSION`**：仅对`包含`字段中指定的服务和命名空间启用 Istio 授权。
 - **`ON_WITH_EXCLUSION`**：除了`排除`字段中指定的服务和命名空间外，网格中的所有服务都启用了 Istio 授权。
 
- 在以下示例中，为`default`命名空间启用了 Istio 授权。
+ 在以下示例中，为 `default` 命名空间启用了 Istio 授权。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -438,8 +437,8 @@ spec:
 
 此外，我们支持规则中所有字段的前缀匹配和后缀匹配。例如，您可以在 `default`命名空间中定义具有以下权限的 `tester` 角色：
 
-- 完全访问前缀为 `test-*` 的所有服务，例如：`test-bookstore`，`test-performance`，`test-api.default.svc.cluster.local`。
-- 阅读（``GET``）使用``*/reviews``后缀访问所有路径，例如：`/books/reviews`,`/events/booksale/reviews`，`/reviews` in service`bookstore .default.svc.cluster.local`。
+- 完全访问前缀为 `test-*` 的所有服务，例如：`test-bookstore`、`test-performance`、`test-api.default.svc.cluster.local`。
+- 阅读（`GET`）使用 `*/reviews` 后缀访问所有路径，例如：`/books/reviews`、`/events/booksale/reviews`、`/reviews` in service`bookstore .default.svc.cluster.local`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -529,12 +528,12 @@ spec:
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
+kind: ServiceRoleBinding
 metadata:
   name: binding-products-all-authenticated-users
   namespace: default
 spec:
   subjects:
-
   - properties:
       source.principal: "*"
     roleRef:
@@ -544,4 +543,5 @@ spec:
 
 ### 使用其他授权机制
 
-虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/concepts/policies-and-telemetry/#适配器)。
+虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。
+要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/concepts/policies-and-telemetry/#适配器)。
