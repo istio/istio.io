@@ -172,9 +172,9 @@ Istio 提供两种类型的身份验证：
     - 保护服务到服务通信和最终用户到服务通信。
     - 提供密钥管理系统，以自动执行密钥和证书生成，分发和轮换。
 
-- **来源身份认证**，也称为**最终用户身份验证**：验证原始客户端将请求作为最终用户或设备。Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
+- **来源身份认证**，也称为**最终用户身份验证**：验证原始客户端将请求作为最终用户或设备。 Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
 
-在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
+在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在`Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
 ### 双向 TLS 认证
 
@@ -256,11 +256,11 @@ Istio 可以在命名空间范围或网络范围存储中存储身份认证策�
       - mtls: {}
     {{< /text >}}
 
-命名空间范围存储中的策略只能影响同一命名空间中的服务。 mesh-scope 中的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets:` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#目标选择器)中找到更多信息。
+命名空间范围存储中的策略只能影响同一命名空间中的服务。 mesh-scope 中的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为`default`并且有一个空的`targets：`部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#目标选择器)中找到更多信息。
 
 #### 目标选择器
 
-身份认证策略的目标指定策略适用的服务。以下示例显示了一个 `targets:` 部分，指定该策略适用于：
+身份认证策略的目标指定策略适用的服务。以下示例显示了一个`targets：`部分，指定该策略适用于：
 
 - 任何端口上的`product-page`服务。
 - 端口`9000`上的评论服务。
@@ -273,7 +273,7 @@ targets:
    - number: 9000
 {{< /text >}}
 
-如果您未提供 `targets:` 部分，则 Istio 将策略与策略存储范围内的所有服务匹配。因此，`targets:` 部分可以帮助您指定策略的范围：
+如果您未提供`targets：`部分，则 Istio 将策略与策略存储范围内的所有服务匹配。因此，`targets：`部分可以帮助您指定策略的范围：
 
 - 网格范围策略：在网格范围存储中定义的策略，没有目标选择器部分。**网格中**最多只能有**一个**网格范围的策略。
 
