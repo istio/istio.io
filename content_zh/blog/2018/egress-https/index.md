@@ -2,7 +2,7 @@
 title: 使用外部 Web 服务
 description: 描述基于 Istio Bookinfo 示例的简单场景。
 publishdate: 2018-01-31
-subtitle: HTTPS 流量的外部 `ServiceEntry` 
+subtitle: HTTPS 流量的出口规则 
 attribution: Vadim Eisenberg
 weight: 93
 keywords: [流量管理,egress,https]
