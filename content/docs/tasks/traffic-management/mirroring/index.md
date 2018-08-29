@@ -42,9 +42,9 @@ you will apply a rule to mirror a portion of traffic to `v2`.
           - image: docker.io/kennethreitz/httpbin
             imagePullPolicy: IfNotPresent
             name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
             ports:
-            - containerPort: 8080
+            - containerPort: 80
     EOF
     {{< /text >}}
 
@@ -68,9 +68,9 @@ you will apply a rule to mirror a portion of traffic to `v2`.
           - image: docker.io/kennethreitz/httpbin
             imagePullPolicy: IfNotPresent
             name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
             ports:
-            - containerPort: 8080
+            - containerPort: 80
     EOF
     {{< /text >}}
 
@@ -87,7 +87,8 @@ you will apply a rule to mirror a portion of traffic to `v2`.
     spec:
       ports:
       - name: http
-        port: 8080
+        port: 8000
+        targetPort: 80
       selector:
         app: httpbin
     EOF
@@ -165,12 +166,12 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash json >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {
       "headers": {
         "Accept": "*/*",
         "Content-Length": "0",
-        "Host": "httpbin:8080",
+        "Host": "httpbin:8000",
         "User-Agent": "curl/7.35.0",
         "X-B3-Sampled": "1",
         "X-B3-Spanid": "eca3d7ed8f2e6a0a",
@@ -231,7 +232,7 @@ log entries for `v1` and none for `v2`:
 1. Send in traffic:
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {{< /text >}}
 
     Now, you should see access logging for both `v1` and `v2`. The access logs

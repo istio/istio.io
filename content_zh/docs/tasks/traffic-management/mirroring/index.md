@@ -37,9 +37,9 @@ keywords: [流量管理,镜像]
           - image: docker.io/kennethreitz/httpbin
             imagePullPolicy: IfNotPresent
             name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
             ports:
-            - containerPort: 8080
+            - containerPort: 80
     EOF
     {{< /text >}}
 
@@ -63,9 +63,9 @@ keywords: [流量管理,镜像]
           - image: docker.io/kennethreitz/httpbin
             imagePullPolicy: IfNotPresent
             name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
             ports:
-            - containerPort: 8080
+            - containerPort: 80
     EOF
     {{< /text >}}
 
@@ -82,7 +82,8 @@ keywords: [流量管理,镜像]
     spec:
       ports:
       - name: http
-        port: 8080
+        port: 8000
+        targetPort: 80
       selector:
         app: httpbin
     EOF
@@ -159,12 +160,12 @@ keywords: [流量管理,镜像]
 
     {{< text bash json >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {
       "headers": {
         "Accept": "*/*",
         "Content-Length": "0",
-        "Host": "httpbin:8080",
+        "Host": "httpbin:8000",
         "User-Agent": "curl/7.35.0",
         "X-B3-Sampled": "1",
         "X-B3-Spanid": "eca3d7ed8f2e6a0a",
@@ -220,7 +221,7 @@ keywords: [流量管理,镜像]
 1. 发送流量：
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {{< /text >}}
 
     这样就可以看到 `v1` 和 `v2` 中都有了访问日志。`v2` 中的访问日志就是由镜像流量产生的，这些请求的实际目标是 `v1`：
