@@ -87,7 +87,7 @@ services within a mesh. It exposes the following endpoints:
 * `/force/forcegraph.html` As explored above, this is an interactive
   [D3.js](https://d3js.org/) visualization.
 
-* `/dotviz` is a static [Graphviz](http://www.graphviz.org/)
+* `/dotviz` is a static [Graphviz](https://graphviz.gitlab.io/)
   visualization.
 
 * `/dotgraph` provides a
