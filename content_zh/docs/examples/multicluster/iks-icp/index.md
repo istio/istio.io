@@ -19,8 +19,8 @@ keywords: [kubernetes,multicluster,hybrid]
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1.  [创建一个 IBM Cloud Kubernetes Service 集群](https://console.bluemix.net/docs/containers/container_index.html)。 
-__注意__：默认情况下，配置 IBM Cloud Kubernetes 服务群集时，CIDR 如下所示。
+1.  [创建一个 IBM Cloud Kubernetes Service 集群](https://console.bluemix.net/docs/containers/container_index.html)。
+    __注意__：默认情况下，配置 IBM Cloud Kubernetes 服务群集时，CIDR 如下所示。
 
     {{< text plain >}}
     pod subnet CIDR: 172.30.0.0/16.
