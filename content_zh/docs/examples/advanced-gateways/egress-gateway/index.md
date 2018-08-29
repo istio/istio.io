@@ -652,7 +652,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 1.  检查 egress 网关代理的统计信息，并查看与我们对 _edition.cnn.com_ 的请求相对应的计数器。如果 Istio 部署在 `istio-system` 命名空间中，则打印计数器的命令是：
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 1
     {{< /text >}}
 
