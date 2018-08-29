@@ -114,7 +114,7 @@ Istio 的故障注入规则可帮助您识别此类异常，而不会影响最�
     spec:
       hosts:
       - ratings
-        http:
+      http:
       - fault:
           abort:
             httpStatus: 500
