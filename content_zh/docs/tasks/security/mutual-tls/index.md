@@ -92,7 +92,7 @@ httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       defa
 
 * `CLIENT`：客户端或客户端使用的模式。
 
-* `AUTHN POLICY`：身份验证策略的名称和命名空间。如果策略是网状范围的策略，则命名空间为空，如本例所示：`default/`
+* `AUTHN POLICY`：身份验证策略的名称和命名空间。如果策略是网格范围的策略，则命名空间为空，如本例所示：`default/`
 
 * `DESTINATION RULE`：使用的目标规则的名称和名称空间。
 
@@ -138,7 +138,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
 
 此任务显示具有双向 TLS 的服务器如何启用对以下请求的响应：
 
-* 使用明文请求中(即HTTP请求)
+* 使用明文请求中（即 HTTP 请求）
 * 使用 TLS 但没有客户端证书
 * 使用 TLS 和客户端证书
 
