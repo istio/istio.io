@@ -324,8 +324,71 @@ the "black" and "red" ratings in the "Book Reviews" section.
 
 ## RBAC policy permissive mode
 
-RBAC policy permissive mode is for testing a new RBAC policy works as expected
-before rolling out to production. This sections shows how permissive mode is used.
+RBAC permissive mode is for testing a new RBAC policy works as expected before
+rolling out to production. This sections shows how RBAC permissive mode is used.
+
+### Permissive mode for global RBAC configuration
+
+Before you start, please make sure that you have finished [preparation task](#before-you-begin).
+
+1.  Before enabling RBAC in production, apply the global RBAC configuration in
+    permissive mode.
+
+    Run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/bookinfo/platform/kube/rbac/rbac-config-on-permissive.yaml
+    {{< /text >}}
+
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
+    see everything works fine, same as in [preparation task](#before-you-begin).
+
+1.  Apply YAML file for the permissive mode metric collection.
+
+    Run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml
+    logentry.config.istio.io/newlog created
+    stdio.config.istio.io/newhandler created
+    rule.config.istio.io/newlogstdio created
+    {{< /text >}}
+
+1.  Send traffic to the sample application.
+
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
+
+    {{< text bash >}}
+    $ curl http://$GATEWAY_URL/productpage
+    {{< /text >}}
+
+1.  Verify that the logs stream has been created and check `permissiveResponseCode`.
+
+    In a Kubernetes environment, search through the logs for the istio-telemetry
+    pod as follows:
+
+    {{< text bash json >}}
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"
+    {"level":"warn","time":"2018-08-29T02:17:17.619428Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"6.055691ms","responseCode":200,"responseSize":295,"permissiveResponseCode":"403","permissiveResponsePolicyID":"","source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
+    {"level":"warn","time":"2018-08-29T02:17:17.605665Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"26.601231ms","responseCode":200,"responseSize":4415,"permissiveResponseCode":"403","permissiveResponsePolicyID":"","source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
+    {{< /text >}}
+
+    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
+    The `permissiveResponseCode` is 403 which is what user will see after switching
+    global RBAC config from `PERMISSIVE` mode to `ENFORCED` mode, which indicates
+    the global RBAC config will work as expected after rolling to production.
+
+1.  Run the following command to enable Istio authorization for the `default` namespace:
+
+    {{< text bash >}}
+    $ kubectl replace -f samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml
+    {{< /text >}}
+
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
+    `"RBAC: access denied"`.
+
+### Permissive mode for individual RBAC policy
 
 Before you start, please make sure that:
 
@@ -367,60 +430,12 @@ Before you start, please make sure that:
     product reviews` on the page. These errors are expected because the policy is
     in `PERMISSIVE` mode.
 
-1.  Create a new YAML file to hold configuration for the permissive mode metric
-    collection.
+1.  Apply YAML file for the permissive mode metric collection.
 
-    Save the following as `telemetry_permissive.yaml`:
-
-    {{< text yaml >}}
-    kind: logentry
-    metadata:
-      name: newlog
-      namespace: istio-system
-    spec:
-      severity: '"warning"'
-      timestamp: request.time
-      variables:
-        source: source.labels["app"] | source.workload.name | "unknown"
-        user: source.user | "unknown"
-        destination: destination.labels["app"] | destination.workload.name | "unknown"
-        responseCode: response.code | 0
-        responseSize: response.size | 0
-        latency: response.duration | "0ms"
-        shadowResponseCode: rbac.permissive.response_code
-        shadowResponsePolicyID: rbac.permissive.effective_policy_id
-      monitored_resource_type: '"UNSPECIFIED"'
-    ---
-    # Configuration for a stdio handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: stdio
-    metadata:
-      name: newhandler
-      namespace: istio-system
-    spec:
-     severity_levels:
-       warning: 1 # Params.Level.WARNING
-     outputAsJson: true
-    ---
-    # Rule to send logentry instances to a stdio handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: newlogstdio
-      namespace: istio-system
-    spec:
-      match: "true" # match for all requests
-      actions:
-       - handler: newhandler.stdio
-         instances:
-         - newlog.logentry
-    ---
-    {{< /text >}}
-
-1.  Push the configuration.
+    Run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f telemetry_permissive.yaml
+    $ kubectl apply -f samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml
     logentry.config.istio.io/newlog created
     stdio.config.istio.io/newhandler created
     rule.config.istio.io/newlogstdio created
@@ -444,7 +459,6 @@ Before you start, please make sure that:
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"
     {"level":"warn","time":"2018-08-27T20:56:57.103073Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"337.203µs","permissiveResponseCode":"200","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
     {"level":"warn","time":"2018-08-27T20:56:57.111046Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"208.089µs","permissiveResponseCode":"200","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
-    {"level":"warn","time":"2018-08-27T20:56:57.112604Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"332.858µs","permissiveResponseCode":"200","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
     {{< /text >}}
 
     In telemetry logs above,  the `responseCode` is 403 which is what user see now.
@@ -457,7 +471,7 @@ Before you start, please make sure that:
     Run the following command:
 
     {{< text bash >}}
-    $ kubectl replace -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-enforced.yaml@
+    $ kubectl replace -f samples/bookinfo/platform/kube/rbac/details-reviews-policy-enforced.yaml
     {{< /text >}}
 
     details-reviews-policy-enforced.yaml just switch mode of `bind-details-reviews` to `ENFORCED`.
