@@ -6,6 +6,118 @@ weight: 5
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
 
+## Multiple virtual services and destination rules for the same host
+
+In situations where it is inconvenient to define the complete set of route rules or policies for a particular
+host in a single `VirtualService` or `DestinationRule` resource, it may be preferable to incrementally specify
+the configuration for the host in multiple resources.
+Starting in Istio 1.0.1, an experimental feature has been added to merge such destination rules
+and merge such virtual services if they are bound to a gateway.
+
+Consider the case of a `VirtualService` bound to an ingress gateway exposing an application host which uses
+path-based delegation to several implementation services, something like this:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service1
+    route:
+    - destination:
+        host: service1.default.svc.cluster.local
+  - match:
+    - uri:
+        prefix: /service2
+    route:
+    - destination:
+        host: service2.default.svc.cluster.local
+  - match:
+    ...
+{{< /text >}}
+
+The downside of this kind of configuration is that other configuration (e.g., route rules) for any of the
+underlying microservices, will need to also be included in this single configuration file, instead of
+in separate resources associated with, and potentially owned by, the individual service teams.
+See [Route rules have no effect on ingress gateway requests](#route-rules-have-no-effect-on-ingress-gateway-requests)
+for details.
+
+To avoid this problem, it may be preferable to break up the configuration of `myapp.com` into several
+`VirtualService` fragments, one per backend service. For example:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-service1
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service1
+    route:
+    - destination:
+        host: service1.default.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-service2
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service2
+    route:
+    - destination:
+        host: service2.default.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-...
+{{< /text >}}
+
+When a second and subsequent `VirtualService` for an existing host is applied, `istio-pilot` will merge
+the additional route rules into the existing configuration of the host. There are, however, several
+caveats with this feature that must be considered carefully when using it.
+
+1. Although the order of evaluation for rules in any given source `VirtualService` will be retained,
+   the cross-resource order is UNDEFINED. In other words, there is no guaranteed order of evaluation
+   for rules across the fragment configurations, so it will only have predictable behavior if there
+   are no conflicting rules or order dependency between rules across fragments.
+1. There should only be one "catch-all" rule (i.e., a rule that matches any request path or header) in the fragments.
+   All such "catch-all" rules will be moved to the end of the list in the merged configuration, but
+   since they catch all requests, whichever is applied first will essentially override and disable any others.
+1. A `VirtualService` can only be fragmented this way if it is bound to a gateway.
+   Host merging is not supported in sidecars.
+
+A `DestinationRule` can also be fragmented with similar merge semantic and restrictions.
+
+1. There should only be one definition of any given subset across multiple destination rules for the same host.
+   If there is more than one with the same name, the first definition is used and any following duplicates are discarded.
+   No merging of subset content is supported.
+1. There should only be one top-level `trafficPolicy` for the same host.
+   When top-level traffic policies are defined in multiple destination rules, the first one will be used.
+   Any following top-level `trafficPolicy` configuration is discarded.
+1. Unlike virtual service merging, destination rule merging works in both sidecars and gateways.
+
 ## 503 errors after setting destination rule
 
 If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
