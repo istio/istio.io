@@ -1,6 +1,6 @@
 ---
 title: IBM Cloud Kubernetes Service & IBM Cloud Private 
-description: IBM Cloud Kubernetes Service 和 IBM Cloud Private 之间的多集群示例。
+description: IBM Cloud Kubernetes Service 和 IBM Cloud Private 的多集群示例。
 weight: 75
 keywords: [kubernetes,multicluster,hybrid]
 ---
@@ -33,9 +33,9 @@ keywords: [kubernetes,multicluster,hybrid]
 
 1.  在 IBM Cloud Kubernetes Service 集群中设置 strongSwan：
 
-    1.  按照[这些说明](https://console.bluemix.net/docs/containers/cs_integrations.html)在 IBM Cloud Kubernetes Service 中设置 helm。
+    1.  按照[在 IBM Cloud Kubernetes Service 中设置 Helm](https://console.bluemix.net/docs/containers/cs_integrations.html)。
 
-    1.  按照[这些说明](https://console.bluemix.net/docs/containers/cs_vpn.html)，使用 helm 图安装 strongSwan ，来自 `config.yaml` 的示例配置参数：
+    1.  按照[使用 helm 图安装 strongSwan](https://console.bluemix.net/docs/containers/cs_vpn.html) ，来自 `config.yaml` 的示例配置参数：
 
         {{< text plain >}}
         ipsec.auto: add
@@ -50,9 +50,9 @@ keywords: [kubernetes,multicluster,hybrid]
 
 1.  在 IBM Cloud Private 中设置 strongSwan：
 
-    1.  按照[这些说明](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html)完成 IBM Cloud Private 的 strongSwan 安装办法。
+    1.  按照[IBM Cloud Private 的 strongSwan 安装](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.3/cam_strongswan.html)办法完成。
 
-    1.  按照[这些说明](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html)，从管理控制台中的目录安装 strongSwan，示例配置参数：
+    1.  按照[在目录中部署 Helm 图表](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/app_center/create_release.html)的方法，从管理控制台中的目录安装 strongSwan，示例配置参数：
 
         {{< text plain >}}
         Namespace: default
@@ -80,9 +80,9 @@ keywords: [kubernetes,multicluster,hybrid]
 
 ## 多集群安装 Istio
 
-[按照多集群安装步骤](/zh/docs/setup/kubernetes/multicluster-install/)进行安装和配置
+按照[多集群安装步骤](/zh/docs/setup/kubernetes/multicluster-install/)进行安装和配置
 IBM Cloud Private 和 IBM Cloud Kubernetes Service 上的本地 Istio 控制平面和 Istio 远程控制。
 
 此示例使用 IBM Cloud Private 作为 Istio 本地控制平面，使用 IBM Cloud Kubernetes Service 作为 Istio 远程控制平面。
 
-按照[这些说明](/zh/docs/examples/multicluster/icp/)在集群中部署 Bookinfo 示例
+按照[IBM Cloud Private](/zh/docs/examples/multicluster/icp/)在集群中部署 Bookinfo 示例
