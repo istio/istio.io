@@ -9,23 +9,23 @@ keywords: [流量管理,egress,https]
 ---
 
 > 此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能
-  [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果您需要使用旧版本，请按照文档进行操作
-  [使用外部 Web 服务归档版](https://archive.istio.io/v0.7/blog/2018/egress-https.html)。
+[v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果您需要使用旧版本，请按照文档进行操作
+[使用外部 Web 服务归档版](https://archive.istio.io/v0.7/blog/2018/egress-https.html)。
 
 在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部， 有时，
-网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能， 虽然我们希望逐步将这些系统迁移到服务网格中。 
+网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能， 虽然我们希望逐步将这些系统迁移到服务网格中。
 但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。 还有其他情况，
 应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。
 
 在这篇博客文章中，我修改了[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)让它可以
-从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。 
+从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。
 我将展示如何使用 _mesh-external service entries_ 在 Istio 中启用外部 HTTPS 流量。 最后，
 我解释了当前与 Istio 出口流量控制相关的问题。
 
 ## 初始设定
 
 为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/zh/docs/setup/kubernetes/quick-start/#安装步骤) 的
- Kubernetes 集群, 然后我部署 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/), 
+ Kubernetes 集群, 然后我部署 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/),
  此应用程序使用 _details_ 微服务来获取书籍详细信息，例如页数和发布者, 原始 _details_ 微服务提供书籍
  详细信息，无需咨询任何外部服务。
 
@@ -86,14 +86,14 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，
 应用程序仍然有用。
 
-那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 
-服务。 默认情况下，Istio sidecar 代理（[Envoy proxies](https://www.envoyproxy.io)）
+那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
+默认情况下，Istio sidecar 代理（[Envoy proxies](https://www.envoyproxy.io)）
 **阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[mesh-external service entry](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)。
 
 ### 启用对 Google Books 网络服务的 HTTPS 访问
 
-不用担心，让我们定义**网格外部 `ServiceEntry`**并修复我们的应用程序。
-您还必须定义 _virtualservice_ 通过[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
+不用担心，让我们定义**网格外部 `ServiceEntry`**并修复我们的应用程序。您还必须定义 _virtual
+service_ 通过[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -157,7 +157,7 @@ serviceentry "googleapis" deleted
 
 并在输出中看到删除了 `ServiceEntry` 。
 
-删除 `ServiceEntry` 后访问网页会产生我们之前遇到的相同错误，即_Error fetching product details_, 
+删除 `ServiceEntry` 后访问网页会产生我们之前遇到的相同错误，即_Error fetching product details_,
 正如我们所看到的， `ServiceEntry` 是**动态定义**，与许多其他 Istio 配置一样 , Istio 运算符可以动态决定
 它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
 
@@ -185,8 +185,8 @@ sidecar 代理人的这种监督和政策执行是不可能的。 在 `www.googl
 [SNI](https://tools.ietf.org/html/rfc3546#section-3.1)（_Server Name Indication_）字段的加密请求
 。
 
-为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 
-连接（执行 TLS 发起）, 根据微服务是在 Istio 服务网格内部还是外部运行，
+为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）,
+根据微服务是在 Istio 服务网格内部还是外部运行，
 微服务的代码必须以不同方式编写或以不同方式配置, 这与[最大化透明度](/zh/docs/concepts/what-is-istio/#设计目标)
 的 Istio 设计目标相矛盾, 有时我们需要妥协......
 
@@ -277,7 +277,7 @@ env:
     {{< /text >}}
 
     注意，前缀为 `http-` `ServiceEntr` 指定了端口为 `443` ，其协议指定为 `HTTP`。
-    请注意，您不需要使用端口 443 发送 TLS 发起的 HTTP 请求。 
+    请注意，您不需要使用端口 443 发送 TLS 发起的 HTTP 请求。
     [出口流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/)
     显示了如何使用端口重写执行 TLS 发起。
 
@@ -314,7 +314,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 ## 结论
 
 在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，
-Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用 mesh-external,必须为服务网格创建 `ServiceEntry` , 
+Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用 mesh-external,必须为服务网格创建 `ServiceEntry` ,
 可以通过 HTTPS 访问外部站点，当微服务发出 HTTPS 请求时，流量是端到端加密的，但是 Istio 无法监视 HTTP 详细信息，
 例如请求的 URL 路径。当微服务发出 HTTP 请求时，Istio 可以监视请求的 HTTP 详细信息并强制执行基于 HTTP 的访问策略。
 但是，在这种情况下，微服务和 sidecar 代理之间的流量是未加密的。在具有非常严格的安全要求的组织中，
