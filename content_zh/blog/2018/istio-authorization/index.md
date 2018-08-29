@@ -57,7 +57,7 @@ keywords: [授权,基于角色的访问控制,安全]
 除主要标识外，您还可以自己定义标识。例如，您可以将客户端标识指定为“用户 Alice 从 Bookstore 前端服务调用”，在这种情况下，
 你有一个调用服务（`Bookstore frontend`）和最终用户（`Alice`）的组合身份。
 
-要提高安全性，您应该启用[授权功能](/zh/docs/concepts/security/#认证),并在授权策略中使用经过验证的身份。但是，
+要提高安全性，您应该启用[认证功能](/zh/docs/concepts/security/#认证),并在授权策略中使用经过验证的身份。但是，
 使用授权不强迫一定要有身份验证。 Istio 授权可以使用或不使用身份。如果您正在使用遗留系统，您可能没有网格的双向 TLS 或 JWT 身份验证
 设置。在这种情况下，识别客户端的唯一方法是，例如，通过 IP。您仍然可以使用 Istio 授权来控制允许哪些 IP 地址或 IP 范围访问您的服务。
 
@@ -127,7 +127,7 @@ spec:
 #### 使用经过身份验证的客户端身份
 
 假设你想把这个 `book-reader` 角色授予你的 `bookstore-frontend` 服务。如果您已启用
-您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-tls-authentication),您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
+您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-TLS-认证),您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -143,7 +143,7 @@ spec:
     name: "book-reader"
 {{< /text >}}
 
-您可能希望通过添加“仅属于 `qualified-reviewer` 组的用户的条件来进一步限制此操作允许阅读书籍“。 `qualified-reviewer` 组是经过身份验证的最终用户身份 [JWT 身份验证](/zh/docs/concepts/security/#authentication)。在这种情况下，客户端服务标识的组合（`bookstore-frontend`）和最终用户身份（`qualified-reviewer`）在授权策略中使用。
+您可能希望通过添加“仅属于 `qualified-reviewer` 组的用户的条件来进一步限制此操作允许阅读书籍“。 `qualified-reviewer` 组是经过身份验证的最终用户身份 [JWT 身份验证](/zh/docs/concepts/security/#认证)。在这种情况下，客户端服务标识的组合（`bookstore-frontend`）和最终用户身份（`qualified-reviewer`）在授权策略中使用。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
