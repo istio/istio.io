@@ -139,7 +139,7 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 ## 为远程集群生成 `kubeconfigs`
 
-Istio 控制平面需要访问网格中的所有集群才能发现服务、endpoint 和 pod 属性。 
+Istio 控制平面需要访问网格中的所有集群才能发现服务、endpoint 和 pod 属性。
 以下将描述如何生成一个 `kubeconfig` 文件用于 Istio 控制平面使用的远程集群。
 
 在远程集群中，`istio-remote` Helm chart 创建了一个名字叫 `istio-multi` 的
