@@ -58,7 +58,7 @@ number_of_entries: 5
 </tbody>
 </table>
 <h2 id="pilot-discovery-discovery">pilot-discovery discovery</h2>
-<p>Start Istio proxy discovery service</p>
+<p>Start Istio proxy discovery service.</p>
 <pre class="language-bash"><code>pilot-discovery discovery [flags]
 </code></pre>
 <table class="command-flags">
@@ -114,7 +114,7 @@ number_of_entries: 5
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
-<td><code>--discovery_cache</code></td>
+<td><code>--discoveryCache</code></td>
 <td></td>
 <td>Enable caching discovery service responses </td>
 </tr>
@@ -184,6 +184,11 @@ number_of_entries: 5
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--mcpServerAddrs &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>comma separated list of mesh config protocol server addresses  (default `[]`)</td>
+</tr>
+<tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
 <td></td>
 <td>File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `/etc/istio/config/mesh`)</td>
@@ -222,11 +227,6 @@ number_of_entries: 5
 <td><code>--secureGrpcAddr &lt;string&gt;</code></td>
 <td></td>
 <td>Discovery service grpc address, with https  (default `:15012`)</td>
-</tr>
-<tr>
-<td><code>--webhookEndpoint &lt;string&gt;</code></td>
-<td></td>
-<td>Webhook API endpoint (supports http://sockethost, and unix:///absolute/path/to/socket  (default ``)</td>
 </tr>
 </tbody>
 </table>
