@@ -9,7 +9,7 @@ keywords: [授权,基于角色的访问控制,安全]
 ---
 
  Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域，并允许组织使用将工作负载彼此隔离并单独保护它们。
- [Istio 的授权功能](/docs/concepts/security/#授权和鉴权)也称为 Istio 基于角色的访问控制，为 Istio 网格中的服务提供
+ [Istio 的授权功能](/zh/docs/concepts/security/#授权和鉴权)也称为 Istio 基于角色的访问控制，为 Istio 网格中的服务提供
   Micro-Segmentation 。它的特点是：
 
 * 不同粒度级别的授权，包括命名空间级别，服务级别和方法级别。
@@ -54,7 +54,7 @@ keywords: [授权,基于角色的访问控制,安全]
 与任何其他 RBAC 系统一样，Istio 授权具有身份识别功能。在 Istio 授权政策中，有一个主要的
 身份称为 `user`，代表客户的主体。
 
-除主要标识外，您还可以自己定义标识。例如，您可以将客户端标识指定为“用户 Alice 从 Bookstore 前端服务调用”，在这种情况下，
+除主要标识外，您还可以自己定义标识。例如，您可以将客户端标识指定为“用户 `Alice` 从 `Bookstore` 前端服务调用”，在这种情况下，
 你有一个调用服务（`Bookstore frontend`）和最终用户（`Alice`）的组合身份。
 
 要提高安全性，您应该启用[认证功能](/zh/docs/concepts/security/#认证),并在授权策略中使用经过验证的身份。但是，
