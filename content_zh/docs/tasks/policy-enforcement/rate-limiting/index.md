@@ -330,7 +330,7 @@ spec:
 
 1. 未登录时验证速率限制*是否适用*。
 
-    注销为 `jason` 并反复刷新 `productpage` 。
+    注销 `jason` 并反复刷新 `productpage` 。
 
     您应该再次看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount` 。
 
