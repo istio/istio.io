@@ -397,7 +397,7 @@ spec:
 
 #### `ServiceRole`
 
-`ServiceRole` 规范包括`规则`、AKA 权限列表。每条规则都有以下标准字段：
+`ServiceRole` 规范包括`规则`、所谓的权限列表。每条规则都有以下标准字段：
 
 - **`services`**：服务名称列表。您可以将值设置为 `*` 以包括指定命名空间中的所有服务。
 
@@ -457,7 +457,7 @@ spec:
 
 在 `ServiceRole` 中，`namespace` + `services` + `paths`  + `methods` 的组合定义了**如何访问服务**。在某些情况下，您可能需要为规则指定其他条件。例如，规则可能仅适用于服务的某个**版本**，或仅适用于具有特定**标签**的服务，如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
 
-例如，下面的 `ServiceRole` 定义添加了一个约束，`request.headers [version]` 是 `v1` 或 `v2` 扩展了以前的 `products-viewer` 角色。约束支持的`key`值列在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中。在属性是 `map` 的情况下，例如 `request.headers`、`key` 是 map 中的一个条目，例如 `request.headers [version]`。
+例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的`key`值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
