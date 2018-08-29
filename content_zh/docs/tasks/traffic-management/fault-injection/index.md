@@ -133,7 +133,7 @@ keywords: [流量管理,故障注入]
     spec:
       hosts:
       - ratings
-        http:
+      http:
       - fault:
           abort:
             httpStatus: 500

@@ -79,7 +79,7 @@ keywords: [遥测,可视化]
 
 * `/force/forcegraph.html` 如上所述，这是一个交互式[D3.js](https://d3js.org/) 可视化。
 
-* `/dotviz` 是一个静态的[Graphviz](http://www.graphviz.org/) 可视化。
+* `/dotviz` 是一个静态的[Graphviz](https://graphviz.gitlab.io/) 可视化。
 
 * `/dotgraph` 提供[DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language))序列化。
 
