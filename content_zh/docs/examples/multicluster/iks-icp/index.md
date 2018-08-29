@@ -13,9 +13,9 @@ keywords: [kubernetes,多集群,hybrid]
     __注意__:  确保各个集群的 Pod CIDR ranges 和 service CIDR ranges 是相互独立的、没有重叠。这可以通过配置文件 `cluster/config.yaml`中的 `network_cidr` 和 `service_cluster_ip_range` 配置。
 
     {{< text plain >}}
-    ## Network in IPv4 CIDR format
+    ## IPv4 CIDR 格式的网络
     network_cidr: 10.1.0.0/16
-    ## Kubernetes Settings
+    ## Kubernetes 设置
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
