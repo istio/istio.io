@@ -31,7 +31,7 @@ keywords: [策略,限额]
 
 在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到访问 `productpage` 的用户。您将使用 `X-Forwarded-For` 请求 http header 作为客户端 IP 地址。您还将使用免除登录用户的条件速率限制。
 
-为方便起见，您可以配置 [memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，你需要 [Redis](http://redis.io/) ，然后配置 [redisquota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持 [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，因此，在两个适配器上启用速率限制的配置是相同的。
+为方便起见，您可以配置 [memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，你需要 [`Redis`](http://redis.io/) ，然后配置 [redisquota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持 [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，因此，在两个适配器上启用速率限制的配置是相同的。
 
 1. 速率限制配置分为两部分。
     * 客户端
@@ -51,7 +51,7 @@ keywords: [策略,限额]
     或者
 
     将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
-[redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params)包含配置值。
+[`redis_server_url`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params)包含配置值。
 
     {{< text yaml >}}
     apiVersion: "config.istio.io/v1alpha2"
