@@ -235,9 +235,9 @@ keywords: [流量管理,ingress]
 
     这次服务器成功校验了客户端证书并放行，因此就再次看到了正确的返回内容。
 
-## 为多个主机配置 TLS 入口网关
+## 为多个主机配置 TLS Ingress Gateway
 
-在本节中，您将为多个主机配置入口网关，`httpbin.example.com` 和 `bookinfo.com` 。入口网关将根据请求的服务器向客户端提供正确的证书。
+在本节中，您将为多个主机配置 Ingress Gateway，`httpbin.example.com` 和 `bookinfo.com` 。 Ingress Gateway将根据请求的服务器向客户端提供正确的证书。
 
 ### 为 `bookinfo.com` 生成客户端和服务器证书和密钥
 
@@ -455,7 +455,7 @@ keywords: [流量管理,ingress]
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  如果创建了 secret 但未挂载 secret，则终止入口网关 pod 并强制它重新加载证书：
+1.  如果创建了 secret 但未挂载 secret，则终止 Ingress Gateway pod 并强制它重新加载证书：
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
