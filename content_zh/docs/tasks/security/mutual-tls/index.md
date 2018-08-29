@@ -11,7 +11,7 @@ keywords: [安全,双向 TLS]
 * 您已完成[身份验证策略](/zh/docs/tasks/security/authn-policy/)任务。
 * 您熟悉使用身份验证策略来启用双向 TLS。
 * Istio 在 Kubernetes 上运行，启用全局双向 TLS。您可以按照我们的[安装 Istio 的说明](/zh/docs/setup/kubernetes/)。
-如果您已经安装了 Istio，则可以添加或修改身份验证策略和目标规则以启用双向 TLS，如 [网格中的所有服务启用双向-TLS-认证](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-TLS-认证) 中所述。
+如果您已经安装了 Istio，则可以添加或修改身份验证策略和目标规则以启用双向 TLS，如 [网格中的所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-TLS-认证) 中所述。
 * 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [手工注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-Sidecar)部署这些服务的命令：
 
     {{< text bash >}}
@@ -138,13 +138,13 @@ $ kubectl delete --ignore-not-found=true bad-rule
 
 此任务显示具有双向 TLS 的服务器如何启用对以下请求的响应：
 
-* 在纯文本中
+* 使用明文请求中(即HTTP请求)
 * 使用 TLS 但没有客户端证书
 * 使用 TLS 和客户端证书
 
 要执行此任务，您需要绕过客户端代理。最简单的方法是从 `istio-proxy` 容器发出请求。
 
-1. 确认纯文本请求失败，因为需要 TLS 使用以下命令与 `httpbin` 对话：
+1. 确认明文请求请求失败，因为需要 TLS 使用以下命令与 `httpbin` 对话：
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl http://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
