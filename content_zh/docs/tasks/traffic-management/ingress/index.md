@@ -214,7 +214,7 @@ spec:
   - "*"
   gateways:
   - httpbin-gateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /headers
