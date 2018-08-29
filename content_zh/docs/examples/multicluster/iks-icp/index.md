@@ -1,15 +1,15 @@
 ---
 title: IBM Cloud Kubernetes Service & IBM Cloud Private 
-description: IBM Cloud Kubernetes Service和 IBM Cloud Private 之间的多集群示例。
+description: IBM Cloud Kubernetes Service 和 IBM Cloud Private 之间的多集群示例。
 weight: 75
 keywords: [kubernetes,multicluster,hybrid]
 ---
 
-本文示例演示了如何使用 Istio 多集群功能，借助 [Istio 多集群设置](/zh/docs/setup/kubernetes/multicluster-install/)将 [IBM Cloud Private](https://www.ibm.com/cloud/private) 和 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) 两个集群连接起来。
+本文示例演示了如何使用 Istio 多集群功能，借助 [多集群设置](/zh/docs/setup/kubernetes/multicluster-install/)将 [IBM Cloud Private](https://www.ibm.com/cloud/private) 和 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) 两个集群连接起来。
 
 ## 设置两个集群
 
-1.  [安装一个 IBM Cloud Private cluster](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
+1.  [安装一个 IBM Cloud Private 集群](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
     __注意__:  确保各个集群的 Pod CIDR ranges 和 service CIDR ranges 是相互独立的、没有重叠。这可以通过配置文件 `cluster/config.yaml`中的 `network_cidr` 和 `service_cluster_ip_range` 配置。
 
     {{< text plain >}}
@@ -19,7 +19,7 @@ keywords: [kubernetes,multicluster,hybrid]
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1.  [请求一个 IBM Cloud Kubernetes Service 集群](https://console.bluemix.net/docs/containers/container_index.html)。 
+1.  [创建一个 IBM Cloud Kubernetes Service 集群](https://console.bluemix.net/docs/containers/container_index.html)。 
 __注意__：默认情况下，配置 IBM Cloud Kubernetes 服务群集时，CIDR 如下所示。
 
     {{< text plain >}}
