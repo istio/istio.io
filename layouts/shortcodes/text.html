@@ -1,65 +1,73 @@
-{{/* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details
-
-NOTE: The stuff below cannot be indented. If it is, it can cause the markdown
-parser to insert spurious paragraphs around the PRE blocks, which turns out to
-be invalid HTML
-*/}}
-{{ $scratch := .Scratch }}
+{{/* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */}}
+{{ $downloadas := "" }}
 {{ if .Get 2 }}
-{{ $scratch.Set "downloadas" (.Get 2) }}
+    {{ $downloadas = .Get 2 }}
 {{ end }}
+
+{{ $syntax := "error" }}
+{{ $text := "MARKDOWN ERROR: text block does not specify syntax" }}
+{{ $output := "" }}
+
 {{ if .Get 0 }}
-{{ $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" }}
-{{ $line0 := index $lines 0 }}
-{{ if hasPrefix $line0 "                "}}{{ $scratch.Set "indent" 16 }}
-{{ else if hasPrefix $line0 "            "}}{{ $scratch.Set "indent" 12 }}
-{{ else if hasPrefix $line0 "        "}}{{ $scratch.Set "indent" 8 }}
-{{ else if hasPrefix $line0 "    "}}{{ $scratch.Set "indent" 4 }}
-{{ else }}{{ $scratch.Set "indent" 0 }}
+    {{ $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" }}
+
+    {{ $line0 := index $lines 0 }}
+    {{ $indent := 0 }}
+    {{ if hasPrefix $line0 "                "}}{{ $indent = 16 }}
+    {{ else if hasPrefix $line0 "            "}}{{ $indent = 12 }}
+    {{ else if hasPrefix $line0 "        "}}{{ $indent = 8 }}
+    {{ else if hasPrefix $line0 "    "}}{{ $indent = 4 }}
+    {{ end }}
+
+    {{ $text = "" }}
+    {{ range $line := $lines }}
+        {{ if gt (len $line) $indent }}
+            {{ $l := substr $line $indent }}
+            {{ $text = printf "%s\n%s" $text $l }}
+        {{ else }}
+            {{ $text = printf "%s\n%s" $text $line }}
+        {{ end }}
+    {{ end }}
+
+    {{ $text = trim $text "\n" }}
+    {{ $syntax = .Get 0 }}
+    {{ $output = .Get 1 }}
 {{ end }}
-{{ $scratch.Set "text" "" }}
-{{ range $line := $lines }}
-{{ if gt (len $line) ($scratch.Get "indent") }}
-{{ $l := substr $line ($scratch.Get "indent") }}
-{{ $scratch.Set "text" (printf "%s\n%s" ($scratch.Get "text") $l )}}
+
+{{ if (hasPrefix $text " ") }}
+    {{ $syntax = "error" }}
+    {{ $text = "MARKDOWN ERROR: text blocks need to not be indented, or indented by a multiple of 4 spaces" }}
+{{ end }}
+
+{{ if eq $syntax "bash" }}
+    {{ if not (hasPrefix $text "$") }}
+        {{ $syntax = "error" }}
+        {{ $text = "MARKDOWN ERROR: text block specifies a bash syntax, but first line does not start with $" }}
+    {{ else }}
+        {{ if hasPrefix (trim $text " ") "$ cat <<EOF " }}
+            {{ $text = replace $text "$ cat" "cat" }}
+        {{ else }}
+            {{ $syntax = "command" }}
+            {{ if $output }}
+                {{ $syntax = printf "command-output-as-%s" $output }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ if $downloadas }}
+    <pre><code class='language-{{ $syntax }}' data-downloadas='{{ $downloadas }}'>{{ $text }}</code></pre>
 {{ else }}
-{{ $scratch.Set "text" (printf "%s\n%s" ($scratch.Get "text") $line )}}
+    <pre><code class='language-{{ $syntax }}'>{{ $text }}</code></pre>
 {{ end }}
-{{ end }}
-{{ $scratch.Set "text" (trim ($scratch.Get "text") "\n") }}
-{{ $scratch.Set "syntax" (.Get 0) }}
-{{ $scratch.Set "output" (.Get 1) }}
-{{ else }}
-{{ $scratch.Set "syntax" "error" }}
-{{ $scratch.Set "text" "MARKDOWN ERROR: text block does not specify syntax" }}
-{{ end }}
-{{ if (hasPrefix ($scratch.Get "text") " ") }}
-{{ $scratch.Set "syntax" "error" }}
-{{ $scratch.Set "text" "MARKDOWN ERROR: text blocks need to not be indented, or indented by a multiple of 4 spaces" }}
-{{ end }}
-{{ if eq ($scratch.Get "syntax") "bash" }}
-{{ if not (hasPrefix ($scratch.Get "text") "$") }}
-{{ $scratch.Set "syntax" "error" }}
-{{ $scratch.Set "text" "MARKDOWN ERROR: text block specifies a bash syntax, but first line does not start with $" }}
-{{ else }}
-{{ if hasPrefix (trim ($scratch.Get "text") " ") "$ cat <<EOF " }}{{ $scratch.Set "text" (replace ($scratch.Get "text") "$ cat" "cat") }}
-{{ else }}{{ $scratch.Set "syntax" "command" }}
-{{ if ($scratch.Get "output") }}{{ $scratch.Set "syntax" (printf "command-output-as-%s" ($scratch.Get "output")) }}{{ end }}
-{{ end }}
-{{ end }}
-{{ end }}
-{{ if $scratch.Get "downloadas"}}
-<pre><code class='language-{{ $scratch.Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'>{{ $scratch.Get "text" }}</code></pre>
-{{ else }}
-<pre><code class='language-{{ $scratch.Get "syntax" }}'>{{ $scratch.Get "text" }}</code></pre>
-{{ end }}
+
 {{/* include a link to the special embedded @@ references so the links are statically checked as we build the site */}}
 {{ $branch := .Site.Data.args.branch_name }}
-{{ $links := findRE "@(.*?)@" ($scratch.Get "text") }}
+{{ $links := findRE "@(.*?)@" $text }}
 {{ range $link := $links }}
-{{ $target := trim $link "@" }}
-{{ if gt (len $target) 0 }}
-{{ $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target }}
-<a hidden style="display:none" href="{{ $href }}"></a>
-{{ end }}
+    {{ $target := trim $link "@" }}
+    {{ if gt (len $target) 0 }}
+        {{ $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target }}
+        <a hidden style="display:none" href="{{ $href }}"></a>
+    {{ end }}
 {{ end }}
