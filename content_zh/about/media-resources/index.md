@@ -1,6 +1,6 @@
 ---
 title: 媒体资源
-description: 可用于数字和印刷材料的官方 Istio 媒体资源
+description: 可用于数字和印刷材料的官方 Istio 媒体资源。
 weight: 90
 type: media-resources
 icon: /img/istio-blue-logo.svg
