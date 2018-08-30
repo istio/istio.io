@@ -35,16 +35,28 @@ keywords: [流量管理,ingress]
 1. 进入代码目录：
 
     {{< text bash >}}
-    $ cd mtls-go-example
+    $ pushd mtls-go-example
     {{< /text >}}
 
-1. 生成证书（任意指定密码）
+1. 使用以下的命令（密码任意指定）为 `httpbin.example.com` 生成证书：
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
     所有提示问题都选择 `y`。这一命令会生成四个目录： `1_root`、`2_intermediate`、`3_application` 以及 `4_client`，其中包含了后续步骤所需的客户端和服务器的证书。
+
+1. 将证书移动到 `httpbin.example.com` 目录：
+
+    {{< text bash >}}
+    $ mkdir ~+1/httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/httpbin.example.com
+    {{< /text >}}
+
+1. 更改目录：
+
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
 
 ## 配置 TLS ingress gateway
 
@@ -55,7 +67,7 @@ keywords: [流量管理,ingress]
     > 这里的 secret **必须** 在 `istio-system` 命名空间中，并且命名为 `istio-ingressgateway-certs`，否则就不会被正确载入，也就无法在 Istio gateway 中使用了。
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key 3_application/private/httpbin.example.com.key.pem --cert 3_application/certs/httpbin.example.com.cert.pem
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key httpbin.example.com/3_application/private/httpbin.example.com.key.pem --cert httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     secret "istio-ingressgateway-certs" created
     {{< /text >}}
 
@@ -66,11 +78,11 @@ keywords: [流量管理,ingress]
     > 证书的私钥的位置 **必须** 是 `/etc/istio/ingressgateway-certs`，否则 Gateway 无法载入。
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: httpbin-gateway
+      name: mygateway
     spec:
       selector:
         istio: ingressgateway # 使用 Istio 的缺省 Gateway
@@ -91,7 +103,7 @@ keywords: [流量管理,ingress]
 1. 为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress/#使用-istio-网关配置-ingress) 中一致的 `Virtualservice`：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -100,7 +112,7 @@ keywords: [流量管理,ingress]
       hosts:
       - "httpbin.example.com"
       gateways:
-      - httpbin-gateway
+      - mygateway
       http:
       - match:
         - uri:
@@ -122,7 +134,7 @@ keywords: [流量管理,ingress]
     发送请求到 `/status/418`，会看到漂亮的返回内容，这说明我们成功访问了 `httpbin`。`httpbin` 服务会返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3)。
 
     {{< text bash >}}
-    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     Server certificate:
       subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=httpbin.example.com
@@ -148,9 +160,9 @@ keywords: [流量管理,ingress]
     > Gateway 定义的传播可能需要一些时间，在传播完成之间的访问，可能会得到这样的错误响应：
     > `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`。只需等待一分钟，重新访问即可。
 
-    查看 `curl` 命令返回内容中的 `Server certificate` 部分，注意其中的 `common name`：`common name: httpbin.example.com (matched)`。另外输出中还包含了 `SSL certificate verify ok`，这说明对服务器的证书校验是成功的，返回状态码为 418 和一只茶杯犬。
+    查看 `curl` 命令返回内容中的 `Server certificate` 部分，注意其中的 `common name`：`common name: httpbin.example.com (matched)`。另外输出中还包含了 `SSL certificate verify ok`，这说明对服务器的证书校验是成功的，返回状态码为 418 和一个茶壶画。
 
-如果需要支持 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication)，请继续下一节内容。
+如果需要支持 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) ，请继续下一节内容。
 
 ## 配置 Ingress gateway 的双向 TLS 支持
 
@@ -161,7 +173,7 @@ keywords: [流量管理,ingress]
     > 这个 secret **必须** 以 `istio-ingressgateway-ca-certs` 为名并保存在命名空间 `istio-system` 之中，否则 Istio gateway 无法正确完成加载过程。
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
     secret "istio-ingressgateway-ca-certs" created
     {{< /text >}}
 
@@ -170,11 +182,11 @@ keywords: [流量管理,ingress]
     > 证书的位置 **必须** 是 `/etc/istio/ingressgateway-ca-certs`，否则 Gateway 无法加载。证书的文件名必须和创建 Secret 时使用的文件名一致，这里就是 `ca-chain.cert.pem`
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: httpbin-gateway
+      name: mygateway
     spec:
       selector:
         istio: ingressgateway # 是用缺省的 Istio Gateway
@@ -196,7 +208,8 @@ keywords: [流量管理,ingress]
 1. 同样的使用 HTTPS 方式访问 `httpbin` 服务：
 
     {{< text bash >}}
-    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST  --cacert 2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+
+    $ curl --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
 
@@ -221,6 +234,186 @@ keywords: [流量管理,ingress]
     {{< /text >}}
 
     这次服务器成功校验了客户端证书并放行，因此就再次看到了正确的返回内容。
+
+## 为多个主机配置 TLS Ingress Gateway
+
+在本节中，您将为多个主机配置 Ingress Gateway，`httpbin.example.com` 和 `bookinfo.com` 。 Ingress Gateway将根据请求的服务器向客户端提供正确的证书。
+
+### 为 `bookinfo.com` 生成客户端和服务器证书和密钥
+
+在本小节中，执行与[生成客户端和服务器证书和密钥](/zh/docs/tasks/traffic-management/secure-ingress/#生成客户端与服务器的证书和密钥)子部分相同的步骤。为方便起见，我在下面列出它们。
+
+1. 进入代码目录：
+
+    {{< text bash >}}
+    $ pushd mtls-go-example
+    {{< /text >}}
+
+1. 使用以下的命令（密码任意指定）为 `httpbin.example.com` 生成证书：
+
+    {{< text bash >}}
+    $ ./generate.sh bookinfo.com <password>
+    {{< /text >}}
+
+    出现提示时，为所有问题选择 `y` 。
+
+1. 将证书移动到 `bookinfo.com` 目录：
+
+    {{< text bash >}}
+    $ mkdir ~+1/bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ~+1/bookinfo.com
+    {{< /text >}}
+
+1. 更改目录：
+
+    {{< text bash >}}
+    $ popd
+    {{< /text >}}
+
+### 使用新证书重新部署 `istio-ingressgateway`
+
+1. 创建一个新 Secret 来保存 `bookinfo.com` 的证书
+
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com/3_application/private/bookinfo.com.key.pem --cert bookinfo.com/3_application/certs/bookinfo.com.cert.pem
+    secret "istio-ingressgateway-bookinfo-certs" created
+    {{< /text >}}
+
+1. 通过使用新 Secret 的 volume 生成部署 `istio-ingressgateway` 的 deployment。生成 `istio.yaml` 时使用与生成 `istio-ingressgateway` 相同的选项：
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio/ --name istio-ingressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
+    --set gateways.istio-ingressgateway.secretVolumes[0].name=ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[0].secretName=istio-ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[0].mountPath=/etc/istio/ingressgateway-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].name=ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].secretName=istio-ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[1].mountPath=/etc/istio/ingressgateway-ca-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].name=ingressgateway-bookinfo-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].secretName=istio-ingressgateway-bookinfo-certs \
+    --set gateways.istio-ingressgateway.secretVolumes[2].mountPath=/etc/istio/ingressgateway-bookinfo-certs > \
+    $HOME/istio-ingressgateway.yaml
+    {{< /text >}}
+
+1. 重新部署 `istio-ingressgateway`：
+
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio-ingressgateway.yaml
+    deployment "istio-ingressgateway" configured
+    {{< /text >}}
+
+1. 验证密钥和证书是否已成功加载到 `istio-ingressgateway` pod 中：
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-bookinfo-certs
+    {{< /text >}}
+
+    `tls.crt` 和 `tls.key` 应存在于目录中。
+
+### 配置 `bookinfo.com` 主机的流量
+
+1. 在没有网关的情况下部署 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)：
+
+    {{< text bash >}}
+    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+    {{< /text >}}
+
+1. 使用 `bookinfo.com` 的主机重新部署 `Gateway` ：
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: mygateway
+    spec:
+      selector:
+        istio: ingressgateway # use istio default ingress gateway
+      servers:
+      - port:
+          number: 443
+          name: https-httpbin
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+          privateKey: /etc/istio/ingressgateway-certs/tls.key
+        hosts:
+        - "httpbin.example.com"
+      - port:
+          number: 443
+          name: https-bookinfo
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: /etc/istio/ingressgateway-bookinfo-certs/tls.crt
+          privateKey: /etc/istio/ingressgateway-bookinfo-certs/tls.key
+        hosts:
+        - "bookinfo.com"
+    EOF
+    {{< /text >}}
+
+1. 配置 `bookinfo.com` 的路由。定义一个类似于 [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{<github_file>}}/samples/bookinfo/networking/bookinfo-gateway.yaml) 中的 `VirtualService` ：
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: bookinfo
+    spec:
+      hosts:
+      - "bookinfo.com"
+      gateways:
+      - mygateway
+      http:
+      - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/products
+        route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+    EOF
+    {{< /text >}}
+
+1. 向 _Bookinfo_ `productpage` 发送请求：
+
+    {{< text bash >}}
+    $ curl -o /dev/null -s -v -w "%{http_code}\n" --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    ...
+    Server certificate:
+      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=bookinfo.com
+      start date: Aug 12 13:50:05 2018 GMT
+      expire date: Aug 22 13:50:05 2019 GMT
+      common name: bookinfo.com (matched)
+      issuer: C=US; ST=Denial; O=Dis; CN=bookinfo.com
+    SSL certificate verify ok.
+    ...
+    200
+    {{< /text >}}
+
+1. 像以前一样访问 `httbin.example.com` 的方式验证一下。向它发送请求，你应该再次看到喜欢的茶壶画：
+
+    {{< text bash >}}
+    $ curl -v --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    ...
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+    {{< /text >}}
 
 ## 常见问题
 
@@ -262,6 +455,12 @@ keywords: [流量管理,ingress]
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
+1.  如果创建了 secret 但未挂载 secret，则终止 Ingress Gateway pod 并强制它重新加载证书：
+
+    {{< text bash >}}
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 1. macOS 用户，检查 `curl` 是否包含 [LibreSSL](http://www.libressl.org) 库，和[开始之前](#开始之前)中提到的一样。
 
 ### 双向 TLS 常见问题
@@ -288,9 +487,22 @@ keywords: [流量管理,ingress]
 1. 删除 `Gateway` 配置、`VirtualService` 以及 Secret 对象：
 
     {{< text bash >}}
-    $ istioctl delete gateway httpbin-gateway
-    $ istioctl delete virtualservice httpbin
+    $ kubectl delete gateway mygateway
+    $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
+    $ kubectl delete --ignore-not-found=true virtualservice bookinfo
+    {{< /text >}}
+
+1. 删除证书的目录和用于生成它们的存储库：
+
+    {{< text bash >}}
+    $ rm -rf httpbin.example.com bookinfo.com mtls-go-example
+    {{< /text >}}
+
+1. 删除用于重新部署 `istio-ingressgateway` 的文件：
+
+    {{< text bash >}}
+    $ rm -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
 1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：

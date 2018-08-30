@@ -4,7 +4,7 @@ description: Authentication policy for Istio services.
 location: https://istio.io/docs/reference/config/istio.authentication.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
-number_of_entries: 10
+number_of_entries: 11
 ---
 <p>This package defines user-facing authentication policy.</p>
 
@@ -176,7 +176,7 @@ and only if both rules, excluded<em>paths and include</em>paths are satisfied.</
 <tbody>
 <tr id="Jwt-TriggerRule-excluded_paths">
 <td><code>excludedPaths</code></td>
-<td><code><a href="/docs/reference/config/istio.string.v1alpha1.html#StringMatch">istio.common.v1alpha1.StringMatch[]</a></code></td>
+<td><code><a href="#StringMatch">StringMatch[]</a></code></td>
 <td>
 <p>List of paths to be excluded from the request. The rule is satisfied if
 request path does not match to any of the path in this list.</p>
@@ -185,7 +185,7 @@ request path does not match to any of the path in this list.</p>
 </tr>
 <tr id="Jwt-TriggerRule-included_paths">
 <td><code>includedPaths</code></td>
-<td><code><a href="/docs/reference/config/istio.string.v1alpha1.html#StringMatch">istio.common.v1alpha1.StringMatch[]</a></code></td>
+<td><code><a href="#StringMatch">StringMatch[]</a></code></td>
 <td>
 <p>List of paths that the request must include. If the list is not empty, the
 rule is satisfied if request path matches at least one of the path in the list.
@@ -506,6 +506,55 @@ networking API to avoid dependency.</p>
 <td><code>USE_ORIGIN</code></td>
 <td>
 <p>Principal will be set to the identity from origin authentication.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="StringMatch">StringMatch</h2>
+<section>
+<p>Describes how to match a given string. Match is case-sensitive.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="StringMatch-exact" class="oneof oneof-start">
+<td><code>exact</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>exact string match.</p>
+
+</td>
+</tr>
+<tr id="StringMatch-prefix" class="oneof">
+<td><code>prefix</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>prefix-based match.</p>
+
+</td>
+</tr>
+<tr id="StringMatch-suffix" class="oneof">
+<td><code>suffix</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>suffix-based match.</p>
+
+</td>
+</tr>
+<tr id="StringMatch-regex" class="oneof">
+<td><code>regex</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>ECMAscript style regex-based match as defined by <a href="http://en.cppreference.com/w/cpp/regex/ecmascript">EDCA-262</a>.
+Example: &ldquo;^/pets/(.*?)?&rdquo;</p>
 
 </td>
 </tr>

@@ -1,15 +1,14 @@
 {{/* Inserts a text file into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */}}
-{{ $scratch := .Scratch }}
 {{ $name := split (.Get "file") "/" | last 1 }}
-{{ $scratch.Set "downloadas" (index $name 0) }}
+{{ $downloadas := index $name 0 }}
 {{ if .Get "downloadas" }}
-{{ $scratch.Set "downloadas" (.Get "downloadas") }}
+{{ $downloadas = .Get "downloadas" }}
 {{ end }}
 {{ $file := readFile (.Get "file") }}
 {{ if (.Get "snippet") }}
 {{ $pattern := printf "(?msU)(.*\\$snippet %s.*$\\n)(.*)(?-s)(\\n^.*\\$endsnippet.*$)(?s-U)(.*)" (.Get "snippet") }}
 {{ $match := replaceRE $pattern "$2" $file }}
-<pre><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'>{{ $match }}</code></pre>
+<pre><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $downloadas }}'>{{ $match }}</code></pre>
 {{ else }}
-<pre><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'>{{ $file }}</code></pre>
+<pre><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $downloadas }}'>{{ $file }}</code></pre>
 {{ end }}
