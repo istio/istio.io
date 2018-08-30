@@ -66,6 +66,124 @@ for the list of supported keys in `constraints` and `properties`.
     If you refresh the page several times, you should see different versions of reviews shown in the product page,
     presented in a round robin style (red stars, black stars, no stars)
 
+## RBAC policy permissive mode
+
+RBAC permissive mode is for testing a new RBAC policy works as expected before
+rolling out to production. This sections shows how RBAC permissive mode is used.
+
+### Permissive mode for global RBAC configuration
+
+Before you start, please make sure that you have finished [preparation task](#before-you-begin).
+
+1.  Before enabling RBAC in production, apply the global RBAC configuration in
+    permissive mode.
+
+    Run the following command:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: RbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["default"]
+      enforcement_mode: PERMISSIVE
+    EOF
+    {{< /text >}}
+
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
+    see everything works fine, same as in [preparation task](#before-you-begin).
+
+1.  Apply YAML file for the permissive mode metric collection.
+
+    Run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
+    logentry.config.istio.io/rbacsamplelog created
+    stdio.config.istio.io/rbacsamplehandler created
+    rule.config.istio.io/rabcsamplestdio created
+    {{< /text >}}
+
+1.  Send traffic to the sample application.
+
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
+
+    {{< text bash >}}
+    $ curl http://$GATEWAY_URL/productpage
+    {{< /text >}}
+
+1.  Verify that the logs stream has been created and check `permissiveResponseCode`.
+
+    In a Kubernetes environment, search through the logs for the istio-telemetry
+    pod as follows:
+
+    {{< text bash json >}}
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
+    {"level":"warn","time":"2018-08-30T17:08:31.860063Z","instance":"rbacsamplelog.logentry.istio-system","destination":"details","latency":"41.164388ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":178,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
+    {"level":"warn","time":"2018-08-30T17:08:31.934887Z","instance":"rbacsamplelog.logentry.istio-system","destination":"ratings","latency":"3.052278ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":48,"source":"reviews","user":"cluster.local/ns/default/sa/bookinfo-reviews"}
+    {"level":"warn","time":"2018-08-30T17:08:31.777022Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"148.426675ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":5723,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
+    {{< /text >}}
+
+    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
+    The `permissiveResponseCode` is 403 which is what user will see after switching
+    global RBAC config from `PERMISSIVE` mode to `ENFORCED` mode, which indicates
+    the global RBAC config will work as expected after rolling to production.
+
+### Permissive mode for individual RBAC policy
+
+Before you start, please make sure that you have finished above set permissive
+mode in global RBAC configuration.
+
+1.  Before rolling out a new policy in production, apply it in permissive mode.
+
+    Run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy-permissive.yaml@
+    {{< /text >}}
+
+1.  Send traffic to the sample application again.
+
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
+
+    {{< text bash >}}
+    $ curl http://$GATEWAY_URL/productpage
+    {{< /text >}}
+
+1.  Verify that the logs and check `permissiveResponseCode` again.
+
+    In a Kubernetes environment, search through the logs for the istio-telemetry
+    pod as follows:
+
+    {{< text bash json >}}
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
+    {"level":"warn","time":"2018-08-30T17:18:14.132089Z","instance":"rbacsamplelog.logentry.istio-system","destination":"ratings","latency":"4.623129ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":48,"source":"reviews","user":"cluster.local/ns/default/sa/bookinfo-reviews"}
+    {"level":"warn","time":"2018-08-30T17:18:14.073529Z","instance":"rbacsamplelog.logentry.istio-system","destination":"reviews","latency":"69.792667ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":375,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
+    {"level":"warn","time":"2018-08-30T17:18:14.039983Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"93.852217ms","permissiveResponseCode":"200","permissiveResponsePolicyID":"productpage-viewer","responseCode":200,"responseSize":5719,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
+    {{< /text >}}
+
+    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
+    The `permissiveResponseCode` is 200 for productpage service, 403 for ratings
+    and reviews services, which is what user will see after switching
+    policy mode from `PERMISSIVE` mode to `ENFORCED` mode; which indicates
+    the rbac policy will work as expected after rolling to production.
+
+### Cleanup permissive mode settings
+
+*   Remove permissive mode related yaml files:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy-permissive.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-permissive.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
+    {{< /text >}}
+
 ## Enabling Istio authorization
 
 Run the following command to enable Istio authorization for the `default` namespace:
@@ -321,124 +439,6 @@ Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpa
 the "black" and "red" ratings in the "Book Reviews" section.
 
 > There may be some delays due to caching and other propagation overhead.
-
-## RBAC policy permissive mode
-
-RBAC permissive mode is for testing a new RBAC policy works as expected before
-rolling out to production. This sections shows how RBAC permissive mode is used.
-
-### Permissive mode for global RBAC configuration
-
-Before you start, please make sure that you have finished [preparation task](#before-you-begin).
-
-1.  Before enabling RBAC in production, apply the global RBAC configuration in
-    permissive mode.
-
-    Run the following command:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: RbacConfig
-    metadata:
-      name: default
-    spec:
-      mode: 'ON_WITH_INCLUSION'
-      inclusion:
-        namespaces: ["default"]
-      enforcement_mode: PERMISSIVE
-    EOF
-    {{< /text >}}
-
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
-    see everything works fine, same as in [preparation task](#before-you-begin).
-
-1.  Apply YAML file for the permissive mode metric collection.
-
-    Run the following command:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
-    logentry.config.istio.io/rbacsamplelog created
-    stdio.config.istio.io/rbacsamplehandler created
-    rule.config.istio.io/rabcsamplestdio created
-    {{< /text >}}
-
-1.  Send traffic to the sample application.
-
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
-
-    {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
-    {{< /text >}}
-
-1.  Verify that the logs stream has been created and check `permissiveResponseCode`.
-
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pod as follows:
-
-    {{< text bash json >}}
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
-    {"level":"warn","time":"2018-08-30T17:08:31.860063Z","instance":"rbacsamplelog.logentry.istio-system","destination":"details","latency":"41.164388ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":178,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
-    {"level":"warn","time":"2018-08-30T17:08:31.934887Z","instance":"rbacsamplelog.logentry.istio-system","destination":"ratings","latency":"3.052278ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":48,"source":"reviews","user":"cluster.local/ns/default/sa/bookinfo-reviews"}
-    {"level":"warn","time":"2018-08-30T17:08:31.777022Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"148.426675ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":5723,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
-    {{< /text >}}
-
-    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
-    The `permissiveResponseCode` is 403 which is what user will see after switching
-    global RBAC config from `PERMISSIVE` mode to `ENFORCED` mode, which indicates
-    the global RBAC config will work as expected after rolling to production.
-
-### Permissive mode for individual RBAC policy
-
-Before you start, please make sure that you have finished above set permissive
-mode in global RBAC configuration.
-
-1.  Before rolling out a new policy in production, apply it in permissive mode.
-
-    Run the following command:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy-permissive.yaml@
-    {{< /text >}}
-
-1.  Send traffic to the sample application again.
-
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
-
-    {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
-    {{< /text >}}
-
-1.  Verify that the logs and check `permissiveResponseCode` again.
-
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pod as follows:
-
-    {{< text bash json >}}
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
-    {"level":"warn","time":"2018-08-30T17:18:14.132089Z","instance":"rbacsamplelog.logentry.istio-system","destination":"ratings","latency":"4.623129ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":48,"source":"reviews","user":"cluster.local/ns/default/sa/bookinfo-reviews"}
-    {"level":"warn","time":"2018-08-30T17:18:14.073529Z","instance":"rbacsamplelog.logentry.istio-system","destination":"reviews","latency":"69.792667ms","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":375,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
-    {"level":"warn","time":"2018-08-30T17:18:14.039983Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"93.852217ms","permissiveResponseCode":"200","permissiveResponsePolicyID":"productpage-viewer","responseCode":200,"responseSize":5719,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
-    {{< /text >}}
-
-    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
-    The `permissiveResponseCode` is 200 for productpage service, 403 for ratings
-    and reviews services, which is what user will see after switching
-    policy mode from `PERMISSIVE` mode to `ENFORCED` mode; which indicates
-    the rbac policy will work as expected after rolling to production.
-
-### Cleanup permissive mode settings
-
-*   Remove permissive mode related yaml files:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy-permissive.yaml@
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-permissive.yaml@
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
-    {{< /text >}}
 
 ## Cleanup
 
