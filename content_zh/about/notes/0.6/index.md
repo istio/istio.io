@@ -6,6 +6,8 @@ icon: /img/notes.svg
 
 在平淡无奇的问题修复和性能增强之外，这一版本包含了部分全新的功能，以及对现有功能的改进，具体包括以下内容。
 
+{{< relnote_links >}}
+
 ## 网络
 
 - **Custom Envoy Configuration**：现在 Pilot 能够将自定义 Envoy 配置分发给 proxy。[参考资料](https://github.com/mandarjog/istioluawebhook)

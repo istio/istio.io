@@ -6,6 +6,8 @@ icon: /img/notes.svg
 
 我们稳定了月度发布流程，因此这一版本只有几个星期的工作量。在平淡无奇的问题修复和性能增强之外，这个版本中包括：
 
+{{< relnote_links >}}
+
 - **Cloud Foundry**：为 [Cloud Foundry](https://www.cloudfoundry.org) 平台加入了最小限度的 Pilot 支持，这样 Pilot 就能够发现 CF 服务及其实例了。
 
 - **Circonus**：Mixer 中加入了 [Circonus](https://www.circonus.com) 监控和分析平台的适配器。
