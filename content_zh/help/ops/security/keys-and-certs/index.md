@@ -1,5 +1,5 @@
 ---
-title: 钥匙和证书
+title: 密钥和证书
 description: 如果您怀疑 Istio 密钥和证书有问题该怎么办。
 weight: 20
 ---
@@ -15,9 +15,9 @@ NAME                    TYPE                           DATA      AGE
 istio.my-sa             istio.io/key-and-cert          3         24d
 {{< /text >}}
 
-其中 `my-ns` 和 `my-sa` 是您的 pod 运行的命名空间和服务帐户。
+其中 `my-ns` 和 `my-sa` 是您的 pod 运行的命名空间和 Service Account 。
 
-如果要检查其他服务帐户的密钥和证书，可以运行以下命令列出 Citadel为 其生成密钥和证书的所有的 secret：
+如果要检查其他 Service Account 的密钥和证书，可以运行以下命令列出 Citadel为 其生成密钥和证书的所有的 secret：
 
 {{< text bash >}}
 $ kubectl get secret --all-namespaces | grep istio.io/key-and-cert
