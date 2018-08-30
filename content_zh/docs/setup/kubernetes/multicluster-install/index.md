@@ -10,16 +10,24 @@ keywords: [kubernetes,多集群]
 ## 先决条件
 
 * 两个或更多的 **1.9 以上版本** 的 Kubernetes 集群。
+
 * 在 **一个** Kubernetes 上部署 [Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/) 的能力。
-* RFC 1918、VPN 或者其他更高级的网络技术，需完成下列要求：
+
+*   RFC 1918、VPN 或者其他更高级的网络技术，需完成下列要求：
+
     * 各集群的 Pod CIDR 范围和 Service CIDR 范围必须是唯一的，不允许相互重叠。
+
     * 每个集群中的所有的 Pod CIDR 需要能够互相路由。
+
     * 所有的 Kubernetes 控制平面 API Server 互相可路由。
+
 * Helm **2.7.2 或者更新的版本**。Tiller 可选。
 
 ## 概要
 
-多集群是在 Kubernetes 控制平面上运行远程配置，连接到 **同一个** Istio 控制平面。（主控）Istio 在连接了一个或多个 Kubernetes 集群之后，Envoy 就能和这个 Istio 控制平面进行通信，并生成一个跨越多个 Kubernetes 集群的网格网络。
+多集群是在 Kubernetes 控制平面上运行远程配置，连接到 **同一个** Istio 控制平面。
+（主控）Istio 在连接了一个或多个 Kubernetes 集群之后，Envoy 就能和这个 Istio 控制平面进行通信，
+并生成一个跨越多个 Kubernetes 集群的网格网络。
 
 本指南介绍如何通过使用 Istio 仓库里提供的清单和 Helm chart安装一个多集群 Istio 拓扑。
 
@@ -29,20 +37,23 @@ keywords: [kubernetes,多集群]
 
 ## 在每个远程集群上安装 Istio 远程组件
 
-Istio-remote 组件必须在每个远程集群上分别部署。有两种安装方式：使用 Helm 结合 Tiller，或者用 Helm 配合 `kubectl`。
+Istio-remote 组件必须在每个远程集群上分别部署。有两种安装方式：使用 Helm 结合 Tiller，
+或者用 Helm 配合 `kubectl`。
 
 ### 从 Istio 控制平面设置 Istio 远程组件所需的 Pod IP 环境变量
 
-> 在进行本节操作之前，请等待 Istio 控制平面完成初始化。
-> 这个操作必须在 Istio 控制平面所在集群上运行，以便于完成对 Pilot、Policy 以及 Pod IP 端点的抓取工作。
-> 如果在每个远程集群上都使用了 Helm + Tiller 的组合，在使用 Helm 把远程机群和 Istio 控制平面连接起来之前，首先要把环境变量拷贝到各个 Node 上。
+在进行本节操作之前，请等待 Istio 控制平面完成初始化。
+
+这个操作必须在 Istio 控制平面所在集群上运行，以便于完成对 Pilot、Policy 以及 Pod IP 端点的抓取工作。
+
+如果在每个远程集群上都使用了 Helm + Tiller 的组合，在使用 Helm 把远程机群和 Istio 控制平面连接起来之前，首先要把环境变量拷贝到各个 Node 上。
 
 {{< text bash >}}
 $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
 $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
 $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
 $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
-$ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].status.podIP}')
+$ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{range .items[*]}{.status.podIP}{end}')
 {{< /text >}}
 
 接着选择以下选项的其中一个将会把远程集群连接到本地集群：
@@ -77,7 +88,7 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 1. 实例化远程集群并连接 Istio 控制平面：
 
     {{< text bash >}}
-    $ kubectl create -f $HOME/istio-remote.yaml
+    $ kubectl apply -f $HOME/istio-remote.yaml
     {{< /text >}}
 
 1.  标记所有需要自动 sidecar 注入的远程集群的命名空间，以下示例标记了 `default` 命名空间。
@@ -93,7 +104,7 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 1. 如果还没有给 Helm 设置 Service account，请执行：
 
     {{< text bash >}}
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1. Helm 初始化：
@@ -128,8 +139,16 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 ## 为远程集群生成 `kubeconfigs`
 
-Istio 控制平面需要访问网格中的所有集群才能发现服务、endpoint 和 pod 属性。 以下将描述如何生成一个 `kubeconfig` 文件用于 Istio 控制平面使用的远程集群。
-在远程集群中，`istio-remote` Helm chart 创建了一个名字叫 `istio-multi` 的 Kubernetes service account，它用于最小的 RBAC 访问权限。以下使用 `istio-remote` Helm chart 生成一个 `kubeconfig` 文件给远程集群，用于创建 `istio-multi` service account 的证书。应在要添加到服务网格的每个远程集群上执行以下过程，该过程要求集群管理员用户访问远程集群。
+Istio 控制平面需要访问网格中的所有集群才能发现服务、endpoint 和 pod 属性。
+以下将描述如何生成一个 `kubeconfig` 文件用于 Istio 控制平面使用的远程集群。
+
+在远程集群中，`istio-remote` Helm chart 创建了一个名字叫 `istio-multi` 的
+ Kubernetes service account，它用于最小的 RBAC 访问权限。
+ 以下使用 `istio-remote` Helm chart 生成一个 `kubeconfig` 文件给远程集群，
+ 用于创建 `istio-multi` service account 的证书。
+
+应在要添加到服务网格的每个远程集群上执行以下过程，
+ 该过程要求集群管理员用户访问远程集群。
 
 1.  准备环境变量为 `ServiceAccount` `istio-multi` 构建 `kubeconfig` 文件：
 
@@ -268,8 +287,10 @@ $ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfig
 
 ## 从不同集群访问服务
 
-Kubernetes 在集群基础上解析DNS。 由于 DNS 解析与集群相关联，因此无论服务端点的位置如何，都必须在运行客户端的每个集群中定义服务对象。
-为确保这种情况，请使用 `kubectl` 将服务对象复制到每个集群，复制可确保 Kubernetes 可以解析任何集群中的服务名称。由于服务对象是在命名空间中定义的，因此必须定义命名空间（如果该命名空间不存在），并将其包含在所有集群的服务定义中。
+Kubernetes 在集群基础上解析DNS。 由于 DNS 解析与集群相关联，因此无论服务端点的位置如何，
+都必须在运行客户端的每个集群中定义服务对象。为确保这种情况，请使用 `kubectl` 将服务对象复制到每个集群，
+复制可确保 Kubernetes 可以解析任何集群中的服务名称。由于服务对象是在命名空间中定义的，
+因此必须定义命名空间（如果该命名空间不存在），并将其包含在所有集群的服务定义中。
 
 ## 部署注意事项
 

@@ -7,7 +7,7 @@ keywords: [kubernetes,gke]
 
 快速开始操作指南，使用 [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/)，在 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)（GKE）上安装和运行 Istio。
 
-这个快速开始创建了一个新的 GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#checking_available_versions)，安装当前版本的 Istio 并部署 [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用。在 [Kubernetes 安装 Istio 指南](/zh/docs/setup/kubernetes/quick-start/) 的基础上，使用 Deployment Manager 为 Kubernetes Engine 提供一个自动的细化步骤。
+这个快速开始创建了一个新的 GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#available_versions)，安装当前版本的 Istio 并部署 [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用。在 [Kubernetes 安装 Istio 指南](/zh/docs/setup/kubernetes/quick-start/) 的基础上，使用 Deployment Manager 为 Kubernetes Engine 提供一个自动的细化步骤。
 
 ## 前置条件
 

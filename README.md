@@ -188,4 +188,4 @@ release-0.6) to the `TOBUILD` variable.
 
 1. Commit the previous edit to your local git repo and push the change to GitHub.
 
-1. Wait a while (~10 minutes) and browser archive.istio and make sure everything looks good.
+1. Wait a while (~10 minutes) and browse archive.istio and make sure everything looks good.
