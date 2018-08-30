@@ -69,7 +69,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --d
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 {{< /text >}}
 
-请注意，虚拟服务依赖于您在[应用默认目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)部分中创建的目标规则。
+请注意，`VirtualService` 依赖于您在[应用默认目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)部分中创建的目标规则。
 
 在[确定 ingress 的 IP 和端口](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)之后，
 让我们访问应用程序的网页。
@@ -92,7 +92,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 
 ### 启用对 Google Books 网络服务的 HTTPS 访问
 
-不用担心，让我们定义**网格外部 `ServiceEntry`**并修复我们的应用程序。您还必须定义 _virtual
+不用担心，让我们定义**网格外部 `ServiceEntry`** 并修复我们的应用程序。您还必须定义 _virtual
 service_ 通过[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
 
 {{< text bash >}}
