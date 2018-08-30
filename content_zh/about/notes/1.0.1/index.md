@@ -20,7 +20,7 @@ icon: /img/notes.svg
 
 ## 环境
 
-- 对于那些只想利用 Istio 流量管理功能的用户，可以使用 Pilot standalone。
+- 对于那些只想利用 Istio 流量管理功能的用户，可以独立使用 Pilot。
 
 - 引入了方便的 `values-istio-gateway.yaml` 配置，使用户能够运行独立的网关。
 
@@ -32,7 +32,7 @@ icon: /img/notes.svg
 
 ## 策略和遥测
 
-- 为 Mixer Prometheus 适配器添加了实验指标到期配置。
+- 为 Mixer Prometheus 适配器添加了实验指标过期配置。
 
 - 将 Grafana 更新至 5.2.2。
 
