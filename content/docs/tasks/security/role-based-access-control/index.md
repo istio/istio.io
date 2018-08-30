@@ -117,6 +117,9 @@ Before you start, please make sure that you have finished [preparation task](#be
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
+    see everything works fine.
+
 1.  Verify that the logs stream has been created and check `permissiveResponseCode`.
 
     In a Kubernetes environment, search through the logs for the istio-telemetry
@@ -155,6 +158,9 @@ mode in global RBAC configuration.
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
+
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
+    see everything works fine.
 
 1.  Verify that the logs and check `permissiveResponseCode` again.
 
