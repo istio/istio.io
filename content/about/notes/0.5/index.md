@@ -7,6 +7,8 @@ icon: /img/notes.svg
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or
 updated features detailed below.
 
+{{< relnote_links >}}
+
 ## Networking
 
 - **Incremental Istio Deployment**. (Preview) You can now adopt Istio incrementally, more easily than before, by installing only

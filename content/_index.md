@@ -38,22 +38,22 @@ title: Istio
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('card1').style.opacity = 1;
+        document.getElementById('card1').style.opacity = "1";
 
         window.setTimeout(function() {
-            document.getElementById('card2').style.opacity = 1;
+            document.getElementById('card2').style.opacity = "1";
         }, 375);
 
         window.setTimeout(function() {
-            document.getElementById('card3').style.opacity = 1;
+            document.getElementById('card3').style.opacity = "1";
         }, 750);
 
         window.setTimeout(function() {
-            document.getElementById('card4').style.opacity = 1;
+            document.getElementById('card4').style.opacity = "1";
         }, 1125);
 
         window.setTimeout(function() {
-            document.getElementById('buttons').style.opacity = 1;
+            document.getElementById('buttons').style.opacity = "1";
         }, 1500);
     });
 </script>
@@ -62,7 +62,7 @@ title: Istio
     <div class="container-fluid">
         <div class="row justify-content-center">
             {{< inline_image "landing/istio-logo.svg" >}}
-            <div style="width: 20rem; margin-left: 3rem">
+            <div class="hero-text">
                 <h1 class="hero-label">Istio</h1>
                 <h1 class="hero-lead">Connect, secure, control, and observe services.
             </div>
@@ -142,7 +142,7 @@ title: Istio
     <div id="buttons" class="buttons container-fluid">
         <div class="row justify-content-center">
             <a class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
-            <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD</a>
+            <a class="btn btn-istio" href="{{< istio_release_url >}}">DOWNLOAD {{< istio_release_name >}}</a>
         </div>
     </div>
 </main>

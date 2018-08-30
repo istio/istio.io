@@ -40,3 +40,5 @@ We expect to invest more in this area in coming releases.
 
 If you're into the nitty-gritty details, you can see our more detailed low-level
 release notes [here](https://github.com/istio/istio/wiki/v0.3.0).
+
+{{< relnote_links >}}
