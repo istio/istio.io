@@ -164,8 +164,6 @@ them:
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-
-
 ## Uninstall Istio core components
 
 The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
