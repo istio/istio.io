@@ -32,7 +32,7 @@ icon: /img/notes.svg
 
 ## 策略和遥测
 
-- 为 Mixer Prometheus 适配器添加了实验指标过期配置。
+- 为 Mixer 的 Prometheus 适配器添加了实验性的指标过期配置。
 
 - 将 Grafana 更新至 5.2.2。
 
