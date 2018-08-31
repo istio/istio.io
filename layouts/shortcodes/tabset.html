@@ -1,0 +1,35 @@
+{{ .Page.Scratch.Add "tabset-counter" 1 }}
+{{ $tab_set_id := default (printf "tabset-%s-%d" (.Page.RelPermalink) (.Page.Scratch.Get "tabset-counter") ) | anchorize }}
+{{ $tabs := .Scratch.Get "tabs" }}
+{{ if .Inner }}
+	{{/* We don't use the inner content, but Hugo will complain if we don't reference it. */}}
+{{ end }}
+
+<div class="tabset" id="{{ $tab_set_id }}">
+	<ul class="nav nav-tabs">
+		{{ range $i, $e := $tabs }}
+			{{ $id := printf "%s-%d" $tab_set_id $i }}
+			{{ if eq $i 0 }}
+  				<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ $id }}"><span>{{ trim .name " " }}</span></a></li>
+			{{ else }}
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ $id }}"><span>{{ trim .name " " }}</span></a></li>
+			{{ end }}
+		{{ end }}
+	</ul>
+
+	<div class="tab-content">
+		{{ range $i, $e := $tabs }}
+			{{ $id := printf "%s-%d" $tab_set_id $i }}
+
+			{{ if eq $i 0 }}
+				<div class="tab-pane container active show" id="{{ $id }}">
+			{{ else }}
+                <div class="tab-pane container" id="{{ $id }}">
+			{{ end }}
+				{{ with .content }}
+					{{ . }}
+				{{ end }}
+			</div>
+		{{ end }}
+	</div>
+</div>

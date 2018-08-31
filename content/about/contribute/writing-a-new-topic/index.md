@@ -425,6 +425,57 @@ will use when the user chooses to download the file. For example:
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
 
+## Using tabs
+
+If you have some content to display in a variety of formats, it is convenient to use a tab set and display each
+format in a different tab. To insert tabbed content, you use a combination of `tabset` and `tabs` annotations:
+
+{{< text markdown >}}
+{{</* tabset cookie-name="platform" */>}}
+
+{{</* tab name="One" cookie-value="one" */>}}
+ONE
+{{</* /tab */>}}
+
+{{</* tab name="Two" cookie-value="two" */>}}
+TWO
+{{</* /tab */>}}
+
+{{</* tab name="Three" cookie-value="three" */>}}
+THREE
+{{</* /tab */>}}
+
+{{</* /tabset */>}}
+{{< /text >}}
+
+which produces the following output:
+
+{{< tabset cookie-name="platform" >}}
+
+{{< tab name="One" cookie-value="one" >}}
+ONE
+{{< /tab >}}
+
+{{< tab name="Two" cookie-value="two" >}}
+TWO
+{{< /tab >}}
+
+{{< tab name="Three" cookie-value="three" >}}
+THREE
+{{< /tab >}}
+
+{{< /tabset >}}
+
+The `name` attribute of each tab contains the text to display for the tab. The content of the tab can be any normal markdown content.
+
+The optional `cookie-name` and `cookie-value` attributes allow the tab setting to be sticky across visits to the page. As the user
+selects a tab, the cookie will be automatically saved with the given name and value. If multiple tab sets use the same cookie name
+and values, their setting will be automatically synchronized across pages. This is particular useful when there are many tab sets
+in the site that hold the same different types of formats.
+
+For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a cookie name of `environment` and values of
+`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other pages.
+
 ## Renaming, moving, or deleting pages
 
 If you move pages around or delete them completely, you should make sure existing links users may have to those pages continue to work.
