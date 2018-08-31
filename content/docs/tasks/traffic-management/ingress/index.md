@@ -278,7 +278,7 @@ and exposed an HTTP endpoint of the service to external traffic.
 Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
-$ kubectl delete gateway httpbin-gateway
-$ kubectl delete virtualservice httpbin
+$ istioctl delete gateway httpbin-gateway
+$ istioctl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
