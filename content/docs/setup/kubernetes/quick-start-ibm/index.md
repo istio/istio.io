@@ -51,16 +51,19 @@ This guide installs the current release version of Istio.
     {{< /text >}}
 
 3. Create the service account and cluster role binding.
+
     {{< text bash >}}
     $ kubectl create -f rbac-config.yaml
     {{< /text >}}
 
 4. Initialize Helm and install Tiller.
+
     {{< text bash >}}
     $ helm init --service-account tiller
     {{< /text >}}
 
 5. Add the IBM Cloud Helm repository to your Helm instance.
+
     {{< text bash >}}
     $ helm repo add ibm https://registry.bluemix.net/helm/ibm
     {{< /text >}}
@@ -68,16 +71,19 @@ This guide installs the current release version of Istio.
 ## Deploy the Istio Helm chart
 
 1. Install Istio’s custom resource definitions.
+
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
 
 2. Install the Helm chart to your cluster.
+
     {{< text bash>}}
     $ helm install ibm/ibm-istio --name=istio --namespace istio-system
     {{< /text >}}
 
 3. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed.
+
     {{< text bash >}}
     $ kubectl get pods -n istio-system
     NAME                                       READY     STATUS      RESTARTS   AGE
@@ -104,11 +110,13 @@ $ helm upgrade -f config.yaml istio ibm/ibm-istio
 ## Uninstall
 
 1. Uninstall the Istio Helm deployment.
+
     {{< text bash >}}
     $ helm del istio --purge
     {{< /text >}}
 
 2. Delete the Istio custom resource definitions.
+
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
