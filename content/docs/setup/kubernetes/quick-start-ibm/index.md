@@ -123,7 +123,7 @@ $ helm upgrade -f config.yaml istio ibm/ibm-istio
 {{< /tab >}}
 
 {{< tab name="IBM Cloud Private" >}}
-Follow these instructions to install and run Istio in the
+Follow these instructions to install and run Istio in
 [IBM Cloud Private](https://www.ibm.com/cloud/private)
 using the `Catalog` module.
 
@@ -137,7 +137,7 @@ This guide installs the current release version of Istio.
 
 - Log in to the **IBM Cloud Private** console.
 - Click `Catalog` on the right side of the navigation bar.
-- Click `Filter` on the right side of the search box and select the `ibm-charts` checking box.
+- Click `Filter` on the right side of the search box and select the `ibm-charts` checkbox.
 - Click `Operations` in the left navigation pane.
 
 {{< image width="100%" ratio="50%"
@@ -152,7 +152,7 @@ This guide installs the current release version of Istio.
     caption="IBM Cloud Private - Istio Catalog"
     >}}
 
-- (Optional) Change the Istio version using `CHART VERSION` drop-down.
+- (Optional) Change the Istio version using the `CHART VERSION` drop-down.
 - Click the `Configure` button.
 
 {{< image width="100%" ratio="50%"
@@ -183,7 +183,7 @@ After it is installed, you can find it by searching for its release name on the 
 - Click the menu button on the left side of the navigation bar.
 - Click `Workloads` and select `Helm Releases`.
 - Find the installed Istio using its release name.
-- Click `Action` link and select `upgrade` or `rollback`.
+- Click `Action` and select `upgrade` or `rollback`.
 
 {{< image width="100%" ratio="50%"
     link="./istio-upgrade-1.png"
@@ -201,7 +201,7 @@ After it is installed, you can find it by searching for its release name on the 
 - Click the menu button on the left side of the navigation bar.
 - Click `Workloads` and select `Helm Releases`.
 - Find the installed Istio using its release name.
-- Click `Action` link and select `delete`.
+- Click `Action` and select `delete`.
 
 {{< image width="100%" ratio="50%"
     link="./istio-deletion.png"
