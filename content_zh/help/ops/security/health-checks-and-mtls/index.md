@@ -1,7 +1,9 @@
 ---
 title: 健康检查和双向 TLS
-description: 如何在双向 TLS 可用的情况下做健康检查。
+description: 如何在启用双向 TLS 的情况下运行健康检查。
 weight: 40
 ---
 
-你可以为服务启用许可模式，既可以使用双向 TLS，也可以使用明文请求通信。配置你的服务以接受用于健康检查的双向 TLS 和明文请求通信，请参阅[许可模式配置文档](/zh/docs/tasks/security/mtls-migration/#配置服务器使其同时能接收双向-tls-以及明文流量)。
+可以给服务启用 PERMISSIVE 模式，就可以同时接受双向 TLS 以及明文流量。
+
+要把服务配置为可以同时接受双向 TLS 和明文流量，以便执行健康检查，请参考[双向 TLS 的迁移](/zh/docs/tasks/security/mtls-migration/#配置服务器使其同时能接收双向-tls-以及明文流量)任务中的相关说明。
