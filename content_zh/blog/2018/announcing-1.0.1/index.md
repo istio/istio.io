@@ -1,6 +1,6 @@
 ---
 title: Istio 1.0.1 发布
-description: Istio 1.0.1 补丁版本
+description: Istio 1.0.1 补丁版本。
 publishdate: 2018-08-29
 attribution: The Istio Team
 weight: 82
