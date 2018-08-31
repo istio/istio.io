@@ -11,7 +11,6 @@ You can install Istio in IBM Cloud Public or IBM Cloud Private.
 {{< tabset >}}
 
 {{< tab name="IBM Cloud Public" >}}
-
 Follow these instructions to install and run Istio in
 [IBM Cloud Public](https://www.ibm.com/cloud/)
 by using Helm and the IBM Cloud Kubernetes Service.
@@ -117,7 +116,6 @@ $ helm upgrade -f config.yaml istio ibm/ibm-istio
 {{< /tab >}}
 
 {{< tab name="IBM Cloud Private" >}}
-
 Follow these instructions to install and run Istio in the
 [IBM Cloud Private](https://www.ibm.com/cloud/private)
 using the `Catalog` module.
