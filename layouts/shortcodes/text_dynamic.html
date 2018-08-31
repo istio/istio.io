@@ -1,7 +1,6 @@
-{{ $scratch := .Scratch }}
 {{ $name := split (.Get "url") "/" | last 1 }}
-{{ $scratch.Set "downloadas" (index $name 0) }}
+{{ $downloadas := index $name 0 }}
 {{ if .Get "downloadas" }}
-{{ $scratch.Set "downloadas" (.Get "downloadas") }}
+{{ $downloadas = .Get "downloadas" }}
 {{ end }}
-<pre data-src='{{ .Get "url" }}'><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $scratch.Get "downloadas" }}'></code></pre>
+<pre data-src='{{ .Get "url" }}'><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $downloadas }}'></code></pre>
