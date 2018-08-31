@@ -12,14 +12,14 @@ keywords: [流量管理,egress,https]
 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果您需要使用旧版本，请按照文档进行操作
 [使用外部 Web 服务归档版](https://archive.istio.io/v0.7/blog/2018/egress-https.html)。
 
-在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部， 有时，
-网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能， 虽然我们希望逐步将这些系统迁移到服务网格中。
-但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。 还有其他情况，
+在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部，有时，
+网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能，虽然我们希望逐步将这些系统迁移到服务网格中。
+但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。还有其他情况，
 应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。
 
 在这篇博客文章中，我修改了[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)让它可以
 从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。
-我将展示如何使用 _mesh-external service entries_ 在 Istio 中启用外部 HTTPS 流量。 最后，
+我将展示如何使用 _mesh-external service entries_ 在 Istio 中启用外部 HTTPS 流量。最后，
 我解释了当前与 Istio 出口流量控制相关的问题。
 
 ## 初始设定
@@ -39,15 +39,12 @@ keywords: [流量管理,egress,https]
     caption="原 Bookinfo 应用程序"
     >}}
 
-执行中的步骤
-[部署应用程序](/zh/docs/examples/bookinfo/#部署应用)，
-[确认应用正在运行](/zh/docs/examples/bookinfo/#确认应用在运行中)，以及
-[应用默认目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)
-部分。
+执行[部署应用程序](/zh/docs/examples/bookinfo/#部署应用)、[确认应用正在运行](/zh/docs/examples/bookinfo/#确认应用在运行中)，以及
+[应用默认目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)中的步骤部分。
 
 ### Bookinfo 使用 HTTPS 访问 Google 图书网络服务
 
-让我们添加一个新版本的 _details_ 微服务，_v2_ ，从[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)中获取图书详细信息。
+让我们添加一个新版本的 _details_ 微服务，_v2_，从[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)中获取图书详细信息。
 它设定了服务容器的 `DO_NOT_ENCRYPT` 环境变量为 `false`。此设置将指示已部署服务使用 HTTPS（而不是 HTTP ）来访问外部服务。
 
 {{< text bash >}}
@@ -81,7 +78,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     caption="获取产品详细信息的错误消息"
     >}}
 
-好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。 在我们的例子中，
+好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。在我们的例子中，
 失败的 _details_ 微服务不会导致 `productpage` 微服务失败, 尽管 _details_ 微服务失败，
 仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，
 应用程序仍然有用。
@@ -93,7 +90,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 ### 启用对 Google Books 网络服务的 HTTPS 访问
 
 不用担心，让我们定义**网格外部 `ServiceEntry`** 并修复我们的应用程序。您还必须定义 _virtual
-service_ 通过[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
+service_ 使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -155,10 +152,10 @@ $ kubectl delete serviceentry googleapis
 serviceentry "googleapis" deleted
 {{< /text >}}
 
-并在输出中看到删除了 `ServiceEntry` 。
+并在输出中看到删除了 `ServiceEntry`。
 
-删除 `ServiceEntry` 后访问网页会产生我们之前遇到的相同错误，即_Error fetching product details_,
-正如我们所看到的， `ServiceEntry` 是**动态定义**，与许多其他 Istio 配置一样 , Istio 运算符可以动态决定
+删除 `ServiceEntry` 后访问网页会产生我们之前遇到的相同错误，即 _Error fetching product details_,
+正如我们所看到的，，与许多其他 Istio 配置一样，`ServiceEntry` 是**动态定义**的 , Istio 运算符可以动态决定
 它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
 
 ### 清除对 Google 图书网络服务的 HTTPS 访问权限
@@ -172,18 +169,16 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 
 ## 由 Istio 发起的 TLS
 
-这个故事有一个警告。假设您要监视您的微服务使用的哪个特定集 [Google API](https://developers.google.com/apis-explorer/)
+这个故事有一个警告。假设您要监视您的微服务使用 [Google API](https://developers.google.com/apis-explorer/) 的哪个特定集 
 （[书籍](https://developers.google.com/books/docs/v1/getting_started)，
 [日历](https://developers.google.com/calendar/)，[任务](https://developers.google.com/tasks/)等）
 假设您要强制执行仅允许使用[图书 API](https://developers.google.com/books/docs/v1/getting_started)的策略。
 假设您要监控您的微服务访问的标识符。对于这些监视和策略任务，您需要知道 URL 路径。
 考虑例如 URL [`www.googleapis.com/books/v1/volumes?q=isbn:0486424618`](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618)。
 在该网址中，路径段指定了[图书 API](https://developers.google.com/books/docs/v1/getting_started)
-`/books` 和路径段的 [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number)编号
- `/volumes?q=isbn:0486424618` 。但是，在 HTTPS 中，所有 HTTP 详细信息（主机名，路径，标头等）都是加密的
-sidecar 代理人的这种监督和政策执行是不可能的。 在 `www.googleapis.com` 这种情况下，Istio 只能知道服务器名称
-[SNI](https://tools.ietf.org/html/rfc3546#section-3.1)（_Server Name Indication_）字段的加密请求
-。
+`/books` 和路径段的 [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number) 代码
+ `/volumes?q=isbn:0486424618`。但是，在 HTTPS 中，所有 HTTP 详细信息（主机名，路径，标头等）都是加密的
+sidecar 代理的这种监督和策略执行是无法实现的。Istio 只能通过 [SNI](https://tools.ietf.org/html/rfc3546#section-3.1)（_Server Name Indication_）得知加密请求中的主机名称，在这里就是 `www.googleapis.com`。
 
 为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）,
 根据微服务是在 Istio 服务网格内部还是外部运行，
@@ -196,11 +191,11 @@ sidecar 代理人的这种监督和政策执行是不可能的。 在 `www.googl
 
 {{< image width="60%" ratio="95.14%"
     link="/blog/2018/egress-https/https_from_the_app.svg"
-    caption="到外部服务的 HTTPS 流量，TLS 由微服务和 sidecar 代理发起"
+    caption="对外发起 HTTPS 流量的两种方式：微服务自行发起，或由 Sidecar 代理发起"
     >}}
 
-以下是我们如何在[Bookinfo 的 details 微服务代码]({{< github_file >}}/samples/bookinfo/src/details/details.rb)
-中使用Ruby [net/http 模块](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html)：
+以下是我们如何在 [Bookinfo 的 details 微服务代码]({{< github_file >}}/samples/bookinfo/src/details/details.rb)
+中使用 Ruby [net/http 模块](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html)：
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
@@ -228,8 +223,8 @@ env:
 
 ## 具有 TLS 的 Bookinfo 起源于 Google Books 网络服务
 
-1.  部署 _details v2_ 版本，将 HTTP 请求发送到[Google Books API](https://developers.google.com/books/docs/v1/getting_started)。
-    在[`bookinfo-details-v2.yaml`]({{<github_file>}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml)中，
+1.  部署 _details v2_ 版本，将 HTTP 请求发送到 [Google Books API](https://developers.google.com/books/docs/v1/getting_started)。
+    在 [`bookinfo-details-v2.yaml`]({{<github_file>}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml) 中，
     `DO_NOT_ENCRYPT` 变量设置为 true。
 
     {{< text bash >}}
@@ -242,7 +237,7 @@ env:
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     {{< /text >}}
 
-1.  为 `www.google.apis` 创建网格外部 `ServiceEntry` ，并执行目标规则以执行 TLS 发起。
+1.  为 `www.google.apis` 创建网格外部 `ServiceEntry`，并执行目标规则以执行 TLS 发起。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -272,11 +267,11 @@ env:
         - port:
             number: 443
           tls:
-            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+            mode: SIMPLE # 访问 edition.cnn.com 时启动 HTTPS
     EOF
     {{< /text >}}
 
-    注意，前缀为 `http-` `ServiceEntr` 指定了端口为 `443` ，其协议指定为 `HTTP`。
+    注意，前缀为 `http-` `ServiceEntr` 指定了端口为 `443`，其协议指定为 `HTTP`。
     请注意，您不需要使用端口 443 发送 TLS 发起的 HTTP 请求。
     [出口流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/)
     显示了如何使用端口重写执行 TLS 发起。
@@ -292,7 +287,7 @@ env:
     {{< /text >}}
 
     请注意日志中的 URL 路径，可以监视路径并根据它来应用访问策略。要了解有关 HTTP 出口流量的监控和访问策略
-    的更多信息，请查看[归档博客之出口流量监控之日志](https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging) 。
+    的更多信息，请查看[归档博客之出口流量监控之日志](https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging)。
 
 ### 清除 TLS 原始数据到 Google Books 网络服务
 
