@@ -58,7 +58,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --d
 
 {{< image width="80%" ratio="65.16%"
     link="/blog/2018/egress-https/bookinfo-details-v2.svg"
-    caption="Bookinfo 应用程序，详细信息为 V2"
+    caption="Bookinfo 的 details V2 应用程序"
     >}}
 
 请注意，Google Book 服务位于 Istio 服务网格之外，其边界由虚线标记。
@@ -78,7 +78,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 
 {{< image width="80%" ratio="36.01%"
     link="/blog/2018/egress-https/errorFetchingBookDetails.png"
-    caption="The Error Fetching Product Details Message"
+    caption="获取产品详细信息的错误消息"
     >}}
 
 好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。 在我们的例子中，
