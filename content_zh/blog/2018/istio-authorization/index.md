@@ -16,7 +16,7 @@ keywords: [授权,基于角色的访问控制,安全]
 * 服务间和最终用户到服务授权。
 * 高性能，因为它在 Envoy 上本地执行。
 * 基于角色的语义，使其易于使用。
-* 灵活性高，因为它允许用户定义条件[属性组合](/docs/reference/config/authorization/constraints-and-properties/).
+* 灵活性高，因为它允许用户定义条件[属性组合](/docs/reference/config/authorization/constraints-and-properties/)。
 
 在这篇博客文章中，您将了解主要授权功能以及如何在不同情况下使用它们。
 
@@ -24,8 +24,8 @@ keywords: [授权,基于角色的访问控制,安全]
 
 ### RPC 级别授权
 
-授权在各个 RPC 级别执行。具体来说，它控制“谁可以访问我的 `bookstore` 服务“，或者“谁可以在我的 `bookstore` 服务中访问
- `getBook` 方法 “。它不是为了控制对特定于应用程序的访问而设计的
+授权在各个 RPC 级别执行。具体来说，它控制“谁可以访问我的 `bookstore` 服务”，或者“谁可以在我的 `bookstore` 服务中访问
+ `getBook` 方法 ”。它不是为了控制对特定于应用程序的访问而设计的
 资源实例，例如访问“存储桶 X ”或访问“第二层架上的第 3 本书”。今天这种应用特定的访问控制逻辑需要由应用程序本身处理。
 
 ### 具有条件的基于角色的访问控制
@@ -42,7 +42,7 @@ keywords: [授权,基于角色的访问控制,安全]
 
 * **它减少了无意的错误。** RBAC 策略使得复杂的安全更改变得更加容易。你不会有在多个位置重复配置，以后在需要进行更改时忘记更新其中一些配置。
 
-另一方面，Istio 的授权系统不是传统的 RBAC 系统。它还允许用户使用定义**条件**[属性组合](/docs/reference/config/authorization/constraints-and-properties/)。这给了 Istio 表达复杂的访问控制策略的灵活性。实际上，**Istio 授权采用“RBAC +条件”模型，具有 RBAC 系统的所有优点，并支持通常是 ABAC 系统提供的灵活性。**你会在下面看到一些[示例](#示例)。
+另一方面，Istio 的授权系统不是传统的 RBAC 系统。它还允许用户使用定义**条件**[属性组合](/docs/reference/config/authorization/constraints-and-properties/)。这给了 Istio 表达复杂的访问控制策略的灵活性。实际上，**Istio 授权采用“RBAC + 条件”模型，具有 RBAC 系统的所有优点，并支持通常是 ABAC 系统提供的灵活性。**你会在下面看到一些[示例](#示例)。
 
 ### 高性能
 
@@ -183,4 +183,4 @@ spec:
 
 ## 概要
 
-Istio 在命名空间级别，服务级别和方法级别粒度上提供授权功能。它采用“ RBAC +条件”模型，使其成为易于使用和理解的 RBAC 系统，同时提供 ABAC 系统级别的灵活性。在 Envoy 本地上会执行 Istio 授权。虽然它通过与一起提供最好的安全性 [Istio 认证功能](/zh/docs/concepts/security/#认证),也可以使用 Istio 授权为没有身份验证的旧系统提供访问控制。
+Istio 在命名空间级别，服务级别和方法级别粒度上提供授权功能。它采用“ RBAC + 条件”模型，使其成为易于使用和理解的 RBAC 系统，同时提供 ABAC 系统级别的灵活性。在 Envoy 本地上会执行 Istio 授权。虽然它通过与一起提供最好的安全性 [Istio 认证功能](/zh/docs/concepts/security/#认证),也可以使用 Istio 授权为没有身份验证的旧系统提供访问控制。
