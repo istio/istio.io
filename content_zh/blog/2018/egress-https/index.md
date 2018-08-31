@@ -169,9 +169,8 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 
 ## 由 Istio 发起的 TLS
 
-这个故事有一个警告。假设您要监视您的微服务使用 [Google API](https://developers.google.com/apis-explorer/) 的哪个特定集 
-（[书籍](https://developers.google.com/books/docs/v1/getting_started)，
-[日历](https://developers.google.com/calendar/)，[任务](https://developers.google.com/tasks/)等）
+这个故事有一个警告。假设您要监视您的微服务使用 [Google API](https://developers.google.com/apis-explorer/) 的哪个特定集
+（[书籍](https://developers.google.com/books/docs/v1/getting_started)，[日历](https://developers.google.com/calendar/)，[任务](https://developers.google.com/tasks/)等）
 假设您要强制执行仅允许使用[图书 API](https://developers.google.com/books/docs/v1/getting_started)的策略。
 假设您要监控您的微服务访问的标识符。对于这些监视和策略任务，您需要知道 URL 路径。
 考虑例如 URL [`www.googleapis.com/books/v1/volumes?q=isbn:0486424618`](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618)。
