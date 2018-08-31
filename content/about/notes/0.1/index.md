@@ -21,3 +21,5 @@ Istio 0.1 is the initial [release](https://github.com/istio/istio/releases) of I
 - Request tracing through Envoy with Zipkin.
 - Service-to-service authentication using mutual TLS.
 - Simple service-to-service authorization using deny expressions.
+
+{{< relnote_links >}}

@@ -40,11 +40,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, mcp]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, mcp, mcp-creds]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp, mcp-creds] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -64,7 +64,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp, mcp-creds] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -103,6 +103,16 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td>Max number of goroutines in the API worker pool  (default `1024`)</td>
 </tr>
 <tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td></td>
+<td>The location of the certificate file for the root certificate authority  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--certFile &lt;string&gt;</code></td>
+<td></td>
+<td>The location of the certificate file for mutual TLS  (default `/etc/istio/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
 <td><code>--configDefaultNamespace &lt;string&gt;</code></td>
 <td></td>
 <td>Namespace used to store mesh wide configuration.  (default `istio-system`)</td>
@@ -110,7 +120,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--configStoreURL &lt;string&gt;</code></td>
 <td></td>
-<td>URL of the config store. Use k8s://path_to_kubeconfig or fs:// for file system. If path_to_kubeconfig is empty, in-cluster kubeconfig is used.  (default ``)</td>
+<td>URL of the config store. Use k8s://path_to_kubeconfig, fs:// for file system, or mcp://&lt;address&gt; for MCP/Galley. If path_to_kubeconfig is empty, in-cluster kubeconfig is used.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
@@ -121,6 +131,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
 <td></td>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--keyFile &lt;string&gt;</code></td>
+<td></td>
+<td>The location of the key file for mutual TLS  (default `/etc/istio/certs/key.pem`)</td>
 </tr>
 <tr>
 <td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
@@ -140,12 +155,12 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, mcp]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, mcp, mcp-creds]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp, mcp-creds] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -170,7 +185,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp, mcp-creds] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>

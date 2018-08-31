@@ -7,6 +7,8 @@ icon: /img/notes.svg
 For this release, we focused on improving our build and test infrastructures and increasing the
 quality of our tests. As a result, there are no new features for this month.
 
+{{< relnote_links >}}
+
 However, this release does include a large number of bug fixes and performance improvements.
 
 Please note that this release includes preliminary support for the new v1alpha3 traffic management
