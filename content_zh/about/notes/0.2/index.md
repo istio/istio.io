@@ -71,3 +71,5 @@ icon: /img/notes.svg
 - **在Pilot实际准备就绪之前，Istio Ingress 或 Egress 报告已准备就绪**：您可以在 `istio-system` 命名空间中检查 istio-ingress 和 istio-egress pods 状态，并在所有 Istio pod 达到就绪状态后等待几秒钟,我们正积极致力于[问题](https://github.com/istio/istio/pull/1055)。
 
 - **启用了 `Istio Auth` 的服务无法与没有 Istio 的服务通信**：此限制将在不久的将来删除。
+
+{{< relnote_links >}}

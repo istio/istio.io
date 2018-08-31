@@ -12,7 +12,7 @@ icon: /img/notes.svg
 
 - 修复了增加一个端口时 VirtualService Host 不匹配的问题。
 
-- 添加了同一个主机内对 [合并多个 Virtual Service 或 Destination Rule 定义](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) 的有限支持。
+- 添加了同一个主机内对 [合并多个 `VirtualService` 或 `DestinationRule` 定义](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) 的有限支持。
 
 - 允许在使用 HTTP 时，连续的出现 Gateway failures [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection.html) 。
 
@@ -30,7 +30,7 @@ icon: /img/notes.svg
 
 ## 策略与遥测
 
-- 为 Mixer Prometheus 适配器新增了一个实验性的监控指标过期配置。
+- 为 Mixer 的 Prometheus 适配器新增了一个实验性的监控指标过期配置。
 
 - 将 Grafana 升级至 5.2.2 版本。
 
