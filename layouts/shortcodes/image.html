@@ -38,7 +38,6 @@ MARKDOWN ERROR: image caption ends with a period.
 {{ end }}
 
 {{/* Turn relative values for $link into absolute URLs */}}
-{{ .Scratch.Set "link" $link }}
 
 {{ $prefix := slicestr $link 0 1 }}
 {{ if (ne $prefix "/") }}
@@ -46,13 +45,12 @@ MARKDOWN ERROR: image caption ends with a period.
     {{ if (ne $prefix "https://") }}
         {{ $prefix := slicestr $link 0 3 }}
         {{ if (eq $prefix "../") }}
-            {{ .Scratch.Set "link" (printf "/%s%s" .Page.Dir (slicestr $link 3)) }}
+            {{ $link = printf "/%s%s" .Page.Dir (slicestr $link 3) }}
         {{ else }}
-            {{ .Scratch.Set "link" (printf "/%s%s" .Page.Dir $link) }}
+            {{ $link = printf "/%s%s" .Page.Dir $link }}
         {{ end }}
     {{ end }}
 {{ end }}
-{{ $link := .Scratch.Get "link" }}
 
 <figure style="width: {{ $width }}">
     <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{ $ratio }}">
