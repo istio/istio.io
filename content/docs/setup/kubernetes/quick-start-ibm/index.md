@@ -100,19 +100,19 @@ To upgrade your Istio Helm chart to the latest version:
 
 {{< text bash >}}
 $ helm upgrade -f config.yaml istio ibm/ibm-istio
-{{< /text }}
+{{< /text >}}
 
 ## Uninstall
 
 1. Uninstall the Istio Helm deployment.
     {{< text bash >}}
     $ helm del istio --purge
-    {{< /text bash >}}
+    {{< /text >}}
 
 2. Delete the Istio custom resource definitions.
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
-    {{< /text bash >}}
+    {{< /text >}}
 
 {{< /tab >}}
 
