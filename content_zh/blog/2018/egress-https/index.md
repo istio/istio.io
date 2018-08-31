@@ -82,7 +82,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     >}}
 
 好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。 在我们的例子中，
-失败的 _details_  微服务不会导致 `productpage` 微服务失败, 尽管 _details_ 微服务失败，
+失败的 _details_ 微服务不会导致 `productpage` 微服务失败, 尽管 _details_ 微服务失败，
 仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，
 应用程序仍然有用。
 
