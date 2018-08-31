@@ -11,53 +11,27 @@ keywords: [kubernetes,helm]
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 <!-- AUTO-GENERATED-START -->
+## `certmanager` 选项
+
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
-| `global.hub` | `gcr.io/istio-release` |  |
-| `global.tag` | `release-1.0-latest-daily` |  |
-| `global.k8sIngressSelector` | `ingress` |  |
-| `global.k8sIngressHttps` | `false` |  |
-| `global.proxy.image` | `proxyv2` |  |
-| `global.proxy.resources.requests.cpu` | `10m` |  |
-| `global.proxy.accessLogFile` | `"/dev/stdout"` |  |
-| `global.proxy.enableCoreDump` | `false` |  |
-| `global.proxy.includeIPRanges` | `"*"` |  |
-| `global.proxy.excludeIPRanges` | `""` |  |
-| `global.proxy.includeInboundPorts` | `"*"` |  |
-| `global.proxy.excludeInboundPorts` | `""` |  |
-| `global.proxy.autoInject` | `enabled` |  |
-| `global.proxy.envoyStatsd.enabled` | `true` |  |
-| `global.proxy.envoyStatsd.host` | `istio-statsd-prom-bridge` |  |
-| `global.proxy.envoyStatsd.port` | `9125` |  |
-| `global.proxy_init.image` | `proxy_init` |  |
-| `global.imagePullPolicy` | `IfNotPresent` |  |
-| `global.controlPlaneSecurityEnabled` | `false` |  |
-| `global.disablePolicyChecks` | `false` |  |
-| `global.enableTracing` | `true` |  |
-| `global.mtls.enabled` | `false` |  |
-| `global.arch.amd64` | `2` |  |
-| `global.arch.s390x` | `2` |  |
-| `global.arch.ppc64le` | `2` |  |
-| `global.oneNamespace` | `false` |  |
-| `global.configValidation` | `true` |  |
-| `global.meshExpansion` | `false` |  |
-| `global.meshExpansionILB` | `false` |  |
-| `global.defaultResources.requests.cpu` | `10m` |  |
-| `global.hyperkube.hub` | `quay.io/coreos` |  |
-| `global.hyperkube.tag` | `v1.7.6_coreos.0` |  |
-| `global.priorityClassName` | `""` |  |
-| `global.crds` | `true` |  |
-| `ingress.enabled` | `false` |  |
-| `ingress.replicaCount` | `1` |  |
-| `ingress.autoscaleMin` | `1` |  |
-| `ingress.autoscaleMax` | `5` |  |
-| `ingress.service.annotations` | `{}` |  |
-| `ingress.service.loadBalancerIP` | `""` |  |
-| `ingress.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
-| `ingress.service.ports.name` | `http` |  |
-| `ingress.service.ports.nodePort` | `32000` |  |
-| `ingress.service.ports.name` | `https` |  |
-| `ingress.service.selector.istio` | `ingress` |  |
+| `certmanager.enabled` | `true` |  |
+| `certmanager.hub` | `quay.io/jetstack` |  |
+| `certmanager.tag` | `v0.3.1` |  |
+| `certmanager.resources` | `{}` |  |
+
+## `galley` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `galley.enabled` | `true` |  |
+| `galley.replicaCount` | `1` |  |
+| `galley.image` | `galley` |  |
+
+## `gateways` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
 | `gateways.enabled` | `true` |  |
 | `gateways.istio-ingressgateway.enabled` | `true` |  |
 | `gateways.istio-ingressgateway.labels.app` | `istio-ingressgateway` |  |
@@ -68,7 +42,7 @@ keywords: [kubernetes,helm]
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
-| `gateways.istio-ingressgateway.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
+| `gateways.istio-ingressgateway.type` | `LoadBalancer #如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
 | `gateways.istio-ingressgateway.ports.name` | `http2` |  |
 | `gateways.istio-ingressgateway.ports.nodePort` | `31380` |  |
@@ -95,40 +69,121 @@ keywords: [kubernetes,helm]
 | `gateways.istio-egressgateway.autoscaleMin` | `1` |  |
 | `gateways.istio-egressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-egressgateway.serviceAnnotations` | `{}` |  |
-| `gateways.istio-egressgateway.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` |  |
+| `gateways.istio-egressgateway.type` | `ClusterIP #如果需要，请更改为 NodePort 或 LoadBalancer` |  |
 | `gateways.istio-egressgateway.ports.name` | `http2` |  |
-| `gateways.istio-egressgateway.ports.name` | `https` |  |
+| `gateways.istio-egressgateway.ports.name.name` | `https` |  |
 | `gateways.istio-egressgateway.secretVolumes.secretName` | `istio-egressgateway-certs` |  |
-| `gateways.istio-egressgateway.secretVolumes.mountPath` | `/etc/istio/egressgateway-certs` |  |
-| `gateways.istio-egressgateway.secretVolumes.secretName` | `istio-egressgateway-ca-certs` |  |
-| `gateways.istio-egressgateway.secretVolumes.mountPath` | `/etc/istio/egressgateway-ca-certs` |  |
+| `gateways.istio-egressgateway.secretVolumes.secretName.mountPath` | `/etc/istio/egressgateway-certs` |  |
+| `gateways.istio-egressgateway.secretVolumes.secretName.secretName` | `istio-egressgateway-ca-certs` |  |
+| `gateways.istio-egressgateway.secretVolumes.secretName.mountPath` | `/etc/istio/egressgateway-ca-certs` |  |
 | `gateways.istio-ilbgateway.enabled` | `false` |  |
-| `gateways.istio-ilbgateway.labels.app` | `istio-ilbgateway` |  |
-| `gateways.istio-ilbgateway.labels.istio` | `ilbgateway` |  |
-| `gateways.istio-ilbgateway.replicaCount` | `1` |  |
-| `gateways.istio-ilbgateway.autoscaleMin` | `1` |  |
-| `gateways.istio-ilbgateway.autoscaleMax` | `5` |  |
-| `gateways.istio-ilbgateway.resources.requests.cpu` | `800m` |  |
-| `gateways.istio-ilbgateway.resources.requests.memory` | `512Mi` |  |
-| `gateways.istio-ilbgateway.loadBalancerIP` | `""` |  |
-| `gateways.istio-ilbgateway.serviceAnnotations.cloud.google.com/load-balancer-type` | `"internal"` |  |
-| `gateways.istio-ilbgateway.type` | `LoadBalancer` |  |
-| `gateways.istio-ilbgateway.ports.name` | `grpc-pilot-mtls` |  |
-| `gateways.istio-ilbgateway.ports.name` | `grpc-pilot` |  |
-| `gateways.istio-ilbgateway.ports.targetPort` | `8060` |  |
-| `gateways.istio-ilbgateway.ports.name` | `tcp-citadel-grpc-tls` |  |
-| `gateways.istio-ilbgateway.ports.name` | `tcp-dns` |  |
-| `gateways.istio-ilbgateway.secretVolumes.secretName` | `istio-ilbgateway-certs` |  |
-| `gateways.istio-ilbgateway.secretVolumes.mountPath` | `/etc/istio/ilbgateway-certs` |  |
-| `gateways.istio-ilbgateway.secretVolumes.secretName` | `istio-ilbgateway-ca-certs` |  |
-| `gateways.istio-ilbgateway.secretVolumes.mountPath` | `/etc/istio/ilbgateway-ca-certs` |  |
-| `sidecarInjectorWebhook.enabled` | `true` |  |
-| `sidecarInjectorWebhook.replicaCount` | `1` |  |
-| `sidecarInjectorWebhook.image` | `sidecar_injector` |  |
-| `sidecarInjectorWebhook.enableNamespacesByDefault` | `false` |  |
-| `galley.enabled` | `true` |  |
-| `galley.replicaCount` | `1` |  |
-| `galley.image` | `galley` |  |
+| `gateways.istio-ilbgateway.enabled.labels.app` | `istio-ilbgateway` |  |
+| `gateways.istio-ilbgateway.enabled.labels.istio` | `ilbgateway` |  |
+| `gateways.istio-ilbgateway.enabled.replicaCount` | `1` |  |
+| `gateways.istio-ilbgateway.enabled.autoscaleMin` | `1` |  |
+| `gateways.istio-ilbgateway.enabled.autoscaleMax` | `5` |  |
+| `gateways.istio-ilbgateway.enabled.resources.requests.cpu` | `800m` |  |
+| `gateways.istio-ilbgateway.enabled.resources.requests.memory` | `512Mi` |  |
+| `gateways.istio-ilbgateway.enabled.loadBalancerIP` | `""` |  |
+| `gateways.istio-ilbgateway.enabled.serviceAnnotations.cloud.google.com/load-balancer-type` | `"internal"` |  |
+| `gateways.istio-ilbgateway.enabled.type` | `LoadBalancer` |  |
+| `gateways.istio-ilbgateway.enabled.ports.name` | `grpc-pilot-mtls` |  |
+| `gateways.istio-ilbgateway.enabled.ports.name` | `grpc-pilot` |  |
+| `gateways.istio-ilbgateway.enabled.ports.targetPort` | `8060` |  |
+| `gateways.istio-ilbgateway.enabled.ports.name` | `tcp-citadel-grpc-tls` |  |
+| `gateways.istio-ilbgateway.enabled.ports.name` | `tcp-dns` |  |
+| `gateways.istio-ilbgateway.enabled.secretVolumes.secretName` | `istio-ilbgateway-certs` |  |
+| `gateways.istio-ilbgateway.enabled.secretVolumes.mountPath` | `/etc/istio/ilbgateway-certs` |  |
+| `gateways.istio-ilbgateway.enabled.secretVolumes.secretName` | `istio-ilbgateway-ca-certs` |  |
+| `gateways.istio-ilbgateway.enabled.secretVolumes.mountPath` | `/etc/istio/ilbgateway-ca-certs` |  |
+
+## `global` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `global.hub` | `docker.io/istio` |  |
+| `global.tag` | `1.0.0` |  |
+| `global.k8sIngressSelector` | `ingress` |  |
+| `global.k8sIngressHttps` | `false` |  |
+| `global.proxy.image` | `proxyv2` |  |
+| `global.proxy.resources.requests.cpu` | `10m` |  |
+| `global.proxy.accessLogFile` | `"/dev/stdout"` |  |
+| `global.proxy.enableCoreDump` | `false` |  |
+| `global.proxy.includeIPRanges` | `"*"` |  |
+| `global.proxy.excludeIPRanges` | `""` |  |
+| `global.proxy.includeInboundPorts` | `"*"` |  |
+| `global.proxy.excludeInboundPorts` | `""` |  |
+| `global.proxy.autoInject` | `enabled` |  |
+| `global.proxy.envoyStatsd.enabled` | `true` |  |
+| `global.proxy.envoyStatsd.host` | `istio-statsd-prom-bridge` |  |
+| `global.proxy.envoyStatsd.port` | `9125` |  |
+| `global.proxy_init.image` | `proxy_init` |  |
+| `global.imagePullPolicy` | `IfNotPresent` |  |
+| `global.controlPlaneSecurityEnabled` | `true` |  |
+| `global.disablePolicyChecks` | `false` |  |
+| `global.enableTracing` | `true` |  |
+| `global.mtls.enabled` | `true` |  |
+| `global.arch.amd64` | `2` |  |
+| `global.arch.s390x` | `2` |  |
+| `global.arch.ppc64le` | `2` |  |
+| `global.oneNamespace` | `false` |  |
+| `global.configValidation` | `true` |  |
+| `global.meshExpansion` | `false` |  |
+| `global.meshExpansionILB` | `false` |  |
+| `global.defaultResources.requests.cpu` | `10m` |  |
+| `global.hyperkube.hub` | `quay.io/coreos` |  |
+| `global.hyperkube.tag` | `v1.7.6_coreos.0` |  |
+| `global.priorityClassName` | `""` |  |
+| `global.crds` | `true` |  |
+
+## `grafana` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `grafana.enabled` | `true` |  |
+| `grafana.replicaCount` | `1` |  |
+| `grafana.image` | `grafana` |  |
+| `grafana.security.enabled` | `true` |  |
+| `grafana.security.adminUser` | `admin` |  |
+| `grafana.security.adminPassword` | `admin` |  |
+| `grafana.service.annotations` | `{}` |  |
+| `grafana.service.name` | `http` |  |
+| `grafana.service.type` | `ClusterIP` |  |
+| `grafana.service.externalPort` | `3000` |  |
+| `grafana.service.internalPort` | `3000` |  |
+
+## `ingress` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `ingress.enabled` | `true` |  |
+| `ingress.replicaCount` | `1` |  |
+| `ingress.autoscaleMin` | `1` |  |
+| `ingress.autoscaleMax` | `5` |  |
+| `ingress.service.annotations` | `{}` |  |
+| `ingress.service.loadBalancerIP` | `""` |  |
+| `ingress.service.type` | `LoadBalancer #如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |  |
+| `ingress.service.ports.name` | `http` |  |
+| `ingress.service.ports.nodePort` | `32000` |  |
+| `ingress.service.ports.name` | `https` |  |
+| `ingress.service.selector.istio` | `ingress` |  |
+
+## `kiali` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `kiali.enabled` | `true` |  |
+| `kiali.replicaCount` | `1` |  |
+| `kiali.hub` | `docker.io/kiali` |  |
+| `kiali.tag` | `istio-release-1.0` |  |
+| `kiali.ingress.enabled` | `true` |  |
+| `kiali.dashboard.username` | `admin` |  |
+| `kiali.dashboard.passphrase` | `admin` |  |
+
+## `mixer` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
 | `mixer.enabled` | `true` |  |
 | `mixer.replicaCount` | `1` |  |
 | `mixer.autoscaleMin` | `1` |  |
@@ -144,6 +199,11 @@ keywords: [kubernetes,helm]
 | `mixer.istio-telemetry.cpu.targetAverageUtilization` | `80` |  |
 | `mixer.prometheusStatsdExporter.hub` | `docker.io/prom` |  |
 | `mixer.prometheusStatsdExporter.tag` | `v0.6.0` |  |
+
+## `pilot` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
 | `pilot.enabled` | `true` |  |
 | `pilot.replicaCount` | `1` |  |
 | `pilot.autoscaleMin` | `1` |  |
@@ -153,23 +213,11 @@ keywords: [kubernetes,helm]
 | `pilot.traceSampling` | `100.0` |  |
 | `pilot.resources.requests.cpu` | `500m` |  |
 | `pilot.resources.requests.memory` | `2048Mi` |  |
-| `security.replicaCount` | `1` |  |
-| `security.image` | `citadel` |  |
-| `security.selfSigned` | `true # indicate if self-signed CA is used.` |  |
-| `telemetry-gateway.gatewayName` | `ingressgateway` |  |
-| `telemetry-gateway.grafanaEnabled` | `false` |  |
-| `telemetry-gateway.prometheusEnabled` | `false` |  |
-| `grafana.enabled` | `false` |  |
-| `grafana.replicaCount` | `1` |  |
-| `grafana.image` | `grafana` |  |
-| `grafana.security.enabled` | `false` |  |
-| `grafana.security.adminUser` | `admin` |  |
-| `grafana.security.adminPassword` | `admin` |  |
-| `grafana.service.annotations` | `{}` |  |
-| `grafana.service.name` | `http` |  |
-| `grafana.service.type` | `ClusterIP` |  |
-| `grafana.service.externalPort` | `3000` |  |
-| `grafana.service.internalPort` | `3000` |  |
+
+## `prometheus` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
 | `prometheus.enabled` | `true` |  |
 | `prometheus.replicaCount` | `1` |  |
 | `prometheus.hub` | `docker.io/prom` |  |
@@ -177,50 +225,70 @@ keywords: [kubernetes,helm]
 | `prometheus.service.annotations` | `{}` |  |
 | `prometheus.service.nodePort.enabled` | `false` |  |
 | `prometheus.service.nodePort.port` | `32090` |  |
-| `servicegraph` | `servicegraph.local` |  |
+
+## `security` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `security.replicaCount` | `1` |  |
+| `security.image` | `citadel` |  |
+| `security.selfSigned` | `true # 指示是否使用自签名 CA.` |  |
+
+## `servicegraph` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
 | `servicegraph.enabled` | `false` |  |
 | `servicegraph.replicaCount` | `1` |  |
 | `servicegraph.image` | `servicegraph` |  |
-| `servicegraph.service.annotations` | `{}` |  |
 | `servicegraph.service.name` | `http` |  |
 | `servicegraph.service.type` | `ClusterIP` |  |
 | `servicegraph.service.externalPort` | `8088` |  |
 | `servicegraph.service.internalPort` | `8088` |  |
-| `servicegraph.ingress` | `servicegraph.local` |  |
 | `servicegraph.ingress.enabled` | `false` |  |
-| `servicegraph.ingress.hosts` | `servicegraph.local` |  |
 | `servicegraph.prometheusAddr` | `http://prometheus:9090` |  |
-| `tracing` | `jaeger.local tracing.local` |  |
-| `tracing.enabled` | `false` |  |
+
+## `sidecarInjectorWebhook` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `sidecarInjectorWebhook.enabled` | `true` |  |
+| `sidecarInjectorWebhook.replicaCount` | `1` |  |
+| `sidecarInjectorWebhook.image` | `sidecar_injector` |  |
+| `sidecarInjectorWebhook.enableNamespacesByDefault` | `false` |  |
+
+## `telemetry-gateway` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `telemetry-gateway.gatewayName` | `ingressgateway` |  |
+| `telemetry-gateway.grafanaEnabled` | `true` |  |
+| `telemetry-gateway.prometheusEnabled` | `true` |  |
+
+## `tracing` 选项
+
+| 键 | 默认值 | 描述 |
+| --- | --- | --- |
+| `tracing.enabled` | `true` |  |
 | `tracing.provider` | `jaeger` |  |
-| `tracing.jaeger` | `jaeger.local` |  |
 | `tracing.jaeger.hub` | `docker.io/jaegertracing` |  |
 | `tracing.jaeger.tag` | `1.5` |  |
 | `tracing.jaeger.memory.max_traces` | `50000` |  |
 | `tracing.jaeger.ui.port` | `16686` |  |
-| `tracing.jaeger.ingress` | `jaeger.local` |  |
-| `tracing.jaeger.ingress.enabled` | `false` |  |
-| `tracing.jaeger.ingress.hosts` | `jaeger.local` |  |
 | `tracing.replicaCount` | `1` |  |
 | `tracing.service.annotations` | `{}` |  |
 | `tracing.service.name` | `http` |  |
 | `tracing.service.type` | `ClusterIP` |  |
 | `tracing.service.externalPort` | `9411` |  |
 | `tracing.service.internalPort` | `9411` |  |
-| `tracing.ingress` | `tracing.local` |  |
 | `tracing.ingress.enabled` | `false` |  |
-| `tracing.ingress.hosts` | `tracing.local` |  |
-| `kiali.enabled` | `false` |  |
-| `kiali.replicaCount` | `1` |  |
-| `kiali.hub` | `docker.io/kiali` |  |
-| `kiali.tag` | `istio-release-1.0` |  |
-| `kiali.ingress.enabled` | `false` |  |
-| `kiali.dashboard.username` | `admin` |  |
-| `kiali.dashboard.passphrase` | `admin` |  |
-| `certmanager.enabled` | `false` |  |
-| `certmanager.hub` | `quay.io/jetstack` |  |
-| `certmanager.tag` | `v0.3.1` |  |
-| `certmanager.resources` | `{}` |  |
+
 <!-- AUTO-GENERATED-END -->
+
+
+
+
+
+
 
 
