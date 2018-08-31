@@ -112,7 +112,6 @@ $ helm upgrade -f config.yaml istio ibm/ibm-istio
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
-
 {{< /tab >}}
 
 {{< tab name="IBM Cloud Private" >}}
@@ -200,7 +199,6 @@ After it is installed, you can find it by searching for its release name on the 
     link="./istio-deletion.png"
     caption="IBM Cloud Private - Istio Uninstalling"
     >}}
-
 {{< /tab >}}
 
 {{< /tabset >}}
