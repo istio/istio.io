@@ -4,42 +4,40 @@ weight: 91
 icon: /img/notes.svg
 ---
 
-此版本解决了社区在使用 Istio 1.0 时发现的一些关键问题。本发行说明描述了 Istio 1.0 和 Istio 1.0.1 之间的不同之处。
-
-{{< relnote_links >}}
+本次发布解决了一些社区在使用 Istio 1.0 过程中发现的关键问题。本发布声明描述了 Istio 1.0 和 Istio 1.0.1 之间的区别。
 
 ## 网络
 
-- 改进了 Pilot 可扩展性和 Envoy 启动时间。
+- 改善了 Pilot 的可伸缩性和 Envoy 的启动时间。
 
-- 修复了添加端口时虚拟服务主机不匹配的问题。
+- 修复了增加一个端口时 VirtualService Host 不匹配的问题。
 
-- 为[合并多个虚拟服务或目标规则定义](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host)增加了同一主机记得限制。
+- 添加了同一个主机内对 [合并多个 Virtual Service 或 Destination Rule 定义](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) 的有限支持。
 
-- 使用 HTTP 时，允许 [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection.html) 连续网关故障。
+- 允许在使用 HTTP 时，连续的出现 Gateway failures [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection.html) 。
 
 ## 环境
 
-- 对于那些只想利用 Istio 流量管理功能的用户，可以独立使用 Pilot。
+- 允许使用独立的 Pilot, 便于用户仅适用 Istio 的流量管理功能。
 
-- 引入了方便的 `values-istio-gateway.yaml` 配置，使用户能够运行独立的网关。
+- 介绍了 `values-istio-gateway.yaml` 这一很方便的配置，使用户可以运行独立的 Gateway。
 
-- 修复了各种 Helm 安装问题，包括找不到 `istio-sidecar-injector` 配置映射的问题。
+- 修复了多个 Helm 安装问题，包括找不到 `istio-sidecar-injector` configmap 的问题。
 
-- 修复了 Galley 未准备好的 Istio 安装错误。
+- 修复了由于 Galley 还没有准备好导致的 Istio 安装错误。
 
-- 修复了网格扩展的各种问题。
+- 修复了关于网格扩展的一系列问题。
 
-## 策略和遥测
+## 策略与遥测
 
-- 为 Mixer 的 Prometheus 适配器添加了实验性的指标过期配置。
+- 为 Mixer Prometheus 适配器新增了一个实验性的监控指标过期配置。
 
-- 将 Grafana 更新至 5.2.2。
+- 将 Grafana 升级至 5.2.2 版本。
 
 ### 适配器
 
-- 能够为 Stack driver 适配器指定接收器选项。
+- 能够指定 Stackdriver 适配器的 Sink 选项。
 
 ## Galley
 
-- 改进了健康检查的配置验证。
+- 改善了健康检查的配置验证。
