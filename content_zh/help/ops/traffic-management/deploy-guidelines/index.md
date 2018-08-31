@@ -221,7 +221,7 @@ spec:
     - uri:
         prefix: /hello
       gateways:
-      - myapp-gateway # 此限制规则仅适用于 ingress gateway 
+      - myapp-gateway # 此限制规则仅适用于 ingress gateway
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
