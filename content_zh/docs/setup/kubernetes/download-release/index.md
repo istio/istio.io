@@ -1,4 +1,4 @@
-    ---
+---
 title: 下载 Istio 发布包
 description: 关于 Istio 发布包下载过程的说明。
 weight: 2
