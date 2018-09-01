@@ -433,17 +433,17 @@ format in a different tab. To insert tabbed content, you use a combination of `t
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
-{{</* tab name="One" cookie-value="one" */>}}
+{{%/* tab name="One" cookie-value="one" */%}}
 ONE
-{{</* /tab */>}}
+{{%/* /tab */%}}
 
-{{</* tab name="Two" cookie-value="two" */>}}
+{{%/* tab name="Two" cookie-value="two" */%}}
 TWO
-{{</* /tab */>}}
+{{%/* /tab */%}}
 
-{{</* tab name="Three" cookie-value="three" */>}}
+{{%/* tab name="Three" cookie-value="three" */%}}
 THREE
-{{</* /tab */>}}
+{{%/* /tab */%}}
 
 {{</* /tabset */>}}
 {{< /text >}}
@@ -452,29 +452,38 @@ which produces the following output:
 
 {{< tabset cookie-name="platform" >}}
 
-{{< tab name="One" cookie-value="one" >}}
+{{% tab name="One" cookie-value="one" %}}
 ONE
-{{< /tab >}}
+{{% /tab %}}
 
-{{< tab name="Two" cookie-value="two" >}}
+{{% tab name="Two" cookie-value="two" %}}
 TWO
-{{< /tab >}}
+{{% /tab %}}
 
-{{< tab name="Three" cookie-value="three" >}}
+{{% tab name="Three" cookie-value="three" %}}
 THREE
-{{< /tab >}}
+{{% /tab %}}
 
 {{< /tabset >}}
 
-The `name` attribute of each tab contains the text to display for the tab. The content of the tab can be any normal markdown content.
+The `name` attribute of each tab contains the text to display for the tab. The content of the tab can be almost any normal markdown.
 
 The optional `cookie-name` and `cookie-value` attributes allow the tab setting to be sticky across visits to the page. As the user
 selects a tab, the cookie will be automatically saved with the given name and value. If multiple tab sets use the same cookie name
-and values, their setting will be automatically synchronized across pages. This is particular useful when there are many tab sets
-in the site that hold the same different types of formats.
+and values, their setting will be automatically synchronized across pages. This is particularly useful when there are many tab sets
+in the site that hold the same types of formats.
 
 For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a cookie name of `environment` and values of
-`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other pages.
+`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other tab set.
+
+### Limitations
+
+You can use almost any markdown in a tab, except for the following:
+
+- *No headers*. Headers in a tab will appear in the table of contents and yet clicking on the entry in the
+table of contents will not automatically select the tab.
+
+- *No nested tab sets*. Don't try it, it's horrible.
 
 ## Renaming, moving, or deleting pages
 

@@ -1,19 +1,21 @@
-{{ .Page.Scratch.Add "tabset-counter" 1 }}
-{{ $tab_set_id := default (printf "tabset-%s-%d" (.Page.RelPermalink) (.Page.Scratch.Get "tabset-counter") ) | anchorize }}
-{{ $tabs := .Scratch.Get "tabs" }}
-{{ if .Inner }}
-	{{/* We don't use the inner content, but Hugo will complain if we don't reference it. */}}
-{{ end }}
+{{- .Page.Scratch.Add "tabset-counter" 1 -}}
+{{- $tab_set_id := default (printf "tabset-%s-%d" (.Page.RelPermalink) (.Page.Scratch.Get "tabset-counter") ) | anchorize -}}
+{{- $tabs := .Scratch.Get "tabs" -}}
+{{- $cookie_name := trim (.Get "cookie-name") " " -}}
+{{- if .Inner -}}
+	{{- /* We don't use the inner content, but Hugo will complain if we don't reference it. */}}
+{{- end -}}
 
 <div class="tabset" id="{{ $tab_set_id }}">
 	<ul class="nav nav-tabs">
 		{{ range $i, $e := $tabs }}
 			{{ $id := printf "%s-%d" $tab_set_id $i }}
-			{{ if eq $i 0 }}
-  				<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ $id }}"><span>{{ trim .name " " }}</span></a></li>
-			{{ else }}
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ $id }}"><span>{{ trim .name " " }}</span></a></li>
-			{{ end }}
+			<li class="nav-item"><a class="nav-link{{ if eq $i 0 }} active{{ end }}"
+									data-toggle="tab"
+									data-cookie-name="{{ $cookie_name }}"
+                                    data-cookie-value="{{ .cookie_value }}"
+									href="#{{ $id }}"><span>{{ trim .name " " }}</span></a>
+			</li>
 		{{ end }}
 	</ul>
 
@@ -21,11 +23,7 @@
 		{{ range $i, $e := $tabs }}
 			{{ $id := printf "%s-%d" $tab_set_id $i }}
 
-			{{ if eq $i 0 }}
-				<div class="tab-pane container active show" id="{{ $id }}">
-			{{ else }}
-                <div class="tab-pane container" id="{{ $id }}">
-			{{ end }}
+			<div class="tab-pane fade container{{ if eq $i 0 }} active show{{ end }}" id="{{ $id }}">
 				{{ with .content }}
 					{{ . }}
 				{{ end }}

@@ -52,6 +52,18 @@ $(function ($) {
         window.location.assign(url);
     });
 
+    // Save a cookie when a user selects a tab in a tabset
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        var tab = e.target;
+        var cookie_name = tab.getAttribute("data-cookie-name");
+        var cookie_value = tab.getAttribute("data-cookie-value");
+        if (cookie_name === null || cookie_name === "") {
+            return;
+        }
+
+        createCookie(cookie_name, cookie_value);
+    });
+
     $(document).ready(function() {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
@@ -434,6 +446,27 @@ function handleDOMLoaded() {
         createEndnotes();
     }
 
+    function selectTabs() {
+        var tabs = document.querySelectorAll('a[data-toggle="tab"]');
+        for (var i = 0; i < tabs.length; i++) {
+            var tab = tabs[i];
+            var cookie_name = tab.getAttribute("data-cookie-name");
+            var cookie_value = tab.getAttribute("data-cookie-value");
+
+            if (cookie_name === null || cookie_name === "") {
+                continue;
+            }
+
+            var v = readCookie(cookie_name);
+            if (cookie_value === v) {
+                // there's gotta be a way to call the tab() function directly since I already have the
+                // requisite object in hand. Alas, I can't figure it out. So query the document to find
+                // the same object again, and call the tab function on the result.
+                $('.nav-tabs a[href="' + tab.hash + '"]').tab('show');
+            }
+        }
+    }
+
     // discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
     function getDOMTopology() {
         scrollToTopButton = document.getElementById("scroll-to-top");
@@ -450,6 +483,7 @@ function handleDOMLoaded() {
     }
 
     patchDOM();
+    selectTabs();
     getDOMTopology();
 
     // one forced call here to make sure everything looks right
