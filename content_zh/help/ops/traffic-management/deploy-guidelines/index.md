@@ -143,7 +143,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
+  - "myapp.com" # 或者如果您使用入口网关 IP 进行无 DNS 验证，则可能值为"*"（例如，http：//1.2.3.4/hello）
   gateways:
   - myapp-gateway
   http:
