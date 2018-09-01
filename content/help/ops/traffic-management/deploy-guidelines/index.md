@@ -178,7 +178,7 @@ To make sure services will have zero down-time when configuring routes with subs
 
 ## Route rules have no effect on ingress gateway requests
 
-Let's assume you are using an ingress `Gateway` and corresponding `VirtualSerive` to access an internal service.
+Let's assume you are using an ingress `Gateway` and corresponding `VirtualService` to access an internal service.
 For example, your `VirtualService` looks something like this:
 
 {{< text yaml >}}
