@@ -121,7 +121,7 @@ A `DestinationRule` can also be fragmented with similar merge semantic and restr
 ## 503 errors after setting destination rule
 
 If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
-and the errors continue until you remove or revert the `DestinationRule`, then the `DesintationRule` is probably
+and the errors continue until you remove or revert the `DestinationRule`, then the `DestinationRule` is probably
 causing a TLS conflict for the service.
 
 For example, if you configure mutual TLS in the cluster globally, the `DestinationRule` must include the following `trafficPolicy`:

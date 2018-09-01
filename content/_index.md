@@ -141,8 +141,9 @@ title: Istio
 
     <div id="buttons" class="buttons container-fluid">
         <div class="row justify-content-center">
-            <a class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
-            <a class="btn btn-istio" href="{{< istio_release_url >}}">DOWNLOAD {{< istio_release_name >}}</a>
+            <a title="Install Istio on Kubernetes today." class="btn btn-istio" href="/docs/setup/kubernetes/quick-start">GET STARTED</a>
+            <a title="Dive deeper to understand what Istio is and how it works." class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
+            <a title="Download the latest release." class="btn btn-istio" href="{{< istio_release_url >}}">DOWNLOAD {{< istio_release_name >}}</a>
         </div>
     </div>
 </main>

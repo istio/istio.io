@@ -80,40 +80,6 @@ icon: /img/helm.svg
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
 
-## 自定义示例：流量管理最小集
-
-Istio 配备了一组丰富而强大的功能，但你可能只需要这些功能的一部分。例如，用户可能只对安装 Istio 的流量管理所需的最小集合感兴趣。
-
-这个示例展示了如何安装使用[流量管理](/zh/docs/tasks/traffic-management/)功能所需的最小组件集和。
-
-执行以下命令来安装 Pilot 和 Citadel：
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-  --set ingress.enabled=false \
-  --set gateways.istio-ingressgateway.enabled=false \
-  --set gateways.istio-egressgateway.enabled=false \
-  --set galley.enabled=false \
-  --set sidecarInjectorWebhook.enabled=false \
-  --set mixer.enabled=false \
-  --set prometheus.enabled=false \
-  --set global.proxy.envoyStatsd.enabled=false
-{{< /text >}}
-
-请确保 `istio-pilot-*` 和 `istio-citadel-*` 的 Kubernetes pod 已经部署，并且他们的容器已经启动并运行：
-
-{{< text bash >}}
-$ kubectl get pods -n istio-system
-NAME                                     READY     STATUS    RESTARTS   AGE
-istio-citadel-b48446f79-wd4tk            1/1       Running   0          1m
-istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
-{{< /text >}}
-
-在这个最小集合之下，您安装您自己的应用并为实例[配置请求路由](/zh/docs/tasks/traffic-management/request-routing/)。
-您需要[手动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)。
-
-[安装选项](/docs/reference/config/installation-options/) 中有选项的完整列表，可以让您根据自己的需要对 Istio 安装进行裁剪。在 `helm install` 中使用 `--set` 覆盖默认参数之前，请先检查 `install/kubernetes/helm/istio/values.yaml` 中的配置项，并根据需要添加或删除备注。
-
 ## 卸载
 
 * 对于选项 1，使用 `kubectl` 进行卸载：
