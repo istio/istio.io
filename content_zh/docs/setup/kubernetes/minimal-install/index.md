@@ -1,6 +1,6 @@
 ---
-title: 安装 Istio 最小版本
-description: 使用 Helm 安装 Istio 最小版本。
+title: Istio 最小化安装
+description: 使用 Helm 最小化安装 Istio 。
 weight: 31
 keywords: [kubernetes,helm, minimal]
 icon: /img/helm.svg
@@ -14,7 +14,7 @@ icon: /img/helm.svg
 
 ## 安装步骤
 
-1. 如果你的 Helm 版本低于 2.10.0，通过 `kubectl apply` 安装 Istio 的 [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，稍等片刻 CRDs 会被提交到 kube-apiserver：
+1. 如果你的 Helm 版本低于 2.10.0，通过 `kubectl apply` 安装 Istio 的 [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，稍等片刻 CRD 会被提交到 kube-apiserver：
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
@@ -107,7 +107,7 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
 
-* 如果需要，删除 CRDs：
+* 如果需要，删除 CRD：
 
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
