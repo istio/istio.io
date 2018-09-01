@@ -15,10 +15,10 @@ Istio 会被安装到自己的 `istio-system` 命名空间，并且能够对所�
     $ curl -L https://git.io/getLatestIstio | sh -
     {{< /text >}}
 
-1. 进入 Istio 包目录。假设这个包是 istio-{{< istio_version >}}.0：
+1. 进入 Istio 包目录。例如，假设这个包是 istio-{{< istio_full_version >}}.0：
 
     {{< text bash >}}
-    $ cd istio-{{< istio_version >}}.0
+    $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
     安装目录中包含：
