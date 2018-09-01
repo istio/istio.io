@@ -10,7 +10,7 @@ icon: /img/helm.svg
 
 ## 前置条件
 
-参考快速入门指南中的[前置条件](/zh/docs/setup/kubernetes/quick-start/#prerequisites)。
+参考快速入门指南中的[前置条件](/zh/docs/setup/kubernetes/quick-start/#前置条件)。
 
 ## 安装步骤
 
