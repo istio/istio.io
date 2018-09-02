@@ -1,6 +1,6 @@
 ---
 title: 约束和属性
-description: 描述所支持的约束和属性
+description: 描述所支持的约束和属性。
 weight: 10
 ---
 
