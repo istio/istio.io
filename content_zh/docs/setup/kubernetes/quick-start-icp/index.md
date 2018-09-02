@@ -41,7 +41,7 @@ keywords: [kubernetes,icp]
     caption="IBM Cloud Private  -  Istio 安装"
     >}}
 
-- 输入 Helm 版本名称（例如 istio-1.0.3）并选择 `istio-system` 作为目标名称空间。
+- 输入 Helm 版本名称（例如 `istio-1.0.3`）并选择 `istio-system` 作为目标名称空间。
 - 同意许可条款。
 - （可选）单击 `All parameters` 自定义安装参数。
 - 单击 `Install` 按钮。
