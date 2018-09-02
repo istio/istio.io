@@ -133,7 +133,7 @@ metadata:
 
 ## 路由规则对 ingress gateway 请求不生效
 
-假设正在使用入口 `Gateway` 和对应的 `VirtualSerivce` 来访问内部服务。
+假设正在使用入口 `Gateway` 和对应的 `VirtualService` 来访问内部服务。
 例如， `VirtualService` 看起来像这样：
 
 {{< text yaml >}}
