@@ -1,73 +1,73 @@
-{{/* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */}}
-{{ $downloadas := "" }}
-{{ if .Get 2 }}
-    {{ $downloadas = .Get 2 }}
-{{ end }}
+{{- /* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */ -}}
+{{- $downloadas := "" -}}
+{{- if .Get 2 -}}
+    {{- $downloadas = .Get 2 -}}
+{{- end -}}
 
-{{ $syntax := "error" }}
-{{ $text := "MARKDOWN ERROR: text block does not specify syntax" }}
-{{ $output := "" }}
+{{- $syntax := "error" -}}
+{{- $text := "MARKDOWN ERROR: text block does not specify syntax" -}}
+{{- $output := "" -}}
 
-{{ if .Get 0 }}
-    {{ $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" }}
+{{- if .Get 0 -}}
+    {{- $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" -}}
 
-    {{ $line0 := index $lines 0 }}
-    {{ $indent := 0 }}
-    {{ if hasPrefix $line0 "                "}}{{ $indent = 16 }}
-    {{ else if hasPrefix $line0 "            "}}{{ $indent = 12 }}
-    {{ else if hasPrefix $line0 "        "}}{{ $indent = 8 }}
-    {{ else if hasPrefix $line0 "    "}}{{ $indent = 4 }}
-    {{ end }}
+    {{- $line0 := index $lines 0 -}}
+    {{- $indent := 0 -}}
+    {{- if hasPrefix $line0 "                " -}}{{- $indent = 16 -}}
+    {{- else if hasPrefix $line0 "            " -}}{{- $indent = 12 -}}
+    {{- else if hasPrefix $line0 "        " -}}{{- $indent = 8 -}}
+    {{- else if hasPrefix $line0 "    " -}}{{- $indent = 4 -}}
+    {{- end -}}
 
-    {{ $text = "" }}
-    {{ range $line := $lines }}
-        {{ if gt (len $line) $indent }}
-            {{ $l := substr $line $indent }}
-            {{ $text = printf "%s\n%s" $text $l }}
-        {{ else }}
-            {{ $text = printf "%s\n%s" $text $line }}
-        {{ end }}
-    {{ end }}
+    {{- $text = "" -}}
+    {{- range $line := $lines -}}
+        {{- if gt (len $line) $indent -}}
+            {{- $l := substr $line $indent -}}
+            {{- $text = printf "%s\n%s" $text $l -}}
+        {{- else -}}
+            {{- $text = printf "%s\n%s" $text $line -}}
+        {{- end -}}
+    {{- end -}}
 
-    {{ $text = trim $text "\n" }}
-    {{ $syntax = .Get 0 }}
-    {{ $output = .Get 1 }}
-{{ end }}
+    {{- $text = trim $text "\n" -}}
+    {{- $syntax = .Get 0 -}}
+    {{- $output = .Get 1 -}}
+{{- end -}}
 
-{{ if (hasPrefix $text " ") }}
-    {{ $syntax = "error" }}
-    {{ $text = "MARKDOWN ERROR: text blocks need to not be indented, or indented by a multiple of 4 spaces" }}
-{{ end }}
+{{- if (hasPrefix $text " ") -}}
+    {{- $syntax = "error" -}}
+    {{- $text = "MARKDOWN ERROR: text blocks need to not be indented, or indented by a multiple of 4 spaces" -}}
+{{- end -}}
 
-{{ if eq $syntax "bash" }}
-    {{ if not (hasPrefix $text "$") }}
-        {{ $syntax = "error" }}
-        {{ $text = "MARKDOWN ERROR: text block specifies a bash syntax, but first line does not start with $" }}
-    {{ else }}
-        {{ if hasPrefix (trim $text " ") "$ cat <<EOF " }}
-            {{ $text = replace $text "$ cat" "cat" }}
-        {{ else }}
-            {{ $syntax = "command" }}
-            {{ if $output }}
-                {{ $syntax = printf "command-output-as-%s" $output }}
-            {{ end }}
-        {{ end }}
-    {{ end }}
-{{ end }}
+{{- if eq $syntax "bash" -}}
+    {{- if not (hasPrefix $text "$") -}}
+        {{- $syntax = "error" -}}
+        {{- $text = "MARKDOWN ERROR: text block specifies a bash syntax, but first line does not start with $" -}}
+    {{- else -}}
+        {{- if hasPrefix (trim $text " ") "$ cat <<EOF " -}}
+            {{- $text = replace $text "$ cat" "cat" -}}
+        {{- else -}}
+            {{- $syntax = "command" -}}
+            {{- if $output -}}
+                {{- $syntax = printf "command-output-as-%s" $output -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
 
-{{ if $downloadas }}
-    <pre><code class='language-{{ $syntax }}' data-downloadas='{{ $downloadas }}'>{{ $text }}</code></pre>
-{{ else }}
-    <pre><code class='language-{{ $syntax }}'>{{ $text }}</code></pre>
-{{ end }}
+{{- if $downloadas -}}
+<pre><code class='language-{{- $syntax -}}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
+{{- else -}}
+<pre><code class='language-{{- $syntax -}}'>{{- $text -}}</code></pre>
+{{- end -}}
 
-{{/* include a link to the special embedded @@ references so the links are statically checked as we build the site */}}
-{{ $branch := .Site.Data.args.branch_name }}
-{{ $links := findRE "@(.*?)@" $text }}
-{{ range $link := $links }}
-    {{ $target := trim $link "@" }}
-    {{ if gt (len $target) 0 }}
-        {{ $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target }}
-        <a hidden style="display:none" href="{{ $href }}"></a>
-    {{ end }}
-{{ end }}
+{{- /* include a link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
+{{- $branch := .Site.Data.args.branch_name -}}
+{{- $links := findRE "@(.*?)@" $text -}}
+{{- range $link := $links -}}
+    {{- $target := trim $link "@" -}}
+    {{- if gt (len $target) 0 -}}
+        {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
+        <a hidden style="display:none" href="{{- $href -}}"></a>
+    {{- end -}}
+{{- end -}}

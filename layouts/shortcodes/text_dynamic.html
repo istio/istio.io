@@ -1,6 +1,6 @@
-{{ $name := split (.Get "url") "/" | last 1 }}
-{{ $downloadas := index $name 0 }}
-{{ if .Get "downloadas" }}
-{{ $downloadas = .Get "downloadas" }}
-{{ end }}
+{{- $name := split (.Get "url") "/" | last 1 -}}
+{{- $downloadas := index $name 0 -}}
+{{- if .Get "downloadas" -}}
+    {{- $downloadas = .Get "downloadas" -}}
+{{- end -}}
 <pre data-src='{{ .Get "url" }}'><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $downloadas }}'></code></pre>
