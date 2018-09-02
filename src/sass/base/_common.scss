@@ -156,7 +156,6 @@ pre {
     tab-size: 4;
     hyphens: none;
     background: $preBlockBackgroundColor;
-    display: flex;
 
     code {
         display: block;
@@ -182,6 +181,9 @@ pre {
             background-color: $preBlockCommandOutputBackgroundColor;
             font-style: italic;
             padding: 1em;
+            float: left;
+            clear: left;
+            min-width: 100%;
             @media (min-width: $bp-md) {
                 padding: 0 .5em .5em .5em;
             }
