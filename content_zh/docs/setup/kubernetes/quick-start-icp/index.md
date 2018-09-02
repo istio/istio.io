@@ -82,7 +82,7 @@ keywords: [kubernetes,icp]
 - 单击导航栏左侧的菜单按钮。
 - 单击 `Workloads` 并选择 `Helm Releases`。
 - 使用其版本名称查找已安装的 Istio。
-- 单击 `Action` 链接并选择 “delete”。
+- 单击 `Action` 链接并选择 `delete`。
 
 {{< image width="100%" ratio="50%"
     link="/docs/setup/kubernetes/quick-start-icp/istio-deletion.png"
