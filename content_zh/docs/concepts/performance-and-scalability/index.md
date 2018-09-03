@@ -104,7 +104,7 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 * 为控制平面组件设置多个副本。
 
-* 设置 [水平自动扩展（Horizontal Pod Autoscaling）](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+* 设置[水平自动扩展（Horizontal Pod Autoscaling）](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
 * 拆分 mixer 中检查和报告的 pod。
 
