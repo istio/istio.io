@@ -7,7 +7,7 @@ weight: 80
 使用 Istio，可以启用终端用户验证。目前, Istio 身份验证策略支持的终端用户凭证是 JWT。
 以下是解决终端用户 JWT 身份验证问题的指南。
 
-1. 检查 Istio 身份认证策略， `principalBinding` 应该设置为 `USE_ORIGIN` 验证终端用户。
+1. 检查 Istio 身份认证策略，`principalBinding` 应该设置为 `USE_ORIGIN` 验证终端用户。
 
 1. 如果 `jwksUri` 未设置，确保 JWT 发行者是 url 格式和 `url + /.well-known/openid-configuration` 可以在浏览器总打开；例如，如果 JWT 发行者是 `https://accounts.google.com`，确保 `https://accounts.google.com/.well-known/openid-configuration` 是有效的 url 并可以在浏览器中打开。
 
@@ -28,10 +28,10 @@ weight: 80
       principalBinding: USE_ORIGIN
     {{< /text >}}
 
-1. 如果 JWT 令牌放在 http 请求中的授权头中，请确保 JWT 令牌是有效的（未过期，等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码等。[jwt.io](https://jwt.io/).
+1. 如果 JWT 令牌放在 http 请求中的授权头中，请确保 JWT 令牌是有效的（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码等。[jwt.io](https://jwt.io/).
 
 1. 获取 Istio 代理（Envoy）日志验证 Pilot 分配的配置是否正确。
-    例如, 如果身份验证策略在名称空间' foo '中的' httpbin '服务上执行， if the authentication policy is enforced on the `httpbin` service in the namespace `foo`, 使用如下命令可以查看 Istio 代理的日志，保证 `local_jwks` 已设置，并且 http 响应码输出到 Istio 代理日志中。
+    例如, 如果身份验证策略在名称空间 `foo` 中的 `httpbin` 服务上执行，使用如下命令可以查看 Istio 代理的日志，确保 `local_jwks` 已设置，并且 http 响应码输出到 Istio 代理日志中。
 
     {{< text bash >}}
     $ kubectl logs httpbin-68fbcdcfc7-hrnzm -c istio-proxy -n foo
