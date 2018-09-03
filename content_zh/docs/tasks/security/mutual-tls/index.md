@@ -8,10 +8,10 @@ keywords: [安全,双向 TLS]
 通过此任务，您可以仔细查看双向 TLS 并了解其设置。
 此任务假定：
 
-* 您已完成[身份验证策略](/zh/docs/tasks/security/authn-policy/)任务。
-* 您熟悉使用身份验证策略来启用双向 TLS。
+* 您已完成[基础验证策略](/zh/docs/tasks/security/authn-policy/)任务。
+* 您熟悉使用基础验证策略来启用双向 TLS。
 * Istio 在 Kubernetes 上运行，启用全局双向 TLS。您可以按照我们的[安装 Istio 的说明](/zh/docs/setup/kubernetes/)。
-如果您已经安装了 Istio，则可以添加或修改身份验证策略和目标规则以启用双向 TLS，如 [网格中的所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-TLS-认证) 中所述。
+如果您已经安装了 Istio，则可以添加或修改基础验证策略和目标规则以启用双向 TLS，如 [网格中的所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-tls-认证) 中所述。
 * 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [手工注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-Sidecar)部署这些服务的命令：
 
     {{< text bash >}}
@@ -45,7 +45,7 @@ root-cert.pem
 
 > `cert-chain.pem` 是 Envoy 的证书，会在需要的时候提供给对端。而 `key.pem` 就是 Envoy 的私钥，和 `cert-chain.pem` 中的证书相匹配。`root-cert.pem` 是用于证书校验的根证书。这个例子中，我们集群中只部署了一个 Citadel，所以所有的 Envoy 共用同一个 `root-cert.pem`。
 
-是用 `openssl` 工具来检查证书的有效性（当前时间应该处于 `Not Before` 和 `Not After` 之间）
+使用 `openssl` 工具来检查证书的有效性（当前时间应该处于 `Not Before` 和 `Not After` 之间）
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep Validity -A 2
