@@ -10,24 +10,42 @@ how to get under the hood.
 
 ## With `istioctl`
 
-`istioctl` allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
+### Get an overview of your mesh
 
-For example, to retrieve the configured clusters in an Envoy via the admin interface run the following command:
+You can get an overview of your mesh via `proxy-status` command:
 
 {{< text bash >}}
-$ istioctl proxy-config endpoint <pod-name> clusters
+$ istioctl proxy-status
 {{< /text >}}
 
-To retrieve endpoints for a given pod in the application namespace from Pilot, run the following command:
+If a proxy is missing from the output list it means that it is not currently connected to a Pilot instance so will not be receiving any configuration.
+
+### Get proxy configuration  
+
+`istioctl` allows you to retrieve information about proxy configuration from the Envoy config dump using the `proxy-config` or `pc` command.
+
+For example, to retrieve information about cluster configuration for the Envoy instance in the specified pod, run the following command:
 
 {{< text bash >}}
-$ istioctl proxy-config pilot -n application <pod-name> eds
+$ istioctl proxy-config cluster <pod-name> [flags]
 {{< /text >}}
 
-The `proxy-config` command also allows you to retrieve the state of the entire mesh from Pilot using the following command:
+To retrieve information about bootstrap configuration for the Envoy instance in the specified pod, run the following command:
 
 {{< text bash >}}
-$ istioctl proxy-config pilot mesh ads
+$ istioctl proxy-config bootstrap <pod-name> [flags]
+{{< /text >}}
+
+To retrieve information about listener configuration for the Envoy instance in the specified pod, run the following command:
+
+{{< text bash >}}
+$ istioctl proxy-config listener <pod-name> [flags]
+{{< /text >}}
+
+To retrieve information about route configuration for the Envoy instance in the specified pod, run the following command:
+
+{{< text bash >}}
+$ istioctl proxy-config route <pod-name> [flags]
 {{< /text >}}
 
 ## With GDB
