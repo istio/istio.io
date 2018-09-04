@@ -27,7 +27,7 @@ This guide installs the current release version of Istio.
 
 1. Install the [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm).
 
-2. Create a service account for Tiller in the `kube-system` namespace and a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod.
+1. Create a service account for Tiller in the `kube-system` namespace and a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod.
 
     {{< text yaml >}}
     apiVersion: v1
@@ -50,19 +50,19 @@ This guide installs the current release version of Istio.
        namespace: kube-system
     {{< /text >}}
 
-3. Create the service account and cluster role binding.
+1. Create the service account and cluster role binding.
 
     {{< text bash >}}
     $ kubectl create -f rbac-config.yaml
     {{< /text >}}
 
-4. Initialize Helm and install Tiller.
+1. Initialize Helm and install Tiller.
 
     {{< text bash >}}
     $ helm init --service-account tiller
     {{< /text >}}
 
-5. Add the IBM Cloud Helm repository to your Helm instance.
+1. Add the IBM Cloud Helm repository to your Helm instance.
 
     {{< text bash >}}
     $ helm repo add ibm https://registry.bluemix.net/helm/ibm
@@ -76,13 +76,13 @@ This guide installs the current release version of Istio.
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
 
-2. Install the Helm chart to your cluster.
+1. Install the Helm chart to your cluster.
 
     {{< text bash>}}
     $ helm install ibm/ibm-istio --name=istio --namespace istio-system
     {{< /text >}}
 
-3. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed.
+1. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed.
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -115,11 +115,12 @@ $ helm upgrade -f config.yaml istio ibm/ibm-istio
     $ helm del istio --purge
     {{< /text >}}
 
-2. Delete the Istio custom resource definitions.
+1. Delete the Istio custom resource definitions.
 
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="IBM Cloud Private" >}}
@@ -137,7 +138,7 @@ This guide installs the current release version of Istio.
 
 - Log in to the **IBM Cloud Private** console.
 - Click `Catalog` on the right side of the navigation bar.
-- Click `Filter` on the right side of the search box and select the `ibm-charts` checkbox.
+- Click `Filter` on the right side of the search box and select the `ibm-charts` check box.
 - Click `Operations` in the left navigation pane.
 
 {{< image width="100%" ratio="50%"
