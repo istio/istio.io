@@ -131,7 +131,7 @@ Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product
 
 You can also view the installation using the **Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
-{{< image width="70%" ratio="80.37%"
+{{< image width="70%" ratio="143.91%"
     link="./dm_kubernetes_workloads.png"
     caption="GKE-Workloads"
     >}}
