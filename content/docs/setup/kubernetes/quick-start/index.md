@@ -81,6 +81,10 @@ Follow our setup instructions to
 Follow our instructions on how to
 [use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
+### Option 5: Modify the Kube-ApiServer manifest to exclude Kubernetes services
+
+If you're having issues such as `x509: certificate signed by unknown authority` with on-premise clusters or similar errors when you deploy Istio it is most likely the fact the container is trying to go through a proxy or other external source when it should not be. To fix this issue modify the apiserver manifests in `/etc/kubernetes/manifests` and modify the `no_proxy` environment variable to also include `.svc`, this will stop any Kubernetes services from trying to reach outside the cluster for internal communication.
+
 ## Verifying the installation
 
 1.  Ensure the following Kubernetes services are deployed: `istio-pilot`,
