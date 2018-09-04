@@ -13,7 +13,7 @@ keywords: [platform-setup,kubernetes,gke,google]
 
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
-      --cluster-version=1.10.5-gke.0 \
+      --cluster-version=1.10.5-gke.4 \
       --zone <zone> \
       --project <project-id>
     {{< /text >}}
