@@ -56,3 +56,8 @@ webhooks and dependent features are not functioning properly.
    api-server operation (see related issues
    [here](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
    and [here](https://github.com/kubernetes/kubeadm/issues/666) for more information).
+
+
+## Modify the Kube-ApiServer manifest to exclude Kubernetes services
+
+If you're having issues such as `x509: certificate signed by unknown authority` with on-premise clusters or similar errors when you deploy Istio it is most likely the fact the container is trying to go through a proxy or other external source when it should not be. To fix this issue modify the apiserver manifests in `/etc/kubernetes/manifests` and modify the `no_proxy` environment variable to also include `.svc`, this will stop any Kubernetes services from trying to reach outside the cluster for internal communication.
