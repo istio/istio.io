@@ -27,7 +27,7 @@ This guide installs the current release version of Istio.
 
 1. Install the [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm).
 
-1. Create a service account for Tiller in the `kube-system` namespace.
+1. Create a service account for Tiller in the `kube-system` namespace and a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod.
 
     {{< text yaml >}}
     apiVersion: v1
@@ -35,15 +35,7 @@ This guide installs the current release version of Istio.
     metadata:
       name: tiller
       namespace: kube-system
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl create -f tiller-sa.yaml
-    {{< /text >}}
-
-1. Create a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod.
-
-    {{< text yaml >}}
+    ---
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -57,6 +49,8 @@ This guide installs the current release version of Istio.
         name: tiller
         namespace: kube-system
     {{< /text >}}
+
+1. Create the service account and cluster role binding.
 
     {{< text bash >}}
     $ kubectl create -f rbac-config.yaml
