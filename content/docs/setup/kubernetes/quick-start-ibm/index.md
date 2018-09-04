@@ -10,7 +10,7 @@ You can install Istio in IBM Cloud Public or IBM Cloud Private.
 
 {{< tabset >}}
 
-{{< tab name="IBM Cloud Public" >}}
+{{% tab name="IBM Cloud Public" %}}
 Follow these instructions to install and run Istio in
 [IBM Cloud Public](https://www.ibm.com/cloud/)
 by using Helm and the IBM Cloud Kubernetes Service.
@@ -121,9 +121,9 @@ $ helm upgrade -f config.yaml istio ibm/ibm-istio
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
 
-{{< /tab >}}
+{{% /tab %}}
 
-{{< tab name="IBM Cloud Private" >}}
+{{% tab name="IBM Cloud Private" %}}
 Follow these instructions to install and run Istio in
 [IBM Cloud Private](https://www.ibm.com/cloud/private)
 using the `Catalog` module.
@@ -208,6 +208,6 @@ After it is installed, you can find it by searching for its release name on the 
     link="./istio-deletion.png"
     caption="IBM Cloud Private - Istio Uninstalling"
     >}}
-{{< /tab >}}
+{{% /tab %}}
 
 {{< /tabset >}}
