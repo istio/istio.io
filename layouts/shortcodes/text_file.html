@@ -1,14 +1,14 @@
-{{/* Inserts a text file into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */}}
-{{ $name := split (.Get "file") "/" | last 1 }}
-{{ $downloadas := index $name 0 }}
-{{ if .Get "downloadas" }}
-{{ $downloadas = .Get "downloadas" }}
-{{ end }}
-{{ $file := readFile (.Get "file") }}
-{{ if (.Get "snippet") }}
-{{ $pattern := printf "(?msU)(.*\\$snippet %s.*$\\n)(.*)(?-s)(\\n^.*\\$endsnippet.*$)(?s-U)(.*)" (.Get "snippet") }}
-{{ $match := replaceRE $pattern "$2" $file }}
-<pre><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $downloadas }}'>{{ $match }}</code></pre>
-{{ else }}
-<pre><code class='language-{{ .Get "syntax" }}' data-downloadas='{{ $downloadas }}'>{{ $file }}</code></pre>
-{{ end }}
+{{- /* Inserts a text file into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */ -}}
+{{- $name := split (.Get "file") "/" | last 1 -}}
+{{- $downloadas := index $name 0 -}}
+{{- if .Get "downloadas" -}}
+    {{- $downloadas = .Get "downloadas" -}}
+{{- end -}}
+{{- $file := readFile (.Get "file") -}}
+{{- if (.Get "snippet") -}}
+{{- $pattern := printf "(?msU)(.*\\$snippet %s.*$\\n)(.*)(?-s)(\\n^.*\\$endsnippet.*$)(?s-U)(.*)" (.Get "snippet") -}}
+{{- $match := replaceRE $pattern "$2" $file -}}
+<pre><code class='language-{{- .Get "syntax" -}}' data-downloadas='{{- $downloadas -}}'>{{- $match -}}</code></pre>
+{{- else -}}
+<pre><code class='language-{{- .Get "syntax" -}}' data-downloadas='{{- $downloadas -}}'>{{- $file -}}</code></pre>
+{{- end -}}

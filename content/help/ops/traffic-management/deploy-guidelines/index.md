@@ -121,7 +121,7 @@ A `DestinationRule` can also be fragmented with similar merge semantic and restr
 ## 503 errors after setting destination rule
 
 If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
-and the errors continue until you remove or revert the `DestinationRule`, then the `DesintationRule` is probably
+and the errors continue until you remove or revert the `DestinationRule`, then the `DestinationRule` is probably
 causing a TLS conflict for the service.
 
 For example, if you configure mutual TLS in the cluster globally, the `DestinationRule` must include the following `trafficPolicy`:
@@ -178,7 +178,7 @@ To make sure services will have zero down-time when configuring routes with subs
 
 ## Route rules have no effect on ingress gateway requests
 
-Let's assume you are using an ingress `Gateway` and corresponding `VirtualSerive` to access an internal service.
+Let's assume you are using an ingress `Gateway` and corresponding `VirtualService` to access an internal service.
 For example, your `VirtualService` looks something like this:
 
 {{< text yaml >}}

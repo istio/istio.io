@@ -2,7 +2,7 @@
 title: Istio in Action
 description: Who's using Istio out there.
 weight: 30
-page_icon: /img/customers.svg
+icon: /img/customers.svg
 keywords: [community]
 skip_seealso: true
 ---
