@@ -34,21 +34,21 @@ This guide installs the current release version of Istio.
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-     name: tiller
-     namespace: kube-system
+      name: tiller
+      namespace: kube-system
     ---
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-     name: tiller
+      name: tiller
     roleRef:
-     apiGroup: rbac.authorization.k8s.io
-     kind: ClusterRole
-     name: cluster-admin
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
     subjects:
-     - kind: ServiceAccount
-       name: tiller
-       namespace: kube-system
+      - kind: ServiceAccount
+        name: tiller
+        namespace: kube-system
     EOF
     {{< /text >}}
 
