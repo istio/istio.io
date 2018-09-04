@@ -101,7 +101,7 @@ This guide installs the current release version of Istio.
 
 **Upgrade**
 
-To upgrade your Istio Helm chart to the latest version:
+1. To upgrade your Istio Helm chart to the latest version:
 
     {{< text bash >}}
     $ helm upgrade -f config.yaml istio ibm/ibm-istio
