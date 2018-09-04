@@ -2,7 +2,7 @@
 title: Istio in Action
 description: 使用 Istio 的用户。
 weight: 30
-page_icon: /img/customers.svg
+icon: /img/customers.svg
 keywords: [社区]
 skip_seealso: true
 ---
