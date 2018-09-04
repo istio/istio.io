@@ -33,7 +33,7 @@ keywords: [kubernetes]
 
 1. Istio 核心组件有几种**互斥**的安装方式供用户选择，下面会分别讲述。针对生产环境的需求，为了能够控制所有配置选项，我们建议使用 [Helm Chart](/zh/docs/setup/kubernetes/helm-install/) 方式进行安装。这种方式让运维人员能够根据特定需求对 Istio 进行定制。
 
-### 选项 1：安装 Istio 而不启用 Sidecar 之间的[双向 TLS 验证](/zh/docs/concepts/security/#双向-tls-认证)。
+### 选项 1：安装 Istio 而不启用 Sidecar 之间的双向 TLS 验证
 
 请浏览
 概念章节中的[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)相关内容以获取更多信息。
