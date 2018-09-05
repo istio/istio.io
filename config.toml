@@ -4,7 +4,6 @@ metaDataFormat = "yaml"
 title = "Istio"
 uglyURLs = false
 enableRobotsTXT = true
-googleAnalytics = "UA-98480406-1"
 pluralizeListTitles = false
 canonifyURLs = true
 disableKinds = ["taxonomy", "taxonomyTerm"]
