@@ -29,7 +29,7 @@ This guide installs the current release version of Istio.
 
 1. Create a service account for Tiller in the `kube-system` namespace and a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod.
 
-    {{< text yaml >}}
+    {{< text plain >}}
     apiVersion: v1
     kind: ServiceAccount
     metadata:
