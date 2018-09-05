@@ -381,7 +381,7 @@ function handleDOMLoaded() {
                 fetch(url).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    elem.firstChild.innerText = data;
+                    elem.firstChild.textContent = data;
                     Prism.highlightElement(elem.firstChild, false);
                 });
             }
