@@ -12,6 +12,7 @@ Tons of people are using Istio. Maybe you should too?
 <div class="logo-gallery">
     {{< company_logo link="https://www.autotrader.co.uk" logo="./autotrader.uk.svg" alt="AutoTrader UK" >}}
     {{< company_logo link="https://www.continental-corporation.com" logo="./continental.svg" alt="Continental" >}}
+    {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="./descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="./ebay.png" alt="eBay" >}}
     {{< company_logo link="https://www.fitstation.com" logo="./fitstation.png" alt="FitStation" >}}
@@ -22,7 +23,6 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="http://www.theweathercompany.com" logo="./theweatherco.jpg" alt="The Weather Company" >}}
     {{< company_logo link="https://www.trulia.com" logo="./trulia.svg" alt="Trulia" >}}
     {{< company_logo link="https://www.ibm.com/watson" logo="./watson.png" alt="IBM Watson" >}}
-    {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
 </div>
 
 Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.github.io/pulls).
