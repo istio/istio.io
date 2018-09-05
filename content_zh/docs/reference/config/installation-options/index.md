@@ -42,7 +42,7 @@ keywords: [kubernetes,helm]
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
-| `gateways.istio-ingressgateway.type` | `LoadBalancer #如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |  |
+| `gateways.istio-ingressgateway.type` | `LoadBalancer` | `如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
 | `gateways.istio-ingressgateway.ports.name` | `http2` |  |
 | `gateways.istio-ingressgateway.ports.nodePort` | `31380` |  |
@@ -69,7 +69,7 @@ keywords: [kubernetes,helm]
 | `gateways.istio-egressgateway.autoscaleMin` | `1` |  |
 | `gateways.istio-egressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-egressgateway.serviceAnnotations` | `{}` |  |
-| `gateways.istio-egressgateway.type` | `ClusterIP #如果需要，请更改为 NodePort 或 LoadBalancer` |  |
+| `gateways.istio-egressgateway.type` | `ClusterIP` |  `如果需要，请更改为 NodePort 或 LoadBalancer` |
 | `gateways.istio-egressgateway.ports.name` | `http2` |  |
 | `gateways.istio-egressgateway.ports.name.name` | `https` |  |
 | `gateways.istio-egressgateway.secretVolumes.secretName` | `istio-egressgateway-certs` |  |
@@ -162,7 +162,7 @@ keywords: [kubernetes,helm]
 | `ingress.autoscaleMax` | `5` |  |
 | `ingress.service.annotations` | `{}` |  |
 | `ingress.service.loadBalancerIP` | `""` |  |
-| `ingress.service.type` | `LoadBalancer #如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |  |
+| `ingress.service.type` | `LoadBalancer` | `如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |
 | `ingress.service.ports.name` | `http` |  |
 | `ingress.service.ports.nodePort` | `32000` |  |
 | `ingress.service.ports.name` | `https` |  |
@@ -232,7 +232,7 @@ keywords: [kubernetes,helm]
 | --- | --- | --- |
 | `security.replicaCount` | `1` |  |
 | `security.image` | `citadel` |  |
-| `security.selfSigned` | `true # 指示是否使用自签名 CA.` |  |
+| `security.selfSigned` | `true` | `指示是否使用自签名 CA.` |
 
 ## `servicegraph` 选项
 
