@@ -31,7 +31,6 @@ in a round robin fashion.
 The initial goal of this task is to apply rules that route all traffic to `v1` (version 1) of the microservices. Later, you
 will apply a rule to route traffic based on the value of an HTTP request header.
 
-
 ## Apply a virtual service
 
 To route to one version only, you apply virtual services that set the default version for the microservices.
