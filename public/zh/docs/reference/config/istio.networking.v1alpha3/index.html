@@ -1,0 +1,9537 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="https://schema.org/WebPage">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#466BB0"/>
+
+        
+            
+        
+
+        
+
+        <meta name="title" content="通信路由">
+        <meta name="description" content="流量路由配置。">
+
+        
+
+        
+            <meta name="keywords" content="microservices,services,mesh">
+        
+
+        
+        <meta property="og:title" content="通信路由">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="流量路由配置。">
+        
+            <meta property="og:url" content="/zh/docs/reference/config/istio.networking.v1alpha3/">
+        
+        <meta property="og:image" content="/img/istio-logo-blue-background.svg">
+        <meta property="og:image:alt" content="Istio Logo">
+        <meta property="og:image:width" content="112">
+        <meta property="og:image:height" content="150">
+        <meta property="og:site_name" content="Istio">
+
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IstioMesh">
+        
+
+        
+            
+                <title>Istio Prelim 1.1 / 通信路由</title>
+            
+        
+
+        
+        <script>
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', 'UA-98480406-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script async src='https://www.google-analytics.com/analytics.js'></script>
+        
+
+        <script>
+            var branchName = "master";
+            var docTitle = "通信路由";
+        </script>
+
+        
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
+
+        
+        <link rel="shortcut icon" href="/favicons/favicon.ico" >
+        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+        <link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+        <link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+        <link rel="icon" type="image/png" href="/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+        <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+        
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-title" content="Istio">
+        <meta name="application-name" content="Istio">
+
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work Sans:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+
+        
+            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="dark">
+        
+
+        <script src="/js/styleSwitcher.min.js"></script>
+    </head>
+
+    <body class="language-unknown">
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
+        
+
+        <a class="navbar-brand" href="/zh/">
+            <span class="logo"><svg viewBox="0 0 300 300">
+<circle cx="150" cy="150" r="150" stroke-width="2" />
+<polygon points="65,240 225,240 125,270"/>
+<polygon points="65,230 125,220 125,110"/>
+<polygon points="135,220 225,230 135,30"/>
+</svg>
+</span>
+
+            
+                <span class="brand-name">Istio Prelim 1.1</span>
+            
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul id="navbar-links" class="navbar-nav active">
+                
+                    <li class="nav-item">
+                        <a class="nav-link active" title="了解如何部署、使用和运维 Istio。" href="/zh/docs/">文档</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        
+                        <a class="nav-link " title="关于使用 Istio 的博客文章。" href="/zh/blog/2018/announcing-1.0.1/">博客</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        <a class="nav-link " title="一堆帮助您部署、配置和使用 Istio 的资源。" href="/zh/help/">帮助</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        <a class="nav-link " title="关于Istio的说明。" href="/zh/about/">关于</a>
+                    </li>
+                
+
+                <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
+                    <a title='选项和设置' href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">亮主题</a>
+                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">暗主题</a>
+
+                        
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20docs%2freference%2fconfig%2fistio.networking.v1alpha3%2findex.md">报告网站Bug</a>
+
+                            
+                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/docs/reference/config/istio.networking.v1alpha3/index.md">在GitHub上编辑此页</a>
+                            
+                        
+
+                        <div class="dropdown-divider"></div>
+
+                        <h6 class="dropdown-header">本站的其它版本</h6>
+
+                        
+                        
+
+                        
+                            <a href="https://istio.io" class="dropdown-item">当前版本（1.0）</a>
+                            <a href="https://archive.istio.io" class="dropdown-item">旧版本</a>
+                        
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a id="search_show" class="nav-link" href="" title='搜索istio.io' aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                </li>
+            </ul>
+
+            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+                <input type="hidden" name="cx" value="013699703217164175118:veyyqmfmpj4" />
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <input type="hidden" id="search_page_url" value="/search.html" />
+                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
+                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+        
+
+
+
+<div class="container-fluid">
+    <div class="row row-offcanvas">
+        <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
+            
+            
+                <nav class="sidebar d-print-none">
+    <div class="spacer"></div>
+    <div class="directory" role="tablist">
+        
+
+        
+        
+
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header8">
+                        <a data-toggle="collapse" href="#collapse8" title="一些概念，理解它们有助于您更好地了解 Istio 系统的不同部分及其使用的抽象。" role="button" aria-controls="collapse8">
+                            <div>
+                                
+                                    <img src="/img/concepts.svg" alt="Icon" class="page_icon" />
+                                
+
+                                概念
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse8" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header8">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍 Istio 及其要解决的问题、顶层架构和设计目标。" href="/zh/docs/concepts/what-is-istio/">Istio 是什么?</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍 Istio 中关于流量路由与控制的各项功能。" href="/zh/docs/concepts/traffic-management/">流量管理</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述 Istio 的授权与鉴权功能。" href="/zh/docs/concepts/security/">安全</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述策略实施和遥测机制。" href="/zh/docs/concepts/policies-and-telemetry/">策略与遥测</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍 Istio 组件的性能与可伸缩性方法论、结果和最佳实践。" href="/zh/docs/concepts/performance-and-scalability/">性能与可伸缩性</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header21">
+                        <a data-toggle="collapse" href="#collapse21" title="安装包含在不同的环境下（如 Kubernetes、Consul 等）安装 Istio 控制平面，以及在应用程序部署中安装 sidecar。" role="button" aria-controls="collapse21">
+                            <div>
+                                
+                                    <img src="/img/setup.svg" alt="Icon" class="page_icon" />
+                                
+
+                                安装
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse21" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header21">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="关于如何在 Kubernetes 集群中安装 Istio 控制平面和添加虚拟机到 mesh 中的说明。" href="/zh/docs/setup/kubernetes/">Kubernetes </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="关于 Istio 发布包下载过程的说明。" href="/zh/docs/setup/kubernetes/download-release/">下载 Istio 发布包</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="在 Kubernetes 集群中快速安装 Istio 服务网格的说明。" href="/zh/docs/setup/kubernetes/quick-start/">在 Kubernetes 中快速开始</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何使用 Google Kubernetes Engine (GKE) 快速搭建 Istio 服务。" href="/zh/docs/setup/kubernetes/quick-start-gke-dm/">使用 Google Kubernetes Engine 快速开始</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何使用 IBM Cloud Private 快速设置 Istio。" href="/zh/docs/setup/kubernetes/quick-start-icp/">IBM Cloud Private 快速入门</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何使用阿里云 Kubernetes 容器服务快速安装 Istio。" href="/zh/docs/setup/kubernetes/quick-start-alicloud-ack/">使用阿里云 Kubernetes 容器服务快速启动</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用内含的 Helm chart 安装 Istio。" href="/zh/docs/setup/kubernetes/helm-install/">使用 Helm 进行安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用 Helm 最小化安装 Istio 。" href="/zh/docs/setup/kubernetes/minimal-install/">Istio 最小化安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用内置的 Ansible playbook 安装 Istio。" href="/zh/docs/setup/kubernetes/ansible-install/">使用 Ansible 安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。" href="/zh/docs/setup/kubernetes/sidecar-injection/">注入 Istio sidecar</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="安装支持多集群的 Istio。" href="/zh/docs/setup/kubernetes/multicluster-install/">Istio 多集群设置</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。" href="/zh/docs/setup/kubernetes/mesh-expansion/">网格扩展</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="演示如何独立升级 Istio 控制平面和数据平面。" href="/zh/docs/setup/kubernetes/upgrading-istio/">升级 Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="这里讲述了 Istio 对 Kubernetes 中 Pod 和服务的要求。" href="/zh/docs/setup/kubernetes/spec-requirements/">Istio 对 Pod 和服务的要求</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="如何对各种平台上安装的 Kubernetes 集群进行配置，以满足 Istio 的安装和运行要求。" href="/zh/docs/setup/kubernetes/platform-setup/">各平台下 Kubernetes 集群的配置 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 AWS 中以 Kops 安装的集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/aws/">Amazon Web Services</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="为 Istio 设置阿里云 Kubernetes 集群的说明。" href="/zh/docs/setup/kubernetes/platform-setup/alicloud/">阿里云</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Azure 集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/azure/">Azure</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Google Kubernetes Engine（GKE）集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/gke/">Google Kubernetes Engine</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 IBM Cloud Kubernetes Service（IKS）集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/ibm/">IBM Cloud Kubernetes Service</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Minikube 集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/minikube/">Minikube</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 OpenShift 集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/openshift/">OpenShift</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="基于 Consul 和 Nomad 安装 Istio 控制平面。" href="/zh/docs/setup/consul/">Nomad &amp; Consul </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="通过 Docker Compose 快速安装 Istio service mesh。" href="/zh/docs/setup/consul/quick-start/">通过 Docker 快速安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="基于 Consul 和 Nomad 安装 Istio 控制平面。" href="/zh/docs/setup/consul/install/">安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header27">
+                        <a data-toggle="collapse" href="#collapse27" title="如何用 Istio 系统实现特定目标的行为。" role="button" aria-controls="collapse27">
+                            <div>
+                                
+                                    <img src="/img/tasks.svg" alt="Icon" class="page_icon" />
+                                
+
+                                任务
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse27" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header27">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示Istio流量路由功能的任务。" href="/zh/docs/tasks/traffic-management/">流量管理 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务向您展示如何根据权重和 HTTP header配置动态请求路由。" href="/zh/docs/tasks/traffic-management/request-routing/">配置请求路由</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何注入延迟并测试应用程序的弹性。" href="/zh/docs/tasks/traffic-management/fault-injection/">故障注入</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="向您展示如何将流量从旧版本迁移到新版本的服务。" href="/zh/docs/tasks/traffic-management/traffic-shifting/">流量转移</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。" href="/zh/docs/tasks/traffic-management/request-timeouts/">设置请求超时</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍在服务网格 Istio 中如何配置外部公开服务。" href="/zh/docs/tasks/traffic-management/ingress/">控制 Ingress 流量</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="配置 Istio 令其以 TLS 或双向 TLS 的方式在网格外公开服务。" href="/zh/docs/tasks/traffic-management/secure-ingress/">用 HTTPS 加密 Gateway</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="在 Istio 中配置从网格内访问外部服务的流量路由。" href="/zh/docs/tasks/traffic-management/egress/">控制 Egress 流量</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="用连接、请求以及外部检测来进行熔断配置的过程。" href="/zh/docs/tasks/traffic-management/circuit-breaking/">熔断</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务演示了 Istio 的流量镜像/阴影功能。" href="/zh/docs/tasks/traffic-management/mirroring/">镜像</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示如何对 Istio service 进行健康检查。" href="/zh/docs/tasks/traffic-management/app-health-check/">Istio Service 健康检查</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示对服务网格进行安全加固的方法。" href="/zh/docs/tasks/security/">安全 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍如何使用 Istio 认证策略设置双向 TLS 和基本的终端用户认证。" href="/zh/docs/tasks/security/authn-policy/">基础认证策略</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Istio 的自动双向 TLS 认证功能进行体验和测试。" href="/zh/docs/tasks/security/mutual-tls/">深入了解双向 TLS</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示如何在服务网格中进行基于角色的访问控制。" href="/zh/docs/tasks/security/role-based-access-control/">基于角色的访问控制</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="运维人员如何使用现有根证书配置 Citadel 进行证书以及密钥的签发。" href="/zh/docs/tasks/security/plugin-ca-cert/">插入外部 CA 密钥和证书</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何在 Kubernetes 中启用 Citadel 的健康检查。" href="/zh/docs/tasks/security/health-check/">Citadel 的健康检查</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何渐进式的为现有 Istio 服务添加双向 TLS 支持。" href="/zh/docs/tasks/security/mtls-migration/">双向 TLS 的迁移</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示如何在 HTTPS 服务上启用双向 TLS。" href="/zh/docs/tasks/security/https-overlay/">通过 HTTPS 进行双向 TLS</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示策略实施功能。" href="/zh/docs/tasks/policy-enforcement/">策略 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。" href="/zh/docs/tasks/policy-enforcement/rate-limiting/">启用速率限制</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法。" href="/zh/docs/tasks/policy-enforcement/denial-and-list/">Denier 适配器以及黑白名单</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示从服务网格收集遥测信息的方法。" href="/zh/docs/tasks/telemetry/">遥测 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger。" href="/zh/docs/tasks/telemetry/distributed-tracing/">分布式跟踪</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="这一任务讲述如何配置 Istio，进行指标和日志的收集工作。" href="/zh/docs/tasks/telemetry/metrics-logs/">收集指标和日志</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="本任务展示了如何配置 Istio 进行 TCP 服务的指标收集。" href="/zh/docs/tasks/telemetry/tcp-metrics/">获取 TCP 服务指标</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何使用 Prometheus 查询 Istio 指标。" href="/zh/docs/tasks/telemetry/querying-metrics/">查询 Prometheus 的指标</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何设置和使用 Istio 仪表板来监视网格流量。" href="/zh/docs/tasks/telemetry/using-istio-dashboard/">使用 Grafana 进行指标可视化</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何在 Istio 网格中生成服务图。" href="/zh/docs/tasks/telemetry/servicegraph/">生成服务图</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务将展示如何配置 Istio 将日志记录到 Fluentd 守护进程。" href="/zh/docs/tasks/telemetry/fluentd/">使用 Fluentd 记录日志</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header42">
+                        <a data-toggle="collapse" href="#collapse42" title="这里包括多个可供 Istio 使用的可完整工作的示例，你可以用来亲自部署和体验这些示例。" role="button" aria-controls="collapse42">
+                            <div>
+                                
+                                    <img src="/img/examples.svg" alt="Icon" class="page_icon" />
+                                
+
+                                示例
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse42" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header42">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="部署一个用于演示多种 Istio 特性的应用，由四个单独的微服务构成。" href="/zh/docs/examples/bookinfo/">Bookinfo 应用</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何在 Istio 服务网格中使用多种流量管理功能。" href="/zh/docs/examples/intelligent-routing/">智能路由</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="演示如何使用 Istio Mixer 和 Istio sidecar 获取指标和日志，并在不同的服务间进行跟踪。" href="/zh/docs/examples/telemetry/">深入遥测</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="说明如何在谷歌云 Endpoints 服务中手动整合 Istio。" href="/zh/docs/examples/endpoints/">在谷歌云 Endpoints 服务中安装 Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="在单一服务网格中，如何使用 Istio 对 Kubernetes 集群以及虚拟机进行控制。" href="/zh/docs/examples/integrating-vms/">虚拟机集成</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="在 Istio 中进行网关流量控制的各种完整工作示例。" href="/zh/docs/examples/advanced-gateways/">高级网关流量控制 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍如何为入口网关配置 SNI 直通。" href="/zh/docs/examples/advanced-gateways/ingress-sni-passthrough/">没有 TLS 的 Ingress Gateway</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务描述 Istio 如何配置出口流量的 TLS。" href="/zh/docs/examples/advanced-gateways/egress-tls-origination/">出口流量的 TLS</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述如何通过专用网关服务将流量定向到外部服务来配置 Istio。" href="/zh/docs/examples/advanced-gateways/egress-gateway/">配置 Egress 网关</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="为不同的云平台启用 Istio 多集群功能的完整工作示例。" href="/zh/docs/examples/multicluster/">启用多集群功能 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="基于 GKE 的 Istio 多集群安装。" href="/zh/docs/examples/multicluster/gke/">Google Kubernetes Engine</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="多 IBM Cloud Private 集群安装 Istio 示例。" href="/zh/docs/examples/multicluster/icp/">IBM Cloud Private</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="IBM Cloud Kubernetes Service 和 IBM Cloud Private 之间的多集群示例。" href="/zh/docs/examples/multicluster/iks-icp/">IBM Cloud Kubernetes Service &amp; IBM Cloud Private</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header74">
+                        <a data-toggle="collapse" href="#collapse74" title="参考部分包含详细的权威参考资料，如命令行选项、配置选项和 API 调用参数。" role="button" aria-controls="collapse74">
+                            <div>
+                                
+                                    <img src="/img/reference.svg" alt="Icon" class="page_icon" />
+                                
+
+                                参考
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse74" class="collapse show" data-parent="#sidebar" role="tabpanel" aria-labelledby="header74">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-down'></i>
+                        
+                        <a  title="关于配置选项的详细信息。" href="/zh/docs/reference/config/">配置 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="关于如何配置Istio授权特性的描述。" href="/zh/docs/reference/config/authorization/">授权 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述所支持的约束和属性。" href="/zh/docs/reference/config/authorization/constraints-and-properties/">约束和属性</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="描述如何配置 Istio 的策略和遥测功能。" href="/zh/docs/reference/config/policy-and-telemetry/">策略和遥测 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍策略和控制中会用到的一些基础属性词汇。" href="/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/">属性词汇</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Mixer 的配置表达式语言参考。" href="/zh/docs/reference/config/policy-and-telemetry/expression-language/">表达式语言</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="Mixer 适配器能够让 Istio 连接各种基础设施后端以完成类似指标和日志这样的功能。" href="/zh/docs/reference/config/policy-and-telemetry/adapters/">适配器 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="Mixer 模板用于将数据发送到各个适配器。" href="/zh/docs/reference/config/policy-and-telemetry/templates/">模板 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="通过 Mixer 从 Istio 导出的默认监控指标（Metrics）。" href="/zh/docs/reference/config/policy-and-telemetry/metrics/">默认监控指标</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述了使用 Helm chart 安装 Istio 时可以使用的选项。" href="/zh/docs/reference/config/installation-options/">安装选项</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <span class="current" title="流量路由配置。">通信路由</span>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="描述 Istio 命令和工具的用法及选项。" href="/zh/docs/reference/commands/">命令 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Galley 为 Istio 提供配置管理服务。" href="/zh/docs/reference/commands/galley/">galley</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 控制界面。" href="/zh/docs/reference/commands/istioctl/">istioctl</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+
+        
+            
+        
+    </div>
+</nav>
+
+            
+        </div>
+
+        
+            <div class="col-12 col-md-9 col-xl-8">
+        
+
+            
+                <p class="d-md-none">
+                    <label class="sidebar-toggler" data-toggle="offcanvas">
+                        <i class="fa fa-sign-out-alt"></i>
+                    </label>
+                </p>
+            
+
+            <main aria-labelledby="title">
+                
+                    <div class="pagenav">
+                        <p><a href="/zh/docs/reference/config/" title="关于配置选项的详细信息。">
+                            <i style="transform: scaleX(-1)" class="fa fa-level-up-alt"></i>
+                            &nbsp;配置</a></p>
+                    </div>
+                
+
+                <h1 id="title">
+                    
+                    通信路由
+                </h1>
+
+                
+
+                
+
+                
+                    <nav class="toc-inlined d-xl-none d-print-none" >
+                        <hr/>
+                        <div class="directory" role="directory">
+                            
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+    
+        
+        <nav id="InlinedTableOfContents">
+            <ul>
+                
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#connectionpoolsettings"><code>ConnectionPoolSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#connectionpoolsettings-httpsettings"><code>ConnectionPoolSettings.HTTPSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#connectionpoolsettings-tcpsettings"><code>ConnectionPoolSettings.TCPSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#corspolicy"><code>CorsPolicy</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#destination"><code>Destination</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#destinationrule"><code>DestinationRule</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#destinationweight"><code>DestinationWeight</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter"><code>EnvoyFilter</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-filter"><code>EnvoyFilter.Filter</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-filter-filtertype"><code>EnvoyFilter.Filter.FilterType</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-insertposition"><code>EnvoyFilter.InsertPosition</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-insertposition-index"><code>EnvoyFilter.InsertPosition.Index</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-listenermatch"><code>EnvoyFilter.ListenerMatch</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-listenermatch-listenerprotocol"><code>EnvoyFilter.ListenerMatch.ListenerProtocol</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-listenermatch-listenertype"><code>EnvoyFilter.ListenerMatch.ListenerType</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#gateway"><code>Gateway</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpfaultinjection"><code>HTTPFaultInjection</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpfaultinjection-abort"><code>HTTPFaultInjection.Abort</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpfaultinjection-delay"><code>HTTPFaultInjection.Delay</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpmatchrequest"><code>HTTPMatchRequest</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpredirect"><code>HTTPRedirect</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpretry"><code>HTTPRetry</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httprewrite"><code>HTTPRewrite</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httproute"><code>HTTPRoute</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#l4matchattributes"><code>L4MatchAttributes</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings"><code>LoadBalancerSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings-consistenthashlb"><code>LoadBalancerSettings.ConsistentHashLB</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings-consistenthashlb-httpcookie"><code>LoadBalancerSettings.ConsistentHashLB.HTTPCookie</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings-simplelb"><code>LoadBalancerSettings.SimpleLB</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#outlierdetection"><code>OutlierDetection</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#port"><code>Port</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#portselector"><code>PortSelector</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#server"><code>Server</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#server-tlsoptions"><code>Server.TLSOptions</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#server-tlsoptions-tlsmode"><code>Server.TLSOptions.TLSmode</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#serviceentry"><code>ServiceEntry</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e7%a4%ba%e4%be%8b-%e5%8a%a0%e5%85%a5%e5%a4%96%e9%83%a8%e6%9c%8d%e5%8a%a1">示例：加入外部服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e7%a4%ba%e4%be%8b-tls-%e9%80%8f%e4%bc%a0">示例：TLS 透传</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e8%bd%ac%e5%8f%91%e6%89%80%e6%9c%89%e5%a4%96%e9%83%a8%e6%b5%81%e9%87%8f">转发所有外部流量</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e7%a4%ba%e4%be%8b-%e9%80%9a%e9%85%8d%e7%ac%a6%e5%9f%9f%e5%90%8d">示例：通配符域名</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#unix-socket-%e8%bf%9e%e6%8e%a5">Unix Socket 连接</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bb%a3%e7%90%86%e6%9c%8d%e5%8a%a1%e5%99%a8">代理服务器</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#serviceentry-endpoint"><code>ServiceEntry.Endpoint</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#serviceentry-location"><code>ServiceEntry.Location</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#serviceentry-resolution"><code>ServiceEntry.Resolution</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#stringmatch"><code>StringMatch</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#subset"><code>Subset</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tcproute"><code>TCPRoute</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlsmatchattributes"><code>TLSMatchAttributes</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlsroute"><code>TLSRoute</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlssettings"><code>TLSSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlssettings-tlsmode"><code>TLSSettings.TLSmode</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#trafficpolicy"><code>TrafficPolicy</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#trafficpolicy-porttrafficpolicy"><code>TrafficPolicy.PortTrafficPolicy</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#virtualservice"><code>VirtualService</code></a></li>
+
+                    
+                
+
+                
+                
+
+                
+            </ul>
+        </nav>
+    
+
+
+                        </div>
+                        <hr/>
+                    </nav>
+                
+
+
+
+<p>路由方面的配置，下面列出的是与该配置上下文有关的词汇。</p>
+
+<p><code>Service（服务）</code>：服务注册表中的一个单位，具备唯一名称，代表了一个应用。一个服务是由多个网络端点构成的，这些端点是由运行在 Pod、容器或者虚拟机上的工作负载实例实现的。</p>
+
+<p><code>Service versions（也叫做 subset/子集）</code>：在持续部署的场景中，一个服务可能会有多个子集在同时运行。子集之间的通常会有 API 版本方面的区别。不同的子集可能是同一服务的不同迭代阶段，或者不同环境的部署（生产、预发布以及开发等）。子集的存在，对于 A/B 测试、金丝雀发布等场景都是必要的。可以使用多种条件（Header、URL 等）来为流量选择对应的子集。每个服务都有一个缺省的版本，其中包含了该服务的所有实例。</p>
+
+<p><code>Source（源）</code>：调用某服务的下游客户端。</p>
+
+<p><code>Host（主机）</code>：客户端尝试连接到服务时所使用的地址。</p>
+
+<p><code>Access model（访问模型）</code>：应用仅关注目标服务（主机），而对于服务的版本或者子集一无所知。版本选择的决策过程由代理（Sidecar）完成，如此一来，应用代码就可以脱离对服务具体版本的依赖了。</p>
+
+<h2 id="connectionpoolsettings"><code>ConnectionPoolSettings</code></h2>
+
+<p>上游主机的连接池设置。这一设置会应用到上游服务中的每个主机上。可以参考 Envoy 的<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/circuit_breaking">断路器文档</a>获取更多信息。这一设置在 TCP 和 HTTP 级别都是有效的。</p>
+
+<p>例如下面的规则为 Redis 服务设置了一个名为 <code>myredissrv</code> 的规则，限制连接数上限为 100，连接超时限制为 30 毫秒。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-redis
+spec:
+  host: myredissrv.prod.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+        connectTimeout: 30ms</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>tcp</code></td>
+<td><a href="#connectionpoolsettings-tcpsettings"><code>ConnectionPoolSettings.TCPSettings</code></a></td>
+<td>连接数限制，对 HTTP 和 TCP 都有效。</td>
+</tr>
+
+<tr>
+<td><code>http</code></td>
+<td><a href="#connectionpoolsettings-httpsettings"><code>ConnectionPoolSettings.HTTPSettings</code></a></td>
+<td>HTTP 连接池设置。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="connectionpoolsettings-httpsettings"><code>ConnectionPoolSettings.HTTPSettings</code></h2>
+
+<p>针对 HTTP1.1/HTTP2/GRPC 连接的设置项目。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>http1MaxPendingRequests</code></td>
+<td><code>int32</code></td>
+<td>针对一个目标的 HTTP 请求的最大排队数量，缺省值为 1024。</td>
+</tr>
+
+<tr>
+<td><code>http2MaxRequests</code></td>
+<td><code>int32</code></td>
+<td>对一个后端的最大请求数，缺省值为 1024。</td>
+</tr>
+
+<tr>
+<td><code>maxRequestsPerConnection</code></td>
+<td><code>int32</code></td>
+<td>对某一后端的请求中，一个连接内能够发出的最大请求数量。如果将这一参数设置为 1 则会禁止 <code>keep alive</code> 特性。</td>
+</tr>
+
+<tr>
+<td><code>maxRetries</code></td>
+<td><code>int32</code></td>
+<td>在给定时间内，集群中所有主机可以执行的最大重试次数。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="connectionpoolsettings-tcpsettings"><code>ConnectionPoolSettings.TCPSettings</code></h2>
+
+<p>对 TCP 和 HTTP 都有效的的通用连接设置。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>maxConnections</code></td>
+<td><code>int32</code></td>
+<td>到目标主机的 HTTP1/TCP 最大连接数。</td>
+</tr>
+
+<tr>
+<td><code>connectTimeout</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>TCP 连接超时</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="corspolicy"><code>CorsPolicy</code></h2>
+
+<p>为服务定义跨来源资源共享（<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">Cross-Origin Resource Sharing</a>，缩写为 CORS）策略。例如下面的规则对来自 <code>example.com</code> 域的跨来源请求进行了限制：</p>
+
+<ul>
+<li>仅允许 <code>POST</code> 和 <code>GET</code> 操作。</li>
+<li>设置 <code>Access-Control-Allow-Credentials</code> Header 的值为 False。</li>
+<li>只开放 <code>X-Foo-bar</code> Header。</li>
+<li>设置过期时间为 1 天。</li>
+</ul>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: ratings.prod.svc.cluster.local
+        subset: v1
+    corsPolicy:
+      allowOrigin:
+      - example.com
+      allowMethods:
+      - POST
+      - GET
+      allowCredentials: false
+      allowHeaders:
+      - X-Foo-Bar
+      maxAge: &#34;1d&#34;</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>allowOrigin</code></td>
+<td><code>string[]</code></td>
+<td>允许发起 CORS 请求的来源列表。这一字段的内容会被序列化之后保存到 <code>Access-Control-Allow-Origin header</code> Header 之中。使用通配符 <code>*</code> 会允许所有来源。</td>
+</tr>
+
+<tr>
+<td><code>allowMethods</code></td>
+<td><code>string[]</code></td>
+<td>允许访问资源的 HTTP 方法，字段内容会进行序列化之后保存到 <code>Access-Control-Allow-Methods</code> Header 之中。</td>
+</tr>
+
+<tr>
+<td><code>allowHeaders</code></td>
+<td><code>string[]</code></td>
+<td>在请求资源时可以使用的 HTTP Header 列表，会被序列化后保存到 <code>Access-Control-Allow-Methods</code> Header 之中。</td>
+</tr>
+
+<tr>
+<td><code>exposeHeaders</code></td>
+<td><code>string[]</code></td>
+<td>一个允许浏览器访问的 HTTP Header 白名单，会被序列化后保存到 <code>Access-Control-Expose-Headers</code> Header 之中。</td>
+</tr>
+
+<tr>
+<td><code>maxAge</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>可以缓存预检请求结果的有效期。保存到 <code>Access-Control-Max-Age</code> Header 之中。</td>
+</tr>
+
+<tr>
+<td><code>allowCredentials</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.BoolValue</code></a></td>
+<td>是否允许调用者携带认证信息对资源发起实际请求（非预检）。会保存到 <code>Access-Control-Allow-Credentials</code> Header 之中。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="destination"><code>Destination</code></h2>
+
+<p><code>Destination</code> 用于定义在网络中可寻址的服务，请求或连接在经过路由规则的处理之后，就会被发送给 <code>Destination</code>。<code>destination.host</code> 应该明确指向服务注册表中的一个服务。Istio 的服务注册表除包含平台服务注册表中的所有服务（例如 Kubernetes 服务、Consul 服务）之外，还包含了 <a href="#serviceentry"><code>ServiceEntry</code></a> 资源所定义的服务。</p>
+
+<blockquote>
+<p>Kubernetes 用户注意：当使用服务的短名称时（例如使用 <code>reviews</code>，而不是 <code>reviews.default.svc.cluster.local</code>），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 <code>reviews</code> 的 <code>host</code> 引用，就会被视为 <code>reviews.default.svc.cluster.local</code>，而不会考虑 <code>reviews</code> 服务所在的命名空间。<strong>为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。</strong></p>
+</blockquote>
+
+<p>下面的 Kubernetes 实例，缺省把所有的流量路由到 <code>reviews</code> 服务中具有标签 <code>version: v1</code>（也就是 <code>v1</code> 子集）的 Pod 中，另外还有一部分会路由到 <code>v2</code> 子集之中。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews-route
+  namespace: foo
+spec:
+  hosts:
+  - reviews # 等价于 reviews.foo.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: &#34;/wpcatalog&#34;
+    - uri:
+        prefix: &#34;/consumercatalog&#34;
+    rewrite:
+      uri: &#34;/newcatalog&#34;
+    route:
+    - destination:
+        host: reviews # 和 reviews.foo.svc.cluster.local 等价
+        subset: v2
+  - route:
+    - destination:
+        host: reviews # 和 reviews.foo.svc.cluster.local 等价
+        subset: v1</code></pre>
+
+<p>下面是相关的 <code>DestinationRule</code>：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews-destination
+  namespace: foo
+spec:
+  host: reviews # 等价于 reviews.foo.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2</code></pre>
+
+<p>接下来的 <code>VirtualService</code> 在 Kubernetes 中为所有对 <code>productpage.prod.svc.cluster.local</code> 服务的调用都设置了一个 5 秒钟的超时。注意这里的规则中没有子集的定义。Istio 会从服务注册表中抓取 <code>productpage.prod.svc.cluster.local</code> 服务所有实例，据此生成 Envoy 的负载均衡池。同时需要注意的是，这个规则是在 <code>istio-system</code> 命名空间中设置的，但是使用的是 <code>productpage</code> 服务的 FQDN：<code>productpage.prod.svc.cluster.local</code>。这样规则所处的命名空间就不会对 <code>prodcutpage</code> 服务的解析过程造成影响了。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-productpage-rule
+  namespace: istio-system
+spec:
+  hosts:
+  - productpage.prod.svc.cluster.local # 无视规则所在的命名空间
+  http:
+  - timeout: 5s
+    route:
+    - destination:
+        host: productpage.prod.svc.cluster.local</code></pre>
+
+<p>要控制向网格之外发出的流量，外部服务首先要以 <code>ServiceEntry</code> 资源的形式在 Istio 内部的服务注册表中进行定义。定义完成之后，就可以使用 <code>ServiceEntry</code> 资源来控制到这些外部服务的流量了。例如下面的规则为 <code>wikipedia.org</code> 定义了一个服务，并为 http 请求设置了一个 5 秒钟的超时。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-svc-wikipedia
+spec:
+  hosts:
+  - wikipedia.org
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: example-http
+    protocol: HTTP
+  resolution: DNS
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-wiki-rule
+spec:
+  hosts:
+  - wikipedia.org
+  http:
+  - timeout: 5s
+    route:
+    - destination:
+        host: wikipedia.org</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>host</code></td>
+<td><code>string</code></td>
+<td>必要字段。目标服务的名称。流量目标对应的服务，会在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 <a href="#serviceentry"><code>ServiceEntry</code></a> 资源中进行查找，如果查找失败，则丢弃流量。<strong>Kubernetes 用户注意：当使用服务的短名称时（例如使用 <code>reviews</code>，而不是 <code>reviews.default.svc.cluster.local</code>），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 <code>reviews</code> 的 <code>host</code> 引用，就会被视为 <code>reviews.default.svc.cluster.local</code>，而不会考虑 <code>reviews</code> 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。</strong></td>
+</tr>
+
+<tr>
+<td><code>subset</code></td>
+<td><code>string</code></td>
+<td>服务子集的名称。仅对网格中的服务有效。必须在 <code>DestinationRule</code> 中定义子集。</td>
+</tr>
+
+<tr>
+<td><code>port</code></td>
+<td><a href="#portselector"><code>PortSelector</code></a></td>
+<td>指定目标主机的端口。如果一个服务只暴露了一个端口，那么就无需显式的进行端口选择。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="destinationrule"><code>DestinationRule</code></h2>
+
+<p><code>DestinationRule</code> 所定义的策略，决定了经过路由处理之后的流量的访问策略。这些策略中可以定义负载均衡配置、连接池尺寸以及外部检测（用于在负载均衡池中对不健康主机进行识别和驱逐）配置。例如给 <code>ratings</code> 服务定义一个简单的负载均衡策略：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN</code></pre>
+
+<p>可以将策略指派给服务的特定版本，要完成这一操作需要定义一个 <code>subset</code>，并且在 <code>subset</code> 中对服务级定义的规则进行覆盖。下文规则的定义中，缺省的负载均衡方式是 <code>LEAST_CONN</code>；而在下面定义了一个名称为 <code>testversion</code> 的 <code>subset</code>，这个子集的 Pod 特征是 <code>version</code> 标签取值为 <code>v3</code>，该子集的负载均衡模式为 <code>ROUND_ROBIN</code>。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+  subsets:
+  - name: testversion
+    labels:
+      version: v3
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN</code></pre>
+
+<blockquote>
+<p>注意：只有在流量被显式的发送给某一子集的时候，指派给该子集的策略才会生效。</p>
+</blockquote>
+
+<p>流量策略还可以根据端口来进行定义。接下来的规则，要求所有使用 <code>80</code> 端口的流量使用 <code>LEAST_CONN</code> 方式的负载均衡；而使用 <code>9080</code> 端口的流量则使用 <code>ROUND_ROBIN</code> 方式。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings-port
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy: # 对所有端口生效
+    portLevelSettings:
+    - port:
+        number: 80
+      loadBalancer:
+        simple: LEAST_CONN
+    - port:
+        number: 9080
+      loadBalancer:
+        simple: ROUND_ROBIN</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>host</code></td>
+<td><code>string</code></td>
+<td>必要字段。目标服务的名称。流量目标对应的服务，会在在平台的服务注册表（例如 Kubernetes 服务和 Consul 服务）以及 <a href="#serviceentry"><code>ServiceEntry</code></a> 注册中进行查找，如果查找失败，则丢弃流量。<strong>Kubernetes 用户注意：当使用服务的短名称时（例如使用 <code>reviews</code>，而不是 <code>reviews.default.svc.cluster.local</code>），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 <code>default</code> 命名空间的一条规则中包含了一个 <code>reivews</code> 的 <code>host</code> 引用，就会被视为 <code>reviews.default.svc.cluster.local</code>，而不会考虑 <code>reviews</code> 服务所在的命名空间。为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。</strong></td>
+</tr>
+
+<tr>
+<td><code>trafficPolicy</code></td>
+<td><a href="#trafficpolicy"><code>TrafficPolicy</code></a></td>
+<td>流量策略（负载均衡策略、间接池尺寸和外部检测）。</td>
+</tr>
+
+<tr>
+<td><code>subsets</code></td>
+<td><a href="#subset"><code>Subset</code></a></td>
+<td>一个或多个服务版本。在子集的级别可以覆盖服务一级的流量策略定义。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="destinationweight"><code>DestinationWeight</code></h2>
+
+<p>每一条路由规则都会对应到一个或多个服务版本上（可以参考本文顶端的名词解释）。每个版本的权重决定了这一版本会收到的流量的多少。例如下面的规则会将 <code>reviews</code> 服务的流量进行拆分，其中 25% 进入 <code>v2</code> 版本，其余部分（也就是 75%）进入 <code>v1</code>。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews-route
+spec:
+  hosts:
+  - reviews.prod.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: reviews.prod.svc.cluster.local
+        subset: v2
+      weight: 25
+    - destination:
+        host: reviews.prod.svc.cluster.local
+        subset: v1
+      weight: 75</code></pre>
+
+<p>对应的 <code>DestinationRule</code>：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews-destination
+spec:
+  host: reviews.prod.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2</code></pre>
+
+<p>除了服务内的按版本拆分，流量和可以在不同的服务间进行拆分。例如下面的规则把 25% 的流量分配给了 <code>dev.reviews.com</code>，剩余的 75% 则流向 <code>reviews.com</code>。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews-route-two-domains
+spec:
+  hosts:
+  - reviews.com
+  http:
+  - route:
+    - destination:
+        host: dev.reviews.com
+      weight: 25
+    - destination:
+        host: reviews.com
+      weight: 75</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>destination</code></td>
+<td><a href="#destination"><code>Destination</code></a></td>
+<td>必要字段。流量将会被导入这一字段所指代的服务。</td>
+</tr>
+
+<tr>
+<td><code>weight</code></td>
+<td><code>int32</code></td>
+<td>必要字段。转发给一个服务版本的流量占总流量的百分比。几个目标的<strong>百分比之和必须等于 100</strong>。如果一条规则中只有一个目标，会假设其权重为 100。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter"><code>EnvoyFilter</code></h2>
+
+<p><code>EnvoyFilter</code> 对象描述了针对代理服务的过滤器，这些过滤器可以定制由 Istio Pilot 生成的代理配置。这一功能一定要谨慎使用。错误的配置内容一旦完成传播，可能会令整个服务网格进入瘫痪状态。</p>
+
+<p>注 1：这一配置十分脆弱，因此不会有任何的向后兼容能力。这一配置是用于对 Istio 网络系统的内部实现进行变更的。</p>
+
+<p>注 2：如果有多个 <code>EnvoyFilter</code> 绑定在同一个工作负载上，所有的配置会按照创建时间的顺序进行处理。如果多个配置之间存在冲突，会产生不可预知的后果。</p>
+
+<p>下面的 Kubernetes 例子，是针对 <code>reviews</code> 服务（也就是带有标签 <code>app:reviews</code> 的 Pod）的 8080 端口上的所有入站调用工作的，这一段配置启用了 Envoy 的 <code>Lua</code> 过滤器。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: reviews-lua
+spec:
+  workloadLabels:
+    app: reviews
+  filters:
+  - listenerMatch:
+      portNumber: 8080
+      listenerType: SIDECAR_INBOUND # 匹配到 reviews:8080 的入站监听器
+    filterName: envoy.lua
+    filterType: HTTP
+    filterConfig:
+      inlineCode: |
+        ... lua code .</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>workloadLabels</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>一个或多个标签，用于标识一组 Pod/虚拟机。这一组工作负载实例中的代理会被配置使用附加的过滤器配置。标签的搜索范围是平台相关的。例如在 Kubernetes 中，生效范围会包括所有可达的命名空间。如果省略这一字段，配置将会应用到网格中的所有 Envoy 代理实例中。注意：一个工作负载只应该使用一个 <code>EnvoyFilter</code>。如果多个 <code>EnvoyFilter</code> 被绑定到同一个工作负载上，会产生不可预测的行为。</td>
+</tr>
+
+<tr>
+<td><code>filters</code></td>
+<td><a href="#envoyfilter-filter"><code>EnvoyFilter.Filter[]</code></a></td>
+<td>必要字段。要加入指定监听器之中的 Envoy 网络过滤器/HTTP 过滤器配置信息。当给 http 连接加入网络过滤器的时候，应该注意确保该过滤器应早于 <code>envoy.httpconnectionmanager</code>。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter-filter"><code>EnvoyFilter.Filter</code></h2>
+
+<p>要加入过滤器链条的 Envoy 过滤器。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>listenerMatch</code></td>
+<td><a href="#envoyfilter-listenermatch"><code>EnvoyFilter.ListenerMatch</code></a></td>
+<td>只有在符合匹配条件的情况下，过滤器才会加入这一监听器之中。如果没有指定该字段，会在所有监听器中加入这一过滤器。</td>
+</tr>
+
+<tr>
+<td><code>insertPosition</code></td>
+<td><a href="#envoyfilter-insertposition"><code>EnvoyFilter.InsertPosition</code></a></td>
+<td>在过滤器链条中的插入位置，缺省为 <code>FIRST</code>。</td>
+</tr>
+
+<tr>
+<td><code>filterType</code></td>
+<td><a href="#envoyfilter-filter-filtertype"><code>EnvoyFilter.Filter.FilterType</code></a></td>
+<td>必要字段。要实例化的过滤器的类型。</td>
+</tr>
+
+<tr>
+<td><code>filterName</code></td>
+<td><code>string</code></td>
+<td>必要字段。要初始化的过滤器的名称。名字必须能够匹配到支持的编译进 Envoy 的过滤器。</td>
+</tr>
+
+<tr>
+<td><code>filterConfig</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Struct</code></a></td>
+<td>必要字段。为实例化的过滤器指定配置内容。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter-filter-filtertype"><code>EnvoyFilter.Filter.FilterType</code></h2>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>INVALID</code></td>
+<td>占位符。</td>
+</tr>
+
+<tr>
+<td><code>HTTP</code></td>
+<td>Http 过滤器。</td>
+</tr>
+
+<tr>
+<td><code>NETWORK</code></td>
+<td>网络过滤器。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter-insertposition"><code>EnvoyFilter.InsertPosition</code></h2>
+
+<p>在过滤器链条中指定位置，用于插入新的 Envoy 过滤器配置。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>index</code></td>
+<td><a href="#envoyfilter-insertposition-index"><code>EnvoyFilter.InsertPosition.Index</code></a></td>
+<td>过滤器在链条中的位置。</td>
+</tr>
+
+<tr>
+<td><code>relativeTo</code></td>
+<td><code>string</code></td>
+<td>如果指定了 <code>BEFORE</code> 或者 <code>AFTER</code>，这里就要输入相对位置所参考的过滤器名称。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter-insertposition-index"><code>EnvoyFilter.InsertPosition.Index</code></h2>
+
+<p>过滤器链条中的索引或位置。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>FIRST</code></td>
+<td>插入首位。</td>
+</tr>
+
+<tr>
+<td><code>LAST</code></td>
+<td>插入末尾。</td>
+</tr>
+
+<tr>
+<td><code>BEFORE</code></td>
+<td>指定过滤器之前。</td>
+</tr>
+
+<tr>
+<td><code>AFTER</code></td>
+<td>指定过滤器之后。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter-listenermatch"><code>EnvoyFilter.ListenerMatch</code></h2>
+
+<p>选择一个监听器，在符合条件的情况下加入过滤器配置。<code>ListenerMatch</code> 中列出的所有条件全部符合（逻辑与）的情况下才能进行插入。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>portNumber</code></td>
+<td><code>uint32</code></td>
+<td>进行通信的服务或网关端口。如果没有指定这一字段，则匹配所有的监听器。即使是为实例或者 Pod 生成的入站连接监听器，也只应该使用服务端口进行匹配。</td>
+</tr>
+
+<tr>
+<td><code>portNamePrefix</code></td>
+<td><code>string</code></td>
+<td>除了用具体端口之外，还可以用端口名称的前缀进行大小写无关的匹配。例如 <code>mongo</code> 前缀可以匹配 <code>mongo-port</code>、<code>mongo</code>、<code>mongoDB</code> 以及 <code>MONGO</code> 等。</td>
+</tr>
+
+<tr>
+<td><code>listenerType</code></td>
+<td><a href="#envoyfilter-listenermatch-listenertype"><code>EnvoyFilter.ListenerMatch.ListenerType</code></a></td>
+<td>入站和出站两种类型。如果没有指定，则匹配所有监听器。</td>
+</tr>
+
+<tr>
+<td><code>listenerProtocol</code></td>
+<td><a href="#envoyfilter-listenermatch-listenerprotocol"><code>EnvoyFilter.ListenerMatch.ListenerProtocol</code></a></td>
+<td>为同一协议指定监听器。如果没有指定，会把监听器应用到所有协议上。协议选择可以是所有 HTTP 监听器（包括 HTTP2/gRPC/HTTPS（Envoy 作为 TLS 终结器） ）或者所有 TCP 监听器（包括利用 SNI 进行的 HTTPS 透传）。</td>
+</tr>
+
+<tr>
+<td><code>address</code></td>
+<td><code>string[]</code></td>
+<td>监听器绑定的一个或多个 IP 地址。如果不为空，应该至少匹配其中一个地址。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter-listenermatch-listenerprotocol"><code>EnvoyFilter.ListenerMatch.ListenerProtocol</code></h2>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>ALL</code></td>
+<td>所有协议。</td>
+</tr>
+
+<tr>
+<td><code>HTTP</code></td>
+<td>HTTP 或者 HTTPS（由 Envoy 完成终结）/HTTP2/gRPC。</td>
+</tr>
+
+<tr>
+<td><code>TCP</code></td>
+<td>任意非 HTTP 监听器。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="envoyfilter-listenermatch-listenertype"><code>EnvoyFilter.ListenerMatch.ListenerType</code></h2>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>ANY</code></td>
+<td>所有监听器。</td>
+</tr>
+
+<tr>
+<td><code>SIDECAR_INBOUND</code></td>
+<td>Sidecar 中的入站监听器。</td>
+</tr>
+
+<tr>
+<td><code>SIDECAR_OUTBOUND</code></td>
+<td>Sidecar 中的出站监听器。</td>
+</tr>
+
+<tr>
+<td><code>GATEWAY</code></td>
+<td>网关监听器。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="gateway"><code>Gateway</code></h2>
+
+<p><code>Gateway</code> 描述了一个负载均衡器，用于承载网格边缘的进入和发出连接。这一规范中描述了一系列开放端口，以及这些端口所使用的协议、负载均衡的 SNI 配置等内容。</p>
+
+<p>例如下面的 <code>Gateway</code> 配置设置了一个代理服务器，用来开放 80 和 9080 两个 http 端口，443 的 https 端口以及 2379 的 TCP 端口，这些端口都用于入站连接。标签为 <code>app: my-gateway-controller</code> 的 Pod 充当了代理服务器的角色，示例定义会发送给这些 Pod。Istio 通过这样的配置，要求代理服务器监听这些端口，另外用户应该确保外部流量能够顺利到达网格边缘的这些开放端口。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  selector:
+    app: my-gatweway-controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - uk.bookinfo.com
+    - eu.bookinfo.com
+    tls:
+      httpsRedirect: true # 用 301 重定向指令响应 http 协议的请求。
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - uk.bookinfo.com
+    - eu.bookinfo.com
+    tls:
+      mode: SIMPLE # 在这一端口开放 https 服务。
+      serverCertificate: /etc/certs/servercert.pem
+      privateKey: /etc/certs/privatekey.pem
+  - port:
+      number: 9080
+      name: http-wildcard
+      protocol: HTTP
+    hosts:
+    - &#34;*&#34;
+  - port:
+      number: 2379 # 用外部端口 2379 来开放内部服务。
+      name: mongo
+      protocol: MONGO
+    hosts:
+    - &#34;*&#34;</code></pre>
+
+<p>上面的 <code>Gateway</code> 定义了四层到六层的负载均衡属性。而 <code>VirtualService</code> 会绑定到一个 <code>Gateway</code>，来控制到达指定主机或者网关端口的流量转发行为。</p>
+
+<p>例如下面的 <code>VirtualService</code> 的定义，流量分别来自四个来源（<code>https://uk.bookinfo.com/reviews</code>、 <code>https://eu.bookinfo.com/reviews</code>、<code>http://uk.bookinfo.com:9080/reviews</code> 以及  <code>http://eu.bookinfo.com:9080/reviews</code>）；而内部服务 <code>reviews</code> 开放了 9080 端口，分为两个版本，分别是 <code>prod</code> 和 <code>qa</code>，<code>VirtualService</code> 对象在来源和内部服务的版本之间建立了路由规则。</p>
+
+<p>另外包含 cookie <code>user: dev-123</code> 的请求会发送给 <code>qa</code> 版本中的特殊端口 7777。同样的规则在网格内部对 <code>reviews.prod.svc.cluster.local</code> 的调用中也是成立的。该规则适用于 443 和 9080 两个端口，而对 80 端口的访问会被重定向到 443 端口——也就是说 <code>http://uk.bookinfo.com</code> 会转向 <code>https://uk.bookinfo.com</code>。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo-rule
+spec:
+  hosts:
+  - reviews.prod.svc.cluster.local
+  - uk.bookinfo.com
+  - eu.bookinfo.com
+  gateways:
+  - my-gateway
+  - mesh # 代表网格中的所有 Sidecar
+  http:
+  - match:
+    - headers:
+        cookie:
+          user: dev-123
+    route:
+    - destination:
+        port:
+          number: 7777
+        host: reviews.qa.svc.cluster.local
+  - match:
+      uri:
+        prefix: /reviews/
+    route:
+    - destination:
+        port:
+          number: 9080 # 如果 reviews 服务中只有这一个端口，可以省略这一字段。
+        host: reviews.prod.svc.cluster.local
+      weight: 80
+    - destination:
+        host: reviews.qa.svc.cluster.local
+      weight: 20</code></pre>
+
+<p>下面的 <code>VirtualService</code> 定义将外部对 27017 端口的访问重定向到内部的 <code>Mongo</code> 服务的 5555 端口。这一规则对网格内的调用是无效的，这是因为 <code>Gateway</code> 列表中没有包含 <code>mesh</code> 网关。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo-Mongo
+spec:
+  hosts:
+  - mongosvr.prod.svc.cluster.local # 内部的 Mongo 服务
+  gateways:
+  - my-gateway
+  tcp:
+  - match:
+    - port: 27017
+    route:
+    - destination:
+        host: mongo.prod.svc.cluster.local
+        port:
+          number: 5555</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>servers</code></td>
+<td><a href="#server"><code>Server</code></a></td>
+<td>必要字段。<code>Server</code> 定义列表。</td>
+</tr>
+
+<tr>
+<td><code>selector</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>必要字段。用一个或多个标签来选择一组 Pod 或虚拟机，用于应用 <code>Gateway</code> 配置。标签选择的范围是平台相关的。例如在 Kubernetes 上，选择范围包含所有可达的命名空间。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httpfaultinjection"><code>HTTPFaultInjection</code></h2>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>delay</code></td>
+<td><a href="#httpfaultinjection-delay"><code>HTTPFaultInjection.Delay</code></a></td>
+<td>转发之前加入延迟，用于模拟网络故障、上游服务过载等故障。</td>
+</tr>
+
+<tr>
+<td><code>abort</code></td>
+<td><a href="#httpfaultinjection-abort"><code>HTTPFaultInjection.Abort</code></a></td>
+<td>终止请求并向下游服务返回错误代码，模拟上游服务出错的状况。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httpfaultinjection-abort"><code>HTTPFaultInjection.Abort</code></h2>
+
+<p>这个配置会提前终止请求，并返回预定义的错误码。下面的例子中，<code>ratings:v1</code> 服务的请求中，有 10% 会被中断并得到一个 400 的错误码：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: ratings.prod.svc.cluster.local
+        subset: v1
+    fault:
+      abort:
+        percent: 10
+        httpStatus: 400</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>percent</code></td>
+<td><code>int32</code></td>
+<td>取值范围在 0 和 100 之间，用来指定中断请求的比例。如果没有指定 <code>percent</code>，则中断所有请求。</td>
+</tr>
+
+<tr>
+<td><code>httpStatus</code></td>
+<td><code>int32</code></td>
+<td>必要字段。用来定义返回给客户端服务的<strong>有效的 HTTP 错误代码</strong>。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httpfaultinjection-delay"><code>HTTPFaultInjection.Delay</code></h2>
+
+<p><code>Delay</code> 配置用来在请求的转发路径上注入延迟。下面的例子中的流量，来源于标签 <code>env: prod</code> 的 Pod，目标服务为 <code>reviews</code> 的 <code>v1</code> 版本，我们会在其中的 10% 注入 5 秒钟的延迟。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews-route
+spec:
+  hosts:
+  - reviews.prod.svc.cluster.local
+  http:
+  - match:
+    - sourceLabels:
+        env: prod
+    route:
+    - destination:
+        host: reviews.prod.svc.cluster.local
+        subset: v1
+    fault:
+      delay:
+        percent: 10
+        fixedDelay: 5s</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>percent</code></td>
+<td><code>int32</code></td>
+<td>取值范围在 0 和 100 之间，用来指定注入延迟的比例。如果没有指定 <code>percent</code>，为所有请求进行延迟注入。</td>
+</tr>
+
+<tr>
+<td><code>fixedDelay</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>必要字段。在请求转发之前加入的固定延迟。可选单位包括小时（<code>h</code>）、分钟（<code>m</code>）、秒钟（<code>s</code>）以及毫秒（<code>ms</code>），允许的最小值是 <code>1ms</code>。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httpmatchrequest"><code>HTTPMatchRequest</code></h2>
+
+<p><code>HttpMatchRequest</code> 包含一系列的筛选条件，给规则提供对 HTTP 请求的选择能力。例如下面文档中的匹配条件，要求请求 URL 前缀为 <code>/ratings/v2/</code>，并且 <code>end-user</code> Header 的值为 <code>jason</code>：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: jason
+      uri:
+        prefix: &#34;/ratings/v2/&#34;
+    route:
+    - destination:
+        host: ratings.prod.svc.cluster.local</code></pre>
+
+<p>在 <code>VirtualService</code> 定义中，<code>HTTPMatchRequest</code> 不可为空。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>uri</code></td>
+<td><a href="#stringmatch"><code>StringMatch</code></a></td>
+<td>URI 的匹配要求，大小写敏感。</td>
+</tr>
+
+<tr>
+<td><code>scheme</code></td>
+<td>[<code>StringMatch</code>]</td>
+<td>URI 模式的匹配要求，大小写敏感。</td>
+</tr>
+
+<tr>
+<td><code>method</code></td>
+<td>[<code>StringMatch</code>]</td>
+<td>HTTP 方法的匹配条件，大小写敏感。</td>
+</tr>
+
+<tr>
+<td><code>authority</code></td>
+<td>[<code>StringMatch</code>]</td>
+<td>HTTP 认证值的匹配要求，大小写敏感。</td>
+</tr>
+
+<tr>
+<td><code>headers</code></td>
+<td><code>map&lt;string,</code> [<code>StringMatch</code>]<code>&gt;</code></td>
+<td>Header 的键必须是小写的，使用连字符作为分隔符，例如 <code>x-request-id</code>。Headers 的匹配同样是大小写敏感的。<strong>注意在 Header 中的 <code>uri</code>、<code>shceme</code>、<code>method</code> 以及 <code>authority</code> 会被忽略。</strong></td>
+</tr>
+
+<tr>
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。</td>
+</tr>
+
+<tr>
+<td><code>sourceLabels</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>用一个或多个标签选择工作负载，应用到规则之中。如果 <code>VirtualService</code> 中指定了 <code>gateways</code> 字段，需要将保留的 <code>mesh</code> 也加入列表，才能让这一字段生效。</td>
+</tr>
+
+<tr>
+<td><code>gateways</code></td>
+<td><code>string[]</code></td>
+<td>规则所涉及的 <code>Gateway</code> 的名称列表。这一字段会覆盖 <code>VirtualService</code> 自身的 <code>gateways</code> 设置。<code>gateways</code> 匹配是独立于 <code>sourceLabels</code> 的。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httpredirect"><code>HTTPRedirect</code></h2>
+
+<p><code>HTTPReidrect</code> 用来向下游服务发送 301 转向响应，并且能够用特定值来替换响应中的认证/主机以及 URI 部分。例如下面的规则会把向 <code>ratings</code> 服务的 <code>/v1/getProductRatings</code> 路径发送的请求重定向到 <code>bookratings</code> 服务的 <code>/v1/bookRatings</code>。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /v1/getProductRatings
+  redirect:
+    uri: /v1/bookRatings
+    authority: newratings.default.svc.cluster.local
+  ..</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>uri</code></td>
+<td><code>string</code></td>
+<td>在转发时用这个字段的值来替换 URL 的路径部分。注意不管条件是前缀匹配还是完全匹配，整个路径都会被完全替换。</td>
+</tr>
+
+<tr>
+<td><code>authority</code></td>
+<td><code>string</code></td>
+<td>在转发时把认证和主机部分用这一字段的值进行替换。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httpretry"><code>HTTPRetry</code></h2>
+
+<p>用于定义 HTTP 请求失败时的重试策略。例如下面的配置，对 <code>ratings:v1</code> 的流量进行了重试设置，最大重试测试为 3，每次重试的超时时间为 2 秒钟。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: ratings.prod.svc.cluster.local
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>attempts</code></td>
+<td><code>uint32</code></td>
+<td>必要字段。为特定请求设置重试次数。重试之间的间隔是自动决定的（最少 25 毫秒）。实际重试次数还受[路由规则]中 <code>timeout</code> 设置的限制。</td>
+</tr>
+
+<tr>
+<td><code>perTryTimeout</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>每次重试的超时时间。可选单位包括小时（<code>h</code>）、分钟（<code>m</code>）、秒钟（<code>s</code>）以及毫秒（<code>ms</code>），允许的最小值是 <code>1ms</code>。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httprewrite"><code>HTTPRewrite</code></h2>
+
+<p><code>HTTPRewrite</code> 用来在 HTTP 请求被转发到目标之前，对请求内容进行部分改写。<code>Rewrite</code> 原语只能用在 <code>DestinationWrights</code> 中。下面的例子演示了如何在进行对 <code>ratings</code> 服务的 API 调用之前，对 URL 前缀（<code>/ratings</code>）进行改写：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: /ratings
+    rewrite:
+      uri: /v1/bookRatings
+    route:
+    - destination:
+        host: ratings.prod.svc.cluster.local
+        subset: v1</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>uri</code></td>
+<td><code>string</code></td>
+<td>重写 URI 的路径（或前缀）部分。如果原始 URI 是基于前缀的，这里的值就会对匹配的前缀进行替换。</td>
+</tr>
+
+<tr>
+<td><code>authority</code></td>
+<td><code>string</code></td>
+<td>用这个值重写认证/主机部分。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="httproute"><code>HTTPRoute</code></h2>
+
+<p>为 HTTP/1.1、HTTP2 以及 gRPC 流量描述匹配条件和对应动作。可以参考 <a href="#virtualservice"><code>VirtualService</code></a> 查看使用方法。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>match</code></td>
+<td><a href="#httpmatchrequest"><code>HTTPMatchRequest[]</code></a></td>
+<td>激活规则所需的匹配条件。一个 <code>match</code> 块内条件之间都是逻辑与关系；<code>match</code> 块之间是逻辑或关系。任何一个 <code>match</code> 块匹配成功，都会激活规则。</td>
+</tr>
+
+<tr>
+<td><code>route</code></td>
+<td><a href="#destinationweight"><code>DestinationWeight[]</code></a></td>
+<td>HTTP 规则对流量可能进行重定向或者转发（缺省）。转发目标可以是服务的多个版本中的一个。服务版本所关联的 <a href="#destinationweight"><code>DestinationWeight</code></a> 则决定了不同目标之间的流量分配比重。</td>
+</tr>
+
+<tr>
+<td><code>redirect</code></td>
+<td><a href="#httpredirect"><code>HTTPRedirect</code></a></td>
+<td>HTTP 规则对流量可能进行重定向或者转发（缺省）。如果启用了流量透传选项，会无视 <code>route</code> 以及 <code>redirect</code> 设置。重定向原语会发送 HTTP 301 指令指向不同的 URI 或认证部分。</td>
+</tr>
+
+<tr>
+<td><code>rewrite</code></td>
+<td><a href="#httprewrite"><code>HTTPRewrite</code></a></td>
+<td><code>Rewrite</code> HTTP URI 和认证部分。<code>rewrite</code> 不能和 <code>redirect</code> 共用，并且会在转发之前生效。</td>
+</tr>
+
+<tr>
+<td><code>timeout</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>HTTP 请求的超时设置。</td>
+</tr>
+
+<tr>
+<td><code>retries</code></td>
+<td><a href="#httpretry"><code>HTTPRetry</code></a></td>
+<td>HTTP 请求的重试设置。</td>
+</tr>
+
+<tr>
+<td><code>fault</code></td>
+<td><a href="#httpfaultinjection"><code>HTTPFaultInjection</code></a></td>
+<td>应用到 HTTP 请求客户端的故障注入策略。<strong>注意：客户端启用了故障注入之后，超时和重试会被忽略。</strong></td>
+</tr>
+
+<tr>
+<td><code>mirror</code></td>
+<td><a href="#destination"><code>mirror</code></a></td>
+<td>在把 HTTP 请求转发给预期目标的同时，对流量进行镜像并发送给其他目标。出于性能方面的考虑，Sidecar/Gateway 在返回预期目标的响应之前不会等待镜像目标的响应。被镜像的目标同样也会生成统计信息。</td>
+</tr>
+
+<tr>
+<td><code>corsPolicy</code></td>
+<td><a href="#corspolicy"><code>CorsPolicy</code></a></td>
+<td>跨来源资源共享（<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">CORS</a>）。</td>
+</tr>
+
+<tr>
+<td><code>appendHeaders</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>在向目标服务转发请求之前，加入额外的 HTTP Header。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="l4matchattributes"><code>L4MatchAttributes</code></h2>
+
+<p>四层连接匹配的属性。</p>
+
+<blockquote>
+<p>注意：四层连接的匹配属性支持尚未完成。</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>destinationSubnets</code></td>
+<td><code>string[]</code></td>
+<td>目标的 <code>IPv4</code> 或者 <code>IPv6</code> 地址，可能带有子网标识，<code>a.b.c.d/xx</code> 或者 <code>a.b.c.d</code> 都有可能。</td>
+</tr>
+
+<tr>
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。</td>
+</tr>
+
+<tr>
+<td><code>sourceLabels</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>用一个或多个标签选择工作负载，应用到规则之中。如果 <code>VirtualService</code> 中指定了 <code>gateways</code> 字段，需要将保留的 <code>mesh</code> 也加入列表，才能让这一字段生效。</td>
+</tr>
+
+<tr>
+<td><code>gateways</code></td>
+<td><code>string[]</code></td>
+<td>规则所涉及的 <code>Gateway</code> 的名称列表。这一字段会覆盖 <code>VirtualService</code> 自身的 <code>gateways</code> 设置。<code>gateways</code> 匹配是独立于 <code>sourceLabels</code> 的。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="loadbalancersettings"><code>LoadBalancerSettings</code></h2>
+
+<p>特定目标的负载均衡策略。阅读 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing.html">Envoy 负载均衡文档</a>能够获得更多这方面的信息。</p>
+
+<p>例如下面的例子中，为所有指向 <code>ratings</code> 服务的流量指定了轮询调度算法负载均衡。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN</code></pre>
+
+<p>而接下来例子，则为 <code>ratings</code> 设置了会话粘连（Soft session affinity）模式的负载均衡，粘连模式所使用的哈希根据 Cookie 中的 <code>user</code> 数据得来。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+   name: bookinfo-ratings
+spec:
+   host: ratings.prod.svc.cluster.local
+   trafficPolicy:
+      loadBalancer:
+       consistentHash:
+         httpCookie:
+           name: user
+           ttl: 0s</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>simple</code></td>
+<td><a href="#loadbalancersettings-simplelb"><code>LoadBalancerSettings.SimpleLB</code></a></td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>consistentHash</code></td>
+<td><a href="#loadbalancersettings-consistenthashlb"><code>LoadBalancerSettings.ConsistentHashLB</code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="loadbalancersettings-consistenthashlb"><code>LoadBalancerSettings.ConsistentHashLB</code></h2>
+
+<p>基于一致性哈希的负载均衡可以根据 HTTP Header、Cookie 以及其他属性来提供会话粘连（Soft session affinity）功能。这种负载均衡策略只对 HTTP 连接有效。某一目标的粘连关系，会因为负载均衡池中的节点数量的变化而被重置。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>httpHeaderName</code></td>
+<td><code>string</code></td>
+<td>根据 HTTP Header 获得哈希。</td>
+</tr>
+
+<tr>
+<td><code>httpCookie</code></td>
+<td><a href="#loadbalancersettings-consistenthashlb-httpcookie"><code>LoadBalancerSettings.ConsistentHashLB.HTTPCookie</code></a></td>
+<td>根据 HTTP Cookie 获得哈希。</td>
+</tr>
+
+<tr>
+<td><code>useSourceIp</code></td>
+<td><code>bool</code></td>
+<td>根据源 IP 获得哈希。</td>
+</tr>
+
+<tr>
+<td><code>minimumRingSize</code></td>
+<td><code>uint64</code></td>
+<td>哈希环所需的最小虚拟节点数量。缺省值为 1024。较大的值会获得较粗糙的负载分布。如果负载均衡池中的主机数量大于虚拟节点数量，每个主机都会被分配一个虚拟节点。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="loadbalancersettings-consistenthashlb-httpcookie"><code>LoadBalancerSettings.ConsistentHashLB.HTTPCookie</code></h2>
+
+<p>描述用于在一致性哈希负载均衡器中用于生成哈希值的 HTTP Cookie。如果指定的 Cookie 不存在则会被生成。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>必要字段。Cookie 的名称。</td>
+</tr>
+
+<tr>
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>设置 Cookie 的路径。</td>
+</tr>
+
+<tr>
+<td><code>ttl</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>必要字段。Cookie 的生命期。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="loadbalancersettings-simplelb"><code>LoadBalancerSettings.SimpleLB</code></h2>
+
+<p>标准负载均衡算法的调整选项。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>ROUND_ROBIN</code></td>
+<td>轮询调度策略。缺省。</td>
+</tr>
+
+<tr>
+<td><code>LEAST_CONN</code></td>
+<td>使用一个 O(1) 复杂度的算法：随机选择两个健康主机，从中选择一个较少请求的主机提供服务。</td>
+</tr>
+
+<tr>
+<td><code>RANDOM</code></td>
+<td>随机的负载均衡算法会随机选择一个健康主机。在没有健康检查策略的情况下，随机策略通常会比轮询调度策略更加高效。</td>
+</tr>
+
+<tr>
+<td><code>PASSTHROUGH</code></td>
+<td>这个策略会直接把请求发给客户端要求的地址上。这个选项需要慎重使用。这是一种高级用例。参考 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#original-destination">Envoy 的 Original destination 负载均衡</a> 一文进一步了解其应用方式。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="outlierdetection"><code>OutlierDetection</code></h2>
+
+<p>熔断器的实现需要对每个上游服务主机进行跟踪。对 HTTP 和 TCP 服务都可以生效。对 HTTP 服务来说，如果有主机持续返回 <code>5xx</code> 给 API 调用，会被踢出服务池，并持续一个预定义的时间长度；而对于 TCP 服务，到指定主机的连接超时和连接失败都会被记为错误次数，作为持续失败的指标进行统计。参考 Envoy 的 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier">outlier detection</a> 可以获取更多信息。</p>
+
+<p>下面的规则为 <code>reviews</code> 服务设置了一个 100 个 TCP 连接，以及 1000 个 HTTP2 并发请求同时每个连接不能超过 10 请求的连接池。另外其中还配置了每五分钟扫描一次上游服务主机，连续失败 7 次返回 <code>5xx</code> 错误码的主机会被移出连接池 15 分钟。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews-cb-policy
+spec:
+  host: reviews.prod.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http2MaxRequests: 1000
+        maxRequestsPerConnection: 10
+    outlierDetection:
+      consecutiveErrors: 7
+      interval: 5m
+      baseEjectionTime: 15m</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>consecutiveErrors</code></td>
+<td><code>int32</code></td>
+<td>超过这一错误数量之后，主机将会被移出连接池。缺省值为 5。当上游服务是 HTTP 服务时，<code>5xx</code> 的返回码会被记为错误；当上游主机提供的是 TCP 服务时，TCP 连接超时和连接错误/故障事件会被记为错误。</td>
+</tr>
+
+<tr>
+<td><code>interval</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>在移除检测之间的时间间隔。缺省值为 <code>10s</code>，必须大于或等于 <code>1ms</code>。</td>
+</tr>
+
+<tr>
+<td><code>baseEjectionTime</code></td>
+<td><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf"><code>google.protobuf.Duration</code></a></td>
+<td>最小的移除时间长度。主机每次被移除后的隔离时间等于被移除的次数和最小移除时间的乘积。这样的实现，让系统能够自动增加不健康上游服务实例的隔离时间。缺省为值为 <code>30s</code>。</td>
+</tr>
+
+<tr>
+<td><code>maxEjectionPercent</code></td>
+<td><code>int32</code></td>
+<td>上游服务的负载均衡池中允许被移除的主机的最大百分比。缺省值为 <code>10%</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="port"><code>Port</code></h2>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>number</code></td>
+<td><code>uint32</code></td>
+<td>必要字段。一个有效的正整数代表的端口号。</td>
+</tr>
+
+<tr>
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>必要字段。该端口开放的服务协议，必须是 <code>HTTP</code>、<code>HTTPS</code>、<code>GRPC</code>、<code>HTTP2</code>、<code>MONGO</code>、<code>TCP</code> 以及 <code>TLS</code> 中的一个。TLS 用来指示与非 HTTP 服务的安全连接。</td>
+</tr>
+
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>分配给这一端口的标签。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="portselector"><code>PortSelector</code></h2>
+
+<p><code>PortSelector</code> 指定一个端口号，用于匹配或选择最终路由。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>number</code></td>
+<td><code>uint32</code></td>
+<td>有效的端口号。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="server"><code>Server</code></h2>
+
+<p><code>Server</code> 描述了指定负载均衡端口上的代理服务器属性，例如：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-ingress
+spec:
+  selector:
+    app: my-ingress-gateway
+  servers:
+  - port:
+      number: 80
+      name: http2
+      protocol: HTTP2
+    hosts:
+    - &#34;*&#34;</code></pre>
+
+<p>另外一个例子：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-tcp-ingress
+spec:
+  selector:
+    app: my-tcp-ingress-gateway
+  servers:
+  - port:
+      number: 27018
+      name: mongo
+      protocol: MONGO
+    hosts:
+    - &#34;*&#34;</code></pre>
+
+<p>接下来的例子是一个 443 端口上的 TLS 配置：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-tls-ingress
+spec:
+  selector:
+    app: my-tls-ingress-gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - &#34;*&#34;
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/certs/server.pem
+      privateKey: /etc/certs/privatekey.pem</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>port</code></td>
+<td><a href="#port"><code>Port</code></a></td>
+<td>必要字段。代理服务器监听的端口，用于接收连接。</td>
+</tr>
+
+<tr>
+<td><code>hosts</code></td>
+<td><code>string[]</code></td>
+<td>必要字段。<code>Gateway</code> 公开的主机名列表。最少要有一条记录。在通常的 HTTP 服务之外，也可以用于带有 SNI 的 TLS 服务。可以使用包含通配符前缀的域名，例如 <code>*.foo.com</code> 匹配 <code>bar.foo.com</code>，<code>*.com</code> 匹配 <code>bar.foo.com</code> 以及 <code>example.com</code>。<strong>注意</strong>：绑定在 <code>Gateway</code> 上的 <code>VirtualService</code> 必须有一个或多个能够和 <code>Server</code> 中的 <code>hosts</code> 字段相匹配的主机名。匹配可以是完全匹配或是后缀匹配。例如 <code>server</code> 的 <code>hosts</code> 字段为 <code>*.example.com</code>，如果 <code>VirtualService</code> 的 <code>hosts</code> 字段定义为 <code>dev.example.com</code> 和 <code>prod.example.com</code>，就是可以匹配的；而如果<code>VirtualService</code> 的 <code>hosts</code> 字段是 <code>example.com</code> 或者 <code>newexample.com</code> 则无法匹配。</td>
+</tr>
+
+<tr>
+<td><code>tls</code></td>
+<td><a href="#server-tlsoptions"><code>Server.TLSOptions</code></a></td>
+<td>一组 TLS 相关的选项。这些选项可以把 http 请求重定向为 https，并且设置 TLS 的模式。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="server-tlsoptions"><code>Server.TLSOptions</code></h2>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>httpsRedirect</code></td>
+<td><code>bool</code></td>
+<td>如果设置为真，负载均衡器会给所有 http 连接发送 301 转向指令，要求客户端使用 HTTPS。</td>
+</tr>
+
+<tr>
+<td><code>mode</code></td>
+<td><a href="#server-tlsoptions-tlsmode"><code>Server.TLSOptions.TLSmode</code></a></td>
+<td>可选字段：这一字段的值决定了如何使用 TLS。</td>
+</tr>
+
+<tr>
+<td><code>serverCertificate</code></td>
+<td><code>string</code></td>
+<td>必要字段。如果 <code>mode</code> 设置为 <code>SIMPLE</code> 或者 <code>MUTUAL</code>，这一字段指定了服务端的 TLS 证书。</td>
+</tr>
+
+<tr>
+<td><code>privateKey</code></td>
+<td><code>string</code></td>
+<td>必要字段。如果 <code>mode</code> 设置为 <code>SIMPLE</code> 或者 <code>MUTUAL</code>，这一字段指定了服务端的 TLS 密钥。</td>
+</tr>
+
+<tr>
+<td><code>caCertificates</code></td>
+<td><code>string</code></td>
+<td>必要字段。如果 <code>mode</code> 设置为 <code>MUTUAL</code>，这一字段包含了用于验证客户端证书的 ca 证书。</td>
+</tr>
+
+<tr>
+<td><code>subjectAltNames</code></td>
+<td><code>string[]</code></td>
+<td>用于验证客户端证书的一组认证主体名称。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="server-tlsoptions-tlsmode"><code>Server.TLSOptions.TLSmode</code></h2>
+
+<p>代理服务器使用的 TLS 模式。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>PASSTHROUGH</code></td>
+<td>基于客户端提供的SNI字符串选择上游服务器进行转发。</td>
+</tr>
+
+<tr>
+<td><code>SIMPLE</code></td>
+<td>用标准 TLS 加密连接。</td>
+</tr>
+
+<tr>
+<td><code>MUTUAL</code></td>
+<td>通过提供客户端证书进行身份验证，并使用双向 TLS 加密与上游的连接。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="serviceentry"><code>ServiceEntry</code></h2>
+
+<p><code>ServiceEntry</code> 能够在 Istio 内部的服务注册表中加入额外的条目，从而让网格中自动发现的服务能够访问和路由到这些手工加入的服务。<code>ServiceEntry</code> 描述了服务的属性（DNS 名称、VIP、端口、协议以及端点）。这类服务可能是网格外的 API，或者是处于网格内部但却不存在于平台的服务注册表中的条目（例如需要和 Kubernetes 服务沟通的一组虚拟机服务）。</p>
+
+<h3 id="示例-加入外部服务">示例：加入外部服务</h3>
+
+<p>下面的配置把一组运行在非托管虚拟机上的 MongoDB 加入到 Istio 的服务注册表之中，这样这些服务就可以和其他网格内的服务一样进行使用。对应的 <code>DestinationRule</code> 用来初始化到数据库实例的双向 TLS 连接。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-svc-mongocluster
+spec:
+  hosts:
+  - mymongodb.somedomain # 无用
+  addresses:
+  - 192.192.192.192/24 # VIPs
+  ports:
+  - number: 27018
+    name: mongodb
+    protocol: MONGO
+  location: MESH_INTERNAL
+  resolution: STATIC
+  endpoints:
+  - address: 2.2.2.2
+  - address: 3.3.3.3</code></pre>
+
+<p>相关的 <code>DestinationRule</code>：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: mtls-mongocluster
+spec:
+  host: mymongodb.somedomain
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/myclientcert.pem
+      privateKey: /etc/certs/client_private_key.pem
+      caCertificates: /etc/certs/rootcacerts.pem</code></pre>
+
+<h3 id="示例-tls-透传">示例：TLS 透传</h3>
+
+<p>下面的例子中，会用到一个 <code>ServiceEntry</code> 以及 <code>VirtualService</code> 的组合来进行演示，把来自应用的未终结 TLS 流量经过 Sidecar 转发给外部服务。Sidecar 观察 <code>ClientHello</code> 消息中的 SNI 值，然后把流量转发给合适的外部服务。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-svc-https
+spec:
+  hosts:
+  - api.dropboxapi.com
+  - www.googleapis.com
+  - api.facebook.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS</code></pre>
+
+<p>相关的 <code>VirtualService</code>，根据 SNI 进行路由：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tls-routing
+spec:
+  hosts:
+  - api.dropboxapi.com
+  - www.googleapis.com
+  - api.facebook.com
+  tls:
+  - match:
+    - port: 443
+      sniHosts:
+      - api.dropboxapi.com
+    route:
+    - destination:
+        host: api.dropboxapi.com
+  - match:
+    - port: 443
+      sniHosts:
+      - www.googleapis.com
+    route:
+    - destination:
+        host: www.googleapis.com
+  - match:
+    - port: 443
+      sniHosts:
+      - api.facebook.com
+    route:
+    - destination:
+        host: api.facebook.com</code></pre>
+
+<h3 id="转发所有外部流量">转发所有外部流量</h3>
+
+<p>再来一个例子，演示一个独立的外发流量网关，用于所有外部服务流量的转发：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-svc-httpbin
+spec:
+  hosts:
+  - httpbin.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS</code></pre>
+
+<p>定义一个 <code>Gateway</code> 对象来处理所有的外发流量：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+ name: istio-egressgateway
+spec:
+ selector:
+   istio: egressgateway
+ servers:
+ - port:
+     number: 80
+     name: http
+     protocol: HTTP
+   hosts:
+   - &#34;*&#34;</code></pre>
+
+<p>相关的 <code>VirtualService</code> 会进行从 Sidecar 到网关服务的路由（<code>istio-egressgateway.istio-system.svc.cluster.local</code>）以及从网关到外部服务的路由：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gateway-routing
+spec:
+  hosts:
+  - httpbin.com
+  gateways:
+  - mesh
+  - istio-egressgateway
+  http:
+  - match:
+    - port: 80
+      gateways:
+      - mesh
+    route:
+    - destination:
+        host: istio-egressgateway.istio-system.svc.cluster.local
+  - match:
+    - port: 80
+      gateway:
+      - istio-egressgateway
+    route:
+    - destination:
+        host: httpbin.com</code></pre>
+
+<h3 id="示例-通配符域名">示例：通配符域名</h3>
+
+<p>下面的例子演示了在外部服务定义中如何使用通配符定义 <code>hosts</code>。如果连接必须被路由到应用请求的 IP（例如应用解析 DNS 之后尝试连接到特定 IP 的情况），那么 <code>resolution</code> 需要设置为 <code>NONE</code>：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-svc-wildcard-example
+spec:
+  hosts:
+  - &#34;*.bar.com&#34;
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: NONE</code></pre>
+
+<h3 id="unix-socket-连接">Unix Socket 连接</h3>
+
+<p>这个例子中演示的服务，可以用客户端所在主机的 Unix Socket 进行连接。这里的 <code>resolution</code> 必须设置为 <code>STATIC</code>，注意下面的 <code>endpoints</code> 定义：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: unix-domain-socket-example
+spec:
+  hosts:
+  - &#34;example.unix.local&#34;
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: STATIC
+  endpoints:
+  - address: unix:///var/run/example/socket</code></pre>
+
+<h3 id="代理服务器">代理服务器</h3>
+
+<p>对基于 HTTP 的服务来说，可以创建一个具有多个 DNS 地址作为后端的 <code>VirtualService</code>。在这种场景里，应用可以使用 <code>HTTP_PROXY</code> 环境变量来把 API 调用路由到指定后端。例如下面的配置创建了一个不存在的外部服务，命名为 <code>foo.bar.com</code>，三个后端进行支撑：<code>us.foo.bar.com:8080</code>、<code>uk.foo.bar.com:9080</code> 以及 <code>in.foo.bar.com:7080</code>。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-svc-dns
+spec:
+  hosts:
+  - foo.bar.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: https
+    protocol: HTTP
+  resolution: DNS
+  endpoints:
+  - address: us.foo.bar.com
+    ports:
+      https: 8080
+  - address: uk.foo.bar.com
+    ports:
+      https: 9080
+  - address: in.foo.bar.com
+    ports:
+      https: 7080</code></pre>
+
+<p>如此定义之后，如果设置了 <code>HTTP_PROXY=http://localhost/</code>，从应用到 <code>http://foo.bar.com</code> 的访问会到达上面的三个端点组成的负载均衡。换句话说，对 <code>http://foo.bar.com/baz</code> 会被翻译为 <code>http://uk.foo.bar.com/baz</code>。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>hosts</code></td>
+<td><code>string[]</code></td>
+<td>必要字段。绑定到 <code>ServiceEntry</code> 上的主机名。可以是一个带有通配符前缀的 DNS 名称。如果服务不是 HTTP 协议的，例如 <code>mongo</code>、TCP 以及 HTTPS 中，<code>hosts</code> 中的 DNS 名称会被忽略，这种情况下会使用 <code>endpoints</code> 中的 <code>address</code> 以及 <code>port</code> 来甄别调用目标。</td>
+</tr>
+
+<tr>
+<td><code>addresss</code></td>
+<td><code>string[]</code></td>
+<td>服务相关的虚拟 IP。可以是 CIDR 前缀。对 HTTP 服务来说，这一字段会被忽略，而会使用 HTTP 的 <code>HOST/Authority</code> Header。而对于非 HTTP 服务，例如 <code>mongo</code>、TCP 以及 HTTPS 中，这些主机会被忽略。如果指定了一个或者多个 IP 地址，对于在列表范围内的 IP 的访问会被判定为属于这一服务。如果地址字段为空，服务的鉴别就只能靠目标端口了。在这种情况下，被访问服务的端口一定不能和其他网格内的服务进行共享。换句话说，这里的 Sidecar 会简单的做为 TCP 代理，将特定端口的访问转发到指定目标端点的 IP、主机上去。就无法支持 Unix socket 了。</td>
+</tr>
+
+<tr>
+<td><code>ports</code></td>
+<td><a href="#port"><code>Port[]</code></a></td>
+<td>必要字段。和外部服务关联的端口。如果 <code>endpoints</code> 是 Unix socket 地址，这里必须只有一个端口。</td>
+</tr>
+
+<tr>
+<td><code>location</code></td>
+<td><a href="#serviceentry-Location"><code>ServiceEntry.Location</code></a></td>
+<td>用于指定该服务的位置，属于网格内部还是外部。</td>
+</tr>
+
+<tr>
+<td><code>resolution</code></td>
+<td><a href="#serviceentry-Resolution"><code>ServiceEntry.Resolution</code></a></td>
+<td>必要字段。主机的服务发现模式。在没有附带 IP 地址的情况下，为 TCP 端口设置解析模式为 NONE 时必须小心。在这种情况下，对任何 IP 的指定端口的流量都是允许的（例如 <code>0.0.0.0:</code>）。</td>
+</tr>
+
+<tr>
+<td><code>endpoints</code></td>
+<td><a href="#serviceentry-Endpoint"><code>ServiceEntry.Endpoint[]</code></a></td>
+<td>一个或者多个关联到这一服务的 <code>endpoint</code>。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="serviceentry-endpoint"><code>ServiceEntry.Endpoint</code></h2>
+
+<p><code>Endpoint</code> 为网格内的服务定义了一个网络地址（IP 或者主机名）。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>必要字段。和网络端点关联的地址，不包括端口部分。只有在 <code>resolution</code> 设置为 DNS 的时候，才能使用域名，并且其中不可以包含通配符。还可以用 <code>unix:///absolute/path/to/socket</code> 的形式使用 Unix socket。</td>
+</tr>
+
+<tr>
+<td><code>ports</code></td>
+<td><code>map&lt;string, uint32&gt;</code></td>
+<td>关联到本端点的一系列端口。端口必须和服务中声明的端口相关联。不能使用 <code>unix://</code> 地址。</td>
+</tr>
+
+<tr>
+<td><code>labels</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>和端点相关联的一个或多个标签。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="serviceentry-location"><code>ServiceEntry.Location</code></h2>
+
+<p><code>Location</code> 用于标识这一服务是否处于网格内部。<code>Location</code> 决定了很多方面的特性，例如服务间的双向 TLS 认证，策略实施等。当和外部服务通信时，Istio 会停用双向 TLS 认证，策略实施过程也会从服务端改为客户端执行。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>MESH_EXTERNAL</code></td>
+<td>服务处于网格之外。一般用于提供 API 的外部服务。</td>
+</tr>
+
+<tr>
+<td><code>MESH_INTERNAL</code></td>
+<td>服务处于网格之内。典型的情况是用于把非托管环境（加入基于 Kubernetes 的服务网格的虚拟机）中的服务加入网格。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="serviceentry-resolution"><code>ServiceEntry.Resolution</code></h2>
+
+<p><code>Resolution</code> 确定代理如何解析服务端点所代表的 IP 地址，从而完成路由过程。应用程序的 IP 地址解析是不受这一字段影响的。应用本身还是会使用 DNS 完成服务到 IP 的解析，这样外发流量才能够被代理捕获。另外对于 HTTP 服务来说，应用可以直接和代理服务器通信，从而间接的完成和服务的通信。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>NONE</code></td>
+<td>假设进入连接已经被解析为一个特定的目标 IP 地址。这种连接通常是由代理使用 IP table REDIRECT 或者 eBPF 之类的机制转发而来的。完成路由相关的转换之后，代理服务器会将连接转发到该 IP 地址。</td>
+</tr>
+
+<tr>
+<td><code>STATIC</code></td>
+<td>使用 <code>endpoints</code> 中指定的静态 IP 地址作为服务后端。（参见下一条）</td>
+</tr>
+
+<tr>
+<td><code>DNS</code></td>
+<td>处理请求时尝试向 DNS 查询 IP 地址。如果没有指定 <code>endpoints</code>，并且没有使用通配符。代理服务器会使用 DNS 解析 <code>hosts</code> 字段中的地址。如果指定了 <code>endpoints</code>，那么指定的地址就会作为目标 IP 地址。DNS 解析不能用在 Unix domain 端点上。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="stringmatch"><code>StringMatch</code></h2>
+
+<p>描述如何进行字符串匹配，匹配过程是大小写敏感的。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>extract</code></td>
+<td><code>string</code></td>
+<td>完全匹配。</td>
+</tr>
+
+<tr>
+<td><code>prefix</code></td>
+<td><code>string</code></td>
+<td>前缀匹配。</td>
+</tr>
+
+<tr>
+<td><code>regex</code></td>
+<td><code>string</code></td>
+<td><code>ECMAscript</code> 风格的正则表达式匹配。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="subset"><code>Subset</code></h2>
+
+<p><code>Subset</code> 是服务端点的一个成员，可以用于 A/B 测试或者分版本路由等场景。参考 <a href="#virtualservice"><code>VirtualService</code></a> 文档，其中会有更多这方面应用的例子。另外服务级的流量策略可以在 <code>subset</code> 级中进行覆盖。下面的规则针对的是一个名为 <code>testversion</code> 的子集，这个子集是根据标签（<code>version: v3</code>）选出的，为这个子集使用了轮询调度的负载均衡策略。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+  subsets:
+  - name: testversion
+    labels:
+      version: v3
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN</code></pre>
+
+<blockquote>
+<p>注意：在路由规则显式引用一个 <code>Subset</code> 的时候，该 <code>Subset</code> 定义的策略才会生效。</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>必要字段。服务名和 <code>subset</code> 名称可以用于路由规则中的流量拆分。</td>
+</tr>
+
+<tr>
+<td><code>labels</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>必要字段。使用标签对服务注册表中的服务端点进行筛选。</td>
+</tr>
+
+<tr>
+<td><code>trafficPolicy</code></td>
+<td><a href="#trafficpolicy"><code>TrafficPolicy</code></a></td>
+<td>应用到这一子集的流量策略。缺省情况下子集会继承 <code>DestinationRule</code> 级别的策略，这一字段的定义则会覆盖缺省的继承策略。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="tcproute"><code>TCPRoute</code></h2>
+
+<p>描述 TCP 流量的特征匹配和相关动作。下面的路由规则会把到达 27017 端口的流量转发给 <code>mongo.prod.svc.cluster.local</code> 这一服务的 5555 端口。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo-Mongo
+spec:
+  hosts:
+  - mongo.prod.svc.cluster.local
+  tcp:
+  - match:
+    - port: 27017
+    route:
+    - destination:
+        host: mongo.backup.svc.cluster.local
+        port:
+          number: 5555</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>match</code></td>
+<td><a href="#l4matchattributes"><code>L4MatchAttributes[]</code></a></td>
+<td>激活规则所需的匹配条件。一个 <code>match</code> 块内条件之间都是逻辑与关系；<code>match</code> 块之间是逻辑或关系。任何一个 <code>match</code> 块匹配成功，都会激活规则。</td>
+</tr>
+
+<tr>
+<td><code>route</code></td>
+<td><a href="#destinationweight"><code>DestinationWeight[]</code></a></td>
+<td>流量的转发目标。目前 TCP 服务只允许一个转发目标。当 Envoy 支持 TCP 权重路由之后，这里就可以使用多个目标了。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="tlsmatchattributes"><code>TLSMatchAttributes</code></h2>
+
+<p>TLS 连接属性匹配。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>sniHosts</code></td>
+<td><code>string[]</code></td>
+<td>必要字段。要匹配的 SNI（服务器名称指示）。可以在 SNI 匹配值中使用通配符。比如 <code>*.com</code> 可以同时匹配 <code>foo.example.com</code> 和 <code>example.com</code>。</td>
+</tr>
+
+<tr>
+<td><code>destinationSubnets</code></td>
+<td><code>string[]</code></td>
+<td><code>IPv4</code> 或者 <code>IPv6</code> 的目标地址，可能带有子网信息，例如 <code>a.b.c.d</code> 形式或者 <code>a.b.c.d</code>。</td>
+</tr>
+
+<tr>
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>指定主机服务的监听端口。很多服务只暴露一个端口，或者用协议前缀给端口命名，这种情况下就都不需要显式的指定端口号。</td>
+</tr>
+
+<tr>
+<td><code>sourceLabels</code></td>
+<td><code>map&lt;string, string&gt;</code></td>
+<td>一个或多个标签用于指示规则在工作负载中的的适用范围。如果 <code>VirtualService</code> 中指定了 <code>gateway</code>，要使用标签过滤，还要加入 <code>mesh</code> 这一缺省网关才能生效。</td>
+</tr>
+
+<tr>
+<td><code>gateways</code></td>
+<td><code>string[]</code></td>
+<td>规则所涉及的 <code>Gateway</code> 的名称列表。这一字段会覆盖 <code>VirtualService</code> 自身的 <code>gateways</code> 设置。<code>gateways</code> 匹配是独立于 <code>sourceLabels</code> 的。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="tlsroute"><code>TLSRoute</code></h2>
+
+<p>描述透传 TLS 流量的特征匹配和相关动作。下面的例子将到达 <code>mygateway</code> 网关 443 端口的透传 TLS 流量根据 SNI 值转发给网格内部的服务。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo-sni
+spec:
+  hosts:
+  - &#34;*.bookinfo.com&#34;
+  gateways:
+  - mygateway
+  tls:
+  - match:
+    - port: 443
+      sniHosts:
+      - login.bookinfo.com
+    route:
+    - destination:
+        host: login.prod.svc.cluster.local
+  - match:
+    - port: 443
+      sniHosts:
+      - reviews.bookinfo.com
+    route:
+    - destination:
+        host: reviews.prod.svc.cluster.local</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>match</code></td>
+<td><a href="#tlsmatchattributes"><code>TLSMatchAttributes[]</code></a></td>
+<td>必要字段。激活规则所需的匹配条件。一个 <code>match</code> 块内条件之间都是逻辑与关系；<code>match</code> 块之间是逻辑或关系。任何一个 <code>match</code> 块匹配成功，都会激活规则。</td>
+</tr>
+
+<tr>
+<td><code>route</code></td>
+<td><a href="#destinationweight"><code>DestinationWeight[]</code></a></td>
+<td>流量的转发目标。目前 TLS 服务只允许一个转发目标。当 Envoy 支持 TCP 权重路由之后，这里就可以使用多个目标了。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="tlssettings"><code>TLSSettings</code></h2>
+
+<p>SSL/TLS 相关的上游服务设置。参考 Envoy 的 <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_ssl.html#config-cluster-manager-cluster-ssl">TLS 上下文</a>来获取更多细节。这些设置对 HTTP 和 TCP 上游服务都有效。</p>
+
+<p>例如下面的规则配置，要求客户端使用双向 TLS 连接上游的数据库集群。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: db-mtls
+spec:
+  host: mydbserver.prod.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/myclientcert.pem
+      privateKey: /etc/certs/client_private_key.pem
+      caCertificates: /etc/certs/rootcacerts.pem</code></pre>
+
+<p>接下来的规则配置，如果连接外部服务的域名能够匹配到 <code>*.foo.com</code>，就需要使用 TLS。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: tls-foo
+spec:
+  host: &#34;*.foo.com&#34;
+  trafficPolicy:
+    tls:
+      mode: SIMPLE</code></pre>
+
+<p>下面的规则配置客户端，在访问 <code>ratings</code> 服务的时候使用双向 TLS。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ratings-istio-mtls
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td><a href="#tlssettings-tlsmode"><code>TLSSettings.TLSmode</code></a></td>
+<td>必要字段。连接该端口是否需要使用 TLS。这个字段的值决定了端口的加密要求。</td>
+</tr>
+
+<tr>
+<td><code>clientCertificate</code></td>
+<td><code>string</code></td>
+<td><code>mode</code> 字段为 <code>MUTUAL</code> 的情况下，该字段为必要字段。字段值代表用于客户端 TLS 认证的证书。如果 <code>mode</code> 取值为 <code>ISTIO_MUTUAL</code>，该字段应该为空。</td>
+</tr>
+
+<tr>
+<td><code>privateKey</code></td>
+<td><code>string</code></td>
+<td><code>mode</code> 字段为 <code>MUTUAL</code> 的情况下，该字段为必要字段。该字段的值代表客户端私钥文件。如果 <code>mode</code> 取值为 <code>ISTIO_MUTUAL</code>，该字段应该为空。</td>
+</tr>
+
+<tr>
+<td><code>caCertificates</code></td>
+<td><code>string</code></td>
+<td>可选字段。这一字段包含了用于验证服务端证书的 ca 证书。如果省略该字段，则不会对服务端证书进行校验。如果 <code>mode</code> 取值为 <code>ISTIO_MUTUAL</code>，该字段应该为空。</td>
+</tr>
+
+<tr>
+<td><code>subjectAltNames</code></td>
+<td><code>string[]</code></td>
+<td>一个可选名称列表，用于校验证书中的主体标识。如果该字段有赋值，代理服务器会检查服务器证书中的记录是否在该字段的范围之内。如果 <code>mode</code> 取值为 <code>ISTIO_MUTUAL</code>，该字段应该为空。</td>
+</tr>
+
+<tr>
+<td><code>sni</code></td>
+<td><code>string</code></td>
+<td>TLS 握手过程中使用的 SNI 字符串。如果 <code>mode</code> 取值为 <code>ISTIO_MUTUAL</code>，该字段应该为空。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="tlssettings-tlsmode"><code>TLSSettings.TLSmode</code></h2>
+
+<p>TLS 连接模式。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>DISABLE</code></td>
+<td>不要为上游端点使用 TLS。</td>
+</tr>
+
+<tr>
+<td><code>SIMPLE</code></td>
+<td>向上游端点发起 TLS 连接。</td>
+</tr>
+
+<tr>
+<td><code>MUTUAL</code></td>
+<td>发送客户端证书进行验证，用双向 TLS 连接上游端点。</td>
+</tr>
+
+<tr>
+<td><code>ISTIO_MUTUAL</code></td>
+<td>发送客户端证书进行验证，用双向 TLS 连接上游端点。和 <code>MUTUAL</code> 相比，这种方式使用的双向 TLS 证书系统是由 Istio 生成的。如果使用这种模式，<code>TLSSettings</code> 中的其他字段应该留空。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="trafficpolicy"><code>TrafficPolicy</code></h2>
+
+<p>特定目标的流量策略，对所有目标端口生效。参考 <code>DestinationRule</code>。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>loadBalancer</code></td>
+<td><a href="#loadbalancersettings"><code>LoadBalancerSettings</code></a></td>
+<td>设置负载均衡算法。</td>
+</tr>
+
+<tr>
+<td><code>connectionPool</code></td>
+<td><a href="#connectionpoolsettings"><code>ConnectionPoolSettings</code></a></td>
+<td>设置上游服务的连接池。</td>
+</tr>
+
+<tr>
+<td><code>outlierDetection</code></td>
+<td><a href="#outlierdetection"><code>OutlierDetection</code></a></td>
+<td>从负载均衡池中移除不健康主机的设置。</td>
+</tr>
+
+<tr>
+<td><code>tls</code></td>
+<td><a href="#tlssettings"><code>TLSSettings</code></a></td>
+<td>和上游服务进行 TLS 连接的相关设置。</td>
+</tr>
+
+<tr>
+<td><code>portLevelSettings</code></td>
+<td><a href="#trafficpolicy-porttrafficpolicy"><code>TrafficPolicy.PortTrafficPolicy[]</code></a></td>
+<td>针对单独端口设置的流量策略。端口级别的策略设置会覆盖目标级别的策略，另外在端口级别策略中省略的字段会以缺省值进行工作，而不会继承目标级策略中的设置。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="trafficpolicy-porttrafficpolicy"><code>TrafficPolicy.PortTrafficPolicy</code></h2>
+
+<p>应用到服务端口的流量策略。</p>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>port</code></td>
+<td><a href="#portselector"><code>PortSelector</code></a></td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>loadBalancer</code></td>
+<td><a href="#loadbalancersettings"><code>LoadBalancerSettings</code></a></td>
+<td>设置负载均衡算法。</td>
+</tr>
+
+<tr>
+<td><code>connectionPool</code></td>
+<td><a href="#connectionpoolsettings"><code>ConnectionPoolSettings</code></a></td>
+<td>设置上游服务的连接池。</td>
+</tr>
+
+<tr>
+<td><code>outlierDetection</code></td>
+<td><a href="#outlierdetection"><code>OutlierDetection</code></a></td>
+<td>从负载均衡池中移除不健康主机的设置。</td>
+</tr>
+
+<tr>
+<td><code>tls</code></td>
+<td><a href="#tlssettings"><code>TLSSettings</code></a></td>
+<td>和上游服务进行 TLS 连接的相关设置。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="virtualservice"><code>VirtualService</code></h2>
+
+<p><code>VirtualService</code> 定义了一系列针对指定服务的流量路由规则。每个路由规则都针对特定协议的匹配规则。如果流量符合这些特征，就会根据规则发送到服务注册表中的目标服务（或者目标服务的子集或版本）。</p>
+
+<p>匹配规则中还包含了对流量发起方的定义，这样一来，规则还可以针对特定客户上下文进行定制。</p>
+
+<p>接下来是一个 Kubernetes 上的例子，缺省把所有的 HTTP 流量发送给 <code>reviews</code> 服务中标签为 <code>version: v1</code> 的 Pod。另外包含 <code>/wpcatalog/</code> 或 <code>/consumercatalog/</code> URL 前缀的请求会被重写为 <code>/newcatalog</code> 并发送给标签为 <code>version: v2</code> 的 Pod。</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews-route
+spec:
+  hosts:
+  - reviews.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: &#34;/wpcatalog&#34;
+    - uri:
+        prefix: &#34;/consumercatalog&#34;
+    rewrite:
+      uri: &#34;/newcatalog&#34;
+    route:
+    - destination:
+        host: reviews.prod.svc.cluster.local
+        subset: v2
+  - route:
+    - destination:
+        host: reviews.prod.svc.cluster.local
+        subset: v1</code></pre>
+
+<p>目标的的子集或者说版本是通过 <code>DestinationRule</code> 中的定义得来的：</p>
+
+<pre><code class='language-yaml'>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews-destination
+spec:
+  host: reviews.prod.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>hosts</code></td>
+<td><code>string[]</code></td>
+<td>必要字段：流量的目标主机。可以是带有通配符前缀的 DNS 名称，也可以是 IP 地址。根据所在平台情况，还可能使用短名称来代替 FQDN。这种场景下，短名称到 FQDN 的具体转换过程是要靠下层平台完成的。<strong>一个主机名只能在一个 <code>VirtualService</code> 中定义。</strong>同一个 <code>VirtualService</code> 中可以用于控制多个 HTTP 和 TCP 端口的流量属性。 Kubernetes 用户注意：当使用服务的短名称时（例如使用 <code>reviews</code>，而不是 <code>reviews.default.svc.cluster.local</code>），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 <code>reviews</code> 的 <code>host</code> 引用，就会被视为 <code>reviews.default.svc.cluster.local</code>，而不会考虑 <code>reviews</code> 服务所在的命名空间。<strong>为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。</strong> <code>hosts</code> 字段对 HTTP 和 TCP 服务都是有效的。网格中的服务也就是在服务注册表中注册的服务，必须使用他们的注册名进行引用；只有 <code>Gateway</code> 定义的服务才可以使用 IP 地址。</td>
+</tr>
+
+<tr>
+<td><code>gateways</code></td>
+<td><code>string[]</code></td>
+<td><code>Gateway</code> 名称列表，Sidecar 会据此使用路由。<code>VirtualService</code> 对象可以用于网格中的 Sidecar，也可以用于一个或多个 <code>Gateway</code>。这里公开的选择条件可以在协议相关的路由过滤条件中进行覆盖。保留字 <code>mesh</code> 用来指代网格中的所有 Sidecar。当这一字段被省略时，就会使用缺省值（<code>mesh</code>），也就是针对网格中的所有 Sidecar 生效。如果提供了 <code>gateways</code> 字段，这一规则就只会应用到声明的 <code>Gateway</code> 之中。要让规则同时对 <code>Gateway</code> 和网格内服务生效，需要显式的将 <code>mesh</code> 加入 <code>gateways</code> 列表。</td>
+</tr>
+
+<tr>
+<td><code>http</code></td>
+<td><a href="#httproute"><code>HTTPRoute[]</code></a></td>
+<td>HTTP 流量规则的有序列表。这个列表对名称前缀为 <code>http-</code>、<code>http2-</code>、<code>grpc-</code> 的服务端口，或者协议为 <code>HTTP</code>、<code>HTTP2</code>、<code>GRPC</code> 以及终结的 TLS，另外还有使用 <code>HTTP</code>、<code>HTTP2</code> 以及 <code>GRPC</code> 协议的 <code>ServiceEntry</code> 都是有效的。进入流量会使用匹配到的第一条规则。</td>
+</tr>
+
+<tr>
+<td><code>tls</code></td>
+<td><a href="#tlsroute"><code>TLSRoute[]</code></a></td>
+<td>一个有序列表，对应的是透传 TLS 和 HTTPS 流量。路由过程通常利用 <code>ClientHello</code> 消息中的 SNI 来完成。TLS 路由通常应用在 <code>https-</code>、<code>tls-</code> 前缀的平台服务端口，或者经 <code>Gateway</code> 透传的 HTTPS、TLS 协议端口，以及使用 HTTPS 或者 TLS 协议的 <code>ServiceEntry</code> 端口上。<strong>注意：没有关联 <code>VirtualService</code> 的 <code>https-</code> 或者 <code>tls-</code> 端口流量会被视为透传 TCP 流量。</strong></td>
+</tr>
+
+<tr>
+<td><code>tcp</code></td>
+<td><a href="#tcproute"><code>TCPRoute[]</code></a></td>
+<td>一个针对透传 TCP 流量的有序路由列表。TCP 路由对所有 HTTP 和 TLS 之外的端口生效。进入流量会使用匹配到的第一条规则。</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+                
+            </main>
+
+            
+                <div class="container-fluid d-print-none">
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-6 pagenav">
+                            
+                                <p><a title="描述了使用 Helm chart 安装 Istio 时可以使用的选项。" href="/zh/docs/reference/config/installation-options/">
+                                    <i class="fa fa-long-arrow-alt-left"></i> 安装选项</a>
+                                </p>
+                            
+                        </div>
+                        <div class="col-6 pagenav" style="text-align: right">
+                            
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="d-none d-print-block" aria-hidden="true">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
+        </div>
+
+        
+            <div class="col-12 col-md-2 d-none d-xl-block d-print-none">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div id="toc" class="directory" role="directory">
+                        
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+    
+        
+        <nav id="TableOfContents">
+            <ul>
+                
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#connectionpoolsettings"><code>ConnectionPoolSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#connectionpoolsettings-httpsettings"><code>ConnectionPoolSettings.HTTPSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#connectionpoolsettings-tcpsettings"><code>ConnectionPoolSettings.TCPSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#corspolicy"><code>CorsPolicy</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#destination"><code>Destination</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#destinationrule"><code>DestinationRule</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#destinationweight"><code>DestinationWeight</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter"><code>EnvoyFilter</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-filter"><code>EnvoyFilter.Filter</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-filter-filtertype"><code>EnvoyFilter.Filter.FilterType</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-insertposition"><code>EnvoyFilter.InsertPosition</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-insertposition-index"><code>EnvoyFilter.InsertPosition.Index</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-listenermatch"><code>EnvoyFilter.ListenerMatch</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-listenermatch-listenerprotocol"><code>EnvoyFilter.ListenerMatch.ListenerProtocol</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#envoyfilter-listenermatch-listenertype"><code>EnvoyFilter.ListenerMatch.ListenerType</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#gateway"><code>Gateway</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpfaultinjection"><code>HTTPFaultInjection</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpfaultinjection-abort"><code>HTTPFaultInjection.Abort</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpfaultinjection-delay"><code>HTTPFaultInjection.Delay</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpmatchrequest"><code>HTTPMatchRequest</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpredirect"><code>HTTPRedirect</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httpretry"><code>HTTPRetry</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httprewrite"><code>HTTPRewrite</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#httproute"><code>HTTPRoute</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#l4matchattributes"><code>L4MatchAttributes</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings"><code>LoadBalancerSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings-consistenthashlb"><code>LoadBalancerSettings.ConsistentHashLB</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings-consistenthashlb-httpcookie"><code>LoadBalancerSettings.ConsistentHashLB.HTTPCookie</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#loadbalancersettings-simplelb"><code>LoadBalancerSettings.SimpleLB</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#outlierdetection"><code>OutlierDetection</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#port"><code>Port</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#portselector"><code>PortSelector</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#server"><code>Server</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#server-tlsoptions"><code>Server.TLSOptions</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#server-tlsoptions-tlsmode"><code>Server.TLSOptions.TLSmode</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#serviceentry"><code>ServiceEntry</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e7%a4%ba%e4%be%8b-%e5%8a%a0%e5%85%a5%e5%a4%96%e9%83%a8%e6%9c%8d%e5%8a%a1">示例：加入外部服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e7%a4%ba%e4%be%8b-tls-%e9%80%8f%e4%bc%a0">示例：TLS 透传</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e8%bd%ac%e5%8f%91%e6%89%80%e6%9c%89%e5%a4%96%e9%83%a8%e6%b5%81%e9%87%8f">转发所有外部流量</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e7%a4%ba%e4%be%8b-%e9%80%9a%e9%85%8d%e7%ac%a6%e5%9f%9f%e5%90%8d">示例：通配符域名</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#unix-socket-%e8%bf%9e%e6%8e%a5">Unix Socket 连接</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bb%a3%e7%90%86%e6%9c%8d%e5%8a%a1%e5%99%a8">代理服务器</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#serviceentry-endpoint"><code>ServiceEntry.Endpoint</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#serviceentry-location"><code>ServiceEntry.Location</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#serviceentry-resolution"><code>ServiceEntry.Resolution</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#stringmatch"><code>StringMatch</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#subset"><code>Subset</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tcproute"><code>TCPRoute</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlsmatchattributes"><code>TLSMatchAttributes</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlsroute"><code>TLSRoute</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlssettings"><code>TLSSettings</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#tlssettings-tlsmode"><code>TLSSettings.TLSmode</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#trafficpolicy"><code>TrafficPolicy</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#trafficpolicy-porttrafficpolicy"><code>TrafficPolicy.PortTrafficPolicy</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#virtualservice"><code>VirtualService</code></a></li>
+
+                    
+                
+
+                
+                
+
+                
+            </ul>
+        </nav>
+    
+
+
+                    </div>
+                </nav>
+            </div>
+        
+    </div>
+</div>
+
+
+
+        <footer class="d-print-none container-fluid">
+    <div class="row">
+        <div class="col-5 col-lg-4" role="navigation">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="icon">
+                        <span>istio-users@</span>
+                        <a title='加入 istio-users@ 邮件列表参与讨论，获取排除故障的帮助'
+                           href="https://groups.google.com/forum/#!forum/istio-users" aria-label="istio-users mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>twitter</span>
+                        <a title='关注我们的 Twitter 来获最新信息'
+                           href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                            <svg viewBox="0 0 310 310">
+<path d="M302.973,57.388c-4.87,2.16-9.877,3.983-14.993,5.463c6.057-6.85,10.675-14.91,13.494-23.73
+	c0.632-1.977-0.023-4.141-1.648-5.434c-1.623-1.294-3.878-1.449-5.665-0.39c-10.865,6.444-22.587,11.075-34.878,13.783
+	c-12.381-12.098-29.197-18.983-46.581-18.983c-36.695,0-66.549,29.853-66.549,66.547c0,2.89,0.183,5.764,0.545,8.598
+	C101.163,99.244,58.83,76.863,29.76,41.204c-1.036-1.271-2.632-1.956-4.266-1.825c-1.635,0.128-3.104,1.05-3.93,2.467
+	c-5.896,10.117-9.013,21.688-9.013,33.461c0,16.035,5.725,31.249,15.838,43.137c-3.075-1.065-6.059-2.396-8.907-3.977
+	c-1.529-0.851-3.395-0.838-4.914,0.033c-1.52,0.871-2.473,2.473-2.513,4.224c-0.007,0.295-0.007,0.59-0.007,0.889
+	c0,23.935,12.882,45.484,32.577,57.229c-1.692-0.169-3.383-0.414-5.063-0.735c-1.732-0.331-3.513,0.276-4.681,1.597
+	c-1.17,1.32-1.557,3.16-1.018,4.84c7.29,22.76,26.059,39.501,48.749,44.605c-18.819,11.787-40.34,17.961-62.932,17.961
+	c-4.714,0-9.455-0.277-14.095-0.826c-2.305-0.274-4.509,1.087-5.294,3.279c-0.785,2.193,0.047,4.638,2.008,5.895
+	c29.023,18.609,62.582,28.445,97.047,28.445c67.754,0,110.139-31.95,133.764-58.753c29.46-33.421,46.356-77.658,46.356-121.367
+	c0-1.826-0.028-3.67-0.084-5.508c11.623-8.757,21.63-19.355,29.773-31.536c1.237-1.85,1.103-4.295-0.33-5.998
+	C307.394,57.037,305.009,56.486,302.973,57.388z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>stack overflow</span>
+                        <a title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答'
+                           href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                            <svg viewBox="0 0 120 120">
+<polygon points="84.4,93.8 84.4,70.6 92.1,70.6 92.1,101.5 22.6,101.5 22.6,70.6 30.3,70.6 30.3,93.8 "/>
+<path d="M38.8,68.4l37.8,7.9l1.6-7.6l-37.8-7.9L38.8,68.4z M43.8,50.4l35,16.3l3.2-7l-35-16.4L43.8,50.4z M53.5,33.2
+	l29.7,24.7l4.9-5.9L58.4,27.3L53.5,33.2z M72.7,14.9l-6.2,4.6l23,31l6.2-4.6L72.7,14.9z M38,86h38.6v-7.7H38V86z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>rocket chat</span>
+                        <a title='与 Istio 社区中的成员交流'
+                           href="https://istio.rocket.chat" aria-label="Rocket Chat">
+                            <svg viewBox="0 0 512 512">
+<path d="M496.293,255.338c0-24.103-7.21-47.215-21.437-68.699c-12.771-19.288-30.666-36.362-53.184-50.745
+    c-43.474-27.771-100.612-43.065-160.885-43.065c-20.131,0-39.974,1.702-59.222,5.072c-11.942-11.176-25.919-21.233-40.712-29.187
+    c-79.026-38.298-144.561-0.9-144.561-0.9s60.931,50.053,51.023,93.93c-27.259,27.041-42.033,59.646-42.033,93.594
+    c0,0.108,0.005,0.216,0.006,0.324c-0.001,0.108-0.006,0.216-0.006,0.324c0,33.949,14.774,66.554,42.033,93.595
+    c9.907,43.874-51.023,93.93-51.023,93.93s65.535,37.397,144.561-0.901c14.792-7.953,28.77-18.01,40.712-29.188
+    c19.249,3.372,39.091,5.072,59.222,5.072c60.272,0,117.411-15.294,160.885-43.064c22.518-14.383,40.412-31.457,53.184-50.742
+    c14.227-21.487,21.437-44.599,21.437-68.702c0-0.107-0.006-0.216-0.006-0.324C496.287,255.554,496.293,255.446,496.293,255.338z
+     M260.882,387.763c-25.367,0-49.66-2.932-72.107-8.282c-22.81,27.443-72.993,65.596-121.742,53.26
+    c15.857-17.031,39.352-45.81,34.32-93.207c-29.218-22.738-46.759-51.832-46.759-83.541c0-72.776,92.36-131.769,206.288-131.769
+    c113.928,0,206.288,58.993,206.288,131.769C467.17,328.765,374.81,387.763,260.882,387.763z M288.283,255.991
+    c0,15.133-12.27,27.403-27.4,27.403c-15.134,0-27.402-12.271-27.402-27.403s12.268-27.401,27.402-27.401
+    C276.014,228.59,288.283,240.858,288.283,255.991z M356.163,228.59c-15.133,0-27.4,12.268-27.4,27.401s12.268,27.403,27.4,27.403
+    c15.134,0,27.399-12.271,27.399-27.403S371.297,228.59,356.163,228.59z M165.601,228.59c-15.133,0-27.4,12.268-27.4,27.401
+    s12.268,27.403,27.4,27.403c15.134,0,27.401-12.271,27.401-27.403S180.735,228.59,165.601,228.59z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row d-none d-lg-flex">
+                    对于用户
+                </div>
+            </div>
+        </div>
+
+        <div class="col-7 col-lg-4">
+            <p class="text-center copyright" role="contentinfo">
+                Istio
+                
+                    Preliminary
+                
+                1.1<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
+                
+                    
+                    
+                        Page last modified: September 3, 2018
+                    
+                
+            </p>
+        </div>
+
+        <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
+            <div class="container-fluid">
+                <div class="row justify-content-end">
+                    <div class="icon">
+                        <span>istio-dev@</span>
+                        <a title='加入 istio-dev@ 邮件列表讨论 Istio 项目开发时遇到的问题'
+                           href="https://groups.google.com/forum/#!forum/istio-dev" aria-label="istio-dev mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>github</span>
+                        <a title='Istio 的代码在 GitHub 上开发'
+                           href="https://github.com/istio/community" aria-label="GitHub">
+                            <svg viewBox="0 0 478.165 478.165">
+<path d="M349.22,55.768c6.136,14.046,10.241,37.556,4.224,54.69
+	c24.426,20.999,33.073,71.904,21.079,113.704c35.006,2.73,76.666-1.235,103.642,9.484c-25.183-3.248-59.651-9.563-91.987-7.431
+	c-6.136,0.458-15.361-0.239-14.903,8.408c37.735,3.008,75.092,6.117,105.894,15.779c-30.702-4.981-67.74-12.552-105.894-13.668
+	c-15.54,30.921-47.239,46.262-90.991,49.49c4.682,10.261,13.847,14.066,15.879,30.702c3.267,24.406-4.881,60.328,3.208,76.686
+	c4.064,7.89,10.579,8.009,14.863,14.604c-10.699,12.871-37.257-1.395-40.186-14.604c-5.14-22.852,7.89-58.256-6.415-73.737
+	c0.996,24.865-5.718,59.85,0.996,82.145c2.789,8.806,10.659,12.113,8.647,20.063c-49.809,5.08-28.989-64.373-37.177-105.356
+	c-7.471,0.697-4.204,11.197-4.224,15.76c-0.199,40.106,8.189,94.836-34.846,89.556c-1.315-8.348,5.838-11.217,8.467-19.007
+	c7.91-22.434-1.454-56.045,2.112-83.161c-16.417,12.512,1.793,55.666-8.428,77.961c-5.838,12.671-24.785,18.27-39.19,12.651
+	c1.873-9.464,11.695-7.989,15.879-16.875c5.818-12.452,0.02-30.244,2.092-48.494c-30.423,6.097-53.993-0.877-65.608-20.023
+	c-5.12-8.507-6.356-18.708-12.632-26.219c-6.117-7.551-16.098-8.507-19.087-18.808c37.755-9.185,39.17,38.771,73.06,39.807
+	c10.44,0.418,15.799-2.909,25.402-5.16c2.749-12.113,8.428-21.039,16.875-27.494c-42.078-5.658-76.865-18.788-93.023-50.466
+	c-38.293,1.893-73.339,7.013-105.894,14.843c29.547-10.679,65.807-14.604,104.778-15.819c-2.351-13.807-22.434-10.022-34.866-9.543
+	C47.677,227.17,18.449,230.138,0,233.645c26.817-9.543,64.233-8.348,100.454-8.428c-11.038-34.767-7.232-90.014,17.015-110.615
+	c-6.854-17.254-4.722-45.346,4.184-58.834c27.036,1.175,43.374,12.891,60.388,24.247c21.019-6.017,43.035-9.045,71.904-7.451
+	c12.133,0.677,24.705,6.097,33.731,5.32c8.906-0.877,18.728-10.898,27.534-14.843C326.507,58.099,336.17,56.206,349.22,55.768z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>drive</span>
+                        <a title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档'
+                            href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
+                            <svg viewBox="0 0 207.027 207.027">
+<path d="M69.866,15.557L0,138.919l28.732,52.552l143.288-0.029l35.008-59.588L136.39,15.735L69.866,15.557z M17.166,139.046
+	L74.268,38.205L91.21,67.783L33.24,168.447L17.166,139.046z M99.841,82.851l23.805,41.558l-47.732-0.006L99.841,82.851z
+	 M163.434,176.443l-117.332,0.024l21.53-37.065l64.606,0.008l0.067,0.119l52.865-0.085L163.434,176.443z M140.932,124.411
+	L90.157,35.767l-2.966-5.178l40.751,0.121l57.003,93.706L140.932,124.411z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>working groups</span>
+                        <a title='如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组'
+                           href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
+                            <svg viewBox="0 -45 439.833 439.833">
+
+<polygon points="246.048,195.833 299.966,235.085 319.497,227.296 276.278,195.833"/>
+<polygon points="193.786,195.833 163.556,195.833 120.33,227.3 139.862,235.089"/>
+
+<path d="M219.927,11.558c-23.854,0-37.057,12.362-36.814,36.182c0.348,32.623,14.211,52.414,36.814,52.068
+	c0,0,36.802,1.492,36.802-52.068C256.729,23.918,244.294,11.558,219.927,11.558z"/>
+<path d="M285.017,124.567l-36.77-14.659l-8.608-7.256c-2.274-1.922-5.636-1.78-7.741,0.317l-11.973,11.904l-12.008-11.907
+	c-2.109-2.094-5.465-2.229-7.736-0.313l-8.611,7.256l-36.77,14.661c-11.842,4.715-11.83,46.647-12.848,50.497h155.93
+	C296.866,171.228,296.862,129.28,285.017,124.567z"/>
+
+<path d="M77.976,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.814,36.182C41.509,209.124,55.372,228.915,77.976,228.568z"/>
+<path d="M143.065,253.329l-36.77-14.658l-8.609-7.256c-2.275-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.611,7.256l-36.77,14.66C1.006,258.045,1.018,299.977,0,303.827h155.93
+	C154.915,299.988,154.911,258.042,143.065,253.329z"/>
+
+<path d="M361.878,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.812,36.182C325.411,209.124,339.274,228.915,361.878,228.568z"/>
+<path d="M426.968,253.329l-36.77-14.658l-8.609-7.256c-2.273-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.61,7.256l-36.771,14.66c-11.842,4.715-11.83,46.646-12.848,50.497h155.93
+	C438.817,299.988,438.812,258.042,426.968,253.329z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>slack</span>
+                        <a title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）'
+                                href="https://istio.slack.com" aria-label="slack">
+                            <svg viewBox="0 0 31.444 31.443">
+<path d="M31.202,16.369c-0.62-1.388-2.249-2.011-3.637-1.391l-1.325,0.594l-3.396-7.591l1.325-0.592
+	c1.388-0.622,2.01-2.25,1.389-3.637c-0.62-1.389-2.248-2.012-3.637-1.39l-1.324,0.593l-0.593-1.326
+	c-0.621-1.388-2.249-2.009-3.637-1.388c-1.388,0.62-2.009,2.247-1.389,3.637l0.593,1.325L7.98,8.598L7.388,7.273
+	c-0.621-1.39-2.249-2.009-3.637-1.39C2.363,6.504,1.742,8.132,2.362,9.52l0.592,1.324L1.63,11.438
+	c-1.388,0.621-2.01,2.247-1.389,3.636c0.62,1.388,2.249,2.01,3.637,1.39l1.325-0.594l3.394,7.592l-1.325,0.592
+	c-1.388,0.621-2.009,2.25-1.389,3.637c0.621,1.389,2.249,2.011,3.637,1.391l1.324-0.593l0.593,1.325
+	c0.621,1.389,2.249,2.01,3.637,1.389c1.387-0.62,2.009-2.248,1.388-3.636l-0.591-1.326l7.591-3.394l0.592,1.321
+	c0.621,1.391,2.248,2.013,3.637,1.392c1.388-0.619,2.01-2.248,1.389-3.637l-0.592-1.324l1.323-0.594
+	C31.201,19.384,31.823,17.757,31.202,16.369z M13.623,21.215l-3.395-7.593l7.591-3.394l3.395,7.591L13.623,21.215z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row justify-content-end text-right">
+                    对于开发者
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        <div class="d-xl-none d-print-none">
+            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+        <script src="https://www.google.com/cse/brand?form=search_form"></script>
+
+        
+        <script src="/js/all.min.js" data-manual></script>
+    </body>
+</html>

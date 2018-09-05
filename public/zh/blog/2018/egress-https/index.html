@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="https://schema.org/WebPage">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#466BB0"/>
+
+        
+            
+        
+
+        
+
+        <meta name="title" content="使用外部 Web 服务">
+        <meta name="description" content="描述基于 Istio Bookinfo 示例的简单场景。">
+
+        
+            <meta name="author" content="Vadim Eisenberg">
+        
+
+        
+            <meta name="keywords" content="microservices,services,mesh,流量管理,egress,https">
+        
+
+        
+        <meta property="og:title" content="使用外部 Web 服务">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="描述基于 Istio Bookinfo 示例的简单场景。">
+        
+            <meta property="og:url" content="/zh/blog/2018/egress-https/">
+        
+        <meta property="og:image" content="/img/istio-logo-blue-background.svg">
+        <meta property="og:image:alt" content="Istio Logo">
+        <meta property="og:image:width" content="112">
+        <meta property="og:image:height" content="150">
+        <meta property="og:site_name" content="Istio">
+
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IstioMesh">
+        
+
+        
+            
+                <title>Istio Prelim 1.1 / 使用外部 Web 服务</title>
+            
+        
+
+        
+        <script>
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', 'UA-98480406-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script async src='https://www.google-analytics.com/analytics.js'></script>
+        
+
+        <script>
+            var branchName = "master";
+            var docTitle = "使用外部 Web 服务";
+        </script>
+
+        
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
+
+        
+        <link rel="shortcut icon" href="/favicons/favicon.ico" >
+        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+        <link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+        <link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+        <link rel="icon" type="image/png" href="/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+        <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+        
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-title" content="Istio">
+        <meta name="application-name" content="Istio">
+
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work Sans:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+
+        
+            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="dark">
+        
+
+        <script src="/js/styleSwitcher.min.js"></script>
+    </head>
+
+    <body class="language-unknown">
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
+        
+
+        <a class="navbar-brand" href="/zh/">
+            <span class="logo"><svg viewBox="0 0 300 300">
+<circle cx="150" cy="150" r="150" stroke-width="2" />
+<polygon points="65,240 225,240 125,270"/>
+<polygon points="65,230 125,220 125,110"/>
+<polygon points="135,220 225,230 135,30"/>
+</svg>
+</span>
+
+            
+                <span class="brand-name">Istio Prelim 1.1</span>
+            
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul id="navbar-links" class="navbar-nav active">
+                
+                    <li class="nav-item">
+                        <a class="nav-link " title="了解如何部署、使用和运维 Istio。" href="/zh/docs/">文档</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        
+                        <a class="nav-link active" title="关于使用 Istio 的博客文章。" href="/zh/blog/2018/announcing-1.0.1/">博客</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        <a class="nav-link " title="一堆帮助您部署、配置和使用 Istio 的资源。" href="/zh/help/">帮助</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        <a class="nav-link " title="关于Istio的说明。" href="/zh/about/">关于</a>
+                    </li>
+                
+
+                <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
+                    <a title='选项和设置' href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">亮主题</a>
+                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">暗主题</a>
+
+                        
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20blog%2f2018%2fegress-https%2findex.md">报告网站Bug</a>
+
+                            
+                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/blog/2018/egress-https/index.md">在GitHub上编辑此页</a>
+                            
+                        
+
+                        <div class="dropdown-divider"></div>
+
+                        <h6 class="dropdown-header">本站的其它版本</h6>
+
+                        
+                        
+
+                        
+                            <a href="https://istio.io" class="dropdown-item">当前版本（1.0）</a>
+                            <a href="https://archive.istio.io" class="dropdown-item">旧版本</a>
+                        
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a id="search_show" class="nav-link" href="" title='搜索istio.io' aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                </li>
+            </ul>
+
+            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+                <input type="hidden" name="cx" value="013699703217164175118:veyyqmfmpj4" />
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <input type="hidden" id="search_page_url" value="/search.html" />
+                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
+                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+        
+
+
+
+<div class="blog">
+
+
+
+<div class="container-fluid">
+    <div class="row row-offcanvas">
+        <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
+            
+            
+                <nav class="sidebar d-print-none">
+    <div class="spacer"></div>
+    <div class="directory" role="tablist">
+        
+
+        
+        
+
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header0">
+                        <a data-toggle="collapse" href="#collapse0" title="2017 年的博客文章。" role="button" aria-controls="collapse0">
+                            <div>
+                                
+                                    <img src="/img/blog.svg" alt="Icon" class="page_icon" />
+                                
+
+                                2017 年的博客文章
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse0" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header0">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="提高可用，降低延迟。" href="/zh/blog/2017/mixer-spof-myth/">Mixer 和 SPOF 神话</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="概要说明 Mixer 的插件架构。" href="/zh/blog/2017/adapter-model/">Mixer 适配器模型</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 0.2 公告。" href="/zh/blog/2017/0.2-announcement/">宣布 Istio 0.2</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 的策略如何关联 Kubernetes 的网络策略 。" href="/zh/blog/2017/0.1-using-network-policy/">Istio 使用网络策略</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用 Istio 创建自动缩放的金丝雀部署。" href="/zh/blog/2017/0.1-canary/">使用 Istio 进行金丝雀部署</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio Auth 0.1 公告。" href="/zh/blog/2017/0.1-auth/">使用 Istio 增强端到端安全</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 0.1 宣布。" href="/zh/blog/2017/0.1-announcement/">初次了解 Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header1">
+                        <a data-toggle="collapse" href="#collapse1" title="2018 年的博客文章。" role="button" aria-controls="collapse1">
+                            <div>
+                                
+                                    <img src="/img/blog.svg" alt="Icon" class="page_icon" />
+                                
+
+                                2018 年的博客文章
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse1" class="collapse show" data-parent="#sidebar" role="tabpanel" aria-labelledby="header1">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 1.0.1 补丁版本。" href="/zh/blog/2018/announcing-1.0.1/">Istio 1.0.1 发布</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 在 Twitch 举办了为期一天的直播庆祝 1.0 的发布。" href="/zh/blog/2018/istio-twitch-stream/">Istio 在 Twitch 上全天直播</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="惠普如何在 Istio 上构建其下一代鞋类个性化平台。" href="/zh/blog/2018/hp/">Istio 是惠普 FitStation 平台的改变者</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 1.0 已生产就绪。" href="/zh/blog/2018/announcing-1.0/">宣布 Istio 1.0</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用 AppSwitch 自动接入应用并降低延迟。" href="/zh/blog/2018/delayering-istio/delayering-istio/">使用 AppSwitch 精简 Istio 层次</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述 Istio 的授权功能以及如何在各种用例中使用它。" href="/zh/blog/2018/istio-authorization/">基于 Istio 的 Micro-Segmentation 授权</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio v1alpha3 路由 API 介绍,动机及其设计原则。" href="/zh/blog/2018/v1alpha3-routing/">Istio v1aplha3 路由 API 介绍</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述如何在AWS上使用网络负载均衡器配置 Istio Ingress。" href="/zh/blog/2018/aws-nlb/">使用AWS NLB 配置 Istio Ingress</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用 Kubernetes 命名空间和 RBAC 为 Istio 构建软性多租户环境。" href="/zh/blog/2018/soft-multitenancy/">Istio 的软性多租户支持</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍更安全，低风险的部署和发布到生产。" href="/zh/blog/2018/traffic-mirroring/">用于在生产环境进行测试的 Istio 流量镜像功能</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述基于 Istio 的 Bookinfo 示例的简单场景。" href="/zh/blog/2018/egress-tcp/">使用外部 TCP 服务</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <span class="current" title="描述基于 Istio Bookinfo 示例的简单场景。">使用外部 Web 服务</span>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+
+        
+            
+        
+    </div>
+</nav>
+
+            
+        </div>
+
+        
+            <div class="col-12 col-md-9 col-xl-8">
+        
+
+            
+                <p class="d-md-none">
+                    <label class="sidebar-toggler" data-toggle="offcanvas">
+                        <i class="fa fa-sign-out-alt"></i>
+                    </label>
+                </p>
+            
+
+            <main aria-labelledby="title">
+                
+                    <div class="pagenav">
+                        <p><a href="/zh/blog/2018/" title="2018 年的博客文章。">
+                            <i style="transform: scaleX(-1)" class="fa fa-level-up-alt"></i>
+                            &nbsp;2018 年的博客文章</a></p>
+                    </div>
+                
+
+                <h1 id="title">
+                    
+                    使用外部 Web 服务
+                </h1>
+
+                
+                    
+                        <p class="subtitle">HTTPS 流量的出口规则</p>
+                    
+                
+
+                
+                    <p class="byline">
+                        By <span class="attribution">Vadim Eisenberg</span>
+                        
+                        /
+                        <span class="publish_date">January 31, 2018</span>
+                    </p>
+                
+
+                
+                    <nav class="toc-inlined d-xl-none d-print-none" >
+                        <hr/>
+                        <div class="directory" role="directory">
+                            
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+        
+        <nav id="InlinedTableOfContents">
+            <ul>
+                
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%88%9d%e5%a7%8b%e8%ae%be%e5%ae%9a">初始设定</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#bookinfo-%e4%bd%bf%e7%94%a8-https-%e8%ae%bf%e9%97%ae-google-%e5%9b%be%e4%b9%a6%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1">Bookinfo 使用 HTTPS 访问 Google 图书网络服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%90%af%e7%94%a8%e5%af%b9-google-books-%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1%e7%9a%84-https-%e8%ae%bf%e9%97%ae">启用对 Google Books 网络服务的 HTTPS 访问</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e6%b8%85%e9%99%a4%e5%af%b9-google-%e5%9b%be%e4%b9%a6%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1%e7%9a%84-https-%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90">清除对 Google 图书网络服务的 HTTPS 访问权限</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e7%94%b1-istio-%e5%8f%91%e8%b5%b7%e7%9a%84-tls">由 Istio 发起的 TLS</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%85%b7%e6%9c%89-tls-%e7%9a%84-bookinfo-%e8%b5%b7%e6%ba%90%e4%ba%8e-google-books-%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1">具有 TLS 的 Bookinfo 起源于 Google Books 网络服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%b8%85%e9%99%a4-tls-%e5%8e%9f%e5%a7%8b%e6%95%b0%e6%8d%ae%e5%88%b0-google-books-%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1">清除 TLS 原始数据到 Google Books 网络服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#istio-%e5%8f%8c%e5%90%91-tls-%e7%9a%84%e5%85%b3%e7%b3%bb">Istio 双向 TLS 的关系</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e7%bb%93%e8%ae%ba">结论</a></li>
+
+                    
+                
+
+                
+                
+
+                
+                    
+                        <li><a href="#see-also">See also</a></li>
+                    
+                
+            </ul>
+        </nav>
+    
+
+
+                        </div>
+                        <hr/>
+                    </nav>
+                
+
+
+
+<blockquote>
+<p>此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能
+<a href="/zh/blog/2018/v1alpha3-routing/">v1alpha3 流量管理 API</a>。如果您需要使用旧版本，请按照文档进行操作
+<a href="https://archive.istio.io/v0.7/blog/2018/egress-https.html">使用外部 Web 服务归档版</a>。</p>
+</blockquote>
+
+<p>在许多情况下，在 <em>service mesh</em> 中的微服务序并不是应用程序的全部，有时，
+网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能，虽然我们希望逐步将这些系统迁移到服务网格中。
+但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。还有其他情况，
+应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。</p>
+
+<p>在这篇博客文章中，我修改了<a href="/zh/docs/examples/bookinfo/">Istio Bookinfo 示例应用程序</a>让它可以
+从外部 Web 服务（<a href="https://developers.google.com/books/docs/v1/getting_started">Google Books APIs</a> ）获取图书详细信息。
+我将展示如何使用 <em>mesh-external service entries</em> 在 Istio 中启用外部 HTTPS 流量。最后，
+我解释了当前与 Istio 出口流量控制相关的问题。</p>
+
+<h2 id="初始设定">初始设定</h2>
+
+<p>为了演示使用外部 Web 服务的场景，我首先使用安装了 <a href="/zh/docs/setup/kubernetes/quick-start/#安装步骤">Istio</a> 的
+ Kubernetes 集群, 然后我部署 <a href="/zh/docs/examples/bookinfo/">Istio Bookinfo 示例应用程序</a>,
+ 此应用程序使用 <em>details</em> 微服务来获取书籍详细信息，例如页数和发布者, 原始 <em>details</em> 微服务提供书籍
+ 详细信息，无需咨询任何外部服务。</p>
+
+<p>此博客文章中的示例命令适用于 Istio 1.0+，无论启用或不启用<a href="/zh/docs/concepts/security/#双向-tls-认证">双向 TLS</a>。
+ Bookinfo 配置文件位于 Istio 发行存档的 <code>samples/bookinfo</code> 目录中。</p>
+
+<p>以下是原始 <a href="/zh/docs/examples/bookinfo/">Bookinfo 示例应用程序</a>中应用程序端到端体系结构的副本。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 59.08%">
+        <a class="not-for-endnotes" href="/docs/examples/bookinfo/withistio.svg">
+            <img class="element-to-stretch" src="/docs/examples/bookinfo/withistio.svg" alt="原 Bookinfo 应用程序" title="原 Bookinfo 应用程序" />
+        </a>
+    </div>
+    <figcaption>原 Bookinfo 应用程序</figcaption>
+</figure>
+
+
+<p>执行<a href="/zh/docs/examples/bookinfo/#部署应用">部署应用程序</a>、<a href="/zh/docs/examples/bookinfo/#确认应用在运行中">确认应用正在运行</a>，以及
+<a href="/zh/docs/examples/bookinfo/#应用缺省目标规则">应用默认目标规则</a>中的步骤部分。</p>
+
+<h3 id="bookinfo-使用-https-访问-google-图书网络服务">Bookinfo 使用 HTTPS 访问 Google 图书网络服务</h3>
+
+<p>让我们添加一个新版本的 <em>details</em> 微服务，_v2_，从<a href="https://developers.google.com/books/docs/v1/getting_started">Google Books APIs</a>中获取图书详细信息。
+它设定了服务容器的 <code>DO_NOT_ENCRYPT</code> 环境变量为 <code>false</code>。此设置将指示已部署服务使用 HTTPS（而不是 HTTP ）来访问外部服务。</p>
+
+<pre><code class='language-command'>$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - &#39;DO_NOT_ENCRYPT=false&#39; -o yaml | kubectl apply -f -</code></pre><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml"></a>
+
+<p>现在，应用程序的更新架构如下所示：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 65.16%">
+        <a class="not-for-endnotes" href="/blog/2018/egress-https/bookinfo-details-v2.svg">
+            <img class="element-to-stretch" src="/blog/2018/egress-https/bookinfo-details-v2.svg" alt="Bookinfo 的 details V2 应用程序" title="Bookinfo 的 details V2 应用程序" />
+        </a>
+    </div>
+    <figcaption>Bookinfo 的 details V2 应用程序</figcaption>
+</figure>
+
+
+<p>请注意，Google Book 服务位于 Istio 服务网格之外，其边界由虚线标记。</p>
+
+<p>现在让我们将指向 <em>details</em> 微服务的所有流量定向到 _details v2_：</p>
+
+<pre><code class='language-command'>$ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@</code></pre><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-details-v2.yaml"></a>
+
+<p>请注意，<code>VirtualService</code> 依赖于您在<a href="/zh/docs/examples/bookinfo/#应用缺省目标规则">应用默认目标规则</a>部分中创建的目标规则。</p>
+
+<p>在<a href="/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口">确定 ingress 的 IP 和端口</a>之后，
+让我们访问应用程序的网页。</p>
+
+<p>糟糕&hellip;页面显示 _Error fetching product details_，而不是书籍详细信息：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 36.01%">
+        <a class="not-for-endnotes" href="/blog/2018/egress-https/errorFetchingBookDetails.png">
+            <img class="element-to-stretch" src="/blog/2018/egress-https/errorFetchingBookDetails.png" alt="获取产品详细信息的错误消息" title="获取产品详细信息的错误消息" />
+        </a>
+    </div>
+    <figcaption>获取产品详细信息的错误消息</figcaption>
+</figure>
+
+
+<p>好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让<strong>故障扩散</strong>。在我们的例子中，
+失败的 <em>details</em> 微服务不会导致 <code>productpage</code> 微服务失败, 尽管 <em>details</em> 微服务失败，
+仍然提供了应用程序的大多数功能, 我们有<strong>优雅的服务降级</strong>：正如您所看到的，评论和评级正确显示，
+应用程序仍然有用。</p>
+
+<p>那可能出了什么问题？ 啊&hellip;&hellip;答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
+默认情况下，Istio sidecar 代理（<a href="https://www.envoyproxy.io">Envoy proxies</a>）
+<strong>阻止到集群外目的地的所有流量</strong>, 要启用此类流量，我们必须定义<a href="/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry">mesh-external service entry</a>。</p>
+
+<h3 id="启用对-google-books-网络服务的-https-访问">启用对 Google Books 网络服务的 HTTPS 访问</h3>
+
+<p>不用担心，让我们定义<strong>网格外部 <code>ServiceEntry</code></strong> 并修复我们的应用程序。您还必须定义 <em>virtual
+service</em> 使用 <a href="https://en.wikipedia.org/wiki/Server_Name_Indication">SNI</a>对外部服务执行路由。</p>
+
+<pre><code class='language-bash'>cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: googleapis
+spec:
+  hosts:
+  - www.googleapis.com
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: googleapis
+spec:
+  hosts:
+  - www.googleapis.com
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - www.googleapis.com
+    route:
+    - destination:
+        host: www.googleapis.com
+        port:
+          number: 443
+      weight: 100
+EOF</code></pre>
+
+<p>现在访问应用程序的网页会显示书籍详细信息而不会出现错误：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure style="width: 80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 34.82%">
+        <a class="not-for-endnotes" href="/blog/2018/egress-https/externalBookDetails.png">
+            <img class="element-to-stretch" src="/blog/2018/egress-https/externalBookDetails.png" alt="正确显示书籍详细信息" title="正确显示书籍详细信息" />
+        </a>
+    </div>
+    <figcaption>正确显示书籍详细信息</figcaption>
+</figure>
+
+
+<p>您可以查询您的 <code>ServiceEntry</code> ：</p>
+
+<pre><code class='language-command'>$ kubectl get serviceentries
+NAME         AGE
+googleapis   8m</code></pre>
+
+<p>您可以删除您的 <code>ServiceEntry</code> ：</p>
+
+<pre><code class='language-command'>$ kubectl delete serviceentry googleapis
+serviceentry &#34;googleapis&#34; deleted</code></pre>
+
+<p>并在输出中看到删除了 <code>ServiceEntry</code>。</p>
+
+<p>删除 <code>ServiceEntry</code> 后访问网页会产生我们之前遇到的相同错误，即 <em>Error fetching product details</em>,
+正如我们所看到的，，与许多其他 Istio 配置一样，<code>ServiceEntry</code> 是<strong>动态定义</strong>的 , Istio 运算符可以动态决定
+它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。</p>
+
+<h3 id="清除对-google-图书网络服务的-https-访问权限">清除对 Google 图书网络服务的 HTTPS 访问权限</h3>
+
+<pre><code class='language-command'>$ kubectl delete serviceentry googleapis
+$ kubectl delete virtualservice googleapis
+$ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@</code></pre><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-details-v2.yaml"></a><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml"></a>
+
+<h2 id="由-istio-发起的-tls">由 Istio 发起的 TLS</h2>
+
+<p>这个故事有一个警告。假设您要监视您的微服务使用 <a href="https://developers.google.com/apis-explorer/">Google API</a> 的哪个特定集
+（<a href="https://developers.google.com/books/docs/v1/getting_started">书籍</a>，<a href="https://developers.google.com/calendar/">日历</a>，<a href="https://developers.google.com/tasks/">任务</a>等）
+假设您要强制执行仅允许使用<a href="https://developers.google.com/books/docs/v1/getting_started">图书 API</a>的策略。
+假设您要监控您的微服务访问的标识符。对于这些监视和策略任务，您需要知道 URL 路径。
+考虑例如 URL <a href="https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618"><code>www.googleapis.com/books/v1/volumes?q=isbn:0486424618</code></a>。
+在该网址中，路径段指定了<a href="https://developers.google.com/books/docs/v1/getting_started">图书 API</a>
+<code>/books</code> 和路径段的 <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number">ISBN</a> 代码
+ <code>/volumes?q=isbn:0486424618</code>。但是，在 HTTPS 中，所有 HTTP 详细信息（主机名，路径，标头等）都是加密的
+sidecar 代理的这种监督和策略执行是无法实现的。Istio 只能通过 <a href="https://tools.ietf.org/html/rfc3546#section-3.1">SNI</a>（_Server Name Indication_）得知加密请求中的主机名称，在这里就是 <code>www.googleapis.com</code>。</p>
+
+<p>为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）,
+根据微服务是在 Istio 服务网格内部还是外部运行，
+微服务的代码必须以不同方式编写或以不同方式配置, 这与<a href="/zh/docs/concepts/what-is-istio/#设计目标">最大化透明度</a>
+的 Istio 设计目标相矛盾, 有时我们需要妥协&hellip;&hellip;</p>
+
+<p>下图显示了如何执行外部服务的 HTTPS 流量, 在顶部，Istio 服务网格外部的微服务发送常规 HTTPS 请求，
+端到端加密, 在底部，Istio 服务网格内的相同微服务必须在 pod 内发送未加密的 HTTP 请求，
+这些请求被 sidecar Envoy 代理拦截 , sidecar 代理执行 TLS 发起，因此 pod 和外部服务之间的流量被加密。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure style="width: 60%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: 95.14%">
+        <a class="not-for-endnotes" href="/blog/2018/egress-https/https_from_the_app.svg">
+            <img class="element-to-stretch" src="/blog/2018/egress-https/https_from_the_app.svg" alt="对外发起 HTTPS 流量的两种方式：微服务自行发起，或由 Sidecar 代理发起" title="对外发起 HTTPS 流量的两种方式：微服务自行发起，或由 Sidecar 代理发起" />
+        </a>
+    </div>
+    <figcaption>对外发起 HTTPS 流量的两种方式：微服务自行发起，或由 Sidecar 代理发起</figcaption>
+</figure>
+
+
+<p>以下是我们如何在 <a href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/details/details.rb">Bookinfo 的 details 微服务代码</a>
+中使用 Ruby <a href="https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html">net/http 模块</a>：</p>
+
+<pre><code class='language-ruby'>uri = URI.parse(&#39;https://www.googleapis.com/books/v1/volumes?q=isbn:&#39; &#43; isbn)
+http = Net::HTTP.new(uri.host, uri.port)
+...
+unless ENV[&#39;DO_NOT_ENCRYPT&#39;] === &#39;true&#39; then
+     http.use_ssl = true
+end</code></pre>
+
+<p>请注意，默认的 HTTPS 端口 <code>443</code> 的取值是 <code>URI.parse</code> 通过对 URI (<code>https://</code>) 的解析得来的，
+当在 Istio 服务网格内运行时，微服务必须向端口 <code>443</code> 发出 HTTP 请求，该端口是外部服务侦听的端口。
+当定义 <code>WITH_ISTIO</code> 环境变量时，请求在没有 SSL（普通 HTTP ）的情况下执行。</p>
+
+<p>我们将 <code>WITH_ISTIO</code> 环境变量设置为 <em>&ldquo;true&rdquo;</em> <a href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml">details 的部署配置文件</a>,
+<code>container</code> 部分：</p>
+
+<pre><code class='language-yaml'>env:
+- name: DO_NOT_ENCRYPT
+  value: &#34;true&#34;</code></pre>
+
+<p>在下一节中，您将配置 TLS 发起以访问外部 Web 服务。</p>
+
+<h2 id="具有-tls-的-bookinfo-起源于-google-books-网络服务">具有 TLS 的 Bookinfo 起源于 Google Books 网络服务</h2>
+
+<ol>
+<li><p>部署 <em>details v2</em> 版本，将 HTTP 请求发送到 <a href="https://developers.google.com/books/docs/v1/getting_started">Google Books API</a>。
+在 <a href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml"><code>bookinfo-details-v2.yaml</code></a> 中，
+<code>DO_NOT_ENCRYPT</code> 变量设置为 true。</p>
+
+<pre><code class='language-command'>$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@</code></pre><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml"></a></li>
+
+<li><p>将指向 <em>details</em> 微服务的流量定向到 _details v2_。</p>
+
+<pre><code class='language-command'>$ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@</code></pre><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-details-v2.yaml"></a></li>
+
+<li><p>为 <code>www.google.apis</code> 创建网格外部 <code>ServiceEntry</code>，并执行目标规则以执行 TLS 发起。</p>
+
+<pre><code class='language-bash'>cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: googleapis
+spec:
+  hosts:
+  - www.googleapis.com
+  ports:
+  - number: 443
+    name: http-port-for-tls-origination
+    protocol: HTTP
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-tls-for-googleapis
+spec:
+  host: www.googleapis.com
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: SIMPLE # 访问 edition.cnn.com 时启动 HTTPS
+EOF</code></pre>
+
+<p>注意，前缀为 <code>http-</code> <code>ServiceEntr</code> 指定了端口为 <code>443</code>，其协议指定为 <code>HTTP</code>。
+请注意，您不需要使用端口 443 发送 TLS 发起的 HTTP 请求。
+<a href="/zh/docs/examples/advanced-gateways/egress-tls-origination/">出口流量的 TLS</a>
+显示了如何使用端口重写执行 TLS 发起。</p></li>
+
+<li><p>访问应用程序的网页，并验证是否显示图书详细信息。</p></li>
+
+<li><p>检查 <em>details v2</em> 的 sidecar 代理的日志，并查看 HTTP 请求。</p>
+
+<pre><code class='language-command'>$ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath=&#39;{.items[0].metadata.name}&#39;) istio-proxy | grep googleapis
+[2018-08-09T11:32:58.171Z] &#34;GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1&#34; 200 - 0 1050 264 264 &#34;-&#34; &#34;Ruby&#34; &#34;b993bae7-4288-9241-81a5-4cde93b2e3a6&#34; &#34;www.googleapis.com:443&#34; &#34;172.217.20.74:443&#34;
+EOF</code></pre>
+
+<p>请注意日志中的 URL 路径，可以监视路径并根据它来应用访问策略。要了解有关 HTTP 出口流量的监控和访问策略
+的更多信息，请查看<a href="https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging">归档博客之出口流量监控之日志</a>。</p></li>
+</ol>
+
+<h3 id="清除-tls-原始数据到-google-books-网络服务">清除 TLS 原始数据到 Google Books 网络服务</h3>
+
+<pre><code class='language-command'>$ kubectl delete serviceentry googleapis
+$ kubectl delete destinationrule originate-tls-for-googleapis
+$ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@</code></pre><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-details-v2.yaml"></a><a hidden style="display:none" href="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml"></a>
+
+<h3 id="istio-双向-tls-的关系">Istio 双向 TLS 的关系</h3>
+
+<p>请注意，在这种情况下，TLS 的源与 Istio 应用的 <a href="/zh/docs/concepts/security/#双向-tls-认证">双向 TLS</a> 无关,
+无论 Istio 双向 TLS 是否启用，外部服务的 TLS 源都将起作用 , 保证服务网<strong>内</strong>的服务到服务通信，
+并为每个服务提供强大的身份认证, 在此博客文章中的 <strong>外部服务</strong>的情况下，我们有<strong>单向</strong> TLS，
+这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，
+以验证外部服务器的身份并加密流量。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，
+Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用 mesh-external,必须为服务网格创建 <code>ServiceEntry</code> ,
+可以通过 HTTPS 访问外部站点，当微服务发出 HTTPS 请求时，流量是端到端加密的，但是 Istio 无法监视 HTTP 详细信息，
+例如请求的 URL 路径。当微服务发出 HTTP 请求时，Istio 可以监视请求的 HTTP 详细信息并强制执行基于 HTTP 的访问策略。
+但是，在这种情况下，微服务和 sidecar 代理之间的流量是未加密的。在具有非常严格的安全要求的组织中，
+可以禁止未加密的部分流量。</p>
+
+
+
+
+                
+                    
+                    
+                        <h2 id="see-also">See also</h2>
+
+                        <div class="see-also">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/blog/2018/egress-tcp/">使用外部 TCP 服务</a></p>
+                                            <p class="desc">描述基于 Istio 的 Bookinfo 示例的简单场景。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/examples/advanced-gateways/ingress-sni-passthrough/">没有 TLS 的 Ingress Gateway</a></p>
+                                            <p class="desc">介绍如何为入口网关配置 SNI 直通。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/tasks/traffic-management/egress/">控制 Egress 流量</a></p>
+                                            <p class="desc">在 Istio 中配置从网格内访问外部服务的流量路由。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/blog/2018/v1alpha3-routing/">Istio v1aplha3 路由 API 介绍</a></p>
+                                            <p class="desc">Istio v1alpha3 路由 API 介绍,动机及其设计原则。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/blog/2018/traffic-mirroring/">用于在生产环境进行测试的 Istio 流量镜像功能</a></p>
+                                            <p class="desc">介绍更安全，低风险的部署和发布到生产。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/blog/2017/0.1-canary/">使用 Istio 进行金丝雀部署</a></p>
+                                            <p class="desc">使用 Istio 创建自动缩放的金丝雀部署。</p>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    
+                
+            </main>
+
+            
+                <div class="container-fluid d-print-none">
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-6 pagenav">
+                            
+                                <p><a title="描述基于 Istio 的 Bookinfo 示例的简单场景。" href="/zh/blog/2018/egress-tcp/">
+                                    <i class="fa fa-long-arrow-alt-left"></i> 使用外部 TCP 服务</a>
+                                </p>
+                            
+                        </div>
+                        <div class="col-6 pagenav" style="text-align: right">
+                            
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="d-none d-print-block" aria-hidden="true">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
+        </div>
+
+        
+            <div class="col-12 col-md-2 d-none d-xl-block d-print-none">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div id="toc" class="directory" role="directory">
+                        
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+        
+        <nav id="TableOfContents">
+            <ul>
+                
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%88%9d%e5%a7%8b%e8%ae%be%e5%ae%9a">初始设定</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#bookinfo-%e4%bd%bf%e7%94%a8-https-%e8%ae%bf%e9%97%ae-google-%e5%9b%be%e4%b9%a6%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1">Bookinfo 使用 HTTPS 访问 Google 图书网络服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%90%af%e7%94%a8%e5%af%b9-google-books-%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1%e7%9a%84-https-%e8%ae%bf%e9%97%ae">启用对 Google Books 网络服务的 HTTPS 访问</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e6%b8%85%e9%99%a4%e5%af%b9-google-%e5%9b%be%e4%b9%a6%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1%e7%9a%84-https-%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90">清除对 Google 图书网络服务的 HTTPS 访问权限</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e7%94%b1-istio-%e5%8f%91%e8%b5%b7%e7%9a%84-tls">由 Istio 发起的 TLS</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%85%b7%e6%9c%89-tls-%e7%9a%84-bookinfo-%e8%b5%b7%e6%ba%90%e4%ba%8e-google-books-%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1">具有 TLS 的 Bookinfo 起源于 Google Books 网络服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%b8%85%e9%99%a4-tls-%e5%8e%9f%e5%a7%8b%e6%95%b0%e6%8d%ae%e5%88%b0-google-books-%e7%bd%91%e7%bb%9c%e6%9c%8d%e5%8a%a1">清除 TLS 原始数据到 Google Books 网络服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#istio-%e5%8f%8c%e5%90%91-tls-%e7%9a%84%e5%85%b3%e7%b3%bb">Istio 双向 TLS 的关系</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e7%bb%93%e8%ae%ba">结论</a></li>
+
+                    
+                
+
+                
+                
+
+                
+                    
+                        <li><a href="#see-also">See also</a></li>
+                    
+                
+            </ul>
+        </nav>
+    
+
+
+                    </div>
+                </nav>
+            </div>
+        
+    </div>
+</div>
+
+</div>
+
+
+        <footer class="d-print-none container-fluid">
+    <div class="row">
+        <div class="col-5 col-lg-4" role="navigation">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="icon">
+                        <span>istio-users@</span>
+                        <a title='加入 istio-users@ 邮件列表参与讨论，获取排除故障的帮助'
+                           href="https://groups.google.com/forum/#!forum/istio-users" aria-label="istio-users mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>twitter</span>
+                        <a title='关注我们的 Twitter 来获最新信息'
+                           href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                            <svg viewBox="0 0 310 310">
+<path d="M302.973,57.388c-4.87,2.16-9.877,3.983-14.993,5.463c6.057-6.85,10.675-14.91,13.494-23.73
+	c0.632-1.977-0.023-4.141-1.648-5.434c-1.623-1.294-3.878-1.449-5.665-0.39c-10.865,6.444-22.587,11.075-34.878,13.783
+	c-12.381-12.098-29.197-18.983-46.581-18.983c-36.695,0-66.549,29.853-66.549,66.547c0,2.89,0.183,5.764,0.545,8.598
+	C101.163,99.244,58.83,76.863,29.76,41.204c-1.036-1.271-2.632-1.956-4.266-1.825c-1.635,0.128-3.104,1.05-3.93,2.467
+	c-5.896,10.117-9.013,21.688-9.013,33.461c0,16.035,5.725,31.249,15.838,43.137c-3.075-1.065-6.059-2.396-8.907-3.977
+	c-1.529-0.851-3.395-0.838-4.914,0.033c-1.52,0.871-2.473,2.473-2.513,4.224c-0.007,0.295-0.007,0.59-0.007,0.889
+	c0,23.935,12.882,45.484,32.577,57.229c-1.692-0.169-3.383-0.414-5.063-0.735c-1.732-0.331-3.513,0.276-4.681,1.597
+	c-1.17,1.32-1.557,3.16-1.018,4.84c7.29,22.76,26.059,39.501,48.749,44.605c-18.819,11.787-40.34,17.961-62.932,17.961
+	c-4.714,0-9.455-0.277-14.095-0.826c-2.305-0.274-4.509,1.087-5.294,3.279c-0.785,2.193,0.047,4.638,2.008,5.895
+	c29.023,18.609,62.582,28.445,97.047,28.445c67.754,0,110.139-31.95,133.764-58.753c29.46-33.421,46.356-77.658,46.356-121.367
+	c0-1.826-0.028-3.67-0.084-5.508c11.623-8.757,21.63-19.355,29.773-31.536c1.237-1.85,1.103-4.295-0.33-5.998
+	C307.394,57.037,305.009,56.486,302.973,57.388z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>stack overflow</span>
+                        <a title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答'
+                           href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                            <svg viewBox="0 0 120 120">
+<polygon points="84.4,93.8 84.4,70.6 92.1,70.6 92.1,101.5 22.6,101.5 22.6,70.6 30.3,70.6 30.3,93.8 "/>
+<path d="M38.8,68.4l37.8,7.9l1.6-7.6l-37.8-7.9L38.8,68.4z M43.8,50.4l35,16.3l3.2-7l-35-16.4L43.8,50.4z M53.5,33.2
+	l29.7,24.7l4.9-5.9L58.4,27.3L53.5,33.2z M72.7,14.9l-6.2,4.6l23,31l6.2-4.6L72.7,14.9z M38,86h38.6v-7.7H38V86z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>rocket chat</span>
+                        <a title='与 Istio 社区中的成员交流'
+                           href="https://istio.rocket.chat" aria-label="Rocket Chat">
+                            <svg viewBox="0 0 512 512">
+<path d="M496.293,255.338c0-24.103-7.21-47.215-21.437-68.699c-12.771-19.288-30.666-36.362-53.184-50.745
+    c-43.474-27.771-100.612-43.065-160.885-43.065c-20.131,0-39.974,1.702-59.222,5.072c-11.942-11.176-25.919-21.233-40.712-29.187
+    c-79.026-38.298-144.561-0.9-144.561-0.9s60.931,50.053,51.023,93.93c-27.259,27.041-42.033,59.646-42.033,93.594
+    c0,0.108,0.005,0.216,0.006,0.324c-0.001,0.108-0.006,0.216-0.006,0.324c0,33.949,14.774,66.554,42.033,93.595
+    c9.907,43.874-51.023,93.93-51.023,93.93s65.535,37.397,144.561-0.901c14.792-7.953,28.77-18.01,40.712-29.188
+    c19.249,3.372,39.091,5.072,59.222,5.072c60.272,0,117.411-15.294,160.885-43.064c22.518-14.383,40.412-31.457,53.184-50.742
+    c14.227-21.487,21.437-44.599,21.437-68.702c0-0.107-0.006-0.216-0.006-0.324C496.287,255.554,496.293,255.446,496.293,255.338z
+     M260.882,387.763c-25.367,0-49.66-2.932-72.107-8.282c-22.81,27.443-72.993,65.596-121.742,53.26
+    c15.857-17.031,39.352-45.81,34.32-93.207c-29.218-22.738-46.759-51.832-46.759-83.541c0-72.776,92.36-131.769,206.288-131.769
+    c113.928,0,206.288,58.993,206.288,131.769C467.17,328.765,374.81,387.763,260.882,387.763z M288.283,255.991
+    c0,15.133-12.27,27.403-27.4,27.403c-15.134,0-27.402-12.271-27.402-27.403s12.268-27.401,27.402-27.401
+    C276.014,228.59,288.283,240.858,288.283,255.991z M356.163,228.59c-15.133,0-27.4,12.268-27.4,27.401s12.268,27.403,27.4,27.403
+    c15.134,0,27.399-12.271,27.399-27.403S371.297,228.59,356.163,228.59z M165.601,228.59c-15.133,0-27.4,12.268-27.4,27.401
+    s12.268,27.403,27.4,27.403c15.134,0,27.401-12.271,27.401-27.403S180.735,228.59,165.601,228.59z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row d-none d-lg-flex">
+                    对于用户
+                </div>
+            </div>
+        </div>
+
+        <div class="col-7 col-lg-4">
+            <p class="text-center copyright" role="contentinfo">
+                Istio
+                
+                    Preliminary
+                
+                1.1<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
+                
+                    
+                    
+                        Page last modified: September 1, 2018
+                    
+                
+            </p>
+        </div>
+
+        <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
+            <div class="container-fluid">
+                <div class="row justify-content-end">
+                    <div class="icon">
+                        <span>istio-dev@</span>
+                        <a title='加入 istio-dev@ 邮件列表讨论 Istio 项目开发时遇到的问题'
+                           href="https://groups.google.com/forum/#!forum/istio-dev" aria-label="istio-dev mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>github</span>
+                        <a title='Istio 的代码在 GitHub 上开发'
+                           href="https://github.com/istio/community" aria-label="GitHub">
+                            <svg viewBox="0 0 478.165 478.165">
+<path d="M349.22,55.768c6.136,14.046,10.241,37.556,4.224,54.69
+	c24.426,20.999,33.073,71.904,21.079,113.704c35.006,2.73,76.666-1.235,103.642,9.484c-25.183-3.248-59.651-9.563-91.987-7.431
+	c-6.136,0.458-15.361-0.239-14.903,8.408c37.735,3.008,75.092,6.117,105.894,15.779c-30.702-4.981-67.74-12.552-105.894-13.668
+	c-15.54,30.921-47.239,46.262-90.991,49.49c4.682,10.261,13.847,14.066,15.879,30.702c3.267,24.406-4.881,60.328,3.208,76.686
+	c4.064,7.89,10.579,8.009,14.863,14.604c-10.699,12.871-37.257-1.395-40.186-14.604c-5.14-22.852,7.89-58.256-6.415-73.737
+	c0.996,24.865-5.718,59.85,0.996,82.145c2.789,8.806,10.659,12.113,8.647,20.063c-49.809,5.08-28.989-64.373-37.177-105.356
+	c-7.471,0.697-4.204,11.197-4.224,15.76c-0.199,40.106,8.189,94.836-34.846,89.556c-1.315-8.348,5.838-11.217,8.467-19.007
+	c7.91-22.434-1.454-56.045,2.112-83.161c-16.417,12.512,1.793,55.666-8.428,77.961c-5.838,12.671-24.785,18.27-39.19,12.651
+	c1.873-9.464,11.695-7.989,15.879-16.875c5.818-12.452,0.02-30.244,2.092-48.494c-30.423,6.097-53.993-0.877-65.608-20.023
+	c-5.12-8.507-6.356-18.708-12.632-26.219c-6.117-7.551-16.098-8.507-19.087-18.808c37.755-9.185,39.17,38.771,73.06,39.807
+	c10.44,0.418,15.799-2.909,25.402-5.16c2.749-12.113,8.428-21.039,16.875-27.494c-42.078-5.658-76.865-18.788-93.023-50.466
+	c-38.293,1.893-73.339,7.013-105.894,14.843c29.547-10.679,65.807-14.604,104.778-15.819c-2.351-13.807-22.434-10.022-34.866-9.543
+	C47.677,227.17,18.449,230.138,0,233.645c26.817-9.543,64.233-8.348,100.454-8.428c-11.038-34.767-7.232-90.014,17.015-110.615
+	c-6.854-17.254-4.722-45.346,4.184-58.834c27.036,1.175,43.374,12.891,60.388,24.247c21.019-6.017,43.035-9.045,71.904-7.451
+	c12.133,0.677,24.705,6.097,33.731,5.32c8.906-0.877,18.728-10.898,27.534-14.843C326.507,58.099,336.17,56.206,349.22,55.768z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>drive</span>
+                        <a title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档'
+                            href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
+                            <svg viewBox="0 0 207.027 207.027">
+<path d="M69.866,15.557L0,138.919l28.732,52.552l143.288-0.029l35.008-59.588L136.39,15.735L69.866,15.557z M17.166,139.046
+	L74.268,38.205L91.21,67.783L33.24,168.447L17.166,139.046z M99.841,82.851l23.805,41.558l-47.732-0.006L99.841,82.851z
+	 M163.434,176.443l-117.332,0.024l21.53-37.065l64.606,0.008l0.067,0.119l52.865-0.085L163.434,176.443z M140.932,124.411
+	L90.157,35.767l-2.966-5.178l40.751,0.121l57.003,93.706L140.932,124.411z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>working groups</span>
+                        <a title='如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组'
+                           href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
+                            <svg viewBox="0 -45 439.833 439.833">
+
+<polygon points="246.048,195.833 299.966,235.085 319.497,227.296 276.278,195.833"/>
+<polygon points="193.786,195.833 163.556,195.833 120.33,227.3 139.862,235.089"/>
+
+<path d="M219.927,11.558c-23.854,0-37.057,12.362-36.814,36.182c0.348,32.623,14.211,52.414,36.814,52.068
+	c0,0,36.802,1.492,36.802-52.068C256.729,23.918,244.294,11.558,219.927,11.558z"/>
+<path d="M285.017,124.567l-36.77-14.659l-8.608-7.256c-2.274-1.922-5.636-1.78-7.741,0.317l-11.973,11.904l-12.008-11.907
+	c-2.109-2.094-5.465-2.229-7.736-0.313l-8.611,7.256l-36.77,14.661c-11.842,4.715-11.83,46.647-12.848,50.497h155.93
+	C296.866,171.228,296.862,129.28,285.017,124.567z"/>
+
+<path d="M77.976,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.814,36.182C41.509,209.124,55.372,228.915,77.976,228.568z"/>
+<path d="M143.065,253.329l-36.77-14.658l-8.609-7.256c-2.275-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.611,7.256l-36.77,14.66C1.006,258.045,1.018,299.977,0,303.827h155.93
+	C154.915,299.988,154.911,258.042,143.065,253.329z"/>
+
+<path d="M361.878,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.812,36.182C325.411,209.124,339.274,228.915,361.878,228.568z"/>
+<path d="M426.968,253.329l-36.77-14.658l-8.609-7.256c-2.273-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.61,7.256l-36.771,14.66c-11.842,4.715-11.83,46.646-12.848,50.497h155.93
+	C438.817,299.988,438.812,258.042,426.968,253.329z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>slack</span>
+                        <a title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）'
+                                href="https://istio.slack.com" aria-label="slack">
+                            <svg viewBox="0 0 31.444 31.443">
+<path d="M31.202,16.369c-0.62-1.388-2.249-2.011-3.637-1.391l-1.325,0.594l-3.396-7.591l1.325-0.592
+	c1.388-0.622,2.01-2.25,1.389-3.637c-0.62-1.389-2.248-2.012-3.637-1.39l-1.324,0.593l-0.593-1.326
+	c-0.621-1.388-2.249-2.009-3.637-1.388c-1.388,0.62-2.009,2.247-1.389,3.637l0.593,1.325L7.98,8.598L7.388,7.273
+	c-0.621-1.39-2.249-2.009-3.637-1.39C2.363,6.504,1.742,8.132,2.362,9.52l0.592,1.324L1.63,11.438
+	c-1.388,0.621-2.01,2.247-1.389,3.636c0.62,1.388,2.249,2.01,3.637,1.39l1.325-0.594l3.394,7.592l-1.325,0.592
+	c-1.388,0.621-2.009,2.25-1.389,3.637c0.621,1.389,2.249,2.011,3.637,1.391l1.324-0.593l0.593,1.325
+	c0.621,1.389,2.249,2.01,3.637,1.389c1.387-0.62,2.009-2.248,1.388-3.636l-0.591-1.326l7.591-3.394l0.592,1.321
+	c0.621,1.391,2.248,2.013,3.637,1.392c1.388-0.619,2.01-2.248,1.389-3.637l-0.592-1.324l1.323-0.594
+	C31.201,19.384,31.823,17.757,31.202,16.369z M13.623,21.215l-3.395-7.593l7.591-3.394l3.395,7.591L13.623,21.215z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row justify-content-end text-right">
+                    对于开发者
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        <div class="d-xl-none d-print-none">
+            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+        <script src="https://www.google.com/cse/brand?form=search_form"></script>
+
+        
+        <script src="/js/all.min.js" data-manual></script>
+    </body>
+</html>

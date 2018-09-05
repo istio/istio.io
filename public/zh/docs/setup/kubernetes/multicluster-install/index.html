@@ -1,0 +1,6743 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="https://schema.org/WebPage">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#466BB0"/>
+
+        
+            
+        
+
+        
+
+        <meta name="title" content="Istio 多集群设置">
+        <meta name="description" content="安装支持多集群的 Istio。">
+
+        
+
+        
+            <meta name="keywords" content="microservices,services,mesh,kubernetes,多集群">
+        
+
+        
+        <meta property="og:title" content="Istio 多集群设置">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="安装支持多集群的 Istio。">
+        
+            <meta property="og:url" content="/zh/docs/setup/kubernetes/multicluster-install/">
+        
+        <meta property="og:image" content="/img/istio-logo-blue-background.svg">
+        <meta property="og:image:alt" content="Istio Logo">
+        <meta property="og:image:width" content="112">
+        <meta property="og:image:height" content="150">
+        <meta property="og:site_name" content="Istio">
+
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IstioMesh">
+        
+
+        
+            
+                <title>Istio Prelim 1.1 / Istio 多集群设置</title>
+            
+        
+
+        
+        <script>
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', 'UA-98480406-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script async src='https://www.google-analytics.com/analytics.js'></script>
+        
+
+        <script>
+            var branchName = "master";
+            var docTitle = "Istio 多集群设置";
+        </script>
+
+        
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
+
+        
+        <link rel="shortcut icon" href="/favicons/favicon.ico" >
+        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+        <link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+        <link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+        <link rel="icon" type="image/png" href="/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+        <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+        
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-title" content="Istio">
+        <meta name="application-name" content="Istio">
+
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work Sans:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+
+        
+            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="dark">
+        
+
+        <script src="/js/styleSwitcher.min.js"></script>
+    </head>
+
+    <body class="language-unknown">
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
+        
+
+        <a class="navbar-brand" href="/zh/">
+            <span class="logo"><svg viewBox="0 0 300 300">
+<circle cx="150" cy="150" r="150" stroke-width="2" />
+<polygon points="65,240 225,240 125,270"/>
+<polygon points="65,230 125,220 125,110"/>
+<polygon points="135,220 225,230 135,30"/>
+</svg>
+</span>
+
+            
+                <span class="brand-name">Istio Prelim 1.1</span>
+            
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul id="navbar-links" class="navbar-nav active">
+                
+                    <li class="nav-item">
+                        <a class="nav-link active" title="了解如何部署、使用和运维 Istio。" href="/zh/docs/">文档</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        
+                        <a class="nav-link " title="关于使用 Istio 的博客文章。" href="/zh/blog/2018/announcing-1.0.1/">博客</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        <a class="nav-link " title="一堆帮助您部署、配置和使用 Istio 的资源。" href="/zh/help/">帮助</a>
+                    </li>
+                
+                
+                    <li class="nav-item">
+                        <a class="nav-link " title="关于Istio的说明。" href="/zh/about/">关于</a>
+                    </li>
+                
+
+                <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
+                    <a title='选项和设置' href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                        <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">亮主题</a>
+                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">暗主题</a>
+
+                        
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20docs%2fsetup%2fkubernetes%2fmulticluster-install%2findex.md">报告网站Bug</a>
+
+                            
+                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/docs/setup/kubernetes/multicluster-install/index.md">在GitHub上编辑此页</a>
+                            
+                        
+
+                        <div class="dropdown-divider"></div>
+
+                        <h6 class="dropdown-header">本站的其它版本</h6>
+
+                        
+                        
+
+                        
+                            <a href="https://istio.io" class="dropdown-item">当前版本（1.0）</a>
+                            <a href="https://archive.istio.io" class="dropdown-item">旧版本</a>
+                        
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a id="search_show" class="nav-link" href="" title='搜索istio.io' aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                </li>
+            </ul>
+
+            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+                <input type="hidden" name="cx" value="013699703217164175118:veyyqmfmpj4" />
+                <input type="hidden" name="ie" value="utf-8" />
+                <input type="hidden" name="hl" value="en" />
+                <input type="hidden" id="search_page_url" value="/search.html" />
+                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
+                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+        
+
+
+
+<div class="container-fluid">
+    <div class="row row-offcanvas">
+        <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
+            
+            
+                <nav class="sidebar d-print-none">
+    <div class="spacer"></div>
+    <div class="directory" role="tablist">
+        
+
+        
+        
+
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header8">
+                        <a data-toggle="collapse" href="#collapse8" title="一些概念，理解它们有助于您更好地了解 Istio 系统的不同部分及其使用的抽象。" role="button" aria-controls="collapse8">
+                            <div>
+                                
+                                    <img src="/img/concepts.svg" alt="Icon" class="page_icon" />
+                                
+
+                                概念
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse8" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header8">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍 Istio 及其要解决的问题、顶层架构和设计目标。" href="/zh/docs/concepts/what-is-istio/">Istio 是什么?</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍 Istio 中关于流量路由与控制的各项功能。" href="/zh/docs/concepts/traffic-management/">流量管理</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述 Istio 的授权与鉴权功能。" href="/zh/docs/concepts/security/">安全</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述策略实施和遥测机制。" href="/zh/docs/concepts/policies-and-telemetry/">策略与遥测</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍 Istio 组件的性能与可伸缩性方法论、结果和最佳实践。" href="/zh/docs/concepts/performance-and-scalability/">性能与可伸缩性</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header21">
+                        <a data-toggle="collapse" href="#collapse21" title="安装包含在不同的环境下（如 Kubernetes、Consul 等）安装 Istio 控制平面，以及在应用程序部署中安装 sidecar。" role="button" aria-controls="collapse21">
+                            <div>
+                                
+                                    <img src="/img/setup.svg" alt="Icon" class="page_icon" />
+                                
+
+                                安装
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse21" class="collapse show" data-parent="#sidebar" role="tabpanel" aria-labelledby="header21">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-down'></i>
+                        
+                        <a  title="关于如何在 Kubernetes 集群中安装 Istio 控制平面和添加虚拟机到 mesh 中的说明。" href="/zh/docs/setup/kubernetes/">Kubernetes </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="关于 Istio 发布包下载过程的说明。" href="/zh/docs/setup/kubernetes/download-release/">下载 Istio 发布包</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="在 Kubernetes 集群中快速安装 Istio 服务网格的说明。" href="/zh/docs/setup/kubernetes/quick-start/">在 Kubernetes 中快速开始</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何使用 Google Kubernetes Engine (GKE) 快速搭建 Istio 服务。" href="/zh/docs/setup/kubernetes/quick-start-gke-dm/">使用 Google Kubernetes Engine 快速开始</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何使用 IBM Cloud Private 快速设置 Istio。" href="/zh/docs/setup/kubernetes/quick-start-icp/">IBM Cloud Private 快速入门</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何使用阿里云 Kubernetes 容器服务快速安装 Istio。" href="/zh/docs/setup/kubernetes/quick-start-alicloud-ack/">使用阿里云 Kubernetes 容器服务快速启动</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用内含的 Helm chart 安装 Istio。" href="/zh/docs/setup/kubernetes/helm-install/">使用 Helm 进行安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用 Helm 最小化安装 Istio 。" href="/zh/docs/setup/kubernetes/minimal-install/">Istio 最小化安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="使用内置的 Ansible playbook 安装 Istio。" href="/zh/docs/setup/kubernetes/ansible-install/">使用 Ansible 安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。" href="/zh/docs/setup/kubernetes/sidecar-injection/">注入 Istio sidecar</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <span class="current" title="安装支持多集群的 Istio。">Istio 多集群设置</span>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。" href="/zh/docs/setup/kubernetes/mesh-expansion/">网格扩展</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="演示如何独立升级 Istio 控制平面和数据平面。" href="/zh/docs/setup/kubernetes/upgrading-istio/">升级 Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="这里讲述了 Istio 对 Kubernetes 中 Pod 和服务的要求。" href="/zh/docs/setup/kubernetes/spec-requirements/">Istio 对 Pod 和服务的要求</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="如何对各种平台上安装的 Kubernetes 集群进行配置，以满足 Istio 的安装和运行要求。" href="/zh/docs/setup/kubernetes/platform-setup/">各平台下 Kubernetes 集群的配置 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 AWS 中以 Kops 安装的集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/aws/">Amazon Web Services</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="为 Istio 设置阿里云 Kubernetes 集群的说明。" href="/zh/docs/setup/kubernetes/platform-setup/alicloud/">阿里云</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Azure 集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/azure/">Azure</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Google Kubernetes Engine（GKE）集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/gke/">Google Kubernetes Engine</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 IBM Cloud Kubernetes Service（IKS）集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/ibm/">IBM Cloud Kubernetes Service</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Minikube 集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/minikube/">Minikube</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 OpenShift 集群进行配置以便安装运行 Istio。" href="/zh/docs/setup/kubernetes/platform-setup/openshift/">OpenShift</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="基于 Consul 和 Nomad 安装 Istio 控制平面。" href="/zh/docs/setup/consul/">Nomad &amp; Consul </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="通过 Docker Compose 快速安装 Istio service mesh。" href="/zh/docs/setup/consul/quick-start/">通过 Docker 快速安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="基于 Consul 和 Nomad 安装 Istio 控制平面。" href="/zh/docs/setup/consul/install/">安装</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header27">
+                        <a data-toggle="collapse" href="#collapse27" title="如何用 Istio 系统实现特定目标的行为。" role="button" aria-controls="collapse27">
+                            <div>
+                                
+                                    <img src="/img/tasks.svg" alt="Icon" class="page_icon" />
+                                
+
+                                任务
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse27" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header27">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示Istio流量路由功能的任务。" href="/zh/docs/tasks/traffic-management/">流量管理 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务向您展示如何根据权重和 HTTP header配置动态请求路由。" href="/zh/docs/tasks/traffic-management/request-routing/">配置请求路由</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何注入延迟并测试应用程序的弹性。" href="/zh/docs/tasks/traffic-management/fault-injection/">故障注入</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="向您展示如何将流量从旧版本迁移到新版本的服务。" href="/zh/docs/tasks/traffic-management/traffic-shifting/">流量转移</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。" href="/zh/docs/tasks/traffic-management/request-timeouts/">设置请求超时</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍在服务网格 Istio 中如何配置外部公开服务。" href="/zh/docs/tasks/traffic-management/ingress/">控制 Ingress 流量</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="配置 Istio 令其以 TLS 或双向 TLS 的方式在网格外公开服务。" href="/zh/docs/tasks/traffic-management/secure-ingress/">用 HTTPS 加密 Gateway</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="在 Istio 中配置从网格内访问外部服务的流量路由。" href="/zh/docs/tasks/traffic-management/egress/">控制 Egress 流量</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="用连接、请求以及外部检测来进行熔断配置的过程。" href="/zh/docs/tasks/traffic-management/circuit-breaking/">熔断</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务演示了 Istio 的流量镜像/阴影功能。" href="/zh/docs/tasks/traffic-management/mirroring/">镜像</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示如何对 Istio service 进行健康检查。" href="/zh/docs/tasks/traffic-management/app-health-check/">Istio Service 健康检查</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示对服务网格进行安全加固的方法。" href="/zh/docs/tasks/security/">安全 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍如何使用 Istio 认证策略设置双向 TLS 和基本的终端用户认证。" href="/zh/docs/tasks/security/authn-policy/">基础认证策略</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="对 Istio 的自动双向 TLS 认证功能进行体验和测试。" href="/zh/docs/tasks/security/mutual-tls/">深入了解双向 TLS</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示如何在服务网格中进行基于角色的访问控制。" href="/zh/docs/tasks/security/role-based-access-control/">基于角色的访问控制</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="运维人员如何使用现有根证书配置 Citadel 进行证书以及密钥的签发。" href="/zh/docs/tasks/security/plugin-ca-cert/">插入外部 CA 密钥和证书</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何在 Kubernetes 中启用 Citadel 的健康检查。" href="/zh/docs/tasks/security/health-check/">Citadel 的健康检查</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何渐进式的为现有 Istio 服务添加双向 TLS 支持。" href="/zh/docs/tasks/security/mtls-migration/">双向 TLS 的迁移</a>
+                    
+                </li>
+             
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示如何在 HTTPS 服务上启用双向 TLS。" href="/zh/docs/tasks/security/https-overlay/">通过 HTTPS 进行双向 TLS</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示策略实施功能。" href="/zh/docs/tasks/policy-enforcement/">策略 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。" href="/zh/docs/tasks/policy-enforcement/rate-limiting/">启用速率限制</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="展示使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法。" href="/zh/docs/tasks/policy-enforcement/denial-and-list/">Denier 适配器以及黑白名单</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="演示从服务网格收集遥测信息的方法。" href="/zh/docs/tasks/telemetry/">遥测 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何进行代理配置将跟踪请求发送给 Zipkin 或 Jaeger。" href="/zh/docs/tasks/telemetry/distributed-tracing/">分布式跟踪</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="这一任务讲述如何配置 Istio，进行指标和日志的收集工作。" href="/zh/docs/tasks/telemetry/metrics-logs/">收集指标和日志</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="本任务展示了如何配置 Istio 进行 TCP 服务的指标收集。" href="/zh/docs/tasks/telemetry/tcp-metrics/">获取 TCP 服务指标</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何使用 Prometheus 查询 Istio 指标。" href="/zh/docs/tasks/telemetry/querying-metrics/">查询 Prometheus 的指标</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何设置和使用 Istio 仪表板来监视网格流量。" href="/zh/docs/tasks/telemetry/using-istio-dashboard/">使用 Grafana 进行指标可视化</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务说明如何在 Istio 网格中生成服务图。" href="/zh/docs/tasks/telemetry/servicegraph/">生成服务图</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务将展示如何配置 Istio 将日志记录到 Fluentd 守护进程。" href="/zh/docs/tasks/telemetry/fluentd/">使用 Fluentd 记录日志</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header42">
+                        <a data-toggle="collapse" href="#collapse42" title="这里包括多个可供 Istio 使用的可完整工作的示例，你可以用来亲自部署和体验这些示例。" role="button" aria-controls="collapse42">
+                            <div>
+                                
+                                    <img src="/img/examples.svg" alt="Icon" class="page_icon" />
+                                
+
+                                示例
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse42" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header42">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="部署一个用于演示多种 Istio 特性的应用，由四个单独的微服务构成。" href="/zh/docs/examples/bookinfo/">Bookinfo 应用</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="如何在 Istio 服务网格中使用多种流量管理功能。" href="/zh/docs/examples/intelligent-routing/">智能路由</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="演示如何使用 Istio Mixer 和 Istio sidecar 获取指标和日志，并在不同的服务间进行跟踪。" href="/zh/docs/examples/telemetry/">深入遥测</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="说明如何在谷歌云 Endpoints 服务中手动整合 Istio。" href="/zh/docs/examples/endpoints/">在谷歌云 Endpoints 服务中安装 Istio</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="在单一服务网格中，如何使用 Istio 对 Kubernetes 集群以及虚拟机进行控制。" href="/zh/docs/examples/integrating-vms/">虚拟机集成</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="在 Istio 中进行网关流量控制的各种完整工作示例。" href="/zh/docs/examples/advanced-gateways/">高级网关流量控制 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍如何为入口网关配置 SNI 直通。" href="/zh/docs/examples/advanced-gateways/ingress-sni-passthrough/">没有 TLS 的 Ingress Gateway</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="此任务描述 Istio 如何配置出口流量的 TLS。" href="/zh/docs/examples/advanced-gateways/egress-tls-origination/">出口流量的 TLS</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述如何通过专用网关服务将流量定向到外部服务来配置 Istio。" href="/zh/docs/examples/advanced-gateways/egress-gateway/">配置 Egress 网关</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="为不同的云平台启用 Istio 多集群功能的完整工作示例。" href="/zh/docs/examples/multicluster/">启用多集群功能 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="基于 GKE 的 Istio 多集群安装。" href="/zh/docs/examples/multicluster/gke/">Google Kubernetes Engine</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="多 IBM Cloud Private 集群安装 Istio 示例。" href="/zh/docs/examples/multicluster/icp/">IBM Cloud Private</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="IBM Cloud Kubernetes Service 和 IBM Cloud Private 之间的多集群示例。" href="/zh/docs/examples/multicluster/iks-icp/">IBM Cloud Kubernetes Service &amp; IBM Cloud Private</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="header74">
+                        <a data-toggle="collapse" href="#collapse74" title="参考部分包含详细的权威参考资料，如命令行选项、配置选项和 API 调用参数。" role="button" aria-controls="collapse74">
+                            <div>
+                                
+                                    <img src="/img/reference.svg" alt="Icon" class="page_icon" />
+                                
+
+                                参考
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="collapse74" class="collapse" data-parent="#sidebar" role="tabpanel" aria-labelledby="header74">
+                        <div class="card-body">
+                            
+
+
+
+
+<ul class="tree">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="关于配置选项的详细信息。" href="/zh/docs/reference/config/">配置 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="关于如何配置Istio授权特性的描述。" href="/zh/docs/reference/config/authorization/">授权 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述所支持的约束和属性。" href="/zh/docs/reference/config/authorization/constraints-and-properties/">约束和属性</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="描述如何配置 Istio 的策略和遥测功能。" href="/zh/docs/reference/config/policy-and-telemetry/">策略和遥测 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="介绍策略和控制中会用到的一些基础属性词汇。" href="/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/">属性词汇</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Mixer 的配置表达式语言参考。" href="/zh/docs/reference/config/policy-and-telemetry/expression-language/">表达式语言</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="Mixer 适配器能够让 Istio 连接各种基础设施后端以完成类似指标和日志这样的功能。" href="/zh/docs/reference/config/policy-and-telemetry/adapters/">适配器 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="Mixer 模板用于将数据发送到各个适配器。" href="/zh/docs/reference/config/policy-and-telemetry/templates/">模板 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="通过 Mixer 从 Istio 导出的默认监控指标（Metrics）。" href="/zh/docs/reference/config/policy-and-telemetry/metrics/">默认监控指标</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="描述了使用 Helm chart 安装 Istio 时可以使用的选项。" href="/zh/docs/reference/config/installation-options/">安装选项</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="流量路由配置。" href="/zh/docs/reference/config/istio.networking.v1alpha3/">通信路由</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li class="sublist">
+                    
+
+                    <label class='tree-toggle'>
+                        
+                            <i class='fa fa-lg fa-caret-right'></i>
+                        
+                        <a  title="描述 Istio 命令和工具的用法及选项。" href="/zh/docs/reference/commands/">命令 </a>
+                    </label>
+
+                    
+
+
+
+
+<ul class="tree collapse">
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Galley 为 Istio 提供配置管理服务。" href="/zh/docs/reference/commands/galley/">galley</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <li>
+                    
+                        <a title="Istio 控制界面。" href="/zh/docs/reference/commands/istioctl/">istioctl</a>
+                    
+                </li>
+             
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                </li>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+</ul>
+
+                        </div>
+                    </div>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+
+        
+            
+        
+    </div>
+</nav>
+
+            
+        </div>
+
+        
+            <div class="col-12 col-md-9 col-xl-8">
+        
+
+            
+                <p class="d-md-none">
+                    <label class="sidebar-toggler" data-toggle="offcanvas">
+                        <i class="fa fa-sign-out-alt"></i>
+                    </label>
+                </p>
+            
+
+            <main aria-labelledby="title">
+                
+                    <div class="pagenav">
+                        <p><a href="/zh/docs/setup/kubernetes/" title="关于如何在 Kubernetes 集群中安装 Istio 控制平面和添加虚拟机到 mesh 中的说明。">
+                            <i style="transform: scaleX(-1)" class="fa fa-level-up-alt"></i>
+                            &nbsp;Kubernetes</a></p>
+                    </div>
+                
+
+                <h1 id="title">
+                    
+                    Istio 多集群设置
+                </h1>
+
+                
+
+                
+
+                
+                    <nav class="toc-inlined d-xl-none d-print-none" >
+                        <hr/>
+                        <div class="directory" role="directory">
+                            
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+        
+        <nav id="InlinedTableOfContents">
+            <ul>
+                
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%85%88%e5%86%b3%e6%9d%a1%e4%bb%b6">先决条件</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e6%a6%82%e8%a6%81">概要</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%9c%a8%e6%9c%ac%e5%9c%b0%e9%83%a8%e7%bd%b2-istio-%e7%9a%84%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2">在本地部署 Istio 的控制平面</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%9c%a8%e6%af%8f%e4%b8%aa%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e4%b8%8a%e5%ae%89%e8%a3%85-istio-%e8%bf%9c%e7%a8%8b%e7%bb%84%e4%bb%b6">在每个远程集群上安装 Istio 远程组件</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e4%bb%8e-istio-%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2%e8%ae%be%e7%bd%ae-istio-%e8%bf%9c%e7%a8%8b%e7%bb%84%e4%bb%b6%e6%89%80%e9%9c%80%e7%9a%84-pod-ip-%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f">从 Istio 控制平面设置 Istio 远程组件所需的 Pod IP 环境变量</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8-helm-kubectl-%e6%8a%8a%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e8%bf%9e%e6%8e%a5%e5%88%b0%e6%9c%ac%e5%9c%b0">使用 Helm + <code>kubectl</code> 把远程集群连接到本地</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8-helm-tiller-%e8%bf%9b%e8%a1%8c%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e7%9a%84%e8%bf%9e%e6%8e%a5">使用 Helm + Tiller 进行远程集群的连接</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#helm-%e9%85%8d%e7%bd%ae%e5%8f%82%e6%95%b0">Helm 配置参数</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e4%b8%ba%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e7%94%9f%e6%88%90-kubeconfigs">为远程集群生成 <code>kubeconfigs</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%ae%9e%e4%be%8b%e5%8c%96%e6%af%8f%e4%b8%aa%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e7%9a%84%e5%87%ad%e6%8d%ae">实例化每个远程集群的凭据</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%88%a0%e9%99%a4">删除</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8-kubectl-%e5%88%a0%e9%99%a4-istio-remote">使用 <code>kubectl</code> 删除 istio-remote</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e6%88%96%e8%80%85%e4%bd%bf%e7%94%a8-helm-tiller-%e5%88%a0%e9%99%a4-istio-remote">或者使用 Helm + Tiller 删除 istio-remote</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e6%89%8b%e5%8a%a8-sidecar-%e6%b3%a8%e5%85%a5%e7%a4%ba%e4%be%8b">远程集群手动 sidecar 注入示例</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%89%8b%e5%8a%a8%e5%b0%86-sidecar-%e6%b3%a8%e5%85%a5%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e6%b8%85%e5%8d%95">手动将 sidecar 注入应用程序清单</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e4%bb%8e%e4%b8%8d%e5%90%8c%e9%9b%86%e7%be%a4%e8%ae%bf%e9%97%ae%e6%9c%8d%e5%8a%a1">从不同集群访问服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e9%83%a8%e7%bd%b2%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9">部署注意事项</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%9b%b4%e6%96%b0-dns-%e6%9d%a1%e7%9b%ae">更新 DNS 条目</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1%e5%99%a8%e6%9c%8d%e5%8a%a1%e7%b1%bb%e5%9e%8b">使用负载均衡器服务类型</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e9%80%9a%e8%bf%87%e7%bd%91%e5%85%b3%e5%8f%91%e5%b8%83-istio-%e6%9c%8d%e5%8a%a1">通过网关发布 Istio 服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e5%ae%89%e5%85%a8">安全</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2%e5%ae%89%e5%85%a8">控制平面安全</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f-pod-%e4%b9%8b%e9%97%b4%e7%9a%84%e5%8f%8c%e5%90%91-tls">应用程序 pod 之间的双向 TLS</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e9%83%a8%e7%bd%b2%e7%a4%ba%e4%be%8b">部署示例</a></li>
+
+                    
+                
+
+                
+                
+                    </ul>
+                
+
+                
+                    
+                        <li><a href="#see-also">See also</a></li>
+                    
+                
+            </ul>
+        </nav>
+    
+
+
+                        </div>
+                        <hr/>
+                    </nav>
+                
+
+
+
+<p>介绍 Istio 多集群的安装过程。</p>
+
+<h2 id="先决条件">先决条件</h2>
+
+<ul>
+<li><p>两个或更多的 <strong>1.9 以上版本</strong> 的 Kubernetes 集群。</p></li>
+
+<li><p>在 <strong>一个</strong> Kubernetes 上部署 <a href="/zh/docs/setup/kubernetes/quick-start/">Istio 控制平面</a> 的能力。</p></li>
+
+<li><p>RFC 1918、VPN 或者其他更高级的网络技术，需完成下列要求：</p>
+
+<ul>
+<li><p>各集群的 Pod CIDR 范围和 Service CIDR 范围必须是唯一的，不允许相互重叠。</p></li>
+
+<li><p>每个集群中的所有的 Pod CIDR 需要能够互相路由。</p></li>
+
+<li><p>所有的 Kubernetes 控制平面 API Server 互相可路由。</p></li>
+</ul></li>
+
+<li><p>Helm <strong>2.7.2 或者更新的版本</strong>。Tiller 可选。</p></li>
+</ul>
+
+<h2 id="概要">概要</h2>
+
+<p>多集群是在 Kubernetes 控制平面上运行远程配置，连接到 <strong>同一个</strong> Istio 控制平面。
+（主控）Istio 在连接了一个或多个 Kubernetes 集群之后，Envoy 就能和这个 Istio 控制平面进行通信，
+并生成一个跨越多个 Kubernetes 集群的网格网络。</p>
+
+<p>本指南介绍如何通过使用 Istio 仓库里提供的清单和 Helm chart安装一个多集群 Istio 拓扑。</p>
+
+<h2 id="在本地部署-istio-的控制平面">在本地部署 Istio 的控制平面</h2>
+
+<p>在 <strong>一个</strong> Kubernetes 集群上<a href="/zh/docs/setup/kubernetes/quick-start/#安装步骤">安装 Istio 控制平面</a></p>
+
+<h2 id="在每个远程集群上安装-istio-远程组件">在每个远程集群上安装 Istio 远程组件</h2>
+
+<p>Istio-remote 组件必须在每个远程集群上分别部署。有两种安装方式：使用 Helm 结合 Tiller，
+或者用 Helm 配合 <code>kubectl</code>。</p>
+
+<h3 id="从-istio-控制平面设置-istio-远程组件所需的-pod-ip-环境变量">从 Istio 控制平面设置 Istio 远程组件所需的 Pod IP 环境变量</h3>
+
+<p>在进行本节操作之前，请等待 Istio 控制平面完成初始化。</p>
+
+<p>这个操作必须在 Istio 控制平面所在集群上运行，以便于完成对 Pilot、Policy 以及 Pod IP 端点的抓取工作。</p>
+
+<p>如果在每个远程集群上都使用了 Helm + Tiller 的组合，在使用 Helm 把远程机群和 Istio 控制平面连接起来之前，首先要把环境变量拷贝到各个 Node 上。</p>
+
+<pre><code class='language-command'>$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath=&#39;{.items[0].status.podIP}&#39;)
+$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath=&#39;{.items[0].status.podIP}&#39;)
+$ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath=&#39;{.items[0].status.podIP}&#39;)
+$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath=&#39;{.items[0].status.podIP}&#39;)
+$ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath=&#39;{range .items[*]}{.status.podIP}{end}&#39;)</code></pre>
+
+<p>接着选择以下选项的其中一个将会把远程集群连接到本地集群：</p>
+
+<ul>
+<li><p>通过 <a href="#使用-helm-kubectl-把远程集群连接到本地"><code>kubectl</code> + Helm</a></p></li>
+
+<li><p>通过 <a href="#使用-helm-tiller-进行远程集群的连接">Helm + Tiller</a></p></li>
+
+<li><p>使用 <em>sidecar 注入。</em>  默认操作是在远程集群上启用自动 sidecar 注入，更多手动 sidecar 注入示例，详见<a href="#远程集群手动-sidecar-注入示例">手动 sidecar 注入示例</a></p></li>
+</ul>
+
+<h3 id="使用-helm-kubectl-把远程集群连接到本地">使用 Helm + <code>kubectl</code> 把远程集群连接到本地</h3>
+
+<ol>
+<li><p>在远程集群上用 Helm template 命令来指定 Istio 控制平面的服务端点：</p>
+
+<pre><code class='language-command'>$ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
+--name istio-remote \
+--set global.remotePilotAddress=${PILOT_POD_IP} \
+--set global.remotePolicyAddress=${POLICY_POD_IP} \
+--set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+--set global.proxy.envoyStatsd.enabled=true \
+--set global.proxy.envoyStatsd.host=${STATSD_POD_IP} \
+--set global.remoteZipkinAddress=${ZIPKIN_POD_IP} &gt; $HOME/istio-remote.yaml</code></pre></li>
+
+<li><p>为远程 Istio 创建一个 namespace。</p>
+
+<pre><code class='language-command'>$ kubectl create ns istio-system</code></pre></li>
+
+<li><p>实例化远程集群并连接 Istio 控制平面：</p>
+
+<pre><code class='language-command'>$ kubectl apply -f $HOME/istio-remote.yaml</code></pre></li>
+
+<li><p>标记所有需要自动 sidecar 注入的远程集群的命名空间，以下示例标记了 <code>default</code> 命名空间。</p>
+
+<pre><code class='language-command'>$ kubectl label namespace default istio-injection=enabled</code></pre>
+
+<p>在该操作上加以修改可以将任何其他的 kubernetes 命名空间设置自动 sidecar 注入。</p></li>
+</ol>
+
+<h3 id="使用-helm-tiller-进行远程集群的连接">使用 Helm + Tiller 进行远程集群的连接</h3>
+
+<ol>
+<li><p>如果还没有给 Helm 设置 Service account，请执行：</p>
+
+<pre><code class='language-command'>$ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml</code></pre></li>
+
+<li><p>Helm 初始化：</p>
+
+<pre><code class='language-command'>$ helm init --service-account tiller</code></pre></li>
+
+<li><p>安装 Helm Chart：</p>
+
+<pre><code class='language-command'>$ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}</code></pre></li>
+</ol>
+
+<h3 id="helm-配置参数">Helm 配置参数</h3>
+
+<p>为了使远程集群的 sidecar 与 Istio 控制平面进行交互，<code>pilot</code>、
+<code>policy</code>、<code>telemetry</code>、<code>statsd</code> 和跟踪服务端点需要在 <code>istio-remote</code> Helm chart中配置。
+该 chart 默认启用远程集群中的自动 sidecar 注入，但可以通过 chart 变量禁用。以下表格描述了
+<code>istio-remote</code> Helm chart的配置参数。</p>
+
+<table>
+<thead>
+<tr>
+<th>Helm 变量</th>
+<th>可接受取值</th>
+<th>默认</th>
+<th>用途</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>global.remotePilotAddress</code></td>
+<td>有效的 IP 地址或主机名</td>
+<td>None</td>
+<td>指定 Istio 控制平面辅助 Pod IP 地址或远程集群的 DNS 可解析主机名</td>
+</tr>
+
+<tr>
+<td><code>global.remotePolicyAddress</code></td>
+<td>有效的 IP 地址或主机名</td>
+<td>None</td>
+<td>指定 Istio 控制平面的策略 Pod IP 地址或远程集群 DNS 可解析主机名</td>
+</tr>
+
+<tr>
+<td><code>global.remoteTelemetryAddress</code></td>
+<td>有效的 IP 地址或主机名</td>
+<td>None</td>
+<td>指定 Istio 控制平面的遥测 Pod IP 地址或远程集群 DNS 可解析主机名</td>
+</tr>
+
+<tr>
+<td><code>global.proxy.envoyStatsd.enabled</code></td>
+<td>true, false</td>
+<td>false</td>
+<td>指定 Istio 控制平面是否启用了 Envoy Statsd</td>
+</tr>
+
+<tr>
+<td><code>global.proxy.envoyStatsd.host</code></td>
+<td>有效的 IP 地址或主机名</td>
+<td>None</td>
+<td>指定 Istio 控制平面的 <code>statsd-prom-bridge</code> Pod IP 地址或远程集群 DNS 可解析主机名。如果 <code>global.proxy.envoyStatsd.enabled = false</code> 则忽略。</td>
+</tr>
+
+<tr>
+<td><code>global.remoteZipkinAddress</code></td>
+<td>有效的 IP 地址或主机名</td>
+<td>None</td>
+<td>指定 Istio 控制平面的跟踪应用程序 Pod IP 地址或远程集群 DNS 可解析主机名，例如 <code>zipkin</code> 或 <code>jaeger</code>。</td>
+</tr>
+
+<tr>
+<td><code>sidecarInjectorWebhook.enabled</code></td>
+<td>true, false</td>
+<td>true</td>
+<td>指定是否在远程集群上启用自动 sidecar 注入</td>
+</tr>
+
+<tr>
+<td><code>global.remotePilotCreateSvcEndpoint</code></td>
+<td>true, false</td>
+<td>false</td>
+<td>如果设置，使用 <code>remotePilotAddress</code> IP <code>istio-pilot</code> 的无选择器服务和端点将会被创建，这将确保 <code>istio-pilot.&lt;namespace&gt;</code> 在远程集群中是 DNS 可解析的。</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="为远程集群生成-kubeconfigs">为远程集群生成 <code>kubeconfigs</code></h2>
+
+<p>Istio 控制平面需要访问网格中的所有集群才能发现服务、endpoint 和 pod 属性。
+以下将描述如何生成一个 <code>kubeconfig</code> 文件用于 Istio 控制平面使用的远程集群。</p>
+
+<p>在远程集群中，<code>istio-remote</code> Helm chart 创建了一个名字叫 <code>istio-multi</code> 的
+ Kubernetes service account，它用于最小的 RBAC 访问权限。
+ 以下使用 <code>istio-remote</code> Helm chart 生成一个 <code>kubeconfig</code> 文件给远程集群，
+ 用于创建 <code>istio-multi</code> service account 的证书。</p>
+
+<p>应在要添加到服务网格的每个远程集群上执行以下过程，
+ 该过程要求集群管理员用户访问远程集群。</p>
+
+<ol>
+<li><p>准备环境变量为 <code>ServiceAccount</code> <code>istio-multi</code> 构建 <code>kubeconfig</code> 文件：</p>
+
+<pre><code class='language-command'>$ export WORK_DIR=$(pwd)
+$ CLUSTER_NAME=$(kubectl config view --minify=true -o &#34;jsonpath={.clusters[].name}&#34;)
+$ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
+$ SERVER=$(kubectl config view --minify=true -o &#34;jsonpath={.clusters[].cluster.server}&#34;)
+$ NAMESPACE=istio-system
+$ SERVICE_ACCOUNT=istio-multi
+$ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath=&#39;{.secrets[].name}&#39;)
+$ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o &#34;jsonpath={.data[&#39;ca\.crt&#39;]}&#34;)
+$ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o &#34;jsonpath={.data[&#39;token&#39;]}&#34; | base64 --decode)</code></pre>
+
+<p><strong>注意</strong>: 在许多系统上， <code>base64 --decode</code> 的替代方案是 <code>openssl enc -d -base64 -A</code>。</p></li>
+
+<li><p>在工作目录为 <code>ServiceAccount</code> <code>istio-multi</code> 创建 <code>kubeconfig</code>：</p>
+
+<pre><code class='language-bash'>cat &lt;&lt;EOF &gt; ${KUBECFG_FILE}
+apiVersion: v1
+clusters:
+   - cluster:
+       certificate-authority-data: ${CA_DATA}
+       server: ${SERVER}
+     name: ${CLUSTER_NAME}
+contexts:
+   - context:
+       cluster: ${CLUSTER_NAME}
+       user: ${CLUSTER_NAME}
+     name: ${CLUSTER_NAME}
+current-context: ${CLUSTER_NAME}
+kind: Config
+preferences: {}
+users:
+   - name: ${CLUSTER_NAME}
+     user:
+       token: ${TOKEN}
+EOF</code></pre></li>
+
+<li><p><em>(可选)</em>  设置环境变量，创建文件以创建远程集群 secret：</p>
+
+<pre><code class='language-bash'>cat &lt;&lt;EOF &gt; remote_cluster_env_vars
+export CLUSTER_NAME=${CLUSTER_NAME}
+export KUBECFG_FILE=${KUBECFG_FILE}
+export NAMESPACE=${NAMESPACE}
+EOF</code></pre></li>
+</ol>
+
+<p>此时，远程集群的 <code>kubeconfig</code> 文件已在当前目录中创建，集群的文件名与原始的 <code>kubeconfig</code> 集群名称相同。</p>
+
+<h2 id="实例化每个远程集群的凭据">实例化每个远程集群的凭据</h2>
+
+<p>通过使用 <code>WORK_DIR</code>、<code>CLUSTER_NAME</code> 在运行 Istio 控制面板的集群上执行操作，<code>NAMESPACE</code> 环境变量设置在<a href="#为远程集群生成-kubeconfigs">为远程集群生成 kubeconfig</a> 步骤.</p>
+
+<ul>
+<li><p><em>(可选)</em>  获取为远程集群 secret 创建的环境变量文件：</p>
+
+<pre><code class='language-command'>$ source remote_cluster_env_vars</code></pre></li>
+</ul>
+
+<p>Istio 可以安装在除 istio-system 之外的其他命名空间中。</p>
+
+<p>运行 Istio 控制平面的本地集群不需要存储和标记它的 secret。
+本地节点始终知道其 Kubernetes 凭据，但本地节点不知道远程节点的凭据。</p>
+
+<p>为每个远程集群创建一个 secret 并适当标记它：</p>
+
+<pre><code class='language-command'>$ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n ${NAMESPACE}
+$ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}</code></pre>
+
+<p><img src="/img/exclamation-mark.svg" alt="Warning" title="Warning" style="width: 2rem; height: 2rem; display:inline" />
+Kubernetes secret 数据秘钥必须遵守 <code>DNS-1123 subdomain</code>
+<a href="https://tools.ietf.org/html/rfc1123#page-13">格式</a>, 所以文件名不能有像下划线这样的符号。要解决任何问题，您只需更改文件名即可符合格式。</p>
+
+<h2 id="删除">删除</h2>
+
+<blockquote>
+<p>删除方法必须和安装方法相匹配（<code>Helm + kubectl</code> 或者 <code>Helm + Tiller</code>）</p>
+</blockquote>
+
+<h3 id="使用-kubectl-删除-istio-remote">使用 <code>kubectl</code> 删除 istio-remote</h3>
+
+<pre><code class='language-command'>$ kubectl delete -f $HOME/istio-remote.yaml</code></pre>
+
+<h3 id="或者使用-helm-tiller-删除-istio-remote">或者使用 Helm + Tiller 删除 istio-remote</h3>
+
+<pre><code class='language-command'>$ helm delete --purge istio-remote</code></pre>
+
+<h2 id="远程集群手动-sidecar-注入示例">远程集群手动 sidecar 注入示例</h2>
+
+<p>以下示例显示如何使用 <code>helm template</code> 命令为禁用自动 sidecar 注入的远程集群生成清单。
+此外，该示例还指示如何使用远程集群的 configmaps 和 <code>istioctl kube-inject</code> 命令为远程集群生成任何应用程序清单。</p>
+
+<p>将对远程集群执行以下过程。</p>
+
+<blockquote>
+<p>端点 IP 环境变量需要像<a href="#从-istio-控制平面设置-istio-远程组件所需的-pod-ip-环境变量">上一节</a>中那样设置</p>
+</blockquote>
+
+<ol>
+<li><p>在远程控制器上使用 <code>helm template</code> 命令指定 Istio 控制平面服务端点：</p>
+
+<pre><code class='language-command'>$ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false &gt; $HOME/istio-remote_noautoinj.yaml</code></pre></li>
+
+<li><p>为远程 Istio 创建命名空间。</p>
+
+<pre><code class='language-command'>$ kubectl create ns istio-system</code></pre></li>
+
+<li><p>实例化远程集群与 Istio 控制平面的连接：</p>
+
+<pre><code class='language-command'>$ kubectl apply -f $HOME/istio-remote_noautoinj.yaml</code></pre></li>
+
+<li><p><a href="#为远程集群生成-kubeconfigs">为远程集群生成 kubeconfig</a></p></li>
+
+<li><p><a href="#实例化每个远程集群的凭据">实例化每个远程集群的凭据</a></p></li>
+</ol>
+
+<h3 id="手动将-sidecar-注入应用程序清单">手动将 sidecar 注入应用程序清单</h3>
+
+<p>以下是用于将 sidecar 注入应用程序清单的 <code>istioctl</code> 命令示例。 这些命令应该在 shell 中运行，并为远程集群设置 <code>kubeconfig</code> 上下文。</p>
+
+<pre><code class='language-command'>$ ORIGINAL_SVC_MANIFEST=mysvc-v1.yaml
+$ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfigMapName istio -f ${ORIGINAL_SVC_MANIFEST} | kubectl apply -f -</code></pre>
+
+<h2 id="从不同集群访问服务">从不同集群访问服务</h2>
+
+<p>Kubernetes 在集群基础上解析DNS。 由于 DNS 解析与集群相关联，因此无论服务端点的位置如何，
+都必须在运行客户端的每个集群中定义服务对象。为确保这种情况，请使用 <code>kubectl</code> 将服务对象复制到每个集群，
+复制可确保 Kubernetes 可以解析任何集群中的服务名称。由于服务对象是在命名空间中定义的，
+因此必须定义命名空间（如果该命名空间不存在），并将其包含在所有集群的服务定义中。</p>
+
+<h2 id="部署注意事项">部署注意事项</h2>
+
+<p>上述过程提供了部署多集群环境的简单分步指南，生产环境可能需要其他步骤或更复杂的部署选项。该过程收集 Istio 服务的端点 IP 并使用它们来调用 Helm，这将在远程集群上创建 Istio 服务。
+作为在远程集群中创建这些服务和端点的一部分，Kubernetes 会将 DNS 条目添加到 kube-dns 中。这允许远程集群中的 kube-dns 解析这些远程集群中所有 envoy sidecar 的 Istio 服务名称。
+由于 Kubernetes pod 没有固定的 IP，因此重新启动控制平面集群中的任何 Istio 服务 pod 将导致其端点发生更改。因此，从远程集群到该端点的任何连接都将被破坏，这在 <a href="https://github.com/istio/istio/issues/4822">Istio issue #4822</a> 中有记录。</p>
+
+<p>有许多方法可以避免或解决这种情况，本节提供了这些选项的高级概述。</p>
+
+<ul>
+<li>更新 DNS 条目</li>
+<li>使用负载均衡器服务类型</li>
+<li>通过网关发布 Istio 服务</li>
+</ul>
+
+<h3 id="更新-dns-条目">更新 DNS 条目</h3>
+
+<p>在任何故障或 pod 重启时，可以使用 Istio 服务正确的映射端点，更新远程集群上的 kube-dns。
+有很多方法可以做到这一点，最明显的是在控制平面集群上的 Istio 服务重新启动后重新运行远程集群中的 Helm 安装。</p>
+
+<h3 id="使用负载均衡器服务类型">使用负载均衡器服务类型</h3>
+
+<p>在 Kubernetes 中，您可以声明服务类型为 <a href="https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types"><code>LoadBalancer</code></a>。
+pod 重启问题的一个简单解决方案是为 Istio 服务使用负载平衡器。
+然后，您可以使用负载均衡器 IP 作为 Istio 服务的端点 IP 来配置远程集群。
+您可能需要这些 Istio 服务的平衡器 IP：<code>istio-pilot，istio-telemetry，istio-policy，istio-statsd-prom-bridge，zipkin</code></p>
+
+<p>目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 但您可以自己修改 Istio Helm chart 或 Istio 清单。</p>
+
+<h3 id="通过网关发布-istio-服务">通过网关发布 Istio 服务</h3>
+
+<p>该操作使用了 Istio Ingress 网关功能，远程集群拥有 <code>istio-pilot，istio-telemetry，istio-policy，istio-statsd-prom-bridge，zipkin</code> 服务，他们指向了 Istio ingress 的负载均衡 IP。所有服务都可以指向相同的 IP，向 ingress 网关提供目的地规则以在主集群中到达适当的 Istio 服务。</p>
+
+<p>在此选项中有 2 个子选项。 一种是重新使用默认 Istio ingress 网关提供的清单或 Helm chart，另一种选择是专门为多集群创建另一个 Istio ingress 网关。</p>
+
+<h2 id="安全">安全</h2>
+
+<p>Istio 支持在控制平面组件之间以及在 sidecar 注入的应用程序 pod 之间部署双向 TLS。</p>
+
+<h3 id="控制平面安全">控制平面安全</h3>
+
+<p>启用控制平面安全的步骤如下：</p>
+
+<ol>
+<li><p>部署了 Istio 控制平面的集群</p>
+
+<ol>
+<li>启用控制平面安全</li>
+<li>禁用自制 <code>citadel</code> 证书</li>
+<li>在 Istio 控制平面中带有 <a href="/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书">CA 证书</a>并名为 <code>cacerts</code> 的 secret</li>
+</ol></li>
+
+<li><p>部署了 Istio 的远程集群</p>
+
+<ol>
+<li>启用控制平面安全</li>
+<li>禁用自制 <code>citadel</code> 证书</li>
+<li>在 Istio 控制平面中带有 <a href="/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书">CA 证书</a>并名为 <code>cacerts</code> 的 secret
+
+<ol>
+<li>远程集群的 CA 证书需要由与主集群相同的 CA 或根 CA 签名。</li>
+</ol></li>
+<li>Istio 试验服务主机名可通过 DNS 解析
+
+<ol>
+<li>此项操作是必须的，因为 Istio 使用 <code>istio-pilot.&lt;namespace&gt;</code> 名称格式配置 sidecar 以验证证书使用者名称。</li>
+</ol></li>
+<li>设置控制平面的 IP 或可解析的主机名</li>
+</ol></li>
+</ol>
+
+<h3 id="应用程序-pod-之间的双向-tls">应用程序 pod 之间的双向 TLS</h3>
+
+<p>为所有应用程序 pod 启用双向 TLS 的步骤如下：</p>
+
+<ol>
+<li><p>部署了 Istio 控制平面的集群</p>
+
+<ol>
+<li>开启全局双向 TLS</li>
+<li>禁用自制 <code>citadel</code> 证书</li>
+<li>在 Istio 控制平面中带有 <a href="/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书">CA 证书</a>并名为 <code>cacerts</code> 的 secret</li>
+</ol></li>
+
+<li><p>部署了 Istio 的远程集群</p>
+
+<ol>
+<li>开启全局双向 TLS</li>
+<li>禁用自制 <code>citadel</code> 证书</li>
+<li>在 Istio 控制平面中带有 <a href="/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书">CA 证书</a>并名为 <code>cacerts</code> 的 secret
+
+<ol>
+<li>远程集群的 CA 证书需要由与主集群相同的CA或根CA签名。</li>
+</ol></li>
+</ol></li>
+</ol>
+
+<blockquote>
+<p>对于控制平面安全和应用程序 pod 安全步骤而言，CA 证书步骤是相同的。</p>
+</blockquote>
+
+<h3 id="部署示例">部署示例</h3>
+
+<p>以下是安装 Istio 的示例过程，同时启用了控制平面双向 TLS 和应用程序 pod 双向 TLS。该示例设置了一个远程集群，该集群具有无选择器服务和 <code>istio-pilot</code> 端点，允许远程 sidecar 通过其本地 Kubernetes DNS 解析<code>istio-pilot.istio-system</code> 主机名。</p>
+
+<ol>
+<li><p><em>主集群</em>  部署 Istio 控制平面集群</p>
+
+<ol>
+<li><p>从 <code>istio-system</code> 命名空间中的 Istio 示例证书创建 <code>cacerts</code> secret：</p>
+
+<pre><code class='language-command'>$ kubectl create ns istio-system
+$ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem</code></pre></li>
+
+<li><p>部署 Istio 控制平面，启用控制平面和应用程序 pod 安全</p>
+
+<pre><code class='language-command'>$ helm template --namespace=istio-system \
+  --values install/kubernetes/helm/istio/values.yaml \
+  --set global.mtls.enabled=true \
+  --set security.selfSigned=false \
+  --set global.controlPlaneSecurityEnabled=true \
+  install/kubernetes/helm/istio &gt; ${HOME}/istio-auth.yaml
+$ kubectl apply -f ${HOME}/istio-auth.yaml</code></pre></li>
+</ol></li>
+
+<li><p><em>远程集群</em>  部署远程集群 istio 组件</p>
+
+<ol>
+<li><p>从 <code>istio-system</code> 命名空间中的 Istio 示例证书创建 <code>cacerts</code> secret：</p>
+
+<pre><code class='language-command'>$ kubectl create ns istio-system
+$ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem</code></pre></li>
+
+<li><p>设置端点 IP 环境变量，参考<a href="#从-istio-控制平面设置-istio-远程组件所需的-pod-ip-环境变量">设置环境变量</a>部分</p></li>
+
+<li><p>在启用控制平面和应用程序 pod 安全的情况下部署远程集群组件。 此外，还可以创建 <code>istio-pilot</code> 无选择器服务和端点，以在远程集群中获取 DNS 条目。</p>
+
+<pre><code class='language-command'>$ helm template install/kubernetes/helm/istio-remote \
+  --name istio-remote \
+  --namespace=istio-system \
+  --set global.mtls.enabled=true \
+  --set security.selfSigned=false \
+  --set global.controlPlaneSecurityEnabled=true \
+  --set global.remotePilotCreateSvcEndpoint=true \
+  --set global.remotePilotAddress=${PILOT_POD_IP} \
+  --set global.remotePolicyAddress=${POLICY_POD_IP} \
+  --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+  --set global.proxy.envoyStatsd.enabled=true \
+  --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} &gt; ${HOME}/istio-remote-auth.yaml
+$ kubectl apply -f ${HOME}/istio-remote-auth.yaml</code></pre></li>
+
+<li><p><a href="#为远程集群生成-kubeconfigs">为远程集群生成 kubeconfig</a></p></li>
+</ol></li>
+
+<li><p><em>主集群</em>  <a href="#实例化每个远程集群的凭据">实例化每个远程集群的凭据</a></p></li>
+</ol>
+
+<p>此时，在应用程序 sidecar 和控制平面组件之间以及其他应用程序 sidecar 之间，两个集群中的所有 Istio 组件都配置了双向 TLS。</p>
+
+
+
+
+                
+                    
+                    
+                        <h2 id="see-also">See also</h2>
+
+                        <div class="see-also">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/examples/multicluster/gke/">Google Kubernetes Engine</a></p>
+                                            <p class="desc">基于 GKE 的 Istio 多集群安装。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/examples/multicluster/iks-icp/">IBM Cloud Kubernetes Service &amp; IBM Cloud Private</a></p>
+                                            <p class="desc">IBM Cloud Kubernetes Service 和 IBM Cloud Private 之间的多集群示例。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/examples/multicluster/icp/">IBM Cloud Private</a></p>
+                                            <p class="desc">多 IBM Cloud Private 集群安装 Istio 示例。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/setup/kubernetes/platform-setup/minikube/">Minikube</a></p>
+                                            <p class="desc">对 Minikube 集群进行配置以便安装运行 Istio。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/setup/kubernetes/sidecar-injection/">注入 Istio sidecar</a></p>
+                                            <p class="desc">介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。</p>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-xl-4">
+                                            <p class="link"><a href="/zh/docs/setup/kubernetes/download-release/">下载 Istio 发布包</a></p>
+                                            <p class="desc">关于 Istio 发布包下载过程的说明。</p>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    
+                
+            </main>
+
+            
+                <div class="container-fluid d-print-none">
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-6 pagenav">
+                            
+                                <p><a title="介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。" href="/zh/docs/setup/kubernetes/sidecar-injection/">
+                                    <i class="fa fa-long-arrow-alt-left"></i> 注入 Istio sidecar</a>
+                                </p>
+                            
+                        </div>
+                        <div class="col-6 pagenav" style="text-align: right">
+                            
+                                <p><a title="部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。" href="/zh/docs/setup/kubernetes/mesh-expansion/">网格扩展
+                                    <i class="fa fa-long-arrow-alt-right"></i></a>
+                                </p>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="d-none d-print-block" aria-hidden="true">
+                <h2>Links</h2>
+                <ol id="endnotes"></ol>
+            </div>
+        </div>
+
+        
+            <div class="col-12 col-md-2 d-none d-xl-block d-print-none">
+                <nav class="toc">
+                    <div class="spacer"></div>
+                    <div id="toc" class="directory" role="directory">
+                        
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+        
+        <nav id="TableOfContents">
+            <ul>
+                
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%85%88%e5%86%b3%e6%9d%a1%e4%bb%b6">先决条件</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e6%a6%82%e8%a6%81">概要</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%9c%a8%e6%9c%ac%e5%9c%b0%e9%83%a8%e7%bd%b2-istio-%e7%9a%84%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2">在本地部署 Istio 的控制平面</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%9c%a8%e6%af%8f%e4%b8%aa%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e4%b8%8a%e5%ae%89%e8%a3%85-istio-%e8%bf%9c%e7%a8%8b%e7%bb%84%e4%bb%b6">在每个远程集群上安装 Istio 远程组件</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e4%bb%8e-istio-%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2%e8%ae%be%e7%bd%ae-istio-%e8%bf%9c%e7%a8%8b%e7%bb%84%e4%bb%b6%e6%89%80%e9%9c%80%e7%9a%84-pod-ip-%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f">从 Istio 控制平面设置 Istio 远程组件所需的 Pod IP 环境变量</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8-helm-kubectl-%e6%8a%8a%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e8%bf%9e%e6%8e%a5%e5%88%b0%e6%9c%ac%e5%9c%b0">使用 Helm + <code>kubectl</code> 把远程集群连接到本地</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8-helm-tiller-%e8%bf%9b%e8%a1%8c%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e7%9a%84%e8%bf%9e%e6%8e%a5">使用 Helm + Tiller 进行远程集群的连接</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#helm-%e9%85%8d%e7%bd%ae%e5%8f%82%e6%95%b0">Helm 配置参数</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e4%b8%ba%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e7%94%9f%e6%88%90-kubeconfigs">为远程集群生成 <code>kubeconfigs</code></a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%ae%9e%e4%be%8b%e5%8c%96%e6%af%8f%e4%b8%aa%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e7%9a%84%e5%87%ad%e6%8d%ae">实例化每个远程集群的凭据</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%88%a0%e9%99%a4">删除</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8-kubectl-%e5%88%a0%e9%99%a4-istio-remote">使用 <code>kubectl</code> 删除 istio-remote</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e6%88%96%e8%80%85%e4%bd%bf%e7%94%a8-helm-tiller-%e5%88%a0%e9%99%a4-istio-remote">或者使用 Helm + Tiller 删除 istio-remote</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e8%bf%9c%e7%a8%8b%e9%9b%86%e7%be%a4%e6%89%8b%e5%8a%a8-sidecar-%e6%b3%a8%e5%85%a5%e7%a4%ba%e4%be%8b">远程集群手动 sidecar 注入示例</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%89%8b%e5%8a%a8%e5%b0%86-sidecar-%e6%b3%a8%e5%85%a5%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e6%b8%85%e5%8d%95">手动将 sidecar 注入应用程序清单</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e4%bb%8e%e4%b8%8d%e5%90%8c%e9%9b%86%e7%be%a4%e8%ae%bf%e9%97%ae%e6%9c%8d%e5%8a%a1">从不同集群访问服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e9%83%a8%e7%bd%b2%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9">部署注意事项</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%9b%b4%e6%96%b0-dns-%e6%9d%a1%e7%9b%ae">更新 DNS 条目</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e4%bd%bf%e7%94%a8%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1%e5%99%a8%e6%9c%8d%e5%8a%a1%e7%b1%bb%e5%9e%8b">使用负载均衡器服务类型</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e9%80%9a%e8%bf%87%e7%bd%91%e5%85%b3%e5%8f%91%e5%b8%83-istio-%e6%9c%8d%e5%8a%a1">通过网关发布 Istio 服务</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            </ul>
+                        
+                    
+
+                    <li><a href="#%e5%ae%89%e5%85%a8">安全</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+                        
+                        
+                            <ul>
+                        
+                    
+
+                    <li><a href="#%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2%e5%ae%89%e5%85%a8">控制平面安全</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f-pod-%e4%b9%8b%e9%97%b4%e7%9a%84%e5%8f%8c%e5%90%91-tls">应用程序 pod 之间的双向 TLS</a></li>
+
+                    
+                
+                    
+                    
+                    
+                    
+
+                    
+
+                    <li><a href="#%e9%83%a8%e7%bd%b2%e7%a4%ba%e4%be%8b">部署示例</a></li>
+
+                    
+                
+
+                
+                
+                    </ul>
+                
+
+                
+                    
+                        <li><a href="#see-also">See also</a></li>
+                    
+                
+            </ul>
+        </nav>
+    
+
+
+                    </div>
+                </nav>
+            </div>
+        
+    </div>
+</div>
+
+
+
+        <footer class="d-print-none container-fluid">
+    <div class="row">
+        <div class="col-5 col-lg-4" role="navigation">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="icon">
+                        <span>istio-users@</span>
+                        <a title='加入 istio-users@ 邮件列表参与讨论，获取排除故障的帮助'
+                           href="https://groups.google.com/forum/#!forum/istio-users" aria-label="istio-users mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>twitter</span>
+                        <a title='关注我们的 Twitter 来获最新信息'
+                           href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                            <svg viewBox="0 0 310 310">
+<path d="M302.973,57.388c-4.87,2.16-9.877,3.983-14.993,5.463c6.057-6.85,10.675-14.91,13.494-23.73
+	c0.632-1.977-0.023-4.141-1.648-5.434c-1.623-1.294-3.878-1.449-5.665-0.39c-10.865,6.444-22.587,11.075-34.878,13.783
+	c-12.381-12.098-29.197-18.983-46.581-18.983c-36.695,0-66.549,29.853-66.549,66.547c0,2.89,0.183,5.764,0.545,8.598
+	C101.163,99.244,58.83,76.863,29.76,41.204c-1.036-1.271-2.632-1.956-4.266-1.825c-1.635,0.128-3.104,1.05-3.93,2.467
+	c-5.896,10.117-9.013,21.688-9.013,33.461c0,16.035,5.725,31.249,15.838,43.137c-3.075-1.065-6.059-2.396-8.907-3.977
+	c-1.529-0.851-3.395-0.838-4.914,0.033c-1.52,0.871-2.473,2.473-2.513,4.224c-0.007,0.295-0.007,0.59-0.007,0.889
+	c0,23.935,12.882,45.484,32.577,57.229c-1.692-0.169-3.383-0.414-5.063-0.735c-1.732-0.331-3.513,0.276-4.681,1.597
+	c-1.17,1.32-1.557,3.16-1.018,4.84c7.29,22.76,26.059,39.501,48.749,44.605c-18.819,11.787-40.34,17.961-62.932,17.961
+	c-4.714,0-9.455-0.277-14.095-0.826c-2.305-0.274-4.509,1.087-5.294,3.279c-0.785,2.193,0.047,4.638,2.008,5.895
+	c29.023,18.609,62.582,28.445,97.047,28.445c67.754,0,110.139-31.95,133.764-58.753c29.46-33.421,46.356-77.658,46.356-121.367
+	c0-1.826-0.028-3.67-0.084-5.508c11.623-8.757,21.63-19.355,29.773-31.536c1.237-1.85,1.103-4.295-0.33-5.998
+	C307.394,57.037,305.009,56.486,302.973,57.388z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>stack overflow</span>
+                        <a title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答'
+                           href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                            <svg viewBox="0 0 120 120">
+<polygon points="84.4,93.8 84.4,70.6 92.1,70.6 92.1,101.5 22.6,101.5 22.6,70.6 30.3,70.6 30.3,93.8 "/>
+<path d="M38.8,68.4l37.8,7.9l1.6-7.6l-37.8-7.9L38.8,68.4z M43.8,50.4l35,16.3l3.2-7l-35-16.4L43.8,50.4z M53.5,33.2
+	l29.7,24.7l4.9-5.9L58.4,27.3L53.5,33.2z M72.7,14.9l-6.2,4.6l23,31l6.2-4.6L72.7,14.9z M38,86h38.6v-7.7H38V86z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>rocket chat</span>
+                        <a title='与 Istio 社区中的成员交流'
+                           href="https://istio.rocket.chat" aria-label="Rocket Chat">
+                            <svg viewBox="0 0 512 512">
+<path d="M496.293,255.338c0-24.103-7.21-47.215-21.437-68.699c-12.771-19.288-30.666-36.362-53.184-50.745
+    c-43.474-27.771-100.612-43.065-160.885-43.065c-20.131,0-39.974,1.702-59.222,5.072c-11.942-11.176-25.919-21.233-40.712-29.187
+    c-79.026-38.298-144.561-0.9-144.561-0.9s60.931,50.053,51.023,93.93c-27.259,27.041-42.033,59.646-42.033,93.594
+    c0,0.108,0.005,0.216,0.006,0.324c-0.001,0.108-0.006,0.216-0.006,0.324c0,33.949,14.774,66.554,42.033,93.595
+    c9.907,43.874-51.023,93.93-51.023,93.93s65.535,37.397,144.561-0.901c14.792-7.953,28.77-18.01,40.712-29.188
+    c19.249,3.372,39.091,5.072,59.222,5.072c60.272,0,117.411-15.294,160.885-43.064c22.518-14.383,40.412-31.457,53.184-50.742
+    c14.227-21.487,21.437-44.599,21.437-68.702c0-0.107-0.006-0.216-0.006-0.324C496.287,255.554,496.293,255.446,496.293,255.338z
+     M260.882,387.763c-25.367,0-49.66-2.932-72.107-8.282c-22.81,27.443-72.993,65.596-121.742,53.26
+    c15.857-17.031,39.352-45.81,34.32-93.207c-29.218-22.738-46.759-51.832-46.759-83.541c0-72.776,92.36-131.769,206.288-131.769
+    c113.928,0,206.288,58.993,206.288,131.769C467.17,328.765,374.81,387.763,260.882,387.763z M288.283,255.991
+    c0,15.133-12.27,27.403-27.4,27.403c-15.134,0-27.402-12.271-27.402-27.403s12.268-27.401,27.402-27.401
+    C276.014,228.59,288.283,240.858,288.283,255.991z M356.163,228.59c-15.133,0-27.4,12.268-27.4,27.401s12.268,27.403,27.4,27.403
+    c15.134,0,27.399-12.271,27.399-27.403S371.297,228.59,356.163,228.59z M165.601,228.59c-15.133,0-27.4,12.268-27.4,27.401
+    s12.268,27.403,27.4,27.403c15.134,0,27.401-12.271,27.401-27.403S180.735,228.59,165.601,228.59z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row d-none d-lg-flex">
+                    对于用户
+                </div>
+            </div>
+        </div>
+
+        <div class="col-7 col-lg-4">
+            <p class="text-center copyright" role="contentinfo">
+                Istio
+                
+                    Preliminary
+                
+                1.1<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
+                
+                    
+                    
+                        Page last modified: August 29, 2018
+                    
+                
+            </p>
+        </div>
+
+        <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
+            <div class="container-fluid">
+                <div class="row justify-content-end">
+                    <div class="icon">
+                        <span>istio-dev@</span>
+                        <a title='加入 istio-dev@ 邮件列表讨论 Istio 项目开发时遇到的问题'
+                           href="https://groups.google.com/forum/#!forum/istio-dev" aria-label="istio-dev mailing list">
+                            <svg viewBox="0 0 490 490">
+<path d="M480,410.248H10c-5.523,0-10-4.477-10-10V89.752c0-5.523,4.477-10,10-10h470c5.522,0,10,4.477,10,10v310.495
+	C490,405.771,485.522,410.248,480,410.248z M20,390.248h450V99.752H20V390.248z"/>
+<path d="M245,286.131c-2.083,0-4.167-0.649-5.931-1.948L48.64,143.929c-4.446-3.275-5.396-9.535-2.121-13.982
+	c3.275-4.447,9.535-5.396,13.982-2.121L245,263.712l184.5-135.886c4.447-3.274,10.709-2.326,13.982,2.121
+	c3.275,4.447,2.325,10.707-2.121,13.982L250.931,284.183C249.167,285.482,247.083,286.131,245,286.131z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>github</span>
+                        <a title='Istio 的代码在 GitHub 上开发'
+                           href="https://github.com/istio/community" aria-label="GitHub">
+                            <svg viewBox="0 0 478.165 478.165">
+<path d="M349.22,55.768c6.136,14.046,10.241,37.556,4.224,54.69
+	c24.426,20.999,33.073,71.904,21.079,113.704c35.006,2.73,76.666-1.235,103.642,9.484c-25.183-3.248-59.651-9.563-91.987-7.431
+	c-6.136,0.458-15.361-0.239-14.903,8.408c37.735,3.008,75.092,6.117,105.894,15.779c-30.702-4.981-67.74-12.552-105.894-13.668
+	c-15.54,30.921-47.239,46.262-90.991,49.49c4.682,10.261,13.847,14.066,15.879,30.702c3.267,24.406-4.881,60.328,3.208,76.686
+	c4.064,7.89,10.579,8.009,14.863,14.604c-10.699,12.871-37.257-1.395-40.186-14.604c-5.14-22.852,7.89-58.256-6.415-73.737
+	c0.996,24.865-5.718,59.85,0.996,82.145c2.789,8.806,10.659,12.113,8.647,20.063c-49.809,5.08-28.989-64.373-37.177-105.356
+	c-7.471,0.697-4.204,11.197-4.224,15.76c-0.199,40.106,8.189,94.836-34.846,89.556c-1.315-8.348,5.838-11.217,8.467-19.007
+	c7.91-22.434-1.454-56.045,2.112-83.161c-16.417,12.512,1.793,55.666-8.428,77.961c-5.838,12.671-24.785,18.27-39.19,12.651
+	c1.873-9.464,11.695-7.989,15.879-16.875c5.818-12.452,0.02-30.244,2.092-48.494c-30.423,6.097-53.993-0.877-65.608-20.023
+	c-5.12-8.507-6.356-18.708-12.632-26.219c-6.117-7.551-16.098-8.507-19.087-18.808c37.755-9.185,39.17,38.771,73.06,39.807
+	c10.44,0.418,15.799-2.909,25.402-5.16c2.749-12.113,8.428-21.039,16.875-27.494c-42.078-5.658-76.865-18.788-93.023-50.466
+	c-38.293,1.893-73.339,7.013-105.894,14.843c29.547-10.679,65.807-14.604,104.778-15.819c-2.351-13.807-22.434-10.022-34.866-9.543
+	C47.677,227.17,18.449,230.138,0,233.645c26.817-9.543,64.233-8.348,100.454-8.428c-11.038-34.767-7.232-90.014,17.015-110.615
+	c-6.854-17.254-4.722-45.346,4.184-58.834c27.036,1.175,43.374,12.891,60.388,24.247c21.019-6.017,43.035-9.045,71.904-7.451
+	c12.133,0.677,24.705,6.097,33.731,5.32c8.906-0.877,18.728-10.898,27.534-14.843C326.507,58.099,336.17,56.206,349.22,55.768z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>drive</span>
+                        <a title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档'
+                            href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
+                            <svg viewBox="0 0 207.027 207.027">
+<path d="M69.866,15.557L0,138.919l28.732,52.552l143.288-0.029l35.008-59.588L136.39,15.735L69.866,15.557z M17.166,139.046
+	L74.268,38.205L91.21,67.783L33.24,168.447L17.166,139.046z M99.841,82.851l23.805,41.558l-47.732-0.006L99.841,82.851z
+	 M163.434,176.443l-117.332,0.024l21.53-37.065l64.606,0.008l0.067,0.119l52.865-0.085L163.434,176.443z M140.932,124.411
+	L90.157,35.767l-2.966-5.178l40.751,0.121l57.003,93.706L140.932,124.411z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>working groups</span>
+                        <a title='如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组'
+                           href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
+                            <svg viewBox="0 -45 439.833 439.833">
+
+<polygon points="246.048,195.833 299.966,235.085 319.497,227.296 276.278,195.833"/>
+<polygon points="193.786,195.833 163.556,195.833 120.33,227.3 139.862,235.089"/>
+
+<path d="M219.927,11.558c-23.854,0-37.057,12.362-36.814,36.182c0.348,32.623,14.211,52.414,36.814,52.068
+	c0,0,36.802,1.492,36.802-52.068C256.729,23.918,244.294,11.558,219.927,11.558z"/>
+<path d="M285.017,124.567l-36.77-14.659l-8.608-7.256c-2.274-1.922-5.636-1.78-7.741,0.317l-11.973,11.904l-12.008-11.907
+	c-2.109-2.094-5.465-2.229-7.736-0.313l-8.611,7.256l-36.77,14.661c-11.842,4.715-11.83,46.647-12.848,50.497h155.93
+	C296.866,171.228,296.862,129.28,285.017,124.567z"/>
+
+<path d="M77.976,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.814,36.182C41.509,209.124,55.372,228.915,77.976,228.568z"/>
+<path d="M143.065,253.329l-36.77-14.658l-8.609-7.256c-2.275-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.611,7.256l-36.77,14.66C1.006,258.045,1.018,299.977,0,303.827h155.93
+	C154.915,299.988,154.911,258.042,143.065,253.329z"/>
+
+<path d="M361.878,228.568c0,0,36.801,1.492,36.801-52.068c0-23.82-12.434-36.182-36.801-36.182
+	c-23.854,0-37.057,12.362-36.812,36.182C325.411,209.124,339.274,228.915,361.878,228.568z"/>
+<path d="M426.968,253.329l-36.77-14.658l-8.609-7.256c-2.273-1.923-5.635-1.781-7.742,0.315l-11.971,11.904l-12.008-11.908
+	c-2.109-2.094-5.465-2.229-7.736-0.312l-8.61,7.256l-36.771,14.66c-11.842,4.715-11.83,46.646-12.848,50.497h155.93
+	C438.817,299.988,438.812,258.042,426.968,253.329z"/>
+</svg>
+
+                        </a>
+                    </div>
+
+                    <div class="icon">
+                        <span>slack</span>
+                        <a title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）'
+                                href="https://istio.slack.com" aria-label="slack">
+                            <svg viewBox="0 0 31.444 31.443">
+<path d="M31.202,16.369c-0.62-1.388-2.249-2.011-3.637-1.391l-1.325,0.594l-3.396-7.591l1.325-0.592
+	c1.388-0.622,2.01-2.25,1.389-3.637c-0.62-1.389-2.248-2.012-3.637-1.39l-1.324,0.593l-0.593-1.326
+	c-0.621-1.388-2.249-2.009-3.637-1.388c-1.388,0.62-2.009,2.247-1.389,3.637l0.593,1.325L7.98,8.598L7.388,7.273
+	c-0.621-1.39-2.249-2.009-3.637-1.39C2.363,6.504,1.742,8.132,2.362,9.52l0.592,1.324L1.63,11.438
+	c-1.388,0.621-2.01,2.247-1.389,3.636c0.62,1.388,2.249,2.01,3.637,1.39l1.325-0.594l3.394,7.592l-1.325,0.592
+	c-1.388,0.621-2.009,2.25-1.389,3.637c0.621,1.389,2.249,2.011,3.637,1.391l1.324-0.593l0.593,1.325
+	c0.621,1.389,2.249,2.01,3.637,1.389c1.387-0.62,2.009-2.248,1.388-3.636l-0.591-1.326l7.591-3.394l0.592,1.321
+	c0.621,1.391,2.248,2.013,3.637,1.392c1.388-0.619,2.01-2.248,1.389-3.637l-0.592-1.324l1.323-0.594
+	C31.201,19.384,31.823,17.757,31.202,16.369z M13.623,21.215l-3.395-7.593l7.591-3.394l3.395,7.591L13.623,21.215z"/>
+</svg>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tag row justify-content-end text-right">
+                    对于开发者
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+        <div class="d-xl-none d-print-none">
+            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+        <script src="https://www.google.com/cse/brand?form=search_form"></script>
+
+        
+        <script src="/js/all.min.js" data-manual></script>
+    </body>
+</html>
