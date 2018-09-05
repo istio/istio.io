@@ -102,7 +102,7 @@ from within your Istio cluster. This task shows you how to access an external HT
       ports:
       - number: 443
         name: https
-        protocol: HTTPS
+        protocol: TLS
       resolution: DNS
       location: MESH_EXTERNAL
     ---
