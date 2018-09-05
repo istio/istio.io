@@ -46,7 +46,7 @@ or alternatively, to bypass the Istio proxy for a specific range of IPs.
 ## Configuring Istio external services
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
-from within your Istio cluster. This task will show you how to access an external HTTP service,
+from within your Istio cluster. This task shows you how to access an external HTTP service,
 [httpbin.org](http://httpbin.org), as well as an external HTTPS service,
 [www.google.com](https://www.google.com).
 
@@ -81,7 +81,7 @@ from within your Istio cluster. This task will show you how to access an externa
 1.  Make a request to the external HTTP service:
 
     {{< text bash >}}
-    # curl http://httpbin.org/headers
+    $ curl http://httpbin.org/headers
     {{< /text >}}
 
 ### Configuring an external HTTPS service
@@ -136,7 +136,7 @@ from within your Istio cluster. This task will show you how to access an externa
 1.  Make a request to the external HTTPS service:
 
     {{< text bash >}}
-    # curl https://www.google.com
+    $ curl https://www.google.com
     {{< /text >}}
 
 ### Setting route rules on an external service
@@ -144,7 +144,7 @@ from within your Istio cluster. This task will show you how to access an externa
 Similar to inter-cluster requests, Istio
 [routing rules](/docs/concepts/traffic-management/#rule-configuration)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
-In this example, you will set a timeout rule on calls to the `httpbin.org` service.
+In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:
 
