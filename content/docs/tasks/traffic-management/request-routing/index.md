@@ -21,12 +21,15 @@ microservice.
 
 ## About this task
 
-The Istio [Bookinfo](/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions. The initial goal of this task is to
-apply a rule that routes all traffic to `v1` (version 1) of the ratings service. Later, you
-will apply a rule to route traffic based on the value of an HTTP request header.
-
-To illustrate the problem this task solves, access the Bookinfo app's `/productpage` in a browser and refresh several times. You’ll notice that sometimes the book review output contains star ratings and other times it does not. This is because without an explicit default service version to route to, Istio routes requests to all available versions
+The Istio [Bookinfo](/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions.
+Three different versions of one of the microservices, `reviews`, have been deployed and are running concurrently.
+To illustrate the problem this causes, access the Bookinfo app's `/productpage` in a browser and refresh several times.
+You’ll notice that sometimes the book review output contains star ratings and other times it does not.
+This is because without an explicit default service version to route to, Istio routes requests to all available versions
 in a round robin fashion.
+
+The initial goal of this task is to apply rules that route all traffic to `v1` (version 1) of the microservices. Later, you
+will apply a rule to route traffic based on the value of an HTTP request header.
 
 ## Apply a virtual service
 
@@ -107,14 +110,14 @@ In this case, the virtual services will route all traffic to `v1` of each micros
     ---
     {{< /text >}}
 
-1. Display the corresponding `subset` definitions:
+1. You can also display the corresponding `subset` definitions with the following command:
 
     {{< text bash >}}
     $ kubectl get destinationrules -o yaml
     {{< /text >}}
 
 You have configured Istio to route to the `v1` version of the Bookinfo microservices,
-including the `ratings` service.
+most importantly the `reviews` service version 1.
 
 ## Test the new routing configuration
 
