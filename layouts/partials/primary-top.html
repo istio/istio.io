@@ -30,7 +30,7 @@
             <main aria-labelledby="title">
                 {{ if not .Parent.IsHome }}
                     <div class="pagenav">
-                        <p><a href="{{.Parent.URL}}" title="{{ .Parent.Description }}">
+                        <p><a href="{{ .Parent.Permalink }}" title="{{ .Parent.Description }}">
                             <i style="transform: scaleX(-1)" class="fa fa-level-up-alt"></i>
                             &nbsp;{{.Parent.Title}}</a></p>
                     </div>

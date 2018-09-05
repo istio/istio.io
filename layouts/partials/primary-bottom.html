@@ -29,14 +29,14 @@
                     <div class="row">
                         <div class="col-6 pagenav">
                             {{ if .NextInSection }}
-                                <p><a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.URL }}">
+                                <p><a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}">
                                     <i class="fa fa-long-arrow-alt-left"></i> {{ .NextInSection.LinkTitle }}</a>
                                 </p>
                             {{ end }}
                         </div>
                         <div class="col-6 pagenav" style="text-align: right">
                             {{ if .PrevInSection }}
-                                <p><a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.URL }}">{{ .PrevInSection.LinkTitle }}
+                                <p><a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}">{{ .PrevInSection.LinkTitle }}
                                     <i class="fa fa-long-arrow-alt-right"></i></a>
                                 </p>
                             {{ end }}
