@@ -13,6 +13,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.antfin.com" logo="./antfinancial.png" alt="Ant Financial" tagline="Bring the world equal opportunities" >}}
     {{< company_logo link="https://apigee.com" logo="./apigee.svg" alt="Apigee" tagline="Power your APIs with a leader three times running" >}}
     {{< company_logo link="https://www.aporeto.com" logo="./aporeto.svg" alt="Aporeto" tagline="Cloud Workload Protection that Actually Scales" >}}
+    {{< company_logo link="https://aspenmesh.io" logo="./aspenmesh.svg" alt="Aspen Mesh" tagline="Service Mesh Made Easy" >}}
     {{< company_logo link="https://cilium.io" logo="./cilium.png" alt="Cilium" tagline="API-aware Networking and Security" >}}
     {{< company_logo link="https://www.cisco.com" logo="./cisco.svg" alt="Cisco" >}}
     {{< company_logo link="https://www.datadoghq.com" logo="./datadog.png" alt="Datadog" tagline="Modern monitoring & analytics" >}}
