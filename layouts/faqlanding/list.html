@@ -16,7 +16,7 @@
                     <div class="card-body">
                         {{ $questions := .Resources.ByType "page" }}
                         {{ $sorted_questions := sort $questions ".Params.weight" }}
-                        {{ $url := .URL }}
+                        {{ $url := .Permalink }}
                         {{ range $q := $sorted_questions }}
                             <a href="{{ $url }}#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a><br/>
                         {{ end }}
