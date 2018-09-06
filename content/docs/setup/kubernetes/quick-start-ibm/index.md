@@ -20,7 +20,7 @@ This guide installs the current release version of Istio.
 **Prerequisites**
 
 -  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html). Istio requires the Kubernetes version 1.9 or later. Make sure to install the `kubectl` CLI version that matches the Kubernetes version of your cluster.
--  Make sure you have a cluster of Kubernetes version of 1.9 or later. If you do not have a cluster available, [create a version 1.9 or later cluster](https://console.bluemix.net/docs/containers/cs_clusters.html#clusters_cli).
+-  Make sure you have a cluster of Kubernetes version of 1.9 or later. If you do not have a cluster available, [create a version 1.9 or later cluster](https://console.bluemix.net/docs/containers/cs_clusters.html).
 -  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID>` and copying and pasting the command in the output.
 
 **Initialize Helm and Tiller**
