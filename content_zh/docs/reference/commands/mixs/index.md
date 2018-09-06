@@ -76,12 +76,12 @@ mixs server [flags]
 | `--address <string>` |  | `用于 Mixer 的 gRPC API 的地址，例如 tcp://127.0.0.1:9092或 unix:///path/to/file（默认为\`\`）` |
 | `--apiWorkerPoolSize <int>` |  | `API 工作池中的最大 gorout 数量（默认为“1024”）` |
 | `--caCertFile <string>` |  | 根证书颁发机构的证书文件的位置（默认为\`/etc/istio/certs/root\-cert.pem\`） |
-| `--certFile <string>` |  | 相互 TLS 的证书文件的位置（默认\`/etc/istio/certs/cert\-chain.pem\`） |
+| `--certFile <string>` |  | 双向 TLS 的证书文件的位置（默认\`/etc/istio/certs/cert\-chain.pem\`） |
 | `--configDefaultNamespace <string>` |  | 命名空间用于存储网格宽配置。 （默认\`istio\-system\`） |
 | `--configStoreURL <string>` |  | `配置存储的 URL。 对于文件系统，使用 k8s://path\_to\_kubeconfig，fs：//，对于 MCP/Galley，使用 mcp://<address>。 如果 path\_to\_kubeconfig 为空，则使用群集内 kubeconfig。 （默认\`\`）` |
 | `--ctrlz_address <string>` |  | 监听 ControlZ 内省设施的 IP 地址。 使用'\*'表示所有地址。 （默认\`127.0.0.1\`） |
 | `--ctrlz_port <uint16>` |  | 用于 ControlZ 内省工具的 IP 端口（默认为\`9876\`） |
-| `--keyFile <string>` |  | 相互 TLS 的密钥文件的位置（默认\`/etc/istio/certs/key.pem\`） |
+| `--keyFile <string>` |  | 双向 TLS 的密钥文件的位置（默认\`/etc/istio/certs/key.pem\`） |
 | `--livenessProbeInterval <duration>` |  | 更新活动探测文件的时间间隔。 （默认为\`0s\`） |
 | `--livenessProbePath <string>` |  | 活动探针文件的路径。 （默认\`\`） |
 | `--log_as_json` |  | 是将输出格式化为 JSON 还是以简单的控制台友好格式 |
