@@ -25,7 +25,7 @@ keywords: [流量管理,路由]
 1.  将所有微服务的默认版本设置为 v1。
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
     如果您启用了 `mTLS` ，请运行以下代码
