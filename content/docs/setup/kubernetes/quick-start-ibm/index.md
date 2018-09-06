@@ -8,7 +8,6 @@ keywords: [kubernetes,ibm,icp]
 Follow these instructions to install and run Istio in IBM Cloud.
 You can install Istio in [IBM Cloud Public](#ibm-cloud-public) or [IBM Cloud Private](#ibm-cloud-private).
 
-
 ## IBM Cloud Public
 
 Follow these instructions to install and run Istio in
@@ -17,7 +16,7 @@ by using Helm and the IBM Cloud Kubernetes Service.
 
 This guide installs the current release version of Istio.
 
-### Prerequisites
+### Prerequisites - IBM Cloud Public
 
 -  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html). Istio requires the Kubernetes version 1.9 or later. Make sure to install the `kubectl` CLI version that matches the Kubernetes version of your cluster.
 -  Make sure you have a cluster of Kubernetes version of 1.9 or later. If you do not have a cluster available, [create a version 1.9 or later cluster](https://console.bluemix.net/docs/containers/cs_clusters.html).
@@ -127,11 +126,11 @@ using the `Catalog` module.
 
 This guide installs the current release version of Istio.
 
-### Prerequisites
+### Prerequisites - IBM Cloud Private
 
 - You need to have an available IBM Cloud Private cluster. Otherwise, you can follow [Installing IBM Cloud Private-CE](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/installing/install_containers_CE.html) to create an IBM Cloud Private cluster.
 
-**Deploy Istio via the Catalog module**
+### Deploy Istio via the Catalog module
 
 - Log in to the **IBM Cloud Private** console.
 - Click `Catalog` on the right side of the navigation bar.
