@@ -6,24 +6,24 @@ keywords: [kubernetes,ibm,icp]
 ---
 
 Follow these instructions to install and run Istio in IBM Cloud.
-You can install Istio in IBM Cloud Public or IBM Cloud Private.
+You can install Istio in [IBM Cloud Public](#ibm-cloud-public) or [IBM Cloud Private](#ibm-cloud-private).
 
-{{< tabset >}}
 
-{{% tab name="IBM Cloud Public" %}}
+## IBM Cloud Public
+
 Follow these instructions to install and run Istio in
 [IBM Cloud Public](https://www.ibm.com/cloud/)
 by using Helm and the IBM Cloud Kubernetes Service.
 
 This guide installs the current release version of Istio.
 
-**Prerequisites**
+### Prerequisites
 
 -  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html). Istio requires the Kubernetes version 1.9 or later. Make sure to install the `kubectl` CLI version that matches the Kubernetes version of your cluster.
 -  Make sure you have a cluster of Kubernetes version of 1.9 or later. If you do not have a cluster available, [create a version 1.9 or later cluster](https://console.bluemix.net/docs/containers/cs_clusters.html).
 -  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID>` and copying and pasting the command in the output.
 
-**Initialize Helm and Tiller**
+### Initialize Helm and Tiller
 
 1. Install the [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm).
 
@@ -66,7 +66,7 @@ This guide installs the current release version of Istio.
     $ helm repo add ibm https://registry.bluemix.net/helm/ibm
     {{< /text >}}
 
-**Deploy the Istio Helm chart**
+### Deploy the Istio Helm chart
 
 1. Install Istio’s custom resource definitions.
 
@@ -97,7 +97,7 @@ This guide installs the current release version of Istio.
     prometheus-55c7c698d6-f4drj                1/1       Running     0          2m
     {{< /text >}}
 
-**Upgrade**
+### Upgrade
 
 1. To upgrade your Istio Helm chart to the latest version:
 
@@ -105,7 +105,7 @@ This guide installs the current release version of Istio.
     $ helm upgrade -f config.yaml istio ibm/ibm-istio
     {{< /text >}}
 
-**Uninstall**
+### Uninstall
 
 1. Uninstall the Istio Helm deployment.
 
@@ -119,16 +119,15 @@ This guide installs the current release version of Istio.
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
 
-{{% /tab %}}
+## IBM Cloud Private
 
-{{% tab name="IBM Cloud Private" %}}
 Follow these instructions to install and run Istio in
 [IBM Cloud Private](https://www.ibm.com/cloud/private)
 using the `Catalog` module.
 
 This guide installs the current release version of Istio.
 
-**Prerequisites**
+### Prerequisites
 
 - You need to have an available IBM Cloud Private cluster. Otherwise, you can follow [Installing IBM Cloud Private-CE](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/installing/install_containers_CE.html) to create an IBM Cloud Private cluster.
 
@@ -176,7 +175,7 @@ After it is installed, you can find it by searching for its release name on the 
     caption="IBM Cloud Private - Istio Installation"
     >}}
 
-**Upgrade or Rollback**
+### Upgrade or Rollback
 
 - Log in to the **IBM Cloud Private** console.
 - Click the menu button on the left side of the navigation bar.
@@ -194,7 +193,7 @@ After it is installed, you can find it by searching for its release name on the 
     caption="IBM Cloud Private - Istio Upgrade or Rollback"
     >}}
 
-**Uninstalling**
+### Uninstalling
 
 - Log in to the **IBM Cloud Private** console.
 - Click the menu button on the left side of the navigation bar.
@@ -206,6 +205,3 @@ After it is installed, you can find it by searching for its release name on the 
     link="./istio-deletion.png"
     caption="IBM Cloud Private - Istio Uninstalling"
     >}}
-{{% /tab %}}
-
-{{< /tabset >}}
