@@ -51,14 +51,14 @@ mixs probe [flags]
 | --- | --- |
 | `--interval <duration>` | 用于检查目标文件上次修改时间的持续时间。 （默认为\`0s\`） |
 | `--log_as_json` | 是将输出格式化为 JSON 还是以简单的控制台友好格式 |
-| `--log_caller <string>` | `以逗号分隔的范围列表，包括调用者信息，范围可以是\[adapter，api，attributes，default，grpcAdapter，mcp，mcp\-creds\]中的任何一个（默认为\`\`）` |
-| `--log_output_level <string>` | `以逗号分隔的最小每范围日志记录级别的消息输出，格式为<scope>：<level>，<scope>：<level>，...其中 scope 可以是\[adapters，api，attributes，之一， default，grpcAdapter，mcp，mcp\-creds\]和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：info\`）` |
+| `--log_caller <string>` | 以逗号分隔的范围列表，包括调用者信息，范围可以是\[`adapter`，`api`，`attributes`，`default`，`grpcAdapter`，`mcp`，`mcp-creds`\]中的任何一个（默认为\`\`）` |
+| `--log_output_level <string>` | 以逗号分隔的最小每范围日志记录级别的消息输出，格式为<scope>：<level>，<scope>：<level>，...其中 scope 可以是\[`adapters，api，attributes， default，grpcAdapter，mcp，mcp-creds`\]之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：info\`）` |
 | `--log_rotate <string>` | 可选旋转日志文件的路径（默认为\`\`） |
 | `--log_rotate_max_age <int>` | 日志文件超过文件旋转的最大年龄（0表示无限制）（默认为“30”） |
 | `--log_rotate_max_backups <int>` | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为“1000”） |
 | `--log_rotate_max_size <int>` | 日志文件的最大大小（以兆字节为单位），超过该日志文件将旋转文件（默认为“104857600”） |
-| `--log_stacktrace_level <string>` | `捕获堆栈跟踪的逗号分隔的最小每范围日志记录级别，格式为<scope>：<level>，<scope：level>，...其中 scope 可以是\[adapters，api，attributes，之一， default，grpcAdapter，mcp，mcp\-creds\]和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：none\`）` |
-| `--log_target <stringArray>` | `输出日志的路径集。 这可以是任何路径以及特殊值 stdout 和 stderr（默认\`\[stdout\]\`）` |
+| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的逗号分隔的最小每范围日志记录级别，格式为<scope>：<level>，<scope：level>，...其中 scope 可以是\[`adapters，api，attributes， default，grpcAdapter，mcp，mcp-creds`\]之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：none\`） |
+| `--log_target <stringArray>` | 输出日志的路径集。 这可以是任何路径以及特殊值 `stdout` 和 `stderr`（默认\`\[stdout\]\`） |
 | `--probe-path <string>` | 用于检查可用性的文件的路径。 （默认\`\`） |
 
 ## `mixs 服务器`
@@ -85,13 +85,13 @@ mixs server [flags]
 | `--livenessProbeInterval <duration>` |  | 更新活动探测文件的时间间隔。 （默认为\`0s\`） |
 | `--livenessProbePath <string>` |  | 活动探针文件的路径。 （默认\`\`） |
 | `--log_as_json` |  | 是将输出格式化为 JSON 还是以简单的控制台友好格式 |
-| `--log_caller <string>` |  | 以逗号分隔的范围列表，包括调用者信息，范围可以是\[`adapter`，api，attributes，default，`grpcAdapter`，`mcp`，`mcp-creds`\]中的任何一个（默认为\`\`） |
-| `--log_output_level <string>` |  | 以逗号分隔的最小每范围日志记录级别的消息输出，格式为<scope>：<level>，<scope>：<level>，...其中 scope 可以是\[`adapters`，api，`attributes`， default，`grpcAdapter`，mcp，`mcp-creds`\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：info\`） |
+| `--log_caller <string>` |  | 以逗号分隔的范围列表，包括调用者信息，范围可以是\[`adapter`，`api`，`attributes`，`default`，`grpcAdapter`，`mcp`，`mcp-creds`\]中的任何一个（默认为\`\`） |
+| `--log_output_level <string>` |  | 以逗号分隔的最小每范围日志记录级别的消息输出，格式为<scope>：<level>，<scope>：<level>，...其中 scope 可以是\[`adapters`，`api`，`attributes`， `default`，`grpcAdapter`，`mcp`，`mcp-creds`\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：info\`） |
 | `--log_rotate <string>` |  | 可选旋转日志文件的路径（默认为\`\`） |
 | `--log_rotate_max_age <int>` |  | 日志文件超过文件旋转的最大年龄（0表示无限制）（默认为“30”） |
 | `--log_rotate_max_backups <int>` |  | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为“1000”） |
 | `--log_rotate_max_size <int>` |  | 日志文件的最大大小（以兆字节为单位），超过该日志文件将旋转文件（默认为“104857600”） |
-| `--log_stacktrace_level <string>` |  | 捕获堆栈跟踪的逗号分隔的最小每范围日志记录级别，格式为`<scope>：<level>，<scope：level>，...`其中 scope 可以是\[`adapters`，api，`attributes`， default，`grpcAdapter`，mcp，`mcp-creds`\]，之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：none\`） |
+| `--log_stacktrace_level <string>` |  | 捕获堆栈跟踪的逗号分隔的最小每范围日志记录级别，格式为`<scope>：<level>，<scope：level>，...`其中 scope 可以是\[`adapters`，`api`，`attributes`， `default`，`grpcAdapter`，`mcp`，`mcp-creds`\]之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为\`default：none\`） |
 | `--log_target <stringArray>` |  | 输出日志的路径集。 这可以是任何路径以及特殊值 `stdout` 和 `stderr`（默认\`\[stdout\]\`） |
 | `--maxConcurrentStreams <uint>` |  | 每个连接的最大未完成 RPC 数（默认为“1024”） |
 | `--maxMessageSize <uint>` |  | 单个 gRPC 消息的最大大小（默认为“1048576”） |
