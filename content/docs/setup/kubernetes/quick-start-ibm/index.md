@@ -139,16 +139,18 @@ This guide installs the current release version of Istio.
 - Click `Filter` on the right side of the search box and select the `ibm-charts` check box.
 - Click `Operations` in the left navigation pane.
 
-{{< image width="100%" ratio="50%"
+{{< image width="100%" ratio="45%"
     link="./istio-catalog-1.png"
     caption="IBM Cloud Private - Istio Catalog"
     >}}
+
 - Click `ibm-istio` in the right panel.
 
-{{< image width="100%" ratio="50%"
+{{< image width="100%" ratio="45%"
     link="./istio-catalog-2.png"
     caption="IBM Cloud Private - Istio Catalog"
     >}}
+
 - (Optional) Change the Istio version using the `CHART VERSION` drop-down.
 - Click the `Configure` button.
 
@@ -156,6 +158,7 @@ This guide installs the current release version of Istio.
     link="./istio-installation-1.png"
     caption="IBM Cloud Private - Istio Installation"
     >}}
+
 - Input the Helm release name (e.g. istio-1.0.3) and select `istio-system` as the target namespace.
 - Agree to the license terms.
 - (Optional) Customize the installation parameters by clicking `All parameters`.
@@ -165,12 +168,14 @@ This guide installs the current release version of Istio.
     link="./istio-installation-2.png"
     caption="IBM Cloud Private - Istio Installation"
     >}}
+
 After it is installed, you can find it by searching for its release name on the **Helm Releases** page.
 
-{{< image width="100%" ratio="40%"
+{{< image width="100%" ratio="30%"
     link="./istio-release.png"
     caption="IBM Cloud Private - Istio Installation"
     >}}
+
 **Upgrade or Rollback**
 
 - Log in to the **IBM Cloud Private** console.
@@ -183,10 +188,12 @@ After it is installed, you can find it by searching for its release name on the 
     link="./istio-upgrade-1.png"
     caption="IBM Cloud Private - Istio Upgrade or Rollback"
     >}}
+
 {{< image width="100%" ratio="40%"
     link="./istio-upgrade-2.png"
     caption="IBM Cloud Private - Istio Upgrade or Rollback"
     >}}
+
 **Uninstalling**
 
 - Log in to the **IBM Cloud Private** console.
