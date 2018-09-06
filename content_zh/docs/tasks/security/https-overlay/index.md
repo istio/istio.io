@@ -133,7 +133,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 您需要使用启用了双向 TLS 的 Istio 控制平面。如果您已经安装了 istio 控制平面，并安装了双向 TLS，请删除它：
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio.yaml
+$ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
 等待一切都完成了，也就是说在控制平面名称空间（istio-system）中没有 pod。
@@ -146,7 +146,7 @@ No resources found.
 然后，部署启用了双向 TLS 的 Istio 控制平面：
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
 确保一切正常运转：

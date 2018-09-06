@@ -5,7 +5,7 @@ other = "与 Istio 社区中的成员交流"
 other = "加入 istio-users@ 邮件列表参与讨论，获取排除故障的帮助"
 
 [twitter_desc]
-other = "关注我们的 Twitter 来获最新信息"
+other = "关注我们的 Twitter 来获取最新信息"
 
 [stackoverflow_desc]
 other = "Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答"

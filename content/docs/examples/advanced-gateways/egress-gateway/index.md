@@ -689,7 +689,173 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the cluster administrator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
 
-Also note that Istio itself *cannot securely enforce* that all the egress traffic will actually flow through the egress gateways, Istio only *enables* such flow by its sidecar proxies. If a malicious application would attack the sidecar proxy attached to the application's pod, it could bypass the sidecar proxy. Having bypassed the sidecar proxy, the malicious application could try to exit the service mesh bypassing the egress gateway, to escape the control and monitoring by Istio. It is up to the cluster administrator or the cloud provider to enforce that no traffic leaves the mesh bypassing the egress gateway. Such enforcement must be performed by mechanisms external to Istio. For example, a firewall can deny all the traffic whose source is not the egress gateway. [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can also forbid all the egress traffic that does not originate in the egress gateway. Another possible security measure involves configuring the network in such a way that the application nodes are unable to access the Internet without directing the egress traffic through the gateway where it will be monitored and controlled. One example of such network configuration is allocating public IPs exclusively to the gateways.
+Istio *cannot securely enforce* that all the egress traffic actually flows through the egress gateways. Istio only
+enables said flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access
+external services without traversing the egress gateway. Thus, the attackers escape Istio's control and monitoring.
+The cluster administrator or the cloud provider must ensure that no traffic leaves the mesh bypassing the egress
+gateway. Mechanisms external to Istio must enforce this requirement. For example, a firewall can deny all traffic not
+coming from the egress gateway. The
+[Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can also forbid
+all the egress traffic not originating from the egress gateway (see
+[the next section](#apply-kubernetes-network-policies) for an example).
+Additionally, the cluster administrator or the cloud provider can configure the network to ensure application nodes can
+only access the Internet via a gateway. To do this, the cluster administrator or the cloud provider can prevent the
+allocation of public IPs to pods other than gateways and can configure NAT devices to drop packets not originating at
+the egress gateways.
+
+## Apply Kubernetes network policies
+
+In this section you create a
+[Kubernetes network policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) to prevent
+bypassing the egress gateway. To test the network policy, you create a namespace, namely `test-egress`, and deploy
+to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
+
+1.  Follow the steps in the
+    [Direct HTTPS traffic through an egress gateway](#direct-https-traffic-through-an-egress-gateway) section.
+
+1.  Create the `test-egress` namespace:
+
+    {{< text bash >}}
+    $ kubectl create namespace test-egress
+    {{< /text >}}
+
+1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample to the `test-egress` namespace.
+
+    {{< text bash >}}
+    $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
+
+1.  Check that the deployed pod has a single container with no Istio sidecar attached:
+
+    {{< text bash >}}
+    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress
+    NAME                     READY     STATUS    RESTARTS   AGE
+    sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
+    {{< /text >}}
+
+1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics) from the `sleep` pod in
+    the `test-egress` namespace. The request will succeed since you did not define any restrictive policies yet.
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
+    200
+    {{< /text >}}
+
+1.  Label the namespaces where the Istio components (the control plane and the gateways) run.
+    If you deployed the Istio components to `istio-system`, the command is:
+
+    {{< text bash >}}
+    $ kubectl label namespace istio-system istio=system
+    {{< /text >}}
+
+1.  Label the `kube-system` namespace.
+
+    {{< text bash >}}
+    $ kubectl label ns kube-system kube-system=true
+    {{< /text >}}
+
+1.  Define a `NetworkPolicy` to limit the egress traffic from the `test-egress` namespace to traffic destined to
+    `istio-system`, and to the `kube-system` DNS service (port 53):
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n test-egress -f -
+    apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: allow-egress-to-istio-system-and-kube-dns
+    spec:
+      podSelector: {}
+      policyTypes:
+      - Egress
+      egress:
+      - to:
+        - namespaceSelector:
+            matchLabels:
+              kube-system: "true"
+        ports:
+        - protocol: UDP
+          port: 53
+      - to:
+        - namespaceSelector:
+            matchLabels:
+              istio: system
+    EOF
+    {{< /text >}}
+
+1.  Resend the previous HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it
+    should fail since the traffic is blocked by the network policy. Note that the `sleep` pod cannot bypass
+    `istio-egressgateway`. The only way it can access `edition.cnn.com` is by using an Istio sidecar proxy and by
+    directing the traffic to `istio-egressgateway`. This setting demonstrates that even if some malicious pod manages to
+    bypass its sidecar proxy, it will not be able to access external sites and will be blocked by the network policy.
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -v https://edition.cnn.com/politics
+    Hostname was NOT found in DNS cache
+      Trying 151.101.65.67...
+      Trying 2a04:4e42:200::323...
+    Immediate connect fail for 2a04:4e42:200::323: Cannot assign requested address
+      Trying 2a04:4e42:400::323...
+    Immediate connect fail for 2a04:4e42:400::323: Cannot assign requested address
+      Trying 2a04:4e42:600::323...
+    Immediate connect fail for 2a04:4e42:600::323: Cannot assign requested address
+      Trying 2a04:4e42::323...
+    Immediate connect fail for 2a04:4e42::323: Cannot assign requested address
+    connect to 151.101.65.67 port 443 failed: Connection timed out
+    {{< /text >}}
+
+1.  Now inject an Istio sidecar proxy into the `sleep` pod in the `test-egress` namespace by first enabling
+    automatic sidecar proxy injection in the `test-egress` namespace:
+
+    {{< text bash >}}
+    $ kubectl label namespace test-egress istio-injection=enabled
+    {{< /text >}}
+
+1.  Then redeploy the `sleep` deployment:
+
+    {{< text bash >}}
+    $ kubectl delete deployment sleep -n test-egress
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n test-egress
+    {{< /text >}}
+
+1.  Check that the deployed pod has two containers, including the Istio sidecar proxy (`istio-proxy`):
+
+    {{< text bash >}}
+    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath={.spec.containers[*].name}
+    sleep istio-proxy
+    {{< /text >}}
+
+1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it should succeed
+    since the traffic flows to `istio-egressgateway` in the `istio-system` namespace, which is allowed by the
+    Network Policy you defined. `istio-egressgateway` forwards the traffic to `edition.cnn.com`.
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+    200
+    {{< /text >}}
+
+1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to our
+    requests to _edition.cnn.com_. If Istio is deployed in the `istio-system` namespace, the command to print the
+    counter is:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
+    cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
+    {{< /text >}}
+
+### Cleanup of the network policies
+
+1.  Delete the resources created in this section:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+    $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
+    $ kubectl label namespace kube-system kube-system-
+    $ kubectl label namespace istio-system istio-
+    $ kubectl delete namespace test-egress
+    {{< /text >}}
+
+1.  Perform the [Cleanup](#cleanup-of-the-egress-gateway-for-https-traffic) part of
+    [Direct HTTPS traffic through an egress gateway](#direct-https-traffic-through-an-egress-gateway) section
 
 ## Troubleshooting
 

@@ -2,7 +2,7 @@
 title: Istio in Action
 description: Who's using Istio out there.
 weight: 30
-page_icon: /img/customers.svg
+icon: /img/customers.svg
 keywords: [community]
 skip_seealso: true
 ---
@@ -12,6 +12,7 @@ Tons of people are using Istio. Maybe you should too?
 <div class="logo-gallery">
     {{< company_logo link="https://www.autotrader.co.uk" logo="./autotrader.uk.svg" alt="AutoTrader UK" >}}
     {{< company_logo link="https://www.continental-corporation.com" logo="./continental.svg" alt="Continental" >}}
+    {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="./descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="./ebay.png" alt="eBay" >}}
     {{< company_logo link="https://www.fitstation.com" logo="./fitstation.png" alt="FitStation" >}}

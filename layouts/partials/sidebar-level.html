@@ -16,17 +16,17 @@
                         {{ else }}
                             <i class='fa fa-lg fa-caret-down'></i>
                         {{ end }}
-                        <a {{ if eq $current.URL .URL }}class="current"{{ end }} title="{{ .Description }}" href="{{ .URL }}">{{ .LinkTitle}} </a>
+                        <a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}} </a>
                     </label>
 
                     {{ partial "sidebar-level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}
                 </li>
             {{ else }}
                 <li>
-                    {{ if eq $current.URL .URL }}
+                    {{ if eq $current.Permalink .Permalink }}
                         <span class="current" title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
-                        <a title="{{ .Description }}" href="{{ .URL }}">{{ .LinkTitle }}</a>
+                        <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 </li>
              {{ end }}
