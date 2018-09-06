@@ -367,7 +367,9 @@ namespace. Policies in mesh-scope can affect all services in the mesh. To
 prevent conflict and misuse, only one policy can be defined in mesh-scope
 storage. That policy must be named `default` and have an empty
 `targets:` section. You can find more information on our
-[target selectors section](/docs/concepts/security/#target-selectors).
+[target selectors section](/docs/concepts/security/#target-selectors). By
+default if a mesh-scoped policy is not installed, mutual TLS is considered
+disabled.
 
 Kubernetes currently implements the Istio configuration on Custom Resource
 Definitions (CRDs). These CRDs correspond to namespace-scope and
