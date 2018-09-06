@@ -11,7 +11,7 @@ icon: /img/notes.svg
 
 ## 杂项
 
-- 修复了 Envoy 中的错误，如果在相互 TLS 端口上接收到正常流量，则 sidecar 会崩溃。
+- 修复了 Envoy 中的错误，如果在双向 TLS 端口上接收到正常流量，则 sidecar 会崩溃。
 
 - 修复了 Pilot 在多集群环境中向 Envoy 传播不完整更新的问题。
 
