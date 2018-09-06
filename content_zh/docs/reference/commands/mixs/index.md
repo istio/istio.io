@@ -72,7 +72,7 @@ mixs server [flags]
 
 | 参数 | 缩写 | 描述 |
 | --- | --- | --- |
-| `--adapterWorkerPoolSize <int>` |  | 适配器工作池中的最大 gorout 数量（默认为“1024”） |
+| `--adapterWorkerPoolSize <int>` |  | `适配器工作池中的最大 gorout 数量（默认为“1024”）` |
 | `--address <string>` |  | `用于 Mixer 的 gRPC API 的地址，例如 tcp://127.0.0.1:9092或 unix:///path/to/file（默认为\`\`）` |
 | `--apiWorkerPoolSize <int>` |  | `API 工作池中的最大 gorout 数量（默认为“1024”）` |
 | `--caCertFile <string>` |  | 根证书颁发机构的证书文件的位置（默认为\`/etc/istio/certs/root\-cert.pem\`） |
