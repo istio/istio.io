@@ -1,315 +1,315 @@
 ---
-title: sidecar-injector
-description: Kubernetes webhook for automatic Istio sidecar injection.
+title: sidecar 注入器
+description: Kubernetes 自动注入 Istio sidecar 的 webhook
 generator: pkg-collateral-docs
 number_of_entries: 4
 ---
-<p>Kubernetes webhook for automatic Istio sidecar injection.</p>
-<pre class="language-bash"><code>sidecar-injector [flags]
+<p>Kubernetes 自动注入 Istio sidecar 的 webhook</p>
+<pre class="language-bash"><code>sidecar 注入器 [参数]
 </code></pre>
 <table class="command-flags">
 <thead>
-<th>Flags</th>
-<th>Description</th>
+<th>参数</th>
+<th>描述</th>
 </thead>
 <tbody>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+<td>HTTPS x509 证书文件（默认为 `/etc/istio/certs/root-cert.pem`）</td>
 </tr>
 <tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
-<td>File that should be periodically updated if health checking is enabled  (default ``)</td>
+<td>健康检查打开时，定期更新的状态文件（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
+<td>配置 --healthCheckFile 选项制定的健康检查文件的更新频率（默认为 `0s`）</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
-<td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
+<td>Istio sidecar 注入配置和模板文件（默认为 `/etc/istio/inject/config`）</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
+<td>指定 kubeconfig 文件目录，Istio 不在 Kubernetes pod 中运行时，必须指定该参数（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
+<td>配置是否用 JSON 格式化日志输出</td>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model]  (default ``)</td>
+<td>指定调用方信息的逗号分割 scope，可以是以下任意类型 [default, model]（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>以逗号分隔的 scope 日志输出等级，格式为 &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... scope 支持[default, model]，日志等级包括 [debug, info, warn, error, none] （默认为 `default:info`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
+<td>日志切割文件路径，可选（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+<td>以天为单位，配置日志切割的间隔（0 表示无限制）（默认为 `30`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+<td>日志切割文件备份保留的最大个数（0 表示无限制）（默认为 `1000`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+<td>以兆为单位，配置日志文件大小的上限，如超过，进行日志切割（默认为 `104857600`）</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>以逗号分隔的 scope stack trace 捕获日志等级，格式为 &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... scope 支持 [default, model]，日志等级包括 [debug, info, warn, error, none]  （默认为 `default:none`）</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+<td>输出日志路径的数组，可以配置任何路径，包括 stdout、stderr 等特殊值（默认为 `[stdout]`）</td>
 </tr>
 <tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
-<td>File containing the Istio mesh configuration  (default `/etc/istio/config/mesh`)</td>
+<td>Istio mesh 配置文件（默认为 `/etc/istio/config/mesh`）</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
-<td>Webhook port  (default `443`)</td>
+<td>Webhook 端口（默认为 `443`）</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+<td>HTTPS x509 证书文件（默认为 `/etc/istio/certs/cert-chain.pem`）</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
-<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+<td>和 --tlsCertFile 匹配的 x509 私钥文件（默认为 `/etc/istio/certs/key.pem`）</td>
 </tr>
 <tr>
 <td><code>--webhookConfigName &lt;string&gt;</code></td>
-<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
+<td>Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`）</td>
 </tr>
 <tr>
 <td><code>--webhookName &lt;string&gt;</code></td>
-<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
+<td>webhook 配置中 webhook 项名（默认为 `sidecar-injector.istio.io`）</td>
 </tr>
 </tbody>
 </table>
-<h2 id="sidecar-injector-probe">sidecar-injector probe</h2>
-<p>Check the liveness or readiness of a locally-running server</p>
-<pre class="language-bash"><code>sidecar-injector probe [flags]
+<h2 id="sidecar 注入器探针">sidecar 注入器探针</h2>
+<p>本地运行服务器的保活和可用性检查</p>
+<pre class="language-bash"><code>sidecar 注入器探针[参数]
 </code></pre>
 <table class="command-flags">
 <thead>
-<th>Flags</th>
-<th>Description</th>
+<th>参数</th>
+<th>描述</th>
 </thead>
 <tbody>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+<td>HTTPS x509 证书（默认为 `/etc/istio/certs/root-cert.pem`）</td>
 </tr>
 <tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
-<td>File that should be periodically updated if health checking is enabled  (default ``)</td>
+<td>健康检查打开时，定期更新的状态文件（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
-<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
+<td>配置 --healthCheckFile 选项指定的健康检查文件的更新频率（默认为 `0s`）</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
-<td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
+<td>Istio sidecar 注入配置和模板文件（默认为 `/etc/istio/inject/config`）</td>
 </tr>
 <tr>
 <td><code>--interval &lt;duration&gt;</code></td>
-<td>Duration used for checking the target file&#39;s last modified time.  (default `0s`)</td>
+<td>检查目标文件是否更新的时间间隔（默认为 `0s`）</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
-<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
+<td>指定 kubeconfig 文件目录，Istio 不在 Kubernetes pod 中运行时，必须指定该参数（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
+<td>配置是否用 JSON 格式化日志输出</td>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model]  (default ``)</td>
+<td>指定调用方信息的逗号分割 scope，可以是以下任意类型 [default, model]（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>以逗号分隔的 scope 日志输出等级，格式为 &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... scope 可为 [default model] 日志等级包括 [debug, info, warn, error, none]  （默认为 `default:info`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
+<td>日志切割文件路径，可选（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+<td>以天为单位，配置日志切割的间隔（0 表示无限制）（默认为 `30`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+<td>日志切割文件备份保留的最大个数（0 表示无限制）（默认为 `1000`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+<td>以兆为单位，配置日志文件大小的上限，如超过，进行日志切割（默认为 `104857600`）</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>以逗号分隔的 stack trace 捕获日志等级，最小界别为 scope，格式为 &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... scope 支持 [default, model]，日志等级包括 [debug, info, warn, error, none] （默认为 `default:none`）</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+<td>输出日志路径的数组，可以配置任何路径，包括 stdout、stderr 等特殊值（默认为 `[stdout]`）</td>
 </tr>
 <tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
-<td>File containing the Istio mesh configuration  (default `/etc/istio/config/mesh`)</td>
+<td>Istio mesh 配置文件（默认为 `/etc/istio/config/mesh`）</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
-<td>Webhook port  (default `443`)</td>
+<td>Webhook 端口（默认为 `443`）</td>
 </tr>
 <tr>
 <td><code>--probe-path &lt;string&gt;</code></td>
-<td>Path of the file for checking the availability.  (default ``)</td>
+<td>检查可用性的文件路径（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+<td>HTTPS x509 证书文件（默认为 `/etc/istio/certs/cert-chain.pem`）</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
-<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+<td>和 --tlsCertFile 匹配的 x509 私钥文件（默认为 `/etc/istio/certs/key.pem`）</td>
 </tr>
 <tr>
 <td><code>--webhookConfigName &lt;string&gt;</code></td>
-<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
+<td>Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`）</td>
 </tr>
 <tr>
 <td><code>--webhookName &lt;string&gt;</code></td>
-<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
+<td>webhook 配置中 webhook 项名（默认为 `sidecar-injector.istio.io`）</td>
 </tr>
 </tbody>
 </table>
-<h2 id="sidecar-injector-version">sidecar-injector version</h2>
-<p>Prints out build version information</p>
-<pre class="language-bash"><code>sidecar-injector version [flags]
+<h2 id="sidecar 注入器版本">sidecar 注入器版本</h2>
+<p>输出构建版本信息</p>
+<pre class="language-bash"><code>sidecar 注入器版本 [参数]
 </code></pre>
 <table class="command-flags">
 <thead>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
+<th>参数</th>
+<th>短格式</th>
+<th>描述</th>
 </thead>
 <tbody>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/root-cert.pem`)</td>
+<td>HTTPS x509 证书文件（默认为 `/etc/istio/certs/root-cert.pem`）</td>
 </tr>
 <tr>
 <td><code>--healthCheckFile &lt;string&gt;</code></td>
 <td></td>
-<td>File that should be periodically updated if health checking is enabled  (default ``)</td>
+<td>健康检查打开时，定期更新的状态文件（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--healthCheckInterval &lt;duration&gt;</code></td>
 <td></td>
-<td>Configure how frequently the health check file specified by --healthCheckFile should be updated  (default `0s`)</td>
+<td>配置 --healthCheckFile 选项制定的健康检查文件的更新频率（默认为 `0s`）</td>
 </tr>
 <tr>
 <td><code>--injectConfig &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the Istio sidecar injection configuration and template  (default `/etc/istio/inject/config`)</td>
+<td>Istio sidecar 注入配置和模板文件（默认为 `/etc/istio/inject/config`）</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td></td>
-<td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
+<td>指定 kubeconfig 文件目录，Istio 不在 Kubernetes pod 中运行时，必须指定该参数（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
 <td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
+<td>配置是否用 JSON 格式化日志输出</td>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model]  (default ``)</td>
+<td>指定调用方信息的逗号分割 scope，可以是以下任意类型 [default, model]（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>以逗号分隔的 scope 日志输出等级，格式为 &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... scope 支持[default, model]，日志等级包括 [debug, info, warn, error, none] （默认为 `default:info`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
 <td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
+<td>日志切割文件路径，可选（默认为 ``）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_age &lt;int&gt;</code></td>
 <td></td>
-<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+<td>以天为单位，配置日志切割的间隔（0 表示无限制）（默认为 `30`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
 <td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+<td>日志切割文件备份保留的最大个数（0 表示无限制）（默认为 `1000`）</td>
 </tr>
 <tr>
 <td><code>--log_rotate_max_size &lt;int&gt;</code></td>
 <td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+<td>以兆为单位，配置日志文件大小的上限，如超过，进行日志切割（默认为 `104857600`）</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>以逗号分隔的 scope stack trace 捕获日志等级，格式为 &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... scope 支持 [default, model]，日志等级包括 [debug, info, warn, error, none] （默认为 `default:none`）</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+<td>输出日志路径的数组，可以配置任何路径，包括 stdout、stderr 等特殊值（默认为 `[stdout]`）</td>
 </tr>
 <tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the Istio mesh configuration  (default `/etc/istio/config/mesh`)</td>
+<td>Istio mesh 配置文件（默认为 `/etc/istio/config/mesh`）</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
 <td></td>
-<td>Webhook port  (default `443`)</td>
+<td>Webhook 端口（默认为 `443`）</td>
 </tr>
 <tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
-<td>Displays a short form of the version information </td>
+<td>显示版本信息的短格式</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+<td>HTTPS x509 证书文件（默认为 `/etc/istio/certs/cert-chain.pem`）</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+<td>和 --tlsCertFile 匹配的 x509 私钥文件（默认为 `/etc/istio/certs/key.pem`）</td>
 </tr>
 <tr>
 <td><code>--webhookConfigName &lt;string&gt;</code></td>
 <td></td>
-<td>Name of the mutatingwebhookconfiguration resource in Kubernetes.  (default `istio-sidecar-injector`)</td>
+<td>Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`）</td>
 </tr>
 <tr>
 <td><code>--webhookName &lt;string&gt;</code></td>
 <td></td>
-<td>Name of the webhook entry in the webhook config.  (default `sidecar-injector.istio.io`)</td>
+<td>webhook 配置中，webhook 项的名字（默认为 `sidecar-injector.istio.io`）</td>
 </tr>
 </tbody>
 </table>
