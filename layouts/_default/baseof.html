@@ -47,21 +47,21 @@
             <meta name="twitter:creator" content="@{{ .Page.Params.twitter }}">
         {{ end }}
 
-        {{ $analytics_id := "UA-98480406-1" }}
+        {{ $analytics_id := .Site.Data.args.main_analytics_id }}
         {{ if .Site.Data.args.archive }}
             {{ if eq .Title "Istio" }}
                 <title>Istioldie {{ .Site.Data.args.version }}</title>
             {{ else }}
                 <title>Istioldie {{ .Site.Data.args.version }} / {{ .Title }}</title>
             {{ end }}
-            {{ $analytics_id = "UA-98480406-2" }}
+            {{ $analytics_id = .Site.Data.args.archive_analytics_id }}
         {{ else if .Site.Data.args.preliminary }}
             {{ if eq .Title "Istio" }}
                 <title>Istio Prelim {{ .Site.Data.args.version }}</title>
             {{ else }}
                 <title>Istio Prelim {{ .Site.Data.args.version }} / {{ .Title }}</title>
             {{ end }}
-            {{ $analytics_id = "UA-98480406-3" }}
+            {{ $analytics_id = .Site.Data.args.preliminary_analytics_id }}
         {{ else }}
             {{ if eq .Title "Istio" }}
                 <title>Istio</title>

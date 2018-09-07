@@ -1,7 +1,16 @@
 version: "1.1"
 full_version: "1.1.0"
+
+main_search_engine_id: "013699703217164175118:veyyqmfmpj4"
+main_analytics_id: "UA-98480406-1"
+
 preliminary: true
+preliminary_search_engine_id: "013699703217164175118:dmevwrvc6os"
+preliminary_analytics_id: "UA-98480406-3"
+
 archive: false
+archive_search_engine_id: "013699703217164175118:veyyqmfmpj4"
 archive_date: YYYY-MM-DD
-search_engine_id: "013699703217164175118:veyyqmfmpj4"
+archive_analytics_id: "UA-98480406-2"
+
 branch_name: master

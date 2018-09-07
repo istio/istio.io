@@ -44,20 +44,18 @@
 
         <div class="col-7 col-lg-4">
             <p class="text-center copyright" role="contentinfo">
-                Istio
                 {{ if .Site.Data.args.archive }}
-                    Archive
+                    {{ i18n "footer_istio_archive" }}
                 {{ else if .Site.Data.args.preliminary }}
-                    Preliminary
-                {{ end }}
-                {{ .Site.Data.args.version }}<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">Privacy Policy</a><br>
-                {{ if .Site.Data.args.archive }}
-                    Archived on {{ dateFormat "January 2, 2006" .Site.Data.args.archive_date }}
+                    {{ i18n "footer_istio_preliminary" }}
                 {{ else }}
-                    {{ $lastmod := .Page.Lastmod.Format "January 2, 2006" }}
-                    {{ if ne $lastmod "January 1, 0001" }}
-                        Page last modified: {{ $lastmod }}
-                    {{ end }}
+                    {{ i18n "footer_istio" }}
+                {{ end }}
+                {{ .Site.Data.args.version }}<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
+                {{ if .Site.Data.args.archive }}
+                    {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
+                {{ else }}
+                    {{ printf (i18n "footer_last_modified") (.Page.Lastmod.Format (i18n "footer_date_format")) }}
                 {{ end }}
             </p>
         </div>
