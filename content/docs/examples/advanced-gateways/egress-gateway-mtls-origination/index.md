@@ -1,0 +1,561 @@
+---
+title: Mutual TLS origination by Egress Gateway
+description: Describes how to configure an Egress Gateway to perform mutual TLS origination to external services.
+weight: 45
+keywords: [traffic-management,egress]
+---
+
+The [Configure an egress gateway](/docs/examples/advanced-gateways/egress-gateway) example describes how to configure
+Istio to direct the egress traffic through a dedicated service called _egress gateway_.
+This example shows how to configure an egress gateway to enable mutual TLS for traffic to external services.
+
+To simulate a host outside the Istio service mesh, namely `nginx.example.com`, you deploy an
+[NGINX](https://www.nginx.com/) server in your Kubernetes cluster without injecting an Istio sidecar proxy into the
+server's pod.
+Then you configure an egress gateway to perform mutual TLS with the created NGINX server.
+Finally, you direct the traffic from the application pods inside the mesh to the created server outside the mesh through
+the egress gateway.
+
+## Generate client and server certificates and keys
+
+1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
+
+    {{< text bash >}}
+    $ git clone https://github.com/nicholasjackson/mtls-go-example
+    {{< /text >}}
+
+1.  Change directory to the cloned repository:
+
+    {{< text bash >}}
+    $ cd mtls-go-example
+    {{< /text >}}
+
+1.  Generate the certificates for `nginx.example.com`.
+    Use any password with the following command:
+
+    {{< text bash >}}
+    $ ./generate.sh nginx.example.com <password>
+    {{< /text >}}
+
+    Select `y` for all prompts that appear.
+
+1.  Move the certificates into the `nginx.example.com` directory:
+
+    {{< text bash >}}
+    $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
+    {{< /text >}}
+
+1.  Change directory back:
+
+    {{< text bash >}}
+    $ cd ..
+    {{< /text >}}
+
+## Deploy an NGINX server
+
+1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
+    not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
+    [enabled](/docs/setup/kubernetes/sidecar-injection/#deploying-an-app) on it.
+
+    {{< text bash >}}
+    $ kubectl create namespace mesh-external
+    {{< /text >}}
+
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and CA
+   certificates.
+
+    {{< text bash >}}
+    $ kubectl create -n mesh-external secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
+    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
+    {{< /text >}}
+
+1.  Create a configuration file for the NGINX server:
+
+    {{< text bash >}}
+    $ cat <<EOF > ./nginx.conf
+    events {
+    }
+
+    http {
+      log_format main '$remote_addr - $remote_user [$time_local]  $status '
+      '"$request" $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"';
+      access_log /var/log/nginx/access.log main;
+      error_log  /var/log/nginx/error.log;
+
+      server {
+        listen 443 ssl;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        server_name nginx.example.com;
+        ssl_certificate /etc/nginx-server-certs/tls.crt;
+        ssl_certificate_key /etc/nginx-server-certs/tls.key;
+        ssl_client_certificate /etc/nginx-ca-certs/ca-chain.cert.pem;
+        ssl_verify_client on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+to hold the configuration of the NGINX server:
+
+    {{< text bash >}}
+    $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
+    {{< /text >}}
+
+1.  Deploy the NGINX server:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+      labels:
+        run: my-nginx
+    spec:
+      ports:
+      - port: 443
+        protocol: TCP
+      selector:
+        run: my-nginx
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+    spec:
+      selector:
+        matchLabels:
+          run: my-nginx
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            run: my-nginx
+        spec:
+          containers:
+          - name: my-nginx
+            image: nginx
+            ports:
+            - containerPort: 443
+            volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx
+              readOnly: true
+            - name: nginx-server-certs
+              mountPath: /etc/nginx-server-certs
+              readOnly: true
+            - name: nginx-ca-certs
+              mountPath: /etc/nginx-ca-certs
+              readOnly: true
+          volumes:
+          - name: nginx-config
+            configMap:
+              name: nginx-configmap
+          - name: nginx-server-certs
+            secret:
+              secretName: nginx-server-certs
+          - name: nginx-ca-certs
+            secret:
+              secretName: nginx-ca-certs
+    EOF
+    {{< /text >}}
+
+1.  Define a `ServiceEntry` and a `VirtualService` for `nginx.example.com` to instruct Istio to direct traffic destined
+    to `nginx.example.com` to your NGINX server:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: nginx
+    spec:
+      hosts:
+      - nginx.example.com
+      ports:
+      - number: 80
+        name: http
+        protocol: HTTP
+      - number: 443
+        name: https
+        protocol: HTTPS
+      resolution: DNS
+      endpoints:
+      - address: my-nginx.mesh-external.svc.cluster.local
+        ports:
+          https: 443
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: nginx
+    spec:
+      hosts:
+      - nginx.example.com
+      tls:
+      - match:
+        - port: 443
+          sni_hosts:
+          - nginx.example.com
+        route:
+        - destination:
+            host: nginx.example.com
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+## Deploy a container to test the NGINX deployment
+
+1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
+   certificates:
+
+    {{< text bash >}}
+    $ kubectl create secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
+    $ kubectl create secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
+    {{< /text >}}
+
+1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample with mounted client and CA certificates to test sending
+    requests to the NGINX server:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    # Copyright 2017 Istio Authors
+    #
+    #   Licensed under the Apache License, Version 2.0 (the "License");
+    #   you may not use this file except in compliance with the License.
+    #   You may obtain a copy of the License at
+    #
+    #       http://www.apache.org/licenses/LICENSE-2.0
+    #
+    #   Unless required by applicable law or agreed to in writing, software
+    #   distributed under the License is distributed on an "AS IS" BASIS,
+    #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    #   See the License for the specific language governing permissions and
+    #   limitations under the License.
+
+    ##################################################################################################
+    # Sleep service
+    ##################################################################################################
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: sleep
+      labels:
+        app: sleep
+    spec:
+      ports:
+      - port: 80
+        name: http
+      selector:
+        app: sleep
+    ---
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: sleep
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: sleep
+        spec:
+          containers:
+          - name: sleep
+            image: tutum/curl
+            command: ["/bin/sleep","infinity"]
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: nginx-client-certs
+              mountPath: /etc/nginx-client-certs
+              readOnly: true
+            - name: nginx-ca-certs
+              mountPath: /etc/nginx-ca-certs
+              readOnly: true
+          volumes:
+          - name: nginx-client-certs
+            secret:
+              secretName: nginx-client-certs
+          - name: nginx-ca-certs
+            secret:
+              secretName: nginx-ca-certs
+    EOF
+    {{< /text >}}
+
+1.  Define an environment variable to hold the name of the `sleep` pod:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
+1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) pod to send requests to the NGINX server.
+    Since the `nginx.example.com` host does not exist, the DNS cannot resolve the hostname. The following command uses the
+    `--resolve` option of `curl` to resolve the hostname manually. You can provide any IP to the `--resolve` option,
+    except for `127.0.0.1`. If you use, for example, `1.1.1.1`, Istio routes the request correctly to your NGINX server.
+    Normally, a DNS entry exists for the destination hostname and you must not use the `--resolve` option of `curl`.
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
+    ...
+    Server certificate:
+      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
+      start date: 2018-08-16 04:31:20 GMT
+      expire date: 2019-08-26 04:31:20 GMT
+      common name: nginx.example.com (matched)
+      issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
+      SSL certificate verify ok.
+    > GET / HTTP/1.1
+    > User-Agent: curl/7.35.0
+    > Host: nginx.example.com
+    ...
+    < HTTP/1.1 200 OK
+
+    < Server: nginx/1.15.2
+    ...
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
+    ...
+    {{< /text >}}
+
+1.  Verify that the server requires the client's certificate:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -k --resolve nginx.example.com:443:1.1.1.1 https://nginx.example.com
+    <html>
+    <head><title>400 No required SSL certificate was sent</title></head>
+    <body bgcolor="white">
+    <center><h1>400 Bad Request</h1></center>
+    <center>No required SSL certificate was sent</center>
+    <hr><center>nginx/1.15.2</center>
+    </body>
+    </html>
+    {{< /text >}}
+
+## Redeploy the Egress Gateway with the client certificates
+
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
+   certificates.
+
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
+    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
+    {{< /text >}}
+
+1.  Generate the `istio-egressgateway` deployment with a volume to be mounted from the new secrets. Use the same options
+    you used for generating your `istio.yaml`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
+    --set gateways.istio-egressgateway.secretVolumes[0].name=egressgateway-certs \
+    --set gateways.istio-egressgateway.secretVolumes[0].secretName=istio-egressgateway-certs \
+    --set gateways.istio-egressgateway.secretVolumes[0].mountPath=/etc/istio/egressgateway-certs \
+    --set gateways.istio-egressgateway.secretVolumes[1].name=egressgateway-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[1].secretName=istio-egressgateway-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[1].mountPath=/etc/istio/egressgateway-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[2].name=nginx-client-certs \
+    --set gateways.istio-egressgateway.secretVolumes[2].secretName=nginx-client-certs \
+    --set gateways.istio-egressgateway.secretVolumes[2].mountPath=/etc/nginx-client-certs \
+    --set gateways.istio-egressgateway.secretVolumes[3].name=nginx-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[3].secretName=nginx-ca-certs \
+    --set gateways.istio-egressgateway.secretVolumes[3].mountPath=/etc/nginx-ca-certs > \
+    ./istio-egressgateway.yaml
+    {{< /text >}}
+
+1.  Redeploy `istio-egressgateway`:
+
+    {{< text bash >}}
+    $ kubectl apply -f ./istio-egressgateway.yaml
+    deployment "istio-egressgateway" configured
+    {{< /text >}}
+
+1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/nginx-client-certs /etc/nginx-ca-certs
+    {{< /text >}}
+
+    `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
+    `/etc/istio/nginx-ca-certs`.
+
+## Mutual TLS origination for egress traffic
+
+1.  Create an egress `Gateway` for `nginx.example.com`, port 443, and destination rules and
+    virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
+    service.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - nginx.example.com
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-nginx
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: nginx
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: nginx.example.com
+    EOF
+    {{< /text >}}
+
+1.  Define a `VirtualService` to direct the traffic through the egress gateway, and a `DestinationRule` to perform
+    mutual TLS origination:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-nginx-through-egress-gateway
+    spec:
+      hosts:
+      - nginx.example.com
+      gateways:
+      - istio-egressgateway
+      - mesh
+      http:
+      - match:
+        - gateways:
+          - mesh
+          port: 80
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: nginx
+            port:
+              number: 443
+          weight: 100
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: nginx.example.com
+            port:
+              number: 443
+          weight: 100
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      host: nginx.example.com
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: MUTUAL
+            clientCertificate: /etc/nginx-client-certs/tls.crt
+            privateKey: /etc/nginx-client-certs/tls.key
+            caCertificates: /etc/nginx-ca-certs/ca-chain.cert.pem
+            sni: nginx.example.com
+    EOF
+    {{< /text >}}
+
+1.  Send an HTTP request to `http://nginx.example.com`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s --resolve nginx.example.com:80:1.1.1.1 http://nginx.example.com
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
+    ...
+    {{< /text >}}
+
+1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in
+    the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system | grep 'nginx.example.com' | grep HTTP
+    {{< /text >}}
+
+    You should see a line related to your request, similar to the following:
+
+    {{< text plain>}}
+    [2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "nginx.example.com" "172.21.72.197:443"
+    {{< /text >}}
+
+## Cleanup
+
+1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-gateways/egress-gateway/#cleanup)
+    section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
+
+1.  Remove created Kubernetes resources:
+
+    {{< text bash >}}
+    $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete secret nginx-client-certs nginx-ca-certs
+    $ kubectl delete secret nginx-client-certs nginx-ca-certs -n istio-system
+    $ kubectl delete configmap nginx-configmap -n mesh-external
+    $ kubectl delete service my-nginx -n mesh-external
+    $ kubectl delete deployment my-nginx -n mesh-external
+    $ kubectl delete namespace mesh-external
+    $ kubectl delete gateway istio-egressgateway
+    $ kubectl delete serviceentry nginx
+    $ kubectl delete virtualservice direct-nginx-through-egress-gateway
+    $ kubectl delete destinationrule originate-mtls-for-nginx
+    $ kubectl delete destinationrule egressgateway-for-nginx
+    {{< /text >}}
+
+1.  Delete the directory of the certificates and the repository used to generate them:
+
+    {{< text bash >}}
+    $ rm -rf nginx.example.com mtls-go-example
+    {{< /text >}}
+
+1.  Delete the generated configuration files used in this example:
+
+    {{< text bash >}}
+    $ rm -f ./nginx.conf ./istio-egressgateway.yaml
+    {{< /text >}}
+
+1.  Delete the `sleep` service and deployment:
+
+    {{< text bash >}}
+    $ kubectl delete service sleep
+    $ kubectl delete deployment sleep
+    {{< /text >}}
