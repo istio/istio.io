@@ -1,9 +1,9 @@
-## Sidecar 注入器
+## sidecar-injector
 
 Kubernetes 自动注入 Istio sidecar 的 webhook。
 
 ```bash
-Sidecar 注入器 [选项]
+sidecar-injector [选项]
 ```
 
 | 选项                               | 描述                                                         |
@@ -29,12 +29,12 @@ Sidecar 注入器 [选项]
 | `--webhookConfigName <string>`     | Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`） |
 | `--webhookName <string>`           | webhook 配置中 webhook 项名（默认为 `sidecar-injector.istio.io`） |
 
-## sidecar 注入器探针
+## sidecar-injector probe
 
 检查本地运行服务器的保活和可用性
 
 ```bash
-Sidecar 注入器探针 [选项]
+sidecar-injector probe [选项]
 ```
 
 | 选项                               | 描述                                                         |
@@ -62,12 +62,12 @@ Sidecar 注入器探针 [选项]
 | `--webhookConfigName <string>`     | Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`） |
 | `--webhookName <string>`           | webhook 配置中 webhook 项名（默认为 `sidecar-injector.istio.io`） |
 
-## Sidecar 注入器版本
+## sidecar-injector version
 
 输出构建版本信息
 
 ```bash
-Sidecar 注入器版本 [选项]
+sidecar-injector version [选项]
 ```
 
 | 选项                               | 缩写 | 描述                                                         |
