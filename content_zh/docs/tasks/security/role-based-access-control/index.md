@@ -61,7 +61,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 运行下面的命令，为 `default` 命名空间启用 Istio 授权：
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 {{< /text >}}
 
 > 如果前面已经创建了冲突的规则，应该使用 `istioctl replace` 替代 `istioctl create`。
@@ -79,7 +79,7 @@ Bookinfo 示例中，`productpage`、`reviews`、`details` 以及 `ratings` 服�
 运行这一命令，创建一个命名空间级别的访问控制策略：
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
 这一策略完成如下任务：
@@ -115,7 +115,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
           source.namespace: "istio-system"
       - properties:
           source.namespace: "default"
-        roleRef:
+      roleRef:
         kind: ServiceRole
         name: "service-viewer"
     {{< /text >}}
@@ -136,7 +136,7 @@ servicerolebinding "bind-service-viewer" created
 在进行后续任务之前，首先移除下面的配置：
 
 {{< text bash >}}
-$ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
 ## 服务级的访问控制
@@ -155,7 +155,7 @@ $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 执行命令：
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 {{< /text >}}
 
 这条策略完成以下工作：
@@ -185,7 +185,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yam
     spec:
       subjects:
       - user: "*"
-        roleRef:
+      roleRef:
         kind: ServiceRole
         name: "productpage-viewer"
     {{< /text >}}
@@ -201,7 +201,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yam
 运行下面的命令：
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
 {{< /text >}}
 
 这一策略完成以下任务：
@@ -230,8 +230,8 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy
       namespace: default
     spec:
       subjects:
-      - user: "spiffe://cluster.local/ns/default/sa/bookinfo-productpage"
-        roleRef:
+      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+      roleRef:
         kind: ServiceRole
         name: "details-reviews-viewer"
     {{< /text >}}
@@ -247,7 +247,7 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy
 下面的命令会创建一条允许 `reviews` 服务读取 `ratings` 服务的策略。
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 {{< /text >}}
 
 这条策略完成以下工作：
@@ -276,8 +276,8 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
       namespace: default
     spec:
       subjects:
-      - user: "spiffe://cluster.local/ns/default/sa/bookinfo-reviews"
-        roleRef:
+      - user: "cluster.local/ns/default/sa/bookinfo-reviews"
+      roleRef:
         kind: ServiceRole
         name: "ratings-viewer"
     {{< /text >}}
@@ -291,9 +291,9 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 * 清理 Istio 授权策略的相关配置：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
     {{< /text >}}
 
     或者也可以运行命令删除所有的 `ServiceRole` 以及 `ServiceRoleBinding` 资源：
@@ -306,5 +306,5 @@ $ istioctl create -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 * 禁用 Istio 的授权功能：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
     {{< /text >}}

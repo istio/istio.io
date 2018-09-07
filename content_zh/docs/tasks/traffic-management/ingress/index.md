@@ -134,9 +134,9 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
     spec:
       hosts:
       - "httpbin.example.com"
-        gateways:
+      gateways:
       - httpbin-gateway
-        http:
+      http:
       - match:
         - uri:
             prefix: /status
@@ -186,7 +186,7 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
 
 在浏览器中输入 httpbin 服务的地址是不会生效的，这是因为因为我们没有办法让浏览器像 `curl` 一样装作访问 `httpbin.example.com`。而在现实世界中，因为有正常配置的主机和 DNS 记录，这种做法就能够成功了——只要简单的在浏览器中访问由域名构成的 URL 即可，例如 `https://httpbin.example.com/status/200`。
 
-要解决此问题以进行简单的测试和演示，我们可以在 `Gateway` 和 `VirutualService` 配置中为主机使用通配符值 `*`。例如，如果我们将 Ingress 配置更改为以下内容：
+要解决此问题以进行简单的测试和演示，我们可以在 `Gateway` 和 `VirtualService` 配置中为主机使用通配符值 `*`。例如，如果我们将 Ingress 配置更改为以下内容：
 
 {{< text bash >}}
 $ cat <<EOF | istioctl replace -f -
@@ -214,7 +214,7 @@ spec:
   - "*"
   gateways:
   - httpbin-gateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /headers

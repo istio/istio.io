@@ -1,8 +1,8 @@
 ---
-title: Mixer 常见问题
+title: Mixer FAQ
 linktitle: Mixer
-description: Mixer 的常见问题。
+description: Mixer Q & A。
 weight: 40
-type: 常见问题
+type: faq
 icon: /img/faq.svg
 ---

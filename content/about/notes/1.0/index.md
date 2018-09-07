@@ -10,6 +10,8 @@ milestone for us. All of our [core features](/about/feature-stages/) are now rea
 These release notes describe what's different between Istio 0.8 and Istio 1.0. Istio 1.0 only has a few new features
 relative to 0.8 as most of the effort for this release went into fixing bugs and improving performance.
 
+{{< relnote_links >}}
+
 ## Networking
 
 - **SNI Routing using Virtual Services**. Newly introduced `TLS` sections in
