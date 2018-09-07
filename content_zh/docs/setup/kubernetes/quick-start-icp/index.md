@@ -22,14 +22,14 @@ keywords: [kubernetes,icp]
 - 单击左侧导航窗口中的 `Operations`。
 
 {{< image width="100%" ratio="50%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-catalog-1.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-catalog-1.png"
     caption="IBM Cloud Private - Istio 目录"
     >}}
 
 - 单击右侧面板中的 `ibm-istio`。
 
 {{< image width="100%" ratio="50%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-catalog-2.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-catalog-2.png"
     caption="IBM Cloud Private - Istio 目录"
     >}}
 
@@ -37,7 +37,7 @@ keywords: [kubernetes,icp]
 - 单击 `Configure` 按钮。
 
 {{< image width="100%" ratio="50%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-installation-1.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-installation-1.png"
     caption="IBM Cloud Private - Istio 安装"
     >}}
 
@@ -47,14 +47,14 @@ keywords: [kubernetes,icp]
 - 单击 `Install` 按钮。
 
 {{< image width="100%" ratio="50%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-installation-2.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-installation-2.png"
     caption="IBM Cloud Private - Istio 安装"
     >}}
 
 安装后，您可以通过在 **Helm Releases** 页面上搜索其版本名称来找到它。
 
 {{< image width="100%" ratio="40%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-release.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-release.png"
     caption="IBM Cloud Private - Istio 安装"
     >}}
 
@@ -67,12 +67,12 @@ keywords: [kubernetes,icp]
 - 单击 `Action` 链接并选择 `upgrade` 或 `rollback` 。
 
 {{< image width="100%" ratio="50%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-upgrade-1.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-upgrade-1.png"
     caption="IBM Cloud Private - Istio 升级或回滚"
     >}}
 
 {{< image width="100%" ratio="50%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-upgrade-2.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-upgrade-2.png"
     caption="IBM Cloud Private - Istio 升级或回滚"
     >}}
 
@@ -85,6 +85,6 @@ keywords: [kubernetes,icp]
 - 单击 `Action` 链接并选择 `delete`。
 
 {{< image width="100%" ratio="50%"
-    link="/docs/setup/kubernetes/quick-start-icp/istio-deletion.png"
+    link="/docs/setup/kubernetes/quick-start-ibm/istio-deletion.png"
     caption="IBM Cloud Private - Istio 卸载"
     >}}
