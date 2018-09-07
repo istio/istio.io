@@ -5,7 +5,7 @@ weight: 45
 keywords: [traffic-management,egress]
 ---
 
-The [Configure an egress gateway](/docs/examples/advanced-egress/egress-gateway) example describes how to configure
+The [Configure an egress gateway](/docs/examples/advanced-gateways/egress-gateway) example describes how to configure
 Istio to direct the egress traffic through a dedicated service called _egress gateway_.
 This example shows how to configure an egress gateway to enable mutual TLS for traffic to external services.
 
@@ -521,8 +521,8 @@ to hold the configuration of the NGINX server:
 
 ## Cleanup
 
-1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
-    section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
+1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-gateways/egress-gateway/#cleanup)
+    section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
 
 1.  Remove created Kubernetes resources:
 
