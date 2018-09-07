@@ -3,7 +3,7 @@ title: Media Resources
 description: Official Istio resources for digital and printed materials.
 weight: 90
 type: media-resources
-page_icon: /img/istio-blue-logo.svg
+icon: /img/istio-blue-logo.svg
 ---
 
 Here are a few assets in case you want to show off your support for Istio, integration to Istio, or want to link back to

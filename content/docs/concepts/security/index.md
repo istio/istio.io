@@ -96,7 +96,7 @@ Istio service identities on different platforms:
 The [SPIFFE](https://spiffe.io/) standard provides a specification for a framework capable of bootstrapping and issuing identities to services
 across heterogeneous environments.
 
-Istio and SPIFFE share the same identity document: [SVID](https://spiffe.io/docs/svid/) (SPIFFE Verifiable Identity Document).
+Istio and SPIFFE share the same identity document: [SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) (SPIFFE Verifiable Identity Document).
 For example, in Kubernetes, the X.509 certificate has the URI field in the format of
 "spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>".
 This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
@@ -492,7 +492,7 @@ recommendations to avoid disruption when updating your authentication policies:
 
 {{< text yaml >}}
 peers:
-- mTLS:
+- mtls:
     mode: PERMISSIVE
 {{< /text >}}
 
@@ -559,13 +559,12 @@ In the following example, Istio authorization is enabled for the `default`
 namespace.
 
 {{< text yaml >}}
-apiVersion: "config.istio.io/v1alpha2"
+apiVersion: "rbac.istio.io/v1alpha1"
 kind: RbacConfig
 metadata:
   name: default
-  namespace: istio-system
 spec:
-  mode: ON_WITH_INCLUSION
+  mode: 'ON_WITH_INCLUSION'
   inclusion:
     namespaces: ["default"]
 {{< /text >}}

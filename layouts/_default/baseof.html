@@ -17,6 +17,10 @@
         <meta name="title" content="{{ .Title }}">
         <meta name="description" content="{{ template "description" . }}">
 
+        {{ if .Page.Params.attribution }}
+            <meta name="author" content="{{ .Page.Params.attribution }}">
+        {{ end }}
+
         {{ if .Page.Params.keywords }}
             <meta name="keywords" content="microservices,services,mesh,{{ delimit .Page.Params.keywords "," }}">
         {{ else }}
@@ -24,23 +28,40 @@
         {{ end }}
 
         <!-- Open Graph protocol -->
-        <meta name="og:title" content="{{ .Title }}">
-        <meta name="og:description" content="{{ template "description" . }}">
-        <meta name="og:url" content="{{ .Permalink }}">
-        <meta name="og.site_name" content="Istio">
+        <meta property="og:title" content="{{ .Title }}">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="{{ template "description" . }}">
+        {{ if .Permalink }}
+            <meta property="og:url" content="{{ .Permalink }}">
+        {{ end }}
+        <meta property="og:image" content="{{ .Site.BaseURL }}/img/istio-logo-blue-background.svg">
+        <meta property="og:image:alt" content="Istio Logo">
+        <meta property="og:image:width" content="112">
+        <meta property="og:image:height" content="150">
+        <meta property="og:site_name" content="Istio">
 
+        <!-- Twitter card -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IstioMesh">
+        {{ if .Page.Params.twitter }}
+            <meta name="twitter:creator" content="@{{ .Page.Params.twitter }}">
+        {{ end }}
+
+        {{ $analytics_id := "UA-98480406-1" }}
         {{ if .Site.Data.args.archive }}
             {{ if eq .Title "Istio" }}
                 <title>Istioldie {{ .Site.Data.args.version }}</title>
             {{ else }}
                 <title>Istioldie {{ .Site.Data.args.version }} / {{ .Title }}</title>
             {{ end }}
+            {{ $analytics_id = "UA-98480406-2" }}
         {{ else if .Site.Data.args.preliminary }}
             {{ if eq .Title "Istio" }}
                 <title>Istio Prelim {{ .Site.Data.args.version }}</title>
             {{ else }}
                 <title>Istio Prelim {{ .Site.Data.args.version }} / {{ .Title }}</title>
             {{ end }}
+            {{ $analytics_id = "UA-98480406-3" }}
         {{ else }}
             {{ if eq .Title "Istio" }}
                 <title>Istio</title>
@@ -50,12 +71,13 @@
         {{ end }}
 
         <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $analytics_id }}"></script>
         <script>
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            ga('create', 'UA-98480406-1', 'auto');
-            ga('send', 'pageview');
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ $analytics_id }}');
         </script>
-        <script async src='https://www.google-analytics.com/analytics.js'></script>
         <!-- End Google Analytics -->
 
         <script>

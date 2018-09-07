@@ -1,0 +1,70 @@
+.logo-gallery {
+    margin: 3rem;
+
+    .company-logo {
+        margin: 1rem;
+        padding: 14px;
+        display: inline-block;
+        width: 200px;
+        height: 120px;
+        transition-duration: 0.8s;
+        transform-origin: 50% 50%;
+        transition-property: none;
+        position: relative;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.25);
+        border-radius: 3px;
+
+        &:hover {
+            transition-property: transform, opacity, box-shadow;
+            transform: rotate(360deg);
+            box-shadow: 0 0 50px rgba(0, 0, 200, 0.1), 0 5px 10px rgba(0, 0, 200, 0.25);
+        }
+    }
+
+    .outer {
+        display: table;
+        position: absolute;
+        width: 172px;
+        height: 92px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .with-tag-line {
+        &:hover {
+            &:hover {
+                img {
+                    opacity: .15;
+                }
+
+                .tagline {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    img {
+        position: absolute;
+        width: 172px;
+        height: 92px;
+        object-fit: contain;
+        transition-duration: 0.8s;
+        transition-property: opacity;
+    }
+
+    .tagline {
+        opacity: 0;
+        transition-duration: 0.8s;
+        transition-property: opacity;
+    }
+}

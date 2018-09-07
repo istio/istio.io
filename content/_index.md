@@ -38,22 +38,22 @@ title: Istio
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('card1').style.opacity = 1;
+        document.getElementById('card1').style.opacity = "1";
 
         window.setTimeout(function() {
-            document.getElementById('card2').style.opacity = 1;
+            document.getElementById('card2').style.opacity = "1";
         }, 375);
 
         window.setTimeout(function() {
-            document.getElementById('card3').style.opacity = 1;
+            document.getElementById('card3').style.opacity = "1";
         }, 750);
 
         window.setTimeout(function() {
-            document.getElementById('card4').style.opacity = 1;
+            document.getElementById('card4').style.opacity = "1";
         }, 1125);
 
         window.setTimeout(function() {
-            document.getElementById('buttons').style.opacity = 1;
+            document.getElementById('buttons').style.opacity = "1";
         }, 1500);
     });
 </script>
@@ -62,7 +62,7 @@ title: Istio
     <div class="container-fluid">
         <div class="row justify-content-center">
             {{< inline_image "landing/istio-logo.svg" >}}
-            <div style="width: 20rem; margin-left: 3rem">
+            <div class="hero-text">
                 <h1 class="hero-label">Istio</h1>
                 <h1 class="hero-lead">Connect, secure, control, and observe services.
             </div>
@@ -75,7 +75,7 @@ title: Istio
                 <a href="/docs/concepts/traffic-management/">
                     <div class="card-img-top">
                         {{< inline_image "landing/routing-and-load-balancing.svg" >}}
-                     </div>
+                    </div>
                     <div class="card-body">
                         <hr class="card-line">
                         <h5 class="card-title text-center">Connect</h5>
@@ -134,15 +134,16 @@ title: Istio
                             See what's happening with rich automatic tracing, monitoring, and logging of all your services.
                        </p>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
 
     <div id="buttons" class="buttons container-fluid">
         <div class="row justify-content-center">
-            <a class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
-            <a class="btn btn-istio" href="https://github.com/istio/istio/releases/">DOWNLOAD</a>
+            <a title="Install Istio on Kubernetes today." class="btn btn-istio" href="/docs/setup/kubernetes/quick-start">GET STARTED</a>
+            <a title="Dive deeper to understand what Istio is and how it works." class="btn btn-istio" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
+            <a title="Download the latest release." class="btn btn-istio" href="{{< istio_release_url >}}">DOWNLOAD {{< istio_release_name >}}</a>
         </div>
     </div>
 </main>

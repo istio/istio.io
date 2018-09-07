@@ -211,20 +211,19 @@ keywords: [流量管理,egress,tcp]
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
+    apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
       name: mysql-external
     spec:
       hosts:
       - $MYSQL_DB_HOST
-        addresses:
+      addresses:
       - $MYSQL_DB_IP/32
-        ports:
+      ports:
       - name: tcp
         number: $MYSQL_DB_PORT
-         protocol: tcp
-
+        protocol: tcp
       location: MESH_EXTERNAL
     EOF
     {{< /text >}}

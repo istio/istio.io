@@ -11,4 +11,4 @@ keywords: [kubernetes,sidecar,sidecar-injection]
 
 1. **关联服务**：Pod 必须关联到 [Kubernetes 服务](https://kubernetes.io/docs/concepts/services-networking/service/)，如果一个 Pod 属于多个服务，这些服务不能再同一端口上使用不同协议，例如 HTTP 和 TCP。
 
-1. **Deployment 应带有 `app` 标签**：在使用 Kubernetes `Deployment` 进行 Pod 部署的时候，建议显式的为 Deployment 加上 `app` 标签。每个 Deployment 都应该有一个有意义的 `app` 标签。`app` 标签在分布式跟踪的过程中会被用来加入上下文信息。
+1. **Deployment 应带有 `app` 以及 `version` 标签**：在使用 Kubernetes `Deployment` 进行 Pod 部署的时候，建议显式的为 `Deployment` 加上 `app` 以及 `version` 标签。每个 Deployment 都应该有一个有意义的 `app` 标签和一个用于标识 `Deployment` 版本的 `version` 标签。`app` 标签在分布式跟踪的过程中会被用来加入上下文信息。Istio 还会用 `app` 和 `version` 标签来给遥测指标数据加入上下文信息。
