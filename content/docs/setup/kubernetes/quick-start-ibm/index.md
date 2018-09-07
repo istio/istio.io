@@ -26,40 +26,42 @@ This guide installs the current release version of Istio.
 
 1. Install the [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm).
 
-1. Create a service account for Tiller in the `kube-system` namespace and a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod.
+1. Create a service account for Tiller in the `kube-system` namespace and a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod:
 
-        apiVersion: v1
-        kind: ServiceAccount
-        metadata:
-          name: tiller
-          namespace: kube-system
-        ---
-        apiVersion: rbac.authorization.k8s.io/v1
-        kind: ClusterRoleBinding
-        metadata:
-          name: tiller
-        roleRef:
-          apiGroup: rbac.authorization.k8s.io
-          kind: ClusterRole
-          name: cluster-admin
-        subjects:
-          - kind: ServiceAccount
-            name: tiller
-            namespace: kube-system
+    {{< text yaml >}}
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: tiller
+      namespace: kube-system
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: tiller
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+      - kind: ServiceAccount
+        name: tiller
+        namespace: kube-system
+    {{< /text >}}
 
-1. Create the service account and cluster role binding.
+1. Create the service account and cluster role binding:
 
     {{< text bash >}}
     $ kubectl create -f rbac-config.yaml
     {{< /text >}}
 
-1. Initialize Helm and install Tiller.
+1. Initialize Helm and install Tiller:
 
     {{< text bash >}}
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Add the IBM Cloud Helm repository to your Helm instance.
+1. Add the IBM Cloud Helm repository to your Helm instance:
 
     {{< text bash >}}
     $ helm repo add ibm https://registry.bluemix.net/helm/ibm
@@ -67,19 +69,19 @@ This guide installs the current release version of Istio.
 
 ### Deploy the Istio Helm chart
 
-1. Install Istio’s custom resource definitions.
+1. Install Istio’s custom resource definitions:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
     {{< /text >}}
 
-1. Install the Helm chart to your cluster.
+1. Install the Helm chart to your cluster:
 
-    {{< text bash>}}
+    {{< text bash >}}
     $ helm install ibm/ibm-istio --name=istio --namespace istio-system
     {{< /text >}}
 
-1. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed.
+1. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -106,13 +108,13 @@ This guide installs the current release version of Istio.
 
 ### Uninstall
 
-1. Uninstall the Istio Helm deployment.
+1. Uninstall the Istio Helm deployment:
 
     {{< text bash >}}
     $ helm del istio --purge
     {{< /text >}}
 
-1. Delete the Istio custom resource definitions.
+1. Delete the Istio custom resource definitions:
 
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
@@ -137,14 +139,14 @@ This guide installs the current release version of Istio.
 - Click `Filter` on the right side of the search box and select the `ibm-charts` check box.
 - Click `Operations` in the left navigation pane.
 
-{{< image width="100%" ratio="45%"
+{{< image width="100%" ratio="43.98%"
     link="./istio-catalog-1.png"
     caption="IBM Cloud Private - Istio Catalog"
     >}}
 
 - Click `ibm-istio` in the right panel.
 
-{{< image width="100%" ratio="45%"
+{{< image width="100%" ratio="40.45%"
     link="./istio-catalog-2.png"
     caption="IBM Cloud Private - Istio Catalog"
     >}}
@@ -152,7 +154,7 @@ This guide installs the current release version of Istio.
 - (Optional) Change the Istio version using the `CHART VERSION` drop-down.
 - Click the `Configure` button.
 
-{{< image width="100%" ratio="50%"
+{{< image width="100%" ratio="53.92%"
     link="./istio-installation-1.png"
     caption="IBM Cloud Private - Istio Installation"
     >}}
@@ -162,14 +164,14 @@ This guide installs the current release version of Istio.
 - (Optional) Customize the installation parameters by clicking `All parameters`.
 - Click the `Install` button.
 
-{{< image width="100%" ratio="50%"
+{{< image width="100%" ratio="55.07%"
     link="./istio-installation-2.png"
     caption="IBM Cloud Private - Istio Installation"
     >}}
 
 After it is installed, you can find it by searching for its release name on the **Helm Releases** page.
 
-{{< image width="100%" ratio="30%"
+{{< image width="100%" ratio="25.47%"
     link="./istio-release.png"
     caption="IBM Cloud Private - Istio Installation"
     >}}
@@ -182,12 +184,12 @@ After it is installed, you can find it by searching for its release name on the 
 - Find the installed Istio using its release name.
 - Click `Action` and select `upgrade` or `rollback`.
 
-{{< image width="100%" ratio="50%"
+{{< image width="100%" ratio="41.28%"
     link="./istio-upgrade-1.png"
     caption="IBM Cloud Private - Istio Upgrade or Rollback"
     >}}
 
-{{< image width="100%" ratio="40%"
+{{< image width="100%" ratio="32.52%"
     link="./istio-upgrade-2.png"
     caption="IBM Cloud Private - Istio Upgrade or Rollback"
     >}}
@@ -200,7 +202,7 @@ After it is installed, you can find it by searching for its release name on the 
 - Find the installed Istio using its release name.
 - Click `Action` and select `delete`.
 
-{{< image width="100%" ratio="40%"
+{{< image width="100%" ratio="32.52%"
     link="./istio-deletion.png"
     caption="IBM Cloud Private - Istio Uninstalling"
     >}}
