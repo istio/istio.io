@@ -37,7 +37,7 @@ the egress gateway.
     $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
-    When prompted, select `y` for all the questions.
+    Select `y` for all prompts that appear.
 
 1.  Move the certificates into the `nginx.example.com` directory:
 
