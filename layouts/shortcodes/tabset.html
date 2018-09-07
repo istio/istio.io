@@ -8,26 +8,26 @@
 
 <div class="tabset" id="{{ $tab_set_id }}">
 	<ul class="nav nav-tabs">
-		{{ range $i, $e := $tabs }}
-			{{ $id := printf "%s-%d" $tab_set_id $i }}
+		{{- range $i, $e := $tabs -}}
+			{{- $id := printf "%s-%d" $tab_set_id $i -}}
 			<li class="nav-item"><a class="nav-link{{ if eq $i 0 }} active{{ end }}"
 									data-toggle="tab"
 									data-cookie-name="{{ $cookie_name }}"
                                     data-cookie-value="{{ .cookie_value }}"
 									href="#{{ $id }}"><span>{{ trim .name " " }}</span></a>
 			</li>
-		{{ end }}
+		{{- end -}}
 	</ul>
 
 	<div class="tab-content">
-		{{ range $i, $e := $tabs }}
-			{{ $id := printf "%s-%d" $tab_set_id $i }}
+		{{- range $i, $e := $tabs -}}
+			{{- $id := printf "%s-%d" $tab_set_id $i -}}
 
 			<div class="tab-pane fade container{{ if eq $i 0 }} active show{{ end }}" id="{{ $id }}">
-				{{ with .content }}
+				{{- with .content -}}
 					{{ . }}
-				{{ end }}
+				{{- end -}}
 			</div>
-		{{ end }}
+		{{- end -}}
 	</div>
 </div>
