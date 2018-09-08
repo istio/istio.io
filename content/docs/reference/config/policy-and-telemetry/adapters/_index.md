@@ -14,7 +14,7 @@ aliases:
 |---|---|---|
 |[`Apigee`](/docs/reference/config/policy-and-telemetry/adapters/apigee/)|`apigee`|[`authorization`](/docs/reference/config/policy-and-telemetry/templates/authorization/), [analytics](/docs/reference/config/policy-and-telemetry/templates/analytics/)|
 |[`Circonus`](/docs/reference/config/policy-and-telemetry/adapters/circonus/)|`circonus`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/)|
-|[`CloudMonitor`](/docs/reference/config/policy-and-telemetry/adapters/cloudmonitor/)|`cloudmonitor`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/)|`cloudwatch`|
+|[`CloudMonitor`](/docs/reference/config/policy-and-telemetry/adapters/cloudmonitor/)|`cloudmonitor`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/)|
 |[`CloudWatch`](/docs/reference/config/policy-and-telemetry/adapters/cloudwatch/)|`cloudwatch`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/)|
 |[`Datadog`](/docs/reference/config/policy-and-telemetry/adapters/datadog/)|`dogstatsd`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/)|
 |[`Denier`](/docs/reference/config/policy-and-telemetry/adapters/denier)|`denier`|[`checknothing`](/docs/reference/config/policy-and-telemetry/templates/checknothing/), [`listentry`](/docs/reference/config/policy-and-telemetry/templates/listentry/), [`quota`](/docs/reference/config/policy-and-telemetry/templates/quota/)|
