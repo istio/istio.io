@@ -191,7 +191,7 @@ keywords: [kubernetes,ibm,icp]
 
 ### 卸载
 
-- 登录到 **IBM 私有云** 控制台。
+- 登录到 **IBM 私有云**控制台。
 - 点击导航栏左侧的菜单按钮。
 - 点击 `Workloads` 并选中 `Helm Releases`。
 - 通过实例名找到已安装的 Istio。
