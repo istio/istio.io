@@ -15,4 +15,4 @@ layout: search-results
     })();
 </script>
 
-<gcse:searchresults-only></gcse:searchresults-only>
+<gcse:searchresults-only defaultToRefinement="V0.6"></gcse:searchresults-only>
