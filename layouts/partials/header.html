@@ -92,6 +92,13 @@
             </ul>
 
             <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+                {{ if .Site.Data.args.preliminary }}
+                    <input type="hidden" name="cx" value="{{ .Site.Data.args.preliminary_search_engine_id }}" />
+                {{ else if .Site.Data.args.archive }}
+                    <input type="hidden" name="cx" value="{{ .Site.Data.args.archive_search_engine_id }}" />
+                {{ else }}
+                    <input type="hidden" name="cx" value="{{ .Site.Data.args.main_search_engine_id }}" />
+                {{ end }}
                 <input type="hidden" name="cx" value="{{ .Site.Data.args.search_engine_id }}" />
                 <input type="hidden" name="ie" value="utf-8" />
                 <input type="hidden" name="hl" value="en" />

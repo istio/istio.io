@@ -74,7 +74,13 @@
 <div class="search-results">
     <script>
         (function() {
-            var cx = '{{ .Site.Data.args.search_engine_id }}';
+            {{ if .Site.Data.args.preliminary }}
+                var cx = '{{ .Site.Data.args.preliminary_search_engine_id }}';
+            {{ else if .Site.Data.args.archive }}
+                var cx = '{{ .Site.Data.args.archive_search_engine_id }}';
+            {{ else }}
+                var cx = '{{ .Site.Data.args.search_engine_id }}';
+            {{ end }}
                 var gcse = document.createElement('script');
                 gcse.type = 'text/javascript';
                 gcse.async = true;
