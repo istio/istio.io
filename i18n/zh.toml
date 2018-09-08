@@ -60,3 +60,27 @@ other = "选项和设置"
 
 [search]
 other = "搜索istio.io"
+
+[footer_istio]
+other = "Istio"
+
+[footer_istio_preliminary]
+other = "Istio Preliminary"
+
+[footer_istio_archive]
+other = "Istio Archive"
+
+[footer_archived_on]
+other = "Archived on %s"
+
+[footer_last_modified]
+other = "Page last modified: %s"
+
+[footer_date_format]
+other = "January 2, 2006"
+
+[footer_privacy_policy]
+other = "Privacy Policy"
+
+[page_publish_date_format]
+other = "January 2, 2006"

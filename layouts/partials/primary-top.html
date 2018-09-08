@@ -58,7 +58,7 @@
                             (<a href="https://twitter.com/{{ .Params.twitter }}">@{{.Params.twitter}}</a>)
                         {{ end }}
                         /
-                        <span class="publish_date">{{ .PublishDate.Format "January 2, 2006" }}</span>
+                        <span class="publish_date">{{ .PublishDate.Format (i18n "page_publish_date_format") }}</span>
                     </p>
                 {{ end }}
 
