@@ -135,14 +135,14 @@ keywords: [kubernetes,ibm,icp]
 - 点击左侧导航窗格的 `Operations`。
 
 {{< image width="100%" ratio="43.98%"
-    link="./istio-catalog-1.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-catalog-1.png"
     caption="IBM 私有云 - Istio 目录"
     >}}
 
 - 点击右侧面板中的 `ibm-istio`。
 
 {{< image width="100%" ratio="40.45%"
-    link="./istio-catalog-2.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-catalog-2.png"
     caption="IBM 私有云 - Istio 目录"
     >}}
 
@@ -150,7 +150,7 @@ keywords: [kubernetes,ibm,icp]
 - 点击 `Configure` 按钮。
 
 {{< image width="100%" ratio="53.92%"
-    link="./istio-installation-1.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-installation-1.png"
     caption="IBM 私有云 - 安装 Istio"
     >}}
 
@@ -160,14 +160,14 @@ keywords: [kubernetes,ibm,icp]
 - 点击 `Install` 按钮。
 
 {{< image width="100%" ratio="55.07%"
-    link="./istio-installation-2.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-installation-2.png"
     caption="IBM 私有云 - 安装 Istio"
     >}}
 
 安装完成后，你可以在 **Helm Releases** 页通过搜索实例名找到它。
 
 {{< image width="100%" ratio="25.47%"
-    link="./istio-release.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-release.png"
     caption="IBM 私有云 - 安装 Istio"
     >}}
 
@@ -180,12 +180,12 @@ keywords: [kubernetes,ibm,icp]
 - 点击 `Action` 然后选择 `upgrade` 或 `rollback`。
 
 {{< image width="100%" ratio="41.28%"
-    link="./istio-upgrade-1.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-upgrade-1.png"
     caption="IBM 私有云 - Istio 升级或回滚"
     >}}
 
 {{< image width="100%" ratio="32.52%"
-    link="./istio-upgrade-2.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-upgrade-2.png"
     caption="IBM 私有云 - Istio 升级或回滚"
     >}}
 
@@ -198,6 +198,6 @@ keywords: [kubernetes,ibm,icp]
 - 点击 `Action` 并选择 `delete`。
 
 {{< image width="100%" ratio="32.52%"
-    link="./istio-deletion.png"
+    link="/zh/docs/setup/kubernetes/quick-start-ibm/istio-deletion.png"
     caption="IBM 私有云 - 卸载 Istio"
     >}}
