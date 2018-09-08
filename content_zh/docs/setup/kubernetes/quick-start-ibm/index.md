@@ -5,7 +5,7 @@ weight: 21
 keywords: [kubernetes,ibm,icp]
 ---
 
-参照以下说明，在 IBM Cloud 上安装和运行 Istio。你可以安装在 [IBM 公有云](#ibm-公有云)或 [IBM 私有云](#ibm-私有云).
+参照以下说明，在 IBM Cloud 上安装和运行 Istio。你可以选择安装在 [IBM 公有云](#ibm-公有云)或 [IBM 私有云](#ibm-私有云)上.
 
 ## IBM 公有云
 
@@ -15,7 +15,7 @@ keywords: [kubernetes,ibm,icp]
 
 ### 前置条件 - IBM 公有云
 
--  [安装 IBM Cloud CLI，IBM Cloud Kubernetes Service 插件，以及 Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html)。Istio 需要 Kubernetes 1.9 版本及之后的版本。确保安装的 `kubectl` CLI 版本与集群中 Kubernetes 版本一致。
+-  [安装 IBM Cloud CLI，IBM Cloud Kubernetes Service 插件，以及 Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html)。Istio 需要 Kubernetes 1.9 版本及更新的版本。确保安装的 `kubectl` CLI 版本与集群中 Kubernetes 版本一致。
 -  确保 Kubernetes 集群的版本是 1.9 或之后的版本。如果你还没有一个可用的集群，[创建一个 1.9 版本或更新版本的集群](https://console.bluemix.net/docs/containers/cs_clusters.html)。
 -  通过执行 `ibmcloud ks cluster-config <cluster_name_or_ID>` 将 CLI 指向你的集群，然后对输出的命令进行拷贝粘贴。
 
@@ -58,7 +58,7 @@ keywords: [kubernetes,ibm,icp]
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. 将 IBM 云的 Helm 仓库地址添加到你的 Helm 实例：
+1. 将 IBM Cloud 的 Helm 仓库地址添加到你的 Helm 实例：
 
     {{< text bash >}}
     $ helm repo add ibm https://registry.bluemix.net/helm/ibm
