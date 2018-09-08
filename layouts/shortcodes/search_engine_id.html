@@ -1,7 +1,0 @@
-{{- if .Site.Data.args.preliminary -}}
-    {{- .Site.Data.args.preliminary_search_engine_id -}}
-{{- else if .Site.Data.args.archive -}}
-    {{- .Site.Data.args.archive_search_engine_id -}}
-{{- else -}}
-    {{- .Site.Data.args.main_search_engine_id -}}
-{{- end -}}
