@@ -90,7 +90,11 @@
             })();
     </script>
 
-    <gcse:searchresults-only></gcse:searchresults-only>
+    {{ if .Site.Data.args.archive }}
+        <gcse:searchresults-only defaultToRefinement="{{ .Site.Data.args.archive_search_refinement }}"></gcse:searchresults-only>
+    {{ else }}
+        <gcse:searchresults-only></gcse:searchresults-only>
+    {{ end }}
 </div>
 
 <script>
