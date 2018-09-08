@@ -86,7 +86,7 @@ sidebar_none: true
         })();
     </script>
 
-    <gcse:searchresults-only></gcse:searchresults-only>
+    <gcse:searchresults-only defaultToRefinement="V0.8"></gcse:searchresults-only>
 </div>
 
 <script>
