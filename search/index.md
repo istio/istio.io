@@ -29,4 +29,4 @@ layout: search-results
     }
 </style>
 
-<gcse:searchresults-only></gcse:searchresults-only>
+<gcse:searchresults-only defaultToRefinement="V0.2"></gcse:searchresults-only>
