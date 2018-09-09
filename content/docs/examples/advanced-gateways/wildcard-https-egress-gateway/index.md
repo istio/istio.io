@@ -373,7 +373,7 @@ to hold the configuration of the Nginx SNI proxy:
       - "*.wikipedia.org"
       ports:
       - number: 443
-        name: tls
+        name: tls-egress
         protocol: TLS
     EOF
     {{< /text >}}
@@ -408,7 +408,7 @@ to hold the configuration of the Nginx SNI proxy:
       servers:
       - port:
           number: 443
-          name: tls
+          name: tls-egress
           protocol: TLS
         hosts:
         - "*.wikipedia.org"
@@ -489,7 +489,7 @@ to hold the configuration of the Nginx SNI proxy:
       servers:
       - port:
           number: 443
-          name: tls
+          name: tls-egress
           protocol: TLS
         hosts:
         - "*.wikipedia.org"
