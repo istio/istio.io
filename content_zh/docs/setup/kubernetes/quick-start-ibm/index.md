@@ -23,7 +23,7 @@ keywords: [kubernetes,ibm,icp]
 
 1. 安装 [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm)。
 
-1. 在 `kube-system` namespace 为 Tiller 创建一个 service 账号，以及一个与 pod `tiller-deploy` 绑定的 Kubernetes RBAC 集群角色:
+1. 在 `kube-system` namespace 为 Tiller 创建一个 Service account，以及一个与 pod `tiller-deploy` 绑定的 Kubernetes RBAC 集群角色:
 
     {{< text yaml >}}
     apiVersion: v1
@@ -46,7 +46,7 @@ keywords: [kubernetes,ibm,icp]
         namespace: kube-system
     {{< /text >}}
 
-1. 执行创建 service 账号并绑定集群角色：
+1. 执行创建 Service account 并绑定集群角色：
 
     {{< text bash >}}
     $ kubectl create -f rbac-config.yaml
@@ -78,7 +78,7 @@ keywords: [kubernetes,ibm,icp]
     $ helm install ibm/ibm-istio --name=istio --namespace istio-system
     {{< /text >}}
 
-1. 确保 Istio 的 9 个 pods 和 Prometheus 的 pod 已经完全部署好：
+1. 确保 Istio 的 9 个 Pod 和 Prometheus 的 pod 已经完全部署好：
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -103,7 +103,7 @@ keywords: [kubernetes,ibm,icp]
     $ helm upgrade -f config.yaml istio ibm/ibm-istio
     {{< /text >}}
 
-### 卸载 Istio
+### 卸载 Istio 的 Helm 部署
 
 1. 卸载 Istio Helm：
 
