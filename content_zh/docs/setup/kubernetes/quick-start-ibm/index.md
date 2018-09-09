@@ -103,9 +103,9 @@ keywords: [kubernetes,ibm,icp]
     $ helm upgrade -f config.yaml istio ibm/ibm-istio
     {{< /text >}}
 
-### 卸载 Istio 的 Helm 部署
+### 卸载 Istio
 
-1. 卸载 Istio Helm：
+1. 卸载 Istio 的 Helm 部署：
 
     {{< text bash >}}
     $ helm del istio --purge
