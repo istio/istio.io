@@ -2,10 +2,6 @@
 title: Istio 是什么?
 description: 介绍 Istio 及其要解决的问题、顶层架构和设计目标。
 weight: 15
-aliases:
-    - /docs/concepts/what-is-istio/overview
-    - /docs/concepts/what-is-istio/goals
-    - /about/intro
 ---
 
 使用云平台可以为组织提供丰富的好处。然而，不可否认的是，采用云可能会给 DevOps 团队带来压力。开发人员必须使用微服务已满足应用的可移植性，同时运营商管理了极其庞大的混合和多云部署。Istio 允许您连接、保护、控制和观测服务。
@@ -77,7 +73,7 @@ Istio 服务网格逻辑上分为**数据平面**和**控制平面**。
 
 下图显示了构成每个面板的不同组件：
 
-{{< image width="80%" ratio="56.25%"
+{{< image width="80%" ratio="80%"
     link="/docs/concepts/what-is-istio/arch.svg"
     alt="基于 Istio 的应用程序架构概览"
     caption="Istio 架构"

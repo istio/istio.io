@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-       - image: gcr.io/istio-testing/website-builder:2018-07-14
+      - image: gcr.io/istio-testing/website-builder:2018-08-30
 
     working_directory: ~/site
 
@@ -11,18 +11,8 @@ jobs:
 
       - run:
           name: Generating Site
-          command: scripts/gen_site.sh ""
-
-      - restore_cache:
-          keys:
-          - htmlproofer-cache-v5
+          command: scripts/gen_site.sh "" -no_minify
 
       - run:
           name: Running Linters
           command: scripts/lint_site.sh
-
-      # save the external URLs cache
-      - save_cache:
-          key: htmlproofer-cache-v5
-          paths:
-            - .htmlproofer

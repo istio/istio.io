@@ -2,7 +2,6 @@
 title: IBM Cloud
 description: Instructions to setup an IBM Cloud cluster for Istio.
 weight: 12
-skip_toc: true
 skip_seealso: true
 keywords: [platform-setup,ibm,iks]
 ---
@@ -36,5 +35,5 @@ Replace `<cluster-name>` with the name of the cluster you want to use in the fol
 
 ## IBM Cloud Private
 
-[Configure `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)
+[Configure `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/manage_cluster/cfc_cli.html)
 to access the IBM Cloud Private Cluster.

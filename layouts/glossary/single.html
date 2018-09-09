@@ -8,28 +8,25 @@
     {{ $words := .Resources.ByType "page" }}
 
     <div class="trampolines d-print-none">
-        {{ $scratch := .Scratch }}
-        {{ $scratch.Set "previous" "-" }}
+        {{ $previous := "-" }}
 
         {{ range $w := $words }}
-            {{ $first := (upper (slicestr $w.Title 0 1)) }}
-            {{ $previous := ($scratch.Get "previous") }}
+            {{ $first := upper (slicestr $w.Title 0 1) }}
 
             {{ if ne $first $previous }}
                 {{ if ne $previous "-" }}
                     |
                 {{ end }}
                 <a href="#{{ $first }}" aria-label="Words starting with the letter {{ $first }}">{{ $first }}</a>
-                {{ $scratch.Set "previous" $first }}
+                {{ $previous = $first }}
             {{ end }}
         {{ end }}
     </div>
 
     <div class="entries">
-        {{ $scratch.Set "previous" "-" }}
+        {{ $previous := "-" }}
         {{ range $w := $words }}
-            {{ $first := (upper (slicestr $w.Title 0 1)) }}
-            {{ $previous := ($scratch.Get "previous") }}
+            {{ $first := upper (slicestr $w.Title 0 1) }}
 
             {{ if ne $first $previous }}
                 {{ if ne $previous "-" }}
@@ -37,7 +34,7 @@
                 {{ end }}
                 <h4 id="{{ $first }}">{{ $first }}</h4>
                 <dl>
-                {{ $scratch.Set "previous" $first }}
+                {{ $previous = $first }}
             {{ end }}
 
             {{ $name := $w.Title | urlize }}

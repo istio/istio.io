@@ -2,6 +2,8 @@
 title: Google Kubernetes Engine
 description: 对 Google Kubernetes Engine（GKE）集群进行配置以便安装运行 Istio。
 weight: 9
+skip_toc: true
+skip_seealso: true
 keywords: [platform-setup,kubernetes,gke,google]
 ---
 
@@ -11,7 +13,7 @@ keywords: [platform-setup,kubernetes,gke,google]
 
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
-      --cluster-version=1.10.5-gke.0 \
+      --cluster-version=1.10.5-gke.4 \
       --zone <zone> \
       --project <project-id>
     {{< /text >}}

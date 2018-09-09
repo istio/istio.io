@@ -192,7 +192,7 @@ spec:
       version: v2
 {{< /text >}}
 
-In `v1alph3`, we provide the same configuration in a single `VirtualService` resource:
+In `v1alpha3`, we provide the same configuration in a single `VirtualService` resource:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -400,7 +400,8 @@ $ kubectl apply -f my-second-rule-for-destination-abc.yaml
 $ kubectl apply -f my-updated-rules-for-destination-abc.yaml
 {{< /text >}}
 
-Deleting route rules other than the last one for a particular destination is also done using `kubectl apply`.
+Deleting route rules other than the last one for a particular destination is also done by updating
+the existing resource using `kubectl apply`.
 
 When adding or removing routes that refer to service versions, the `subsets` will need to be updated in
 the service's corresponding `DestinationRule`.

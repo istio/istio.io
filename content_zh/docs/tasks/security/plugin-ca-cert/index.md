@@ -2,7 +2,7 @@
 title: 插入外部 CA 密钥和证书
 description: 运维人员如何使用现有根证书配置 Citadel 进行证书以及密钥的签发。
 weight: 60
-keywords: [security,certificates]
+keywords: [安全,证书]
 ---
 
 本任务展示运维人员如何使用现有根证书配置 Citadel 进行证书以及密钥的签发。

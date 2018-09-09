@@ -21,7 +21,7 @@ and change directory to the new release directory.
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@ -n istio-system
 {{< /text >}}
 
 ### Control plane upgrade
@@ -89,7 +89,7 @@ If you're using manual injection, you can upgrade the
 sidecar by executing:
 
 {{< text bash >}}
-$ kubectl replace -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
+$ kubectl apply -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
 {{< /text >}}
 
 If the sidecar was previously injected with some customized inject configuration
@@ -97,7 +97,7 @@ files, you will need to change the version tag in the configuration files to the
 version and re-inject the sidecar as follows:
 
 {{< text bash >}}
-$ kubectl replace -f <(istioctl kube-inject \
+$ kubectl apply -f <(istioctl kube-inject \
      --injectConfigFile inject-config.yaml \
      --filename $ORIGINAL_DEPLOYMENT_YAML)
 {{< /text >}}

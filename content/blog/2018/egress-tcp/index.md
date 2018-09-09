@@ -1,6 +1,6 @@
 ---
 title: Consuming External TCP Services
-description: Describes a simple scenario based on Istio Bookinfo sample
+description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-02-06
 subtitle: Mesh-external Service Entries for TCP traffic
 attribution: Vadim Eisenberg
@@ -262,7 +262,7 @@ TCP mesh-external service entries come to our rescue.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
+    apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
       name: mysql-external

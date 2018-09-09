@@ -1,13 +1,13 @@
 ---
 title: Quick Start with Google Kubernetes Engine
-description: Quick Start instructions to setup the Istio service using Google Kubernetes Engine (GKE)
+description: How to quickly setup Istio using Google Kubernetes Engine (GKE).
 weight: 20
 keywords: [kubernetes,gke,google]
 ---
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/).
 
-This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters), installs the current release version of Istio and then deploys the [Bookinfo](/docs/examples/bookinfo/) sample
+This Quick Start creates a new GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#available_versions), installs the current release version of Istio and then deploys the [Bookinfo](/docs/examples/bookinfo/) sample
 application.  It uses Deployment Manager to automate the steps detailed in the [Istio on Kubernetes setup instructions](/docs/setup/kubernetes/quick-start/) for Kubernetes Engine
 
 ## Prerequisites
@@ -121,7 +121,7 @@ deploy/reviews-v3       1         1         1            1           7m
 Now get the `istio-ingress` IP:
 
 {{< text bash >}}
-$ kubectl get svc istio-ingress -n istio-system
+$ kubectl get svc istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
 {{< /text >}}
@@ -131,7 +131,7 @@ Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product
 
 You can also view the installation using the **Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
-{{< image width="70%" ratio="80.37%"
+{{< image width="70%" ratio="143.91%"
     link="./dm_kubernetes_workloads.png"
     caption="GKE-Workloads"
     >}}

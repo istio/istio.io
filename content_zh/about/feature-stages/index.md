@@ -2,12 +2,7 @@
 title: 功能状态
 description: 功能列表和发布阶段。
 weight: 10
-aliases:
-    - /docs/reference/release-roadmap.html
-    - /docs/reference/feature-stages.html
-    - /docs/welcome/feature-stages.html
-    - /docs/home/roadmap.html
-page_icon: /img/feature-status.svg
+icon: /img/feature-status.svg
 ---
 
 此页面列出了每个 Istio 功能的相对成熟度和支持级别。请注意，阶段（Alpha、Beta 和 Stable）适用于项目中的各个功能，而不是对于整个项目。以下是对这些标签含义的高级描述：
@@ -98,7 +93,7 @@ page_icon: /img/feature-status.svg
 | [基本配置资源验证](https://github.com/istio/istio/issues/1894) | Alpha
 | [Mixer 遥测收集（追踪、日志记录、监控）](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [自定义 Mixer 构建模型](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
-| [进程外 Mixer 适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
+| [进程外 Mixer 适配器（ gRPC Adapters ）](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Alpha
 | 使用 IDL 启用 API 属性 | Alpha
 | [Helm](/zh/docs/setup/kubernetes/helm-install/) | Beta
 | [多集群 Mesh](/zh/docs/setup/kubernetes/multicluster-install/) | Alpha

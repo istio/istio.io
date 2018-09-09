@@ -18,6 +18,7 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
   * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
+  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
 
@@ -27,7 +28,7 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
 
 1. To install Istio's core components you can choose any of the following four

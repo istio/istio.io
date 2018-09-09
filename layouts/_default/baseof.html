@@ -1,5 +1,3 @@
-{{ $home := .Site.BaseURL }}
-
 <!DOCTYPE html>
 <html lang="{{ .Site.Language }}" itemscope itemtype="https://schema.org/WebPage">
     <head>
@@ -8,10 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#466BB0"/>
 
-        {{ define "description" }}{{ with .Page.Description }}{{ . }}{{ else }}An open platform to connect, manage, and secure microservices.{{ end }}{{ end }}
+        {{ with .Page.Description }}
+            {{ if not (or (strings.HasSuffix . ".") (strings.HasSuffix . "。")) }}
+                MARKDOWN ERROR: page description doesn't end with a period
+            {{ end }}
+        {{ end }}
+
+        {{ define "description" }}{{ with .Page.Description }}{{ . }}{{ else }}Connect, secure, control, and observe services.{{ end }}{{ end }}
 
         <meta name="title" content="{{ .Title }}">
         <meta name="description" content="{{ template "description" . }}">
+
+        {{ if .Page.Params.attribution }}
+            <meta name="author" content="{{ .Page.Params.attribution }}">
+        {{ end }}
 
         {{ if .Page.Params.keywords }}
             <meta name="keywords" content="microservices,services,mesh,{{ delimit .Page.Params.keywords "," }}">
@@ -20,23 +28,40 @@
         {{ end }}
 
         <!-- Open Graph protocol -->
-        <meta name="og:title" content="{{ .Title }}">
-        <meta name="og:description" content="{{ template "description" . }}">
-        <meta name="og:url" content="{{ .Permalink }}">
-        <meta name="og.site_name" content="Istio">
+        <meta property="og:title" content="{{ .Title }}">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="{{ template "description" . }}">
+        {{ if .Permalink }}
+            <meta property="og:url" content="{{ .Permalink }}">
+        {{ end }}
+        <meta property="og:image" content="{{ .Site.BaseURL }}/img/istio-logo-blue-background.svg">
+        <meta property="og:image:alt" content="Istio Logo">
+        <meta property="og:image:width" content="112">
+        <meta property="og:image:height" content="150">
+        <meta property="og:site_name" content="Istio">
 
+        <!-- Twitter card -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IstioMesh">
+        {{ if .Page.Params.twitter }}
+            <meta name="twitter:creator" content="@{{ .Page.Params.twitter }}">
+        {{ end }}
+
+        {{ $analytics_id := .Site.Data.args.main_analytics_id }}
         {{ if .Site.Data.args.archive }}
             {{ if eq .Title "Istio" }}
                 <title>Istioldie {{ .Site.Data.args.version }}</title>
             {{ else }}
                 <title>Istioldie {{ .Site.Data.args.version }} / {{ .Title }}</title>
             {{ end }}
+            {{ $analytics_id = .Site.Data.args.archive_analytics_id }}
         {{ else if .Site.Data.args.preliminary }}
             {{ if eq .Title "Istio" }}
                 <title>Istio Prelim {{ .Site.Data.args.version }}</title>
             {{ else }}
                 <title>Istio Prelim {{ .Site.Data.args.version }} / {{ .Title }}</title>
             {{ end }}
+            {{ $analytics_id = .Site.Data.args.preliminary_analytics_id }}
         {{ else }}
             {{ if eq .Title "Istio" }}
                 <title>Istio</title>
@@ -46,12 +71,13 @@
         {{ end }}
 
         <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $analytics_id }}"></script>
         <script>
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            ga('create', 'UA-98480406-1', 'auto');
-            ga('send', 'pageview');
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ $analytics_id }}');
         </script>
-        <script async src='https://www.google-analytics.com/analytics.js'></script>
         <!-- End Google Analytics -->
 
         <script>
@@ -60,22 +86,22 @@
         </script>
 
         <!-- RSS -->
-        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="{{ .Site.BaseURL }}/feed.xml">
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
 
         <!-- Favicons: generated from img/istio-logo-social.svg by http://cthedot.de/icongen -->
-        <link rel="shortcut icon" href="{{ .Site.BaseURL }}/favicons/favicon.ico" >
-        <link rel="apple-touch-icon" href="{{ .Site.BaseURL }}/favicons/apple-touch-icon-180x180.png" sizes="180x180">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/favicon-16x16.png" sizes="16x16">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-36x36.png" sizes="36x36">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-48x48.png" sizes="48x48">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-72x72.png" sizes="72x72">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-96x196.png" sizes="96x196">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-144x144.png" sizes="144x144">
-        <link rel="icon" type="image/png" href="{{ .Site.BaseURL }}/favicons/android-192x192.png" sizes="192x192">
+        <link rel="shortcut icon" href="/favicons/favicon.ico" >
+        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+        <link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+        <link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+        <link rel="icon" type="image/png" href="/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+        <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
         <!-- app manifests -->
-        <link rel="manifest" href="{{ .Site.BaseURL }}/manifest.json">
+        <link rel="manifest" href="/manifest.json">
         <meta name="apple-mobile-web-app-title" content="Istio">
         <meta name="application-name" content="Istio">
 
@@ -86,17 +112,17 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
 
         {{ if .Site.Data.args.archive }}
-            <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/light_theme_archive.css" title="light">
-            <link rel="alternate stylesheet" href="{{ .Site.BaseURL }}/css/dark_theme_archive.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_archive.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_archive.css" title="dark">
         {{ else if .Site.Data.args.preliminary }}
-            <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/light_theme_preliminary.css" title="light">
-            <link rel="alternate stylesheet" href="{{ .Site.BaseURL }}/css/dark_theme_preliminary.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="dark">
         {{ else }}
-            <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/light_theme_normal.css" title="light">
-            <link rel="alternate stylesheet" href="{{ .Site.BaseURL }}/css/dark_theme_normal.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_normal.css" title="light">
+            <link rel="alternate stylesheet" href="/css/dark_theme_normal.css" title="dark">
         {{ end }}
 
-        <script src="{{ .Site.BaseURL }}/js/styleSwitcher.min.js"></script>
+        <script src="/js/styleSwitcher.min.js"></script>
     </head>
 
     <body class="language-unknown">
@@ -115,6 +141,6 @@
         <script src="https://www.google.com/cse/brand?form=search_form"></script>
 
         <!-- our own scripts -->
-        <script src="{{ .Site.BaseURL }}/js/all.min.js" data-manual></script>
+        <script src="/js/all.min.js" data-manual></script>
     </body>
 </html>

@@ -88,10 +88,10 @@ still expect the end-to-end flow to continue without any errors.
     7 seconds. However, there is a problem: the Reviews section displays an error
     message:
 
-     {{< text plain >}}
-     Error fetching product reviews!
-     Sorry, product reviews are currently unavailable for this book.
-     {{< /text >}}
+    {{< text plain >}}
+    Error fetching product reviews!
+    Sorry, product reviews are currently unavailable for this book.
+    {{< /text >}}
 
 1. View the web page response times:
     1. Open the *Developer Tools* menu in you web browser.
@@ -186,7 +186,7 @@ ratings not available` message.
 1. On the `/productpage`, log in as user `jason`.
 
     If the rule propagated successfully to all pods, the page loads
-    immediately and the `product ratings not available` message appears.
+    immediately and the `Ratings service is currently unavailable` message appears.
 
 1. Log out from user `jason` and the rating stars show up successfully on the
 application's `/productpage`.
