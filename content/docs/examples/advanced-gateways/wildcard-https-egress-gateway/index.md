@@ -544,6 +544,29 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
+1.  In case you applied mutual TLS between the sidecar proxy and the egress gateway, you must apply a special Envoy
+    filter to report the SNI correctly:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl create -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: network-level-sni-reader
+    spec:
+      filters:
+      - listenerMatch:
+          portNamePrefix: tls-egress
+          listenerType: GATEWAY
+        filterName: envoy.network_level_sni_reader
+        filterType: NETWORK
+        filterConfig: {}
+        insertPosition:
+          index: BEFORE
+          relativeTo: mixer
+    EOF
+    {{< /text >}}
+
 1.  Send HTTPS requests to
         [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
 
