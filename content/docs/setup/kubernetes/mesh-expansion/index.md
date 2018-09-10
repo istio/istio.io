@@ -24,26 +24,31 @@ server, or configuring the IPs in any other DNS server accessible from the VM.
 ## Installation steps
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
-We'll use /etc/hosts as an example in this guide, it is the easiest way to get things working.
+This guide uses /etc/hosts as an example in this guide since it is the easiest way to get things working.
 
 ### Preparing the Kubernetes cluster for expansion
 
 The following commands must be run on a machine with admin privileges to the cluster.
 
-*  If `--set global.meshExpansion=true` was not specified at install, re-apply the
-   template or 'helm upgrade' with the option enabled.
+1.    If you did not specify `--set global.meshExpansion=true` at install, re-apply the
+    template or 'helm upgrade' with the option enabled.
 
     {{< text bash >}}
 
+    # With helm upgrade:
     $ cd install/kubernetes/helm/istio
     $ helm upgrade --set global.meshExpansion=true --values myvalues.yaml istio-system .
     $ cd -
 
+    # With helm template:
+    $ cd install/kubernetes/helm/istio
+    $ helm template --set global.meshExpansion=true --values myvalues.yaml istio-system . > istio.yaml
+    $ kubectl apply -f istio.yaml
+    $ cd -
+
     {{< /text >}}
 
-* Find the IP address of the Istio gateway. Advanced users can expose services on a dedicated gateway,
-or use an internal load balancer by using a custom `values.yaml` and creating `Gateway` and `VirtualService`
-entries to expose istio-pilot and istio-citadel.
+2.    Find the IP address of the Istio gateway.
 
     {{< text bash >}}
 
@@ -53,9 +58,10 @@ entries to expose istio-pilot and istio-citadel.
 
     {{< /text >}}
 
-*   Generate a `cluster.env` configuration to be deployed in the VMs. This file contains
-the k8s cluster IP address ranges to intercept. The CIDR range is specified at k8s
-install time as `servicesIpv4Cidr`. Example commands to obtain the CIDR after install:
+3.    Generate a `cluster.env` configuration to deploy in the VMs. This file contains
+    the k8s cluster IP address ranges to intercept. You specify the CIDR range when you install Kubernetes as
+    `servicesIpv4Cidr`. Replace $MY_ZONE and $MY_PROJECT in the following example commands with the appropriate values to
+    obtain the CIDR after installation:
 
     {{< text bash >}}
 
@@ -64,7 +70,7 @@ install time as `servicesIpv4Cidr`. Example commands to obtain the CIDR after in
 
     {{< /text >}}
 
-    Here's an example config file
+4.    Check the generate files is similar to the following example:
 
     {{< text bash >}}
 
@@ -74,8 +80,8 @@ install time as `servicesIpv4Cidr`. Example commands to obtain the CIDR after in
 
     {{< /text >}}
 
-* Add the ports that will be exposed by the VM to the cluster env. This can be changed later, and
-is not required if the VM only calls services in the mesh.
+5.    If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes to
+    the cluster.env file with the following command. You can change the ports later.
 
     {{< text bash >}}
 
@@ -83,7 +89,7 @@ is not required if the VM only calls services in the mesh.
 
     {{< /text >}}
 
-* Extract the initial keys for the service account to use on the VMs.
+6.    Extract the initial keys for the service account to use on the VMs.
 
     {{<text bash>}}
 
@@ -98,7 +104,7 @@ is not required if the VM only calls services in the mesh.
 
 ### Setting up the machines
 
-* Install the debian package:
+1.    Install the debian package:
 
     {{< text bash >}}
 
@@ -107,9 +113,10 @@ is not required if the VM only calls services in the mesh.
 
     {{< /text >}}
 
-* Copy the cluster.env and the *.pem files to the VM.
+2.    Copy the cluster.env and the *.pem files to the VM.
 
-* Add the IP address of istio gateway to /etc/hosts or to the DNS server. Example for /etc/hosts:
+3.    Add the IP address of the Istio gateway to /etc/hosts or to the DNS server. The following is and example
+    of /etc/hosts:
 
     {{< text bash>}}
 
@@ -117,26 +124,32 @@ is not required if the VM only calls services in the mesh.
 
     {{< /text >}}
 
-* Install root-cert.pem, key.pem and cert-chain.pem under /etc/certs, owned by istio-proxy.
+4.    Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs`.
 
     {{< text bash >}}
 
     $ sudo mkdir /etc/certs
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
-    $ sudo chown -R istio-proxy /etc/certs
 
     {{< /text >}}
 
-* Install cluster.env under /var/lib/istio/envoy, owned by istio-proxy.
+6.    Install cluster.env under `/var/lib/istio/envoy`.
 
     {{< text bash >}}
 
     $ sudo cp cluster.env /var/lib/istio/envoy
-    $ sudo chown -R istio-proxy /var/lib/istio/envoy
 
     {{< /text >}}
 
-* Verify the node agent works:
+5.    Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy` to the Istio proxy.
+
+    {{< text bash >}}
+
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
+
+    {{< /text >}}
+
+7.    Verify the node agent works:
 
     {{< text bash >}}
 
@@ -146,7 +159,7 @@ is not required if the VM only calls services in the mesh.
 
     {{< /text >}}
 
-* Start istio using systemctl.
+8.    Start Istio using `systemctl`.
 
     {{< text bash >}}
 
@@ -155,10 +168,10 @@ is not required if the VM only calls services in the mesh.
 
     {{< /text >}}
 
-After setup, the machine should be able to access services running in the Kubernetes cluster
+After setup, the machine can access services running in the Kubernetes cluster
 or other mesh expansion machines.
 
-Example using `/etc/hosts`:
+The following example shows how to access the services running in the cluster using `/etc/hosts`:
 
     {{< text bash >}}
 
@@ -212,10 +225,10 @@ addresses, ports and labels of all VMs exposing a service.
 
 The following steps provide basic trouble shooting for common mesh expansion issues.
 
-1. When making requests from VM to the cluster, ensure you don't run the requests as `root` or
- `istio-proxy` user. By default, Istio excludes both users from interception.
+1.    When making requests from VM to the cluster, ensure you don't run the requests as `root` or
+    `istio-proxy` user. By default, Istio excludes both users from interception.
 
-1. Verify the machine can reach the IP of the all workloads running in the cluster. For example:
+1.    Verify the machine can reach the IP of the all workloads running in the cluster. For example:
 
     {{< text bash >}}
 
@@ -231,7 +244,7 @@ The following steps provide basic trouble shooting for common mesh expansion iss
 
     {{< /text >}}
 
-1. Check the status of the node agent and sidecar:
+1.    Check the status of the node agent and sidecar:
 
     {{< text bash >}}
 
@@ -240,7 +253,7 @@ The following steps provide basic trouble shooting for common mesh expansion iss
 
     {{< /text >}}
 
-1. Check that the processes are running:
+1.    Check that the processes run:
 
     {{< text bash >}}
 
@@ -252,7 +265,7 @@ The following steps provide basic trouble shooting for common mesh expansion iss
 
     {{< /text >}}
 
-1. Check the Envoy access and error logs:
+1.    Check the Envoy access and error logs:
 
     {{< text bash >}}
 
