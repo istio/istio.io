@@ -9,8 +9,8 @@ The [Configure an egress gateway](/docs/examples/advanced-gateways/egress-gatewa
 Istio to direct egress traffic through a dedicated service called _egress gateway_.
 This example shows how to configure an egress gateway to enable mutual TLS for traffic to external services.
 
-To simulate an actual mTLS external service, you first deploy an [NGINX](https://www.nginx.com) server
-in your Kubernetes cluster, but running outside of the Istio service mesh, i.e., in a namespace
+To simulate an actual external service that supports the mTLS protocol, you first deploy an [NGINX](https://www.nginx.com)
+server in your Kubernetes cluster, but running outside of the Istio service mesh, i.e., in a namespace
 without Istio sidecar proxy injection enabled.
 Next, you configure an egress gateway to perform mutual TLS with the external NGINX server.
 Finally, you direct traffic from application pods inside the mesh to the NGINX server outside the mesh through
@@ -298,9 +298,9 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) pod to send requests to the NGINX server.
-    Since `nginx.example.com` does not actually exist and therefore DNS cannot resolve it, the following command uses the
-    `--resolve` option of `curl` to resolve the hostname manually. You can provide any IP to the `--resolve` option,
-    except for `127.0.0.1`. If you use `1.1.1.1`, for example, Istio will route the request correctly to your NGINX server.
+    Since `nginx.example.com` does not actually exist and therefore DNS cannot resolve it, the following
+    `curl` command uses the `--resolve` option to resolve the hostname manually. The IP value passed in the
+    --resolve option (1.1.1.1 below) is not significant. Any value other than 127.0.0.1 can be used.
     Normally, a DNS entry exists for the destination hostname and you would not use the `--resolve` option of `curl`.
 
     {{< text bash >}}
