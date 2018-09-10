@@ -13,6 +13,7 @@ Istio 受益强大的合作伙伴生态。了解下他们是如何使 Istio 变�
     {{< company_logo link="https://www.antfin.com" logo="/about/community/partners/antfinancial.png" alt="Ant Financial" tagline="给世界带来更多平等的机会" >}}
     {{< company_logo link="https://apigee.com" logo="/about/community/partners/apigee.svg" alt="Apigee" tagline="Power your APIs with a leader three times running" >}}
     {{< company_logo link="https://www.aporeto.com" logo="/about/community/partners/aporeto.svg" alt="Aporeto" tagline="Cloud Workload Protection that Actually Scales" >}}
+    {{< company_logo link="https://aspenmesh.io" logo="./aspenmesh.svg" alt="Aspen Mesh" tagline="Service Mesh Made Easy" >}}
     {{< company_logo link="https://cilium.io" logo="/about/community/partners/cilium.png" alt="Cilium" tagline="API-aware Networking and Security" >}}
     {{< company_logo link="https://www.cisco.com" logo="/about/community/partners/cisco.svg" alt="Cisco" >}}
     {{< company_logo link="https://www.datadoghq.com" logo="/about/community/partners/datadog.png" alt="Datadog" tagline="Modern monitoring & analytics" >}}
