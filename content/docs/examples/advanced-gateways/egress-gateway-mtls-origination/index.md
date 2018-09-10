@@ -6,14 +6,14 @@ keywords: [traffic-management,egress]
 ---
 
 The [Configure an egress gateway](/docs/examples/advanced-gateways/egress-gateway) example describes how to configure
-Istio to direct the egress traffic through a dedicated service called _egress gateway_.
+Istio to direct egress traffic through a dedicated service called _egress gateway_.
 This example shows how to configure an egress gateway to enable mutual TLS for traffic to external services.
 
-To simulate a host outside the Istio service mesh, namely `nginx.example.com`, you deploy an
-[NGINX](https://www.nginx.com/) server in your Kubernetes cluster without injecting an Istio sidecar proxy into the
-server's pod.
-Then you configure an egress gateway to perform mutual TLS with the created NGINX server.
-Finally, you direct the traffic from the application pods inside the mesh to the created server outside the mesh through
+To simulate an actual external service that supports the mTLS protocol, you first deploy an [NGINX](https://www.nginx.com)
+server in your Kubernetes cluster, but running outside of the Istio service mesh, i.e., in a namespace
+without Istio sidecar proxy injection enabled.
+Next, you configure an egress gateway to perform mutual TLS with the external NGINX server.
+Finally, you direct traffic from application pods inside the mesh to the NGINX server outside the mesh through
 the egress gateway.
 
 ## Generate client and server certificates and keys
@@ -216,7 +216,7 @@ to hold the configuration of the NGINX server:
 ## Deploy a container to test the NGINX deployment
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
-   certificates:
+    certificates:
 
     {{< text bash >}}
     $ kubectl create secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
@@ -298,10 +298,10 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 1.  Use the deployed [sleep]({{< github_tree >}}/samples/sleep) pod to send requests to the NGINX server.
-    Since the `nginx.example.com` host does not exist, the DNS cannot resolve the hostname. The following command uses the
-    `--resolve` option of `curl` to resolve the hostname manually. You can provide any IP to the `--resolve` option,
-    except for `127.0.0.1`. If you use, for example, `1.1.1.1`, Istio routes the request correctly to your NGINX server.
-    Normally, a DNS entry exists for the destination hostname and you must not use the `--resolve` option of `curl`.
+    Since `nginx.example.com` does not actually exist and therefore DNS cannot resolve it, the following
+    `curl` command uses the `--resolve` option to resolve the hostname manually. The IP value passed in the
+    --resolve option (1.1.1.1 below) is not significant. Any value other than 127.0.0.1 can be used.
+    Normally, a DNS entry exists for the destination hostname and you would not use the `--resolve` option of `curl`.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
@@ -388,7 +388,7 @@ to hold the configuration of the NGINX server:
     `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
     `/etc/istio/nginx-ca-certs`.
 
-## Mutual TLS origination for egress traffic
+## Configure mutual TLS origination for egress traffic
 
 1.  Create an egress `Gateway` for `nginx.example.com`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
