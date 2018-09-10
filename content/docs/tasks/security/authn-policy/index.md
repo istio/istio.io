@@ -151,7 +151,6 @@ Re-running the testing command as above, you will see all requests between Istio
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 503
 sleep.bar to httpbin.foo: 200
 sleep.bar to httpbin.bar: 200
 {{< /text >}}
@@ -570,6 +569,10 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 401
 {{< /text >}}
+
+You can add a JWT policy on `istio-ingressgateway`. This is often used to define
+JWT policies that apply at the gateway, instead of for individual services. See
+the [configure end-user authentication on ingress gateway](/docs/tasks/traffic-management/secure-ingress/) for more details.
 
 ### End-user authentication with mutual TLS
 

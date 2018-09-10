@@ -1,7 +1,7 @@
 ---
 title: Istio 1.0
 weight: 92
-page_icon: /img/notes.svg
+icon: /img/notes.svg
 ---
 
 We're proud to release Istio 1.0! Istio has been in development for nearly two years, and the 1.0 release represents a substantial
@@ -9,6 +9,8 @@ milestone for us. All of our [core features](/about/feature-stages/) are now rea
 
 These release notes describe what's different between Istio 0.8 and Istio 1.0. Istio 1.0 only has a few new features
 relative to 0.8 as most of the effort for this release went into fixing bugs and improving performance.
+
+{{< relnote_links >}}
 
 ## Networking
 
@@ -41,8 +43,8 @@ in Mixer and its adapters.
 - **Out of Process Adapters**. Mixer now includes initial support for out-of-process adapters. This will
 be the recommended approach moving forward for integrating with Mixer. Initial documentation on
 how to build an out-of-process adapter is provided by the
-[Out Of Process gRPC Adapter Dev Guide](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)
-and the [gRPC Adapter Walk-through](https://github.com/istio/istio/wiki/gRPC-Adapter-Walkthrough).
+[Out Of Process Adapter Dev Guide](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide)
+and the [Out Of Process Adapter Walk-through](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Walkthrough).
 
 - **Client-Side Telemetry**. It's now possible to collect telemetry from the client of an interaction,
 in addition to the server-side telemetry.

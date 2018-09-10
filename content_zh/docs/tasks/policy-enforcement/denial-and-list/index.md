@@ -1,20 +1,16 @@
 ---
 title: Denier 适配器以及黑白名单
-description: 展示使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法
+description: 展示使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法。
 weight: 20
-keywords: [policies, denial, whitelist, blacklist]
-aliases:
-    - /docs/tasks/basic-access-control.html
-    - /docs/tasks/security/basic-access-control/index.html
-    - /docs/tasks/security/secure-access-control/index.html
+keywords: [策略, denial, 白名单, 黑名单]
 ---
 
 本文任务展示了使用简单的 Denier 适配器或黑白名单对服务进行访问控制的方法
 
 ## 开始之前
 
-* 按照[安装指南](/docs/setup/kubernetes/)在 Kubernetes 集群上部署 Istio。
-* 部署 [Bookinfo](/docs/examples/bookinfo/) 示例应用。
+* 按照[安装指南](/zh/docs/setup/kubernetes/)在 Kubernetes 集群上部署 Istio。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 * Bookinfo 示例中的每个微服务都包含了多个版本，所以首先要创建目标规则，为每个版本创建一个对应的服务子集。
 
     如果没有启用双向 TLS，运行如下命令：
@@ -55,7 +51,7 @@ aliases:
 
 在 Istio 环境里，可以使用 Mixer 中的任何属性来对服务进行访问控制。这是一种简易的访问控制，使用 Mixer 选择器来有条件的拒绝请求。
 
-比如 [Bookinfo](/docs/examples/bookinfo/) 示例应用中 `ratings` 服务会被多个版本的 `reviews` 服务访问。我们尝试切断来自 `reviews:v3` 的访问。
+比如 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用中 `ratings` 服务会被多个版本的 `reviews` 服务访问。我们尝试切断来自 `reviews:v3` 的访问。
 
 1. 用浏览器打开 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`）。
 
@@ -189,4 +185,4 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
     $ istioctl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-* 如果没有计划尝试后续任务，参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)部分的介绍，关停示例应用。
+* 如果没有计划尝试后续任务，参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)部分的介绍，关停示例应用。

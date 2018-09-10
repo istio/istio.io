@@ -2,7 +2,7 @@
 title: 通过 HTTPS 进行双向 TLS
 description: 展示如何在 HTTPS 服务上启用双向 TLS。
 weight: 80
-keywords: [security,mutual-tls,https]
+keywords: [安全,双向 TLS,https]
 ---
 
 这个任务展示了 Istio 双向 TLS 是如何与 HTTPS 服务一起工作的。它包括:
@@ -15,7 +15,7 @@ keywords: [security,mutual-tls,https]
 
 ## 开始之前
 
-按照下面的[快速开始](/docs/setup/kubernetes/quick-start/)设置 Istio。注意，在[安装步骤](/docs/setup/kubernetes/quick-start/#installation-steps)第5步中，身份验证应该被**禁用**。
+按照下面的[快速开始](/zh/docs/setup/kubernetes/quick-start/)设置 Istio。注意，在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)第5步中，身份验证应该被**禁用**。
 
 ### 生成证书和 configmap
 

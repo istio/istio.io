@@ -11,7 +11,7 @@
 
 #set -e
 
-ISTIO_BRANCH=master
+ISTIO_BRANCH=release-1.0
 
 #####################
 

@@ -21,9 +21,11 @@ cluster must satisfy the following requirements:
   [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
   the services cannot use the same port number for different protocols, for instance HTTP and TCP.
 
-* _**Deployments with app label**:_ It is recommended that pods deployed using
-  the Kubernetes `Deployment` have an explicit `app` label in the
+* _**Deployments with app and version labels**:_ It is recommended that pods deployed using
+  the Kubernetes `Deployment` have an explicit `app` label and `version` label in the
   deployment specification. Each deployment specification should have a
-  distinct `app` label with a value indicating something meaningful. The
+  distinct `app` label with a value indicating something meaningful, with `version`
+  indicating the version of the app that the particular deployment corresponds to. The
   `app` label is used to add contextual information in distributed
-  tracing.
+  tracing. The `app` and `version` labels are also used to add contextual information
+  in the metric telemetry collected by Istio.

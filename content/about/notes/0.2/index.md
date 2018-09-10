@@ -3,7 +3,7 @@ title: Istio 0.2
 weight: 99
 aliases:
     - /docs/welcome/notes/0.2.html
-page_icon: /img/notes.svg
+icon: /img/notes.svg
 ---
 
 ## General
@@ -63,7 +63,7 @@ rich proxy-side caching and batching for increased performance.
 
 - **New Mixer Adapter Model**. A new adapter composition model makes it easier to extend Mixer by adding whole new classes of adapters via templates. This
 new model will serve as the foundational building block for many features in the future. See the
-[Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Adapter-Dev-Guide) to learn how
+[Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) to learn how
 to write adapters.
 
 - **Improved Mixer Build Model**. It’s now easier to build a Mixer binary that includes custom adapters.
@@ -96,3 +96,5 @@ in the `istio-system` namespace and wait a few seconds after all the Istio pods 
 [issue](https://github.com/istio/istio/pull/1055).
 
 - **A service with Istio Auth enabled can't communicate with a service without Istio**: This limitation will be removed in the near future.
+
+{{< relnote_links >}}

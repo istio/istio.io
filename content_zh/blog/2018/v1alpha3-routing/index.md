@@ -1,11 +1,11 @@
 ---
 title: Istio v1aplha3 路由 API 介绍
-description: Istio v1alpha3 路由 API 介绍,动机及其设计原则
+description: Istio v1alpha3 路由 API 介绍,动机及其设计原则。
 publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 weight: 88
-keywords: [traffic-management]
+keywords: [流量管理]
 ---
 
 到目前为止，Istio 提供了一个简单的API来进行流量管理，该API包括了四种资源：`RouteRule`，`DestinationPolicy`，`EgressRule` 和 （Kubernetes 的）`Ingress`。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等，所有这些功能都不必更改应用程序本身的代码。
@@ -107,7 +107,7 @@ Gateway 可以用于建模边缘代理或纯粹的内部代理，如第一张图
 
 实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 资源中。
 
-例如，之前在 [Bookinfo](/docs/examples/bookinfo/) 应用程序的 reviews 服务中有两个 `RouteRule` 资源，如下所示：
+例如，之前在 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序的 reviews 服务中有两个 `RouteRule` 资源，如下所示：
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -195,7 +195,7 @@ spec:
     route:
     - destination:
         host: ratings
-      ...
+        ...
 {{< /text >}}
 
 实际上在 `VirtualService` 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。

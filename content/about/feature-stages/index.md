@@ -7,7 +7,7 @@ aliases:
     - /docs/reference/feature-stages.html
     - /docs/welcome/feature-stages.html
     - /docs/home/roadmap.html
-page_icon: /img/feature-status.svg
+icon: /img/feature-status.svg
 ---
 
 This page lists the relative maturity and support
@@ -55,7 +55,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
-| Trace Sampling | Alpha
+| [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/#trace-sampling) | Alpha
 
 ### Security and Policy Enforcement
 
@@ -84,15 +84,12 @@ Below is our list of existing features and their current phases. This informatio
 | [Helm](/docs/setup/kubernetes/helm-install/) | Beta
 | [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Beta
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
-| [VM: Envoy Installation, Traffic Interception and Service Registration](/docs/examples/integrating-vms/)    | Beta
-| [VM: Istio Control Plane Installation and Upgrade (Galley, Mixer, Pilot, CA)](https://github.com/istio/istio/issues/2083)  | Alpha
-| VM: Ansible Envoy Installation, Interception and Registration  | Alpha
 | [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
 | [Cloud Foundry Integration](/docs/setup/consul/quick-start/)    | Alpha
-| [Basic Configuration Resource Validation](https://github.com/istio/istio/issues/1894) | Alpha
+| Basic Configuration Resource Validation | Alpha
 | [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
-| [Out of Process Mixer Adapters (GRPC Adapters)](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide) | Alpha
+| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Alpha
 
 > {{< idea_icon >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!

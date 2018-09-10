@@ -7,5 +7,6 @@ aliases:
     - /troubleshooting.html
     - /troubleshooting/index.html
     - /help/troubleshooting/index.html
-page_icon: /img/guide.svg
+    - /ops
+icon: /img/guide.svg
 ---

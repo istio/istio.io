@@ -2,17 +2,17 @@
 title: 生成服务图
 description: 此任务说明如何在 Istio 网格中生成服务图。
 weight: 50
-keywords: [telemetry,visualization]
+keywords: [遥测,可视化]
 ---
 
 此任务说明如何在Istio网格中生成服务图。
 作为此任务的一部分，您将安装 Servicegraph 附加组件,使用基于 Web 的界面查看服务网格的服务图。
 
-[Bookinfo](/docs/examples/bookinfo/) 示例应用程序在整个任务中用作示例应用程序。
+[Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序在整个任务中用作示例应用程序。
 
 ## 前提条件
 
-* 在您的群集中[安装 Istio](/docs/setup/) 并部署应用程序。
+* 在您的集群中[安装 Istio](/zh/docs/setup/) 并部署应用程序。
 
 ## 生成服务图
 
@@ -24,7 +24,7 @@ keywords: [telemetry,visualization]
     $ kubectl apply -f install/kubernetes/addons/servicegraph.yaml
     {{< /text >}}
 
-1.  验证服务是否在群集中运行。
+1.  验证服务是否在集群中运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
@@ -44,7 +44,7 @@ keywords: [telemetry,visualization]
 
     刷新页面几次（或发送命令几次）以产生少量流量。
 
-    > `$GATEWAY_URL` 是[Bookinfo](/docs/examples/bookinfo/) 示例中设置的值。
+    > `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
 
 1.  打开 Servicegraph UI。
 
@@ -79,7 +79,7 @@ keywords: [telemetry,visualization]
 
 * `/force/forcegraph.html` 如上所述，这是一个交互式[D3.js](https://d3js.org/) 可视化。
 
-* `/dotviz` 是一个静态的[Graphviz](http://www.graphviz.org/) 可视化。
+* `/dotviz` 是一个静态的[Graphviz](https://graphviz.gitlab.io/) 可视化。
 
 * `/dotgraph` 提供[DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language))序列化。
 
@@ -99,4 +99,4 @@ Servicegraph 示例建立在 Prometheus 查询之上，取决于标准的 Istio 
     $ kubectl delete -f install/kubernetes/addons/servicegraph.yaml
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 说明以关闭应用程序。
+* 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 说明以关闭应用程序。

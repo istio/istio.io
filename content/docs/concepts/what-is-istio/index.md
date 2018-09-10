@@ -117,7 +117,7 @@ plane**.
 
 The following diagram shows the different components that make up each plane:
 
-{{< image width="80%" ratio="56.25%"
+{{< image width="80%" ratio="80%"
     link="./arch.svg"
     alt="The overall architecture of an Istio-based application."
     caption="Istio Architecture"
@@ -194,6 +194,15 @@ Citadel, operators can enforce policies based on service identity rather than
 on network controls. Starting from release 0.5, you can use
 [Istio's authorization feature](/docs/concepts/security/#authorization) to control
 who can access your services.
+
+### Galley
+
+Galley validates user authored Istio API configuration on behalf of
+the other Istio control plane components. Over time, Galley will take
+over responsibility as the top-level configuration ingestion, processing and
+distribution component of Istio. It will be responsible for insulating
+the rest of the Istio components from the details of obtaining user
+configuration from the underlying platform (e.g. Kubernetes).
 
 ## Design Goals
 

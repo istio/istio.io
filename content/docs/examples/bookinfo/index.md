@@ -145,8 +145,8 @@ is used for this purpose.
 
     {{< text bash >}}
     $ kubectl get gateway
-    GATEWAY NAME       HOSTS     NAMESPACE   AGE
-    bookinfo-gateway   *         default     2d
+    NAME               AGE
+    bookinfo-gateway   32s
     {{< /text >}}
 
 1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.

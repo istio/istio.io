@@ -2,22 +2,8 @@
 title: 注入 Istio sidecar
 description: 介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。
 weight: 50
-keywords: [kubernetes,sidecar,sidecar-injection]
-aliases:
-    - /docs/setup/kubernetes/automatic-sidecar-inject.html
+keywords: [kubernetes,sidecar,注入]
 ---
-
-## 对 Pod 的要求
-
-要成为服务网格的一部分，Kubernetes 集群中的每个 Pod 都必须满足如下要求：
-
-1. **具备关联服务**：Pod 必须属于**单一的** [Kubernetes 服务](https://kubernetes.io/docs/concepts/services-networking/service/)，Istio 目前还不支持一个 Pod 对应多个服务的情况。
-
-1. **需要给端口正确命名**：服务端口必须进行命名。端口名称只允许是`<协议>[-<后缀>-]`模式，其中`<协议>`部分可选择范围包括 `http`、`http2`、`grpc`、`mongo` 以及 `redis`，Istio 可以通过对这些协议的支持来提供路由能力。例如 `name: http2-foo` 和 `name: http` 都是有效的端口名，但 `name: http2foo` 就是无效的。如果没有给端口进行命名，或者命名没有使用指定前缀，那么这一端口的流量就会被视为普通 TCP 流量（除非显式的用 `Protocol: UDP` 声明该端口是 UDP 端口）。
-
-1. **Deployment 应带有 `app` 标签**：在使用 Kubernetes `Deployment` 进行 Pod 部署的时候，建议显式的为 Deployment 加上 `app` 标签。每个 Deployment 都应该有一个有意义的 `app` 标签。`app` 标签在分布式跟踪的过程中会被用来加入上下文信息。
-
-1. **网格中的每个 Pod 都应该带有 Sidecar**：最后，网格中的每个 Pod 都必须运行有一个 Istio 兼容的 Sidecar。后续内容中将会描述两种将 Sidecar 注入 Pod 中的方式：使用 `istioctl` 客户端工具手工注入；或者使用 Istio sidecar 注入器进行自动注入。注意，同一 Pod 内不同容器之间的通信是不受 Sidecar 支持的。
 
 ## 注入
 
@@ -72,13 +58,13 @@ admissionregistration.k8s.io/v1alpha1
 admissionregistration.k8s.io/v1beta1
 {{< /text >}}
 
-在 [Kubernetes 快速开始](/docs/setup/kubernetes/quick-start/) 中介绍了 Kubernetes 1.9 以上版本的安装。
+在 [Kubernetes 快速开始](/zh/docs/setup/kubernetes/quick-start/) 中介绍了 Kubernetes 1.9 以上版本的安装。
 
 注意，跟手工注入不同的是，自动注入过程是发生在 Pod 级别的。因此是不会看到 Deployment 本身发生什么变化的。但是可以使用 `kubectl describe` 来观察单独的 Pod，在其中能看到注入 Sidecar 的相关信息。
 
 #### Webhook 的禁用或升级
 
-缺省情况下，用于 Sidecar 注入的 Webhook 是启用的。如果想要禁用它，可以用 [Helm](/docs/setup/kubernetes/helm-install/) ，将 `sidecarInjectorWebhook.enabled` 参数设为 `false`，生成一个 `istio.yaml` 进行更新。也就是：
+缺省情况下，用于 Sidecar 注入的 Webhook 是启用的。如果想要禁用它，可以用 [Helm](/zh/docs/setup/kubernetes/helm-install/) ，将 `sidecarInjectorWebhook.enabled` 参数设为 `false`，生成一个 `istio.yaml` 进行更新。也就是：
 
 {{< text bash >}}
 $ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
@@ -144,7 +130,7 @@ sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
 sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 {{< /text >}}
 
-#### 了解发生了什么
+#### 理解原理
 
 被 Kubernetes 调用时，[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10) 会进行配置。Istio 提供的缺省配置，会在带有 `istio-injection=enabled` 标签的命名空间中选择 Pod。使用 `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector` 命令可以编辑目标命名空间的范围。
 

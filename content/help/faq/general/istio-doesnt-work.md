@@ -4,4 +4,4 @@ weight: 90
 ---
 
 Check out the [operations guide](/help/ops/) for finding solutions and our
-[bug reporting](/help/bugs/) page for filing bugs.
+[bug reporting](/about/bugs/) page for filing bugs.

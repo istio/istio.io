@@ -1,0 +1,67 @@
+{{ $dir_name := index (last 2 (split .Page.Dir "/" )) 0 }}
+{{ $parts := split $dir_name "." }}
+{{ if eq (len $parts) 2 }}
+    {{ .Scratch.Set "short_version" $dir_name }}
+    {{ .Scratch.Set "full_version" (printf "%s.0" $dir_name) }}
+    {{ .Scratch.Set "patch" false }}
+{{ else }}
+    {{ .Scratch.Set "short_version" (printf "%s.%s" (index $parts 0) (index $parts 1)) }}
+    {{ .Scratch.Set "full_version" $dir_name }}
+    {{ .Scratch.Set "patch" true }}
+{{ end }}
+{{ $short_version := .Scratch.Get "short_version" }}
+{{ $full_version := .Scratch.Get "full_version" }}
+{{ $patch := .Scratch.Get "patch" }}
+
+{{ $first := index .Site.Data.releases 0 }}
+{{ $second := index .Site.Data.releases 1 }}
+
+{{ .Scratch.Set "type_of_note" "current" }}
+{{ if eq $short_version $first.name }}
+    {{ .Scratch.Set "type_of_note" "prelim" }}
+{{ else if eq $short_version $second.name }}
+    {{ .Scratch.Set "type_of_note" "current" }}
+{{ else }}
+    {{ .Scratch.Set "type_of_note" "archive" }}
+{{ end }}
+{{ $type_of_note := .Scratch.Get "type_of_note" }}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.setTimeout(function() {
+            document.getElementById('buttons').style.opacity = "1";
+        }, 250);
+    });
+</script>
+
+<div class="relnote_links">
+    <div id="buttons" class="buttons container-fluid">
+        <div class="row justify-content-center">
+            {{ if .Site.Data.args.preliminary }}
+                {{ if ne $type_of_note "prelim" }}
+                    <a class="btn btn-istio" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">DOWNLOAD {{ $dir_name }}</a>
+
+                    {{ if eq $type_of_note "archive" }}
+                        <a class="btn btn-istio" href="https://archive.istio.io/v{{ $short_version }}">{{ $dir_name }} DOCS</a>
+                    {{ else }}
+                        <a class="btn btn-istio" href="https://istio.io">{{ $dir_name }} DOCS</a>
+                    {{ end }}
+
+                    {{ if $patch}}
+                        <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $short_version }}.0...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
+                    {{ end }}
+                {{ end }}
+            {{ else }}
+                <a class="btn btn-istio" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">DOWNLOAD {{ $dir_name }}</a>
+
+                {{ if (ne .Site.Data.args.version $short_version) }}
+                    <a class="btn btn-istio" href="https://archive.istio.io/v{{ $short_version }}">{{ $dir_name }} DOCS</a>
+                {{ end }}
+
+                {{ if $patch}}
+                    <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $short_version }}.0...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</div>

@@ -1,20 +1,9 @@
 @media screen {
-    // This is a hack such that when we link to a fragment on a page, the page
-    // scrolls correctly in relation to the fixed header. Without this hack, the
-    // page scrolls with the fragment at the top of the page, below the header!
-    h2[id]:before, h3[id]:before, h4[id]:before, h5[id]:before, h6[id]:before {
-          display: block;
-          content: ' ';
-          margin-top: -1.8em;
-          height: 1.8em;
-          visibility: hidden;
-    }
-
-    h2[id]:before {
-        width: 2.5rem;
-        border-bottom: 4px solid $mainBrandColor;
-        margin-bottom: .8rem;
-        visibility: visible;
+    :target::before {
+        content: "";
+        display: block;
+        height: $headerHeight;
+        margin-top: -$headerHeight;
     }
 
     html {
@@ -24,7 +13,7 @@
     }
 
     body {
-        padding-top: $headerHeight;
+        margin-top: $headerHeight;
         margin-bottom: calc(#{$footerHeight} + 3rem);
         font-family: "work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         color: $textColor;
@@ -147,22 +136,27 @@ code {
 }
 
 pre {
-    margin: 1em;
+    margin: 1em 0 1em 1em;
+    @media (min-width: $bp-md) {
+        margin: 1em;
+    }
+
     max-height: 31em;
     border: 1px solid $preBlockBorderColor;
     border-left: 5px solid $preBlockBorderColor;
     border-radius: 4px;
     box-shadow: 3px 3px 8px $preBlockShadowColor;
-	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
-	word-wrap: normal;
-	line-height: 1.5;
-	tab-size: 4;
-	hyphens: none;
-	background: $preBlockBackgroundColor;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    tab-size: 4;
+    hyphens: none;
+    background: $preBlockBackgroundColor;
+    display: flex;
 
     code {
         display: block;
@@ -177,19 +171,28 @@ pre {
         padding: 0;
 
         .command {
-            padding: .5em .5em 0 .5em;
+            padding: 1.5em 1em;
+            @media (min-width: $bp-md) {
+                padding: .5em .5em 0 .5em;
+            }
         }
 
         .output {
             color: $preBlockCommandOutputTextColor;
             background-color: $preBlockCommandOutputBackgroundColor;
             font-style: italic;
-            padding: 0 .5em .5em .5em;
+            padding: 1em;
+            @media (min-width: $bp-md) {
+                padding: 0 .5em .5em .5em;
+            }
         }
 
         // if the output div is empty, we need extra padding
         div:only-of-type {
-            padding: .5em;
+            padding: 1.5em 1em;
+            @media (min-width: $bp-md) {
+                padding: .5em;
+            }
         }
     }
 
@@ -278,6 +281,7 @@ h1 {
     font-size: $font-size--xxl;
     color: $h1Color;
     font-weight: $h1Weight;
+    margin-bottom: 0;
 }
 
 h2 {
@@ -286,6 +290,15 @@ h2 {
     font-weight: $h2Weight;
     margin-top: 3rem;
     margin-bottom: 1.8rem;
+
+    &:before {
+        display: block;
+        content: ' ';
+        width: 5rem;
+        border-bottom: 2px solid $mainBrandColor;
+        margin-bottom: 1.1rem;
+        visibility: visible;
+    }
 }
 
 h3 {
@@ -333,6 +346,13 @@ h6 {
     font-size: 0.6em;
 }
 
+.subtitle {
+    margin-top: .15rem;
+    margin-bottom: 1rem;
+    padding: 0 0 0 0;
+    font-size: 125%;
+}
+
 h2:hover .header-link,
 h3:hover .header-link,
 h4:hover .header-link,
@@ -363,7 +383,11 @@ img {
 
 blockquote {
     display: block;
-    margin: 1em 3em;
+    margin: 1em 0 1em 2em;
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
     padding-left: 1em;
     padding-right: 1em;
     background-color: $blockQuoteBackgroundColor;

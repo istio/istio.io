@@ -6,7 +6,7 @@ keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
-page_icon: /img/helm.svg
+icon: /img/helm.svg
 ---
 
 Quick start instructions for the setup and configuration of Istio using Helm.
@@ -28,7 +28,7 @@ plane and the sidecars for the Istio data plane.
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
-1. [Install the Helm client](https://docs.helm.sh/using_helm/#installing-helm).
+1. [Install the Helm client](https://docs.helm.sh/using_helm/).
 
 1. Istio by default uses `LoadBalancer` service object types.  Some platforms do not support `LoadBalancer`
    service objects.  For platforms lacking `LoadBalancer` support, install Istio with `NodePort` support
@@ -65,7 +65,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ kubectl create -f $HOME/istio.yaml
+    $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -77,7 +77,7 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-    $ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
@@ -91,39 +91,6 @@ to manage the lifecycle of Istio.
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
-
-## Customization Example: Traffic Management Minimal Set
-
-Istio has a rich feature set, but you may only want to use a subset of these. For instance, you might be only interested in installing the minimum necessary to support traffic management functionality.
-
-This example shows how to install the minimal set of components necessary to use [traffic management](/docs/tasks/traffic-management/) features.
-
-Execute the following command to install the Pilot and Citadel:
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-  --set ingress.enabled=false \
-  --set gateways.istio-ingressgateway.enabled=false \
-  --set gateways.istio-egressgateway.enabled=false \
-  --set galley.enabled=false \
-  --set sidecarInjectorWebhook.enabled=false \
-  --set mixer.enabled=false \
-  --set prometheus.enabled=false \
-  --set global.proxy.envoyStatsd.enabled=false
-{{< /text >}}
-
-Ensure the `istio-pilot-*` and `istio-citadel-*` Kubernetes pods are deployed and their containers are up and running:
-
-{{< text bash >}}
-$ kubectl get pods -n istio-system
-NAME                                     READY     STATUS    RESTARTS   AGE
-istio-citadel-b48446f79-wd4tk            1/1       Running   0          1m
-istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
-{{< /text >}}
-
-With this minimal set you can install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/) for instance. You will need to [manually inject the sidecar](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection).
-
-[Installation Options](/docs/reference/config/installation-options/) has the full list of options allowing you to tailor the Istio installation to your needs. Before you override the default value with `--set` in `helm install`, please check the configurations for the option in `install/kubernetes/helm/istio/values.yaml` and uncomment the commented context if needed.
 
 ## Uninstall
 

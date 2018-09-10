@@ -7,6 +7,8 @@ aliases:
     - /docs/concepts/policy-and-control/mixer.html
     - /docs/concepts/policy-and-control/mixer-config.html
     - /docs/concepts/policy-and-control/attributes.html
+    - /docs/concepts/policies-and-telemetry/overview/
+    - /docs/concepts/policies-and-telemetry/config/
 ---
 
 Istio provides a flexible model to enforce authorization policies and collect telemetry for the
@@ -45,7 +47,7 @@ At a high level, Mixer provides:
 Beyond these purely functional aspects, Mixer also has [reliability and scalability](#reliability-and-latency) benefits as outlined below.
 
 Policy enforcement and telemetry collection are entirely driven from configuration.
-It's possible to [completely disable these features](/docs/setup/kubernetes/helm-install/#customization-example-traffic-management-minimal-set)
+It's possible to [completely disable these features](/docs/setup/kubernetes/minimal-install/)
 and avoid the need to run the Mixer component in an Istio deployment.
 
 ## Adapters

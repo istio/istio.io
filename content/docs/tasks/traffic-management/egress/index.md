@@ -62,6 +62,7 @@ from within your Istio cluster. In this task you access
         name: http
         protocol: HTTP
       resolution: DNS
+      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
@@ -82,6 +83,7 @@ from within your Istio cluster. In this task you access
         name: https
         protocol: HTTPS
       resolution: DNS
+      location: MESH_EXTERNAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -90,13 +92,9 @@ from within your Istio cluster. In this task you access
     spec:
       hosts:
       - www.google.com
-      gateways:
-      - mesh
       tls:
       - match:
-        - gateways:
-          - mesh
-          port: 443
+        - port: 443
           sni_hosts:
           - www.google.com
         route:
