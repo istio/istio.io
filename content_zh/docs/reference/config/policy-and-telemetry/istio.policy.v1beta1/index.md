@@ -45,7 +45,7 @@ Instance 由运维人员根据已知模板进行编写。这一文件的存在�
 |`name`|`string`|必要字段。Instance 的名称。必须保持唯一。[Action](#Action) 可以使用这一字段引用该 Instance。|
 |`compiledTemplate`|`string`|必要字段。Instance 所要进行实例化的内置（`compiled-in`）模板的名称。要引用其它模板，则应该使用 `template` 字段。该字段取值必须取自内置模板列表|
 |`template`|`string`|必要字段。Instance 所要进行实例化的模板的名称。如果引用的是内置模板，则应该使用 `compiledTemplate` 字段。该字段取值必须取自当前范围的可用模板列表|
-|`params`|[`google.protobuf.Struct`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct)|必要字段。这里的结构定义来自于相关模板。|
+|`params`|[`google.protobuf.Struct`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|必要字段。这里的结构定义来自于相关模板。|
 
 ## Handler
 
@@ -68,7 +68,7 @@ Rule 由一个选择器和一组动作构成，当选择器的结果为 `true` �
 |`match`|`string`|必要字段。这个字段是一个表达式。在 Mixer 收到请求之后，会根据请求属性来执行这一表达式，如果运算结果为 `true`，则执行 `action` 字段中的操作。表达式中可以使用与或非这样的逻辑操作连接多个子表达式。例如表达式 `true`，代表无条件执行；表达式 `destination.service == ratings*` 会选择目标服务名称以 `ratings` 为前缀的请求|
 |`actions`|[`Action[]`](#Action)|可选字段。当 `match` 结果为 `true` 的时候要执行的动作|
 |`requestHeaderOperations`|[`Rule.HeaderOperationTemplate[]`](#rule-headeroperationtemplate)|可选字段。根据针对请求 Header 进行模板化操作|
-|`responseHeaderOperations`|[`Rule.HeaderOperationTemplate[]`](#rule-headeroperationtemplate.operation)|可选字段。可选字段。根据针对响应 Header 进行模板化操作|
+|`responseHeaderOperations`|[`Rule.HeaderOperationTemplate[]`](#rule-headeroperationtemplate-operation)|可选字段。可选字段。根据针对响应 Header 进行模板化操作|
 
 ## `Rule.HeaderOperationTemplate`
 
