@@ -735,6 +735,248 @@ $ kubectl delete listentry requested-server-name -n istio-system
 $ kubectl delete listchecker wikipedia-checker -n istio-system
 {{< /text >}}
 
+### Monitor the SNI and the source identity, and enforce access policies based on them
+
+If you used mutual TLS between the sidecar proxy and the egress gateway, you can monitor the [service identity](/docs/concepts/what-is-istio/#citadel) and enforce policies based on it. In Istio on Kubernetes, the
+identities are based on
+[Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
+subsection, you define two service accounts, namely, `us` and `canada`. Then you define a policy that allows services
+with the `us` identity access the English and the Spanish versions of Wikipedia, and services with `canada` identity the
+English and the French versions.
+
+1.  Create the service accounts:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: us
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: canada
+    EOF
+    {{< /text >}}
+
+1.  Deploy two _sleep_ containers, namely _sleep-us_ and _sleep-canada_, with _us_ and _canada_ service accounts,
+    respectively:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    # Copyright 2017 Istio Authors
+    #
+    #   Licensed under the Apache License, Version 2.0 (the "License");
+    #   you may not use this file except in compliance with the License.
+    #   You may obtain a copy of the License at
+    #
+    #       http://www.apache.org/licenses/LICENSE-2.0
+    #
+    #   Unless required by applicable law or agreed to in writing, software
+    #   distributed under the License is distributed on an "AS IS" BASIS,
+    #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    #   See the License for the specific language governing permissions and
+    #   limitations under the License.
+
+    ##################################################################################################
+    # Sleep service
+    ##################################################################################################
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: sleep-us
+      labels:
+        app: sleep-us
+    spec:
+      ports:
+      - port: 80
+        name: http
+      selector:
+        app: sleep
+    ---
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: sleep-us
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: sleep-us
+        spec:
+          serviceAccountName: us
+          containers:
+          - name: sleep
+            image: tutum/curl
+            command: ["/bin/sleep","infinity"]
+            imagePullPolicy: IfNotPresent
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: sleep-canada
+      labels:
+        app: sleep-canada
+    spec:
+      ports:
+      - port: 80
+        name: http
+      selector:
+        app: sleep
+    ---
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: sleep-canada
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: sleep-canada
+        spec:
+          serviceAccountName: canada
+          containers:
+          - name: sleep
+            image: tutum/curl
+            command: ["/bin/sleep","infinity"]
+            imagePullPolicy: IfNotPresent
+    EOF
+    {{< /text >}}
+
+1.  Create the `logentry`, `rules` and `handlers`:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    # Log entry for egress access
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: logentry
+    metadata:
+      name: egress-access
+      namespace: istio-system
+    spec:
+      severity: '"info"'
+      timestamp: context.time | timestamp("2017-01-01T00:00:00Z")
+      variables:
+        connectionEvent: connection.event | ""
+        source: source.labels["app"] | "unknown"
+        sourceNamespace: source.namespace | "unknown"
+        sourceWorkload: source.workload.name | ""
+        sourcePrincipal: source.principal | "unknown"
+        requestedServerName: connection.requested_server_name | "unknown"
+        destinationApp: destination.labels["app"] | ""
+      monitored_resource_type: '"UNSPECIFIED"'
+    ---
+    # Handler for info egress access entries
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stdio
+    metadata:
+      name: egress-access-logger
+      namespace: istio-system
+    spec:
+      severity_levels:
+        info: 0 # output log level as info
+      outputAsJson: true
+    ---
+    # Rule to handle access to *.wikipedia.org
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: handle-wikipedia-access
+      namespace: istio-system
+    spec:
+      match: source.labels["app"] == "istio-egressgateway-with-sni-proxy" && destination.labels["app"] == "" && connection.event == "open"
+      actions:
+      - handler: egress-access-logger.stdio
+        instances:
+          - egress-access.logentry
+    EOF
+    {{< /text >}}
+
+1.  Send HTTPS requests to Wikipedia sites in English, German, Spanish and French, from `sleep-us`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep-us -o jsonpath='{.items[0].metadata.name}') -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>"'
+    <title>Wikipedia, the free encyclopedia</title>
+    <title>Wikipedia – Die freie Enzyklopädie</title>
+    <title>Wikipedia, la enciclopedia libre</title>
+    <title>Wikipédia, l'encyclopédie libre</title>
+    {{< /text >}}
+
+1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD mixer | grep 'egress-access.logentry.istio-system'; done
+    {"level":"info","time":"2018-09-11T16:07:03.990619Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"en.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    {"level":"info","time":"2018-09-11T16:07:04.779349Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"de.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    {"level":"info","time":"2018-09-11T16:07:05.564542Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"es.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    {"level":"info","time":"2018-09-11T16:07:06.256554Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"fr.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    {{< /text >}}
+
+    Note the `requestedServerName` attribute, and `sourcePrincipal`, it should be `cluster.local/ns/default/sa/us`.
+
+1.  Define a policy that will allow access to the Wikipedia in English and Spanish for the services with the _us_
+    service account and to the Wikipedia in English and French for services with the _canada_ service account.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl create -f -
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: listentry
+    metadata:
+      name: requested-server-name
+      namespace: istio-system
+    spec:
+      value: connection.requested_server_name
+    ---
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: listchecker
+    metadata:
+      name: us-wikipedia-checker
+      namespace: istio-system
+    spec:
+      overrides: ["en.wikipedia.org", "es.wikipedia.org"]
+      blacklist: false
+    ---
+    # Rule to check access to *.wikipedia.org
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: check-us-wikipedia-access
+      namespace: istio-system
+    spec:
+      match: source.labels["app"] == "istio-egressgateway-with-sni-proxy" && destination.labels["app"] == ""
+      actions:
+      - handler: us-wikipedia-checker.listchecker
+        instances:
+          - requested-server-name.listentry
+    EOF
+    {{< /text >}}
+
+1.  Resend HTTPS requests to Wikipedia sites in English, German, Spanish and French, from `sleep-us`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep-us -o jsonpath='{.items[0].metadata.name}') -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>"'
+    <title>Wikipedia, the free encyclopedia</title>
+    <title>Wikipedia – Die freie Enzyklopädie</title>
+    <title>Wikipedia, la enciclopedia libre</title>
+    <title>Wikipédia, l'encyclopédie libre</title>
+    {{< /text >}}
+
+#### Cleanup of monitoring and policy enforcement
+
+{{< text bash >}}
+$ kubectl delete serviceaccount us canada
+$ kubectl delete service sleep-us sleep-canada
+$ kubectl delete deployement sleep-us sleep-canada
+$ kubectl delete rule handle-wikipedia-access check-us-wikipedia-access -n istio-system
+$ kubectl delete logentry egress-access -n istio-system
+$ kubectl delete stdio egress-access-logger -n istio-system
+$ kubectl delete listentry requested-server-name -n istio-system
+$ kubectl delete listchecker us-wikipedia-checker -n istio-system
+{{< /text >}}
+
 ### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
 
 1.  Delete the configuration items for _*.wikipedia.org_:
