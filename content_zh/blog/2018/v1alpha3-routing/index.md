@@ -119,7 +119,6 @@ spec:
     name: reviews
   precedence: 1
   route:
-
   - labels:
       version: v1
 ---
