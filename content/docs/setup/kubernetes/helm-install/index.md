@@ -34,6 +34,12 @@ plane and the sidecars for the Istio data plane.
    service objects.  For platforms lacking `LoadBalancer` support, install Istio with `NodePort` support
    instead with the flags `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort`
    appended to the end of the Helm operation.
+   
+1. If you are running istio under docker for desktop's built-in kubernetes, you may need to increase docker's memory limit
+   under the *Advanced* pane of docker's preferences.  Pilot by default requests 2048Mi of memory, which is docker's
+   default limit.  Alternatively, you may reduce pilot's memory reservation by passing the helm argument
+   `--set pilot.resources.requests.memory="512Mi"`.  Otherwise pilot may refuse to start due to insufficient resources.
+   See [Installation Options](https://istio.io/docs/reference/config/installation-options) for more information.
 
 ## Installation steps
 
