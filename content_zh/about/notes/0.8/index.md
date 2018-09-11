@@ -6,6 +6,8 @@ icon: /img/notes.svg
 
 这是 Istio 1.0 路上的一次重要发布，除了通常的问题修复和性能增强之外，其中包含了很多新功能，架构方面也做出了很多改进。
 
+{{< relnote_links >}}
+
 ## 网络
 
 - **重构网络管理模型**：[新的流量管理 API](/zh/blog/2018/v1alpha3-routing/) 业已就绪。新的模型覆盖了更多真实世界的部署[用例](/zh/docs/tasks/traffic-management/)，更加易于理解和使用。如果要从早期部署中进行升级，这里提供了[升级指南](/zh/docs/setup/kubernetes/upgrading-istio/)，并且在 `istioctl` 中加入了转换工具，帮助用户对旧版本配置进行升级。

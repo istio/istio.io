@@ -1,347 +1,154 @@
 ---
-title: 快速开始
-description: 在 kubernetes 集群中快速安装 Istio service mesh 的说明。
-weight: 10
+title: 在 Kubernetes 中快速开始
+description: 在 Kubernetes 集群中快速安装 Istio 服务网格的说明。
+weight: 5
 keywords: [kubernetes]
 ---
 
-本页面在 Kubernetes 集群中快速安装 Istio service mesh 的说明。
+依照本文说明，在 Kubernetes 集群中安装和配置 Istio。
 
 ## 前置条件
 
-下面的操作说明需要您可以访问 Kubernetes **1.9 或更高版本**的集群，并且启用了。[RBAC (基于角色的访问控制)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)。您需要安装了 **1.9  或更高版本**的 `kubectl` 命令。
-
-如果您希望启用[自动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，您必须使用 Kubernetes 1.9 或更高版本。
-
-  > 如果您安装的是 Istio 0.2.x，在安装新版本之前请将其完全[卸载](https://archive.istio.io/v0.2/docs/setup/kubernetes/quick-start#uninstalling)（包括所有启用了 Istio 的 Pod 中的sidecar）。
-
-* 安装或更新 Kubernetes 命令行工具 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 以匹配集群的版本 （1.9 或者更高，支持 CRD 功能）
-
-### Minikube
-
-要在本地安装 Istio，请安装最新版本的 [Minikube](https://kubernetes.io/docs/setup/minikube/)（0.25.0 或更高版本）。
-
-Kubernetes 1.9
-
-{{< text bash >}}
-$ minikube start \
-    --extra-config=controller-manager.ClusterSigningCertFile="/var/lib/localkube/certs/ca.crt" \
-    --extra-config=controller-manager.ClusterSigningKeyFile="/var/lib/localkube/certs/ca.key" \
-    --extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
-    --kubernetes-version=v1.9.0
-{{< /text >}}
-
-Kubernetes 1.10
-
-{{< text bash >}}
-$ minikube start \
-    --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
-    --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
-    --extra-config=apiserver.admission-control="NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota" \
-    --kubernetes-version=v1.10.0
-{{< /text >}}
-
-### Google Kubernetes Engine
-
-创建集群。
-
-{{< text bash >}}
-$ gcloud container clusters create <cluster-name> \
-    --cluster-version=1.9.7-gke.1 \
-    --zone <zone> \
-    --project <project-name>
-{{< /text >}}
-
-获取 `kubectl` 使用的证书。
-
-{{< text bash >}}
-$ gcloud container clusters get-credentials <cluster-name> \
-    --zone <zone> \
-    --project <project-name>
-{{< /text >}}
-
-为当前用户授权管理员权限（为 Istio 创建必需的 RBAC 规则需要使用管理员权限）。
-
-{{< text bash >}}
-$ kubectl create clusterrolebinding cluster-admin-binding \
-    --clusterrole=cluster-admin \
-    --user=$(gcloud config get-value core/account)
-{{< /text >}}
-
-### IBM Cloud Kubernetes Service (IKS)
-
-创建一个新的精简版集群。
-
-{{< text bash >}}
-$ bx cs cluster-create --name <cluster-name> --kube-version 1.9.7
-{{< /text >}}
-
-或者创建一个新的付费集群：
-
-{{< text bash >}}
-$ bx cs cluster-create --location location --machine-type u2c.2x4 --name <cluster-name> --kube-version 1.9.7
-{{< /text >}}
-
-获取 `kubectl` 使用的证书（使用您自己集群的名字替换下面的 `<cluster-name>`）：
-
-{{< text bash >}}
-$(bx cs cluster-config <cluster-name>|grep "export KUBECONFIG")
-{{< /text >}}
-
-### IBM Cloud Private
-
-要访问 IBM Cloud Private Cluster，请按照[这里](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)的步骤配置 `kubectl` CLI。
-
-### OpenShift Origin
-
-默认情况下 OpenShift 不允许容器使用 UID 0 来运行。为 Istio 的 service account 启动容器以 UID 0 运行：
-
-{{< text bash >}}
-$ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z default -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-egressgateway-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-citadel-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-ingressgateway-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-cleanup-old-ca-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-mixer-post-install-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-mixer-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system
-{{< /text >}}
-
-以上列出了 Istio 中包含的所有默认的 service account。如果您想启用 Istio 的其他服务（例如 *Grafana*）需要使用类似的命令来涵盖那些服务。
-
-运行应用程序 pod 的 service account 需要特权的安全上下文约束以作为 sidecar 注入的一部分。
-
-{{< text bash >}}
-$ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
-{{< /text >}}
-
-> 检查该[讨论](https://github.com/istio/issues/issues/34)中关于 Istio 的 `SELINUX` 问题，以防出现 Envoy 的问题。
-
-### AWS (w/Kops)
-
-在安装 Kubernetes 1.9 版的新集群时，将涵盖启用 `admissionregistration.k8s.io/v1beta1` 的先决条件。
-
-然而，准入控制器的列表需要更新。
-
-{{< text bash >}}
-$ kops edit cluster $YOURCLUSTER
-{{< /text >}}
-
-在配置文件中增加以下内容：
-
-{{< text yaml >}}
-kubeAPIServer:
-    admissionControl:
-    - NamespaceLifecycle
-    - LimitRanger
-    - ServiceAccount
-    - PersistentVolumeLabel
-    - DefaultStorageClass
-    - DefaultTolerationSeconds
-    - MutatingAdmissionWebhook
-    - ValidatingAdmissionWebhook
-    - ResourceQuota
-    - NodeRestriction
-    - Priority
-{{< /text >}}
-
-执行更新
-
-{{< text bash >}}
-$ kops update cluster
-$ kops update cluster --yes
-{{< /text >}}
-
-启动滚动更新
-
-{{< text bash >}}
-$ kops rolling-update cluster
-$ kops rolling-update cluster --yes
-{{< /text >}}
-
-使用kube-api pod上`的kubectl`客户端进行验证，您应该看到新的准入控制器：
-
-{{< text bash >}}
-$ for i in `kubectl get pods -nkube-system | grep api | awk '{print $1}'` ; do  kubectl describe pods -nkube-system $i | grep "/usr/local/bin/kube-apiserver"  ; done
-{{< /text >}}
-
-输出应该是：
-
-{{< text plain >}}
-[...] --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction,Priority [...]
-{{< /text >}}
-
-### Azure
-
-你应该使用 `ACS-Engine` 来部署集群。按照[这些说明](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install)来获取和安装 `acs-engine` 二进制包，使用下面的命令下载 Istio `api model definition`：
-
-{{< text bash >}}
-$ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
-{{< /text >}}
-
-使用 `istio.json` 模板和以下命令部署集群。您可以在[官方文档](https://github.com/Azure/acs-engine/blob/master/docs/kubernetes/deploy.md#step-3-edit-your-cluster-definition)中找到参数的参考。
-
-| 参数                       | 期望值             |
-|-------------------------------------|----------------------------|
-| `subscription_id`                     | Azure订阅ID |
-| `dns_prefix`                          | 集群DNS前缀       |
-| `location`                            | 集群位置         |
-
-{{< text bash >}}
-$ acs-engine deploy --subscription-id <subscription_id> --dns-prefix <dns_prefix> --location <location> --auto-suffix --api-model istio.json
-{{< /text >}}
-
-几分钟后，您应该在名为`<dns_prefix>-<id>`的资源组中找到您的Azure订阅集群。假设我的 `dns_prifex`  是  `myclustername`，有效的资源组和唯一的集群 ID 是 `mycluster-5adfba82`。使用这个 `<dns_prefix>-<id>` 集群 ID，您可以将 `acs-engine` 生成的 `kubeconfig` 文件从 `_output` 文件夹复制到您的机器中：
-
-{{< text bash >}}
-$ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json ~/.kube/config
-{{< /text >}}
-
-例如：
-
-{{< text bash >}}
-$ cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json ~/.kube/config
-{{< /text >}}
-
-要检查是否部署了正确的 Istio 标志，请使用：
-
-{{< text bash >}}
-$ kubectl describe pod --namespace kube-system $(kubectl get pods --namespace kube-system | grep api | cut -d ' ' -f 1) | grep admission-control
-{{< /text >}}
-
-您应该可以看到 `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook` 标志：
-
-{{< text plain >}}
---admission-control=...,MutatingAdmissionWebhook,...,ValidatingAdmissionWebhook,...
-{{< /text >}}
-
-## 下载和准备安装
-
-从 0.2 版本开始，Istio 安装到 `istio-system` namespace 下，即可以管理所有其它 namespace 下的微服务。
-
-1. 到 [Istio release](https://github.com/istio/istio/releases) 页面上，根据您的操作系统下载对应的发行版。如果您使用的是 macOS 或者 Linux 系统，可以使用下面的额命令自动下载和解压最新的发行版：
-
-    {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | sh -
-    {{< /text >}}
-
-1. 解压安装文件，切换到文件所在目录。安装文件目录下包含：
-
-    * `install/` 目录下是 Kubernetes 使用的 `.yaml` 安装文件
-    * `samples/` 目录下是示例程序
-    * `istioctl` 客户端二进制文件在 `bin` 目录下。`istioctl` 文件用户手动注入 Envoy sidecar 代理、创建路由和策略等
-    * `istio.VERSION` 配置文件
-
-1. 切换到 Istio 包的解压目录。例如 istio-{{< istio_version >}}.0：
-
-    {{< text bash >}}
-    $ cd istio-{{< istio_version >}}.0
-    {{< /text >}}
-
-1. 将 `istioctl` 客户端二进制文件加到 PATH 中。
-  例如，在 macOS 或 Linux 系统上执行下面的命令：
-
-    {{< text bash >}}
-    $ export PATH=$PWD/bin:$PATH
-    {{< /text >}}
+1. [下载 Istio 发布包](/zh/docs/setup/kubernetes/download-release/)。
+
+1. [各平台下 Kubernetes 集群的配置](/zh/docs/setup/kubernetes/platform-setup/):
+
+    * [Minikube](/zh/docs/setup/kubernetes/platform-setup/minikube/)
+    * [Google Container Engine (GKE)](/zh/docs/setup/kubernetes/platform-setup/gke/)
+    * [IBM Cloud](/zh/docs/setup/kubernetes/platform-setup/ibm/)
+    * [OpenShift Origin](/zh/docs/setup/kubernetes/platform-setup/openshift/)
+    * [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/platform-setup/aws/)
+    * [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
+    * [阿里云](/zh/docs/setup/kubernetes/platform-setup/alicloud/)
+
+1. 复查 [Istio 对 Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
 
 ## 安装步骤
 
-安装 Istio 的核心部分。从以下四种_**非手动**_部署方式中选择一种方式安装。然而，我们推荐您在生产环境时使用 [Helm Chart](/zh/docs/setup/kubernetes/helm-install/) 来安装 Istio，这样可以按需定制配置选项。
+1. 使用 `kubectl apply` 安装 Istio 的[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，几秒钟之后，CRD 被提交给 kube-apiserver：
 
-*  安装 Istio 而不启用 sidecar 之间的[双向 TLS 验证](/zh/docs/concepts/security/#双向-tls-认证)。对于现有应用程序的集群，使用 Istio sidecar 的服务需要能够与其他非 Istio Kubernetes 服务以及使用[存活和就绪探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)、headless 服务或 `StatefulSets` 的应用程序通信的应用程序选择此选项。
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+    {{< /text >}}
+
+1. Istio 核心组件有几种**互斥**的安装方式供用户选择，下面会分别讲述。针对生产环境的需求，为了能够控制所有配置选项，我们建议使用 [Helm Chart](/zh/docs/setup/kubernetes/helm-install/) 方式进行安装。这种方式让运维人员能够根据特定需求对 Istio 进行定制。
+
+### 选项 1：安装 Istio 而不启用 Sidecar 之间的双向 TLS 验证
+
+请浏览
+概念章节中的[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)相关内容以获取更多信息。
+
+这一选项的适用场景：
+
+* 已经部署了应用的集群，
+* 已经注入了 Istio sidecar 的服务，需要和 Kubernetes 中的非 Istio 服务进行通信，
+* 使用[存活和就绪检查](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)功能的应用程序，
+* Headless 服务或 `StatefulSet`。
+
+用如下命令安装不启用 Sidecar 间双向 TLS 认证的 Istio：
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio.yaml
+$ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-或者
+### 选项 2：安装 Istio 并且缺省启用 Sidecar 之间的双向 TLS 认证
 
-*  默认情况下安装 Istio，并强制在 sidecar 之间进行双向 TLS 身份验证。仅在保证新部署的工作负载安装了 Istio sidecar 的新建的 Kubernetes 集群上使用此选项。
+这一选项只适用于新安装的 Kubernetes 集群，并且部署其上的工作负载都会必须进行 Istio sidecar 注入。
+
+要安装 Istio 并且缺省启用 Sidecar 之间的双向 TLS 认证：
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-或者
+### 选项 3：使用 Helm 渲染 Kubernetes 清单文件并使用 `kubectl` 进行部署
 
-*  [使用 Helm 渲染出 Kubernetes 配置清单然后使用 `kubectl` 部署](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-的-helm-template-安装-istio)
+根据相关章节：[通过 Helm 的 `helm template` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-的-helm-template-安装-istio)，并跟随其中内容完成安装。
 
-或者
+### 选项 4：使用 Helm 和 Tiller 来管理 Istio 部署
 
-*  [使用 Helm 和 Tiller 管理 Istio 部署](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-和-tiller-的-helm-install-安装-istio)
+阅读相关章节：[通过 Helm 和 Tiller 的 `helm install` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-和-tiller-的-helm-install-安装-istio)，并跟随其中内容完成安装。
 
-## 确认安装
+## 确认部署结果
 
-1. 确认下列 Kubernetes 服务已经部署：`istio-pilot`、 `istio-ingressgateway`、`istio-policy`、`istio-telemetry`、`prometheus` 、`istio-sidecar-injector`（可选）。
+1. 确认下列 Kubernetes 服务已经部署：`istio-pilot`、`istio-ingressgateway`、`istio-egressgateway`、`istio-policy`、`istio-telemetry`、`prometheus`、`istio-galley` 以及可选的 `istio-sidecar-injector`。
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    NAME                       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      30.0.0.119   <none>          8060/TCP,9093/TCP                                                     7h
-    istio-egressgateway        ClusterIP      30.0.0.11    <none>          80/TCP,443/TCP                                                        7h
-    istio-ingressgateway       LoadBalancer   30.0.0.39    9.111.255.245   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7h
-    istio-pilot                ClusterIP      30.0.0.136   <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7h
-    istio-policy               ClusterIP      30.0.0.242   <none>          9091/TCP,15004/TCP,9093/TCP                                           7h
-    istio-statsd-prom-bridge   ClusterIP      30.0.0.111   <none>          9102/TCP,9125/UDP                                                     7h
-    istio-telemetry            ClusterIP      30.0.0.246   <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7h
-    prometheus                 ClusterIP      30.0.0.253   <none>          9090/TCP                                                              7h
+    NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
+    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
+    istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
+    istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
+    istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
+    istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
+    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
+    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
+    istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
+    istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
+    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
+    prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     {{< /text >}}
 
-    > 如果您的集群在不支持外部负载均衡器的环境中运行（例如 minikube），`istio-ingressgateway`的 `EXTERNAL-IP` 将会显示为 `<pending>` 状态。您将需要使用服务的 NodePort 来访问，或者使用 port-forwarding。
+    > 如果该集群在不支持外部负载均衡器的环境中运行（例如 minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将会显示为 `<pending>` 状态。这种情况下，只能通过服务的 NodePort，或者使用 port-forwarding 方式来访问服务。
 
-1. 确保所有相应的Kubernetes pod都已被部署且所有的容器都已启动并正在运行：`istio-pilot-*`、`istio-ingressgateway-*`、`istio-egressgateway-*`、`istio-policy-*`、`istio-telemetry-*`、`istio-citadel-*`、`prometheus-*`、`istio-sidecar-injector-*`（可选）。
+1. 确保所有相应的 Kubernetes pod 都已被部署且所有的容器都已启动并正在运行：`istio-pilot-*`、`istio-ingressgateway-*`、`istio-egressgateway-*`、`istio-policy-*`、`istio-telemetry-*`、`istio-citadel-*`、`prometheus-*`、`istio-galley-*` 以及 `istio-sidecar-injector-*`（可选）。
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
-    NAME                                       READY     STATUS      RESTARTS   AGE
-    istio-citadel-dcb7955f6-vdcjk              1/1       Running     0          11h
-    istio-egressgateway-56b7758b44-l5fm5       1/1       Running     0          11h
-    istio-ingressgateway-56cfddbd5b-xbdcx      1/1       Running     0          11h
-    istio-pilot-cbd6bfd97-wgw9b                2/2       Running     0          11h
-    istio-policy-699fbb45cf-bc44r              2/2       Running     0          11h
-    istio-statsd-prom-bridge-949999c4c-nws5j   1/1       Running     0          11h
-    istio-telemetry-55b675d8c-kfvvj            2/2       Running     0          11h
-    prometheus-86cb6dd77c-5j48h                1/1       Running     0          11h
+    NAME                                       READY     STATUS        RESTARTS   AGE
+    istio-citadel-75c88f897f-zfw8b             1/1       Running       0          1m
+    istio-egressgateway-7d8479c7-khjvk         1/1       Running       0          1m
+    istio-galley-6c749ff56d-k97n2              1/1       Running       0          1m
+    istio-ingress-7f5898d74d-t8wrr             1/1       Running       0          1m
+    istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
+    istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
+    istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
+    istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
+    istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
+    prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
     {{< /text >}}
 
 ## 部署应用
 
-您可以部署自己的应用或者示例应用程序如 [Bookinfo](/zh/docs/examples/bookinfo/)。
-注意：应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量，因为 HTTP/1.0 已经不再支持。
+上面步骤完成之后，就可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/) 这样的示例应用了。
 
-如果您启动了 [Istio-Initializer](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，如上所示，您可以使用 `kubectl create` 直接部署应用。Istio-Initializer 会向应用程序的 Pod 中自动注入 Envoy 容器，如果运行 Pod 的 namespace 被标记为 `istio-injection=enabled` 的话：
+> 注意：已经不再支持 HTTP/1.0，所以应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量。
+
+如果您启动了 [Istio-sidecar-injector](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，就可以使用 `kubectl apply` 直接部署应用。
+
+如果运行 Pod 的 namespace 被标记为 `istio-injection=enabled` 的话，Istio-sidecar-injector 会向应用程序的 Pod 中自动注入 Envoy 容器：
 
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
 $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-如果您没有安装 Istio-initializer-injector 的话，您必须使用 [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令在部署应用之前向应用程序的 Pod 中手动注入 Envoy 容器：
+如果没有安装 Istio-sidecar-injector 的话，就必须使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令在部署应用之前向应用程序的 Pod 中手动注入 Envoy 容器：
 
 {{< text bash >}}
-$ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+$ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-## 卸载
+## 卸载 Istio 核心组件
 
-* 卸载 Istio 核心组件。对于该版本，卸载时将删除 RBAC 权限、`istio-system` 命名空间和该命名空间的下的各层级资源。
+卸载过程要删除 RBAC 权限、`istio-system` 命名空间以及其下的所有资源。删除过程中出现的资源不存在的错误提示可以直接忽略，出现该错误信息的原因是这些资源已经被级联删除。
 
-  不必理会在层级删除过程中的各种报错，因为这些资源可能已经被删除的。
+* 如果使用 `istio-demo.yaml` 进行的安装：
 
-如果您使用 `istio.yaml` 安装的 Istio：
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/istio-demo.yaml
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio.yaml
-{{< /text >}}
+* 如果使用 `istio-demo-auth.yaml` 进行的安装：
 
-否则使用 [Helm 卸载 Istio](/zh/docs/setup/kubernetes/helm-install/#卸载)。
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
+    {{< /text >}}
 
-## 下一步
+* 如果是使用 Helm 安装的 Istio，可以依照[文档中的卸载](/zh/docs/setup/kubernetes/helm-install/#卸载)步骤完成删除。
 
-* 查看 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序示例
+* 另外如有有需要，也可以删除 CRD：
 
-* 查看如何[验证 Istio 双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    {{< /text >}}
