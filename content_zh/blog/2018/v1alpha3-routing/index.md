@@ -258,7 +258,6 @@ metadata:
   name: foo-ext
 spec:
   hosts:
-
   - foo.com
     ports:
   - number: 80
