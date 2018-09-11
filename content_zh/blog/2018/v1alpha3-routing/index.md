@@ -105,7 +105,7 @@ spec:
 
 用一种叫做 "Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。
 
-实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 资源中。
+实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 资源中。
 
 例如，之前在 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序的 `reviews` 服务中有两个 `RouteRule` 资源，如下所示：
 
