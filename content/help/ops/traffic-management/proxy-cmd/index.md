@@ -258,7 +258,7 @@ one route that matches on everything. This route tells Envoy to send the request
 `serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
 
     {{< text bash json >}}
-    $ istioctl proxy-config clusters --fqdn reviews.default.svc.cluster.local -o json
+    $ istioctl proxy-config clusters productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
     [
         {
             "name": "outbound|9080||reviews.default.svc.cluster.local",
@@ -277,6 +277,16 @@ one route that matches on everything. This route tells Envoy to send the request
             }
         }
     ]
+    {{< /text >}}
+
+1. To see the endpoints currently available for this cluster use the `proxy-config` endpoints command.
+
+    {{< text bash json >}}
+    $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster outbound|9080||reviews.default.svc.cluster.local
+    ENDPOINT             STATUS      CLUSTER
+    172.17.0.17:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.18:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.5:9080      HEALTHY     outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
 ## Inspecting Bootstrap configuration
