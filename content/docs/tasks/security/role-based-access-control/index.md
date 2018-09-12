@@ -66,28 +66,21 @@ for the list of supported keys in `constraints` and `properties`.
     If you refresh the page several times, you should see different versions of reviews shown in the product page,
     presented in a round robin style (red stars, black stars, no stars)
 
-## RBAC permissive mode
+## Authorization permissive mode
 
-RBAC permissive mode is for testing it's safe to enable RBAC and new RBAC
-policies work as expected before rolling out to production. This section
-shows how to use RBAC permissive mode in below two scenarios:
+This section shows how to use authorization permissive mode in below two scenarios:
 
-    * In environment without RBAC, test whether it's safe to enable RBAC.
-    * In environment already with RBAC enabled, test whether it's safe to add a new RBAC policy.
+    * In environment without authorization, test whether it's safe to enable authorization.
+    * In environment already with authorization enabled, test whether it's safe to add a new authorization policy.
 
-RBAC permissive mode could be set on both global RBAC configuration and individual policy.
-When setting permissive mode on global RBAC configuration, all policies will be in
-permissive mode regardless its own mode; otherwise each policy will
-decide its own mode (enforced or permissive).
+### Testing whether it's safe to turn on authorization globally
 
-### Testing whether it's safe to turn on RBAC globally
-
-This tasks show how to use RBAC permissive mode to test whether it's safe to
-turn on RBAC globally.
+This tasks show how to use authorization permissive mode to test whether it's safe to
+turn on authorization globally.
 
 Before you start, please make sure that you have finished [preparation task](#before-you-begin).
 
-1.  Before enabling RBAC in production, apply the global RBAC configuration in
+1.  Before enabling authorization in production, apply the global authorization configuration in
     permissive mode.
 
     Run the following command:
@@ -146,12 +139,12 @@ Before you start, please make sure that you have finished [preparation task](#be
 
     In telemetry logs above,  the `responseCode` is 200 which is what user see now.
     The `permissiveResponseCode` is 403 which is what user will see after switching
-    global RBAC configuration from `PERMISSIVE` mode to `ENFORCED` mode, which
-    indicates the global RBAC configuration will work as expected after rolling
+    global authorization configuration from `PERMISSIVE` mode to `ENFORCED` mode, which
+    indicates the global authorization configuration will work as expected after rolling
     to production.
 
-1.  Before rolling out a new RBAC policy in production, apply it in permissive mode.
-    `Note`, when global RBAC configuration is in permissive mode, all policies will be in
+1.  Before rolling out a new authorization policy in production, apply it in permissive mode.
+    `Note`, when global authorization configuration is in permissive mode, all policies will be in
     permissive mode by default.
 
     Run the following command:
@@ -189,7 +182,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     and reviews services, which are what user will see after switching
     policy mode from `PERMISSIVE` mode to `ENFORCED` mode; the result aligns with
     [step 1](#step-1-allowing-access-to-the-productpage-service), so it indicates
-    the RBAC policy will work as expected after rolling to production.
+    the authorization policy will work as expected after rolling to production.
 
 1.  Remove permissive mode related yaml files:
 
@@ -199,13 +192,13 @@ Before you start, please make sure that you have finished [preparation task](#be
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Now we have verified RBAC will work as expected when turning it on,
-    it's safe following below [Enabling Istio authorization](#enabling-istio-authorization) to turn on RBAC.
+1.  Now we have verified authorization will work as expected when turning it on,
+    it's safe following below [Enabling Istio authorization](#enabling-istio-authorization) to turn on authorization.
 
-### Testing new RBAC policy works as expected before rolling to production
+### Testing new authorization policy works as expected before rolling to production
 
-This tasks shows how to use RBAC permissive mode to test a new RBAC policy works
-as expected in environment with RBAC already enabled.
+This tasks shows how to use authorization permissive mode to test a new authorization policy works
+as expected in environment with authorization already enabled.
 
 Before you start, please make sure that you have finished [step 1](#step-1-allowing-access-to-the-productpage-service).
 
@@ -272,7 +265,7 @@ Before you start, please make sure that you have finished [step 1](#step-1-allow
     and reviews services, which is what users see now.
     The `permissiveResponseCode` is 200 for ratings and reviews services,
     which is what users will see after switching policy mode from `PERMISSIVE` mode
-    to `ENFORCED` mode; it indicates the new rbac policy will work as expected
+    to `ENFORCED` mode; it indicates the new authorization policy will work as expected
     after rolling to production.
 
 1.  Remove permissive mode related yaml files:
