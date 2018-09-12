@@ -7,10 +7,12 @@
 {{ else }}
     {{ .Scratch.Set "short_version" (printf "%s.%s" (index $parts 0) (index $parts 1)) }}
     {{ .Scratch.Set "full_version" $dir_name }}
+    {{ .Scratch.Set "prior_full_version" (printf "%s.%s.%s" (index $parts 0) (index $parts 1) ((index $parts 2) - 1)) }}
     {{ .Scratch.Set "patch" true }}
 {{ end }}
 {{ $short_version := .Scratch.Get "short_version" }}
 {{ $full_version := .Scratch.Get "full_version" }}
+{{ $prior_full_version := .Scratch.Get "prior_full_version" }}
 {{ $patch := .Scratch.Get "patch" }}
 
 {{ $first := index .Site.Data.releases 0 }}
@@ -48,7 +50,7 @@
                     {{ end }}
 
                     {{ if $patch}}
-                        <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $short_version }}.0...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
+                        <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $prior_full_version }}.0...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
                     {{ end }}
                 {{ end }}
             {{ else }}
@@ -59,7 +61,7 @@
                 {{ end }}
 
                 {{ if $patch}}
-                    <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $short_version }}.0...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
+                    <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $prior_full_version }}...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
                 {{ end }}
             {{ end }}
         </div>
