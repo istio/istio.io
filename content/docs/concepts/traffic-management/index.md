@@ -563,7 +563,7 @@ Rules can optionally be qualified to only apply to requests that match some
 specific condition such as the following:
 
 _1. Restrict to specific client workloads using workload labels_.  For example, a rule
-can indicate that it only applies to calls from workloads (pods) implementing
+can indicate that it only applies to calls from workload instances (pods) implementing
 the *reviews* service:
 
 {{< text yaml >}}
@@ -585,8 +585,7 @@ The value of `sourceLabels` depends on the implementation of the service.
 In Kubernetes, for example, it would probably be the same labels that are used
 in the pod selector of the corresponding Kubernetes service.
 
-The above example can also be further refined to only apply to calls from version "v2"
-of the *reviews* service:
+The above example can also be further refined to only apply to calls from a workload instance having the "v2" label:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

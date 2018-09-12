@@ -11,11 +11,14 @@ skip_seealso: true
 
 <div class="logo-gallery">
     {{< company_logo link="https://www.autotrader.co.uk" logo="/about/community/customers/autotrader.uk.svg" alt="AutoTrader UK" >}}
+    {{< company_logo link="https://www.continental-corporation.com" logo="/about/community/customers/continental.svg" alt="Continental" >}}
+    {{< company_logo link="https://www.coohom.com" logo="/about/community/customers/coohom.svg" alt="COOHOM" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="/about/community/customers/descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="/about/community/customers/ebay.png" alt="eBay" >}}
     {{< company_logo link="https://www.fitstation.com" logo="/about/community/customers/fitstation.png" alt="FitStation" >}}
     {{< company_logo link="https://juspay.in" logo="/about/community/customers/juspay.png" alt="JUSPAY" >}}
     {{< company_logo link="https://www.namely.com" logo="/about/community/customers/namely.svg" alt="Namely" >}}
+    {{< company_logo link="https://www.plangrid.com" logo="/about/community/customers/plangrid.svg" alt="PlanGrid" >}}
     {{< company_logo link="https://www.pubnub.com" logo="/about/community/customers/pubnub.svg" alt="PubNub" >}}
     {{< company_logo link="http://www.theweathercompany.com" logo="/about/community/customers/theweatherco.jpg" alt="The Weather Company" >}}
     {{< company_logo link="https://www.trulia.com" logo="/about/community/customers/trulia.svg" alt="Trulia" >}}

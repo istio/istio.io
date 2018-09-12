@@ -7,6 +7,10 @@
         padding-bottom: 0;
     }
 
+    .gcs-adBlock {
+        display: none;
+    }
+
     table, th, td, tr {
         border: 0;
         padding: 0;
@@ -74,7 +78,13 @@
 <div class="search-results">
     <script>
         (function() {
-            var cx = '{{ .Site.Data.args.search_engine_id }}';
+            {{ if .Site.Data.args.preliminary }}
+                var cx = '{{ .Site.Data.args.preliminary_search_engine_id }}';
+            {{ else if .Site.Data.args.archive }}
+                var cx = '{{ .Site.Data.args.archive_search_engine_id }}';
+            {{ else }}
+                var cx = '{{ .Site.Data.args.search_engine_id }}';
+            {{ end }}
                 var gcse = document.createElement('script');
                 gcse.type = 'text/javascript';
                 gcse.async = true;
@@ -84,7 +94,11 @@
             })();
     </script>
 
-    <gcse:searchresults-only></gcse:searchresults-only>
+    {{ if .Site.Data.args.archive }}
+        <gcse:searchresults-only defaultToRefinement="{{ .Site.Data.args.archive_search_refinement }}"></gcse:searchresults-only>
+    {{ else }}
+        <gcse:searchresults-only></gcse:searchresults-only>
+    {{ end }}
 </div>
 
 <script>
