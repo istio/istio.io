@@ -9,7 +9,7 @@ number_of_entries: 5
 
 ## `mixc` check
 
-Check 方法用于执行前提条件检查和配额分配。Mixer 需要一组属性作为输入，它使用输入的配置来确定要调用哪些适配器，以及使用哪些参数来执行检查和配额分配。
+Check 方法用于检查执行前提条件和配额分配。Mixer 需要一组属性作为输入，它使用输入的配置来确定要调用哪些适配器，以及使用哪些参数来执行检查和配额分配。
 
 {{< text bash >}}
 
@@ -32,7 +32,7 @@ $ mixc check [flags]
 | `--stringmap_attributes <string>` |  | 名称/值字符串 map 属性的列表，指定为 `name1=k1:v1; k2:v2`，`name2=k3:v3` ...（默认为 `''`） |
 | `--timestamp_attributes <string>` | `-t` | 名称/值时间戳属性列表，指定为 `name1=value1`，`name2=value2`，...（默认为 `''`） |
 | `--trace_jaeger_url <string>` |  | Jaeger HTTP 收集器的 URL（例如: `http://jaeger:14268/api/traces?format=jaeger.thrift` ）。（默认 `''`） |
-| `--trace_log_spans` |  | 是否记录跟踪跨度。|
+| `--trace_log_spans` |  | 是否记录跟踪 span。|
 | `--trace_zipkin_url <string>` |  | Zipkin 收集器的 URL（例如: `http://zipkin:9411/api/v1/spans` ）。（默认 `''`） |
 
 ## `mixc` report
@@ -59,7 +59,7 @@ $ mixc report [flags]
 | `--stringmap_attributes <string>` |  | 名称/值字符串 map 属性的列表，指定为 `name1=k1:v1`; `k2:v2`，`name2=k3:v3` ...（默认为 `''`） |
 | `--timestamp_attributes <string>` | `-t` | 名称/值时间戳属性列表，指定为 `name1=value1`，`name2=value2`，...（默认为 `''`） |
 | `--trace_jaeger_url <string>` |  | Jaeger HTTP 收集器的 URL（例如: `http://jaeger:14268/api/traces?format=jaeger.thrift` ）。（默认 `''`） |
-| `--trace_log_spans` |  | 是否记录跟踪跨度。|
+| `--trace_log_spans` |  | 是否记录跟踪 span。|
 | `--trace_zipkin_url <string>` |  | Zipkin 收集器的 URL（例如: `http://zipkin:9411/api/v1/spans` ）。（默认 `''`） |
 
 ## `mixc` version
