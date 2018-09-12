@@ -84,3 +84,12 @@ other = "Privacy Policy"
 
 [page_publish_date_format]
 other = "January 2, 2006"
+
+[relnote_download]
+other = "DOWNLOAD %s"
+
+[relnote_changes]
+other = "CHANGES IN %s"
+
+[relnote_docs]
+other = "%s DOCS"
