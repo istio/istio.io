@@ -1,4 +1,4 @@
-{{/*
+{{- /*
 Purpose:
 Inserts a figure into a page. The user of this shortcode specifies the
 relative width of the figure in percentage, and an aspect ratio value in
@@ -9,7 +9,7 @@ loaded asynchronously.
 
 Usage:
 
-{[< image width="<NN>%" ratio="<NN>%"
+{{< image width="<NN>%" ratio="<NN>%"
     link="<path to image file>"
     alt="<text to display when the image is not available>"
     title="<text to display when hovering over the image>"
@@ -22,41 +22,41 @@ If you omit the title parameter, it will take on the value of the caption parame
 In other words, if all three strings are the same, you can just supply the caption
 parameter.
 
-*/}}
+*/ -}}
 
-{{ $width := .Get "width" }}
-{{ $ratio := .Get "ratio" }}
-{{ $link := .Get "link" }}
-{{ $caption := .Get "caption" }}
-{{ $title := or (.Get "title") (.Get "caption") }}
-{{ $alt := or (.Get "alt") (.Get "title") (.Get "caption") }}
+{{- $width := .Get "width" -}}
+{{- $ratio := .Get "ratio" -}}
+{{- $link := .Get "link" -}}
+{{- $caption := .Get "caption" -}}
+{{- $title := or (.Get "title") (.Get "caption") -}}
+{{- $alt := or (.Get "alt") (.Get "title") (.Get "caption") -}}
 
-{{ with $caption }}
-{{ if (strings.HasSuffix . ".") }}
+{{- with $caption -}}
+{{- if (strings.HasSuffix . ".") -}}
 MARKDOWN ERROR: image caption ends with a period.
-{{ end }}
-{{ end }}
+{{- end -}}
+{{- end -}}
 
-{{/* Turn relative values for $link into absolute URLs */}}
+{{- /* Turn relative values for $link into absolute URLs */ -}}
 
-{{ $prefix := slicestr $link 0 1 }}
-{{ if (ne $prefix "/") }}
-    {{ $prefix := slicestr $link 0 8 }}
-    {{ if (ne $prefix "https://") }}
-        {{ $prefix := slicestr $link 0 3 }}
-        {{ if (eq $prefix "../") }}
-            {{ $link = printf "/%s%s" .Page.Dir (slicestr $link 3) }}
-        {{ else }}
-            {{ $link = printf "/%s%s" .Page.Dir $link }}
-        {{ end }}
-    {{ end }}
-{{ end }}
+{{- $prefix := slicestr $link 0 1 -}}
+{{- if (ne $prefix "/") -}}
+    {{- $prefix := slicestr $link 0 8 -}}
+    {{- if (ne $prefix "https://") -}}
+        {{- $prefix := slicestr $link 0 3 -}}
+        {{- if (eq $prefix "../") -}}
+            {{- $link = printf "/%s%s" .Page.Dir (slicestr $link 3) -}}
+        {{- else -}}
+            {{- $link = printf "/%s%s" .Page.Dir $link -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
 
-<figure style="width: {{ $width }}">
-    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{ $ratio }}">
-        <a class="not-for-endnotes" href="{{ $link }}">
-            <img class="element-to-stretch" src="{{ $link }}" alt="{{ $alt }}" title="{{ $title }}" />
+<figure style="width: {{- $width -}}">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}">
+        <a class="not-for-endnotes" href="{{- $link -}}">
+            <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" title="{{- $title -}}" />
         </a>
     </div>
-    <figcaption>{{ $caption }}</figcaption>
+    <figcaption>{{- $caption -}}</figcaption>
 </figure>
