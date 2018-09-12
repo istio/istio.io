@@ -19,6 +19,6 @@ icon: /img/notes.svg
 
 - 改进了 Kubernetes 服务注册表队列性能。
 
-- 修复了 `istioctl proxy-status` 未显示修补程序版本的问题。
+- 修复了 `istioctl proxy-status` 未显示补丁版本的问题。
 
-- 添加虚拟服务 SNI 主机的验证。
+- 添加 `VirtualService` SNI 主机的验证。
