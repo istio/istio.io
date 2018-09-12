@@ -7,10 +7,10 @@ number_of_entries: 4
 
 Istio 证书颁发（CA）。
 
-```bash
-istio_ca [flags]
+{{< text bash >}}
+$ istio_ca [flags]
 
-```
+{{< /text >}}
 
 | 参数 | 描述 |
 | --- | --- |
@@ -55,14 +55,14 @@ istio_ca [flags]
 | `--workload-cert-min-grace-period <duration>` | 最小工作负载证书轮换宽限期。（ 默认 `10m0s`） |
 | `--workload-cert-ttl <duration>` | 已发布工作负载证书的 TTL（ 默认为 `2160h0m0s`） |
 
-## `istio_ca` probe
+## istio\_ca probe
 
 检查本地运行的服务器的活跃度或准备情况
 
-```bash
-istio_ca probe [flags]
+{{< text bash >}}
+$ istio_ca probe [flags]
 
-```
+{{< /text >}}
 
 | 参数 | 描述 |
 | --- | --- |
@@ -80,14 +80,14 @@ istio_ca probe [flags]
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--probe-path <string>` | 用于检查可用性的文件的路径。（ 默认 `''`） |
 
-## `istio_ca` version
+## istio\_ca version
 
 打印出版本信息
 
-```bash
-istio_ca version [flags]
+{{< text bash >}}
+$ istio_ca version [flags]
 
-```
+{{< /text >}}
 
 | 参数 | 缩写 | 描述 |
 | --- | --- | --- |
