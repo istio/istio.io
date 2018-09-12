@@ -27,17 +27,17 @@ $ istio_ca [flags]
 | `--identity-domain <string>` | 用于标识的域（`default: cluster.local`）（默认为 `cluster.local`） |
 | `--key-size <int>` | 生成私钥的大小（默认为 `2048`） |
 | `--kube-config <string>` | 指定 kubeconfig 文件的路径。必须在不在 Kubernetes pod 内运行时指定。（默认 `''`） |
-| `--listened-namespace <string>` | 选择要 监听的 CA 的命名空间。如果未指定，Citadel 会尝试使用 ${NAMESPACE} 环境变量。如果两者都未设置，Citadel 将 监听所有名称空间。（默认 `''`） |
+| `--listened-namespace <string>` | 选择要监听的 CA 的命名空间。如果未指定，Citadel 会尝试使用 ${NAMESPACE} 环境变量。如果两者都未设置，Citadel 将监听所有名称空间。（默认 `''`） |
 | `--liveness-probe-interval <duration>` | 更新存活探针文件的时间间隔。（默认为 `0s`） |
 | `--liveness-probe-path <string>` | 存活探针文件的路径。（默认 `''`） |
 | `--log_as_json` | 输出控制台友好的 JSON 格式 |
 | `--log_caller <string>` | 以逗号分隔的范围列表，其中包含调用者信息，范围可以是\[default，model\]中的任何一个（默认为 `''`） |
-| `--log_output_level <string>` | 以逗号分隔的最小每个范围日志记录级别的消息输出，格式为 `<scope>` :  `<level>` ， `<scope>` :  `<level>` ，...其中 scope 可以是\[default，model\]和 level 之一可以是\[debug，info，warn，error，none\]之一（ 默认为 `default: info`） |
+| `--log_output_level <string>` | 以逗号分隔的最小的每个范围日志记录级别的消息输出，格式为 `<scope>` :  `<level>` ， `<scope>` :  `<level>` ，...其中 scope 可以是\[default，model\]之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认为 `default: info`） |
 | `--log_rotate <string>` | 可选分割日志文件的路径（默认为 `''`） |
-| `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大年龄，将自动分割（以天为单位,0 表示无限制）（默认为 `30`） |
+| `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大寿命，将自动分割（以天为单位,0 表示无限制）（默认为 `30`） |
 | `--log_rotate_max_backups <int>` | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` | 日志文件的最大大小（以兆为单位），超过该值日志文件将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\]和 level 之一可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
+| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\]之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--max-workload-cert-ttl <duration>` | 已发布工作负载证书的最大 TTL（默认为 `2160h0m0s`） |
 | `--monitoring-port <int>` | 用于监控 Citadel 的端口号。如果未指定，Citadel 将禁用监控。（ 默认 `9093`） |
@@ -51,8 +51,8 @@ $ istio_ca [flags]
 | `--signing-cert <string>` | CA 签名证书文件的路径（默认为 `''`） |
 | `--signing-key <string>` | CA 签名密钥文件的路径（默认为 `''`） |
 | `--upstream-ca-address <string>` | 上游 CA 的 IP: 端口地址。设置后，CA 将依赖上游 Citadel 来配置自己的证书。（默认 `''`） |
-| `--workload-cert-grace-period-ratio <float32>` | 工作负载证书轮换宽限期，作为工作负载证书 TTL 的比例。（默认 `0.5`） |
-| `--workload-cert-min-grace-period <duration>` | 最小工作负载证书轮换宽限期。（ 默认 `10m0s`） |
+| `--workload-cert-grace-period-ratio <float32>` | 工作负载证书轮换宽期限或者周期，作为工作负载证书 TTL 的比例。（默认 `0.5`） |
+| `--workload-cert-min-grace-period <duration>` | 最小工作负载证书轮换宽期限或者周期。（ 默认 `10m0s`） |
 | `--workload-cert-ttl <duration>` | 已发布工作负载证书的 TTL（ 默认为 `2160h0m0s`） |
 
 ## istio\_ca probe
@@ -71,12 +71,12 @@ $ istio_ca probe [flags]
 | `--interval <duration>` | 用于检查目标文件上次修改时间的持续时间。（ 默认为 `0s`） |
 | `--log_as_json` | 输出控制台友好的 JSON 格式 |
 | `--log_caller <string>` | 以逗号分隔的范围列表，其中包含调用者信息，范围可以是\[default，model\]中的任何一个（ 默认为 `''`） |
-| `--log_output_level <string>` | 以逗号分隔的最小每个范围日志记录级别的消息输出，格式为 `<scope>` :  `<level>` ， `<scope>` :  `<level>` ，...其中 scope 可以是\[default，model\]和 level 之一可以是\[debug，info，warn，error，none\]之一（ 默认为 `default: info`） |
+| `--log_output_level <string>` | 以逗号分隔的最小的每个范围日志记录级别的消息输出，格式为 `<scope>` :  `<level>` ， `<scope>` :  `<level>` ，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认为 `default: info`） |
 | `--log_rotate <string>` | 可选分割日志文件的路径（ 默认为 `''`） |
-| `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大年龄（以天为单位，0表示无限制），将分割文件（默认为 `30`） |
+| `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大寿命（以天为单位，0表示无限制），将分割文件（默认为 `30`） |
 | `--log_rotate_max_backups <int>` | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` | 日志文件的最大大小（以兆为单位），超过该值日志文件将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\]和 level 之一可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
+| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--probe-path <string>` | 用于检查可用性的文件的路径。（ 默认 `''`） |
 
@@ -95,11 +95,11 @@ $ istio_ca version [flags]
 | `--ctrlz_port <uint16>` |  | 用于 ControlZ 内省工具的 IP 端口（ 默认为 `9876`） |
 | `--log_as_json` |  | 是输出控制台友好的 JSON 格式 |
 | `--log_caller <string>` |  | 以逗号分隔的范围列表，其中包含调用者信息，范围可以是\[default，model\]中的任何一个（ 默认为 `''`） |
-| `--log_output_level <string>` |  | 以逗号分隔的最小每范围日志记录级别的消息输出，格式为 `<scope>` :  `<level>` ， `<scope>` :  `<level>` ，...其中 scope 可以是\[default，model\]和 level 之一可以是\[debug，info，warn，error，none\]之一（ 默认为 `default: info`） |
+| `--log_output_level <string>` |  | 以逗号分隔的最小的每范围日志记录级别的消息输出，格式为 `<scope>` :  `<level>` ， `<scope>` :  `<level>` ，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认为 `default: info`） |
 | `--log_rotate <string>` |  | 可选分割日志文件的路径（ 默认为 `''`） |
-| `--log_rotate_max_age <int>` |  | 日志文件超过文件分割的最大年龄（以天为单位，0表示无限制），将分割日志文件（默认为 `30`） |
+| `--log_rotate_max_age <int>` |  | 日志文件超过文件分割的最大寿命（以天为单位，0表示无限制），将分割日志文件（默认为 `30`） |
 | `--log_rotate_max_backups <int>` |  | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` |  | 日志文件的最大大小（以兆为单位），超过该日志文件将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` |  | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\]和 level 之一可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
+| `--log_stacktrace_level <string>` |  | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
 | `--log_target <stringArray>` |  | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--short` | `-s` | 显示简短的版本信息 |
