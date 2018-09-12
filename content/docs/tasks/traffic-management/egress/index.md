@@ -18,8 +18,7 @@ or alternatively, to bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which you use as a test source for external calls.
@@ -38,13 +37,20 @@ or alternatively, to bypass the Istio proxy for a specific range of IPs.
 
     Note that any pod that you can `exec` and `curl` from will do for the procedures below.
 
+*   Set the `SOURCE_POD` environment variable to the deployed `sleep` pod:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
 ## Configuring Istio external services
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
-from within your Istio cluster. In this task you access
-[httpbin.org](http://httpbin.org) and [www.google.com](https://www.google.com) as examples.
+from within your Istio cluster. This task shows you how to access an external HTTP service,
+[httpbin.org](http://httpbin.org), as well as an external HTTPS service,
+[www.google.com](https://www.google.com).
 
-### Configuring the external services
+### Configuring an external HTTP service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
@@ -66,8 +72,23 @@ from within your Istio cluster. In this task you access
     EOF
     {{< /text >}}
 
+1.  Exec into the `sleep service` source pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    {{< /text >}}
+
+1.  Make a request to the external HTTP service:
+
+    {{< text bash >}}
+    $ curl http://httpbin.org/headers
+    {{< /text >}}
+
+### Configuring an external HTTPS service
+
 1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
-    protocols, including HTTPS, the TLS `VirtualService` is required in addition to the `ServiceEntry`.
+    protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
+    The `VirtualService` must include a `tls` rule with `sni_hosts` in the `match` clause to enable SNI routing.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -106,20 +127,10 @@ from within your Istio cluster. In this task you access
     EOF
     {{< /text >}}
 
-### Make requests to the external services
-
-1.  Exec into the pod being used as the test source. For example,
-    if you are using the `sleep` service, run the following commands:
+1.  Exec into the `sleep service` source pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SOURCE_POD -c sleep bash
-    {{< /text >}}
-
-1.  Make a request to the external HTTP service:
-
-    {{< text bash >}}
-    $ curl http://httpbin.org/headers
     {{< /text >}}
 
 1.  Make a request to the external HTTPS service:
@@ -133,8 +144,7 @@ from within your Istio cluster. In this task you access
 Similar to inter-cluster requests, Istio
 [routing rules](/docs/concepts/traffic-management/#rule-configuration)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
-In this example, you use [`istioctl`](/docs/reference/commands/istioctl/)
-to set a timeout rule on calls to the httpbin.org service.
+In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:
 
@@ -150,7 +160,7 @@ to set a timeout rule on calls to the httpbin.org service.
 
     The request should return 200 (OK) in approximately 5 seconds.
 
-1.  Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
+1.  Exit the source pod and use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
