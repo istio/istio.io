@@ -17,7 +17,7 @@ $ node_agent [flags]
 | `--ca-address <string>` | Istio CA 地址( 默认 `istio-citadel:8060`） |
 | `--cert-chain <string>` | 代理节点证书文件( 默认 `/etc/certs/cert-chain.pem`） |
 | `--env <string>` | 节点环境：`unspecified`| `onprem`| `gcp` | `aws`(默认为 `unspecified`） |
-| `--experimental-dual-use` | 启用两用模式。 使用与 `SAN` 相同的 `CommonName` 生成证书。 |
+| `--experimental-dual-use` | 启用两用模式。使用与 `SAN` 相同的 `CommonName` 生成证书。 |
 | `--key <string>` | 代理节点私钥文件( 默认 `/etc/certs/key.pem`） |
 | `--key-size <int>` | 生成私钥的大小(默认为 `2048`） |
 | `--log_as_json` | 输出控制台友好的 JSON 格式 |
@@ -29,7 +29,7 @@ $ node_agent [flags]
 | `--log_rotate_max_size <int>` | 日志文件的最大大小(以兆字节为单位），超过该值将分割文件(默认为 `104857600`） |
 | `--log_stacktrace_level <string>` | 捕获堆栈跟踪的最小日志记录级别可以是\[debug、info、warn、error、none\]之一(默认为“default:none”） |
 | `--log_target <stringArray>` | 输出日志的路径集。 这可以是任何路径以及特殊值 `stdout` 和 `stderr`( 默认 `[stdout]`） |
-| `--org <string>` | 证书组织( 默认 `''`） |
+| `--org <string>` | 证书组织(默认 `''`） |
 | `--platform <string>` | 平台 `istio` 运行于：`vm` | `k8s`( 默认 `vm`） |
 | `--root-cert <string>` | 根证书文件( 默认 `/etc/certs/root-cert.pem`） |
 | `--workload-cert-ttl <duration>` | 请求的工作负载 `TTL`( 默认为 `2160h0m0s`） |
