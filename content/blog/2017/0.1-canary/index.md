@@ -230,7 +230,7 @@ As before, the autoscalers bound to the 2 version Deployments will automatically
 
 ## Summary
 
-In this article we’ve shown how Istio supports general scalable canary deployments, and how this differs from the basic deployment support in Kubernetes. Istio’s service mesh provides the control necessary to manage traffic distribution with complete independence from deployment scaling. This allows for a simpler, yet significantly more functional, way to do canary test and rollout.
+In this article we’ve seen how Istio supports general scalable canary deployments, and how this differs from the basic deployment support in Kubernetes. Istio’s service mesh provides the control necessary to manage traffic distribution with complete independence from deployment scaling. This allows for a simpler, yet significantly more functional, way to do canary test and rollout.
 
-Intelligent routing in support of canary deployment is just one of the many features of Istio that will make the production deployment of large-scale microservices-based applications much simpler. Check out [istio.io]() for more information and to try it out.
+Intelligent routing in support of canary deployment is just one of the many features of Istio that will make the production deployment of large-scale microservices-based applications much simpler. Check out [istio.io](/) for more information and to try it out.
 The sample code used in this article can be found [here]({{< github_tree >}}/samples/helloworld).

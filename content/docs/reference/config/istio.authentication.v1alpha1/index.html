@@ -418,6 +418,18 @@ Leave the list empty if peer authentication is not required</p>
 
 </td>
 </tr>
+<tr id="Policy-peer_is_optional">
+<td><code>peerIsOptional</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Set this flag to true to accept request (for peer authentication perspective),
+even when none of the peer authentication methods defined above satisfied.
+Typically, this is used to delay the rejection decision to next layer (e.g
+authorization).
+This flag is ignored if no authentication defined for peer (peers field is empty).</p>
+
+</td>
+</tr>
 <tr id="Policy-origins">
 <td><code>origins</code></td>
 <td><code><a href="#OriginAuthenticationMethod">OriginAuthenticationMethod[]</a></code></td>
@@ -430,6 +442,18 @@ rejected with authentication failed error (401).
 A method may be skipped, depends on its trigger rule. If all of these methods
 are skipped, origin authentication will be ignored, as if it is not defined.
 Leave the list empty if origin authentication is not required.</p>
+
+</td>
+</tr>
+<tr id="Policy-origin_is_optional">
+<td><code>originIsOptional</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Set this flag to true to accept request (for origin authentication perspective),
+even when none of the origin authentication methods defined above satisfied.
+Typically, this is used to delay the rejection decision to next layer (e.g
+authorization).
+This flag is ignored if no authentication defined for origin (origins field is empty).</p>
 
 </td>
 </tr>
