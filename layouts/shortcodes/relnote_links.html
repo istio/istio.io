@@ -3,11 +3,13 @@
 
 {{ $short_version := $dir_name }}
 {{ $full_version := printf "%s.0" $dir_name }}
+{{ $old_full_version := $full_version }}
 {{ $patch := false }}
 
 {{ if ne (len $parts) 2 }}
     {{ $short_version = printf "%s.%s" (index $parts 0) (index $parts 1) }}
-    {{ $full_version = $dir_name }}
+    {{ $full_version = printf "%s.%s.%s" (index $parts 0) (index $parts 1) (index $parts 2) }}
+    {{ $old_full_version = printf "%s.%s.%d" (index $parts 0) (index $parts 1) (sub (int (index $parts 2)) 1) }}
     {{ $patch = true }}
 {{ end }}
 
@@ -36,27 +38,27 @@
         <div class="row justify-content-center">
             {{ if .Site.Data.args.preliminary }}
                 {{ if ne $type_of_note "prelim" }}
-                    <a class="btn btn-istio" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">DOWNLOAD {{ $dir_name }}</a>
+                    <a class="btn btn-istio" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $dir_name }}</a>
 
                     {{ if eq $type_of_note "archive" }}
-                        <a class="btn btn-istio" href="https://archive.istio.io/v{{ $short_version }}">{{ $dir_name }} DOCS</a>
+                        <a class="btn btn-istio" href="https://archive.istio.io/v{{ $short_version }}">{{ printf (i18n "relnote_docs") $dir_name }}</a>
                     {{ else }}
-                        <a class="btn btn-istio" href="https://istio.io">{{ $dir_name }} DOCS</a>
+                        <a class="btn btn-istio" href="https://istio.io">{{ printf (i18n "relnote_docs") $dir_name }}</a>
                     {{ end }}
 
                     {{ if $patch }}
-                        <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $short_version }}.0...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
+                        <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $dir_name }}</a>
                     {{ end }}
                 {{ end }}
             {{ else }}
-                <a class="btn btn-istio" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">DOWNLOAD {{ $dir_name }}</a>
+                <a class="btn btn-istio" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $dir_name }}</a>
 
                 {{ if (ne .Site.Data.args.version $short_version) }}
-                    <a class="btn btn-istio" href="https://archive.istio.io/v{{ $short_version }}">{{ $dir_name }} DOCS</a>
+                    <a class="btn btn-istio" href="https://archive.istio.io/v{{ $short_version }}">{{ printf (i18n "relnote_docs") $dir_name }}</a>
                 {{ end }}
 
                 {{ if $patch }}
-                    <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $short_version }}.0...{{ $full_version }}">{{ $dir_name }} CHANGES</a>
+                    <a class="btn btn-istio" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $dir_name }}</a>
                 {{ end }}
             {{ end }}
         </div>
