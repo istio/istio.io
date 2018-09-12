@@ -22,6 +22,9 @@ Additionally, you can use following commands to know more about the state of the
     # Retrieve information about route configuration for the Envoy instance in the specified pod.
     $ istioctl proxy-config route productpage-v1-bb8d5cbc7-k7qbm
 
+    # Retrieve information about endpoint configuration for the Envoy instance in the specified pod.
+    $ istioctl proxy-config endpoints productpage-v1-bb8d5cbc7-k7qbm
+
     # Try the following to know more proxy-config command:
     $ istioctl proxy-config --help
     {{< /text >}}
