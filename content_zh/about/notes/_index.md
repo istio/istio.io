@@ -5,6 +5,7 @@ weight: 5
 icon: /img/notes.svg
 ---
 
+- [Istio 1.0.2](./1.0.2)
 - [Istio 1.0.1](./1.0.1)
 - [Istio 1.0](./1.0)
 - [Istio 0.8](./0.8)
