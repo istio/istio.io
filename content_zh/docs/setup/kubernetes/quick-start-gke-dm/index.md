@@ -127,7 +127,7 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
 
 你也可以在 [Cloud Console](https://console.cloud.google.com/kubernetes/workload) 中的 **Kubernetes Engine -> Workloads** 章节找到这些：
 
-{{< image width="70%" ratio="80.37%"
+{{< image width="70%" ratio="143.91%"
     link="/docs/setup/kubernetes/quick-start-gke-dm/dm_kubernetes_workloads.png"
     caption="GKE-Workloads"
     >}}
