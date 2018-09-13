@@ -6,9 +6,11 @@ keywords: [流量管理,ingress, https]
 ---
 
 [使用 HTTPS 保护网关](/zh/docs/tasks/traffic-management/secure-ingress/)任务描述了如何配置 HTTPS
-入口访问 HTTP 服务。此示例介绍如何配置对 HTTPS 服务的入口访问。
-您将 [NGINX](https://www.nginx.com) 服务器部署到 Kubernetes 集群以提供 HTTPS 的 Kubernetes
-服务。然后配置网关以通过 `nginx.example.com` 主机提供对此服务的入口访问。
+入口访问 HTTP 服务。此示例介绍如何配置对 HTTPS 服务的入口访问，即配置 Ingress Gateway 以执行 SNI 直通，而不是终止 TLS 请求的传入。
+
+用于此任务的示例 HTTPS 服务是一个简单的 [NGINX](https://www.nginx.com) 服务器。
+在以下步骤中，首先在 Kubernetes 集群中部署 NGINX 服务。
+然后配置网关以通过主机 `nginx.example.com` 提供对此服务的入口访问。
 
 ## 生成客户端和服务器证书和密钥
 
@@ -54,7 +56,7 @@ keywords: [流量管理,ingress, https]
     $ kubectl create secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
     {{< /text >}}
 
-1.  为NGINX服务器创建配置文件：
+1.  为 NGINX 服务器创建配置文件：
 
     {{< text bash >}}
     $ cat <<EOF > ./nginx.conf
