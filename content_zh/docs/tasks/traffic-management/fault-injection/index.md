@@ -166,7 +166,7 @@ keywords: [流量管理,故障注入]
 
     如果规则成功传播到所有的 pod，您应该能立即看到页面加载并看到 `Ratings service is currently unavailable` 消息。
 
-1. 如果您注销用户 `jason` 或在匿名窗口（或其他浏览器）中打开 Bookinfo 应用程序，您应该会在 `/productpage` 仍然调用 `reviews:v1`(没有调用  `ratings` )
+1. 如果您注销用户 `jason` 或在匿名窗口（或其他浏览器）中打开 Bookinfo 应用程序，您应该会在 `/productpage` 仍然调用 `reviews:v1`（没有调用  `ratings`）
  除了 `jason` 外的用户都会看到网页上看到评级星标的评论成功显示。
 
 ## 清理
