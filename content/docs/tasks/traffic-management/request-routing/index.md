@@ -46,7 +46,7 @@ In this case, the virtual services will route all traffic to `v1` of each micros
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >
+    {{< /text >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
