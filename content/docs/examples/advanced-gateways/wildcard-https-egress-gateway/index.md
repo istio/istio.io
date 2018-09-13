@@ -986,6 +986,7 @@ $ kubectl delete listchecker us-wikipedia-checker -n istio-system
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-wikipedia
+    $ kubectl delete envoyfilter network-level-sni-reader
     {{< /text >}}
 
 1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
