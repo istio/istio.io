@@ -18,43 +18,45 @@ You can get an overview of your mesh using the `proxy-status` command:
 $ istioctl proxy-status
 {{< /text >}}
 
-If a proxy is missing from the output list it means that it is not currently connected to a Pilot instance so it will not be receiving any configuration, also if it is stale that likely means there are networking issues or Pilot needs to be scaled.
+If a proxy is missing from the output list it means that it is not currently connected to a Pilot instance and so it
+will not receive any configuration. Additionally, if it is marked stale, it likely means there are networking issues or
+Pilot needs to be scaled.
 
 ### Get proxy configuration  
 
-`istioctl` allows you to retrieve information about proxy configuration from the Envoy config dump using the `proxy-config` or `pc` command.
+`istioctl` allows you to retrieve information about proxy configuration using the `proxy-config` or `pc` command.
 
-For example, to retrieve information about cluster configuration for the Envoy instance in a specified pod, run the following command:
+For example, to retrieve information about cluster configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config cluster <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about bootstrap configuration for the Envoy instance in a specified pod, run the following command:
+To retrieve information about bootstrap configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config bootstrap <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about listener configuration for the Envoy instance in a specified pod, run the following command:
+To retrieve information about listener configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config listener <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about route configuration for the Envoy instance in a specified pod, run the following command:
+To retrieve information about route configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config route <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about endpoint configuration for the Envoy instance in a specified pod, run the following command:
+To retrieve information about endpoint configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-More information about how to interpret this information can be found [Debugging Envoy and Pilot](/help/ops/traffic-management/proxy-cmd/).
+See [Debugging Envoy and Pilot](/help/ops/traffic-management/proxy-cmd/) for more advice on interpreting this information.
 
 ## With GDB
 
