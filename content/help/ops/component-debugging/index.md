@@ -10,25 +10,53 @@ how to get under the hood.
 
 ## With `istioctl`
 
-`istioctl` allows you to inspect the current xDS of a given Envoy from its admin interface (locally) or from Pilot using the `proxy-config` or `pc` command.
+### Get an overview of your mesh
 
-For example, to retrieve the configured clusters in an Envoy via the admin interface run the following command:
-
-{{< text bash >}}
-$ istioctl proxy-config endpoint <pod-name> clusters
-{{< /text >}}
-
-To retrieve endpoints for a given pod in the application namespace from Pilot, run the following command:
+You can get an overview of your mesh using the `proxy-status` command:
 
 {{< text bash >}}
-$ istioctl proxy-config pilot -n application <pod-name> eds
+$ istioctl proxy-status
 {{< /text >}}
 
-The `proxy-config` command also allows you to retrieve the state of the entire mesh from Pilot using the following command:
+If a proxy is missing from the output list it means that it is not currently connected to a Pilot instance and so it
+will not receive any configuration. Additionally, if it is marked stale, it likely means there are networking issues or
+Pilot needs to be scaled.
+
+### Get proxy configuration
+
+`istioctl` allows you to retrieve information about proxy configuration using the `proxy-config` or `pc` command.
+
+For example, to retrieve information about cluster configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
-$ istioctl proxy-config pilot mesh ads
+$ istioctl proxy-config cluster <pod-name> [flags]
 {{< /text >}}
+
+To retrieve information about bootstrap configuration for the Envoy instance in a specific pod:
+
+{{< text bash >}}
+$ istioctl proxy-config bootstrap <pod-name> [flags]
+{{< /text >}}
+
+To retrieve information about listener configuration for the Envoy instance in a specific pod:
+
+{{< text bash >}}
+$ istioctl proxy-config listener <pod-name> [flags]
+{{< /text >}}
+
+To retrieve information about route configuration for the Envoy instance in a specific pod:
+
+{{< text bash >}}
+$ istioctl proxy-config route <pod-name> [flags]
+{{< /text >}}
+
+To retrieve information about endpoint configuration for the Envoy instance in a specific pod:
+
+{{< text bash >}}
+$ istioctl proxy-config endpoints <pod-name> [flags]
+{{< /text >}}
+
+See [Debugging Envoy and Pilot](/help/ops/traffic-management/proxy-cmd/) for more advice on interpreting this information.
 
 ## With GDB
 
