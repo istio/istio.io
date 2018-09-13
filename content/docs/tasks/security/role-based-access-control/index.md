@@ -80,8 +80,7 @@ turn on authorization globally.
 
 Before you start, please make sure that you have finished [preparation task](#before-you-begin).
 
-1.  Before enabling authorization in production, apply the global authorization configuration in
-    permissive mode.
+1.  Set the global authorization configuration to permissive mode.
 
     Run the following command:
 
@@ -125,7 +124,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
     see everything works fine.
 
-1.  Verify that the logs stream has been created and check `permissiveResponseCode`.
+1.  Verify the logs stream has been created and check `permissiveResponseCode`.
 
     In a Kubernetes environment, search through the logs for the istio-telemetry
     pod as follows:
@@ -165,7 +164,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
     see everything works fine.
 
-1.  Verify that the logs and check `permissiveResponseCode` again.
+1.  Verify the logs and check `permissiveResponseCode` again.
 
     In a Kubernetes environment, search through the logs for the istio-telemetry
     pod as follows:
@@ -181,8 +180,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     The `permissiveResponseCode` is 200 for productpage service, 403 for ratings
     and reviews services, which are what user will see after switching
     policy mode from `PERMISSIVE` mode to `ENFORCED` mode; the result aligns with
-    [step 1](#step-1-allowing-access-to-the-productpage-service), so it indicates
-    the authorization policy will work as expected after rolling to production.
+    [step 1](#step-1-allowing-access-to-the-productpage-service).
 
 1.  Remove permissive mode related yaml files:
 
@@ -250,7 +248,7 @@ Before you start, please make sure that you have finished [step 1](#step-1-allow
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Verify that the logs and check `permissiveResponseCode` again.
+1.  Verify the logs and check `permissiveResponseCode` again.
 
     In a Kubernetes environment, search through the logs for the istio-telemetry
     pod as follows:
