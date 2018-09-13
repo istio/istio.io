@@ -969,7 +969,7 @@ English and the French versions.
 {{< text bash >}}
 $ kubectl delete serviceaccount us canada
 $ kubectl delete service sleep-us sleep-canada
-$ kubectl delete deployement sleep-us sleep-canada
+$ kubectl delete deployment sleep-us sleep-canada
 $ kubectl delete rule handle-wikipedia-access check-us-wikipedia-access -n istio-system
 $ kubectl delete logentry egress-access -n istio-system
 $ kubectl delete stdio egress-access-logger -n istio-system
