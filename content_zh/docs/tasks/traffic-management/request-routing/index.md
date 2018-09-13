@@ -130,6 +130,7 @@ Istio [Bookinfo](/docs/examples/bookinfo/) 示例包含四个独立的微服务�
 请记住，`reviews:v2` 是包含星级评分功能的版本。
 
 1. 运行以下命令以启用基于用户的路由：
+
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
@@ -173,7 +174,7 @@ Istio [Bookinfo](/docs/examples/bookinfo/) 示例包含四个独立的微服务�
 
 ## 理解原理
 
-在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。 
+在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。
 然后再设置了一条路由规则，该路由规则在 `productpage` 服务中添加基于请求的 `end-user` 自定义 header 选择性地将特定的流量路由到了 `reviews` 服务的 `v2` 版本。
 
 请注意，为了利用 Istio 的 L7 路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
