@@ -39,6 +39,16 @@ In this case, the virtual services will route all traffic to `v1` of each micros
 1.  Run the following command to apply the virtual services:
 
     {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+    If you have enabled 'mTLS', please run below command instead:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >
+
+    {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
