@@ -5,4 +5,4 @@ weight: 50
 type: section-index
 ---
 
-了解[哪些适配器](/docs/reference/config/policy-and-telemetry/adapters/#the-relationship-between-adapters-and-templates)实现了这些模板。
+了解[哪些适配器](/zh/docs/reference/config/policy-and-telemetry/adapters/#适配器和模板之间的关系)实现了这些模板。
