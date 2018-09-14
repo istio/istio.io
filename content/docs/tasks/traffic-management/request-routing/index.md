@@ -45,7 +45,7 @@ In this case, the virtual services will route all traffic to `v1` of each micros
     Because configuration propagation is eventually consistent, wait a few seconds
     for the virtual services to take effect.
 
-    __NOTE__: If you haven't already applied destination rules, follow the [apply the default destination rules instructions](/docs/examples/bookinfo/#apply-default-destination-rules/).
+    __NOTE__: If you haven't already applied destination rules, follow the [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 1. Display the defined routes with the following command:
 
