@@ -543,8 +543,10 @@ before applying them in production environment.
 Authorization permissive mode could be set on both global authorization
 configuration and individual policies. When setting permissive mode on global
 authorization configuration, all policies will be in permissive mode regardless
-its own mode; otherwise If the global authorization configuration is set to
+its own mode. Otherwise If the global authorization configuration is set to
 `ENFORCED`, the enforcement mode set on individual policy takes effect.
+If not specified, both global authorization configuration and individual
+policies are in `ENFORCED` mode by default.
 
 In the following example, Istio authorization permissive mode is set on global configuration level.
 
