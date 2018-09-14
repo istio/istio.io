@@ -19,7 +19,7 @@ Istio 受益强大的合作伙伴生态。了解下他们是如何使 Istio 变�
     {{< company_logo link="https://www.datadoghq.com" logo="/about/community/partners/datadog.png" alt="Datadog" tagline="Modern monitoring & analytics" >}}
     {{< company_logo link="https://www.envoyproxy.io" logo="/about/community/partners/envoy.svg" alt="Envoy" tagline="An open source edge and service proxy, designed for cloud-native applications" >}}
     {{< company_logo link="https://cloud.google.com" logo="/about/community/partners/gcp.svg" alt="Google Cloud Platform" tagline="Make your next move here" >}}
-    {{< company_logo link="https://www.ibm.com" logo="/about/community/partners/ibm.svg" alt="IBM" >}}
+    {{< company_logo link="https://www.ibm.com/cloud/" logo="/about/community/partners/ibm-cloud.svg" alt="IBM Cloud" tagline="Built for all your applications. AI ready. Secure to the core." >}}
     {{< company_logo link="https://github.com/knative/docs" logo="/about/community/partners/knative.png" alt="Knative" >}}
     {{< company_logo link="https://pivotal.io" logo="/about/community/partners/pivotal.svg" alt="Pivotal" tagline="The way the future gets built" >}}
     {{< company_logo link="https://www.redhat.com" logo="/about/community/partners/redhat.svg" alt="Red Hat" tagline="We make open source technologies for the enterprise" >}}
