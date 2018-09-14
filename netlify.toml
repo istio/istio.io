@@ -4,3 +4,4 @@
 
 [build.environment]
     HUGO_VERSION = "0.48"
+    HELM_VERSION = "2.10.0"
