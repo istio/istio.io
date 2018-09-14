@@ -43,7 +43,7 @@ service which talks to a MongoDB backend.
     In this task, we will enable access control based on Service Accounts, which are cryptographically
     authenticated in the mesh. In order to give different microservices different access privileges,
     we will create the `v2` of the `ratings` with service account `bookinfo-ratings-v2`. Other services
-    will have a default service account "default".
+    will have a default service account `default`.
 
     If you are using a cluster with automatic sidecar injection enabled,
     simply deploy the service using `kubectl`:
@@ -188,7 +188,7 @@ to access the mongoDB service.
 
 1. To confirm the mongoDB service can only be accessed by service account `bookinfo-ratings-v2`
 
-    Run the following command to re-deploy the `v2` of `ratings` with service account "default":
+    Run the following command to re-deploy the `v2` of `ratings` with service account `default`:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@ && \

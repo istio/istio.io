@@ -2,7 +2,7 @@
 title: Authorization for HTTP services
 description: Shows how to set up role-based access control for HTTP services in the mesh.
 weight: 40
-keywords: [security,access-control,rbac,http,authorization]
+keywords: [security,access-control,rbac,authorization]
 aliases:
     - /docs/tasks/security/role-based-access-control.html
 ---
