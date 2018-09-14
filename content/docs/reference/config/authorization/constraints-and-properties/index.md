@@ -40,7 +40,7 @@ The following table lists the currently supported keys in Properties.
 | Name | Description | Supported for TCP services | Key Example | Value Example |
 |------|-------------|----------------------------|-------------|---------------|
 | `source.ip`  | Source workload instance IP address, supports single IP or CIDR | YES | `source.ip` | `"10.1.2.3"` |
-| `source.namespace`  | Source workload instance namespace | NO | `source.namespace` | `"default"` |
+| `source.namespace`  | Source workload instance namespace | YES | `source.namespace` | `"default"` |
 | `source.principal` | The identity of the source workload | YES | `source.principal` | `"cluster.local/ns/default/sa/productpage"` |
 | `request.headers` | HTTP request headers. The actual header name is surrounded by brackets | NO | `request.headers[User-Agent]` | `"Mozilla/*"` |
 | `request.auth.principal` | The authenticated principal of the request. | NO | `request.auth.principal` | `"accounts.my-svc.com/104958560606"` |
