@@ -35,12 +35,7 @@ RUN gem install \
     mdl \
     html-proofer
 
-ENV HELM_VERSION=2.10.0
-ADD https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz /tmp
-RUN tar -xf /tmp/helm-v${HELM_VERSION}-linux-amd64.tar.gz -C /tmp \
-    && mkdir -p /usr/local/sbin \
-    && mv /tmp/linux-amd64/helm /usr/local/sbin/helm \
-    && rm -rf /tmp/linux-amd64
+ENV PATH /usr/bin:$PATH
 
 # TODO: replace with your ENTRYPOINT or CMD.
 CMD [ "/usr/bin/ruby", "-v"]
