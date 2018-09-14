@@ -31,8 +31,7 @@ do
 done
 popd
 
-# delete all the existing generated files so that any stale files are removed
-rm -fr $CHART_OUTPUT_DIR
+# Ensure target directory exists
 mkdir -p $CHART_OUTPUT_DIR
 
 helm init --client-only
