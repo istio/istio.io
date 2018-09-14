@@ -14,11 +14,5 @@ jobs:
           command: scripts/gen_site.sh "" -no_minify
 
       - run:
-          name: Generating Helm repository
-          command: |
-            ./scripts/gen_helm_repo.sh
-            cp -r ./charts ./public/charts
-
-      - run:
           name: Running Linters
           command: scripts/lint_site.sh

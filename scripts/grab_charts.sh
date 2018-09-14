@@ -5,7 +5,7 @@
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
 export GOPATH=$(mktemp -d)
 WORK_DIR=${GOPATH}/src/istio.io
-CHART_OUTPUT_DIR=$ISTIO_BASE/charts
+CHART_OUTPUT_DIR=$ISTIO_BASE/static/charts
 echo "WORK_DIR =" $WORK_DIR
 
 # The repos to mine for charts, just add new entries here to pull in more repos.
@@ -32,7 +32,8 @@ done
 popd
 
 # delete all the existing generated files so that any stale files are removed
-rm -fr $CHART_OUTPUT_DIR/{*.yaml,*.tgz}
+rm -fr $CHART_OUTPUT_DIR
+mkdir -p $CHART_OUTPUT_DIR
 
 helm init --client-only
 
