@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script generate and copies helm charts within the helm tree of this repo.
+# This script generates and copies helm charts within the helm tree of this repo.
 
 ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
 export GOPATH=$(mktemp -d)
