@@ -115,5 +115,5 @@ to manage the lifecycle of Istio.
 * If desired, delete the CRDs:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
