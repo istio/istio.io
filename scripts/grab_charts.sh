@@ -2,25 +2,36 @@
 
 # This script generates and copies helm charts within the helm tree of this repo.
 
-ISTIO_BASE=$(cd "$(dirname "$0")" ; pwd -P)/..
-export GOPATH=$(mktemp -d)
-WORK_DIR=${GOPATH}/src/istio.io
-CHART_OUTPUT_DIR=$ISTIO_BASE/static/charts
-echo "WORK_DIR =" $WORK_DIR
+# Initial setup
+ISTIO_BASE=$(cd "$(dirname "$0")/.." ; pwd -P)
+CHARTS_TARGET_DIR=${ISTIO_BASE}/static/charts
+WORK_DIR=$(mktemp -d)
+HELM_DIR=$(mktemp -d)
+
+echo WORK_DIR = $WORK_DIR
+echo HELM_DIR = $HELM_DIR
+echo CHARTS_TARGET_DIR = $CHARTS_TARGET_DIR
+
+# Helm setup
+HELM_BUILD_DIR=${HELM_DIR}/istio-repository
+HELM_IMAGE=linkyard/docker-helm:2.10.0
+HELM="docker run -t -i --user $UID --rm -v ${HELM_DIR}:${HELM_DIR} -v ${WORK_DIR}:${WORK_DIR} -w $WORK_DIR $HELM_IMAGE --home $HELM_DIR"
+# If you don't have or can't run docker, uncomment the following line
+#HELM="helm --home $HELM_DIR"
 
 # The repos to mine for charts, just add new entries here to pull in more repos.
 REPOS=(
     https://github.com/istio/istio.git@master
 )
 
-# The charts to extracts from repos.
+# Charts to extract from repos
 CHARTS=(
   ${WORK_DIR}/istio/install/kubernetes/helm/istio
   ${WORK_DIR}/istio/install/kubernetes/helm/istio-remote
 )
 
-# Prepare the work directory by cloning all the repos into it
-mkdir -p ${WORK_DIR}
+# Prepare the work directory by cloning all the repos into it.
+mkdir -vp $WORK_DIR
 pushd $WORK_DIR
 for repo in "${REPOS[@]}"
 do
@@ -31,18 +42,22 @@ do
 done
 popd
 
-# Ensure target directory exists
-mkdir -p $CHART_OUTPUT_DIR
+# Prepare helm setup
+mkdir -vp $HELM_DIR
+$HELM init --client-only
 
-helm init --client-only
-
+# Create a package for each charts and build the repo index.
+mkdir -vp $HELM_BUILD_DIR
 for CHART_PATH in "${CHARTS[@]}"
 do
-    helm package $CHART_PATH -d $CHART_OUTPUT_DIR
+    $HELM package $CHART_PATH -d $HELM_BUILD_DIR
 done
+$HELM repo index $HELM_BUILD_DIR
 
-pushd $CHART_OUTPUT_DIR
-helm repo index .
-popd
+# Copy the new built helm repo to the target dir.
+mkdir -vp $CHARTS_TARGET_DIR
+cp -vr ${HELM_BUILD_DIR}/* $CHARTS_TARGET_DIR
 
-rm -fr ${GOPATH}
+# Do the cleanup.
+rm -fr ${HELM_DIR}
+rm -fr ${WORK_DIR}
