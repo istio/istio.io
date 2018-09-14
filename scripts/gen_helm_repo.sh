@@ -15,8 +15,8 @@ REPOS=(
 
 # The charts to extracts from repos.
 CHARTS=(
-  ${WORK_DIR}/istio/install/kubernetes/helm/istio:istio
-  ${WORK_DIR}/istio/install/kubernetes/helm/istio-remote:istio-remote
+  ${WORK_DIR}/istio/install/kubernetes/helm/istio
+  ${WORK_DIR}/istio/install/kubernetes/helm/istio-remote
 )
 
 # Prepare the work directory by cloning all the repos into it
@@ -32,15 +32,12 @@ done
 popd
 
 # delete all the existing generated files so that any stale files are removed
-rm -fr $CHART_OUTPUT_DIR/{*,.*}
+rm -fr $CHART_OUTPUT_DIR/{*.yaml,*.tgz}
 
 helm init --client-only
 
-for chart in "${CHARTS[@]}"
+for CHART_PATH in "${CHARTS[@]}"
 do
-    CHART_PATH=$(echo $chart | cut -d : -f 1)
-    CHART_NAME=$(echo $chart | cut -d : -f 2)
-
     helm package $CHART_PATH -d $CHART_OUTPUT_DIR
 done
 
