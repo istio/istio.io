@@ -19,6 +19,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.datadoghq.com" logo="./datadog.png" alt="Datadog" tagline="Modern monitoring & analytics" >}}
     {{< company_logo link="https://www.envoyproxy.io" logo="./envoy.svg" alt="Envoy" tagline="An open source edge and service proxy, designed for cloud-native applications" >}}
     {{< company_logo link="https://cloud.google.com" logo="./gcp.svg" alt="Google Cloud Platform" tagline="Make your next move here" >}}
+    {{< company_logo link="https://www.huaweicloud.com" logo="./huawei.png" alt="Huawei Cloud" >}}
     {{< company_logo link="https://www.ibm.com" logo="./ibm.svg" alt="IBM" >}}
     {{< company_logo link="https://github.com/knative/docs" logo="./knative.png" alt="Knative" >}}
     {{< company_logo link="https://pivotal.io" logo="./pivotal.svg" alt="Pivotal" tagline="The way the future gets built" >}}
