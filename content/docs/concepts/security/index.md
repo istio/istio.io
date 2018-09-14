@@ -656,7 +656,7 @@ Each rule has the following standard fields:
 
 A `ServiceRole` specification only applies to the namespace specified in the
 `metadata` section. Only the `services` field is required in a rule, other fields are optional.
-If a field is not specified or if it is set to `*`, it applies to any instances. 
+If a field is not specified or if it is set to `*`, it applies to any instance.
 
 The example below shows a simple role: `service-admin`, which has full access
 to all services in the `default` namespace.
@@ -825,16 +825,15 @@ The above examples showed a typical way to use Istio authorization on services u
 In that case, all fields in a `ServiceRole` and `ServiceRoleBinding` are supported.
 
 Istio authorization also supports services using plain TCP protocol, like mongodb. In this case, you
-specify the `ServiceRole` and `ServiceRoleBinding` the same way as for a HTTP service, but note it's
-not allowed to use any HTTP only fields (e.g. `path`, `method`, `group` and etc.) in the `ServiceRole`
-and `ServiceRoleBinding` as they are not available for the plain TCP protocol.
-
-If any HTTP only fields are used for a TCP service, the whole `ServiceRole` or `ServiceRoleBinding`
-will be ignored completely as if there is no such policy, the final effect is that any access to the
-target service will be rejected as Istio authorization is deny by default.
+specify the `ServiceRole` and `ServiceRoleBinding` the same way as for a HTTP service, except that
+you cannot use the fields that are only applicable to HTTP services, which includes `paths` and `methods`
+in `ServiceRole`, and `group` in `ServiceRoleBinding`.
 
 For the supported constraints and properties that could be used for TCP service, please refer to
 [constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
+
+If any HTTP only fields are used for a TCP service, the whole `ServiceRole` or `ServiceRoleBinding`
+will be ignored completely as if there is no such policy.
 
 The following example shows how to allow `bookinfo-ratings-v2` to access the mongodb service at
 port 27017:

@@ -13,6 +13,9 @@ matching requests should flow through. If all requests continue to be denied, yo
 
 1. Make sure that your `ServiceRoleBinding` and referred `ServiceRole` objects are in the same namespace (by checking "metadata"/”namespace” line).
 
+1. Make sure that your `ServiceRole` and `ServiceRoleBinding` doesn't use any HTTP only fields for a TCP service,
+otherwise the policy will be ignored as if there is no such policy.
+
 1. In Kubernetes environment, make sure all services in a `ServiceRole` object are in the same namespace as the
 `ServiceRole` itself. For example, if a service in a `ServiceRole` object is `a.default.svc.cluster.local`, the `ServiceRole` must be in the
 `default` namespace (`metadata/namespace` line should be `default`). For non-Kubernetes environments, all `ServiceRoles` and `ServiceRoleBindings`
