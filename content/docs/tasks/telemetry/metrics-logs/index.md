@@ -166,11 +166,11 @@ as the example application throughout this task.
 1.  Verify that the logs stream has been created and is being populated for
     requests.
 
-    In a Kubernetes environment, search through the logs for the istio-telemetry pod as
+    In a Kubernetes environment, search through the logs for the istio-telemetry pods as
     follows:
 
     {{< text bash json >}}
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"
+    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD -c mixer; done | grep \"instance\":\"newlog.logentry.istio-system\"
     {"level":"warn","time":"2018-07-11T00:09:55.530274Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"27.769937ms","responseCode":200,"responseSize":4415,"source":"istio-ingressgateway","user":"unknown"}
     {"level":"warn","time":"2018-07-11T00:09:56.450852Z","instance":"newlog.logentry.istio-system","destination":"policy","latency":"566.375µs","responseCode":200,"responseSize":82,"source":"istio-ingressgateway","user":"unknown"}
     {"level":"warn","time":"2018-07-11T00:09:56.458926Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"4.940979ms","responseCode":200,"responseSize":295,"source":"productpage","user":"unknown"}
