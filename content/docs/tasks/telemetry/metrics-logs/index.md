@@ -170,11 +170,10 @@ as the example application throughout this task.
     follows:
 
     {{< text bash json >}}
-    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD -c mixer; done | grep \"instance\":\"newlog.logentry.istio-system\"
-    {"level":"warn","time":"2018-07-11T00:09:55.530274Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"27.769937ms","responseCode":200,"responseSize":4415,"source":"istio-ingressgateway","user":"unknown"}
-    {"level":"warn","time":"2018-07-11T00:09:56.450852Z","instance":"newlog.logentry.istio-system","destination":"policy","latency":"566.375µs","responseCode":200,"responseSize":82,"source":"istio-ingressgateway","user":"unknown"}
-    {"level":"warn","time":"2018-07-11T00:09:56.458926Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"4.940979ms","responseCode":200,"responseSize":295,"source":"productpage","user":"unknown"}
-    {"level":"warn","time":"2018-07-11T00:09:57.348865Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"2.112762ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD -c mixer; done | grep \"instance\":\"newlog.logentry.istio-system\" | grep -v '"destination":"telemetry"' | grep -v '"destination":"pilot"' | grep -v '"destination":"policy"' | grep -v '"destination":"unknown"'
+    {"level":"warn","time":"2018-09-15T20:46:36.009801Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"13.601485ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+    {"level":"warn","time":"2018-09-15T20:46:36.026993Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"919.482857ms","responseCode":200,"responseSize":295,"source":"productpage","user":"unknown"}
+    {"level":"warn","time":"2018-09-15T20:46:35.982761Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"968.030256ms","responseCode":200,"responseSize":4415,"source":"istio-ingressgateway","user":"unknown"}
     {{< /text >}}
 
 ## Understanding the telemetry configuration
