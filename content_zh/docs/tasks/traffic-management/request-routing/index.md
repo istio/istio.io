@@ -13,7 +13,7 @@ keywords: [流量管理,路由]
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
 
-* 查看[流量管理](/zh/docs/concepts/traffic-management)的概念文档。在尝试此任务之前，您应该熟悉一些重要的术语，例如 *`destination rule`*、*`virtual service`* 和 *`subset`*。
+* 查看[流量管理](/zh/docs/concepts/traffic-management)的概念文档。在尝试此任务之前，您应该熟悉一些重要的术语，例如 *destination rule* 、*virtual service* 和 *subset* 。
 
 ## 关于这个任务
 
@@ -125,7 +125,7 @@ Istio [Bookinfo](/docs/examples/bookinfo/) 示例包含四个独立的微服务�
 
 接下来，您将更改路由配置，以便将来自特定用户的所有流量路由到特定服务版本。在这种情况下，来自名为 Jason 的用户的所有流量将被路由到服务 `reviews:v2`。
 
-请注意，Istio 对用户身份没有任何特殊的内置理解。这个例子是通过 `productpage` 服务为查看服务的所有出站 HTTP 请求添加自定义 `end-user` header 这一事实来实现的。
+请注意，Istio 对用户身份没有任何特殊的内置机制。这个例子的基础在于， `productpage` 服务在所有针对 `reviews` 服务的调用请求中 都加自定义的 HTTP header，从而达到在流量中对最终用户身份识别的这一效果。
 
 请记住，`reviews:v2` 是包含星级评分功能的版本。
 
@@ -175,7 +175,7 @@ Istio [Bookinfo](/docs/examples/bookinfo/) 示例包含四个独立的微服务�
 ## 理解原理
 
 在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。
-然后再设置了一条路由规则，该路由规则在 `productpage` 服务中添加基于请求的 `end-user` 自定义 header 选择性地将特定的流量路由到了 `reviews` 服务的 `v2` 版本。
+然后再设置了一条路由规则，在 `productpage` 服务中添加了路由规则，这一规则根据请求的 `end-user` 自定义 header 内容，选择性地将特定的流量路由到了 `reviews` 服务的 `v2` 版本。
 
 请注意，为了利用 Istio 的 L7 路由功能，Kubernetes 中的服务（如本任务中使用的 Bookinfo 服务）必须遵守某些特定限制。
 参考 [sidecar 注入文档](/zh/docs/setup/kubernetes/spec-requirements)了解详情。
