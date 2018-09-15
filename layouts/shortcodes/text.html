@@ -46,6 +46,8 @@
     {{- else -}}
         {{- if hasPrefix (trim $text " ") "$ cat <<EOF " -}}
             {{- $text = replace $text "$ cat" "cat" -}}
+        {{- else if (or (hasPrefix (trim $text " ") "$ kubectl apply -f - <<EOF") (hasPrefix (trim $text " ") "$ kubectl create -f - <<EOF")) -}}
+            {{- $text = replace $text "$ kubectl" "kubectl" -}}
         {{- else -}}
             {{- $syntax = "command" -}}
             {{- if $output -}}

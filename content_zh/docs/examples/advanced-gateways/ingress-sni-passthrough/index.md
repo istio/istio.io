@@ -94,7 +94,7 @@ keywords: [流量管理,ingress, https]
 1.  部署 NGINX 服务器：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: v1
     kind: Service
     metadata:
@@ -185,7 +185,7 @@ keywords: [流量管理,ingress, https]
 而不终止 TLS。
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -208,7 +208,7 @@ keywords: [流量管理,ingress, https]
 1.  配置通过 `Gateway` 进入的流量路由：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:

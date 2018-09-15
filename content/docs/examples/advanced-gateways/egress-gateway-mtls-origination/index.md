@@ -109,7 +109,7 @@ to hold the configuration of the NGINX server:
 1.  Deploy the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: v1
     kind: Service
     metadata:
@@ -171,7 +171,7 @@ to hold the configuration of the NGINX server:
     to `nginx.example.com` to your NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -227,7 +227,7 @@ to hold the configuration of the NGINX server:
     requests to the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     # Copyright 2017 Istio Authors
     #
     #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -395,7 +395,7 @@ to hold the configuration of the NGINX server:
     service.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -440,7 +440,7 @@ to hold the configuration of the NGINX server:
     mutual TLS origination:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:

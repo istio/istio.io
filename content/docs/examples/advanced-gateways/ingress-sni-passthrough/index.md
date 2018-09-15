@@ -97,7 +97,7 @@ to hold the configuration of the NGINX server:
 1.  Deploy the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: v1
     kind: Service
     metadata:
@@ -188,7 +188,7 @@ to hold the configuration of the NGINX server:
     the gateway to pass the ingress traffic AS IS, without terminating TLS.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -211,7 +211,7 @@ to hold the configuration of the NGINX server:
 1.  Configure routes for traffic entering via the `Gateway`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:

@@ -33,7 +33,7 @@ to the `ratings` service.
 1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -52,7 +52,7 @@ to the `ratings` service.
 1.  Add a 2 second delay to calls to the `ratings` service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -80,7 +80,7 @@ to the `ratings` service.
 1.  Now add a half second request timeout for calls to the `reviews` service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
