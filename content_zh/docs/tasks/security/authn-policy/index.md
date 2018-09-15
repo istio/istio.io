@@ -91,7 +91,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 你可以提交如下 *网格认证策略* 和目的地规则为网格中所有服务启用双向 TLS 认证：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "MeshPolicy"
 metadata:
@@ -121,7 +121,7 @@ sleep.bar to httpbin.bar: 503
 多个目标规则，可以一个一个的设置每个适用的服务（或命名空间）。然而在规则中使用 * 符号来匹配所有服务会更方便，这样也就跟网格范围的认证策略一致了。
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -186,7 +186,7 @@ sleep.bar to httpbin.legacy: 503
 要解决此问题，我们可以添加目标规则来覆盖 `httpbin.legacy` 的 TLS 设置。例如：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -214,7 +214,7 @@ command terminated with exit code 35
 同样，我们可以通过覆盖 API 服务器的目标规则来更正此问题（ `kubernetes.default` ）
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -258,7 +258,7 @@ $ kubectl delete destinationrules default httpbin-legacy api-server
 并指定一个命名空间，在本例中为 `foo`。如果未指定命名空间值，则策略将应用于默认命名空间。
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -275,7 +275,7 @@ EOF
 添加相应的目的地规则：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -453,7 +453,7 @@ $ kubectl delete destinationrules httpbin -n bar
 你需要一个有效的 JWT （与在本例中你想使用的 JWKS endpoint 相一致）。请按照[这里]({{< github_tree >}}/security/tools/jwt)的说明进行操作来创建一个 JWT。你也可以在示例中使用自己的 JWT/JWKS endpoint。创建之后，在环境变量中设置相关信息。
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -473,7 +473,7 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -587,7 +587,7 @@ EOF
 并添加目标规则：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:

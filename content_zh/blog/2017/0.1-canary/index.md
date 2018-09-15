@@ -82,7 +82,7 @@ spec:
 但是在[启用 Istio](/zh/docs/setup/) 的集群中，我们可以通过设置路由规则来控制流量分配。如将 10％ 的流量发送到金丝雀版本本，我们可以使用 `kubectl` 来设置以下的路由规则：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -190,7 +190,7 @@ helloworld-v2-4095161145-963wt   2/2       Running   0          1h
 以下命令可将特定网站上 50％ 的用户流量路由到金丝雀版本，而其他用户则不受影响：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
