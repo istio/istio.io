@@ -21,7 +21,7 @@ HELM="docker run -t -i --user $UID --rm -v ${HELM_DIR}:${HELM_DIR} -v ${WORK_DIR
 
 # The repos to mine for charts, just add new entries here to pull in more repos.
 REPOS=(
-    https://github.com/istio/istio.git@master
+    https://github.com/istio/istio.git@release-1.0
 )
 
 # Charts to extract from repos
