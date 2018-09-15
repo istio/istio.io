@@ -40,7 +40,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
-| `gateways.istio-ingressgateway.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
+| `gateways.istio-ingressgateway.type` | `LoadBalancer` |  `change to NodePort, ClusterIP or LoadBalancer if need be` |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
 | `gateways.istio-ingressgateway.ports.name` | `http2` |  |
 | `gateways.istio-ingressgateway.ports.nodePort` | `31380` |  |
@@ -67,7 +67,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-egressgateway.autoscaleMin` | `1` |  |
 | `gateways.istio-egressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-egressgateway.serviceAnnotations` | `{}` |  |
-| `gateways.istio-egressgateway.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` |  |
+| `gateways.istio-egressgateway.type` | `ClusterIP` | `change to NodePort or LoadBalancer if need be` |
 | `gateways.istio-egressgateway.ports.name` | `http2` |  |
 | `gateways.istio-egressgateway.ports.name.name` | `https` |  |
 | `gateways.istio-egressgateway.secretVolumes.secretName` | `istio-egressgateway-certs` |  |
@@ -160,7 +160,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `ingress.autoscaleMax` | `5` |  |
 | `ingress.service.annotations` | `{}` |  |
 | `ingress.service.loadBalancerIP` | `""` |  |
-| `ingress.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
+| `ingress.service.type` | `LoadBalancer` |  `change to NodePort, ClusterIP or LoadBalancer if need be` |
 | `ingress.service.ports.name` | `http` |  |
 | `ingress.service.ports.nodePort` | `32000` |  |
 | `ingress.service.ports.name` | `https` |  |
@@ -230,7 +230,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | --- | --- | --- |
 | `security.replicaCount` | `1` |  |
 | `security.image` | `citadel` |  |
-| `security.selfSigned` | `true # indicate if self-signed CA is used.` |  |
+| `security.selfSigned` | `true` |  `indicate if self-signed CA is used.` |
 
 ## `servicegraph` options
 
