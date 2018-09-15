@@ -35,7 +35,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
 1.  If you want to access the service through Ingress, create the following Ingress definition:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:

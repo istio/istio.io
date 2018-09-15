@@ -55,7 +55,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -91,7 +91,7 @@ from within your Istio cluster. This task shows you how to access an external HT
     The `VirtualService` must include a `tls` rule with `sni_hosts` in the `match` clause to enable SNI routing.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -163,7 +163,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Exit the source pod and use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:

@@ -55,7 +55,7 @@ First direct HTTP traffic without TLS origination
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -101,7 +101,7 @@ First direct HTTP traffic without TLS origination
     command.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -145,7 +145,7 @@ First direct HTTP traffic without TLS origination
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -175,7 +175,7 @@ First direct HTTP traffic without TLS origination
 1.  Define a `VirtualService` to direct the traffic through the egress gateway:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -262,7 +262,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -304,7 +304,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     command.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -348,7 +348,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -379,7 +379,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     origination:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -474,7 +474,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -509,7 +509,7 @@ The output should be the same as in the previous section.
     command.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -588,7 +588,7 @@ The output should be the same as in the previous section.
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:

@@ -78,7 +78,7 @@ keywords: [流量管理,ingress]
     > 证书的私钥的位置 **必须** 是 `/etc/istio/ingressgateway-certs`，否则 Gateway 无法载入。
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -103,7 +103,7 @@ keywords: [流量管理,ingress]
 1. 为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress/#使用-istio-网关配置-ingress) 中一致的 `Virtualservice`：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -182,7 +182,7 @@ keywords: [流量管理,ingress]
     > 证书的位置 **必须** 是 `/etc/istio/ingressgateway-ca-certs`，否则 Gateway 无法加载。证书的文件名必须和创建 Secret 时使用的文件名一致，这里就是 `ca-chain.cert.pem`
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -320,7 +320,7 @@ keywords: [流量管理,ingress]
 1. 使用 `bookinfo.com` 的主机重新部署 `Gateway` ：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -355,7 +355,7 @@ keywords: [流量管理,ingress]
 1. 配置 `bookinfo.com` 的路由。定义一个类似于 [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{<github_file>}}/samples/bookinfo/networking/bookinfo-gateway.yaml) 中的 `VirtualService` ：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:

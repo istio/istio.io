@@ -45,7 +45,7 @@ keywords: [流量管理,egress]
 1. 创建一个 `ServiceEntry` 对象，放行对一个外部 HTTP 服务的访问：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -80,7 +80,7 @@ keywords: [流量管理,egress]
     对于 TLS 协议（包括 HTTPS），除了 `ServiceEntry` 之外，还需要 `VirtualService`。 `VirtualService` 必须在 `match` 子句中包含 `tls` 规则和 `sni_hosts` 以启用 SNI 路由。
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -149,7 +149,7 @@ keywords: [流量管理,egress]
 1. 退出测试 Pod，使用 `kubectl` 为 httpbin.org 外部服务的访问设置一个 3 秒钟的超时：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:

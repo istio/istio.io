@@ -85,7 +85,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     Run the following command:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: "rbac.istio.io/v1alpha1"
     kind: RbacConfig
     metadata:

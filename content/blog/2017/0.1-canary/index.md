@@ -92,7 +92,7 @@ rule to control the traffic distribution. For example if we want to send 10% of 
 to set a routing rule something like this:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -197,7 +197,7 @@ helloworld-v2-4095161145-963wt   2/2       Running   0          1h
 As mentioned above, the Istio routing rules can be used to route traffic based on specific criteria, allowing more sophisticated canary deployment scenarios. Say, for example, instead of exposing the canary to an arbitrary percentage of users, we want to try it out on internal users, maybe even just a percentage of them. The following command could be used to send 50% of traffic from users at *some-company-name.com* to the canary version, leaving all other users unaffected:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
