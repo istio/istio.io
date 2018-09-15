@@ -21,8 +21,8 @@
 
             {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
                 <p class="d-md-none">
-                    <label class="sidebar-toggler" data-toggle="offcanvas">
-                        <i class="fa fa-sign-out-alt"></i>
+                    <label class="sidebar-toggler" data-toggle="offcanvas" title='{{ i18n "button_sidenav" }}'>
+                        {{ partial "icon.html" "pull" }}
                     </label>
                 </p>
             {{ end }}
@@ -30,17 +30,17 @@
             <main aria-labelledby="title">
                 {{ if not .Parent.IsHome }}
                     <div class="pagenav">
-                        <p><a href="{{ .Parent.Permalink }}" title="{{ .Parent.Description }}">
-                            <i style="transform: scaleX(-1)" class="fa fa-level-up-alt"></i>
-                            &nbsp;{{.Parent.Title}}</a></p>
+                        <p><a href="{{ .Parent.Permalink }}" title="{{ .Parent.Description }}"><svg class="icon"><use xlink:href="/img/icons.svg#level-up" /></svg>{{- .Parent.Title -}}</a></p>
                     </div>
                 {{ end }}
 
                 <h1 id="title">
-                    {{ if .Params.icon }}
-                        <img src="{{ .Params.icon }}" alt="Icon" class="page_icon" />
-                    {{ end }}
-                    {{ .Title }}
+                    {{- if .Params.icon -}}
+                        <i class="page_icon">
+                            {{- partial "icon.html" .Params.icon -}}
+                        </i>
+                    {{- end -}}
+                    {{- .Title -}}
                 </h1>
 
                 {{ if .Params.subtitle }}
@@ -51,14 +51,33 @@
                     {{ end }}
                 {{ end }}
 
-                {{ if .Params.attribution }}
+                {{ if or .Params.attribution (gt .Page.ReadingTime 1) }}
                     <p class="byline">
-                        By <span class="attribution">{{ .Params.attribution }}</span>
-                        {{ if .Params.twitter }}
-                            (<a href="https://twitter.com/{{ .Params.twitter }}">@{{.Params.twitter}}</a>)
-                        {{ end }}
-                        /
-                        <span class="publish_date">{{ .PublishDate.Format (i18n "page_publish_date_format") }}</span>
+                        {{- if .Params.attribution -}}
+                            <span>{{- i18n "page_attribution" -}}</span>
+                            <span class="attribution">{{- .Params.attribution -}}</span>
+
+                            {{- if .Params.twitter -}}
+                                (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
+                            {{- end -}}
+                            <span> | </span>
+                            <span>
+                                {{- partial "icon.html" "calendar" -}}
+                                <span>&nbsp;</span>
+                                {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
+                            </span>
+                        {{- end -}}
+
+                        {{- if gt .Page.ReadingTime 1 -}}
+                            {{- if .Params.attribution -}}
+                                <span> | </span>
+                            {{- end -}}
+                            <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
+                                {{- partial "icon.html" "clock" -}}
+                                <span>&nbsp;</span>
+                                {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
+                            </span>
+                        {{- end -}}
                     </p>
                 {{ end }}
 

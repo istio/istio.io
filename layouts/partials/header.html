@@ -6,7 +6,7 @@
         {{ $home := .Site.GetPage "home" }}
 
         <a class="navbar-brand" href="{{ $home.Permalink }}">
-            <span class="logo">{{ partial "icons/istio-logo-blue-background-round.svg" }}</span>
+            <span class="logo">{{ partial "inline_images/istio-logo-blue-background-round.svg" }}</span>
 
             {{ if .Site.Data.args.archive }}
                 <span class="brand-name">Istioldie {{ .Site.Data.args.version }}</span>
@@ -48,7 +48,7 @@
 
                 <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
                     <a title='{{ i18n "options_menu" }}' href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
-                        <i style="width: 1em" class='fa fa-lg fa-cog'></i>
+                        {{ partial "icon.html" "gear" }}
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
@@ -87,7 +87,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a id="search_show" class="nav-link" href="" title='{{ i18n "search" }}' aria-label="Search"><i style="width: 1em" class="fa fa-lg fa-search"></i></a>
+                    <a id="search_show" class="nav-link" href="" title='{{ i18n "search" }}' aria-label="Search">{{ partial "icon.html" "magnifier" }}</a>
                 </li>
             </ul>
 
@@ -103,7 +103,7 @@
                 <input type="hidden" name="hl" value="en" />
                 <input type="hidden" id="search_page_url" value="{{ .Site.BaseURL }}/search.html" />
                 <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
-                <button id="search_close" type="reset" aria-label="Cancel Search"><i class="far fa-lg fa-times-circle"></i></button>
+                <button id="search_close" type="reset" aria-label="Cancel Search">{{ partial "icon.html" "cancel-x" }}</button>
             </form>
         </div>
     </nav>

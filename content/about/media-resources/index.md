@@ -3,7 +3,7 @@ title: Media Resources
 description: Official Istio resources for digital and printed materials.
 weight: 90
 type: media-resources
-icon: /img/istio-blue-logo.svg
+icon: istio-blue-logo
 ---
 
 Here are a few assets in case you want to show off your support for Istio, integration to Istio, or want to link back to
@@ -61,9 +61,9 @@ Here's some advice about using these images:
             </div>
             <div class="body">
                 <ul>
-                    <li><i class="do fa fa-check"></i> Use the Istio logo to link to istio.io</li>
-                    <li><i class="do fa fa-check"></i> Use the Istio logo to advertise that your product has support for Istio</li>
-                    <li><i class="do fa fa-check"></i> Use the Istio logo in a blog post or news article about Istio</li>
+                    <li>{{< checkmark_icon >}} Use the Istio logo to link to istio.io</li>
+                    <li>{{< checkmark_icon >}} Use the Istio logo to advertise that your product has support for Istio</li>
+                    <li>{{< checkmark_icon >}} Use the Istio logo in a blog post or news article about Istio</li>
                 </ul>
             </div>
         </div>
@@ -77,10 +77,10 @@ Here's some advice about using these images:
             </div>
             <div class="body">
                 <ul>
-                    <li><i class="dont fa fa-times"></i> Use the Istio logo for your application’s icon</li>
-                    <li><i class="dont fa fa-times"></i> Create a modified version of the Istio logo</li>
-                    <li><i class="dont fa fa-times"></i> Integrate the Istio logo into your logo</li>
-                    <li><i class="dont fa fa-times"></i> Change the Istio logo's colors or aspect ratio</li>
+                    <li>{{< cancel_icon >}} Use the Istio logo for your application’s icon</li>
+                    <li>{{< cancel_icon >}} Create a modified version of the Istio logo</li>
+                    <li>{{< cancel_icon >}} Integrate the Istio logo into your logo</li>
+                    <li>{{< cancel_icon >}} Change the Istio logo's colors or aspect ratio</li>
                 </ul>
             </div>
         </div>
