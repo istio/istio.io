@@ -5,33 +5,31 @@ weight: 30
 keywords: [流量管理,ingress]
 ---
 
-> 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
-
 在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在集群外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio `Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway) 。 `Gateway` 允许将 Istio 功能（例如，监控和路由规则）应用于进入集群的流量。
 
 此任务描述如何配置 Istio 以使用 Istio 在服务网格外部公开服务 `Gateway`。
 
 ## 前提条件
 
-* 按照[安装指南中](/zh/docs/setup/)的说明设置 Istio 。
+*   按照[安装指南中](/zh/docs/setup/)的说明设置 Istio 。
 
-* 确保您当前的目录是 `istio` 目录。
+*   确保您当前的目录是 `istio` 目录。
 
-* 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
+*   启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
 
-  如果您已启用[自动注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请执行
+    如果您已启用[自动注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请执行
 
-{{< text bash >}}
-$ kubectl apply -f @samples/httpbin/httpbin.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
+    {{< /text >}}
 
-  否则就必须在部署 `httpbin` 应用程序之前手动注入 Sidecar：
+    否则就必须在部署 `httpbin` 应用程序之前手动注入 Sidecar：
 
-{{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
+    {{< /text >}}
 
-* 按照以下小节中的说明确定 Ingress IP 和端口。
+*   按照以下小节中的说明确定 Ingress IP 和端口。
 
 ### 确定入口 IP 和端口
 
@@ -49,22 +47,32 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+{{< /text >}}
+
+请注意，在某些环境中，外部负载均衡器可能需要使用主机名而不是 IP 地址。
+在这种情况下，上一节命令输出中的 `EXTERNAL-IP` 的值就不是 IP 地址，
+而是一个主机名，上面的命令将无法设置 `INGRESS_HOST` 环境变量。在这种情况下，使用以下命令来更正 `INGRESS_HOST` 值：
+
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 {{< /text >}}
 
 #### 确定使用 Node Port 时的 ingress IP 和端口
 
+如果您确定您的环境**没有**外部负载均衡器，请按照这些说明操作。
+
 确定端口：
 
 {{< text bash >}}
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 {{< /text >}}
 
 确定 ingress IP  的具体方法取决于集群提供商。
 
-1. _GKE：_
+1.  _GKE：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=<workerNodeAddress>
@@ -77,20 +85,26 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
     $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
     {{< /text >}}
 
-1. _IBM Cloud Kubernetes 服务免费版本：_
+1.  _IBM Cloud Kubernetes 服务免费版本：_
 
     {{< text bash >}}
     $ bx cs workers <cluster-name or id>
     $ export INGRESS_HOST=<public IP of one of the worker nodes>
     {{< /text >}}
 
-1. _Minikube：_
+1.  _Minikube：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(minikube ip)
     {{< /text >}}
 
-1. _其他环境（例如IBM Cloud Private等）：_
+1.  _Docker For Desktop:_
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=127.0.0.1
+    {{< /text >}}
+
+1.  _其他环境（例如IBM Cloud Private等）：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
@@ -102,10 +116,10 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
 
 让我们看看如何为 `Gateway` 在 HTTP 80 端口上配置流量。
 
-1. 创建一个 Istio `Gateway`：
+1.  创建一个 Istio `Gateway`：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -123,10 +137,10 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
     EOF
     {{< /text >}}
 
-1. 为通过 `Gateway` 进入的流量配置路由：
+1.  为通过 `Gateway` 进入的流量配置路由：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -156,7 +170,7 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
 
     请注意，在此配置中，来自网格中其他服务的内部请求不受这些规则约束，而是简单地默认为循环路由。要将这些（或其他规则）应用于内部调用，我们可以将特殊值 `mesh` 添加到 `gateways` 的列表中。
 
-1. 使用 curl 访问 httpbin 服务：
+1.  使用 curl 访问 httpbin 服务：
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
@@ -172,7 +186,7 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
 
     请注意，这里使用该 `-H` 标志将 `Host` HTTP Header 设置为 "httpbin.example.com”。这以操作是必需的，因为上面的 Ingress `Gateway` 被配置为处理 "httpbin.example.com”，但在测试环境中没有该主机的 DNS 绑定，只是将请求发送到 Ingress IP。
 
-1. 访问任何未明确公开的其他 URL，应该会看到一个 HTTP 404 错误：
+1.  访问任何未明确公开的其他 URL，应该会看到一个 HTTP 404 错误：
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -184,12 +198,12 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
 
 ## 使用浏览器访问 Ingress 服务
 
-在浏览器中输入 httpbin 服务的地址是不会生效的，这是因为因为我们没有办法让浏览器像 `curl` 一样装作访问 `httpbin.example.com`。而在现实世界中，因为有正常配置的主机和 DNS 记录，这种做法就能够成功了——只要简单的在浏览器中访问由域名构成的 URL 即可，例如 `https://httpbin.example.com/status/200`。
+在浏览器中输入 `httpbin` 服务的地址是不会生效的，这是因为因为我们没有办法让浏览器像 `curl` 一样装作访问 `httpbin.example.com`。而在现实世界中，因为有正常配置的主机和 DNS 记录，这种做法就能够成功了——只要简单的在浏览器中访问由域名构成的 URL 即可，例如 `https://httpbin.example.com/status/200`。
 
 要解决此问题以进行简单的测试和演示，我们可以在 `Gateway` 和 `VirtualService` 配置中为主机使用通配符值 `*`。例如，如果我们将 Ingress 配置更改为以下内容：
 
 {{< text bash >}}
-$ cat <<EOF | istioctl replace -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -239,7 +253,7 @@ EOF
 删除 `Gateway` 和 `VirtualService`，并关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
 {{< text bash >}}
-$ istioctl delete gateway httpbin-gateway
-$ istioctl delete virtualservice httpbin
+$ kubectl delete gateway httpbin-gateway
+$ kubectl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
