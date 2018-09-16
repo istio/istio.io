@@ -16,7 +16,7 @@ weight: 25
 $ istioctl proxy-status
 {{< /text >}}
 
-如果输出列表信息中没有代理信息，意味着目前没有连接到一个 Pilot 实例，所以不会接收任何配置信息，另外，如果有 stale 的标识，可能意味着存在网络问题或者 Pilot 需要扩大规模。 
+如果输出列表信息中没有代理信息，意味着目前没有连接到一个 Pilot 实例，所以不会接收任何配置信息，另外，如果有 stale 的标识，可能意味着存在网络问题或者 Pilot 需要扩大规模。
 
 ### 代理配置
 
@@ -52,8 +52,7 @@ $ istioctl proxy-config route <pod-name> [flags]
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-点击 [调试 Envoy 和 Pilot](/zh/help/ops/traffic-management/proxy-cmd/) 查看更多相关信息
-
+点击 [调试 Envoy 和 Pilot](/zh/help/ops/traffic-management/proxy-cmd/)查看更多相关信息。
 
 ## 使用 GDB
 
