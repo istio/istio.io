@@ -90,9 +90,13 @@ Pilot 使用来自服务注册的信息，并提供与平台无关的服务发�
 Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应用中的服务大有裨益。这些功能包括：
 
 1. 超时
+
 1. 具备超时预算，并能够在重试之间进行可变抖动（间隔）的有限重试功能
+
 1. 并发连接数和上游服务请求数限制
+
 1. 对负载均衡池中的每个成员主动（定期）运行健康检查
+
 1. 细粒度熔断器（被动健康检查）——适用于负载均衡池中的每个实例
 
 这些功能可以使用 [Istio 的流量管理规则](#规则配置)在运行时进行动态配置。
@@ -356,7 +360,7 @@ spec:
 
 可以选择让规则只对符合某些要求的请求生效：
 
-__1. 使用工作负载 label 限制特定客户端工作负载__。例如，规则可以指示它仅适用于实现 `reviews` 服务的工作负载（pod）的调用：
+__1. 使用工作负载 label 限制特定客户端工作负载__。例如，规则可以指示它仅适用于实现 `reviews` 服务的工作负载实例（pod）的调用：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -375,7 +379,7 @@ spec:
 
 `sourceLabels` 的值取决于服务的实现。例如，在 Kubernetes 中，它可能与相应 Kubernetes 服务的 pod 选择器中使用的 label 相同。
 
-以上示例还可以进一步细化为仅适用于 `reviews` 服务版本 `v2` 的调用：
+以上示例还可以进一步细化为仅适用于 `reviews` 服务版本 `v2` 负载均衡实例的调用：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -447,8 +451,8 @@ spec:
   http:
   - match:
     - sourceLabels:
-          app: reviews
-          version: v2
+        app: reviews
+        version: v2
       headers:
         end-user:
           exact: jason
@@ -650,7 +654,7 @@ metadata:
 spec:
   hosts:
   - *.foo.com
-    ports:
+  ports:
   - number: 80
     name: http
     protocol: HTTP
