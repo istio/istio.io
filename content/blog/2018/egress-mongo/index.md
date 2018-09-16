@@ -174,7 +174,7 @@ egress control in Istio.
 1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -231,7 +231,7 @@ $ kubectl delete virtualservice mongo
 1.  Create a `ServiceEntry` for the MongoDB service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -259,7 +259,7 @@ $ kubectl delete virtualservice mongo
     command.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -338,7 +338,7 @@ $ kubectl delete virtualservice mongo
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -562,7 +562,7 @@ to hold the configuration of the Nginx SNI proxy:
     service entry:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -619,7 +619,7 @@ to hold the configuration of the Nginx SNI proxy:
     traffic destined for _*.com_ to the gateway.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -663,7 +663,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Route the traffic destined for _*.com_ to the egress gateway and from the egress gateway to the SNI proxy.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
