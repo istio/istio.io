@@ -146,7 +146,7 @@ keywords: [流量管理,egress]
 
     这个请求会在大概五秒钟左右返回一个内容为 `200 (OK)` 的响应。
 
-1. 退出测试 Pod，使用 `kubectl` 为 httpbin.org 外部服务的访问设置一个 3 秒钟的超时：
+1.  退出测试 Pod，使用 `kubectl` 为 httpbin.org 外部服务的访问设置一个 3 秒钟的超时：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -166,7 +166,7 @@ keywords: [流量管理,egress]
     EOF
     {{< /text >}}
 
-1. 等待几秒钟之后，再次发起 _curl_ 请求：
+1.  等待几秒钟之后，再次发起 _curl_ 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep bash
@@ -202,7 +202,7 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
 
 #### IBM Cloud Private
 
-1. 从 IBM Cloud Private 配置文件（`cluster/config.yaml`）中获取 `service_cluster_ip_range`。
+1.  从 IBM Cloud Private 配置文件（`cluster/config.yaml`）中获取 `service_cluster_ip_range`。
 
     {{< text bash >}}
     $ cat cluster/config.yaml | grep service_cluster_ip_range
@@ -214,7 +214,7 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1. 使用 `--set global.proxy.includeIPRanges="10.0.0.1/24"`
+1.  使用 `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
 #### IBM Cloud Kubernetes Service
 
@@ -240,6 +240,19 @@ servicesIpv4Cidr: 10.7.240.0/20
 
 使用 `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
+#### Docker For Desktop
+
+使用 `--set global.proxy.includeIPRanges="10.96.0.0/12"`
+
+#### Bare Metal
+
+使用 `service-cluster-ip-range` 的值。它没有固定值，但默认值为 10.96.0.0/12 。要确定您的实际值：
+
+{{< text bash >}}
+$ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
+      --service-cluster-ip-range=10.96.0.0/12
+{{< /text >}}
+
 ### 访问外部服务
 
 更新了 `ConfigMap` `istio-sidecar-injector` 并且重新部署了 `sleep` 应用之后，Istio sidecar 就应该只劫持和管理集群内部的请求了。任意的外部请求都会简单的绕过 Sidecar，直接访问目的地址。
@@ -263,20 +276,20 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 
 ## 清理
 
-1. 删除规则：
+1.  删除规则：
 
     {{< text bash >}}
     $ kubectl delete serviceentry httpbin-ext google
     $ kubectl delete virtualservice httpbin-ext google
     {{< /text >}}
 
-1. 停止 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+1.  停止 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1. 更新 `ConfigMap` `istio-sidecar-injector`，要求 Sidecar 转发所有外发流量：
+1.  更新 `ConfigMap` `istio-sidecar-injector`，要求 Sidecar 转发所有外发流量：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参数> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
