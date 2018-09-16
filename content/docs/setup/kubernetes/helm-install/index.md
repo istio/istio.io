@@ -25,6 +25,7 @@ plane and the sidecars for the Istio data plane.
   * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
+  * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
@@ -115,5 +116,5 @@ to manage the lifecycle of Istio.
 * If desired, delete the CRDs:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}

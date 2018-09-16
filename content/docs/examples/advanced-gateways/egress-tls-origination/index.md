@@ -54,7 +54,7 @@ Note that you use a wildcard `*` in your `hosts` definition: `*.cnn.com`. Using 
 1.  Create a `ServiceEntry` to allow access to an external HTTP and HTTPS services:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -115,7 +115,7 @@ to DNS to correctly configure Envoy.
 proxy needs to know exactly which host to access using HTTPS:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:

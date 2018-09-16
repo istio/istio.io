@@ -91,7 +91,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 To set a mesh-wide authentication policy that enables mutual TLS, submit *mesh authentication policy* like below:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "MeshPolicy"
 metadata:
@@ -121,7 +121,7 @@ multiple destination rules, one for each applicable service (or namespace). Howe
 services so that it is on par with the mesh-wide authentication policy.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -187,7 +187,7 @@ sleep.bar to httpbin.legacy: 503
 To fix this issue, we can add a destination rule to overwrite the TLS setting for `httpbin.legacy`. For example:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -215,7 +215,7 @@ command terminated with exit code 35
 Again, we can correct this by overriding the destination rule for the API server (`kubernetes.default`)
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -259,7 +259,7 @@ The example below shows the policy to enable mutual TLS for all services in name
 and specifies a namespace, in this case, `foo`. If you don’t specify a namespace value the policy will apply to the default namespace.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -276,7 +276,7 @@ EOF
 Add corresponding destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -463,7 +463,7 @@ this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/sam
 Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -483,7 +483,7 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -598,7 +598,7 @@ EOF
 And add a destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:

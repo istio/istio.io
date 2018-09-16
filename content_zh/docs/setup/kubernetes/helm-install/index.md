@@ -103,5 +103,5 @@ icon: /img/helm.svg
 * 如果需要，可以删除 CRDs：
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
