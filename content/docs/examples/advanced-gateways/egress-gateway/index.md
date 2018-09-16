@@ -874,6 +874,31 @@ items accordingly (note the remarks _If you have mutual TLS Authentication enabl
                 URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
     {{< /text >}}
 
+1.  For HTTPS traffic (TLS originated by the application), test the traffic flow by using the _openssl_ command.
+    _openssl_ has an explicit option for setting the SNI, namely `-servername`.
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
+    CONNECTED(00000003)
+    ...
+    Certificate chain
+     0 s:/C=US/ST=California/L=San Francisco/O=Fastly, Inc./CN=turner-tls.map.fastly.net
+       i:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
+     1 s:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
+       i:/C=BE/O=GlobalSign nv-sa/OU=Root CA/CN=GlobalSign Root CA
+     ---
+     Server certificate
+     -----BEGIN CERTIFICATE-----
+    ...
+    {{< /text >}}
+
+    If you get the certificate as in the output above, your traffic is routed correctly. Check the statistics of the egress gateway's proxy and see a counter that corresponds to your requests (sent by _openssl_ and _curl_) to _edition.cnn.com_.
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
+    cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
+    {{< /text >}}
+
 ## Cleanup
 
 Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
