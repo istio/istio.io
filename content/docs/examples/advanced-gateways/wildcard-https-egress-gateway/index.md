@@ -29,7 +29,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -58,7 +58,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
     the traffic destined for _*.wikipedia.org_ to the gateway.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -110,7 +110,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
    with resolution `DNS` so the gateway will be able to perform the routing.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -329,7 +329,7 @@ to hold the configuration of the Nginx SNI proxy:
     service entry:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -397,7 +397,7 @@ to hold the configuration of the Nginx SNI proxy:
     identity.)
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -478,7 +478,7 @@ to hold the configuration of the Nginx SNI proxy:
     pods and the egress gateway, perform:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -586,7 +586,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Create the `logentry`, `rules` and `handlers`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     # Log entry for egress access
     apiVersion: "config.istio.io/v1alpha2"
     kind: logentry
