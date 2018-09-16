@@ -114,6 +114,12 @@ Setting the ingress IP depends on the cluster provider:
     $ export INGRESS_HOST=$(minikube ip)
     {{< /text >}}
 
+1.  _Docker For Desktop:_
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=127.0.0.1
+    {{< /text >}}
+
 1.  _Other environments (e.g., IBM Cloud Private etc):_
 
     {{< text bash >}}
