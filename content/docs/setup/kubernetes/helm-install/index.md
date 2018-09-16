@@ -62,6 +62,12 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
     {{< /text >}}
 
+    > If you want to enable global mutual TLS, set `global.mtls.enabled` to `true`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true > $HOME/istio.yaml
+    {{< /text >}}
+
 1. Install the components via the manifest:
 
     {{< text bash >}}
@@ -91,6 +97,12 @@ to manage the lifecycle of Istio.
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+    {{< /text >}}
+
+    > If you want to enable global mutual TLS, set `global.mtls.enabled` to `true`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
 
 ## Uninstall
