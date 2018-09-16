@@ -575,7 +575,7 @@ to hold the configuration of the Nginx SNI proxy:
     log is:
 
     {{< text bash >}}
-    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'; done
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'; done
     {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"placeholder.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/default/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
     {{< /text >}}
 
@@ -644,7 +644,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ for TELEMETRY_POD in $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[*].metadata.name}'); do kubectl -n istio-system logs $TELEMETRY_POD mixer | grep 'egress-access.logentry.istio-system'; done
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'; done
     {{< /text >}}
 
 1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for the Wikipedia in
