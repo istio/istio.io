@@ -252,7 +252,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
         }
     ]
     {{< /text >}}
-    
+
 1. 可以使用 `proxy-config` 命令查看当前集群中可用的 endpoints。
 
     {{< text bash json >}}
