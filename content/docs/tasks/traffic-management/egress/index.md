@@ -262,6 +262,19 @@ Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
 
 Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
+#### Docker For Desktop
+
+Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
+
+#### Bare Metal
+
+Use the value of your `service-cluster-ip-range`.  It's not fixed, but the default value is 10.96.0.0/12.  To determine your actual value:
+
+{{< text bash >}}
+$ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
+      --service-cluster-ip-range=10.96.0.0/12
+{{< /text >}}
+
 ### Access the external services
 
 After updating the `ConfigMap` _istio-sidecar-injector_ and redeploying the `sleep` application,
