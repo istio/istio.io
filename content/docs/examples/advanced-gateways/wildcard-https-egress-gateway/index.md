@@ -211,6 +211,13 @@ TLS), you need to deploy an SNI forward proxy in addition to Envoy. Envoy will r
 wildcarded domain to the SNI forward proxy, which, in turn, will forward the requests to the destination by the value of
 SNI.
 
+The egress gateway with SNI proxy and the related parts of Istio Architecture are shown in the following diagram:
+
+{{< image width="80%" ratio="57.89%"
+    link="./EgressGatewayWithSNIProxy.svg"
+    caption="Egress Gateway with SNI proxy"
+    >}}
+
 In this section you will configure Istio to route HTTPS traffic to arbitrary wildcarded domains, through an egress
 gateway.
 
