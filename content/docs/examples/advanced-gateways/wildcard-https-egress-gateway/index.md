@@ -73,10 +73,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
         hosts:
         - "*.wikipedia.org"
         tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
+          mode: PASSTHROUGH
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -86,15 +83,6 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
       host: istio-egressgateway.istio-system.svc.cluster.local
       subsets:
         - name: wikipedia
-          trafficPolicy:
-            loadBalancer:
-              simple: ROUND_ROBIN
-            portLevelSettings:
-            - port:
-                number: 443
-              tls:
-                mode: ISTIO_MUTUAL
-                sni: www.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
     EOF
     {{< /text >}}
 
@@ -147,11 +135,12 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
             port:
               number: 443
           weight: 100
-      tcp:
       - match:
         - gateways:
           - istio-egressgateway
           port: 443
+          sni_hosts:
+          - "*.wikipedia.org"
         route:
         - destination:
             host: www.wikipedia.org
@@ -175,7 +164,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
     counter is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c egressgateway -n istio-system -- curl -s localhost:15000/stats | grep www.wikipedia.org.upstream_cx_total
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep www.wikipedia.org.upstream_cx_total
     cluster.outbound|443||www.wikipedia.org.upstream_cx_total: 2
     {{< /text >}}
 
