@@ -7,7 +7,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/zh/docs/concepts/security/#授权和鉴权)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。
 
-## 开始之前
+## 准备任务
 
 本文活动开始之前，我们有如下假设：
 
@@ -28,7 +28,7 @@ keywords: [安全,访问控制,rbac,鉴权]
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     {{< /text >}}
 
-> 如果使用的命名空间不是 `default`，就应改用 `istioctl -n namespace ...` 来指定命名空间。
+> 如果使用的命名空间不是 `default`，就应改用 `kubectl -n namespace ...` 来指定命名空间。
 
 * Istio 1.0 中的 RBAC 有较大更新。请确认在继续之前，已经清理了所有现存 RBAC 规则。
 
@@ -67,7 +67,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 此任务说明如何使用授权许可模式来测试是否可以安全地启用全局授权。
 
-在开始之前，请确保您已完成[准备任务](#开始之前)。
+在开始之前，请确保您已完成[准备任务](#准备任务)。
 
 1.  将全局授权配置设置为许可模式。
 
@@ -87,7 +87,7 @@ keywords: [安全,访问控制,rbac,鉴权]
     EOF
     {{< /text >}}
 
-    将浏览器指向 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），您应该看到一切正常，与[准备任务](#开始之前)相同。
+    将浏览器指向 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），您应该看到一切正常，与[准备任务](#准备任务)相同。
 
 1.  将 YAML 文件应用于许可模式度量标准集合。
 
@@ -158,7 +158,7 @@ keywords: [安全,访问控制,rbac,鉴权]
     在上面的遥测日志中，用户现在看到的 `responseCode` 是 200。
     对于 `productpage` 页面服务，`permissiveResponseCode` 为 200，对于 `ratings` 和 `reviews` 服务为 403，
     这是用户在将策略模式从 `PERMISSIVE` 模式切换到 `ENFORCED` 模式后将看到的内容;
-    结果与[步骤1](＃第一步-允许到-productpage-服务的访问)一致。
+    结果与[步骤1](#第一步-允许到-productpage-服务的访问)一致。
 
 1.  删除与许可模式相关的 yaml 文件：
 
@@ -174,7 +174,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 此任务说明如何使用授权许可模式来测试新授权策略在已启用授权的环境中按预期工作。
 
-在开始之前，请确保您已完成[步骤1](＃第一步-允许到-productpage-服务的访问)。
+在开始之前，请确保您已完成[步骤1](#第一步-允许到-productpage-服务的访问)。
 
 1.  在应用新策略之前，通过将其模式设置为permissive来测试它：
 
@@ -184,7 +184,7 @@ keywords: [安全,访问控制,rbac,鉴权]
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
     {{< /text >}}
 
-    该策略与[允许访问详细信息和评论服务](＃第二步-允许对-details-和-reviews-服务的访问)中定义的策略相同，
+    该策略与[允许访问详细信息和评论服务](#第二步-允许对-details-和-reviews-服务的访问)中定义的策略相同，
     除了在 ServiceRoleBinding 中设置了 `PERMISSIVE` 模式。
 
     {{< text yaml >}}
@@ -232,19 +232,18 @@ keywords: [安全,访问控制,rbac,鉴权]
     {{< /text >}}
 
     在上面的遥测日志中，用户现在看到的 `ratings` 和 `reviews` 服务的 `responseCode` 为 403。
-    对于 `ratings` 和 `reviews` 服务，`permissiveResponseCode` 为200，
+    对于 `ratings` 和 `reviews` 服务，`permissiveResponseCode` 为 200，
     这是用户在将策略模式从 `PERMISSIVE` 模式切换到 `ENFORCED` 模式后将看到的内容;
     它表示新的授权策略在滚动到生产后将按预期工作。
 
-1.  删除与许可模式相关的yaml文件：
+1.  删除与许可模式相关的 yaml 文件：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  现在我们已经验证了新策略将按预期工作，在[步骤 2](＃第二步-允许对-details-和-reviews-服务的访问) 应用策略之后是安全的。
-
+1.  现在我们已经验证了新策略将按预期工作，在[步骤 2](#第二步-允许对-details-和-reviews-服务的访问) 应用策略之后是安全的。
 
 ## 启用 Istio 授权
 
@@ -253,8 +252,6 @@ keywords: [安全,访问控制,rbac,鉴权]
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 {{< /text >}}
-
-> 如果前面已经创建了冲突的规则，应该使用 `istioctl replace` 替代 `istioctl create`。
 
 用浏览器再次打开 `productpage` (`http://$GATEWAY_URL/productpage`)，这次会看到 `RBAC: access denied`。Istio 的鉴权行为是“缺省拒绝”的，也就是说必须要显式的进行授权，才能对服务进行访问。
 
@@ -386,7 +383,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 
 ### 第二步，允许对 `details` 和 `reviews` 服务的访问
 
-创建一条策略，让 `productpage` 服务能够读取 `details` 和 `reviews` 服务。注意在[开始之前](#开始之前)中，我们给 `productpage` 服务创建了一个命名为 `bookinfo-productpage` 的 Service account，它就是 `productpage` 服务的认证 ID。
+创建一条策略，让 `productpage` 服务能够读取 `details` 和 `reviews` 服务。注意在[准备任务](#准备任务)中，我们给 `productpage` 服务创建了一个命名为 `bookinfo-productpage` 的 Service account，它就是 `productpage` 服务的认证 ID。
 
 运行下面的命令：
 
@@ -432,7 +429,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.y
 
 ### 第三步，允许对 `ratings` 服务的访问
 
-接下来新建一条策略，允许 `reviews` 服务对 `ratings` 发起读取访问。注意，我们在[开始之前](#开始之前)步骤里为 `reviews` 服务创建了 Service account `bookinfo-reviews`，这个账号就是 `reviews` 服务的认证凭据。
+接下来新建一条策略，允许 `reviews` 服务对 `ratings` 发起读取访问。注意，我们在[准备任务](#准备任务)步骤里为 `reviews` 服务创建了 Service account `bookinfo-reviews`，这个账号就是 `reviews` 服务的认证凭据。
 
 下面的命令会创建一条允许 `reviews` 服务读取 `ratings` 服务的策略。
 
