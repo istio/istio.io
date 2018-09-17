@@ -28,7 +28,7 @@ keywords: [安全,访问控制,rbac,鉴权]
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     {{< /text >}}
 
-> 如果使用的命名空间不是 `default`，就应改用 `istioctl -n namespace ...` 来指定命名空间。
+> 如果使用的命名空间不是 `default`，就应改用 `kubectl -n namespace ...` 来指定命名空间。
 
 * Istio 1.0 中的 RBAC 有较大更新。请确认在继续之前，已经清理了所有现存 RBAC 规则。
 
@@ -232,11 +232,11 @@ keywords: [安全,访问控制,rbac,鉴权]
     {{< /text >}}
 
     在上面的遥测日志中，用户现在看到的 `ratings` 和 `reviews` 服务的 `responseCode` 为 403。
-    对于 `ratings` 和 `reviews` 服务，`permissiveResponseCode` 为200，
+    对于 `ratings` 和 `reviews` 服务，`permissiveResponseCode` 为 200，
     这是用户在将策略模式从 `PERMISSIVE` 模式切换到 `ENFORCED` 模式后将看到的内容;
     它表示新的授权策略在滚动到生产后将按预期工作。
 
-1.  删除与许可模式相关的yaml文件：
+1.  删除与许可模式相关的 yaml 文件：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
@@ -245,7 +245,6 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 1.  现在我们已经验证了新策略将按预期工作，在[步骤 2](#第二步-允许对-details-和-reviews-服务的访问) 应用策略之后是安全的。
 
-
 ## 启用 Istio 授权
 
 运行下面的命令，为 `default` 命名空间启用 Istio 授权：
@@ -253,8 +252,6 @@ keywords: [安全,访问控制,rbac,鉴权]
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 {{< /text >}}
-
-> 如果前面已经创建了冲突的规则，应该使用 `istioctl replace` 替代 `istioctl create`。
 
 用浏览器再次打开 `productpage` (`http://$GATEWAY_URL/productpage`)，这次会看到 `RBAC: access denied`。Istio 的鉴权行为是“缺省拒绝”的，也就是说必须要显式的进行授权，才能对服务进行访问。
 
