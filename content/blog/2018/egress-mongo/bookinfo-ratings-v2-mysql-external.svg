@@ -33,13 +33,13 @@
      id="namedview5013"
      showgrid="false"
      inkscape:snap-global="false"
-     inkscape:zoom="1"
-     inkscape:cx="155.87175"
-     inkscape:cy="114.51694"
-     inkscape:window-x="1415"
-     inkscape:window-y="49"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="902.02369"
+     inkscape:cy="180.65744"
+     inkscape:window-x="1440"
+     inkscape:window-y="23"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg4481"
+     inkscape:current-layer="g1284"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -1913,17 +1913,17 @@
      id="text5123" />
   <path
      id="svg_48-7"
-     d="m 827.13542,337.43393 -9.81401,6.45999 -0.098,-12.76899 z"
-     style="clip-rule:evenodd;fill:#1800ff;fill-opacity:0.752941"
+     d="m 825.13542,335.79166 -9.81401,6.10226 -0.098,-12.06188 z"
+     style="clip-rule:evenodd;fill:#1800ff;fill-opacity:0.752941;stroke-width:1"
      inkscape:connector-curvature="0" />
   <path
      id="svg_49-5"
-     d="m 828.13542,337.43393 -9.81401,6.45999 -0.098,-12.76899 z m -8.82798,4.614 6.988,-4.6 -7.058,-4.49199 z"
-     style="clip-rule:evenodd;fill:#1800ff"
+     d="m 827.54961,335.78748 -12.7895,6.45999 -0.12772,-12.76899 z m -11.50452,4.614 9.10668,-4.6 -9.1979,-4.49199 z"
+     style="clip-rule:evenodd;fill:#1800ff;stroke-width:1"
      inkscape:connector-curvature="0" />
   <path
      id="svg_64-0"
-     d="m 758.62213,335.38932 60.62715,1.11721"
+     d="m 758.62456,335.8892 56.38485,0.11745"
      style="clip-rule:evenodd;fill:none;stroke:#1800ff;stroke-width:0.72185349px"
      inkscape:connector-curvature="0" />
   <text
@@ -1938,26 +1938,26 @@
        y="524.58478" /></text>
   <g
      id="g1284"
-     transform="translate(-17,-174.0534)">
+     transform="translate(-17,-180.0534)">
     <path
        inkscape:connector-curvature="0"
        style="clip-rule:evenodd;fill:#ffffff;stroke:#000000;stroke-width:0.54241025px"
        id="Container1-7"
-       d="m 934.40536,485.12682 c 0,-4.23089 -2.90937,-7.66583 -6.49296,-7.66583 h -76.30758 c -3.58354,0 -6.49206,3.43494 -6.49206,7.66583 v 64.78044 c 0,4.23088 2.90852,7.66582 6.49206,7.66582 h 76.30758 c 3.58359,0 6.49296,-3.43494 6.49296,-7.66582 z" />
+       d="m 934.40536,484.62682 c 0,-4.23089 -2.90937,-7.66583 -6.49296,-7.66583 h -76.30758 c -3.58354,0 -6.49206,3.43494 -6.49206,7.66583 v 64.78044 c 0,4.23088 2.90852,7.66582 6.49206,7.66582 h 76.30758 c 3.58359,0 6.49296,-3.43494 6.49296,-7.66582 z" />
     <text
        style="font-size:16px;font-family:Helvetica;clip-rule:evenodd;fill:#000000"
        id="App-Name1-8-0"
-       x="863.09766"
-       y="505.68616"
-       font-size="16px">MySQL</text>
+       x="851.09766"
+       y="505.18616"
+       font-size="16px">MongoDB</text>
     <text
        id="text1278"
-       y="536.10803"
-       x="850"
+       y="535.60803"
+       x="852"
        style="font-style:normal;font-weight:normal;font-size:18.66666603px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
-         y="536.10803"
-         x="850"
+         y="535.60803"
+         x="852"
          id="tspan1276"
          sodipodi:role="line">instance</tspan></text>
   </g>
@@ -1993,10 +1993,10 @@
   <text
      font-size="16px"
      y="424.98883"
-     x="633.99927"
+     x="654.08447"
      id="App-Name-3-6"
      style="font-size:14.6074543px;font-family:Helvetica;clip-rule:evenodd;fill:#000000;stroke-width:0.91296589"
-     transform="scale(1.0953311,0.91296595)">v2-mysql</text>
+     transform="scale(1.0953311,0.91296595)">v2</text>
   <path
      id="svg_67"
      d="M 564.94761,194.80779 694.0369,321.71912"
