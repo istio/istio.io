@@ -20,8 +20,7 @@ configuration items for all the _wikipedia_ sites, without the need to specify t
 
 ## Before you begin
 
-This examples assumes you deployed Istio with [mutual TLS Authentication](/docs/tasks/security/mutual-tls/)
-enabled. Follow the steps in the [Before you begin](/docs/examples/advanced-egress/egress-gateway/#before-you-begin)
+Follow the steps in the [Before you begin](/docs/examples/advanced-egress/egress-gateway/#before-you-begin)
 section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
 
 ## Configure HTTPS traffic to _*.wikipedia.org_
@@ -269,7 +268,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
 
     {{< text bash >}}
-    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set  global.mtls.enabled=true --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
+    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
     gateways:
       enabled: true
       istio-ingressgateway:
@@ -397,92 +396,6 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, a destination rule to set the
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
     traffic destined for _*.wikipedia.org_ to the gateway.
-
-    If you want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
-    your application pods and the egress gateway, use the following command. (You may want to enable mutual TLS to let
-    the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
-    identity.)
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway-with-sni-proxy
-    spec:
-      selector:
-        istio: egressgateway-with-sni-proxy
-      servers:
-      - port:
-          number: 443
-          name: tls
-          protocol: TLS
-        hosts:
-        - "*.wikipedia.org"
-        tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-wikipedia
-    spec:
-      host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
-      subsets:
-        - name: wikipedia
-          trafficPolicy:
-            loadBalancer:
-              simple: ROUND_ROBIN
-            portLevelSettings:
-            - port:
-                number: 443
-              tls:
-                mode: ISTIO_MUTUAL
-                sni: placeholder.wikipedia.org # an SNI to match egress gateway's expectation for an SNI
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-wikipedia-through-egress-gateway
-    spec:
-      hosts:
-      - "*.wikipedia.org"
-      gateways:
-      - mesh
-      - istio-egressgateway-with-sni-proxy
-      tls:
-      - match:
-        - gateways:
-          - mesh
-          port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
-        route:
-        - destination:
-            host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
-            subset: wikipedia
-            port:
-              number: 443
-          weight: 100
-      tcp:
-      - match:
-        - gateways:
-          - istio-egressgateway-with-sni-proxy
-          port: 443
-        route:
-        - destination:
-            host: sni-proxy.local
-            port:
-              number: 8443
-          weight: 100
-    EOF
-    {{< /text >}}
-
-    Otherwise, if you do not need to enable mutual TLS Authentication between the sidecar proxies of your application
-    pods and the egress gateway, perform:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
