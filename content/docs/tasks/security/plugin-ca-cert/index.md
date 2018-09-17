@@ -50,12 +50,12 @@ The following steps enable plugging in the certificates and key into Citadel:
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1.  Redeploy Citadel, which reads the certificates and key from the secret-mount files by using Helm
-    with `global.mtls.enabled` set to `true` and `security.selfSigned` to `false`.
+1.  Redeploy Citadel using Helm with `global.mtls.enabled` set to `true` and `security.selfSigned` to `false`.
+    Citadel will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/security/templates/deployment.yaml \
-    --set global.mtls.enabled=true,security.selfSigned=false > $HOME/citadel-plugin-cert.yaml
+    --set global.mtls.enabled=true --set security.selfSigned=false > $HOME/citadel-plugin-cert.yaml
     $ kubectl apply -f $HOME/citadel-plugin-cert.yaml
     {{< /text >}}
 

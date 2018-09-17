@@ -45,7 +45,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
 
-    > If you are enabling `certmanager`, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+    If you are enabling `certmanager`, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
@@ -62,7 +62,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
     {{< /text >}}
 
-    > If you want to enable global mutual TLS, set `global.mtls.enabled` to `true`:
+    If you want to enable global mutual TLS, set `global.mtls.enabled` to `true`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true > $HOME/istio.yaml
@@ -99,7 +99,7 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
 
-    > If you want to enable global mutual TLS, set `global.mtls.enabled` to `true`:
+    If you want to enable global mutual TLS, set `global.mtls.enabled` to `true`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
