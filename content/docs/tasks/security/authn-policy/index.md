@@ -243,7 +243,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 Remove global authentication policy and destination rules added in the session:
 
-{{< text yaml >}}
+{{< text bash >}}
 $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules default httpbin-legacy api-server
 {{< /text >}}
