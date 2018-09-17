@@ -7,7 +7,7 @@ aliases:
     - /docs/reference/feature-stages.html
     - /docs/welcome/feature-stages.html
     - /docs/home/roadmap.html
-icon: /img/feature-status.svg
+icon: feature-status
 ---
 
 This page lists the relative maturity and support

@@ -2,7 +2,7 @@
 title: 功能状态
 description: 功能列表和发布阶段。
 weight: 10
-icon: /img/feature-status.svg
+icon: feature-status
 ---
 
 此页面列出了每个 Istio 功能的相对成熟度和支持级别。请注意，阶段（Alpha、Beta 和 Stable）适用于项目中的各个功能，而不是对于整个项目。以下是对这些标签含义的高级描述：

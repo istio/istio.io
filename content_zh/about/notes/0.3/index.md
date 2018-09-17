@@ -1,7 +1,7 @@
 ---
 title: Istio 0.3
 weight: 98
-icon: /img/notes.svg
+icon: notes
 ---
 
 ## 通用

@@ -29,7 +29,8 @@ RUN tar -xf /tmp/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
 RUN npm install -g \
     sass \
     uglify-js \
-    markdown-spellcheck
+    markdown-spellcheck \
+    svgstore-cli
 
 RUN gem install \
     mdl \

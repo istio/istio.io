@@ -85,6 +85,12 @@ other = "Privacy Policy"
 [page_publish_date_format]
 other = "January 2, 2006"
 
+[page_word_count]
+other = "%d words"
+
+[page_reading_time]
+other = "%v minute read"
+
 [relnote_download]
 other = "DOWNLOAD %s"
 
@@ -93,3 +99,21 @@ other = "CHANGES IN %s"
 
 [relnote_docs]
 other = "%s DOCS"
+
+[page_attribution]
+other = "By "
+
+[button_copy]
+other = "Copy to clipoboard"
+
+[button_print]
+other = "Print"
+
+[button_download]
+other = "Download"
+
+[button_top]
+other = "Back to top"
+
+[button_sidenav]
+other = "Toggle the navigation bar"
