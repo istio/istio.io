@@ -203,7 +203,7 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)�
 要解决此问题以进行简单的测试和演示，我们可以在 `Gateway` 和 `VirtualService` 配置中为主机使用通配符值 `*`。例如，如果我们将 Ingress 配置更改为以下内容：
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
