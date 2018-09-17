@@ -517,7 +517,7 @@ services in an Istio Mesh. It features:
 - **Flexibility through custom properties support**, for example conditions,
   in roles and role-bindings.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
-- **Supports both HTTP and plain TCP protocol**.
+- **Supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols**.
 
 ### Authorization architecture
 
@@ -819,24 +819,24 @@ spec:
     name: "products-viewer"
 {{< /text >}}
 
-### Using Istio authorization on plain TCP protocol
+### Using Istio authorization on plain TCP protocols
 
 The above examples showed a typical way to use Istio authorization on services using HTTP protocol.
 In that case, all fields in a `ServiceRole` and `ServiceRoleBinding` are supported.
 
-Istio authorization also supports services using plain TCP protocol, like mongodb. In this case, you
-specify the `ServiceRole` and `ServiceRoleBinding` the same way as for a HTTP service, except that
+Istio authorization also supports services using any plain TCP protocols, such as mongodb. In this case,
+you specify the `ServiceRole` and `ServiceRoleBinding` the same way as for a HTTP service, except that
 you cannot use the fields that are only applicable to HTTP services, which includes `paths` and `methods`
 in `ServiceRole`, and `group` in `ServiceRoleBinding`.
 
-For the supported constraints and properties that could be used for TCP service, please refer to
+For the supported constraints and properties that could be used for TCP service, please refer to the
 [constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
 
-If any HTTP only fields are used for a TCP service, the whole `ServiceRole` or `ServiceRoleBinding`
-will be ignored completely as if there is no such policy.
+If any HTTP only fields are used for a TCP service, the `ServiceRole` or `ServiceRoleBinding` custom
+resource will be ignored completely as if there is no such policy.
 
-The following example shows how to allow `bookinfo-ratings-v2` to access the mongodb service at
-port 27017:
+Assume you have a mongodb service serving on port 27017, the following example shows how to only
+allow `bookinfo-ratings-v2` to access it:
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
