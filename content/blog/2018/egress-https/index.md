@@ -103,7 +103,7 @@ No worries, define a **mesh-external service entry** and fix your application. Y
 service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -259,7 +259,7 @@ In the next section you will configure TLS origination for accessing an external
 1.  Create a mesh-external service entry for `www.google.apis` and a destination rule to perform TLS origination.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:

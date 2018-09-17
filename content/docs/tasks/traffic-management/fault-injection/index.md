@@ -28,6 +28,10 @@ This task shows you how to inject faults to test the resiliency of your applicat
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
+* With the above configuration, this is how requests flow:
+    *  `productpage` → `reviews:v2` → `ratings` (only for user `jason`)
+    *  `productpage` → `reviews:v1` (for everyone else)
+
 ## Injecting an HTTP delay fault
 
 To test the Bookinfo application microservices for resiliency, inject a 7s delay
@@ -139,8 +143,8 @@ Another way to test microservice resiliency is to introduce an HTTP abort fault.
 In this task, you will introduce an HTTP abort to the `ratings` microservices for
 the test user `jason`.
 
-In this case, you expect the page to load immediately and display the `product
-ratings not available` message.
+In this case, you expect the page to load immediately and display the `Ratings
+service is currently unavailable` message.
 
 1.  Create a fault injection rule to send an HTTP abort for user `jason`:
 
@@ -188,8 +192,10 @@ ratings not available` message.
     If the rule propagated successfully to all pods, the page loads
     immediately and the `Ratings service is currently unavailable` message appears.
 
-1. Log out from user `jason` and the rating stars show up successfully on the
-application's `/productpage`.
+1. If you log out from user `jason` or open the Bookinfo application in an anonymous
+   window (or in another browser), you will see that `/productpage` still calls `reviews:v1`
+   (which does not call `ratings` at all) for everybody but `jason`. Therefore you
+   will not see any error message.
 
 ## Cleanup
 

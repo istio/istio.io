@@ -93,7 +93,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 service_ 使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -239,7 +239,7 @@ env:
 1.  为 `www.google.apis` 创建网格外部 `ServiceEntry`，并执行目标规则以执行 TLS 发起。
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:

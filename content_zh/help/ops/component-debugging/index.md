@@ -8,25 +8,51 @@ weight: 25
 
 ## 使用 `istioctl`
 
-`istioctl` 允许使用 `proxy-config` 或 `pc` 命令从其管理接口（本地）或 Pilot 来检查给定 Envoy 的 xDS 配置。
+### 获取网格的状态
+
+你可以通过 `proxy-status` 命令获取网格的状态:
+
+{{< text bash >}}
+$ istioctl proxy-status
+{{< /text >}}
+
+如果输出列表信息中没有代理信息，意味着目前没有连接到一个 Pilot 实例，所以不会接收任何配置信息，另外，如果有 stale 的标识，可能意味着存在网络问题或者 Pilot 需要扩大规模。
+
+### 代理配置
+
+`istioctl` 允许使用 `proxy-config` 或 `pc` 命令来查看代理的配置信息。
 
 例如，要通过管理接口在 Envoy 中获取集群的配置，可运行以下命令：
 
 {{< text bash >}}
-$ istioctl proxy-config endpoint <pod-name> clusters
+$ istioctl proxy-config cluster <pod-name> [flags]
 {{< /text >}}
 
-要从 Pilot 查询应用程序命名空间内给定 pod 的 endpoint，可运行以下命令：
+要查询特定 pod 的 Envoy 实例的引导配置信息，可运行以下命令:
 
 {{< text bash >}}
-$ istioctl proxy-config pilot -n application <pod-name> eds
+$ istioctl proxy-config bootstrap <pod-name> [flags]
 {{< /text >}}
 
-`proxy-config` 命令还可以使用以下命令从 Pilot 检索整个网格的状态：
+要查询特定 pod 的 Envoy 实例的侦听器配置信息，可运行以下命令:
 
 {{< text bash >}}
-$ istioctl proxy-config pilot mesh ads
+$ istioctl proxy-config listener <pod-name> [flags]
 {{< /text >}}
+
+要查询特定 pod 的 Envoy 实例的路由配置信息，可运行以下命令:
+
+{{< text bash >}}
+$ istioctl proxy-config route <pod-name> [flags]
+{{< /text >}}
+
+要查询特定 pod 的 Envoy 实例的 endpoint 信息，可运行以下命令:
+
+{{< text bash >}}
+$ istioctl proxy-config endpoints <pod-name> [flags]
+{{< /text >}}
+
+点击 [调试 Envoy 和 Pilot](/zh/help/ops/traffic-management/proxy-cmd/)查看更多相关信息。
 
 ## 使用 GDB
 
