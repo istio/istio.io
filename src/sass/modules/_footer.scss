@@ -13,7 +13,7 @@ footer {
         padding: 1.5rem 0 1rem 0;
     }
 
-    .icon {
+    .channel {
         position: relative;
         display: inline-flex;
         padding: 4px;
@@ -31,6 +31,7 @@ footer {
             width: 35px;
             height: 35px;
             fill: $textBrandColor;
+            stroke: $mainBrandColor;
         }
 
         span {

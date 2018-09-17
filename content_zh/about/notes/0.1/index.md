@@ -1,7 +1,7 @@
 ---
 title: Istio 0.1
 weight: 100
-icon: /img/notes.svg
+icon: notes
 ---
 
 Istio 0.1 是 Istio 的第一个 [release](https://github.com/istio/istio/releases)，它适用于单个 Kubernetes 集群，并支持以下功能：
