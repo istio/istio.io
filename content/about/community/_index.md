@@ -6,5 +6,5 @@ weight: 15
 aliases:
     - /community
 type: section-index
-icon: /img/community.svg
+icon: community
 ---

@@ -141,9 +141,11 @@ You can embed some common icons in your content using:
 {{< text markdown >}}
 {{</* warning_icon */>}}
 {{</* idea_icon */>}}
+{{</* checkmark_icon */>}}
+{{</* cancel_icon */>}}
 {{< /text >}}
 
-which look like {{< warning_icon >}} and {{< idea_icon >}}
+which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, and {{< cancel_icon >}}.
 
 In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
 which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
