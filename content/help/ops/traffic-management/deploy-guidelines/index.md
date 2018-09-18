@@ -344,3 +344,51 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 {{< /text >}}
 
 This should stop Istio from restarting Envoy and disconnecting TCP connections.
+
+## Configuring multiple TLS hosts in a gateway
+
+If you configure multiple gateway servers, either in a single `Gateway`,
+or spread across more than one that use the same `selector` labels,
+with the same port number and protocol HTTPS,
+then you must ensure that the corresponding port names are unique. For example:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https-httpbin
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "httpbin.example.com"
+  - port:
+      number: 443
+      name: https-bookinfo
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-bookinfo-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-bookinfo-certs/tls.key
+    hosts:
+    - "bookinfo.com"
+EOF
+{{< /text >}}
+
+If the port names are not unique, `istio-pilot` will return the following error in the log:
+
+{{< text plain >}}
+port https.443.HTTPS: non unique port name for HTTPS port
+{{< /text >}}
+
+If you run a `curl` command, command returns 0 and print `SSL_SYSCALL_ERROR`.
