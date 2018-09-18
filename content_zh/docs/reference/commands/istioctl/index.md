@@ -144,7 +144,7 @@ $ istioctl deregister <服务名称> <ip 地址> [选项]
 
 典型用例：
 
-{{< text bash >}}
+{{< text shell >}}
 # 从服务 my-svc 中解除端点 172.17.0.2 的注册。
 istioctl deregister my-svc 172.17.0.2
 {{< /text >}}
