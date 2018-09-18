@@ -144,7 +144,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
     将您的浏览器指向 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），您应该看到一切正常。
 
-1.  1.  验证已创建日志流并检查 `permissiveResponseCode`。
+1.  验证已创建日志流并检查 `permissiveResponseCode`。
 
     在 Kubernetes 环境中，搜索日志以查找 istio-telemetry pods，如下所示：
 
