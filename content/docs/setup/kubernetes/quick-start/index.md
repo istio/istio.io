@@ -19,6 +19,7 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
   * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
+  * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
 
@@ -64,8 +65,8 @@ $ kubectl apply -f install/kubernetes/istio-demo.yaml
 Use this option only on a fresh Kubernetes cluster where newly deployed
 workloads are guaranteed to have Istio sidecars installed.
 
-To Install Istio and enforce mutual TLS authentication between sidecars by
-default:
+To Install Istio and enforce [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication)
+between sidecars by default:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml

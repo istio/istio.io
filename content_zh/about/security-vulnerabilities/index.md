@@ -2,7 +2,7 @@
 title: 报告 Istio 安全漏洞
 description: 负责披露 Istio 安全漏洞。
 weight: 35
-icon: /img/vulnerabilities.svg
+icon: vulnerabilities
 ---
 
 我们非常感谢报告 Istio 安全漏洞的安全研究人员和用户。我们会对每个报告进行彻底调查。

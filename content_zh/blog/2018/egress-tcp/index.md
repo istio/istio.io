@@ -210,7 +210,7 @@ keywords: [流量管理,egress,tcp]
 1. 定义一个网格外部服务入口：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:

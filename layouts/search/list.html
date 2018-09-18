@@ -7,6 +7,10 @@
         padding-bottom: 0;
     }
 
+    .gcs-adBlock {
+        display: none;
+    }
+
     table, th, td, tr {
         border: 0;
         padding: 0;
@@ -90,7 +94,11 @@
             })();
     </script>
 
-    <gcse:searchresults-only></gcse:searchresults-only>
+    {{ if .Site.Data.args.archive }}
+        <gcse:searchresults-only defaultToRefinement="{{ .Site.Data.args.archive_search_refinement }}"></gcse:searchresults-only>
+    {{ else }}
+        <gcse:searchresults-only></gcse:searchresults-only>
+    {{ end }}
 </div>
 
 <script>

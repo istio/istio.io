@@ -55,7 +55,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -91,7 +91,7 @@ from within your Istio cluster. This task shows you how to access an external HT
     The `VirtualService` must include a `tls` rule with `sni_hosts` in the `match` clause to enable SNI routing.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -163,7 +163,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Exit the source pod and use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -261,6 +261,19 @@ Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
 #### Minikube
 
 Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
+
+#### Docker For Desktop
+
+Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
+
+#### Bare Metal
+
+Use the value of your `service-cluster-ip-range`.  It's not fixed, but the default value is 10.96.0.0/12.  To determine your actual value:
+
+{{< text bash >}}
+$ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
+      --service-cluster-ip-range=10.96.0.0/12
+{{< /text >}}
 
 ### Access the external services
 

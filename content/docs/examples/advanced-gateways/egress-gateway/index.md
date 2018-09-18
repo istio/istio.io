@@ -55,7 +55,7 @@ First direct HTTP traffic without TLS origination
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -101,7 +101,7 @@ First direct HTTP traffic without TLS origination
     command.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -145,7 +145,7 @@ First direct HTTP traffic without TLS origination
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -175,7 +175,7 @@ First direct HTTP traffic without TLS origination
 1.  Define a `VirtualService` to direct the traffic through the egress gateway:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -262,7 +262,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -304,7 +304,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     command.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -348,7 +348,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -379,7 +379,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     origination:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -474,7 +474,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -509,7 +509,7 @@ The output should be the same as in the previous section.
     command.
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -588,7 +588,7 @@ The output should be the same as in the previous section.
     otherwise:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -872,6 +872,31 @@ items accordingly (note the remarks _If you have mutual TLS Authentication enabl
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
             X509v3 Subject Alternative Name:
                 URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+    {{< /text >}}
+
+1.  For HTTPS traffic (TLS originated by the application), test the traffic flow by using the _openssl_ command.
+    _openssl_ has an explicit option for setting the SNI, namely `-servername`.
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
+    CONNECTED(00000003)
+    ...
+    Certificate chain
+     0 s:/C=US/ST=California/L=San Francisco/O=Fastly, Inc./CN=turner-tls.map.fastly.net
+       i:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
+     1 s:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
+       i:/C=BE/O=GlobalSign nv-sa/OU=Root CA/CN=GlobalSign Root CA
+     ---
+     Server certificate
+     -----BEGIN CERTIFICATE-----
+    ...
+    {{< /text >}}
+
+    If you get the certificate as in the output above, your traffic is routed correctly. Check the statistics of the egress gateway's proxy and see a counter that corresponds to your requests (sent by _openssl_ and _curl_) to _edition.cnn.com_.
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
+    cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
 ## Cleanup

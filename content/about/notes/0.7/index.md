@@ -1,7 +1,7 @@
 ---
 title: Istio 0.7
 weight: 94
-icon: /img/notes.svg
+icon: notes
 ---
 
 For this release, we focused on improving our build and test infrastructures and increasing the

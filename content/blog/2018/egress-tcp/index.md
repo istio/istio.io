@@ -261,7 +261,7 @@ TCP mesh-external service entries come to our rescue.
 1.  Define a TCP mesh-external service entry:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:

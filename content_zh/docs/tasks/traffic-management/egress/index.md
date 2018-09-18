@@ -11,9 +11,10 @@ keywords: [流量管理,egress]
 
 ## 开始之前
 
-* 根据[安装指南](/zh/docs/setup)的内容，部署 Istio。
+*   根据[安装指南](/zh/docs/setup)的内容，部署 Istio。
 
-* 启动 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
+*   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
+
     如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，运行：
 
     {{< text bash >}}
@@ -28,16 +29,23 @@ keywords: [流量管理,egress]
 
     实际上任何可以 `exec` 和 `curl` 的 Pod 都可以用来完成这一任务。
 
+*   将 `SOURCE_POD` 环境变量设置为已部署的 `sleep` pod：
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
 ## 在 Istio 中配置外部服务
 
-通过配置 Istio `ServiceEntry`，可以从 Istio 集群中访问外部任意的可用服务。这里我们会使用 [httpbin.org](http://httpbin.org) 以及 [www.google.com](https://www.google.com) 进行试验。
+通过配置 Istio `ServiceEntry`，可以从 Istio 集群中访问任何可公开访问的服务。
+这里我们会使用 [httpbin.org](http://httpbin.org) 以及 [www.google.com](https://www.google.com) 进行试验。
 
 ### 配置外部服务
 
 1. 创建一个 `ServiceEntry` 对象，放行对一个外部 HTTP 服务的访问：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -50,13 +58,29 @@ keywords: [流量管理,egress]
         name: http
         protocol: HTTP
       resolution: DNS
+      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
-1. 创建一个 `ServiceEntry` 以及 `VirtualService`，允许访问外部 HTTPS 服务。注意：包括 HTTPS 在内的 TLS 协议，在 `ServiceEntry` 之外，还需要创建 TLS `VirtualService`。
+1.  创建一个 `ServiceEntry` 以及 `VirtualService`，允许访问外部 HTTPS 服务。注意：包括 HTTPS 在内的 TLS 协议，在 `ServiceEntry` 之外，还需要创建 TLS `VirtualService`。
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    {{< /text >}}
+
+1.  向外部 HTTP 服务发出请求：
+
+    {{< text bash >}}
+    $ curl http://httpbin.org/headers
+    {{< /text >}}
+
+### 配置外部 HTTPS 服务
+
+1.  创建一个 `ServiceEntry` 和一个 `VirtualService` 以允许访问外部 HTTPS 服务。请注意，
+    对于 TLS 协议（包括 HTTPS），除了 `ServiceEntry` 之外，还需要 `VirtualService`。 `VirtualService` 必须在 `match` 子句中包含 `tls` 规则和 `sni_hosts` 以启用 SNI 路由。
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -69,6 +93,7 @@ keywords: [流量管理,egress]
         name: https
         protocol: HTTPS
       resolution: DNS
+      location: MESH_EXTERNAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -91,22 +116,13 @@ keywords: [流量管理,egress]
     EOF
     {{< /text >}}
 
-### 发起对外部服务的访问
-
-1. 使用 `kubectl exec` 命令进入测试 Pod。假设使用的是 sleep 服务，运行如下命令：
+1.  执行 `sleep service` 源 pod：
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SOURCE_POD -c sleep bash
     {{< /text >}}
 
-1. 发起一个对外部 HTTP 服务的请求：
-
-    {{< text bash >}}
-    $ curl http://httpbin.org/headers
-    {{< /text >}}
-
-1. 发起一个对外部 HTTPS 服务的请求：
+1.  向外部 HTTPS 服务发出请求：
 
     {{< text bash >}}
     $ curl https://www.google.com
@@ -130,10 +146,10 @@ keywords: [流量管理,egress]
 
     这个请求会在大概五秒钟左右返回一个内容为 `200 (OK)` 的响应。
 
-1. 退出测试 Pod，使用 `istioctl` 为 httpbin.org 外部服务的访问设置一个 3 秒钟的超时：
+1.  退出测试 Pod，使用 `kubectl` 为 httpbin.org 外部服务的访问设置一个 3 秒钟的超时：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -150,7 +166,7 @@ keywords: [流量管理,egress]
     EOF
     {{< /text >}}
 
-1. 等待几秒钟之后，再次发起 `curl` 请求：
+1.  等待几秒钟之后，再次发起 _curl_ 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep bash
@@ -186,7 +202,7 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
 
 #### IBM Cloud Private
 
-1. 从 IBM Cloud Private 配置文件（`cluster/config.yaml`）中获取 `service_cluster_ip_range`。
+1.  从 IBM Cloud Private 配置文件（`cluster/config.yaml`）中获取 `service_cluster_ip_range`。
 
     {{< text bash >}}
     $ cat cluster/config.yaml | grep service_cluster_ip_range
@@ -198,7 +214,7 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1. 使用 `--set global.proxy.includeIPRanges="10.0.0.1/24"`
+1.  使用 `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
 #### IBM Cloud Kubernetes Service
 
@@ -224,6 +240,19 @@ servicesIpv4Cidr: 10.7.240.0/20
 
 使用 `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
+#### Docker For Desktop
+
+使用 `--set global.proxy.includeIPRanges="10.96.0.0/12"`
+
+#### Bare Metal
+
+使用 `service-cluster-ip-range` 的值。它没有固定值，但默认值为 10.96.0.0/12 。要确定您的实际值：
+
+{{< text bash >}}
+$ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
+      --service-cluster-ip-range=10.96.0.0/12
+{{< /text >}}
+
 ### 访问外部服务
 
 更新了 `ConfigMap` `istio-sidecar-injector` 并且重新部署了 `sleep` 应用之后，Istio sidecar 就应该只劫持和管理集群内部的请求了。任意的外部请求都会简单的绕过 Sidecar，直接访问目的地址。
@@ -247,20 +276,20 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 
 ## 清理
 
-1. 删除规则：
+1.  删除规则：
 
     {{< text bash >}}
     $ kubectl delete serviceentry httpbin-ext google
     $ kubectl delete virtualservice httpbin-ext google
     {{< /text >}}
 
-1. 停止 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+1.  停止 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1. 更新 `ConfigMap` `istio-sidecar-injector`，要求 Sidecar 转发所有外发流量：
+1.  更新 `ConfigMap` `istio-sidecar-injector`，要求 Sidecar 转发所有外发流量：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参数> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -

@@ -7,7 +7,7 @@ aliases:
   - /faq
   - /docs/welcome/faq.html
   - /docs/reference/faq.html
-icon: /img/faq.svg
+icon: faq
 ---
 
 You've got questions? We've got answers!

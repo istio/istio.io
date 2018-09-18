@@ -13,6 +13,7 @@
         position: relative;
         box-shadow: 0 0 50px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.25);
         border-radius: 3px;
+        background-color: $companyLogoBackgroundColor;
 
         &:hover {
             transition-property: transform, opacity, box-shadow;
@@ -63,6 +64,7 @@
     }
 
     .tagline {
+        color: $companyLogoTaglineColor;
         opacity: 0;
         transition-duration: 0.8s;
         transition-property: opacity;

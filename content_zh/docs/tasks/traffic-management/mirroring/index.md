@@ -72,7 +72,7 @@ keywords: [流量管理,镜像]
     **httpbin Kubernetes service:**
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl create -f -
+    $ kubectl create -f - <<EOF
     apiVersion: v1
     kind: Service
     metadata:

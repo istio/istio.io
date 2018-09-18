@@ -6,7 +6,7 @@ keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
     - /docs/tasks/integrating-services-into-istio.html
-icon: /img/helm.svg
+icon: helm
 ---
 
 Quick start instructions for the setup and configuration of Istio using Helm.
@@ -25,6 +25,7 @@ plane and the sidecars for the Istio data plane.
   * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
+  * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
@@ -44,7 +45,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
 
-    > If you are enabling `certmanager`, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+    If you are enabling `certmanager`, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
@@ -59,6 +60,12 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
+    {{< /text >}}
+
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true > $HOME/istio.yaml
     {{< /text >}}
 
 1. Install the components via the manifest:
@@ -92,6 +99,12 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
 
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
+    {{< /text >}}
+
 ## Uninstall
 
 * For option 1, uninstall using `kubectl`:
@@ -115,5 +128,5 @@ to manage the lifecycle of Istio.
 * If desired, delete the CRDs:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}

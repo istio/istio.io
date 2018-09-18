@@ -59,6 +59,6 @@
         <path id="LightThread3" d="M100,100 m-20,77.5 a50,50 0 0,0 40,-2" />
       </g>
     </g>
-    <path id="Outline" style="fill: none; stroke: #000; stroke-width: 1.5px; stroke-linecap:butt; stroke-linejoin: round" d="M100,100 m-43.30127,21.69873 a50,50 0 1,1 86.60254,0 c-6,12 -23.30127,18.30127 -23.30127,33.30127 l0,28 -10,8 -20,0 -10,-8 0,-28 c0,-15 -17.30127,-21.30127 -23.30127,-33.30127 z" />
+    <path style="fill: none; stroke: #000; stroke-width: 1.5px; stroke-linecap:butt; stroke-linejoin: round" d="M100,100 m-43.30127,21.69873 a50,50 0 1,1 86.60254,0 c-6,12 -23.30127,18.30127 -23.30127,33.30127 l0,28 -10,8 -20,0 -10,-8 0,-28 c0,-15 -17.30127,-21.30127 -23.30127,-33.30127 z" />
   </g>
 </svg>
