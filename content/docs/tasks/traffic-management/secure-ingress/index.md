@@ -50,7 +50,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
    `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
     procedures below.
 
-1.  Move the certificates into the `httpbin.example.com` directory:
+1.  Move the certificates into a directory named `httpbin.example.com`:
 
     {{< text bash >}}
     $ mkdir ~+1/httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/httpbin.example.com
@@ -290,7 +290,7 @@ In this subsection, perform the same steps as in the [Generate client and server
 
     When prompted, select `y` for all the questions.
 
-1.  Move the certificates into `bookinfo.com` directory:
+1.  Move the certificates into a directory named `bookinfo.com`:
 
     {{< text bash >}}
     $ mkdir ~+1/bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ~+1/bookinfo.com
