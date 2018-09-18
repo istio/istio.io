@@ -269,7 +269,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
 The ingress gateway will present to clients a unique certificate corresponding to each requested server.
 
 Unlike the previous sections, the Istio default ingress gateway will not work out of the box, because it is only
-preconfigured to support one secure host. You'll need to first configure and redeploy the egress gateway
+preconfigured to support one secure host. You'll need to first configure and redeploy the ingress gateway
 server with another secret, before you can use it to handle a second host.
 
 ### Generate client and server certificates and keys for `bookinfo.com`
