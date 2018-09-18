@@ -242,7 +242,7 @@ $ istioctl experimental rbac can <方法> <服务> <路径> [选项]
 
 典型用例：
 
-{{< text bash >}}
+{{< text shell >}}
 # 查询是否允许用户 test 对服务 rating 进行 GET /v1/health 操作。
 istioctl experimental rbac can -u test GET rating /v1/health
 
