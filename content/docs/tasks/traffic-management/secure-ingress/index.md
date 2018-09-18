@@ -268,13 +268,14 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`.
 The ingress gateway will present to clients a unique certificate corresponding to each requested server.
 
-Unlike the previous sections, the Istio default ingress gateway will not work out of the box, because it is only
+Unlike the previous sections, the Istio default ingress gateway will not work out of the box because it is only
 preconfigured to support one secure host. You'll need to first configure and redeploy the ingress gateway
 server with another secret, before you can use it to handle a second host.
 
 ### Generate client and server certificates and keys for `bookinfo.com`
 
-In this subsection, perform the same steps as in the [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys) subsection. I list them below for your convenience.
+Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys),
+only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 
 1.  Change directory to the cloned repository:
 
@@ -304,7 +305,7 @@ In this subsection, perform the same steps as in the [Generate client and server
 
 ### Redeploy `istio-ingressgateway` with the new certificates
 
-1. Create a new secret to hold the certificate for `bookinfo.com`
+1. Create a new secret to hold the certificate for `bookinfo.com`:
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com/3_application/private/bookinfo.com.key.pem --cert bookinfo.com/3_application/certs/bookinfo.com.cert.pem
