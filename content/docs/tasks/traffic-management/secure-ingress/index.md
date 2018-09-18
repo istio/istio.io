@@ -144,7 +144,7 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     over TLS. The `--cacert` option instructs _curl_ to use your generated certificate to verify the server.
 
     > The `-HHost:httpbin.example.com` flag is included but only really needed if `SECURE_INGRESS_PORT` is different
-      from the actual gateway port (443), for example, if you are accessing the server via a mapped `NodePort`.
+    > from the actual gateway port (443), for example, if you are accessing the server via a mapped `NodePort`.
 
     By sending the request to the `/status/418` URL path, you get a nice visual clue that your `httpbin` service was
     indeed accessed. The `httpbin` service will return the
@@ -239,7 +239,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     {{< /text >}}
 
     > It might take time for the gateway definition to propagate so you might still get _418_. Wait for a minute and
-      then retry the _curl_ call.
+    > then retry the _curl_ call.
 
     This time you will get an error since the server refuses to accept unauthenticated requests. You need to pass _curl_
     a client certificate and your private key for signing the request.
@@ -265,7 +265,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 
 ## Configure a TLS ingress gateway for multiple hosts
 
-In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`. 
+In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`.
 The ingress gateway will present the client the correct certificate according to the requested server.
 
 Unlike the previous sections, the Istio default ingress gateway will not work out of the box, because it is only
@@ -351,7 +351,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
     {{< /text >}}
 
-1.  Redeploy the `Gateway` definition with a host for `bookinfo.com`:
+1.  Redeploy the `Gateway` definition with an additional host for `bookinfo.com`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -386,7 +386,7 @@ In this subsection, perform the same steps as in the [Generate client and server
     EOF
     {{< /text >}}
 
-1.  Configure the routes for `bookinfo.com`. Define a `VirtualService` similarly to the one in
+1.  Configure the routes for `bookinfo.com`. Define a `VirtualService` like the one in
     [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml):
 
     {{< text bash >}}
