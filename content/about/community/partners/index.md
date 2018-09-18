@@ -2,7 +2,7 @@
 title: Partners
 description: Who's building stuff around Istio.
 weight: 20
-icon: /img/partners.svg
+icon: partners
 keywords: [community]
 skip_seealso: true
 ---

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="29" viewBox="0 0 26 29">
+    <g stroke-width="2px" fill="none">
+        <rect x="1" y="1" width="7" height="7" rx="2" ry="2"/>
+        <path d="M2212,1340h12" transform="translate(-2199 -1336)"/>
+        <rect x="1" y="11" width="7" height="7" rx="2" ry="2"/>
+        <path d="M2212,1350h12" transform="translate(-2199 -1336)"/>
+        <rect x="1" y="21" width="7" height="7" rx="2" ry="2"/>
+        <path d="M2212,1360h12" transform="translate(-2199 -1336)"/>
+    </g>
+</svg>

@@ -3,7 +3,7 @@ title: 媒体资源
 description: 可用于数字和印刷材料的官方 Istio 媒体资源。
 weight: 90
 type: media-resources
-icon: /img/istio-blue-logo.svg
+icon: istio-blue-logo
 ---
 
 这里有一些媒体资源，如果你想要展示你对 Istio 的支持，或者与 Istio 的集成，并且想用这些资源。那么请随意使用这些资源：
@@ -60,9 +60,9 @@ icon: /img/istio-blue-logo.svg
             </div>
             <div class="body">
                 <ul>
-                    <li><i class="do fa fa-check"></i> 使用 Istio 徽标链接到 istio.io</li>
-                    <li><i class="do fa fa-check"></i> 使用 Istio 徽标宣传您的产品支持 Istio</li>
-                    <li><i class="do fa fa-check"></i> 在博客文章或有关 Istio 的新闻文章中使用 Istio 徽标</li>
+                    <li>{{< checkmark_icon >}} 使用 Istio 徽标链接到 istio.io</li>
+                    <li>{{< checkmark_icon >}} 使用 Istio 徽标宣传您的产品支持 Istio</li>
+                    <li>{{< checkmark_icon >}} 在博客文章或有关 Istio 的新闻文章中使用 Istio 徽标</li>
                 </ul>
             </div>
         </div>
@@ -76,10 +76,10 @@ icon: /img/istio-blue-logo.svg
             </div>
             <div class="body">
                 <ul>
-                    <li><i class="dont fa fa-times"></i> 使用 Istio 徽标作为应用程序的图标</li>
-                    <li><i class="dont fa fa-times"></i> 创建 Istio 徽标的修改版本</li>
-                    <li><i class="dont fa fa-times"></i> 将 Istio 徽标整合到您的徽标中</li>
-                    <li><i class="dont fa fa-times"></i> 更改 Istio 徽标的颜色或宽高比</li>
+                    <li>{{< cancel_icon >}} 使用 Istio 徽标作为应用程序的图标</li>
+                    <li>{{< cancel_icon >}} 创建 Istio 徽标的修改版本</li>
+                    <li>{{< cancel_icon >}} 将 Istio 徽标整合到您的徽标中</li>
+                    <li>{{< cancel_icon >}} 更改 Istio 徽标的颜色或宽高比</li>
                 </ul>
             </div>
         </div>

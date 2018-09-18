@@ -3,7 +3,7 @@ title: Minimal Istio Installation
 description: Install minimal Istio using Helm.
 weight: 31
 keywords: [kubernetes,helm, minimal]
-icon: /img/helm.svg
+icon: helm
 ---
 
 Quick start instructions for the minimal setup and configuration of Istio using Helm.

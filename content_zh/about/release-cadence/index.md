@@ -2,7 +2,7 @@
 title: 构建 & 发布节奏
 description: 管理、编号和支持 Istio 发布的方式。
 weight: 6
-icon: /img/cadence.svg
+icon: cadence
 ---
 
 我们每天都在构建发布 Istio。大约每个月我们会将其中一个日常构建版本通过一系列额外的质量测试后，将其构建标记为 Snapshot 版本。大约每个季度左右，我们会选择其中一个 Snapshot 版本运行更多测试并将构建标记为长期支持（LTS）版本。最后，如果发现 LTS 版本有问题，我们会发布补丁。

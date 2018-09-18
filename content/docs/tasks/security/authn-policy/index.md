@@ -243,7 +243,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 Remove global authentication policy and destination rules added in the session:
 
-{{< text yaml >}}
+{{< text bash >}}
 $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules default httpbin-legacy api-server
 {{< /text >}}
@@ -626,7 +626,8 @@ However, requests from non-Istio services, which use plain-text will fail:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-401
+000
+command terminated with exit code 56
 {{< /text >}}
 
 ### Cleanup part 3

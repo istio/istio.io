@@ -2,7 +2,7 @@
 title: 合作伙伴
 description: 围绕 Istio 进行构建的用户。
 weight: 20
-icon: /img/partners.svg
+icon: partners
 keywords: [社区]
 skip_seealso: true
 ---

@@ -45,20 +45,40 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           1m
 
 ### 启用双向 TLS
 
-运行此命令以在默认 namespace 中启用 service 的双向 TLS。
+要在默认命名空间中为服务启用双向 TLS，您必须配置身份验证策略和目标规则。
+请按照以下步骤完成配置：
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "example-1"
-  namespace: "default"
-spec:
-  peers:
-  - mtls:
-EOF
-{{< /text >}}
+1. 要配置身份验证策略，请运行：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      peers:
+      - mtls: {}
+    EOF
+    {{< /text >}}
+
+1. 要配置目标规则，请运行：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: "networking.istio.io/v1alpha3"
+    kind: "DestinationRule"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      host: "*.default.svc.cluster.local"
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    EOF
+    {{< /text >}}
 
 运行此命令重新部署该 service：
 
@@ -69,28 +89,35 @@ $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-comm
 
 并重复上一小节中的相同步骤以验证 liveness 探针是否工作正常。
 
+{{< text bash >}}
+$ kubectl get pod
+NAME                             READY     STATUS    RESTARTS   AGE
+liveness-6857c8775f-zdv9r        2/2       Running   0           4m
+{{< /text >}}
+
+### 清理
+
+删除上述步骤中添加的相互TLS策略和相应的目标规则：
+
+1. 要删除双向 TLS 策略，请运行：
+
+    {{< text bash >}}
+    $ kubectl delete policies default
+    {{< /text >}}
+
+1. 要删除相应的目标规则，请运行：
+
+    {{< text bash >}}
+    $ kubectl delete destinationrules default
+    {{< /text >}}
+
 ## 使用 http 请求选项的 liveness 和 readiness 探针
 
 本节介绍了如何使用 HTTP 请求选项配置健康检查。
 
 ### 禁用双向 TLS 策略
 
-运行此命令删除双向 TLS 策略。
-
-{{< text bash >}}
-$ cat <<EOF | istioctl delete -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "example-1"
-  namespace: "default"
-spec:
-  peers:
-  - mtls:
-EOF
-{{< /text >}}
-
-运行此命令以在默认 namespace 中部署 [liveness]({{< github_file >}}/samples/health-check/liveness-http.yaml)：
+运行此命令以在默认 namespace 中部署 [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml)：
 
 {{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
@@ -106,19 +133,39 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### 启用双向 TLS 策略
 
-运行此命令以在默认 namespace 中启用 service 的双向 TLS。
+同样，通过添加命名空间范围的身份验证策略和目标规则，为默认命名空间中的服务启用双向 TLS：
 
-{{< text bash >}}
-$ cat <<EOF | istioctl create -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "example-1"
-  namespace: "default"
-spec:
-  peers:
-EOF
-{{< /text >}}
+1. 要配置身份验证策略，请运行：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      peers:
+      - mtls: {}
+    EOF
+    {{< /text >}}
+
+1. 要配置目标规则，请运行：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: "networking.istio.io/v1alpha3"
+    kind: "DestinationRule"
+    metadata:
+      name: "default"
+      namespace: "default"
+    spec:
+      host: "*.default.svc.cluster.local"
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    EOF
+    {{< /text >}}
 
 运行这些命令重新部署该 service：
 

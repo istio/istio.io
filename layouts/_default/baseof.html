@@ -83,6 +83,10 @@
         <script>
             var branchName = "{{ .Site.Data.args.branch_name }}";
             var docTitle = "{{ .Title }}";
+            var iconFile = "{{ .Site.BaseURL}}/img/icons.svg";
+            var buttonCopy = '{{ i18n "button_copy" }}';
+            var buttonPrint = '{{ i18n "button_print" }}';
+            var buttonDownload = '{{ i18n "button_download" }}';
         </script>
 
         <!-- RSS -->
@@ -109,7 +113,6 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work Sans:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
 
         {{ if .Site.Data.args.archive }}
             <link rel="stylesheet" href="/css/light_theme_archive.css" title="light">
@@ -131,7 +134,9 @@
         {{ partial "footer.html" . }}
 
         <div class="d-xl-none d-print-none">
-            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title="Back to top"><i class="fa fa-lg fa-arrow-up"></i></button>
+            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title='{{ i18n "button_top"}}'>
+                {{ partial "icon.html" "top" }}
+            </button>
         </div>
 
         <!-- libraries we pull in -->

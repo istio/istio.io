@@ -4,8 +4,6 @@ description: 此任务描述 Istio 如何配置出口流量的 TLS。
 weight: 42
 ---
 
-> 注意：此任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧的 API 已被弃用，将在下一个 Istio 版本中删除。如果您需要使用旧版本，请按照[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档操作。
-
 [控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内部的应用程序访问 Kubernetes 集群外部的 HTTP 和 HTTPS 服务, 如该主题中所述，默认情况下，启用了 Istio 的应用程序无法访问集群外的 URL, 要启用外部访问，必须定义外部服务的[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
 
 此任务描述 Istio 如何配置出口流量的 TLS。
@@ -50,7 +48,7 @@ weight: 42
 1.  创建一个 `ServiceEntry` 以允许访问外部 HTTP 和 HTTPS 服务：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -65,6 +63,7 @@ weight: 42
       - number: 443
         name: https-port
         protocol: HTTPS
+      resolution: NONE
     EOF
     {{< /text >}}
 
@@ -94,7 +93,7 @@ weight: 42
 在下一节中，您将配置 Istio 以执行 TLS 以解决这两个问题, 在继续下一部分之前清理配置：
 
 {{< text bash >}}
-$ istioctl delete serviceentry cnn
+$ kubectl delete serviceentry cnn
 {{< /text >}}
 
 ## 出口流量的 TLS
@@ -106,7 +105,7 @@ $ istioctl delete serviceentry cnn
     最后，请注意 `VirtualService` 使用特定的主机 _edition.cnn.com_ （没有通配符），因为 Envoy 代理需要确切地知道使用 HTTPS 访问哪个主机：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -121,7 +120,7 @@ $ istioctl delete serviceentry cnn
       - number: 443
         name: http-port-for-tls-origination
         protocol: HTTP
-        resolution: DNS
+      resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -182,9 +181,9 @@ $ istioctl delete serviceentry cnn
 1.  删除您创建的 Istio 配置项：
 
     {{< text bash >}}
-    $ istioctl delete serviceentry cnn
-    $ istioctl delete virtualservice rewrite-port-for-edition-cnn-com
-    $ istioctl delete destinationrule originate-tls-for-edition-cnn-com
+    $ kubectl delete serviceentry cnn
+    $ kubectl delete virtualservice rewrite-port-for-edition-cnn-com
+    $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
     {{< /text >}}
 
 1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
