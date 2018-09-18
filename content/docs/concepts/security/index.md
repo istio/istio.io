@@ -235,7 +235,7 @@ before it becomes effective.
 ### Mutual TLS authentication
 
 Istio tunnels service-to-service communication through the client side and server side [Envoy proxies](https://envoyproxy.github.io/envoy/).
-For a client to call a server, the steps followed are:
+For a client to call a server with mutual TLS authentication:
 
 1. Istio re-routes the outbound traffic from a client to the client's local sidecar Envoy.
 

@@ -65,8 +65,8 @@ $ kubectl apply -f install/kubernetes/istio-demo.yaml
 Use this option only on a fresh Kubernetes cluster where newly deployed
 workloads are guaranteed to have Istio sidecars installed.
 
-To Install Istio and enforce mutual TLS authentication between sidecars by
-default:
+To Install Istio and enforce [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication)
+between sidecars by default:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
