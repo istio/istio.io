@@ -266,7 +266,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 ## Configure a TLS ingress gateway for multiple hosts
 
 In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`.
-The ingress gateway will present the client the correct certificate according to the requested server.
+The ingress gateway will present to clients a unique certificate corresponding to each requested server.
 
 Unlike the previous sections, the Istio default ingress gateway will not work out of the box, because it is only
 preconfigured to support one secure host. You'll need to first configure and redeploy the egress gateway
