@@ -65,7 +65,7 @@ You can confirm that this has happened by checking Pilot's logs for a message si
 
 {{< text bash >}}
 $ kubectl logs -n istio-system -l istio=pilot -c discovery | grep "non unique port"
-2018-09-14T19:02:31.916960Z	info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
 {{< /text >}}
 
 To avoid this problem, ensure that multiple uses of the same `protocol: HTTPS` port are uniquely named.
