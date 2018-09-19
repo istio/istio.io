@@ -10,8 +10,8 @@ This section provides specific deployment or configuration guidelines to avoid n
 
 If you apply a `Gateway` configuration that has the same `selector` labels as another
 existing `Gateway`, then if they both expose the same HTTPS port you must ensure that they have
-unique port names. Otherwise, the configuration will be applied without error but ignored
-in the runtime configuration. For example:
+unique port names. Otherwise, the configuration will be applied without an immediate error indication
+but it will be ignored in the runtime gateway configuration. For example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -65,7 +65,7 @@ You can confirm that this has happened by checking Pilot's logs for a message si
 
 {{< text bash >}}
 $ kubectl logs -n istio-system -l istio=pilot -c discovery | grep "non unique port"
-2018-09-14T19:02:31.916960Z	info	model	skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+2018-09-14T19:02:31.916960Z	info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
 {{< /text >}}
 
 To avoid this problem, ensure that multiple uses of the same `protocol: HTTPS` port are uniquely named.
