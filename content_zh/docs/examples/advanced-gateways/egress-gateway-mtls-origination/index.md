@@ -10,7 +10,7 @@ keywords: [流量管理,egress]
 
 要模拟支持 mTLS 协议的实际外部服务，首先在 Kubernetes 集群中部署 [NGINX](https://www.nginx.com) 服务器，但在 Istio 服务网格之外运行，即在命名空间中运行没有启用 Istio 的代理注入 sidecar 。
 接下来，配置出口网关以与外部 NGINX 服务器执行双向 TLS。
-最后，通过出口网关将流量从网格内的应用程序窗格引导到网格外的 NGINX 服务器。
+最后，通过出口网关将流量从网格内的应用程序 pod 引导到网格外的 NGINX 服务器。
 
 ## 生成客户端和服务器证书和密钥
 
@@ -49,13 +49,13 @@ keywords: [流量管理,egress]
 
 ## 部署 NGINX 服务器
 
-1.  创建一个名称空间来表示 Istio 网格之外的服务，即 `mesh-external`。请注意，由于自动注入 sidecar 没有[启用](/zh/docs/setup/kubernetes/sidecar-injection/#应用部署)，因此 sidecar 代理不会自动注入此命名空间中的 pod。
+1.  创建一个命名空间来表示 Istio 网格之外的服务，即 `mesh-external`。请注意，由于自动注入 sidecar 没有[启用](/zh/docs/setup/kubernetes/sidecar-injection/#应用部署)，因此 sidecar 代理不会自动注入此命名空间中的 pod。
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. 创建 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) 用来保存服务器端证书和 CA 证书。
+1. 创建 Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 用来保存服务器端证书和 CA 证书。
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
@@ -206,7 +206,7 @@ keywords: [流量管理,egress]
 
 ## 部署容器以测试 NGINX 部署
 
-1.  创建 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) 来保存客户端证书和 CA 证书：
+1.  创建 Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 来保存客户端证书和 CA 证书：
 
     {{< text bash >}}
     $ kubectl create secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
@@ -331,14 +331,14 @@ keywords: [流量管理,egress]
 
 ## 使用客户端证书重新部署 Egress 网关
 
-1. 创建 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) 以保存客户端证书和 CA 证书。
+1. 创建 Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 以保存客户端证书和 CA 证书。
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls nginx-client-certs --key nginx.example.com/4_client/private/nginx.example.com.key.pem --cert nginx.example.com/4_client/certs/nginx.example.com.cert.pem
     $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
-1.  生成 `istio-egressgateway` deployment，其中包含要从新 secrets 安装的 volume。用生成 `istio.yaml` 相同的选项：
+1.  生成 `istio-egressgateway` deployment，其中包含要从新 Secret 安装的 volume。用生成 `istio.yaml` 相同的选项：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
