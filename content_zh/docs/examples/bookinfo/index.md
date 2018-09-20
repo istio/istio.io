@@ -183,15 +183,15 @@ $ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 
 在使用 Istio 控制 Bookinfo 版本路由之前，你需要在目标规则中定义好可用的版本，命名为 *subsets* 。
 
-运行一下命令为 Bookinfo 服务创建的默认的目标规则：
+运行以下命令为 Bookinfo 服务创建的默认的目标规则：
 
-* 如果不需要启用 mutual TLS ，请执行以下命令：
+* 如果不需要启用双向TLS，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
-* 如果需要启用 mutual TLS ，请执行以下命令：
+* 如果需要启用双向 TLS，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
