@@ -1,7 +1,6 @@
 ---
 title: Groups-based authorization and authorization for list-typed claims
-description: Tutorial on how to configure the groups-base authorization and
-configure the authorization of list-typed claims in Istio.
+description: Tutorial on how to configure the groups-base authorization and configure the authorization of list-typed claims in Istio.
 weight: 10
 keywords: [security,authorization]
 ---
@@ -216,7 +215,7 @@ apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:
   name: bind-httpbin-viewer
-  namespace: rbac-listclaim-test-ns
+  namespace: rbac-groups-test-ns
 spec:
   subjects:
   - user: "*"
