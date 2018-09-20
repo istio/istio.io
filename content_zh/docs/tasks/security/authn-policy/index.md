@@ -242,7 +242,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 删除在上述步骤中创建的策略和目标规则：
 
-{{< text yaml >}}
+{{< text bash >}}
 $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules default httpbin-legacy api-server
 {{< /text >}}
