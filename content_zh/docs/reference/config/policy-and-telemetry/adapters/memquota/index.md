@@ -1,11 +1,7 @@
 ---
-title: 内存配额
+title: Memory quota
 description: 简单内存配额管理系统适配器。
 weight: 100
-location: https://istio.io/docs/reference/config/policy-and-telemetry/adapters/memquota.html
-layout: protoc-gen-docs
-generator: protoc-gen-docs
-number_of_entries: 3
 ---
 
 内存配额 (`memquota`) 适配器用于支持 Istio 配额管理系统。虽然功能齐全，但该适配器不适合生产使用，仅适用于本地测试。这种限制的原因是此适配器只能用于运行一个 Mixer 的环境中，不支持 HA 配置。如果该 Mixer 单点故障，则所有重要的配额值都将丢失。
