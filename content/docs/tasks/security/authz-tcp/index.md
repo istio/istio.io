@@ -1,6 +1,6 @@
 ---
 title: Authorization for TCP services
-description: Shows how to set up role-based access control for TCP services in the mesh.
+description: Shows how to set up role-based access control for TCP services.
 weight: 40
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
@@ -23,14 +23,14 @@ The activities in this task assume that you:
 ## Setup Bookinfo with MongoDB TCP service
 
 The normal Bookinfo sample includes only HTTP services by default, in order to demonstrate Istio
-Authorization for TCP services, we'll update the Bookinfo sample to use the `v2` of the `ratings`
+authorization for TCP services, we'll update the Bookinfo sample to use the `v2` of the `ratings`
 service which talks to a MongoDB backend.
 
 > If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
 
 1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application
 
-    After deployed, point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
+    After it has been deployed, point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
 
         * The "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
         * The "Book Reviews" section in the lower right part of the page.
@@ -40,7 +40,7 @@ service which talks to a MongoDB backend.
 
 1. Install `v2` of the `ratings` service with service account `bookinfo-ratings-v2`
 
-    In this task, we will enable access control based on Service Accounts, which are cryptographically
+    In this task, we will enable access control using service accounts, which are cryptographically
     authenticated in the mesh. In order to give different microservices different access privileges,
     we will create the `v2` of the `ratings` with service account `bookinfo-ratings-v2`. Other services
     will have a default service account `default`.
@@ -62,7 +62,7 @@ service which talks to a MongoDB backend.
     deployment "ratings-v2" configured
     {{< /text >}}
 
-1. Update Bookinfo sample to use the new version of `ratings`
+1. Update the Bookinfo sample to use the new version of `ratings`
 
     The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating
     destination rules that define the service subsets corresponding to each version, and the load
@@ -76,7 +76,7 @@ service which talks to a MongoDB backend.
     destinationrule "details" created
     {{< /text >}}
 
-    Since the subset references in virtual services rely on the destination rules,
+    Since the subset referenced in virtual services rely on the destination rules,
     wait a few seconds for destination rules to propagate before adding virtual services that refer
     to these subsets.
 
@@ -130,7 +130,7 @@ Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpa
 * The "Book Reviews" section in the lower right part of the page with "Ratings service is currently unavailable".
 
 This is because Istio authorization is "deny by default", which means that you need to explicitly
-define access control policy to grant access to the `mongodb` service.
+define access control policies to grant access to the `mongodb` service.
 
 > There may be some delays due to caching and other propagation overhead.
 
@@ -145,7 +145,7 @@ to access the mongoDB service.
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
     {{< /text >}}
 
-    The policy does the following:
+    The step above does the following:
 
     * Creates a `ServiceRole` "mongodb-viewer" which allows access to the port 27017 of `mongodb` service.
 
@@ -191,8 +191,8 @@ to access the mongoDB service.
     Run the following command to re-deploy the `v2` of `ratings` with service account `default`:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@ && \
-      kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
     serviceaccount "bookinfo-ratings-v2" deleted
     deployment "ratings-v2" deleted
     deployment "ratings-v2" created
