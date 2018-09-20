@@ -1,0 +1,5 @@
+{
+    // Auto fix ordered list markers
+    "markdown.extension.orderedList.autoRenumber": true,
+
+}
