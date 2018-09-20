@@ -72,7 +72,7 @@ The JWT must be signed by the JWKS endpoint defined in the above policy.
 In this tutorial, the [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) is
 from the Istio code base and the JWT is from a [sample JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt),
 which contains a JWT claim with the claim key being "scope" and the claim value being a list of
-strings ["scope1", "scope2"]. To generate a JWT with other list-typed claims for testing purpose, you may use
+strings [`"scope1"`, `"scope2"`]. To generate a JWT with other list-typed claims for testing purpose, you may use
 the `gen-jwt` [python script]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py).
 
 Set the environmental variable TOKEN to contain a valid sample JWT token:
@@ -164,7 +164,7 @@ EOF
 Wait a moment for the newly defined RBAC policy to become effective. Run the following command to verify that
 the curl connection to the httpbin service succeeds after the RBAC policy has become effective. The curl
 connection to the httpbin service succeeds because its header includes a valid JWT with the `scope` claim
-value ["scope1", "scope2"] containing `scope1`.
+value [`"scope1"`, `"scope2"`] containing `scope1`.
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"

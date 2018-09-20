@@ -385,8 +385,6 @@ RPCs
 sa
 sayin
 schemas
-scope1
-scope2
 secretName
 selinux
 serviceaccount
