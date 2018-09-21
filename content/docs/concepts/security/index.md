@@ -517,7 +517,7 @@ services in an Istio Mesh. It features:
 - **Flexibility through custom properties support**, for example conditions,
   in roles and role-bindings.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
-- **Supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols**.
+- **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
 
 ### Authorization architecture
 
@@ -655,8 +655,8 @@ Each rule has the following standard fields:
    form of `/packageName.serviceName/methodName` and are case sensitive.
 
 A `ServiceRole` specification only applies to the namespace specified in the
-`metadata` section. Only the `services` field is required in a rule, other fields are optional.
-If a field is not specified or if it is set to `*`, it applies to any instance.
+`metadata` section. A rule requires the `services` field and the other fields are optional.
+If you do not specify a field or if you set its value to `*`, Istio applies the field to all instances.
 
 The example below shows a simple role: `service-admin`, which has full access
 to all services in the `default` namespace.
@@ -821,22 +821,27 @@ spec:
 
 ### Using Istio authorization on plain TCP protocols
 
-The above examples showed a typical way to use Istio authorization on services using HTTP protocol.
-In that case, all fields in a `ServiceRole` and `ServiceRoleBinding` are supported.
+The examples in [ServiceRole](#servicerole) and [ServiceRoleBinding](#servicerolebinding) show a
+typical way to use Istio authorization on services using HTTP protocol. In those examples, all fields
+in a service role and service role binding are supported.
 
-Istio authorization also supports services using any plain TCP protocols, such as mongodb. In this case,
-you specify the `ServiceRole` and `ServiceRoleBinding` the same way as for a HTTP service, except that
-you cannot use the fields that are only applicable to HTTP services, which includes `paths` and `methods`
-in `ServiceRole`, and `group` in `ServiceRoleBinding`.
+Istio authorization supports services using any plain TCP protocols, such as MongoDB. In this case,
+you configure the service roles and service role bindings in the same way you did for the HTTP service.
+The difference is that certain fields, constraints and properties are only applicable to HTTP services.
+These fields include:
 
-For the supported constraints and properties that could be used for TCP service, please refer to the
-[constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
+    * The `paths` and `methods` fields in the service role configuration object.
+    * The `group` field in the service role binding configuration object.
 
-If any HTTP only fields are used for a TCP service, the `ServiceRole` or `ServiceRoleBinding` custom
-resource will be ignored completely as if there is no such policy.
+The supported constraints and properties are listed in the [constraints and properties page](
+/docs/reference/config/authorization/constraints-and-properties/).
 
-Assume you have a mongodb service serving on port 27017, the following example shows how to only
-allow `bookinfo-ratings-v2` to access it:
+If you use any HTTP only fields for a TCP service, Istio ignores the service role or service role
+binding custom resources and the policies set within completely.
+
+Assuming you have a MongoDB service on port 27017, the following example configures a service role and
+a service role binding to only allow the `bookinfo-ratings-v2` in the Istio mesh to access the
+MongoDB service.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"

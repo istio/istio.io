@@ -389,6 +389,8 @@ secretName
 selinux
 serviceaccount
 servicegraph-example
+servicerole
+servicerolebinding
 sharded
 sharding
 sidecar.env

@@ -4,24 +4,23 @@ description: Describes the supported constraints and properties.
 weight: 10
 ---
 
-This page lists the supported keys and value formats that could be used in Constraints and Properties.
-Constraints and Properties are extra conditions that could be used in `ServiceRole` and `ServiceRoleBinding`
-to specify detailed access control requirements.
+This section contains the supported keys and value formats you can use as constraints and properties
+in the service roles and service role bindings configuration objects.
+Constraints and properties are extra conditions you can add as fields in configuration objects with
+a `kind:` value of `ServiceRole` and `ServiceRoleBinding` to specify detailed access control requirements.
 
-Specifically, `Constraints` are used to specify additional custom constraints in the `AccessRule` of
-a `ServiceRole` and `Properties` are used to specify additional custom properties in the `Subject` of
-a `ServiceRoleBinding`
+Specifically, constraints are used to specify extra conditions in the access rule field of a service
+role and properties are used to specify extra conditions in the subject field of a service role binding.
+All keys listed in this page are supported for HTTP protocol and only only part of them are supported
+for plain TCP protocol.
 
-* For service using HTTP protocol, all keys listed in this page are supported
-* For service using plain TCP protocol, only part of the keys are supported, use of unsupported keys
-  will result the whole policy to be ignored
-* Unsupported keys and values will be silently ignored
+> {{< warning_icon >}} Unsupported keys and values will be ignored silently.
 
-For more information, please refer to [authorization concept page](/docs/concepts/security/#authorization).
+For more information, refer to [authorization concept page](/docs/concepts/security/#authorization).
 
-## Available Constraints
+## Supported Constraints
 
-The following table lists the currently supported keys in Constraints.
+The following table lists the currently supported keys for the `constraints` field:
 
 | Name | Description | Supported for TCP services | Key Example | Values Example |
 |------|-------------|----------------------------|-------------|----------------|
@@ -33,9 +32,9 @@ The following table lists the currently supported keys in Constraints.
 | `destination.user` | The identity of the destination workload | YES | `destination.user` | `["bookinfo-productpage"]` |
 | `request.headers` | HTTP request headers, The actual header name is surrounded by brackets | NO | `request.headers[X-Custom-Token]` | `["abc123"]` |
 
-## Available Properties
+## Supported Properties
 
-The following table lists the currently supported keys in Properties.
+The following table lists the currently supported keys for the `properties` field:
 
 | Name | Description | Supported for TCP services | Key Example | Value Example |
 |------|-------------|----------------------------|-------------|---------------|
