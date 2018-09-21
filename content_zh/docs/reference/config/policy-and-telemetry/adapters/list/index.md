@@ -4,7 +4,7 @@ description: 用于执行黑名单或白名单检测的适配器。
 weight: 90
 ---
 
-`list` 适配器可以用来执行简单的黑白名单检测工作。可以直接把列表内容配置到适配器中，也可以在适配器配置一个 指向列表内容的 URL。列表元素可以是简单的字符串、IP 地址或者正则表达式。
+`list` 适配器能够用来执行简单的黑白名单校验工作。可以把列表内容直接配置到适配器中，也可以要求适配器在指定 URL 中抓取列表内容。列表元素可以是简单的字符串、IP 地址或者正则表达式。
 
 该适配器支持 [`listentry 模板`](/zh/docs/reference/config/policy-and-telemetry/templates/listentry/)。
 
