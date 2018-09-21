@@ -2,7 +2,7 @@
 title: Observing Traffic Management Configuration
 description: Describes tools and techniques to diagnose configuration issues related to traffic management.
 weight: 30
-[debug,proxy,status,config,pilot,envoy]
+keywords: [debug,proxy,status,config,pilot,envoy]
 ---
 
 Istio provides two very valuable commands to help diagnose traffic management configuration problems, 
