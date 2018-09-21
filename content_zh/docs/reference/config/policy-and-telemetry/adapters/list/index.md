@@ -16,7 +16,7 @@ weight: 90
 |---|---|---|
 |`providerUrl`|`string`|从哪里找到列表内容进行检查。如果使用本地列表，则可以省略该字段|
 |`refreshInterval`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|用于更新列表的频率|
-|`ttl`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|列表的生效时间。一般来说 TTL 的值应该明显（两倍以上）超过 `refreshInterval`，从而确保操作的持续性。|
+|`ttl`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|列表的生效时间。一般来说 TTL 的值应该明显（两倍以上）超过 `refreshInterval`，从而确保操作的持续性|
 |`cachingInterval`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf)|该适配器的调用者可以将一个查询结果写入本地缓存，在这一字段所规定的**时间**之内无需再次向适配器进行查询|
 |`cachingUseCount`|`int32`|该适配器的调用者可以将一个查询结果写入本地缓存，在这一字段所规定的**次数**之内无需再次向适配器进行查询|
 |`overrides`|`string[]`|在处理来自服务器的列表之前，首先查询该列表|
