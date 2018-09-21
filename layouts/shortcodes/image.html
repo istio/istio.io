@@ -61,14 +61,10 @@ MARKDOWN ERROR: image caption ends with a period.
     {{- $h := sub (float (index $sizes 3)) (float (index $sizes 1)) -}}
     {{- $ratio := mul (div $h $w) 100 -}}
 
-    {{- $file := replaceRE "(<\\?xml.*\\?>)" "" $file -}}
-    {{- $file := replaceRE "(<!DOCTYPE.+?>)" "" $file -}}
-    {{- $file := replaceRE "(<svg )" "<svg class='element-to-stretch' " $file -}}
-
     <figure style="width: {{- $width -}}">
         <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}%">
             <a class="not-for-endnotes" href="{{- $link -}}" title="{{- $title -}}">
-                {{- safeHTML $file -}}
+                <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" />
             </a>
         </div>
         <figcaption>{{- $caption -}}</figcaption>
