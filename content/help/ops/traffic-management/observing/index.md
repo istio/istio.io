@@ -5,7 +5,7 @@ weight: 30
 keywords: [debug,proxy,status,config,pilot,envoy]
 ---
 
-Istio provides two very valuable commands to help diagnose traffic management configuration problems, 
+Istio provides two very valuable commands to help diagnose traffic management configuration problems,
 the [`proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status)
 and [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
 allows you to get an overview of your mesh and identify the proxy causing the problem. Then `proxy-config` can be used

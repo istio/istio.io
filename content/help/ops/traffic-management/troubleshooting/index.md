@@ -5,13 +5,11 @@ weight: 40
 ---
 
 This section describes common problems and tools and techniques to observe issues related to traffic management.
- 
-## Traffic distribution not accurately reflecting route rule weighs
 
-For the current Envoy sidecar implementation, up to 100 requests may be required for the desired
-distribution to be observed.
+## Route rules don't seem to affect traffic flow
 
-## Route rules have no effect on my application
+With the current Envoy sidecar implementation, up to 100 requests may be required for weighted
+version distribution to be observed.
 
 If route rules are working perfectly for the [Bookinfo](/docs/examples/bookinfo/) sample,
 but similar version routing rules have no effect on your own application, it may be that
@@ -22,8 +20,7 @@ Istio's L7 routing features.
 Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements)
 for details.
 
-## Route rules don't immediately take effect after being applied
-
+Another potential issue is that the route rules may simply be slow to take effect.
 The Istio implementation on Kubernetes utilizes an eventually consistent
 algorithm to ensure all Envoy sidecars have the correct configuration
 including all route rules. A configuration change will take some time
