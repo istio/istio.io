@@ -20,11 +20,11 @@ and the related
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication)
 concepts.
 
-* Have a Kubernetes cluster with Istio installed, with mutual TLS enabled
-(e.g use `install/kubernetes/istio-demo-auth.yaml` as described in
-[installation steps](/docs/setup/kubernetes/quick-start/#installation-steps)).
+* Create a Kubernetes cluster with Istio installed and Mutual TLS enabled.
+To fulfill this prerequisite you can follow the Kubernetes
+[installation instructions](/docs/setup/kubernetes/quick-start/#installation-steps).
 
-### Setup
+## Setup the required namespace and services
 
 This tutorial runs in a new namespace called `rbac-groups-test-ns`,
 with two services, `httpbin` and `sleep`, both running with an Envoy sidecar
@@ -33,229 +33,271 @@ name of the namespace, creates the namespace, and starts the two services.
 Before running the following commands, you need to enter the directory
 containing the Istio installation files.
 
-{{< text bash >}}
-$ export NS=rbac-groups-test-ns
-$ kubectl create ns $NS
-$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n $NS
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n $NS
-{{< /text >}}
+1.  Set the value of the `NS` environmental variable to `rbac-listclaim-test-ns`:
 
-To verify that `httpbin` and `sleep` services are running and `sleep` is able to
-reach `httpbin`, the following curl command should succeed with HTTP code 200.
+    {{< text bash >}}
+    $ export NS=rbac-groups-test-ns
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n"
-200
-{{< /text >}}
+1.  Create the namespace for this tutorial
 
-In addition, verify that no authentication policies have been defined in the
-newly created namespace.
+    {{< text bash >}}
+    $ kubectl create ns $NS
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl get policies.authentication.istio.io -n $NS
-No resources found.
-{{< /text >}}
+1.  Create the `httpbin` and `sleep` services and deployments
 
-## Configure authentication and authorization
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n $NS
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n $NS
+    {{< /text >}}
 
-### Configure JWT authentication with mutual TLS
+1.  Verify that `httpbin` and `sleep` services are running and `sleep` is able to
+reach `httpbin` by running the following curl command.
 
-Apply an authentication policy to require both mutual TLS and JWT authentication
-for `httpbin`:
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    {{< /text >}}
 
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n $NS -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "require-mtls-jwt"
-spec:
-  targets:
-  - name: httpbin
-  peers:
-  - mtls: {}
-  origins:
-  - jwt:
-      issuer: "testing@secure.istio.io"
-      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
-  principalBinding: USE_ORIGIN
-EOF
-{{< /text >}}
+    When the command succeeds, it should return HTTP code 200:
 
-With the above authentication policy, a valid JWT is needed to access the
-`httpbin` service. The JWT must be signed by the JWKS endpoint defined in the
-above policy. In this tutorial,
-the [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json)
-is from the Istio code base and the JWT is from a 
-[sample JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt),
-which contains a JWT claim with the claim key being `groups` and the claim value
-being a list of strings [`"group1"`, `"group2"`]. The JWT claim value could
+    {{< text plain >}}
+    200
+    {{< /text >}}
+
+1.  Get the existing authentication policies of the newly created namespace:
+
+    {{< text bash >}}
+    $ kubectl get policies.authentication.istio.io -n $NS
+    {{< /text >}}
+
+    Verify that no authentication policies exist with the following output:
+
+    {{< text plain >}}
+    No resources found.
+    {{< /text >}}
+
+1.  Get the existing authorization policies of the newly created namespace:
+
+    {{< text bash >}}
+    $ kubectl get RbacConfig.rbac.istio.io -n $NS
+    {{< /text >}}
+
+    Verify that no authorization policies exist with the following output:
+
+    {{< text plain >}}
+    No resources found.
+    {{< /text >}}
+
+## Configure JSON Web Token (JWT) authentication with mutual TLS
+
+1.  Apply an authentication policy to require both mutual TLS and
+JWT authentication for `httpbin`.
+The authentication policy you apply next enforces that a valid JWT is needed to
+access the `httpbin` service.
+The JSON Web Key Set (JWKS) endpoint defined in the policy must sign the JWT.
+This tutorial uses the
+[JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json)
+from the Istio code base.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "require-mtls-jwt"
+    spec:
+      targets:
+      - name: httpbin
+      peers:
+      - mtls: {}
+      origins:
+      - jwt:
+          issuer: "testing@secure.istio.io"
+          jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      principalBinding: USE_ORIGIN
+    EOF
+    {{< /text >}}
+
+1.  Set the environmental variable TOKEN to contain a valid sample JWT.
+This tutorial uses
+[this sample JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt).
+The sample JWT contains a JWT claim with a `groups` claim key and a list of
+strings, [`"group1"`, `"group2"`] as the claim value.
+The JWT claim value could
 either be a string or a list of strings; both types are supported.
 
-Set the environmental variable TOKEN to contain a valid sample JWT token:
+    {{< text bash>}}
+    $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s)
+    {{< /text >}}
 
-{{< text bash>}}
-$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s)
-{{< /text >}}
+1.  Connect to the httpbin service:
 
-With the authentication policy set, curl connection to the httpbin service
-should succeed if the JWT token is attached:
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-200
-{{< /text >}}
+    When a valid JWT is attached, it should return HTTP code 200:
 
-curl connection to the httpbin service should fail if the JWT token is not
-attached:
+    {{< text plain >}}
+    200
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n"
-401
-{{< /text >}}
+1.  Verify that the connection to the `httpbin` service fails when the JWT is not attached:
 
-### Configure groups-based authorization
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    {{< /text >}}
 
-This section will create a policy to authorize the access to the `httpbin`
+    When no valid JWT is attached, it should return HTTP code 401:
+
+    {{< text plain >}}
+    401
+    {{< /text >}}
+
+## Configure groups-based authorization
+
+This section creates a policy to authorize the access to the `httpbin`
 service if the requests are originated from specific groups.
-
-First, Istio RBAC should be enabled for the namespace by running the following
-command:
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n $NS -f -
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["rbac-groups-test-ns"]
-EOF
-{{< /text >}}
-
 As there may be some delays due to caching and other propagation overhead,
-wait a moment for the newly defined RBAC policy to become effective. Run the
-following command to verify that the curl connection
+wait a moment for the newly defined RBAC policy to become effective.
+
+1.  Enable the Istio RBAC for the namespace:
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: RbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["rbac-groups-test-ns"]
+    EOF
+    {{< /text >}}
+
+1.  Run the following command to verify that the curl connection
 to the httpbin service is rejected after the RBAC policy has become effective.
 
-{{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-403
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
+    {{< /text >}}
 
-Next, create a `ServiceRole`, called httpbin-viewer, that allows read access
-to the `httpbin` service.
+    When the RBAC policy has become effective, it should return HTTP code 403:
 
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n $NS -f -
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
-metadata:
-  name: httpbin-viewer
-  namespace: rbac-groups-test-ns
-spec:
-  rules:
-  - services: ["httpbin.rbac-groups-test-ns.svc.cluster.local"]
-    methods: ["GET"]
-EOF
-{{< /text >}}
+    {{< text plain >}}
+    403
+    {{< /text >}}
 
-Create a `ServiceRoleBinding` that assigns the `httpbin-viewer` role to users in
-the `group1`.
+1.  Create a service role with name `httpbin-viewer` to give read access to
+the `httpbin` service:
 
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n $NS -f -
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-httpbin-viewer
-  namespace: rbac-groups-test-ns
-spec:
-  subjects:
-  - user: "*"
-    properties:
-      request.auth.claims[groups]: "group1"
-  roleRef:
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRole
-    name: "httpbin-viewer"
-EOF
-{{< /text >}}
+    metadata:
+      name: httpbin-viewer
+      namespace: rbac-groups-test-ns
+    spec:
+      rules:
+      - services: ["httpbin.rbac-groups-test-ns.svc.cluster.local"]
+        methods: ["GET"]
+    EOF
+    {{< /text >}}
 
+1.  Create a service role binding with name `bind-httpbin-viewer` that
+assigns the `httpbin-viewer` role to users in the `group1`.
 Wait a moment for the newly defined RBAC policy to become effective.
 Currently `request.auth.claims` is the only property that supports matching
 against a list of strings in the JWT token.
-Run the following command to verify that the curl connection to the httpbin
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-httpbin-viewer
+      namespace: rbac-groups-test-ns
+    spec:
+      subjects:
+      - properties:
+          request.auth.claims[groups]: "group1"
+      roleRef:
+        kind: ServiceRole
+        name: "httpbin-viewer"
+    EOF
+    {{< /text >}}
+
+1.  Verify that the connection to the `httpbin`
 service succeeds after the RBAC policy has become effective.
-The curl connection to the httpbin service succeeds because its header includes
-a valid JWT with the `groups` claim value [`"group1"`, `"group2"`]
-containing `group1`.
 
-{{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-200
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
+    200
+    {{< /text >}}
 
-### Configure the authorization of list-typed claims
+    When the http header includes a valid JWT with the `groups` claim
+    value [`"group1"`, `"group2"`]
+    containing `group1`, it should return HTTP code 200:
+
+    {{< text plain >}}
+    200
+    {{< /text >}}
+
+## Configure the authorization of list-typed claims
 
 Istio RBAC also supports configuring the authorization of list-typed claims.
-The example JWT token `TOKEN` contains a JWT claim with the claim key
-being "scope" and the claim value being a list of strings
-[`"scope1"`, `"scope2"`]. You may use the `gen-jwt`
-[python script]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py) 
+The example JWT also contains a JWT claim with a `scope` claim key and
+a list of strings, [`"scope1"`, `"scope2"`] as the claim value.
+You may use the `gen-jwt`
+[python script]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py)
 to generate a JWT with other list-typed claims for testing purpose.
+Instructions for using `gen-jwt.py` are in the `gen-jwt` script.
 
-Create a `ServiceRoleBinding` that assigns the `httpbin-viewer` role to a
-request including a JWT with the list-typed claim `scope` being `scope1`.
+1.  Create a service role binding with name `bind-httpbin-viewer` that assigns
+the `httpbin-viewer` role to a request including a JWT with the list-typed
+claim `scope` being `scope1`. Wait a moment for the newly defined RBAC policy
+to become effective.
 
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n $NS -f -
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-httpbin-viewer
-  namespace: rbac-groups-test-ns
-spec:
-  subjects:
-  - user: "*"
-    properties:
-      request.auth.claims[scope]: "scope1"
-  roleRef:
-    kind: ServiceRole
-    name: "httpbin-viewer"
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-httpbin-viewer
+      namespace: rbac-groups-test-ns
+    spec:
+      subjects:
+      - properties:
+          request.auth.claims[scope]: "scope1"
+      roleRef:
+        kind: ServiceRole
+        name: "httpbin-viewer"
+    EOF
+    {{< /text >}}
 
-Wait a moment for the newly defined RBAC policy to become effective. Run the
-following command to verify that the curl connection to the httpbin service
-succeeds after the RBAC policy has become effective. The curl
-connection to the httpbin service succeeds because its header includes a valid
-JWT with the `scope` claim value [`"scope1"`, `"scope2"`] containing `scope1`.
+1.  Verify that the connection to the `httpbin`
+service succeeds after the RBAC policy has become effective.
 
-{{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-200
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
+    {{< /text >}}
+
+    When the http header includes a valid JWT with the `scope` claim
+    value [`"scope1"`, `"scope2"`]
+    containing `scope1`, it should return HTTP code 200:
+
+    {{< text plain >}}
+    200
+    {{< /text >}}
 
 ## Cleanup
 
-To delete all resources created in the namespace, you can run the following
-command:
+1.  After completing this tutorial, run the following command to delete all
+resources created in the namespace.
 
-{{< text bash >}}
-$ kubectl delete namespace $NS
-{{< /text >}}
-
-Alternatively, to delete individual resources created, you can use following
-commands:
-
-{{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n $NS
-$ kubectl delete -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n $NS
-$ kubectl delete Policy require-mtls-jwt -n $NS
-$ kubectl delete RbacConfig default -n $NS
-$ kubectl delete ServiceRole httpbin-viewer -n $NS
-$ kubectl delete ServiceRoleBinding bind-httpbin-viewer -n $NS
-$ kubectl delete ns $NS
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete namespace $NS
+    {{< /text >}}
