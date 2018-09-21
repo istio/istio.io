@@ -41,7 +41,7 @@ keywords: [安全,证书]
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1. 使用 Helm 重新部署 Citadel，其中 `global.mtls.enabled` 设置为 `true`， `security.selfSigned` 设置为 `false` 。 Citadel 将从 secret-mount 文件中读取证书和密钥。
+1. 使用 Helm 重新部署 Citadel，其中 `global.mtls.enabled` 设置为 `true`，`security.selfSigned` 设置为 `false` 。Citadel 将从 secret-mount 文件中读取证书和密钥。
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/security/templates/deployment.yaml \
