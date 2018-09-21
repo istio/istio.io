@@ -8,7 +8,6 @@ weight: 5
 
 ## 在网关中配置多个 TLS 主机
 
-If you apply a `Gateway` configuration that has the same `selector` labels as another existing `Gateway`, then if they both expose the same HTTPS port you must ensure that they have unique port names. Otherwise, the configuration will be applied without an immediate error indication but it will be ignored in the runtime gateway configuration. For example:
 如果您应用具有与另一个现有 `Gateway` 相同的 `selector` 标签的 `Gateway` 配置，那么如果它们都暴露相同的 HTTPS 端口，
 则必须确保它们具有唯一的端口名称。否则，由于在应用配置情况下没有立即的错误指示，而运行时网关配置中会忽略该配置（重名端口的配置将被忽略）。例如：
 
@@ -19,7 +18,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
   servers:
   - port:
       number: 443
@@ -38,7 +37,7 @@ metadata:
   name: mygateway2
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
   servers:
   - port:
       number: 443
@@ -76,7 +75,7 @@ metadata:
   name: mygateway2
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
   servers:
   - port:
       number: 443
@@ -192,8 +191,8 @@ metadata:
 
 ## 设置目标规则后 503 错误
 
-如果在应用 `DestinationRule` 后,对服务的请求立即开始产生 HTTP 503 错误，并且错误一直持续到删除或恢复 `DestinationRule`，
-那么 `DestinationRule` 可能是导致服务的 TLS 冲突。
+如果在应用 `DestinationRule` 后，对服务的请求立即开始产生 HTTP 503 错误，并且错误一直持续到删除或恢复 `DestinationRule`，
+那么 `DestinationRule` 可能是导致服务 TLS 冲突得原因。
 
 例如，如果在集群中配置全局中的双向 TLS，则 `DestinationRule` 必须包含以下 `trafficPolicy`：
 
@@ -205,8 +204,7 @@ trafficPolicy:
 
 否则，模式默认为 `DISABLED`，导致客户端代理 sidecar 发出 HTTP 明文请求而不是 TLS 加密请求。因此请求与服务器代理冲突，因为服务器代理需要加密的请求。
 
-To confirm there is a conflict, check whether the `STATUS` field in the output of the `istioctl authn tls-check` command
-is set to `CONFLICT` for your service. For example:
+要确认存在冲突，请用 `istioctl authn tls-check` 命令检查输出中的 `STATUS` 字段是否为 `CONFLICT`。例如：
 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
