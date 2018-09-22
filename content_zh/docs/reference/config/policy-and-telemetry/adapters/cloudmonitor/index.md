@@ -22,7 +22,7 @@ CloudMonitor 适配器使 Istio 可以向 [AliCloud CloudMonitor](https://cloudm
 | `accessKeyId` | `string` | AliCloud 访问帐户的访问密钥 ID |
 | `accessKeySecret` | `string` | AliCloud 访问帐户的访问密钥秘密 |
 | `groupId` | `int64` | AliCloud Cloud Monitor 服务实例中的应用程序组的 ID |
-| `metricInfo` | `map<string, [Params.MetricList](#Params-MetricList)>` | Istio 度量标准名称到 CloudMonitor 度量标准信息的映射。 |
+| `metricInfo` | `map<string,` [Params.MetricList](#Params-MetricList)`>` | Istio 度量标准名称到 CloudMonitor 度量标准信息的映射。 |
 
 ## Params.MetricList
 
