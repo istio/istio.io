@@ -1,4 +1,8 @@
-# Circonus
+---
+title: Circonus
+description: 该 `circonus` 适配器使 Istio metric 数据传送到 [Circonus](https://www.circonus.com) 的监控后端。
+weight: 70
+---
 
 该 `circonus` 适配器使 Istio metric 数据传送到 [Circonus](https://www.circonus.com) 的监控后端。
 
