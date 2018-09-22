@@ -133,7 +133,7 @@ keywords: [流量管理,egress,tcp]
 
 提醒一下，这是 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)中应用程序的原始整体架构图。
 
-{{< image width="80%" ratio="59.08%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
     caption="原始的 Bookinfo 应用程序"
     >}}
@@ -173,7 +173,7 @@ keywords: [流量管理,egress,tcp]
 
 更新的架构如下所示，请注意，网格内的蓝色箭头标记根据我们添加的虚拟服务配置的流量，根据虚拟服务的定义，流量将发送到 _reviews v3_ 和 _ratings v2-mysql_ 。
 
-{{< image width="80%" ratio="59.31%"
+{{< image width="80%"
     link="/blog/2018/egress-tcp/bookinfo-ratings-v2-mysql-external.svg"
     caption="Bookinfo 应用程序，其评级为 v2-mysql，外部为 MySQL 数据库"
     >}}
