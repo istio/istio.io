@@ -14,29 +14,29 @@ icon: istio-blue-logo
 <table>
   <tbody>
     <tr>
-      <td class="logo"><img src="/img/istio-logo-blue-background.svg" alt="带有'Istio Blue'背景的白色标志"></td>
-      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-logo.svg" alt="没有背景的白色徽标"></td>
+      <td class="logo"><img src="/img/istio-whitelogo-bluebackground-unframed.svg" alt="带有'Istio Blue'背景的白色标志"></td>
+      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-whitelogo-nobackground-unframed.svg" alt="没有背景的白色徽标"></td>
       <td class="desc">
           最小的白色标志，有和没有 <i>Istio</i> 蓝色背景
       </td>
     </tr>
     <tr>
-      <td class="logo"><img src="/img/istio-logo-social-blue-background.svg" alt="白色标志，'Istio Blue'背景，方形容器"></td>
-      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-logo-social.svg" alt="没有背景，方形容器的白色标志"></td>
+      <td class="logo"><img src="/img/istio-whitelogo-bluebackground-framed.svg" alt="白色标志，'Istio Blue'背景，方形容器"></td>
+      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-whitelogo-nobackground-framed.svg" alt="没有背景，方形容器的白色标志"></td>
       <td class="desc">
           方形的白色标志，有和没有 <i>Istio</i> 蓝色背景
       </td>
     </tr>
     <tr>
-      <td class="logo"><img src="/img/istio-blue-logo-white-background.svg" alt="'Istio蓝色`商标有白色背景"></td>
-      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-blue-logo.svg" alt="`Istio Blue`标志没有背景"></td>
+      <td class="logo"><img src="/img/istio-bluelogo-whitebackground-unframed.svg" alt="'Istio蓝色`商标有白色背景"></td>
+      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-bluelogo-nobackground-unframed.svg" alt="`Istio Blue`标志没有背景"></td>
       <td class="desc">
           <i>Istio Blue</i> 最小的徽标，有和没有白色背景
       </td>
     </tr>
     <tr>
-      <td class="logo"><img src="/img/istio-blue-logo-social-white-background.svg" alt="`Istio蓝色`商标有白色背景，方形的容器"></td>
-      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-blue-logo-social.svg" alt="`Istio Blue`标志没有背景，方形容器"></td>
+      <td class="logo"><img src="/img/istio-bluelogo-whitebackground-framed.svg" alt="`Istio蓝色`商标有白色背景，方形的容器"></td>
+      <td class="logo"><img style="background-color: lightgrey" src="/img/istio-bluelogo-nobackground-framed.svg" alt="`Istio Blue`标志没有背景，方形容器"></td>
       <td class="desc">
           <i>Istio Blue</i> 方形的徽标，有和没有白色背景
       </td>
