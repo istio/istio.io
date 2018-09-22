@@ -6,13 +6,13 @@ weight: 70
 
 该 `denier` 适配器设计为始终返回一个否定预处理检查。 您可以为这些拒绝指定要返回的确切错误。
 
-此适配器支持 [checknothing 模板](/docs/reference/config/policy-and-telemetry/templates/checknothing/)，[listentry 模板](/docs/reference/config/policy-and-telemetry/templates/listentry/) 和 [配额模板](/docs/reference/config/policy-and-telemetry/templates/quota/) 。
+此适配器支持 [checknothing 模板](/zh/docs/reference/config/policy-and-telemetry/templates/checknothing/)，[listentry 模板](/zh/docs/reference/config/policy-and-telemetry/templates/listentry/) 和 [配额模板](/zh/docs/reference/config/policy-and-telemetry/templates/quota/) 。
 
 ## PARAMS
 
 Denier 适配器的配置格式。
 
-| 领域 | 类型 | 描述 |
+| 属性 | 类型 | 描述 |
 | --- | --- | --- |
 | `status` | [google.rpc.Status](#google-rpc-Status) | 拒绝请求时返回的错误。 |
 | `validDuration` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration) | 拒绝有效的持续时间。 |
@@ -49,7 +49,7 @@ Denier 适配器的配置格式。
 
 *   日志记录。 如果某些 API 错误存储在日志中，则 `Status` 出于安全/隐私原因需要进行任何剥离后，可以直接使用该消息。
 
-| 领域 | 类型 | 描述 |
+| 属性 | 类型 | 描述 |
 | --- | --- | --- |
 | `code` | `int32` | 状态代码，应该是 *google.rpc.Code* 的枚举值。 |
 | `message` | `string` | 面向开发人员的错误消息，应该是英文的。 任何面向用户的错误消息都应进行本地化，并在 [google.rpc.Status.details](#google-rpc-Status-details) 字段中发送，或由客户端进行本地化。 |
