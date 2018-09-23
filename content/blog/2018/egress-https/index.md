@@ -36,7 +36,7 @@ The example commands in this blog post work with Istio 1.0+, with or without
 Here is a copy of the end-to-end architecture of the application from the original
 [Bookinfo sample application](/docs/examples/bookinfo/).
 
-{{< image width="80%" ratio="59.08%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
     caption="The Original Bookinfo Application"
     >}}
@@ -59,7 +59,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --d
 
 The updated architecture of the application now looks as follows:
 
-{{< image width="80%" ratio="65.16%"
+{{< image width="80%"
     link="./bookinfo-details-v2.svg"
     caption="The Bookinfo Application with details V2"
     >}}
@@ -206,7 +206,7 @@ regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservi
 inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the
 traffic between the pod and the external service is encrypted.
 
-{{< image width="60%" ratio="95.14%"
+{{< image width="60%"
     link="./https_from_the_app.svg"
     caption="HTTPS traffic to external services, with TLS originated by the microservice vs. by the sidecar proxy"
     >}}

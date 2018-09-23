@@ -15,7 +15,7 @@
     body {
         margin-top: $headerHeight;
         margin-bottom: calc(#{$footerHeight} + 3rem);
-        font-family: "work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Work Sans", sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
     }
@@ -25,7 +25,7 @@ a {
     color: $linkColor;
     text-decoration: none;
     font-weight: $linkWeight;
-    font-family: "Chivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Chivo", sans-serif;
 }
 
 a:hover, a:focus {
@@ -488,6 +488,15 @@ blockquote {
 .icon {
     width: 1em;
     height: 1em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
+.large_icon {
+    width: 1.4em;
+    height: 1.4em;
     display: inline;
     fill: $textColor;
     stroke: $textColor;
