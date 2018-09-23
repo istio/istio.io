@@ -194,7 +194,7 @@ metadata:
 如果在应用 `DestinationRule` 后，对服务的请求立即开始产生 HTTP 503 错误，并且错误一直持续到删除或恢复 `DestinationRule`，
 那么 `DestinationRule` 可能是导致服务 TLS 冲突得原因。
 
-例如，如果在集群中配置全局中的双向 TLS，则 `DestinationRule` 必须包含以下 `trafficPolicy`：
+例如，如果在集群中配置了全局双向 TLS，则 `DestinationRule` 必须包含以下 `trafficPolicy`：
 
 {{< text yaml >}}
 trafficPolicy:
@@ -202,7 +202,7 @@ trafficPolicy:
     mode: ISTIO_MUTUAL
 {{< /text >}}
 
-否则，模式默认为 `DISABLED`，导致客户端代理 sidecar 发出 HTTP 明文请求而不是 TLS 加密请求。因此请求与服务器代理冲突，因为服务器代理需要加密的请求。
+否则，默认模式为 `DISABLED`，会导致客户端代理 sidecar 发出 HTTP 明文请求而不是 TLS 加密请求。而服务器代理需要加密的请求，因此请求会与服务器代理产生冲突。
 
 要确认存在冲突，请用 `istioctl authn tls-check` 命令检查输出中的 `STATUS` 字段是否为 `CONFLICT`。例如：
 
