@@ -1,6 +1,6 @@
 ---
-title: Docker For Desktop
-description:  Istio 与 Docker For Desktop 一起使用的说明。
+title: 桌面版 docker
+description:  使用桌面版 docker 安装 Istio 的说明。
 weight: 15
 skip_seealso: true
 keywords: [platform-setup,kubernetes,docker-for-desktop]
