@@ -192,7 +192,7 @@ metadata:
 ## 设置目标规则后 503 错误
 
 如果在应用 `DestinationRule` 后，对服务的请求立即开始产生 HTTP 503 错误，并且错误一直持续到删除或恢复 `DestinationRule`，
-那么 `DestinationRule` 可能是导致服务 TLS 冲突得原因。
+那么 `DestinationRule` 可能是导致服务 TLS 冲突的原因。
 
 例如，如果在集群中配置了全局双向 TLS，则 `DestinationRule` 必须包含以下 `trafficPolicy`：
 
