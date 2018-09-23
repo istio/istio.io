@@ -74,7 +74,7 @@ keywords: [keyword1,keyword2,...]
 在 Markdown 文件中使用以下形式添加图像：
 
 {{< text html >}}
-{{</* image width="75%" ratio="69.52%"
+{{</* image width="75%"
     link="./myfile.svg"
     alt="当图片不可用时显示的文字"
     title="鼠标移到上方时出现的提示文字"

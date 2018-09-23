@@ -103,7 +103,7 @@ spec:
 
 Here is the service graph for the Bookinfo application.
 
-{{< image width="80%" ratio="59.08%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
     caption="Bookinfo Service Graph"
     >}}
