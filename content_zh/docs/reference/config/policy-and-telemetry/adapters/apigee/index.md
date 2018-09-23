@@ -46,8 +46,8 @@ spec:
 |`temp_dir`|`string`|可选字段。给适配器指定临时文件存储位置。缺省值为 `/tmp/apigee-istio`|
 |`client_timeout`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration)|可选字段。适配器请求 Apigee 服务器的超时时间。缺省值为 `30s`|
 |`api_key_claim`|`string`|可选字段。JWT 声明的名称，用于查找 `api_key`。缺省值 `none`|
-|`products`|[`product_options`](#product_options)|Product 参数|
-|`analytics`|[`analytics_options`](#analytics_options)|Analytics 参数|
+|`products`|[`product_options`](#product-options)|Product 参数|
+|`analytics`|[`analytics_options`](#analytics-options)|Analytics 参数|
 
 ## analytics_options
 
