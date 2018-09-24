@@ -39,13 +39,13 @@ containing the Istio installation files.
     $ export NS=rbac-groups-test-ns
     {{< /text >}}
 
-1.  Create the namespace for this tutorial
+1.  Create the namespace for this tutorial:
 
     {{< text bash >}}
     $ kubectl create ns $NS
     {{< /text >}}
 
-1.  Create the `httpbin` and `sleep` services and deployments
+1.  Create the `httpbin` and `sleep` services and deployments:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n $NS
@@ -165,7 +165,7 @@ wait until the newly defined RBAC policy to take effect.
     EOF
     {{< /text >}}
 
-1.  Once the RBAC policy take effect, verify that Istio rejected the curl
+1.  Once the RBAC policy takes effect, verify that Istio rejected the curl
 connection to the `httpbin` service:
 
     {{< text bash >}}
@@ -191,7 +191,7 @@ service role:
     EOF
     {{< /text >}}
 
-1.  To assign the `httpbin-viewer` role to users in the `group1`, create the
+1.  To assign the `httpbin-viewer` role to users in `group1`, create the
 `bind-httpbin-viewer` service role binding.
 
     {{< text bash >}}
@@ -211,9 +211,9 @@ service role:
     EOF
     {{< /text >}}
 
-Wait for the newly defined RBAC policy to take effect.
-Currently `request.auth.claims` is the only property that supports matching
-against a list of strings in the JWT token.
+    Wait for the newly defined RBAC policy to take effect.
+    Currently `request.auth.claims` is the only property that supports matching
+    against a list of strings in the JWT token.
 
 1.  After the RBAC policy takes effect, verify the connection to the `httpbin`
 service succeeds:
@@ -223,9 +223,9 @@ service succeeds:
     200
     {{< /text >}}
 
-    When the http header includes a valid JWT with the `groups` claim
-    value [`"group1"`, `"group2"`]
-    containing `group1`, it should return HTTP code 200.
+    The http header including a valid JWT with the `groups` claim
+    value of [`"group1"`, `"group2"`] returns HTTP code 200
+    since it contains `group1`.
 
 ## Configure the authorization of list-typed claims
 
@@ -258,7 +258,7 @@ create a service role binding with name `bind-httpbin-viewer`:
     EOF
     {{< /text >}}
 
-Wait for the newly defined RBAC policy to take effect.
+    Wait for the newly defined RBAC policy to take effect.
 
 1.  After the RBAC policy takes effect, verify that the connection to
 the `httpbin` service succeeds:
@@ -267,9 +267,9 @@ the `httpbin` service succeeds:
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    When the http header includes a valid JWT with the `scope` claim
-    value [`"scope1"`, `"scope2"`]
-    containing `scope1`, it should return HTTP code 200.
+    The http header including a valid JWT with the `scope` claim
+    value of [`"scope1"`, `"scope2"`] returns HTTP code 200
+    since it contains `scope1`.
 
 ## Cleanup
 
