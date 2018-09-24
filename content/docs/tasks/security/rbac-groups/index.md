@@ -73,6 +73,16 @@ containing the Istio installation files.
     No resources found.
     {{< /text >}}
 
+    {{< text bash >}}
+    $ kubectl get meshpolicies.authentication.istio.io -n $NS
+    {{< /text >}}
+
+    Verify that no mesh authentication policies exist with the following output:
+
+    {{< text plain >}}
+    No resources found.
+    {{< /text >}}
+
 1.  Get the existing authorization policies of the newly created namespace:
 
     {{< text bash >}}
@@ -80,6 +90,26 @@ containing the Istio installation files.
     {{< /text >}}
 
     Verify that no authorization policies exist with the following output:
+
+    {{< text plain >}}
+    No resources found.
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get ServiceRole.rbac.istio.io -n $NS
+    {{< /text >}}
+
+    Verify that no service role policies exist with the following output:
+
+    {{< text plain >}}
+    No resources found.
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get ServiceRoleBinding.rbac.istio.io -n $NS
+    {{< /text >}}
+
+    Verify that no service role binding policies exist with the following output:
 
     {{< text plain >}}
     No resources found.
@@ -211,9 +241,28 @@ service role:
     EOF
     {{< /text >}}
 
+    Alternatively, you may also specify the group under `subjects.group`
+    as follows. The two ways for specifying the group are equivalent.
+    Currently `request.auth.claims` and `subjects.group` are the only properties
+    that support matching against a list of strings in the JWT token.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-httpbin-viewer
+      namespace: rbac-groups-test-ns
+    spec:
+      subjects:
+      - group: "group1"
+      roleRef:
+        kind: ServiceRole
+        name: "httpbin-viewer"
+    EOF
+    {{< /text >}}
+
     Wait for the newly defined RBAC policy to take effect.
-    Currently `request.auth.claims` is the only property that supports matching
-    against a list of strings in the JWT token.
 
 1.  After the RBAC policy takes effect, verify the connection to the `httpbin`
 service succeeds:
