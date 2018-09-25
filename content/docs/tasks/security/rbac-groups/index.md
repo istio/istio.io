@@ -227,7 +227,7 @@ service succeeds:
     200
     {{< /text >}}
 
-    The http header including a valid JWT with the `groups` claim
+    The HTTP header including a valid JWT with the `groups` claim
     value of [`"group1"`, `"group2"`] returns HTTP code 200
     since it contains `group1`.
 
@@ -271,7 +271,7 @@ the `httpbin` service succeeds:
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    The http header including a valid JWT with the `scope` claim
+    The HTTP header including a valid JWT with the `scope` claim
     value of [`"scope1"`, `"scope2"`] returns HTTP code 200
     since it contains `scope1`.
 
