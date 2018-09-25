@@ -1,10 +1,10 @@
 ---
 title: Troubleshooting Networking Issues
 description: Describes common networking issues and how to recognize and avoid them.
-weight: 40
+weight: 30
 ---
 
-This section describes common problems and tools and techniques to observe issues related to traffic management.
+This section describes common problems and tools and techniques to address issues related to traffic management.
 
 ## Route rules don't seem to affect traffic flow
 
@@ -14,7 +14,6 @@ version distribution to be observed.
 If route rules are working perfectly for the [Bookinfo](/docs/examples/bookinfo/) sample,
 but similar version routing rules have no effect on your own application, it may be that
 your Kubernetes services need to be changed slightly.
-
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
 Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements)
@@ -104,11 +103,11 @@ In this situation you will notice that requests to the helloworld service via th
 not be directed to subset v1 but instead will continue to use default round-robin routing.
 
 The ingress requests are using the gateway host (e.g., `myapp.com`)
-which will activate the rules in the myapp `VirtualService` that routes to any endpoint in the helloworld service.
-Internal requests with the host `helloworld.default.svc.cluster.local` will use the
+which will activate the rules in the myapp `VirtualService` that routes to any endpoint of the helloworld service.
+Only internal requests with the host `helloworld.default.svc.cluster.local` will use the
 helloworld `VirtualService` which directs traffic exclusively to subset v1.
 
-To control the traffic from the gateway, you need to include the subset rule in the myapp `VirtualService`:
+To control the traffic from the gateway, you need to also include the subset rule in the myapp `VirtualService`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
