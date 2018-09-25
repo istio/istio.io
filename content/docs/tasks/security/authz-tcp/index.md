@@ -14,21 +14,25 @@ Istio Security Basics.
 
 The activities in this task assume that you:
 
-* Understand [authorization](/docs/concepts/security/#authorization) concepts.
+* Read [authorization](/docs/concepts/security/#authorization) concepts.
 
-* Have set up Istio on Kubernetes **with authentication enabled** by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/), this tutorial requires mutual TLS to work. Mutual TLS
-  authentication should be enabled in the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+* Follow the instructions in the [quick start](/docs/setup/kubernetes/quick-start/) to install Istio on
+  Kubernetes **with authentication enabled**.
 
-## Setup Bookinfo with MongoDB TCP service
+* Enable mutual TLS (mTLS) authentication when running the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
-The normal Bookinfo sample includes only HTTP services by default, in order to demonstrate Istio
-authorization for TCP services, we'll update the Bookinfo sample to use the `v2` of the `ratings`
-service which talks to a MongoDB backend.
+The commands used in this task assume the Bookinfo example application is deployed in the default
+namespace. To specify a namespace other than the default namespace, use `kubectl -n [my-namespace] ...`
+to specify the namespace.
 
-> If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
+## Installing and configuring a TCP service
 
-1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application
+By default, the [Bookinfo](/docs/examples/bookinfo/) example application only includes HTTP services.
+To show how Istio handles the authorization of TCP services, we must update the application to use a
+TCP service. Follow this procedure to deploy the Bookinfo example app and update its `ratings` service
+to the `v2` version, which talks to a MongoDB backend using TCP:
+
+1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application:
 
     After it has been deployed, point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
 
@@ -38,7 +42,7 @@ service which talks to a MongoDB backend.
     If you refresh the page several times, you should see different versions of reviews shown in the
     product page, presented in a round robin style (red stars, black stars, no stars)
 
-1. Install `v2` of the `ratings` service with service account `bookinfo-ratings-v2`
+1. Install `v2` of the `ratings` service with service account `bookinfo-ratings-v2`:
 
     In this task, we will enable access control using service accounts, which are cryptographically
     authenticated in the mesh. In order to give different microservices different access privileges,
@@ -62,7 +66,7 @@ service which talks to a MongoDB backend.
     deployment "ratings-v2" configured
     {{< /text >}}
 
-1. Update the Bookinfo sample to use the new version of `ratings`
+1. Update the Bookinfo sample to use the new version of `ratings`:
 
     The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating
     destination rules that define the service subsets corresponding to each version, and the load
@@ -94,7 +98,7 @@ service which talks to a MongoDB backend.
        * The "Book Reviews" section in the lower right part of the page with "Ratings service is currently unavailable",
          This is because we switched to use `v2` of `ratings` but haven't deployed the mongoDB service.
 
-1. Deploy the mongoDB service
+1. Deploy the mongoDB service:
 
     If you are using a cluster with automatic sidecar injection enabled,
     simply deploy the services using `kubectl`:
@@ -186,7 +190,7 @@ to access the mongoDB service.
 
     > There may be some delays due to caching and other propagation overhead.
 
-1. To confirm the mongoDB service can only be accessed by service account `bookinfo-ratings-v2`
+1. To confirm the mongoDB service can only be accessed by service account `bookinfo-ratings-v2`:
 
     Run the following command to re-deploy the `v2` of `ratings` with service account `default`:
 
