@@ -86,7 +86,7 @@ Istio Pilot 在 Istio 服务网格中提供了更全面的流量管理能力。
 
 ## pilot-discovery version
 
-打印编译版本信息
+打印版本信息
 
 > pilot-discovery version [flags]
 
