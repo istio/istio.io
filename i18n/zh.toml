@@ -85,6 +85,9 @@ other = "Privacy Policy"
 [page_publish_date_format]
 other = "January 2, 2006"
 
+[page_last_update_format]
+other = "(updated on %s)"
+
 [page_word_count]
 other = "%d words"
 
