@@ -25,4 +25,4 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.ibm.com/watson" logo="./watson.png" alt="IBM Watson" >}}
 </div>
 
-Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.github.io/pulls).
+Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).
