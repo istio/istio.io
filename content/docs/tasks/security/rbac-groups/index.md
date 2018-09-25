@@ -243,7 +243,8 @@ service role:
 
     Alternatively, you may specify the `group` field under `subjects`
     directly. The two ways for specifying the group are equivalent.
-    Currently `request.auth.claims` and `subjects.group` are the only properties
+    Currently `request.auth.claims` and the `group` field under
+    `subjects` are the only properties
     that support matching against a list of strings in the JWT token.
 
     {{< text bash >}}
