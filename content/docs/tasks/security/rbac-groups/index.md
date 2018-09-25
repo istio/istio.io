@@ -39,6 +39,14 @@ containing the Istio installation files.
     $ export NS=rbac-groups-test-ns
     {{< /text >}}
 
+1.  Make sure that the `NS` environmental variable points to a testing-only
+namespace. Run the following command to delete all resources in the namespace
+pointed by the `NS` environmental variable.
+
+    {{< text bash >}}
+    $ kubectl delete namespace $NS
+    {{< /text >}}
+
 1.  Create the namespace for this tutorial:
 
     {{< text bash >}}
@@ -60,28 +68,6 @@ containing the Istio installation files.
     {{< /text >}}
 
     When the command succeeds, it returns the HTTP code 200.
-
-1.  Get the existing authentication policies of the newly created namespace:
-
-    {{< text bash >}}
-    $ kubectl get policies.authentication.istio.io -n $NS
-    {{< /text >}}
-
-    Verify that no authentication policies exist with the following output:
-
-    {{< text plain >}}
-    No resources found.
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get meshpolicies.authentication.istio.io -n $NS
-    {{< /text >}}
-
-    Verify that no mesh authentication policies exist with the following output:
-
-    {{< text plain >}}
-    No resources found.
-    {{< /text >}}
 
 1.  Get the existing authorization policies of the newly created namespace:
 
