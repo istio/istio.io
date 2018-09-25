@@ -2,7 +2,7 @@
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 27
+number_of_entries: 26
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
@@ -2059,9 +2059,19 @@ ps
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--remote</code></td>
+<td></td>
+<td>Prints remote version information, from the control plane </td>
 </tr>
 <tr>
 <td><code>--short</code></td>
