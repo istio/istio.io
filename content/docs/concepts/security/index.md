@@ -821,7 +821,7 @@ spec:
 
 ### Using Istio authorization on plain TCP protocols
 
-The examples in [ServiceRole](#servicerole) and [ServiceRoleBinding](#servicerolebinding) show a
+The examples in [Service role](#servicerole) and [Service role binding](#servicerolebinding) show the
 typical way to use Istio authorization on services using HTTP protocol. In those examples, all fields
 in a service role and service role binding are supported.
 

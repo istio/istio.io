@@ -9,14 +9,14 @@ in the service roles and service role bindings configuration objects.
 Constraints and properties are extra conditions you can add as fields in configuration objects with
 a `kind:` value of `ServiceRole` and `ServiceRoleBinding` to specify detailed access control requirements.
 
-Specifically, constraints are used to specify extra conditions in the access rule field of a service
-role and properties are used to specify extra conditions in the subject field of a service role binding.
-All keys listed in this page are supported for HTTP protocol and only only part of them are supported
-for plain TCP protocol.
+Specifically, you can use constraints to specify extra conditions in the access rule field of a service
+role. You can use properties to specify extra conditions in the subject field of a service role binding.
+Istio supports all keys listed on this page for the HTTP protocol but supports only some for the for
+plain TCP protocol.
 
 > {{< warning_icon >}} Unsupported keys and values will be ignored silently.
 
-For more information, refer to [authorization concept page](/docs/concepts/security/#authorization).
+For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
 
 ## Supported Constraints
 
