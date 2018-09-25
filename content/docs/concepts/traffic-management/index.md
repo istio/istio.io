@@ -395,7 +395,7 @@ hosts:
 The `hosts` field specifies, implicitly or explicitly, one or more fully qualified
 domain names (FQDN). The short name `reviews`, above, would implicitly
 expand to an implementation specific FQDN. For example, in a Kubernetes environment
-the full name is derived from the cluster and namespace of the `VirtualSevice`
+the full name is derived from the cluster and namespace of the `VirtualService`
 (for example, `reviews.default.svc.cluster.local`).
 
 #### Splitting traffic between versions
