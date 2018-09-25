@@ -69,38 +69,6 @@ pointed by the `NS` environmental variable.
 
     When the command succeeds, it returns the HTTP code 200.
 
-1.  Get the existing authorization policies of the newly created namespace:
-
-    {{< text bash >}}
-    $ kubectl get RbacConfig.rbac.istio.io -n $NS
-    {{< /text >}}
-
-    Verify that no authorization policies exist with the following output:
-
-    {{< text plain >}}
-    No resources found.
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get ServiceRole.rbac.istio.io -n $NS
-    {{< /text >}}
-
-    Verify that no service role policies exist with the following output:
-
-    {{< text plain >}}
-    No resources found.
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get ServiceRoleBinding.rbac.istio.io -n $NS
-    {{< /text >}}
-
-    Verify that no service role binding policies exist with the following output:
-
-    {{< text plain >}}
-    No resources found.
-    {{< /text >}}
-
 ## Configure JSON Web Token (JWT) authentication with mutual TLS
 
 The authentication policy you apply next enforces that a valid JWT is needed to
