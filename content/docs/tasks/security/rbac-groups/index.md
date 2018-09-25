@@ -241,8 +241,8 @@ service role:
     EOF
     {{< /text >}}
 
-    Alternatively, you may also specify the group under `subjects.group`
-    as follows. The two ways for specifying the group are equivalent.
+    Alternatively, you may specify the `group` field under `subjects`
+    directly. The two ways for specifying the group are equivalent.
     Currently `request.auth.claims` and `subjects.group` are the only properties
     that support matching against a list of strings in the JWT token.
 
