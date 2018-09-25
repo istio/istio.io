@@ -29,7 +29,7 @@ Adapters are Go packages that are directly linked into the Mixer binary. It’s 
 
 Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes](/docs/concepts/policies-and-telemetry/#attributes) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
 
-{{< image width="60%" ratio="42.60%"
+{{< image width="60%"
     link="/docs/concepts/policies-and-telemetry/machine.svg"
     caption="Attribute Machine"
     >}}

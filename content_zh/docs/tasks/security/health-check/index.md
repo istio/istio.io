@@ -38,7 +38,7 @@ $ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
 部署 `istio-citadel` 服务，这样健康检查器才能找到 CSR 服务.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl create -f -
+$ kubectl create -f - <<EOF
 apiVersion: v1
 kind: Service
 metadata:

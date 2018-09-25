@@ -4,5 +4,5 @@ linktitle: Security
 description: Security Q & A.
 weight: 30
 type: faq
-icon: /img/faq.svg
+icon: faq
 ---

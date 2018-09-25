@@ -7,11 +7,14 @@ keywords: [流量管理,熔断]
 
 本任务展示了用连接、请求以及外部检测来进行熔断配置的过程。
 
-在网络方面可能发生一些大家不愿意遇到的问题，例如故障、延迟高峰等等，熔断功能能够帮助开发人员限制这些负面因素的影响范围。下面的内容会展示如何根据连接、请求以及外部检测的情况对断路器进行设置。
+断路器是创建弹性微服务应用程序的重要模式。断路器允许您编写限制故障、延迟峰值以及其他不良网络特性影响的应用程序。
+
+在此任务中，您将配置断路器规则，然后通过故意“跳闸”断路器来测试配置。
 
 ## 开始之前
 
 * 跟随[安装指南](/zh/docs/setup) 设置 Istio。
+
 * 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
 
     如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，只需运行：
@@ -26,12 +29,16 @@ keywords: [流量管理,熔断]
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
     {{< /text >}}
 
+    `httpbin` 应用程序用作为此任务的后端服务。
+
 ## 断路器
 
 1. 创建一个 [目标规则](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)，针对 `httpbin` 服务设置断路器：
 
+    > 如果您启用了双向 TLS 身份验证的 Istio，则必须在应用之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[重新配置服务路由时出现 503 错误](/zh/help/ops/traffic-management/deploy-guidelines/#重新配置服务路由时出现-503-错误)所述。
+
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -56,7 +63,7 @@ keywords: [流量管理,熔断]
 1. 检查我们的目标规则，确定已经正确建立：
 
     {{< text bash yaml >}}
-    $ istioctl get destinationrule httpbin -o yaml
+    $ kubectl get destinationrule httpbin -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -227,15 +234,17 @@ keywords: [流量管理,熔断]
 
 ## 清理
 
-1. 清理规则：
+1.  清理规则：
 
     {{< text bash >}}
-    $ istioctl delete destinationrule httpbin
+    $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
+1.  关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy
     $ kubectl delete svc httpbin
     {{< /text >}}
+
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)说明以关闭应用程序。

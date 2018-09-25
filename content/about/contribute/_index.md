@@ -5,5 +5,5 @@ weight: 100
 type: section-index
 aliases:
     - /docs/welcome/contribute/index.html
-icon: /img/contribute.svg
+icon: contribute
 ---

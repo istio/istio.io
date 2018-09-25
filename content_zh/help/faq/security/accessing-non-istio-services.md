@@ -6,7 +6,7 @@ weight: 40
 当全局启用双向 TLS 时，全局目标规则 (*global* destination rule) 匹配群集中的所有服务，无论这些服务是否具有 Istio sidecar。 这包括 Kubernetes API 服务器，以及集群中的任何非 Istio 服务。 要让这些非 Istio 服务与有 Istio sidecar 的服务进行通信，你需要设置目标规则以免除服务。 例如：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

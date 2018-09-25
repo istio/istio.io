@@ -92,7 +92,7 @@ rule to control the traffic distribution. For example if we want to send 10% of 
 to set a routing rule something like this:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -197,7 +197,7 @@ helloworld-v2-4095161145-963wt   2/2       Running   0          1h
 As mentioned above, the Istio routing rules can be used to route traffic based on specific criteria, allowing more sophisticated canary deployment scenarios. Say, for example, instead of exposing the canary to an arbitrary percentage of users, we want to try it out on internal users, maybe even just a percentage of them. The following command could be used to send 50% of traffic from users at *some-company-name.com* to the canary version, leaving all other users unaffected:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -230,7 +230,7 @@ As before, the autoscalers bound to the 2 version Deployments will automatically
 
 ## Summary
 
-In this article we’ve shown how Istio supports general scalable canary deployments, and how this differs from the basic deployment support in Kubernetes. Istio’s service mesh provides the control necessary to manage traffic distribution with complete independence from deployment scaling. This allows for a simpler, yet significantly more functional, way to do canary test and rollout.
+In this article we’ve seen how Istio supports general scalable canary deployments, and how this differs from the basic deployment support in Kubernetes. Istio’s service mesh provides the control necessary to manage traffic distribution with complete independence from deployment scaling. This allows for a simpler, yet significantly more functional, way to do canary test and rollout.
 
-Intelligent routing in support of canary deployment is just one of the many features of Istio that will make the production deployment of large-scale microservices-based applications much simpler. Check out [istio.io]() for more information and to try it out.
+Intelligent routing in support of canary deployment is just one of the many features of Istio that will make the production deployment of large-scale microservices-based applications much simpler. Check out [istio.io](/) for more information and to try it out.
 The sample code used in this article can be found [here]({{< github_tree >}}/samples/helloworld).

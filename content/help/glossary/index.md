@@ -7,5 +7,5 @@ aliases:
   - /glossary
   - /docs/welcome/glossary.html
   - /docs/reference/glossary.html
-icon: /img/glossary.svg
+icon: glossary
 ---

@@ -13,7 +13,7 @@ keywords: [platform-setup,kubernetes,gke,google]
 
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
-      --cluster-version=1.10.5-gke.4 \
+      --num-nodes 4
       --zone <zone> \
       --project <project-id>
     {{< /text >}}
@@ -33,3 +33,4 @@ keywords: [platform-setup,kubernetes,gke,google]
         --clusterrole=cluster-admin \
         --user=$(gcloud config get-value core/account)
     {{< /text >}}
+

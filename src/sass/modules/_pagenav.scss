@@ -3,4 +3,17 @@
         text-transform: uppercase;
         font-size: 80%;
     }
+
+    svg {
+        fill: $linkColor;
+        stroke: $linkColor;
+
+        &:hover {
+            fill: $linkHoverColor;
+            stroke: $linkHoverColor;
+        }
+
+        margin-left: .5em;
+        margin-right: .5em;
+    }
 }

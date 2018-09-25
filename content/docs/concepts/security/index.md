@@ -235,7 +235,7 @@ before it becomes effective.
 ### Mutual TLS authentication
 
 Istio tunnels service-to-service communication through the client side and server side [Envoy proxies](https://envoyproxy.github.io/envoy/).
-For a client to call a server, the steps followed are:
+For a client to call a server with mutual TLS authentication:
 
 1. Istio re-routes the outbound traffic from a client to the client's local sidecar Envoy.
 
@@ -534,6 +534,50 @@ Each Envoy proxy runs an authorization engine that authorizes requests at
 runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
 authorization result, `ALLOW` or `DENY`.
+
+### Authorization permissive mode
+
+Authorization permissive mode allows users to verify authorization policies
+before applying them in production environment.
+
+Authorization permissive mode could be set on both global authorization
+configuration and individual policies. When setting permissive mode on global
+authorization configuration, all policies will be in permissive mode regardless
+its own mode. Otherwise If the global authorization configuration is set to
+`ENFORCED`, the enforcement mode set on individual policy takes effect.
+If not specified, both global authorization configuration and individual
+policies are in `ENFORCED` mode by default.
+
+In the following example, Istio authorization permissive mode is set on global configuration level.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: RbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["default"]
+  enforcement_mode: PERMISSIVE
+{{< /text >}}
+
+In the following example, Istio authorization permissive mode is set on policy level.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-details-reviews
+  namespace: default
+spec:
+  subjects:
+    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+  roleRef:
+    kind: ServiceRole
+    name: "details-reviews-viewer"
+  mode: PERMISSIVE
+{{< /text >}}
 
 ### Enabling authorization
 

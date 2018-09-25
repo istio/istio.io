@@ -21,7 +21,7 @@ Bookinfo 应用分为四个单独的微服务：
 
 下图展示了这个应用的端到端架构。
 
-{{< image width="80%" ratio="68.52%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/noistio.svg"
     caption="Istio 注入之前的 Bookinfo 应用"
     >}}
@@ -36,7 +36,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 要在 Istio 中运行这一应用，无需对应用自身做出任何改变。我们只要简单的在 Istio 环境中对服务进行配置和运行，具体一点说就是把 Envoy sidecar 注入到每个服务之中。这个过程所需的具体命令和配置方法由运行时环境决定，而部署结果较为一致，如下图所示：
 
-{{< image width="80%" ratio="59.08%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
     caption="Bookinfo 应用"
     >}}
@@ -62,12 +62,12 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
         {{< /text >}}
 
-        [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`，
+        [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`。
 
-    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，只需简单的 `kubectl` 就能完成服务的部署。
+    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+        $ kubectl label namespace default istio-injection=enabled
         {{< /text >}}
 
         使用 `kubectl` 部署简单的服务
@@ -183,15 +183,15 @@ $ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 
 在使用 Istio 控制 Bookinfo 版本路由之前，你需要在目标规则中定义好可用的版本，命名为 *subsets* 。
 
-运行一下命令为 Bookinfo 服务创建的默认的目标规则：
+运行以下命令为 Bookinfo 服务创建的默认的目标规则：
 
-* 如果不需要启用 mutual TLS ，请执行以下命令：
+* 如果不需要启用双向TLS，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
-* 如果需要启用 mutual TLS ，请执行以下命令：
+* 如果需要启用双向 TLS，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@

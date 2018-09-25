@@ -27,7 +27,7 @@ of traffic for a particular service to go to a canary version irrespective
 of the size of the canary deployment, or send traffic to a particular version
 depending on the content of the request.
 
-{{< image width="85%" ratio="75%"
+{{< image width="85%"
     link="./TrafficManagementOverview.svg"
     caption="Traffic Management with Istio"
     >}}
@@ -61,7 +61,7 @@ routing rules.
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.
 
-{{< image width="60%" ratio="70%"
+{{< image width="60%"
     link="./PilotAdapters.svg"
     caption="Pilot Architecture"
     >}}
@@ -104,7 +104,7 @@ additional control over traffic between services.
 
 ### Communication between services
 
-{{< image width="60%" ratio="100%"
+{{< image width="60%"
     link="./ServiceModel_Versions.svg"
     alt="Showing how service versions are handled."
     caption="Service Versions"
@@ -144,7 +144,7 @@ via the Envoy sidecar, you can add failure recovery features such as
 timeouts, retries, and circuit breakers and obtain detailed metrics on
 the connections to these services.
 
-{{< image width="85%" ratio="35.51%"
+{{< image width="85%"
     link="./ServiceModel_RequestFlow.svg"
     alt="Ingress and Egress through Envoy."
     caption="Request Flow"
@@ -167,7 +167,7 @@ registry and provides a platform-independent service discovery
 interface. Envoy instances in the mesh perform service discovery and
 dynamically update their load balancing pools accordingly.
 
-{{< image width="55%" ratio="80%"
+{{< image width="55%"
     link="./LoadBalancing.svg"
     caption="Discovery and Load Balancing"
     >}}
@@ -563,7 +563,7 @@ Rules can optionally be qualified to only apply to requests that match some
 specific condition such as the following:
 
 _1. Restrict to specific client workloads using workload labels_.  For example, a rule
-can indicate that it only applies to calls from workloads (pods) implementing
+can indicate that it only applies to calls from workload instances (pods) implementing
 the *reviews* service:
 
 {{< text yaml >}}
@@ -585,8 +585,7 @@ The value of `sourceLabels` depends on the implementation of the service.
 In Kubernetes, for example, it would probably be the same labels that are used
 in the pod selector of the corresponding Kubernetes service.
 
-The above example can also be further refined to only apply to calls from version "v2"
-of the *reviews* service:
+The above example can also be further refined to only apply to calls from a workload instance having the "v2" label:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
