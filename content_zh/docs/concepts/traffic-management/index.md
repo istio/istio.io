@@ -343,9 +343,9 @@ spec:
         app: reviews
         version: v2
     fault:
-        delay:
+      delay:
         fixedDelay: 5s
-        abort:
+      abort:
         percent: 10
         httpStatus: 400
     route:
