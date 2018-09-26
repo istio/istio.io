@@ -301,22 +301,22 @@ goes wrong along the way, the rollout is aborted and the traffic is returned to 
 
 Although container orchestration platforms like Docker, Mesos/Marathon, or Kubernetes provide features
 that support canary rollout, they are limited by the fact that they use instance scaling to manage
-the traffic flow. For example, to send 10% of the traffic to a canary version requires 9 instances of
-the old version to be running for every 1 instance of the canary that is deployed.
+the traffic distribution. For example, to send 10% of traffic to a canary version requires 9 instances of
+the old version to be running for every 1 instance of the canary.
 This becomes particularly difficult in production deployments where autoscaling is needed.
 When traffic load increases, the autoscaler needs to scale instances of both versions concurrently,
 making sure to keep the instance ratio the same.
 
 Another problem with the instance deployment approach is that it only
-supports a simple (random percentage) canary approach. It's not possible to limit the
+supports a simple (random percentage) canary rollout. It's not possible to limit the
 visibility of the canary to requests based on some specific criteria.
 
 With Istio, traffic routing and instance deployment are two completely independent functions.
 The number of instances implementing services are free to scale up and down based on traffic load,
 completely orthogonal to the control of version traffic routing. This makes managing a canary
 version in the presence of autoscaling a much simpler problem.
-See [Canary Deployments using Istio](/blog/2017/0.1-canary/) for a more detailed explanation
-of the interoperability canary deployment and autoscaling using Istio.
+See [Canary Deployments using Istio](/blog/2017/0.1-canary/) for more about
+the interoperability of canary deployment and autoscaling when using Istio.
 
 ## Rule configuration
 
