@@ -444,18 +444,22 @@ mutual TLS implementations.
 
 The `origins:` section defines authentication methods and associated parameters
 supported for origin authentication. Istio only supports JWT origin
-authentication. However, a policy can list multiple JWTs by different issuers.
+authentication. However, a policy can list multiple JWTs by different issuers and be enabled or disabled
+for specific paths.
 Similar to peer authentication, only one of the listed methods must be
 satisfied for the authentication to pass.
 
 The following example policy specifies an `origins:` section for origin
-authentication that accepts JWTs issued by Google:
+authentication that accepts JWTs issued by Google but excludes the path `/health` from the authentication:
 
 {{< text yaml >}}
 origins:
 - jwt:
     issuer: "https://accounts.google.com"
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs"
+    trigger_rules:
+    - excluded_paths:
+      - exact: /health
 {{< /text >}}
 
 #### Principal binding
