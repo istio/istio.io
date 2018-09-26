@@ -226,7 +226,6 @@ service succeeds:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-    200
     {{< /text >}}
 
     The HTTP header including a valid JWT with the `groups` claim
