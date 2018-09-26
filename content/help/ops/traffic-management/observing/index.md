@@ -1,7 +1,7 @@
 ---
-title: Observing Traffic Management Configuration
+title: Diagnosing Configuration Problems
 description: Describes tools and techniques to diagnose configuration issues related to traffic management.
-weight: 30
+weight: 40
 keywords: [debug,proxy,status,config,pilot,envoy]
 ---
 
@@ -11,7 +11,7 @@ and [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config) c
 allows you to get an overview of your mesh and identify the proxy causing the problem. Then `proxy-config` can be used
 to inspect Envoy configuration and diagnose the issue.
 
-If you want to try the commands yourself, you can either:
+If you want to try the commands described below, you can either:
 
 * Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
 [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps) and
