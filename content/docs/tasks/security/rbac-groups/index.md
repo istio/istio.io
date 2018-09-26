@@ -195,11 +195,11 @@ service role:
     EOF
     {{< /text >}}
 
-    Alternatively, you may specify the `group` field under `subjects`
-    directly. The two ways for specifying the group are equivalent.
-    Currently `request.auth.claims` and the `group` field under
-    `subjects` are the only properties
-    that support matching against a list of strings in the JWT token.
+    Alternatively, you can specify the `group` property under `subjects`.
+    Both ways to specify the group are equivalent.
+    Currently, Istio only supports matching against a list of strings in
+    the JWT for the `request.auth.claims` property and the `group` property under
+    `subjects`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
