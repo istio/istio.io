@@ -445,7 +445,8 @@ mutual TLS implementations.
 The `origins:` section defines authentication methods and associated parameters
 supported for origin authentication. Istio only supports JWT origin
 authentication. However, a policy can list multiple JWTs by different issuers and be enabled or disabled
-for specific paths.
+for specific paths. If all JWTs are disabled for a request path, authentication also passes as if
+there is none defined.
 Similar to peer authentication, only one of the listed methods must be
 satisfied for the authentication to pass.
 
