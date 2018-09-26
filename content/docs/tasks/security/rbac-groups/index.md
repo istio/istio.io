@@ -201,6 +201,8 @@ service role:
     the JWT for the `request.auth.claims` property and the `group` property under
     `subjects`.
 
+    To specify the `group` property under `subjects`, use the following command:
+
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
     apiVersion: "rbac.istio.io/v1alpha1"
