@@ -280,7 +280,7 @@ filename simply by changing the filename to conform with the format.
 
 ## Uninstalling
 
-You must uninstall remote clusters using the same method you used to install them. Use eithter `kubectl and Helm` or `Tiller and Helm` as appropriate.
+You must uninstall remote clusters using the same method you used to install them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
 
 ### Use `kubectl` to uninstall the remote cluster
 
