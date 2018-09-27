@@ -573,12 +573,12 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 ### End-user authentication with per-path requirements
 
 End-user authentication can be enabled or disabled based on request path. This is useful if you want to
-whitelist some paths from End-user authentication, like for paths used for health check or status report.
-You can also specify different JWT requirements on different request paths.
+disable authentication for some paths, for example, the path used for health check or status report.
+You can also specify different JWT requirements on different paths.
 
-#### Whitelist paths from End-user authentication
+#### Disable End-user authentication for specific paths
 
-Modify the `jwt-example` policy to whitelist the path `/user-agent` from End-user authentication:
+Modify the `jwt-example` policy to disable End-user authentication for path `/user-agent`:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -614,9 +614,9 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 401
 {{< /text >}}
 
-#### Requires End-user authentication on specific paths
+#### Enable End-user authentication for specific paths
 
-Modify the `jwt-example` policy to require End-user authentication only for path `/ip`:
+Modify the `jwt-example` policy to enable End-user authentication only for path `/ip`:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -657,7 +657,7 @@ Confirm it's allowed to access the path `/ip` with a valid JWT token:
 {{< text bash >}}
 $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
-401
+200
 {{< /text >}}
 
 ### End-user authentication with mutual TLS
