@@ -5,6 +5,8 @@ weight: 50
 keywords: [telemetry,visualization]
 ---
 
+> {{< warning_icon >}} The Service Graph is being deprecated in Istio 1.1 in favor of [Kiali](../kiali).
+
 This task shows you how to generate a graph of services within an Istio mesh.
 As part of this task, you will install the Servicegraph add-on and use
 the web-based interface for viewing service graph of the service mesh.
