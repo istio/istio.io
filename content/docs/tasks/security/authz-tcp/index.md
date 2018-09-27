@@ -21,26 +21,25 @@ The activities in this task assume that you:
 * Enable mutual TLS (mTLS) authentication when running the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 The commands used in this task assume the Bookinfo example application is deployed in the default
-namespace. To specify a namespace other than the default namespace, use option `-n` to switch to the
-actual namespace in each commands.
+namespace. To specify a namespace other than the default namespace, use the `-n` option in the command.
 
 ## Installing and configuring a TCP service
 
 By default, the [Bookinfo](/docs/examples/bookinfo/) example application only includes HTTP services.
 To show how Istio handles the authorization of TCP services, we must update the application to use a
 TCP service. Follow this procedure to deploy the Bookinfo example app and update its `ratings` service
-to the `v2` version, which talks to a MongoDB backend using TCP:
+to the `v2` version, which talks to a MongoDB backend using TCP.
 
 ### Prerequisites
 
-Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application:
+Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-After deploying the app, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
+After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
 the product page, you can see:
 
-* The "Book Details" section on the lower left of the page includes book type, number of
+* The **Book Details** section on the lower left of the page includes book type, number of
   pages, publisher, etc.
-* The "Book Reviews" section on the lower right of the page.
+* The **Book Reviews** section on the lower right of the page.
 
 When you refresh the page, the app shows different versions of reviews in the product page.
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
@@ -70,7 +69,7 @@ The app presents the reviews in a round robin style: red stars, black stars, or 
 ### Configure the application to use the new version of the service
 
 The Bookinfo application can use multiple versions of each service. Istio requires you to define
-service subsets for each version. You must also define the load balancing policy for each subset.
+a service subset for each version. You must also define the load balancing policy for each subset.
 To define the subsets and their load balancing policies, you must create appropriate destination rules.
 
 1. Create the appropriate destination rules:
@@ -79,11 +78,10 @@ To define the subsets and their load balancing policies, you must create appropr
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-    Since the subset referenced in virtual services rely on the destination rules,
-    wait a few seconds for destination rules to propagate before adding virtual services that refer
-    to these subsets.
+    Since the subset referenced in the virtual service rules rely on the destination rules,
+    wait a few seconds for the destination rules to propagate before adding the virtual service rules.
 
-1. After the destination rules propagate, update the `reviews` service to only use the `v2` of `ratings` service:
+1. After the destination rules propagate, update the `reviews` service to only use the `v2` of the `ratings` service:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
@@ -91,8 +89,8 @@ To define the subsets and their load balancing policies, you must create appropr
 
 1. Go to the Bookinfo product page at (`http://$GATEWAY_URL/productpage`).
 
-    On the product page, you can see an error message on the the "Book Reviews" section.
-    The message reads: "Ratings service is currently unavailable." The message appears because we
+    On the product page, you can see an error message on the **Book Reviews** section.
+    The message reads: **"Ratings service is currently unavailable."**. The message appears because we
     switched to use the `v2` subset of the `ratings` service without deploying the MongoDB service.
 
 1. Deploy the MongoDB service:
@@ -111,7 +109,7 @@ To define the subsets and their load balancing policies, you must create appropr
 
 1. Go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`.
 
-1. Verify that the "Book Reviews" section shows the reviews.
+1. Verify that the **Book Reviews** section shows the reviews.
 
 ## Enabling Istio authorization
 
@@ -123,9 +121,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
 
-* The "Book Details" section on the lower left of the page includes book type, number of pages, publisher, etc.
-* The "Book Reviews" section on the lower right of the page includes error message "Ratings service is
-  currently unavailable".
+* The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
+* The **Book Reviews** section on the lower right of the page includes an error message **"Ratings service is
+  currently unavailable"**.
 
 This is because Istio authorization is "deny by default", which means that you need to explicitly
 define access control policies to grant access to the MongoDB service.
@@ -145,7 +143,7 @@ to access the MongoDB service.
 
     The step above does the following:
 
-    * Creates a `ServiceRole` "mongodb-viewer" which allows access to the port 27017 of MongoDB service.
+    * Creates a service role "mongodb-viewer" which allows access to the port 27017 of the MongoDB service.
 
         {{< text yaml >}}
         apiVersion: "rbac.istio.io/v1alpha1"
@@ -161,7 +159,7 @@ to access the MongoDB service.
               values: ["27017"]
         {{< /text >}}
 
-    * Creates a `ServiceRoleBinding` `bind-mongodb-viewer` which assigns the "mongodb-viewer" role to "bookinfo-ratings-v2".
+    * Creates a service role binding `bind-mongodb-viewer` which assigns the "mongodb-viewer" role to "bookinfo-ratings-v2".
 
         {{< text yaml >}}
         apiVersion: "rbac.istio.io/v1alpha1"
@@ -179,8 +177,8 @@ to access the MongoDB service.
 
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
 
-    * The "Book Details" section on the lower left of the page includes book type, number of pages, publisher, etc.
-    * The "Book Reviews" section on the lower right of the page includes red stars.
+    * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
+    * The **Book Reviews** section on the lower right of the page includes red stars.
 
     > There may be some delays due to caching and other propagation overhead.
 
@@ -195,9 +193,9 @@ to access the MongoDB service.
 
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
 
-    * The "Book Details" section on the lower left of the page includes book type, number of pages, publisher, etc.
-    * The "Book Reviews" section on the lower right of the page includes an error message "Ratings
-      service is currently unavailable".
+    * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
+    * The **Book Reviews** section on the lower right of the page includes an error message **"Ratings
+      service is currently unavailable"**.
 
     > There may be some delays due to caching and other propagation overhead.
 
@@ -209,7 +207,7 @@ to access the MongoDB service.
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
     {{< /text >}}
 
-    Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
+    Alternatively, you can delete all service role and service role binding resources by running the following commands:
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
