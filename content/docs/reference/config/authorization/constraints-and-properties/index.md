@@ -11,8 +11,7 @@ a `kind:` value of `ServiceRole` and `ServiceRoleBinding` to specify detailed ac
 
 Specifically, you can use constraints to specify extra conditions in the access rule field of a service
 role. You can use properties to specify extra conditions in the subject field of a service role binding.
-Istio supports all keys listed on this page for the HTTP protocol but supports only some for the for
-plain TCP protocol.
+Istio supports all keys listed on this page for the HTTP protocol but supports only some for the plain TCP protocol.
 
 > {{< warning_icon >}} Unsupported keys and values will be ignored silently.
 

@@ -822,7 +822,7 @@ spec:
 ### Using Istio authorization on plain TCP protocols
 
 The examples in [Service role](#servicerole) and [Service role binding](#servicerolebinding) show the
-typical way to use Istio authorization on services using HTTP protocol. In those examples, all fields
+typical way to use Istio authorization on services using the HTTP protocol. In those examples, all fields
 in a service role and service role binding are supported.
 
 Istio authorization supports services using any plain TCP protocols, such as MongoDB. In this case,
