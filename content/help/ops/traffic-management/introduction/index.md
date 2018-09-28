@@ -1,7 +1,7 @@
 ---
 title: Introduction to Network Operations
 description: An introduction to Istio networking operational aspects.
-weight: 5
+weight: 10
 ---
 This section is intended as a guide to operators of an Istio based
 deployment.  It will provide information an operator of a Istio deployment

@@ -72,10 +72,6 @@ number_of_entries: 5
 <td>Path to the proxy binary  (default `/usr/local/bin/envoy`)</td>
 </tr>
 <tr>
-<td><code>--bootstrapv2</code></td>
-<td>Use bootstrap v2 - DEPRECATED </td>
-</tr>
-<tr>
 <td><code>--concurrency &lt;int&gt;</code></td>
 <td>number of worker threads to run  (default `0`)</td>
 </tr>
@@ -300,6 +296,11 @@ number_of_entries: 5
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>
