@@ -618,6 +618,7 @@ Therefore, you do not need adding this destination rule. On the other hand, you 
 After these changes, traffic from Istio services, including ingress gateway, to `httpbin.foo` will use mutual TLS. The test command above will still work. Requests from Istio services directly to `httpbin.foo` also work, given the correct token:
 
 {{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
 200
 {{< /text >}}
@@ -635,13 +636,13 @@ command terminated with exit code 56
 1. Remove authentication policy:
 
     {{< text bash >}}
-    $ kubectl delete policy jwt-example
+    $ kubectl -n foo delete policy jwt-example
     {{< /text >}}
 
 1. Remove destination rule:
 
     {{< text bash >}}
-    $ kubectl delete policy httpbin
+    $ kubectl -n foo delete destinationrule httpbin
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
