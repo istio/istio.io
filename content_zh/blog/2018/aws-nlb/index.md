@@ -10,7 +10,7 @@ keywords: [ingress,traffic-management,aws]
 
 本文提供了使用 [AWS 网络负载均衡器](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) 配置 ingress Istio 的说明。
 
-可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。 你可以查看不同的 AWS `负载均衡器` 之间的 [比较](https://aws.amazon.com/elasticloadbalancing/details/#compare)以获取更多的解释。
+可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。 你可以查看不同的 AWS `负载均衡器` 之间的 [比较](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons)以获取更多的解释。
 
 ## 先行条件
 
