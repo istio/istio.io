@@ -15,7 +15,7 @@ Denier 适配器的配置格式。
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
 | `status` | [google.rpc.Status](#google-rpc-Status) | 拒绝请求时返回的错误。 |
-| `validDuration` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration) | 拒绝有效的持续时间。 |
+| `validDuration` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) | 拒绝有效的持续时间。 |
 | `validUseCount` | `int32` | 拒绝可以使用的次数。 |
 
 ## google.rpc.Status
@@ -52,5 +52,5 @@ Denier 适配器的配置格式。
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
 | `code` | `int32` | 状态代码，应该是 *google.rpc.Code* 的枚举值。 |
-| `message` | `string` | 面向开发人员的错误消息，应该是英文的。 任何面向用户的错误消息都应进行本地化，并在 [google.rpc.Status.details](#google-rpc-Status-details) 字段中发送，或由客户端进行本地化。 |
-| `details` | [google.protobuf.Any[]](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any) | 带有错误详细信息的消息列表。 API有一组通用的消息类型可供使用。 |
+| `message` | `string` | 面向开发人员的错误消息，应该是英文的。 任何面向用户的错误消息都应进行本地化，并在 `google.rpc.Status.details` 字段中发送，或由客户端进行本地化。 |
+| `details` | [google.protobuf.Any[]](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Any) | 带有错误详细信息的消息列表。 API有一组通用的消息类型可供使用。 |
