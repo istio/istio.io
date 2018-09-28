@@ -65,7 +65,7 @@ spec:
 | `metrics` | [Params.MetricConfig[]](#Params-MetricConfig) | 需要。要发送到 SignalFx 的度量标准集。如果将 Istio 度量标准配置为发送到此适配器，则此处必须具有相应的描述。|
 | `ingestUrl` | `string` | 可选的。要使用的 SignalFx 摄取服务器的 URL。如果未指定，将默认为全局摄取服务器。|
 | `accessToken` | `string` | 必选项。应接收指标的 SignalFx 组织的访问令牌。|
-| `datapointInterval` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration) | 可选的。指定将指标发送到 SignalFx 的频率。报告给此适配器的度量标准将作为时间序列进行收集和报告。这将四舍五入到最接近的秒，小于一秒的舍入值无效。如果未指定，则默认为10秒。|
+| `datapointInterval` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) | 可选的。指定将指标发送到 SignalFx 的频率。报告给此适配器的度量标准将作为时间序列进行收集和报告。这将四舍五入到最接近的秒，小于一秒的舍入值无效。如果未指定，则默认为10秒。|
 | `enableMetrics` | `bool` | 可选的。如果设置为 false，则不会发送度量标准（但将发送跟踪 span ，除非另行禁用）。|
 | `enableTracing` | `bool` | 可选的。如果设置为 false，则不会发送跟踪 span （除非另行禁用，否则将发送度量标准）。|
 | `tracingBufferSize` | `uint32` | 可选的。适配器在丢弃之前将缓冲的跟踪 span 数。默认为 1000 个 span ，但如果需要，可以配置更高。如果删除 span，将记录错误消息。|
