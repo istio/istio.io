@@ -1,0 +1,55 @@
+{{ define "main" }}
+{{ partial "primary-top.html" . }}
+
+<div class="partner-component-notice">
+    <p>
+        {{ i18n "partner_component_notice" }}
+    </p>
+
+    <table>
+        {{ if .Params.provider }}
+            <tr><td>{{ i18n "partner_component_partner" }}</td><td>{{ .Params.provider }}</td>
+        {{ end }}
+
+        {{ if .Params.contact_email }}
+            <tr><td>{{ i18n "partner_component_contact" }}</td><td><a href="mailto:{{ .Params.contact_email}}">{{ .Params.contact_email }}</a></td>
+        {{ end }}
+
+        {{ if .Params.support_link }}
+            <tr><td>{{ i18n "partner_component_support_site" }}</td><td><a href="{{ .Params.support_link}}">{{ .Params.support_link }}</a></td>
+        {{ end }}
+
+        {{ if .Params.source_link }}
+            <tr><td>{{ i18n "partner_component_source_code" }}</td><td><a href="{{ .Params.source_link }}">{{ .Params.source_link }}</a></td>
+        {{ end }}
+
+        {{ if .Params.latest_release_link }}
+            <tr><td>{{ i18n "partner_component_latest_release" }}</td><td><a href="{{ .Params.latest_release_link }}">{{ .Params.latest_release_link }}</a></td>
+        {{ end }}
+
+        {{ if .Params.helm_chart_link }}
+            <tr><td>{{ i18n "partner_component_helm_chart" }}</td><td><a href="{{ .Params.helm_chart_link }}">{{ .Params.helm_chart_link }}</a></td>
+        {{ end }}
+
+        {{ if .Params.istio_versions }}
+            <tr><td>{{ printf (i18n "partner_component_istio_versions") .Params.provider }}</td><td>{{ .Params.istio_versions }}</td>
+        {{ end }}
+
+        {{ if .Params.supported_templates }}
+            {{ $templates := split .Params.supported_templates "," }}
+            <tr><td>{{ i18n "partner_component_supported_templates" }}</td><td>
+
+            {{ $base := .Site.BaseURL }}
+            {{ range $i, $t := $templates }}
+                {{- if ne $i 0 -}},{{- end -}}
+                <a href="{{ $base }}/docs/reference/config/policy-and-telemetry/templates/{{ trim $t " " }}"><code>{{ trim $t " " }}</code></a>
+            {{ end }}
+            </td>
+        {{ end }}
+    </table>
+</div>
+
+{{ .Content }}
+
+{{ partial "primary-bottom.html" . }}
+{{ end }}

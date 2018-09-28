@@ -64,10 +64,6 @@ number_of_entries: 5
 <td>Ports exposed by the application. Used to determine that Envoy is configured and ready to receive traffic.  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--availabilityZone &lt;string&gt;</code></td>
-<td>Availability zone  (default ``)</td>
-</tr>
-<tr>
 <td><code>--binaryPath &lt;string&gt;</code></td>
 <td>Path to the proxy binary  (default `/usr/local/bin/envoy`)</td>
 </tr>
@@ -98,10 +94,6 @@ number_of_entries: 5
 <tr>
 <td><code>--discoveryAddress &lt;string&gt;</code></td>
 <td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default `istio-pilot:15007`)</td>
-</tr>
-<tr>
-<td><code>--discoveryRefreshDelay &lt;duration&gt;</code></td>
-<td>Polling interval for service discovery (used by EDS, CDS, LDS, but not RDS)  (default `1s`)</td>
 </tr>
 <tr>
 <td><code>--domain &lt;string&gt;</code></td>
