@@ -357,7 +357,7 @@ h6 {
 
 .subtitle {
     margin-top: .15rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     padding: 0 0 0 0;
     font-size: 125%;
 }
@@ -511,10 +511,6 @@ blockquote {
     transform: scaleX(-1);
 }
 
-.subtitle {
-    margin-bottom: 0;
-}
-
 .byline {
     margin-top: .15rem;
     margin-bottom: 2rem;
@@ -527,3 +523,21 @@ blockquote {
     font-weight: $blogAttributeWeight;
 }
 
+.partner-component-notice {
+    display: block;
+    margin: 1em 0 1em 2em;
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: $blockQuoteBackgroundColor;
+    border-radius: 4px 4px 4px 4px;
+
+    table td:first-of-type {
+        color: $textBrandColor;
+        background-color: $secondBrandColor;
+        font-weight: $tableHeaderWeight;
+    }
+}
