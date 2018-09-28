@@ -35,7 +35,7 @@ weight: 99
 
 下图概述了 Kubernetes 上的 `Istio Auth` 服务认证体系结构。
 
-{{< image width="100%" ratio="56.25%"
+{{< image width="100%"
     link="/blog/2017/0.1-auth/istio_auth_overview.svg"
     caption="`Istio Auth` 概览"
     >}}
@@ -70,7 +70,7 @@ weight: 99
 
 下图说明了 Kubernetes 上的端到端 `Istio Auth` 身份验证工作流程：
 
-{{< image width="100%" ratio="56.25%"
+{{< image width="100%"
     link="/blog/2017/0.1-auth/istio_auth_workflow.svg"
     caption="`Istio Auth` 工作流程"
     >}}
