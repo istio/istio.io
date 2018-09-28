@@ -78,7 +78,7 @@ To define the subsets and their load balancing policies, you must create appropr
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-    Since the subset referenced in the virtual service rules rely on the destination rules,
+    Since the subset referenced in the virtual service rules relies on the destination rules,
     wait a few seconds for the destination rules to propagate before adding the virtual service rules.
 
 1. After the destination rules propagate, update the `reviews` service to only use the `v2` of the `ratings` service:
