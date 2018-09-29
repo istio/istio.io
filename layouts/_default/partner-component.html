@@ -41,7 +41,6 @@
 
             {{ $base := .Site.BaseURL }}
             {{ range $i, $t := $templates }}
-                {{- if ne $i 0 -}},{{- end -}}
                 <a href="{{ $base }}/docs/reference/config/policy-and-telemetry/templates/{{ trim $t " " }}"><code>{{ trim $t " " }}</code></a>
             {{ end }}
             </td>

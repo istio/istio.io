@@ -84,11 +84,6 @@ number_of_entries: 5
 <td>The location of the certificate file for mutual TLS  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
-<td><code>--cfConfig &lt;string&gt;</code></td>
-<td></td>
-<td>Cloud Foundry config file  (default ``)</td>
-</tr>
-<tr>
 <td><code>--clusterRegistriesConfigMap &lt;string&gt;</code></td>
 <td></td>
 <td>ConfigMap map for clusters config store  (default ``)</td>
@@ -236,7 +231,7 @@ number_of_entries: 5
 <tr>
 <td><code>--registries &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, CloudFoundry, Mock, Config})  (default `[Kubernetes]`)</td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, MCP, Mock, Config})  (default `[Kubernetes]`)</td>
 </tr>
 <tr>
 <td><code>--resync &lt;duration&gt;</code></td>
