@@ -170,7 +170,7 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
 {{< /text >}}
 
-确认提高 ulimit 上限，例如 `ulimit -n 16384`
+确认提高 ulimit 上限，例如 `ulimit -n 16384`。
 
 ## Envoy 无法连接 HTTP/1.0 服务
 
