@@ -69,7 +69,7 @@ This guide installs the current release version of Istio.
 
 ### Deploy the Istio Helm chart
 
-1. If using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions via kubectl apply, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+1. If using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
