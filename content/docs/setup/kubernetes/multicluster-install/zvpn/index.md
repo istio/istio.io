@@ -1,8 +1,8 @@
 ---
-title: With Istio Gateway
+title: Using Istio Gateway
 description: Connect multiple clusters using Istio Gateway to reach remote pods
 weight: 2
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,multicluster,gateway]
 ---
 
 Instructions for spanning an Istio mesh across multiple clusters when pods
