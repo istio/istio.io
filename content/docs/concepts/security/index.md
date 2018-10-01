@@ -830,8 +830,8 @@ you configure the service roles and service role bindings in the same way you di
 The difference is that certain fields, constraints and properties are only applicable to HTTP services.
 These fields include:
 
-* The `paths` and `methods` fields in the service role configuration object.
-* The `group` field in the service role binding configuration object.
+- The `paths` and `methods` fields in the service role configuration object.
+- The `group` field in the service role binding configuration object.
 
 The supported constraints and properties are listed in the [constraints and properties page](
 /docs/reference/config/authorization/constraints-and-properties/).
