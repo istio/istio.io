@@ -1,5 +1,5 @@
 ---
-title: Using VPN/RFC1918 network
+title: Using a flat-network
 description: Connect multiple clusters over VPN/a RFC1918 network and install Istio on a single cluster.
 weight: 5
 keywords: [kubernetes,multicluster,vpn]
