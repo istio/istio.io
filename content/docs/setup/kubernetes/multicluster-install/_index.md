@@ -1,5 +1,5 @@
 ---
-title: Multicluster Installation
+title: Multicluster Install
 description: Span Istio mesh across multiple clusters.
 weight: 60
 type: section-index
