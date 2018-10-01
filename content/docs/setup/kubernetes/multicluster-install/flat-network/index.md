@@ -1,11 +1,12 @@
 ---
-title: Istio Multicluster
-description: Install Istio with multicluster support.
-weight: 60
-keywords: [kubernetes,multicluster]
+title: Direct access to remote pods
+description: Connect multiple clusters over VPN/a RFC1918 network and install Istio on a single cluster.
+weight: 3
+keywords: [kubernetes,multicluster,vpn]
 ---
 
-Instructions for the installation of Istio multicluster.
+Instructions for spanning an Istio mesh across multiple clusters when pods
+in one cluster can directly access pod IPs in remote clusters.
 
 ## Prerequisites
 
@@ -28,12 +29,19 @@ across the multicluster environment and may not overlap.
 
 ## Overview
 
-Multicluster functions by enabling Kubernetes control planes running
-a remote configuration to connect to **one** Istio control plane.
+In this mode, multiple Kubernetes control planes running
+a remote configuration connect to a **single** Istio control plane.
 Once one or more remote Kubernetes clusters are connected to the
 Istio control plane, Envoy can then communicate with the **single**
 Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
+
+{{< image width="80%" ratio="36.01%"
+    link="./multicluster-flat-network.svg"
+    caption="Spanning a single mesh across multiple clusters using a flat
+    L3 network"
+    >}}
+
 
 This guide describes how to install a multicluster Istio topology using the
 manifests and Helm charts provided within the Istio repository.
