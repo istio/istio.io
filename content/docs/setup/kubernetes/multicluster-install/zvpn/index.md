@@ -30,4 +30,3 @@ installation.
     caption="Spanning a single mesh across multiple clusters using Istio Gateways"
     >}}
 
-...to be continued...
