@@ -38,8 +38,7 @@ clusters.
 
 {{< image width="80%" ratio="36.01%"
     link="./multicluster-flat-network.svg"
-    caption="Spanning a single mesh across multiple clusters using a flat
-    L3 network"
+    caption="Spanning a single mesh across multiple clusters using a VPN/RFC1918 network"
     >}}
 
 

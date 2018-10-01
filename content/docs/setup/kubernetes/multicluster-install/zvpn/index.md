@@ -27,7 +27,7 @@ installation.
 
 {{< image width="80%" ratio="36.01%"
     link="./multicluster-zvpn.svg"
-    caption="Spanning a single mesh across multiple clusters using a Gateways"
+    caption="Spanning a single mesh across multiple clusters using Istio Gateways"
     >}}
 
 ...to be continued...
