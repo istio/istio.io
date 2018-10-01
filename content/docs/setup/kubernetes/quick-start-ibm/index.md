@@ -18,7 +18,7 @@ This guide installs the current release version of Istio.
 
 ### Prerequisites - IBM Cloud Public
 
--  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plugin, and the Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html). Istio requires the Kubernetes version 1.9 or later. Make sure to install the `kubectl` CLI version that matches the Kubernetes version of your cluster.
+-  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html). Istio requires the Kubernetes version 1.9 or later. Make sure to install the `kubectl` CLI version that matches the Kubernetes version of your cluster.
 -  Make sure you have a cluster of Kubernetes version of 1.9 or later. If you do not have a cluster available, [create a version 1.9 or later cluster](https://console.bluemix.net/docs/containers/cs_clusters.html).
 -  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID>` and copying and pasting the command in the output.
 
@@ -69,7 +69,7 @@ This guide installs the current release version of Istio.
 
 ### Deploy the Istio Helm chart
 
-1. Install Istio’s custom resource definitions:
+1. If using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
@@ -114,7 +114,13 @@ This guide installs the current release version of Istio.
     $ helm del istio --purge
     {{< /text >}}
 
-1. Delete the Istio custom resource definitions:
+    If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete job --all
+    {{< /text >}}
+
+1. If desired, delete the Istio custom resource definitions:
 
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
