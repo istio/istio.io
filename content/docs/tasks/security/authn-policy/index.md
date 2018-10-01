@@ -570,6 +570,96 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 {{< /text >}}
 
+### End-user authentication with per-path requirements
+
+End-user authentication can be enabled or disabled based on request path. This is useful if you want to
+disable authentication for some paths, for example, the path used for health check or status report.
+You can also specify different JWT requirements on different paths.
+
+#### Disable End-user authentication for specific paths
+
+Modify the `jwt-example` policy to disable End-user authentication for path `/user-agent`:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - excluded_paths:
+        - exact: /user-agent
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+Confirm it's allowed to access the path `/user-agent` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+Confirm it's denied to access paths other than `/user-agent` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+#### Enable End-user authentication for specific paths
+
+Modify the `jwt-example` policy to enable End-user authentication only for path `/ip`:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - included_paths:
+        - exact: /ip
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+Confirm it's allowed to access paths other than `/ip` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+Confirm it's denied to access the path `/ip` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+Confirm it's allowed to access the path `/ip` with a valid JWT token:
+
+{{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
+$ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
 ### End-user authentication with mutual TLS
 
 End-user authentication and mutual TLS can be used together. Modify the policy above to define both mutual TLS and end-user JWT authentication:
