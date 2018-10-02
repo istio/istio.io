@@ -94,7 +94,7 @@ configuration should be added for each replicated service. For example, the
 diagram above depicts two services `foo.ns1` in `cluster1` and `bar.ns2` in
 `cluster2`. Lets say their respective declarations are as follows:
 
-In `cluster1` (cluster1-svc.yaml)
+In `cluster1` (file: `cluster1-svc.yaml`)
 
 {{< text yaml >}}
 apiVersion: v1
@@ -120,7 +120,7 @@ spec:
     app: foo
 {{< /text >}}
 
-In `cluster2` (cluster2-svc.yaml)
+In `cluster2` (file: `cluster2-svc.yaml`)
 
 {{< text yaml >}}
 apiVersion: v1
@@ -215,7 +215,7 @@ spec:
       tcp: 15443
 {{< /text >}}
 
-The gateway for port 15443 has been preprogrammed and installed using the
+The gateway for port 15443 has been configured and installed using the
 Istio installation step you saw earlier. Traffic entering port 15443 will
 ne load balanced among pods of the appropriate internal service (in this
 case, `bar.ns2`).
