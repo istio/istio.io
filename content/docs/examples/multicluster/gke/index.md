@@ -318,7 +318,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 ## Uninstalling
 
 The following should be done in addition to the uninstall of Istio as described in the
-[Kubernetes flat-network multicluster uninstallation instructions](/docs/setup/kubernetes/multicluster-install/vpn/):
+[flat-network multicluster uninstall section](/docs/setup/kubernetes/multicluster-install/vpn/):
 
 1.  Delete the Google Cloud firewall rule:
 

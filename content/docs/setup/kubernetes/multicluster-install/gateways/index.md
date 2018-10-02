@@ -91,10 +91,10 @@ in remote clusters, we need to replicate the namespace and service
 declaration from one cluster to other clusters. In addition, to route
 traffic to a remote service via the Istio Gateway, an Istio Service Entry
 configuration should be added for each replicated service. For example, the
-diagram above depicts two services `foo.ns1` in cluster1 and `bar.ns2` in
-cluster2. Lets say their respective declarations are as follows:
+diagram above depicts two services `foo.ns1` in `cluster1` and `bar.ns2` in
+`cluster2`. Lets say their respective declarations are as follows:
 
-**In Cluster1**: cluster1-svc.yaml
+In `cluster1` (cluster1-svc.yaml)
 
 {{< text yaml >}}
 apiVersion: v1
@@ -120,7 +120,7 @@ spec:
     app: foo
 {{< /text >}}
 
-**In Cluster2**: cluster2-svc.yaml
+In `cluster2` (cluster2-svc.yaml)
 
 {{< text yaml >}}
 apiVersion: v1
@@ -150,8 +150,8 @@ spec:
 {{< /text >}}
 
 The namespaces and services need to be replicated in each cluster in order
-to enable DNS resolution and connectivity. So, apply `cluster1-svc.yaml` in
-cluster2 and apply `cluster2-svc.yaml` in cluster1.
+to enable DNS resolution and connectivity. So, apply the configuration in `cluster1-svc.yaml` to
+`cluster2` and the configuration in `cluster2-svc.yaml` to `cluster1`.
 
 ## Route traffic for remote services to remote cluster gateway
 
@@ -159,8 +159,8 @@ Creating a service object for a remote service enables DNS resolution for
 remote services. The DNS is solely for the application convenience. Istio
 still needs to know the set of remote endpoints for the service to which
 traffic must be routed to.  Using the example depicted in the diagram, we
-created a service declaration for `bar.ns2` in cluster1. Now, add an
-endpoint to this service in cluster1 using the Istio service entry as follows:
+created a service declaration for `bar.ns2` in `cluster1`. Now, add an
+endpoint to this service in `cluster1` using the Istio service entry as follows:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -215,7 +215,7 @@ spec:
       tcp: 15443
 {{< /text >}}
 
-The gateway for port 15443 has been pre-programmed and installed using the
+The gateway for port 15443 has been preprogrammed and installed using the
 Istio installation step you saw earlier. Traffic entering port 15443 will
 ne load balanced among pods of the appropriate internal service (in this
 case, `bar.ns2`).
@@ -232,7 +232,7 @@ cluster that has pods of the service in question.
 
 ## Advanced - Distribute pods of a service across multiple clusters
 
-If you add pods to the `bar.ns2` service in cluster1, traffic will be load
-balanced across local pods and remote pods in cluster2, albeit the load
-will be skewed as Istio in cluster1 is unaware of the number of pods for
-`bar.ns2` in cluster2. zone-aware routing is currently unsupported.
+If you add pods to the `bar.ns2` service in `cluster1`, traffic will be load
+balanced across local pods and remote pods in `cluster2`, albeit the load
+will be skewed as Istio in `cluster1` is unaware of the number of pods for
+`bar.ns2` in `cluster2`. Zone-aware routing is currently unsupported.
