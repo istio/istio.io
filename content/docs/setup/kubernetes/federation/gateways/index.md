@@ -1,8 +1,8 @@
 ---
-title: Using Istio Gateway
-description: Connect multiple clusters using Istio Gateway to reach remote pods.
+title: Without VPN
+description: Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods.
 weight: 2
-keywords: [kubernetes,multicluster,gateway]
+keywords: [kubernetes,multicluster,federation,gateway]
 ---
 
 Instructions for spanning an Istio mesh across multiple clusters when pods
@@ -29,12 +29,9 @@ installation. Cross-cluster communication occurs over Istio Gateways
 of the respective clusters. 
 
 {{< image width="80%" ratio="36.01%"
-    link="./multicluster-zvpn.svg"
-    caption="Spanning a single mesh across multiple clusters using Istio Gateways"
+    link="./federation-without-vpn.svg"
+    caption="Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods."
     >}}
-
-This guide describes steps to install a multicluster Istio topology using
-the manifests and Helm charts provided as part of Istio install.
 
 ## Deploy Istio control plane in each cluster
 
@@ -42,6 +39,7 @@ Install the Istio control plane using the Helm command below:
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --set multiCluster.connectUsingGateway=true \
+    --set global.controlPlaneSecurityEnabled=true \
     --set security.selfSigned=false > $HOME/istio.yaml
 $ kubectl create namespace istio-system
 $ kubectl create secret generic cacerts -n istio-system --from-file=path/to/intermediate/ca-cert.pem \
@@ -221,7 +219,7 @@ Istio installation step you saw earlier. Traffic entering port 15443 will
 ne load balanced among pods of the appropriate internal service (in this
 case, `bar.ns2`).
 
-**Note:** Do not add any Gateway configuration for port 15443.
+> Do not add any Gateway configuration for port 15443.
 
 
 ## Automation
@@ -234,9 +232,7 @@ cluster that has pods of the service in question.
 
 ## Advanced: Distribute pods of a service across multiple clusters
 
-If you add pods to the `bar.ns2` service in cluster1, traffic will be
-load balanced across local pods and remote pods in cluster2, albeit the
-load will be skewed as Istio in cluster1 is unaware of the number of pods
-for `bar.ns2` in cluster2. Zone-aware routing is currently
-unavailable. Future versions of Istio will support automatic zone aware
-routing.
+If you add pods to the `bar.ns2` service in cluster1, traffic will be load
+balanced across local pods and remote pods in cluster2, albeit the load
+will be skewed as Istio in cluster1 is unaware of the number of pods for
+`bar.ns2` in cluster2. zone-aware routing is currently unsupported.

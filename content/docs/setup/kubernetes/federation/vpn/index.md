@@ -1,14 +1,14 @@
 ---
-title: Using a flat-network
-description: Use Istio control plane on a single cluster to control multiple clusters connected over VPN/a RFC1918 network.
+title: With VPN
+description: Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN.
 weight: 5
-keywords: [kubernetes,multicluster,vpn,flat-network]
+keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
     - /docs/setup/kubernetes/multicluster-install
 ---
 
 Instructions for spanning an Istio mesh across multiple clusters when pods
-in one cluster can directly access pod IPs in remote clusters.
+in each cluster have direct network access to pods in other clusters.
 
 ## Prerequisites
 
@@ -39,8 +39,8 @@ Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
 {{< image width="80%" ratio="36.01%"
-    link="./multicluster-flat-network.svg"
-    caption="Spanning a single mesh across multiple clusters using a VPN/RFC1918 network"
+    link="./federation-with-vpn.svg"
+    caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN."
     >}}
 
 
