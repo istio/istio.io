@@ -34,6 +34,7 @@ weight: 80
     {{< text plain >}}
     # 罗列所有的虚拟服务
     $ kubectl get virtualservices
+    {{< /text >}}
 
 * Mixer 访问日志：Mixer 所记录的访问日志包含了请求的一些信息。 用户可以通过如下命令来获取：
 
