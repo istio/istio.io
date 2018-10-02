@@ -143,7 +143,7 @@ other = "Latest Release"
 other = "Helm Chart"
 
 [partner_component_istio_versions]
-other = "Tested by %s with these Istio Versions"
+other = "Tested by %s with These Istio Versions"
 
 [partner_component_supported_templates]
 other = "Supported Templates"
