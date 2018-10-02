@@ -6,7 +6,11 @@
         {{ i18n "partner_component_notice" }}
     </p>
 
-    <table>
+    {{ if .Params.logo_link }}
+        <table class="with_logo" style="background: url('{{ .Params.logo_link }}'); background-size: auto 80%; background-repeat: no-repeat; background-position: center;">
+    {{ else }}
+        <table>
+    {{ end }}
         {{ if .Params.provider }}
             <tr><td>{{ i18n "partner_component_partner" }}</td><td>{{ .Params.provider }}</td>
         {{ end }}
