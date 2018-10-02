@@ -26,7 +26,7 @@ from every other cluster.
 
 In this mode, each cluster has an **identical** Istio control plane
 installation. Cross-cluster communication occurs over Istio Gateways
-of the respective clusters. 
+of the respective clusters.
 
 {{< image width="80%" ratio="36.01%"
     link="./multicluster-with-gateways.svg"
@@ -36,6 +36,7 @@ of the respective clusters.
 ## Deploy Istio control plane in each cluster
 
 Install the Istio control plane using the Helm command below:
+
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --set multiCluster.connectUsingGateway=true \
@@ -90,8 +91,8 @@ in remote clusters, we need to replicate the namespace and service
 declaration from one cluster to other clusters. In addition, to route
 traffic to a remote service via the Istio Gateway, an Istio Service Entry
 configuration should be added for each replicated service. For example, the
-diagram above depicts two services `foo.ns1 (cluster1)` and `bar.ns2 (cluster2)`. 
-Lets say their respective declarations are as follows:
+diagram above depicts two services `foo.ns1` in cluster1 and `bar.ns2` in
+cluster2. Lets say their respective declarations are as follows:
 
 **In Cluster1**: cluster1-svc.yaml
 
@@ -221,7 +222,6 @@ case, `bar.ns2`).
 
 > Do not add any Gateway configuration for port 15443.
 
-
 ## Automation
 
 The entire setup above can be automated by replicating Istio configuration,
@@ -230,7 +230,7 @@ the automation system should generate service entries for each replicated
 service, with endpoints containing the IP address of the gateway in every
 cluster that has pods of the service in question.
 
-## Advanced: Distribute pods of a service across multiple clusters
+## Advanced - Distribute pods of a service across multiple clusters
 
 If you add pods to the `bar.ns2` service in cluster1, traffic will be load
 balanced across local pods and remote pods in cluster2, albeit the load

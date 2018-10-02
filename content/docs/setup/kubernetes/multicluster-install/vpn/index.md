@@ -43,7 +43,6 @@ clusters.
     caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN"
     >}}
 
-
 This guide describes how to install a multicluster Istio topology using the
 manifests and Helm charts provided within the Istio repository.
 
