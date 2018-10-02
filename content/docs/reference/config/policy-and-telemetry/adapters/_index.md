@@ -32,6 +32,7 @@ aliases:
 |[`Stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/)|`stackdriver`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/), [`logentry`](/docs/reference/config/policy-and-telemetry/templates/logentry/), [`tracespan`](/docs/reference/config/policy-and-telemetry/templates/tracespan/)|
 |[`StatsD`](/docs/reference/config/policy-and-telemetry/adapters/statsd/)|`statsd`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/)|
 |[`Stdio`](/docs/reference/config/policy-and-telemetry/adapters/stdio/)|`stdio`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/), [`logentry`](/docs/reference/config/policy-and-telemetry/templates/logentry/)|
+|[`Wavefront by VMware`](/docs/reference/config/policy-and-telemetry/adapters/wavefront/)|`wavefront`|[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/)|
 
 To implement a new adapter for Mixer, please refer to the
 [Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide).
