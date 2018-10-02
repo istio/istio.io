@@ -6,7 +6,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 aliases:
   - /docs/reference/config/istio.routing.v1alpha1/
-number_of_entries: 51
+number_of_entries: 52
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -2591,6 +2591,81 @@ certificate presented by the client.</p>
 
 </td>
 </tr>
+<tr id="Server-TLSOptions-min_protocol_version">
+<td><code>minProtocolVersion</code></td>
+<td><code><a href="#Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</a></code></td>
+<td>
+<p>Optional: Minimum TLS protocol version.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-max_protocol_version">
+<td><code>maxProtocolVersion</code></td>
+<td><code><a href="#Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</a></code></td>
+<td>
+<p>Optional: Maximum TLS protocol version.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-cipher_suites">
+<td><code>cipherSuites</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional: If specified, only support the specified cipher list.
+Otherwise default to the default cipher list supported by Envoy.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</h2>
+<section>
+<p>TLS protocol versions.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Server-TLSOptions-TLSProtocol-TLS_AUTO">
+<td><code>TLS_AUTO</code></td>
+<td>
+<p>Automatically choose the optimal TLS version.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSv1_0">
+<td><code>TLSv1_0</code></td>
+<td>
+<p>TLS version 1.0</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSv1_1">
+<td><code>TLSv1_1</code></td>
+<td>
+<p>TLS version 1.1</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSv1_2">
+<td><code>TLSv1_2</code></td>
+<td>
+<p>TLS version 1.2</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSv1_3">
+<td><code>TLSv1_3</code></td>
+<td>
+<p>TLS version 1.3</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -3279,10 +3354,7 @@ is matched if any one of the match blocks succeed.</p>
 <td><code>route</code></td>
 <td><code><a href="#RouteDestination">RouteDestination[]</a></code></td>
 <td>
-<p>The destination to which the connection should be forwarded to.
-Currently, only one destination is allowed for TCP services. When TCP
-weighted routing support is introduced in Envoy, multiple destinations
-with weights can be specified.</p>
+<p>The destination to which the connection should be forwarded to.</p>
 
 </td>
 </tr>
@@ -3414,10 +3486,7 @@ is matched if any one of the match blocks succeed.</p>
 <td><code>route</code></td>
 <td><code><a href="#RouteDestination">RouteDestination[]</a></code></td>
 <td>
-<p>The destination to which the connection should be forwarded to.
-Currently, only one destination is allowed for TLS services. When TCP
-weighted routing support is introduced in Envoy, multiple destinations
-with weights can be specified.</p>
+<p>The destination to which the connection should be forwarded to.</p>
 
 </td>
 </tr>
