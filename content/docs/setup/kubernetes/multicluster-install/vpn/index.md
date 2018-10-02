@@ -39,8 +39,8 @@ Istio control plane and form a mesh network across multiple Kubernetes
 clusters.
 
 {{< image width="80%" ratio="36.01%"
-    link="./federation-with-vpn.svg"
-    caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN."
+    link="./multicluster-with-vpn.svg"
+    caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN"
     >}}
 
 

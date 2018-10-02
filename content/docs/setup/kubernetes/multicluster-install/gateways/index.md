@@ -1,5 +1,5 @@
 ---
-title: Without VPN
+title: With Gateways
 description: Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods.
 weight: 2
 keywords: [kubernetes,multicluster,federation,gateway]
@@ -29,8 +29,8 @@ installation. Cross-cluster communication occurs over Istio Gateways
 of the respective clusters. 
 
 {{< image width="80%" ratio="36.01%"
-    link="./federation-without-vpn.svg"
-    caption="Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods."
+    link="./multicluster-with-gateways.svg"
+    caption="Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods"
     >}}
 
 ## Deploy Istio control plane in each cluster
@@ -51,8 +51,8 @@ $ kubectl apply -f $HOME/istio.yaml
 For further details and customization options, refer to the [Installation
 with Helm](/docs/setup/kubernetes/helm-install/) page.
 
-Note that the installation steps above assume that you have generated an
-intermediate CA for each cluster that will be part of the mesh.
+> The installation steps above assume that you have generated an
+> intermediate CA for each cluster that will be part of the mesh.
 
 ## Enable mTLS globally
 
