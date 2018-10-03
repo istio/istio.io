@@ -64,7 +64,7 @@ This guide installs the current release version of Istio.
 1. Add the IBM Cloud Helm repository to your Helm instance:
 
     {{< text bash >}}
-    $ helm repo add ibm https://registry.bluemix.net/helm/ibm
+    $ helm repo add ibm-charts https://registry.bluemix.net/helm/ibm-charts
     {{< /text >}}
 
 ### Deploy the Istio Helm chart
@@ -78,7 +78,7 @@ This guide installs the current release version of Istio.
 1. Install the Helm chart to your cluster:
 
     {{< text bash >}}
-    $ helm install ibm/ibm-istio --name=istio --namespace istio-system
+    $ helm install ibm-charts/ibm-istio --name=istio --namespace istio-system
     {{< /text >}}
 
 1. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed:
