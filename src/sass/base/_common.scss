@@ -539,5 +539,23 @@ blockquote {
         color: $textBrandColor;
         background-color: $secondBrandColor;
         font-weight: $tableHeaderWeight;
+        border-bottom: 1px solid lighten($secondBrandColor, 7%);
     }
+
+    table td:last-of-type {
+        background-color: $backgroundColor;
+    }
+
+    table tr:last-of-type td {
+        border-bottom-color: $boxBorderColor;
+    }
+
+    table.with-logo td:first-of-type {
+        opacity: .9;
+    }
+
+    table.with-logo td:last-of-type {
+        opacity: .9;
+    }
+
 }
