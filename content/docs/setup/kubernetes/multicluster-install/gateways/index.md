@@ -35,7 +35,11 @@ of the respective clusters.
 
 ## Deploy Istio control plane in each cluster
 
-Install the Istio control plane using the Helm command below:
+1. Generate intermediate CA certs for each cluster's Citadel from your
+organization's root CA. The shared root CA enables mTLS communication
+across different clusters.
+
+2. Install the Istio control plane using the Helm command below:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -52,16 +56,13 @@ $ kubectl apply -f $HOME/istio.yaml
 For further details and customization options, refer to the [Installation
 with Helm](/docs/setup/kubernetes/helm-install/) page.
 
-> The installation steps above assume that you have generated an
-> intermediate CA for each cluster that will be part of the mesh.
-
 ## Enable mTLS globally
 
 Cross cluster communication via the Istio gateway requires mTLS to be
 enabled for all services in each cluster. The global authentication policy
-must be set to permissive or stricter. In addition, destination rule must
-be set to originate mutual TLS connection from every pod. For example,
-apply the following global configuration in each cluster:
+must be set to permissive or stricter. In addition, a default destination
+rule must be set to originate mutual TLS connection from every pod. For
+example, apply the following global configuration in each cluster:
 
 {{< text yaml >}}
 apiVersion: authentication.istio.io/v1alpha1
@@ -88,11 +89,12 @@ spec:
 
 In order for pods in a cluster to be able to resolve DNS names of services
 in remote clusters, we need to replicate the namespace and service
-declaration from one cluster to other clusters. In addition, to route
-traffic to a remote service via the Istio Gateway, an Istio Service Entry
-configuration should be added for each replicated service. For example, the
-diagram above depicts two services `foo.ns1` in `cluster1` and `bar.ns2` in
-`cluster2`. Lets say their respective declarations are as follows:
+declaration from one cluster to every other cluster in the mesh. In
+addition, to route traffic to a remote service via the Istio Gateway, an
+Istio Service Entry configuration should be added for each replicated
+service. For example, the diagram above depicts two services `foo.ns1` in
+`cluster1` and `bar.ns2` in `cluster2`. Lets say their respective
+declarations are as follows:
 
 In `cluster1` (file: `cluster1-svc.yaml`)
 
@@ -156,11 +158,13 @@ to enable DNS resolution and connectivity. So, apply the configuration in `clust
 ## Route traffic for remote services to remote cluster gateway
 
 Creating a service object for a remote service enables DNS resolution for
-remote services. The DNS is solely for the application convenience. Istio
-still needs to know the set of remote endpoints for the service to which
-traffic must be routed to.  Using the example depicted in the diagram, we
-created a service declaration for `bar.ns2` in `cluster1`. Now, add an
-endpoint to this service in `cluster1` using the Istio service entry as follows:
+remote services inside the application code. The network traffic from the
+application will be destined for the cluster VIP associated with the
+kubernetes service. However, Istio still needs to know the set of remote
+endpoints for the service to which traffic must be routed to.  Using the
+example depicted in the diagram, we created a service declaration for
+`bar.ns2` in `cluster1`. Now, add an endpoint to this service in `cluster1`
+using the Istio service entry as follows:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -217,7 +221,7 @@ spec:
 
 The gateway for port 15443 has been configured and installed using the
 Istio installation step you saw earlier. Traffic entering port 15443 will
-ne load balanced among pods of the appropriate internal service (in this
+be load balanced among pods of the appropriate internal service (in this
 case, `bar.ns2`).
 
 > Do not add any Gateway configuration for port 15443.
