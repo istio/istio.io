@@ -64,12 +64,12 @@ This guide installs the current release version of Istio.
 1. Add the IBM Cloud Helm repository to your Helm instance:
 
     {{< text bash >}}
-    $ helm repo add ibm https://registry.bluemix.net/helm/ibm
+    $ helm repo add ibm-charts https://registry.bluemix.net/helm/ibm-charts
     {{< /text >}}
 
 ### Deploy the Istio Helm chart
 
-1. Install Istio’s custom resource definitions:
+1. If using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
@@ -78,7 +78,7 @@ This guide installs the current release version of Istio.
 1. Install the Helm chart to your cluster:
 
     {{< text bash >}}
-    $ helm install ibm/ibm-istio --name=istio --namespace istio-system
+    $ helm install ibm-charts/ibm-istio --name=istio --namespace istio-system
     {{< /text >}}
 
 1. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed:
@@ -114,7 +114,13 @@ This guide installs the current release version of Istio.
     $ helm del istio --purge
     {{< /text >}}
 
-1. Delete the Istio custom resource definitions:
+    If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete job --all
+    {{< /text >}}
+
+1. If desired, delete the Istio custom resource definitions:
 
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
