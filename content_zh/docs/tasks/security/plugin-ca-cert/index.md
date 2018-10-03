@@ -41,10 +41,12 @@ keywords: [安全,证书]
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1. 重新部署 Citadel，它会从加载的 secret 中读取证书和密钥。
+1. 使用 Helm 重新部署 Citadel，其中 `global.mtls.enabled` 设置为 `true`，`security.selfSigned` 设置为 `false` 。Citadel 将从 secret-mount 文件中读取证书和密钥。
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-citadel-plugin-certs.yaml
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/security/templates/deployment.yaml \
+    --set global.mtls.enabled=true --set security.selfSigned=false > $HOME/citadel-plugin-cert.yaml
+    $ kubectl apply -f $HOME/citadel-plugin-cert.yaml
     {{< /text >}}
 
     > 注意：如果使用不同的证书/密钥文件，或者不同的 secret 名称，需要根据实际情况变更 `istio-citadel-plugin-certs.yaml`
@@ -62,7 +64,6 @@ keywords: [安全,证书]
 1. 根据[部署文档](/zh/docs/examples/bookinfo/)安装 Bookinfo 应用。
 
 1. 获取已加载的证书。
-
     下面我们使用 ratings pod 作为例子，检查这个 Pod 上加载的证书。
 
     用变量 `RATINGSPOD` 保存 Pod 名称：
@@ -77,7 +78,7 @@ keywords: [安全,证书]
     $ kubectl exec -it $RATINGSPOD -c istio-proxy -- /bin/cat /etc/certs/root-cert.pem > /tmp/pod-root-cert.pem
     {{< /text >}}
 
-    `/tmp/pod-root-cert.pem` 文件中包含落地到 Pod 中的根证书。
+    `/tmp/pod-root-cert.pem` 文件中包含传播到 Pod 中的根证书。
 
     {{< text bash >}}
     $ kubectl exec -it $RATINGSPOD -c istio-proxy -- /bin/cat /etc/certs/cert-chain.pem > /tmp/pod-cert-chain.pem
@@ -85,7 +86,7 @@ keywords: [安全,证书]
 
     而 `/tmp/pod-cert-chain.pem` 这个文件则包含了工作负载证书以及传播到 Pod 中的 CA 证书
 
-1. 检查根证书和运维人员指定的证书是否一致：
+1.  检查根证书和运维人员指定的证书是否一致：
 
     {{< text bash >}}
     $ openssl x509 -in @samples/certs/root-cert.pem@ -text -noout > /tmp/root-cert.crt.txt

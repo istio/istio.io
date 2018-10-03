@@ -10,7 +10,7 @@ keywords: [ingress,traffic-management,aws]
 
 This post provides instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
 
-Network load balancer (NLB) could be used instead of classical load balancer. You can see the [comparison](https://aws.amazon.com/elasticloadbalancing/details/#compare) between different AWS `loadbalancer` for more explanation.
+Network load balancer (NLB) could be used instead of classical load balancer. You can see the [comparison](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons) between different AWS `loadbalancer` for more explanation.
 
 ## Prerequisites
 

@@ -357,6 +357,43 @@ Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获�
 
 每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果 `ALLOW` 或 `DENY`。
 
+### 授权许可模式
+
+授权许可模式允许用户在生产环境中应用授权策略之前进行验证。
+
+可以在全局授权配置和个别策略上设置授权许可模式。在全局授权配置上设置许可模式时，所有策略都将处于许可模式，而忽略其自身模式。另外，如果全局授权配置设置为 `ENFORCED`，则在单个策略上设置的强制模式将生效。如果未指定，则默认情况下，全局授权配置和各个策略都处于 `ENFORCED` 模式。
+
+以下示例，在全局配置级别上设置了 Istio 授权许可模式。
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: RbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["default"]
+  enforcement_mode: PERMISSIVE
+{{< /text >}}
+
+以下示例，在策略级别上设置了 Istio 授权许可模式。
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-details-reviews
+  namespace: default
+spec:
+  subjects:
+    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+  roleRef:
+    kind: ServiceRole
+    name: "details-reviews-viewer"
+  mode: PERMISSIVE
+{{< /text >}}
+
 ### 启用授权
 
 您可以使用 `RbacConfig` 对象启用 Istio Authorization。`RbacConfig` 对象是一个网格范围的单例，其固定名称值为 `default`。您只能在网格中使用一个`RbacConfig` 实例。与其他 Istio 配置对象一样，`RbacConfig` 被定义为Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)对象。
