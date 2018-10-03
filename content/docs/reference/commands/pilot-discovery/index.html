@@ -84,11 +84,6 @@ number_of_entries: 5
 <td>The location of the certificate file for mutual TLS  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
-<td><code>--cfConfig &lt;string&gt;</code></td>
-<td></td>
-<td>Cloud Foundry config file  (default ``)</td>
-</tr>
-<tr>
 <td><code>--clusterRegistriesConfigMap &lt;string&gt;</code></td>
 <td></td>
 <td>ConfigMap map for clusters config store  (default ``)</td>
@@ -122,6 +117,11 @@ number_of_entries: 5
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
 <td></td>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--disable-install-crds</code></td>
+<td></td>
+<td>Disable discovery service from verifying the existence of CRDs at startup and then installing if not detected.  It is recommended to be disable for highly available setups. </td>
 </tr>
 <tr>
 <td><code>--discoveryCache</code></td>
@@ -231,7 +231,7 @@ number_of_entries: 5
 <tr>
 <td><code>--registries &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, CloudFoundry, Mock, Config})  (default `[Kubernetes]`)</td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, MCP, Mock, Config})  (default `[Kubernetes]`)</td>
 </tr>
 <tr>
 <td><code>--resync &lt;duration&gt;</code></td>
@@ -366,6 +366,11 @@ number_of_entries: 5
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>

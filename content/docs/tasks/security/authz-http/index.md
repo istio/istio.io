@@ -1,12 +1,14 @@
 ---
-title: Authorization
-description: Shows how to set up role-based access control for services in the mesh.
+title: Authorization for HTTP services
+description: Shows how to set up role-based access control for HTTP services.
 weight: 40
 keywords: [security,access-control,rbac,authorization]
+aliases:
+    - /docs/tasks/security/role-based-access-control.html
 ---
 
 This task covers the activities you might need to perform to set up Istio authorization, also known
-as Istio Role Based Access Control (RBAC), for services in an Istio mesh. You can read more in
+as Istio Role Based Access Control (RBAC), for HTTP services in an Istio mesh. You can read more in
 [authorization](/docs/concepts/security/#authorization) and get started with
 a basic tutorial in Istio Security Basics.
 
