@@ -160,11 +160,11 @@ to enable DNS resolution and connectivity. So, apply the configuration in `clust
 Creating a service object for a remote service enables DNS resolution for
 remote services inside the application code. The network traffic from the
 application will be destined for the cluster VIP associated with the
-kubernetes service. However, Istio still needs to know the set of remote
-endpoints for the service to which traffic must be routed to.  Using the
-example depicted in the diagram, we created a service declaration for
-`bar.ns2` in `cluster1`. Now, add an endpoint to this service in `cluster1`
-using the Istio service entry as follows:
+Kubernetes service. In order for Envoy to route traffic, it needs to know
+the set of remote endpoints for the service to which traffic must be routed
+to.  Using the example depicted in the diagram, we created a service
+declaration for `bar.ns2` in `cluster1`. Now, add an endpoint to this
+service in `cluster1` using the Istio service entry as follows:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
