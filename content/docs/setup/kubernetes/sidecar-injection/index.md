@@ -269,6 +269,42 @@ containers:
 
 when applied over a pod defined by the pod template spec in [`samples/sleep/sleep.yaml`]({{< github_tree >}}/samples/sleep/sleep.yaml)
 
+#### More control: adding exceptions
+
+There are cases where users do not have control of the pod creation, for instance, when they are created by someone else. Therefore they are unable to add the annotation `sidecar.istio.io/inject` in the pod, to explicitly instruct Istio whether to install the sidecar or not.
+
+Think of auxiliary pods that might be created as an intermediate step while deploying an application. [OpenShift Builds](https://docs.okd.io/latest/dev_guide/builds/index.html), for example, creates such pods for building the source code of an application. Once the binary artifact is built, the application pod is ready to run and the auxiliary pods are discarded. Those intermediate pods should not get an Istio sidecar, even if the policy is set to `enabled` and the namespace is properly labeled to get automatic injection.
+
+For such cases you can instruct Istio to **not** inject the sidecar on those pods, based on labels that are present in those pods. You can do this by editing the `istio-sidecar-injector` ConfigMap and adding the entry `neverInjectSelector`. It is an array of Kubernetes label selectors. They are `OR'd`, stopping at the first match. See an example:
+
+{{< text yaml >}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-sidecar-injector
+data:
+  config: |-
+    policy: enabled
+    neverInjectSelector:
+      - matchExpressions:
+        - {key: openshift.io/build.name, operator: Exists}
+      - matchExpressions:
+        - {key: openshift.io/deployer-pod-for.name, operator: Exists}
+    template: |-
+      initContainers:
+...
+{{< /text >}}
+
+The above statement means: Never inject on pods that have the label `openshift.io/build.name` **or** `openshift.io/deployer-pod-for.name` – the values of the labels don't matter, we are just checking if the keys exist. With this rule added, the OpenShift Builds use case illustrated above is covered, meaning auxiliary pods will not have sidecars injected (because source-to-image auxiliary pods **do** contain those labels).
+
+For completeness, you can also use a field called `alwaysInjectSelector`, with similar syntax, which will always inject the sidecar on pods that match that label selector, regardless of the global policy.
+
+The label selector approach gives a lot of flexibility on how to express those exceptions. Take a look at [these docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) to see what you can do with them!
+
+It's worth noting that annotations in the pods have higher precedence than the label selectors. If a pod is annotated with `sidecar.istio.io/inject: "true/false"` then it will be honored. So, the order of evaluation is:
+
+> `Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+
 #### Uninstalling the automatic sidecar injector
 
 {{< text bash >}}
