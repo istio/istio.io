@@ -21,9 +21,13 @@ Istio 提供了一个完整的解决方案，通过为整个服务网格提供�
 Istio 提供一种简单的方式来为已部署的服务建立网络，该网络具有负载均衡、服务间认证、监控等功能，只需要对服务的代码进行[一点](/zh/docs/tasks/telemetry/distributed-tracing/#发生了什么)或不需要做任何改动。想要让服务支持 Istio，只需要在您的环境中部署一个特殊的 sidecar 代理，使用 Istio 控制平面功能配置和管理代理，拦截微服务之间的所有网络通信：
 
 * HTTP、gRPC、WebSocket 和 TCP 流量的自动负载均衡。
+
 * 通过丰富的路由规则、重试、故障转移和故障注入，可以对流量行为进行细粒度控制。
+
 * 可插入的策略层和配置 API，支持访问控制、速率限制和配额。
+
 * 对出入集群入口和出口中所有流量的自动度量指标、日志记录和跟踪。
+
 * 通过强大的基于身份的验证和授权，在集群中实现安全的服务间通信。
 
 Istio 旨在实现可扩展性，满足各种部署需求。
@@ -57,7 +61,9 @@ Istio 的 Mixer 组件负责策略控制和遥测收集。它提供后端抽象�
 Istio 是独立于平台的，旨在运行在各种环境中，包括跨云、内部部署、Kubernetes、Mesos 等。您可以在 Kubernetes 上部署 Istio 或具有 Consul 的 Nomad 上部署。Istio 目前支持：
 
 * 在 Kubernetes 上部署的服务
+
 * 使用 Consul 注册的服务
+
 * 在虚拟机上部署的服务
 
 ### 集成和定制
@@ -69,11 +75,12 @@ Istio 是独立于平台的，旨在运行在各种环境中，包括跨云、�
 Istio 服务网格逻辑上分为**数据平面**和**控制平面**。
 
 * **数据平面**由一组以 sidecar 方式部署的智能代理（[Envoy](https://www.envoyproxy.io/)）组成。这些代理可以调节和控制微服务及 [Mixer](/zh/docs/concepts/policies-and-telemetry/) 之间所有的网络通信。
+
 * **控制平面**负责管理和配置代理来路由流量。此外控制平面配置 Mixer 以实施策略和收集遥测数据。
 
 下图显示了构成每个面板的不同组件：
 
-{{< image width="80%" ratio="80%"
+{{< image width="80%"
     link="/docs/concepts/what-is-istio/arch.svg"
     alt="基于 Istio 的应用程序架构概览"
     caption="Istio 架构"
@@ -111,6 +118,11 @@ Pilot 将平台特定的服务发现机制抽象化并将其合成为符合 [Env
 ### Citadel
 
 [Citadel](/zh/docs/concepts/security/) 通过内置身份和凭证管理可以提供强大的服务间和最终用户身份验证。可用于升级服务网格中未加密的流量，并为运维人员提供基于服务标识而不是网络控制的强制执行策略的能力。从 0.5 版本开始，Istio 支持[基于角色的访问控制](/zh/docs/concepts/security/#认证)，以控制谁可以访问您的服务。
+
+### Galley
+
+Galley 代表其他的 Istio 控制平面组件，用来验证用户编写的 Istio API 配置。随着时间的推移，Galley 将接管 Istio 获取配置、
+处理和分配组件的顶级责任。它将负责将其他的 Istio 组件与从底层平台（例如 Kubernetes）获取用户配置的细节中隔离开来。
 
 ## 设计目标
 
