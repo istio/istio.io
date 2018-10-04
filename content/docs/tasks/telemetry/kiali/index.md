@@ -110,13 +110,36 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
 
 1.  Determine the Kiali URL.
 
-    In Kubernetes environments, execute the following command to determine the
-    Kiali URL:
+    In Kubernetes environments, you can use the `GATEWAY_URL` determined in the
+    previous step to determine the Kiali URL, except you need the port to be
+    `15029`. For example:
+
+    {{< text bash >}}
+    $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*/:15029/)"
+    $ echo $KIALI_URL
+    http://172.30.141.9:15029
+    {{< /text >}}
+
+    Alternatively, on Kubernetes environments that have external loadbalancers,
+    you can execute the following command to determine the Kiali URL:
 
     {{< text bash >}}
     $ KIALI_URL="http://$(kubectl -n istio-system get svc istio-ingressgateway -o jsonpath='{.spec.clusterIP}'):15029"
     $ echo $KIALI_URL
     http://172.30.141.9:15029
+    {{< /text >}}
+
+    {{< warning_icon >}} Your Kubernetes environment may require a different
+    mechanism to find the proper URL. For example, if you are running  minikube
+    (or any environment that does not have an external loadbalancer) then you
+    will need to use another way specific to your environment to find the
+    exposed host/port. For minikube, use `minikube ip` and the `nodePort` of
+    the `istio-ingressgateway` service:
+
+    {{< text bash >}}
+    $ KIALI_URL="http://$(minikube ip):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].nodePort}')"
+    $ echo $KIALI_URL
+    http://172.30.41.11:31758
     {{< /text >}}
 
 1.  Log into the Kiali UI.
