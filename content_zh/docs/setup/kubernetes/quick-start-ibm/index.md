@@ -66,7 +66,7 @@ keywords: [kubernetes,ibm,icp]
 
 ### 部署 Istio Helm chart
 
-1. 如果使用2.10.0之前的Helm版本，请通过安装Istio的自定义资源定义`kubectl apply`，并等待几秒钟，以便在kube-apiserver中提交CRD：
+1. 如果使用 2.10.0 之前的 Helm 版本，请通过安装 Istio 的自定义资源定义 `kubectl apply` ，并等待几秒钟，以便在 kube-apiserver 中提交 CRD：
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
@@ -111,7 +111,7 @@ keywords: [kubernetes,ibm,icp]
     $ helm del istio --purge
     {{< /text >}}
 
-    如果你的Helm版本低于2.9.0，那么在重新部署新版本的Istio图表之前，您需要手动清理额外的作业资源：
+    如果你的 Helm 版本低于 2.9.0，那么在重新部署新版本的 Istio 图表之前，您需要手动清理额外的作业资源：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete job --all
