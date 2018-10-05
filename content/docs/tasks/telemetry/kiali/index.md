@@ -7,9 +7,9 @@ keywords: [telemetry,visualization]
 
 This task shows you how to visualize different aspects of your Istio mesh.
 
-As part of this task, you will install the [Kiali](https://www.kiali.io) add-on
-and use the web-based graphical user interface for viewing service graphs of
-the mesh and your Istio configuration objects. You will also use the Kiali
+As part of this task, you install the [Kiali](https://www.kiali.io) add-on
+and use the web-based graphical user interface to view service graphs of
+the mesh and your Istio configuration objects. Lastly, you will use the Kiali
 Public API to generate graph data in the form of consumable JSON.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as the
