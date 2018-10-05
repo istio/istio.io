@@ -9,7 +9,7 @@ This task shows you how to visualize different aspects of your Istio mesh.
 
 As part of this task, you install the [Kiali](https://www.kiali.io) add-on
 and use the web-based graphical user interface to view service graphs of
-the mesh and your Istio configuration objects. Lastly, you will use the Kiali
+the mesh and your Istio configuration objects. Lastly, you use the Kiali
 Public API to generate graph data in the form of consumable JSON.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as the
@@ -69,8 +69,7 @@ $ helm template \
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
-Once Istio and Kiali are installed, you should then deploy an application such
-as the [Bookinfo](/docs/examples/bookinfo/) sample application.
+Once Istio and Kiali are installed, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 > {{< idea_icon >}} The above installation instructions assume you have `helm`
 and want to use it to install Kiali. Alternatively, you can install Kiali by
@@ -88,20 +87,21 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
     kiali          10.59.253.165   <none>        20001/TCP  30s
     {{< /text >}}
 
+1.  Determine the Bookinfo URL.
+
+    Follow these [instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
+    to determine the Bookinfo `GATEWAY_URL`.
+
 1.  Send traffic to the mesh.
 
-    For the Bookinfo sample, follow these
-    [instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
-    to determine its `GATEWAY_URL` and then visit
-    `http://$GATEWAY_URL/productpage` in your web browser or issue the
-    following command:
+    Generate a small amount of traffic by visiting `http://$GATEWAY_URL/productpage`
+    in your web browser or by issuing the following command multiple times:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    Refresh the page a few times, or send the command a few times, to generate
-    a small amount of traffic. To continually send requests, you can use the
+    {{< idea_icon >}} To continually send requests, you can use the
     `watch` command if it is available on your system:
 
     {{< text bash >}}
