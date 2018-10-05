@@ -256,7 +256,7 @@ greatly improves the mutual TLS onboarding experience.
 
 Imagine many non-Istio clients communicating with a non-Istio server and the
 operator wants to migrate to Istio with mutual TLS enabled on that server.
-In practise, it is very common that the operator cannot install Istio sidecar
+In practice, it is very common that the operator cannot install Istio sidecar
 for all clients at the same time or he does not even have operation permission
 on some clients. As a result, even after installing the Istio sidecar on the
 server, he still cannot enable mutual TLS without breaking existing communications.
