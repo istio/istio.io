@@ -1,0 +1,21 @@
+{{ $page := .page }}
+{{ $templates := .templates }}
+
+{{ $templates := split $templates "," }}
+{{ $templates := sort $templates }}
+{{ $last := trim (index (last 1 $templates) 0) " " }}
+{{ range $i, $t := $templates }}
+    {{ $temp := trim $t " " }}
+    {{ $page_name := printf "/docs/reference/config/policy-and-telemetry/templates/%s/index.html" $temp }}
+    {{ $target := $page.GetPage $page_name }}
+    {{ if not $target }}
+        {{ $page_name := printf "/docs/reference/config/policy-and-telemetry/templates/%s/index.md" $temp }}
+        {{ $target = $page.GetPage $page_name }}
+    {{ end }}
+
+    {{ if $target }}
+        <a href="{{ $target.Permalink }}" title="{{ $target.Description }}"><code>{{ $target.Title }}</code></a>{{- if ne $temp $last -}},{{- end -}}
+    {{ else }}
+        MARKDOWN ERROR: Invalid template name: '{{ $temp }}'
+    {{ end }}
+{{ end }}
