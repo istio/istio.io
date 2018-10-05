@@ -53,7 +53,7 @@ Choose this option for:
 * Headless services, or
 * `StatefulSets`
 
-To install Istio mutual TLS permissive mode between sidecars:
+To install Istio with mutual TLS permissive mode between sidecars:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
