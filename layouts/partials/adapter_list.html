@@ -1,0 +1,21 @@
+{{ $page := .page }}
+{{ $adapters := .adapters }}
+
+{{ $adapters := split $adapters "," }}
+{{ $adapters := sort $adapters }}
+{{ $last := trim (index (last 1 $adapters) 0) " " }}
+{{ range $i, $a := $adapters }}
+    {{ $adap := trim $a " " }}
+    {{ $page_name := printf "/docs/reference/config/policy-and-telemetry/adapters/%s/index.html" $adap }}
+    {{ $target := $page.GetPage $page_name }}
+    {{ if not $target }}
+        {{ $page_name := printf "/docs/reference/config/policy-and-telemetry/adapters/%s/index.md" $adap }}
+        {{ $target = $page.GetPage $page_name }}
+    {{ end }}
+
+    {{ if $target }}
+        <a href="{{ $target.Permalink }}" title="{{ $target.Description }}">{{ $target.Title }}</a>{{- if ne $adap $last -}},{{- end -}}
+    {{ else }}
+        MARKDOWN ERROR: Invalid adapter name: '{{ $adap }}'
+    {{ end }}
+{{ end }}

@@ -147,3 +147,18 @@ other = "Tested by %s with these Istio Versions"
 
 [partner_component_supported_templates]
 other = "Supported Templates"
+
+[adapter]
+other = "Adapter"
+
+[supported_templates]
+other = "Supported Templates"
+
+[adapters]
+other = "Adapters"
+
+[template]
+other = "Template"
+
+[subscribe]
+other = "Subscribe"

@@ -61,7 +61,7 @@
                             <a class="dropdown-item" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
 
                             {{ if not .Params.generator }}
-                                <a class="dropdown-item" href="https://github.com/istio/istio.io/edit/master/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                <a class="dropdown-item" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ end }}
                         {{ end }}
 
