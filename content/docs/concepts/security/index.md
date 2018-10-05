@@ -248,6 +248,28 @@ For a client to call a server with mutual TLS authentication:
 
 1. After authorization, the server side Envoy forwards the traffic to the server service through local TCP connections.
 
+#### Permissive Mode
+
+Istio mutual TLS has a permissive mode, which allows a service to accept
+both plain text traffic and mutual TLS traffic at the same time. This feature
+greatly improves the mutual TLS onboarding experience.
+
+Imagine many non-Istio clients communicating with a non-Istio server and the
+operator wants to migrate to Istio with mutual TLS enabled on that server.
+In practise, it is very common that the operator cannot install Istio sidecar
+for all clients at the same time or he does not even have operation permission
+on some clients. As a result, even after installing the Istio sidecar on the
+server, he still cannot enable mutual TLS without breaking existing communications.
+
+With permissive mode enabled, since the server can accept both plain text and
+mutual TLS traffic, it provides great flexibility for the onboarding process.
+The server can simply have Istio sidecar installed and take mutual TLS traffic
+immediately without breaking existing plain text traffic. As a result, the
+clients can gradually install Istio sidecar and send mutual TLS traffic.
+Eventually the operator can lock down to mutual TLS only mode when the migration
+of all clients are done. For more information, visit the
+[Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
+
 #### Secure naming
 
 The secure naming information contains *N-to-N* mappings from the server identities, which are encoded in certificates,

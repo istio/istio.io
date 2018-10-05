@@ -38,11 +38,10 @@ we recommend installing with the
 [Helm Chart](/docs/setup/kubernetes/helm-install/), to use all the
 configuration options. This permits customization of Istio to operator specific requirements.
 
-### Option 1: Install Istio without mutual TLS authentication between sidecars
+### Option 1: Install Istio with mutual TLS permissive mode between sidecars
 
 Visit our
-[mutual TLS authentication between sidecars concept page](/docs/concepts/security/#mutual-tls-authentication)
-for more information.
+[mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)for more information.
 
 Choose this option for:
 
