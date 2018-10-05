@@ -1,0 +1,22 @@
+
+<table>
+    <thead>
+        <tr>
+            <th>{{ i18n "adapter" }}</th>
+            <th>{{ i18n "supported_templates" }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ range .Page.Pages }}
+            <tr>
+                <td><a title="{{.Description}}" href="{{ .Permalink }}">{{- .Title -}}</a></td>
+
+                <td>
+                    {{ if .Params.supported_templates }}
+                        {{ partial "template_list.html" (dict "page" . "templates" .Params.supported_templates) }}
+                    {{ end }}
+                </td>
+            </tr>
+        {{ end }}
+    </tbody>
+</table>
