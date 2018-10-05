@@ -17,11 +17,10 @@ example application throughout this task.
 
 ## Before you begin
 
-You first need to create a secret in your Istio namespace with credentials that
-you will use to authenticate to Kiali. See the
+Create a secret in your Istio namespace with credentials that you use to
+authenticate to Kiali. See the
 [Helm README](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/README.md#installing-the-chart)
-for details, but here is an example command you can modify and run to create a
-secret:
+for details, but here is an example command you can modify and run to create a secret:
 
 ```bash
 USERNAME=$(echo -n 'admin' | base64)
@@ -43,7 +42,7 @@ data:
 EOF
 ```
 
-Once you have created a Kiali secret, you can install Kiali via Helm by following
+Once the Kiali secret is created, install Kiali via Helm by following
 [these instructions](/docs/setup/kubernetes/helm-install/). Note that you need
 to use the `--set kiali.enabled=true` option when running the `helm` command.
 
@@ -54,10 +53,10 @@ $ helm template --set kiali.enabled=true install/kubernetes/helm/istio --name is
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
-> {{< idea_icon >}} This Task will not discuss Jaeger and Grafana; however, if
+> {{< idea_icon >}} This Task does not discuss Jaeger and Grafana; however, if
 you have them already installed in your cluster and you want to see how Kiali
-integrates with both of them, you will want to pass additional arguments to the
-`helm` command above, for example:
+integrates with both of them, you need to pass additional arguments to the
+`helm` command. For example:
 
 {{< text bash >}}
 $ helm template \
@@ -101,7 +100,7 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    {{< idea_icon >}} To continually send requests, you can use the
+    {{< idea_icon >}} To continually send requests, use the
     `watch` command if it is available on your system:
 
     {{< text bash >}}
@@ -114,7 +113,7 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
     application, only on a different port. Therefore you can use the
     `GATEWAY_URL` that you set in the previous step to determine the Kiali URL.
 
-    If you are running in an environment that has external load balancers:
+    If you are running in an environment that has external load balancers, execute this command:
 
     {{< text bash >}}
     $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].port}')"
@@ -122,7 +121,7 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
     http://172.30.141.9:15029
     {{< /text >}}
 
-    If you are running in an environment that does not support external load balancers (e.g., minikube):
+    If you are running in an environment that does not support external load balancers (e.g., minikube), execute this command:
 
     {{< text bash >}}
     $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].nodePort}')"
@@ -134,14 +133,13 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
 
     Visit `$KIALI_URL` in your web browser, and in the login screen enter the
     credentials that you stored in the Kiali secret you created above. If you
-    used the example secret above, you should enter a username of `admin` with
-    a password of `mysecret`.
+    used the example secret above, enter a username of `admin` with a password
+    of `mysecret`.
 
 1.  Get an overview of your mesh.
 
-    Once you log in, you will initially be brought to the **Overview** page
-    showing you all the namespaces which have services in your mesh. The page
-    will look similar to:
+    Once you log in, you see the **Overview** page which displays all the
+    namespaces that have services in your mesh. The page looks similar to:
 
     {{< image width="75%" ratio="58%"
     link="./kiali-overview.png"
@@ -152,8 +150,7 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
 
     Click on a namespace to see a graph of all services in that namespace.  For
     example, if you have the Bookinfo sample application installed, click on
-    `bookinfo` in the Bookinfo namespace card.  You will see a graph similar
-    to:
+    `bookinfo` in the Bookinfo namespace card.  The page looks similar to:
 
     {{< image width="75%" ratio="89%"
     link="./kiali-graph.png"
@@ -163,11 +160,11 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
 1.  View summary metrics.
 
     Select any node or edge in the graph and notice the summary details panel
-    on the right will display additional data about that selected node or edge.
+    on the right displays additional data about that selected node or edge.
 
 1.  Experiment with different graph types.
 
-    You can visualize the graph using several different types of graphs such as
+    Visualize the graph using several different types of graphs such as
     the **App**, **Versioned App**, and **Workload** graph types.
 
     1. Select the **App** graph type from the **Graph Type** drop down menu.
@@ -213,12 +210,12 @@ following the [Kiali install instructions](https://www.kiali.io/gettingstarted/)
 
 ## About the Kiali Public API
 
-You can generate JSON representing the graphs, as well as other metric, health,
+Generate JSON representing the graphs, as well as other metric, health,
 and configuration information, by accessing the
 [Kiali Public API](https://www.kiali.io/api/paths).
 
-For example, if you make a request to
-`$KIALI_URL/api/namespaces/bookinfo/graph?graphType=app` you will get a JSON
+For example, make a request to
+`$KIALI_URL/api/namespaces/bookinfo/graph?graphType=app` to get a JSON
 representation of your graph:
 
 {{< text json >}}
@@ -391,7 +388,7 @@ convention).
 
 ## Cleanup
 
-If you are not planning to explore any follow-on tasks, you can remove the
+If you are not planning to explore any follow-on tasks, remove the
 Bookinfo sample application and Kiali.
 
 To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
