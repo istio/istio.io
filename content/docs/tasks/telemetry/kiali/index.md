@@ -403,6 +403,13 @@ convention).
 
 ## Cleanup
 
-*   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-    to shutdown the application.
+If you are not planning to explore any follow-on tasks, you can remove the
+Bookinfo sample application and Kiali.
+
+To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
+
+To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
+
+{{< text bash >}}
+$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules --selector=app=kiali -n istio-system
+{{< /text >}}
