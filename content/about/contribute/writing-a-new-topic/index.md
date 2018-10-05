@@ -207,7 +207,7 @@ produces a link to `https://raw.githubusercontent.com/istio/istio/...`
     {{< /text >}}
 
 The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
 to get the name of the currently targeted branch.
 
 ## Embedding preformatted blocks

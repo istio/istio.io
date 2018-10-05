@@ -7,4 +7,8 @@ aliases:
     - /docs/reference/config/template/index.html
 ---
 
-Learn about [which adapters](/docs/reference/config/policy-and-telemetry/adapters/#the-relationship-between-adapters-and-templates) implement these templates.
+## Adapters
+
+The table below shows the set of [adapters](/docs/reference/config/policy-and-telemetry/adapters) that implement each supported template.
+
+{{< template_table >}}
