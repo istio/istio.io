@@ -1,9 +1,9 @@
 
-img := gcr.io/istio-testing/website-builder:2018-09-15
+img := gcr.io/istio-testing/website-builder:2018-10-05
 docker := docker run -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site $(img)
 
 ifeq ($(CONTEXT),production)
-baseurl := $(URL)
+baseurl := "$(URL)"
 endif
 
 build:

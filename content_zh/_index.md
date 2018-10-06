@@ -33,7 +33,7 @@ title: Istio
       "image": [
           "https://istio.io/img/logo.png"
        ],
-      “description”: “Istio 可以用于管理、保护、控制和观测服务。”
+      "description": "Istio 可以用于管理、保护、控制和观测服务。"
     }
 </script>
 <script>
