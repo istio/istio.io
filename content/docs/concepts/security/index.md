@@ -224,7 +224,10 @@ Istio provides two types of authentication:
 - **Origin authentication**, also known as **end-user authentication**: verifies the
   original client making the request as an end-user or device.
   Istio enables request-level authentication with JSON Web Token (JWT) validation
-  and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
+  and a streamlined developer experience for open source OpenID Connect provider
+  [ORY Hydra](https://www.ory.sh), [Keycloak](https://www.keycloak.org),
+  [Auth0](https://auth0.com/),
+  [Firebase Auth](https://firebase.google.com/docs/auth/),
   [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
 
 In both cases, Istio stores the authentication policies in the `Istio config store` via a custom Kubernetes API.
