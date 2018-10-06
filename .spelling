@@ -522,6 +522,8 @@ VirtualService
 sha256
 deployment
 webhook
+Keycloak
+OpenID
 
  - search.md
 searchresults
