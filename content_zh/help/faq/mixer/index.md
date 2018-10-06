@@ -3,6 +3,6 @@ title: Mixer FAQ
 linktitle: Mixer
 description: Mixer Q & A。
 weight: 40
-type: faq
+layout: faq
 icon: faq
 ---

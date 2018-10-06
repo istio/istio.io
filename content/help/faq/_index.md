@@ -2,7 +2,7 @@
 title: FAQ
 description: Frequently Asked Questions about Istio.
 weight: 20
-type: faqlanding
+layout: faqlanding
 aliases:
   - /faq
   - /docs/welcome/faq.html
