@@ -2,15 +2,13 @@
 title: Media Resources
 description: Official Istio resources for digital and printed materials.
 weight: 90
-type: media-resources
 icon: istio-blue-logo
 ---
 
 Here are a few assets in case you want to show off your support for Istio, integration to Istio, or want to link back to
 us. Please feel free to borrow these:
 
-<div class="media-resources">
-<div class="container-fluid">
+<div class="media-resources container-fluid">
 
 <table>
   <tbody>
@@ -85,6 +83,5 @@ Here's some advice about using these images:
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
