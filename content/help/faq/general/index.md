@@ -3,6 +3,6 @@ title: General FAQ
 linktitle: General
 description: General Q & A.
 weight: 10
-type: faq
+layout: faq
 icon: faq
 ---

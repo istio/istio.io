@@ -2,7 +2,6 @@
 title: Adapters
 description: Mixer adapters allow Istio to interface to a variety of infrastructure backends for such things as metrics and logs.
 weight: 40
-type: section-index
 aliases:
     - /docs/reference/config/mixer/adapters/index.html
     - /docs/reference/config/adapters/
