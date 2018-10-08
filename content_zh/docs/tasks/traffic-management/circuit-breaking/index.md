@@ -23,7 +23,7 @@ keywords: [流量管理,熔断]
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-    否者就需要在部署 `httpbin` 应用之前手工注入 Sidecar 了：
+    否则就需要在部署 `httpbin` 应用之前手工注入 Sidecar 了：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
@@ -35,7 +35,7 @@ keywords: [流量管理,熔断]
 
 1. 创建一个 [目标规则](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)，针对 `httpbin` 服务设置断路器：
 
-    > 如果您启用了双向 TLS 身份验证的 Istio，则必须在应用之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[重新配置服务路由时出现 503 错误](/zh/help/ops/traffic-management/deploy-guidelines/#重新配置服务路由时出现-503-错误)所述。
+    > 如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[设置目标规则后出现 503 错误](/zh/help/ops/traffic-management/troubleshooting/#设置目标规则后出现-503-错误)所述。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -234,13 +234,13 @@ keywords: [流量管理,熔断]
 
 ## 清理
 
-1.  清理规则：
+1. 清理规则：
 
     {{< text bash >}}
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
+1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy
