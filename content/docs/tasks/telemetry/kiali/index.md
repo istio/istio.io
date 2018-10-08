@@ -12,15 +12,17 @@ and use the web-based graphical user interface to view service graphs of
 the mesh and your Istio configuration objects. Lastly, you use the Kiali
 Public API to generate graph data in the form of consumable JSON.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used as the
-example application throughout this task.
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
 
 ## Before you begin
 
-Create a secret in your Istio namespace with credentials that you use to
+> {{< idea_icon >}} The following instructions assume you have installed Helm and use it to install Kiali.
+To install Kiali without using Helm, following the [Kiali install instructions](https://www.kiali.io/gettingstarted/).
+
+Create a secret in your Istio namespace with the credentials that you use to
 authenticate to Kiali. See the
 [Helm README](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/README.md#installing-the-chart)
-for details, but here is an example command you can modify and run to create a secret:
+for details. Modify and run the following example commands to create a secret:
 
 ```bash
 USERNAME=$(echo -n 'admin' | base64)
@@ -42,70 +44,57 @@ data:
 EOF
 ```
 
-Once the Kiali secret is created, install Kiali via Helm by following
-[these instructions](/docs/setup/kubernetes/helm-install/). Note that you need
-to use the `--set kiali.enabled=true` option when running the `helm` command.
-
-For example:
+Once you create the Kiali secret, follow
+[the Helm install instructions](/docs/setup/kubernetes/helm-install/) to install Kiali via Helm.
+You must use the `--set kiali.enabled=true` option when you run the `helm` command, for example:
 
 {{< text bash >}}
 $ helm template --set kiali.enabled=true install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
-> {{< idea_icon >}} This Task does not discuss Jaeger and Grafana; however, if
-you have them already installed in your cluster and you want to see how Kiali
-integrates with both of them, you need to pass additional arguments to the
-`helm` command. For example:
+> {{< idea_icon >}} This Task does not discuss Jaeger and Grafana. If
+you already installed them in your cluster and you want to see how Kiali
+integrates with them, you must pass additional arguments to the
+`helm` command, For example:
 
 {{< text bash >}}
-$ helm template \
-    --set kiali.enabled=true \
-    --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing -o jsonpath='{.spec.clusterIP}'):80" \
-    --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana -o jsonpath='{.spec.clusterIP}'):3000" \
-    install/kubernetes/helm/istio \
-    --name istio --namespace istio-system > $HOME/istio.yaml
-$ kubectl apply -f $HOME/istio.yaml
+    $ helm template \
+        --set kiali.enabled=true \
+        --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing -o jsonpath='{.spec.clusterIP}'):80" \
+        --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana -o jsonpath='{.spec.clusterIP}'):3000" \
+        install/kubernetes/helm/istio \
+        --name istio --namespace istio-system > $HOME/istio.yaml
+    $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
-Once Istio and Kiali are installed, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
-
-> {{< idea_icon >}} The above installation instructions assume you have `helm`
-and want to use it to install Kiali. Alternatively, you can install Kiali by
-following the [Kiali install instructions](https://www.kiali.io/gettingstarted/).
+Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Generating a service graph
 
-1.  Verify that the service is running in your cluster.
-
-    In Kubernetes environments, execute the following command:
+1.  To verify the service is running in your cluster, run the following command:
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc kiali
-    NAME           CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-    kiali          10.59.253.165   <none>        20001/TCP  30s
     {{< /text >}}
 
-1.  Determine the Bookinfo URL.
+1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
-    Follow these [instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
-    to determine the Bookinfo `GATEWAY_URL`.
+1.  To send traffic to the mesh, you have three options
 
-1.  Send traffic to the mesh.
+    *   Visit `http://$GATEWAY_URL/productpage` in your web browser
 
-    Generate a small amount of traffic by visiting `http://$GATEWAY_URL/productpage`
-    in your web browser or by issuing the following command multiple times:
+    *   Use the following command multiple times:
 
-    {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
-    {{< /text >}}
+        {{< text bash >}}
+        $ curl http://$GATEWAY_URL/productpage
+        {{< /text >}}
 
-    {{< idea_icon >}} To continually send requests, use the
-    `watch` command if it is available on your system:
+    *   If you installed the `watch` command in your system, send requests continually with:
 
-    {{< text bash >}}
-    $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
-    {{< /text >}}
+        {{< text bash >}}
+        $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
+        {{< /text >}}
 
 1.  Determine the Kiali URL.
 
