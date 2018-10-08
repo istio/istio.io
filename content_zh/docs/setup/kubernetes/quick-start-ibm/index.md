@@ -61,12 +61,12 @@ keywords: [kubernetes,ibm,icp]
 1. 将 IBM Cloud 的 Helm 仓库地址添加到你的 Helm 实例：
 
     {{< text bash >}}
-    $ helm repo add ibm https://registry.bluemix.net/helm/ibm
+    $ helm repo add ibm-charts https://registry.bluemix.net/helm/ibm-charts
     {{< /text >}}
 
 ### 部署 Istio Helm chart
 
-1. 安装 Istio CRD：
+1. 如果使用 2.10.0 之前的 Helm 版本，请通过 `kubectl apply` 命令安装 Istio 的 CRD，并等待几秒钟：
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
@@ -75,7 +75,7 @@ keywords: [kubernetes,ibm,icp]
 1. 在你的集群中安装 Helm chart：
 
     {{< text bash >}}
-    $ helm install ibm/ibm-istio --name=istio --namespace istio-system
+    $ helm install ibm-charts/ibm-istio --name=istio --namespace istio-system
     {{< /text >}}
 
 1. 确保 Istio 的 9 个 Pod 和 Prometheus 的 pod 已经完全部署好：
@@ -111,7 +111,13 @@ keywords: [kubernetes,ibm,icp]
     $ helm del istio --purge
     {{< /text >}}
 
-1. 删除 Istio CRD：
+    如果你的 Helm 版本低于 2.9.0，那么在重新部署新版本的 Istio Chart 之前，您需要手动清理额外的 Job 资源：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete job --all
+    {{< /text >}}
+
+1. 如果需要，删除 Istio CRD：
 
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
