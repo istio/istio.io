@@ -122,43 +122,43 @@ other = "回到顶部"
 other = "折叠导航栏"
 
 [partner_component_notice]
-other = "This component was created and is maintained by an Istio partner. Please address support questions to the partnet directly."
+other = "该组件由 Istio 合作伙伴创建并维护，如有问题请直接与合作伙伴联系。"
 
 [partner_component_partner]
-other = "Partner"
+other = "合作伙伴"
 
 [partner_component_contact]
-other = "Contact"
+other = "联系"
 
 [partner_component_support_site]
-other = "Support Site"
+other = "支持站点"
 
 [partner_component_source_code]
-other = "Source Code"
+other = "源码"
 
 [partner_component_latest_release]
-other = "Latest Release"
+other = "最新版本"
 
 [partner_component_helm_chart]
 other = "Helm Chart"
 
 [partner_component_istio_versions]
-other = "Tested by %s with these Istio Versions"
+other = "%s 已在如下 Istio 版本中测试通过"
 
 [partner_component_supported_templates]
-other = "Supported Templates"
+other = "支持的模版"
 
 [adapter]
-other = "Adapter"
+other = "适配器"
 
 [supported_templates]
-other = "Supported Templates"
+other = "支持的模板"
 
 [adapters]
-other = "Adapters"
+other = "适配器"
 
 [template]
-other = "Template"
+other = "模版"
 
 [subscribe]
-other = "Subscribe"
+other = "订阅"
