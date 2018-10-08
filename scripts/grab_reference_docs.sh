@@ -57,6 +57,15 @@ locate_file() {
     PP=$(echo ${FNP} | rev | cut -d'/' -f2- | rev)
     mkdir -p content/docs${PP}/${FN}
     sed -e 's/href="https:\/\/istio.io/href="/g' ${FILENAME} >content/docs${PP}/${FN}/index.html
+
+    LEN=${#WORK_DIR}
+    REL_PATH=${FILENAME:LEN}
+    REPO=$(echo ${REL_PATH} | cut -d'/' -f2)
+
+    if [ "${REPO}" != "istio" -a "${REPO}" != "api" ]
+    then
+        sed -e 's/layout: protoc-gen-docs/layout: partner-component/g' -i "" content/docs${PP}/${FN}/index.html
+    fi
 }
 
 # Given the path and name to an Istio component, builds the component and then

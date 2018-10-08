@@ -81,7 +81,7 @@ keywords: [遥测,指标,tcp]
       namespace: default
     spec:
       match: context.protocol == "tcp"
-             && destination.service == "mongodb.default.svc.cluster.local"
+             && destination.service.host == "mongodb.default.svc.cluster.local"
       actions:
       - handler: mongohandler.prometheus
         instances:

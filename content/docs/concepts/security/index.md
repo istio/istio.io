@@ -224,7 +224,10 @@ Istio provides two types of authentication:
 - **Origin authentication**, also known as **end-user authentication**: verifies the
   original client making the request as an end-user or device.
   Istio enables request-level authentication with JSON Web Token (JWT) validation
-  and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
+  and a streamlined developer experience for open source OpenID Connect provider
+  [ORY Hydra](https://www.ory.sh), [Keycloak](https://www.keycloak.org),
+  [Auth0](https://auth0.com/),
+  [Firebase Auth](https://firebase.google.com/docs/auth/),
   [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
 
 In both cases, Istio stores the authentication policies in the `Istio config store` via a custom Kubernetes API.
@@ -444,18 +447,23 @@ mutual TLS implementations.
 
 The `origins:` section defines authentication methods and associated parameters
 supported for origin authentication. Istio only supports JWT origin
-authentication. However, a policy can list multiple JWTs by different issuers.
+authentication. You can specify allowed JWT issuers, and enable or disable JWT authentication for a
+specific path. If all JWTs are disabled for a request path, authentication also passes as if there is
+none defined.
 Similar to peer authentication, only one of the listed methods must be
 satisfied for the authentication to pass.
 
-The following example policy specifies an `origins:` section for origin
-authentication that accepts JWTs issued by Google:
+The following example policy specifies an `origins:` section for origin authentication that accepts
+JWTs issued by Google. JWT authentication for path `/health` is disabled.
 
 {{< text yaml >}}
 origins:
 - jwt:
     issuer: "https://accounts.google.com"
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs"
+    trigger_rules:
+    - excluded_paths:
+      - exact: /health
 {{< /text >}}
 
 #### Principal binding
@@ -512,6 +520,7 @@ services in an Istio Mesh. It features:
 - **Flexibility through custom properties support**, for example conditions,
   in roles and role-bindings.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
+- **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
 
 ### Authorization architecture
 
@@ -649,9 +658,8 @@ Each rule has the following standard fields:
    form of `/packageName.serviceName/methodName` and are case sensitive.
 
 A `ServiceRole` specification only applies to the namespace specified in the
-`metadata` section. The `services` and `methods` fields are required in a
-rule. `paths` is optional. If a rule is not specified or if it is set to `*`,
-it applies to any instance.
+`metadata` section. A rule requires the `services` field and the other fields are optional.
+If you do not specify a field or if you set its value to `*`, Istio applies the field to all instances.
 
 The example below shows a simple role: `service-admin`, which has full access
 to all services in the `default` namespace.
@@ -665,7 +673,6 @@ metadata:
 spec:
   rules:
   - services: ["*"]
-    methods: ["*"]
 {{< /text >}}
 
 Here is another role: `products-viewer`, which has read, `"GET"` and `"HEAD"`,
@@ -813,6 +820,56 @@ spec:
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
+{{< /text >}}
+
+### Using Istio authorization on plain TCP protocols
+
+The examples in [Service role](#servicerole) and [Service role binding](#servicerolebinding) show the
+typical way to use Istio authorization on services using the HTTP protocol. In those examples, all fields
+in a service role and service role binding are supported.
+
+Istio authorization supports services using any plain TCP protocols, such as MongoDB. In this case,
+you configure the service roles and service role bindings in the same way you did for the HTTP service.
+The difference is that certain fields, constraints and properties are only applicable to HTTP services.
+These fields include:
+
+- The `paths` and `methods` fields in the service role configuration object.
+- The `group` field in the service role binding configuration object.
+
+The supported constraints and properties are listed in the [constraints and properties page](
+/docs/reference/config/authorization/constraints-and-properties/).
+
+If you use any HTTP only fields for a TCP service, Istio ignores the service role or service role
+binding custom resources and the policies set within completely.
+
+Assuming you have a MongoDB service on port 27017, the following example configures a service role and
+a service role binding to only allow the `bookinfo-ratings-v2` in the Istio mesh to access the
+MongoDB service.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: mongodb-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["mongodb.default.svc.cluster.local"]
+    constraints:
+    - key: "destination.port"
+      values: ["27017"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-mongodb-viewer
+  namespace: default
+spec:
+  subjects:
+  - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
+  roleRef:
+    kind: ServiceRole
+    name: "mongodb-viewer"
 {{< /text >}}
 
 ### Using other authorization mechanisms

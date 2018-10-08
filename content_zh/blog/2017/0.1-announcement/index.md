@@ -5,9 +5,6 @@ publishdate: 2017-05-24
 subtitle: 一个为微服务而生的强壮的服务网格
 attribution: The Istio Team
 weight: 100
-aliases:
-    - /blog/istio-service-mesh-for-microservices.html
-    - /blog/0.1-announcement.html
 ---
 
 Google、 IBM 和 Lyft 骄傲的宣布了 [Istio](/zh) 的首个公开版本，Istio 是一个提供一致的方式用于连接、加固、管理和监控微服务的开源项目。当前版本专注于支持 [Kubernetes](https://kubernetes.io/) 环境，我们计划在接下来的几个月添加诸如虚拟机和 Cloud Foundry 等环境的支持。

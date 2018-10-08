@@ -147,7 +147,7 @@ keywords: [keyword1,keyword2,...]
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-上面的注解生成的链接会指向 GitHub 中当前文档的当前所在分支。如果需要手工创建链接，可以使用 **{{</* branch_name */>}}** 来获取当前分支名称。
+上面的注解生成的链接会指向 GitHub 中当前文档的当前所在分支。如果需要手工创建链接，可以使用 **{{</* source_branch_name */>}}** 来获取当前分支名称。
 
 ## 预格式化文本块
 

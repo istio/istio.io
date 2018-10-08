@@ -604,6 +604,7 @@ spec:
   - match:
       sourceLabels:
         app: reviews
+    route:
     ...
 {{< /text >}}
 
@@ -626,6 +627,7 @@ spec:
     - sourceLabels:
         app: reviews
         version: v2
+    route:
     ...
 {{< /text >}}
 
@@ -645,6 +647,7 @@ spec:
     - headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 
@@ -665,6 +668,7 @@ spec:
   - match:
     - uri:
         prefix: /api/v1
+    route:
     ...
 {{< /text >}}
 
@@ -694,6 +698,7 @@ spec:
       headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 
@@ -716,6 +721,7 @@ spec:
     - headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 

@@ -37,6 +37,11 @@ which parameters in order to perform the checks and allocations.</p>
 <td>List of name/value bytes attributes specified as name1=b0:b1:b3,name2=b4:b5:b6,...  (default ``)</td>
 </tr>
 <tr>
+<td><code>--concurrency &lt;int&gt;</code></td>
+<td><code>-c</code></td>
+<td>Controls the number of workers used to send requests to Mixer concurrently.  (default `1`)</td>
+</tr>
+<tr>
 <td><code>--double_attributes &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>List of name/value float64 attributes specified as name1=value1,name2=value2,...  (default ``)</td>
@@ -57,9 +62,19 @@ which parameters in order to perform the checks and allocations.</p>
 <td>Address and port of a running Mixer instance  (default `localhost:9091`)</td>
 </tr>
 <tr>
+<td><code>--print_response</code></td>
+<td></td>
+<td>Whether to print mixer&#39;s response, useful when generating heavy load with mixc. </td>
+</tr>
+<tr>
 <td><code>--quotas &lt;string&gt;</code></td>
 <td><code>-q</code></td>
 <td>List of quotas to allocate specified as name1=amount1,name2=amount2,...  (default ``)</td>
+</tr>
+<tr>
+<td><code>--rate &lt;int&gt;</code></td>
+<td></td>
+<td>Maximum number of requests per second sent by each worker.  (default `-1`)</td>
 </tr>
 <tr>
 <td><code>--repeat &lt;int&gt;</code></td>
@@ -128,6 +143,11 @@ which parameters in order to output the telemetry.</p>
 <td>List of name/value bytes attributes specified as name1=b0:b1:b3,name2=b4:b5:b6,...  (default ``)</td>
 </tr>
 <tr>
+<td><code>--concurrency &lt;int&gt;</code></td>
+<td><code>-c</code></td>
+<td>Controls the number of workers used to send requests to Mixer concurrently.  (default `1`)</td>
+</tr>
+<tr>
 <td><code>--double_attributes &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>List of name/value float64 attributes specified as name1=value1,name2=value2,...  (default ``)</td>
@@ -146,6 +166,16 @@ which parameters in order to output the telemetry.</p>
 <td><code>--mixer &lt;string&gt;</code></td>
 <td><code>-m</code></td>
 <td>Address and port of a running Mixer instance  (default `localhost:9091`)</td>
+</tr>
+<tr>
+<td><code>--print_response</code></td>
+<td></td>
+<td>Whether to print mixer&#39;s response, useful when generating heavy load with mixc. </td>
+</tr>
+<tr>
+<td><code>--rate &lt;int&gt;</code></td>
+<td></td>
+<td>Maximum number of requests per second sent by each worker.  (default `-1`)</td>
 </tr>
 <tr>
 <td><code>--repeat &lt;int&gt;</code></td>
