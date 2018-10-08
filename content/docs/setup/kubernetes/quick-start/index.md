@@ -41,7 +41,8 @@ configuration options. This permits customization of Istio to operator specific 
 ### Option 1: Install Istio with mutual TLS enabled and set to use permissive mode between sidecars
 
 Visit our
-[mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)for more information.
+[mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)
+for more information.
 
 Choose this option for:
 
@@ -53,14 +54,16 @@ Choose this option for:
 * Headless services, or
 * `StatefulSets`
 
-To install Istio with mutual TLS enabled and set to use permissive mode between sidecars:
+To install Istio with mutual TLS enabled and set to use permissive mode
+between sidecars:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-In this option, all services, as servers, can accept both plain text and mutual
-TLS traffic. However, all services, as clients, will send plain text traffic.
+In this option, all services, as servers, can accept both plain text and
+mutual TLS traffic. However, all services, as clients, will send plain
+text traffic.
 Visit [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic)
 for how to configure clients behavior.
 
