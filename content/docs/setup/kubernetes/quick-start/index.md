@@ -91,17 +91,24 @@ Follow our instructions on how to
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
-    istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
-    istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
-    istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
-    istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
-    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
-    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
-    istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
-    istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
-    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
-    prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
+    grafana                    ClusterIP      172.21.117.240   <none>           3000/TCP                                                                                                                  3m
+    istio-citadel              ClusterIP      172.21.204.249   <none>           8060/TCP,9093/TCP                                                                                                         3m
+    istio-egressgateway        ClusterIP      172.21.53.37     <none>           80/TCP,443/TCP                                                                                                            4m
+    istio-galley               ClusterIP      172.21.154.125   <none>           443/TCP,9093/TCP                                                                                                          4m
+    istio-ingressgateway       LoadBalancer   172.21.110.146   169.61.151.162   80:31380/TCP,443:31390/TCP,31400:31400/TCP,15011:30084/TCP,8060:31249/TCP,853:30778/TCP,15030:31863/TCP,15031:31018/TCP   4m
+    istio-pilot                ClusterIP      172.21.194.45    <none>           15010/TCP,15011/TCP,8080/TCP,9093/TCP                                                                                     3m
+    istio-policy               ClusterIP      172.21.147.225   <none>           9091/TCP,15004/TCP,9093/TCP                                                                                               3m
+    istio-sidecar-injector     ClusterIP      172.21.182.3     <none>           443/TCP                                                                                                                   3m
+    istio-statsd-prom-bridge   ClusterIP      172.21.225.227   <none>           9102/TCP,9125/UDP                                                                                                         3m
+    istio-telemetry            ClusterIP      172.21.206.140   <none>           9091/TCP,15004/TCP,9093/TCP,42422/TCP                                                                                     3m
+    jaeger-agent               ClusterIP      None             <none>           5775/UDP,6831/UDP,6832/UDP                                                                                                3m
+    jaeger-collector           ClusterIP      172.21.75.138    <none>           14267/TCP,14268/TCP                                                                                                       3m
+    jaeger-query               ClusterIP      172.21.53.77     <none>           16686/TCP                                                                                                                 3m
+    prometheus                 ClusterIP      172.21.19.119    <none>           9090/TCP                                                                                                                  3m
+    servicegraph               ClusterIP      172.21.104.126   <none>           8088/TCP                                                                                                                  3m
+    tracing                    ClusterIP      172.21.9.74      <none>           80/TCP                                                                                                                    3m
+    zipkin                     ClusterIP      172.21.182.229   <none>           9411/TCP                                                                                                                  3m
+
     {{< /text >}}
 
     > If your cluster is running in an environment that does not
@@ -119,16 +126,21 @@ Follow our instructions on how to
     {{< text bash >}}
     $ kubectl get pods -n istio-system
     NAME                                       READY     STATUS        RESTARTS   AGE
-    istio-citadel-75c88f897f-zfw8b             1/1       Running       0          1m
-    istio-egressgateway-7d8479c7-khjvk         1/1       Running       0          1m
-    istio-galley-6c749ff56d-k97n2              1/1       Running       0          1m
-    istio-ingress-7f5898d74d-t8wrr             1/1       Running       0          1m
-    istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
-    istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
-    istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
-    istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
-    istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
-    prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
+    grafana-85dbf49c94-4b7kw                    1/1       Running     0          1m
+    istio-citadel-545f49c58b-mhl57              1/1       Running     0          1m
+    istio-cleanup-secrets-lwszv                 0/1       Completed   0          1m
+    istio-egressgateway-79f4b99d6f-qmlmn        1/1       Running     0          1m
+    istio-galley-5b6449c48f-92tqz               1/1       Running     0          1m
+    istio-grafana-post-install-br267            0/1       Completed   0          1m
+    istio-ingressgateway-6894bd895b-l7hcw       1/1       Running     0          1m
+    istio-pilot-cb58b65c9-zp7km                 2/2       Running     0          1m
+    istio-policy-69cc5c74d5-d5tnx               2/2       Running     0          1m
+    istio-sidecar-injector-75b9866679-wsq5t     1/1       Running     0          1m
+    istio-statsd-prom-bridge-549d687fd9-m8zrj   1/1       Running     0          1m
+    istio-telemetry-d8898f9bd-54rj4             2/2       Running     0          1m
+    istio-tracing-7596597bd7-69f9x              1/1       Running     0          1m
+    prometheus-6ffc56584f-65brl                 1/1       Running     0          1m
+    servicegraph-5d64b457b4-cwjzb               1/1       Running     0          1m
     {{< /text >}}
 
 ## Deploy your application
