@@ -254,20 +254,21 @@ Istio mutual TLS has a permissive mode, which allows a service to accept
 both plain text traffic and mutual TLS traffic at the same time. This feature
 greatly improves the mutual TLS onboarding experience.
 
-Imagine many non-Istio clients communicating with a non-Istio server and the
-operator wants to migrate to Istio with mutual TLS enabled on that server.
-In practice, it is very common that the operator cannot install Istio sidecar
-for all clients at the same time or he does not even have operation permission
-on some clients. As a result, even after installing the Istio sidecar on the
-server, he still cannot enable mutual TLS without breaking existing communications.
+Many non-Istio clients communicating with a non-Istio server presents a problem
+for an operator who wants to migrate that server to Istio with mutual TLS
+enabled. Commonly, the operator cannot install an Istio sidecar for all clients
+at the same time or does not even have the permissions to do so on some clients.
+Even after installing the Istio sidecar on the server, the operator cannot
+enable mutual TLS without breaking existing communications.
 
-With permissive mode enabled, since the server can accept both plain text and
-mutual TLS traffic, it provides great flexibility for the onboarding process.
-The server can simply have Istio sidecar installed and take mutual TLS traffic
+With the permissive mode enabled, the server accepts both plain text and
+mutual TLS traffic. The mode provides great flexibility for the on-boarding
+process. The server's installed Istio sidecar takes mutual TLS traffic
 immediately without breaking existing plain text traffic. As a result, the
-clients can gradually install Istio sidecar and send mutual TLS traffic.
-Eventually the operator can lock down to mutual TLS only mode when the migration
-of all clients are done. For more information, visit the
+operator can gradually install and configure the client's Istio sidecars to
+send mutual TLS traffic. Once the configuration of the clients is complete,
+the operator can configure the server to mutual TLS only mode. For more
+information, visit the
 [Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
 
 #### Secure naming
