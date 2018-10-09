@@ -121,31 +121,25 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
 
 1.  To log into the Kiali UI, enter the username and passphrase you stored in the Kiali secret in the Kiali login screen. If you used the example secret above, enter a username of `admin` with a passphrase of `mysecret`.
 
-1.  Get an overview of your mesh.
-
-    Once you log in, you see the **Overview** page which displays all the
-    namespaces that have services in your mesh. The page looks similar to:
+1.  View the overview of your mesh in the **Overview** page that appears immediately after you log in.
+    The **Overview** page displays all the namespaces that have services in your mesh.
+    The following screenshot shows a similar page:
 
     {{< image width="75%" ratio="58%"
     link="./kiali-overview.png"
     caption="Example Overview"
     >}}
 
-1.  View a namespace graph.
-
-    Click on a namespace to see a graph of all services in that namespace.  For
-    example, if you have the Bookinfo sample application installed, click on
-    `bookinfo` in the Bookinfo namespace card.  The page looks similar to:
+1.  To view a namespace graph, click on the `bookinfo` namespace in the Bookinfo namespace card.
+    The page looks similar to:
 
     {{< image width="75%" ratio="89%"
     link="./kiali-graph.png"
     caption="Example Graph"
     >}}
 
-1.  View summary metrics.
-
-    Select any node or edge in the graph and notice the summary details panel
-    on the right displays additional data about that selected node or edge.
+1.  To view a summary of metrics, select any node or edge in the graph to display
+    its metric details in the summary details panel on the right.
 
 1.  Experiment with different graph types.
 
