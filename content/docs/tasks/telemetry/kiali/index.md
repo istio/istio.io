@@ -142,7 +142,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     its metric details in the summary details panel on the right.
 
 1.  To view your service mesh using different graph types, select a graph type
-    from the **Graph Type** drop down menu. There are several different graph types
+    from the **Graph Type** drop down menu. There are several graph types
     to choose from: **App**, **Versioned App**, **Workload**, **Service**.
 
     *   The **App** graph type aggregates all versions of an app into a single graph node.
@@ -156,7 +156,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
 
     *   The **Versioned App** graph type shows a node for each version of an app,
         but all versions of a particular app are grouped together. The following example
-        shows the **reviews** group box that contains the three nodes represents the
+        shows the **reviews** group box that contains the three nodes that represents the
         three versions of the reviews app.
 
         {{< image width="75%" ratio="67%"
