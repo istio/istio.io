@@ -148,6 +148,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     *   The **App** graph type aggregates all versions of an app into a single graph node.
         The following example shows a single **reviews** node representing the three versions
         of the reviews app.
+
         {{< image width="75%" ratio="35%"
         link="./kiali-app.png"
         caption="Example App Graph"
@@ -157,6 +158,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
         but all versions of a particular app are grouped together. The following example
         shows the **reviews** group box that contains the three nodes represents the
         three versions of the reviews app.
+
         {{< image width="75%" ratio="67%"
         link="./kiali-versionedapp.png"
         caption="Example Versioned App Graph"
@@ -165,6 +167,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     *   The **Workload** graph type shows a node for each workload in your service mesh.
         This graph type does not require you to use the `app` and `version` labels so if you
         opt to not use those labels on your components, this is the graph type you will use.
+
         {{< image width="70%" ratio="76%"
         link="./kiali-workload.png"
         caption="Example Workload Graph"
@@ -172,17 +175,15 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
 
     *   The **Service** graph type shows a node for each service in your mesh but excludes
         all apps and workloads from the graph.
+
         {{< image width="70%" ratio="35%"
         link="./kiali-service-graph.png"
         caption="Example Service Graph"
         >}}
 
-1. Examine details about the Istio configuration.
-
-   Click on the **Applications**, **Workloads**, and **Services** menu icons on the
-   left menu bar to examine the different components in your mesh. Drill down
-   into those components to see additional details about those components, such
-   as the Istio Virtual Services and Destination Rules.
+1. To examine the details about the Istio configuration, click on the
+   **Applications**, **Workloads**, and **Services** menu icons on the left menu
+   bar. The following screenshot shows the Bookinfo applications information:
 
    {{< image width="80%" ratio="56%"
    link="./kiali-services.png"
