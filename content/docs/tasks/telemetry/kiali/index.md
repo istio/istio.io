@@ -200,19 +200,18 @@ to get the JSON representation of your graph using the `app` graph type.
 
 The Kiali Public API is built on top of Prometheus queries and depends on the
 standard Istio metric configuration.  It also makes Kubernetes API calls to
-obtain additional details about your services.  For the best experience using
-Kiali, you should use the metadata labels `app` and `version` on your
-application components (the Bookinfo sample application follows this
-convention).
+obtain additional details about your services. For the best experience using
+Kiali, use the metadata labels `app` and `version` on your application
+components. As a template, the Bookinfo sample application follows this
+convention.
 
 ## Cleanup
 
-If you are not planning to explore any follow-on tasks, remove the
-Bookinfo sample application and Kiali.
+If you are not planning any follow-up tasks, remove the Bookinfo sample application and Kiali from your cluster.
 
-To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
+1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
 
-To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
+1. To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
 
 {{< text bash >}}
 $ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules --selector=app=kiali -n istio-system
