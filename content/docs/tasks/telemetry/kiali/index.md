@@ -56,7 +56,7 @@ $ kubectl apply -f $HOME/istio.yaml
 > {{< idea_icon >}} This Task does not discuss Jaeger and Grafana. If
 you already installed them in your cluster and you want to see how Kiali
 integrates with them, you must pass additional arguments to the
-`helm` command, For example:
+`helm` command, for example:
 
 {{< text bash >}}
     $ helm template \
