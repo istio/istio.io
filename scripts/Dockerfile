@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     libxml2-dev \
     libcurl \
     git \
+    bash \
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted gnu-libiconv
 
 ENV HUGO_VERSION=0.49
