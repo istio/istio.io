@@ -96,27 +96,26 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
         $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
         {{< /text >}}
 
-1.  Determine the Kiali URL.
+1.  To determine the Kiali URL, you use the same `GATEWAY_URL` as the Bookinfo application,
+    only with a different port.
 
-    Kiali is exposed through the same Istio gateway as the Bookinfo
-    application, only on a different port. Therefore you can use the
-    `GATEWAY_URL` that you set in the previous step to determine the Kiali URL.
+    *   If you are running in an environment that has external load balancers,
+        run this command:
 
-    If you are running in an environment that has external load balancers, execute this command:
+        {{< text bash >}}
+        $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].port}')"
+        $ echo $KIALI_URL
+        http://172.30.141.9:15029
+        {{< /text >}}
 
-    {{< text bash >}}
-    $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].port}')"
-    $ echo $KIALI_URL
-    http://172.30.141.9:15029
-    {{< /text >}}
+    *   If you are running in an environment that does not support external
+        load balancers (e.g., minikube), run this command:
 
-    If you are running in an environment that does not support external load balancers (e.g., minikube), execute this command:
-
-    {{< text bash >}}
-    $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].nodePort}')"
-    $ echo $KIALI_URL
-    http://192.168.99.100:31758
-    {{< /text >}}
+        {{< text bash >}}
+        $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].nodePort}')"
+        $ echo $KIALI_URL
+        http://192.168.99.100:31758
+        {{< /text >}}
 
 1.  Log into the Kiali UI.
 
