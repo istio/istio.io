@@ -88,6 +88,8 @@ Follow our instructions on how to
     `istio-ingressgateway`, `istio-policy`, `istio-telemetry`, `prometheus`,
     `istio-galley`, and, optionally, `istio-sidecar-injector`.
 
+    If you are running the demo from Option 1:
+
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
@@ -110,6 +112,25 @@ Follow our instructions on how to
     zipkin                     ClusterIP      172.21.182.229   <none>           9411/TCP                                                                                                                  3m
 
     {{< /text >}}
+
+    If you are running the helm chart from Option 3:
+    $ kubectl get svc -n istio-system
+    NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                                                                                                                   AGE
+    istio-citadel              ClusterIP      172.21.212.125   <none>           8060/TCP,9093/TCP                                                                                                         47s
+    istio-egressgateway        ClusterIP      172.21.104.163   <none>           80/TCP,443/TCP                                                                                                            47s
+    istio-galley               ClusterIP      172.21.134.201   <none>           443/TCP,9093/TCP                                                                                                          47s
+    istio-ingressgateway       LoadBalancer   172.21.246.93    169.61.151.162   80:31380/TCP,443:31390/TCP,31400:31400/TCP,15011:30994/TCP,8060:31767/TCP,853:30041/TCP,15030:31404/TCP,15031:30319/TCP   47s
+    istio-pilot                ClusterIP      172.21.70.243    <none>           15010/TCP,15011/TCP,8080/TCP,9093/TCP                                                                                     47s
+    istio-policy               ClusterIP      172.21.239.210   <none>           9091/TCP,15004/TCP,9093/TCP                                                                                               47s
+    istio-sidecar-injector     ClusterIP      172.21.159.246   <none>           443/TCP                                                                                                                   47s
+    istio-statsd-prom-bridge   ClusterIP      172.21.234.106   <none>           9102/TCP,9125/UDP                                                                                                         47s
+    istio-telemetry            ClusterIP      172.21.111.48    <none>           9091/TCP,15004/TCP,9093/TCP,42422/TCP                                                                                     47s
+    kubernetes                 ClusterIP      172.21.0.1       <none>           443/TCP                                                                                                                   4m
+    prometheus                 ClusterIP      172.21.114.139   <none>           9090/TCP                                                                                                                  47s
+
+    {{< /text >}}
+
+    {{< text bash >}}
 
     > If your cluster is running in an environment that does not
     > support an external load balancer (e.g., minikube), the
