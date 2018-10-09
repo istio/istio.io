@@ -141,39 +141,41 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
 1.  To view a summary of metrics, select any node or edge in the graph to display
     its metric details in the summary details panel on the right.
 
-1.  Experiment with different graph types.
+1.  To view your service mesh using different graph types, select a graph type
+    from the **Graph Type** drop down menu. There are several different graph types
+    to choose from: **App**, **Versioned App**, **Workload**, **Service**.
 
-    Visualize the graph using several different types of graphs such as
-    the **App**, **Versioned App**, and **Workload** graph types.
+    *   The **App** graph type aggregates all versions of an app into a single graph node.
+        The following example shows a single **reviews** node representing the three versions
+        of the reviews app.
+        {{< image width="75%" ratio="35%"
+        link="./kiali-app.png"
+        caption="Example App Graph"
+        >}}
 
-    1. Select the **App** graph type from the **Graph Type** drop down menu.
-    This aggregates all versions of an app into a single graph node. For
-    example, the single **reviews** node represents the three versions of the
-    reviews app.
-    {{< image width="75%" ratio="35%"
-    link="./kiali-app.png"
-    caption="Example App Graph"
-    >}}
+    *   The **Versioned App** graph type shows a node for each version of an app,
+        but all versions of a particular app are grouped together. The following example
+        shows the **reviews** group box that contains the three nodes represents the
+        three versions of the reviews app.
+        {{< image width="75%" ratio="67%"
+        link="./kiali-versionedapp.png"
+        caption="Example Versioned App Graph"
+        >}}
 
-    1. Select the **Versioned App** graph type from the **Graph Type** drop
-    down menu. This shows a node for each version of an app, but all versions
-    of a particular app are grouped together. For example, the **reviews**
-    group box that contains the three nodes represents the three versions of
-    the reviews app.
-    {{< image width="75%" ratio="67%"
-    link="./kiali-versionedapp.png"
-    caption="Example Versioned App Graph"
-    >}}
+    *   The **Workload** graph type shows a node for each workload in your service mesh.
+        This graph type does not require you to use the `app` and `version` labels so if you
+        opt to not use those labels on your components, this is the graph type you will use.
+        {{< image width="70%" ratio="76%"
+        link="./kiali-workload.png"
+        caption="Example Workload Graph"
+        >}}
 
-    1. Select the **Workload** graph type from the **Graph Type** drop down
-    menu.  This shows a node for each workload in your service mesh. This graph
-    type does not require you to use the `app` and `version` labels so if
-    you opt to not use those labels on your components, this is the graph type
-    you will use.
-    {{< image width="70%" ratio="76%"
-    link="./kiali-workload.png"
-    caption="Example Workload Graph"
-    >}}
+    *   The **Service** graph type shows a node for each service in your mesh but excludes
+        all apps and workloads from the graph.
+        {{< image width="70%" ratio="35%"
+        link="./kiali-service-graph.png"
+        caption="Example Service Graph"
+        >}}
 
 1. Examine details about the Istio configuration.
 
