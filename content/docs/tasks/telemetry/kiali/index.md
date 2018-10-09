@@ -117,12 +117,9 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
         http://192.168.99.100:31758
         {{< /text >}}
 
-1.  Log into the Kiali UI.
+1.  To visit the Kiali UI, point your browser to `$KIALI_URL`.
 
-    Visit `$KIALI_URL` in your web browser, and in the login screen enter the
-    credentials that you stored in the Kiali secret you created above. If you
-    used the example secret above, enter a username of `admin` with a password
-    of `mysecret`.
+1.  To log into the Kiali UI, enter the username and passphrase you stored in the Kiali secret in the Kiali login screen. If you used the example secret above, enter a username of `admin` with a passphrase of `mysecret`.
 
 1.  Get an overview of your mesh.
 
