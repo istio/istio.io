@@ -38,8 +38,3 @@ Follow these instructions to prepare Minikube for Istio.
         --extra-config=apiserver.Authorization.Mode=RBAC \
         --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
-    
-    {{< text bash >}}
-    $ kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin \
-      --serviceaccount=kube-system:default
-    {{< /text >}} 
