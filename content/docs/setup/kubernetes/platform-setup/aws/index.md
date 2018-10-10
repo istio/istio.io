@@ -63,9 +63,20 @@ Nevertheless, you must update the list of admission controllers.
 
 1. Review the output:
 
+    Kubernetes up to 1.9:
     {{< text plain >}}
     [...]
     --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,
+    PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,
+    MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,
+    NodeRestriction,Priority
+    [...]
+    {{< /text >}}
+
+    Kubernetes 1.10+:
+    {{< text plain >}}
+    [...]
+    --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,
     PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,
     MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,
     NodeRestriction,Priority
