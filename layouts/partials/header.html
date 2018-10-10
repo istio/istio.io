@@ -58,10 +58,10 @@
                         {{ if not .Site.Data.args.archive }}
                             <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" href="https://github.com/istio/istio.github.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
+                            <a class="dropdown-item" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
 
                             {{ if not .Params.generator }}
-                                <a class="dropdown-item" href="https://github.com/istio/istio.github.io/edit/master/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                <a class="dropdown-item" href="https://github.com/istio/istio.io/edit/master/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ end }}
                         {{ end }}
 

@@ -26,7 +26,7 @@ Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Isti
 
 Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/zh/docs/concepts/policies-and-telemetry/#属性)作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
 
-{{< image width="60%" ratio="42.60%"
+{{< image width="60%"
     link="/docs/concepts/policies-and-telemetry/machine.svg"
     caption="Attribute Machine"
     >}}
@@ -41,11 +41,11 @@ Mixer 使用的每个适配器都需要一些配置才能运行。一般来说�
 
 ## Templates: 适配输入结构
 
-通常对于进入到 Mesh 服务中的请求，Mixer 会发生两次调用，一次是预检，一次是遥测报告。每一次调用，Mixer 都会调用一个或更多的适配器。不同的适配器需要不同的数据作为输入来处理。例如，日志适配器需要日志输入，metric 适配器需要 metric 数据作为输入，认证的适配器需要证书等等。Mixer [*templates*](/docs/reference/config/policy-and-telemetry/templates/) 用来描述每次请求适配器消费的数据。
+通常对于进入到 Mesh 服务中的请求，Mixer 会发生两次调用，一次是预检，一次是遥测报告。每一次调用，Mixer 都会调用一个或更多的适配器。不同的适配器需要不同的数据作为输入来处理。例如，日志适配器需要日志输入，metric 适配器需要 metric 数据作为输入，认证的适配器需要证书等等。Mixer [*templates*](/zh/docs/reference/config/policy-and-telemetry/templates/) 用来描述每次请求适配器消费的数据。
 
 每个 Template 被指定为 [protobuf](https://developers.google.com/protocol-buffers/) 消息。一个模板描述了一组数据，这些数据在运行时被传递给一个或多个适配器。一个适配器可以支持任意数量的模板，开发者还可以设计支持特定模板的是适配器。
 
-[`metric`](/docs/reference/config/policy-and-telemetry/templates/metric/) 和 [`logentry`](/docs/reference/config/policy-and-telemetry/templates/logentry/) 是两个最重要的模板，分别表示负载的单一指标，和到适当后端的单一日志条目。
+[`metric`](/zh/docs/reference/config/policy-and-telemetry/templates/metric/) 和 [`logentry`](/zh/docs/reference/config/policy-and-telemetry/templates/logentry/) 是两个最重要的模板，分别表示负载的单一指标，和到适当后端的单一日志条目。
 
 ## Instances: 属性映射
 
@@ -73,4 +73,4 @@ Rule 中包含有匹配断言，这个断言是一个返回布尔值的属性表
 
 Handler 为各个适配器提供了配置数据，Template 用于在运行时确定不同的适配器所需的数据类型，Instance 让运维人员准备这些数据，Rule 将这些数据提交给一个或多个 Handler 进行处理。
 
-更多信息可以关注[这里](/zh/docs/concepts/policies-and-telemetry/)。更多关于 templates, handlers,和 rules 的内容可以关注[这里](/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo)找到对应的示例。
+更多信息可以关注[这里](/zh/docs/concepts/policies-and-telemetry/)。更多关于 templates, handlers,和 rules 的内容可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo)找到对应的示例。

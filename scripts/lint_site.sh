@@ -41,7 +41,7 @@ check_content() {
     then
         # remove the tmp dir prefix from error messages
         sed s!${TMP}/!! ${OUT}
-        echo "To learn how to address spelling errors, please see https://github.com/istio/istio.github.io#linting"
+        echo "To learn how to address spelling errors, please see https://github.com/istio/istio.io#linting"
         FAILED=1
     fi
 
@@ -75,7 +75,7 @@ then
     FAILED=1
 fi
 
-htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
+htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
 if [ "$?" != "0" ]
 then
     FAILED=1

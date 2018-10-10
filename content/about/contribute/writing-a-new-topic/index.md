@@ -109,7 +109,8 @@ There are a few more front matter fields available specifically for blog posts:
 
 |Field          | Description
 |---------------|------------
-|`publishdate`  | Date of the post's publication
+|`publishdate`  | Date of the post's original publication
+|`last_update`  | Date when the post last received a major revision
 |`attribution`  | Optional name of the post's author
 |`twitter`      | Optional Twitter of the post's author
 

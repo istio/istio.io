@@ -1,4 +1,4 @@
-## istio.github.io
+## istio.io
 
 This repository contains the source code for the [istio.io](https://istio.io),
 [preliminary.istio.io](https://preliminary.istio.io) and [archive.istio.io](https://archive.istio.io) sites.
@@ -94,7 +94,7 @@ of each page. All three sites are hosted on [Netlify](https://netlify.com).
 
 ### How versioning works
 
-* Documentation changes are primarily committed to the master branch of istio.github.io. Changes committed to this branch
+* Documentation changes are primarily committed to the master branch of istio.io. Changes committed to this branch
 are automatically reflected on preliminary.istio.io.
 
 * The content of istio.io is taken from the latest release-XXX branch. The specific branch that
@@ -105,7 +105,7 @@ are included on archive.istio.io is determined by the `TOBUILD` variable in this
 [script](https://github.com/istio/admin-sites/blob/master/archive.istio.io/build.sh)
 
 > The above means that if you want to do a change to the main istio.io site, you need
-to make the change in the master branch of istio.github.io and then merge that change into the
+to make the change in the master branch of istio.io and then merge that change into the
 current release branch.
 
 ### Publishing content immediately
@@ -122,7 +122,7 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 
 #### Creating the release branch
 
-1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
+1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
 release-0.7. There is one such branch for every release.
@@ -134,7 +134,7 @@ and the `branch_name` field to the name of the branch, in this case release-0.7.
 
 #### Updating preliminary.istio.io
 
-1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
+1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
 1. In the **master** branch, edit the file `data/releases.yml` and add a new entry at the top of the file
 for version 0.8. You'll need to make sure the URLs are updated for the first few entries. The top
@@ -160,7 +160,7 @@ of the next Istio release. In this case, you would set the fields to 0.8 and 0.8
 
 #### Updating archive.istio.io
 
-1. Switch to the istio/istio.github.io repo and make sure everything is up to date.
+1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
 1. Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
 
