@@ -159,18 +159,17 @@ keywords: [策略,限额]
       namespace: istio-system
     spec:
       quotas:
-
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
         - dimensions:
             destination: reviews
-            maxAmount: 1
-            validDuration: 5s
+          maxAmount: 1
+          validDuration: 5s
         - dimensions:
             destination: productpage
-            maxAmount: 2
-            validDuration: 5s
+          maxAmount: 2
+          validDuration: 5s
     {{< /text >}}
 
     `memquota` 处理程序定义了 3 种不同的速率限制方案。在没有 `overrides` 生效的缺省情况下，每秒限制请求为 `500` 次。还定义了两个 `overrides` 条目：
@@ -194,7 +193,6 @@ keywords: [策略,限额]
     spec:
       connectionPoolSize: 10
       quotas:
-
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -203,14 +201,14 @@ keywords: [策略,限额]
         overrides:
         - dimensions:
             destination: reviews
-            maxAmount: 1
+          maxAmount: 1
         - dimensions:
             destination: productpage
             source: 10.28.11.20
-            maxAmount: 500
+          maxAmount: 500
         - dimensions:
             destination: productpage
-            maxAmount: 2
+          maxAmount: 2
     {{< /text >}}
 
     `redisquota` handler 定义了 4 种不同的速率限制方案。在没有 `overrides` 生效的缺省情况下，每秒限制请求为 `500`次。它使用 `ROLLING_WINDOW` 算法进行配额检查，因此为 `ROLLING_WINDOW` 算法定义了 500ms 的 `bucketDuration`。还定义了 `overrides` 条目：
@@ -287,7 +285,7 @@ keywords: [策略,限额]
       quotaSpecs:
       - name: request-count
         namespace: istio-system
-        services:
+      services:
       - name: productpage
         namespace: default
       # - service: '*'
@@ -328,7 +326,7 @@ spec:
 
     以 `jason` 身份登录并反复刷新 `productpage`。现在你应该能够毫无问题地做到这一点。
 
-1. 未登录时验证速率限制*是否适用*。
+1. 验证速率限制在未登录时*适用*。
 
     注销 `jason` 并反复刷新 `productpage` 。
 
