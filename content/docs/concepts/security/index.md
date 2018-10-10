@@ -248,7 +248,7 @@ For a client to call a server with mutual TLS authentication:
 
 1. After authorization, the server side Envoy forwards the traffic to the server service through local TCP connections.
 
-#### Permissive Mode
+#### Permissive mode
 
 Istio mutual TLS has a permissive mode, which allows a service to accept
 both plain text traffic and mutual TLS traffic at the same time. This
