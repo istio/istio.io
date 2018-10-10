@@ -185,9 +185,9 @@ spec:
 EOF
 {{< /text >}}
 
-### 从 Istio 服务请求到 Kubernetes API 服务器
+### 从 Istio 服务请求到 Kubernetes API Server
 
-Kubernetes API 服务器没有 Sidecar，因此来自 `sleep.foo` 等 Istio 服务的请求会失败，出现像请求非 Istio 服务时同样的问题而失败。
+Kubernetes API Server 没有 Sidecar，因此来自 `sleep.foo` 等 Istio 服务的请求会失败，出现像请求非 Istio 服务时同样的问题而失败。
 
 {{< text bash >}}
 $ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
