@@ -35,5 +35,11 @@ Follow these instructions to prepare Minikube for Istio.
     $ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.10.0 \
         --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
         --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
+        --extra-config=apiserver.Authorization.Mode=RBAC \
         --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
+    
+    {{< text bash >}}
+    $ kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin \
+      --serviceaccount=kube-system:default
+    {{< /text >}} 
