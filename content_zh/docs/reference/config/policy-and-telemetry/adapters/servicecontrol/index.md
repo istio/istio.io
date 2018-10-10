@@ -61,6 +61,6 @@ GCP 服务的适配设置。
 
 |字段|类型|描述|
 |---|---|---|
-|`name`|`string`|Istio 配额名称||
+|`name`|`string`|Istio 配额名称|
 |`google_quota_metric_name`|`string`|Google 配额指标名称|
 |`expiration`|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration)|配额 Token 的有效期|
