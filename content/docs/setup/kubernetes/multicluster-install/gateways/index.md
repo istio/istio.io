@@ -1,7 +1,6 @@
 ---
 title: Gateway connectivity
 description: Install an Istio mesh across multiple Kubernetes clusters using Istio Gateway to reach remote pods.
-Install an Istio mesh across multiple Kubernetes clusters using Istio gateways
 weight: 2
 keywords: [kubernetes,multicluster,federation,gateway]
 ---
