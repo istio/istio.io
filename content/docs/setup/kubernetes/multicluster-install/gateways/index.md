@@ -57,6 +57,7 @@ across different clusters.
         --set security.selfSigned=false > $HOME/istio.yaml
     $ kubectl create namespace istio-system
     $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
 
 For further details and customization options, refer to the [Installation
 with Helm](/docs/setup/kubernetes/helm-install/) instructions.
