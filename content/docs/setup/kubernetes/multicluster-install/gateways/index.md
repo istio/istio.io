@@ -39,7 +39,7 @@ across different clusters.
 
 1. Create a Kubernetes secret for your generated CA certs using a command similar
    to the following:
-   
+
     {{< text bash >}}
     $ kubectl create secret generic cacerts -n istio-system \
         --from-file=path/to/intermediate/ca-cert.pem \
@@ -216,7 +216,7 @@ spec:
 
 This configuration will result in all traffic in `cluster1` for
 `bar.ns2.svc.cluster.local` on any port to be routed to the endpoint
-`<IPofCluster2IngressGateway>:15443` over a mTLS connection.
+`<IPofCluster2IngressGateway>:15443` over an mTLS connection.
 
 Apply a similar configuration for the `foo.ns1` namespace in `cluster2`:
 
@@ -259,7 +259,7 @@ the entire process could theoretically be automated. The automation process
 must do the following:
 
 1. Replicate Istio configuration, services, and namespaces across all clusters in the mesh.
-2. Generate service entries for each replicated service, with endpoints containing the IP address
+1. Generate service entries for each replicated service, with endpoints containing the IP address
    of gateways in every cluster that has pods for the service in question.
 
 Once configured this way, traffic can be transparently routed to remote clusters
