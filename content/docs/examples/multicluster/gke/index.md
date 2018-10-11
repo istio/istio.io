@@ -8,7 +8,7 @@ keywords: [kubernetes,multicluster]
 This example demonstrates how to use Istio's multicluster feature to join 2
 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters together,
 using the
-[flat-network multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
+[VPN-based multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
 
 ## Before you begin
 
@@ -318,7 +318,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 ## Uninstalling
 
 The following should be done in addition to the uninstall of Istio as described in the
-[flat-network multicluster uninstall section](/docs/setup/kubernetes/multicluster-install/vpn/):
+[VPN-based multicluster uninstall section](/docs/setup/kubernetes/multicluster-install/vpn/):
 
 1.  Delete the Google Cloud firewall rule:
 

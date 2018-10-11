@@ -1,30 +1,15 @@
 ---
-title: With Gateways
-description: Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods.
+title: Gateway connectivity
+description: Install an Istio mesh across multiple Kubernetes clusters using Istio Gateway to reach remote pods.
+Install an Istio mesh across multiple Kubernetes clusters using Istio gateways
 weight: 2
 keywords: [kubernetes,multicluster,federation,gateway]
 ---
 
-Instructions for spanning an Istio mesh across multiple clusters when pods
-in each cluster can only talk to remote gateway IPs.
+Instructions for installing an Istio mesh across multiple clusters when pods
+in each cluster can only connect to remote gateway IPs.
 
-## Prerequisites
-
-* Two or more Kubernetes clusters with **1.9 or newer**.
-
-* The ability to deploy the [Istio control plane](/docs/setup/kubernetes/quick-start/)
-on **each** Kubernetes cluster.
-
-* The gateway IP (load balancer IP) in each cluster must be accessible
-from every other cluster.
-
-* **Root CA**: To enable mTLS communication across clusters, each cluster's
-  Citadel must be configured with an intermediate CA credentials generated
-  by a shared root CA.
-
-## Overview
-
-In this mode, each cluster has an **identical** Istio control plane
+In this configuration, each cluster has an **identical** Istio control plane
 installation. Cross-cluster communication occurs over Istio Gateways
 of the respective clusters.
 
@@ -33,36 +18,59 @@ of the respective clusters.
     caption="Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods"
     >}}
 
+## Prerequisites
+
+* Two or more Kubernetes clusters with **1.9 or newer**.
+
+* Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/helm-install/)
+on **each** Kubernetes cluster.
+
+* The IP address of the Istio gateway in each cluster must be accessible
+  from every other cluster.
+
+* A **Root CA**. To enable mTLS communication across clusters, each cluster's
+  Citadel will be configured with intermediate CA credentials generated
+  by a shared root CA.
+
 ## Deploy Istio control plane in each cluster
 
 1. Generate intermediate CA certs for each cluster's Citadel from your
 organization's root CA. The shared root CA enables mTLS communication
 across different clusters.
 
-2. Install the Istio control plane using the Helm command below:
+1. Create a Kubernetes secret for your generated CA certs using a command similar
+   to the following:
+   
+    {{< text bash >}}
+    $ kubectl create secret generic cacerts -n istio-system \
+        --from-file=path/to/intermediate/ca-cert.pem \
+        --from-file=path/to/intermediate/ca-key.pem \
+        --from-file=path/to/intermediate/root-cert.pem \
+        --from-file=path/to/intermediate/cert-chain.pem
+    {{< /text >}}
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set multiCluster.connectUsingGateway=true \
-    --set global.controlPlaneSecurityEnabled=true \
-    --set security.selfSigned=false > $HOME/istio.yaml
-$ kubectl create namespace istio-system
-$ kubectl create secret generic cacerts -n istio-system --from-file=path/to/intermediate/ca-cert.pem \
-    --from-file=path/to/intermediate/ca-key.pem --from-file=path/to/intermediate/root-cert.pem \
-    --from-file=path/to/intermediate/cert-chain.pem
-$ kubectl apply -f $HOME/istio.yaml
-{{< /text >}}
+1. Install the Istio control plane using Helm:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+        --set multiCluster.connectUsingGateway=true \
+        --set global.controlPlaneSecurityEnabled=true \
+        --set security.selfSigned=false > $HOME/istio.yaml
+    $ kubectl create namespace istio-system
+    $ kubectl apply -f $HOME/istio.yaml
 
 For further details and customization options, refer to the [Installation
-with Helm](/docs/setup/kubernetes/helm-install/) page.
+with Helm](/docs/setup/kubernetes/helm-install/) instructions.
 
 ## Enable mTLS globally
 
-Cross cluster communication via the Istio gateway requires mTLS to be
-enabled for all services in each cluster. The global authentication policy
-must be set to permissive or stricter. In addition, a default destination
-rule must be set to originate mutual TLS connection from every pod. For
-example, apply the following global configuration in each cluster:
+Cross-cluster communication via the Istio gateway requires mTLS.
+Therefore you must enable mTLS for all services in each cluster by
+setting the global authentication policy to permissive or stricter
+and setting a default destination rule to originate an mTLS connection
+from every pod.
+
+For example, apply the following global configuration in each cluster:
 
 {{< text yaml >}}
 apiVersion: authentication.istio.io/v1alpha1
@@ -88,11 +96,10 @@ spec:
 ## Replicate services and namespaces across clusters
 
 In order for pods in a cluster to be able to resolve DNS names of services
-in remote clusters, we need to replicate the namespace and service
-declaration from one cluster to every other cluster in the mesh. In
-addition, to route traffic to a remote service via the Istio Gateway, an
-Istio Service Entry configuration should be added for each replicated
-service. For example, the diagram above depicts two services `foo.ns1` in
+in remote clusters, you need to replicate every namespace and service
+declaration from one cluster to every other cluster in the mesh.
+
+For example, the diagram above depicts two services `foo.ns1` in
 `cluster1` and `bar.ns2` in `cluster2`. Lets say their respective
 declarations are as follows:
 
@@ -151,20 +158,36 @@ spec:
     app: bar
 {{< /text >}}
 
-The namespaces and services need to be replicated in each cluster in order
-to enable DNS resolution and connectivity. So, apply the configuration in `cluster1-svc.yaml` to
-`cluster2` and the configuration in `cluster2-svc.yaml` to `cluster1`.
+The namespaces and services need to be replicated in each cluster
+to enable DNS resolution and connectivity. This can be done by simply applying
+the configuration in `cluster1-svc.yaml` to `cluster2` and the configuration in
+`cluster2-svc.yaml` to `cluster1`.
+
+In `cluster1`:
+
+{{< text bash >}}
+$ kubectl apply -f cluster2-svc.yaml
+{{< /text >}}
+
+In `cluster2`:
+
+{{< text bash >}}
+$ kubectl apply -f cluster1-svc.yaml
+{{< /text >}}
 
 ## Route traffic for remote services to remote cluster gateway
 
-Creating a service object for a remote service enables DNS resolution for
-remote services inside the application code. The network traffic from the
-application will be destined for the cluster VIP associated with the
-Kubernetes service. In order for Envoy to route traffic, it needs to know
-the set of remote endpoints for the service to which traffic must be routed
-to.  Using the example depicted in the diagram, we created a service
-declaration for `bar.ns2` in `cluster1`. Now, add an endpoint to this
-service in `cluster1` using the Istio service entry as follows:
+By replicating the remote services, you enabled DNS resolution for
+them inside the application code running on a local cluster. However, network traffic
+from the application will be sent to the cluster IP associated with the
+Kubernetes service, instead of to the remote pods.
+
+To allow Envoy to route traffic to the remote services, you need to provide endpoints
+for the remote service where traffic should be routed. In this case, that's
+the remote cluster gateway.
+
+Continuing with the example from the previous section,
+apply the following service entry in `cluster1`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -187,12 +210,12 @@ spec:
   endpoints:
   - address: <IPofCluster2IngressGateway>
     ports:
-      http: 15443 #Map everything to 15443 of ingress gateway
+      http: 15443 # Map everything to 15443 of ingress gateway
       tcp: 15443
 {{< /text >}}
 
-The configuration above will result in all traffic in `cluster1` for
-`bar.ns2.svc.cluster.local` for any port to be routed to the endpoint
+This configuration will result in all traffic in `cluster1` for
+`bar.ns2.svc.cluster.local` on any port to be routed to the endpoint
 `<IPofCluster2IngressGateway>:15443` over a mTLS connection.
 
 A similar configuration needs to be applied for `foo.ns1` in `cluster2`:
@@ -215,28 +238,35 @@ spec:
   endpoints:
   - address: <IPofCluster1IngressGateway>
     ports:
-      http: 15443 #Map everything to 15443 of ingress gateway
+      http: 15443 # Map everything to 15443 of ingress gateway
       tcp: 15443
 {{< /text >}}
 
-The gateway for port 15443 has been configured and installed using the
-Istio installation step you saw earlier. Traffic entering port 15443 will
-be load balanced among pods of the appropriate internal service (in this
+The gateway for port 15443 is a special SNI-aware Envoy that was
+configured and installed as a result of the `--set multiCluster.connectUsingGateway=true`
+helm option that you used when you installed Istio. Traffic entering port 15443 will
+be load balanced among pods of the appropriate internal service of the target cluster (in this
 case, `bar.ns2`).
 
-> Do not add any Gateway configuration for port 15443.
+> Do not add a Gateway configuration for port 15443.
 
-## Automation
+## Summary
 
-The entire setup above can be automated by replicating Istio configuration,
-service objects, namespaces across all clusters in the mesh. In addition,
-the automation system should generate service entries for each replicated
-service, with endpoints containing the IP address of the gateway in every
-cluster that has pods of the service in question.
+Using Istio gateways, a common root CA, and replication of services, you configured
+a single Istio service mesh across multiple Kubernetes clusters.
+Although the above procedure involved a significant amount of manual work,
+the entire process could theoretically be automated. The automation process
+must do the following:
 
-## Advanced - Distribute pods of a service across multiple clusters
+1. Replicate Istio configuration, services, and namespaces across all clusters in the mesh.
+2. Generate service entries for each replicated service, with endpoints containing the IP address
+   of gateways in every cluster that has pods for the service in question.
 
-If you add pods to the `bar.ns2` service in `cluster1`, traffic will be load
-balanced across local pods and remote pods in `cluster2`, albeit the load
-will be skewed as Istio in `cluster1` is unaware of the number of pods for
-`bar.ns2` in `cluster2`. Zone-aware routing is currently unsupported.
+Once configured this way, traffic can be transparently routed to remote clusters
+without any application involvement. In fact, traffic for a given service can also
+be routed to workloads in multiple clusters. For example, if you add pods to the
+`bar.ns2` service in `cluster1`, traffic will be load
+balanced across the local pods and the remote pods in `cluster2`.
+The load will be skewed, however, as Istio in `cluster1` is unaware of the number
+of pods for `bar.ns2` in `cluster2`. The remote Gateway looks like just another
+single endpoint in the same cluster/zone. Zone-aware routing is currently unsupported.
