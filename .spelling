@@ -217,6 +217,7 @@ camelCase
 canaried
 canarying
 colocated
+config
 configmap
 configmaps
 containerID
@@ -364,6 +365,7 @@ qps
 quay.io
 radis
 ratelimit-handler
+rbac
 reachability
 rearchitect
 readinessProbe

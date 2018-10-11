@@ -255,3 +255,63 @@ spec:
     tls:
       mode: DISABLE
 {{< /text >}}
+
+## Migrating the `RbacConfig` to `ClusterRbacConfig`
+
+If you use [Istio authorization](/docs/concepts/security/#authorization) with custom resource of kind `RbacConfig`,
+you need to replace the custom resource of kind `RbacConfig` with kind `ClusterRbacConfig`.
+The rbac config has an implementation bug that causes it to be namespace scoped in some cases. The cluster rbac config
+has exactly the same specification as the rbac config with correct cluster scope implementation.
+
+For example, if you have a rbac config with the following config:
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: RbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["default"]
+{{< /text >}}
+
+Kubernetes doesn't allow to change the kind of a custom resource once it's created, so you need to
+create a new cluster rbac config with the same specification as the existing rbac config. For the above
+rbac config, you will need to apply the following config:
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ClusterRbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["default"]
+{{< /text >}}
+
+Wait for a few seconds until the cluster rbac config take effect and then you can safely delete
+the rbac config.
+
+A script is provided to automate the migration for you. The script will get existing rbac config and
+apply a cluster rbac config with the same specification. It will then wait a few seconds and delete
+the rbac config if the new cluster rbac config is applied successfully.
+
+Depending on if you have the [Istio installation package](/docs/setup/kubernetes/download-release):
+
+- If you have the Istio installation package
+
+    Move to the Istio package directory and run the script with the following command:
+
+    {{< text bash >}}
+    $ ./tools/convert_RbacConfig_to_ClusterRbacConfig.sh
+    {{< /text >}}
+
+- If you don't have the Istio installation package
+
+    Download and run the script directly with the following command:
+
+    {{< text bash >}}
+    $ curl -L https://raw.githubusercontent.com/istio/istio/master/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+    {{< /text >}}
