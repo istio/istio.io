@@ -218,7 +218,7 @@ This configuration will result in all traffic in `cluster1` for
 `bar.ns2.svc.cluster.local` on any port to be routed to the endpoint
 `<IPofCluster2IngressGateway>:15443` over a mTLS connection.
 
-A similar configuration needs to be applied for `foo.ns1` in `cluster2`:
+Apply a similar configuration for the `foo.ns1` namespace in `cluster2`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -248,7 +248,7 @@ helm option that you used when you installed Istio. Traffic entering port 15443 
 be load balanced among pods of the appropriate internal service of the target cluster (in this
 case, `bar.ns2`).
 
-> Do not add a Gateway configuration for port 15443.
+> Do not create a Gateway configuration for port 15443.
 
 ## Summary
 
