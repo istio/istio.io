@@ -1,11 +1,25 @@
 ---
-title: Istio Multicluster
-description: Install Istio with multicluster support.
-weight: 60
-keywords: [kubernetes,multicluster]
+title: VPN connectivity
+description: Install an Istio mesh across multiple Kubernetes clusters with direct network access to remote pods.
+weight: 5
+keywords: [kubernetes,multicluster,federation,vpn]
+aliases:
+    - /docs/setup/kubernetes/multicluster-install
 ---
 
-Instructions for the installation of Istio multicluster.
+Instructions for installing an Istio mesh across multiple clusters when pods
+in each cluster have direct network access to pods in other clusters.
+
+In this configuration, multiple Kubernetes control planes running
+a remote configuration connect to a **single** Istio control plane.
+Once one or more remote Kubernetes clusters are connected to the
+Istio control plane, Envoy can then communicate with the **single**
+control plane and form a mesh network across multiple clusters.
+
+{{< image width="80%" ratio="36.01%"
+    link="./multicluster-with-vpn.svg"
+    caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN"
+    >}}
 
 ## Prerequisites
 
@@ -25,15 +39,6 @@ across the multicluster environment and may not overlap.
     * All Kubernetes control plane API servers must be routable to each other.
 
 * Helm **2.7.2 or newer**.  The use of Tiller is optional.
-
-## Overview
-
-Multicluster functions by enabling Kubernetes control planes running
-a remote configuration to connect to **one** Istio control plane.
-Once one or more remote Kubernetes clusters are connected to the
-Istio control plane, Envoy can then communicate with the **single**
-Istio control plane and form a mesh network across multiple Kubernetes
-clusters.
 
 This guide describes how to install a multicluster Istio topology using the
 manifests and Helm charts provided within the Istio repository.
