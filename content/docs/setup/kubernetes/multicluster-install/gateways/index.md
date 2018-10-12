@@ -8,9 +8,15 @@ keywords: [kubernetes,multicluster,federation,gateway]
 Instructions for installing an Istio mesh across multiple clusters when pods
 in each cluster can only connect to remote gateway IPs.
 
-In this configuration, each cluster has an **identical** Istio control plane
-installation. Cross-cluster communication occurs over Istio Gateways
-of the respective clusters.
+Instead of using a central Istio control plane to manage the mesh,
+in this configuration each cluster has an **identical** Istio control plane
+installation, each managing its own endpoints.
+All of the clusters are under a shared administrative control for the purposes of
+policy enforcement and security.
+
+A single Istio service mesh across the clusters is achieved by replicating
+shared services and namespaces and using a common root CA in all of the clusters.
+Cross-cluster communication occurs over Istio Gateways of the respective clusters.
 
 {{< image width="80%" ratio="36.01%"
     link="./multicluster-with-gateways.svg"
