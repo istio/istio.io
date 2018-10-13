@@ -151,7 +151,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     Run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
+    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy-permissive.yaml@
     {{< /text >}}
 
 1.  Send traffic to the sample application again.
@@ -187,7 +187,7 @@ Before you start, please make sure that you have finished [preparation task](#be
 1.  Remove permissive mode related yaml files:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy-permissive.yaml@
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-permissive.yaml@
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
