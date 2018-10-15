@@ -6,6 +6,89 @@ weight: 5
 
 本节提供了特定的部署或配置指南，以避免网络或流量管理问题。
 
+## 在网关中配置多个 TLS 主机
+
+如果您应用具有与另一个现有 `Gateway` 相同的 `selector` 标签的 `Gateway` 配置，那么如果它们都暴露相同的 HTTPS 端口，
+则必须确保它们具有唯一的端口名称。否则，由于在应用配置情况下没有立即的错误指示，而运行时网关配置中会忽略该配置（重名端口的配置将被忽略）。例如：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
+
+使用此配置，对第二个主机 `myhost2.com` 的请求将失败，因为两个网关端口都具有 `name: https`。
+例如，_curl_ 请求将产生如下错误消息：
+
+{{< text plain >}}
+curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to myhost2.com:443
+{{< /text >}}
+
+您可以通过检查 Pilot 的日志以查找类似于以下内容的消息来确认是否发生了这种情况：
+
+{{< text bash >}}
+$ kubectl logs -n istio-system -l istio=pilot -c discovery | grep "non unique port"
+2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+{{< /text >}}
+
+要避免此问题，请确保对同一 `protocol: HTTPS` 端口的多次使用进行唯一命名。
+例如，将第二个更改为 `https2`：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https2
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
+
 ## 同一主机的多个 `VirtualServices` 和 `DestinationRules`
 
 在以下情况下中最好为指定主机以增量的方式配置多个资源。
@@ -106,6 +189,31 @@ metadata:
 1. 对于同一主机，应该只有一个顶级的 `trafficPolicy`。在多个目标规则中定义顶级流量策略时，将使用第一个。任何以下顶级 `trafficPolicy` 配置都将失效。
 1. 不同于 `VirtualService` 的合并，目标规则合并在 sidecar 和网关中都有效。
 
+## 设置目标规则后 503 错误
+
+如果在应用 `DestinationRule` 后，对服务的请求立即开始产生 HTTP 503 错误，并且错误一直持续到删除或恢复 `DestinationRule`，
+那么 `DestinationRule` 可能是导致服务 TLS 冲突的原因。
+
+例如，如果在集群中配置了全局双向 TLS，则 `DestinationRule` 必须包含以下 `trafficPolicy`：
+
+{{< text yaml >}}
+trafficPolicy:
+  tls:
+    mode: ISTIO_MUTUAL
+{{< /text >}}
+
+否则，默认模式为 `DISABLED`，会导致客户端代理 sidecar 发出 HTTP 明文请求而不是 TLS 加密请求。而服务器代理需要加密的请求，因此请求会与服务器代理产生冲突。
+
+要确认存在冲突，请用 `istioctl authn tls-check` 命令检查输出中的 `STATUS` 字段是否为 `CONFLICT`。例如：
+
+{{< text bash >}}
+$ istioctl authn tls-check httpbin.default.svc.cluster.local
+HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
+httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
+{{< /text >}}
+
+每当您应用 `DestinationRule` 时，请确保 `trafficPolicy` TLS 模式与全局服务器配置匹配。
+
 ## 重新配置服务路由时出现 503 错误
 
 在设置路由规则以将流量路由到服务的特定版本（子集）时，必须注意确保子集在路由使用之前可用。否则，
@@ -167,7 +275,7 @@ metadata:
 spec:
   hosts:
   - helloworld.default.svc.cluster.local
-    http:
+  http:
   - route:
     - destination:
         host: helloworld.default.svc.cluster.local
