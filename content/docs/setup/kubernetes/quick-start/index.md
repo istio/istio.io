@@ -38,10 +38,10 @@ we recommend installing with the
 [Helm Chart](/docs/setup/kubernetes/helm-install/), to use all the
 configuration options. This permits customization of Istio to operator specific requirements.
 
-### Option 1: Install Istio without mutual TLS authentication between sidecars
+### Option 1: Install Istio with mutual TLS enabled and set to use permissive mode between sidecars
 
 Visit our
-[mutual TLS authentication between sidecars concept page](/docs/concepts/security/#mutual-tls-authentication)
+[mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)
 for more information.
 
 Choose this option for:
@@ -54,11 +54,18 @@ Choose this option for:
 * Headless services, or
 * `StatefulSets`
 
-To install Istio without mutual TLS authentication between sidecars:
+To install Istio with mutual TLS enabled and set to use permissive mode
+between sidecars:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
+
+In this option, all services, as servers, can accept both plain text and
+mutual TLS traffic. However, all services, as clients, will send plain
+text traffic.
+Visit [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic)
+for how to configure clients behavior.
 
 ### Option 2: Install Istio with default mutual TLS authentication
 
