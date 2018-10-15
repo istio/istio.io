@@ -462,7 +462,7 @@ metadata:
   name: my-gateway
 spec:
   selector:
-    app: my-gatweway-controller
+    app: my-gateway-controller
   servers:
   - port:
       number: 80
