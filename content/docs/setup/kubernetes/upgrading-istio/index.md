@@ -260,7 +260,7 @@ spec:
 
 If you use [Istio authorization](/docs/concepts/security/#authorization) with custom resource of kind `RbacConfig`,
 you need to replace the custom resource of kind `RbacConfig` with kind `ClusterRbacConfig`.
-The rbac config has an implementation bug that causes it to be namespace scoped in some cases. The cluster rbac config
+The rbac config has a [bug](https://github.com/istio/istio/issues/8825) that causes it to be namespace scoped in some cases. The cluster rbac config
 has exactly the same specification as the rbac config with correct cluster scope implementation.
 
 For example, if you have a rbac config with the following config:
