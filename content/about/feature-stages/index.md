@@ -85,7 +85,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Multicluster Mesh over VPN](/docs/setup/kubernetes/multicluster-install/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
-| [Cloud Foundry Integration](/docs/setup/consul/quick-start/)    | Alpha
 | Basic Configuration Resource Validation | Alpha
 | [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
