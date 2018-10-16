@@ -169,6 +169,52 @@ This is why instead of the rating stars, the message _"Ratings service is curren
 In the following sections you will configure egress access to the external MongoDB instance, using different options for
 egress control in Istio.
 
+## Egress control for TCP
+
+Since [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) is on top of TCP, you
+can control the traffic to your Mongo DB as access to any [external TCP service](/blog/2018/egress-tcp/).
+
+
+1.  Get the IP address of your MySQL database instance. As an option, you can use the
+    [host](https://linux.die.net/man/1/host) command:
+
+    {{< text bash >}}
+    $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
+    {{< /text >}}
+
+    For a local database, set `MONGODB_IP` to contain the IP of your machine, accessible from your cluster.
+
+1.  Define a TCP mesh-external service entry:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: mongo
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      addresses:
+      - $MONGODB_IP/32
+      ports:
+      - number: $MONGODB_PORT
+        name: tcp
+        protocol: TCP
+      location: MESH_EXTERNAL
+    EOF
+    {{< /text >}}
+
+1.  Refresh the web page of the application. Now the application should display the ratings without error:
+
+{{< image width="80%" ratio="36.69%"
+    link="./externalDBRatings.png"
+    caption="Book Ratings Displayed Correctly"
+    >}}
+
+Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
+provide you with a visual clue that your external database is indeed being used.
+
 ## Egress control for TLS
 
 1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
@@ -209,15 +255,7 @@ egress control in Istio.
     EOF
     {{< /text >}}
 
-1.  Refresh the web page of the application. Now the application should display the ratings without error:
-
-{{< image width="80%" ratio="36.69%"
-    link="./externalDBRatings.png"
-    caption="Book Ratings Displayed Correctly"
-    >}}
-
-Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
-provide you with a visual clue that your external database is indeed being used.
+1.  Refresh the web page of the application. The application should display the ratings without error
 
 ### Cleanup of the egress configuration for TLS
 
