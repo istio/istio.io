@@ -63,6 +63,7 @@ keywords: [platform-setup,aws]
 1. 查看输出内容：
 
     Kubernetes up to 1.9:
+
     {{< text plain >}}
     [...]
     --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,
@@ -73,6 +74,7 @@ keywords: [platform-setup,aws]
     {{< /text >}}
 
     Kubernetes 1.10+:
+
     {{< text plain >}}
     [...]
     --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,
