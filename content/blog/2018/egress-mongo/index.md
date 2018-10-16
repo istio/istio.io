@@ -258,6 +258,7 @@ $ kubectl delete serviceentry mongo
             port:
               number: $MONGODB_PORT
           weight: 100
+      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
@@ -291,6 +292,7 @@ $ kubectl delete virtualservice mongo
         name: tls-port-for-egress-gateway
         protocol: TLS
       resolution: DNS
+      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
@@ -655,6 +657,7 @@ to hold the configuration of the Nginx SNI proxy:
       - number: $MONGODB_PORT
         name: tls-mongodb
         protocol: TLS
+      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
