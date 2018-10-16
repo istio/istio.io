@@ -245,7 +245,7 @@ Istio can be installed in a different namespace other than
 istio-system.
 
 The local cluster running the Istio control plane does not need
-it's secrets stored and labeled. The local node is always aware of
+its secrets stored and labeled. The local node is always aware of
 its Kubernetes credentials, but the local node is not aware of
 the remote nodes' credentials.
 
