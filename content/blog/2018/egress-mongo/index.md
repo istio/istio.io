@@ -215,6 +215,12 @@ can control the traffic to your Mongo DB as access to any [external TCP service]
 Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
 provide you with a visual clue that your external database is indeed being used.
 
+### Cleanup of the egress configuration for TCP
+
+{{< text bash >}}
+$ kubectl delete serviceentry mongo
+{{< /text >}}
+
 ## Egress control for TLS
 
 1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
