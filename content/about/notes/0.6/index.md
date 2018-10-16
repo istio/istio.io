@@ -1,11 +1,13 @@
 ---
 title: Istio 0.6
 weight: 95
-page_icon: /img/notes.svg
+icon: notes
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or
 updated features detailed below.
+
+{{< relnote_links >}}
 
 ## Networking
 

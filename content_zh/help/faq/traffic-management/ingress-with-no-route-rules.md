@@ -8,7 +8,7 @@ weight: 40
 例如，以下 ingress 资源匹配 example.com 主机的请求，其中 /helloworld 为 URL。
 
 {{< text bash >}}
-$ cat <<EOF | kubectl create -f -
+$ kubectl create -f - <<EOF
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -30,7 +30,7 @@ EOF
 但是，以下的规则不能正常工作，因为在路径和 `ingress.kubernetes.io` 注释中使用了正则表达式：
 
 {{< text bash >}}
-$ cat <<EOF | kubectl create -f -
+$ kubectl create -f - <<EOF
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

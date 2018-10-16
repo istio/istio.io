@@ -18,8 +18,7 @@ or alternatively, to bypass the Istio proxy for a specific range of IPs.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which you use as a test source for external calls.
@@ -38,18 +37,25 @@ or alternatively, to bypass the Istio proxy for a specific range of IPs.
 
     Note that any pod that you can `exec` and `curl` from will do for the procedures below.
 
+*   Set the `SOURCE_POD` environment variable to the deployed `sleep` pod:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
 ## Configuring Istio external services
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
-from within your Istio cluster. In this task you access
-[httpbin.org](http://httpbin.org) and [www.google.com](https://www.google.com) as examples.
+from within your Istio cluster. This task shows you how to access an external HTTP service,
+[httpbin.org](http://httpbin.org), as well as an external HTTPS service,
+[www.google.com](https://www.google.com).
 
-### Configuring the external services
+### Configuring an external HTTP service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -62,14 +68,30 @@ from within your Istio cluster. In this task you access
         name: http
         protocol: HTTP
       resolution: DNS
+      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
-1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
-    protocols, including HTTPS, the TLS `VirtualService` is required in addition to the `ServiceEntry`.
+1.  Exec into the `sleep service` source pod:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    {{< /text >}}
+
+1.  Make a request to the external HTTP service:
+
+    {{< text bash >}}
+    $ curl http://httpbin.org/headers
+    {{< /text >}}
+
+### Configuring an external HTTPS service
+
+1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
+    protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
+    The `VirtualService` must include a `tls` rule with `sni_hosts` in the `match` clause to enable SNI routing.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -82,6 +104,7 @@ from within your Istio cluster. In this task you access
         name: https
         protocol: HTTPS
       resolution: DNS
+      location: MESH_EXTERNAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -104,20 +127,10 @@ from within your Istio cluster. In this task you access
     EOF
     {{< /text >}}
 
-### Make requests to the external services
-
-1.  Exec into the pod being used as the test source. For example,
-    if you are using the `sleep` service, run the following commands:
+1.  Exec into the `sleep service` source pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SOURCE_POD -c sleep bash
-    {{< /text >}}
-
-1.  Make a request to the external HTTP service:
-
-    {{< text bash >}}
-    $ curl http://httpbin.org/headers
     {{< /text >}}
 
 1.  Make a request to the external HTTPS service:
@@ -131,8 +144,7 @@ from within your Istio cluster. In this task you access
 Similar to inter-cluster requests, Istio
 [routing rules](/docs/concepts/traffic-management/#rule-configuration)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
-In this example, you use [`istioctl`](/docs/reference/commands/istioctl/)
-to set a timeout rule on calls to the httpbin.org service.
+In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:
 
@@ -148,10 +160,10 @@ to set a timeout rule on calls to the httpbin.org service.
 
     The request should return 200 (OK) in approximately 5 seconds.
 
-1.  Exit the source pod and use `istioctl` to set a 3s timeout on calls to the httpbin.org external service:
+1.  Exit the source pod and use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -249,6 +261,19 @@ Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
 #### Minikube
 
 Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
+
+#### Docker For Desktop
+
+Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
+
+#### Bare Metal
+
+Use the value of your `service-cluster-ip-range`.  It's not fixed, but the default value is 10.96.0.0/12.  To determine your actual value:
+
+{{< text bash >}}
+$ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
+      --service-cluster-ip-range=10.96.0.0/12
+{{< /text >}}
 
 ### Access the external services
 

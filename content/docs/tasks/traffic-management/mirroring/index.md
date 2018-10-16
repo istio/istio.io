@@ -77,7 +77,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
     **httpbin Kubernetes service:**
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl create -f -
+    $ kubectl create -f - <<EOF
     apiVersion: v1
     kind: Service
     metadata:
@@ -125,8 +125,10 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
 1.  Create a default route rule to route all traffic to `v1` of the service:
 
+    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
+
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -156,8 +158,6 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
           version: v2
     EOF
     {{< /text >}}
-
-    > NOTE: If you installed/configured Istio with mutual TLS Authentication enabled, you must add the [TLSSettings.TLSmode]( /docs/reference/config/istio.networking.v1alpha3/#TLSSettings-TLSmode), `mode: ISTIO_MUTUAL` as noted in the [TLSSettings](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings) reference.
 
     Now all traffic goes to the `httpbin v1` service.
 
@@ -200,7 +200,7 @@ log entries for `v1` and none for `v2`:
 1.  Change the route rule to mirror traffic to v2:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:

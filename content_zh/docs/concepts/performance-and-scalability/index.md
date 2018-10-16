@@ -2,7 +2,7 @@
 title: 性能与可伸缩性
 description: 介绍 Istio 组件的性能与可伸缩性方法论、结果和最佳实践。
 weight: 50
-keywords: [性能,可伸缩性,伸缩,benchmarks]
+keywords: [性能,可伸缩性,伸缩,基准测试]
 ---
 
 我们对 Istio 性能评估、跟踪和改进采用四管齐下的方法：
@@ -17,7 +17,7 @@ keywords: [性能,可伸缩性,伸缩,benchmarks]
 
 ## 微基准测试
 
-我们使用 Go 的原生工具在性能敏感区域编写有针对性的微基准测试。我们使用此方法的主要目标是提供易于使用的微基准测试，开发人员可以使用这些基准测试来对它们的更改快速执行更改前后的性能对比。
+我们使用 Go 的原生工具为性能敏感区域编写有针对性的微基准测试。我们使用此方法的主要目标是提供易于使用的微基准测试，开发人员可以凭借这些测试方法对变更进行评估，获取变更前后的性能差异。
 
 查看 Mixer 的[示例微基准测试]({{< github_file >}}/mixer/test/perf/singlecheck_test.go)，以衡量属性处理代码的性能。
 
@@ -31,17 +31,17 @@ keywords: [性能,可伸缩性,伸缩,benchmarks]
 
 {{< image width="80%" ratio="75%"
     link="https://raw.githubusercontent.com/istio/istio/master/tools/perf_setup.svg?sanitize=true"
-    alt="Performance scenarios diagram"
-    caption="Performance scenarios diagram"
+    alt="性能测试场景示意图"
+    caption="性能测试场景示意图"
     >}}
 
 描述了综合基准测试场景和测试的源代码托管在 [GitHub]({{< github_blob >}}/tools#istio-load-testing-user-guide) 上。
 
 <!-- add blueperf and more details -->
 
-## 合成端到端基准测试
+## 端到端综合基准测试
 
-我们使用 Fortio 作为 Istio 的合成端到端负载测试工具。Fortio 以特定的每秒查询率（qps）运行，记录执行时间的直方图并计算百分位数（例如 p99，即 99％ 请求的响应时间小于该数值（以秒为单位，SI单位））。它可以运行一个设定的持续时间段、执行固定数量的请求或直到被中断为止（以一个恒定的目标 QPS，或每个连接/线程的最大速度/负载）。
+我们使用 Fortio 作为 Istio 的端到端负载测试工具。Fortio 以特定的每秒查询率（qps）运行，记录执行时间的直方图并计算百分位数（例如 p99，即 99％ 请求的响应时间小于该数值（以秒为单位，SI 单位））。它可以运行一个设定的持续时间段、执行固定数量的请求或直到被中断为止（以一个恒定的目标 QPS，或每个连接/线程的最大速度/负载）。
 
 Fortio 是一个快速、小巧、可重复使用、可嵌入的 go 库以及命令行工具和服务进程，该服务包含一个简单的 Web UI 和结果的图形化表示（同时包含单个延迟图表和多个结果的最小、最大、平均值和百分比图表）。
 
@@ -93,7 +93,7 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 ## 自动化测试
 
-综合基准测试（基于 fortio）和现实应用（BluePerf）都是每晚发布管道（nightly release pipeline）的一部分，您可以在此看到结果：
+综合基准测试（基于 fortio）和方针应用（BluePerf）都是每晚发布管道（nightly release pipeline）的一部分，您可以在此看到结果：
 
 * [https://fortio-daily.istio.io/](https://fortio-daily.istio.io/)
 * [https://ibmcloud-perf.istio.io/regpatrol/](https://ibmcloud-perf.istio.io/regpatrol/)
@@ -104,7 +104,7 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 * 为控制平面组件设置多个副本。
 
-* 设置 [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+* 设置[水平自动扩展（Horizontal Pod Autoscaling）](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
 * 拆分 mixer 中检查和报告的 pod。
 
@@ -116,14 +116,14 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 当前建议（使用所有 Istio 功能时）：
 
-* 开启访问日志（默认开启）时，每秒峰值请求每达 1000 为 sidecar 配置 1 vCPU，没有开启则配置 0.5 vCPU，节点上的 `fluentd` 由于需要捕获和上传日志，是主要的性能消耗者。
+* 开启访问日志（默认开启）时，为 Sidecar 每分配 1 个 vCPU 能够负担 1000 qps 的访问峰值，没有开启则 0.5 vCPU 即可负担同样峰值，节点上的 `fluentd` 由于需要捕获和上传日志，是主要的性能消耗者。
 
-* 假设 mixer 的典型高速缓存命中率（>80％）：每秒峰值请求每达 1000 为 mixer pod 配置 0.5 vCPU。
+* 假设 Mixer 检查的典型缓存命中率达到（>80％）：每 1000 qps 需要给 Mixer pod 分配 1 个 vCPU。
 
-* 截至 0.7.1 版本，service-service（涉及 2 个代理，mixer telemetry 和检查）延迟消耗/开销约为 [10 毫秒](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json)，我们希望将其降低到个位数毫秒级别。
+* 截至 0.7.1 版本，服务之间的（涉及 2 个代理：Mixer 的遥测和检查）延迟消耗/开销约为 [10 毫秒](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json)，我们希望将其降低到个位数毫秒级别。
 
 * 在 CPU 和延迟方面，AES-NI 硬件支持的双向 TLS 成本可以忽略不计。
 
-我们计划为采用 Istio "点菜（A la carte）” 的客户提供更详细的指导。
+我们计划为有意用定制方式部署 Istio 的客户提供更详细的指导。
 
-我们当前的目标是减少 CPU 开销和将 Istio 添加到您的应用程序所带来的延迟，但请注意，如果您的应用程序正自己处理 telemetry、策略、安全、网络路由、a/b 测试等等则所有的代码和调用成本都可以被移除，并且，即使不是全部消除，也可以抵消大部分 Istio 的延迟。
+我们当前的目标是减少将应用程序加入 Istio 的过程中带来的 CPU 开销和延迟。但请注意，如果您的应用程序正自己处理遥测、策略、安全、网络路由、a/b 测试等等，那么所有的代码和随之而来的调用成本都可以被移除，即使不是全部消除，也可以抵消大部分 Istio 带来的延迟。

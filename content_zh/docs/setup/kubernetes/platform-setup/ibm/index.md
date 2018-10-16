@@ -28,4 +28,4 @@ keywords: [platform-setup,ibm,iks]
 
 ## IBM Cloud Private
 
-[设置 `kubectl` 客户端](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/cfc_cli.html)以便对 IBM Cloud Private 进行访问
+[设置 `kubectl` 客户端](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/manage_cluster/cfc_cli.html)以便对 IBM Cloud Private 进行访问

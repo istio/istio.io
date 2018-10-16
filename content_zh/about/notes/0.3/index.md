@@ -1,7 +1,7 @@
 ---
 title: Istio 0.3
 weight: 98
-page_icon: /img/notes.svg
+icon: notes
 ---
 
 ## 通用
@@ -29,3 +29,5 @@ page_icon: /img/notes.svg
 - **配置校验**：Mixer 会对配置状态进行更多检查，以期尽早发现问题。我们希望未来版本中会进行更多这方面的改善。
 
 如果希望了解更多低级细节，可以进一步阅读[发行说明](https://github.com/istio/istio/wiki/v0.3.0)。
+
+{{< relnote_links >}}

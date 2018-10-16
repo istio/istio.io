@@ -7,7 +7,7 @@ keywords: [kubernetes,gke]
 
 快速开始操作指南，使用 [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/)，在 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)（GKE）上安装和运行 Istio。
 
-这个快速开始创建了一个新的 GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#versions_available_for_new_cluster_masters)，安装当前版本的 Istio 并部署 [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用。在 [Kubernetes 安装 Istio 指南](/zh/docs/setup/kubernetes/quick-start/) 的基础上，使用 Deployment Manager 为 Kubernetes Engine 提供一个自动的细化步骤。
+这个快速开始创建了一个新的 GKE [zonal cluster](https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#available_versions)，安装当前版本的 Istio 并部署 [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用。在 [Kubernetes 安装 Istio 指南](/zh/docs/setup/kubernetes/quick-start/) 的基础上，使用 Deployment Manager 为 Kubernetes Engine 提供一个自动的细化步骤。
 
 ## 前置条件
 
@@ -127,7 +127,7 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
 
 你也可以在 [Cloud Console](https://console.cloud.google.com/kubernetes/workload) 中的 **Kubernetes Engine -> Workloads** 章节找到这些：
 
-{{< image width="70%" ratio="80.37%"
+{{< image width="70%" ratio="143.91%"
     link="/docs/setup/kubernetes/quick-start-gke-dm/dm_kubernetes_workloads.png"
     caption="GKE-Workloads"
     >}}

@@ -1,7 +1,7 @@
 ---
 title: Istio 0.1
 weight: 100
-page_icon: /img/notes.svg
+icon: notes
 ---
 
 Istio 0.1 是 Istio 的第一个 [release](https://github.com/istio/istio/releases)，它适用于单个 Kubernetes 集群，并支持以下功能：
@@ -19,3 +19,5 @@ Istio 0.1 是 Istio 的第一个 [release](https://github.com/istio/istio/releas
 - 请求使用 Zipkin 通过 Envoy 进行追踪。
 - 使用双向 TLS 的服务到服务身份验证。
 - 使用拒绝表达式的简单服务到服务授权。
+
+{{< relnote_links >}}

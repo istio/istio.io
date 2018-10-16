@@ -11,7 +11,7 @@ keywords: [虚拟机]
 
 ## 概述
 
-{{< image width="80%" ratio="56.78%"
+{{< image width="80%"
     link="/docs/examples/integrating-vms/mesh-expansion.svg"
     caption="网格扩展环境下的 Bookinfo 应用"
     >}}

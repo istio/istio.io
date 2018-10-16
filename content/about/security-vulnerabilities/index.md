@@ -2,14 +2,14 @@
 title: Reporting Security Vulnerabilities
 description: Responsible disclosure for Istio security vulnerabilities.
 weight: 35
-page_icon: /img/vulnerabilities.svg
+icon: vulnerabilities
 ---
 
 We are very grateful to the security researchers and users that report
 back Istio security vulnerabilities. We investigate every report thoroughly.
 
 To make a report, send an email to the private
-[`istio-security-vulnerabilities@google.com`](mailto:istio-security-vulnerabilities@google.com)
+[`istio-security-vulnerabilities@googlegroups.com`](mailto:istio-security-vulnerabilities@googlegroups.com)
 mailing list with the vulnerability details. For normal product bugs
 unrelated to latent security vulnerabilities, please head to
 our [Reporting Bugs](/about/bugs/) page to learn what to do.

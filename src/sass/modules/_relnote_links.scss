@@ -1,0 +1,12 @@
+.relnote_links {
+    .buttons {
+        opacity: 0;
+        transition: opacity .25s ease-in;
+    }
+
+    .btn {
+        box-shadow: 3px 3px 8px #a7a7a7;
+        margin: 1rem 5rem;
+        width: 13rem;
+    }
+}

@@ -91,7 +91,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 To set a mesh-wide authentication policy that enables mutual TLS, submit *mesh authentication policy* like below:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "MeshPolicy"
 metadata:
@@ -121,7 +121,7 @@ multiple destination rules, one for each applicable service (or namespace). Howe
 services so that it is on par with the mesh-wide authentication policy.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -187,7 +187,7 @@ sleep.bar to httpbin.legacy: 503
 To fix this issue, we can add a destination rule to overwrite the TLS setting for `httpbin.legacy`. For example:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -215,7 +215,7 @@ command terminated with exit code 35
 Again, we can correct this by overriding the destination rule for the API server (`kubernetes.default`)
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -243,7 +243,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 Remove global authentication policy and destination rules added in the session:
 
-{{< text yaml >}}
+{{< text bash >}}
 $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules default httpbin-legacy api-server
 {{< /text >}}
@@ -259,7 +259,7 @@ The example below shows the policy to enable mutual TLS for all services in name
 and specifies a namespace, in this case, `foo`. If you don’t specify a namespace value the policy will apply to the default namespace.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -276,7 +276,7 @@ EOF
 Add corresponding destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -463,7 +463,7 @@ this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/sam
 Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -483,7 +483,7 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -570,6 +570,96 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 {{< /text >}}
 
+### End-user authentication with per-path requirements
+
+End-user authentication can be enabled or disabled based on request path. This is useful if you want to
+disable authentication for some paths, for example, the path used for health check or status report.
+You can also specify different JWT requirements on different paths.
+
+#### Disable End-user authentication for specific paths
+
+Modify the `jwt-example` policy to disable End-user authentication for path `/user-agent`:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - excluded_paths:
+        - exact: /user-agent
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+Confirm it's allowed to access the path `/user-agent` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+Confirm it's denied to access paths other than `/user-agent` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+#### Enable End-user authentication for specific paths
+
+Modify the `jwt-example` policy to enable End-user authentication only for path `/ip`:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - included_paths:
+        - exact: /ip
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+Confirm it's allowed to access paths other than `/ip` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+Confirm it's denied to access the path `/ip` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+Confirm it's allowed to access the path `/ip` with a valid JWT token:
+
+{{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
+$ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
 ### End-user authentication with mutual TLS
 
 End-user authentication and mutual TLS can be used together. Modify the policy above to define both mutual TLS and end-user JWT authentication:
@@ -584,7 +674,7 @@ spec:
   targets:
   - name: httpbin
   peers:
-  - mTLS: {}
+  - mtls: {}
   origins:
   - jwt:
       issuer: "testing@secure.istio.io"
@@ -598,7 +688,7 @@ EOF
 And add a destination rule:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -613,11 +703,12 @@ EOF
 {{< /text >}}
 
 > If you already enable mutual TLS mesh-wide or namespace-wide, the host `httpbin.foo` is already covered by the other destination rule.
-Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mTLS` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
+Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mtls` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
 
 After these changes, traffic from Istio services, including ingress gateway, to `httpbin.foo` will use mutual TLS. The test command above will still work. Requests from Istio services directly to `httpbin.foo` also work, given the correct token:
 
 {{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
 200
 {{< /text >}}
@@ -626,7 +717,8 @@ However, requests from non-Istio services, which use plain-text will fail:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-401
+000
+command terminated with exit code 56
 {{< /text >}}
 
 ### Cleanup part 3
@@ -634,13 +726,13 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 1. Remove authentication policy:
 
     {{< text bash >}}
-    $ kubectl delete policy jwt-example
+    $ kubectl -n foo delete policy jwt-example
     {{< /text >}}
 
 1. Remove destination rule:
 
     {{< text bash >}}
-    $ kubectl delete policy httpbin
+    $ kubectl -n foo delete destinationrule httpbin
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.

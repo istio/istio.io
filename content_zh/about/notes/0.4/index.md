@@ -1,10 +1,12 @@
 ---
 title: Istio 0.4
 weight: 97
-page_icon: /img/notes.svg
+icon: notes
 ---
 
 我们稳定了月度发布流程，因此这一版本只有几个星期的工作量。在平淡无奇的问题修复和性能增强之外，这个版本中包括：
+
+{{< relnote_links >}}
 
 - **Cloud Foundry**：为 [Cloud Foundry](https://www.cloudfoundry.org) 平台加入了最小限度的 Pilot 支持，这样 Pilot 就能够发现 CF 服务及其实例了。
 

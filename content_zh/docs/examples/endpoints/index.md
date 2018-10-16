@@ -25,7 +25,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
 1.  如果你想通过 Ingress 访问服务，以下是创建 Ingress 的定义：
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:

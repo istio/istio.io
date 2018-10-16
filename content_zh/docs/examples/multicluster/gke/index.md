@@ -101,9 +101,9 @@ keywords: [kubernetes,多集群]
 {{< text bash >}}
 $ function join_by { local IFS="$1"; shift; echo "$*"; }
 $ ALL_CLUSTER_CIDRS=$(gcloud container clusters list --format='value(clusterIpv4Cidr)' | sort | uniq)
-$ ALL_CLUSTER_CIDRS=$(join_by , ${ALL_CLUSTER_CIDRS})
+$ ALL_CLUSTER_CIDRS=$(join_by , $(echo "${ALL_CLUSTER_CIDRS}"))
 $ ALL_CLUSTER_NETTAGS=$(gcloud compute instances list --format='value(tags.items.[0])' | sort | uniq)
-$ ALL_CLUSTER_NETTAGS=$(join_by , ${ALL_CLUSTER_NETTAGS})
+$ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
 $ gcloud compute firewall-rules create istio-multicluster-test-pods \
   --allow=tcp,udp,icmp,esp,ah,sctp \
   --direction=INGRESS \
@@ -127,7 +127,7 @@ $ kubectl label namespace default istio-injection=enabled
 执行下面的命令，等待 Pod 启动：
 
 {{< text bash >}}
-$ kubectl get pods -w -n istio-system
+$ kubectl get pods -n istio-system
 {{< /text >}}
 
 ## 生成远程集群的安装文件
@@ -217,6 +217,7 @@ $ kubectl label namespace default istio-injection=enabled
 为每个远程集群创建 secret 并用标签进行标记：
 
 {{< text bash >}}
+$ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
 $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n ${NAMESPACE}
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
@@ -293,7 +294,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
-    $ kube apply -f $HOME/reviews-v3.yaml
+    $ kubectl apply -f $HOME/reviews-v3.yaml
     {{< /text >}}
 
 1. 获取 `istio-ingressgateway` 服务的外部 IP，以便发起对 `bookinfo` 页面的访问，来验证 Istio 是否已经在 reviews 服务的负载均衡中包含了远端集群的 `reviews-v3` 实例：
@@ -303,3 +304,25 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     {{< /text >}}
 
     重复访问 `http://<GATEWAY_IP>/productpage`，每个版本的 `reviews` 服务应该会以同样几率做出响应，其中包含了远端集群的 `reviews-v3`（红色）。可能需要多次访问才能看到预期效果。
+
+## 卸载
+
+除了卸载 Istio 之外，还应该执行以下操作 [Kubernetes 多集群安装说明](/zh/docs/setup/kubernetes/multicluster-install/)：
+
+1. 删除 Google Cloud 防火墙规则：
+
+    {{< text bash >}}
+    $ gcloud compute firewall-rules delete istio-multicluster-test-pods --quiet
+    {{< /text >}}
+
+1. 从不再用于 Istio 的每个集群中删除 `cluster-admin` 角色绑定：
+
+    {{< text bash >}}
+    $ kubectl delete clusterrolebinding gke-cluster-admin-binding
+    {{< /text >}}
+
+1. 删除不再使用的任何 GKE 集群。以下是远程集群 `cluster-2` 的示例 delete 命令：
+
+    {{< text bash >}}
+    $ gcloud container clusters delete cluster-2 --zone $zone
+    {{< /text >}}

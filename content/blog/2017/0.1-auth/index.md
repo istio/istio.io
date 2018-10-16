@@ -41,7 +41,7 @@ Istio Auth is based on industry standards like mutual TLS and X.509. Furthermore
 
 The diagram below provides an overview of the Istio Auth service authentication architecture on Kubernetes.
 
-{{< image width="100%" ratio="56.25%"
+{{< image width="100%"
     link="./istio_auth_overview.svg"
     caption="Istio Auth Overview"
     >}}
@@ -76,7 +76,7 @@ Istio Auth provides a per-cluster CA (Certificate Authority) and automated key &
 
 The following diagram explains the end to end Istio Auth authentication workflow on Kubernetes:
 
-{{< image width="100%" ratio="56.25%"
+{{< image width="100%"
     link="./istio_auth_workflow.svg"
     caption="Istio Auth Workflow"
     >}}

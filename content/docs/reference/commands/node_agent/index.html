@@ -4,7 +4,7 @@ description: Istio security per-node agent.
 generator: pkg-collateral-docs
 number_of_entries: 3
 ---
-<p>Istio security per-node agent</p>
+<p>Istio security per-node agent.</p>
 <pre class="language-bash"><code>node_agent [flags]
 </code></pre>
 <table class="command-flags">
@@ -26,6 +26,10 @@ number_of_entries: 3
 <td>Node Environment : unspecified | onprem | gcp | aws  (default `unspecified`)</td>
 </tr>
 <tr>
+<td><code>--experimental-dual-use</code></td>
+<td>Enable dual-use mode. Generates certificates with a CommonName identical to the SAN. </td>
+</tr>
+<tr>
 <td><code>--key &lt;string&gt;</code></td>
 <td>Node Agent private key file  (default `/etc/certs/key.pem`)</td>
 </tr>
@@ -43,7 +47,7 @@ number_of_entries: 3
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -63,7 +67,7 @@ number_of_entries: 3
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -111,7 +115,7 @@ number_of_entries: 3
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -136,12 +140,17 @@ number_of_entries: 3
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>

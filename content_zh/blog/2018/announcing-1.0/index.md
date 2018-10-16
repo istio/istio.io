@@ -4,10 +4,10 @@ subtitle: 生产就绪的服务网格
 description: Istio 1.0 已生产就绪。
 publishdate: 2018-07-31
 attribution: The Istio Team
-weight: 84
+weight: 85
 ---
 
-今天，我们很高兴地宣布 [Istio 1.0](/zh/about/notes/1.0)。这距离最初的 0.1 版本发布以来已经过了一年多时间了。从 0.1 起，Istio 就在蓬勃发展的社区、贡献者和用户的帮助下迅速发展。现在已经有许多公司成功将 Istio 应用于生产，并通过 Istio 提供的洞察力和控制力获得了真正的价值。我们帮助大型企业和快速发展的创业公司，如 [eBay](https://www.ebay.com/)、[Auto Trader UK](https://www.autotrader.co.uk/)、[Descartes Labs](http://www.descarteslabs.com/)、[HP FitStation](https://www.fitstation.com/)、[Namely](https://www.namely.com/)、[PubNub](https://www.pubnub.com/) 和 [Trulia](https://www.trulia.com/) 使用 Istio 从头开始连接、管理和保护他们的服务。将此版本作为 1.0 发布是对我们构建了一组核心功能的认可，用户们可以依赖这些功能进行生产。
+今天，我们很高兴地宣布 [Istio 1.0](/zh/about/notes/1.0)。这距离最初的 0.1 版本发布以来已经过了一年多时间了。从 0.1 起，Istio 就在蓬勃发展的社区、贡献者和用户的帮助下迅速发展。现在已经有许多公司成功将 Istio 应用于生产，并通过 Istio 提供的洞察力和控制力获得了真正的价值。我们帮助大型企业和快速发展的创业公司，如 [eBay](https://www.ebay.com/)、[Auto Trader UK](https://www.autotrader.co.uk/)、[Descartes Labs](http://www.descarteslabs.com/)、[HP FitStation](https://www.fitstation.com/)、[Namely](https://www.namely.com/)、[JUSPAY](https://juspay.in)、[PubNub](https://www.pubnub.com/) 和 [Trulia](https://www.trulia.com/) 使用 Istio 从头开始连接、管理和保护他们的服务。将此版本作为 1.0 发布是对我们构建了一组核心功能的认可，用户们可以依赖这些功能进行生产。
 
 ## 生态系统
 

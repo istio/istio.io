@@ -6,9 +6,218 @@ weight: 5
 
 本节提供了特定的部署或配置指南，以避免网络或流量管理问题。
 
+## 在网关中配置多个 TLS 主机
+
+如果您应用具有与另一个现有 `Gateway` 相同的 `selector` 标签的 `Gateway` 配置，那么如果它们都暴露相同的 HTTPS 端口，
+则必须确保它们具有唯一的端口名称。否则，由于在应用配置情况下没有立即的错误指示，而运行时网关配置中会忽略该配置（重名端口的配置将被忽略）。例如：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
+
+使用此配置，对第二个主机 `myhost2.com` 的请求将失败，因为两个网关端口都具有 `name: https`。
+例如，_curl_ 请求将产生如下错误消息：
+
+{{< text plain >}}
+curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to myhost2.com:443
+{{< /text >}}
+
+您可以通过检查 Pilot 的日志以查找类似于以下内容的消息来确认是否发生了这种情况：
+
+{{< text bash >}}
+$ kubectl logs -n istio-system -l istio=pilot -c discovery | grep "non unique port"
+2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+{{< /text >}}
+
+要避免此问题，请确保对同一 `protocol: HTTPS` 端口的多次使用进行唯一命名。
+例如，将第二个更改为 `https2`：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # 使用 istio 默认 ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https2
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
+
+## 同一主机的多个 `VirtualServices` 和 `DestinationRules`
+
+在以下情况下中最好为指定主机以增量的方式配置多个资源。
+1. 不方便定义完整的路由规则
+1. 单个 `VirtualService` 或 `DestinationRule` 资源中特定主机策略，
+
+从 Istio 1.0.1 开始，添加了一个实验性功能，在绑定到网关时来合并这些 `VirtualService` 的目标规则。
+
+考虑绑定到 ingress gateway 的 `VirtualService` 情况，该 ingress gateway 暴露了一个应用程序主机，
+该主机使用基于路径的委托的多个实现服务，如下所示：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service1
+    route:
+    - destination:
+        host: service1.default.svc.cluster.local
+  - match:
+    - uri:
+        prefix: /service2
+    route:
+    - destination:
+        host: service2.default.svc.cluster.local
+  - match:
+    ...
+{{< /text >}}
+
+这种配置的缺点是，任何底层微服务的其他配置（例如，路由规则）也需要包含在该配置文件中，
+而不是包含在与之相关联并且可能由各个服务团队拥有的单独配置文件中。有关详细信息，
+请参阅[路由规则对 ingress gateway 请求不生效](#路由规则对-ingress-gateway-请求不生效)。
+
+为了避免这个问题，可能最好将 `myapp.com` 的配置分解为几个 `VirtualService` 片段，每个后端服务一个。例如：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-service1
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service1
+    route:
+    - destination:
+        host: service1.default.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-service2
+spec:
+  hosts:
+  - myapp.com
+  gateways:
+  - myapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /service2
+    route:
+    - destination:
+        host: service2.default.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp-...
+{{< /text >}}
+
+当应用现有主机的第二个和后续的 `VirtualService` 时，`istio-pilot` 会将其他路由规则合并到主机的现有配置中。但是，有一些注意事项，使用时必须仔细考虑。
+
+1. 虽然将保留任何给定源 `VirtualService` 中规则的评估顺序，但跨资源顺序是 UNDEFINED。换句话说，
+   对于片段配置中的规则没有保证的评估顺序，因此只有在跨资源的规则资源之间没有规则冲突或顺序依赖的情况下，
+   合并后的行为才是可预测的。
+1. 片段中应该只有一个“全部捕获”规则（即，匹配任何请求路径或 header 的规则）。所有这些“全部捕获”规则会被移动到合并配置列表的末尾，由于它们捕获所有请求，
+   最先应用的规则会覆盖和禁用其他所有的规则
+1. sidecar 不支持主机合并，只有绑定到网关支持 `VirtualService` 分段方式。
+
+`DestinationRule` 也可以使用类似的合并语义和限制进行分段。
+
+1. 对于同一主机，跨多个目标规则应该只有一个给定子集的定义。如果存在多个具有相同名称的定义，则使用第一个定义，其他重复项将失效。不支持合并子集内容。
+1. 对于同一主机，应该只有一个顶级的 `trafficPolicy`。在多个目标规则中定义顶级流量策略时，将使用第一个。任何以下顶级 `trafficPolicy` 配置都将失效。
+1. 不同于 `VirtualService` 的合并，目标规则合并在 sidecar 和网关中都有效。
+
+## 设置目标规则后 503 错误
+
+如果在应用 `DestinationRule` 后，对服务的请求立即开始产生 HTTP 503 错误，并且错误一直持续到删除或恢复 `DestinationRule`，
+那么 `DestinationRule` 可能是导致服务 TLS 冲突的原因。
+
+例如，如果在集群中配置了全局双向 TLS，则 `DestinationRule` 必须包含以下 `trafficPolicy`：
+
+{{< text yaml >}}
+trafficPolicy:
+  tls:
+    mode: ISTIO_MUTUAL
+{{< /text >}}
+
+否则，默认模式为 `DISABLED`，会导致客户端代理 sidecar 发出 HTTP 明文请求而不是 TLS 加密请求。而服务器代理需要加密的请求，因此请求会与服务器代理产生冲突。
+
+要确认存在冲突，请用 `istioctl authn tls-check` 命令检查输出中的 `STATUS` 字段是否为 `CONFLICT`。例如：
+
+{{< text bash >}}
+$ istioctl authn tls-check httpbin.default.svc.cluster.local
+HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
+httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
+{{< /text >}}
+
+每当您应用 `DestinationRule` 时，请确保 `trafficPolicy` TLS 模式与全局服务器配置匹配。
+
 ## 重新配置服务路由时出现 503 错误
 
-在设置路由规则以将流量路由到服务的特定版本（子集）时，必须注意确保子集在路由使用之前可用。否则，在重新配置期间，调用服务可能返回 503 错误。
+在设置路由规则以将流量路由到服务的特定版本（子集）时，必须注意确保子集在路由使用之前可用。否则，
+在重新配置期间，调用服务可能返回 503 错误。
 
 调用单个 `kubectl` 命令（例如，`kubectl apply -f myVirtualServiceAndDestinationRule.yaml`）来同时创建对应子集中的 `VirtualServices` 和 `DestinationRule` 是不够的，这是因为配置（从配置服务器，即 Kubernetes API 服务器）传播到 Pilot 实例是以最终一致的方式进行的。如果子集中的 `VirtualService` 在 `DestinationRule` 之前生效，Pilot 生成的 Envoy 配置将引用不存在的上游服务池。在所有配置对象都可用于 Pilot 之前，请求调用将导致 HTTP 503 错误。
 
@@ -30,9 +239,9 @@ weight: 5
 
     1. 在未使用的子集中删除 `DestinationRule`。
 
-## 路由规则对入口网关请求不生效
+## 路由规则对 ingress gateway 请求不生效
 
-假设正在使用入口 `Gateway` 和对应的 `VirtualSerive` 来访问内部服务。
+假设正在使用入口 `Gateway` 和对应的 `VirtualService` 来访问内部服务。
 例如， `VirtualService` 看起来像这样：
 
 {{< text yaml >}}
@@ -42,10 +251,10 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
-    gateways:
+  - "myapp.com" # 或者如果您使用入口网关 IP 进行无 DNS 验证，则可能值为"*"（例如，http：//1.2.3.4/hello）
+  gateways:
   - myapp-gateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /hello
@@ -66,14 +275,14 @@ metadata:
 spec:
   hosts:
   - helloworld.default.svc.cluster.local
-    http:
+  http:
   - route:
     - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
 {{< /text >}}
 
-在这种情况下，通过入口网关向 helloworld 服务发出的请求不会被定向到子集 v1，而是继续使用默认的轮询路由。
+在这种情况下，通过 ingress gateway 向 helloworld 服务发出的请求不会被定向到子集 v1，而是继续使用默认的轮询路由。
 
 入口请求正在使用网关主机（例如，`myapp.com`），该主机将使用 myapp 中 `VirtualService` 的规则，路由请求到 helloworld 服务中的任一端点。主机 `helloworld.default.svc.cluster.local` 的内部请求将使用 helloworld 中 `VirtualService`，将流量定向到子集 v1。
 
@@ -86,10 +295,10 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
-    gateways:
+  - "myapp.com" # 或者如果您使用 ingress gateway  IP 进行无 DNS 验证，则可能值为"*"（例如，http：//1.2.3.4/hello）
+  gateways:
   - myapp-gateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /hello
@@ -110,24 +319,24 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - myapp.com # cannot use "*" here since this is being combined with the mesh services
+  - myapp.com # 这里不能使用"*"，因为它与网格服务相结合
   - helloworld.default.svc.cluster.local
-    gateways:
-  - mesh # applies internally as well as externally
+  gateways:
+  - mesh # 适用于内部和外部
   - myapp-gateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /hello
-        gateways:
-      - myapp-gateway #restricts this rule to apply only to ingress gateway
+      gateways:
+      - myapp-gateway # 此限制规则仅适用于 ingress gateway
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
   - match:
     - gateways:
-      - mesh # applies to all services inside the mesh
+      - mesh # 适用于网格内的所有服务
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
@@ -138,11 +347,11 @@ spec:
 
 如果路由规则对 [Bookinfo](/zh/docs/examples/bookinfo/) 示例正常运行，但类似的版本路由规则对自己的应用程序没有生效，则可能需要更改 Kubernetes 服务。
 
-Kubernetes 服务必须遵守某些限制才能利用 Istio 的 L7 路由功能。 有关详细信息，请参阅 [Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements)。
+Kubernetes 服务必须遵守某些限制才能利用 Istio 的 L7 路由功能。有关详细信息，请参阅 [Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements)。
 
 ## Envoy 无法连接到 HTTP/1.0 服务
 
-Envoy 需要使用 `HTTP/1.1` 或 `HTTP/2` 与上游服务通信。 例如，当使用 [NGINX](https://www.nginx.com/)  作为 Envoy 后端提供流量服务时，需要将 NGINX 配置中的  [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version)  指令设置为 “1.1”，因为 NGINX 默认值为 1.0。
+Envoy 需要使用 `HTTP/1.1` 或 `HTTP/2` 与上游服务通信。例如，当使用 [NGINX](https://www.nginx.com/)  作为 Envoy 后端提供流量服务时，需要将 NGINX 配置中的  [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version)  指令设置为 “1.1”，因为 NGINX 默认值为 1.0。
 
 配置样例如下：
 
@@ -167,7 +376,7 @@ server {
 
 ## Headless TCP 服务失去连接
 
-如果部署了 `istio-citadel`，则 Envoy 每 15 分钟会进行一次重新启动来刷新证书。 这会导致 TCP 连接或服务之间长连接被断开。
+如果部署了 `istio-citadel`，则 Envoy 每 15 分钟会进行一次重新启动来刷新证书。这会导致 TCP 连接或服务之间长连接被断开。
 
 在应用程序中应为此类断开连接进行弹性处理，但如果仍希望防止断开连接发生，则需要禁用双向 TLS 和 `istio-citadel` 部署。
 

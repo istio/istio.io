@@ -48,7 +48,7 @@ services (e.g., Google Maps API). These may be called directly or, in certain de
 exiting the mesh may be forced through dedicated egress gateways. The following diagram depicts
 this mental model.
 
-{{< image width="80%" ratio="35.20%"
+{{< image width="80%"
     link="./gateways.svg"
     alt="Role of gateways in the mesh"
     caption="Gateways in an Istio service mesh"
@@ -70,7 +70,7 @@ dedicated middleboxes.
 The figure below depicts the flow of control across configuration
 resources.
 
-{{< image width="80%" ratio="41.16%"
+{{< image width="80%"
     link="./virtualservices-destrules.svg"
     caption="Relationship between different v1alpha3 elements"
     >}}
@@ -400,7 +400,8 @@ $ kubectl apply -f my-second-rule-for-destination-abc.yaml
 $ kubectl apply -f my-updated-rules-for-destination-abc.yaml
 {{< /text >}}
 
-Deleting route rules other than the last one for a particular destination is also done using `kubectl apply`.
+Deleting route rules other than the last one for a particular destination is also done by updating
+the existing resource using `kubectl apply`.
 
 When adding or removing routes that refer to service versions, the `subsets` will need to be updated in
 the service's corresponding `DestinationRule`.

@@ -4,7 +4,7 @@ description: Istio Pilot agent.
 generator: pkg-collateral-docs
 number_of_entries: 5
 ---
-<p>Istio Pilot agent runs in the side car or gateway container and bootstraps envoy.</p>
+<p>Istio Pilot agent runs in the sidecar or gateway container and bootstraps Envoy.</p>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -17,11 +17,11 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -41,7 +41,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -60,16 +60,12 @@ number_of_entries: 5
 </thead>
 <tbody>
 <tr>
-<td><code>--availabilityZone &lt;string&gt;</code></td>
-<td>Availability zone  (default ``)</td>
+<td><code>--applicationPorts &lt;stringSlice&gt;</code></td>
+<td>Ports exposed by the application. Used to determine that Envoy is configured and ready to receive traffic.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--binaryPath &lt;string&gt;</code></td>
 <td>Path to the proxy binary  (default `/usr/local/bin/envoy`)</td>
-</tr>
-<tr>
-<td><code>--bootstrapv2</code></td>
-<td>Use bootstrap v2 - DEPRECATED </td>
 </tr>
 <tr>
 <td><code>--concurrency &lt;int&gt;</code></td>
@@ -100,10 +96,6 @@ number_of_entries: 5
 <td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default `istio-pilot:15007`)</td>
 </tr>
 <tr>
-<td><code>--discoveryRefreshDelay &lt;duration&gt;</code></td>
-<td>Polling interval for service discovery (used by EDS, CDS, LDS, but not RDS)  (default `1s`)</td>
-</tr>
-<tr>
 <td><code>--domain &lt;string&gt;</code></td>
 <td>DNS domain suffix. If not provided uses ${POD_NAMESPACE}.svc.cluster.local  (default ``)</td>
 </tr>
@@ -125,11 +117,11 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -149,7 +141,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -160,7 +152,7 @@ number_of_entries: 5
 <td>The time in seconds that Envoy will wait before shutting down the parent process during a hot restart  (default `3s`)</td>
 </tr>
 <tr>
-<td><code>--proxyAdminPort &lt;int&gt;</code></td>
+<td><code>--proxyAdminPort &lt;uint16&gt;</code></td>
 <td>Port on which Envoy should listen for administrative commands  (default `15000`)</td>
 </tr>
 <tr>
@@ -173,11 +165,15 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--serviceregistry &lt;string&gt;</code></td>
-<td>Select the platform for service registry, options are {Kubernetes, Consul, CloudFoundry, Mock, Config}  (default `Kubernetes`)</td>
+<td>Select the platform for service registry, options are {Kubernetes, Consul, MCP, Mock, Config}  (default `Kubernetes`)</td>
 </tr>
 <tr>
 <td><code>--statsdUdpAddress &lt;string&gt;</code></td>
 <td>IP Address and Port of a statsd UDP listener (e.g. 10.75.241.127:9125)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--statusPort &lt;uint16&gt;</code></td>
+<td>HTTP Port on which to serve pilot agent status. If zero, agent status will not be provided.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--templateFile &lt;string&gt;</code></td>
@@ -205,11 +201,11 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -229,7 +225,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -256,12 +252,12 @@ number_of_entries: 5
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [default, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -286,12 +282,17 @@ number_of_entries: 5
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model] and level can be one of [debug, info, warn, error, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>

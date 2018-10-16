@@ -2,6 +2,7 @@
 title: Consuming External TCP Services
 description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-02-06
+last_update: 2018-07-23
 subtitle: Mesh-external Service Entries for TCP traffic
 attribution: Vadim Eisenberg
 weight: 92
@@ -162,7 +163,7 @@ The example commands in this blog post work with Istio 0.8+, with or without
 As a reminder, here is the end-to-end architecture of the application from the
 [Bookinfo sample application](/docs/examples/bookinfo/).
 
-{{< image width="80%" ratio="59.08%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
     caption="The original Bookinfo application"
     >}}
@@ -216,7 +217,7 @@ The updated architecture appears below. Note that the blue arrows inside the mes
  to the virtual services we added. According to the virtual services, the traffic is sent to _reviews v3_ and
  _ratings v2-mysql_.
 
-{{< image width="80%" ratio="59.31%"
+{{< image width="80%"
     link="./bookinfo-ratings-v2-mysql-external.svg"
     caption="The Bookinfo application with ratings v2-mysql and an external MySQL database"
     >}}
@@ -261,8 +262,8 @@ TCP mesh-external service entries come to our rescue.
 1.  Define a TCP mesh-external service entry:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    apiVersion: networking.istio.io/v1alpha3 $MYSQL_DB_PORT
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
       name: mysql-external

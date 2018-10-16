@@ -3,11 +3,13 @@ title: Istio 0.4
 weight: 97
 aliases:
     - /docs/welcome/notes/0.4.html
-page_icon: /img/notes.svg
+icon: notes
 ---
 
 This release has only got a few weeks' worth of changes, as we stabilize our monthly release process.
 In addition to the usual pile of bug fixes and performance improvements, this release includes:
+
+{{< relnote_links >}}
 
 - **Cloud Foundry**. Added minimum Pilot support for the [Cloud Foundry](https://www.cloudfoundry.org) platform, making it
 possible for Pilot to discover CF services and service instances.

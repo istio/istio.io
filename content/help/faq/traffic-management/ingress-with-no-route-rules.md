@@ -12,7 +12,7 @@ For example, the following ingress resource matches requests for the
 example.com host, with /helloworld as the URL.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl create -f -
+$ kubectl create -f - <<EOF
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -35,7 +35,7 @@ However, the following rules will not work because they use regular
 expressions in the path and `ingress.kubernetes.io` annotations:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl create -f -
+$ kubectl create -f - <<EOF
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

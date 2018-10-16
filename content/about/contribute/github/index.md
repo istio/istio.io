@@ -24,7 +24,7 @@ To work on Istio documentation, you need to:
    Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements).
 
 The documentation is published under the [Apache
-2.0](https://github.com/istio/istio.github.io/blob/master/LICENSE) license.
+2.0](https://github.com/istio/istio.io/blob/master/LICENSE) license.
 
 ## How to contribute
 
@@ -44,7 +44,7 @@ There are two ways you can contribute to the Istio documentation:
   fork, and click **New Pull Request** to let us know about it.
 
 <a class="btn btn-istio"
-href="https://github.com/istio/istio.github.io/">Browse this site's source
+href="https://github.com/istio/istio.io/">Browse this site's source
 code</a>
 
 Once your changes are merged, they show up immediately on
@@ -61,5 +61,5 @@ pull request also use this staging site to make sure everything looks good.
 
 If you created a fork of the repository, you can preview your changes locally.
 See this
-[README](https://github.com/istio/istio.github.io/blob/master/README.md) for
+[README](https://github.com/istio/istio.io/blob/master/README.md) for
 instructions.

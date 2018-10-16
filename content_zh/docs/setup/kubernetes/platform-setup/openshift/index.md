@@ -2,6 +2,7 @@
 title: OpenShift
 description: 对 OpenShift 集群进行配置以便安装运行 Istio。
 weight: 18
+skip_seealso: true
 keywords: [platform-setup,openshift]
 ---
 

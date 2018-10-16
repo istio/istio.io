@@ -27,7 +27,7 @@ of traffic for a particular service to go to a canary version irrespective
 of the size of the canary deployment, or send traffic to a particular version
 depending on the content of the request.
 
-{{< image width="85%" ratio="75%"
+{{< image width="85%"
     link="./TrafficManagementOverview.svg"
     caption="Traffic Management with Istio"
     >}}
@@ -61,7 +61,7 @@ routing rules.
 Pilot is responsible for the lifecycle of Envoy instances deployed
 across the Istio service mesh.
 
-{{< image width="60%" ratio="70%"
+{{< image width="60%"
     link="./PilotAdapters.svg"
     caption="Pilot Architecture"
     >}}
@@ -104,7 +104,7 @@ additional control over traffic between services.
 
 ### Communication between services
 
-{{< image width="60%" ratio="100%"
+{{< image width="60%"
     link="./ServiceModel_Versions.svg"
     alt="Showing how service versions are handled."
     caption="Service Versions"
@@ -144,7 +144,7 @@ via the Envoy sidecar, you can add failure recovery features such as
 timeouts, retries, and circuit breakers and obtain detailed metrics on
 the connections to these services.
 
-{{< image width="85%" ratio="35.51%"
+{{< image width="85%"
     link="./ServiceModel_RequestFlow.svg"
     alt="Ingress and Egress through Envoy."
     caption="Request Flow"
@@ -167,7 +167,7 @@ registry and provides a platform-independent service discovery
 interface. Envoy instances in the mesh perform service discovery and
 dynamically update their load balancing pools accordingly.
 
-{{< image width="55%" ratio="80%"
+{{< image width="55%"
     link="./LoadBalancing.svg"
     caption="Discovery and Load Balancing"
     >}}
@@ -292,6 +292,32 @@ increased network latency, or an overloaded upstream service. Aborts are
 crash failures that mimic failures in upstream services. Aborts usually
 manifest in the form of HTTP error codes or TCP connection failures.
 
+## Canary rollout
+
+The idea behind canary rollout is to introduce a new version of a service by first testing
+it using a small percentage of user traffic and then, if all goes well, gradually increase
+the percentage until all the traffic is moved to the new version. If anything
+goes wrong along the way, the rollout is aborted and the traffic is returned to the old version.
+
+Although container orchestration platforms like Docker, Mesos/Marathon, or Kubernetes provide features
+that support canary rollout, they are limited by the fact that they use instance scaling to manage
+the traffic distribution. For example, to send 10% of traffic to a canary version requires 9 instances of
+the old version to be running for every 1 instance of the canary.
+This becomes particularly difficult in production deployments where autoscaling is needed.
+When traffic load increases, the autoscaler needs to scale instances of both versions concurrently,
+making sure to keep the instance ratio the same.
+
+Another problem with the instance deployment approach is that it only
+supports a simple (random percentage) canary rollout. It's not possible to limit the
+visibility of the canary to requests based on some specific criteria.
+
+With Istio, traffic routing and instance deployment are two completely independent functions.
+The number of instances implementing services are free to scale up and down based on traffic load,
+completely orthogonal to the control of version traffic routing. This makes managing a canary
+version in the presence of autoscaling a much simpler problem.
+See [Canary Deployments using Istio](/blog/2017/0.1-canary/) for more about
+the interoperability of canary deployment and autoscaling when using Istio.
+
 ## Rule configuration
 
 Istio provides a simple configuration model to
@@ -395,7 +421,7 @@ hosts:
 The `hosts` field specifies, implicitly or explicitly, one or more fully qualified
 domain names (FQDN). The short name `reviews`, above, would implicitly
 expand to an implementation specific FQDN. For example, in a Kubernetes environment
-the full name is derived from the cluster and namespace of the `VirtualSevice`
+the full name is derived from the cluster and namespace of the `VirtualService`
 (for example, `reviews.default.svc.cluster.local`).
 
 #### Splitting traffic between versions
@@ -451,7 +477,7 @@ spec:
     timeout: 10s
 {{< /text >}}
 
-You can also specify the number of retry attempts for an HTTP request in a route rule.
+You can also specify the number of retry attempts for an HTTP request in a VirtualService.
 The maximum number of retry attempts, or the number of attempts possible within the default or overridden timeout period, can be set as follows:
 
 {{< text yaml >}}
@@ -479,7 +505,7 @@ See the [request timeouts task](/docs/tasks/traffic-management/request-timeouts)
 
 #### Injecting faults
 
-A route rule can specify one or more faults to inject
+A VirtualService can specify one or more faults to inject
 while forwarding HTTP requests to the rule's corresponding request destination.
 The faults can be either delays or aborts.
 
@@ -563,7 +589,7 @@ Rules can optionally be qualified to only apply to requests that match some
 specific condition such as the following:
 
 _1. Restrict to specific client workloads using workload labels_.  For example, a rule
-can indicate that it only applies to calls from workloads (pods) implementing
+can indicate that it only applies to calls from workload instances (pods) implementing
 the *reviews* service:
 
 {{< text yaml >}}
@@ -578,6 +604,7 @@ spec:
   - match:
       sourceLabels:
         app: reviews
+    route:
     ...
 {{< /text >}}
 
@@ -585,8 +612,7 @@ The value of `sourceLabels` depends on the implementation of the service.
 In Kubernetes, for example, it would probably be the same labels that are used
 in the pod selector of the corresponding Kubernetes service.
 
-The above example can also be further refined to only apply to calls from version "v2"
-of the *reviews* service:
+The above example can also be further refined to only apply to calls from a workload instance having the "v2" label:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -601,6 +627,7 @@ spec:
     - sourceLabels:
         app: reviews
         version: v2
+    route:
     ...
 {{< /text >}}
 
@@ -620,6 +647,7 @@ spec:
     - headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 
@@ -640,6 +668,7 @@ spec:
   - match:
     - uri:
         prefix: /api/v1
+    route:
     ...
 {{< /text >}}
 
@@ -669,6 +698,7 @@ spec:
       headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 
@@ -691,6 +721,7 @@ spec:
     - headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 

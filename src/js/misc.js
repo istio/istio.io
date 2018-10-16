@@ -52,17 +52,28 @@ $(function ($) {
         window.location.assign(url);
     });
 
+    // Save a cookie when a user selects a tab in a tabset
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        var tab = e.target;
+        var cookie_name = tab.getAttribute("data-cookie-name");
+        var cookie_value = tab.getAttribute("data-cookie-value");
+        if (cookie_name === null || cookie_name === "") {
+            return;
+        }
+
+        createCookie(cookie_name, cookie_value);
+    });
+
     $(document).ready(function() {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.row-offcanvas').toggleClass('active');
-            $(this).children('i.fa').toggleClass('fa-flip-horizontal');
+            $(this).children('svg.icon').toggleClass('flipped');
         });
 
         // toggle category tree in sidebar
         $(document).on('click', '.tree-toggle', function () {
-            $(this).children('i.fa').toggleClass('fa-caret-right');
-            $(this).children('i.fa').toggleClass('fa-caret-down');
+            $(this).children('i.chevron').toggleClass('d-none');
             $(this).parent().children('ul.tree').toggle(200);
         });
 
@@ -131,15 +142,15 @@ function handleDOMLoaded() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
                 var copyButton = document.createElement("BUTTON");
-                copyButton.title = "Copy to clipboard";
+                copyButton.title = buttonCopy;
                 copyButton.className = "copy";
-                copyButton.innerHTML = "<i class='fa fa-copy'></i>";
+                copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
                 copyButton.setAttribute("aria-label", "Copy to clipboard");
 
                 var downloadButton = document.createElement("BUTTON");
-                downloadButton.title = "Download";
+                downloadButton.title = buttonDownload;
                 downloadButton.className = "download";
-                downloadButton.innerHTML = "<i class='fa fa-download'></i>";
+                downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
                 downloadButton.setAttribute("aria-label", downloadButton.title);
                 downloadButton.onclick = function(e) {
                     var div = e.currentTarget.parentElement;
@@ -173,9 +184,9 @@ function handleDOMLoaded() {
                 };
 
                 var printButton = document.createElement("BUTTON");
-                printButton.title = "Print";
+                printButton.title = buttonPrint;
                 printButton.className = "print";
-                printButton.innerHTML = "<i class='fa fa-print'></i>";
+                printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
                 printButton.setAttribute("aria-label", printButton.title);
                 printButton.onclick = function(e) {
                     var div = e.currentTarget.parentElement;
@@ -314,14 +325,11 @@ function handleDOMLoaded() {
         }
 
         function attachLink(node) {
-            var i = document.createElement("i");
-            i.className = "fa fa-link";
-
             var anchor = document.createElement("a");
             anchor.className = "header-link";
             anchor.href = "#" + node.id;
             anchor.setAttribute("aria-hidden", "true");
-            anchor.appendChild(i);
+            anchor.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#links'/></svg>";
 
             node.appendChild(anchor);
         }
@@ -369,7 +377,7 @@ function handleDOMLoaded() {
                 fetch(url).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    elem.firstChild.innerText = data;
+                    elem.firstChild.textContent = data;
                     Prism.highlightElement(elem.firstChild, false);
                 });
             }
@@ -434,6 +442,27 @@ function handleDOMLoaded() {
         createEndnotes();
     }
 
+    function selectTabs() {
+        var tabs = document.querySelectorAll('a[data-toggle="tab"]');
+        for (var i = 0; i < tabs.length; i++) {
+            var tab = tabs[i];
+            var cookie_name = tab.getAttribute("data-cookie-name");
+            var cookie_value = tab.getAttribute("data-cookie-value");
+
+            if (cookie_name === null || cookie_name === "") {
+                continue;
+            }
+
+            var v = readCookie(cookie_name);
+            if (cookie_value === v) {
+                // there's gotta be a way to call the tab() function directly since I already have the
+                // requisite object in hand. Alas, I can't figure it out. So query the document to find
+                // the same object again, and call the tab function on the result.
+                $('.nav-tabs a[href="' + tab.hash + '"]').tab('show');
+            }
+        }
+    }
+
     // discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
     function getDOMTopology() {
         scrollToTopButton = document.getElementById("scroll-to-top");
@@ -450,6 +479,7 @@ function handleDOMLoaded() {
     }
 
     patchDOM();
+    selectTabs();
     getDOMTopology();
 
     // one forced call here to make sure everything looks right

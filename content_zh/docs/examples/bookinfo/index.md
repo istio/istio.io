@@ -21,7 +21,7 @@ Bookinfo 应用分为四个单独的微服务：
 
 下图展示了这个应用的端到端架构。
 
-{{< image width="80%" ratio="68.52%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/noistio.svg"
     caption="Istio 注入之前的 Bookinfo 应用"
     >}}
@@ -36,7 +36,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 要在 Istio 中运行这一应用，无需对应用自身做出任何改变。我们只要简单的在 Istio 环境中对服务进行配置和运行，具体一点说就是把 Envoy sidecar 注入到每个服务之中。这个过程所需的具体命令和配置方法由运行时环境决定，而部署结果较为一致，如下图所示：
 
-{{< image width="80%" ratio="59.08%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
     caption="Bookinfo 应用"
     >}}
@@ -45,9 +45,12 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 接下来可以根据 Istio 的运行环境，按照下面的讲解完成应用的部署。
 
+* [如果在 Kubernetes 中运行](#如果在-kubernetes-中运行)
+* [如果在 Docker 和 Consul 环境中运行](#如果在-docker-和-consul-环境中运行)
+
 ### 如果在 Kubernetes 中运行
 
-> 如果运行的是 GKE，请确认你的集群具有至少四个 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
+> 如果运行的是 GKE，请确认你的集群具有至少四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
 
 1. 进入 Istio 安装目录。
 
@@ -59,9 +62,15 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
         {{< /text >}}
 
-        [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`，
+        [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`。
 
-    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，只需简单的 `kubectl` 就能完成服务的部署。
+    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
+
+        {{< text bash >}}
+        $ kubectl label namespace default istio-injection=enabled
+        {{< /text >}}
+
+        使用 `kubectl` 部署简单的服务
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -104,7 +113,23 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 #### 确定 Ingress 的 IP 和端口
 
-1. 根据[文档](/zh/docs/tasks/traffic-management/ingress/#使用外部负载均衡器时确定-ip-和端口)设置 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。
+现在 Bookinfo 服务启动并运行中，你需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。一个 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateway) 应用到了目标中。
+
+1. 为应用程序定义入口网关：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    {{< /text >}}
+
+1. 确认网关创建完成：
+
+    {{< text bash >}}
+    $ kubectl get gateway
+    NAME               AGE
+    bookinfo-gateway   32s
+    {{< /text >}}
+
+1. 根据[文档](/zh/docs/tasks/traffic-management/ingress/#使用外部负载均衡器时确定-ip-和端口)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
 
 1. 设置 `GATEWAY_URL`：
 
@@ -141,7 +166,9 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-## 下一步
+1. __Note for Consul users:__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
+
+## 确认应用在运行中
 
 可以用 `curl` 命令来确认 Bookinfo 应用的运行情况：
 
@@ -150,7 +177,35 @@ $ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
 200
 {{< /text >}}
 
-还可以用浏览器打开网址 `http://$GATEWAY_URL/productpage`，来浏览应用的 Web 页面。如果刷新几次应用的页面，就会看到页面中会随机展示 `reviews` 服务的不同版本的效果（红色、黑色的星形或者没有显示）。`reviews` 服务出现这种情况是因为我们还没有使用 Istio 来控制版本的路由。
+还可以用浏览器打开网址 `http://$GATEWAY_URL/productpage`，来浏览应用的 Web 页面。如果刷新几次应用的页面，就会看到 `productpage` 页面中会随机展示 `reviews` 服务的不同版本的效果（红色、黑色的星形或者没有显示）。`reviews` 服务出现这种情况是因为我们还没有使用 Istio 来控制版本的路由。
+
+## 应用缺省目标规则
+
+在使用 Istio 控制 Bookinfo 版本路由之前，你需要在目标规则中定义好可用的版本，命名为 *subsets* 。
+
+运行以下命令为 Bookinfo 服务创建的默认的目标规则：
+
+* 如果不需要启用双向TLS，请执行以下命令：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+* 如果需要启用双向 TLS，请执行以下命令：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    {{< /text >}}
+
+等待几秒钟，等待目标规则生效。
+
+你可以使用以下命令查看目标规则：
+
+{{< text bash >}}
+$ kubectl get destinationrules -o yaml
+{{< /text >}}
+
+## 下一步
 
 现在就可以使用这一应用来体验 Istio 的特性了，其中包括了流量的路由、错误注入、速率限制等。接下来可以个人爱好去阅读和演练 [Istio 实例](/zh/docs/examples)。这里为新手推荐[智能路由](/zh/docs/examples/intelligent-routing/)功能作为起步课程。
 

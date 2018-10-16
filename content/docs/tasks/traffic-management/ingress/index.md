@@ -114,6 +114,12 @@ Setting the ingress IP depends on the cluster provider:
     $ export INGRESS_HOST=$(minikube ip)
     {{< /text >}}
 
+1.  _Docker For Desktop:_
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=127.0.0.1
+    {{< /text >}}
+
 1.  _Other environments (e.g., IBM Cloud Private etc):_
 
     {{< text bash >}}
@@ -133,7 +139,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Create an Istio `Gateway`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -154,7 +160,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Configure routes for traffic entering via the `Gateway`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -220,12 +226,12 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 ## Accessing ingress services using a browser
 
-Entering the `httpbin` service URL in a browser won't work because you can't tell the browser to pretend to be accessing `httpbin.example.com` like with `curl`. In a real world situation, this is not a problem because because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name in the URL, for example, `https://httpbin.example.com/status/200`.
+Entering the `httpbin` service URL in a browser won't work because you can't tell the browser to pretend to be accessing `httpbin.example.com` like with `curl`. In a real world situation, this is not a problem because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name in the URL, for example, `https://httpbin.example.com/status/200`.
 
-To work around this problem for simple tests and demos, use a wildcard `*` value for the host in the `Gateway` and `VirutualService` configurations. For example, if you change your ingress configuration to the following:
+To work around this problem for simple tests and demos, use a wildcard `*` value for the host in the `Gateway` and `VirtualService` configurations. For example, if you change your ingress configuration to the following:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:

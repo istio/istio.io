@@ -281,9 +281,9 @@ spec:
   severity: '"info"'
   timestamp: request.time
   variables:
-    source: source.labels["app"] | source.service | "unknown"
+    source: source.labels["app"] | source.workload.name | "unknown"
     user: source.user | "unknown"
-    destination: destination.labels["app"] | destination.service | "unknown"
+    destination: destination.labels["app"] | destination.workload.name | "unknown"
     responseCode: response.code | 0
     responseSize: response.size | 0
     latency: response.duration | "0ms"
@@ -316,7 +316,7 @@ spec:
 创建资源:
 
 {{< text bash >}}
-$ istioctl create -f fluentd-istio.yaml
+$ kubectl apply -f fluentd-istio.yaml
 Created config logentry/istio-system/newlog at revision 22374
 Created config fluentd/istio-system/handler at revision 22375
 Created config rule/istio-system/newlogtofluentd at revision 22376
@@ -337,7 +337,7 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 1. 在 Kubernetes 环境中, 通过以下命令为 Kibana 建立端口转发:
 
     {{< text bash >}}
-    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601
+    $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &
     {{< /text >}}
 
     让命令继续运行。完成访问 Kibana UI 时按下 Ctrl-C 退出。
@@ -355,13 +355,19 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 * 删除新的遥测配置:
 
     {{< text bash >}}
-    $ istioctl delete -f fluentd-istio.yaml
+    $ kubectl delete -f fluentd-istio.yaml
     {{< /text >}}
 
 * 删除 Fluentd, Elasticsearch, Kibana 示例软件栈:
 
     {{< text bash >}}
     $ kubectl delete -f logging-stack.yaml
+    {{< /text >}}
+
+* 删除任何可能仍在运行的`kubectl port-forward`进程：
+
+    {{< text bash >}}
+    $ killall kubectl
     {{< /text >}}
 
 * 如果您不打算探索任何后续任务，可以参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 步骤去关闭程序。

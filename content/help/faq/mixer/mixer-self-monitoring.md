@@ -18,13 +18,13 @@ Mixer logs can be accessed via a `kubectl logs` command, as follows:
 - For the `istio-policy` service:
 
 {{< text bash >}}
-$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -lapp=policy -o jsonpath='{.items[0].metadata.name}') -c mixer
+$ kubectl -n istio-system logs -l app=policy -c mixer
 {{< /text >}}
 
 - For the `istio-telemetry` service:
 
 {{< text bash >}}
-$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -lapp=telemetry -o jsonpath='{.items[0].metadata.name}') -c mixer
+$ kubectl -n istio-system logs -l app=telemetry -c mixer
 {{< /text >}}
 
 Mixer trace generation is controlled by command-line flags: `trace_zipkin_url`, `trace_jaeger_url`, and `trace_log_spans`. If

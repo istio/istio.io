@@ -8,7 +8,7 @@ This includes the Kubernetes API server, as well as any non-Istio services in th
 sidecar, you need to set a destination rule to exempt the service. For example:
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

@@ -1,0 +1,50 @@
+{{ define "main" }}
+
+{{ partial "primary-top.html" . }}
+
+{{ .Content }}
+
+<div class="glossary">
+    {{ $words := .Resources.ByType "page" }}
+
+    <div class="trampolines d-print-none">
+        {{ $previous := "-" }}
+
+        {{ range $w := $words }}
+            {{ $first := upper (slicestr $w.Title 0 1) }}
+
+            {{ if ne $first $previous }}
+                {{ if ne $previous "-" }}
+                    |
+                {{ end }}
+                <a href="#{{ $first }}" aria-label="Words starting with the letter {{ $first }}">{{ $first }}</a>
+                {{ $previous = $first }}
+            {{ end }}
+        {{ end }}
+    </div>
+
+    <div class="entries">
+        {{ $previous := "-" }}
+        {{ range $w := $words }}
+            {{ $first := upper (slicestr $w.Title 0 1) }}
+
+            {{ if ne $first $previous }}
+                {{ if ne $previous "-" }}
+                    </dl>
+                {{ end }}
+                <h4 id="{{ $first }}">{{ $first }}</h4>
+                <dl>
+                {{ $previous = $first }}
+            {{ end }}
+
+            {{ $name := $w.Title | urlize }}
+            <dt id="{{ $name }}">{{ $w.Title }}</dt>
+            <dd aria-labelledby="{{ $name }}">{{ $w.Content }}</dd>
+        {{ end }}
+        </dl>
+    </div>
+</div>
+
+{{ partial "primary-bottom.html" . }}
+
+{{ end }}

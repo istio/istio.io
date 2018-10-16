@@ -71,6 +71,7 @@ def getForwardHeaders(request):
 
     if 'user' in session:
         headers['end-user'] = session['user']
+
     incoming_headers = [ 'x-request-id',
                          'x-b3-traceid',
                          'x-b3-spanid',
@@ -79,11 +80,13 @@ def getForwardHeaders(request):
                          'x-b3-flags',
                          'x-ot-span-context'
     ]
+
     for ihdr in incoming_headers:
         val = request.headers.get(ihdr)
         if val is not None:
             headers[ihdr] = val
             #print "incoming: "+ihdr+":"+val
+
     return headers
 {{< /text >}}
 
@@ -109,6 +112,26 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 {{< /text >}}
 
 在对下游服务进行调用的时候，就应该在请求中包含上面代码中获取到的 HTTP Header。
+
+## 跟踪采样
+
+Istio 默认捕获所有请求的跟踪。例如，何时每次访问时都使用上面的 Bookinfo 示例应用程序
+`/ productpage`你在 Jaeger 看到了相应的痕迹仪表板。此采样率适用于测试或低流量目。
+对于高流量网格，您可以降低跟踪采样以下两种方式之一的百分比：
+
+* 在网格设置期间，使用 Helm 选项 `pilot.traceSampling` 来设置跟踪采样的百分比。
+有关设置选项的详细信息，请参阅 [Helm 安装](/zh/docs/setup/kubernetes/helm-install/)文档。
+* 在运行的网格中，编辑 `istio-pilot` 部署并使用以下步骤更改环境变量：
+
+    1. 要在加载了部署配置文件的情况下打开文本编辑器，请运行以下命令：
+
+        {{< text bash >}}
+        $ kubectl -n istio-system edit deploy istio-pilot
+        {{< /text >}}
+
+    1. 找到 `PILOT_TRACE_SAMPLING` 环境变量，并将 `value：` 更改为您想要的百分比。
+
+在这两种情况下，有效值都是0.0到100.0，精度为0.01。
 
 ## 清理
 

@@ -232,7 +232,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 1. 此集群配置为从 Pilot（通过 ADS）检索关联的端点。因此，Envoy 将使用 `serviceName` 字段作为密钥来查找端点列表并将请求代理到其中一个端点。
 
     {{< text bash json >}}
-    $ istioctl proxy-config clusters --fqdn reviews.default.svc.cluster.local -o json
+    $ istioctl proxy-config clusters productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
     [
         {
             "name": "outbound|9080||reviews.default.svc.cluster.local",
@@ -251,6 +251,16 @@ istio-egressgateway.istio-system.svc.cluster.local                              
             }
         }
     ]
+    {{< /text >}}
+
+1. 可以使用 `proxy-config` 命令查看当前集群中可用的 endpoints。
+
+    {{< text bash json >}}
+    $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster outbound|9080||reviews.default.svc.cluster.local
+    ENDPOINT             STATUS      CLUSTER
+    172.17.0.17:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.18:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.5:9080      HEALTHY     outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
 ## 检查 Bootstrap 配置

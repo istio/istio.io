@@ -50,7 +50,7 @@ $ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
 Deploy the `istio-citadel` service so that the CSR service can be found by the health checker.
 
 {{< text bash >}}
-$ cat <<EOF | kubectl create -f -
+$ kubectl create -f - <<EOF
 apiVersion: v1
 kind: Service
 metadata:

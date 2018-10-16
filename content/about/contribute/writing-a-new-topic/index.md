@@ -91,21 +91,28 @@ keywords: [keyword1,keyword2,...]
 Copy the above at the start of your new markdown file and update the information fields.
 The available front matter fields are:
 
+|Field              | Description
+|-------------------|------------
+|`title`            | The short title of the page
+|`subtitle`         | An optional subtitle which gets displayed below the main title
+|`description`      | A one-line description of what the page is about
+|`icon`             | An optional path to an image file which gets displayed next to the main title
+|`weight`           | An integer used to determine the sort order of this page relative to other pages in the same directory
+|`keywords`         | An array of keywords describing the page, used to create the web of See Also links
+|`draft`            | When true, prevents the page from showing up in any navigation area
+|`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
+|`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
+|`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+
+There are a few more front matter fields available specifically for blog posts:
+
 |Field          | Description
 |---------------|------------
-|`title`        | The short title of the page
-|`description`  | A one-line description of what the topic is about
-|`weight`       | An integer used to determine the sort order of this page relative to other pages in the same directory
-|`keywords`     | An array of keywords describing the page, used to create the web of See Also links
-|`draft`        | When true, prevents the page from showing up in any navigation area
-|`publishdate`  | For blog posts, indicates the date of publication of the post
-|`subtitle`     | For blog posts, supplies an optional subtitle to be displayed below the main title
-|`attribution`  | For blog posts, supplies an optional author's name
-|`aliases`      | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
-|`page_icon`    | Set this to the path of an image file in order to get an icon displayed next to the main title
-|`skip_toc`     | Set this to true to prevent the page from having a table of contents generated for it
-|`skip_seealso` | Set this to true to prevent the page from having a "See also" section generated for it
-|`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+|`publishdate`  | Date of the post's original publication
+|`last_update`  | Date when the post last received a major revision
+|`attribution`  | Optional name of the post's author
+|`twitter`      | Optional Twitter of the post's author
 
 ## Adding images
 
@@ -113,7 +120,7 @@ Put image files in the same directory as your markdown file. The preferred image
 Within markdown, use the following sequence to add the image:
 
 {{< text html >}}
-{{</* image width="75%" ratio="69.52%"
+{{</* image width="75%"
     link="./myfile.svg"
     alt="Alternate text to display when the image is not available"
     title="A tooltip displayed when hovering over the image"
@@ -121,12 +128,15 @@ Within markdown, use the following sequence to add the image:
     */>}}
 {{< /text >}}
 
-The `width`, `ratio`, `link` and `caption` values are required. If the `title` value isn't
+The `width`, `link` and `caption` values are always required. If the image is a PNG or JPG file, then the
+`ratio` value is required. If the `title` value isn't
 supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
 default to `title` or if that's not defined, to `caption`.
 
 `width` represents the percentage of space used by the image
-relative to the surrounding text. `ratio` must be manually calculated using (image height / image width) * 100.
+relative to the surrounding text.
+
+For PNG and JPG images, `ratio` must be manually calculated using (image height / image width) * 100.
 
 ## Adding icons & emojis
 
@@ -135,9 +145,11 @@ You can embed some common icons in your content using:
 {{< text markdown >}}
 {{</* warning_icon */>}}
 {{</* idea_icon */>}}
+{{</* checkmark_icon */>}}
+{{</* cancel_icon */>}}
 {{< /text >}}
 
-which look like {{< warning_icon >}} and {{< idea_icon >}}
+which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, and {{< cancel_icon >}}.
 
 In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
 which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
@@ -195,7 +207,7 @@ produces a link to `https://raw.githubusercontent.com/istio/istio/...`
     {{< /text >}}
 
 The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
 to get the name of the currently targeted branch.
 
 ## Embedding preformatted blocks
@@ -418,6 +430,66 @@ will use when the user chooses to download the file. For example:
 
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
+
+## Using tabs
+
+If you have some content to display in a variety of formats, it is convenient to use a tab set and display each
+format in a different tab. To insert tabbed content, you use a combination of `tabset` and `tabs` annotations:
+
+{{< text markdown >}}
+{{</* tabset cookie-name="platform" */>}}
+
+{{%/* tab name="One" cookie-value="one" */%}}
+ONE
+{{%/* /tab */%}}
+
+{{%/* tab name="Two" cookie-value="two" */%}}
+TWO
+{{%/* /tab */%}}
+
+{{%/* tab name="Three" cookie-value="three" */%}}
+THREE
+{{%/* /tab */%}}
+
+{{</* /tabset */>}}
+{{< /text >}}
+
+which produces the following output:
+
+{{< tabset cookie-name="platform" >}}
+
+{{% tab name="One" cookie-value="one" %}}
+ONE
+{{% /tab %}}
+
+{{% tab name="Two" cookie-value="two" %}}
+TWO
+{{% /tab %}}
+
+{{% tab name="Three" cookie-value="three" %}}
+THREE
+{{% /tab %}}
+
+{{< /tabset >}}
+
+The `name` attribute of each tab contains the text to display for the tab. The content of the tab can be almost any normal markdown.
+
+The optional `cookie-name` and `cookie-value` attributes allow the tab setting to be sticky across visits to the page. As the user
+selects a tab, the cookie will be automatically saved with the given name and value. If multiple tab sets use the same cookie name
+and values, their setting will be automatically synchronized across pages. This is particularly useful when there are many tab sets
+in the site that hold the same types of formats.
+
+For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a cookie name of `environment` and values of
+`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other tab set.
+
+### Limitations
+
+You can use almost any markdown in a tab, except for the following:
+
+- *No headers*. Headers in a tab will appear in the table of contents and yet clicking on the entry in the
+table of contents will not automatically select the tab.
+
+- *No nested tab sets*. Don't try it, it's horrible.
 
 ## Renaming, moving, or deleting pages
 

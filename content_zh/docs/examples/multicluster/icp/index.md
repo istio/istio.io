@@ -8,10 +8,10 @@ keywords: [kubernetes,多集群]
 此示例演示了如何在 [Kubernetes 多集群安装指导](/zh/docs/setup/kubernetes/multicluster-install/) 的帮助下使用 Istio 的多集群功能连接两个
 [IBM Cloud Private](https://www.ibm.com/cloud/private) 集群。
 
-## 创建 IBM Cloud Private 集群
+## 创建 IBM Cloud Private 集群
 
 1.  [安装两个 IBM Cloud Private 集群](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
-    __注意__: 确保各个集群的 Pod CIDR ranges 和 service CIDR ranges 是相互独立的、没有重叠。这可以通过配置文件 `cluster/config.yaml` 中的 `network_cidr` 和
+    __注意__: 确保各个集群的 Pod CIDR ranges 和 service CIDR ranges 是相互独立的、没有重叠。这可以通过配置文件 `cluster/config.yaml` 中的 `network_cidr` 和
     `service_cluster_ip_range` 配置。
 
     {{< text plain >}}
@@ -21,7 +21,7 @@ keywords: [kubernetes,多集群]
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1.  在 IBM Cloud Private 集群安装完成后，验证是否能通过 `kubectl` 访问集群。在此示例中使用的两个集群名称分别假定为 `cluster-1` 和 `cluster-2`。
+1.  在 IBM Cloud Private 集群安装完成后，验证是否能通过 `kubectl` 访问集群。在此示例中使用的两个集群名称分别假定为 `cluster-1` 和 `cluster-2`。
 
     1.  [使用 `kubectl` 配置 `cluster-1`](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/manage_cluster/cfc_cli.html).
 
@@ -36,7 +36,7 @@ keywords: [kubernetes,多集群]
 
 ## 配置跨 IBM Cloud Private 集群 Pod 通信
 
-IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。在各个节点上的 BGP 客户端分发 IP 路由信息到所有节点。
+IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。在各个节点上的 BGP 客户端分发 IP 路由信息到所有节点。
 
 为了确保 pod 可以跨集群通信，你需要配置集群中所有节点的 IP 路由信息。这需要两个步骤：
 
@@ -44,7 +44,7 @@ IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。
 
 1.  添加从 `cluster-2` 到 `cluster-1` 的路由信息。
 
-你可以查看如何添加从 `cluster-1` 到 `cluster-2` 的 IP 路由来验证跨集群间 pod 通信。在 Node-to-Node Mesh 模式下，集群中的每个节点都会有连接到其他同级节点的 IP 路由信息。在此示例中，两个集群都有三个节点。
+你可以查看如何添加从 `cluster-1` 到 `cluster-2` 的 IP 路由来验证跨集群间 pod 通信。在 Node-to-Node Mesh 模式下，集群中的每个节点都会有连接到其他同级节点的 IP 路由信息。在此示例中，两个集群都有三个节点。
 
 `cluster-1` 的 `hosts` 文件：
 
@@ -120,7 +120,7 @@ IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。
 
 此节中的这些步骤通过配置一个完整的 IP 路由 mesh，使跨两个 IBM Cloud Private 集群的所有节点的相互通信成为可能。
 
-## 为多集群安装 Istio
+## 为多集群安装 Istio
 
 [跟随多集群安装步骤](/zh/docs/setup/kubernetes/multicluster-install/) 来在 `cluster-1` 和 `cluster-2` 集群上分别安装并配置本地 Istio 控制平面和远程 Istio。
 
@@ -192,7 +192,7 @@ __注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kuberne
             - containerPort: 9080
     {{< /text >}}
 
-    _注意：_ `ratings` service 的定义被添加到了 `cluster-2` 集群上因为 `reviews-v3` 服务会调用 `ratings` 服务，而添加一个 service 对象会添加一条 DNS 记录。在 `reviews-v3` pod 中的 Istio sidecar 在 DNS 解析出 service 地址后将会选择合适的 `ratings` 服务 endpoint。但是如果设置了另外的多集群 DNS 解析，那么这个步骤就不是必须的了，比如在一个 federated Kubernetes 环境中。
+    _注意：_ `ratings` service 的定义被添加到了 `cluster-2` 集群上因为 `reviews-v3` 服务会调用 `ratings` 服务，而添加一个 service 对象会添加一条 DNS 记录。在 `reviews-v3` pod 中的 Istio sidecar 在 DNS 解析出 service 地址后将会选择合适的 `ratings` 服务 endpoint。但是如果设置了另外的多集群 DNS 解析，那么这个步骤就不是必须的了，比如在一个 federated Kubernetes 环境中。
 
 1.  安装 `reviews-v3` deployment 到 `cluster-2`。
 

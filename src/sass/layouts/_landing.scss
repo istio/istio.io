@@ -21,6 +21,11 @@
         fill: $heroLogoColor;
     }
 
+    .hero-text {
+        width: 20rem;
+        margin-left: 0;
+    }
+
     @media (min-width: $bp-sm) {
         .hero-logo {
             width: 7rem;
@@ -32,6 +37,10 @@
 
         .hero-lead {
             text-align: left;
+        }
+
+        .hero-text {
+            margin-left: 3rem;
         }
     }
 

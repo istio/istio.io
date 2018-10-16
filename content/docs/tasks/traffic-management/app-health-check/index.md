@@ -52,7 +52,7 @@ Follow these steps to complete the configuration:
 1. To configure the authentication policy, run:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: "authentication.istio.io/v1alpha1"
     kind: "Policy"
     metadata:
@@ -67,7 +67,7 @@ Follow these steps to complete the configuration:
 1. To configure the destination rule, run:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: "networking.istio.io/v1alpha3"
     kind: "DestinationRule"
     metadata:
@@ -139,7 +139,7 @@ Again, enable mutual TLS for services in the default namespace by adding namespa
 1. To configure the authentication policy, run:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: "authentication.istio.io/v1alpha1"
     kind: "Policy"
     metadata:
@@ -154,7 +154,7 @@ Again, enable mutual TLS for services in the default namespace by adding namespa
 1. To configure the destination rule, run:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: "networking.istio.io/v1alpha3"
     kind: "DestinationRule"
     metadata:
