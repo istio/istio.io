@@ -221,6 +221,246 @@ provide you with a visual clue that your external database is indeed being used.
 $ kubectl delete serviceentry mongo
 {{< /text >}}
 
+## Directing TCP Egress traffic through the egress gateway
+
+1.  Create a `ServiceEntry` for the MongoDB service, this time with `resolution` `DNS`. Specifying the resolution as
+    `DNS` instructs the egress gateway to perform a DNS query to get the IP address of the MongoDB host. Note that the
+    IP of the MongoDB host used by the MongoDB client (the `ratings` service) is not known to the egress gateway
+
+     The sidecar proxy of the `ratings` service
+    forwards the connection from the `ratings` service to the egress gateway, so the IP of the egress gateway is used as
+    the destination IP.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: mongo
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      addresses:
+      - $MONGODB_IP/32
+      ports:
+      - number: $MONGODB_PORT
+        name: tcp
+        protocol: TCP
+      resolution: DNS
+      location: MESH_EXTERNAL
+    EOF
+    {{< /text >}}
+
+1.  Refresh the web page of the application and verify that the ratings are displayed correctly.
+
+1.  Proceed to the following section.
+
+### Mutual TLS between the sidecar proxies and the egress gateway
+
+You may want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
+your application pods and the egress gateway to let the egress gateway monitor the identity of the source pods and to
+enable Mixer policy enforcement based on that identity. If you do not need that feature, proceed to the next section.
+
+1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services
+    to direct the traffic through the egress gateway and from the egress gateway to the external service.
+
+    If you want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
+    your application pods and the egress gateway, use the following command. (You may want to enable mutual TLS to let
+    the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
+    identity.)
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - $MONGODB_HOST
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-mongo
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: mongo
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: $MONGODB_HOST
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-mongo-through-egress-gateway
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tcp:
+      - match:
+        - gateways:
+          - mesh
+          destinationSubnets:
+          - $MONGODB_IP/32
+          port: $MONGODB_PORT
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: mongo
+            port:
+              number: 443
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: $MONGODB_HOST
+            port:
+              number: $MONGODB_PORT
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Proceed to [Verify that the TCP egress traffic is directed through the egress gateway](#verify-that-the-tcp-egress-traffic-is-directed-through-the-egress-gateway).
+
+### Directing TCP traffic to the egress gateway without mutual TLS
+
+1.  Define the `EGRESS_GATEWAY_MONGODB_PORT` environment variable to hold some port for directing traffic through
+    the egress gateway, e.g. `7777`. You must select a port that is not used for any other service in the mesh.
+
+    {{< text bash >}}
+    $ export EGRESS_GATEWAY_MONGODB_PORT=7777
+    {{< /text >}}
+
+1.  Add the selected port to the `istio-egressgateway` service. You should use the same values you used for installing
+    Istio, in particular you have to specify all the ports of the `istio-egressgateway` service that you previously
+    configured.
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/service.yaml --set gateways.istio-ingressgateway.enabled=false --set gateways.istio-egressgateway.ports[0].port=80 --set gateways.istio-egressgateway.ports[0].name=http --set gateways.istio-egressgateway.ports[1].port=443 --set gateways.istio-egressgateway.ports[1].name=https --set gateways.istio-egressgateway.ports[2].port=$EGRESS_GATEWAY_MONGODB_PORT --set gateways.istio-egressgateway.ports[2].name=mongo | kubectl apply -f -
+    {{< /text >}}
+
+1.  Check that the `istio-egressgateway` service indeed has the selected port:
+
+    {{< text bash >}}
+    $ kubectl get svc istio-egressgateway -n istio-system
+    NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                   AGE
+    istio-egressgateway   ClusterIP   172.21.202.204   <none>        80/TCP,443/TCP,7777/TCP   34d
+    {{< /text >}}
+
+1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services to direct the
+    traffic through the egress gateway and from the egress gateway to the external service.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: $EGRESS_GATEWAY_MONGODB_PORT
+          name: tcp
+          protocol: TCP
+        hosts:
+        - $MONGODB_HOST
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-mongo
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: mongo
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-mongo-through-egress-gateway
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tcp:
+      - match:
+        - gateways:
+          - mesh
+          destinationSubnets:
+          - $MONGODB_IP/32
+          port: $MONGODB_PORT
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: mongo
+            port:
+              number: $EGRESS_GATEWAY_MONGODB_PORT
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: $EGRESS_GATEWAY_MONGODB_PORT
+        route:
+        - destination:
+            host: $MONGODB_HOST
+            port:
+              number: $MONGODB_PORT
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Proceed to the next section.
+
+### Verify that the TCP egress traffic is directed through the egress gateway
+
+1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
+
+1.  Check the statistics of the egress gateway's Envoy and see a counter that corresponds to your
+    requests to MongoDB instance. If Istio is deployed in the `istio-system` namespace, the command to print the
+    counter is:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep $MONGODB_PORT | grep ${MONGODB_HOST}.upstream_cx_total
+    cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
+    {{< /text >}}
+
+### Cleanup after directing TCP egress traffic through the egress gateway
+
+{{< text bash >}}
+$ kubectl delete serviceentry mongo
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-mongo
+{{< /text >}}
+
 ## Egress control for TLS
 
 1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
