@@ -174,6 +174,11 @@ egress control in Istio.
 Since [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) is on top of TCP, you
 can control the traffic to your Mongo DB as access to any [external TCP service](/blog/2018/egress-tcp/).
 
+### Direct TCP egress traffic without a gateway
+
+In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
+instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
+[Direct TCP Egress traffic through the egress gateway](#direct-tcp-egress-traffic-through-the-egress-gateway).
 
 1.  Get the IP address of your MySQL database instance. As an option, you can use the
     [host](https://linux.die.net/man/1/host) command:
@@ -215,13 +220,13 @@ can control the traffic to your Mongo DB as access to any [external TCP service]
 Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
 provide you with a visual clue that your external database is indeed being used.
 
-### Cleanup of the egress configuration for TCP
+#### Cleanup of the egress configuration for TCP without a gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
 {{< /text >}}
 
-## Directing TCP Egress traffic through the egress gateway
+### Direct TCP Egress traffic through the egress gateway
 
 1.  Create a `ServiceEntry` for the MongoDB service, this time with `resolution` `DNS`. Specifying the resolution as
     `DNS` instructs the egress gateway to perform a DNS query to get the IP address of the MongoDB host. Note that the
@@ -255,7 +260,7 @@ $ kubectl delete serviceentry mongo
 
 1.  Proceed to the following section.
 
-### Mutual TLS between the sidecar proxies and the egress gateway
+#### Mutual TLS between the sidecar proxies and the egress gateway
 
 You may want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
 your application pods and the egress gateway to let the egress gateway monitor the identity of the source pods and to
@@ -347,9 +352,9 @@ enable Mixer policy enforcement based on that identity. If you do not need that 
 
 1.  Proceed to [Verify that the TCP egress traffic is directed through the egress gateway](#verify-that-the-tcp-egress-traffic-is-directed-through-the-egress-gateway).
 
-### Directing TCP traffic to the egress gateway without mutual TLS
+#### Direct TCP traffic to the egress gateway without mutual TLS
 
-1.  Define the `EGRESS_GATEWAY_MONGODB_PORT` environment variable to hold some port for directing traffic through
+1.  Define the `EGRESS_GATEWAY_MONGODB_PORT` environment variable to hold some port for direct traffic through
     the egress gateway, e.g. `7777`. You must select a port that is not used for any other service in the mesh.
 
     {{< text bash >}}
@@ -439,7 +444,7 @@ enable Mixer policy enforcement based on that identity. If you do not need that 
 
 1.  Proceed to the next section.
 
-### Verify that the TCP egress traffic is directed through the egress gateway
+#### Verify that the TCP egress traffic is directed through the egress gateway
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
@@ -452,7 +457,7 @@ enable Mixer policy enforcement based on that identity. If you do not need that 
     cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
     {{< /text >}}
 
-### Cleanup after directing TCP egress traffic through the egress gateway
+#### Cleanup after direct TCP egress traffic through the egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
@@ -462,6 +467,12 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 {{< /text >}}
 
 ## Egress control for TLS
+
+### Direct TCP egress traffic without a gateway
+
+In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
+instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
+[Direct TCP Egress traffic through the egress gateway](#direct-tcp-egress-traffic-through-the-egress-gateway).
 
 1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
 
@@ -504,14 +515,14 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 1.  Refresh the web page of the application. The application should display the ratings without error
 
-### Cleanup of the egress configuration for TLS
+#### Cleanup of the egress configuration for TLS
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
 $ kubectl delete virtualservice mongo
 {{< /text >}}
 
-## Directing TLS Egress traffic through the egress gateway
+### Direct TLS Egress traffic through the egress gateway
 
 1.  Create a `ServiceEntry` for the MongoDB service:
 
@@ -702,7 +713,7 @@ $ kubectl delete virtualservice mongo
     cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
     {{< /text >}}
 
-### Cleanup after directing TLS Egress traffic through the egress gateway
+#### Cleanup after direct TLS Egress traffic through the egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
@@ -711,12 +722,12 @@ $ kubectl delete virtualservice direct-mongo-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-mongo
 {{< /text >}}
 
-## Enable Egress MongoDB traffic to arbitrary wildcarded domains
+### Enable Egress MongoDB traffic to arbitrary wildcarded domains
 
 In this subsection you configure egress traffic for a wildcarded domain, namely `*.com` and direct that traffic through
 an egress gateway.
 
-### Prepare a new egress gateway with an SNI proxy
+#### Prepare a new egress gateway with an SNI proxy
 
 In this subsection you deploy an egress gateway with an SNI proxy, in addition to the standard Istio Envoy proxy. You
 can use any SNI proxy that is capable to route traffic according to arbitrary, not-preconfigured SNI values; we used
@@ -879,7 +890,7 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-### Configure access to `*.com` using the egress gateway with SNI proxy
+#### Configure access to `*.com` using the egress gateway with SNI proxy
 
 1.  Define a `ServiceEntry` for `*.com`:
 
@@ -1011,7 +1022,7 @@ to hold the configuration of the Nginx SNI proxy:
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
 
-### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
+#### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
 
 1.  Delete the configuration items for _*.com_:
 
