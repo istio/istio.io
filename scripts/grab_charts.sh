@@ -57,7 +57,7 @@ $HELM init --client-only
 mkdir -vp $HELM_BUILD_DIR
 for CHART_PATH in "${CHARTS[@]}"
 do
-    $HELM package $CHART_PATH -d $HELM_BUILD_DIR
+    $HELM package -u $CHART_PATH -d $HELM_BUILD_DIR
 done
 $HELM repo index $HELM_BUILD_DIR
 
