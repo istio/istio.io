@@ -1078,7 +1078,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  Unset the environment variables you used:
 
     {{< text bash >}}
-    $ unset MONGO_ADMIN_PASSWORD BOOKINFO_PASSWORD MONGODB_HOST MONGODB_PORT
+    $ unset MONGO_ADMIN_PASSWORD BOOKINFO_PASSWORD MONGODB_HOST MONGODB_PORT MONGODB_IP
     {{< /text >}}
 
 1.  Remove the virtual services:
