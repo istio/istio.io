@@ -181,7 +181,7 @@ In the cases when the IP of the MongoDB host is not stable, the egress traffic c
 [directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
 proxies.
 
-Get the IP address of your MySQL database instance. As an option, you can use the
+Get the IP address of your MongoDB database instance. As an option, you can use the
     [host](https://linux.die.net/man/1/host) command:
 
 {{< text bash >}}
