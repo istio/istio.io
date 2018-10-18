@@ -3,9 +3,9 @@ entries:
   istio:
   - apiVersion: v1
     appVersion: 1.1.0
-    created: 2018-09-14T18:54:56.38453262+02:00
+    created: 2018-10-17T14:51:49.8598909Z
     description: Helm chart for all istio components
-    digest: cfe68ecfe33b2a1732b0d3c03affdc59615c676ee63cdf4e48765ec17775eba0
+    digest: da922c15ea3c47ef2a1f24933712568077957debde95ab7f4ae36fc204d6f340
     engine: gotpl
     icon: https://istio.io/favicons/android-192x192.png
     keywords:
@@ -22,13 +22,31 @@ entries:
     urls:
     - istio-1.1.0.tgz
     version: 1.1.0
+  istio-cni:
+  - apiVersion: v1
+    appVersion: 0.1.0
+    created: 2018-10-17T14:51:49.863659Z
+    description: Helm chart for istio-cni components
+    digest: 0e1d8b966f21ca6fea2cab8d56199f661e60cd180b59e88abaa25a8bf3f7850c
+    engine: gotpl
+    icon: https://istio.io/favicons/android-192x192.png
+    keywords:
+    - istio-cni
+    - istio
+    name: istio-cni
+    sources:
+    - http://github.com/istio-ecosystem/cni
+    tillerVersion: '>=2.7.2-0'
+    urls:
+    - istio-cni-0.1.0.tgz
+    version: 0.1.0
   istio-remote:
   - apiVersion: v1
     appVersion: 1.1.0
-    created: 2018-09-14T18:54:56.385384687+02:00
+    created: 2018-10-17T14:51:49.8770318Z
     description: Helm chart needed for remote Kubernetes clusters to join the main
       Istio control plane
-    digest: 32a1b0a71a2f66a95042c9e4d764490a97809195f0ae3f29956b0fc2b7eaad2f
+    digest: d8e03fc7ba7e4c446e07023507b762db0778651c57281c200686a941ec56333c
     engine: gotpl
     icon: https://istio.io/favicons/android-192x192.png
     keywords:
@@ -40,4 +58,4 @@ entries:
     urls:
     - istio-remote-1.1.0.tgz
     version: 1.1.0
-generated: 2018-09-14T18:54:56.381029453+02:00
+generated: 2018-10-17T14:51:49.8513759Z
