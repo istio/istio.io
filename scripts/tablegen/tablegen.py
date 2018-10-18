@@ -18,6 +18,8 @@ import collections
 import linecache
 import string
 import sys
+import wget
+import os
 
 from ruamel.yaml import YAML
 
@@ -101,7 +103,7 @@ def decode_helm_yaml(s):
             storekey = '.'.join(sk[:1]).lstrip('.')
         else:
             storekey = '.'.join(sk[:0]).lstrip('.')
-        
+
         if  len(context[lastLineNum].lstrip()) != 0 and '#' != context[lastLineNum].lstrip()[0]:
             isEnd, ValueList  = endOfTheList(context, lineNum, lastLineNum, totalNum)
             if (isEnd == True):
@@ -124,6 +126,12 @@ def decode_helm_yaml(s):
 
     return ret_val
 
+# if os.path.exists("index.md"):
+#     os.remove("index.md")
+# else:
+#     print("Creating a blank index.md")
+#     os.mknod("index.md")
+
 with open('index.md', 'r') as f:
     endReached = False
 
@@ -132,8 +140,14 @@ with open('index.md', 'r') as f:
         print d
         if "<!-- AUTO-GENERATED-START -->" in d:
             break
+    if os.path.exists("values.yaml"):
+        os.remove("values.yaml")
+    else:
+        print("values.yaml doesn't exist")
 
-    with open('values.yaml', 'r') as f_v:
+    values = 'https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml'
+    values_yaml = wget.download(values)
+    with open(values_yaml, 'r') as f_v:
         d_v = f_v.read()
 
         # transform values.yaml into a encoded string dictionary
