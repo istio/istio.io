@@ -150,6 +150,8 @@ the connections to these services.
     caption="Request Flow"
     >}}
 
+To learn more, visit the [Gateways configuration object section](docs/concepts/network/#gateways).
+
 ## Discovery and load balancing
 
 Istio load balances traffic across instances of a service in a service mesh.
@@ -328,19 +330,21 @@ and retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
 etc.
 
-There are four traffic management configuration resources in Istio:
-`VirtualService`, `DestinationRule`, `ServiceEntry`, and `Gateway`:
+There are four network configuration objects in Istio:
+virtual services, destination rules, service entries, and gateways:
 
-* A [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+* A [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 
-* A [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
-configures the set of policies to be applied to a request after `VirtualService` routing has occurred.
+* A [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+configures the set of policies to be applied to a request after the virtual service routing has occurred.
 
-* A [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) is commonly used to enable requests to services outside of an Istio service mesh.
+* A [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) is commonly used to enable requests to services outside of an Istio service mesh.
 
-* A [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
+* A [gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
 configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the mesh to enable ingress traffic for an application.
+
+To learn more about the possible configurations these four objects enable, visit the [Network configuration objects concept](/docs/concepts/network/)
 
 For example, you can implement a simple rule to send 100% of incoming traffic for a *reviews* service to version "v1" by using a `VirtualService` configuration as follows:
 
@@ -398,19 +402,22 @@ for detailed information.
 
 ### Virtual Services
 
-A [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
-defines the rules that control how requests for a service are routed within an Istio service mesh.
-For example, a virtual service could route requests to different versions of a service or to a completely different service than was requested.
-Requests can be routed based on the request source and destination, HTTP paths and
-header fields, and weights associated with individual service versions.
+A [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+defines the rules that control how requests for a service are routed within an
+Istio service mesh. For example, a virtual service could route requests to
+different versions of a service or to a completely different service than was
+requested. Requests can be routed based on the request source and destination,
+HTTP paths and header fields, and weights associated with individual service
+versions.
 
 #### Rule destinations
 
-Routing rules correspond to one or more request destination hosts that are specified in
-a `VirtualService` configuration. These hosts may or may not be the same as the actual
-destination workload and may not even correspond to an actual routable service in the mesh.
-For example, to define routing rules for requests to the *reviews* service using its internal
-mesh name `reviews` or via host `bookinfo.com`, a `VirtualService` could set the `hosts` field as:
+Routing rules correspond to one or more request destination hosts that are
+specified in a virtual service configuration. These hosts may or may not be the
+same as the actual destination workload and may not even correspond to an
+actual addressable service in the mesh. For example, to define routing rules
+for requests to the *reviews* service using its internal mesh name `reviews` or
+via host `bookinfo.com`, a virtual service could set the `hosts` field as:
 
 {{< text yaml >}}
 hosts:
@@ -418,11 +425,11 @@ hosts:
   - bookinfo.com
 {{< /text >}}
 
-The `hosts` field specifies, implicitly or explicitly, one or more fully qualified
-domain names (FQDN). The short name `reviews`, above, would implicitly
-expand to an implementation specific FQDN. For example, in a Kubernetes environment
-the full name is derived from the cluster and namespace of the `VirtualService`
-(for example, `reviews.default.svc.cluster.local`).
+The `hosts` field specifies, implicitly or explicitly, one or more fully
+qualified domain names (FQDN). The short name `reviews`, above, would
+implicitly expand to an implementation specific FQDN. For example, in a
+Kubernetes environment the full name is derived from the cluster and namespace
+of the virtual service, for example, `reviews.default.svc.cluster.local`.
 
 #### Splitting traffic between versions
 
