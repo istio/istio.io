@@ -8,7 +8,7 @@ aliases:
 
 Cloud applications, unlike monolithic applications, are comprised of a
 collection of connected services. Throughout this document a service should be
-understood as an addressable destination workload inside the mesh.These
+understood as an addressable destination workload inside the mesh. These
 services can connect to other services or to external resources. The Istio
 configuration objects allow you to configure traffic routes to and from
 services to secure the traffic between them. Other configuration objects

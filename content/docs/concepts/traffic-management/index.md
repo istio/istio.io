@@ -150,7 +150,7 @@ the connections to these services.
     caption="Request Flow"
     >}}
 
-To learn more, visit the [Gateways configuration object section](docs/concepts/network/#gateways).
+To learn more, visit the [Gateways configuration object section](/docs/concepts/network/#gateways).
 
 ## Discovery and load balancing
 
