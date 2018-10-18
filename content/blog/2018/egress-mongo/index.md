@@ -43,7 +43,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 1.  Set environment variables for your MongoDB, `MONGODB_HOST` and `MONGODB_PORT`.
 
-1. Create the `bookinfo` user:
+1.  Create the `bookinfo` user:
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
