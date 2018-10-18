@@ -20,6 +20,7 @@ import string
 import sys
 import wget
 import os
+import re
 
 from ruamel.yaml import YAML
 
@@ -77,11 +78,12 @@ def decode_helm_yaml(s):
     totalNum = len(context)
 
     for lineNum in range(0, totalNum):
+
         if  context[lineNum].strip().startswith('- '):
             pass
         elif '#' in context[lineNum] and '#' == context[lineNum].lstrip()[0]:
-            if "Description: " in context[lineNum]:
-                desc = context[lineNum].strip()
+            desc = context[lineNum].strip()
+            desc = re.sub('# Description: ','', desc)
         elif ':' in context[lineNum] and '#' != context[lineNum].lstrip()[0]:
             lastLineNum = lineNum
             if flag == 1:
@@ -115,9 +117,9 @@ def decode_helm_yaml(s):
 
                 ValueStr = (' ').join(ValueList)
                 if ValueStr:
-                    desc = ''
+#                    desc = ''
                     prdict[storekey].append("| `%s` | `%s` | %s |" % (newkey, ValueStr, desc))
-                desc = ''
+#                desc = ''
 
                 key = newkey
                 newkey = ''
@@ -134,14 +136,14 @@ with open('index.md', 'r') as f:
         print d
         if "<!-- AUTO-GENERATED-START -->" in d:
             break
-    if os.path.exists("values.yaml"):
-        os.remove("values.yaml")
-    else:
-        print("values.yaml doesn't exist")
+    # if os.path.exists("values.yaml"):
+    #     os.remove("values.yaml")
+    # else:
+    #     print("values.yaml doesn't exist")
 
-    values = 'https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml'
-    values_yaml = wget.download(values)
-    with open(values_yaml, 'r') as f_v:
+    # values = 'https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/values.yaml'
+    # values_yaml = wget.download(values)
+    with open('values.yaml', 'r') as f_v:
         d_v = f_v.read()
 
         # transform values.yaml into a encoded string dictionary
