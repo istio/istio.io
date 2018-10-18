@@ -144,7 +144,7 @@ to the virtual services we added. According to the virtual services, the traffic
  _ratings v2_.
 
 {{< image width="80%" ratio="59.31%"
-    link="./bookinfo-ratings-v2-mysql-external.svg"
+    link="./bookinfo-ratings-v2-mongodb-external.svg"
     caption="The Bookinfo application with ratings v2 and an external MongoDB database"
     >}}
 
