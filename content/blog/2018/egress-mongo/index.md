@@ -171,7 +171,14 @@ egress control in Istio.
 ## Egress control for TCP
 
 Since [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) is on top of TCP, you
-can control the traffic to your Mongo DB as access to any [external TCP service](/blog/2018/egress-tcp/).
+can control the egress traffic to your MongoDB as traffic to any other [external TCP service](/blog/2018/egress-tcp/). To
+control TCP traffic, a block of IPs in the [CIDR](https://tools.ietf.org/html/rfc2317) notation that includes the IP
+address of your MongoDB host must be specified. The caveat here is that the IP of the MongoDB host is not stable and
+could not be known in advance.
+In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be controlled by TLS, see the
+[Egress control for TLS](/blog/2018/egress-mongo/#egress-control-for-tls), or the traffic can be routed
+[directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
+proxies.
 
 ### Direct TCP egress traffic without a gateway
 
