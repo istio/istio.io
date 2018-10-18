@@ -237,11 +237,9 @@ $ kubectl delete serviceentry mongo
 
 1.  Create a `ServiceEntry` for the MongoDB service, this time with `resolution` `DNS`. Specifying the resolution as
     `DNS` instructs the egress gateway to perform a DNS query to get the IP address of the MongoDB host. Note that the
-    IP of the MongoDB host used by the MongoDB client (the `ratings` service) is not known to the egress gateway
-
-     The sidecar proxy of the `ratings` service
-    forwards the connection from the `ratings` service to the egress gateway, so the IP of the egress gateway is used as
-    the destination IP.
+    IP of the MongoDB host used by the MongoDB client (the `ratings` service) is not known to the egress gateway.
+    The sidecar proxy of the `ratings` service forwards the connection from the `ratings` service to the egress gateway,
+    so the IP of the egress gateway is used as the destination IP.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
