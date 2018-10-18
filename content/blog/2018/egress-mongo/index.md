@@ -180,12 +180,6 @@ In the cases when the IP of the MongoDB host is not stable, the egress traffic c
 [directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
 proxies.
 
-### Direct TCP egress traffic without a gateway
-
-In case you do not need an [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
-instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
-[Direct TCP Egress traffic through the egress gateway](#direct-tcp-egress-traffic-through-the-egress-gateway).
-
 1.  Get the IP address of your MySQL database instance. As an option, you can use the
     [host](https://linux.die.net/man/1/host) command:
 
@@ -193,7 +187,13 @@ instructions in this section. If you want to direct your traffic through an egre
     $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
     {{< /text >}}
 
-    For a local database, set `MONGODB_IP` to contain the IP of your machine, accessible from your cluster.
+### Direct TCP egress traffic without a gateway
+
+In case you do not need to direct the traffic through an
+[egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), for example if you have a requirement that
+all the traffic that exists your mesh must exit through the gateway, follow the
+instructions in this section. Alternatively, If you do want to direct your traffic through an egress gateway, proceed to
+[Direct TCP Egress traffic through the egress gateway](#direct-tcp-egress-traffic-through-the-egress-gateway).
 
 1.  Define a TCP mesh-external service entry:
 
