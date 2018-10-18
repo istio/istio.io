@@ -182,7 +182,7 @@ proxies.
 
 ### Direct TCP egress traffic without a gateway
 
-In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
+In case you do not need an [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
 instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
 [Direct TCP Egress traffic through the egress gateway](#direct-tcp-egress-traffic-through-the-egress-gateway).
 
