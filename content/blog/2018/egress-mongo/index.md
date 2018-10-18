@@ -175,17 +175,18 @@ can control the egress traffic to your MongoDB as traffic to any other [external
 control TCP traffic, a block of IPs in the [CIDR](https://tools.ietf.org/html/rfc2317) notation that includes the IP
 address of your MongoDB host must be specified. The caveat here is that the IP of the MongoDB host is not stable and
 could not be known in advance.
+
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be controlled by TLS, see the
 [Egress control for TLS](/blog/2018/egress-mongo/#egress-control-for-tls), or the traffic can be routed
 [directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
 proxies.
 
-1.  Get the IP address of your MySQL database instance. As an option, you can use the
+Get the IP address of your MySQL database instance. As an option, you can use the
     [host](https://linux.die.net/man/1/host) command:
 
-    {{< text bash >}}
-    $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
-    {{< /text >}}
+{{< text bash >}}
+$ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
+{{< /text >}}
 
 ### Direct TCP egress traffic without a gateway
 
