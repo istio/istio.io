@@ -100,8 +100,7 @@ This application uses the `ratings` microservice to fetch book ratings, a number
 displayed as stars for each review. There are several versions of the `ratings` microservice. You deploy the
 version that uses [MongoDB](https://www.mongodb.com) as the ratings database.
 
-The example commands in this blog post work with Istio 1.0, with
-[mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled.
+The example commands in this blog post work with Istio 1.0.
 
 As a reminder, here is the end-to-end architecture of the application from the
 [Bookinfo sample application](/docs/examples/bookinfo/).
