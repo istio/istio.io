@@ -126,12 +126,6 @@ def decode_helm_yaml(s):
 
     return ret_val
 
-# if os.path.exists("index.md"):
-#     os.remove("index.md")
-# else:
-#     print("Creating a blank index.md")
-#     os.mknod("index.md")
-
 with open('index.md', 'r') as f:
     endReached = False
 
