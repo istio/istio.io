@@ -5,6 +5,8 @@ weight: 5
 keywords: [kubernetes]
 ---
 
+{{< info_icon >}} Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
+
 To install and configure Istio in a Kubernetes cluster, follow these instructions:
 
 ## Prerequisites

@@ -16,3 +16,5 @@ archive_search_refinement: "V1.1"
 
 source_branch_name: master
 doc_branch_name: master
+
+supported_kubernetes_versions: ["1.10", "1.11", "1.12"]
