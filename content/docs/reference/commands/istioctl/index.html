@@ -2,7 +2,7 @@
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 26
+number_of_entries: 27
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
@@ -867,16 +867,6 @@ istioctl experimental rbac can -s service=product-page POST rating /data -a vers
 <td><code>--helm-chart-dir &lt;string&gt;</code></td>
 <td></td>
 <td>The directory to find the helm charts used to render Istio deployments. -o yaml uses these to render the helm chart locally.  (default `.`)</td>
-</tr>
-<tr>
-<td><code>--hyperkube-hub &lt;string&gt;</code></td>
-<td></td>
-<td>The container registry to pull Hyperkube images from  (default `quay.io/coreos/hyperkube`)</td>
-</tr>
-<tr>
-<td><code>--hyperkube-tag &lt;Hyperkube&gt;</code></td>
-<td></td>
-<td>The tag to use to pull the Hyperkube container  (default `v1.7.6_coreos.0`)</td>
 </tr>
 <tr>
 <td><code>--ingress-node-port &lt;uint16&gt;</code></td>
@@ -1982,6 +1972,102 @@ ps
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-validate">istioctl validate</h2>
+<p>Validate Istio policy and rules</p>
+<pre class="language-bash"><code>istioctl validate -f FILENAME [options] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--filename &lt;stringSlice&gt;</code></td>
+<td><code>-f</code></td>
+<td>  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, mcp, mcp-creds, model, rbac, snapshot]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, mcp, mcp-creds, model, rbac, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, mcp, mcp-creds, model, rbac, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--recursive</code></td>
+<td><code>-R</code></td>
+<td>Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory. </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-validate Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl validate -f bookinfo-gateway.yaml
+</code></pre>
 <h2 id="istioctl-version">istioctl version</h2>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>istioctl version [flags]

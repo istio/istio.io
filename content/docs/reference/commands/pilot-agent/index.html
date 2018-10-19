@@ -60,6 +60,14 @@ number_of_entries: 5
 </thead>
 <tbody>
 <tr>
+<td><code>--appLiveUrl &lt;string&gt;</code></td>
+<td>The url, including path and port, for the application liveness check. Examples, &#34;/path&#34;, &#34;:8080/path&#34;  (default ``)</td>
+</tr>
+<tr>
+<td><code>--appReadyUrl &lt;string&gt;</code></td>
+<td>The url, including path and port for the app readiness check. Examples, &#34;/path&#34;, &#34;:8080/path&#34;  (default ``)</td>
+</tr>
+<tr>
 <td><code>--applicationPorts &lt;stringSlice&gt;</code></td>
 <td>Ports exposed by the application. Used to determine that Envoy is configured and ready to receive traffic.  (default `[]`)</td>
 </tr>
@@ -157,7 +165,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--proxyLogLevel &lt;string&gt;</code></td>
-<td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warn, err, critical, off})  (default `warn`)</td>
+<td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off})  (default `warning`)</td>
 </tr>
 <tr>
 <td><code>--serviceCluster &lt;string&gt;</code></td>
