@@ -1,0 +1,4 @@
+{{- range $i, $v := .Site.Data.args.supported_kubernetes_versions -}}
+    {{- if ne $i 0 -}}, {{ end -}}
+    {{- $v -}}
+{{- end -}}
