@@ -84,9 +84,11 @@ Follow our instructions on how to
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed: `istio-pilot`,
-    `istio-ingressgateway`, `istio-policy`, `istio-telemetry`, `prometheus`,
-    `istio-galley`, and, optionally, `istio-sidecar-injector`.
+1.  To ensure the following Kubernetes services are deployed: `istio-citadel`,
+    `istio-engressgateway`, `istio-galley`, `istio-ingress`, `istio-ingressgateway`,
+    `istio-pilot`, `ingress-policy`, `ingress-statsd-prom-bridge`, `ingress-telemetry`,
+    `prometheus`, and optionally, `istio-sidecar-injector`, verify they all have
+    an appropriate `CLUSTER-IP`:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
@@ -98,11 +100,11 @@ Follow our instructions on how to
     > say `<pending>`. You will need to access it using the service
     > NodePort, or use port-forwarding instead.
 
-1.  Ensure the corresponding Kubernetes pods are deployed and all containers
-    are up and running: `istio-pilot-*`, `istio-ingressgateway-*`,
-    `istio-egressgateway-*`, `istio-policy-*`, `istio-telemetry-*`,
-    `istio-citadel-*`, `prometheus-*`, `istio-galley-*`, and, optionally,
-    `istio-sidecar-injector-*`.
+1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
+    `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
+    `istio-pilot-*`, `ingress-policy-*`, `ingress-statsd-prom-bridge-*`, `ingress-telemetry-*`,
+    `prometheus-*`, and optionally, `istio-sidecar-injector-*`:
+    an appropriate `CLUSTER-IP`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
