@@ -104,7 +104,6 @@ Follow our instructions on how to
     `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
     `istio-pilot-*`, `istio-policy-*`, `istio-statsd-prom-bridge-*`, `istio-telemetry-*`,
     `prometheus-*`, and optionally, `istio-sidecar-injector-*`:
-    an appropriate `CLUSTER-IP`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
