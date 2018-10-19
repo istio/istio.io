@@ -7,13 +7,14 @@ header {
 
         .logo {
             width: 2em;
+            height: 2em;
             top: 3px;
             left: 1.3em;
             position: fixed;
             fill: $textBrandColor;
             transition-duration: 0.8s;
             transition-property: transform;
-            transform-origin: 50% 45%;
+            transform-origin: 50% 50%;
 
             circle {
                 fill: $mainBrandColor;
@@ -22,6 +23,7 @@ header {
 
             @media (min-width: $bp-md) {
                 width: 3em;
+                height: 3em;
                 left: 0.8em;
             }
         }
