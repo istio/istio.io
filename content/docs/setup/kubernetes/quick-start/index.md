@@ -86,7 +86,7 @@ Follow our instructions on how to
 
 1.  To ensure the following Kubernetes services are deployed: `istio-citadel`,
     `istio-engressgateway`, `istio-galley`, `istio-ingress`, `istio-ingressgateway`,
-    `istio-pilot`, `ingress-policy`, `ingress-statsd-prom-bridge`, `ingress-telemetry`,
+    `istio-pilot`, `istio-policy`, `istio-statsd-prom-bridge`, `istio-telemetry`,
     `prometheus`, and optionally, `istio-sidecar-injector`, verify they all have
     an appropriate `CLUSTER-IP`:
 
@@ -102,7 +102,7 @@ Follow our instructions on how to
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
     `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
-    `istio-pilot-*`, `ingress-policy-*`, `ingress-statsd-prom-bridge-*`, `ingress-telemetry-*`,
+    `istio-pilot-*`, `istio-policy-*`, `istio-statsd-prom-bridge-*`, `istio-telemetry-*`,
     `prometheus-*`, and optionally, `istio-sidecar-injector-*`:
     an appropriate `CLUSTER-IP`:
 
