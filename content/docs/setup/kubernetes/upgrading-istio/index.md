@@ -260,10 +260,10 @@ spec:
 
 If you use [Istio authorization](/docs/concepts/security/#authorization) with custom resource of kind `RbacConfig`,
 you need to replace the custom resource of kind `RbacConfig` with kind `ClusterRbacConfig`.
-The rbac config has a [bug](https://github.com/istio/istio/issues/8825) that causes it to be namespace scoped in some cases. The cluster rbac config
-has exactly the same specification as the rbac config with correct cluster scope implementation.
+The `RbacConfig` has a [bug](https://github.com/istio/istio/issues/8825) that causes it to be namespace scoped in some cases. The `ClusterRbacConfig`
+has exactly the same specification as the `RbacConfig` with correct cluster scope implementation.
 
-For example, if you have a rbac config with the following config:
+For example, if you have a `RbacConfig` like the following one:
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -277,8 +277,8 @@ spec:
 {{< /text >}}
 
 Kubernetes doesn't allow to change the kind of a custom resource once it's created, so you need to
-create a new cluster rbac config with the same specification as the existing rbac config. For the above
-rbac config, you will need to apply the following config:
+create a new `ClusterRbacConfig` with the same specification as the existing `RbacConfig`. For the above
+`RbacConfig`, you will need to apply the following `ClusterRbacConfig`:
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -291,12 +291,12 @@ spec:
     namespaces: ["default"]
 {{< /text >}}
 
-Wait for a few seconds until the cluster rbac config take effect and then you can safely delete
-the rbac config.
+Wait for a few seconds until the `ClusterRbacConfig` take effect and then you can safely delete
+the `RbacConfig`.
 
-A script is provided to automate the migration for you. The script will get existing rbac config and
-apply a cluster rbac config with the same specification. It will then wait a few seconds and delete
-the rbac config if the new cluster rbac config is applied successfully.
+A script is provided to automate the migration for you. The script will get existing `RbacConfig` and
+apply a `ClusterRbacConfig` with the same specification. It will then wait a few seconds and delete
+the `RbacConfig` if the new `ClusterRbacConfig` is applied successfully.
 
 Depending on if you have the [Istio installation package](/docs/setup/kubernetes/download-release):
 

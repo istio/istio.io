@@ -615,7 +615,7 @@ spec:
 ### Enabling authorization
 
 You enable Istio Authorization using a `ClusterRbacConfig` object. The `ClusterRbacConfig`
-object is a cluster scoped singleton with a fixed name value of `default`. You can
+object is a cluster-scoped singleton with a fixed name value of `default`. You can
 only use one `ClusterRbacConfig` instance in the mesh. Like other Istio configuration
 objects, `ClusterRbacConfig` is defined as a
 Kubernetes `CustomResourceDefinition`

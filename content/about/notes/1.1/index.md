@@ -14,6 +14,6 @@ TODO announcement
 
 ## Security
 
-- Deprecated `RbacConfig` by `ClusterRbacConfig` with correct cluster scope implementation.
-  Refer to [Migrating the `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrading-istio#migrating-the-rbacconfig-to-clusterrbacconfig)
-  for the migration instruction.
+- Deprecated `RbacConfig` replacing it with `ClusterRbacConfig` to implement the correct cluster scope.
+  Refer to our guide on [Migrating the `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrading-istio#migrating-the-rbacconfig-to-clusterrbacconfig)
+  for migration instructions.
