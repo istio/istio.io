@@ -103,7 +103,7 @@ Follow our instructions on how to
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
     `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
     `istio-pilot-*`, `istio-policy-*`, `istio-statsd-prom-bridge-*`, `istio-telemetry-*`,
-    `prometheus-*`, and optionally, `istio-sidecar-injector-*`:
+    `prometheus-*`, and optionally have `istio-sidecar-injector-*`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
