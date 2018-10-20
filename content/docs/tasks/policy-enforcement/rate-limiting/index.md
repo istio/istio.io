@@ -100,7 +100,6 @@ so the configuration to enable rate limiting on both adapters is the same.
         - dimensions:
             destination: productpage
           maxAmount: 2
-          validDuration: 5s
     ---
     apiVersion: "config.istio.io/v1alpha2"
     kind: quota
