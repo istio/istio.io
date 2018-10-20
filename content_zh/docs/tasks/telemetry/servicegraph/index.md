@@ -5,6 +5,8 @@ weight: 50
 keywords: [遥测,可视化]
 ---
 
+> {{< warning_icon >}} 服务图在 Istio 1.1 中不被建议使用，建议使用[Kiali](../kiali)。
+
 此任务说明如何在Istio网格中生成服务图。
 作为此任务的一部分，您将安装 Servicegraph 附加组件,使用基于 Web 的界面查看服务网格的服务图。
 
