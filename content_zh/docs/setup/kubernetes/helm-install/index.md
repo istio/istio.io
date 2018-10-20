@@ -38,7 +38,7 @@ icon: helm
     > 如果您正在启用 `certmanager`，那么您还需要安装它的 CRDs，并等待几秒钟，以便在 kube-apiserver 中提交 CRDs :
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
+    $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml
     {{< /text >}}
 
 1. 从下面的两个选项中选择一个，**相互排斥** 选项描述如下

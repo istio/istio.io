@@ -56,7 +56,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 如果输出显示没有名为 `promhttp` 或 `promtcp` 的规则，则缺少将 mixer 指标实例发送到 Prometheus adapter 的 Mixer 配置。你必须提供将 Mixer 指标实例连接到 Prometheus handler 的规则配置。
 
-作为参考，请参阅 [Prometheus 的默认规则]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
+作为参考，请参阅 [Prometheus 的默认规则]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)。
 
 ## 验证 Prometheus handler 配置是否存在
 
@@ -70,7 +70,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 1. 如果输出未显示已配置的 Prometheus handler，则必须重新在 Mixer 配置适当的 handler。
 
-有关参考，请参阅 [Prometheus 的默认 handler 配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
+有关参考，请参阅 [Prometheus 的默认 handler 配置]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)。
 
 ## 验证 Mixer 指标实例配置是否存在
 
@@ -89,7 +89,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 1. 如果输出未显示已配置的 Mixer 指标实例，则必须使用相应的实例配置重新配置 Mixer。
 
-有关参考，请参阅 [Mixer 指标的默认实例配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
+有关参考，请参阅 [Mixer 指标的默认实例配置]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)。
 
 ## 验证没有配置错误
 
