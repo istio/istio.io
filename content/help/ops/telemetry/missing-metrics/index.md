@@ -90,7 +90,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
 1. If the output shows no configured metric instances, you must reconfigure Mixer with the appropriate instance configuration.
 
-    For reference, please consult the [default instances configuration for metrics]({{< github_file >}}/install/helm/subcharts/mixer/templates/config.yaml).
+    For reference, please consult the [default instances configuration for metrics]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml).
 
 ## Verify there are no known configuration errors
 
