@@ -8,3 +8,5 @@ aliases:
     - /docs/setup/install-kubernetes.html
 icon: kubernetes
 ---
+
+{{< info_icon >}} Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
