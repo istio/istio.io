@@ -48,7 +48,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     If you are enabling `certmanager`, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
+    $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml
     {{< /text >}}
 
 1. Choose one of the following two
