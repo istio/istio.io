@@ -236,9 +236,9 @@ $ kubectl delete serviceentry mongo
 ### Direct TCP Egress traffic through the egress gateway
 
 In this section you handle the case when you need to direct the traffic through an
-[egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy will route TCP
+[egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TCP
 connections from the application to the MongoDB host, by matching the IP of the host (a CIDR block of length 32). The
-egress gateway will forward the traffic to the MongoDB host, by its hostname.
+egress gateway forwards the traffic to the MongoDB host, by its hostname.
 
 1.  Create a `ServiceEntry` for the MongoDB service, this time with `resolution` `DNS`. Specifying the resolution as
     `DNS` instructs the egress gateway to perform a DNS query to get the IP address of the MongoDB host. Note that the
