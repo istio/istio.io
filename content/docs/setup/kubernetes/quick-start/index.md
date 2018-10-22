@@ -93,24 +93,14 @@ Follow our instructions on how to
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed: `istio-pilot`,
-    `istio-ingressgateway`, `istio-policy`, `istio-telemetry`, `prometheus`,
-    `istio-galley`, and, optionally, `istio-sidecar-injector`.
+1.  To ensure the following Kubernetes services are deployed: `istio-citadel`,
+    `istio-engressgateway`, `istio-galley`, `istio-ingress`, `istio-ingressgateway`,
+    `istio-pilot`, `istio-policy`, `istio-statsd-prom-bridge`, `istio-telemetry`,
+    `prometheus`, and optionally, `istio-sidecar-injector`, verify they all have
+    an appropriate `CLUSTER-IP`:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
-    istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
-    istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
-    istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
-    istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
-    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
-    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
-    istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
-    istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
-    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
-    prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     {{< /text >}}
 
     > If your cluster is running in an environment that does not
@@ -119,25 +109,13 @@ Follow our instructions on how to
     > say `<pending>`. You will need to access it using the service
     > NodePort, or use port-forwarding instead.
 
-1.  Ensure the corresponding Kubernetes pods are deployed and all containers
-    are up and running: `istio-pilot-*`, `istio-ingressgateway-*`,
-    `istio-egressgateway-*`, `istio-policy-*`, `istio-telemetry-*`,
-    `istio-citadel-*`, `prometheus-*`, `istio-galley-*`, and, optionally,
-    `istio-sidecar-injector-*`.
+1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
+    `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
+    `istio-pilot-*`, `istio-policy-*`, `istio-statsd-prom-bridge-*`, `istio-telemetry-*`,
+    `prometheus-*`, and, optionally, `istio-sidecar-injector-*`, have a `STATUS` of `Running`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
-    NAME                                       READY     STATUS        RESTARTS   AGE
-    istio-citadel-75c88f897f-zfw8b             1/1       Running       0          1m
-    istio-egressgateway-7d8479c7-khjvk         1/1       Running       0          1m
-    istio-galley-6c749ff56d-k97n2              1/1       Running       0          1m
-    istio-ingress-7f5898d74d-t8wrr             1/1       Running       0          1m
-    istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
-    istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
-    istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
-    istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
-    istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
-    prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
     {{< /text >}}
 
 ## Deploy your application
