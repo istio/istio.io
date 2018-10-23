@@ -402,7 +402,7 @@ namespace.
 1. If using `memquota`, remove the `memquota` rate limit configuration:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
     Or
