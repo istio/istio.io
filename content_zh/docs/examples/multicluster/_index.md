@@ -1,7 +1,6 @@
 ---
-title: 启用多集群功能
-description: 为不同的云平台启用 Istio 多集群功能的完整工作示例。
+title: 在同一网络中跨多集群配置 Istio 服务网格
+description: 您可以尝试各种基于 VPN 的 Istio 多集群示例。
 weight: 100
 keywords: [多集群]
-icon: examples
 ---
