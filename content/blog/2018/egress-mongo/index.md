@@ -1062,7 +1062,7 @@ to hold the configuration of the Nginx SNI proxy:
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
 
-#### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
+#### Cleanup of MongoDB traffic configuration to arbitrary wildcarded domains
 
 1.  Delete the configuration items for _*.com_:
 
