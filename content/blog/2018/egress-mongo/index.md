@@ -547,7 +547,7 @@ instructions in this section. If you want to direct your traffic through an egre
     EOF
     {{< /text >}}
 
-1.  Refresh the web page of the application. The application should display the ratings without error
+1.  Refresh the web page of the application. The application should display the ratings without error.
 
 #### Cleanup of the egress configuration for TLS
 
