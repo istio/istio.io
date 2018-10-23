@@ -277,7 +277,6 @@ your MongoDB clients and the egress gateway to let the egress gateway monitor th
 enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also to encrypt the traffic.
 If you do not need mutual TLS, proceed to the next section.
 
-
 1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
