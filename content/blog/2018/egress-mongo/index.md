@@ -764,7 +764,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 ### Enable Egress MongoDB traffic to arbitrary wildcarded domains
 
-In this subsection you configure egress traffic for a wildcarded domain, namely `*.com` and direct that traffic through
+In this section you configure egress traffic for a wildcarded domain, namely `*.com` and direct that traffic through
 an egress gateway.
 
 #### Prepare a new egress gateway with an SNI proxy
