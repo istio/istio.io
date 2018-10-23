@@ -483,6 +483,25 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 ## Egress control for TLS
 
+In the real life, most of the communication to the external services must be encrypted and
+[the MongoDB protocol runs on top of TLS](https://docs.mongodb.com/manual/tutorial/configure-ssl/).
+Also, the TLS clients usually send
+[Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication), SNI, as part of their handshake. If your
+MongoDB server runs TLS and your MongoDB client sends SNI as part of the handshake, you can control your MongoDB egress
+traffic as any other TLS-with-SNI traffic. With TLS and SNI, you do not need to specify the IP addresses of your MongoDB
+servers. You specify their host names instead, which is more convenient since you do not have to rely on the stability of
+the IP addresses. You can also specify wildcards as a prefix of the host names, for example allowing access to any
+server from the `*.com` domain.
+
+To check if your MongoDB server supports TLS, run:
+
+{{< text bash >}}
+$ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOST
+{{< /text >}}
+
+If the command above prints a certificate returned by the server, the server supports TLS. If not, you have to control
+your MongoDB egress traffic on the TCP level, as described in the previous sections.
+
 ### Direct TCP egress traffic without a gateway
 
 In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
