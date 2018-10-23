@@ -557,6 +557,11 @@ $ kubectl delete virtualservice mongo
 
 ### Direct TLS Egress traffic through the egress gateway
 
+In this section you handle the case when you need to direct the traffic through an
+[egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TLS
+connections from the MongoDB client to the egress gateway, by matching the SNI of the MongoDB host.
+The egress gateway forwards the traffic to the MongoDB host.
+
 1.  Create a `ServiceEntry` for the MongoDB service:
 
     {{< text bash >}}
