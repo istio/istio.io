@@ -560,7 +560,9 @@ $ kubectl delete virtualservice mongo
 In this section you handle the case when you need to direct the traffic through an
 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TLS
 connections from the MongoDB client to the egress gateway, by matching the SNI of the MongoDB host.
-The egress gateway forwards the traffic to the MongoDB host.
+The egress gateway forwards the traffic to the MongoDB host. Note that the sidecar proxy rewrites the destination port
+to be 443. The egress gateway accepts the MongoDB traffic on the port 443, matches the MongoDB host by SNI, and rewrites
+ the port again to be the port of the MongoDB server.
 
 1.  Create a `ServiceEntry` for the MongoDB service:
 
