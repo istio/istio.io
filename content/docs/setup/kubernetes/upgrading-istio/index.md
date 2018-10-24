@@ -258,18 +258,19 @@ spec:
 
 ## Migrating the `RbacConfig` to `ClusterRbacConfig`
 
-The `RbacConfig` has a [bug](https://github.com/istio/istio/issues/8825). The bug reduces the scope of
+The `RbacConfig` is deprecated due to a [bug](https://github.com/istio/istio/issues/8825). You should
+migrate to `ClusterRbacConfig` if you are currently using `RbacConfig`. The bug reduces the scope of
 the object to be namespace-scoped in some cases. The `ClusterRbacConfig` follows the exact same
 specification as the `RbacConfig` but with correct cluster scope implementation.
 
-1. Replace the custom resource of kind `RbacConfig` with kind `ClusterRbacConfig` if you use
-   [Istio authorization](/docs/concepts/security/#authorization) with custom resource of kind `RbacConfig`:
+To migrate the `RbacConfig` to `ClusterRbacConfig`:
 
-    A script is provided to automate the migration for you. Depending on if you have the [Istio installation package](/docs/setup/kubernetes/download-release):
+1. We provide the `convert_RbacConfig_to_ClusterRbacConfig.sh` script to automate the migration,
+   depending on if you have the [Istio installation package](/docs/setup/kubernetes/download-release):
 
     - If you have the Istio installation package
 
-        Move to the Istio package directory and run the script with the following command:
+        Run the script with the following command under the directory of Istio installation package:
 
         {{< text bash >}}
         $ ./tools/convert_RbacConfig_to_ClusterRbacConfig.sh
@@ -283,33 +284,37 @@ specification as the `RbacConfig` but with correct cluster scope implementation.
         $ curl -L https://raw.githubusercontent.com/istio/istio/master/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
         {{< /text >}}
 
-The script will get existing `RbacConfig` and apply a `ClusterRbacConfig` with same specification as
-Kubernetes doesn't allow to change the kind of a custom resource once it's created.
+The script automates the following operations:
 
-For example, if you have a `RbacConfig` like the following one:
+1. Create a `ClusterRbacConfig` with same specification as the existing `RbacConfig`. This
+   is because Kubernetes doesn't allow to change the kind of a custom resource after it's created.
 
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-{{< /text >}}
+    For example, if you have the following `RbacConfig`:
 
-The script will create the following `ClusterRbacConfig`:
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: RbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["default"]
+    {{< /text >}}
 
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ClusterRbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-{{< /text >}}
+    The script creates the following `ClusterRbacConfig`:
 
-The script will wait for a few seconds to let the `ClusterRbacConfig` to take effect and then delete the `RbacConfig`.
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ClusterRbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["default"]
+    {{< /text >}}
+
+1. Apply the configuration and wait for a few seconds to let the configuration to take effect.
+
+1. Delete the previous `RbacConfig` after the `ClusterRbacConfig` is applied successfully.
