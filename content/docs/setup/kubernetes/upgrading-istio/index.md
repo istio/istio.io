@@ -258,12 +258,12 @@ spec:
 
 ## Migrating the `RbacConfig` to `ClusterRbacConfig`
 
-The `RbacConfig` is deprecated due to a [bug](https://github.com/istio/istio/issues/8825). You should
+The `RbacConfig` is deprecated due to a [bug](https://github.com/istio/istio/issues/8825). You must
 migrate to `ClusterRbacConfig` if you are currently using `RbacConfig`. The bug reduces the scope of
 the object to be namespace-scoped in some cases. The `ClusterRbacConfig` follows the exact same
 specification as the `RbacConfig` but with correct cluster scope implementation.
 
-To migrate the `RbacConfig` to `ClusterRbacConfig`:
+To migrate the RBAC configuration to cluster RBAC configuration:
 
 1. We provide the `convert_RbacConfig_to_ClusterRbacConfig.sh` script to automate the migration,
    depending on if you have the [Istio installation package](/docs/setup/kubernetes/download-release):
@@ -286,10 +286,10 @@ To migrate the `RbacConfig` to `ClusterRbacConfig`:
 
 The script automates the following operations:
 
-1. Create a `ClusterRbacConfig` with same specification as the existing `RbacConfig`. This
-   is because Kubernetes doesn't allow to change the kind of a custom resource after it's created.
+1. The script creates the cluster RBAC configuration with same specification as the existing RBAC configuration
+   because Kubernetes doesn't allow the value of `kind:` in a custom resource to change after it's created.
 
-    For example, if you have the following `RbacConfig`:
+    For example, if you have the following RBAC configuration:
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -302,7 +302,7 @@ The script automates the following operations:
         namespaces: ["default"]
     {{< /text >}}
 
-    The script creates the following `ClusterRbacConfig`:
+    The script creates the following cluster RBAC configuration:
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -315,6 +315,7 @@ The script automates the following operations:
         namespaces: ["default"]
     {{< /text >}}
 
-1. Apply the configuration and wait for a few seconds to let the configuration to take effect.
+1. The script applies the configuration and wait for a few seconds to let the configuration to take effect.
 
-1. Delete the previous `RbacConfig` after the `ClusterRbacConfig` is applied successfully.
+1. The script deletes the previous RBAC configuration file after applying the cluster RBAC configuration
+   successfully.
