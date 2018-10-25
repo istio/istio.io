@@ -263,26 +263,14 @@ migrate to `ClusterRbacConfig` if you are currently using `RbacConfig`. The bug 
 the object to be namespace-scoped in some cases. The `ClusterRbacConfig` follows the exact same
 specification as the `RbacConfig` but with correct cluster scope implementation.
 
-To migrate the RBAC configuration to cluster RBAC configuration:
+To automate the migration, we developed the `convert_RbacConfig_to_ClusterRbacConfig.sh` script.
+The script is included in the [Istio installation package](/docs/setup/kubernetes/download-release).
 
-1. We provide the `convert_RbacConfig_to_ClusterRbacConfig.sh` script to automate the migration,
-   depending on if you have the [Istio installation package](/docs/setup/kubernetes/download-release):
+Download and run the script with the following command:
 
-    - If you have the Istio installation package
-
-        Run the script with the following command under the directory of Istio installation package:
-
-        {{< text bash >}}
-        $ ./tools/convert_RbacConfig_to_ClusterRbacConfig.sh
-        {{< /text >}}
-
-    - If you don't have the Istio installation package
-
-        Download and run the script directly with the following command:
-
-        {{< text bash >}}
-        $ curl -L https://raw.githubusercontent.com/istio/istio/master/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
-        {{< /text >}}
+{{< text bash >}}
+$ curl -L https://raw.githubusercontent.com/istio/istio/master/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+{{< /text >}}
 
 The script automates the following operations:
 
