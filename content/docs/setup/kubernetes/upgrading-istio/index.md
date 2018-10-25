@@ -261,7 +261,7 @@ spec:
 The `RbacConfig` is deprecated due to a [bug](https://github.com/istio/istio/issues/8825). You must
 migrate to `ClusterRbacConfig` if you are currently using `RbacConfig`. The bug reduces the scope of
 the object to be namespace-scoped in some cases. The `ClusterRbacConfig` follows the exact same
-specification as the `RbacConfig` but with correct cluster scope implementation.
+specification as the `RbacConfig` but with the correct cluster scope implementation.
 
 To automate the migration, we developed the `convert_RbacConfig_to_ClusterRbacConfig.sh` script.
 The script is included in the [Istio installation package](/docs/setup/kubernetes/download-release).
@@ -303,7 +303,7 @@ The script automates the following operations:
         namespaces: ["default"]
     {{< /text >}}
 
-1. The script applies the configuration and wait for a few seconds to let the configuration to take effect.
+1. The script applies the configuration and waits for a few seconds to let the configuration to take effect.
 
-1. The script deletes the previous RBAC configuration file after applying the cluster RBAC configuration
-   successfully.
+1. The script deletes the previous RBAC configuration custom resource after applying the cluster RBAC
+   configuration successfully.
