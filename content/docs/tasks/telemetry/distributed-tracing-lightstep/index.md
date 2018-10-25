@@ -1,0 +1,130 @@
+---
+title: Distributed Tracing With LightStep [𝑥]PM
+description: How to configure the proxies to send tracing requests to LightStep [𝑥]PM.
+weight: 11
+keywords: [telemetry,tracing,lightstep]
+---
+
+This task shows you how to configure Istio to collect trace spans and send them to LightStep [𝑥]PM.
+[𝑥]PM lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
+distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis. For more
+information, visit [LightStep](https://lightstep.com).
+At the end of this task, trace spans will be sent from the proxies, to a LightStep [𝑥]PM Satellite pool, and then be
+consumable in the web UI.
+
+The [Bookinfo](/docs/examples/bookinfo/) sample is used as the
+example application for this task.
+
+## Before you begin
+
+> {{< idea_icon >}} The following instructions assume you have a LightStep account and a Satellite pool configured with
+TLS certs and a secure GRPC port exposed. To create an account, [contact LightStep](https://lightstep.com/contact/).
+For details about setting up Satellites, see [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup).
+
+1.  Make sure that you have a LightStep Access Token and that the Satellite pool can be reached at an address in the
+    form of `<Host>:<Port>` (ex. `lightstep-satellite.lightstep:9292`).
+1.  Follow [the Helm install instructions](/docs/setup/kubernetes/helm-install/) to install Istio via Helm.
+    You must pass a few arguments using the `--set key=value` syntax when you run the `helm` command, for example:
+
+    {{< text bash >}}
+    $ helm template \
+        --set global.proxy.tracer="lightstep" \
+        --set global.tracer.lightstep.address="<Satellite Address>" \
+        --set global.tracer.lightstep.accessToken="<LightStep Access Token>" \
+        --set global.tracer.lightstep.secure=true \
+        --set global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem" \
+        install/kubernetes/helm/istio \
+        --name istio --namespace istio-system > $HOME/istio.yaml
+    $ kubectl create namespace istio-system
+    $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
+
+1.  Create a secret in the default namespace (or whichever namespace you are deploying the Bookinfo application into)
+    with the Certificate Authority certificate used for verifying TLS communication with the Satellite pool.
+
+    {{< text bash >}}
+    $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
+    $ NAMESPACE=default
+    {{< /text >}}
+
+    ```bash
+    $ cat <<EOF | kubectl apply -f -
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: lightstep.cacert
+        namespace: $NAMESPACE
+        labels:
+          app: lightstep
+      type: Opaque
+      data:
+        cacert.pem: $CACERT
+    EOF
+    ```
+
+1.   Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+
+## Visualize trace data
+
+1.  Send traffic to the sample application.
+
+    For the
+    [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
+    sample, visit `http://$GATEWAY_URL/productpage` in your web browser
+    or issue the following command:
+
+    {{< text bash >}}
+    $ curl http://$GATEWAY_URL/productpage
+    {{< /text >}}
+
+1.  Load the LightStep [𝑥]PM web UI then navigate to Explorer and find the query bar at the top. The query bar allows
+    you to interactively filter results by a Service, Operation, and/or Tag values. Select `productpage.default` from
+    the Service drop-down list and click "Run". You should see something similar to the following:
+
+{{< image width="100%" ratio="50%"
+    link="./istio-tracing-list-lightstep.png"
+    caption="Explorer"
+    >}}
+
+If you click on the first row in the table of example traces below the latency histogram, you should see the details
+corresponding to your refresh of the `/productpage`. The page should look something like this:
+
+{{< image width="100%" ratio="50%"
+    link="./istio-tracing-details-lightstep.png"
+    caption="Detailed Trace View"
+    >}}
+
+As you can see, the trace is comprised of a set of spans,
+where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
+
+Every RPC is represented by two spans in the trace. For example, the call from `productpage` to `reviews` starts
+with the span labeled with operation `reviews.default.svc.cluster.local:9080/*` and service
+`productpage.default: proxy client`, which represents the client-side span for the call. It took 15.30ms. The second
+span (labeled with operation `reviews.default.svc.cluster.local:9080/*` and service `reviews.default: proxy server`)
+is a child of the first span and represents the server-side span for the call. It took 14.60ms.
+
+> {{< warning_icon >}} The LightStep integration does not currently capture spans generated by Istio's internal operation (ex. Mixer).
+
+## Understanding what happened
+
+To develop an understanding of how this trace span data is generated and then propagated, see the discussion in [Distributed Tracing With Jaeger](../distributed-tracing/#understanding-what-happened).
+
+## Trace sampling
+
+Istio captures a trace for all requests by default but you can lower the trace sampling percentage as needed.
+For information on how to do so, see the discussion in [Distributed Tracing With Jaeger](../distributed-tracing/#trace-sampling).
+When using LightStep [𝑥]PM, reducing the trace sampling percentage is not recommended. In order to handle a high traffic mesh,
+consider scaling up the size of your Satellite pool.
+
+## Cleanup
+
+If you are not planning any follow-up tasks, remove the Bookinfo sample application and any LightStep [𝑥]PM secrets
+from your cluster.
+
+1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
+
+1. Remove the secret generated for LightStep [𝑥]PM
+
+{{< text bash >}}
+$ kubectl delete secret lightstep.cacert
+{{< /text >}}

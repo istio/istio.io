@@ -9,6 +9,8 @@
 1.x
 10s
 123456789012.my
+14.60ms.
+15.30ms.
 1qps
 2x
 22.99ms
@@ -111,6 +113,7 @@ Kubernetes
 L3-4
 L4-L6
 LibreSSL
+LightStep
 Lyft
 macOS
 Manolache
@@ -421,6 +424,7 @@ uncomment
 uncommented
 unencrypted
 unmanaged
+unsampled
 untrusted
 uptime
 url

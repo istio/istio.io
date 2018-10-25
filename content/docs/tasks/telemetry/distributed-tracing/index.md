@@ -1,5 +1,5 @@
 ---
-title: Distributed Tracing
+title: Distributed Tracing With Jaeger
 description: How to configure the proxies to send tracing requests to Zipkin or Jaeger.
 weight: 10
 keywords: [telemetry,tracing]
