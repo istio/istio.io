@@ -8,7 +8,7 @@ weight: 89
 keywords: [ingress,traffic-management, aws]
 ---
 
-This post provide instructions to create manually a new custom ingress gateway with automatic provisionning of certificate based on cert-manager.
+This post provide instructions to create manually a new custom ingress gateway with automatic provisioning of certificate based on cert-manager.
 
 This post was validated on AWS Infrastructure
 
@@ -43,7 +43,7 @@ data:
   secret-access-key: <REDACTED BASE64>
 {{< /text >}}
 
-### Create ClusterIssuer
+### Create cluster issuer
 
 You need to create a certificate cluster issuer:
 
@@ -322,7 +322,7 @@ spec:
 
 Please Note that you have to force a NodePort to an available Port.
 
-You also have to declare your `ingressgateway-custom-certs` with secret name generated before (ie. `secretName: istio-customingressgateway-certs`)
+You also have to declare your `ingressgateway-custom-certs` with secret name generated before (for example `secretName: istio-customingressgateway-certs`)
 
 ### Create Istio gateway
 
