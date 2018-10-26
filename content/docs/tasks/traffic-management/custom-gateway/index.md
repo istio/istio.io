@@ -8,11 +8,7 @@ keywords: [ingress,traffic-management]
 This post provides instructions to manually create a new custom ingress gateway with automatic provisioning of certificates based on cert-manager.
 This task was validated on AWS Infrastructure.
 
-## Prerequisites
-
-cert-manager: Install cert-manager using [chart](https://github.com/helm/charts/tree/master/stable/cert-manager)
-
-1. Check if cert-manager was installed using Helm with the following command:
+1. Check if [cert-manager](https://github.com/helm/charts/tree/master/stable/cert-manager) was installed using Helm with the following command:
 
     {{< text bash >}}
 
