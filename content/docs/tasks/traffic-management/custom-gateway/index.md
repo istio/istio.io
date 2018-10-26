@@ -23,9 +23,11 @@ cert-manager: Install cert-manager using [chart](https://github.com/helm/charts/
     The output should be similar to the example below and show cert-manager with a `STATUS` of `DEPLOYED`:
 
     {{< text plaintext >}}
+
     NAME   REVISION UPDATED                  STATUS   CHART                     APP VERSION  s NAMESPACE
     istio     1     Thu Oct 11 13:34:24 2018 DEPLOYED istio-1.0.2               1.0.2         istio-system
     cert      1     Wed Oct 24 14:08:36 2018 DEPLOYED cert-manager-v0.6.0-dev.2 v0.6.0-dev.2  istio-system
+
     {{< /text >}}
 
 1. To create the cluster's issuer, apply the following configuration:
@@ -364,4 +366,4 @@ cert-manager: Install cert-manager using [chart](https://github.com/helm/charts/
 
     {{< /text >}}
 
-**Congratulations!** You can now use your custom `istio-custom-gateway` gateway configuration object. 
+**Congratulations!** You can now use your custom `istio-custom-gateway` gateway configuration object.
