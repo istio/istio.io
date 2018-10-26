@@ -1,14 +1,14 @@
 ---
-title: The Istio network configuration objects and your application
+title: Network configuration objects
 description: Describes Istio's network configuration objects and their functionality.
 weight: 30
 keywords: [network, virtual service, gateway, ingress, egress, service entry]
 aliases:
 ---
 
-Cloud applications, unlike monolithic applications, are comprised of a
-collection of connected services. Throughout this document a service should be
-understood as an addressable destination workload inside the mesh. These
+## The Istio network configuration objects and your application
+
+Connected services are the core of your cloud applications. Your
 services can connect to other services or to external resources. The Istio
 configuration objects allow you to configure traffic routes to and from
 services to secure the traffic between them. Other configuration objects
@@ -38,18 +38,18 @@ Istio network API can help you handle internal, incoming, and outgoing traffic.
 Lastly, the document discusses the benefits of using the Istio network API for
 your cloud applications.
 
-# The Istio network configuration objects
+## The Istio network configuration objects
 
 The Istio network configuration objects provide you with four objects to
 configure the traffic routes between your services and your external resources:
-virtual services, destination rules, service entries, and gateways. You can add
+virtual services, gateways, destination rules, and service entries. You can add
 and configure these objects in a variety of ways to suit your needs. Each
 configuration object serves a specific purpose and provides specific
 configurations for your Istio service mesh. To create a solution for your
 specific mesh, you can combine the configuration objects in a way that best
 fulfills your needs.
 
-You can define the Istio network configuration objects as Kubernetes Custom
+You define the Istio network configuration objects as Kubernetes Custom
 Resource Definition [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 objects and store their configuration in YAML files. The following sections
 describe the purposes and specific configurations of each configuration object
@@ -64,7 +64,6 @@ can map one or more user-addressable destinations to the actual destination
 workloads inside the mesh without a virtual service. The Istio virtual services
 can configure traffic routes to:
 
--  Other virtual services in the mesh.
 -  Specific services or services' subsets in the mesh.
 -  Other network configuration objects in the mesh.
 
@@ -74,27 +73,29 @@ can configure traffic routes to:
     >}}
 
 As you can see, virtual services are very flexible and can accommodate a wide
-variety of topologies. With destination rules, virtual services configure the
-traffic routes to your application services. The Istio virtual services can use
-any DNS names with optional wildcard prefixes or CIDR prefixes to create a
-single rule for all matching services. You can address one or more application
-services through a single Istio virtual service. To eliminate redundant rules,
-you can add multiple match conditions to a virtual service configuration. If
-your mesh uses Kubernetes, for example, you can configure a virtual service to
-handle all services in a specific namespace. With the Istio virtual services,
-you can configure routes for the canary and A/B testing for your application's
-services. You can configure each application service version as a virtual
-service subset. You can also configure the corresponding Istio destination rule
+variety of topologies. Virtual services configure the traffic routes to your
+application services. The Istio virtual services can use any DNS names with
+optional wildcard prefixes or CIDR prefixes to create a single rule for all
+matching services. You can address one or more application services through a
+single Istio virtual service. To eliminate redundant rules, you can add
+multiple match conditions to a virtual service configuration.
+
+If your mesh uses Kubernetes, for example, you can configure a virtual service
+to handle all services in a specific namespace. With the Istio virtual
+services, you can configure routes for the canary and A/B testing for your
+application's services. You can configure each application service version as a
+virtual service subset and configure the corresponding Istio destination rule
 to determine the set of pods or VMs belonging to these subsets.
 
-You can use the Istio virtual services in a variety of ways: to route traffic
-following the rules to provide load balancing to the ingress and egress traffic
-of your mesh with Istio gateways, and to address multiple application services
-through a single Istio virtual service.
+You can use the Istio virtual services in a variety of ways, for example: to
+route traffic following the rules to provide load balancing to the ingress and
+egress traffic of your mesh with Istio gateways, and to address multiple
+application services through a single Istio virtual service.
 
 The following example shows an Istio virtual service configuration file with
 descriptive value entries. You can use this example as a basis and modify it to
-fit your needs:
+fit your needs. The example configures a route for traffic to reach
+the `v1` subset of the `my-svc` service from the `my-vtl-svc` virtual service:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -110,13 +111,12 @@ spec:
         subset: v1
 {{< /text >}}
 
-Virtual services can specify the destination's DNS host name using the `hosts:`
-field under `spec:`. As you can see in the `my-vtl-svc` example, you can use a
-wildcard for the virtual service configurations to apply to multiple hosts. In
-the `destination:` field of each route, you specify the service and subset that
-the configuration targets. The example configures a route for traffic to reach
-the `v1` subset of the `my-svc` service from the `my-vtl-svc` virtual service.
-The following diagram shows the configured rule:
+Virtual services can specify the DNS host name using the `hosts:` field under
+`spec:`. As you can see in the `my-vtl-svc` example, you can use a wildcard for
+the virtual service configurations to apply to multiple hosts. In the
+`destination:` field of each route, you specify the `host:` of your service and
+subset that the configuration targets. The following diagram shows the
+configured rule:
 
 {{< image width="50%"
     link="./net-config-3.svg"
@@ -163,9 +163,9 @@ with the matched cookie and for all other traffic:
     caption="Configurable traffic rules for traffic with and without a matched cookie"
     >}}
 
-If you are working with a Kubernetes-based mesh, use virtual services to manage
-the traffic to your namespaces. The following example shows the `my-namespace`
-virtual service. It configures traffic routes for the two services behind the
+You configure virtual services to manage the traffic to your Kubernetes
+namespaces. The following example shows the `my-namespace` virtual service to
+configure traffic routes for the two services in the
 `my-namespace.svc.cluster.local` Kubernetes namespace:
 
 {{< text yaml >}}
@@ -191,9 +191,9 @@ spec:
         host: svc-2
 {{< /text >}}
 
-The following diagram shows the configured traffic routes implementing a
-virtual service to configure traffic for services in a namespace for two
-distinct application services based on the URI prefixes:
+The following diagram shows the configured traffic routes for services in a
+Kubernetes namespace using a virtual service for two distinct application
+services based on the URI prefixes:
 
 {{< image width="50%"
     link="./net-config-5.svg"
@@ -201,31 +201,35 @@ distinct application services based on the URI prefixes:
     >}}
 
 Once you have identified and configured the virtual services suitable for your
-mesh, you can add gateways to route traffic in or out of your mesh. The virtual
-services together with destination rules allow you to configure the behavior of
-the traffic to fulfill the needs of your mesh. Together with a service entry,
-you can use virtual services to configure traffic routes to external
-dependencies.
+mesh, you can add [gateways](#gateways) to route traffic in or out of your
+mesh. The virtual services together with [destination rules](#destination-rules)
+allow you to configure the behavior of the traffic to fulfill the needs of your
+mesh. Together with a [service entry](#service-entries), you can use virtual
+services to configure traffic routes to external dependencies.
 
-Visit our [virtual services reference documentation](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) to review all the enabled keys and values.
+Visit our [virtual services reference documentation](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+to review all the enabled keys and values.
 
 ## Gateways
 
-The Istio gateways are layer 7 load balancers. With an Istio gateway, you can
-configure routes for HTTP and TCP traffic regardless of where the gateway runs.
-Your mesh can have any number of gateways and multiple different gateway
-implementations can co-exist within your mesh. Using a gateway, you can
-configure workload labels to reuse your existing network appliances such as:
-firewall functions, caching, authentication, network address translation, and
-IP address management.
+A gateway is a workload implementing a layer 7 router, typically, an Envoy
+proxy running in a pod. An Istio gateway configuration object configures the
+layer 4-6 properties of the gateway workload specified in the `selector:` value
+of the gateway configuration object. You must use an Istio virtual service to
+configure the remaining layer 7 properties.
 
-By separating the layer 4 and 6 specifications from the layer 7, the Istio
-gateways overcome the shortcomings of the layer 4 and 6 specifications. Istio
-only configures the functions that layer 7 load balancing proxies implement
-uniformly. To use standard Istio rules to control HTTP requests as well as TCP
-traffic entering a gateway, you must bind a virtual service to the gateway. The
-following example shows a possible gateway configuration to ingress external
-HTTPS traffic to the mesh:
+Your mesh can have any number of gateway configuration objects and multiple
+different gateway workload implementations can co-exist within your mesh. Using
+a gateway, you can configure workload labels to reuse your existing network
+appliances such as: firewall functions, caching, authentication, network
+address translation, and IP address management.
+
+You must route all traffic entering the mesh via an ingress gateway workload
+using a virtual service. You bound the virtual service to the gateway
+configuration object to use standard Istio rules to control HTTP requests as
+well as the TCP traffic entering a gateway. The following example shows a
+possible gateway configuration object to ingress external HTTPS traffic to the
+mesh:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -247,7 +251,8 @@ spec:
 {{< /text >}}
 
 To configure the external HTTPS traffic to flow from the `ext-host` host, you
-must add the Istio gateway to a Istio virtual service as shown:
+must add the gateway configuration object to an Istio virtual service as shown
+here:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -261,17 +266,20 @@ spec:
     - ext-host-gwy
 {{< /text >}}
 
+The gateway configuration object lets HTTPS traffic from `ext-host` into the
+mesh on port 443. The bound virtual service configures the traffic route for
+the traffic to reach the `my-svc` service.
+
 The following diagram shows the configured routes for the external HTTPS
-traffic coming from the external host on port 443 to the `virtual-svc` virtual
-service through the `ext-host-gwy` gateway to reach the `my-svc` service
-within the mesh:
+traffic to the `my-svc` service within the mesh:
 
 {{< image width="50%"
     link="./net-config-6.svg"
     caption="Configurable routes for the external HTTPS traffic"
     >}}
 
-Visit our [gateways reference documentation](/docs/reference/config/istio.networking.v1alpha3/#Gateway) to review all the enabled keys and values.
+Visit our [gateways reference documentation](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
+to review all the enabled keys and values.
 
 ### Ingress gateways
 
@@ -344,7 +352,8 @@ The following diagram shows how the different configurations in the
     caption="Configurable route examples defined in the destination rule"
     >}}
 
-Visit our [destination rules reference documentation](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to review all the enabled keys and values.
+Visit our [destination rules reference documentation](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+to review all the enabled keys and values.
 
 ## Service Entries
 
@@ -398,12 +407,14 @@ spec:
   location: MESH_EXTERNAL
 {{< /text >}}
 
-Because a service entry configuration simply adds the external resource to the
-internal service registry, you must use either a virtual service or destination
-rules to complete the configuration. You configure a service entry similarly to
-how you configure a service in the mesh. The following destination rule
-configures the traffic route to use mutual TLS to connect to the `ext-resource`
-external service that the service entry added to the mesh:
+A service entry configuration adds the external resource to the internal
+service registry of the mesh. Depending on the situation, you don't need
+anything other than a service entry to call an external service. Typically, you
+use either a virtual service or destination rules to complete the
+configuration. You configure a service entry similarly to how you configure a
+service in the mesh. The following destination rule configures the traffic
+route to use mutual TLS to connect to the `ext-resource` external service that
+the service entry added to the mesh:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -430,8 +441,5 @@ mutual TLS. The following diagram shows the configured traffic routes:
     caption="Configurable traffic routes using service entries and destination rules"
     >}}
 
-Service entries do not require virtual services to address services in the
-mesh. Use destination rules to configure routes to address services directly.
-The use of an ingress gateway is also optional.
-
-Visit our [service entries reference documentation](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) to review all the enabled keys and values.
+Visit our [service entries reference documentation](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
+to review all the enabled keys and values.
