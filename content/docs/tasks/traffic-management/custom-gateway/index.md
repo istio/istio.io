@@ -20,7 +20,7 @@ This task was validated on AWS Infrastructure.
 
     {{< text plaintext >}}
 
-    NAME   REVISION UPDATED                  STATUS   CHART                     APP VERSION  s NAMESPACE
+    NAME   REVISION UPDATED                  STATUS   CHART                     APP VERSION   NAMESPACE
     istio     1     Thu Oct 11 13:34:24 2018 DEPLOYED istio-1.0.2               1.0.2         istio-system
     cert      1     Wed Oct 24 14:08:36 2018 DEPLOYED cert-manager-v0.6.0-dev.2 v0.6.0-dev.2  istio-system
 
