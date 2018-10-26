@@ -53,11 +53,11 @@ on **one** Kubernetes cluster.
 You must deploy the `istio-remote` component to each remote Kubernetes
 cluster. You can install the component in one of two ways:
 
-* [Option 1: Use Helm and `kubectl` to install and manage the remote cluster](#kubectl)
+* [Option 1: Use Helm and `kubectl` to install and manage the remote cluster](#helm-k)
 
 * [Option 2: Use Helm and Tiller to install and manage the remote cluster](#tiller)
 
-### Set the needed environment variables {#ip-env-var}
+### Set the needed environment variables {#environment-var}
 
 Wait for the Istio control plane to finish initializing before following the
 steps in this section.
@@ -82,13 +82,13 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 Next, you must connect the remote cluster to the local cluster. Proceed to your preferred option:
 
-* Via [`kubectl` with Helm](#kubectl)
+* Via [`kubectl` with Helm](#helm-k)
 
 * Via [Helm plus Tiller](#tiller)
 
 Normally, automatic sidecar injection on the remote clusters is enabled. To perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
 
-### Option 1: Use Helm and `kubectl` to install and manage the remote cluster {#kubectl}
+### Option 1: Use Helm and `kubectl` to install and manage the remote cluster {#helm-k}
 
 1.  Use the following `helm template` command on the remote cluster to specify
     the Istio control plane service endpoints:
@@ -311,7 +311,7 @@ application manifests for the remote cluster.
 Perform the following procedure against the remote cluster.
 
 Before you begin, set the endpoint IP environment variables as described in the
-[set the environment variables section](#ip-env-var)
+[set the environment variables section](#environment-var)
 
 1. Use the `helm template` command on the remote cluster to specify the Istio
    control plane service endpoints:
@@ -532,7 +532,7 @@ and endpoint to allow the remote sidecars to resolve the
     {{< /text >}}
 
 1. Set the environment variables for the IP addresses of the pods as described
-   in the [setting environment variables section](#ip-env-var).
+   in the [setting environment variables section](#environment-var).
 
 1. The following command deploys the remote cluster's components with security
    enabled for the control plane and the application pod and enables the
@@ -556,12 +556,12 @@ and endpoint to allow the remote sidecars to resolve the
     {{< /text >}}
 
 1. To generate the `kubeconfig` configuration file for the remote cluster,
-   follow the steps in the [Kubernetes configuration section](#generate-kubeconfigs-for-remote-clusters)
+   follow the steps in the [Kubernetes configuration section](#kubeconfig)
 
 ### Primary Cluster: Instantiate credentials
 
 You must instantiate credentials for each remote cluster. Follow the
-[instantiate credentials procedure](#instantiate-the-credentials-for-each-remote-cluster)
+[instantiate credentials procedure](#credentials)
 to complete the deployment.
 
 **Congratulations!**
