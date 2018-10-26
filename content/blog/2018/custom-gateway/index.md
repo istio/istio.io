@@ -31,7 +31,7 @@ cert        	1       	Wed Oct 24 14:08:36 2018	DEPLOYED	cert-manager-v0.6.0-dev.
 
 ### Create cluster issuer
 
-{{< warning_icon >}} Adapt cluster issuer provider with your own configuration, in our example we use route53.
+{{< warning_icon >}} Adapt cluster issuer provider with your own configuration, in our example we use `route53`
 
 {{< text yaml >}}
 apiVersion: certmanager.k8s.io/v1alpha1
