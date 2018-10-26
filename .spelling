@@ -364,6 +364,7 @@ qps
 quay.io
 radis
 ratelimit-handler
+rbac
 reachability
 rearchitect
 readinessProbe
