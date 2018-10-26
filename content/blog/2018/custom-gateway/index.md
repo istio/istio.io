@@ -14,7 +14,7 @@ This post was validated on AWS Infrastructure
 
 ## Prerequisites
 
-Have cert-manager installed
+Have cert-manager installed with [chart](https://github.com/helm/charts/tree/master/stable/cert-manager)
 
 ## Cert-Manager Configuration
 
@@ -29,23 +29,9 @@ istio        	1       	Thu Oct 11 13:34:24 2018	DEPLOYED	istio-1.0.2            
 cert        	1       	Wed Oct 24 14:08:36 2018	DEPLOYED	cert-manager-v0.6.0-dev.2	v0.6.0-dev.2	istio-system
 {{< /text >}}
 
-### Create secret
-
-On AWS Infrastructure you must provide secret in order to perform DNS ACME Validation.
-
-{{< text yaml >}}
-apiVersion: v1
-kind: Secret
-metadata:
-  name: prod-route53-credentials-secret
-type: Opaque
-data:
-  secret-access-key: <REDACTED BASE64>
-{{< /text >}}
-
 ### Create cluster issuer
 
-You need to create a certificate cluster issuer:
+{{< warning_icon >}} Adapt cluster issuer provider with your own configuration, in our example we use route53.
 
 {{< text yaml >}}
 apiVersion: certmanager.k8s.io/v1alpha1
@@ -72,6 +58,20 @@ spec:
           secretAccessKeySecretRef:
             name: prod-route53-credentials-secret
             key: secret-access-key
+{{< /text >}}
+
+### Create secret
+
+If you use provider `route53` you must provide secret in order to perform DNS ACME Validation.
+
+{{< text yaml >}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prod-route53-credentials-secret
+type: Opaque
+data:
+  secret-access-key: <REDACTED BASE64>
 {{< /text >}}
 
 ### Create Certificate
