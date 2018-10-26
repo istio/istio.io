@@ -73,7 +73,7 @@ data:
   secret-access-key: <REDACTED BASE64>
 {{< /text >}}
 
-## Create Certificate
+## Create certificate
 
 Create your own certificate:
 
@@ -101,7 +101,7 @@ spec:
 
 Have a look of `secretName`, it will be used in next section.
 
-## Create Horizontal Pod Autoscaler
+## Create horizontal pod autoscaler
 
 In order to have scalability you need to declare a new Horizontal Pod Autoscaler:
 
@@ -125,7 +125,7 @@ status:
   desiredReplicas: 1
 {{< /text >}}
 
-## Create Deployment
+## Create deployment
 
 Apply your deployment with declaration bellow.
 
