@@ -17,15 +17,19 @@ cert-manager: Install cert-manager using [chart](https://github.com/helm/charts/
 1. Check if cert-manager was installed using Helm with the following command:
 
 {{< text bash >}}
+
 $ helm ls
+
 {{< /text>}}
 
 The output should be similar to the example below and show cert-manager with a `STATUS` of `DEPLOYED`:
 
 {{< text plaintext >}}
+
 NAME   REVISION UPDATED                  STATUS   CHART                     APP VERSION  s NAMESPACE
 istio     1     Thu Oct 11 13:34:24 2018 DEPLOYED istio-1.0.2               1.0.2         istio-system
 cert      1     Wed Oct 24 14:08:36 2018 DEPLOYED cert-manager-v0.6.0-dev.2 v0.6.0-dev.2  istio-system
+
 {{< /text >}}
 
 ## Create cluster issuer
@@ -33,6 +37,7 @@ cert      1     Wed Oct 24 14:08:36 2018 DEPLOYED cert-manager-v0.6.0-dev.2 v0.6
 {{< warning_icon >}} Adapt cluster issuer provider with your own configuration, in our example we use `route53`
 
 {{< text yaml >}}
+
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: ClusterIssuer
 metadata:
@@ -57,6 +62,7 @@ spec:
           secretAccessKeySecretRef:
             name: prod-route53-credentials-secret
             key: secret-access-key
+
 {{< /text >}}
 
 ## Create secret
@@ -64,6 +70,7 @@ spec:
 If you use provider `route53` you must provide secret in order to perform DNS ACME Validation.
 
 {{< text yaml >}}
+
 apiVersion: v1
 kind: Secret
 metadata:
@@ -71,6 +78,7 @@ metadata:
 type: Opaque
 data:
   secret-access-key: <REDACTED BASE64>
+
 {{< /text >}}
 
 ## Create certificate
@@ -78,6 +86,7 @@ data:
 Create your own certificate:
 
 {{< text yaml >}}
+
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
@@ -97,6 +106,7 @@ spec:
     kind: ClusterIssuer
     name: letsencrypt-demo
   secretName: istio-customingressgateway-certs
+
 {{< /text >}}
 
 Have a look of `secretName`, it will be used in next section.
@@ -106,6 +116,7 @@ Have a look of `secretName`, it will be used in next section.
 In order to have scalability you need to declare a new Horizontal Pod Autoscaler:
 
 {{< text yaml >}}
+
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -123,6 +134,7 @@ status:
   currentCPUUtilizationPercentage: 0
   currentReplicas: 1
   desiredReplicas: 1
+
 {{< /text >}}
 
 ## Create deployment
@@ -132,6 +144,7 @@ Apply your deployment with declaration bellow.
 {{< warning_icon >}} Usage of annotations `aws-load-balancer-type` only applied for AWS cloud provider
 
 {{< text yaml >}}
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -315,6 +328,7 @@ spec:
                 values:
                 - istio-internal-custom
             topologyKey: kubernetes.io/hostname
+
 {{< /text >}}
 
 Please Note that you have to force a NodePort to an available Port.
@@ -326,6 +340,7 @@ You also have to declare your `ingressgateway-custom-certs` with secret name gen
 You can now create an Istio custom gateway:
 
 {{< text yaml >}}
+
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -354,6 +369,7 @@ spec:
       mode: SIMPLE
       privateKey: /etc/istio/ingressgateway-certs/tls.key
       serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+
 {{< /text >}}
 
 You can now use your custom gateway `istio-custom-gateway`
