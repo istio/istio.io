@@ -139,7 +139,7 @@ wait until the newly defined RBAC policy to take effect.
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
     apiVersion: "rbac.istio.io/v1alpha1"
-    kind: RbacConfig
+    kind: ClusterRbacConfig
     metadata:
       name: default
     spec:
