@@ -1,11 +1,8 @@
 ---
 title: Add a new Custom IngressGateway
 description: Describes how to add a new custom ingress gateway manually.
-publishdate: 2018-10-26
-subtitle: Custom Ingress Gateway
-attribution: Julien SENON
 weight: 89
-keywords: [ingress,traffic-management, aws]
+keywords: [ingress,traffic-management]
 ---
 
 This post provide instructions to create manually a new custom ingress gateway with automatic provisioning of certificate based on cert-manager.
@@ -16,9 +13,7 @@ This post was validated on AWS Infrastructure
 
 Have cert-manager installed with [chart](https://github.com/helm/charts/tree/master/stable/cert-manager)
 
-## Cert-Manager Configuration
-
-### Check installation
+## Check cert-manager installation
 
 Cert-manager needs to be installed, if it's has been install with helm you can check installation has bellow:
 
@@ -29,7 +24,7 @@ istio        	1       	Thu Oct 11 13:34:24 2018	DEPLOYED	istio-1.0.2            
 cert        	1       	Wed Oct 24 14:08:36 2018	DEPLOYED	cert-manager-v0.6.0-dev.2	v0.6.0-dev.2	istio-system
 {{< /text >}}
 
-### Create cluster issuer
+## Create cluster issuer
 
 {{< warning_icon >}} Adapt cluster issuer provider with your own configuration, in our example we use `route53`
 
@@ -60,7 +55,7 @@ spec:
             key: secret-access-key
 {{< /text >}}
 
-### Create secret
+## Create secret
 
 If you use provider `route53` you must provide secret in order to perform DNS ACME Validation.
 
@@ -74,7 +69,7 @@ data:
   secret-access-key: <REDACTED BASE64>
 {{< /text >}}
 
-### Create Certificate
+## Create Certificate
 
 Create your own certificate:
 
@@ -102,9 +97,7 @@ spec:
 
 Have a look of `secretName`, it will be used in next section.
 
-## Ingress gateway installation
-
-### Create Horizontal Pod Autoscaler
+## Create Horizontal Pod Autoscaler
 
 In order to have scalability you need to declare a new Horizontal Pod Autoscaler:
 
@@ -128,7 +121,7 @@ status:
   desiredReplicas: 1
 {{< /text >}}
 
-### Create Deployment
+## Create Deployment
 
 Apply your deployment with declaration bellow.
 
@@ -324,7 +317,7 @@ Please Note that you have to force a NodePort to an available Port.
 
 You also have to declare your `ingressgateway-custom-certs` with secret name generated before (for example `secretName: istio-customingressgateway-certs`)
 
-### Create Istio gateway
+## Create Istio gateway
 
 You can now create an Istio custom gateway:
 
