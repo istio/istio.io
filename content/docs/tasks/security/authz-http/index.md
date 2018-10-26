@@ -89,7 +89,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: "rbac.istio.io/v1alpha1"
-    kind: RbacConfig
+    kind: ClusterRbacConfig
     metadata:
       name: default
     spec:

@@ -585,7 +585,7 @@ In the following example, Istio authorization permissive mode is set on global c
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
+kind: ClusterRbacConfig
 metadata:
   name: default
 spec:
@@ -614,14 +614,14 @@ spec:
 
 ### Enabling authorization
 
-You enable Istio Authorization using a `RbacConfig` object. The `RbacConfig`
-object is a mesh-wide singleton with a fixed name value of `default`. You can
-only use one `RbacConfig` instance in the mesh. Like other Istio configuration
-objects, `RbacConfig` is defined as a
+You enable Istio Authorization using a `ClusterRbacConfig` object. The `ClusterRbacConfig`
+object is a cluster-scoped singleton with a fixed name value of `default`. You can
+only use one `ClusterRbacConfig` instance in the mesh. Like other Istio configuration
+objects, `ClusterRbacConfig` is defined as a
 Kubernetes `CustomResourceDefinition`
 [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
-In the `RbacConfig` object, the operator can specify a `mode` value, which can
+In the `ClusterRbacConfig` object, the operator can specify a `mode` value, which can
 be:
 
 - **`OFF`**: Istio authorization is disabled.
@@ -637,7 +637,7 @@ namespace.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
+kind: ClusterRbacConfig
 metadata:
   name: default
 spec:
