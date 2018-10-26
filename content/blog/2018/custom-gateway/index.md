@@ -22,7 +22,7 @@ Have cert-manager installed
 
 Cert-manager needs to be installed, if it's has been install with helm you can check installation has bellow:
 
-{{< text sh >}}
+{{< text bash >}}
 $ helm ls
 NAME         	REVISION	UPDATED                 	STATUS  	CHART                    	APP VERSION 	NAMESPACE
 istio        	1       	Thu Oct 11 13:34:24 2018	DEPLOYED	istio-1.0.2              	1.0.2       	istio-system
