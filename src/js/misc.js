@@ -68,13 +68,12 @@ $(function ($) {
         // toggle sidebar on/off
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.row-offcanvas').toggleClass('active');
-            $(this).children('i.fa').toggleClass('fa-flip-horizontal');
+            $(this).children('svg.icon').toggleClass('flipped');
         });
 
         // toggle category tree in sidebar
         $(document).on('click', '.tree-toggle', function () {
-            $(this).children('i.fa').toggleClass('fa-caret-right');
-            $(this).children('i.fa').toggleClass('fa-caret-down');
+            $(this).children('i.chevron').toggleClass('d-none');
             $(this).parent().children('ul.tree').toggle(200);
         });
 
@@ -143,15 +142,15 @@ function handleDOMLoaded() {
             var pre = document.getElementsByTagName('PRE');
             for (var i = 0; i < pre.length; i++) {
                 var copyButton = document.createElement("BUTTON");
-                copyButton.title = "Copy to clipboard";
+                copyButton.title = buttonCopy;
                 copyButton.className = "copy";
-                copyButton.innerHTML = "<i class='fa fa-copy'></i>";
+                copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
                 copyButton.setAttribute("aria-label", "Copy to clipboard");
 
                 var downloadButton = document.createElement("BUTTON");
-                downloadButton.title = "Download";
+                downloadButton.title = buttonDownload;
                 downloadButton.className = "download";
-                downloadButton.innerHTML = "<i class='fa fa-download'></i>";
+                downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
                 downloadButton.setAttribute("aria-label", downloadButton.title);
                 downloadButton.onclick = function(e) {
                     var div = e.currentTarget.parentElement;
@@ -185,9 +184,9 @@ function handleDOMLoaded() {
                 };
 
                 var printButton = document.createElement("BUTTON");
-                printButton.title = "Print";
+                printButton.title = buttonPrint;
                 printButton.className = "print";
-                printButton.innerHTML = "<i class='fa fa-print'></i>";
+                printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
                 printButton.setAttribute("aria-label", printButton.title);
                 printButton.onclick = function(e) {
                     var div = e.currentTarget.parentElement;
@@ -326,14 +325,11 @@ function handleDOMLoaded() {
         }
 
         function attachLink(node) {
-            var i = document.createElement("i");
-            i.className = "fa fa-link";
-
             var anchor = document.createElement("a");
             anchor.className = "header-link";
             anchor.href = "#" + node.id;
             anchor.setAttribute("aria-hidden", "true");
-            anchor.appendChild(i);
+            anchor.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#links'/></svg>";
 
             node.appendChild(anchor);
         }

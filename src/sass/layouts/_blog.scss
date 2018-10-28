@@ -1,20 +1,4 @@
 .blog {
-    .subtitle {
-        margin-bottom: 0;
-    }
-
-    .byline {
-        margin-top: .15rem;
-        margin-bottom: 2rem;
-        padding: 0;
-        text-transform: uppercase;
-        font-size: 75%;
-    }
-
-    .attribution {
-        font-weight: $blogAttributeWeight;
-    }
-
     .rssLink {
         position: absolute;
         top: 10px;
@@ -25,5 +9,9 @@
         padding: 1em;
         font-size: 1.2em;
         background-color: $backgroundColor;
+
+        svg {
+            margin-right: .5em;
+        }
     }
 }

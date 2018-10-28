@@ -56,10 +56,10 @@ other = "Next Release (Preliminary %s)"
 other = "Older Releases"
 
 [options_menu]
-other = "Options and Settings"
+other = "Options and settings"
 
 [search]
-other = "Search istio.io"
+other = "Search this site"
 
 [footer_istio]
 other = "Istio"
@@ -85,6 +85,15 @@ other = "Privacy Policy"
 [page_publish_date_format]
 other = "January 2, 2006"
 
+[page_last_update_format]
+other = "(updated on %s)"
+
+[page_word_count]
+other = "%d words"
+
+[page_reading_time]
+other = "%v minute read"
+
 [relnote_download]
 other = "DOWNLOAD %s"
 
@@ -93,3 +102,63 @@ other = "CHANGES IN %s"
 
 [relnote_docs]
 other = "%s DOCS"
+
+[page_attribution]
+other = "By "
+
+[button_copy]
+other = "Copy to clipoboard"
+
+[button_print]
+other = "Print"
+
+[button_download]
+other = "Download"
+
+[button_top]
+other = "Back to top"
+
+[button_sidenav]
+other = "Toggle the navigation bar"
+
+[partner_component_notice]
+other = "This component was created and is maintained by an Istio partner. Please address support questions to the partner directly."
+
+[partner_component_partner]
+other = "Partner"
+
+[partner_component_contact]
+other = "Contact"
+
+[partner_component_support_site]
+other = "Support Site"
+
+[partner_component_source_code]
+other = "Source Code"
+
+[partner_component_latest_release]
+other = "Latest Release"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "Tested by %s with these Istio Versions"
+
+[partner_component_supported_templates]
+other = "Supported Templates"
+
+[adapter]
+other = "Adapter"
+
+[supported_templates]
+other = "Supported Templates"
+
+[adapters]
+other = "Adapters"
+
+[template]
+other = "Template"
+
+[subscribe]
+other = "Subscribe"

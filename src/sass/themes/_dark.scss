@@ -33,7 +33,10 @@ $preBlockBackgroundColor: #2d2d2d;
 $preBlockCommandOutputTextColor: $textColor;
 $preBlockCommandOutputBackgroundColor: $dark-gray;
 $boxBorderColor: $textColor;
+
 $dropdownBorderColor: white;
+$dropdownCheck: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='white' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+$dropdownHoverCheck: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='white' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
 
 $headerLightShadowColor: rgba(0, 0, 0, .14);
 $headerDarkShadowColor: rgba(0, 0, 0, .28);
@@ -49,6 +52,9 @@ $landingCardShadowColor: #777777;
 $landingCardShadowHoverColor: #999999;
 
 $floatingButtonColor: rgba(0, 0, 0, .4);
+
+$companyLogoBackgroundColor: lightgrey;
+$companyLogoTaglineColor: black;
 
 $textWeight: 300;
 $linkWeight: 300;

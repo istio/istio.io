@@ -26,7 +26,7 @@ Google 在多年中都在使用一个内部的 API 和服务管理系统，用�
 
 过去，流量在进入具体的服务之前，首先会进入一个较重的代理，旧系统就是以这个代理为中心构建的。新的架构摒弃了共享代理的设计，用轻量高效的 Sidecar 代理取而代之，这一代理和服务实例并行，共享一个控制平面。
 
-{{< image width="75%" ratio="74.79%"
+{{< image width="75%"
     link="./mixer-spof-myth-1.svg"
     title="Google 系统拓扑"
     caption="Google 的 API 和 服务管理系统"

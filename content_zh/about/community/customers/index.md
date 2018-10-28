@@ -2,7 +2,7 @@
 title: Istio in Action
 description: 使用 Istio 的用户。
 weight: 30
-icon: /img/customers.svg
+icon: customers
 keywords: [社区]
 skip_seealso: true
 ---
@@ -25,4 +25,4 @@ skip_seealso: true
     {{< company_logo link="https://www.ibm.com/watson" logo="/about/community/customers/watson.png" alt="IBM Watson" >}}
 </div>
 
-想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.github.io/pulls)。
+想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.io/pulls)。

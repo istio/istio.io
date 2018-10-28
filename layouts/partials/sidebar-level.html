@@ -11,12 +11,12 @@
                     {{ $collapse := not (.IsAncestor $current) }}
 
                     <label class='tree-toggle'>
-                        {{ if $collapse }}
-                            <i class='fa fa-lg fa-caret-right'></i>
-                        {{ else }}
-                            <i class='fa fa-lg fa-caret-down'></i>
-                        {{ end }}
-                        <a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}} </a>
+                        {{- if $collapse -}}
+                            <i class="chevron">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron d-none">{{- partial "icon.html" "down-chevron" -}}</i>
+                        {{- else -}}
+                            <i class="chevron d-none">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron">{{- partial "icon.html" "down-chevron" -}}</i>
+                        {{- end -}}
+                        <a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
                     </label>
 
                     {{ partial "sidebar-level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}

@@ -2,7 +2,7 @@
 title: 合作伙伴
 description: 围绕 Istio 进行构建的用户。
 weight: 20
-icon: /img/partners.svg
+icon: partners
 keywords: [社区]
 skip_seealso: true
 ---
@@ -30,4 +30,4 @@ Istio 受益强大的合作伙伴生态。了解下他们是如何使 Istio 变�
     {{< company_logo link="https://www.vmware.com" logo="/about/community/partners/vmware.svg" alt="VMware" >}}
 </div>
 
-想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.github.io/pulls)。
+想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.io/pulls)。

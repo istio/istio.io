@@ -3,7 +3,7 @@ title: Minimal Istio Installation
 description: Install minimal Istio using Helm.
 weight: 31
 keywords: [kubernetes,helm, minimal]
-icon: /img/helm.svg
+icon: helm
 ---
 
 Quick start instructions for the minimal setup and configuration of Istio using Helm.
@@ -27,7 +27,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 
 ### Option 1: Install with Helm via `helm template`
 
-1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
+1. Render Istio's core components to a Kubernetes manifest called `istio-minimal.yaml`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \

@@ -3,7 +3,7 @@ title: Istio 0.1
 weight: 100
 aliases:
     - /docs/welcome/notes/0.1.html
-icon: /img/notes.svg
+icon: notes
 ---
 
 Istio 0.1 is the initial [release](https://github.com/istio/istio/releases) of Istio. It works in a single Kubernetes cluster and supports the following features:

@@ -2,7 +2,7 @@
 title: Istio in Action
 description: Who's using Istio out there.
 weight: 30
-icon: /img/customers.svg
+icon: customers
 keywords: [community]
 skip_seealso: true
 ---
@@ -25,4 +25,4 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.ibm.com/watson" logo="./watson.png" alt="IBM Watson" >}}
 </div>
 
-Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.github.io/pulls).
+Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).

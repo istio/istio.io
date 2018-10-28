@@ -2,7 +2,7 @@
 title: 发行说明
 description: 每个 Istio 版本的功能和改进说明。
 weight: 5
-icon: /img/notes.svg
+icon: notes
 ---
 
 - [Istio 1.0.2](./1.0.2)

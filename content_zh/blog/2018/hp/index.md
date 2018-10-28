@@ -3,7 +3,7 @@ title: Istio 是惠普 FitStation 平台的改变者
 description: 惠普如何在 Istio 上构建其下一代鞋类个性化平台。
 subtitle: 惠普如何在 Istio 上构建其下一代鞋类个性化平台
 publishdate: 2018-07-31
-attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Source Advocate / Contributor
+attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Source Advocate & Contributor
 weight: 84
 ---
 

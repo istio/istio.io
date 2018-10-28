@@ -3,7 +3,7 @@ title: Istio a Game Changer for HP's FitStation Platform
 description: How HP is building its next-generation footwear personalization platform on Istio.
 subtitle: How HP is building its next-generation footwear personalization platform on Istio
 publishdate: 2018-07-31
-attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Source Advocate / Contributor
+attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Source Advocate & Contributor
 weight: 84
 ---
 

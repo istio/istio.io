@@ -40,7 +40,7 @@ configuration by intentionally "tripping" the circuit breaker.
 1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to apply circuit breaking settings
 when calling the `httpbin` service:
 
-    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/deploy-guidelines/#503-errors-after-setting-destination-rule).
+    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

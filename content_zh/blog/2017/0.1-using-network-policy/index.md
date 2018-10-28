@@ -1,6 +1,6 @@
 ---
 title: Istio 使用网络策略
-description: Istio 的策略如何关联 Kubernetes 的网络策略 。   
+description: Istio 的策略如何关联 Kubernetes 的网络策略 。
 publishdate: 2017-08-10
 subtitle:
 attribution: Spike Curtis
@@ -98,7 +98,7 @@ spec:
 
 如下是 Bookinfo 应用程序的服务示意图：
 
-{{< image width="80%" ratio="59.08%"
+{{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
     caption="Bookinfo Service Graph"
     >}}

@@ -3,7 +3,7 @@ title: Istio 0.3
 weight: 98
 aliases:
     - /docs/welcome/notes/0.3.html
-icon: /img/notes.svg
+icon: notes
 ---
 
 ## General

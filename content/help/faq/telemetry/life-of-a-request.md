@@ -33,10 +33,7 @@ Additionally, you can use the following commands to know more about the state of
 
     {{< text plain >}}
     # List all virtual services
-    $ istioctl get virtualservices
-
-    # Try the following to discover more proxy-config commands
-    $ istioctl proxy-config --help
+    $ kubectl get virtualservices
     {{< /text >}}
 
 * Mixer access logs: Mixer writes access logs that contain information about requests. You can get them with:
