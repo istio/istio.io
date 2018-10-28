@@ -5,8 +5,8 @@ keywords: [traffic-management,egress]
 weight: 44
 ---
 
-The [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway/) example, the
-[Direct HTTPS traffic through an egress gateway](/docs/examples/advanced-egress/egress-gateway/#direct-https-traffic-through-an-egress-gateway)
+The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example, the
+[Direct HTTPS traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#direct-https-traffic-through-an-egress-gateway)
 section described how to configure an Istio egress gateway for HTTPS traffic for specific hostnames, like
 `edition.cnn.com`. This example explains how to enable an egress gateway for HTTPS traffic to a set of domains, for
 example to `*.wikipedia.org`, without the need to specify each and every host.
@@ -20,8 +20,8 @@ configuration items for all the _wikipedia_ sites, without the need to specify t
 
 ## Before you begin
 
-Follow the steps in the [Before you begin](/docs/examples/advanced-egress/egress-gateway/#before-you-begin)
-section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
+Follow the steps in the [Before you begin](/docs/examples/advanced-gateways/egress-gateway/#before-you-begin)
+section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
 
 ## HTTPS traffic to a single host
 
@@ -650,5 +650,5 @@ $ kubectl delete listchecker wikipedia-checker -n istio-system
 
 ## Cleanup
 
-Perform the instructions in the [Cleanup](/docs/examples/advanced-egress/egress-gateway/#cleanup)
-section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
+Perform the instructions in the [Cleanup](/docs/examples/advanced-gateways/egress-gateway/#cleanup)
+section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
