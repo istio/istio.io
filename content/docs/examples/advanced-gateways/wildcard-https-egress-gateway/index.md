@@ -490,6 +490,8 @@ to hold the configuration of the Nginx SNI proxy:
 
 ### SNI monitoring and access policies
 
+Now, once you directed the egress traffic through an egress gateway, you can apply monitoring and access policy enforcement on the egress traffic, **securely**. In this subsection you will define a log entry and an access policy for the egress traffic to _*.wikipedia.org_.
+
 1.  Create the `logentry`, `rules` and `handlers`:
 
     {{< text bash >}}
