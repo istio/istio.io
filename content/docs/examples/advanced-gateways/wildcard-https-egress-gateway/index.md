@@ -159,7 +159,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/eg
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to our
+1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to your
     requests to _*.wikipedia.org_. If Istio is deployed in the `istio-system` namespace, the command to print the
     counter is:
 
@@ -461,7 +461,7 @@ to hold the configuration of the Nginx SNI proxy:
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to our requests to
+1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to your requests to
     _*.wikipedia.org_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
     to print the counter is:
 
