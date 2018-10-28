@@ -23,7 +23,7 @@ configuration items for all the _wikipedia_ sites, without the need to specify t
 Follow the steps in the [Before you begin](/docs/examples/advanced-egress/egress-gateway/#before-you-begin)
 section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egress-gateway) example.
 
-## Configure HTTPS traffic to _*.wikipedia.org_
+## HTTPS traffic to a single host
 
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
@@ -168,7 +168,7 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-egress/egre
     cluster.outbound|443||www.wikipedia.org.upstream_cx_total: 2
     {{< /text >}}
 
-### Cleanup of HTTPS traffic configuration to _*.wikipedia.org_
+### Cleanup of HTTPS traffic configuration to a single host
 
 {{< text bash >}}
 $ kubectl delete serviceentry wikipedia www-wikipedia
@@ -177,7 +177,7 @@ $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
-## Enable HTTPS traffic to arbitrary wildcarded domains
+## HTTPS traffic to arbitrary wildcarded domains
 
 The configuration in the previous section works thanks to the fact that all the _*.wikipedia.org_ sites are apparently
 served by each of the _wikipedia.org_ servers. However, this may not always be the case. In many cases you may want to
@@ -209,7 +209,7 @@ The egress gateway with SNI proxy and the related parts of Istio Architecture ar
 In this section you will configure Istio to route HTTPS traffic to arbitrary wildcarded domains, through an egress
 gateway.
 
-### Prepare a new egress gateway with an SNI proxy
+### Custom egress gateway with SNI proxy
 
 In this subsection you deploy an egress gateway with an SNI proxy, in addition to the standard Istio Envoy proxy. You
 can use any SNI proxy that is capable to route traffic according to arbitrary, not-preconfigured SNI values; we used
@@ -353,7 +353,7 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-### Configure access to _*.wikipedia.org_ using the egress gateway with SNI proxy
+### HTTPS traffic through egress gateway with SNI proxy
 
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
@@ -490,7 +490,7 @@ to hold the configuration of the Nginx SNI proxy:
 
     Note the `requestedServerName` attribute.
 
-### Monitor the SNI and enforce access policies based on it
+### SNI monitoring and access policies
 
 1.  Create the `logentry`, `rules` and `handlers`:
 
