@@ -12,6 +12,7 @@ This task was validated on AWS Infrastructure.
 
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
+* Setup `cert-manager` with helm [chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart)
 
 ## Configuring the custom ingress gateway
 
@@ -35,7 +36,7 @@ This task was validated on AWS Infrastructure.
 
 1. To create the cluster's issuer, apply the following configuration:
 
-    {{< warning_icon >}} Change the cluster's issuer provider with your own configuration values. The example uses the values under `route53`.
+    {{< warning_icon >}} Change the cluster's [issuer](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html#issuers) provider with your own configuration values. The example uses the values under `route53`.
 
     {{< text yaml >}}
 
@@ -66,7 +67,7 @@ This task was validated on AWS Infrastructure.
 
     {{< /text >}}
 
-1. If you use the `route53` provider, you must provide a secret to perform DNS ACME Validation. To create the secret, apply the following configuration file:
+1. If you use the `route53` [provider](https://cert-manager.readthedocs.io/en/latest/reference/issuers/acme/dns01.html#amazon-route53), you must provide a secret to perform DNS ACME Validation. To create the secret, apply the following configuration file:
 
     {{< text yaml >}}
 
@@ -297,7 +298,7 @@ This task was validated on AWS Infrastructure.
 
     {{< /text >}}
 
-1. Create your service:s
+1. Create your service:
 
     {{< warning_icon >}} The `NodePort` used needs to be an available Port.
 
