@@ -370,4 +370,16 @@ This task was validated on AWS Infrastructure.
 
     {{< /text >}}
 
+1. Link your `istio-custom-gateway` with your `VirtualService`
+
+1. Correct certificate is returned by the server and it is successfully verified (_SSL certificate verify ok_ is printed)
+
+    {{< text bash >}}
+
+    $ curl -v `https://demo.mydemo.com`
+    Server certificate:
+      SSL certificate verify ok.
+
+    {{ /text }}
+
 **Congratulations!** You can now use your custom `istio-custom-gateway` [gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) configuration object.
