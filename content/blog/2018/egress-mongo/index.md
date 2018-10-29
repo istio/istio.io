@@ -501,7 +501,7 @@ $ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOS
 If the command above prints a certificate returned by the server, the server supports TLS. If not, you have to control
 your MongoDB egress traffic on the TCP level, as described in the previous sections.
 
-### Direct TCP egress traffic without a gateway
+### Direct TLS egress traffic without a gateway
 
 In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
 instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
