@@ -35,4 +35,4 @@ This release note describes what's different between Istio 1.0.2 and Istio 1.0.3
 
 - Reduced `istio-telemetry` CPU usage by 10%.
 
-- Eliminated `stasd-to-prometheus` deployment. Prometheus now directly scrapes from `istio-proxy`.
+- Eliminated `statsd-to-prometheus` deployment. Prometheus now directly scrapes from `istio-proxy`.
