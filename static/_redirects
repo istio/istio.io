@@ -12,5 +12,4 @@
 https://istio.netlify.com/* https://istio.io/:splat 301!
 
 # Redirect to translated sites
-# Uncomment the next line when Chinese is ready
-# /  /zh   302  Language=zh
+/  /zh   302  Language=zh
