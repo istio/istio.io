@@ -260,6 +260,7 @@ grpc
 helloworld
 hostIP
 hostname
+hostnames
 hotspots
 html
 http
@@ -442,8 +443,10 @@ webhook
 webhooks
 whitelist
 whitelists
+wikipedia
 wikipedia.org
 wildcard
+wildcarded
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 x.509
