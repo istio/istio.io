@@ -159,7 +159,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     EOF
     {{< /text >}}
 
-    Now all traffic goes to the `httpbin v1` service.
+    Now all traffic goes to the `httpbin:v1` service.
 
 1. Send some traffic to the service:
 
