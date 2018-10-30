@@ -9,32 +9,30 @@ This release note describes what's different between Istio 1.0.2 and Istio 1.0.3
 
 {{< relnote_links >}}
 
-## Behavior Changes
+## Behavior changes
 
-- [Validating Webhook](/help/ops/setup/validation) is now mandatory. Disabling it may result in Pilot crashes.
+- [Validating webhook](/help/ops/setup/validation) is now mandatory. Disabling it may result in Pilot crashes.
 
-- [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) does not allow wildcard (`*`) DNS resolution. The API has never allowed this, however `ServiceEntry` was erroneously excluded from validation in the previous release.
+- [Service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) no longer allows wildcard (`*`) DNS resolution. The API has never allowed this, however `ServiceEntry` was erroneously excluded from validation in the previous release.
 
-- Core dump path for `istio-proxy` has changed to `/var/lib/istio`.
+- The core dump path for `istio-proxy` has changed to `/var/lib/istio`.
 
 ## Networking
 
-- `mTLS` Permissive mode is enabled by default.
+- [Mutual TLS](/docs/tasks/security/mutual-tls) Permissive mode is enabled by default.
  
-- Major performance improvement in Pilot by incremental EDS.
+- Pilot performance and scalability has been greatly enhanced. Pilot now delivers endpoint updates to 500 sidecars in under 1 second.
 
-- Default trace sampling is set to `1%`.
+- Default [trace sampling](/docs/tasks/telemetry/distributed-tracing/#trace-sampling) is set to 1%.
 
-## Policy and Telemetry
+## Policy and telemetry
 
-- Mixer (`istio-telemetry`) supports load shedding based on request rate and expected latency.
+- Mixer (`istio-telemetry`) now supports load shedding based on request rate and expected latency.
 
-- Mixer client (`istio-policy`) supports `FAIL_OPEN` setting.
+- Mixer client (`istio-policy`) now supports `FAIL_OPEN` setting.
 
-- Istio Performance dashboard added to grafana.
+- Istio Performance dashboard added to Grafana.
 
-- All `ValueTypes` supported by OOP adapters.
+- Reduced `istio-telemetry` CPU usage by 10%.
 
-- Reduced `istio-telemetry` CPU by `10%`.
-
-- Eliminated `stasd-to-prometheus` deployment. Prometheus directly scrapes from `istio-proxy`.
+- Eliminated `stasd-to-prometheus` deployment. Prometheus now directly scrapes from `istio-proxy`.
