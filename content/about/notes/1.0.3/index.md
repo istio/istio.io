@@ -4,7 +4,7 @@ weight: 89
 icon: notes
 ---
 
-This release addresses some critical issues found by the community when using Istio 1.0.2. 
+This release addresses some critical issues found by the community when using Istio 1.0.2.
 This release note describes what's different between Istio 1.0.2 and Istio 1.0.3.
 
 {{< relnote_links >}}
@@ -20,7 +20,7 @@ This release note describes what's different between Istio 1.0.2 and Istio 1.0.3
 ## Networking
 
 - [Mutual TLS](/docs/tasks/security/mutual-tls) Permissive mode is enabled by default.
- 
+
 - Pilot performance and scalability has been greatly enhanced. Pilot now delivers endpoint updates to 500 sidecars in under 1 second.
 
 - Default [trace sampling](/docs/tasks/telemetry/distributed-tracing/#trace-sampling) is set to 1%.
