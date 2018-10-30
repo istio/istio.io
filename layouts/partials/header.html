@@ -52,6 +52,11 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
+                        <a lang="en" href="/" class="dropdown-item {{ if eq $home.Lang "en" }}active{{ end }}" onclick="createCookie('nf_lang', 'en'); return true;">English</a>
+                        <a lang="zh" href="/zh" class="dropdown-item {{ if eq $home.Lang "zh" }}active{{ end }}" onclick="createCookie('nf_lang', 'zh'); return true;">中文</a>
+
+                        <div class="dropdown-divider"></div>
+
                         <a class="dropdown-item" id="light-theme-item" href="" onclick="setActiveStyleSheet('light');return false;">{{ i18n "light_theme" }}</a>
                         <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('dark');return false;">{{ i18n "dark_theme" }}</a>
 
