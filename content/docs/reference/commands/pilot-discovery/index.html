@@ -199,11 +199,6 @@ number_of_entries: 5
 <td>Max message size received by MCP&#39;s grpc client  (default `4194304`)</td>
 </tr>
 <tr>
-<td><code>--mcpServerAddrs &lt;stringSlice&gt;</code></td>
-<td></td>
-<td>comma separated list of MCP server addresses with mcp:// (insecure) or mcps:// (secure) schema, e.g. mcps://istio-galley.istio-system.svc:9901  (default `[]`)</td>
-</tr>
-<tr>
 <td><code>--meshConfig &lt;string&gt;</code></td>
 <td></td>
 <td>File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `/etc/istio/config/mesh`)</td>
@@ -217,6 +212,11 @@ number_of_entries: 5
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default ``)</td>
+</tr>
+<tr>
+<td><code>--networksConfig &lt;string&gt;</code></td>
+<td></td>
+<td>File name for Istio mesh networks configuration. If not specified, a default mesh networks will be used.  (default `/etc/istio/config/networks`)</td>
 </tr>
 <tr>
 <td><code>--plugins &lt;stringSlice&gt;</code></td>
