@@ -159,7 +159,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     EOF
     {{< /text >}}
 
-    Now all traffic goes to the `httpbin v1` service.
+    Now all traffic goes to the `httpbin:v1` service.
 
 1. Send some traffic to the service:
 
@@ -221,7 +221,7 @@ log entries for `v1` and none for `v2`:
     {{< /text >}}
 
     This route rule sends 100% of the traffic to `v1`. The last stanza specifies
-    that you want to mirror to the `httpbin v2` service. When traffic gets mirrored,
+    that you want to mirror to the `httpbin:v2` service. When traffic gets mirrored,
     the requests are sent to the mirrored service with their Host/Authority headers
     appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
 
