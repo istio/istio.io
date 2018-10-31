@@ -86,8 +86,9 @@ from within your Istio cluster. This task shows you how to access an external HT
 
 ### Configuring an external HTTPS service
 
-1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
-    protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
+1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
+    For TLS protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
+    Without it, exactly what service or services are exposed by the `ServiceEntry` is undefined.
     The `VirtualService` must include a `tls` rule with `sni_hosts` in the `match` clause to enable SNI routing.
 
     {{< text bash >}}
