@@ -224,7 +224,10 @@ Istio provides two types of authentication:
 - **Origin authentication**, also known as **end-user authentication**: verifies the
   original client making the request as an end-user or device.
   Istio enables request-level authentication with JSON Web Token (JWT) validation
-  and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
+  and a streamlined developer experience for open source OpenID Connect provider
+  [ORY Hydra](https://www.ory.sh), [Keycloak](https://www.keycloak.org),
+  [Auth0](https://auth0.com/),
+  [Firebase Auth](https://firebase.google.com/docs/auth/),
   [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
 
 In both cases, Istio stores the authentication policies in the `Istio config store` via a custom Kubernetes API.
@@ -247,6 +250,30 @@ For a client to call a server with mutual TLS authentication:
    and Istio forwards the traffic from the client side Envoy to the server side Envoy.
 
 1. After authorization, the server side Envoy forwards the traffic to the server service through local TCP connections.
+
+#### Permissive mode
+
+Istio mutual TLS has a permissive mode, which allows a service to accept
+both plain text traffic and mutual TLS traffic at the same time. This
+feature greatly improves the mutual TLS onboarding experience.
+
+Many non-Istio clients communicating with a non-Istio server presents a
+problem for an operator who wants to migrate that server to Istio with
+mutual TLS enabled. Commonly, the operator cannot install an Istio sidecar
+for all clients at the same time or does not even have the permissions to
+do so on some clients. Even after installing the Istio sidecar on the
+server, the operator cannot enable mutual TLS without breaking existing
+communications.
+
+With the permissive mode enabled, the server accepts both plain text and
+mutual TLS traffic. The mode provides great flexibility for the
+on-boarding process. The server's installed Istio sidecar takes mutual TLS
+traffic immediately without breaking existing plain text traffic. As a
+result, the operator can gradually install and configure the client's
+Istio sidecars to send mutual TLS traffic. Once the configuration of the
+clients is complete, the operator can configure the server to mutual TLS
+only mode. For more information, visit the
+[Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
 
 #### Secure naming
 
@@ -558,7 +585,7 @@ In the following example, Istio authorization permissive mode is set on global c
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
+kind: ClusterRbacConfig
 metadata:
   name: default
 spec:
@@ -587,14 +614,14 @@ spec:
 
 ### Enabling authorization
 
-You enable Istio Authorization using a `RbacConfig` object. The `RbacConfig`
-object is a mesh-wide singleton with a fixed name value of `default`. You can
-only use one `RbacConfig` instance in the mesh. Like other Istio configuration
-objects, `RbacConfig` is defined as a
+You enable Istio Authorization using a `ClusterRbacConfig` object. The `ClusterRbacConfig`
+object is a cluster-scoped singleton with a fixed name value of `default`. You can
+only use one `ClusterRbacConfig` instance in the mesh. Like other Istio configuration
+objects, `ClusterRbacConfig` is defined as a
 Kubernetes `CustomResourceDefinition`
 [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
-In the `RbacConfig` object, the operator can specify a `mode` value, which can
+In the `ClusterRbacConfig` object, the operator can specify a `mode` value, which can
 be:
 
 - **`OFF`**: Istio authorization is disabled.
@@ -610,7 +637,7 @@ namespace.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
+kind: ClusterRbacConfig
 metadata:
   name: default
 spec:

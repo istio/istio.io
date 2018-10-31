@@ -40,14 +40,10 @@
         {{ end }}
 
         {{ if .Params.supported_templates }}
-            {{ $templates := split .Params.supported_templates "," }}
-            <tr><td>{{ i18n "partner_component_supported_templates" }}</td><td>
-
-            {{ $base := .Site.BaseURL }}
-            {{ range $i, $t := $templates }}
-                <a href="{{ $base }}/docs/reference/config/policy-and-telemetry/templates/{{ trim $t " " }}"><code>{{ trim $t " " }}</code></a>
-            {{ end }}
-            </td>
+            <tr>
+                <td>{{ i18n "partner_component_supported_templates" }}</td>
+                <td>{{ partial "template_list.html" (dict "page" . "templates" .Params.supported_templates) }}</td>
+            </tr>
         {{ end }}
     </table>
 </div>

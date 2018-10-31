@@ -3,7 +3,6 @@ title: 需要帮助吗？
 linktitle: 帮助
 description: 一堆帮助您部署、配置和使用 Istio 的资源。
 weight: 10
-type: section-index
 sidebar_singlecard: true
 icon: help
 ---

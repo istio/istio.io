@@ -2,7 +2,7 @@
 title: FAQ
 description: 关于Istio的常见问题。
 weight: 20
-type: faqlanding
+layout: faqlanding
 icon: faq
 ---
 

@@ -64,7 +64,7 @@
 {{- end -}}
 
 {{- /* include a link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
-{{- $branch := .Site.Data.args.branch_name -}}
+{{- $branch := .Site.Data.args.source_branch_name -}}
 {{- $links := findRE "@(.*?)@" $text -}}
 {{- range $link := $links -}}
     {{- $target := trim $link "@" -}}

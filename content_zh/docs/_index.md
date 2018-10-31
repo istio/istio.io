@@ -4,7 +4,6 @@ linktitle: 文档
 description: 了解如何部署、使用和运维 Istio。
 weight: 1
 sidebar_multicard: true
-type: section-index
 icon: docs
 ---
 
