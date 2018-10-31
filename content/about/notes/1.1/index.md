@@ -1,6 +1,6 @@
 ---
 title: Istio 1.1
-weight: 89
+weight: 88
 icon: notes
 ---
 
