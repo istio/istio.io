@@ -1,14 +1,14 @@
 ---
 title: SignalFx
-description: 该 `signalfx` 适配器收集 Istio 指标和跟踪 span 并将它们发送到 [SignalFx](https://signalfx.com) 。
+description: 将指标发送到SignalFx的适配器。
 weight: 70
 ---
 
-该 `signalfx` 适配器收集 Istio 指标和跟踪 span 并将它们发送到 [SignalFx](https://signalfx.com) 。
+`signalfx` 适配器收集 Istio 指标和 trace span 并将它们发送到 [SignalFx](https://signalfx.com)。
 
-此适配器支持[度量模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)和[跟踪模板](/zh/docs/reference/config/policy-and-telemetry/templates/tracespan/) 。
+此适配器支持[指标模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)和[trace 模板](/zh/docs/reference/config/policy-and-telemetry/templates/tracespan/)。
 
-如果发送跟踪 span，则此适配器可以使用配置文件,为发送到此适配器的 tracespan 格式的某些规范。以下是一个适用的跟踪示例：
+在发送 Trace span，该适配器可以对接收到的 Trace span 进行一些配置来生成发送内容。以下是一个适用的 trace 示例：
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -26,14 +26,13 @@ spec:
   # 如果此值 >=500，则 span 将获得 `error` 标记
   httpStatusCode: response.code | 0
   clientSpan: context.reporter.kind == "outbound"
-  # 下面没有注释的 Span 标签很有用，可以不加修改地传递给 SignalFx。具有注释的标签做了详细解释，但是他们都是可选的。
+  # 下面的注释标签都是可选项。没有注释的的部分会不加修改地传递给 SignalFx。有注释的标签会使用特定方式进行解释。
   spanTags:
-    # 这用于确定 span 是否属于请求的客户端或服务器端。
+    # 这用于分辨当前 span 是属于客户端还是服务器端。
     context.reporter.local: context.reporter.local
     # 这将放入 remoteEndpoint.ipv4 字段
     destination.ip: destination.ip | ip("0.0.0.0")
-    # 这会变得扁平化为表单的各个标签
-    # 'destination.labels.<key>: <value>'.
+    # 用 `destination.labels.<key>: <value>` 的形式将标签进行扁平化处理。
     destination.labels: destination.labels
     #  这将放入 remoteEndpoint.name 字段
     destination.name: destination.name | "unknown"
@@ -49,8 +48,7 @@ spec:
     # 这将放入 localEndpoint.ipv4 字段
     source.ip: source.ip | ip("0.0.0.0")
     source.namespace: source.namespace | "unknown"
-    # 这会变得扁平化为表单的各个标签
-    # 'source.labels.<key>: <value>'.
+    # 用 `source.labels.<key>: <value>` 的形式将标签进行扁平化处理。
     source.labels: source.labels
     source.version: source.labels["version"] | "unknown"
 
@@ -58,18 +56,18 @@ spec:
 
 ## PARAMS
 
-`signalfx` 适配器的配置格式 。
+`signalfx` 适配器的配置格式。
 
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
-| `metrics` | [Params.MetricConfig[]](#Params-MetricConfig) | 需要。要发送到 SignalFx 的度量标准集。如果将 Istio 度量标准配置为发送到此适配器，则此处必须具有相应的描述。|
-| `ingestUrl` | `string` | 可选的。要使用的 SignalFx 摄取服务器的 URL。如果未指定，将默认为全局摄取服务器。|
+| `metrics` | [Params.MetricConfig[]](#Params-MetricConfig) | 必选项。要发送到 SignalFx 的指标标准集。如果将 Istio 指标标准配置为发送到此适配器，则此处必须具有相应的描述。|
+| `ingestUrl` | `string` | 可选项。要使用的 SignalFx 接受服务器的 URL。如果未指定，将默认为全局摄取服务器。|
 | `accessToken` | `string` | 必选项。应接收指标的 SignalFx 组织的访问令牌。|
-| `datapointInterval` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) | 可选的。指定将指标发送到 SignalFx 的频率。报告给此适配器的度量标准将作为时间序列进行收集和报告。这将四舍五入到最接近的秒，小于一秒的舍入值无效。如果未指定，则默认为10秒。|
-| `enableMetrics` | `bool` | 可选的。如果设置为 false，则不会发送度量标准（但将发送跟踪 span ，除非另行禁用）。|
-| `enableTracing` | `bool` | 可选的。如果设置为 false，则不会发送跟踪 span （除非另行禁用，否则将发送度量标准）。|
-| `tracingBufferSize` | `uint32` | 可选的。适配器在丢弃之前将缓冲的跟踪 span 数。默认为 1000 个 span ，但如果需要，可以配置更高。如果删除 span，将记录错误消息。|
-| `tracingSampleProbability` | `double` | 可选的。如果父节点尚未被采样，则给定 span 的均匀概率（[0.0,1.0]）。如果他们的父节点是，子节点 span 将始终被采样。如果未提供，则默认为发送所有 span。|
+| `datapointInterval` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) | 可选项。指定将指标发送到 SignalFx 的频率。报告给此适配器的指标标准将作为时间序列进行收集和报告。这将四舍五入到最接近的秒，小于一秒的舍入值无效。如果未指定，则默认为10秒。|
+| `enableMetrics` | `bool` | 可选项。如果设置为 false，则不会发送指标标准（但将发送 trace span ，除非另行禁用）。|
+| `enableTracing` | `bool` | 可选项。如果设置为 false，则不会发送 trace span （除非另行禁用，否则将发送指标标准）。|
+| `tracingBufferSize` | `uint32` | 可选项。适配器在丢弃之前将缓冲的 trace span 数。默认为 1000 个 span ，但如果必选项，可以配置更高。如果删除 span，将记录错误消息。|
+| `tracingSampleProbability` | `double` | 可选项。如果父 span 尚未被采样的情况下，当前 span 的采样概率为（[0.0,1.0]）。如果他们的父 span 被采样，子 span 则一定会被采样。如果没有赋值，则默认为发送所有的 span。|
 
 ## Params.MetricConfig
 
@@ -77,8 +75,8 @@ spec:
 
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
-| `name` | `string` | 需要。发送到适配器的度量标准的名称。在 Kubernetes 中，这是 “.metric” 哪里 “ ” 是度量资源的名称字段，“ ” 是度量资源的命名空间。|
-| `type` | [Params.MetricConfig.Type](#Params-MetricConfig-Type) | 度量标准类型  |
+| `name` | `string` | 必选项。发送到适配器的指标标准的名称。在 Kubernetes 中，其形式为 “.metric.” 其中 “ ” 是指标资源的名称字段，“ ” 是指标资源的命名空间。|
+| `type` | [Params.MetricConfig.Type](#Params-MetricConfig-Type) | 指标标准类型  |
 
 ## Params.MetricConfig.Type
 
