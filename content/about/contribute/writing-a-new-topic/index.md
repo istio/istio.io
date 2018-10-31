@@ -104,6 +104,7 @@ The available front matter fields are:
 |`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+|`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
 
 There are a few more front matter fields available specifically for blog posts:
 
@@ -112,7 +113,7 @@ There are a few more front matter fields available specifically for blog posts:
 |`publishdate`  | Date of the post's original publication
 |`last_update`  | Date when the post last received a major revision
 |`attribution`  | Optional name of the post's author
-|`twitter`      | Optional Twitter of the post's author
+|`twitter`      | Optional Twitter handle of the post's author
 
 ## Adding images
 
