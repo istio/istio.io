@@ -23,7 +23,7 @@ keywords: [流量管理,熔断]
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-    否者就需要在部署 `httpbin` 应用之前手工注入 Sidecar 了：
+    否则就需要在部署 `httpbin` 应用之前手工注入 Sidecar 了：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
@@ -35,7 +35,7 @@ keywords: [流量管理,熔断]
 
 1. 创建一个 [目标规则](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)，针对 `httpbin` 服务设置断路器：
 
-    > 如果您启用了双向 TLS 身份验证的 Istio，则必须在应用之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[重新配置服务路由时出现 503 错误](/zh/help/ops/traffic-management/deploy-guidelines/#重新配置服务路由时出现-503-错误)所述。
+    > 如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[设置目标规则后出现 503 错误](/zh/help/ops/traffic-management/troubleshooting/#设置目标规则后出现-503-错误)所述。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -173,7 +173,7 @@ keywords: [流量管理,熔断]
 1. 接下来把并发连接数量提高到 3：
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 3 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
     Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
     Starting at max qps with 3 thread(s) [gomax 2] for exactly 30 calls (10 per thread + 0)
     23:51:51 W http.go:617> Parsed non ok code 503 (HTTP/1.1 503)
@@ -234,13 +234,13 @@ keywords: [流量管理,熔断]
 
 ## 清理
 
-1.  清理规则：
+1. 清理规则：
 
     {{< text bash >}}
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
+1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy

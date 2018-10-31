@@ -48,7 +48,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     If you are enabling `certmanager`, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
+    $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml
     {{< /text >}}
 
 1. Choose one of the following two
@@ -102,7 +102,7 @@ to manage the lifecycle of Istio.
     If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
 
 ## Uninstall

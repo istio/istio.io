@@ -95,9 +95,10 @@ keywords: [keyword1,keyword2,...]
 {{</* idea_icon */>}}
 {{</* checkmark_icon */>}}
 {{</* cancel_icon */>}}
+{{</* info_icon */>}}
 {{< /text >}}
 
-这段代码会显示 {{< warning_icon >}} 、 {{< idea_icon >}}、 {{< checkmark_icon >}} 和 {{< cancel_icon >}}.
+这段代码会显示 {{< warning_icon >}} 、 {{< idea_icon >}}、 {{< checkmark_icon >}}、 {{< cancel_icon >}} 和 {{< info_icon >}}。
 
 另外还可以用这种代码在内容中加入 `emoji` ： `:``sailboat``:` ，这样会显示帆船的 `emoji` ， 就像这样 `:sailboat:`。
 
@@ -147,7 +148,7 @@ keywords: [keyword1,keyword2,...]
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-上面的注解生成的链接会指向 GitHub 中当前文档的当前所在分支。如果需要手工创建链接，可以使用 **{{</* branch_name */>}}** 来获取当前分支名称。
+上面的注解生成的链接会指向 GitHub 中当前文档的当前所在分支。如果需要手工创建链接，可以使用 **{{</* source_branch_name */>}}** 来获取当前分支名称。
 
 ## 预格式化文本块
 

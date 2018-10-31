@@ -31,10 +31,10 @@
         {{ end }}
 
         {{ if not .Site.Data.args.archive }}
-            {{ if eq $section.Title "Istio Blog Posts" }}
+            {{ if strings.HasSuffix $section.Dir "blog/" }}
                 <div class="text-center subscribe" >
                     <a href="/feed.xml" target="_blank">
-                        {{ partial "large_icon.html" "rss" }}Subscribe
+                        {{ partial "large_icon.html" "rss" }}{{ i18n "subscribe" }}
                     </a>
                 </div>
             {{ end }}

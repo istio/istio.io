@@ -1,1 +1,1 @@
-{{ partial (printf "inline_images/%s" (.Get 0)) }}
+{{ with resources.Get (printf "inline_images/%s" (.Get 0)) }}{{ ( . | minify).Content | safeHTML }}{{ end }}

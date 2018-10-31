@@ -44,7 +44,6 @@ The currently exposed options are:
 | `cluster_flavour` | Define the target cluster type | `k8s` or `ocp` | `ocp` |
 | `cmd_path` | Override the path to `kubectl` or `oc` | A valid path to a `kubectl` or `oc` binary | `$PATH/oc` |
 | `istio.auth` | Install with mutual TLS | `true` or `false` | `false` |
-| `istio.addon` | Istio addons to install | array containing any of `kiali` | Istio already installs `grafana`, `prometheus`, `jaeger` by default |
 | `istio.delete_resources` | Delete resources created under Istio namespace | `true` or `false` | false |
 | `istio.samples` | Array containing the names of the samples that should be installed | `bookinfo`, `helloworld`, `httpbin`, `sleep` | none |
 
@@ -78,12 +77,6 @@ Operator installs Istio on OpenShift with settings other than the default:
 
 {{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"auth": true, "delete_resources": true}}'
-{{< /text >}}
-
-Operator installs Istio on OpenShift with customized addons:
-
-{{< text bash >}}
-$ ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["kiali"]}}'
 {{< /text >}}
 
 Operator installs Istio on OpenShift and additionally wants to deploy some of the samples:
