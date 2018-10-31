@@ -27,7 +27,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 1. Set an environment variable for the password of your `admin` user. To prevent the password being preserved in the Bash
    history, remove the command from the history immediately after
-   running the command, using [history -d _offset_](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
+   running the command, using [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
 
     {{< text bash >}}
     $ export MONGO_ADMIN_PASSWORD=<your MongoDB admin password>
@@ -35,7 +35,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 1.  Set an environment variable for the password of the new user, you will create, namely `bookinfo`.
     Remove the command from the history using
-    [history -d _offset_](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
+    [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
 
     {{< text bash >}}
     $ export BOOKINFO_PASSWORD=<password>
