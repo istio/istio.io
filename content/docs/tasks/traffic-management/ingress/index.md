@@ -226,7 +226,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 ## Accessing ingress services using a browser
 
-Entering the `httpbin` service URL in a browser won't work because you can't tell the browser to pretend to be accessing `httpbin.example.com` like with `curl`. In a real world situation, this is not a problem because because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name in the URL, for example, `https://httpbin.example.com/status/200`.
+Entering the `httpbin` service URL in a browser won't work because you can't tell the browser to pretend to be accessing `httpbin.example.com` like with `curl`. In a real world situation, this is not a problem because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name in the URL, for example, `https://httpbin.example.com/status/200`.
 
 To work around this problem for simple tests and demos, use a wildcard `*` value for the host in the `Gateway` and `VirtualService` configurations. For example, if you change your ingress configuration to the following:
 
@@ -281,7 +281,7 @@ and exposed an HTTP endpoint of the service to external traffic.
 
 ## Cleanup
 
-Delete the `Gateway` configuration, the `VirtualService` and the secret, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
+Delete the `Gateway` and `VirtualService` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
 $ kubectl delete gateway httpbin-gateway

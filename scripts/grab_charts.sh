@@ -5,8 +5,13 @@
 # Initial setup
 ISTIO_BASE=$(cd "$(dirname "$0")/.." ; pwd -P)
 CHARTS_TARGET_DIR=${ISTIO_BASE}/static/charts
-WORK_DIR=$(mktemp -d)
-HELM_DIR=$(mktemp -d)
+if [[ -a $TEMPDIR_BASE ]]; then
+  WORK_DIR=$(mktemp -d $TEMPDIR_BASE/tmp.XXXX)
+  HELM_DIR=$(mktemp -d $TEMPDIR_BASE/tmp.XXXX)  
+else
+  WORK_DIR=$(mktemp -d)
+  HELM_DIR=$(mktemp -d)
+fi
 
 echo WORK_DIR = $WORK_DIR
 echo HELM_DIR = $HELM_DIR
@@ -22,12 +27,14 @@ HELM="docker run -t -i --user $UID --rm -v ${HELM_DIR}:${HELM_DIR} -v ${WORK_DIR
 # The repos to mine for charts, just add new entries here to pull in more repos.
 REPOS=(
     https://github.com/istio/istio.git@master
+    https://github.com/istio-ecosystem/cni.git@master
 )
 
 # Charts to extract from repos
 CHARTS=(
   ${WORK_DIR}/istio/install/kubernetes/helm/istio
   ${WORK_DIR}/istio/install/kubernetes/helm/istio-remote
+  ${WORK_DIR}/cni/deployments/kubernetes/install/helm/istio-cni
 )
 
 # Prepare the work directory by cloning all the repos into it.
@@ -50,7 +57,7 @@ $HELM init --client-only
 mkdir -vp $HELM_BUILD_DIR
 for CHART_PATH in "${CHARTS[@]}"
 do
-    $HELM package $CHART_PATH -d $HELM_BUILD_DIR
+    $HELM package -u $CHART_PATH -d $HELM_BUILD_DIR
 done
 $HELM repo index $HELM_BUILD_DIR
 

@@ -9,7 +9,7 @@ keywords: [platform-setup,kubernetes,minikube]
 Follow these instructions to prepare Minikube for Istio.
 
 1. To run Istio locally, install the latest version of
-   [Minikube](https://kubernetes.io/docs/setup/minikube/), version **0.28.0 or
+   [Minikube](https://kubernetes.io/docs/setup/minikube/), version **0.28.1 or
    later**.
 
 1. Select a
@@ -23,8 +23,6 @@ Follow these instructions to prepare Minikube for Istio.
 
     {{< text bash >}}
     $ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.9.4 \
-        --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
-        --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
         --extra-config=apiserver.admission-control="NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota" \
         --vm-driver=`your_vm_driver_choice`
     {{< /text >}}
@@ -33,7 +31,5 @@ Follow these instructions to prepare Minikube for Istio.
 
     {{< text bash >}}
     $ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.10.0 \
-        --extra-config=controller-manager.cluster-signing-cert-file="/var/lib/localkube/certs/ca.crt" \
-        --extra-config=controller-manager.cluster-signing-key-file="/var/lib/localkube/certs/ca.key" \
         --vm-driver=`your_vm_driver_choice`
     {{< /text >}}

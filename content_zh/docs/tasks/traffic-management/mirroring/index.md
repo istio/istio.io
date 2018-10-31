@@ -1,6 +1,6 @@
 ---
 title: 镜像
-description: 此任务演示了 Istio 的流量镜像/阴影功能。
+description: 此任务演示了 Istio 的流量镜像功能。
 weight: 60
 keywords: [流量管理,镜像]
 ---
@@ -9,7 +9,7 @@ keywords: [流量管理,镜像]
 
 流量镜像，也称为影子流量，是一个以尽可能低的风险为生产带来变化的强大的功能。镜像会将实时流量的副本发送到镜像服务。镜像流量发生在主服务的关键请求路径之外。
 
-在此任务中，您将首先强制所有流量到 `v1` 测试服务。然后，您将使用规则将一部分流量镜像到 `v2`。
+在此任务中，首先把所有流量路由到 `v1` 测试服务。然后使用规则将一部分流量镜像到 `v2`。
 
 ## 开始之前
 
@@ -88,7 +88,7 @@ keywords: [流量管理,镜像]
     EOF
     {{< /text >}}
 
-* 启动 `sleep` 服务，这样您就可以使用 `curl` 来提供负载：
+* 启动 `sleep` 服务，这样就可以使用 `curl` 来提供负载了：
 
     **sleep service:**
 
@@ -115,11 +115,11 @@ keywords: [流量管理,镜像]
 
 ## 创建默认路由策略
 
-默认情况下，Kubernetes 在 `httpbin` 服务的两个版本之间进行负载均衡。在此步骤中，您将更改该行为，以便所有流量都转到 `v1`。
+默认情况下，Kubernetes 在 `httpbin` 服务的两个版本之间进行负载均衡。在此步骤中会更改该行为，把所有流量都路由到 `v1`。
 
 1. 创建一个默认路由规则，将所有流量路由到服务的 `v1` ：
 
-  > 如果你已安装/配置 Istio，启用了双向 TLS 认证，在应用前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，[规则配置导致的 503 错误描述，请参阅](/zh/help/ops/traffic-management/deploy-guidelines/#重新配置服务路由时出现-503-错误)。
+  > 如果为 Istio 启用了双向 TLS 认证，在应用前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，如[设置目标规则后出现 503 错误](/zh/help/ops/traffic-management/troubleshooting/#设置目标规则后出现-503-错误)所述。
 
     {{< text bash >}}
     $ cat <<EOF | istioctl create -f -
@@ -153,7 +153,7 @@ keywords: [流量管理,镜像]
     EOF
     {{< /text >}}
 
-    现在所有流量已经都转到 `httpbin v1` 服务。
+    现在所有流量已经都转到 `httpbin:v1` 服务。
 
 1. 向服务发送一些流量：
 
@@ -174,7 +174,7 @@ keywords: [流量管理,镜像]
     }
     {{< /text >}}
 
-1. 查看 `httpbin` pods 的 `v1` 和 `v2` 日志。您可以看到 `v1` 的访问日志和 `v2` 为 \<none\> 的日志：
+1. 查看 `httpbin` pods 的 `v1` 和 `v2` 日志。您可以看到 `v1` 的访问日志和 `v2` 为 `<none>` 的日志：
 
     {{< text bash >}}
     $ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
@@ -213,9 +213,9 @@ keywords: [流量管理,镜像]
     EOF
     {{< /text >}}
 
-    此路由规则将 100％ 的流量发送到 `v1` 。最后一节指定镜像到 `httpbin v2` 服务。当流量被镜像时，请求将通过其主机/授权报头发送到镜像服务附上 `-shadow`。例如，将 `cluster-1` 变为 `cluster-1-shadow`。
+    此路由规则将 100％ 的流量发送到 `v1` 。最后一节指定镜像到 `httpbin:v2` 服务。当流量被镜像时，请求将通过其主机/授权报头发送到镜像服务附上 `-shadow`。例如，将 `cluster-1` 变为 `cluster-1-shadow`。
 
-    此外，重点注意这些请求被镜像为"即发即弃"，这意味着这些响应是被丢弃的。
+    此外，重点注意这些被镜像的请求是“即发即弃”的，也就是说这些请求引发的响应是会被丢弃的。
 
 1. 发送流量：
 
@@ -223,7 +223,7 @@ keywords: [流量管理,镜像]
     $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
     {{< /text >}}
 
-    现在，您可以查看 `v1` 和 `v2` 的访问日志记录。在 `v2` 中创建的请求实际上也通过了 `v1`。
+    这样就可以看到 `v1` 和 `v2` 中都有了访问日志。`v2` 中的访问日志就是由镜像流量产生的，这些请求的实际目标是 `v1`：
 
     {{< text bash >}}
     $ kubectl logs -f $V1_POD -c httpbin

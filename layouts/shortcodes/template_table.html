@@ -1,0 +1,48 @@
+{{ $adapterIndex := .Page.GetPage "/docs/reference/config/policy-and-telemetry/adapters" }}
+{{ $adapterPages := $adapterIndex.Pages }}
+
+<table>
+    <thead>
+        <tr>
+            <th>{{ i18n "template" }}</th>
+            <th>{{ i18n "adapters" }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ range .Page.Pages }}
+            <tr>
+                <td><a title="{{ .Description }}" href="{{ .Permalink }}">{{- .Title -}}</a></td>
+
+                <td>
+                    {{ $current_template := split .Dir "/" | last 2 }}
+                    {{ $current_template := index $current_template 0 }}
+
+                    {{ $adapters := "" }}
+                    {{ range $a := $adapterPages }}
+                        {{ $adapter_name := split $a.Dir "/" | last 2 }}
+                        {{ $adapter_name := index $adapter_name 0 }}
+
+                        {{ $templates := split .Params.supported_templates "," }}
+                        {{ $templates := sort $templates }}
+
+                        {{ range $templates }}
+                            {{ $temp := trim . " "}}
+
+                            {{ if eq $current_template $temp }}
+                                {{ if $adapters }}
+                                    {{ $adapters = printf "%s,%s" $adapters $adapter_name }}
+                                {{ else }}
+                                    {{ $adapters = $adapter_name }}
+                                {{ end }}
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+
+                    {{ if $adapters }}
+                        {{ partial "adapter_list.html" (dict "page" . "adapters" $adapters) }}
+                    {{ end }}
+                </td>
+            </tr>
+        {{ end }}
+    </tbody>
+</table>
