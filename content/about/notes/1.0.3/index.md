@@ -1,7 +1,7 @@
 ---
 title: Istio 1.0.3
 weight: 89
-icon: notes
+icon: /img/notes.svg
 ---
 
 This release addresses some critical issues found by the community when using Istio 1.0.2.
