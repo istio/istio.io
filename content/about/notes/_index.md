@@ -8,6 +8,7 @@ aliases:
   - /docs/welcome/notes/index.html
   - /docs/references/notes
 icon: notes
+simple_list: true
 ---
 
 Check out our [release page](https://github.com/istio/istio/releases) to download Istio binaries.
