@@ -138,7 +138,7 @@ Normally, automatic sidecar injection on the remote clusters is enabled. To perf
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
-    Repeat for all Kubernetes namespaces that need to setup auto-sidecar
+    Repeat for all Kubernetes namespaces that need to setup automatic sidecar
     injection.
 
 {{% /tab %}}
