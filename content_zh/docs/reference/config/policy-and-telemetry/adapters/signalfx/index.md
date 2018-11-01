@@ -4,11 +4,11 @@ description: 将指标发送到 SignalFx 的适配器。
 weight: 70
 ---
 
-`signalfx` 适配器收集 Istio 指标和 trace span 并将它们发送到 [SignalFx](https://signalfx.com)。
+`signalfx` 适配器收集 Istio 指标和 tracespan 并将它们发送到 [SignalFx](https://signalfx.com)。
 
-此适配器支持[指标模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)和 [trace 模板](/zh/docs/reference/config/policy-and-telemetry/templates/tracespan/)。
+此适配器支持[指标模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)和 [tracespan 模板](/zh/docs/reference/config/policy-and-telemetry/templates/tracespan/)。
 
-在发送 Trace span，该适配器可以对接收到的 Trace span 进行一些配置来生成发送内容。以下是一个适用的 trace 示例：
+在发送 Tracespan，该适配器可以对接收到的 Tracespan 进行一些配置来生成发送内容。以下是一个适用的 tracespan 示例：
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -65,9 +65,9 @@ spec:
 | `accessToken` | `string` | 必选项。应接收指标的 SignalFx 组织的访问令牌。|
 | `datapointInterval` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) | 可选项。指定将指标发送到 SignalFx 的频率。报告给此适配器的指标标准将作为时间序列进行收集和报告。这将四舍五入到最接近的秒，小于一秒的舍入值无效。如果未指定，则默认为10秒。|
 | `enableMetrics` | `bool` | 可选项。如果设置为 false，则不会发送指标标准（但将发送 trace span ，除非另行禁用）。|
-| `enableTracing` | `bool` | 可选项。如果设置为 false，则不会发送 trace span （除非另行禁用，否则将发送指标标准）。|
-| `tracingBufferSize` | `uint32` | 可选项。适配器在丢弃之前将缓冲的 trace span 数。默认为 1000 个 span ，但如果必选项，可以配置更高。如果删除 span，将记录错误消息。|
-| `tracingSampleProbability` | `double` | 可选项。如果父 span 尚未被采样的情况下，当前 span 的采样概率为（[0.0,1.0]）。如果他们的父 span 被采样，子 span 则一定会被采样。如果没有赋值，则默认为发送所有的 span。|
+| `enableTracing` | `bool` | 可选项。如果设置为 false，则不会发送 tracespan （除非另行禁用，否则将发送指标标准）。|
+| `tracingBufferSize` | `uint32` | 可选项。适配器在丢弃之前将缓冲的 tracespan 数。默认为 1000 个 span ，但如果必选项，可以配置更高。如果删除 span，将记录错误消息。|
+| `tracingSampleProbability` | `double` | 可选项。如果父 span 尚未被采样的情况下，当前 span 的采样概率为（[0.0,1.0]）。如果它们的父 span 被采样，子 span 则一定会被采样。如果没有赋值，则默认为发送所有的 span。|
 
 ## Params.MetricConfig
 
@@ -75,7 +75,7 @@ spec:
 
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
-| `name` | `string` | 必选项。发送到适配器的指标标准的名称。在 Kubernetes 中，其形式为 “.metric.” 其中 “ ” 是指标资源的名称字段，“ ” 是指标资源的命名空间。|
+| `name` | `string` | 必选项。发送到适配器的指标标准的名称。在 Kubernetes 中，其形式为 ".metric." 其中双引号中 “ ” 既有指标资源的名称字段， 也有指标资源的命名空间。|
 | `type` | [Params.MetricConfig.Type](#Params-MetricConfig-Type) | 指标标准类型  |
 
 ## Params.MetricConfig.Type
