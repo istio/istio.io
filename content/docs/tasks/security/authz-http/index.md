@@ -70,6 +70,8 @@ for the list of supported keys in `constraints` and `properties`.
 
 ## Authorization permissive mode
 
+Note that Authorization permissive mode is an experimental feature in Istio release 1.1, its interface may change in future releases.
+
 This section shows how to use authorization permissive mode in below two scenarios:
 
     * In environment without authorization, test whether it's safe to enable authorization.
