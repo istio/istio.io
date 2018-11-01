@@ -15,12 +15,12 @@ ratings data is persisted in a MongoDB database. You deploy this database outsid
 _ratings_ microservice to use it. You will learn multiple options of controlling external MongoDB services and their
 pros and cons.
 
-## Bookinfo sample application with external ratings database
+## Bookinfo with external ratings database
 
 First, you set up a MongoDB database instance to hold book ratings data outside of your Kubernetes cluster. Then you
 modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your database.
 
-### Setting up the database for ratings data
+### Setting up the ratings database
 
 For this task you set up an instance of [MongoDB](https://www.mongodb.com). You can use any MongoDB instance; I used
 [Compose for MongoDB](https://www.ibm.com/cloud/compose/mongodb).
@@ -110,7 +110,7 @@ As a reminder, here is the end-to-end architecture of the application from the
     caption="The original Bookinfo application"
     >}}
 
-### Use the database for ratings data in Bookinfo application
+### Use the external database in Bookinfo application
 
 1.  Modify the deployment spec of a version of the _ratings_ microservice that uses a mongodb database, to use your
 database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml)
@@ -188,7 +188,7 @@ Get the IP address of your MongoDB database instance. As an option, you can use 
 $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 {{< /text >}}
 
-### Direct TCP egress traffic without a gateway
+### Control TCP egress traffic without a gateway
 
 In case you do not need to direct the traffic through an
 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), for example if you have a requirement that
@@ -233,7 +233,7 @@ provide you with a visual clue that your external database is indeed being used.
 $ kubectl delete serviceentry mongo
 {{< /text >}}
 
-### Direct TCP Egress traffic through the egress gateway
+### Direct TCP Egress traffic through an egress gateway
 
 In this section you handle the case when you need to direct the traffic through an
 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TCP
@@ -363,7 +363,7 @@ If you do not need mutual TLS, proceed to the next section.
 
 1.  Proceed to [Verify that the TCP egress traffic is directed through the egress gateway](#verify-that-the-tcp-egress-traffic-is-directed-through-the-egress-gateway).
 
-#### Direct TCP traffic to the egress gateway without mutual TLS
+#### Direct TCP traffic through an egress gateway without mutual TLS
 
 Follow the steps in this section if you do not need mutual TLS between the sidecar proxies of the MongoDB clients and
 the egress gateway. See the previous section for an explanation why you may want to enable mutual TLS.
@@ -471,7 +471,7 @@ the egress gateway. See the previous section for an explanation why you may want
     cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
     {{< /text >}}
 
-#### Cleanup after direct TCP egress traffic through the egress gateway
+#### Cleanup directing TCP egress traffic through an egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
@@ -501,7 +501,7 @@ $ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOS
 If the command above prints a certificate returned by the server, the server supports TLS. If not, you have to control
 your MongoDB egress traffic on the TCP level, as described in the previous sections.
 
-### Direct TLS egress traffic without a gateway
+### Control TLS egress traffic without a gateway
 
 In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
 instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
@@ -555,7 +555,7 @@ $ kubectl delete serviceentry mongo
 $ kubectl delete virtualservice mongo
 {{< /text >}}
 
-### Direct TLS Egress traffic through the egress gateway
+### Direct TLS Egress traffic through an egress gateway
 
 In this section you handle the case when you need to direct the traffic through an
 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TLS
@@ -753,7 +753,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
     cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
     {{< /text >}}
 
-#### Cleanup after direct TLS Egress traffic through the egress gateway
+#### Cleanup directing TLS Egress traffic through an egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
@@ -762,7 +762,7 @@ $ kubectl delete virtualservice direct-mongo-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-mongo
 {{< /text >}}
 
-### Enable Egress MongoDB traffic to arbitrary wildcarded domains
+### Enable MongoDB TLS egress traffic to arbitrary wildcarded domains
 
 In this section you configure egress traffic for a wildcarded domain, namely `*.com` and direct that traffic through
 an egress gateway.
@@ -1061,7 +1061,7 @@ to hold the configuration of the Nginx SNI proxy:
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
 
-#### Cleanup of MongoDB traffic configuration to arbitrary wildcarded domains
+#### Cleanup of configuration for MongoDB TLS egress traffic to arbitrary wildcarded domains
 
 1.  Delete the configuration items for _*.com_:
 
