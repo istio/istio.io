@@ -33,7 +33,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
     $ export MONGO_ADMIN_PASSWORD=<your MongoDB admin password>
     {{< /text >}}
 
-1.  Set an environment variable for the password of the new user, you will create, namely `bookinfo`.
+1.  Set an environment variable for the password of the new user you will create, namely `bookinfo`.
     Remove the command from the history using
     [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
 
