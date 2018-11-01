@@ -41,7 +41,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
     $ export BOOKINFO_PASSWORD=<password>
     {{< /text >}}
 
-1.  Set environment variables for your MongoDB, `MONGODB_HOST` and `MONGODB_PORT`.
+1.  Set environment variables for your MongoDB service, `MONGODB_HOST` and `MONGODB_PORT`.
 
 1.  Create the `bookinfo` user:
 
