@@ -357,7 +357,7 @@ If you do not need mutual TLS, proceed to the next section.
 Follow the steps in this section if you do not need mutual TLS between the sidecar proxies of the MongoDB clients and
 the egress gateway. See the previous section for an explanation why you may want to enable mutual TLS.
 
-1.  Define the `EGRESS_GATEWAY_MONGODB_PORT` environment variable to hold some port for direct traffic through
+1.  Define the `EGRESS_GATEWAY_MONGODB_PORT` environment variable to hold some port for directing traffic through
     the egress gateway, e.g. `7777`. You must select a port that is not used for any other service in the mesh.
 
     {{< text bash >}}
