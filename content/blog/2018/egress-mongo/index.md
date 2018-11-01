@@ -97,8 +97,8 @@ To demonstrate the scenario of using an external database, you start with a Kube
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 This application uses the `ratings` microservice to fetch book ratings, a number between 1 and 5. The ratings are
-displayed as stars for each review. There are several versions of the `ratings` microservice. You deploy the
-version that uses [MongoDB](https://www.mongodb.com) as the ratings database.
+displayed as stars for each review. There are several versions of the `ratings` microservice. You will deploy the
+version that uses [MongoDB](https://www.mongodb.com) as the ratings database in the next subsection.
 
 The example commands in this blog post work with Istio 1.0.
 
