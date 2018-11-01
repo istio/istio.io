@@ -152,7 +152,7 @@ boundary of the service mesh is marked by a dashed line.
 Access the webpage of the application, after
 [determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
-Since you did not configure the egress traffic control yet, the access to the MongoDB instance is blocked by Istio.
+Since you did not configure the egress traffic control yet, the access to the MongoDB service is blocked by Istio.
 This is why instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
  displayed below each review:
 
@@ -161,7 +161,7 @@ This is why instead of the rating stars, the message _"Ratings service is curren
     caption="The Ratings service error messages"
     >}}
 
-In the following sections you will configure egress access to the external MongoDB instance, using different options for
+In the following sections you will configure egress access to the external MongoDB service, using different options for
 egress control in Istio.
 
 ## Egress control for TCP
@@ -273,7 +273,7 @@ your MongoDB clients and the egress gateway to let the egress gateway monitor th
 enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also encrypt the traffic.
 If you do not need mutual TLS, proceed to the next section.
 
-1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services
+1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     {{< text bash >}}
@@ -382,7 +382,7 @@ the egress gateway. See the previous section for an explanation why you may want
     istio-egressgateway   ClusterIP   172.21.202.204   <none>        80/TCP,443/TCP,7777/TCP   34d
     {{< /text >}}
 
-1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services to direct the
+1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services to direct the
     traffic through the egress gateway and from the egress gateway to the external service.
 
     {{< text bash >}}
@@ -454,7 +454,7 @@ the egress gateway. See the previous section for an explanation why you may want
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
 1.  Check the statistics of the egress gateway's Envoy and see a counter that corresponds to your
-    requests to MongoDB instance. If Istio is deployed in the `istio-system` namespace, the command to print the
+    requests to the MongoDB service. If Istio is deployed in the `istio-system` namespace, the command to print the
     counter is:
 
     {{< text bash >}}
@@ -580,7 +580,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
 1.  Refresh the web page of the application and verify that the ratings are displayed correctly.
 
-1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services
+1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     If you want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
@@ -736,7 +736,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
 1.  Check the statistics of the egress gateway's Envoy and see a counter that corresponds to your
-    requests to MongoDB instance. If Istio is deployed in the `istio-system` namespace, the command to print the
+    requests to the MongoDB service. If Istio is deployed in the `istio-system` namespace, the command to print the
     counter is:
 
     {{< text bash >}}
