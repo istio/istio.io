@@ -1,12 +1,12 @@
 ---
 title: SignalFx
-description: 将指标发送到SignalFx的适配器。
+description: 将指标发送到 SignalFx 的适配器。
 weight: 70
 ---
 
 `signalfx` 适配器收集 Istio 指标和 trace span 并将它们发送到 [SignalFx](https://signalfx.com)。
 
-此适配器支持[指标模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)和[trace 模板](/zh/docs/reference/config/policy-and-telemetry/templates/tracespan/)。
+此适配器支持[指标模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)和 [trace 模板](/zh/docs/reference/config/policy-and-telemetry/templates/tracespan/)。
 
 在发送 Trace span，该适配器可以对接收到的 Trace span 进行一些配置来生成发送内容。以下是一个适用的 trace 示例：
 
@@ -23,7 +23,7 @@ spec:
   spanName: request.path | "/"
   startTime: request.time
   endTime: response.time
-  # 如果此值 >=500，则 span 将获得 `error` 标记
+  # 如果此值 >=500 ，则 span 将获得 `error` 标记
   httpStatusCode: response.code | 0
   clientSpan: context.reporter.kind == "outbound"
   # 下面的注释标签都是可选项。没有注释的的部分会不加修改地传递给 SignalFx。有注释的标签会使用特定方式进行解释。
@@ -84,6 +84,6 @@ spec:
 
 | 名称 | 描述 |
 | --- | --- |
-| `NONE` | 无是默认值且无效  |
+| `NONE` | NONE 是默认值  |
 | `COUNTER` | 具有相同维度集的值将作为连续递增值一起添加。|
 | `HISTOGRAM` | 直方图分布。这将导致为每个唯一维度集发出多个指标。 |
