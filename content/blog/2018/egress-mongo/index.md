@@ -262,8 +262,6 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
     EOF
     {{< /text >}}
 
-1.  Refresh the web page of the application and verify that the ratings are displayed correctly.
-
 1.  Proceed to the following section.
 
 #### Mutual TLS between the sidecar proxies and the egress gateway
