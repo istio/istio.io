@@ -190,7 +190,7 @@ In case you do not need to direct the traffic through an
 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), for example if you do not have a
 requirement that all the traffic that exists your mesh must exit through the gateway, follow the
 instructions in this section. Alternatively, if you do want to direct your traffic through an egress gateway, proceed to
-[Direct TCP Egress traffic through the egress gateway](#direct-tcp-egress-traffic-through-the-egress-gateway).
+[Direct TCP egress traffic through an egress gateway](#direct-tcp-egress-traffic-through-an-egress-gateway).
 
 1.  Define a TCP mesh-external service entry:
 
