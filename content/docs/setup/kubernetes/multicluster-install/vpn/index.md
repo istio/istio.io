@@ -53,9 +53,15 @@ on **one** Kubernetes cluster.
 You must deploy the `istio-remote` component to each remote Kubernetes
 cluster. You can install the component in one of two ways:
 
-* [Option 1: Use Helm and `kubectl` to install and manage the remote cluster](#helm-k)
+{{< tabset cookie-name="install-istio-remote" >}}
 
-* [Option 2: Use Helm and Tiller to install and manage the remote cluster](#tiller)
+{{% tab name="Helm+kubectl" cookie-value="Helm+kubectl" %}}
+[Use Helm and `kubectl` to install and manage the remote cluster](#helm-k)
+{{% /tab %}}
+{{% tab name="Helm+Tiller" cookie-value="Helm+Tiller" %}}
+[Use Helm and Tiller to install and manage the remote cluster](#tiller)
+{{% /tab %}}
+{{< /tabset >}}
 
 ### Set the needed environment variables {#environment-var}
 
@@ -63,7 +69,7 @@ Wait for the Istio control plane to finish initializing before following the
 steps in this section.
 
 You must run these operations on the Istio control plane cluster to capture the
-Istio control-plane service endpoints, for example, the Pilot, Policy, and
+Istio control plane service endpoints, for example, the Pilot, Policy, and
 Statsd Pod IP endpoints.
 
 If you use Helm with Tiller on each remote, you must copy the environment
@@ -88,7 +94,11 @@ Next, you must connect the remote cluster to the local cluster. Proceed to your 
 
 Normally, automatic sidecar injection on the remote clusters is enabled. To perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
 
-### Option 1: Use Helm and `kubectl` to install and manage the remote cluster {#helm-k}
+{{< tabset cookie-name="install-istio-remote" >}}
+
+{{% tab name="Helm+kubectl" cookie-value="Helm+kubectl" %}}
+
+### Use Helm and `kubectl` to install and manage the remote cluster {#helm-k}
 
 1.  Use the following `helm template` command on the remote cluster to specify
     the Istio control plane service endpoints:
@@ -111,6 +121,8 @@ Normally, automatic sidecar injection on the remote clusters is enabled. To perf
     $ kubectl create ns istio-system
     {{< /text >}}
 
+    {{ <info_icon> }} All clusters must have the same namespace for the Istio components. It is possible to override the "istio-system" name on the main cluster as long as the namespace is the same for all Istio components in all clusters.
+
 1.  Instantiate the remote cluster's connection to the Istio control plane with
     the following command:
 
@@ -129,7 +141,11 @@ Normally, automatic sidecar injection on the remote clusters is enabled. To perf
     Repeat for all Kubernetes namespaces that need to setup auto-sidecar
     injection.
 
-### Option 2: Use Helm and Tiller to install and manage the remote {#tiller}
+{{% /tab %}}
+
+{{% tab name="Helm+Tiller" cookie-value="Helm+Tiller" %}}
+
+### Use Helm and Tiller to install and manage the remote {#tiller}
 
 1. If you haven't installed a service account for Helm, install one with the
    following command:
@@ -149,6 +165,10 @@ Normally, automatic sidecar injection on the remote clusters is enabled. To perf
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
     {{< /text >}}
+
+{{% /tab %}}
+
+{{< /tabset >}}
 
 ### Helm chart configuration parameters
 
@@ -180,7 +200,7 @@ describe how to generate a `kubeconfig` configuration file for the Istio control
 
 The `istio-remote` Helm chart creates a Kubernetes service account named
 `istio-multi` in the remote cluster with the minimal required RBAC access. This
-procedure generates the the remote cluster's `kubeconfig` file using
+procedure generates the remote cluster's `kubeconfig` file using
 the credentials of said `istio-multi` service account.
 
 Perform this procedure on each remote cluster to add the cluster to the service
@@ -251,7 +271,7 @@ procedure uses the `WORK_DIR`, `CLUSTER_NAME`, and `NAMESPACE` environment
 values set and the file created for the remote cluster's secret from the
 [previous section](#kubeconfig).
 
-If you created the the environment variables file for the remote cluster's
+If you created the environment variables file for the remote cluster's
 secret, source the file with the following command:
 
     {{< text bash >}}
@@ -261,10 +281,9 @@ secret, source the file with the following command:
 You can install Istio in a different namespace. This procedure uses the
 `istio-system` namespace.
 
-The local cluster running the Istio control plane does not need
-its secrets stored and labeled. The local node is always aware of
-its Kubernetes credentials, but the local node is not aware of
-the remote nodes' credentials.
+{{ warning_icon }} Do not store and label the secrets for the local cluster
+running the Istio control plane. Istio is always aware of the local cluster's
+Kubernetes credentials.
 
 Create a secret and label it properly for each remote cluster:
 
@@ -282,6 +301,10 @@ filename simply by changing the filename to conform with the format.
 
 You must uninstall remote clusters using the same method you used to install them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
 
+{{< tabset cookie-name="uninstall-istio-remote" >}}
+
+{{% tab name="kubectl" cookie-value="kubectl" %}}
+
 ### Use `kubectl` to uninstall the remote cluster
 
 To uninstall the cluster, you must remove the configuration made with the
@@ -291,6 +314,10 @@ To uninstall the cluster, you must remove the configuration made with the
 $ kubectl delete -f $HOME/istio-remote.yaml
 {{< /text >}}
 
+{{% /tab %}}
+
+{{% tab name="Tiller" cookie-value="Tiller" %}}
+
 ### Use Tiller to uninstall the remote cluster
 
 To uninstall the cluster, you must remove the configuration made with the
@@ -299,6 +326,10 @@ To uninstall the cluster, you must remove the configuration made with the
 {{< text bash >}}
 $ helm delete --purge istio-remote
 {{< /text >}}
+
+{{% /tab %}}
+
+{{< /tabset >}}
 
 ## Remote cluster manual sidecar injection example {#manual-sidecar}
 
