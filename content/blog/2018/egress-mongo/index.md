@@ -268,7 +268,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 You may want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
 your MongoDB clients and the egress gateway to let the egress gateway monitor the identity of the source pods and to
-enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also to encrypt the traffic.
+enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also encrypt the traffic.
 If you do not need mutual TLS, proceed to the next section.
 
 1.  Create an egress `Gateway` for your MongoDB instance, and destination rules and virtual services
