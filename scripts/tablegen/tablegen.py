@@ -16,11 +16,11 @@
 
 import collections
 import linecache
+import os
+import re
 import string
 import sys
 import wget
-import os
-import re
 
 from ruamel.yaml import YAML
 
