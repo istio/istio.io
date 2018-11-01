@@ -27,7 +27,7 @@ HELM="docker run -t -i --user $UID --rm -v ${HELM_DIR}:${HELM_DIR} -v ${WORK_DIR
 # The repos to mine for charts, just add new entries here to pull in more repos.
 REPOS=(
     https://github.com/istio/istio.git@master
-    https://github.com/istio-ecosystem/cni.git@master
+    https://github.com/istio/cni.git@master
 )
 
 # Charts to extract from repos
@@ -52,6 +52,7 @@ popd
 # Prepare helm setup
 mkdir -vp $HELM_DIR
 $HELM init --client-only
+$HELM repo add istio.io https://raw.githubusercontent.com/istio/istio.io/master/static/charts
 
 # Create a package for each charts and build the repo index.
 mkdir -vp $HELM_BUILD_DIR
