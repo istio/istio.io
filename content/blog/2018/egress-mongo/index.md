@@ -112,12 +112,8 @@ As a reminder, here is the end-to-end architecture of the application from the
 
 ### Use the external database in Bookinfo application
 
-1.  Modify the deployment spec of a version of the _ratings_ microservice that uses a mongodb database, to use your
-database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml)
-of an Istio release archive.
-
-1.  Apply the modified spec to deploy the version of the _ratings_ microservice, _v2_, that will use your
-    database.
+1.  Deploy the spec of the _ratings_ microservice that uses a MongoDB database (_ratings v2_), while setting
+    `MONGO_DB_URL` environment variable of the spec:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - "MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&ssl=true" -o yaml | kubectl apply -f -
