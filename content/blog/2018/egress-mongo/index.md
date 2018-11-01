@@ -25,9 +25,9 @@ modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your d
 For this task you set up an instance of [MongoDB](https://www.mongodb.com). You can use any MongoDB instance; I used
 [Compose for MongoDB](https://www.ibm.com/cloud/compose/mongodb).
 
-1. Set an environment variable for the password of your `admin` user. To prevent the password being preserved in the Bash
-   history, remove the command from the history immediately after
-   running the command, using [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
+1. Set an environment variable for the password of your `admin` user. To prevent the password from being preserved in
+   the Bash history, remove the command from the history immediately after running the command, using
+   [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins).
 
     {{< text bash >}}
     $ export MONGO_ADMIN_PASSWORD=<your MongoDB admin password>
