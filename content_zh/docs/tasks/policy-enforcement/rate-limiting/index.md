@@ -35,7 +35,7 @@ keywords: [策略,限额]
 
 1. 速率限制配置分为两部分。
     * 客户端
-        * `QuotaSpec` 定义客户端应该请求的配额名称和金额。
+        * `QuotaSpec` 定义客户端应该请求的配额名称和大小。
         * `QuotaSpecBinding` 有条件地将 `QuotaSpec` 与一个或多个服务相关联。
     * Mixer 端
         * `quota instance` 定义了 Mixer 如何确定配额的大小。
