@@ -221,7 +221,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
     >}}
 
 Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
-provide you with a visual clue that your external database is indeed being used.
+provide yourself with a visual clue that your external database is indeed being used.
 
 #### Cleanup of the egress configuration for TCP without a gateway
 
