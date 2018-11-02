@@ -43,12 +43,12 @@ across the multicluster environment and may not overlap.
 This guide describes how to install a multicluster Istio topology using the
 manifests and Helm charts provided within the Istio repository.
 
-## Deploy the local Istio control plane
+## Deploy the local control plane
 
 Install the [Istio control plane](/docs/setup/kubernetes/quick-start/#installation-steps)
 on **one** Kubernetes cluster.
 
-## Install the Istio remote on every remote cluster
+## Install the Istio remote
 
 You must deploy the `istio-remote` component to each remote Kubernetes
 cluster. You can install the component in one of two ways:
@@ -63,7 +63,7 @@ cluster. You can install the component in one of two ways:
 {{% /tab %}}
 {{< /tabset >}}
 
-### Set the needed environment variables {#environment-var}
+### Set environment variables {#environment-var}
 
 Wait for the Istio control plane to finish initializing before following the
 steps in this section.
@@ -93,12 +93,12 @@ Next, you must connect the remote cluster to the local cluster. Proceed to your 
 * Via [Helm plus Tiller](#tiller)
 
 Normally, automatic sidecar injection on the remote clusters is enabled. To perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
-
+### Install and manage the remote cluster
 {{< tabset cookie-name="install-istio-remote" >}}
 
 {{% tab name="Helm+kubectl" cookie-value="Helm+kubectl" %}}
 
-### Use Helm and `kubectl` to install and manage the remote cluster {#helm-k}
+#### With Helm and `kubectl` {#helm-k}
 
 1.  Use the following `helm template` command on the remote cluster to specify
     the Istio control plane service endpoints:
@@ -121,7 +121,7 @@ Normally, automatic sidecar injection on the remote clusters is enabled. To perf
     $ kubectl create ns istio-system
     {{< /text >}}
 
-    {{ <info_icon> }} All clusters must have the same namespace for the Istio components. It is possible to override the "istio-system" name on the main cluster as long as the namespace is the same for all Istio components in all clusters.
+    {{< info_icon >}} All clusters must have the same namespace for the Istio components. It is possible to override the "istio-system" name on the main cluster as long as the namespace is the same for all Istio components in all clusters.
 
 1.  Instantiate the remote cluster's connection to the Istio control plane with
     the following command:
@@ -145,7 +145,7 @@ Normally, automatic sidecar injection on the remote clusters is enabled. To perf
 
 {{% tab name="Helm+Tiller" cookie-value="Helm+Tiller" %}}
 
-### Use Helm and Tiller to install and manage the remote {#tiller}
+#### With Helm and Tiller {#tiller}
 
 1. If you haven't installed a service account for Helm, install one with the
    following command:
@@ -192,7 +192,7 @@ configuration values:
 | `sidecarInjectorWebhook.enabled` | true, false | true | Specifies whether to enable automatic sidecar injection on the remote cluster |
 | `global.remotePilotCreateSvcEndpoint` | true, false | false | If set, a selector-less service and endpoint for `istio-pilot` are created with the `remotePilotAddress` IP, which ensures the `istio-pilot.<namespace>` is DNS resolvable in the remote cluster. |
 
-## Generate `kubeconfig` configuration files for remote clusters {#kubeconfig}
+## Generate configuration files for remote clusters {#kubeconfig}
 
 The Istio control plane requires access to all clusters in the mesh to
 discover services, endpoints, and pod attributes. The following steps
@@ -264,7 +264,7 @@ At this point, you created the remote clusters' `kubeconfig` files in the
 current directory. The filename of the `kubeconfig` file is the same as the
 original cluster name.
 
-## Instantiate the credentials for each remote cluster {#credentials}
+## Instantiate the credentials {#credentials}
 
 Perform this procedure on the cluster running the Istio control plane. This
 procedure uses the `WORK_DIR`, `CLUSTER_NAME`, and `NAMESPACE` environment
@@ -297,7 +297,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 example, the filename can't have underscores.  Resolve any issue with the
 filename simply by changing the filename to conform with the format.
 
-## Uninstalling
+## Uninstalling the remote cluster
 
 You must uninstall remote clusters using the same method you used to install them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
 
@@ -305,7 +305,7 @@ You must uninstall remote clusters using the same method you used to install the
 
 {{% tab name="kubectl" cookie-value="kubectl" %}}
 
-### Use `kubectl` to uninstall the remote cluster
+### With `kubectl`
 
 To uninstall the cluster, you must remove the configuration made with the
 `istio-remote` .YAML file. To uninstall the cluster run the following command:
@@ -318,7 +318,7 @@ $ kubectl delete -f $HOME/istio-remote.yaml
 
 {{% tab name="Tiller" cookie-value="Tiller" %}}
 
-### Use Tiller to uninstall the remote cluster
+### With Tiller
 
 To uninstall the cluster, you must remove the configuration made with the
 `istio-remote` .YAML file. To uninstall the cluster run the following command:
@@ -331,7 +331,7 @@ $ helm delete --purge istio-remote
 
 {{< /tabset >}}
 
-## Remote cluster manual sidecar injection example {#manual-sidecar}
+## Manual sidecar injection example {#manual-sidecar}
 
 The following example shows how to use the `helm template` command to generate
 the manifest for a remote cluster with the automatic sidecar injection
@@ -379,7 +379,7 @@ $ ORIGINAL_SVC_MANIFEST=mysvc-v1.yaml
 $ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfigMapName istio -f ${ORIGINAL_SVC_MANIFEST} | kubectl apply -f -
 {{< /text >}}
 
-## Accessing services from different clusters
+## Access services from different clusters
 
 Kubernetes resolves DNS on a cluster basis. Because the DNS resolution is tied
 to the cluster, you must define the service object in every cluster where a
@@ -529,7 +529,7 @@ cluster with a selector-less service and endpoint. Istio Pilot uses the service
 and endpoint to allow the remote sidecars to resolve the
 `istio-pilot.istio-system` hostname via Istio's local Kubernetes DNS.
 
-#### Primary Cluster: Deploy the Istio control plane cluster
+#### Primary Cluster: Deploy the control plane cluster
 
 1. Create the `cacerts` secret using the Istio certificate samples in the
    `istio-system` namespace:
