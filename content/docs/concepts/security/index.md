@@ -570,6 +570,8 @@ authorization result, `ALLOW` or `DENY`.
 
 ### Authorization permissive mode
 
+Note that Authorization permissive mode is an experimental feature in Istio release 1.1, its interface may change in future releases.
+
 Authorization permissive mode allows users to verify authorization policies
 before applying them in production environment.
 
