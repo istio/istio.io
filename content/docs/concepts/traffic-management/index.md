@@ -1024,6 +1024,8 @@ kind: Gateway
 metadata:
   name: bookinfo-gateway
 spec:
+  selector:
+    istio: ingressgateway # use istio default controller
   servers:
   - port:
       number: 443

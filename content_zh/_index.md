@@ -139,7 +139,7 @@ title: Istio
 
     <div id="buttons" class="buttons container-fluid">
         <div class="row justify-content-center">
-            <a title="在 Kubernets 上安装 Istio。" class="btn btn-istio" href="/zh/docs/setup/kubernetes/quick-start">开始吧</a>
+            <a title="在 Kubernetes 上安装 Istio。" class="btn btn-istio" href="/zh/docs/setup/kubernetes/quick-start">开始吧</a>
             <a title="深入了解 Istio 是什么以及它是如何工作的。" class="btn btn-istio" href="/zh/docs/concepts/what-is-istio/">了解更多</a>
             <a title="下载最新版本。" class="btn btn-istio" href="{{< istio_release_url >}}">下载 {{< istio_release_name >}}</a>
         </div>

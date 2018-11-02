@@ -27,7 +27,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 
 ### Option 1: Install with Helm via `helm template`
 
-1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
+1. Render Istio's core components to a Kubernetes manifest called `istio-minimal.yaml`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
