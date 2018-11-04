@@ -496,7 +496,7 @@ your MongoDB egress traffic on the TCP level, as described in the previous secti
 
 In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
 instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
-[Direct TCP Egress traffic through the egress gateway](#direct-tcp-egress-traffic-through-the-egress-gateway).
+[Direct TCP Egress traffic through an egress gateway](#direct-tcp-egress-traffic-through-an-egress-gateway).
 
 1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
 
