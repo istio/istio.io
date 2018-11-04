@@ -16,7 +16,7 @@ This release addresses some critical issues found by the community when using Is
 
 - Added limited support for [merging multiple virtual service or destination rule definitions](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) for the same host.
 
-- Allow [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection.html) consecutive gateway failures when using HTTP.
+- Allow [outlier](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier.html) consecutive gateway failures when using HTTP.
 
 ## Environment
 

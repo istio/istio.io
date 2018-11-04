@@ -75,7 +75,7 @@ Kubernetes API server for changes to the pod registration information, ingress
 resources, and third-party resources that store traffic management rules.
 This data is translated into the canonical representation. An Envoy-specific configuration is then generated based on the canonical representation.
 
-Pilot enables [service discovery](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds),
+Pilot enables [service discovery](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#arch-overview-service-discovery-types-eds),
 dynamic updates to [load balancing pools](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)
 and [routing tables](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds).
 
