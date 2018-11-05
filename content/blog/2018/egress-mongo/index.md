@@ -902,7 +902,7 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-#### Configure access to `*.com` using the egress gateway with SNI proxy
+#### Configure access to `*.com` using the new egress gateway
 
 1.  Define a `ServiceEntry` for `*.com`:
 
