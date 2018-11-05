@@ -12,17 +12,19 @@ a [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntr
 defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#calling-external-services-directly)
 must be configured.
 
-This example describes how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination)
-for traffic to an external service.
+This example shows how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination)
+for traffic to an external service. Istio will open HTTPS connections to the external service while the original
+traffic is HTTP.
 
 ## Use case
 
 Consider a legacy application that performs HTTP calls to external sites. Suppose the organization that operates the
 application receives a new requirement which states that all the external traffic must be encrypted. With Istio,
-this requirement can be achieved just by configuration, without changing the code of the application.
+this requirement can be achieved just by configuration, without changing any code in the application.
+The application can send unencrypted HTTP requests and Istio will then encrypt them for the application.
 
-In this example, you configure Istio to open HTTPS connections to external services while the original traffic is
-HTTP. The application will send unencrypted HTTP requests and Istio will then encrypt the requests for the application.
+Another benefit of sending unencrypted HTTP requests from the source, and letting Istio perform the TLS upgrade,
+is that Istio can produce better telemetry and provide more routing control for requests that are not encrypted.
 
 ## Before you begin
 
@@ -54,7 +56,7 @@ HTTP. The application will send unencrypted HTTP requests and Istio will then en
 ## Configuring access to an external service
 
 First start by configuring access to an external service, `edition.cnn.com`,
-using the same technique as shown in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task.
+using the same technique shown in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task.
 This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS access to the service.
 
 1.  Create a `ServiceEntry` and `VirtualService` to enable access to `edition.cnn.com`:
@@ -119,17 +121,17 @@ This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS ac
 Notice the `-L` flag of _curl_ which instructs _curl_ to follow redirects.
 In this case, the server returned a redirect response ([301 Moved Permanently](https://tools.ietf.org/html/rfc2616#section-10.3.2))
 for the HTTP request to `http://edition.cnn.com/politics`.
-The redirect response instructed the client to send an additional request, this time by HTTPS, to `https://edition.cnn.com/politics`.
+The redirect response instructs the client to send an additional request, this time using HTTPS, to `https://edition.cnn.com/politics`.
 For the second request, the server returned the requested content and a _200 OK_ status code.
 
 Although the _curl_ command handled the redirection transparently, there are two issues here.
-The first issue is the redundant first request, which doubles the latency of fetching the content of `http://edition.cnn.com/politics`.
+The first issue is the redundant request, which doubles the latency of fetching the content of `http://edition.cnn.com/politics`.
 The second issue is that the path of the URL, _politics_ in this case, is sent in clear text.
 If there is an attacker who sniffs the communication between your application and `edition.cnn.com`,
-the attacker would know which specific topics and articles of `edition.cnn.com` your application fetched.
+the attacker would know which specific topics of `edition.cnn.com` the application fetched.
 For privacy reasons, you might want to prevent such disclosure.
 
-In the following section, you configure Istio to perform TLS origination to resolve these two issues.
+Both of these issues can be resolved by configuring Istio to perform TLS origination.
 
 ## TLS origination for egress traffic
 
@@ -187,8 +189,10 @@ In the following section, you configure Istio to perform TLS origination to reso
     EOF
     {{< /text >}}
 
-    Notice that unlike the `ServiceEntry` in the previous section, the protocol on port 433 is HTTP, instead of HTTPS.
-    This is because clients will send HTTP requests and Istio will perform TLS origination for them.
+    As you can see, the `VirtualService` redirects HTTP requests on port 80 to port 443 where the corresponding
+    `DestinationRule` then performs the TLS origination.
+    Notice that unlike the `ServiceEntry` in the previous section, this time the protocol on port 433 is HTTP, instead of HTTPS.
+    This is because clients will only send HTTP requests and Istio will upgrade the connection to HTTPS.
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
@@ -213,17 +217,17 @@ In the following section, you configure Istio to perform TLS origination to reso
 
 ## Additional security considerations
 
-Note that the traffic between the application pod and the sidecar proxy on the local host is still unencrypted.
-This means that if an attacker was able to penetrate the node of your application, they would still be able to see
-the unencrypted communication on the local network of the node. In some environments a strict security requirement
-might exist that would state that all the traffic must be encrypted, even on the local network of the nodes.
-With such a strict requirement the applications should use HTTPS (TLS) only, the TLS origination described in this
-example will not be sufficient.
+Because the traffic between the application pod and the sidecar proxy on the local host is still unencrypted,
+an attacker that is able to penetrate the node of your application would still be able to see the unencrypted
+communication on the local network of the node. In some environments a strict security requirement
+might state that all the traffic must be encrypted, even on the local network of the nodes.
+With such a strict requirement, applications should use HTTPS (TLS) only. The TLS origination described in this
+example would not be sufficient.
 
-Also note that even for HTTPS originated by the application, the attacker could know that the requests to `edition.cnn.com`
-are being sent, by inspecting [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication).
+Also note that even with HTTPS originated by the application, an attacker could know that requests to `edition.cnn.com`
+are being sent by inspecting [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication).
 The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific
-topics and articles, it does not prevent the attackers from learning that `edition.cnn.com` is accessed.
+topics and articles but does not prevent an attackers from learning that `edition.cnn.com` is accessed.
 
 ## Cleanup
 

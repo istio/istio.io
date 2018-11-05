@@ -76,13 +76,13 @@ $ istioctl authn tls-check httpbin.default.svc.cluster.local
 
 In the following example output you can see that:
 
-* Mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port 8080.
+* Mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port 8000.
 * Istio uses the mesh-wide `default` authentication policy.
 * Istio has the `default` destination rule in the `default` namespace.
 
 {{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       default/            default/default
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/default
 {{< /text >}}
 
 The output shows:
@@ -118,7 +118,7 @@ Run the same `istioctl` command as above, you now see the status is `CONFLICT`, 
 {{< text bash >}}
 $ istioctl authn tls-check httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8080     CONFLICT     mTLS       HTTP       default/            bad-rule/default
+httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/            bad-rule/default
 {{< /text >}}
 
 You can also confirm that requests from `sleep` to `httpbin` are now failed:
