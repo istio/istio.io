@@ -92,8 +92,11 @@ Next, you must connect the remote cluster to the local cluster. Proceed to your 
 
 * Via [Helm plus Tiller](#tiller)
 
-Normally, automatic sidecar injection on the remote clusters is enabled. To perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
+Normally, automatic sidecar injection on the remote clusters is enabled. To
+perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
+
 ### Install and manage the remote cluster
+
 {{< tabset cookie-name="install-istio-remote" >}}
 
 {{% tab name="Helm+kubectl" cookie-value="Helm+kubectl" %}}
@@ -121,7 +124,10 @@ Normally, automatic sidecar injection on the remote clusters is enabled. To perf
     $ kubectl create ns istio-system
     {{< /text >}}
 
-    {{< info_icon >}} All clusters must have the same namespace for the Istio components. It is possible to override the "istio-system" name on the main cluster as long as the namespace is the same for all Istio components in all clusters.
+    {{< info_icon >}} All clusters must have the same namespace for the Istio
+    components. It is possible to override the "istio-system" name on the main
+    cluster as long as the namespace is the same for all Istio components in
+    all clusters.
 
 1.  Instantiate the remote cluster's connection to the Istio control plane with
     the following command:
@@ -299,7 +305,8 @@ filename simply by changing the filename to conform with the format.
 
 ## Uninstalling the remote cluster
 
-You must uninstall remote clusters using the same method you used to install them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
+You must uninstall remote clusters using the same method you used to install
+them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
 
 {{< tabset cookie-name="uninstall-istio-remote" >}}
 
