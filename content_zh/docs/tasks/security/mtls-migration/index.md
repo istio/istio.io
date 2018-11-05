@@ -135,7 +135,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 503
 {{< /text >}}
 
-也就是说，如果不能把所有服务都迁移到 Istio (进行 Sidecar 注入)的话，就只能使用 `PERMISSIVE` 模式了。然而在配置为 `PERMISSIVE` 的时候，是不会对明文流量进行授权和鉴权方面的检查的。我们推荐使用 [RBAC](/zh/docs/tasks/security/role-based-access-control/) 来给不同的路径配置不同的授权策略。
+也就是说，如果不能把所有服务都迁移到 Istio (进行 Sidecar 注入)的话，就只能使用 `PERMISSIVE` 模式了。然而在配置为 `PERMISSIVE` 的时候，是不会对明文流量进行授权和鉴权方面的检查的。我们推荐使用 [RBAC](/zh/docs/tasks/security/authz-http/) 来给不同的路径配置不同的授权策略。
 
 ## 清理
 

@@ -12,7 +12,7 @@ authorization and the authorization of list-typed claims in Istio.
 
 * Read the [authorization](/docs/concepts/security/#authorization) concept
 and go through the guide on how to
-[configure Istio authorization](/docs/tasks/security/role-based-access-control).
+[configure Istio authorization](/docs/tasks/security/authz-http).
 
 * Read the Istio
 [authentication policy](/docs/concepts/security/#authentication-policies)
