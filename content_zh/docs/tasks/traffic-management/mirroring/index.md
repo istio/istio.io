@@ -123,7 +123,7 @@ keywords: [流量管理,镜像]
   > 如果为 Istio 启用了双向 TLS 认证，在应用前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，如[设置目标规则后出现 503 错误](/zh/help/ops/traffic-management/troubleshooting/#设置目标规则后出现-503-错误)所述。
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -194,7 +194,7 @@ keywords: [流量管理,镜像]
 1. 改变路由规则将流量镜像到 v2:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
