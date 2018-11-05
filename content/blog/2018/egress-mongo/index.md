@@ -848,30 +848,6 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-1.  For Istio releases before 1.0.1, edit the generated configuration file `./istio-egressgateway-with-sni-proxy.yaml`
- for the new egress gateway. Starting from Istio 1.0.1, the command above adds the required parts automatically and
- no manual editing is required.
-
-    1.  Add a definition of a container with NGINX proxy, to the `Deployment` of `istio-egressgateway-with-sni-proxy`.
-    The definition is as follows:
-
-        {{< text yaml >}}
-        - name: sni-proxy
-          image: nginx
-          volumeMounts:
-          - name: sni-proxy-config
-            mountPath: /etc/nginx
-            readOnly: true
-        {{< /text >}}
-
-    1.  Add the `sni-proxy-config` [configMap volume](https://kubernetes.io/docs/concepts/storage/volumes/#configmap) to the `Deployment` of `istio-egressgateway-with-sni-proxy`:
-
-        {{< text yaml >}}
-        - name: sni-proxy-config
-          configMap:
-            name: egress-sni-proxy-configmap
-        {{< /text >}}
-
 1.  Deploy the new egress gateway:
 
     {{< text bash >}}
