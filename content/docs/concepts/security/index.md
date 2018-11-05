@@ -862,7 +862,7 @@ before applying them in a production environment.
 You can enable the authorization permissive mode on a global authorization
 configuration and on individual policies. If you set the permissive mode on a global
 authorization configuration, all policies switch to the permissive mode regardless
-its own mode. Otherwise If the global authorization configuration is set to
+of their own set mode. If you set the global authorization mode to
 `ENFORCED`, the enforcement mode set by the individual policies takes effect.
 If you do not set a mode, both the global authorization configuration and the individual
 policies are set to the `ENFORCED` mode by default.
