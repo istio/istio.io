@@ -1110,4 +1110,7 @@ proxies directly to the external MongoDB host, or direct the traffic through an 
 organization's security requirements. In the latter case, you can also decide to apply or disable mutual TLS
 authentication between the sidecar proxies and the egress gateway. If you want to control MongoDB egress traffic on the
 TLS level by specifying wildcarded domains like `*.com` and you need to direct the traffic through the egress gateway,
-you must deploy a special egress gateway with an SNI proxy.
+you must deploy a custom egress gateway with an SNI proxy.
+
+Note that the configuration and considerations described in this blog post for MongoDB are rather the same for other
+non-HTTP protocols on top of TCP/TLS.
