@@ -755,8 +755,14 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 ### Enable MongoDB TLS egress traffic to arbitrary wildcarded domains
 
+Sometimes you want to configure egress traffic to multiple hostnames from the same domain, for example traffic to all
+MongoDB services from `*.<your company domain>.com`. You do not want to create multiple configuration items, one per each
+and every MongoDB service in your company. To configure access to all the external services from the same domain by a
+single configuration, you use *wildcarded* hosts.
+
 In this section you configure egress traffic for a wildcarded domain, namely `*.com` and direct that traffic through
-an egress gateway.
+an egress gateway. You deploy a custom egress gateway with [an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-https-egress-gateway/#https-traffic-to-arbitrary-wildcarded-domains)
+which you must deploy due to current limitations of Envoy, the proxy of the standard Istio egress gateway.
 
 #### Prepare a new egress gateway with an SNI proxy
 
