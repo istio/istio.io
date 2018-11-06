@@ -2,7 +2,7 @@
 title: Configure Egress Gateway for HTTPS traffic to wildcarded domains
 description: Use an SNI proxy in addition to the Envoy instance in the istio-egressgateway for wildcarded domains.
 keywords: [traffic-management,egress]
-weight: 44
+weight: 50
 ---
 
 The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example, the
