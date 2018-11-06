@@ -1399,7 +1399,7 @@ spec:
 
 ## `TLSSettings`
 
-SSL/TLS 相关的上游服务设置。参考 Envoy 的 [TLS 上下文](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_ssl.html#config-cluster-manager-cluster-ssl)来获取更多细节。这些设置对 HTTP 和 TCP 上游服务都有效。
+SSL/TLS 相关的上游服务设置。参考 Envoy 的 [TLS 上下文](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto.html)来获取更多细节。这些设置对 HTTP 和 TCP 上游服务都有效。
 
 例如下面的规则配置，要求客户端使用双向 TLS 连接上游的数据库集群。
 
