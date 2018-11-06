@@ -22,7 +22,7 @@ To install Kiali without using Helm, following the [Kiali install instructions](
 Create a secret in your Istio namespace with the credentials that you use to
 authenticate to Kiali.
 
-First define the credentials you want to use for the Kiali username and passphrase:
+First, define the credentials you want to use as the Kiali username and passphrase:
 
 {{< text bash >}}
 $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo $uval | base64)
@@ -32,7 +32,7 @@ $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo $uval | base64)
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo $pval | base64)
 {{< /text >}}
 
-And then run the following commands to create a secret:
+To create a secret, run the following commands:
 
 ```bash
 NAMESPACE=istio-system
@@ -112,7 +112,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
 
 1.  Visit <http://localhost:20001> in your web browser.
 
-1.  To log into the Kiali UI, enter the username and passphrase you stored in the Kiali secret in the Kiali login screen.
+1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
 1.  View the overview of your mesh in the **Overview** page that appears immediately after you log in.
     The **Overview** page displays all the namespaces that have services in your mesh.
