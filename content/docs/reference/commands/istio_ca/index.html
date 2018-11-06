@@ -54,10 +54,6 @@ number_of_entries: 4
 <td>The port number for Citadel GRPC server. If unspecified, Citadel will not serve GRPC requests.  (default `8060`)</td>
 </tr>
 <tr>
-<td><code>--identity-domain &lt;string&gt;</code></td>
-<td>The domain to use for identities (default: cluster.local)  (default `cluster.local`)</td>
-</tr>
-<tr>
 <td><code>--key-size &lt;int&gt;</code></td>
 <td>Size of generated private key  (default `2048`)</td>
 </tr>
@@ -156,6 +152,10 @@ number_of_entries: 4
 <tr>
 <td><code>--signing-key &lt;string&gt;</code></td>
 <td>Path to the CA signing key file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--trust-domain &lt;string&gt;</code></td>
+<td>The domain serves to identify the system with spiffe (default: cluster.local)  (default `cluster.local`)</td>
 </tr>
 <tr>
 <td><code>--upstream-ca-address &lt;string&gt;</code></td>

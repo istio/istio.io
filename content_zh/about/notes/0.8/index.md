@@ -32,7 +32,7 @@ icon: notes
 
 ## 设置
 
-- **Istio 的按需安装**：Istio 具有丰富的功能，可能有用户并不需要使用所有功能，可以使用 Helm 或者 `istioctl gen-deploy` 工具，来满足按需安装的需要。例如用户可以只安装 Pilot 来对流量进行管理，而不去触及 Mixer 和 Citadel 方面的功能。[使用 Helm 进行定制](/docs/reference/config/installation-options/)以及 [`istioctl gen-deploy`](/docs/reference/commands/istioctl/#istioctl-gen-deploy) 两篇文档分别对这两种方式进行了解说。
+- **Istio 的按需安装**：Istio 具有丰富的功能，可能有用户并不需要使用所有功能，可以使用 Helm 或者 `istioctl gen-deploy` 工具，来满足按需安装的需要。例如用户可以只安装 Pilot 来对流量进行管理，而不去触及 Mixer 和 Citadel 方面的功能。
 
 ## Mixer 适配器
 
