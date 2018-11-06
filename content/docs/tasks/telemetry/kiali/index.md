@@ -20,9 +20,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as th
 To install Kiali without using Helm, following the [Kiali install instructions](https://www.kiali.io/gettingstarted/).
 
 Create a secret in your Istio namespace with the credentials that you use to
-authenticate to Kiali. See the
-[Helm README](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/README.md#installing-the-chart)
-for details.
+authenticate to Kiali.
 
 First define the credentials you want to use for the Kiali username and passphrase:
 
