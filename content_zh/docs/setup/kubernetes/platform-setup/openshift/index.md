@@ -24,6 +24,7 @@ $ oc adm policy add-scc-to-user anyuid -z istio-mixer-service-account -n istio-s
 $ oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system
 $ oc adm policy add-scc-to-user anyuid -z istio-galley-service-account -n istio-system
+$ oc adm policy add-scc-to-user anyuid -z istio-security-post-install-account -n istio-system
 {{< /text >}}
 
 上面列出的 Service account 会分配给 Istio。如果要启动其它的 Istio 服务，例如 _Grafana_ ，就需要使用类似命令来为其设置 Service account。
