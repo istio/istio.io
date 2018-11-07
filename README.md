@@ -128,7 +128,7 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 release-0.7. There is one such branch for every release.
 
 1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`
-and the `source_branch_name` field to the name of the branch, in this case release-0.7.
+and the `source_branch_name` and `doc_branch_name` fields to the name of the branch, in this case release-0.7.
 
 1. Commit the previous edit to your local git repo and push your **release** branch to GitHub.
 

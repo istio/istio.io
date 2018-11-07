@@ -35,7 +35,7 @@ Pilot 负责管理通过 Istio 服务网格发布的 Envoy 实例的生命周期
 
 如上图所示，在网格中 Pilot 维护了一个服务的规则表示并独立于底层平台。Pilot中的特定于平台的适配器负责适当地填充这个规范模型。例如，在 Pilot 中的 Kubernetes 适配器实现了必要的控制器，来观察 Kubernetes API 服务器，用于更改 pod 的注册信息、入口资源以及存储流量管理规则的第三方资源。这些数据被转换为规范表示。然后根据规范表示生成特定的 Envoy 的配置。
 
-Pilot 公开了用于[服务发现](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds) 、[负载均衡池](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)和[路由表](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds)的动态更新的 API。
+Pilot 公开了用于服务发现 、负载均衡池和路由表的动态更新的 API。
 
 运维人员可以通过 [Pilot 的 Rules API](/zh/docs/reference/config/istio.networking.v1alpha3/) 指定高级流量管理规则。这些规则被翻译成低级配置，并通过 discovery API 分发到 Envoy 实例。
 
