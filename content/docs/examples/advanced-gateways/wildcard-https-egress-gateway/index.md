@@ -5,9 +5,9 @@ keywords: [traffic-management,egress]
 weight: 50
 ---
 
-The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example, the
-[Direct HTTPS traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#direct-https-traffic-through-an-egress-gateway)
-section described how to configure an Istio egress gateway for HTTPS traffic for specific hostnames, like
+The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example, in the
+[Define an egress gateway for HTTPS traffic](/docs/examples/advanced-gateways/egress-gateway/#define-an-egress-gateway-for-https-traffic)
+section, described how to configure an Istio egress gateway for HTTPS traffic for specific hostnames, like
 `edition.cnn.com`. This example explains how to enable an egress gateway for HTTPS traffic to a set of domains, for
 example to `*.wikipedia.org`, without the need to specify each and every host.
 

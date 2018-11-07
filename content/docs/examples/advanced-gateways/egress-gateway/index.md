@@ -108,7 +108,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
-    
+
     {{< tabset cookie-name="mtls" >}}
 
     {{% tab name="mTLS enabled" cookie-value="enabled" %}}
@@ -316,7 +316,7 @@ You specify the port 443 and protocol `TLS` in the corresponding `ServiceEntry`,
 
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
-    
+
     {{< tabset cookie-name="mtls" >}}
 
     {{% tab name="mTLS enabled" cookie-value="enabled" %}}
