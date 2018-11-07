@@ -73,11 +73,21 @@ with Helm](/docs/setup/kubernetes/helm-install/) instructions.
 
 ## Configure DNS
 
-Service from remote clusters that are named as
-`<name>.<namespace>.global` will be resolved by the CoreDNS addon shipped with Istio. 
-In order to utilize this DNS, Kubernetes' DNS needs to be
-configured to point to CoreDNS as the DNS server for the `.global`
-dns domain. Create the following config map (or update an existing one):
+Provinding a DNS resolution for services in remote clusters will allow
+existing applications to function unmodified, as applications typically
+expect to resolve services by their DNS names and access the resulting
+IP. Istio itself does not use the DNS for routing requests between
+services. Services local to a cluster share a common DNS suffix
+(svc.cluster.local). Kubernetes DNS provides DNS resolution for these
+services.
+
+To provide a similar setup for services from remote clusters, we will name
+services from remote clusters in the format
+`<name>.<namespace>.global`. Istio also ships with a CoreDNS server that
+will provide DNS resolution for these services. In order to utilize this
+DNS, Kubernetes' DNS needs to be configured to point to CoreDNS as the DNS
+server for the `.global` dns domain. Create the following config map (or
+update an existing one):
 
 {{< text yaml >}}
 apiVersion: v1
@@ -101,7 +111,8 @@ respectively. In order to provide DNS resolution for services under the
 `*.global` domain, you need to assign these services an IP address. We
 suggest assigning an IP address from the 127.255.0.0/16 subnet. These IPs
 are non-routable outside of a pod. Application traffic for these IPs will
-be captured by the sidecar and routed to the appropriate remote service.
+be captured by the sidecar and routed to the appropriate remote service
+
 
 > Each service (in the .global domain) must have a unique IP within the cluster.
 
@@ -118,6 +129,8 @@ spec:
   hosts:
   # must be of form name.namespace.global
   - bar.ns2.global
+  # Treat remote cluster services as part of the service mesh
+  # as all clusters in the service mesh share the same root of trust.
   location: MESH_INTERNAL
   ports:
   - name: http1
@@ -129,9 +142,14 @@ spec:
   resolution: DNS
   addresses:
   # the IP address to which bar.ns2.global will resolve to
-  # must be unique for each service.
+  # must be unique for each remote service, within a given cluster.
+  # This address need not be routable. Traffic for this IP will be captured
+  # by the sidecar and routed appropriately.
   - 127.255.0.2
   endpoints:
+  # This is the routable address of the ingress gateway in cluster2 that
+  # sits in front of bar.ns2 service. Traffic from the sidecar will be routed
+  # to this address.
   - address: <IPofCluster2IngressGateway>
     ports:
       http1: 15443 # Do not change this port value
