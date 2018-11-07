@@ -84,7 +84,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
     Your `ServiceEntry` was configured correctly if you see _301 Moved Permanently_ in the output.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and a destination rule for
-    requests sidecar requests that will be directed to the egress gateway.
+    sidecar requests that will be directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you have
     [mutual TLS authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
