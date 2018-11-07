@@ -8,7 +8,7 @@ keywords: [traffic-management,egress]
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
 There, the external services are called directly from the client sidecar.
-In this example, you will also configure Istio to call external services, although this time
+This example also shows how to configure Istio to call external services, although this time
 indirectly via a dedicated _egress gateway_ service.
 
 Istio uses [ingress and egress gateways](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
@@ -57,9 +57,9 @@ controlled way.
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-## Define an egress `Gateway` for HTTP traffic
+## Define an egress gateway for HTTP traffic
 
-First direct HTTP traffic without TLS origination
+First create a `ServiceEntry` to allow direct traffic to an external service.
 
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
@@ -83,7 +83,7 @@ First direct HTTP traffic without TLS origination
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
+1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTP request to [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -100,11 +100,11 @@ First direct HTTP traffic without TLS origination
     {{< /text >}}
 
     The output should be the same as in the
-    [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example, without TLS
-    origination.
+    [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example,
+    without TLS origination.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and destination rules and virtual services to
-    direct the traffic through the egress gateway and from the egress gateway to the external service.
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
+    traffic directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
@@ -191,7 +191,8 @@ First direct HTTP traffic without TLS origination
 
     {{< /tabset >}}
 
-1.  Define a `VirtualService` to direct the traffic through the egress gateway:
+1.  Define a `VirtualService` to direct traffic from the sidecars to the egress gateway and from the egress gateway
+    to the external service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -248,21 +249,23 @@ First direct HTTP traffic without TLS origination
 
     The output should be the same as in the step 2.
 
-1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  Check the log of the `istio-egressgateway` pod for a line corresponding to our request.
+    If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
     {{< /text >}}
 
-    We should see a line related to our request, similar to the following:
+    You should see a line similar to the following:
 
     {{< text plain >}}
     [2018-06-14T11:46:23.596Z] "GET /politics HTTP/2" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
     {{< /text >}}
 
-    Note that we redirected only the traffic from the port 80 to the egress gateway, the HTTPS traffic to the port 443 went directly to _edition.cnn.com_.
+    Note that we redirected only the traffic from port 80 to the egress gateway, the HTTPS traffic to port 443
+    went directly to _edition.cnn.com_.
 
-### Cleanup of the egress gateway for HTTP traffic
+### Cleanup HTTP egress gateway
 
 Remove the previous definitions before proceeding to the next step:
 
@@ -273,10 +276,10 @@ $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
-## Define an egress `Gateway` for HTTPS traffic
+## Define an egress gateway for HTTPS traffic
 
 In this section you direct HTTPS traffic (TLS originated by the application) through an egress gateway.
-You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, egress `Gateway` and `VirtualService`.
+You specify the port 443 and protocol `TLS` in the corresponding `ServiceEntry`, egress `Gateway` and `VirtualService`.
 
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
@@ -297,8 +300,7 @@ You specify the port 443, protocol `TLS` in the corresponding `ServiceEntry`, eg
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
-The output should be the same as in the previous section.
+1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -309,7 +311,7 @@ The output should be the same as in the previous section.
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, protocol TLS, and destination rules and virtual services
+1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     Choose the instructions corresponding to whether or not you have
@@ -470,7 +472,8 @@ The output should be the same as in the previous section.
 
     {{< /tabset >}}
 
-1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). The output should be the same as previously.
+1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+    The output should be the same as before.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -481,7 +484,7 @@ The output should be the same as in the previous section.
     ...
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to our
+1.  Check the statistics of the egress gateway's proxy which includes a counter that corresponds to our
     requests to _edition.cnn.com_. If Istio is deployed in the `istio-system` namespace, the command to print the
     counter is:
 
@@ -490,10 +493,10 @@ The output should be the same as in the previous section.
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 1
     {{< /text >}}
 
-    You may want to perform a couple of additional requests and verify that the counter above grows by 1 with each
+    You may want to perform a couple of additional requests and verify that the counter increases by 1 with each
     request.
 
-### Cleanup of the egress gateway for HTTPS traffic
+### Cleanup HTTPS egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
@@ -504,16 +507,19 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ## Additional security considerations
 
-Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes on which the egress gateway service runs. It is up to the cluster administrator or the cloud provider to deploy the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more secure than the rest of the mesh.
+Note that defining an egress `Gateway` in Istio does not in itself provides any special treatment for the nodes
+on which the egress gateway service runs. It is up to the cluster administrator or the cloud provider to deploy
+the egress gateways on dedicated nodes and to introduce additional security measures to make these nodes more
+secure than the rest of the mesh.
 
-Istio *cannot securely enforce* that all the egress traffic actually flows through the egress gateways. Istio only
-enables said flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access
+Istio *cannot securely enforce* that all egress traffic actually flows through the egress gateways. Istio only
+enables such flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access
 external services without traversing the egress gateway. Thus, the attackers escape Istio's control and monitoring.
 The cluster administrator or the cloud provider must ensure that no traffic leaves the mesh bypassing the egress
 gateway. Mechanisms external to Istio must enforce this requirement. For example, a firewall can deny all traffic not
-coming from the egress gateway. The
-[Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can also forbid
-all the egress traffic not originating from the egress gateway (see
+coming from the egress gateway.
+The [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can
+also forbid all the egress traffic not originating from the egress gateway (see
 [the next section](#apply-kubernetes-network-policies) for an example).
 Additionally, the cluster administrator or the cloud provider can configure the network to ensure application nodes can
 only access the Internet via a gateway. To do this, the cluster administrator or the cloud provider can prevent the
@@ -522,13 +528,14 @@ the egress gateways.
 
 ## Apply Kubernetes network policies
 
-In this section you create a
+This section shows you how to create a
 [Kubernetes network policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) to prevent
-bypassing the egress gateway. To test the network policy, you create a namespace, namely `test-egress`, and deploy
-to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
+bypassing of the egress gateway. To test the network policy, you create a namespace, `test-egress`, deploy
+the [sleep]({{< github_tree >}}/samples/sleep) sample to it, and then attempt to send requests to a gateway-secured
+external service.
 
 1.  Follow the steps in the
-    [Direct HTTPS traffic through an egress gateway](#direct-https-traffic-through-an-egress-gateway) section.
+    [Define an egress gateway for HTTPS traffic](#define-an-egress-gateway-for-http-traffic) section.
 
 1.  Create the `test-egress` namespace:
 
@@ -550,7 +557,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
     {{< /text >}}
 
-1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics) from the `sleep` pod in
+1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics) from the `sleep` pod in
     the `test-egress` namespace. The request will succeed since you did not define any restrictive policies yet.
 
     {{< text bash >}}
@@ -599,7 +606,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     EOF
     {{< /text >}}
 
-1.  Resend the previous HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it
+1.  Resend the previous HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it
     should fail since the traffic is blocked by the network policy. Note that the `sleep` pod cannot bypass
     `istio-egressgateway`. The only way it can access `edition.cnn.com` is by using an Istio sidecar proxy and by
     directing the traffic to `istio-egressgateway`. This setting demonstrates that even if some malicious pod manages to
@@ -641,7 +648,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     sleep istio-proxy
     {{< /text >}}
 
-1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it should succeed
+1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it should succeed
     since the traffic flows to `istio-egressgateway` in the `istio-system` namespace, which is allowed by the
     Network Policy you defined. `istio-egressgateway` forwards the traffic to `edition.cnn.com`.
 
@@ -659,7 +666,7 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
-### Cleanup of the network policies
+### Cleanup network policies
 
 1.  Delete the resources created in this section:
 
@@ -671,16 +678,14 @@ to it the [sleep]({{< github_tree >}}/samples/sleep) sample.
     $ kubectl delete namespace test-egress
     {{< /text >}}
 
-1.  Perform the [Cleanup](#cleanup-of-the-egress-gateway-for-https-traffic) part of
-    [Direct HTTPS traffic through an egress gateway](#direct-https-traffic-through-an-egress-gateway) section
+1.  Follow the steps in the [Cleanup HTTPS egress gateway](#cleanup-https-egress-gateway) section.
 
 ## Troubleshooting
 
 1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
-steps in
-[Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration).
-If mutual TLS is enabled, make sure you create the configuration
-items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
+    steps in [Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration).
+    If mutual TLS is enabled, make sure you create the configuration
+    items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 
 1.  If [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) is enabled, verify the correct certificate of the
     egress gateway:

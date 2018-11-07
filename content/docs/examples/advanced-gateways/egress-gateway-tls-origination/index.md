@@ -1,5 +1,5 @@
 ---
-title: TLS origination with Egress Gateway
+title: Egress Gateway with TLS Origination
 description: Describes how to configure an Egress Gateway to perform TLS origination to external services.
 weight: 40
 keywords: [traffic-management,egress]
@@ -8,7 +8,7 @@ keywords: [traffic-management,egress]
 The [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination) example
 shows how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination) for traffic to an external service.
 The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example shows how to configure
-Istio to direct egress traffic through a dedicated service called _egress gateway_.
+Istio to direct egress traffic through a dedicated _egress gateway_ service.
 This example combines the previous two by describing how to configure an egress gateway to perform
 TLS origination for traffic to external services.
 
@@ -254,7 +254,7 @@ be done by the egress Gateway server, as opposed to by the sidecar in the previo
 
 ### Cleanup the TLS origination example
 
-Remove the Istio configuration items we created:
+Remove the Istio configuration items you created:
 
 {{< text bash >}}
 $ kubectl delete gateway istio-egressgateway
@@ -787,9 +787,6 @@ to hold the configuration of the NGINX server:
 
 ### Cleanup the mutual TLS origination example
 
-1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-gateways/egress-gateway/#cleanup)
-    section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
-
 1.  Remove created Kubernetes resources:
 
     {{< text bash >}}
@@ -807,7 +804,7 @@ to hold the configuration of the NGINX server:
     $ kubectl delete destinationrule egressgateway-for-nginx
     {{< /text >}}
 
-1.  Delete the directory of the certificates and the repository used to generate them:
+1.  Delete the directory of certificates and the repository used to generate them:
 
     {{< text bash >}}
     $ rm -rf nginx.example.com mtls-go-example
@@ -819,9 +816,11 @@ to hold the configuration of the NGINX server:
     $ rm -f ./nginx.conf ./istio-egressgateway.yaml
     {{< /text >}}
 
-1.  Delete the `sleep` service and deployment:
+## Cleanup
 
-    {{< text bash >}}
-    $ kubectl delete service sleep
-    $ kubectl delete deployment sleep
-    {{< /text >}}
+Delete the `sleep` service and deployment:
+
+{{< text bash >}}
+$ kubectl delete service sleep
+$ kubectl delete deployment sleep
+{{< /text >}}
