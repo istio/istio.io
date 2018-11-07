@@ -307,7 +307,7 @@ TLS origination.
     $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
     {{< /text >}}
 
-1.  Change directory back:
+1.  Go back to your previous directory:
 
     {{< text bash >}}
     $ cd ..
