@@ -168,7 +168,7 @@ address of your MongoDB host must be specified. The caveat here is that the IP o
 could not be known in advance.
 
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be
-[controlled as TLS traffic](/blog/2018/egress-mongo/#egress-control-for-tls), or the traffic can be routed
+[controlled as TLS traffic](#egress-control-for-tls), or the traffic can be routed
 [directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
 proxies.
 
