@@ -20,7 +20,7 @@ you to apply Istio features, for example, monitoring and route rules, to traffic
 ## Use case
 
 Consider an organization that has a strict security requirement that all traffic leaving
-the service mesh flow through a set of dedicated nodes. These nodes will run on dedicated machines,
+the service mesh must flow through a set of dedicated nodes. These nodes will run on dedicated machines,
 separated from the rest of the nodes running applications in the cluster. These special nodes will serve
 for policy enforcement on the egress traffic and will be monitored more thoroughly than other nodes.
 
@@ -57,7 +57,7 @@ controlled way.
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-## Define an egress gateway for HTTP traffic
+## Egress gateway for HTTP traffic
 
 First create a `ServiceEntry` to allow direct traffic to an external service.
 
@@ -262,10 +262,10 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     [2018-06-14T11:46:23.596Z] "GET /politics HTTP/2" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
     {{< /text >}}
 
-    Note that we redirected only the traffic from port 80 to the egress gateway, the HTTPS traffic to port 443
+    Note that you only redirected the traffic from port 80 to the egress gateway. The HTTPS traffic to port 443
     went directly to _edition.cnn.com_.
 
-### Cleanup HTTP egress gateway
+### Cleanup HTTP gateway
 
 Remove the previous definitions before proceeding to the next step:
 
@@ -276,10 +276,10 @@ $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
-## Define an egress gateway for HTTPS traffic
+## Egress gateway for HTTPS traffic
 
 In this section you direct HTTPS traffic (TLS originated by the application) through an egress gateway.
-You specify the port 443 and protocol `TLS` in the corresponding `ServiceEntry`, egress `Gateway` and `VirtualService`.
+You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntry`, an egress `Gateway` and a `VirtualService`.
 
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
@@ -311,7 +311,7 @@ You specify the port 443 and protocol `TLS` in the corresponding `ServiceEntry`,
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and virtual service
+1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and a virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     Choose the instructions corresponding to whether or not you have
@@ -496,7 +496,7 @@ You specify the port 443 and protocol `TLS` in the corresponding `ServiceEntry`,
     You may want to perform a couple of additional requests and verify that the counter increases by 1 with each
     request.
 
-### Cleanup HTTPS egress gateway
+### Cleanup HTTPS gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
@@ -516,8 +516,8 @@ Istio *cannot securely enforce* that all egress traffic actually flows through t
 enables such flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access
 external services without traversing the egress gateway. Thus, the attackers escape Istio's control and monitoring.
 The cluster administrator or the cloud provider must ensure that no traffic leaves the mesh bypassing the egress
-gateway. Mechanisms external to Istio must enforce this requirement. For example, a firewall can deny all traffic not
-coming from the egress gateway.
+gateway. Mechanisms external to Istio must enforce this requirement. For example, the cluster administrator
+can configure a firewall to deny all traffic not coming from the egress gateway.
 The [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can
 also forbid all the egress traffic not originating from the egress gateway (see
 [the next section](#apply-kubernetes-network-policies) for an example).
@@ -535,7 +535,7 @@ the [sleep]({{< github_tree >}}/samples/sleep) sample to it, and then attempt to
 external service.
 
 1.  Follow the steps in the
-    [Define an egress gateway for HTTPS traffic](#define-an-egress-gateway-for-http-traffic) section.
+    [Egress gateway for HTTPS traffic](#egress-gateway-for-https-traffic) section.
 
 1.  Create the `test-egress` namespace:
 
@@ -678,7 +678,7 @@ external service.
     $ kubectl delete namespace test-egress
     {{< /text >}}
 
-1.  Follow the steps in the [Cleanup HTTPS egress gateway](#cleanup-https-egress-gateway) section.
+1.  Follow the steps in the [Cleanup HTTPS gateway](#cleanup-https-gateway) section.
 
 ## Troubleshooting
 

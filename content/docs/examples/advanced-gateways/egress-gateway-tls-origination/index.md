@@ -45,7 +45,7 @@ TLS origination for traffic to external services.
 This section describes how to perform the same TLS origination as in the
 [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example,
 only this time using an egress gateway. Note that in this case the TLS origination will
-be done by the egress Gateway server, as opposed to by the sidecar in the previous example.
+be done by the egress gateway, as opposed to by the sidecar in the previous example.
 
 1.  Define a `ServiceEntry` for `edition.cnn.com`:
 
@@ -273,9 +273,9 @@ This example is considerably more involved because you need to first:
 
 1. generate client and server certificates
 1. deploy an external service that supports the mTLS protocol
-1. redeploy the egress gateway server with the needed mTLS certs
+1. redeploy the egress gateway with the needed mTLS certs
 
-Only then can you configure the external traffic to go through the egress gateway and perform
+Only then can you configure the external traffic to go through the egress gateway which will perform
 TLS origination.
 
 ### Generate client and server certificates and keys
