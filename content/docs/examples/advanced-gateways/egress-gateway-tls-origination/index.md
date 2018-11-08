@@ -1,22 +1,284 @@
 ---
-title: Mutual TLS origination by Egress Gateway
-description: Describes how to configure an Egress Gateway to perform mutual TLS origination to external services.
-weight: 45
+title: Egress Gateway with TLS Origination
+description: Describes how to configure an Egress Gateway to perform TLS origination to external services.
+weight: 40
 keywords: [traffic-management,egress]
 ---
 
-The [Configure an egress gateway](/docs/examples/advanced-gateways/egress-gateway) example describes how to configure
-Istio to direct egress traffic through a dedicated service called _egress gateway_.
-This example shows how to configure an egress gateway to enable mutual TLS for traffic to external services.
+The [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination) example
+shows how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination) for traffic to an external service.
+The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example shows how to configure
+Istio to direct egress traffic through a dedicated _egress gateway_ service.
+This example combines the previous two by describing how to configure an egress gateway to perform
+TLS origination for traffic to external services.
 
-To simulate an actual external service that supports the mTLS protocol, you first deploy an [NGINX](https://www.nginx.com)
-server in your Kubernetes cluster, but running outside of the Istio service mesh, i.e., in a namespace
-without Istio sidecar proxy injection enabled.
-Next, you configure an egress gateway to perform mutual TLS with the external NGINX server.
-Finally, you direct traffic from application pods inside the mesh to the NGINX server outside the mesh through
-the egress gateway.
+## Before you begin
 
-## Generate client and server certificates and keys
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+
+*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
+    which will be used as a test source for external calls.
+
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
+
+    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    {{< /text >}}
+
+    Note that any pod that you can `exec` and `curl` from would do.
+
+*   Create a shell variable to hold the name of the source pod for sending requests to external services.
+    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
+## Perform TLS origination with an egress gateway
+
+This section describes how to perform the same TLS origination as in the
+[TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/) example,
+only this time using an egress gateway. Note that in this case the TLS origination will
+be done by the egress gateway, as opposed to by the sidecar in the previous example.
+
+1.  Define a `ServiceEntry` for `edition.cnn.com`:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: cnn
+    spec:
+      hosts:
+      - edition.cnn.com
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+      - number: 443
+        name: http-port-for-tls-origination
+        protocol: HTTP
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Verify that your `ServiceEntry` was applied correctly by sending a request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    HTTP/1.1 301 Moved Permanently
+    ...
+    location: https://edition.cnn.com/politics
+    ...
+
+    command terminated with exit code 35
+    {{< /text >}}
+
+    Your `ServiceEntry` was configured correctly if you see _301 Moved Permanently_ in the output.
+
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and a destination rule for
+    sidecar requests that will be directed to the egress gateway.
+
+    Choose the instructions corresponding to whether or not you have
+    [mutual TLS authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+
+    {{< tabset cookie-name="mtls" >}}
+
+    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+
+{{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - edition.cnn.com
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
+    EOF
+{{< /text >}}
+
+    {{% /tab %}}
+
+    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+
+{{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: http-port-for-tls-origination
+          protocol: HTTP
+        hosts:
+        - edition.cnn.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
+    EOF
+{{< /text >}}
+
+    {{% /tab %}}
+
+    {{< /tabset >}}
+
+1.  Define a `VirtualService` to direct the traffic through the egress gateway, and a `DestinationRule`
+    to perform TLS origination for requests to `edition.cnn.com`:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-cnn-through-egress-gateway
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - istio-egressgateway
+      - mesh
+      http:
+      - match:
+        - gateways:
+          - mesh
+          port: 80
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
+            port:
+              number: 443
+          weight: 100
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: edition.cnn.com
+            port:
+              number: 443
+          weight: 100
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-tls-for-edition-cnn-com
+    spec:
+      host: edition.cnn.com
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: SIMPLE # initiates HTTPS for connections to edition.cnn.com
+    EOF
+    {{< /text >}}
+
+1.  Send an HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    HTTP/1.1 200 OK
+    ...
+    content-length: 150793
+    ...
+    {{< /text >}}
+
+    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination/)
+    example, with TLS origination: without the _301 Moved Permanently_ message.
+
+1.  Check the log of the `istio-egressgateway` pod and you should see a line corresponding to our request.
+    If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') egressgateway -n istio-system | tail
+    {{< /text >}}
+
+    You should see a line similar to the following:
+
+    {{< text plain>}}
+    "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "edition.cnn.com" "151.101.65.67:443"
+    {{< /text >}}
+
+### Cleanup the TLS origination example
+
+Remove the Istio configuration items you created:
+
+{{< text bash >}}
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete serviceentry cnn
+$ kubectl delete virtualservice direct-cnn-through-egress-gateway
+$ kubectl delete destinationrule originate-tls-for-edition-cnn-com
+$ kubectl delete destinationrule egressgateway-for-cnn
+{{< /text >}}
+
+## Perform mutual TLS origination with an egress gateway
+
+Similar to the previous section, this section describes how to configure an egress gateway to perform
+TLS origination for an external service, only this time using a service that requires mutual TLS.
+
+This example is considerably more involved because you need to first:
+
+1. generate client and server certificates
+1. deploy an external service that supports the mTLS protocol
+1. redeploy the egress gateway with the needed mTLS certs
+
+Only then can you configure the external traffic to go through the egress gateway which will perform
+TLS origination.
+
+### Generate client and server certificates and keys
 
 1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
 
@@ -34,7 +296,7 @@ the egress gateway.
     Use any password with the following command:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
+    $ ./generate.sh nginx.example.com password
     {{< /text >}}
 
     Select `y` for all prompts that appear.
@@ -45,13 +307,17 @@ the egress gateway.
     $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
     {{< /text >}}
 
-1.  Change directory back:
+1.  Go back to your previous directory:
 
     {{< text bash >}}
     $ cd ..
     {{< /text >}}
 
-## Deploy an NGINX server
+### Deploy an mTLS server
+
+To simulate an actual external service that supports the mTLS protocol,
+deploy an [NGINX](https://www.nginx.com) server in your Kubernetes cluster, but running outside of
+the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injection enabled.
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
@@ -213,7 +479,7 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-## Deploy a container to test the NGINX deployment
+#### Deploy a container to test the NGINX deployment
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
     certificates:
@@ -342,7 +608,7 @@ to hold the configuration of the NGINX server:
     </html>
     {{< /text >}}
 
-## Redeploy the Egress Gateway with the client certificates
+### Redeploy the Egress Gateway with the client certificates
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.
@@ -388,7 +654,7 @@ to hold the configuration of the NGINX server:
     `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
     `/etc/istio/nginx-ca-certs`.
 
-## Configure mutual TLS origination for egress traffic
+### Configure mutual TLS origination for egress traffic
 
 1.  Create an egress `Gateway` for `nginx.example.com`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
@@ -506,23 +772,20 @@ to hold the configuration of the NGINX server:
     ...
     {{< /text >}}
 
-1.  Check the log of the `istio-egressgateway` pod and see a line corresponding to our request. If Istio is deployed in
-    the `istio-system` namespace, the command to print the log is:
+1.  Check the log of the `istio-egressgateway` pod for a line corresponding to our request.
+    If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system | grep 'nginx.example.com' | grep HTTP
     {{< /text >}}
 
-    You should see a line related to your request, similar to the following:
+    You should see a line similar to the following:
 
     {{< text plain>}}
     [2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "nginx.example.com" "172.21.72.197:443"
     {{< /text >}}
 
-## Cleanup
-
-1.  Perform the instructions in the [Cleanup](/docs/examples/advanced-gateways/egress-gateway/#cleanup)
-    section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
+### Cleanup the mutual TLS origination example
 
 1.  Remove created Kubernetes resources:
 
@@ -541,7 +804,7 @@ to hold the configuration of the NGINX server:
     $ kubectl delete destinationrule egressgateway-for-nginx
     {{< /text >}}
 
-1.  Delete the directory of the certificates and the repository used to generate them:
+1.  Delete the directory of certificates and the repository used to generate them:
 
     {{< text bash >}}
     $ rm -rf nginx.example.com mtls-go-example
@@ -553,9 +816,11 @@ to hold the configuration of the NGINX server:
     $ rm -f ./nginx.conf ./istio-egressgateway.yaml
     {{< /text >}}
 
-1.  Delete the `sleep` service and deployment:
+## Cleanup
 
-    {{< text bash >}}
-    $ kubectl delete service sleep
-    $ kubectl delete deployment sleep
-    {{< /text >}}
+Delete the `sleep` service and deployment:
+
+{{< text bash >}}
+$ kubectl delete service sleep
+$ kubectl delete deployment sleep
+{{< /text >}}
