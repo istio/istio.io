@@ -89,7 +89,8 @@ DNS, Kubernetes' DNS needs to be configured to point to CoreDNS as the DNS
 server for the `.global` dns domain. Create the following config map (or
 update an existing one):
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -97,7 +98,8 @@ metadata:
   namespace: kube-system
 data:
   stubDomains: |
-    {"global": ["<ClusterIP_of_istiocoredns.istio-system.svc.cluster.local>"]}
+    {"global": ["$(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})"]}
+EOF
 {{< /text >}}
 
 
