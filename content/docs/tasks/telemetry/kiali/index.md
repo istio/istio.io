@@ -25,11 +25,11 @@ authenticate to Kiali.
 First, define the credentials you want to use as the Kiali username and passphrase:
 
 {{< text bash >}}
-$ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo $uval | base64)
+$ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
 {{< /text >}}
 
 {{< text bash >}}
-$ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo $pval | base64)
+$ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
 {{< /text >}}
 
 To create a secret, run the following commands:
