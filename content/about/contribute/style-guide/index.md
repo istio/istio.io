@@ -84,8 +84,8 @@ This is unlike headings within the document, as described below.
 
 ### Only capitalize the first letter of headings
 
-For any headings use sentence case: only capitalize the the first word of the
-heading, except for proper nouns or an acronyms. Note that the
+For any headings use sentence case: only capitalize the first word of the
+heading, except for proper nouns or acronyms. Note that the
 `title:` annotation in markdown uses title case.
 
 |Do                      | Don't
