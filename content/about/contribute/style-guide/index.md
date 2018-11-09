@@ -8,21 +8,29 @@ aliases:
 keywords: [contribute]
 ---
 
-This page provides content guidelines for the Istio documentation.
-These are guidelines, not rules, so use your best judgment, and feel free to
-propose changes to this document in a pull request.
+This page provides the content guidelines for the Istio documentation. These
+guidelines do not supersede your best judgment and enhancements to this
+document in a pull request are welcome.
 
 ## Formatting standards
 
 ### Use consistent capitalization
 
-Don't split configuration type names into separate words and follow the original capitalization. For
-example, use `IstioRoleBinding`, not `Istio Role Binding` or `istio role binding`.
+Don't use capitalization for emphasis.
+
+Follow the original capitalization employed in the code or configuration files
+when referencing those values directly. Use back-ticks \`\` around the
+referenced content to make the connection explicit. For example, use
+`IstioRoleBinding`, not "Istio Role Binding" or "istio role binding".
+
+If you are not referencing values or code directly, use normal sentence
+capitalization, for example, "The Istio role binding configuration takes place
+in a YAML file."
 
 ### Use angle brackets for placeholders
 
-Use angle brackets for placeholders. Tell the reader what a placeholder
-represents.
+Use angle brackets for placeholders. Tell the reader what the placeholder
+represents. For example:
 
 1.  Display information about a pod:
 
@@ -30,7 +38,7 @@ represents.
     $ kubectl describe pod <pod-name>
     {{< /text >}}
 
-    where `<pod-name>` is the name of one of your pods.
+    Where `<pod-name>` is the name of one of your pods.
 
 ### Use **bold** for user interface elements
 
@@ -70,15 +78,15 @@ represents.
 
 ## Use title capitalization for `title:` front-matter
 
-The text for the `title:` front-matter should use full title capitalization
-(first letter of every word). This is unlike headings within the document,
-as described below.
+The text for the `title:` front-matter must use title case:
+Capitalize the first letter of every word except conjunctions and prepositions.
+This is unlike headings within the document, as described below.
 
 ### Only capitalize the first letter of headings
 
-For any headings, only apply an uppercase letter to the first word of the heading,
-except if a word is a proper noun or an acronym. Note that the `title:` annotation
-in markdown uses full capitalization.
+For any headings use sentence case: only capitalize the first word of the
+heading, except for proper nouns or acronyms. Note that the
+`title:` annotation in markdown uses title case.
 
 |Do                      | Don't
 |------------------------|-----
@@ -88,12 +96,13 @@ in markdown uses full capitalization.
 
 ## Terminology standards
 
-Some standard terms we want to use consistently within the documentation for clarity.
+We want to use the standard terms in this section consistently within the
+documentation for clarity.
 
 ### Envoy
 
-We prefer to use "Envoy” as it’s a more concrete term than "proxy" and will resonate if used
-consistently throughout the docs.
+We prefer to use "Envoy” as it’s a more concrete term than "proxy" and
+resonates if used consistently throughout the docs.
 
 Synonyms:
 
@@ -105,8 +114,8 @@ Synonyms:
 
 Related Terms:
 
-- Proxy agent  - This is a minor infrastructural component and should only show up in low-level detail documentation.
-It is not a proper noun.
+- Proxy agent  - This is a minor infrastructural component and should only show
+  up in low-level detail documentation. It is not a proper noun.
 
 ### Miscellaneous
 
@@ -132,7 +141,7 @@ It is not a proper noun.
 |This command starts a proxy. | This command will start a proxy.
 
 Exception: Use future or past tense if it is required to convey the correct
-meaning.
+meaning. This exception is extremely rare and should be avoided.
 
 ### Use active voice
 
@@ -141,11 +150,10 @@ meaning.
 |You can explore the API using a browser.   | The API can be explored using a browser.
 |The YAML file specifies the replica count. | The replica count is specified in the YAML file.
 
-Exception: Use passive voice if active voice leads to an awkward construction.
-
 ### Use simple and direct language
 
-Use simple and direct language. Avoid using unnecessary phrases, such as saying "please."
+Use simple and direct language. Avoid using unnecessary phrases, such as saying
+"please."
 
 |Do                          | Don't
 |----------------------------|------
@@ -162,8 +170,10 @@ Use simple and direct language. Avoid using unnecessary phrases, such as saying 
 
 ### Create useful links
 
-There are good hyperlinks, and bad hyperlinks. The common practice of calling links *here*  or *click here* are examples of
-bad hyperlinks. Check out this excellent article explaining what makes a good hyperlink and try to keep these guidelines in
+There are good hyperlinks, and bad hyperlinks. The common practice of calling
+links *here*  or *click here* are examples of bad hyperlinks. Check out [this
+excellent article](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/)
+explaining what makes a good hyperlink and try to keep these guidelines in
 mind when creating or reviewing site content.
 
 [Why "click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
@@ -190,14 +200,14 @@ Some readers speak English as a second language. Avoid jargon and idioms to help
 
 ### Avoid statements about the future
 
-Avoid making promises or giving hints about the future. If you need to talk about
-an alpha feature, put the text under a heading that identifies it as alpha
-information.
+Avoid making promises or giving hints about the future. If you need to talk
+about an alpha feature, put the text under a heading that identifies it as
+alpha information.
 
 ### Avoid statements that will soon be out of date
 
-Avoid words like "currently" and "new". A feature that is new today might not be
-considered new in a few months.
+Avoid words like "currently" and "new". A feature that is new today might not
+be considered new in a few months.
 
 |Do                                  | Don't
 |------------------------------------|------
