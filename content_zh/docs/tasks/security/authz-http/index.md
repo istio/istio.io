@@ -24,7 +24,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     {{< /text >}}
 
-> 如果你的 BookInfo 使用的不是 `default` 命名空间，可以使用 `kubectl -n namespace ...` 来指定命名空间。
+> 如果你的 Bookinfo 使用的不是 `default` 命名空间，可以使用 `kubectl -n namespace ...` 来指定命名空间。
 
 * 在 Istio 1.0 中对 RBAC 进行了一次重要升级，因此请确认在继续之前已经移除了所有现存的 RBAC 配置。
 
@@ -45,7 +45,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
     $ kubectl delete servicerolebinding --all
     {{< /text >}}
 
-* 用浏览器打开 Bookinfo 的 `productpage`（http://$GATEWAY_URL/productpage）应该会看到：
+* 用浏览器打开 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`）应该会看到：
 
     * 页面左下方的 “Book Details” 中包含了类型、页数、出版商等信息。
     * “Book Reviews” 应该显示在页面右下方。
@@ -228,7 +228,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1. 现在我们知道新策略会按设计目标工作，就可以安全的按照[步骤 2](#开放到-details-和-reviews-服务的访问)的步骤来应用策略了。
+1. 现在我们知道新策略会按设计目标工作，就可以安全的按照[步骤 2](#第二步-开放到-details-和-reviews-服务的访问) 的步骤来应用策略了。
 
 ## 启用 Istio 访问控制
 
