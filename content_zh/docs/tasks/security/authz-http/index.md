@@ -1,47 +1,34 @@
 ---
-title: HTTP 服务的认证
+title: HTTP 服务的访问控制
 description: 展示为 HTTP 服务设置基于角色的访问控制方法。
 weight: 40
 keywords: [安全,访问控制,rbac,认证]
 ---
 
-Istio 认证是一种基于角色的访问控制方式，本文内容涵盖了为 HTTP 设置认证的各个环节。在[认证概念](/zh/docs/concepts/security/)
+Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP 设置访问控制的各个环节。在[认证概念](/zh/docs/concepts/security/)中一文中提供了 Istio 安全方面的入门教程。
 
-This task covers the activities you might need to perform to set up Istio authorization, also known
-as Istio Role Based Access Control (RBAC), for HTTP services in an Istio mesh. You can read more in
-[authorization](/docs/concepts/security/#authorization) and get started with
-a basic tutorial in Istio Security Basics.
+## 开始之前
 
-## Before you begin
+任务中的活动做出如下假设：
 
-The activities in this task assume that you:
+* 理解[访问控制](/zh/docs/concepts/security/#授权和鉴权)概念。
+* 按照[快速开始](/zh/docs/setup/kubernetes/quick-start/)的步骤，在 Kubernetes 上安装了 Istio 并**启用认证功能**，本教程依赖双向 TLS 功能，在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中介绍了启用双向 TLS 的方法。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
+* 这一任务中，借助 Service Account 在网格中提供加密的访问控制能力。为了给不同的微服务赋予不同的访问权限，就需要创建一些 Service Account 用来运行 Bookinfo 中的微服务。
 
-* Understand [authorization](/docs/concepts/security/#authorization) concepts.
-
-* Have set up Istio on Kubernetes **with authentication enabled** by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/), this tutorial requires mutual TLS to work. Mutual TLS
-  authentication should be enabled in the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
-
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
-
-* In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the mesh.
-In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
-microservices running under them.
-
-    Run the following command to
-    * Create service account `bookinfo-productpage`, and redeploy the service `productpage` with the service account.
-    * Create service account `bookinfo-reviews`, and redeploy the services `reviews` (deployments `reviews-v2` and `reviews-v3`)
-    with the service account.
+    运行命令完成两个目标：
+    * 创建 Service Account `bookinfo-productpage`，并用这一身份重新部署 `productpage` 微服务。
+    * 创建 Service Account `bookinfo-reviews`，并用它来重新部署 `reviews`（`reviews-v2` 和 `reviews-v3` 两个 Deployment）。
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     {{< /text >}}
 
-> If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
+> 如果你的 BookInfo 使用的不是 `default` 命名空间，可以使用 `kubectl -n namespace ...` 来指定命名空间。
 
-* There is a major update to RBAC in Istio 1.0. Please make sure to remove any existing RBAC configuration before continuing.
+* 在 Istio 1.0 中对 RBAC 进行了一次重要升级，因此请确认在继续之前已经移除了所有现存的 RBAC 配置。
 
-    * Run the following commands to disable the old RBAC functionality, these are no longer needed in Istio 1.0:
+    * 运行下列命令来禁止现存的 RBAC 功能，在 Istio 1.0 之后不再需要这些配置：
 
     {{< text bash >}}
     $ kubectl delete authorization requestcontext -n istio-system
@@ -49,46 +36,40 @@ microservices running under them.
     $ kubectl delete rule rbaccheck -n istio-system
     {{< /text >}}
 
-    * Run the following commands to remove any existing RBAC policies:
+    * 运行命令删除现存 RBAC 策略：
 
-      > You could keep existing policies but you will need to make some changes to the `constraints` and `properties` field
-in the policy, see [constraints and properties](/docs/reference/config/authorization/constraints-and-properties/)
-for the list of supported keys in `constraints` and `properties`.
+      > 要保存现有策略就必须对其中的 `constraints` 和 `properties` 字段进行修改。可以阅读[属性和约束](/zh/docs/reference/config/authorization/constraints-and-properties/)中的内容，来了解这两个字段的支持范围。
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
     $ kubectl delete servicerolebinding --all
     {{< /text >}}
 
-* Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
+* 用浏览器打开 Bookinfo 的 `productpage`（http://$GATEWAY_URL/productpage）应该会看到：
 
-    * The "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
-    * The "Book Reviews" section in the lower right part of the page.
+    * 页面左下方的 “Book Details” 中包含了类型、页数、出版商等信息。
+    * “Book Reviews” 应该显示在页面右下方。
 
-    If you refresh the page several times, you should see different versions of reviews shown in the product page,
-    presented in a round robin style (red stars, black stars, no stars)
+    多次刷新该页面，可能会看到页面中显示了 “Book Reviews” 的不同版本，红星、黑星和无星三个版本会轮换展示。
 
-## Authorization permissive mode
+## 宽松模式（PERMISSIVE Mode）
 
-The authorization permissive mode is an experimental feature in Istio's 1.1 release. Its interface can change in future releases.
-You can skip enabling the permissive mode and directly [enable Istio authorization](#enabling-istio-authorization)
-if you do not want to try out the permissive mode feature.
+宽松模式是 Istio 1.1 中的一个实验功能。因此将来可能会发生变更。如果不想尝试这一功能，可以直接跳到[启用 Istio 访问控制](#启用-istio-访问控制)。
 
-This section shows how to use authorization permissive mode in below two scenarios:
+本节展示了在两种场景中启用宽松模式的方法：
 
-    * In environment without authorization, test whether it's safe to enable authorization.
-    * In environment already with authorization enabled, test whether it's safe to add a new authorization policy.
+    * 在环境中没有访问控制的情况下，测试启用访问控制是否安全。
+    * 环境中已开启访问控制，测试添加新的策略是否安全。
 
-### Testing whether it's safe to turn on authorization globally
+### 测试全局开启访问控制是否安全
 
-This tasks show how to use authorization permissive mode to test whether it's safe to
-turn on authorization globally.
+这一节内容演示的是利用宽松模式来对启用全局访问控制的可行性进行验证的方法。
 
-Before you start, please make sure that you have finished [preparation task](#before-you-begin).
+首先确定一下是否完成了[开始之前](#开始之前)所述操作。
 
-1.  Set the global authorization configuration to permissive mode.
+1. 将全局访问控制方式设置为宽松模式：
 
-    Run the following command:
+    运行下列命令：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -104,12 +85,11 @@ Before you start, please make sure that you have finished [preparation task](#be
     EOF
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
-    see everything works fine, same as in [preparation task](#before-you-begin).
+    浏览 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），会看到一切功能都和[开始之前](#开始之前)步骤中一样正常运行。
 
-1.  Apply YAML file for the permissive mode metric collection.
+1. 利用 YAML 文件设置宽松模式的指标收集。
 
-    Run the following command:
+    运行如下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
@@ -118,22 +98,17 @@ Before you start, please make sure that you have finished [preparation task](#be
     rule.config.istio.io/rabcsamplestdio created
     {{< /text >}}
 
-1.  Send traffic to the sample application.
+1. 向示例应用发送流量。
 
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+    使用浏览器浏览 `http://$GATEWAY_URL/productpage` 或者执行下面的命令：
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
-    see everything works fine.
+1. 查看日志，并检查 `permissiveResponseCode`。
 
-1.  Verify the logs stream has been created and check `permissiveResponseCode`.
-
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pods as follows:
+    Kubernetes 环境中，可以用下列操作搜索 istio-telemetry 的 Pod 日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -142,38 +117,29 @@ Before you start, please make sure that you have finished [preparation task](#be
     {"level":"warn","time":"2018-08-30T21:53:41.019851Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"1.112521495s","permissiveResponseCode":"403","permissiveResponsePolicyID":"","responseCode":200,"responseSize":5723,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
     {{< /text >}}
 
-    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
-    The `permissiveResponseCode` is 403 which is what user will see after switching
-    global authorization configuration from `PERMISSIVE` mode to `ENFORCED` mode, which
-    indicates the global authorization configuration will work as expected after rolling
-    to production.
+    上面的遥测日志中，`responseCode` 显示为 200，就是用户目前所见；而 `permissiveResponseCode` 的 403，表示如果将全局访问控制模式从 `PERMISSIVE` 转向 `ENFORCE` 模式之后会发生的结果，这说明全局访问控制配置在实施之后会产生我们想要的结果。
 
-1.  Before rolling out a new authorization policy in production, apply it in permissive mode.
-    `Note`, when global authorization configuration is in permissive mode, all policies will be in
-    permissive mode by default.
+1. 在我们向生产环境推出新的访问控制策略之前，首先使用宽松模式。
 
-    Run the following command:
+    **注意**，全局访问控制配置设置为宽松模式的情况下，所有的策略都缺省为宽松模式。
+
+    运行下列命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
     {{< /text >}}
 
-1.  Send traffic to the sample application again.
+1. 再次向示例应用发送流量。
 
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+    使用浏览器浏览 `http://$GATEWAY_URL/productpage` 或者执行下面的命令：
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
-    see everything works fine.
+1. 再一次查看日志，并检查 `permissiveResponseCode`。
 
-1.  Verify the logs and check `permissiveResponseCode` again.
-
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pods as follows:
+    Kubernetes 环境中，可以用下列操作搜索 istio-telemetry 的 Pod 日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -182,13 +148,9 @@ Before you start, please make sure that you have finished [preparation task](#be
     {"level":"warn","time":"2018-08-30T21:55:53.544441Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"57.800056ms","permissiveResponseCode":"200","permissiveResponsePolicyID":"productpage-viewer","responseCode":200,"responseSize":5723,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
     {{< /text >}}
 
-    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
-    The `permissiveResponseCode` is 200 for productpage service, 403 for ratings
-    and reviews services, which are what user will see after switching
-    policy mode from `PERMISSIVE` mode to `ENFORCED` mode; the result aligns with
-    [step 1](#step-1-allowing-access-to-the-productpage-service).
+    上面的遥测日志中，`responseCode` 显示为 200，就是用户目前所见；`permissiveResponseCode` 在 productpage 服务中是 200，ratings 和 reviews 服务中是 403，这代表了访问控制策略从 `PERMISSIVE` 模式改为 `ENFORCED` 模式时会发生的后果；这一结果是符合[第一步](#第一步-开放到-productpage-服务的访问)中所述内容的。
 
-1.  Remove permissive mode related yaml files:
+1. 删除宽松模式的相关 yaml 文件：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
@@ -196,26 +158,23 @@ Before you start, please make sure that you have finished [preparation task](#be
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Now we have verified authorization will work as expected when turning it on,
-    it's safe following below [Enabling Istio authorization](#enabling-istio-authorization) to turn on authorization.
+1. 现在我们已经完成了对开启访问控制后果的验证，可以按照[启用 Istio 访问控制](#启用-Istio-访问控制)的步骤来继续操作了。
 
-### Testing new authorization policy works as expected before rolling to production
+### 测试添加新的策略是否安全
 
-This tasks shows how to use authorization permissive mode to test a new authorization policy works
-as expected in environment with authorization already enabled.
+这一节的内容会在在已经启用访问控制的网格中完成，展示如何使用宽松访问控制模式验证新的访问控制策略。
 
-Before you start, please make sure that you have finished [step 1](#step-1-allowing-access-to-the-productpage-service).
+开始之前，请确认已经完成了[第一步](#第一步-开放到-productpage-服务的访问)中所述操作。
 
-1.  Before applying a new policy, test it by setting its mode to permissive:
+1. 应用新策略之前，可以先将模式设置为宽松，方便进行测试：
 
-    Run the following command:
+    运行下列命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
     {{< /text >}}
 
-    The policy is the same as defined in [allowing access to the details and
-    reviews services](#step-2-allowing-access-to-the-details-and-reviews-services), except `PERMISSIVE` mode is set in ServiceRoleBinding.
+    这一策略和[开放到 details 和 reviews 服务的访问](#第二步-开放到-details-和-reviews-服务的访问)步骤中的策略基本是一致的，只不过在 ServiceRoleBinding 中设置了 `PERMISSIVE` 模式。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -232,32 +191,27 @@ Before you start, please make sure that you have finished [step 1](#step-1-allow
       mode: PERMISSIVE
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should still
-    see there are errors `Error fetching product details` and `Error fetching
-    product reviews` on the page. These errors are expected because the policy is
-    in `PERMISSIVE` mode.
+    用浏览器打开 `productpage`（`http://$GATEWAY_URL/productpage`），会看到错误信息：`Error fetching product details` 和 `Error fetching product reviews`，因为设置了 `PERMISSIVE`，这些错误是符合预期的。
 
-1.  Apply YAML file for the permissive mode metric collection.
+1. 应用 YAML 文件，用于收集宽松模式下的监控指标。
 
-    Run the following command:
+    运行下列命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Send traffic to the sample application.
+1. 向应用发送流量。
 
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+    使用浏览器浏览 `http://$GATEWAY_URL/productpage` 或者执行下面的命令：
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Verify the logs and check `permissiveResponseCode` again.
+1. 查看日志，检查 `permissiveResponseCode`。
 
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pods as follows:
+    在 Kubernetes 环境中，查看 istio-telemetry pod 的日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -265,61 +219,44 @@ Before you start, please make sure that you have finished [step 1](#step-1-allow
     {"level":"warn","time":"2018-08-30T22:59:42.763423Z","instance":"rbacsamplelog.logentry.istio-system","destination":"reviews","latency":"237.333µs","permissiveResponseCode":"200","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
     {{< /text >}}
 
-    In telemetry logs above, the `responseCode` is 403 for ratings
-    and reviews services, which is what users see now.
-    The `permissiveResponseCode` is 200 for ratings and reviews services,
-    which is what users will see after switching policy mode from `PERMISSIVE` mode
-    to `ENFORCED` mode; it indicates the new authorization policy will work as expected
-    after rolling to production.
+    上面的遥测日志可以看到，ratings 和 reviews 服务的 `responseCode` 是 403，也就是页面看到的错误原因。而 ratings 和 reviews 的 `permissiveResponseCode` 是 200，这代表用户将策略模式从 `PERMISSIVE` 切换为 `ENFORCED` 之后会看到的结果，也就是说新策略推出到生产环境是会按照预想条件工作的。
 
-1.  Remove permissive mode related yaml files:
+1. 移除宽松模式相关的 YAML 文件：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Now we have verified the new policy will work as expected, it's safe
-    following [step 2](#step-2-allowing-access-to-the-details-and-reviews-services) to apply the policy.
+1. 现在我们知道新策略会按设计目标工作，就可以安全的按照[步骤 2](#开放到-details-和-reviews-服务的访问)的步骤来应用策略了。
 
-## Enabling Istio authorization
+## 启用 Istio 访问控制
 
-Run the following command to enable Istio authorization for the `default` namespace:
+运行下面的命令，在 `default` 命名空间中启用 Istio 访问控制：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
-`"RBAC: access denied"`. This is because Istio authorization is "deny by default", which means that you need to
-explicitly define access control policy to grant access to any service.
+用浏览器打开 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`）。应该会看到 `"RBAC: access denied"`，原因是 Istio 访问控制缺省采用拒绝策略，这就要求必须显式的声明访问控制策略才能成功的访问到服务。
 
-> There may be some delays due to caching and other propagation overhead.
+> 缓存或者其它传播开销可能会造成生效延迟。
 
-## Namespace-level access control
+## 命名空间级别的访问控制
 
-Using Istio authorization, you can easily setup namespace-level access control by specifying all (or a collection of) services
-in a namespace are accessible by services from another namespace.
+使用 Istio 能够轻松的在命名空间一级设置访问控制，只要设置命名空间中所有（或部分）服务可以被其它命名空间的服务访问即可。
 
-In our Bookinfo sample, the `productpage`, `reviews`, `details`, `ratings` services are deployed in the `default` namespace.
-The Istio components like `istio-ingressgateway` service are deployed in the `istio-system` namespace. We can define a policy that
-any service in the `default` namespace that has the `app` label set to one of the values of
-`productpage`, `details`, `reviews`, or `ratings`
-is accessible by services in the same namespace (i.e., `default`) and services in the `istio-system` namespace.
+Bookinfo 案例中，`productpage`、`reviews`、`details` 和 `ratings` 服务都部署在 `default` 命名空间之内。而 `istio-ingressgateway` 这样的 Istio 组件是部署在 `istio-system` 命名空间内的。可以定义一个策略，`default` 命名空间内的服务如果它的 `app` 标签值属于 `productpage`、`reviews`、`details` 和 `ratings` 其中的一个，就可以被同一命名空间（`default`）内的服务访问。
 
-Run the following command to create a namespace-level access control policy:
+运行下面的命令，来创建命名空间级的访问控制策略：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+这条策略包括：
 
-*   Creates a `ServiceRole` `service-viewer` which allows read access to any service in the `default` namespace that has
-the `app` label
-set to one of the values `productpage`, `details`, `reviews`, or `ratings`. Note that there is a
-constraint specifying that
-the services must have one of the listed `app` labels.
+* 创建一个名为 `service-viewer` 的 `ServiceRole`，该角色允许对于 `default` 命名空间内，并且 `app` 标签值在 `productpage`、`reviews`、`details` 和 `ratings` 范围内的服务发起读取访问。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -336,7 +273,7 @@ the services must have one of the listed `app` labels.
           values: ["productpage", "details", "reviews", "ratings"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` that assign the `service-viewer` role to all services in the `istio-system` and `default` namespaces.
+* 创建一个 `ServiceRoleBinding`，给所有 `istio-system` 和 `default` 命名空间内的服务分配一个 `service-viewer` 角色。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -355,49 +292,47 @@ the services must have one of the listed `app` labels.
         name: "service-viewer"
     {{< /text >}}
 
-You can expect to see output similar to the following:
+应该会看到如下输出：
 
 {{< text plain >}}
 servicerole "service-viewer" created
 servicerolebinding "bind-service-viewer" created
 {{< /text >}}
 
-Now if you point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/productpage`). You should see the "Bookinfo Sample" page,
-with the "Book Details" section in the lower left part and the "Book Reviews" section in the lower right part.
+如果用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），应该会看到 “Bookinfo Sample” 页面，左下角是 “Book Details”，右下角是 “Book Reviews”。
 
-> There may be some delays due to caching and other propagation overhead.
+> 缓存或者其它传播开销可能会造成生效延迟。
 
-### Cleanup namespace-level access control
+### 清理命名空间级别的访问控制
 
-Remove the following configuration before you proceed to the next task:
+进入下一任务之前，首先删除下列配置：
 
 {{< text bash >}}
 $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
-## Service-level access control
+## 服务级访问控制
 
-This task shows you how to set up service-level access control using Istio authorization. Before you start, please make sure that:
+接下来展示的是如何使用 Istio 在服务一级进行访问控制。开始之前，首先确认两个前提条件：
 
-* You have [enabled Istio authorization](#enabling-istio-authorization).
-* You have [removed namespace-level authorization policy](#cleanup-namespace-level-access-control).
+* 已经[启用 Istio 访问控制](#启用-Istio-访问控制)。
+* 已经[清理命名空间级别的访问控制](#清理命名空间级别的访问控制)。
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see `"RBAC: access denied"`.
-We will incrementally add access permission to the services in the Bookinfo sample.
+用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），会看到 `"RBAC: access denied"`。我们将会逐步在 Bookinfo 中加入访问权限。
 
-### Step 1. allowing access to the `productpage` service
+### 第一步：开放到 `productpage` 服务的访问
 
-In this step, we will create a policy that allows external requests to access the `productpage` service via Ingress.
+在这一步骤中，我们会创建一条策略，允许外部请求通过 Ingress 访问 `productpage` 服务。
 
-Run the following command:
+运行下列命令：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+这条策略完成了如下工作：
 
-*   Creates a `ServiceRole` `productpage-viewer` which allows read access to the `productpage` service.
+* 创建一个名为 `productpage-viewer` 的 `ServiceRole`，允许对 `productpage` 服务进行读取访问。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -411,8 +346,7 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` `bind-productpager-viewer` which assigns the `productpage-viewer` role to all
-users and services.
+* 创建一个 `ServiceRoleBinding`，命名为 `bind-productpager-viewer`，将 `productpage-viewer` 角色授予所有用户和服务。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -428,28 +362,23 @@ users and services.
         name: "productpage-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see the "Bookinfo Sample"
-page. But there are errors `Error fetching product details` and `Error fetching product reviews` on the page. These errors
-are expected because we have not granted the `productpage` service access to the `details` and `reviews` services. We will fix the errors
-in the following steps.
+用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），现在应该就能看到 “Bookinfo Sample” 页面了，但是页面上会显示 `Error fetching product details` and `Error fetching product reviews` 的错误信息。这些错误信息是正常的，原因是 `productpage` 还无权访问 `details` 和 `reviews` 服务。下面我们会尝试解决这一问题。
 
-> There may be some delays due to caching and other propagation overhead.
+> 缓存或者其它传播开销可能会造成生效延迟。
 
-### Step 2. allowing access to the `details` and `reviews` services
+### 第二步：开放到 details 和 reviews 服务的访问
 
-We will create a policy to allow the `productpage` service to access the `details` and `reviews` services. Note that in the
-[setup step](#before-you-begin), we created the `bookinfo-productpage` service account for the `productpage` service. This
-`bookinfo-productpage` service account is the authenticated identify for the `productpage` service.
+创建一条策略，允许 `productpage` 访问 details 和 reviews 服务。注意在[开始之前](#开始之前)步骤中已经创建了 `bookinfo-productpage`，这个 Service Account 被用于运行 `productpage` 服务，换句话说 `bookinfo-productpage` 就是 `productpage` 服务的身份标识。
 
-Run the following command:
+运行如下命令：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+这一策略中包含了如下操作。
 
-*   Creates a `ServiceRole` `details-reviews-viewer` which allows access to the `details` and `reviews` services.
+* 新建名为 `details-reviews-viewer` 的 `ServiceRole`，该角色允许对 `details` 和 `reviews` 服务的访问。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -463,8 +392,7 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` `bind-details-reviews` which assigns the `details-reviews-viewer` role to the
-`cluster.local/ns/default/sa/bookinfo-productpage` service account (representing the `productpage` service).
+* 创建 `ServiceRoleBinding` 对象，命名为 `bind-details-reviews`，将 `details-reviews-viewer` 角色授予 `cluster.local/ns/default/sa/bookinfo-productpage`（也就是 `productpage` 服务）。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -480,29 +408,23 @@ The policy does the following:
         name: "details-reviews-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see the "Bookinfo Sample"
-page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in the "Book Reviews" section,
-there is an error `Ratings service currently unavailable`. This is because "reviews" service does not have permission to access
-"ratings" service. To fix this issue, you need to grant the `reviews` service access to the `ratings` service.
-We will show how to do that in the next step.
+浏览器打开 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），现在应该就能看到 “Bookinfo Sample” 页面中，在左下方显示了 “Book Details”，在右下方显示了 “Book Reviews”。然而 “Book Reviews” 部分显示了一个错误信息：`Ratings service currently unavailable`，错误的原因是 `reviews` 服务无权访问 `ratings` 服务。要解决这一问题，就需要授权给 `reviews` 服务，允许它访问 `ratings` 服务。
 
-> There may be some delays due to caching and other propagation overhead.
+> 缓存或者其它传播开销可能会造成生效延迟。
 
-### Step 3. allowing access to the `ratings` service
+### 第三步：开放访问 `ratings` 服务
 
-We will create a policy to allow the `reviews` service to access the `ratings` service. Note that in the
-[setup step](#before-you-begin), we created a `bookinfo-reviews` service account for the `reviews` service. This
-service account is the authenticated identify for the `reviews` service.
+这里来创建一条策略，允许 `reviews` 服务访问 `ratings` 服务。注意在[开始之前](#开始之前)，我们已经为 `reviews` 服务创建了一个叫做 `bookinfo-reviews` 的 Service Account，它就是 `reviews` 服务的身份标识。
 
-Run the following command to create a policy that allows the `reviews` service to access the `ratings` service.
+运行下面的命令，创建允许 `reviews` 服务访问 `ratings` 服务的策略：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+这条策略包含以下动作：
 
-*   Creates a `ServiceRole` `ratings-viewer\` which allows access to the `ratings` service.
+* 创建一个名为 `ratings-viewer` 的 `ServiceRole`，并允许其访问 `ratings` 服务。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -516,8 +438,7 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` `bind-ratings` which assigns `ratings-viewer` role to the
-`cluster.local/ns/default/sa/bookinfo-reviews` service account, which represents the `reviews` service.
+* 创建一个 `ServiceRoleBinding` 对象，命名为 `bind-ratings`，把 `ratings-viewer` 角色授予给 `cluster.local/ns/default/sa/bookinfo-reviews`（也就是 `reviews` 服务）。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -533,14 +454,13 @@ The policy does the following:
         name: "ratings-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
-the "black" and "red" ratings in the "Book Reviews" section.
+用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`）。现在应该能在  “Book Reviews” 中看到黑色或红色的星级图标。
 
-> There may be some delays due to caching and other propagation overhead.
+> 缓存或者其它传播开销可能会造成生效延迟。
 
-## Cleanup
+## 清理
 
-*   Remove Istio authorization policy configuration:
+* 移除 Istio 访问控制策略：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
@@ -548,14 +468,14 @@ the "black" and "red" ratings in the "Book Reviews" section.
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
     {{< /text >}}
 
-    Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
+    也可以选择使用下面的命令删除所有 `ServiceRole` 和 `ServiceRoleBinding`：
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
     $ kubectl delete servicerolebinding --all
     {{< /text >}}
 
-*   Disable Istio authorization:
+* 禁用 Istio 访问控制：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
