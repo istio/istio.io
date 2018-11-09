@@ -9,28 +9,37 @@ This task shows you how to configure Istio to collect trace spans and send them 
 [𝑥]PM lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
 distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis. For more
 information, visit [LightStep](https://lightstep.com).
-At the end of this task, trace spans will be sent from the proxies, to a LightStep [𝑥]PM Satellite pool, and then be
-consumable in the web UI.
+At the end of this task, Istio sends trace spans from the proxies to a LightStep [𝑥]PM Satellite pool making them
+available to the web UI.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample is used as the
-example application for this task.
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an example.
 
 ## Before you begin
 
-> {{< idea_icon >}} The following instructions assume you have a LightStep account and a Satellite pool configured with
-TLS certs and a secure GRPC port exposed. To create an account, [contact LightStep](https://lightstep.com/contact/).
-For details about setting up Satellites, see [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup).
+1.  Ensure you have a LightStep account. [Contact LightStep](https://lightstep.com/contact/) to create an account.
 
-1.  Make sure that you have a LightStep Access Token and that the Satellite pool can be reached at an address in the
-    form of `<Host>:<Port>` (ex. `lightstep-satellite.lightstep:9292`).
-1.  Follow [the Helm install instructions](/docs/setup/kubernetes/helm-install/) to install Istio via Helm.
-    You must pass a few arguments using the `--set key=value` syntax when you run the `helm` command, for example:
+1.  Ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
+    [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup) for details about setting up satellites.
+
+1.  Ensure sure you have a LightStep access token.
+
+1.  Ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
+
+1.  Deploy Istio with the following configuration parameters specified:
+    - `global.proxy.tracer="lightstep"`
+    - `global.tracer.lightstep.address="<satellite-address>"`
+    - `global.tracer.lightstep.accessToken="<access-token>"`
+    - `global.tracer.lightstep.secure=true`
+    - `global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem"`
+
+    If you are installing via `helm template` you can set these parameters using the `--set key=value` syntax
+    when you run the `helm` command. For example:
 
     {{< text bash >}}
     $ helm template \
         --set global.proxy.tracer="lightstep" \
-        --set global.tracer.lightstep.address="<Satellite Address>" \
-        --set global.tracer.lightstep.accessToken="<LightStep Access Token>" \
+        --set global.tracer.lightstep.address="<satellite-address>" \
+        --set global.tracer.lightstep.accessToken="<access-token>" \
         --set global.tracer.lightstep.secure=true \
         --set global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem" \
         install/kubernetes/helm/istio \
@@ -39,8 +48,8 @@ For details about setting up Satellites, see [LightStep Satellite Setup](https:/
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
-1.  Create a secret in the default namespace (or whichever namespace you are deploying the Bookinfo application into)
-    with the Certificate Authority certificate used for verifying TLS communication with the Satellite pool.
+1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
+    If the Bookinfo application will be deployed in a different namespace, create the secret in that namespace instead.
 
     {{< text bash >}}
     $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
@@ -62,7 +71,7 @@ For details about setting up Satellites, see [LightStep Satellite Setup](https:/
     EOF
     ```
 
-1.   Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+1.   Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Visualize trace data
 
