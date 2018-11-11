@@ -6,7 +6,8 @@ keywords: [traffic-management,ingress]
 ---
 
 The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task describes how to configure an ingress
-gateway to expose an HTTP endpoint of a service to external traffic. This task extends that task to enable HTTPS access to the service using either simple or mutual TLS.
+gateway to expose an HTTP endpoint of a service to external traffic.
+This task shows you how to do the same, but using HTTPS access to the service with either simple or mutual TLS.
 
 ## Before you begin
 

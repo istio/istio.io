@@ -5,6 +5,8 @@ weight: 5
 keywords: [kubernetes]
 ---
 
+{{< info_icon >}} Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
+
 依照本文说明，在 Kubernetes 集群中安装和配置 Istio。
 
 ## 前置条件

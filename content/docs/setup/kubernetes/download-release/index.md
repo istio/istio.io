@@ -31,8 +31,7 @@ services from all other namespaces.
     * Installation `.yaml` files for Kubernetes in `install/`
     * Sample applications in `samples/`
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is
-      used when manually injecting Envoy as a sidecar proxy and for creating
-      routing rules and policies.
+      used when manually injecting Envoy as a sidecar proxy.
     * The `istio.VERSION` configuration file
 
 1.  Add the `istioctl` client to your PATH environment variable, on a macOS or

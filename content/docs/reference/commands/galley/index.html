@@ -22,6 +22,10 @@ number_of_entries: 4
 <td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
 </tr>
 <tr>
+<td><code>--configPath &lt;string&gt;</code></td>
+<td>Istio config file path  (default ``)</td>
+</tr>
+<tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
 </tr>
@@ -67,11 +71,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -91,7 +95,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -126,6 +130,10 @@ number_of_entries: 4
 <td>Maximum size of individual gRPC messages  (default `1048576`)</td>
 </tr>
 <tr>
+<td><code>--service-name &lt;string&gt;</code></td>
+<td>Name of the validation service running in the same namespace as the deployment  (default `istio-galley`)</td>
+</tr>
+<tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
 <td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
@@ -140,6 +148,10 @@ number_of_entries: 4
 <tr>
 <td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
 <td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
+</tr>
+<tr>
+<td><code>--webhook-name &lt;string&gt;</code></td>
+<td>Name of the k8s validatingwebhookconfiguration  (default `istio-galley`)</td>
 </tr>
 </tbody>
 </table>
@@ -160,6 +172,10 @@ number_of_entries: 4
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
 <td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--configPath &lt;string&gt;</code></td>
+<td>Istio config file path  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
@@ -211,11 +227,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -235,7 +251,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -274,6 +290,10 @@ number_of_entries: 4
 <td>Maximum size of individual gRPC messages  (default `1048576`)</td>
 </tr>
 <tr>
+<td><code>--service-name &lt;string&gt;</code></td>
+<td>Name of the validation service running in the same namespace as the deployment  (default `istio-galley`)</td>
+</tr>
+<tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
 <td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
 </tr>
@@ -288,6 +308,10 @@ number_of_entries: 4
 <tr>
 <td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
 <td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
+</tr>
+<tr>
+<td><code>--webhook-name &lt;string&gt;</code></td>
+<td>Name of the k8s validatingwebhookconfiguration  (default `istio-galley`)</td>
 </tr>
 </tbody>
 </table>
@@ -311,6 +335,11 @@ number_of_entries: 4
 <td><code>--caCertFile &lt;string&gt;</code></td>
 <td></td>
 <td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--configPath &lt;string&gt;</code></td>
+<td></td>
+<td>Istio config file path  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
@@ -370,12 +399,12 @@ number_of_entries: 4
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -400,7 +429,7 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, fs, grpcAdapter, kube, mcp, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -411,6 +440,11 @@ number_of_entries: 4
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
 <td></td>
 <td>Port to use for exposing self-monitoring information  (default `9093`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
@@ -443,6 +477,11 @@ number_of_entries: 4
 <td>Maximum size of individual gRPC messages  (default `1048576`)</td>
 </tr>
 <tr>
+<td><code>--service-name &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the validation service running in the same namespace as the deployment  (default `istio-galley`)</td>
+</tr>
+<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
@@ -466,6 +505,11 @@ number_of_entries: 4
 <td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
 <td></td>
 <td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
+</tr>
+<tr>
+<td><code>--webhook-name &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the k8s validatingwebhookconfiguration  (default `istio-galley`)</td>
 </tr>
 </tbody>
 </table>

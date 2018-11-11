@@ -40,7 +40,7 @@ configuration by intentionally "tripping" the circuit breaker.
 1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to apply circuit breaking settings
 when calling the `httpbin` service:
 
-    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/deploy-guidelines/#503-errors-after-setting-destination-rule).
+    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -189,7 +189,7 @@ one connection and request concurrently, you should see some failures when the
 1. Bring the number of concurrent connections up to 3:
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 3 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
     Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
     Starting at max qps with 3 thread(s) [gomax 2] for exactly 30 calls (10 per thread + 0)
     23:51:51 W http.go:617> Parsed non ok code 503 (HTTP/1.1 503)

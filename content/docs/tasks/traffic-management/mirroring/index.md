@@ -42,9 +42,9 @@ you will apply a rule to mirror a portion of traffic to `v2`.
           - image: docker.io/kennethreitz/httpbin
             imagePullPolicy: IfNotPresent
             name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
             ports:
-            - containerPort: 8080
+            - containerPort: 80
     EOF
     {{< /text >}}
 
@@ -68,9 +68,9 @@ you will apply a rule to mirror a portion of traffic to `v2`.
           - image: docker.io/kennethreitz/httpbin
             imagePullPolicy: IfNotPresent
             name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:8080", "httpbin:app"]
+            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
             ports:
-            - containerPort: 8080
+            - containerPort: 80
     EOF
     {{< /text >}}
 
@@ -87,7 +87,8 @@ you will apply a rule to mirror a portion of traffic to `v2`.
     spec:
       ports:
       - name: http
-        port: 8080
+        port: 8000
+        targetPort: 80
       selector:
         app: httpbin
     EOF
@@ -125,7 +126,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
 1.  Create a default route rule to route all traffic to `v1` of the service:
 
-    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/deploy-guidelines/#503-errors-after-setting-destination-rule).
+    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -159,18 +160,18 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     EOF
     {{< /text >}}
 
-    Now all traffic goes to the `httpbin v1` service.
+    Now all traffic goes to the `httpbin:v1` service.
 
 1. Send some traffic to the service:
 
     {{< text bash json >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {
       "headers": {
         "Accept": "*/*",
         "Content-Length": "0",
-        "Host": "httpbin:8080",
+        "Host": "httpbin:8000",
         "User-Agent": "curl/7.35.0",
         "X-B3-Sampled": "1",
         "X-B3-Spanid": "eca3d7ed8f2e6a0a",
@@ -221,7 +222,7 @@ log entries for `v1` and none for `v2`:
     {{< /text >}}
 
     This route rule sends 100% of the traffic to `v1`. The last stanza specifies
-    that you want to mirror to the `httpbin v2` service. When traffic gets mirrored,
+    that you want to mirror to the `httpbin:v2` service. When traffic gets mirrored,
     the requests are sent to the mirrored service with their Host/Authority headers
     appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
 
@@ -231,7 +232,7 @@ log entries for `v1` and none for `v2`:
 1. Send in traffic:
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8080/headers' | python -m json.tool
+    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {{< /text >}}
 
     Now, you should see access logging for both `v1` and `v2`. The access logs

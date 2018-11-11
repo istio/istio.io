@@ -93,9 +93,12 @@ keywords: [keyword1,keyword2,...]
 {{< text markdown >}}
 {{</* warning_icon */>}}
 {{</* idea_icon */>}}
+{{</* checkmark_icon */>}}
+{{</* cancel_icon */>}}
+{{</* info_icon */>}}
 {{< /text >}}
 
-这段代码会显示 {{< warning_icon >}} 和 {{< idea_icon >}}
+这段代码会显示 {{< warning_icon >}} 、 {{< idea_icon >}}、 {{< checkmark_icon >}}、 {{< cancel_icon >}} 和 {{< info_icon >}}。
 
 另外还可以用这种代码在内容中加入 `emoji` ： `:``sailboat``:` ，这样会显示帆船的 `emoji` ， 就像这样 `:sailboat:`。
 
@@ -145,7 +148,7 @@ keywords: [keyword1,keyword2,...]
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-上面的注解生成的链接会指向 GitHub 中当前文档的当前所在分支。如果需要手工创建链接，可以使用 **{{</* branch_name */>}}** 来获取当前分支名称。
+上面的注解生成的链接会指向 GitHub 中当前文档的当前所在分支。如果需要手工创建链接，可以使用 **{{</* source_branch_name */>}}** 来获取当前分支名称。
 
 ## 预格式化文本块
 
@@ -287,18 +290,14 @@ func HelloWorld() {
 
 {{< text markdown >}}
 {{</* text bash */>}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
-{{< /text >}}
-
-{{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
 {{< /text >}}
 
 上面代码的渲染结果：
 
 {{< text bash >}}
-$ istioctl create -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
 ## 文件和片段
@@ -341,7 +340,13 @@ Markdown 文件中可以这样对片段进行引用：
 
 如果文件来自不同的原始站点，则应在该站点上启用 CORS。请注意 GitHub（`raw.githubusercontent.com`）原始内容网站是可以使用的。
 
-如果没有指定 `downloads` 属性，那么下载文件名会来自于 URL 属性。
+您可以指定可选的 `downloadas` 属性来控制浏览器在用户选择下载文件时使用的名称。例如：
+
+{{< text markdown >}}
+{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
+{{< /text >}}
+
+I如果未指定 `downloadas` 属性，则下载名称取自 `url` 属性。
 
 ## 使用标签页
 
