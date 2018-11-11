@@ -28,7 +28,7 @@ keywords: [流量管理,超时]
 1. 到 `reviews:v2` 服务的路由定义：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -47,7 +47,7 @@ keywords: [流量管理,超时]
 1. 在对 `ratings` 服务的调用中加入两秒钟的延迟：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -74,7 +74,7 @@ keywords: [流量管理,超时]
 1. 接下来在目的为 `reviews:v2` 服务的请求加入一秒钟的请求超时：
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
