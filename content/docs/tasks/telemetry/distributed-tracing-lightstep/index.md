@@ -71,16 +71,17 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     EOF
     ```
 
-1.   Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+1.   Deploy the Bookinfo sample application by following [these instructions](/docs/examples/bookinfo/#deploying-the-application).
 
 ## Visualize trace data
 
-1.  Send traffic to the sample application.
+1.  Create an ingress gateway for the Bookinfo application by following
+    [these instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
-    For the
-    [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
-    sample, visit `http://$GATEWAY_URL/productpage` in your web browser
-    or issue the following command:
+1.  Verify the previous step's success by confirming that the environment variable `GATEWAY_URL` is
+    populated in your shell.
+
+1.  Send traffic to the sample application.
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
