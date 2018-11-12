@@ -96,28 +96,13 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
         $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
         {{< /text >}}
 
-1.  To determine the Kiali URL, you use the same `GATEWAY_URL` as the Bookinfo application,
-    only with a different port.
+1.  To open the Kiali UI, execute the following command in your Kubernetes environment:
 
-    *   If you are running in an environment that has external load balancers,
-        run this command:
+    {{< text bash >}}
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].port}')"
-        $ echo $KIALI_URL
-        http://172.30.141.9:15029
-        {{< /text >}}
-
-    *   If you are running in an environment that does not support external
-        load balancers (e.g., minikube), run this command:
-
-        {{< text bash >}}
-        $ KIALI_URL="http://$(echo $GATEWAY_URL | sed -e s/:.*//):$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].nodePort}')"
-        $ echo $KIALI_URL
-        http://192.168.99.100:31758
-        {{< /text >}}
-
-1.  To visit the Kiali UI, point your browser to `$KIALI_URL`.
+1.  Visit https://localhost:20001 in your web browser.
 
 1.  To log into the Kiali UI, enter the username and passphrase you stored in the Kiali secret in the Kiali login screen. If you used the example secret above, enter a username of `admin` with a passphrase of `mysecret`.
 
