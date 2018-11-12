@@ -1,7 +1,7 @@
 ---
-title: Ingress gateway without TLS termination
+title: Ingress Gateway without TLS Termination
 description: Describes how to configure SNI passthrough for an ingress gateway.
-weight: 31
+weight: 10
 keywords: [traffic-management,ingress, https]
 ---
 
@@ -33,7 +33,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     Use any password with the following command:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
+    $ ./generate.sh nginx.example.com password
     {{< /text >}}
 
     When prompted, select `y` for all the questions.
