@@ -76,8 +76,8 @@ keywords: [流量管理,egress]
 
 ### 配置外部 HTTPS 服务
 
-1.  创建一个 `ServiceEntry` 和一个 `VirtualService` 以允许访问外部 HTTPS 服务。请注意，
-    对于 TLS 协议（包括 HTTPS），除了 `ServiceEntry` 之外，还需要 `VirtualService`。 `VirtualService` 必须在 `match` 子句中包含 `tls` 规则和 `sni_hosts` 以启用 SNI 路由。
+1.  创建一个 `ServiceEntry` 以允许访问外部 HTTPS 服务。
+    对于 TLS 协议（包括 HTTPS），除了 `ServiceEntry` 之外，还需要 `VirtualService`。 没有 `VirtualService`, `ServiceEntry` 所暴露的服务将不被定义。 `VirtualService` 必须在 `match` 子句中包含 `tls` 规则和 `sni_hosts` 以启用 SNI 路由。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
