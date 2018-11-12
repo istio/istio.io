@@ -171,7 +171,7 @@ keywords: [遥测,指标,tcp]
     上面的连接会打开 Promethe 界面，并执行了对 `istio_mongo_received_bytes` 指标的查询。**Console** 标签页中包含了大致如下的内容：
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"} 2317
+    istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
     {{< /text >}}
 
     > Istio 还会针对 MongoDB 收集协议特定的统计数据。例如来自 `ratings` 服务的 OP_QUERY 总数，同样可以使用[类似查询](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)获知。
