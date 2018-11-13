@@ -143,7 +143,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 ### Setting route rules on an external service
 
 Similar to inter-cluster requests, Istio
-[routing rules](/docs/concepts/traffic-management/#rule-configuration)
+[routing rules](/docs/concepts/traffic-management/routing-rules)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
 In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
@@ -200,7 +200,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
-[intercepting](/docs/concepts/traffic-management/#communication-between-services)
+[intercepting](/docs/concepts/traffic-management/traffic-routing/#communication)
 the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
 [Helm](/docs/reference/config/installation-options/) and updating the `ConfigMap` _istio-sidecar-injector_ by using `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
 

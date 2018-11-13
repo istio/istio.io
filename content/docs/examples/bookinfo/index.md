@@ -132,7 +132,7 @@ To start the application, follow the instructions corresponding to your Istio ru
 #### Determining the ingress IP and port
 
 Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
-Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
+Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/gateways)
 is used for this purpose.
 
 1.  Define the ingress gateway for the application:

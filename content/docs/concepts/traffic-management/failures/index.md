@@ -244,7 +244,7 @@ defaults by providing request-level overrides through special HTTP headers.
 With the Envoy proxy implementation, the headers are
 `x-envoy-upstream-rq-timeout-ms` and `x-envoy-max-retries`, respectively.
 
-## Failure handling FAQ {failure-handling}
+## Failure handling FAQ {#handling-failures}
 
 **Q: Do applications still handle failures when running in Istio?**
 

@@ -20,7 +20,7 @@ To cover common configuration scenarios, Istio introduces the concept of a
 necessarily different API versions: they can be iterative changes to the same
 service, deployed in different environments like prod, staging, dev, etc.
 Together with Istio's network configuration objects, you can use subsets to
-configure [routing rules](routing-rules.md) that refer to service versions to
+configure [routing rules](../routing-rules) that refer to service versions to
 provide additional control over the traffic between services.
 
 This concept covers the common configuration scenarios for services subsets,
@@ -30,7 +30,7 @@ like:
 - [Splitting traffic between versions](#splitting) for A/B testing
 - [Circuit breakers](../failures/#circuit)
 
-## Communication between services
+## Communication between services {#communication}
 
 Clients calling a service have no knowledge of the different versions of the
 service. Clients access the services using the hostname or IP address of the

@@ -12,7 +12,7 @@ configures the set of policies **Pilot** applies to a request **after** the
 Service owners typically author destination rules to configure, among other
 things:
 
-- [Circuit breakers](#circuit)
+- [Circuit breakers](../failures/#circuit)
 - TLS settings
 - Outlier detection
 - [Load balancer](../load-balancing) settings
