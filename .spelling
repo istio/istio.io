@@ -50,6 +50,7 @@ CIDRs
 CIOs
 Cilium
 cli
+CoreDNS
 Costin
 CSRs
 Chrony
@@ -498,6 +499,7 @@ quo
 rethink
 reimplement
 sidecar
+subnet
 subnets
 touchpoints
 tunneling
@@ -539,3 +541,5 @@ MB
 CPU
 CPUs
 add-ons
+
+
