@@ -59,6 +59,8 @@ keywords: [遥测,可视化]
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
+    > `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
+
     刷新页面几次（或发送命令几次）以产生少量流量。
 
     再看一下 Istio Dashboard, 它应该反映生成的流量, 它看起来类似于下图所示的内容：
@@ -68,16 +70,17 @@ keywords: [遥测,可视化]
     caption="Istio 的流量仪表板"
     >}}
 
-> `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
-
 ### 关于 Grafana 插件
 
-Grafana 插件是 Grafana 的预配置实例, 基本映像（[`grafana/grafana:4.1.2`](https://hub.docker.com/r/grafana/grafana/)已经修改为从安装了 Prometheus 数据源和 Istio Dashboard 开始, Istio 的基本安装文件，特别是 Mixer，带有全局（用于每个服务）指标的默认配置, Istio Dashboard 可与默认的 Istio 指标配置和 Prometheus 后端结合使用。
+Grafana 插件是 Grafana 的预配置实例, 基本映像（[`grafana/grafana:5.2.3`](https://hub.docker.com/r/grafana/grafana/)）已经修改为从安装了 Prometheus 数据源和 Istio Dashboard 开始, Istio 的基本安装文件，特别是 Mixer，带有全局（用于每个服务）指标的默认配置, Istio Dashboard 可与默认的 Istio 指标配置和 Prometheus 后端结合使用。
 
 Istio 仪表板由三个主要部分组成：
-1. 全局摘要视图, 本节提供流经服务网格的 HTTP 请求的高级摘要。
-1. 网格摘要视图, 本节提供了比全局摘要视图更多的详细信息，允许按服务过滤和选择。
-1. 单个服务视图, 本节提供有关网格中每个服务（HTTP和TCP）的请求和响应的度量标准。
+
+1. 全局摘要视图，本节提供流经服务网格的 HTTP 请求的高级摘要。
+
+1. 网格摘要视图，本节提供了比全局摘要视图更多的详细信息，允许按服务过滤和选择。
+
+1. 单个服务视图，本节提供有关网格中每个服务（HTTP和TCP）的请求和响应的度量标准。
 
 有关如何创建，配置和编辑仪表板的更多信息，请参阅 [Grafana文档](https://docs.grafana.org/)。
 
