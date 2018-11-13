@@ -84,11 +84,11 @@ Mixer 中内置了 Prometheus 适配器，这一适配器将生成的指标值�
 
 配置好的 Prometheus 插件会抓取以下三个端点：
 
-1. *istio-mesh* (`istio-mixer.istio-system:42422`): 所有 Mixer 生成的网格指标。
-1. *mixer* (`istio-mixer.istio-system:9093`):  所有特定于 Mixer 的指标, 用于监控 Mixer 本身。
-1. *envoy* (`istio-mixer.istio-system:9102`):  envoy 生成的原始统计数据（并从 `statsd` 转换为 `prometheus` ）。
+1. *istio-mesh* (`istio-telemetry.istio-system:42422`): 所有 Mixer 生成的网格指标。
+1. *mixer* (`istio-telemetry.istio-system:9093`):  所有特定于 Mixer 的指标, 用于监控 Mixer 本身。
+1. *envoy* (`istio-proxy:15090`): envoy 生成的原始统计数据 。
 
-有关查询 Prometheus 的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/)。
+Prometheus 从 envoy 暴露的端口获取统计数据，过滤掉不想要的数据。有关查询 Prometheus 的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/)。
 
 ## 清理
 
