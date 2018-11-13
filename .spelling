@@ -50,6 +50,7 @@ CIDRs
 CIOs
 Cilium
 cli
+CoreDNS
 Costin
 CSRs
 Chrony
@@ -538,5 +539,5 @@ MB
 CPU
 CPUs
 add-ons
-CoreDNS
-pregenerated
+
+
