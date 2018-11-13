@@ -198,7 +198,7 @@ will generate and collect automatically.
     **Console** tab includes entries similar to:
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"} 2317
+    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
     {{< /text >}}
 
     > Istio also collects protocol-specific statistics for MongoDB. For
