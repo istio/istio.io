@@ -49,7 +49,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     {{< /text >}}
 
 1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
-    If the Bookinfo application will be deployed in a different namespace, create the secret in that namespace instead.
+    If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
 
     {{< text bash >}}
     $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
@@ -71,15 +71,13 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     EOF
     ```
 
-1.   Deploy the Bookinfo sample application by following [these instructions](/docs/examples/bookinfo/#deploying-the-application).
+1.   Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
 
 ## Visualize trace data
 
-1.  Create an ingress gateway for the Bookinfo application by following
-    [these instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
 
-1.  Verify the previous step's success by confirming that the environment variable `GATEWAY_URL` is
-    populated in your shell.
+1.  To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
 
 1.  Send traffic to the sample application.
 
@@ -87,13 +85,13 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Load the LightStep [𝑥]PM web UI.
+1.  Load the LightStep [𝑥]PM [web UI](https://app.lightstep.com/).
 
 1.  Navigate to Explorer.
 
-1.  Find the query bar at the top. The query bar allows you to interactively filter results by a Service, Operation, and/or Tag values.
+1.  Find the query bar at the top. The query bar allows you to interactively filter results by a **Service**, **Operation**, and **Tag** values.
 
-1.  Select `productpage.default` from the Service drop-down list.
+1.  Select `productpage.default` from the **Service** drop-down list.
 
 1.  Click **Run**. You see something similar to the following:
 
@@ -115,7 +113,7 @@ during the execution of a `/productpage` request.
 
 Two spans in the trace represent every RPC. For example, the call from `productpage` to `reviews` starts
 with the span labeled with the `reviews.default.svc.cluster.local:9080/*` operation and the
-`productpage.default: proxy client` service, which represents the client-side span of the call. The screenshot shows
+`productpage.default: proxy client` service. This service represents the client-side span of the call. The screenshot shows
 that the call took 15.30 ms. The second span is labeled with the `reviews.default.svc.cluster.local:9080/*` operation
 and the `reviews.default: proxy server` service. The second span is a child of the first span and represents the
 server-side span of the call. The screenshot shows that the call took 14.60 ms.
