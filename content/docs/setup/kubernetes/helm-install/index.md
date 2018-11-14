@@ -96,6 +96,7 @@ to manage the lifecycle of Istio.
 1. Install Istio:
 
     {{< text bash >}}
+    $ helm dep update install/kubernetes/helm/istio
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
 
