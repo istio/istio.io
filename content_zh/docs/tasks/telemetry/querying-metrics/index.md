@@ -82,7 +82,7 @@ keywords: [遥测,指标]
 
 Mixer 中内置了 Prometheus 适配器，这一适配器将生成的指标值以端点的形式公开出来；Prometheus 插件则是一个预配置的 Prometheus 服务器，他一方面从上述 Mixer 端点抓取 Istio 指标，另一方面还为 Istio 指标提供了持久化存储和查询的服务。
 
-配置好的 Prometheus 插件会抓取以下三个端点：
+配置好的 Prometheus 插件会抓取以下的端点：
 
 1. *istio-mesh* (`istio-telemetry.istio-system:42422`): 所有 Mixer 生成的网格指标。
 1. *mixer* (`istio-telemetry.istio-system:9093`):  所有特定于 Mixer 的指标, 用于监控 Mixer 本身。
