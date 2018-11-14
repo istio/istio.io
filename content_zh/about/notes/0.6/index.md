@@ -26,8 +26,6 @@ icon: notes
 
 - **监控仪表盘**：在 Grafana 中提供了初步的 Mixer 和 Pilot 监控仪表盘。
 
-- **Servicegraph**：Servicegraph 升级了新的可视效果。[参考资料](/zh/docs/tasks/telemetry/servicegraph/)
-
 - **存活和就绪检测**：Istio 组件提供了正式的存活以及就绪检测功能，用于确定服务网格基础设施的健康情况。[参考资料](/zh/docs/tasks/security/health-check/)
 
 - **Egress 策略和遥测**：Mixer 现在可以监控同 `EgressRule` 所定义的外部服务进行通信的流量，并且可以在这些流量中使用 Mixer 策略。

@@ -51,7 +51,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
 | [SolarWinds Integration](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
-| [Service Graph](/docs/tasks/telemetry/servicegraph/) | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha

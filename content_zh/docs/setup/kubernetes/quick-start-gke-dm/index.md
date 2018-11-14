@@ -47,8 +47,7 @@ caption="GKE-IAM Role"
     就像其他教程中的“如何访问已安装的功能”一样，我们也建议保留默认设置。工具会默认创建一个特殊设置的 GKE alpha cluster，然后安装 Istio [控制平面](/zh/docs/concepts/what-is-istio/#架构)、
     [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用、
     [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 、
-    [Prometheus](/zh/docs/tasks/telemetry/querying-metrics/) 、
-    [ServiceGraph](/zh/docs/tasks/telemetry/servicegraph/) 和
+    [Prometheus](/zh/docs/tasks/telemetry/querying-metrics/) 和
     [跟踪](/zh/docs/tasks/telemetry/distributed-tracing/) 。
     接下来你可以了解一下怎样访问所有这些功能。脚本只在 `default` 的命名空间中启用 Istio 自动注入。
 
@@ -99,7 +98,6 @@ deploy/istio-sidecar-injector     1         1         1            1           4
 deploy/istio-statsd-prom-bridge   1         1         1            1           4m
 deploy/istio-telemetry            1         1         1            1           4m
 deploy/prometheus                 1         1         1            1           4m
-deploy/servicegraph               1         1         1            1           4m
 {{< /text >}}
 
 现在确认 Bookinfo 样例应用也已经安装好：
@@ -203,27 +201,6 @@ http://localhost:9090/graph
     >}}
 
 更多关于 Prometheus 插件的细节，请点击[关于 Prometheus 插件](/zh/docs/tasks/telemetry/querying-metrics/#关于-prometheus-的附加组件)。
-
-### ServiceGraph
-
-建立一个 ServiceGraph 通道：
-
-{{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-{{< /text >}}
-
-你可以在下面的地址查看 Bookinfo 服务拓扑
-
-{{< text plain >}}
-http://localhost:8088/dotviz
-{{< /text >}}
-
-{{< image width="100%" ratio="53.33%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_servicegraph.png"
-    caption="ServiceGraph"
-    >}}
-
-更多关于 ServiceGraph 插件的细节，请点击[关于 ServiceGraph 插件](/zh/docs/tasks/telemetry/servicegraph/#关于-servicegraph-附加组件)。
 
 ## 追踪
 
