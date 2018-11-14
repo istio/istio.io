@@ -188,7 +188,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
 To generate JSON files representing the graphs and other metrics, health, and
 configuration information, you can access the
 [Kiali Public API](https://www.kiali.io/api).
-For example, point your browser to `$KIALI_URL/api/namespaces/bookinfo/graph?graphType=app`
+For example, point your browser to `$KIALI_URL/api/namespaces/graph?namespaces=bookinfo&graphType=app`
 to get the JSON representation of your graph using the `app` graph type.
 
 The Kiali Public API is built on top of Prometheus queries and depends on the
