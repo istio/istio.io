@@ -44,7 +44,6 @@ icon: feature-status
 | [Grafana 中的 Istio 组件 Dashboard](/zh/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Stackdriver 集成](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
 | [SolarWinds 集成](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
-| [Service Graph](/zh/docs/tasks/telemetry/servicegraph/) | Alpha
 | [Zipkin/Jaeger 的分布式追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [服务追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Fluentd 日志记录](/zh/docs/tasks/telemetry/fluentd/) | Alpha

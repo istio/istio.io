@@ -167,7 +167,6 @@ istio-statsd-prom-bridge-949999c4c-mv8qt   1/1       Running     0          23h
 istio-telemetry-cfb674b6c-rgdhb            2/2       Running     0          23h
 istio-tracing-754cdfd695-wqwr4             1/1       Running     0          23h
 prometheus-86cb6dd77c-ntw88                1/1       Running     0          23h
-servicegraph-5849b7d696-jrk8h              1/1       Running     0          23h
 {{< /text >}}
 
 然后重新部署 HTTPS 服务和 sleep 服务
