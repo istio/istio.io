@@ -38,6 +38,8 @@ plane and the sidecars for the Istio data plane.
 
 ## Installation steps
 
+The following commands has relative references in the Istio directory, and should be executed in the root of the Istio  directory.
+
 1. If using a Helm version prior to 2.10.0, install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
