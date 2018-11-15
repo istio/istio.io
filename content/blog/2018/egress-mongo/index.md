@@ -276,7 +276,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 1.  Proceed to the following section.
 
-#### Direct TCP traffic through an egress gateway
+#### Configure TCP traffic from sidecars to the egress gateway
 
 1.  Define the `EGRESS_GATEWAY_MONGODB_PORT` environment variable to hold some port for directing traffic through
     the egress gateway, e.g. `7777`. You must select a port that is not used for any other service in the mesh.
