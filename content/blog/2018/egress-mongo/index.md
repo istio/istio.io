@@ -760,9 +760,9 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 ### Enable MongoDB TLS egress traffic to arbitrary wildcarded domains
 
 Sometimes you want to configure egress traffic to multiple hostnames from the same domain, for example traffic to all
-MongoDB services from `*.<your company domain>.com`. You do not want to create multiple configuration items, one per each
-and every MongoDB service in your company. To configure access to all the external services from the same domain by a
-single configuration, you use *wildcarded* hosts.
+MongoDB services from `*.<your company domain>.com`. You do not want to create multiple configuration items, one for
+each and every MongoDB service in your company. To configure access to all the external services from the same domain by
+a single configuration, you use *wildcarded* hosts.
 
 In this section you configure egress traffic for a wildcarded domain. I used a MongoDB instance at `composedb.com`
 domain, so configuring egress traffic for `*.com` worked for me (I could have used `*.composedb.com` as well).
