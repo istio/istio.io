@@ -266,98 +266,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 1.  Proceed to the following section.
 
-#### Mutual TLS between the sidecar proxies and the egress gateway
-
-You may want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
-your MongoDB clients and the egress gateway to let the egress gateway monitor the identity of the source pods and to
-enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also encrypt the traffic.
-If you do not need mutual TLS, proceed to the next section.
-
-1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services
-    to direct the traffic through the egress gateway and from the egress gateway to the external service.
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 443
-          name: tls
-          protocol: TLS
-        hosts:
-        - $MONGODB_HOST
-        tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-mongo
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: mongo
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: $MONGODB_HOST
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-mongo-through-egress-gateway
-    spec:
-      hosts:
-      - $MONGODB_HOST
-      gateways:
-      - mesh
-      - istio-egressgateway
-      tcp:
-      - match:
-        - gateways:
-          - mesh
-          destinationSubnets:
-          - $MONGODB_IP/32
-          port: $MONGODB_PORT
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: mongo
-            port:
-              number: 443
-      - match:
-        - gateways:
-          - istio-egressgateway
-          port: 443
-        route:
-        - destination:
-            host: $MONGODB_HOST
-            port:
-              number: $MONGODB_PORT
-          weight: 100
-    EOF
-    {{< /text >}}
-
-1.  Proceed to [Verify that the TCP egress traffic is directed through the egress gateway](#verify-that-the-tcp-egress-traffic-is-directed-through-the-egress-gateway).
-
-#### Direct TCP traffic through an egress gateway without mutual TLS
-
-Follow the steps in this section if you do not need mutual TLS between the sidecar proxies of the MongoDB clients and
-the egress gateway. See the previous section for an explanation why you may want to enable mutual TLS.
+#### Direct TCP traffic through an egress gateway
 
 1.  Define the `EGRESS_GATEWAY_MONGODB_PORT` environment variable to hold some port for directing traffic through
     the egress gateway, e.g. `7777`. You must select a port that is not used for any other service in the mesh.
@@ -438,6 +347,101 @@ the egress gateway. See the previous section for an explanation why you may want
         - gateways:
           - istio-egressgateway
           port: $EGRESS_GATEWAY_MONGODB_PORT
+        route:
+        - destination:
+            host: $MONGODB_HOST
+            port:
+              number: $MONGODB_PORT
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Proceed to [Verify that the TCP egress traffic is directed through the egress gateway](#verify-that-the-tcp-egress-traffic-is-directed-through-the-egress-gateway).
+
+#### Mutual TLS between the sidecar proxies and the egress gateway
+
+You may want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
+your MongoDB clients and the egress gateway to let the egress gateway monitor the identity of the source pods and to
+enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also encrypt the traffic.
+
+1.  Delete the configuration from the previous section:
+
+    {{< text bash >}}
+    $ kubectl delete gateway istio-egressgateway
+    $ kubectl delete virtualservice direct-mongo-through-egress-gateway
+    $ kubectl delete destinationrule egressgateway-for-mongo
+    {{< /text >}}
+
+1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services
+    to direct the traffic through the egress gateway and from the egress gateway to the external service.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        hosts:
+        - $MONGODB_HOST
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-mongo
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: mongo
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: $MONGODB_HOST
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-mongo-through-egress-gateway
+    spec:
+      hosts:
+      - $MONGODB_HOST
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tcp:
+      - match:
+        - gateways:
+          - mesh
+          destinationSubnets:
+          - $MONGODB_IP/32
+          port: $MONGODB_PORT
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: mongo
+            port:
+              number: 443
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
         route:
         - destination:
             host: $MONGODB_HOST
