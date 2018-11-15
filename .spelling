@@ -447,6 +447,7 @@ whitelists
 wikipedia
 wikipedia.org
 wildcard
+wildcards
 wildcarded
 www.google.com
 x-envoy-upstream-rq-timeout-ms
