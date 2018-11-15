@@ -213,6 +213,16 @@ instructions in this section. Alternatively, if you do want to direct your traff
     EOF
     {{< /text >}}
 
+    Note that the protocol `TCP` is specified instead of `MONGO` due to the fact that the traffic can be encrypted in
+    case [the MongoDB protocol runs on top of TLS](https://docs.mongodb.com/manual/tutorial/configure-ssl/).
+    If the traffic is encrypted, the encrypted MongoDB protocol cannot be parsed by the Istio proxy.
+
+    If you know that the plain MongoDB protocol is used, without encryption, you can specify the protocol as `MONGO` and
+    let the Istio proxy produce
+    [MongoDB related statistics](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter#statistics).
+    Also note that when the protocol `TCP` is specified, the configuration is not specific for MongoDB, but is the same
+    for any other database with the protocol on top of TCP.
+
 1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
 {{< image width="80%" ratio="36.69%"
