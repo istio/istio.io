@@ -1046,7 +1046,7 @@ to hold the configuration of the Nginx SNI proxy:
 #### Understanding what happened
 
 In this section you configured egress traffic to your MongoDB host using a wildcarded domain. While for a single MongoDB
-host there is no gain in using wildcarded domains (an exact hostname can be specified), it could be beneficial for the
+host there is no gain in using wildcarded domains (an exact hostname can be specified), it could be beneficial for
 cases when the applications in the cluster access multiple MongoDB hosts that match some wildcarded domain. For example,
 if the applications access `mongodb1.composedb.com`, `mongodb2.composedb.com` and `mongodb3.composedb.com`, the egress
 traffic can be configured by a single configuration for the wildcarded domain `*.composedb.com`. I will leave it
