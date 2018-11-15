@@ -1,16 +1,19 @@
 ---
 title: Consuming External MongoDB Services
 description: Describes a simple scenario based on Istio's Bookinfo example.
-weight: 46
+publishdate: 2018-11-02
+subtitle: Istio Egress Control Options for MongoDB traffic
+attribution: Vadim Eisenberg
+weight: 79
 keywords: [traffic-management,egress,tcp,mongo]
 ---
 
-The [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post describes how external services
-can be consumed by in-mesh Istio applications via TCP. This example demonstrates consuming external MongoDB services.
+In the [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post, I described how external services
+can be consumed by in-mesh Istio applications via TCP. In this post, I demonstrate consuming external MongoDB services.
 You use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
 ratings data is persisted in a MongoDB database. You deploy this database outside the cluster and configure the
-_ratings_ microservice to use it. You will learn multiple options of controlling traffic to external MongoDB services
-and their pros and cons.
+_ratings_ microservice to use it. You will learn multiple options of controlling traffic to external MongoDB services and their
+pros and cons.
 
 ## Bookinfo with external ratings database
 
@@ -19,7 +22,7 @@ modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your d
 
 ### Setting up the ratings database
 
-For this task you set up an instance of [MongoDB](https://www.mongodb.com). You can use any MongoDB instance; we used
+For this task you set up an instance of [MongoDB](https://www.mongodb.com). You can use any MongoDB instance; I used
 [Compose for MongoDB](https://www.ibm.com/cloud/compose/mongodb).
 
 1. Set an environment variable for the password of your `admin` user. To prevent the password from being preserved in
@@ -96,6 +99,8 @@ To demonstrate the scenario of using an external database, you start with a Kube
 This application uses the `ratings` microservice to fetch book ratings, a number between 1 and 5. The ratings are
 displayed as stars for each review. There are several versions of the `ratings` microservice. You will deploy the
 version that uses [MongoDB](https://www.mongodb.com) as the ratings database in the next subsection.
+
+The example commands in this blog post work with Istio 1.0.
 
 As a reminder, here is the end-to-end architecture of the application from the
 [Bookinfo sample application](/docs/examples/bookinfo/).
@@ -1097,9 +1102,9 @@ to hold the configuration of the Nginx SNI proxy:
     deployment "ratings-v2" deleted
     {{< /text >}}
 
-## Understanding what happened
+## Conclusion
 
-In this example you tried various options for MongoDB egress traffic control. You can control the MongoDB egress
+In this blog post I demonstrated various options for MongoDB egress traffic control. You can control the MongoDB egress
 traffic on a TCP or TLS level where applicable. In both TCP and TLS cases, you can direct the traffic from the sidecar
 proxies directly to the external MongoDB host, or direct the traffic through an egress gateway, according to your
 organization's security requirements. In the latter case, you can also decide to apply or disable mutual TLS
@@ -1107,5 +1112,5 @@ authentication between the sidecar proxies and the egress gateway. If you want t
 TLS level by specifying wildcarded domains like `*.com` and you need to direct the traffic through the egress gateway,
 you must deploy a custom egress gateway with an SNI proxy.
 
-Note that the configuration and considerations described in this example for MongoDB are rather the same for other
+Note that the configuration and considerations described in this blog post for MongoDB are rather the same for other
 non-HTTP protocols on top of TCP/TLS.
