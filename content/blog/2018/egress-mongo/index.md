@@ -764,8 +764,13 @@ MongoDB services from `*.<your company domain>.com`. You do not want to create m
 and every MongoDB service in your company. To configure access to all the external services from the same domain by a
 single configuration, you use *wildcarded* hosts.
 
-In this section you configure egress traffic for a wildcarded domain, namely `*.com` and direct that traffic through
-an egress gateway. You deploy a custom egress gateway with [an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-https-egress-gateway/#https-traffic-to-arbitrary-wildcarded-domains)
+In this section you configure egress traffic for a wildcarded domain. I used a MongoDB instance at `composedb.com`
+domain, so configuring egress traffic for `*.com` worked for me (I could have used `*.composedb.com` as well).
+You can pick a wildcarded domain according to your MongoDB host.
+
+As part of the egress traffic configuration you direct that traffic through
+an egress gateway. You deploy a custom egress gateway with
+[an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-https-egress-gateway/#https-traffic-to-arbitrary-wildcarded-domains)
 which you must deploy due to current limitations of Envoy, the proxy of the standard Istio egress gateway.
 
 #### Prepare a new egress gateway with an SNI proxy
@@ -1037,6 +1042,18 @@ to hold the configuration of the Nginx SNI proxy:
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 1863 482 0.089
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
+
+#### Understanding what happened
+
+In this section you configured egress traffic to your MongoDB host using a wildcarded domain. While for a single MongoDB
+host there is no gain in using wildcarded domains (an exact hostname can be specified), it could be beneficial for the
+cases when the applications in the cluster access multiple MongoDB hosts that match some wildcarded domain. For example,
+if the applications access `mongodb1.composedb.com`, `mongodb2.composedb.com` and `mongodb3.composedb.com`, the egress
+traffic can be configured by a single configuration for the wildcarded domain `*.composedb.com`. I will leave it
+as an exercise for the readers to configure their apps to use another instance of MongoDB with the hostname that
+matches the wildcarded domain they used in this section. This way the readers can verify that no additional Istio
+configuration is required. The configuration created in this section will work for multiple hostnames from the same
+wildcarded domain without any change.
 
 #### Cleanup of configuration for MongoDB TLS egress traffic to arbitrary wildcarded domains
 
