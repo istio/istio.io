@@ -768,10 +768,10 @@ In this section you configure egress traffic for a wildcarded domain. I used a M
 domain, so configuring egress traffic for `*.com` worked for me (I could have used `*.composedb.com` as well).
 You can pick a wildcarded domain according to your MongoDB host.
 
-As part of the egress traffic configuration you direct that traffic through
-an egress gateway. You deploy a custom egress gateway with
-[an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-https-egress-gateway/#https-traffic-to-arbitrary-wildcarded-domains)
-which you must deploy due to current limitations of Envoy, the proxy of the standard Istio egress gateway.
+To configure egress gateway traffic for a wildcarded domain, you will first need to deploy a custom egress
+gateway with
+[an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-https-egress-gateway/#https-traffic-to-arbitrary-wildcarded-domains).
+This is needed due to current limitations of Envoy, the proxy used by the standard Istio egress gateway.
 
 #### Prepare a new egress gateway with an SNI proxy
 
