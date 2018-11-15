@@ -29,3 +29,30 @@ cluster must satisfy the following requirements:
   `app` label is used to add contextual information in distributed
   tracing. The `app` and `version` labels are also used to add contextual information
   in the metric telemetry collected by Istio.
+
+* _**Privileged mode**:_ The pods must have permission to run privileged containers. This is because the init containers
+  of the Istio sidecar proxies require privileged mode. To verify that your pods have permission to run privileged
+  containers, check if their
+  [Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) can use a
+  [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) that allows
+  [privileged mode](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#privileged).
+  (Note that if the Service Account is not specified in the Deployment of your pods, they run as the `default` Service
+    Account in the namespace they are deployed.)
+  To check if the Service Account of your pods can use a Pod Security Policy that allows privileged mode run the
+  following command:
+
+    {{< text bash >}}
+    $ for psp in $(kubectl get psp -o jsonpath='{.items[?(.spec.privileged==true)].metadata.name}'); do kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>; done | grep yes
+    yes
+    {{< /text >}}
+
+    For example, to check if the pods with the `default` Service Account in the `default` namespace can run privileged
+    containers, run the following command:
+
+    {{< text bash >}}
+    $ for psp in $(kubectl get psp -o jsonpath='{.items[?(.spec.privileged==true)].metadata.name}'); do kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default; done | grep yes
+    yes
+    {{< /text >}}
+
+    If you see `yes` printed, your pods have permission to run privileged containers. Otherwise, you must
+    [provide such permission](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies).
