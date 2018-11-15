@@ -1049,11 +1049,11 @@ In this section you configured egress traffic to your MongoDB host using a wildc
 host there is no gain in using wildcarded domains (an exact hostname can be specified), it could be beneficial for
 cases when the applications in the cluster access multiple MongoDB hosts that match some wildcarded domain. For example,
 if the applications access `mongodb1.composedb.com`, `mongodb2.composedb.com` and `mongodb3.composedb.com`, the egress
-traffic can be configured by a single configuration for the wildcarded domain `*.composedb.com`. I will leave it
-as an exercise for the readers to configure their apps to use another instance of MongoDB with the hostname that
-matches the wildcarded domain they used in this section. This way the readers can verify that no additional Istio
-configuration is required. The configuration created in this section will work for multiple hostnames from the same
-wildcarded domain without any change.
+traffic can be configured by a single configuration for the wildcarded domain `*.composedb.com`.
+
+I will leave it as an exercise for the reader to verify that no additional Istio configuration is required when you
+configure an app to use another instance of MongoDB with a hostname that matches the wildcarded domain used in this
+section.
 
 #### Cleanup of configuration for MongoDB TLS egress traffic to arbitrary wildcarded domains
 
