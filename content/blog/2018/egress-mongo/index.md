@@ -356,7 +356,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
     EOF
     {{< /text >}}
 
-1.  Proceed to [Verify that the TCP egress traffic is directed through the egress gateway](#verify-that-the-tcp-egress-traffic-is-directed-through-the-egress-gateway).
+1.  Proceed to [Verify that TCP egress traffic is directed through the egress gateway](#verify-that-tcp-egress-traffic-is-directed-through-the-egress-gateway).
 
 #### Mutual TLS between the sidecar proxies and the egress gateway
 
@@ -453,7 +453,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
 
 1.  Proceed to the next section.
 
-#### Verify that the TCP egress traffic is directed through the egress gateway
+#### Verify that TCP egress traffic is directed through the egress gateway
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
