@@ -2811,21 +2811,21 @@ spec:
   tls:
   - match:
     - port: 443
-      sniHosts:
+      sni_hosts:
       - api.dropboxapi.com
     route:
     - destination:
         host: api.dropboxapi.com
   - match:
     - port: 443
-      sniHosts:
+      sni_hosts:
       - www.googleapis.com
     route:
     - destination:
         host: www.googleapis.com
   - match:
     - port: 443
-      sniHosts:
+      sni_hosts:
       - api.facebook.com
     route:
     - destination:
@@ -3430,7 +3430,7 @@ is matched if any one of the match blocks succeed.</p>
 </thead>
 <tbody>
 <tr id="TLSMatchAttributes-sni_hosts">
-<td><code>sniHosts</code></td>
+<td><code>sni_hosts</code></td>
 <td><code>string[]</code></td>
 <td>
 <p>REQUIRED. SNI (server name indicator) to match on. Wildcard prefixes
@@ -3503,14 +3503,14 @@ spec:
   tls:
   - match:
     - port: 443
-      sniHosts:
+      sni_hosts:
       - login.bookinfo.com
     route:
     - destination:
         host: login.prod.svc.cluster.local
   - match:
     - port: 443
-      sniHosts:
+      sni_hosts:
       - reviews.bookinfo.com
     route:
     - destination:
