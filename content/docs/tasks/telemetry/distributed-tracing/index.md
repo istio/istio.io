@@ -17,6 +17,10 @@ example application for this task.
 
 ## Before you begin
 
+Istio provides a choice of backend tracing providers.
+
+<details><summary>Jaeger or Zipkin</summary>
+
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
     Either use the `istio-demo.yaml` or `istio-demo-auth.yaml` template, which includes tracing support, or
@@ -24,9 +28,77 @@ example application for this task.
     selecting the required tracing provider using `--set tracing.provider=<provider>`. Currently supported
     providers are `jaeger` (the default) and `zipkin`.
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+</details>
+
+<details><summary>LightStep</summary>
+
+1.  Ensure you have a LightStep account. [Contact LightStep](https://lightstep.com/contact/) to create an account.
+
+1.  Ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
+    [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup) for details about setting up satellites.
+
+1.  Ensure sure you have a LightStep access token.
+
+1.  Ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
+
+1.  Deploy Istio with the following configuration parameters specified:
+    - `global.proxy.tracer="lightstep"`
+    - `global.tracer.lightstep.address="<satellite-address>"`
+    - `global.tracer.lightstep.accessToken="<access-token>"`
+    - `global.tracer.lightstep.secure=true`
+    - `global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem"`
+
+    If you are installing via `helm template` you can set these parameters using the `--set key=value` syntax
+    when you run the `helm` command. For example:
+
+    {{< text bash >}}
+    $ helm template \
+        --set global.proxy.tracer="lightstep" \
+        --set global.tracer.lightstep.address="<satellite-address>" \
+        --set global.tracer.lightstep.accessToken="<access-token>" \
+        --set global.tracer.lightstep.secure=true \
+        --set global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem" \
+        install/kubernetes/helm/istio \
+        --name istio --namespace istio-system > $HOME/istio.yaml
+    $ kubectl create namespace istio-system
+    $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
+
+1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
+    If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
+
+    {{< text bash >}}
+    $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
+    $ NAMESPACE=default
+    {{< /text >}}
+
+    ```bash
+    $ cat <<EOF | kubectl apply -f -
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: lightstep.cacert
+        namespace: $NAMESPACE
+        labels:
+          app: lightstep
+      type: Opaque
+      data:
+        cacert.pem: $CACERT
+    EOF
+    ```
+
+When using LightStep [𝑥]PM, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh, consider scaling up the size of your satellite pool.
+
+</details>
+
+
+Once the tracing backend has been configured, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Accessing the dashboard
+
+This section describes how to view the tracing information.
+
+<details><summary>Jaeger or Zipkin</summary>
 
 Setup access to the tracing dashboard by using port-forwarding:
 
@@ -38,13 +110,26 @@ Access the dashboard by opening your browser to [http://localhost:15032](http://
 
 It is also possible to use a Kubernetes ingress by specifying the Helm chart option `--set tracing.ingress.enabled=true`.
 
+</details>
+
+<details><summary>LightStep</summary>
+
+1.  Load the LightStep [𝑥]PM [web UI](https://app.lightstep.com/).
+
+1.  Navigate to Explorer.
+
+1.  Find the query bar at the top. The query bar allows you to interactively filter results by a **Service**, **Operation**, and **Tag** values.
+
+</details>
+
 ## Generating traces using the Bookinfo sample
 
 With the Bookinfo application up and running, generate trace information by accessing
 `http://$GATEWAY_URL/productpage` one or more times.
 
-If using the Jaeger tracing provider, then
-from the left-hand pane of the dashboard, select `productpage` from the Service drop-down list and click
+<details><summary>Jaeger</summary>
+
+From the left-hand pane of the dashboard, select `productpage` from the Service drop-down list and click
 Find Traces. You should see something similar to the following:
 
 {{< image width="100%" ratio="52.68%"
@@ -60,6 +145,47 @@ The page should look something like this:
     link="./istio-tracing-details.png"
     caption="Detailed Trace View"
     >}}
+
+</details>
+
+<details><summary>Zipkin</summary>
+
+*** TO BE DONE ***
+
+</details>
+
+<details><summary>LightStep</summary>
+
+1.  Select `productpage.default` from the **Service** drop-down list.
+
+1.  Click **Run**. You see something similar to the following:
+
+    {{< image width="100%" ratio="50%"
+    link="./istio-tracing-list-lightstep.png"
+    caption="Explorer"
+    >}}
+
+1.  Click on the first row in the table of example traces below the latency histogram to see the details
+    corresponding to your refresh of the `/productpage`. The page then looks similar to:
+
+    {{< image width="100%" ratio="50%"
+    link="./istio-tracing-details-lightstep.png"
+    caption="Detailed Trace View"
+    >}}
+
+The screenshot shows that the trace is comprised of a set of spans. Each span corresponds to a Bookinfo service invoked
+during the execution of a `/productpage` request.
+
+Two spans in the trace represent every RPC. For example, the call from `productpage` to `reviews` starts
+with the span labeled with the `reviews.default.svc.cluster.local:9080/*` operation and the
+`productpage.default: proxy client` service. This service represents the client-side span of the call. The screenshot shows
+that the call took 15.30 ms. The second span is labeled with the `reviews.default.svc.cluster.local:9080/*` operation
+and the `reviews.default: proxy server` service. The second span is a child of the first span and represents the
+server-side span of the call. The screenshot shows that the call took 14.60 ms.
+
+> {{< warning_icon >}} The LightStep integration does not currently capture spans generated by Istio's internal operation components such as Mixer.
+
+</details>
 
 As you can see, the trace is comprised of a set of spans,
 where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
@@ -169,11 +295,25 @@ In both cases, valid values are from 0.0 to 100.0 with a precision of 0.01.
 
 ## Cleanup
 
+<details><summary>Jaeger or Zipkin</summary>
+
 *   Remove any `kubectl port-forward` processes that may still be running:
 
     {{< text bash >}}
     $ killall kubectl
     {{< /text >}}
+
+</details>
+
+<details><summary>LightStep</summary>
+
+*   Remove the secret generated for LightStep [𝑥]PM:
+
+    {{< text bash >}}
+    $ kubectl delete secret lightstep.cacert
+    {{< /text >}}
+
+</details>
 
 *   If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
