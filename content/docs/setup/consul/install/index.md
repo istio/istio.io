@@ -86,7 +86,9 @@ achieve high availability, each control plane service could be run as a
 [job](https://www.nomadproject.io/docs/job-specification/index.html) in
 Nomad, where the
 [service stanza](https://www.nomadproject.io/docs/job-specification/service.html)
-can be used to describe the desired properties of the control plane services.
+can be used to describe the desired properties of the control plane services. Some
+of these components may require additional install artifacts to be present in the
+Istio API server to function appropriately.
 
 ## Adding sidecars to service instances
 
