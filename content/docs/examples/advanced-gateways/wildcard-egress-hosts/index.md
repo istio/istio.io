@@ -226,7 +226,7 @@ the set of domains.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy and for the counter that corresponds to your
+1.  Check the statistics of the egress gateway's proxy for the counter that corresponds to your
     requests to _*.wikipedia.org_. If Istio is deployed in the `istio-system` namespace, the command to print the
     counter is:
 
@@ -283,15 +283,15 @@ HTTPS traffic, through the gateway, to arbitrary wildcard domains.
 #### Setup egress gateway with SNI proxy
 
 In this section you deploy an egress gateway with an SNI proxy in addition to the standard Istio Envoy proxy.
-We use [Nginx](http://nginx.org) for the SNI proxy, although any SNI proxy that is capable of routing traffic
+This example uses [Nginx](http://nginx.org) for the SNI proxy, although any SNI proxy that is capable of routing traffic
 according to arbitrary, not-preconfigured, SNI values would do.
 The SNI proxy will listen on the port `8443`, although you an use any port other than the ports specified for
 the egress `Gateway` and for the `VirtualServices` bound to it.
-The SNI proxy will forward the traffic to the port `443`.
+The SNI proxy will forward the traffic to port `443`.
 
 1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
     settings, if required. Note that the `server`'s `listen` directive specifies the port `8443`, its `proxy_pass`
-    directive uses `ssl_preread_server_name` with port `443` and the `ssl_preread` to enable `SNI` reading.
+    directive uses `ssl_preread_server_name` with port `443` and the `ssl_preread` directive enables `SNI` reading.
 
     {{< text bash >}}
     $ cat <<EOF > ./sni-proxy.conf
