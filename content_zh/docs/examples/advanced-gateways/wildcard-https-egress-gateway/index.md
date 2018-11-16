@@ -1,7 +1,7 @@
 ---
-title: 为通配域的 HTTPS 流量配置 Egress Gateway
-description: 在通配域的 istio-egressgateway 中的 Envoy 实例之外，额外使用 SNI 代理。
-keywords: [traffic-management,egress]
+title: 为通配符域名的 HTTPS 流量配置 Egress Gateway
+description: 在通配符域名的 istio-egressgateway 中的 Envoy 实例之外，额外使用 SNI 代理。
+keywords: [流量管理,egress]
 weight: 50
 ---
 
@@ -75,7 +75,7 @@ weight: 50
     EOF
     {{< /text >}}
 
-1. 将发往 _*.wikipedia.org_ 的流量路由到 egress gateway，并从 egress gateway 路由到
+1. 将发送到 _*.wikipedia.org_ 的流量路由到 egress gateway，并从 egress gateway 路由到
   _www.wikipedia.org_。
    您可以使用这个技巧，因为所有 _*.wikipedia.org_ 网站显然是由各自的 _wikipedia.org_ 服务器提供服务。这意味着您可以将流量路由到任何 _*.wikipedia.org_ 网站，特别是 _www.wikipedia.org_，然后该 IP 下的服务器将为任何 Wikipedia 网站[提供服务](https://en.wikipedia.org/wiki/Virtual_hosting)。
    对于一般情况，并不是所有主机都提供了 `ServiceEntry` 的所有域名，这就需要更复杂的配置。请注意，您必须为 _www.wikipedia.org_ 创建一个带有 resolution `DNS` 的 `ServiceEntry`，以使 gateway 能够执行路由。
@@ -159,17 +159,17 @@ $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
-## 到任意通配域的 HTTPS 流量
+## 到任意通配符域名的 HTTPS 流量
 
 上一节中的配置可行，要归功于所有的 _*.wikipedia.org_ 都由各自的 _wikipedia.org_ 服务器提供服务。然而，情况可能并非总是如此。在许多情况下，
 您可能想要为访问 `* .com` 或 `* .org` 域，甚至是 `*`（所有域）的 HTTPS 请求配置出口控制。
 
-配置到任意通配域的流量对 Istio gateway 是一个挑战。在上一节中，您将流量转发到 _www.wikipedia.org_，并且在配置期间，您的 gateway 知道此主机。
+配置到任意通配符域名的流量对 Istio gateway 是一个挑战。在上一节中，您将流量转发到 _www.wikipedia.org_，并且在配置期间，您的 gateway 知道此主机。
 但是，gateway 无法知道它收到请求的任意主机的 IP 地址。如果您想控制到 `*.com` 的访问和发送到 _www.cnn.com_ 和 _www.abc.com_ 的请求，Istio gateway
 不会知道用哪个 IP 地址转发请求。
 这种限制源于 [Envoy](https://www.envoyproxy.io) 的限制，而 Istio 基于此代理。Envoy 将流量路由到预定义的主机，或者预定义的 IP 地址，或者是请求的原始目的 IP 地址。在使用 gateway 的情况下，请求的原始目的 IP 地址将会丢失（因为请求被路由到 egress gateway，它的目的 IP 地址是 gateway 的 IP 地址）。
 
-简而言之，基于 Envoy 的 Istio gateway 无法将流量路由到任意的，而非预先配置的主机，同理也就无法对任意通配域执行流量控制。要为 HTTPS（以及任何 TLS）启用此类流量控制，除了 Envoy 之外，您还需要部署 SNI 转发代理。 Envoy 会将路由发往通配域的请求路由到 SNI 转发代理，后者又会根据 SNI 值将请求转发到目的地址。
+简而言之，基于 Envoy 的 Istio gateway 无法将流量路由到任意的，而非预先配置的主机，同理也就无法对任意通配符域名执行流量控制。要为 HTTPS（以及任何 TLS）启用此类流量控制，除了 Envoy 之外，您还需要部署 SNI 转发代理。Envoy 会将路由发送到通配符域名的请求路由到 SNI 转发代理，后者又会根据 SNI 值将请求转发到目的地址。
 
 具有 SNI 代理的 egress gateway 和 Istio 的体系结构的相关部分如下图所示：
 
@@ -178,14 +178,14 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
     caption="Egress Gateway with SNI proxy"
     >}}
 
-在本节中，您将配置 Istio 以通过 egress gateway 将 HTTPS 流量路由到任意通配域。
+在本节中，您将配置 Istio 以通过 egress gateway 将 HTTPS 流量路由到任意通配符域名。
 
 ### 具有 SNI 代理的自定义 egress gateway
 
 在本小节中，除标准的 Istio Envoy 代理之外，您还将部署一个具有 SNI 代理的 egress gateway。您可以使用任何能够根据任意的、未预先配置的
  SNI 值路由流量的 SNI 代理；我们使用 [Nginx](http://nginx.org)。SNI 代理将监听端口 `8443`，您可以使用指定给 `Gateway` 的以及 `VirtualServices` 之上定义的端口以外的任意端口。SNI 代理会将流量转发到 `443` 端口。
 
-1. 为 Nginx SNI 代理创建配置文件。如果需要，您可能希望编辑该文件以指定其他的 Nginx 配置。请注意， `server` 的 `listen` 指令指定端口 `8443`，
+1. 为 Nginx SNI 代理创建配置文件。如果需要，您可能希望编辑该文件以指定其他的 Nginx 配置。请注意，`server` 的 `listen` 指令指定端口 `8443`，
    其 `proxy_pass` 指令使用在 `443` 端口上的 `ssl_preread_server_name`，并使用 `ssl_preread` 指令启用 `SNI` 读取。
 
     {{< text bash >}}
@@ -571,7 +571,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-#### 清理监控和策略应用
+#### 清理监控和策略
 
 {{< text bash >}}
 $ kubectl delete rule handle-wikipedia-access check-wikipedia-access -n istio-system
@@ -581,7 +581,7 @@ $ kubectl delete listentry requested-server-name -n istio-system
 $ kubectl delete listchecker wikipedia-checker -n istio-system
 {{< /text >}}
 
-### 清理到通配域的 HTTPS 流量配置
+### 清理到通配符域名的 HTTPS 流量配置
 
 1. 删除针对 _*.wikipedia.org_ 的配置项：
 
