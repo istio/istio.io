@@ -1,5 +1,5 @@
 ---
-title: Distributed Tracing
+title: Distributed Tracing With Jaeger
 description: How to configure the proxies to send tracing requests to Zipkin or Jaeger.
 weight: 10
 keywords: [telemetry,tracing]
@@ -61,8 +61,8 @@ where each span corresponds to a Bookinfo service invoked during the execution o
 
 Every RPC is represented by two spans in the trace. For example, the call from `productpage` to `reviews` starts
 with the span labeled `productpage reviews.default.svc.cluster.local:9080/`, which represents the client-side
-span for the call. It took 24.13ms . The second span (labeled `reviews reviews.default.svc.cluster.local:9080/`)
-is a child of the first span and represents the server-side span for the call. It took 22.99ms .
+span for the call. It took 24.13 ms. The second span (labeled `reviews reviews.default.svc.cluster.local:9080/`)
+is a child of the first span and represents the server-side span for the call. It took 22.99 ms.
 
 The trace for the call to the `reviews` services reveals two subsequent RPC's in the trace. The first is to the `istio-policy`
 service, reflecting the server-side Check call made for the service to authorize access. The second is the call out to
