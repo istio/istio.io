@@ -201,13 +201,6 @@ will generate and collect automatically.
     istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
     {{< /text >}}
 
-    > Istio also collects protocol-specific statistics for MongoDB. For
-    > example, the value of total OP_QUERY messages sent from the `ratings` service
-    > is collected in the following metric:
-    > `envoy_mongo_outbound_27017__mongodb_default_svc_cluster_local_collection_ratings_query_total`
-    > (click [here](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_outbound_27017__mongodb_default_svc_cluster_local_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)
-    > to execute the query).
-
 ## Understanding TCP telemetry collection
 
 In this task, you added Istio configuration that instructed Mixer to
