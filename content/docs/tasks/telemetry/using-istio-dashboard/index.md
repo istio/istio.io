@@ -65,6 +65,8 @@ the example application throughout this task.
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
+    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+
     Refresh the page a few times (or send the command a few times) to generate a
     small amount of traffic.
 
@@ -78,8 +80,6 @@ the example application throughout this task.
 
     This gives the global view of the Mesh along with services and workloads in the mesh.
     You can get more details about services and workloads by navigating to their specific dashboards as explained below.
-
-    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 
 1.  Visualize Service Dashboards.
 
@@ -114,7 +114,7 @@ the example application throughout this task.
 ### About the Grafana add-on
 
 The Grafana add-on is a preconfigured instance of Grafana. The base image
-([`grafana/grafana:5.0.4`](https://hub.docker.com/r/grafana/grafana/)) has been
+([`grafana/grafana:5.2.3`](https://hub.docker.com/r/grafana/grafana/)) has been
 modified to start with both a Prometheus data source and the Istio Dashboard
 installed. The base install files for Istio, and Mixer in particular, ship with
 a default configuration of global (used for every service) metrics. The Istio
