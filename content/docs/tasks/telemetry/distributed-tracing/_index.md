@@ -1,11 +1,13 @@
 ---
 title: Distributed Tracing
-description: This task shows you how Istio-enabled applications can be configured to collect trace spans. After completing this task, you should understand all of the assumptions about your application and how to have it participate in tracing, regardless of what language/framework/platform you use to build your application. The Bookinfo sample is used as the example application for this task.
+description: This task shows you how Istio-enabled applications can be configured to collect trace spans.
 weight: 10
 keywords: [telemetry,tracing]
 aliases:
     - /docs/tasks/zipkin-tracing.html
 ---
+
+After completing this task, you should understand all of the assumptions about your application and how to have it participate in tracing, regardless of what language/framework/platform you use to build your application. The [Bookinfo](/docs/examples/bookinfo/) sample is used as the example application for this task.
 
 ## Understanding what happened
 
