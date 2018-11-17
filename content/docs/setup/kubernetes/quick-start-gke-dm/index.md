@@ -73,7 +73,7 @@ running and Istio is enabled
     {{< text bash >}}
     $ gcloud container clusters list
     NAME           LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
-    istio-cluster  us-central1-a  1.9.7-gke.1     35.232.222.60  n1-standard-2  1.9.7-gke.1   4          RUNNING
+    istio-cluster  us-central1-a  1.9.7-gke.11    35.188.172.144 n1-standard-1  1.9.7-gke.11  4          RUNNING
     {{< /text >}}
 
     In this case, the cluster name is `istio-cluster`.
@@ -90,44 +90,45 @@ Verify Istio is installed in its own namespace
 
 {{< text bash >}}
 $ kubectl get deployments,ing -n istio-system
-NAME                              DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deploy/grafana                    1         1         1            1           4m
-deploy/istio-citadel              1         1         1            1           4m
-deploy/istio-egressgateway        1         1         1            1           4m
-deploy/istio-ingress              1         1         1            1           4m
-deploy/istio-ingressgateway       1         1         1            1           4m
-deploy/istio-pilot                1         1         1            1           4m
-deploy/istio-policy               1         1         1            1           4m
-deploy/istio-sidecar-injector     1         1         1            1           4m
-deploy/istio-statsd-prom-bridge   1         1         1            1           4m
-deploy/istio-telemetry            1         1         1            1           4m
-deploy/prometheus                 1         1         1            1           4m
-deploy/servicegraph               1         1         1            1           4m
+NAME                                           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deployment.extensions/grafana                  1         1         1            1           3m
+deployment.extensions/istio-citadel            1         1         1            1           3m
+deployment.extensions/istio-egressgateway      2         2         2            2           3m
+deployment.extensions/istio-galley             1         1         1            1           3m
+deployment.extensions/istio-ingressgateway     2         2         2            2           3m
+deployment.extensions/istio-pilot              1         1         1            1           3m
+deployment.extensions/istio-policy             1         1         1            1           3m
+deployment.extensions/istio-sidecar-injector   1         1         1            1           3m
+deployment.extensions/istio-telemetry          1         1         1            1           3m
+deployment.extensions/istio-tracing            1         1         1            1           3m
+deployment.extensions/kiali                    1         1         1            1           1m
+deployment.extensions/prometheus               1         1         1            1           3m
+deployment.extensions/servicegraph             1         1         1            1           3m
 {{< /text >}}
 
 Now confirm that the Bookinfo sample application is also installed:
 
 {{< text bash >}}
 $ kubectl get deployments,ing
-NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deploy/details-v1       1         1         1            1           7m
-deploy/productpage-v1   1         1         1            1           7m
-deploy/ratings-v1       1         1         1            1           7m
-deploy/reviews-v1       1         1         1            1           7m
-deploy/reviews-v2       1         1         1            1           7m
-deploy/reviews-v3       1         1         1            1           7m
+NAME                                   DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deployment.extensions/details-v1       1         1         1            1           1m
+deployment.extensions/productpage-v1   1         1         1            1           1m
+deployment.extensions/ratings-v1       1         1         1            1           1m
+deployment.extensions/reviews-v1       1         1         1            1           1m
+deployment.extensions/reviews-v2       1         1         1            1           1m
+deployment.extensions/reviews-v3       1         1         1            1           1m
 {{< /text >}}
 
 Now get the `istio-ingress` IP:
 
 {{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TCP,443:31390/TCP,31400:31400/TCP   6m
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                                                                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.59.245.24   35.239.8.197   80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:32759/TCP,15030:31508/TCP,15031:32482/TCP,15032:31532/TCP,15443:30156/TCP   4m
 {{< /text >}}
 
 Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product page
-(in the example above, it's `35.194.26.85:80`).
+(in the example above, it's `35.239.8.197:80`).
 
 You can also view the installation using the **Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
@@ -208,7 +209,28 @@ http://localhost:9090/graph
 
 For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on).
 
-### ServiceGraph
+### Kiali and ServiceGraph
+
+Set up a tunnel to Kiali:
+
+{{< text bash >}}
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
+{{< /text >}}
+
+You should see the Bookinfo service topology at
+
+{{< text plain >}}
+http://localhost:20001/kaili
+{{< /text >}}
+
+{{< image width="100%" ratio="53.33%"
+    link="./dm_kiali.png"
+    caption="Kiali"
+    >}}
+
+For more details, see [About the Kiali Add-on](/docs/tasks/telemetry/kiali/).
+
+OR
 
 Set up a tunnel to ServiceGraph:
 
