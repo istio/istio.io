@@ -223,6 +223,8 @@ You should see the Bookinfo service topology at
 http://localhost:20001/kaili
 {{< /text >}}
 
+The default username/password for the console is `admin`/`mysecret`.
+
 {{< image width="100%" ratio="53.33%"
     link="./dm_kiali.png"
     caption="Kiali"
