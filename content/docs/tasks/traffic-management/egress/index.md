@@ -75,7 +75,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 1.  Exec into the `sleep service` source pod:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     {{< /text >}}
 
 1.  Make a request to the external HTTP service:
@@ -131,7 +131,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 1.  Exec into the `sleep service` source pod:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     {{< /text >}}
 
 1.  Make a request to the external HTTPS service:
@@ -150,7 +150,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     200
 
@@ -184,7 +184,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
 
