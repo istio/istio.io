@@ -8,7 +8,10 @@ aliases:
 
 This concept describes how Istio handles routing rules. Istio's simple
 configuration model allows you to control how API calls and layer-4 traffic can
-flow across the various services in your application deployment.
+flow across the various services in your application deployment. Routing rules
+are not independent of [virtual services](../virtual-services/). A virtual
+service contains an ordered list of routing rules. This concept describes the
+contents of possible virtual service configurations.
 
 Specifically, the model allows you to configure service-level properties:
 
@@ -118,66 +121,6 @@ executed and the rule-evaluation process terminates.
 
 {{< warning_icon >}} Consider the priorities of each rule in a configuration file when there is more than one.
 
-## Multiple match conditions {#multi-condition}
-
-You can set multiple match conditions simultaneously. In such a case, `AND` or
-`OR` semantics apply, depending on the nesting.
-
-Multiple conditions nested in a single match clause are `ANDed`. For example,
-the following rule only applies if the client workload of the request is the
-`reviews` service in the `v2` subset **AND** the request has a custom
-`end-user` header containing the exact string `jason`:
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
-      headers:
-        end-user:
-          exact: jason
-    route:
-    ...
-{{< /text >}}
-
-Multiple conditions in separate match keys are `ORed`. Only one
-of the conditions applies, for example:
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
-    - headers:
-        end-user:
-          exact: jason
-    route:
-    ...
-{{< /text >}}
-
-This rule applies if the client workload of the request is the `reviews`
-service in the `v2` subset **OR** the request has a custom `end-user` header
-containing the exact string `jason`.
-
-{{< warning_icon >}} The difference between **AND** behavior and **OR**
-behavior is a single dash in the configuration file.
-
 ## Conditional rules {#conditional}
 
 You can set rules that only apply to requests matching some specific condition,
@@ -269,3 +212,64 @@ for example:
         route:
         ...
     {{< /text >}}
+
+### Multiple match conditions {#multi-condition}
+
+You can set multiple match conditions simultaneously. In such a case, `AND` or
+`OR` semantics apply, depending on the nesting.
+
+Multiple conditions nested in a single match clause are `ANDed`. For example,
+the following rule only applies if the client workload of the request is the
+`reviews` service in the `v2` subset **AND** the request has a custom
+`end-user` header containing the exact string `jason`:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+      headers:
+        end-user:
+          exact: jason
+    route:
+    ...
+{{< /text >}}
+
+Multiple conditions in separate match keys are `ORed`. Only one
+of the conditions applies, for example:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    - headers:
+        end-user:
+          exact: jason
+    route:
+    ...
+{{< /text >}}
+
+This rule applies if the client workload of the request is the `reviews`
+service in the `v2` subset **OR** the request has a custom `end-user` header
+containing the exact string `jason`.
+
+{{< warning_icon >}} The difference between **AND** behavior and **OR**
+behavior is a single dash in the configuration file.
+

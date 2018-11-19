@@ -8,7 +8,8 @@ aliases:
 
 A [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
 configures the rules controlling how **Pilot** routes requests for a service
-within an Istio service mesh.
+within an Istio service mesh. A virtual service contains an ordered list of
+[routing rules](../routing-rules/).
 
 You can use virtual services for fine-grained traffic control. Istio can use
 virtual services to configure ingress, canary, traffic rewrite, or traffic
