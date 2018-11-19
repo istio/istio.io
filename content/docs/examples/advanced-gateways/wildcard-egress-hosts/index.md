@@ -250,7 +250,7 @@ be served by any one of the _wikipedia.org_ servers. However, this is not always
 For example, you may want to configure egress control for access to more general
 wildcard domains like `*.com` or `*.org`.
 
-Configuring HTTPS traffic to arbitrary wildcard domains introduces a challenge for Istio gateways. In the previous section
+Configuring traffic to arbitrary wildcard domains introduces a challenge for Istio gateways. In the previous section
 you directed the traffic to _www.wikipedia.org_, which was made known to your gateway during configuration.
 The gateway, however, would not know the IP address of any arbitrary host it receives in a request.
 This is due to a limitation of [Envoy](https://www.envoyproxy.io), the proxy used by the default Istio egress gateway.
@@ -258,10 +258,7 @@ Envoy routes traffic either to predefined hosts, predefined IP addresses, or to 
 the request. In the gateway case, the original destination IP of the request is lost since the request is first routed
 to the egress gateway and its destination IP address is the IP address of the gateway.
 
-> Note that this is only a problem for encrypted (HTTPS/TLS) requests and not simple HTTP where the `X-Forwarded-Host`
-> header is used to keep track of the original destination.
-
-Consequently, the Istio gateway based on Envoy cannot route HTTPS traffic to an arbitrary host that is not preconfigured,
+Consequently, the Istio gateway based on Envoy cannot route traffic to an arbitrary host that is not preconfigured,
 and therefore is unable to perform traffic control for arbitrary wildcard domains.
 To enable such traffic control for HTTPS, and for any TLS, you need to deploy an SNI forward proxy in addition to Envoy.
 Envoy will route the requests destined for a wildcard domain to the SNI forward proxy, which, in turn, will forward the
@@ -282,7 +279,7 @@ HTTPS traffic through the gateway to arbitrary wildcard domains.
 In this section you deploy an egress gateway with an SNI proxy in addition to the standard Istio Envoy proxy.
 This example uses [Nginx](http://nginx.org) for the SNI proxy, although any SNI proxy that is capable of routing traffic
 according to arbitrary, not-preconfigured, SNI values would do.
-The SNI proxy will listen on port `8443`, although you an use any port other than the ports specified for
+The SNI proxy will listen on port `8443`, although you can use any port other than the ports specified for
 the egress `Gateway` and for the `VirtualServices` bound to it.
 The SNI proxy will forward the traffic to port `443`.
 
