@@ -43,7 +43,7 @@ weight: 50
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1. 为 _*.wikipedia.org_ 创建一个 egress `Gateway`，端口为 443，协议为 TLS；创建一个 destination rule 来为该 gateway 设置 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)；还需创建一个 virtual service，用于将目的为 _*.wikipedia.org_ 的流量引导到 gateway。
+1. 为 `*.wikipedia.org` 创建一个 egress `Gateway`，端口为 443，协议为 TLS；创建一个 destination rule 来为该 gateway 设置 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)；还需创建一个 virtual service，用于将目的为 `*.wikipedia.org` 的流量引导到 gateway。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -75,10 +75,10 @@ weight: 50
     EOF
     {{< /text >}}
 
-1. 将发送到 _*.wikipedia.org_ 的流量路由到 egress gateway，并从 egress gateway 路由到
-  _www.wikipedia.org_。
-   您可以使用这个技巧，因为所有 _*.wikipedia.org_ 网站显然是由各自的 _wikipedia.org_ 服务器提供服务。这意味着您可以将流量路由到任何 _*.wikipedia.org_ 网站，特别是 _www.wikipedia.org_，然后该 IP 下的服务器将为任何 Wikipedia 网站[提供服务](https://en.wikipedia.org/wiki/Virtual_hosting)。
-   对于一般情况，并不是所有主机都提供了 `ServiceEntry` 的所有域名，这就需要更复杂的配置。请注意，您必须为 _www.wikipedia.org_ 创建一个带有 resolution `DNS` 的 `ServiceEntry`，以使 gateway 能够执行路由。
+1. 将发送到 `*.wikipedia.org` 的流量路由到 egress gateway，并从 egress gateway 路由到
+  `www.wikipedia.org`。
+   您可以使用这个技巧，因为所有 `*.wikipedia.org` 网站显然是由各自的 `wikipedia.org` 服务器提供服务。这意味着您可以将流量路由到任何 `*.wikipedia.org` 网站，特别是 `www.wikipedia.org`，然后该 IP 下的服务器将为任何 Wikipedia 网站[提供服务](https://en.wikipedia.org/wiki/Virtual_hosting)。
+   对于一般情况，并不是所有主机都提供了 `ServiceEntry` 的所有域名，这就需要更复杂的配置。请注意，您必须为 `www.wikipedia.org` 创建一个带有 resolution `DNS` 的 `ServiceEntry`，以使 gateway 能够执行路由。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -143,7 +143,7 @@ weight: 50
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1. 检查 egress gateway 代理的数据并找到请求 _*.wikipedia.org_ 对应的 counter。如果 Istio 部署在 `istio-system` namespace 中，打印 counter 的命令为：
+1. 检查 egress gateway 代理的数据并找到请求 `*.wikipedia.org` 对应的 counter。如果 Istio 部署在 `istio-system` namespace 中，打印 counter 的命令为：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep www.wikipedia.org.upstream_cx_total
@@ -161,11 +161,11 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
 
 ## 到任意通配符域名的 HTTPS 流量
 
-上一节中的配置可行，要归功于所有的 _*.wikipedia.org_ 都由各自的 _wikipedia.org_ 服务器提供服务。然而，情况可能并非总是如此。在许多情况下，
+上一节中的配置可行，要归功于所有的 `*.wikipedia.org` 都由各自的 `wikipedia.org` 服务器提供服务。然而，情况可能并非总是如此。在许多情况下，
 您可能想要为访问 `* .com` 或 `* .org` 域，甚至是 `*`（所有域）的 HTTPS 请求配置出口控制。
 
-配置到任意通配符域名的流量对 Istio gateway 是一个挑战。在上一节中，您将流量转发到 _www.wikipedia.org_，并且在配置期间，您的 gateway 知道此主机。
-但是，gateway 无法知道它收到请求的任意主机的 IP 地址。如果您想控制到 `*.com` 的访问和发送到 _www.cnn.com_ 和 _www.abc.com_ 的请求，Istio gateway
+配置到任意通配符域名的流量对 Istio gateway 是一个挑战。在上一节中，您将流量转发到 `www.wikipedia.org`，并且在配置期间，您的 gateway 知道此主机。
+但是，gateway 无法知道它收到请求的任意主机的 IP 地址。如果您想控制到 `*.com` 的访问和发送到 `www.cnn.com` 和 `www.abc.com` 的请求，Istio gateway
 不会知道用哪个 IP 地址转发请求。
 这种限制源于 [Envoy](https://www.envoyproxy.io) 的限制，而 Istio 基于此代理。Envoy 将流量路由到预定义的主机，或者预定义的 IP 地址，或者是请求的原始目的 IP 地址。在使用 gateway 的情况下，请求的原始目的 IP 地址将会丢失（因为请求被路由到 egress gateway，它的目的 IP 地址是 gateway 的 IP 地址）。
 
@@ -175,7 +175,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
 
 {{< image width="80%" ratio="57.89%"
     link="./EgressGatewayWithSNIProxy.svg"
-    caption="Egress Gateway with SNI proxy"
+    caption="带有 SNI proxy 的 Egress Gateway"
     >}}
 
 在本节中，您将配置 Istio 以通过 egress gateway 将 HTTPS 流量路由到任意通配符域名。
@@ -202,7 +202,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
       access_log /var/log/nginx/access.log log_stream;
       error_log  /var/log/nginx/error.log;
 
-      # tcp forward proxy by SNI
+      # SNI 的 tcp 转发代理
       server {
         resolver 8.8.8.8 ipv6=off;
         listen       127.0.0.1:8443;
@@ -345,7 +345,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1. 为 _*.wikipedia.org_ 创建一个 egress `Gateway`，端口为 443，协议为 TLS，以及一个 virtual service，用于将目的为 _*.wikipedia.org_
+1. 为 `*.wikipedia.org` 创建一个 egress `Gateway`，端口为 443，协议为 TLS，以及一个 virtual service，用于将目的为 `*.wikipedia.org`
    的流量转发到 gateway。
 
     {{< text bash >}}
@@ -424,7 +424,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1. 检查 egress gateway 代理的数据并找到请求 _*.wikipedia.org_ 对应的 counter（到 SNI 代理的流量的 counter）。如果 Istio 部署在
+1. 检查 egress gateway 代理的数据并找到请求 `*.wikipedia.org` 对应的 counter（到 SNI 代理的流量的 counter）。如果 Istio 部署在
     `istio-system` namespace 中，打印 counter 的命令为：
 
     {{< text bash >}}
@@ -451,13 +451,13 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
 
 ### SNI 监控和访问策略
 
-现在，如果通过 egress gateway 转发出口流量，您就可以**安全的**在出口流量上应用监控和访问策略。在本小节中，您将为 _*.wikipedia.org_ 的出口流量定义 log entry 和访问策略。
+现在，如果通过 egress gateway 转发出口流量，您就可以**安全的**在出口流量上应用监控和访问策略。在本小节中，您将为 `*.wikipedia.org` 的出口流量定义 log entry 和访问策略。
 
 1. 创建 `logentry`、`rules` 和 `handlers`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    # Log entry for egress access
+    # egress 访问的 Log entry
     apiVersion: "config.istio.io/v1alpha2"
     kind: logentry
     metadata:
@@ -476,7 +476,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
         destinationApp: destination.labels["app"] | ""
       monitored_resource_type: '"UNSPECIFIED"'
     ---
-    # Handler for info egress access entries
+    # egress 访问的 info 日志处理器
     apiVersion: "config.istio.io/v1alpha2"
     kind: stdio
     metadata:
@@ -484,10 +484,10 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
       namespace: istio-system
     spec:
       severity_levels:
-        info: 0 # output log level as info
+        info: 0 # 日志输出为 info 级别
       outputAsJson: true
     ---
-    # Rule to handle access to *.wikipedia.org
+    # 处理访问 *.wikipedia.org 的规则
     apiVersion: "config.istio.io/v1alpha2"
     kind: rule
     metadata:
@@ -527,7 +527,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
       name: wikipedia-checker
       namespace: istio-system
     spec:
-      overrides: ["en.wikipedia.org"]  # overrides provide a static list
+      overrides: ["en.wikipedia.org"]  # overrides 提供静态列表
       blacklist: true
     ---
     apiVersion: "config.istio.io/v1alpha2"
@@ -538,7 +538,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
     spec:
       value: connection.requested_server_name
     ---
-    # Rule to check access to *.wikipedia.org
+    # *.wikipedia.org 访问规则
     apiVersion: "config.istio.io/v1alpha2"
     kind: rule
     metadata:
@@ -553,7 +553,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
     EOF
     {{< /text >}}
 
-1. 发送 HTTPS 请求到被拉入黑名单的 [https://en.wikipedia.org](https://en.wikipedia.org)：
+1. 发送 HTTPS 请求到被列入黑名单的 [https://en.wikipedia.org](https://en.wikipedia.org)：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
@@ -583,7 +583,7 @@ $ kubectl delete listchecker wikipedia-checker -n istio-system
 
 ### 清理到通配符域名的 HTTPS 流量配置
 
-1. 删除针对 _*.wikipedia.org_ 的配置项：
+1. 删除针对 `*.wikipedia.org` 的配置项：
 
     {{< text bash >}}
     $ kubectl delete serviceentry wikipedia
