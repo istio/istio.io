@@ -780,7 +780,7 @@ You can pick a wildcarded domain according to your MongoDB host.
 
 To configure egress gateway traffic for a wildcarded domain, you will first need to deploy a custom egress
 gateway with
-[an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-https-egress-gateway/#https-traffic-to-arbitrary-wildcarded-domains).
+[an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains).
 This is needed due to current limitations of Envoy, the proxy used by the standard Istio egress gateway.
 
 #### Prepare a new egress gateway with an SNI proxy
