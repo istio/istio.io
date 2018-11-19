@@ -20,14 +20,14 @@ TODO announcement
   
 ## Istioctl
 
-- Deprecated `istioctl create`, `istioctl replace`, `istioctl get`, and `istioctl delete`. `kubectl` should be used instead (see https://kubernetes.io/docs/tasks/tools/install-kubectl). These commands will be removed in the next release (1.2).
-- `istioctl gen-deploy`. [`helm template`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template) should be used instead. This command will be removed in the next release (1.2).
+- Deprecated `istioctl create`, `istioctl replace`, `istioctl get`, and `istioctl delete`. Use `kubectl` instead (see https://kubernetes.io/docs/tasks/tools/install-kubectl). The next release (1.2) removes the deprecated commands.
+- Deprecated `istioctl gen-deploy`. Use a [`helm template`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template) instead. The next release (1.2) removes this command.
   
-- Added [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate) for offline validation of Istio Kubernetes resources. This is intended to replace the existing usage of the deprecated `istioctl create` command.
+- Added [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate) for offline validation of Istio Kubernetes resources. The intent is to replace the existing use of the deprecated `istioctl create` command.
 
 - Added [`istioctl experimental verify-install`](/docs/reference/commands/istioctl/#istioctl-experimental-verify-install). This experimental command verifies the installation status of Istio given a specified install YAML file. 
 
 ## Configuration
 
-- Galley can now optionally serve as the Kubernetes touch point between Kubernetes and Pilot and Mixer. This feature is [alpha](https://preliminary.istio.io/about/feature-stages/#feature-phase-definitions). In subsequent Istio releases Galley will become the Istio's configuration management mechanism.
+- You can now use Galley to serve as the Kubernetes touch point between Kubernetes and the other Istio componets: Pilot and Mixer. This feature is in [alpha](https://preliminary.istio.io/about/feature-stages/#feature-phase-definitions). Subsequent Istio releases will make Galley Istio's default configuration management mechanism.
 
