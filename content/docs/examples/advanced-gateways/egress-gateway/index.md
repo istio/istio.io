@@ -484,7 +484,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     ...
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy which includes a counter that corresponds to our
+1.  Check the statistics of the egress gateway's proxy which includes a counter that corresponds to your
     requests to _edition.cnn.com_. If Istio is deployed in the `istio-system` namespace, the command to print the
     counter is:
 
