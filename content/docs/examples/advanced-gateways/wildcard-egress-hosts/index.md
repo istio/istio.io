@@ -100,7 +100,7 @@ only much more convenient when there are many hosts within the common domain.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-#### Cleanup direct traffic to a wildcard host
+### Cleanup direct traffic to a wildcard host
 
 {{< text bash >}}
 $ kubectl delete serviceentry wikipedia
@@ -215,7 +215,6 @@ the set of domains.
       resolution: DNS
     EOF
     {{< /text >}}
-
 
 1.  Send HTTPS requests to
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
