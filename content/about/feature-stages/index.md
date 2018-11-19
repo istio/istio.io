@@ -88,6 +88,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Alpha
+| [Istio CNI plugin](/docs/setup/kubernetes/istio-cni-install/) | Alpha
 
 > {{< idea_icon >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
