@@ -1,31 +1,61 @@
 ---
-title: Configure Egress Gateway for HTTPS traffic to wildcarded domains
+title: Configure Egress Traffic using Wildcard Hosts
 description: Use an SNI proxy in addition to the Envoy instance in the istio-egressgateway for wildcarded domains.
 keywords: [traffic-management,egress]
 weight: 50
 ---
 
-The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example, in the
-[Egress gateway for HTTPS traffic](/docs/examples/advanced-gateways/egress-gateway/#egress-gateway-for-https-traffic)
-section, described how to configure an Istio egress gateway for HTTPS traffic for specific hostnames, like
-`edition.cnn.com`. This example explains how to enable an egress gateway for HTTPS traffic to a set of domains, for
-example to `*.wikipedia.org`, without the need to specify each and every host.
+The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task and
+the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example
+describe how to configure egress traffic for specific hostnames, like `edition.cnn.com`.
+This example shows how to enable egress traffic for a set of hosts in a common domain, for
+example `*.wikipedia.org`, instead of configuring each and every host separately.
 
 ## Background
 
-Suppose you want to enable secure egress traffic control in Istio for the `wikipedia.org` sites in all the languages.
-Each version of `wikipedia.org` in a particular language has its own hostname, e.g. `en.wikipedia.org` and
-`de.wikipedia.org` in the English and the German languages, respectively. You want to enable the egress traffic by common
-configuration items for all the _wikipedia_ sites, without the need to specify the sites in all the languages.
+Suppose you want to enable egress traffic in Istio for the `wikipedia.org` sites in all languages.
+Each version of `wikipedia.org` in a particular language has its own hostname, e.g., `en.wikipedia.org` and
+`de.wikipedia.org` in the English and the German languages, respectively.
+You want to enable egress traffic by common configuration items for all the _wikipedia_ sites,
+without the need to specify every language's site separately.
 
 ## Before you begin
 
-Follow the steps in the [Before you begin](/docs/examples/advanced-gateways/egress-gateway/#before-you-begin)
-section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-## HTTPS traffic to a single host
+*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
+    which will be used as a test source for external calls.
 
-1.  Define a `ServiceEntry` for `*.wikipedia.org`:
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
+
+    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    {{< /text >}}
+
+    Note that any pod that you can `exec` and `curl` from would do.
+
+*   Create a shell variable to hold the name of the source pod for sending requests to external services.
+    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
+## Configure direct traffic to a wildcard host
+
+The first, and simplest, way to access a set of hosts within a common domain is by configuring
+a simple `ServiceEntry` with a wildcard host and calling the services directly from the sidecar.
+When calling services directly (i.e., not via an egress gateway), the configuration for
+a wildcard host is no different than that of any other (e.g., fully qualified) host,
+only much more convenient when there are many hosts within the common domain.
+
+1.  Define a `ServiceEntry` and corresponding `VirtualSevice` for `*.wikipedia.org`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -40,21 +70,65 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/eg
       - number: 443
         name: tls
         protocol: TLS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: wikipedia
+    spec:
+      hosts:
+      - "*.wikipedia.org"
+      tls:
+      - match:
+        - port: 443
+         sni_hosts:
+          - "*.wikipedia.org"
+        route:
+        - destination:
+            host: "*.wikipedia.org"
+            port:
+              number: 443
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send HTTPS requests to
+1.  Send HTTPS requests to
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS; and a destination rule to set the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway; and also a virtual service to direct
-    the traffic destined for _*.wikipedia.org_ to the gateway.
+### Cleanup direct traffic to a wildcard host
+
+{{< text bash >}}
+$ kubectl delete serviceentry wikipedia
+$ kubectl delete virtualservice wikipedia
+{{< /text >}}
+
+## Configure egress gateway traffic to a wildcard host
+
+The configuration for accessing a wildcard host via an egress gateway depends on whether or not
+the set of wildcard domains are served by a single common host.
+This is the case for _*.wikipedia.org_. All of the language-specific sites are served by every
+one of the _wikipedia.org_ servers. You can route the traffic to an IP of any _*.wikipedia.org_ site,
+including _www.wikipedia.org_, and it will [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting)
+any specific site.
+
+In the general case, where all the domain names of a wildcard are not served by a single hosting server,
+a more complex configuration is required.
+
+### Wildcard configuration for a single hosting server
+
+When all wildcard hosts are served by a single server, the configuration for
+egress gateway-based access to a wildcard host is very similar to that of any host, with one exception:
+the configured route destination will not be the same as the configured host,
+i.e., the wildcard. It will instead be configured with the host of the single server for
+the set of domains.
+
+1.  Create an egress `Gateway` for _*.wikipedia.org_, a destination rule and a virtual service
+    to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -83,33 +157,6 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/eg
       host: istio-egressgateway.istio-system.svc.cluster.local
       subsets:
         - name: wikipedia
-    EOF
-    {{< /text >}}
-
-1.  Route the traffic destined for _*.wikipedia.org_ to the egress gateway and from the egress gateway to
-  _www.wikipedia.org_.
-   You can use this trick since all the _*.wikipedia.org_ sites are apparently served by each of the
-   _wikipedia.org_ servers. It means that you can route the traffic to an IP of any _*.wikipedia.org_ sites, in
-   particular to _www.wikipedia.org_, and the server at that IP will
-   [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting) any of the Wikipedia sites.
-   For a general case, in which all the domain names of a `ServiceEntry` are not served by all the hosting
-   servers, a more complex configuration is required. Note that you must create a `ServiceEntry` for _www.wikipedia.org_
-   with resolution `DNS` so the gateway will be able to perform the routing.
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: www-wikipedia
-    spec:
-      hosts:
-      - www.wikipedia.org
-      ports:
-      - number: 443
-        name: tls
-        protocol: TLS
-      resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -150,16 +197,35 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/eg
     EOF
     {{< /text >}}
 
-1.  Send HTTPS requests to
-        [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
+1.  Create a `ServiceEntry` for the destination server, _www.wikipedia.org_.
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: www-wikipedia
+    spec:
+      hosts:
+      - www.wikipedia.org
+      ports:
+      - number: 443
+        name: tls
+        protocol: TLS
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Send HTTPS requests to
+    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to your
+1.  Check the statistics of the egress gateway's proxy for the counter that corresponds to your
     requests to _*.wikipedia.org_. If Istio is deployed in the `istio-system` namespace, the command to print the
     counter is:
 
@@ -168,58 +234,58 @@ section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/eg
     cluster.outbound|443||www.wikipedia.org.upstream_cx_total: 2
     {{< /text >}}
 
-### Cleanup of HTTPS traffic configuration to a single host
+#### Cleanup wildcard configuration for a single hosting server
 
 {{< text bash >}}
-$ kubectl delete serviceentry wikipedia www-wikipedia
+$ kubectl delete serviceentry www-wikipedia
 $ kubectl delete gateway istio-egressgateway
 $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
-## HTTPS traffic to arbitrary wildcarded domains
+### Wildcard configuration for arbitrary domains
 
-The configuration in the previous section works thanks to the fact that all the _*.wikipedia.org_ sites are apparently
-served by each of the _wikipedia.org_ servers. However, this may not always be the case. In many cases you may want to
-configure egress control for HTTPS access to `*.com` or `*.org` domains, or even to `*` (all the domains).
+The configuration in the previous section worked because all the _*.wikipedia.org_ sites can
+be served by any one of the _wikipedia.org_ servers. However, this is not always the case.
+For example, you may want to configure egress control for access to more general
+wildcard domains like `*.com` or `*.org`.
 
-Configuring traffic to arbitrary wildcarded domains introduces a challenge for Istio gateways. In the previous section
-you directed the traffic to _www.wikipedia.org_, and this host was known to your gateway during the configuration.
-The gateway, however, cannot know an IP address of an arbitrary host it receives a request for. Would you want to
-control access to `*.com`, and send requests to _www.cnn.com_ and _www.abc.com_, the Istio gateway would not know which
-IP address to forward the requests to.
-This limitation is due to the limitation of [Envoy](https://www.envoyproxy.io), the proxy Istio is based on. Envoy
-routes traffic either to predefined hosts, or to predefined IP addresses, or to the original destination IP address of
-the request. In the case of the gateway the original destination IP of the request is lost (since the request was routed
-to the egress gateway and its destination IP address is the IP address of the gateway).
+Configuring traffic to arbitrary wildcard domains introduces a challenge for Istio gateways. In the previous section
+you directed the traffic to _www.wikipedia.org_, which was made known to your gateway during configuration.
+The gateway, however, would not know the IP address of any arbitrary host it receives in a request.
+This is due to a limitation of [Envoy](https://www.envoyproxy.io), the proxy used by the default Istio egress gateway.
+Envoy routes traffic either to predefined hosts, predefined IP addresses, or to the original destination IP address of
+the request. In the gateway case, the original destination IP of the request is lost since the request is first routed
+to the egress gateway and its destination IP address is the IP address of the gateway.
 
-In short, the Istio gateway based on Envoy cannot route traffic to an arbitrary, not preconfigured host, and AS-IS is
-unable to perform traffic control to arbitrary wildcarded domains. To enable such traffic control for HTTPS (and for any
-TLS), you need to deploy an SNI forward proxy in addition to Envoy. Envoy will route the requests destined for a
-wildcarded domain to the SNI forward proxy, which, in turn, will forward the requests to the destination by the value of
-SNI.
+Consequently, the Istio gateway based on Envoy cannot route traffic to an arbitrary host that is not preconfigured,
+and therefore is unable to perform traffic control for arbitrary wildcard domains.
+To enable such traffic control for HTTPS, and for any TLS, you need to deploy an SNI forward proxy in addition to Envoy.
+Envoy will route the requests destined for a wildcard domain to the SNI forward proxy, which, in turn, will forward the
+requests to the destination specified by the SNI value.
 
-The egress gateway with SNI proxy and the related parts of Istio Architecture are shown in the following diagram:
+The egress gateway with SNI proxy and the related parts of the Istio architecture are shown in the following diagram:
 
 {{< image width="80%" ratio="57.89%"
     link="./EgressGatewayWithSNIProxy.svg"
     caption="Egress Gateway with SNI proxy"
     >}}
 
-In this section you will configure Istio to route HTTPS traffic to arbitrary wildcarded domains, through an egress
-gateway.
+The following sections show you how to redeploy the egress gateway with an SNI proxy and then configure Istio to route
+HTTPS traffic through the gateway to arbitrary wildcard domains.
 
-### Custom egress gateway with SNI proxy
+#### Setup egress gateway with SNI proxy
 
-In this subsection you deploy an egress gateway with an SNI proxy, in addition to the standard Istio Envoy proxy. You
-can use any SNI proxy that is capable to route traffic according to arbitrary, not-preconfigured SNI values; we used
-[Nginx](http://nginx.org) to achieve this functionality. The SNI proxy will listen on the port `8443`, you can use any
-port other than the ports specified for the egress `Gateway` and for the `VirtualServices` defined on it. The SNI proxy
-will forward the traffic to the port `443`.
+In this section you deploy an egress gateway with an SNI proxy in addition to the standard Istio Envoy proxy.
+This example uses [Nginx](http://nginx.org) for the SNI proxy, although any SNI proxy that is capable of routing traffic
+according to arbitrary, not-preconfigured, SNI values would do.
+The SNI proxy will listen on port `8443`, although you can use any port other than the ports specified for
+the egress `Gateway` and for the `VirtualServices` bound to it.
+The SNI proxy will forward the traffic to port `443`.
 
 1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
-    settings, if required. Note that the `server`'s `listen` directive specifies the port `8443`, its `proxy_pass`
-    directive uses `ssl_preread_server_name` with port `443` and `ssl_preread` directive enables `SNI` reading.
+    settings, if required. Note that the `listen` directive of the `server` specifies port `8443`, its `proxy_pass`
+    directive uses `ssl_preread_server_name` with port `443` and `ssl_preread` is `on` to enable `SNI` reading.
 
     {{< text bash >}}
     $ cat <<EOF > ./sni-proxy.conf
@@ -247,13 +313,13 @@ will forward the traffic to the port `443`.
     {{< /text >}}
 
 1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
-to hold the configuration of the Nginx SNI proxy:
+    to hold the configuration of the Nginx SNI proxy:
 
     {{< text bash >}}
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
-1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
+1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` which you can optionally edit and then deploy.
 
     {{< text bash >}}
     $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
@@ -319,7 +385,7 @@ to hold the configuration of the Nginx SNI proxy:
     istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
     {{< /text >}}
 
-1.  Create a service entry with a static address equal to 127.0.0.1 (`localhost`), and disable mutual TLS on the traffic directed to the new
+1.  Create a service entry with a static address equal to 127.0.0.1 (`localhost`), and disable mutual TLS for traffic directed to the new
     service entry:
 
     {{< text bash >}}
@@ -352,7 +418,7 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-### HTTPS traffic through egress gateway with SNI proxy
+#### Configure traffic through egress gateway with SNI proxy
 
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
@@ -372,17 +438,8 @@ to hold the configuration of the Nginx SNI proxy:
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send HTTPS requests to
-    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
-    <title>Wikipedia, the free encyclopedia</title>
-    <title>Wikipedia – Die freie Enzyklopädie</title>
-    {{< /text >}}
-
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, and a virtual service to direct the
-    traffic destined for _*.wikipedia.org_ to the gateway.
+    traffic destined for _*.wikipedia.org_ through the gateway.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -452,15 +509,15 @@ to hold the configuration of the Nginx SNI proxy:
     {{< /text >}}
 
 1.  Send HTTPS requests to
-        [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
+    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to your requests to
+1.  Check the statistics of the egress gateway's Envoy proxy for the counter that corresponds to your requests to
     _*.wikipedia.org_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
     to print the counter is:
 
@@ -488,9 +545,10 @@ to hold the configuration of the Nginx SNI proxy:
 
     Note the `requestedServerName` attribute.
 
-### SNI monitoring and access policies
+#### SNI monitoring and access policies
 
-Now, once you directed the egress traffic through an egress gateway, you can apply monitoring and access policy enforcement on the egress traffic, **securely**. In this subsection you will define a log entry and an access policy for the egress traffic to _*.wikipedia.org_.
+Now, once you directed the egress traffic through an egress gateway, you can apply monitoring and access policy enforcement on the egress traffic,
+**securely**. In this section you will define a log entry and an access policy for the egress traffic to _*.wikipedia.org_.
 
 1.  Create the `logentry`, `rules` and `handlers`:
 
@@ -542,10 +600,10 @@ Now, once you directed the egress traffic through an egress gateway, you can app
     {{< /text >}}
 
 1.  Send HTTPS requests to
-        [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
+    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
@@ -556,7 +614,7 @@ Now, once you directed the egress traffic through an egress gateway, you can app
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'; done
     {{< /text >}}
 
-1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for the Wikipedia in
+1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for Wikipedia in
     English:
 
     {{< text bash >}}
@@ -596,22 +654,22 @@ Now, once you directed the egress traffic through an egress gateway, you can app
 1.  Send an HTTPS request to the blacklisted [https://en.wikipedia.org](https://en.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
     ...
     curl: (35) Unknown SSL protocol error in connection to en.wikipedia.org:443
     command terminated with exit code 35
     {{< /text >}}
 
 1.  Send HTTPS requests to some other sites, for example [https://es.wikipedia.org](https://es.wikipedia.org) and
-   [https://de.wikipedia.org](https://de.wikipedia.org):
+    [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, la enciclopedia libre</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-#### Cleanup of monitoring and policy enforcement
+##### Cleanup of monitoring and policy enforcement
 
 {{< text bash >}}
 $ kubectl delete rule handle-wikipedia-access check-wikipedia-access -n istio-system
@@ -621,7 +679,7 @@ $ kubectl delete listentry requested-server-name -n istio-system
 $ kubectl delete listchecker wikipedia-checker -n istio-system
 {{< /text >}}
 
-### Cleanup of HTTPS traffic configuration to arbitrary wildcarded domains
+#### Cleanup wildcard configuration for arbitrary domains
 
 1.  Delete the configuration items for _*.wikipedia.org_:
 
@@ -650,5 +708,8 @@ $ kubectl delete listchecker wikipedia-checker -n istio-system
 
 ## Cleanup
 
-Perform the instructions in the [Cleanup](/docs/examples/advanced-gateways/egress-gateway/#cleanup)
-section of the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example.
+Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+{{< /text >}}
