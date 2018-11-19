@@ -80,8 +80,8 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     {{< /text >}}
 
     Note that by default all the pods in the `istio-system` namespace can mount this secret and access the
-    private key. You may want to deploy the ingress gateway to a separate namespace and to create the
-    secret in that namespace, so only the ingress gateway pod will be able to mount it.
+    private key. You may want to deploy the ingress gateway in a separate namespace and create the secret there, so that
+    only the ingress gateway pod will be able to mount it.
 
 1.  Define a `Gateway` with a `server` section for port 443.
 
