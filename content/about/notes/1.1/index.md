@@ -29,6 +29,5 @@ TODO announcement
 
 ## Configuration
 
-- Galley can now optionally serve as the Kubernetes touch point between Kubernetes and Pilot and Mixer using [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/master/mcp). This feature is [alpha](https://preliminary.istio.io/about/feature-stages/#feature-phase-definitions). In subsequent Istio releases MCP will become the default option and direct k8s support in Pilot and Mixer will be removed.
-
+- Galley can now optionally serve as the Kubernetes touch point between Kubernetes and Pilot and Mixer. This feature is [alpha](https://preliminary.istio.io/about/feature-stages/#feature-phase-definitions). In subsequent Istio releases Galley will become the default Istio's configuration management mechanism.
 
