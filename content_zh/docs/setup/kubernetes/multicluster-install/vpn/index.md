@@ -23,6 +23,7 @@ aliases:
 *  能够在其中**一个**集群上部署[Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/)的能力。
 
 * RFC1918 网络、VPN或是满足以下可选条件的更高级的网络技术：
+
     * 单集群 Pod 和服务的 CIDR 范围在多集群环境中必须唯一，最好不要重叠。
 
     * 每个集群中的所有 pod CIDR 必须的相互可达的。
