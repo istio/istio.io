@@ -1,6 +1,6 @@
 ---
 title: Configure Egress Traffic using Wildcard Hosts
-description: Use an SNI proxy in addition to the Envoy instance in the istio-egressgateway for wildcarded domains.
+description: Describes how to enable egress traffic for a set of hosts in a common domain, instead of configuring each and every host separately.
 keywords: [traffic-management,egress]
 weight: 50
 ---
