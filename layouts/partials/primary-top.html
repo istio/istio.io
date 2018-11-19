@@ -65,6 +65,13 @@
                                 {{- partial "icon.html" "calendar" -}}
                                 <span>&nbsp;</span>
                                 {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
+
+                                {{- if .Params.last_update -}}
+                                    <span>&nbsp;</span>
+                                    {{- $date := time .Params.last_update -}}
+                                    {{- $date := $date.Format (i18n "page_publish_date_format") -}}
+                                    {{-  printf (i18n "page_last_update_format") $date -}}
+                                {{- end -}}
                             </span>
                         {{- end -}}
 

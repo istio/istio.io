@@ -104,14 +104,16 @@ The available front matter fields are:
 |`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+|`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
 
 There are a few more front matter fields available specifically for blog posts:
 
 |Field          | Description
 |---------------|------------
-|`publishdate`  | Date of the post's publication
+|`publishdate`  | Date of the post's original publication
+|`last_update`  | Date when the post last received a major revision
 |`attribution`  | Optional name of the post's author
-|`twitter`      | Optional Twitter of the post's author
+|`twitter`      | Optional Twitter handle of the post's author
 
 ## Adding images
 
@@ -119,7 +121,7 @@ Put image files in the same directory as your markdown file. The preferred image
 Within markdown, use the following sequence to add the image:
 
 {{< text html >}}
-{{</* image width="75%" ratio="69.52%"
+{{</* image width="75%"
     link="./myfile.svg"
     alt="Alternate text to display when the image is not available"
     title="A tooltip displayed when hovering over the image"
@@ -127,12 +129,15 @@ Within markdown, use the following sequence to add the image:
     */>}}
 {{< /text >}}
 
-The `width`, `ratio`, `link` and `caption` values are required. If the `title` value isn't
+The `width`, `link` and `caption` values are always required. If the image is a PNG or JPG file, then the
+`ratio` value is required. If the `title` value isn't
 supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
 default to `title` or if that's not defined, to `caption`.
 
 `width` represents the percentage of space used by the image
-relative to the surrounding text. `ratio` must be manually calculated using (image height / image width) * 100.
+relative to the surrounding text.
+
+For PNG and JPG images, `ratio` must be manually calculated using (image height / image width) * 100.
 
 ## Adding icons & emojis
 
@@ -143,9 +148,10 @@ You can embed some common icons in your content using:
 {{</* idea_icon */>}}
 {{</* checkmark_icon */>}}
 {{</* cancel_icon */>}}
+{{</* info_icon */>}}
 {{< /text >}}
 
-which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, and {{< cancel_icon >}}.
+which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< info_icon >}}.
 
 In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
 which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
@@ -203,7 +209,7 @@ produces a link to `https://raw.githubusercontent.com/istio/istio/...`
     {{< /text >}}
 
 The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* branch_name */>}}**
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
 to get the name of the currently targeted branch.
 
 ## Embedding preformatted blocks

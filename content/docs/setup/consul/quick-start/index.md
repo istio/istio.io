@@ -5,7 +5,7 @@ weight: 10
 keywords: [consul]
 ---
 
-Quick Start instructions to install and configure Istio in a Docker Compose setup.
+Quick Start instructions to install and configure Istio networking in a Docker Compose setup.
 
 ## Prerequisites
 
@@ -48,11 +48,14 @@ For example, run the following command on a macOS or Linux system:
 
 1. Change directory to the root of the Istio installation directory.
 
-1.  Bring up the Istio control plane containers:
+1.  Bring up the Istio networking control plane containers:
 
     {{< text bash >}}
     $ docker-compose -f install/consul/istio.yaml up -d
     {{< /text >}}
+
+    > {{< warning_icon >}} The Consul install only configures Istio Pilot. To use Istio Mixer (policy enforcement and telemetry reporting) or Istio Galley, further installation steps
+    > will be necessary. Those steps are beyond the scope of this guide.
 
 1.  Confirm that all docker containers are running:
 

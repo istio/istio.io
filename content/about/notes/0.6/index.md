@@ -33,8 +33,6 @@ functionality. This may be useful in large deployments for better scaling of Mix
 
 - **Monitoring Dashboards**. There are now preliminary Mixer & Pilot monitoring dashboard in Grafana.
 
-- **Servicegraph Visualization**. Servicegraph has a new visualization. [Learn more](/docs/tasks/telemetry/servicegraph/).
-
 - **Liveness and Readiness Probes**. Istio components now provide canonical liveness and readiness
 probe support to help ensure mesh infrastructure health. [Learn more](/docs/tasks/security/health-check/)
 

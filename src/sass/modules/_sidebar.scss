@@ -105,6 +105,10 @@
             svg {
                 margin-right: 0.3em;
             }
+
+            a {
+                text-decoration: none;
+            }
         }
 
         @media (min-width: $bp-lg) {

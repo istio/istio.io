@@ -7,7 +7,7 @@ keywords: [kubernetes,multicluster]
 
 This example demonstrates how to use Istio's multicluster feature to join two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters together,
-using the [multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/).
+using the [VPN-based multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
 
 ## Create the IBM Cloud Private Clusters
 
@@ -132,7 +132,7 @@ across all nodes in the two IBM Cloud Private Clusters.
 
 ## Install Istio for multicluster
 
-[Follow the multicluster installation steps](/docs/setup/kubernetes/multicluster-install/) to install and configure
+[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/multicluster-install/vpn/) to install and configure
 local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
 
 This example uses `cluster-1` as the local Istio control plane and `cluster-2` as the Istio remote.

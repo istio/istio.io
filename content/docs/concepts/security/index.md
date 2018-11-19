@@ -224,7 +224,10 @@ Istio provides two types of authentication:
 - **Origin authentication**, also known as **end-user authentication**: verifies the
   original client making the request as an end-user or device.
   Istio enables request-level authentication with JSON Web Token (JWT) validation
-  and a streamlined developer experience for [Auth0](https://auth0.com/), [Firebase Auth](https://firebase.google.com/docs/auth/),
+  and a streamlined developer experience for open source OpenID Connect provider
+  [ORY Hydra](https://www.ory.sh), [Keycloak](https://www.keycloak.org),
+  [Auth0](https://auth0.com/),
+  [Firebase Auth](https://firebase.google.com/docs/auth/),
   [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
 
 In both cases, Istio stores the authentication policies in the `Istio config store` via a custom Kubernetes API.
@@ -247,6 +250,30 @@ For a client to call a server with mutual TLS authentication:
    and Istio forwards the traffic from the client side Envoy to the server side Envoy.
 
 1. After authorization, the server side Envoy forwards the traffic to the server service through local TCP connections.
+
+#### Permissive mode
+
+Istio mutual TLS has a permissive mode, which allows a service to accept
+both plain text traffic and mutual TLS traffic at the same time. This
+feature greatly improves the mutual TLS onboarding experience.
+
+Many non-Istio clients communicating with a non-Istio server presents a
+problem for an operator who wants to migrate that server to Istio with
+mutual TLS enabled. Commonly, the operator cannot install an Istio sidecar
+for all clients at the same time or does not even have the permissions to
+do so on some clients. Even after installing the Istio sidecar on the
+server, the operator cannot enable mutual TLS without breaking existing
+communications.
+
+With the permissive mode enabled, the server accepts both plain text and
+mutual TLS traffic. The mode provides great flexibility for the
+on-boarding process. The server's installed Istio sidecar takes mutual TLS
+traffic immediately without breaking existing plain text traffic. As a
+result, the operator can gradually install and configure the client's
+Istio sidecars to send mutual TLS traffic. Once the configuration of the
+clients is complete, the operator can configure the server to mutual TLS
+only mode. For more information, visit the
+[Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
 
 #### Secure naming
 
@@ -444,18 +471,23 @@ mutual TLS implementations.
 
 The `origins:` section defines authentication methods and associated parameters
 supported for origin authentication. Istio only supports JWT origin
-authentication. However, a policy can list multiple JWTs by different issuers.
+authentication. You can specify allowed JWT issuers, and enable or disable JWT authentication for a
+specific path. If all JWTs are disabled for a request path, authentication also passes as if there is
+none defined.
 Similar to peer authentication, only one of the listed methods must be
 satisfied for the authentication to pass.
 
-The following example policy specifies an `origins:` section for origin
-authentication that accepts JWTs issued by Google:
+The following example policy specifies an `origins:` section for origin authentication that accepts
+JWTs issued by Google. JWT authentication for path `/health` is disabled.
 
 {{< text yaml >}}
 origins:
 - jwt:
     issuer: "https://accounts.google.com"
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs"
+    trigger_rules:
+    - excluded_paths:
+      - exact: /health
 {{< /text >}}
 
 #### Principal binding
@@ -512,6 +544,7 @@ services in an Istio Mesh. It features:
 - **Flexibility through custom properties support**, for example conditions,
   in roles and role-bindings.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
+- **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
 
 ### Authorization architecture
 
@@ -535,60 +568,16 @@ runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
 authorization result, `ALLOW` or `DENY`.
 
-### Authorization permissive mode
-
-Authorization permissive mode allows users to verify authorization policies
-before applying them in production environment.
-
-Authorization permissive mode could be set on both global authorization
-configuration and individual policies. When setting permissive mode on global
-authorization configuration, all policies will be in permissive mode regardless
-its own mode. Otherwise If the global authorization configuration is set to
-`ENFORCED`, the enforcement mode set on individual policy takes effect.
-If not specified, both global authorization configuration and individual
-policies are in `ENFORCED` mode by default.
-
-In the following example, Istio authorization permissive mode is set on global configuration level.
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-  enforcement_mode: PERMISSIVE
-{{< /text >}}
-
-In the following example, Istio authorization permissive mode is set on policy level.
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-details-reviews
-  namespace: default
-spec:
-  subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-  roleRef:
-    kind: ServiceRole
-    name: "details-reviews-viewer"
-  mode: PERMISSIVE
-{{< /text >}}
-
 ### Enabling authorization
 
-You enable Istio Authorization using a `RbacConfig` object. The `RbacConfig`
-object is a mesh-wide singleton with a fixed name value of `default`. You can
-only use one `RbacConfig` instance in the mesh. Like other Istio configuration
-objects, `RbacConfig` is defined as a
+You enable Istio Authorization using a `ClusterRbacConfig` object. The `ClusterRbacConfig`
+object is a cluster-scoped singleton with a fixed name value of `default`. You can
+only use one `ClusterRbacConfig` instance in the mesh. Like other Istio configuration
+objects, `ClusterRbacConfig` is defined as a
 Kubernetes `CustomResourceDefinition`
 [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
 
-In the `RbacConfig` object, the operator can specify a `mode` value, which can
+In the `ClusterRbacConfig` object, the operator can specify a `mode` value, which can
 be:
 
 - **`OFF`**: Istio authorization is disabled.
@@ -604,7 +593,7 @@ namespace.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
+kind: ClusterRbacConfig
 metadata:
   name: default
 spec:
@@ -649,9 +638,8 @@ Each rule has the following standard fields:
    form of `/packageName.serviceName/methodName` and are case sensitive.
 
 A `ServiceRole` specification only applies to the namespace specified in the
-`metadata` section. The `services` and `methods` fields are required in a
-rule. `paths` is optional. If a rule is not specified or if it is set to `*`,
-it applies to any instance.
+`metadata` section. A rule requires the `services` field and the other fields are optional.
+If you do not specify a field or if you set its value to `*`, Istio applies the field to all instances.
 
 The example below shows a simple role: `service-admin`, which has full access
 to all services in the `default` namespace.
@@ -665,7 +653,6 @@ metadata:
 spec:
   rules:
   - services: ["*"]
-    methods: ["*"]
 {{< /text >}}
 
 Here is another role: `products-viewer`, which has read, `"GET"` and `"HEAD"`,
@@ -813,6 +800,102 @@ spec:
   roleRef:
     kind: ServiceRole
     name: "products-viewer"
+{{< /text >}}
+
+### Using Istio authorization on plain TCP protocols
+
+The examples in [Service role](#servicerole) and [Service role binding](#servicerolebinding) show the
+typical way to use Istio authorization on services using the HTTP protocol. In those examples, all fields
+in a service role and service role binding are supported.
+
+Istio authorization supports services using any plain TCP protocols, such as MongoDB. In this case,
+you configure the service roles and service role bindings in the same way you did for the HTTP service.
+The difference is that certain fields, constraints and properties are only applicable to HTTP services.
+These fields include:
+
+- The `paths` and `methods` fields in the service role configuration object.
+- The `group` field in the service role binding configuration object.
+
+The supported constraints and properties are listed in the [constraints and properties page](
+/docs/reference/config/authorization/constraints-and-properties/).
+
+If you use any HTTP only fields for a TCP service, Istio ignores the service role or service role
+binding custom resources and the policies set within completely.
+
+Assuming you have a MongoDB service on port 27017, the following example configures a service role and
+a service role binding to only allow the `bookinfo-ratings-v2` in the Istio mesh to access the
+MongoDB service.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: mongodb-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["mongodb.default.svc.cluster.local"]
+    constraints:
+    - key: "destination.port"
+      values: ["27017"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-mongodb-viewer
+  namespace: default
+spec:
+  subjects:
+  - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
+  roleRef:
+    kind: ServiceRole
+    name: "mongodb-viewer"
+{{< /text >}}
+
+### Authorization permissive mode
+
+The authorization permissive mode is an experimental feature in Istio's 1.1 release. Its interface can change in future releases.
+
+The authorization permissive mode allows you to verify authorization policies
+before applying them in a production environment.
+
+You can enable the authorization permissive mode on a global authorization
+configuration and on individual policies. If you set the permissive mode on a global
+authorization configuration, all policies switch to the permissive mode regardless
+of their own set mode. If you set the global authorization mode to
+`ENFORCED`, the enforcement mode set by the individual policies takes effect.
+If you do not set a mode, both the global authorization configuration and the individual
+policies are set to the `ENFORCED` mode by default.
+
+To enable the permissive mode globally, set the value of the `enforcement_mode:` key in the global Istio RBAC authorization configuration to `PERMISSIVE` as shown in the following example.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ClusterRbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["default"]
+  enforcement_mode: PERMISSIVE
+{{< /text >}}
+
+To enable the permissive mode for a specific policy, set the value of the `mode:` key to `PERMISSIVE` in the policy configuration file as shown in the following example.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-details-reviews
+  namespace: default
+spec:
+  subjects:
+    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+  roleRef:
+    kind: ServiceRole
+    name: "details-reviews-viewer"
+  mode: PERMISSIVE
 {{< /text >}}
 
 ### Using other authorization mechanisms

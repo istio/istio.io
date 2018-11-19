@@ -50,7 +50,6 @@ caption="GKE-IAM Role"
     [Bookinfo](/docs/examples/bookinfo/) sample app,
     [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) with
     [Prometheus](/docs/tasks/telemetry/querying-metrics/),
-    [ServiceGraph](/docs/tasks/telemetry/servicegraph/),
     and [Tracing](/docs/tasks/telemetry/distributed-tracing/).
     You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the `default` namespace only.
 
@@ -102,7 +101,6 @@ deploy/istio-sidecar-injector     1         1         1            1           4
 deploy/istio-statsd-prom-bridge   1         1         1            1           4m
 deploy/istio-telemetry            1         1         1            1           4m
 deploy/prometheus                 1         1         1            1           4m
-deploy/servicegraph               1         1         1            1           4m
 {{< /text >}}
 
 Now confirm that the Bookinfo sample application is also installed:
@@ -207,27 +205,6 @@ http://localhost:9090/graph
     >}}
 
 For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on).
-
-### ServiceGraph
-
-Set up a tunnel to ServiceGraph:
-
-{{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-{{< /text >}}
-
-You should see the Bookinfo service topology at
-
-{{< text plain >}}
-http://localhost:8088/dotviz
-{{< /text >}}
-
-{{< image width="100%" ratio="53.33%"
-    link="./dm_servicegraph.png"
-    caption="ServiceGraph"
-    >}}
-
-For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on).
 
 ## Tracing
 

@@ -30,4 +30,4 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.vmware.com" logo="./vmware.svg" alt="VMware" >}}
 </div>
 
-Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.github.io/pulls).
+Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).

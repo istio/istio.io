@@ -1,7 +1,6 @@
 ---
-title: Advanced gateway traffic control
-description: A variety of fully working examples for gateway traffic control in Istio that you can experiment with.
+title: Advanced Edge Traffic Management
+description: A variety of advanced examples for managing traffic at the edge (i.e., ingress and egress traffic) of an Istio service mesh.
 weight: 61
-type: section-index
 keywords: [ingress, egress, gateway]
 ---

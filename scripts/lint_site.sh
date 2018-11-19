@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 FAILED=0
 
@@ -16,13 +16,14 @@ check_content() {
     DIR=$1
     LANG=$2
     TMP=$(mktemp -d)
-    OUT=$(mktemp)
 
     # make the tmp dir
     mkdir -p ${TMP}
 
     # create a throwaway copy of the content
     cp -R ${DIR} ${TMP}
+    cp .spelling ${TMP}
+    cp mdl_style.rb ${TMP}
 
     # replace the {{< text >}} shortcodes with ```plain
     find ${TMP} -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
@@ -36,26 +37,27 @@ check_content() {
     # elide link="*"
     find ${TMP} -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
 
-    mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report ${TMP}/*.md ${TMP}/*/*.md ${TMP}/*/*/*.md ${TMP}/*/*/*/*.md ${TMP}/*/*/*/*/*.md ${TMP}/*/*/*/*/*/*.md ${TMP}/*/*/*/*/*/*/*.md >${OUT}
+    # switch to the temp dir
+    pushd ${TMP} >/dev/null
+
+    mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report *.md */*.md */*/*.md */*/*/*.md */*/*/*/*.md */*/*/*/*/*.md */*/*/*/*/*/*.md
     if [ "$?" != "0" ]
     then
-        # remove the tmp dir prefix from error messages
-        sed s!${TMP}/!! ${OUT}
-        echo "To learn how to address spelling errors, please see https://github.com/istio/istio.github.io#linting"
+        echo "To learn how to address spelling errors, please see https://github.com/istio/istio.io#linting"
         FAILED=1
     fi
 
-    mdl --ignore-front-matter --style mdl_style.rb ${TMP} >${OUT}
+    mdl --ignore-front-matter --style mdl_style.rb .
     if [ "$?" != "0" ]
     then
-        # remove the tmp dir prefix from error messages
-        sed s!${TMP}/!! ${OUT}
         FAILED=1
     fi
+
+    # go back whence we came
+    popd  >/dev/null
 
     # cleanup
     rm -fr ${TMP}
-    rm -fr ${OUT}
 }
 
 check_content content --en-us
@@ -75,7 +77,7 @@ then
     FAILED=1
 fi
 
-htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.github.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/"
+htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
 if [ "$?" != "0" ]
 then
     FAILED=1

@@ -78,8 +78,8 @@ weight: 10
 | `api.version` | string | API 版本。 | `v1alpha1` |
 | `api.operation` | string | 用于辨别操作的唯一字符串。在特定的 &lt;service, version&gt; 描述的所有操作中，这个 ID 是唯一的。 | `getPetsById` |
 | `api.protocol` | string | API 调用的协议类型。主要用于监控和分析。注意这是暴露给客户端的前端协议，不是后端服务实现的协议。 | `http`, `https`, or `grpc` |
-| `request.auth.principal` | string | 请求的经过身份验证的主体。这是一个用“ / ”把 JWT 中的发行者（ `iss` ）和主题（ `sub` ）声明连接起来的字符串，其中主题的值是被 URL 编码的。此属性可能来自 Istio 身份验证策略中的对等体或源，具体取决于 Istio 身份验证策略中定义的绑定规则。 | `accounts.my-svc.com/104958560606` |
-| `request.auth.audiences` | string | 此身份验证信息的目标受众。此值应反映 JWT 中的受众（ `aud` ）声明。 | `['my-svc.com', 'scopes/read']` |
+| `request.auth.principal` | string | 请求的经过身份验证的主体。这是一个用“ / ”把 JWT 中的发行者（ `iss` ）和主题（ `sub` ）声明连接起来的字符串，其中主题的值是被 URL 编码的。此属性可能来自 Istio 身份验证策略中的对等体或源，具体取决于 Istio 身份验证策略中定义的绑定规则。 | `issuer@foo.com/sub@foo.com` |
+| `request.auth.audiences` | string | 此身份验证信息的目标受众。此值应反映 JWT 中的受众（ `aud` ）声明。 | `au1` |
 | `request.auth.presenter` | string | 授权证书的出示人。此值应反映 JWT 或 OAuth2 客户端 ID 中的可选授权演示者（`azp`）声明。 | 123456789012.my-svc.com |
 | `request.auth.claims` | map[string, string] | 原始 JWT 中所有的的字符串声明。 | `iss`: `issuer@foo.com`, `sub`: `sub@foo.com`, `aud`: `aud1` |
 | `request.api_key` | string | 用于请求的 API key 。 | abcde12345 |

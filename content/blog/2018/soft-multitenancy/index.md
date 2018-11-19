@@ -248,7 +248,6 @@ istio-mixer-5b9f8dffb5-8875r              3/3       Running   0          1d
 istio-pilot-678fc976c8-b8tv6              2/2       Running   0          1d
 istio-sidecar-injector-7587bd559d-5tgk6   1/1       Running   0          1d
 prometheus-cf8456855-hdcq7                1/1       Running   0          1d
-servicegraph-75ff8f7c95-wcjs7             1/1       Running   0          1d
 {{< /text >}}
 
 However, accessing all the cluster's pods is not permitted:

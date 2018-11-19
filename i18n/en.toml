@@ -29,7 +29,7 @@ other = "Access our team drive if you'd like to take a look at the Istio technic
 other = "If you'd like to contribute to the Istio project, consider participating in our working groups"
 
 [slack_desc]
-other = "Interactively discuss development issues with the Istio community on Slack (invitation-only)"
+other = "Interactively discuss development issues with the Istio community on Slack (Developers only, see FAQ)"
 
 [report_site_bugs]
 other = "Report Site Bugs"
@@ -85,6 +85,9 @@ other = "Privacy Policy"
 [page_publish_date_format]
 other = "January 2, 2006"
 
+[page_last_update_format]
+other = "(updated on %s)"
+
 [page_word_count]
 other = "%d words"
 
@@ -117,3 +120,45 @@ other = "Back to top"
 
 [button_sidenav]
 other = "Toggle the navigation bar"
+
+[partner_component_notice]
+other = "This component was created and is maintained by an Istio partner. Please address support questions to the partner directly."
+
+[partner_component_partner]
+other = "Partner"
+
+[partner_component_contact]
+other = "Contact"
+
+[partner_component_support_site]
+other = "Support Site"
+
+[partner_component_source_code]
+other = "Source Code"
+
+[partner_component_latest_release]
+other = "Latest Release"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "Tested by %s with these Istio Versions"
+
+[partner_component_supported_templates]
+other = "Supported Templates"
+
+[adapter]
+other = "Adapter"
+
+[supported_templates]
+other = "Supported Templates"
+
+[adapters]
+other = "Adapters"
+
+[template]
+other = "Template"
+
+[subscribe]
+other = "Subscribe"

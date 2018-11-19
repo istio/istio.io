@@ -77,7 +77,7 @@ through IP. You can still use Istio authorization to control which IP addresses 
 
 ## Examples
 
-The [authorization task](/docs/tasks/security/role-based-access-control/) shows you how to
+The [authorization task](/docs/tasks/security/authz-http/) shows you how to
 use Istio's authorization feature to control namespace level and service level access using the
 [Bookinfo application](/docs/examples/bookinfo/). In this section, you'll see more examples on how to achieve
 micro-segmentation with Istio authorization.

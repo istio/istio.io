@@ -9,10 +9,12 @@
 1.x
 10s
 123456789012.my
+14.60
+15.30
 1qps
 2x
-22.99ms
-24.13ms
+22.99
+24.13
 3s
 404s
 4s
@@ -50,6 +52,7 @@ CIDRs
 CIOs
 Cilium
 cli
+CoreDNS
 Costin
 CSRs
 Chrony
@@ -110,6 +113,7 @@ Kubernetes
 L3-4
 L4-L6
 LibreSSL
+LightStep
 Lyft
 macOS
 Manolache
@@ -165,6 +169,7 @@ Undeploy
 VMware
 VM-based
 VMs
+VPN
 ValueType
 WeaveWorks
 WebSocket
@@ -259,6 +264,7 @@ grpc
 helloworld
 hostIP
 hostname
+hostnames
 hotspots
 html
 http
@@ -363,6 +369,7 @@ qps
 quay.io
 radis
 ratelimit-handler
+rbac
 reachability
 rearchitect
 readinessProbe
@@ -417,6 +424,7 @@ uncomment
 uncommented
 unencrypted
 unmanaged
+unsampled
 untrusted
 uptime
 url
@@ -440,8 +448,11 @@ webhook
 webhooks
 whitelist
 whitelists
+wikipedia
 wikipedia.org
 wildcard
+wildcards
+wildcarded
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 x.509
@@ -491,6 +502,7 @@ quo
 rethink
 reimplement
 sidecar
+subnet
 subnets
 touchpoints
 tunneling
@@ -522,6 +534,9 @@ VirtualService
 sha256
 deployment
 webhook
+Keycloak
+OpenID
+Istioctl
 
  - search.md
 searchresults

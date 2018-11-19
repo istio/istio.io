@@ -51,7 +51,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
 | [SolarWinds Integration](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
-| [Service Graph](/docs/tasks/telemetry/servicegraph/) | Alpha
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
@@ -82,10 +81,9 @@ Below is our list of existing features and their current phases. This informatio
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
 | [Helm](/docs/setup/kubernetes/helm-install/) | Beta
-| [Multicluster Mesh](/docs/setup/kubernetes/multicluster-install/) | Beta
+| [Multicluster Mesh over VPN](/docs/setup/kubernetes/multicluster-install/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
-| [Cloud Foundry Integration](/docs/setup/consul/quick-start/)    | Alpha
 | Basic Configuration Resource Validation | Alpha
 | [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Alpha
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha

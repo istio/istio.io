@@ -75,7 +75,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 1.  Exec into the `sleep service` source pod:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     {{< /text >}}
 
 1.  Make a request to the external HTTP service:
@@ -86,8 +86,9 @@ from within your Istio cluster. This task shows you how to access an external HT
 
 ### Configuring an external HTTPS service
 
-1.  Create a `ServiceEntry` and a `VirtualService` to allow access to an external HTTPS service. Note that for TLS
-    protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
+1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
+    For TLS protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
+    Without it, exactly what service or services are exposed by the `ServiceEntry` is undefined.
     The `VirtualService` must include a `tls` rule with `sni_hosts` in the `match` clause to enable SNI routing.
 
     {{< text bash >}}
@@ -130,7 +131,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 1.  Exec into the `sleep service` source pod:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     {{< /text >}}
 
 1.  Make a request to the external HTTPS service:
@@ -149,7 +150,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     200
 
@@ -183,7 +184,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
 

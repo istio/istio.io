@@ -15,7 +15,7 @@
     body {
         margin-top: $headerHeight;
         margin-bottom: calc(#{$footerHeight} + 3rem);
-        font-family: "work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Work Sans", sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
     }
@@ -25,7 +25,7 @@ a {
     color: $linkColor;
     text-decoration: none;
     font-weight: $linkWeight;
-    font-family: "Chivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Chivo", sans-serif;
 }
 
 a:hover, a:focus {
@@ -357,7 +357,7 @@ h6 {
 
 .subtitle {
     margin-top: .15rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     padding: 0 0 0 0;
     font-size: 125%;
 }
@@ -494,16 +494,21 @@ blockquote {
     vertical-align: middle;
 }
 
+.large_icon {
+    width: 1.4em;
+    height: 1.4em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
 .page_icon {
     margin-right: .3em;
 }
 
 .flipped {
     transform: scaleX(-1);
-}
-
-.subtitle {
-    margin-bottom: 0;
 }
 
 .byline {
@@ -518,3 +523,39 @@ blockquote {
     font-weight: $blogAttributeWeight;
 }
 
+.partner-component-notice {
+    display: block;
+    margin: 1em 0 1em 2em;
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: $blockQuoteBackgroundColor;
+    border-radius: 4px 4px 4px 4px;
+
+    table td:first-of-type {
+        color: $textBrandColor;
+        background-color: $secondBrandColor;
+        font-weight: $tableHeaderWeight;
+        border-bottom: 1px solid lighten($secondBrandColor, 7%);
+    }
+
+    table td:last-of-type {
+        background-color: $backgroundColor;
+    }
+
+    table tr:last-of-type td {
+        border-bottom-color: $boxBorderColor;
+    }
+
+    table.with_logo td:first-of-type {
+        opacity: .9;
+    }
+
+    table.with_logo td:last-of-type {
+        opacity: .9;
+    }
+
+}

@@ -14,15 +14,15 @@ It would be very helpful to also include a cluster state archive in your email b
 
 ## Ensure Authorization is Enabled Correctly
 
-The `rbacConfig` default cluster level singleton custom resource controls the authorization functionality globally.
+The `ClusterRbacConfig` default cluster level singleton custom resource controls the authorization functionality globally.
 
-1. Run the following command to list existing `RbacConfig`:
+1. Run the following command to list existing `ClusterRbacConfig`:
 
     {{< text bash >}}
-    $ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
+    $ kubectl get clusterrbacconfigs.rbac.istio.io --all-namespaces
     {{< /text >}}
 
-1. Verify there is only **one** instance of `RbacConfig` with name `default`. Otherwise, Istio disables the
+1. Verify there is only **one** instance of `ClusterRbacConfig` with name `default`. Otherwise, Istio disables the
 authorization functionality and ignores all policies.
 
     {{< text plain >}}
@@ -30,7 +30,7 @@ authorization functionality and ignores all policies.
     default     default   1d
     {{< /text >}}
 
-1. If there is more than one `RbacConfig` instance, remove any additional `RbacConfig` instances and
+1. If there is more than one `ClusterRbacConfig` instance, remove any additional `ClusterRbacConfig` instances and
 ensure **only one** instance is named `default`.
 
 ## Ensure Pilot Accepts the Policies
@@ -178,7 +178,7 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 1. Turn on the authorization debug logging in proxy with the following command:
 
     {{< text bash >}}
-    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl localhost:15000/logging?rbac=debug -s
+    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl -X POST localhost:15000/logging?rbac=debug -s
     {{< /text >}}
 
 1. Verify you see the following output:
