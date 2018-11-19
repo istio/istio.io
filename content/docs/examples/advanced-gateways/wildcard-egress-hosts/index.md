@@ -111,7 +111,7 @@ $ kubectl delete virtualservice wikipedia
 
 The configuration for accessing a wildcard host via an egress gateway depends on whether or not
 the set of wildcard domains are served by a single common host.
-This is the case for _*.wikipedia.org_; all of the language-specific sites are served by every
+This is the case for _*.wikipedia.org_. All of the language-specific sites are served by every
 one of the _wikipedia.org_ servers. You can route the traffic to an IP of any _*.wikipedia.org_ site,
 including _www.wikipedia.org_, and it will [manage to serve](https://en.wikipedia.org/wiki/Virtual_hosting)
 any specific site.
@@ -251,18 +251,16 @@ be served by any one of the _wikipedia.org_ servers. However, this is not always
 For example, you may want to configure egress control for access to more general
 wildcard domains like `*.com` or `*.org`.
 
-Configuring traffic to arbitrary wildcarded domains introduces a challenge for Istio gateways. In the previous section
+Configuring HTTPS traffic to arbitrary wildcard domains introduces a challenge for Istio gateways. In the previous section
 you directed the traffic to _www.wikipedia.org_, which was made known to your gateway during configuration.
-The gateway, however, would not know the IP address of an arbitrary host it receives in a request.
-You cannot, for example, configure `*.com` to send requests to _www.cnn.com_ and _www.abc.com_ because
-the Istio gateway would still not know which of their IP addresses to forward a particular request to.
+The gateway, however, would not know the IP address of any arbitrary host it receives in a request.
 This is due to a limitation of [Envoy](https://www.envoyproxy.io), the proxy used by the default Istio egress gateway.
 Envoy routes traffic either to predefined hosts, predefined IP addresses, or to the original destination IP address of
-the request. In the gateway case, the original destination IP of the request is lost since the request was routed
+the request. In the gateway case, the original destination IP of the request is lost since the request is first routed
 to the egress gateway and its destination IP address is the IP address of the gateway.
 
-> Note that this is only a problem for encrypted (HTTPS/TLS) requests, and not simple HTTP where the `X-Forwarded-Host`
-> header is used to record the original destination.
+> Note that this is only a problem for encrypted (HTTPS/TLS) requests and not simple HTTP where the `X-Forwarded-Host`
+> header is used to keep track of the original destination.
 
 Consequently, the Istio gateway based on Envoy cannot route HTTPS traffic to an arbitrary host that is not preconfigured,
 and therefore is unable to perform traffic control for arbitrary wildcard domains.
@@ -277,21 +275,21 @@ The egress gateway with SNI proxy and the related parts of the Istio architectur
     caption="Egress Gateway with SNI proxy"
     >}}
 
-In the following sections you will redeploy the egress gateway with an SNI proxy, and then configure Istio to route
-HTTPS traffic, through the gateway, to arbitrary wildcard domains.
+The following sections show you how to redeploy the egress gateway with an SNI proxy and then configure Istio to route
+HTTPS traffic through the gateway to arbitrary wildcard domains.
 
 #### Setup egress gateway with SNI proxy
 
 In this section you deploy an egress gateway with an SNI proxy in addition to the standard Istio Envoy proxy.
 This example uses [Nginx](http://nginx.org) for the SNI proxy, although any SNI proxy that is capable of routing traffic
 according to arbitrary, not-preconfigured, SNI values would do.
-The SNI proxy will listen on the port `8443`, although you an use any port other than the ports specified for
+The SNI proxy will listen on port `8443`, although you an use any port other than the ports specified for
 the egress `Gateway` and for the `VirtualServices` bound to it.
 The SNI proxy will forward the traffic to port `443`.
 
 1.  Create a configuration file for the Nginx SNI proxy. You may want to edit the file to specify additional Nginx
-    settings, if required. Note that the `server`'s `listen` directive specifies the port `8443`, its `proxy_pass`
-    directive uses `ssl_preread_server_name` with port `443` and the `ssl_preread` directive enables `SNI` reading.
+    settings, if required. Note that the `listen` directive of the `server` specifies port `8443`, its `proxy_pass`
+    directive uses `ssl_preread_server_name` with port `443` and `ssl_preread` is `on` to enable `SNI` reading.
 
     {{< text bash >}}
     $ cat <<EOF > ./sni-proxy.conf
@@ -325,7 +323,7 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
-1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to optionally edit and then deploy.
+1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` which you can optionally edit and then deploy.
 
     {{< text bash >}}
     $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
@@ -391,7 +389,7 @@ The SNI proxy will forward the traffic to port `443`.
     istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
     {{< /text >}}
 
-1.  Create a service entry with a static address equal to 127.0.0.1 (`localhost`), and disable mutual TLS on the traffic directed to the new
+1.  Create a service entry with a static address equal to 127.0.0.1 (`localhost`), and disable mutual TLS for traffic directed to the new
     service entry:
 
     {{< text bash >}}
@@ -444,17 +442,8 @@ The SNI proxy will forward the traffic to port `443`.
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly. Send HTTPS requests to
-    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
-    <title>Wikipedia, the free encyclopedia</title>
-    <title>Wikipedia – Die freie Enzyklopädie</title>
-    {{< /text >}}
-
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, and a virtual service to direct the
-    traffic destined for _*.wikipedia.org_ to the gateway.
+    traffic destined for _*.wikipedia.org_ through the gateway.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -629,7 +618,7 @@ Now, once you directed the egress traffic through an egress gateway, you can app
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'; done
     {{< /text >}}
 
-1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for the Wikipedia in
+1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for Wikipedia in
     English:
 
     {{< text bash >}}
