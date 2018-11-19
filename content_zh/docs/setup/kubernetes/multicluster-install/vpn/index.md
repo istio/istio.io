@@ -20,13 +20,13 @@ aliases:
 
 * 两个以上运行 **Kubernetes 1.9 或更高版本**的集群。
 
-*  能够在其中**一个**集群上部署[Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/)的能力。
+*  能够在其中**一个**集群上部署 [Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/)的能力。
 
 * RFC1918 网络、VPN或是满足以下可选条件的更高级的网络技术：
 
     * 单集群 Pod 和服务的 CIDR 范围在多集群环境中必须唯一，最好不要重叠。
 
-    * 每个集群中的所有 pod CIDR 必须的相互可达的。
+    * 每个集群中的所有 Pod CIDR 必须的相互可达的。
 
     * 所有 Kubernetes 控制平面 API 服务必须是相互可达的。
 
@@ -170,9 +170,9 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
 | `global.remoteTelemetryAddress` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面的 telemetry Pod IP 地址或远程集群 DNS 可解析的主机名。 |
 | `global.proxy.envoyStatsd.enabled` | true, false | false | 指定 Istio 控制平面是否启用了Statsd |
 | `global.proxy.envoyStatsd.host` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面的  `statsd-prom-bridge` Pod IP 地址或远程集群 DNS 可解析的主机名。  如果设置了`global.proxy.envoyStatsd.enabled=false`将会被忽略。 |
-| `global.remoteZipkinAddress` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面追踪应用的 Pod IP 地址或远程集群 DNS 可解析的主机名。例如：`zipkin` 或`jaeger`。 |
+| `global.remoteZipkinAddress` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面追踪应用的 Pod IP 地址或远程集群 DNS 可解析的主机名。例如：`zipkin` 或 `jaeger`。 |
 | `sidecarInjectorWebhook.enabled` | true, false | true | 指定是否在远程集群中启用了自动 sidecar 注入 |
-| `global.remotePilotCreateSvcEndpoint` | true, false | false | 如果设置该项，一个无选择器服务和端点将以`remotePilotAddress` IP的形式被创建给`istio-pilot.<namespace>`是远程集群 DNS 可解析的。 |
+| `global.remotePilotCreateSvcEndpoint` | true, false | false | 如果设置该项，一个无选择器服务和端点将以`remotePilotAddress` IP的形式被创建给 `istio-pilot.<namespace>`是远程集群 DNS 可解析的。 |
 
 ## 为远程集群生成配置文件 {#kubeconfig}
 
@@ -180,11 +180,12 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
 
 以下步骤描述了如何生成一个 `kubeconfig` 配置文件给 Istio 控制面板以使用远程集群。
 
-`istio-remote` Helm chart 在远程集群中创建了一个叫`istio-multi` 的 Kubernetes service account 用于最小化 RBAC 访问请求。此过程通过使用先前所述的 `istio-multi` service account 凭证生成了一个远程集群的`kubeconfig` 配置文件。
+`istio-remote` Helm chart 在远程集群中创建了一个叫 `istio-multi` 的 Kubernetes service account 用于最小化 RBAC 访问请求。
+此过程通过使用先前所述的 `istio-multi` service account 凭证生成了一个远程集群的 `kubeconfig` 配置文件。
 
 每个远程集群上执行此过程以将集群添加到服务网格。此过程需要 `cluster-admin` 用户访问远程集群的权限。
 
-1. 通过以下命令为`istio-multi` service account 设置所需环境变量构建 `kubeconfig` 文件：
+1. 通过以下命令为 `istio-multi` service account 设置所需环境变量构建 `kubeconfig` 文件：
 
     {{< text bash >}}
     $ export WORK_DIR=$(pwd)
@@ -243,14 +244,14 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
 ## 实例化凭据 {#credentials}
 
 在运行了 Istio 控制平面的机器上执行以下过程。
-该过程使用的 `WORK_DIR`、`CLUSTER_NAME` 和 `NAMESPACE` 设置的环境变量值与为远程集群创建的文件在 [上一节](#kubeconfig)。
+该过程使用的 `WORK_DIR`、`CLUSTER_NAME` 和 `NAMESPACE` 环境变量都存在于[上一节](#kubeconfig)为远程集群创建的配置文件中。
 如果你为远程集群的 secret 创建了环境变量文件，请通过以下命令获取该文件：
 
     {{< text bash >}}
     $ source remote_cluster_env_vars
     {{< /text >}}
 
-你可以在不同的命名空间中安装Istio。该过程需要使用 `istio-system` 命名空间。
+你可以在不同的命名空间中安装 Istio。该过程需要使用 `istio-system` 命名空间。
 
 {{< warning_icon >}} 不要存储和标记运行了 Istio 控制平面的本地集群的 secret。Istio 始终了解本地集群的 Kubernetes 凭据。
 
@@ -261,7 +262,7 @@ $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n $
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
 
-{{< warning_icon >}}  Kubernetes secret 数据秘钥必须符合`DNS-1123 subdomain` [格式](https://tools.ietf.org/html/rfc1123#page-13)。例如，文件名不能有下划线。只需更改文件名以符合格式，即可解决文件名的任何问题。
+{{< warning_icon >}}  Kubernetes secret 数据秘钥必须符合 `DNS-1123 subdomain` [格式](https://tools.ietf.org/html/rfc1123#page-13)。例如，文件名不能有下划线。只需更改文件名以符合格式，即可解决文件名的任何问题。
 
 ## 卸载远程集群
 
@@ -275,7 +276,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ### 通过 `kubectl`
 
-要卸载集群，你必须移除 `istio-remote` .YAML 文件进行的配置。
+要卸载集群，你必须移除 `istio-remote.yaml`文件进行的配置。
 通过以下命令卸载：
 
 {{< text bash >}}
@@ -288,7 +289,7 @@ $ kubectl delete -f $HOME/istio-remote.yaml
 
 ### 通过 Tiller
 
-要卸载集群，你必须移除 `istio-remote` .YAML 文件进行的配置。
+要卸载集群，你必须移除 `istio-remote.yaml` 文件进行的配置。
 通过以下命令卸载：
 
 {{< text bash >}}
@@ -363,7 +364,7 @@ Kubernetes 在集群的基础上解析 DNS。由于 DNS解析与集群相关联�
 
 ### 更新 DNS 条目
 
-在发生任何故障或 pod 重启时，在远程集群重启 `kube-dns` 可以为 Istio 服务正确更新端点的映射图表。
+在发生任何故障或 pod 重启时，在远程集群重启 `kube-dns` 可以为 Istio 服务正确更新端点的映射关系。
 有很多方法可以做到这点。常规做法是在远程节点重新运行 Helm 安装，之后 Istio 服务便会在控制平面上重启。
 
 ### 切换负载均衡类型
@@ -381,12 +382,12 @@ pod 重启的一个简单的解决方案是给 Istio 服务使用负载均衡器
 * `istio-statsd-prom-bridge`
 * `zipkin`
 
-目前，Istio安装不提供为Istio服务指定服务类型的选项。 您可以在 Istio Helm chart 或 Istio 清单中手动指定服务类型。
+目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 您可以在 Istio Helm chart 或 Istio 清单中手动指定服务类型。
 
 ### 通过网关暴露 Istio 服务
 
 此方法使用了 Istio ingress 网关的功能。远程集群有 `istio-pilot`、`istio-telemetry`、 `istio-policy`、
-`istio-statsd-prom-bridge` 和 `zipkin` 服务，他们指向了 Istio ingress 网关的负载均衡 IP 地址。然后，所有的服务均指向相同的IP 地址。你必须创建目标规则以在主集群的 ingress 网关中或的正确的 Istio 服务。
+`istio-statsd-prom-bridge` 和 `zipkin` 服务，它们指向了 Istio ingress 网关的负载均衡 IP 地址。然后，所有的服务均指向相同的IP 地址。你必须创建目标规则以在主集群的 ingress 网关中获得正确的 Istio 服务。
 
 以下两种方案可供选择：
 
@@ -408,7 +409,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * 该 `citadel` 证书自签署禁用。
 
-    * `cacerts` 的 secret 通过[证书颁发机构 (CA) 证书](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[证书颁发机构 (CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
 
 1. 部署 Istio 远程集群：
 
@@ -416,7 +417,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * 该 `citadel` 证书自签署禁用。
 
-    * `cacerts` 的 secret 通过[(CA) 证书](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
 
      主集群的证书颁发机构（CA）或根 CA 也必须为远程群集签署 CA 证书。
 
@@ -434,7 +435,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * Citadel 证书自签名禁用。
 
-    * `cacerts` 的 secret 通过[(CA) 证书](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
 
 1.  部署Istio远程集群：
 
@@ -442,7 +443,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * Citadel 证书自签名禁用。
 
-    * `cacerts` 的 secret 通过[(CA) 证书](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
       主集群的 CA 或根 CA 也必须为远程集群签署CA证书。
 
 > 对于控制平面安全性和应用 pod 安全性步骤，CA 证书步骤是相同的。
