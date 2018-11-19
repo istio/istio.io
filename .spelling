@@ -536,6 +536,7 @@ deployment
 webhook
 Keycloak
 OpenID
+Istioctl
 
  - search.md
 searchresults
@@ -544,5 +545,3 @@ MB
 CPU
 CPUs
 add-ons
-
-
