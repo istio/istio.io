@@ -105,7 +105,7 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
 1. 通过以下命令给远程 Istio 创建一个 `istio-system` 命名空间：
 
    {{< text bash >}}
-   $ kubectl create ns istio-system
+$ kubectl create ns istio-system
    {{< /text >}}
 
    {{< info_icon >}} 所有集群必须有相同的 Istio 组件命名空间。
@@ -114,13 +114,13 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
 1. 通过以下命令实例化远程集群与 Istio 控制平面的连接：
 
    {{< text bash >}}
-   $ kubectl apply -f $HOME/istio-remote.yaml
+$ kubectl apply -f $HOME/istio-remote.yaml
    {{< /text >}}
 
 1. 使用以下示例命令标记 `default` 命名空间。使用相似命令标记所有需要自动 sidecar 注入的远程集群命名空间。
 
    {{< text bash >}}
-   $ kubectl label namespace default istio-injection=enabled
+$ kubectl label namespace default istio-injection=enabled
    {{< /text >}}
 
    对需要设置 sidecar 注入的所有 Kubernetes 命名空间需要重复此操作。
