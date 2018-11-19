@@ -409,7 +409,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * 该 `citadel` 证书自签署禁用。
 
-    * `cacerts` 的 secret 通过[证书颁发机构 (CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[证书颁发机构 (CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)下发在Istio 控制平面命名空间中。
 
 1. 部署 Istio 远程集群：
 
@@ -417,7 +417,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * 该 `citadel` 证书自签署禁用。
 
-    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)下发在Istio 控制平面命名空间中。
 
      主集群的证书颁发机构（CA）或根 CA 也必须为远程群集签署 CA 证书。
 
@@ -435,7 +435,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * Citadel 证书自签名禁用。
 
-    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)下发在Istio 控制平面命名空间中。
 
 1.  部署Istio远程集群：
 
@@ -443,7 +443,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * Citadel 证书自签名禁用。
 
-    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)下发在Istio 控制平面命名空间中。
+    * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)下发在Istio 控制平面命名空间中。
       主集群的 CA 或根 CA 也必须为远程集群签署CA证书。
 
 > 对于控制平面安全性和应用 pod 安全性步骤，CA 证书步骤是相同的。
