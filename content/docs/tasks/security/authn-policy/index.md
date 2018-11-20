@@ -703,7 +703,7 @@ setup the end-user authentication for the Istio ingress gateway.
     EOF
     {{< /text >}}
 
-1. Run the following curl command. Note the return value of 401. Istio returns
+1. Run the following curl command. Note the response code 401. Istio returns
    this error code value because the server expects a JWT but the ingress gateway
    did not provide one.
 
