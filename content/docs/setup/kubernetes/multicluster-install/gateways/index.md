@@ -116,8 +116,67 @@ be captured by the sidecar and routed to the appropriate remote service
 
 > Each service (in the .global DNS domain) must have a unique IP within the cluster.
 
-For example, the diagram above depicts two services `foo.ns1` in `cluster1`
-and `bar.ns2` in `cluster2`. In order to access `bar.ns2` from `cluster1`,
+1. Deploy `httpbin` service in cluster1.
+
+    {{< text bash >}}
+    $ kubectl create namespace foo
+    $ kubectl apply -f <(bin/istioctl kube-inject -f samples/httpbin/httpbin.yaml)
+    # Save cluster1 ingress gateway IP.
+    $ export GATEWAY_IP_CLUSTER1=$(kubectl get svc --selector=app=istio-ingressgateway \
+          -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
+    {{< /text >}}
+
+1. Deploy `sleep.bar` service in cluster2.
+     {{< text bash >}}
+     $ kubectl create namespace bar
+     $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml)
+     {{< /text >}}
+
+1. Create `ServiceEntry` for httpbin service in cluster2.
+
+    {{< text bash >}}
+    # Switch kubectl to cluster 2 first.
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: httpbin-foo
+    spec:
+      hosts:
+      # must be of form name.namespace.global
+      - httpbin.foo.global
+      # Treat remote cluster services as part of the service mesh
+      # as all clusters in the service mesh share the same root of trust.
+      location: MESH_INTERNAL
+      ports:
+      - name: http1
+        number: 8000
+        protocol: http
+      resolution: DNS
+      addresses:
+      # the IP address to which httpbin.foo.global will resolve to
+      # must be unique for each remote service, within a given cluster.
+      # This address need not be routable. Traffic for this IP will be captured
+      # by the sidecar and routed appropriately.
+      - 127.255.0.2
+      endpoints:
+      # This is the routable address of the ingress gateway in cluster2 that
+      # sits in front of sleep.bar service. Traffic from the sidecar will be
+      # routed to this address.
+      - address: ${GATEWAY_IP_CLUSTER1}
+        ports:
+          http1: 15443 # Do not change this port value
+    EOF
+    {{< /text >}}
+
+1. Access `httpbin.foo.global` from `sleep.bar` in cluster1.
+    
+    {{< text bash >}}
+    # TODO
+    {{< /text >}}
+
+For example, the diagram above depicts two services `httpbin.foo` in `cluster1`
+and `sleep.bar` in `cluster2`. In order to access `httpbin.foo` from `cluster1`,
 add the following service entry to `cluster1`:
 
 {{< text yaml >}}
