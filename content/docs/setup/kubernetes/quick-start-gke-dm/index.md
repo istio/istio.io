@@ -208,12 +208,14 @@ http://localhost:9090/graph
 
 For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on).
 
-### Kiali and ServiceGraph
+### Install mesh visualization tools
+
+#### Kiali
 
 Set up a tunnel to Kiali:
 
 {{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001 &
 {{< /text >}}
 
 You should see the Bookinfo service topology at
@@ -231,7 +233,7 @@ The default username/password for the console is `admin`/`mysecret`.
 
 For more details, see [About the Kiali Add-on](/docs/tasks/telemetry/kiali/).
 
-OR
+#### ServiceGraph
 
 Set up a tunnel to ServiceGraph:
 
