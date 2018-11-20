@@ -660,6 +660,73 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/ip -s -o /dev/null 
 200
 {{< /text >}}
 
+Remove authentication policy before proceeding to the next section.
+
+    {{< text bash >}}
+    $ kubectl -n foo delete policy jwt-example
+    {{< /text >}}
+
+### End-user authentication on ingress gateway
+
+To support end-user authentication, the Istio ingress gateway sets up a JWT
+authentication policy in the `istio-ingressgateway` configuration file. The ingress gateway
+rejects the unauthenticated requests and they can't access the services
+inside the mesh. This section shows how to use the authentication policy to
+setup the end-user authentication for the Istio ingress gateway.
+
+1. To verify the setup, run the following curl command and confirm a return
+   value of 200:
+
+    {{< text bash >}}
+    $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+1. Add the policy requiring the end-user JWT authentication for the
+   `istio-ingressgateway` service.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "Policy"
+    metadata:
+      name: "ingressgateway"
+      namespace: istio-system
+    spec:
+      targets:
+      - name: istio-ingressgateway
+      origins:
+      - jwt:
+          issuer: "testing@secure.istio.io"
+          jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      principalBinding: USE_ORIGIN
+    EOF
+    {{< /text >}}
+
+1. Run the following curl command. Note the return value of 401. Istio returns
+   this error code value because the server expects a JWT but the ingress gateway
+   did not provide one.
+
+    {{< text bash >}}
+    $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+    401
+    {{< /text >}}
+
+1. Fetch the demo JWT token, and then run a curl command with the JWT. Confirm the response code
+   is 200. This is because the request had the valid JWT attached.
+
+    {{< text bash >}}
+    $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
+    $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+Remove authentication policy before proceeding to the next section.
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete policy ingressgateway
+    {{< /text >}}
+
 ### End-user authentication with mutual TLS
 
 End-user authentication and mutual TLS can be used together. Modify the policy above to define both mutual TLS and end-user JWT authentication:
