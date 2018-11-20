@@ -1,5 +1,5 @@
 ---
-title: Istio CNI Install Options
+title: Istio CNI Installation
 description: Instructions for installing and using Istio with the Istio CNI plugin to allow Istio users to deploy services via lower privileged RBAC.  The Istio CNI plugin removes the requirement for the privileged, `NET_ADMIN` initialization container in the users' pods in the mesh.
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
@@ -8,7 +8,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 By default Istio injects an `initContainer`, `istio-init`, in pods deployed in the mesh.  The `istio-init`
 container sets up the pod network traffic redirection to/from the Istio sidecar proxy.  This requires the user
 or service-account deploying pods to the mesh to have high enough Kubernetes RBAC permissions to deploy
-`NET_ADMIN` containers.  Mandating Istio users have such high Kubernetes RBAC permissions is problematic for
+[`NET_ADMIN` containers](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).  Requiring Istio users to have such high Kubernetes RBAC permissions is problematic for
 some organizations' security compliance.  The Istio CNI plugin is a replacement for the `istio-init`
 container that performs the same networking functionality but without requiring Istio users to have high
 Kubernetes RBAC permissions.
@@ -80,8 +80,8 @@ compatibility with this `istio-cni` solution is not ubiquitous.  The `istio-cni`
 to work with any hosted Kubernetes leveraging CNI plugins.  The below table indicates the known CNI status
 of many common Kubernetes environments.
 
-| Hosted Cluster Type | Uses CNI | Non-default settings |
-|---------------------|----------|----------------------|
+| Hosted Cluster Type | Uses CNI | Required Non-default settings |
+|---------------------|----------|-------------------------------|
 | GKE 1.9+ default | N | |
 | GKE 1.9+ w/ [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) | Y | `istio-cni.cniBinDir=/home/kubernetes/bin` |
 | IKS (IBM cloud) | Y | |
@@ -97,6 +97,32 @@ of many common Kubernetes environments.
 
 1.  Install Istio via Helm including these options
     `--set istio_cni.enabled=true --set istio-cni.cniBinDir=/home/kubernetes/bin`
+
+## Sidecar Injection Compatibility
+
+The use of the Istio CNI plugin requires Kubernetes pods to be deployed with a sidecar injection method
+that uses the `istio-sidecar-injector` configmap created from the Helm installation with the
+`istio_cni.enabled=true`.  Refer to [Istio sidecar injection](/docs/setup/kubernetes/sidecar-injection/)
+for details about Istio sidecar injection methods.
+
+The following sidecar injection methods are supported for use with the Istio CNI plugin:
+
+1.  [Automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+1.  Manual sidecar injection with the `istio-sidecar-injector` configmap
+    1.  `istioctl kube-inject` using the configmap directly:
+
+        {{< text bash >}}
+        $ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-sidecar-injector
+        $ kubectl apply -f deployment-injected.yaml
+        {{< /text >}}
+
+    1.  `istioctl kube-inject` using a file created from the configmap:
+
+        {{< text bash >}}
+        $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
+        $ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigFile inject-config.yaml
+        $ kubectl apply -f deployment-injected.yaml
+        {{< /text >}}
 
 ## Operational Details
 
