@@ -1,6 +1,6 @@
 ---
 title: Distributed Tracing
-description: This task shows you how Istio-enabled applications can be configured to collect trace spans.
+description: This task shows you how to configure Istio-enabled applications to collect trace spans.
 weight: 10
 keywords: [telemetry,tracing]
 ---

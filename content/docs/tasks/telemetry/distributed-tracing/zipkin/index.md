@@ -1,18 +1,20 @@
 ---
 title: Zipkin
-description: How to configure the proxies to send tracing requests to Zipkin.
+description: Learn how to configure the proxies to send tracing requests to Zipkin.
 weight: 10
 keywords: [telemetry,tracing,zipkin,span,port forwarding]
 aliases:
     - /docs/tasks/zipkin-tracing.html
 ---
 
+To learn how Istio handles tracing, visit this task's [overview](../overview/).
+
 ## Before you begin
 
-1.  Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/).
 
-    Use the Helm chart with tracing enabled by setting the `--set tracing.enabled=true` option and
-    selecting the `zipkin` tracing provider using `--set tracing.provider=zipkin`.
+    Use the Helm chart with tracing enabled to set the `--set tracing.enabled=true` option and
+    select the `zipkin` tracing provider with `--set tracing.provider=zipkin`.
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
@@ -33,15 +35,15 @@ aliases:
 1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage` one or more times
     to generate trace information.
 
-1.  From the top panel, select a service of interest (or 'all') from the Service Name drop-down list and click
-    Find Traces:
+1.  From the top panel, select a service of interest (or 'all') from the **Service Name** drop-down list and click
+    **Find Traces**:
 
     {{< image width="100%" ratio="52.68%"
     link="./istio-tracing-list-zipkin.png"
     caption="Tracing Dashboard"
     >}}
 
-1.  Click on the top (most recent) trace to see the details corresponding to the
+1.  Click on the most recent trace at the top to see the details corresponding to the
     latest request to the `/productpage`:
 
     {{< image width="100%" ratio="36.32%"
@@ -51,7 +53,7 @@ aliases:
 
 1.  The trace is comprised of a set of spans,
     where each span corresponds to a Bookinfo service, invoked during the execution of a `/productpage` request, or
-    internal Istio component (e.g. `istio-ingressgateway`, `istio-mixer`, `istio-policy`).
+    internal Istio component, for example: `istio-ingressgateway`, `istio-mixer`, `istio-policy`.
 
 ## Cleanup
 

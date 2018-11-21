@@ -1,4 +1,14 @@
-After completing this task, you should understand all of the assumptions about your application and how to have it participate in tracing, regardless of what language/framework/platform you use to build your application. The [Bookinfo](/docs/examples/bookinfo/) sample is used as the example application for this task.
+---
+title: Overview
+description: Overview of distributed tracing in Istio.
+weight: 1
+keywords: [telemetry,tracing]
+---
+
+After completing this task, you understand how to have your application participate in tracing,
+regardless of the language, framework, or platform you use to build your application.
+
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
 
 ## Understanding what happened
 
