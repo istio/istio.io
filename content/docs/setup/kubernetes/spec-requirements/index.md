@@ -30,7 +30,7 @@ cluster must satisfy the following requirements:
   tracing. The `app` and `version` labels are also used to add contextual information
   in the metric telemetry collected by Istio.
 
-* _**`NET_ADMIN` capability**:_ The pods must have the `NET_ADMIN` capability allowed. It is required for the init
+* _**`NET_ADMIN` capability**:_ The pods must have the `NET_ADMIN` capability allowed. The initialization containers of the Envoy proxies require this capability.
   containers of the Istio sidecar proxies. To check which capabilities are allowed for your pods, check if their
   [Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) can use a
   [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) that allows the `NET_ADMIN`
