@@ -31,11 +31,12 @@ cluster must satisfy the following requirements:
   in the metric telemetry collected by Istio.
 
 * _**`NET_ADMIN` capability**:_ The pods must have the `NET_ADMIN` capability allowed. The initialization containers of
-the Envoy proxies require this capability.To check which capabilities are allowed for your pods, check if their
+  the Envoy proxies require this capability.To check which capabilities are allowed for your pods, check if their
   [Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) can use a
   [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) that allows the `NET_ADMIN`
-  capability. (Note that if the Service Account is not specified in the Deployment of your pods, they run as the
-    If you don't specify a service account in your pods' deployment, the pods run as the `default` service account in their deployment's namespace.
+  capability.
+  If you don't specify a service account in your pods' deployment, the pods run as the `default` service account in
+  their deployment's namespace.
   To check which capabilities are allowed for the Service Account of your pods, run the following command:
 
     {{< text bash >}}
