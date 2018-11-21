@@ -32,19 +32,19 @@ cluster must satisfy the following requirements:
 
 * _**`NET_ADMIN` capability**:_ The pods must have the `NET_ADMIN` capability allowed. The initialization containers of
   the Envoy proxies require this capability. To check which capabilities are allowed for your pods, check if their
-  [Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) can use a
-  [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) that allows the `NET_ADMIN`
+  [service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) can use a
+  [pod security policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) that allows the `NET_ADMIN`
   capability.
   If you don't specify a service account in your pods' deployment, the pods run as the `default` service account in
   their deployment's namespace.
-  To check which capabilities are allowed for the Service Account of your pods, run the following command:
+  To check which capabilities are allowed for the service account of your pods, run the following command:
 
     {{< text bash >}}
     $ for psp in $(kubectl get psp); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp $psp -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
     {{< /text >}}
 
-    For example, to check which capabilities are allowed for the `default` Service Account in the `default` namespace, run the
-    following command:
+    For example, to check which capabilities are allowed for the `default` service account in the `default` namespace,
+    run the following command:
 
     {{< text bash >}}
     $ for psp in $(kubectl get psp); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp $psp -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
