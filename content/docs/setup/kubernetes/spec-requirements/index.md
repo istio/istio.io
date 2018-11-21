@@ -35,7 +35,7 @@ cluster must satisfy the following requirements:
   [Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) can use a
   [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) that allows the `NET_ADMIN`
   capability. (Note that if the Service Account is not specified in the Deployment of your pods, they run as the
-    `default` Service Account in the namespace they are deployed.)
+    If you don't specify a service account in your pods' deployment, the pods run as the `default` service account in their deployment's namespace.
   To check which capabilities are allowed for the Service Account of your pods, run the following command:
 
     {{< text bash >}}
