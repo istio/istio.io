@@ -11,7 +11,7 @@ keywords: [traffic-management, gateway]
 
 Traffic management is one of the critical benefits provided by Istio. At the heart of Istio’s traffic management is the ability to decouple traffic flow and infrastructure scaling. This lets you control your traffic in ways that aren’t possible without a service mesh like Istio.
 
-For example, let’s say you want to execute a [canary deployment](https://martinfowler.com/bliki/CanaryRelease.html). With Istio, you can specify that **v1** of a service receives 90% of incoming traffic, while **v2** of that service only receives 10%. With standard Kubernetes deployments, the only way to achieve this is to manually control the number of available Pods for each version, for example 9 Pods running v1 and 1 Pod running v2. This type of manual control is hard to implement, and over time may have trouble scaling. 
+For example, let’s say you want to execute a [canary deployment](https://martinfowler.com/bliki/CanaryRelease.html). With Istio, you can specify that **v1** of a service receives 90% of incoming traffic, while **v2** of that service only receives 10%. With standard Kubernetes deployments, the only way to achieve this is to manually control the number of available Pods for each version, for example 9 Pods running v1 and 1 Pod running v2. This type of manual control is hard to implement, and over time may have trouble scaling. For more information, check out [Canary Deployments using Istio](https://istio.io/blog/2017/0.1-canary/).
 
 The same issue exists when deploying updates to existing services. While you can update deployments with Kubernetes, it requires replacing v1 Pods with v2 Pods. Using Istio, you can deploy v2 of your service and use built-in traffic management mechanisms to shift traffic to your updated services at a network level, then remove the v1 Pods. 
 
@@ -146,7 +146,7 @@ spec:
 EOF
 {{< /text >}}
 
-Finally, **deploy a Pod that you can use for testing** with `curl`:
+Finally, **deploy a Pod that you can use for testing** with `curl` (and without the Istio sidecar container):
 
 {{< text bash >}}
 $ kubectl apply -f samples/sleep/sleep.yaml
