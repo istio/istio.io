@@ -526,6 +526,7 @@ injector
 configmap
 x509
 VirtualService
+DestinationRule
 sha256
 deployment
 webhook
