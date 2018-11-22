@@ -46,7 +46,7 @@ root-cert.pem
 paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
 In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 
-Use the `oppenssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
+Use the `openssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep Validity -A 2
