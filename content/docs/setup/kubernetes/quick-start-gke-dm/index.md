@@ -46,10 +46,12 @@ caption="GKE-IAM Role"
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
     We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
-    GKE alpha cluster with the specified settings, then installs the Istio [control plane](/docs/concepts/what-is-istio/#architecture), the
+    GKE cluster with the specified settings, then installs the Istio [control plane](/docs/concepts/what-is-istio/#architecture), the
     [Bookinfo](/docs/examples/bookinfo/) sample app,
     [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) with
     [Prometheus](/docs/tasks/telemetry/querying-metrics/),
+    [Kiali](/docs/tasks/telemetry/kiali/),
+    [ServiceGraph](/docs/tasks/telemetry/servicegraph/),
     and [Tracing](/docs/tasks/telemetry/distributed-tracing/).
     You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the `default` namespace only.
 
@@ -166,17 +168,17 @@ If you are using Cloud Shell rather than the installed `gcloud` client, you can 
 
 ### Grafana
 
-Set up a tunnel to Grafana:
+1.  Set up a tunnel to Grafana:
 
-{{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+    {{< /text >}}
 
-then
+1.  View the console at:
 
-{{< text plain >}}
-http://localhost:3000/dashboard/db/istio-mesh-dashboard
-{{< /text >}}
+    {{< text plain >}}
+    http://localhost:3000/dashboard/db/istio-dashboard
+    {{< /text >}}
 
 You should see some statistics for the requests you sent earlier.
 
@@ -191,15 +193,17 @@ For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks
 
 Prometheus is installed with Grafana. You can view Istio and application metrics using the console as follows:
 
-{{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
-{{< /text >}}
+1.  Set up a tunnel to Prometheus:
 
-View the console at:
+    {{< text bash >}}
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    {{< /text >}}
 
-{{< text plain >}}
-http://localhost:9090/graph
-{{< /text >}}
+1.  View the console at:
+
+    {{< text plain >}}
+    http://localhost:9090/graph
+    {{< /text >}}
 
 {{< image width="100%" ratio="43.88%"
     link="./dm_prometheus.png"
@@ -212,17 +216,17 @@ For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/queryi
 
 #### Kiali
 
-Set up a tunnel to Kiali:
+1.  Set up a tunnel to Kiali:
 
-{{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001 &
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001 &
+    {{< /text >}}
 
-You should see the Bookinfo service topology at
+1.  You should see the Bookinfo service topology at
 
-{{< text plain >}}
-http://localhost:20001/kaili
-{{< /text >}}
+    {{< text plain >}}
+    http://localhost:20001/kaili
+    {{< /text >}}
 
 The default username/password for the console is `admin`/`mysecret`.
 
@@ -235,17 +239,17 @@ For more details, see [About the Kiali Add-on](/docs/tasks/telemetry/kiali/).
 
 #### ServiceGraph
 
-Set up a tunnel to ServiceGraph:
+1.  Set up a tunnel to ServiceGraph:
 
-{{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+    {{< /text >}}
 
-You should see the Bookinfo service topology at
+1.  You should see the Bookinfo service topology at
 
-{{< text plain >}}
-http://localhost:8088/dotviz
-{{< /text >}}
+    {{< text plain >}}
+    http://localhost:8088/dotviz
+    {{< /text >}}
 
 {{< image width="100%" ratio="53.33%"
     link="./dm_servicegraph.png"
@@ -256,13 +260,13 @@ For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/serv
 
 ## Tracing
 
-Set up a tunnel to the tracing dashboard:
+1.  Set up a tunnel to the tracing dashboard:
 
-{{< text bash >}}
-$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
+    {{< /text >}}
 
-You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
+1.  You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
 
 {{< image width="100%" ratio="42.35%"
     link="./dm-tracing.png"
