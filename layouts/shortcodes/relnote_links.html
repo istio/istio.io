@@ -1,10 +1,4 @@
-{{ $dir_name := index (last 2 (split .Page.Dir "/" )) 0 }}
-
-{{/* Compensate for a Hugo bug on Windows where it appends a \ on the output of .Page.Dir */}}
-{{ if (strings.HasSuffix $dir_name "\\") }}
-    {{ $dir_name = slicestr $dir_name 0 (sub (len $dir_name) 1) }}
-{{ end }}
-
+{{ $dir_name := path.Base .Page.Dir }}
 {{ $parts := split $dir_name "." }}
 
 {{ $short_version := $dir_name }}
