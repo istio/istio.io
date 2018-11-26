@@ -173,7 +173,7 @@ $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=
 then
 
 {{< text plain >}}
-http://localhost:3000/dashboard/db/istio-dashboard
+http://localhost:3000/dashboard/db/istio-mesh-dashboard
 {{< /text >}}
 
 You should see some statistics for the requests you sent earlier.
