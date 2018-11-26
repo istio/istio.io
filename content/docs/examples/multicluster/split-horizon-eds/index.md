@@ -39,9 +39,9 @@ The steps below also set up a remote cluster with a selector-less service and an
 
 ### Setup the local cluster
 
-1. Modify `global.meshNetworks` in `install/kubernetes/helm/istio/values.yaml`
+1. Define the mesh networks:
 
-    By default the `meshNetworks` value for Istio is empty but we will need to modify it to declare a new network for endpoints on the remote cluster. Modify `values.yaml` and add a `network2` declaration:
+    By default the `global.meshNetworks` value for Istio is empty but we will need to modify it to declare a new network for endpoints on the remote cluster. Modify `install/kubernetes/helm/istio/values.yaml` and add a `network2` declaration:
 
     {{< text yaml >}}
     meshNetworks:
