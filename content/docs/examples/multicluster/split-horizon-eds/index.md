@@ -1,6 +1,6 @@
 ---
 title: Multicluster with Split Horizon EDS
-description: Example of leveraging Istio's Split Horizon EDS to create a Multi-Cluster
+description: Example of leveraging Istio's Split Horizon EDS to create a Multi-Cluster.
 weight: 85
 keywords: [kubernetes,multicluster]
 ---
