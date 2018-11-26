@@ -85,7 +85,7 @@ Next, **deploy the Bookinfo sample** without the Istio sidecar containers:
 $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 {{< /text >}}
 
-Now, **configure a new Gateway** that allows access to the reviews service from outside the Istio mesh, a new VirtualService that splits traffic evenly between v1 and v2 of the reviews service, and a set of new DestinationRule resources that match destination subsets to service versions:
+Now, **configure a new Gateway** that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -222,4 +222,4 @@ null
 
 Mission accomplished! This post showed how to deploy a minimal installation of Istio that only contains the traffic management components (Pilot, ingress Gateway), and then use those components to direct traffic to specific versions of the reviews service. And it wasn't necessary to deploy the Istio sidecar proxy to gain these capabilities, so there was little to no interruption of existing workloads or applications.
 
-Using the built-in ingress Gateway (along with some VirtualService and DestinationRule resources) this post showed how you can easily leverage Istio’s traffic management for cluster-external ingress traffic and cluster-internal service-to-service traffic. This technique is a great example of an incremental approach to adopting Istio, and can be especially useful in real-world cases where Pods are owned by different teams or deployed to different namespaces.
+Using the built-in ingress Gateway (along with some `VirtualService` and `DestinationRule` resources) this post showed how you can easily leverage Istio’s traffic management for cluster-external ingress traffic and cluster-internal service-to-service traffic. This technique is a great example of an incremental approach to adopting Istio, and can be especially useful in real-world cases where Pods are owned by different teams or deployed to different namespaces.
