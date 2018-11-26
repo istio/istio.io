@@ -20,6 +20,7 @@ icon: helm
 * [OpenShift Origin](/zh/docs/setup/kubernetes/platform-setup/openshift/)
 * [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/platform-setup/aws/)
 * [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
+* [Docker For Desktop](/zh/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
 
 1. 在 Pods 和服务上检查对 [Pods 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
 
