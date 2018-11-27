@@ -57,12 +57,6 @@
     {{- end -}}
 {{- end -}}
 
-{{- if $downloadas -}}
-<pre><code class='language-{{- $syntax -}}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
-{{- else -}}
-<pre><code class='language-{{- $syntax -}}'>{{- $text -}}</code></pre>
-{{- end -}}
-
 {{- /* include a link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
 {{- $branch := .Site.Data.args.source_branch_name -}}
 {{- $links := findRE "@(.*?)@" $text -}}
@@ -70,6 +64,12 @@
     {{- $target := trim $link "@" -}}
     {{- if gt (len $target) 0 -}}
         {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
-        <a hidden style="display:none" href="{{- $href -}}"></a>
+        <a hidden style="display:none" href="{{- $href -}}">Hello</a>
     {{- end -}}
+{{- end -}}
+
+{{- if $downloadas -}}
+<pre><code class='language-{{- $syntax -}}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
+{{- else -}}
+<pre><code class='language-{{- $syntax -}}'>{{- $text -}}</code></pre>
 {{- end -}}
