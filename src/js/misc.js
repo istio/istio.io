@@ -52,8 +52,15 @@ $(function ($) {
         window.location.assign(url);
     });
 
+    var recurse = false;
+
     // Save a cookie when a user selects a tab in a tabset
-    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        if (recurse) {
+            // prevent endless recursion...
+            return;
+        }
+
         var tab = e.target;
         var cookie_name = tab.getAttribute("data-cookie-name");
         var cookie_value = tab.getAttribute("data-cookie-value");
@@ -62,6 +69,22 @@ $(function ($) {
         }
 
         createCookie(cookie_name, cookie_value);
+
+        var tabs = document.querySelectorAll('a[data-toggle="tab"]');
+        for (var i = 0; i < tabs.length; i++) {
+            var tab = tabs[i];
+            if (cookie_name === tab.getAttribute("data-cookie-name")) {
+                if (cookie_value === tab.getAttribute("data-cookie-value")) {
+
+                    // there's gotta be a way to call the tab() function directly since I already have the
+                    // requisite object in hand. Alas, I can't figure it out. So query the document to find
+                    // the same object again, and call the tab function on the result.
+                    recurse = true;
+                    $('.nav-tabs a[href="' + tab.hash + '"]').tab('show');
+                    recurse = false;
+                }
+            }
+        }
     });
 
     $(document).ready(function() {
