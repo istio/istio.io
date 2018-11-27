@@ -25,7 +25,7 @@
 
 			<div class="tab-pane fade container{{ if eq $i 0 }} active show{{ end }}" id="{{ $id }}">
 				{{- with .content -}}
-					{{ . }}
+					{{- . -}}
 				{{- end -}}
 			</div>
 		{{- end -}}
