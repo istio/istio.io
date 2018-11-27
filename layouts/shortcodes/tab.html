@@ -8,5 +8,5 @@
 		{{- $.Parent.Scratch.Add "tabs" (dict "name" $name "cookie_value" $cookie_value "content" . ) -}}
 	{{- end -}}
 {{- else -}}
-	{{- errorf "[%s] %q: tab shortcode missing its parent" .Page.Site.Language.Lang .Page.Path -}}
+	{{- errorf "Missing surrounding tabset for tab (%s)" .Position -}}
 {{- end -}}
