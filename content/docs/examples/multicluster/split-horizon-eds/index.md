@@ -1,25 +1,25 @@
 ---
 title: Multicluster with Split Horizon EDS
-description: Example of leveraging Istio's Split Horizon EDS to create a Multi-Cluster.
+description: Example of leveraging Istio's Split Horizon EDS to create a Multicluster.
 weight: 85
 keywords: [kubernetes,multicluster]
 ---
 
-This example demonstrates how to use a variation of the [Istio multicluster](/docs/setup/kubernetes/multicluster-install/vpn/) together with _Split Horizon EDS_ (introduced in Istio 1.1) to join two Kubernetes clusters together to allow access to remote instances of a service via the remote Istio ingress gateway. By following the steps in this example you will setup a topology of two clusters as described in the following diagram:
+This example demonstrates how to use a single mesh [Istio multicluster](/docs/setup/kubernetes/multicluster-install/vpn/) together with _Split Horizon Endpoints Discovery Service (EDS)_ (introduced in Istio 1.1) to join two Kubernetes clusters together to allow access to remote instances of a service via the remote Istio ingress gateway. By following the steps in this example you will setup a topology of two clusters as described in the following diagram:
 
   {{< image width="80%" ratio="36.01%"
   link="./diagram.svg"
-  caption="Istio mesh spanning multiple Kubernetes clusters with the Split Horizon EDS configured"
+  caption="Single Istio mesh spanning multiple Kubernetes clusters with the Split Horizon EDS configured"
   >}}
 
-The `local` cluster hosts the Istio Pilot and other Istio components while the `remote` cluster only runs the Istio Citadel, Sidecar Injector and Ingress gateway.
+The `local` cluster hosts the Istio Pilot and other Istio control plane components while the `remote` cluster only runs the Istio Citadel, Sidecar Injector and Ingress gateway.
 However, unlike the requirements of [Istio multicluster](/docs/setup/kubernetes/multicluster-install/vpn/), no VPN connectivity is required nor direct network access between workload from different clusters.
 
 ## Before you begin
 
 In addition to the prerequisites for installing Istio the following setup is required for this example:
 
-* Two Kubernetes clusters with Load Balancers configured (also known as `local` and `remote`)
+* Two Kubernetes clusters (also known as `local` and `remote`)
 
 * Access to the Kubernetes API server of remote cluster from the local
 
@@ -35,7 +35,7 @@ $ export CTX_REMOTE=<KUBECONFIG_REMOTE_CONTEXT>
 
 This example procedure installs Istio with mutual TLS enabled for the control plane and application pods. We create the `cacerts` secret on both local and remote by using the same Istio certificate from samples as the shared root CA.
 
-The steps below also set up a remote cluster with a selector-less service and an endpoint for `istio-pilot.istio-system` that has the address of the local Istio ingress gateway. To allow that we are securely exposing the local pilot to remote cluster(s) through the ingress gateway without terminating the mTLS.
+The steps below also set up a remote cluster with a selector-less service and an endpoint for `istio-pilot.istio-system` that has the address of the local Istio ingress gateway. This enables us to securely expose the local pilot to remote cluster(s) through the ingress gateway without terminating the mTLS.
 
 ### Setup the local cluster
 
@@ -53,7 +53,7 @@ The steps below also set up a remote cluster with a selector-less service and an
           port: 443
     {{< /text >}}
 
-    __NOTE:__ Replace the gateway address with the public IP of your remote cluster.
+    __NOTE:__ Replace the gateway address with the public IP of your remote cluster. If the remote gateway IP is unknown at this stage, you can still proceed with an arbitrary value that can be modified after [Step 3 in Remote Cluster Setup](#setup-the-remote-cluster) once the external IP is available. Modify the configmap by executing `kubectl edit cm -n istio-system --context=$CTX_LOCAL istio`. Once saved, Pilot will automatically read the updated networks configuration.
 
 1. Use Helm to create the Istio local deployment YAML:
 
@@ -364,6 +364,7 @@ Cleanup the remote cluster:
 {{< text bash >}}
 $ kubectl delete --context=$CTX_REMOTE -f istio-remote-auth.yaml
 $ kubectl delete --context=$CTX_REMOTE ns istio-system
+$ kubectl delete --context=$CTX_REMOTE -f install/kubernetes/helm/istio/templates/crds.yaml
 $ kubectl delete --context=$CTX_REMOTE -f helloworld-v2.yaml -n sample
 {{< /text >}}
 
@@ -372,6 +373,7 @@ Cleanup the local cluster:
 {{< text bash >}}
 $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
 $ kubectl delete --context=$CTX_LOCAL ns istio-system
+$ kubectl delete --context=$CTX_LOCAL -f install/kubernetes/helm/istio/templates/crds.yaml
 $ kubectl delete --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
 $ kubectl delete --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
 {{< /text >}}
