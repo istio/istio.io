@@ -33,7 +33,7 @@ parameter.
 
 {{- with $caption -}}
 {{- if (strings.HasSuffix . ".") -}}
-MARKDOWN ERROR: image caption ends with a period.
+{{- errorf "Image caption ends with a period (%s)" .Position -}}
 {{- end -}}
 {{- end -}}
 
@@ -80,6 +80,6 @@ MARKDOWN ERROR: image caption ends with a period.
             <figcaption>{{- $caption -}}</figcaption>
         </figure>
     {{- else -}}
-        MARKDOWN ERROR: missing ratio for PNG or JPG image
+        {{- errorf "Missing ratio for PNG or JPG image (%s)" .Position -}}
     {{- end -}}
 {{- end -}}
