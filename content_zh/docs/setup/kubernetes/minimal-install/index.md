@@ -150,6 +150,7 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 {{< /text >}}
 
 
+
 <!--
 ### Option 2: Install with Helm and Tiller via `helm install`
 
@@ -220,7 +221,7 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
     {{< /text >}}
 
-    
+
 <!--
 ## Uninstall
 
