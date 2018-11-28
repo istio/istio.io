@@ -98,6 +98,7 @@ to manage the lifecycle of Istio.
 1. Install Istio:
 
     {{< text bash >}}
+    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
     $ helm dep update install/kubernetes/helm/istio
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
