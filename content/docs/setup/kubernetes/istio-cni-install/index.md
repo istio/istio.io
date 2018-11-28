@@ -19,14 +19,14 @@ setup phase, thereby removing this level of RBAC requirement from users deployin
 
 ## Prerequisites
 
-1.  Kubernetes installed with the container runtime supporting CNI and `kubelets` configured
+1.  Install Kubernetes with the container runtime supporting CNI and `kubelet`s configured
     with the main [CNI](https://github.com/containernetworking/cni) plugin enabled via `--network-plugin=cni`.
-    *  This is enabled for the Kubernetes installation for IBM Cloud IKS, Azure AKS, and AWS EKS clusters.
-    *  For Google Cloud GKE clusters, the
+    *  Kubernetes installations for IBM Cloud IKS, Azure AKS, and AWS EKS clusters meet this criteria.
+    *  Google Cloud GKE clusters require that the
        [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) feature
-       must be enabled to have Kubernetes configured with `network-plugin=cni`.
+       is enabled to have Kubernetes configured with `network-plugin=cni`.
 
-1.  Kubernetes installed with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
+1.  Install Kubernetes with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
     *  The Kubernetes documentation highly recommends this for all Kubernetes installations
        where `ServiceAccounts` are utilized.
 
@@ -129,7 +129,7 @@ The following sidecar injection methods are supported for use with the Istio CNI
 The Istio CNI plugin handles Kubernetes pod create and delete events and does the following:
 
 1.  Identify Istio user application pods with Istio sidecars requiring traffic redirection
-1.  Perform pod network namespace details to redirect traffic to/from the Istio sidecar
+1.  Perform pod network namespace configuration to redirect traffic to/from the Istio sidecar
 
 ### Identifying pods requiring traffic redirection
 
