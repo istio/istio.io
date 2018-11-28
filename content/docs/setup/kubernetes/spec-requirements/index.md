@@ -30,4 +30,4 @@ cluster must satisfy the following requirements:
   tracing. The `app` and `version` labels are also used to add contextual information
   in the metric telemetry collected by Istio.
 
-* _**Application UIDs**_: Applications must not run as a user with user ID (UID) 1337.
+* _**Application UIDs**_: Do **not** run applications as a user with the user ID (UID) value of **1337**.
