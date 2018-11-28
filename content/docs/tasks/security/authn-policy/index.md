@@ -166,7 +166,6 @@ sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 > Due to the way Envoy rejects plain-text requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
