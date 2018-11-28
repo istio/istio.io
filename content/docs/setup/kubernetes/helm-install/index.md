@@ -38,6 +38,8 @@ plane and the sidecars for the Istio data plane.
 
 ## Installation steps
 
+The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
+
 1. If using a Helm version prior to 2.10.0, install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
@@ -96,6 +98,8 @@ to manage the lifecycle of Istio.
 1. Install Istio:
 
     {{< text bash >}}
+    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
+    $ helm dep update install/kubernetes/helm/istio
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
 
