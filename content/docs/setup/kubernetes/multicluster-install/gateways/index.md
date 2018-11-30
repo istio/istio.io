@@ -104,9 +104,9 @@ EOF
 
 ## Setup Steps
 
-
 1. Deploy `httpbin` service in cluster1.
 {{< text bash >}}
+
 $ kubectl create namespace bar
 $ kubectl apply -f <(bin/istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
 $ export GATEWAY_IP_CLUSTER1=$(kubectl get svc --selector=app=istio-ingressgateway \
@@ -115,75 +115,78 @@ $ export GATEWAY_IP_CLUSTER1=$(kubectl get svc --selector=app=istio-ingressgatew
 
 1. Deploy `sleep` service in cluster2.
 {{< text bash >}}
+
 $ kubectl create namespace foo
 $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
 {{< /text >}}
 
 1. Create `ServiceEntry` for httpbin service in cluster2.
 
-To allow `sleep` in cluster2 access `httpbin` in cluster1, we need to create
-`ServiceEntry` for that. Host name of the `ServiceEntry` should be of the form
-`<name>.<namespace>.global` where name and namespace correspond to the
-remote service's name and namespace respectively.
+    To allow `sleep` in cluster2 access `httpbin` in cluster1, we need to create
+    `ServiceEntry` for that. Host name of the `ServiceEntry` should be of the form
+    `<name>.<namespace>.global` where name and namespace correspond to the
+    remote service's name and namespace respectively.
 
-For DNS resolution for services under the
-`*.global` domain, you need to assign these services an IP address. We
-suggest assigning an IP address from the 127.255.0.0/16 subnet. These IPs
-are non-routable outside of a pod. Application traffic for these IPs will
-be captured by the sidecar and routed to the appropriate remote service.
+    For DNS resolution for services under the
+    `*.global` domain, you need to assign these services an IP address. We
+    suggest assigning an IP address from the 127.255.0.0/16 subnet. These IPs
+    are non-routable outside of a pod. Application traffic for these IPs will
+    be captured by the sidecar and routed to the appropriate remote service.
 
-> Each service (in the .global DNS domain) must have a unique IP within the
-cluster.
+    > Each service (in the .global DNS domain) must have a unique IP within the
+    cluster.
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: httpbin-bar
-spec:
-  hosts:
-  # must be of form name.namespace.global
-  - httpbin.foo.global
-  # Treat remote cluster services as part of the service mesh
-  # as all clusters in the service mesh share the same root of trust.
-  location: MESH_INTERNAL
-  ports:
-  - name: http1
-    number: 8000
-    protocol: http
-  resolution: DNS
-  addresses:
-  # the IP address to which httpbin.foo.global will resolve to
-  # must be unique for each remote service, within a given cluster.
-  # This address need not be routable. Traffic for this IP will be captured
-  # by the sidecar and routed appropriately.
-  - 127.255.0.2
-  endpoints:
-  # This is the routable address of the ingress gateway in cluster2 that
-  # sits in front of sleep.bar service. Traffic from the sidecar will be
-  # routed to this address.
-  - address: ${GATEWAY_IP_CLUSTER1}
-    ports:
-      http1: 15443 # Do not change this port value
-EOF
-{{< /text >}}
+    {{< text bash >}}
 
-The configurations above will result in all traffic in `cluster1` for
-`httpbin.bar.global` on *any port* to be routed to the endpoint
-`<IPofCluster2IngressGateway>:15443` over an mTLS connection.
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: httpbin-bar
+    spec:
+      hosts:
+      # must be of form name.namespace.global
+      - httpbin.bar.global
+      # Treat remote cluster services as part of the service mesh
+      # as all clusters in the service mesh share the same root of trust.
+      location: MESH_INTERNAL
+      ports:
+      - name: http1
+        number: 8000
+        protocol: http
+      resolution: DNS
+      addresses:
+      # the IP address to which httpbin.bar.global will resolve to
+      # must be unique for each remote service, within a given cluster.
+      # This address need not be routable. Traffic for this IP will be captured
+      # by the sidecar and routed appropriately.
+      - 127.255.0.2
+      endpoints:
+      # This is the routable address of the ingress gateway in cluster2 that
+      # sits in front of sleep.bar service. Traffic from the sidecar will be
+      # routed to this address.
+      - address: ${GATEWAY_IP_CLUSTER1}
+        ports:
+          http1: 15443 # Do not change this port value
+    EOF
+    {{< /text >}}
 
-> Do not create a Gateway configuration for port 15443.
+    The configurations above will result in all traffic in `cluster1` for
+    `httpbin.bar.global` on *any port* to be routed to the endpoint
+    `<IPofCluster2IngressGateway>:15443` over an mTLS connection.
 
-The gateway port 15443 is a special SNI-aware Envoy that has been
-preconfigured and installed as part of the Istio installation step
-described in the prerequisite section.  Traffic entering port 15443 will be
-load balanced among pods of the appropriate internal service of the target
-cluster (in this case, `httpbin.bar` in cluster1).
+    > Do not create a Gateway configuration for port 15443.
+
+    The gateway port 15443 is a special SNI-aware Envoy
+    preconfigured and installed as part of the Istio installation step
+    described in the prerequisite section.  Traffic entering port 15443 will be
+    load balanced among pods of the appropriate internal service of the target
+    cluster (in this case, `httpbin.bar` in cluster1).
 
 1. Very Access `httpbin` is accessible from `sleep`.
 {{< text bash >}}
-$ kubectl exec -it ${sleep_pod_id} -- curl http://httpbin.bar.global
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) \
+   -n foo -c sleep -- curl httpbin.bar.global:8000/ip
 {{< /text >}}
 
 ## Enforce Traffic to Pass Egress Gateway
@@ -203,7 +206,7 @@ spec:
   location: MESH_INTERNAL
   ports:
   - name: http1
-    number: 8080
+    number: 8000
     protocol: http
   resolution: DNS
   addresses:
@@ -237,7 +240,7 @@ spec:
   location: MESH_INTERNAL
   ports:
   - name: http1
-    number: 8080
+    number: 8000
     protocol: http
   resolution: DNS
   addresses:
