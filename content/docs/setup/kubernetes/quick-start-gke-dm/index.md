@@ -225,7 +225,7 @@ For more details on tracing see [Understanding what happened](/docs/tasks/teleme
 
 ## Uninstalling
 
-1. Navigate to the Deployments section of the Cloud Console at [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments)
+1. Navigate to the [Deployments](https://console.cloud.google.com/deployments) section of the Cloud Console.
 
 1. Select the deployment and click **Delete**.
 
