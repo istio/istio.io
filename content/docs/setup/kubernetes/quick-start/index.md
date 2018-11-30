@@ -123,8 +123,8 @@ Follow our instructions on how to
 You can now deploy your own application or one of the sample applications
 provided with the installation like [Bookinfo](/docs/examples/bookinfo/).
 
-> Note: The application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP
-> traffic because HTTP/1.0 is not supported.
+> {{< warning_icon >}} The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
+> traffic; HTTP/1.0 is not supported.
 
 If you started the
 [Istio-sidecar-injector](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection),
