@@ -1,6 +1,6 @@
 ---
 title: 查看不到指标
-description: 
+description:
 weight: 10
 ---
 
@@ -16,7 +16,7 @@ weight: 10
 
 1. 后端存储系统记录指标数据。
 
-Mixer 默认安装了一套包括 Prometheus adapter 和用于生成一组[默认指标的配置](https://istio.io/zh/docs/reference/config/policy-and-telemetry/metrics/)，并将它们发送到 Prometheus adapter。Prometheus adapter 配置使 Prometheus 实例可以抓取 Mixer 以获取指标。
+Mixer 默认安装了一套包括 Prometheus adapter 和用于生成一组[默认指标的配置](/zh/docs/reference/config/policy-and-telemetry/metrics/)，并将它们发送到 Prometheus adapter。Prometheus adapter 配置使 Prometheus 实例可以抓取 Mixer 以获取指标。
 
 如果 Istio Dashboard 或 Prometheus 查询未显示预期的指标，则上述流程的任何步骤都可能会出现问题。以下部分提供了对每个步骤进行故障排除的说明。
 

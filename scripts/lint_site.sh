@@ -53,6 +53,13 @@ check_content() {
         FAILED=1
     fi
 
+    grep -nr -e "(https://istio.io" .
+    if [ "$?" == "0" ]
+    then
+        echo "Ensure markdown content uses relative references to istio.io"
+        FAILED=1
+    fi
+
     # go back whence we came
     popd  >/dev/null
 
