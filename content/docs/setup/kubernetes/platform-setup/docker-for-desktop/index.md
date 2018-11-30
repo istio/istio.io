@@ -17,4 +17,4 @@ default limit.
 
 Alternatively, you may reduce Pilot's memory reservation by passing the helm argument
 `--set pilot.resources.requests.memory="512Mi"`.  Otherwise Pilot may refuse to start due to insufficient resources.
-See [Installation Options](https://istio.io/docs/reference/config/installation-options) for more information.
+See [Installation Options](/docs/reference/config/installation-options) for more information.

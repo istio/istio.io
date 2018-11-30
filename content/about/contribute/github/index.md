@@ -48,9 +48,9 @@ href="https://github.com/istio/istio.io/">Browse this site's source
 code</a>
 
 Once your changes are merged, they show up immediately on
-[preliminary.istio.io](https://preliminary.istio.io). However, the changes only
-show up on [istio.io](https://istio.io) when the next time we produce a new
-release, which happens around once a month.
+`preliminary.istio.io`. However, the changes only
+show up on `istio.io` the next time we produce a new
+release, which happens around once a quarter.
 
 ## Previewing your work
 

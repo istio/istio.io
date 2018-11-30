@@ -25,7 +25,7 @@ keywords: [贡献]
 <a class="btn btn-istio"
 href="https://github.com/istio/istio.io/">浏览该站点的源码</a>
 
-一旦您的更改被合并后，它们会立即显示在 [preliminary.istio.io](https://preliminary.istio.io/) 上。但是，这些更改只会在下次我们生成新版本时显示在 [istio.io](https://istio.io) 上，该版本每月发布一次。
+一旦您的更改被合并后，它们会立即显示在 `preliminary.istio.io` 上。但是，这些更改只会在下次我们生成新版本时显示在 `istio.io` 上，该版本每月发布一次。
 
 ## 预览您的成果
 
