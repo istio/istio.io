@@ -6,11 +6,11 @@ keywords: [kubernetes,helm, minimal]
 icon: helm
 ---
 
-使用 Helm 安装 Istio 的快速入门指南。最小版本安装提供了 Istio 的流量管理特性。
+使用 Helm 最小化安装和配置 Istio 的快速入门指南。此最小安装提供了 Istio 的流量管理功能。
 
 ## 前置条件
 
-参考快速入门指南中的[前置条件](/zh/docs/setup/kubernetes/quick-start/#前置条件)。
+请参考快速入门指南中描述的[前置条件](/zh/docs/setup/kubernetes/quick-start/#前置条件)。
 
 ## 安装步骤
 
@@ -24,7 +24,7 @@ icon: helm
 
 ### 选项 1：通过 Helm 命令 `helm template` 安装
 
-1. 将 Istio 的核心组件添加到 Kubernetes 的描述文件，并命名为 `istio.yaml`：
+1. 将 Istio 的核心组件添加到 Kubernetes 的描述文件，并命名为 `istio-minimal.yaml`：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -47,7 +47,7 @@ icon: helm
     $ kubectl apply -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
-### 选项 2：使用 Helm 命令 `helm install` 安装
+### 选项 2：通过 `helm install` 命令安装 Helm 和 Tiller
 
 本选项允许 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 管理 Istio 的生命周期。
 
