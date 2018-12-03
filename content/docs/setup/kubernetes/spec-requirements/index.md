@@ -29,3 +29,5 @@ cluster must satisfy the following requirements:
   `app` label is used to add contextual information in distributed
   tracing. The `app` and `version` labels are also used to add contextual information
   in the metric telemetry collected by Istio.
+
+* _**Application UIDs**_: Do **not** run applications as a user with the user ID (UID) value of **1337**.
