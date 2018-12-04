@@ -1,4 +1,4 @@
-{{ $dir_name := index (last 2 (split .Page.Dir "/" )) 0 }}
+{{ $dir_name := path.Base .Page.Dir }}
 {{ $parts := split $dir_name "." }}
 
 {{ $short_version := $dir_name }}

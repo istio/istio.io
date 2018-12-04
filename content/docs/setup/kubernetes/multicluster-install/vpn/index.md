@@ -287,7 +287,7 @@ secret, source the file with the following command:
 You can install Istio in a different namespace. This procedure uses the
 `istio-system` namespace.
 
-{{ warning_icon }} Do not store and label the secrets for the local cluster
+{{< warning_icon >}} Do not store and label the secrets for the local cluster
 running the Istio control plane. Istio is always aware of the local cluster's
 Kubernetes credentials.
 

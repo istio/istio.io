@@ -1,5 +1,5 @@
 
-img := gcr.io/istio-testing/website-builder:2018-10-08
+img := gcr.io/istio-testing/website-builder:2018-11-26
 docker := docker run -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site $(img)
 
 ifeq ($(CONTEXT),production)

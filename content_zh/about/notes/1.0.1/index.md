@@ -12,15 +12,15 @@ icon: notes
 
 - 修复了增加一个端口时 VirtualService Host 不匹配的问题。
 
-- 添加了同一个主机内对 [合并多个 `VirtualService` 或 `DestinationRule` 定义](/help/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) 的有限支持。
+- 添加了同一个主机内对 [合并多个 `VirtualService` 或 `DestinationRule` 定义](/zh/help/ops/traffic-management/deploy-guidelines/#在网关中配置多个-tls-主机) 的有限支持。
 
 - 允许在使用 HTTP 时，连续的出现 Gateway failures [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/outlier_detection.proto) 。
 
 ## 环境
 
-- 允许使用独立的 Pilot, 便于用户仅适用 Istio 的流量管理功能。
+- 允许使用独立的 Pilot, 便于仅使用 Istio 进行流量管理的用户。
 
-- 介绍了 `values-istio-gateway.yaml` 这一很方便的配置，使用户可以运行独立的 Gateway。
+- 引入了 `values-istio-gateway.yaml`，这种配置方式让用户可以运行独立的 Gateway。
 
 - 修复了多个 Helm 安装问题，包括找不到 `istio-sidecar-injector` configmap 的问题。
 

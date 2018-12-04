@@ -173,7 +173,7 @@ $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=
 then
 
 {{< text plain >}}
-http://localhost:3000/dashboard/db/istio-dashboard
+http://localhost:3000/dashboard/db/istio-mesh-dashboard
 {{< /text >}}
 
 You should see some statistics for the requests you sent earlier.
@@ -225,7 +225,7 @@ For more details on tracing see [Understanding what happened](/docs/tasks/teleme
 
 ## Uninstalling
 
-1. Navigate to the Deployments section of the Cloud Console at [https://console.cloud.google.com/deployments](https://console.cloud.google.com/deployments)
+1. Navigate to the [Deployments](https://console.cloud.google.com/deployments) section of the Cloud Console.
 
 1. Select the deployment and click **Delete**.
 

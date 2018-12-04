@@ -65,7 +65,7 @@ keywords: [流量管理,egress]
 1.  创建一个 `ServiceEntry` 以及 `VirtualService`，允许访问外部 HTTPS 服务。注意：包括 HTTPS 在内的 TLS 协议，在 `ServiceEntry` 之外，还需要创建 TLS `VirtualService`。
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     {{< /text >}}
 
 1.  向外部 HTTP 服务发出请求：
@@ -119,7 +119,7 @@ keywords: [流量管理,egress]
 1.  执行 `sleep service` 源 pod：
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     {{< /text >}}
 
 1.  向外部 HTTPS 服务发出请求：
@@ -135,7 +135,7 @@ keywords: [流量管理,egress]
 1. 在测试 Pod 内部，使用 `curl` 调用 httpbin.org 这一外部服务的 `/delay` 端点：
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     200
 
@@ -169,7 +169,7 @@ keywords: [流量管理,egress]
 1.  等待几秒钟之后，再次发起 _curl_ 请求：
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep bash
+    $ kubectl exec -it $SOURCE_POD -c sleep sh
     $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
 

@@ -22,6 +22,7 @@ keywords: [kubernetes]
     * [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/platform-setup/aws/)
     * [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
     * [阿里云](/zh/docs/setup/kubernetes/platform-setup/alicloud/)
+    * [Docker For Desktop](/zh/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
 
 1. 复查 [Istio 对 Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
 

@@ -17,7 +17,7 @@ The expected flow for metrics is:
 
 1. The backend storage systems record the metrics data.
 
-The Mixer default installations include a Prometheus adapter and the configuration to generate a [default set of metric values](https://istio.io/docs/reference/config/policy-and-telemetry/metrics/) and send them to the Prometheus adapter. The Prometheus adapter configuration enables a Prometheus instance to scrape Mixer for metrics.
+The Mixer default installations include a Prometheus adapter and the configuration to generate a [default set of metric values](/docs/reference/config/policy-and-telemetry/metrics/) and send them to the Prometheus adapter. The Prometheus adapter configuration enables a Prometheus instance to scrape Mixer for metrics.
 
 If the Istio Dashboard or the Prometheus queries don’t show the expected metrics, any step of the flow above may present an issue. The following sections provide instructions to troubleshoot each step.
 
