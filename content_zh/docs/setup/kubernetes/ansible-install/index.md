@@ -43,8 +43,7 @@ $ ansible-playbook main.yml
 | `cluster_flavour` | 定义目标集群类型 | `k8s` 或 `ocp` | `ocp` |
 | `cmd_path` | 自定义 `kubectl` 或 `oc` 路径 | 到 `kubectl` 或 `oc` 二进制文件的有效路径 | `$PATH/oc` |
 | `istio.auth` | 使用双向 TLS 进行安装 | `true` 或 `false` | `false` |
-| `istio.addon` | 要安装的 Istio 插件 | 包含任何 `kiali` 的数组 | Istio 已经默认安装了 `grafana`、`prometheus`、`jaeger` |
-| `istio.delete_resources` | 删除 Istio namespace 下安装的资源 | `true` 或 `false` | false |
+| `istio.delete_resources` | 删除 Istio 命名空间下安装的资源 | `true` 或 `false` | false |
 | `istio.samples` | 包含应该安装的示例的名称的数组 | `bookinfo`, `helloworld`, `httpbin`, `sleep` | none |
 
 ## 默认安装
@@ -73,19 +72,13 @@ $ ansible-playbook main.yml -e '{"cluster_flavour": "k8s"}'
 $ ansible-playbook main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}'
 {{< /text >}}
 
-运维人员在 Kubernetes 上安装 Istio，使用非默认配置：
+运维人员在 OpenShift 上安装 Istio，使用非默认配置：
 
 {{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"auth": true, "delete_resources": true}}'
 {{< /text >}}
 
-运维人员在 Kubernetes 上安装 Istio，使用自定义插件：
-
-{{< text bash >}}
-$ ansible-playbook main.yml -e '{"istio": {"delete_resources": true, "addon": ["kiali"]}}'
-{{< /text >}}
-
-运维人员在 Kubernetes 上安装 Istio 并额外部署了一些示例：
+运维人员在 OpenShift 上安装 Istio 并额外部署了一些示例：
 
 {{< text bash >}}
 $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]}}'
@@ -93,7 +86,7 @@ $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]
 
 ## 卸载
 
-如果需要不同版本的 Istio，请在执行 `playbook` 之前删除 `istio-system` namespace。
+如果需要不同版本的 Istio，请在执行 `playbook` 之前删除 `istio-system` 命名空间。
 这种情况下，不需要设置 `istio.delete_resources` 参数。
 
 将 `istio.delete_resources` 设置为 true 会从集群中删除 Istio 控制平面。
