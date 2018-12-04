@@ -21,7 +21,7 @@ is not required to have access to the cluster IP addresses assigned by Kubernete
 include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
 server, or configuring the IPs in any other DNS server accessible from the VM.
 
-* You have installed the [Helm client](https://docs.helm.sh/using_helm/) and initialized it for your Istio Kubernetes cluster. You'll need it to enable mesh expansion for the cluster.
+* If you haven't already enabled mesh expansion at install time with Helm, you have installed the [Helm client](https://docs.helm.sh/using_helm/). You'll need it to enable mesh expansion for the cluster.
 
 ## Installation steps
 
@@ -31,23 +31,25 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself and generate the configuration that will allow it to be used by the mesh expansion VMs. To prepare the cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at install with Helm, re-apply the
-    template or 'helm upgrade' with the option enabled.
+1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply with `kubectl`.
 
     {{< text bash >}}
 
     # With helm upgrade:
     $ cd install/kubernetes/helm/istio
-    $ helm upgrade --set global.meshExpansion=true --values myvalues.yaml istio-system .
+    $ helm upgrade --set global.meshExpansion=true istio-system .
     $ cd -
 
     # With helm template:
     $ cd install/kubernetes/helm/istio
-    $ helm template --set global.meshExpansion=true --values myvalues.yaml istio-system . > istio.yaml
+    $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
     $ kubectl apply -f istio.yaml
     $ cd -
 
     {{< /text >}}
+    
+    You can either set the option on the command line, as in our examples, or add it to a `.yaml` values file and pass it to the command with `--values`, which is the recommended approach when managing configurations with multiple options. You can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
+
 
 2.    Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
 
@@ -116,7 +118,7 @@ Next, on each VM you want to add to the mesh:
 
     {{< /text >}}
 
-2.    Copy the cluster.env and the *.pem files you created in the previous section to the VM.
+2.    Copy the cluster.env and *.pem files that you created in the previous section to the VM.
 
 3.    Add the IP address of the Istio gateway (which we found in the previous section) to `/etc/hosts` or to the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is an example of updating an `/etc/hosts` file with the Istio gateway address:
 
@@ -194,7 +196,7 @@ The following example shows how to access the services running in the cluster us
 
 ## Running services on a mesh expansion machine
 
-VM services are added to the mesh by configuring a ServiceEntry. A ServiceEntry lets you manually add additional services to Istio's model of the mesh so that other services can find and direct traffic to them. The ServiceEntry contains the IP
+VM services are added to the mesh by configuring a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A ServiceEntry lets you manually add additional services to Istio's model of the mesh so that other services can find and direct traffic to them. The ServiceEntry contains the IP
 addresses, ports and labels of all VMs exposing a service.
 
     {{< text bash yaml>}}
