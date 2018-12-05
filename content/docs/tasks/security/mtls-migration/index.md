@@ -57,7 +57,7 @@ down once the migration is done.
     {{< text bash >}}
     $ kubectl get policies.authentication.istio.io --all-namespaces
     No resources found.
-    $ kubectl get destionationrule --all-namespaces
+    $ kubectl get destinationrule --all-namespaces
     No resources found.
     {{< /text >}}
 
