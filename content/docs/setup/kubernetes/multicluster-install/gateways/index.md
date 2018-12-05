@@ -138,7 +138,7 @@ $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n fo
 
     {{< text bash >}}
 
-    $ kubectl apply -f - <<EOF
+    $ kubectl -n foo apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -185,7 +185,7 @@ $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n fo
 
 1. Very Access `httpbin` is accessible from `sleep`.
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) \
+$ kubectl exec $(kubectl -n foo get pod -l app=sleep -o jsonpath={.items..metadata.name}) \
    -n foo -c sleep -- curl httpbin.bar.global:8000/ip
 {{< /text >}}
 
