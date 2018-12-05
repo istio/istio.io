@@ -22,7 +22,7 @@ icon: helm
 * [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
 * [Docker For Desktop](/zh/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
 
-1. 在 Pods 和服务上检查对 [Pods 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
+1. 在 Pod 和服务上检查对 [Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
 
 1. [安装 Helm 客户端](https://docs.helm.sh/using_helm)。
 
@@ -30,7 +30,9 @@ icon: helm
 
 ## 安装步骤
 
-1. 如果使用 Helm 2.10.0 之前的版本，通过 `kubectl apply` [自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，然后等待几秒钟，直到 kube-apiserver 中的 CRDs 提交完成:
+以下命令在 Istio 目录执行使用相对引用。您必须在 Istio 的根目录中执行下面的命令。
+
+1. 如果使用 Helm 2.10.0 之前的版本，通过 `kubectl apply` [自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，然后等待几秒钟，直到 kube-apiserver 中的 CRDs 提交完成：
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
@@ -78,7 +80,15 @@ icon: helm
 1. 安装 Istio：
 
     {{< text bash >}}
+    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
+    $ helm dep update install/kubernetes/helm/istio
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+    {{< /text >}}
+
+    如果您想启用[全局双向 TLS](/zh/docs/concepts/security/#双向-tls-认证)，请将 `global.mtls.enabled` 设置为 `true`：
+
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
 
 ## 卸载
@@ -101,7 +111,7 @@ icon: helm
     $ kubectl -n istio-system delete job --all
     {{< /text >}}
 
-* 如果需要，可以删除 CRDs：
+* 如果需要，可以删除 CRD：
 
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
