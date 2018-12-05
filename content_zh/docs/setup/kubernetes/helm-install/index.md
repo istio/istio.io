@@ -90,7 +90,7 @@ icon: helm
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
-    
+
 ## 卸载
 
 * 对于选项 1，使用 `kubectl` 进行卸载：
