@@ -192,13 +192,14 @@ $ kubectl exec $(kubectl -n foo get pod -l app=sleep -o jsonpath={.items..metada
 ## Force remote cluster traffic through Egress Gateway
 
 If you wish to route all egress traffic from `cluster2` via a dedicated
-egress gateway, use the following service entry for `httpbin.bar`
+egress gateway, use the following service entry for `httpbin.bar`.
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: bar-ns2
+  name: httpbin-bar
 spec:
   hosts:
   # must be of form name.namespace.global
@@ -219,6 +220,7 @@ spec:
   - address: istio-egressgateway.istio-system.svc.cluster.local
     ports:
       http1: 15443
+EOF
 {{< /text >}}
 
 ## Version-aware routing to remote services
@@ -228,7 +230,8 @@ labels to the service entry endpoint, and follow the steps outlined in the
 [request routing](/docs/tasks/traffic-management/request-routing/) section
 to create appropriate virtual services and destination rules. For example,
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -255,6 +258,7 @@ spec:
       foo: bar
     ports:
       http1: 15443 # Do not change this port value
+EOF
 {{< /text >}}
 
 Use destination rules to create subsets for `httpbin.bar` service with
