@@ -189,7 +189,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
    -n foo -c sleep -- curl httpbin.bar.global:8000/ip
 {{< /text >}}
 
-## Enforce Traffic to Pass Egress Gateway
+## Force remote cluster traffic through Egress Gateway
 
 If you wish to route all egress traffic from `cluster2` via a dedicated
 egress gateway, use the following service entry for `httpbin.bar`
