@@ -39,6 +39,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
+| `gateways.istio-ingressgateway.externalIPs` | [] |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-ingressgateway.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
