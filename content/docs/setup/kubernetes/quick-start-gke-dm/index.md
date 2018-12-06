@@ -41,7 +41,7 @@ caption="GKE-IAM Role"
 
 ### Launch Deployment Manager
 
-1.  Once you have an account and project enabled, click the following link to open the Deployment Manager.
+1. Once you have an account and project enabled, click the following link to open the Deployment Manager.
 
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
@@ -55,9 +55,9 @@ caption="GKE-IAM Role"
     and [Tracing](/docs/tasks/telemetry/distributed-tracing/).
     You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the `default` namespace only.
 
-1.  Click **Deploy**:
+1. Click **Deploy**:
 
-    {{< image width="100%" ratio="67.17%"
+    {{< image width="60%" ratio="160%"
     link="./dm_launcher.png"
     caption="GKE-Istio Launcher"
     >}}
@@ -68,18 +68,18 @@ Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
 Once deployment is complete, do the following on the workstation where you've installed `gcloud`:
 
-1.  Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
+1. Bootstrap `kubectl` for the cluster you just created and confirm the cluster is
 running and Istio is enabled
 
     {{< text bash >}}
     $ gcloud container clusters list
     NAME           LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
-    istio-cluster  us-central1-a  1.9.7-gke.11    35.188.172.144 n1-standard-1  1.9.7-gke.11  4          RUNNING
+    istio-cluster  us-central1-a  1.9.7-gke.11    35.188.172.144 n1-standard-2  1.9.7-gke.11  4          RUNNING
     {{< /text >}}
 
     In this case, the cluster name is `istio-cluster`.
 
-1.  Now acquire the credentials for this cluster
+1. Now acquire the credentials for this cluster
 
     {{< text bash >}}
     $ gcloud container clusters get-credentials istio-cluster --zone=us-central1-a
@@ -140,21 +140,21 @@ You can also view the installation using the **Kubernetes Engine -> Workloads** 
 
 ### Access the Bookinfo sample
 
-1.  Set up an environment variable for Bookinfo's external IP address:
+1. Set up an environment variable for Bookinfo's external IP address:
 
     {{< text bash >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GATEWAY_URL
     {{< /text >}}
 
-1.  Verify you can access the Bookinfo `http://${GATEWAY_URL}/productpage`:
+1. Verify you can access the Bookinfo `http://${GATEWAY_URL}/productpage`:
 
     {{< image width="100%" ratio="45.04%"
     link="./dm_bookinfo.png"
     caption="Bookinfo"
     >}}
 
-1.  Now send some traffic to it:
+1. Now send some traffic to it:
 
     {{< text bash >}}
     $ for i in {1..100}; do curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage; done
@@ -168,13 +168,13 @@ If you are using Cloud Shell rather than the installed `gcloud` client, you can 
 
 ### Grafana
 
-1.  Set up a tunnel to Grafana:
+1. Set up a tunnel to Grafana:
 
     {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
     {{< /text >}}
 
-1.  View the console at:
+1. View the console at:
 
     {{< text plain >}}
     http://localhost:3000/dashboard/db/istio-dashboard
@@ -193,13 +193,13 @@ For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks
 
 Prometheus is installed with Grafana. You can view Istio and application metrics using the console as follows:
 
-1.  Set up a tunnel to Prometheus:
+1. Set up a tunnel to Prometheus:
 
     {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
     {{< /text >}}
 
-1.  View the console at:
+1. View the console at:
 
     {{< text plain >}}
     http://localhost:9090/graph
@@ -216,19 +216,20 @@ For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/queryi
 
 #### Kiali
 
-1.  Set up a tunnel to Kiali:
+1. Set up a tunnel to Kiali:
 
     {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001 &
     {{< /text >}}
 
-1.  You should see the Bookinfo service topology at
+1. You should see the Bookinfo service topology at
 
     {{< text plain >}}
-    http://localhost:20001/kaili
+    http://localhost:20001/kiali/console/overview
     {{< /text >}}
 
-The default username/password for the console is `admin`/`mysecret`.
+Enter the username/password for the Kiali admin console you specified during setup.
+Otherwise, the default username/password for the console is `admin`/`mysecret`.
 
 {{< image width="100%" ratio="53.33%"
     link="./dm_kiali.png"
@@ -239,13 +240,15 @@ For more details, see [About the Kiali Add-on](/docs/tasks/telemetry/kiali/).
 
 #### ServiceGraph
 
-1.  Set up a tunnel to ServiceGraph:
+If you enabled ServiceGraph during the installation,
+
+1. Set up a tunnel to ServiceGraph:
 
     {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
     {{< /text >}}
 
-1.  You should see the Bookinfo service topology at
+1. You should see the Bookinfo service topology at
 
     {{< text plain >}}
     http://localhost:8088/dotviz
@@ -260,13 +263,13 @@ For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/serv
 
 ## Tracing
 
-1.  Set up a tunnel to the tracing dashboard:
+1. Set up a tunnel to the tracing dashboard:
 
     {{< text bash >}}
     $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
     {{< /text >}}
 
-1.  You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
+1. You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
 
 {{< image width="100%" ratio="42.35%"
     link="./dm-tracing.png"
