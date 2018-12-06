@@ -41,6 +41,7 @@ keywords: [kubernetes,helm]
 | `gateways.istio-ingressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
+| `gateways.istio-ingressgateway.externalIPs` | [] |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-ingressgateway.type` | `LoadBalancer` | `如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
