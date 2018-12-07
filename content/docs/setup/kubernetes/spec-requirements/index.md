@@ -34,4 +34,4 @@ cluster must satisfy the following requirements:
 
 * _**`NET_ADMIN` capability**:_ If pod security policies are enforced in your cluster and unless you use Istio
 CNI Plugin, your pods must have the `NET_ADMIN` capability allowed.
-See [Required Pod Capabilities](/help/ops/setup/pod-security-policies/).
+See [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
