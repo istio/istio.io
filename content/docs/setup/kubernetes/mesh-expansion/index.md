@@ -31,22 +31,26 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself and generate the configuration that will allow it to be used by the mesh expansion VMs. To prepare the cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply with `kubectl`.
+1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply with `kubectl`. Here's how you use `helm upgrade`:
 
-    {{< text bash >}}
+        {{< text bash >}}
     
-    $ cd install/kubernetes/helm/istio
-    $ helm upgrade --set global.meshExpansion=true istio-system .
-    $ cd -    
-    {{< /text >}}
+        $ cd install/kubernetes/helm/istio
+        $ helm upgrade --set global.meshExpansion=true istio-system .
+        $ cd -  
     
-    {{< text bash >}}
+        {{< /text >}}
     
-    $ cd install/kubernetes/helm/istio
-    $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
-    $ kubectl apply -f istio.yaml
-    $ cd -
-    {{< /text >}}
+    And here's how you use `helm template`:
+    
+         {{< text bash >}}
+    
+         $ cd install/kubernetes/helm/istio
+         $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
+         $ kubectl apply -f istio.yaml
+         $ cd -
+    
+        {{< /text >}}
     
     You can either set the option on the command line, as in our examples, or add it to a `.yaml` values file and pass it to the command with `--values`, which is the recommended approach when managing configurations with multiple options. You can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
 
@@ -199,7 +203,7 @@ The following example shows how to access the services running in the cluster us
 VM services are added to the mesh by configuring a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A ServiceEntry lets you manually add additional services to Istio's model of the mesh so that other services can find and direct traffic to them. The ServiceEntry contains the IP
 addresses, ports and labels of all VMs exposing a service.
 
-    {{< text bash yaml>}}
+    {{< text bash yaml >}}
 
     $ kubectl -n test apply -f - << EOF
     apiVersion: networking.istio.io/v1alpha3
