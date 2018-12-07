@@ -118,7 +118,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     The **Overview** page displays all the namespaces that have services in your mesh.
     The following screenshot shows a similar page:
 
-    {{< image width="75%" ratio="58%"
+    {{< image width="75%" ratio="41%"
     link="./kiali-overview.png"
     caption="Example Overview"
     >}}
@@ -178,7 +178,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
    **Applications**, **Workloads**, and **Services** menu icons on the left menu
    bar. The following screenshot shows the Bookinfo applications information:
 
-   {{< image width="80%" ratio="56%"
+   {{< image width="80%" ratio="53%"
    link="./kiali-services.png"
    caption="Example Details"
    >}}

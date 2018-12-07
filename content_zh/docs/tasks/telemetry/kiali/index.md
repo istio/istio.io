@@ -111,7 +111,7 @@ $ kubectl apply -f $HOME/istio.yaml
 
     **Overview** 页面中会显示网格里所有命名空间中的服务。例如下面的截图：
 
-    {{< image width="75%" ratio="58%"
+    {{< image width="75%" ratio="41%"
     link="/docs/tasks/telemetry/kiali/kiali-overview.png"
     caption="概览示例"
     >}}
@@ -159,7 +159,7 @@ $ kubectl apply -f $HOME/istio.yaml
 
 1. 要验证 Istio 配置的详情，可以点击左边菜单栏上的 **Applications**、**Workloads** 或者 **Services**。下面的截图展示了 Bookinfo 应用的信息：
 
-   {{< image width="80%" ratio="56%"
+   {{< image width="80%" ratio="53%"
    link="/docs/tasks/telemetry/kiali/kiali-services.png"
    caption="详情样例"
    >}}
