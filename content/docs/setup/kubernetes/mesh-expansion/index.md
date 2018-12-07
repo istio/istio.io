@@ -31,28 +31,32 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself and generate the configuration that will allow it to be used by the mesh expansion VMs. To prepare the cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply with `kubectl`. Here's how you use `helm upgrade`:
+1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
+    install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally
+    installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply
+    with `kubectl`. 
 
-        {{< text bash >}}
+    {{< text bash >}}
     
-        $ cd install/kubernetes/helm/istio
-        $ helm upgrade --set global.meshExpansion=true istio-system .
-        $ cd -  
+    $ cd install/kubernetes/helm/istio
+    $ helm upgrade --set global.meshExpansion=true istio-system .
+    $ cd -
     
-        {{< /text >}}
+    {{< /text >}}
     
-    And here's how you use `helm template`:
+    {{< text bash >}}
     
-         {{< text bash >}}
+    $ cd install/kubernetes/helm/istio
+    $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
+    $ kubectl apply -f istio.yaml
+    $ cd -
     
-         $ cd install/kubernetes/helm/istio
-         $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
-         $ kubectl apply -f istio.yaml
-         $ cd -
+    {{< /text >}}
     
-        {{< /text >}}
-    
-    You can either set the option on the command line, as in our examples, or add it to a `.yaml` values file and pass it to the command with `--values`, which is the recommended approach when managing configurations with multiple options. You can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
+    You can either set the option on the command line, as in our examples, or add it to a `.yaml` values file and pass it to
+    the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
+    can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
+    more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
 
 
 2.    Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
@@ -65,10 +69,10 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
     {{< /text >}}
 
-3.    Generate a `cluster.env` configuration to deploy in the VMs. This file contains
-    the k8s cluster IP address ranges to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as
-    `servicesIpv4Cidr`. Replace $MY_ZONE and $MY_PROJECT in the following example commands with the appropriate values to
-    obtain the CIDR after installation:
+3.    Generate a `cluster.env` configuration to deploy in the VMs. This file contains the k8s cluster IP address ranges to
+      intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
+      Replace $MY_ZONE and $MY_PROJECT in the following example commands with the appropriate values to obtain the CIDR
+      after installation:
 
     {{< text bash >}}
 
@@ -87,8 +91,8 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
     {{< /text >}}
 
-5.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes to
-    the cluster.env file with the following command. You can change the ports later if necessary.
+5.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes  
+    to the cluster.env file with the following command. You can change the ports later if necessary.
 
     {{< text bash >}}
 
@@ -200,8 +204,10 @@ The following example shows how to access the services running in the cluster us
 
 ## Running services on a mesh expansion machine
 
-VM services are added to the mesh by configuring a [ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A ServiceEntry lets you manually add additional services to Istio's model of the mesh so that other services can find and direct traffic to them. The ServiceEntry contains the IP
-addresses, ports and labels of all VMs exposing a service.
+VM services are added to the mesh by configuring a
+[ServiceEntry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A ServiceEntry lets you manually add
+additional services to Istio's model of the mesh so that other services can find and direct traffic to them. The
+ServiceEntry contains the IP addresses, ports and labels of all VMs exposing a service.
 
     {{< text bash yaml >}}
 
