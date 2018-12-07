@@ -34,11 +34,10 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply with `kubectl`.
 
     {{< text bash >}}
-
+    
     $ cd install/kubernetes/helm/istio
     $ helm upgrade --set global.meshExpansion=true istio-system .
-    $ cd -
-    
+    $ cd -    
     {{< /text >}}
     
     {{< text bash >}}
@@ -47,7 +46,6 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
     $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
     $ kubectl apply -f istio.yaml
     $ cd -
-
     {{< /text >}}
     
     You can either set the option on the command line, as in our examples, or add it to a `.yaml` values file and pass it to the command with `--values`, which is the recommended approach when managing configurations with multiple options. You can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
