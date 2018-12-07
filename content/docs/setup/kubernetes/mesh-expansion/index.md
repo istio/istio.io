@@ -31,7 +31,7 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself and generate the configuration that will allow it to be used by the mesh expansion VMs. To prepare the cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
+1.    Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
     install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally
     installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply
     with `kubectl`. 
@@ -57,7 +57,6 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
     the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
     can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
-
 
 2.    Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
 
@@ -185,22 +184,22 @@ or other mesh expansion machines.
 
 The following example shows how to access the services running in the cluster using `/etc/hosts`:
 
-    {{< text bash >}}
+{{< text bash >}}
 
-    $ # On the kubeadm machine
-    $ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
-    10.55.246.247
+$ # On the kubeadm machine
+$ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
+10.55.246.247
 
-    {{< /text >}}
+{{< /text >}}
 
-    {{< text bash >}}
+{{< text bash >}}
 
-    $ # On the VM
-    $ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
-    $ curl productpage.bookinfo.svc.cluster.local:9080
-    ... html content ...
+$ # On the VM
+$ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
+$ curl productpage.bookinfo.svc.cluster.local:9080
+... html content ...
 
-    {{< /text >}}
+{{< /text >}}
 
 ## Running services on a mesh expansion machine
 
@@ -209,29 +208,29 @@ VM services are added to the mesh by configuring a
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. The
 ServiceEntry contains the IP addresses, ports and labels of all VMs exposing a service.
 
-    {{< text bash yaml >}}
+{{< text bash yaml >}}
 
-    $ kubectl -n test apply -f - << EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: vm1
-    spec:
-       hosts:
-       - vm1.test.svc.cluster.local
-       ports:
-       - number: 80
-         name: http
-         protocol: HTTP
-       resolution: STATIC
-       endpoints:
-        - address: 10.128.0.17
-          ports:
-            http: 8080
-          labels:
-            app: vm1
-            version: 1
-    EOF
+$ kubectl -n test apply -f - << EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: vm1
+spec:
+   hosts:
+   - vm1.test.svc.cluster.local
+   ports:
+   - number: 80
+     name: http
+     protocol: HTTP
+   resolution: STATIC
+   endpoints:
+    - address: 10.128.0.17
+      ports:
+        http: 8080
+      labels:
+        app: vm1
+        version: 1
+EOF
 
     {{< /text >}}
 
