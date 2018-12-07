@@ -21,7 +21,7 @@ is not required to have access to the cluster IP addresses assigned by Kubernete
 include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
 server, or configuring the IPs in any other DNS server accessible from the VM.
 
-* If you haven't already enabled mesh expansion at install time with Helm, you have installed the [Helm client](https://docs.helm.sh/using_helm/). You'll need it to enable mesh expansion for the cluster.
+* If you haven't already enabled mesh expansion [at install time with Helm](/docs/setup/kubernetes/helm-install/), you have installed the [Helm client](https://docs.helm.sh/using_helm/). You'll need it to enable mesh expansion for the cluster.
 
 ## Installation steps
 
@@ -35,12 +35,14 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
     {{< text bash >}}
 
-    # With helm upgrade:
     $ cd install/kubernetes/helm/istio
     $ helm upgrade --set global.meshExpansion=true istio-system .
     $ cd -
-
-    # With helm template:
+    
+    {{< /text >}}
+    
+    {{< text bash >}}
+    
     $ cd install/kubernetes/helm/istio
     $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
     $ kubectl apply -f istio.yaml
