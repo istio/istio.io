@@ -171,5 +171,5 @@ non-existent resources because they may have been deleted hierarchically.
 * If desired, delete the CRDs:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
