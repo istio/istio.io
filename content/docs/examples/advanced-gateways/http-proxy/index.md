@@ -212,7 +212,7 @@ To enable Istio-controlled traffic to the external HTTPS proxy you created a TCP
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
     {{< /text >}}
 
-1.  Shutdown the Squid proxy, remove the config map and the configuration file:
+1.  Shutdown the Squid proxy, remove the `ConfigMap` and the configuration file:
 
     {{< text bash >}}
     $ kubectl delete -n external deployment squid
