@@ -134,6 +134,42 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
+When Mutual TLS is enabled, we have two options to support HTTP probe, liveness probe rewrites and seperate port.
+
+#### Probe Rewrite
+
+This approache rewrites the application `PodSpec` liveness probe, such that the probe request will be sent to
+sidecar. And the sidecar then redirects the request to application, and strip the response body only returning
+the response code.
+
+To use this approach, you need to install istio with helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set global.mtls.enabled=true --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
+    -f install/kubernetes/helm/istio/values.yaml > $HOME/istio.yaml
+$ kubectl apply -f $HOME/istio.yaml
+{{< /text >}}
+
+Re-deploy liveness health check app.
+
+{{< text bash >}}
+$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl get pod
+NAME                             READY     STATUS    RESTARTS   AGE
+liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
+{{< /text >}}
+
+Currently, this feature is not turned on by default and only available for `istioctl kube-inject`,
+not for webhook auto inject yet. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
+on whether changing this to default behavior for istio installment.
+
+#### Separate Port
+
 Again, enable mutual TLS for services in the default namespace by adding namespace-wide authentication policy and a destination rule:
 
 1. To configure the authentication policy, run:
