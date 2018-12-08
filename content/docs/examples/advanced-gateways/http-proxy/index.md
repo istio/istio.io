@@ -4,7 +4,7 @@ description: Describes how to configure Istio to let applications use an externa
 weight: 60
 keywords: [traffic-management,egress]
 ---
-The [Configure an Egress Gateway](docs/examples/advanced-gateways/egress-gateway/) showed how you can direct traffic to
+The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) showed how you can direct traffic to
 external services from your mesh via an Istio edge component called _Egress Gateway_. However, there are cases when you
 must use an external, legacy (non-Istio) HTTPS proxy to access external services. For example, your company may already
 have such a proxy in place and all the applications within the organization may be required to direct their traffic
