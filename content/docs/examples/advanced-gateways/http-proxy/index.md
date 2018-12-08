@@ -195,7 +195,7 @@ In this example you configured access to an external legacy HTTPS proxy from the
 remote HTTPS proxy, you deployed an HTTPS proxy in a separate namespace, without Istio automatic sidecar injection. In addition, for simulation of a remote proxy, you addressed the HTTPS proxy by its IP address and not by a Kubernetes
 service.
 
-To enable Istio-controlled traffic to the external HTTPS proxy you created a TCP ServiceEntry with the IP address and
+To enable Istio-controlled traffic to the external HTTPS proxy you created a TCP service entry with the IP address and
  the port of the proxy.
 
 ## Cleanup
