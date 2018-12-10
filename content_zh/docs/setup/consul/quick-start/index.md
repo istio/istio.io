@@ -45,10 +45,9 @@ keywords: [consul]
     {{< text bash >}}
     $ docker-compose -f install/consul/istio.yaml up -d
     {{< /text >}}
-    
+
     > {{< warning_icon >}} Consul的安装只配置 Istio Pilot 来使用 Istio Mixer (安全策略和遥控报告) or Istio Galley, 更多的安装步骤
     > 将会是必要的. 这些步骤超出本指南的范围.
-
 
 1.  确认所有的 docker 容器都在运行：
 
