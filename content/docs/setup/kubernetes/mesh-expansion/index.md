@@ -232,7 +232,7 @@ spec:
         version: 1
 EOF
 
-    {{< /text >}}
+{{< /text >}}
 
 ## Troubleshooting
 
