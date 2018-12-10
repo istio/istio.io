@@ -224,7 +224,7 @@ performance.
   functionality being provided. Components and APIs must all be designed with
   performance and scale in mind.
 
-* **Incrementality**: As operators and developers become more dependent on the
+* **Extensibility**: As operators and developers become more dependent on the
   functionality that Istio provides, the system must grow with their needs.
   While we continue to add new features, the greatest need is the ability to
   extend the policy system, to integrate with other sources of policy and
