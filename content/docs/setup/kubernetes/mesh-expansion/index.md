@@ -36,22 +36,22 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
     installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply
     with `kubectl`. 
 
-        {{< text bash >}}
+    {{< text bash >}}
     
-        $ cd install/kubernetes/helm/istio
-        $ helm upgrade --set global.meshExpansion=true istio-system .
-        $ cd -
+    $ cd install/kubernetes/helm/istio
+    $ helm upgrade --set global.meshExpansion=true istio-system .
+    $ cd -
     
-        {{< /text >}}
+    {{< /text >}}
     
-        {{< text bash >}}
+    {{< text bash >}}
         
-        $ cd install/kubernetes/helm/istio
-        $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
-        $ kubectl apply -f istio.yaml
-        $ cd -
+    $ cd install/kubernetes/helm/istio
+    $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
+    $ kubectl apply -f istio.yaml
+    $ cd -
     
-        {{< /text >}}
+    {{< /text >}}
     
     You can either set the option on the command line, as in our examples, or add it to a `.yaml` values file and pass it to
     the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
