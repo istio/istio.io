@@ -5,7 +5,7 @@ weight: 10
 keywords: [consul]
 ---
 
-通过 Docker Compose 快速安装和配置 Istio。
+通过 Docker Compose 快速安装和配置 Istio 网络。
 
 ## 前置条件
 
@@ -40,11 +40,15 @@ keywords: [consul]
 
 1.  切换到 Istio 的安装目录。
 
-1.  启动 Istio 控制平面的容器：
+1.  启动 Istio 网络控制平面的容器：
 
     {{< text bash >}}
     $ docker-compose -f install/consul/istio.yaml up -d
     {{< /text >}}
+    
+    > {{< warning_icon >}} Consul的安装只配置 Istio Pilot 来使用 Istio Mixer (安全策略和遥控报告) or Istio Galley, 更多的安装步骤
+    > 将会是必要的. 这些步骤超出本指南的范围.
+
 
 1.  确认所有的 docker 容器都在运行：
 
