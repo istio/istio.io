@@ -36,13 +36,13 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
     installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply
     with `kubectl`. 
 
-        {{< text bash >}}
+    {{< text bash >}}
     
-        $ cd install/kubernetes/helm/istio
-        $ helm upgrade --set global.meshExpansion=true istio-system .
-        $ cd -
+    $ cd install/kubernetes/helm/istio
+    $ helm upgrade --set global.meshExpansion=true istio-system .
+    $ cd -
     
-        {{< /text >}}
+    {{< /text >}}
     
     {{< text bash >}}
     
@@ -92,7 +92,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
 5.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes  
     to the cluster.env file with the following command. You can change the ports later if necessary.
-
+    
     {{< text bash >}}
 
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
