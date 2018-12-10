@@ -143,6 +143,10 @@ You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://w
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
+At this point the proxy has been deployed and tested by using `curl` to access `wikipedia.org` through the proxy, all
+without Istio. It's just plain Kubernetes setting so far, which simulates an external HTTPS proxy.
+In the following section you are going to configure traffic from Istio-enabled pods to the HTTPS proxy.
+
 ## Configure traffic to external HTTPS proxy
 
 1.  Define a TCP (!) Service Entry for the HTTPS proxy. Note that despite the fact that HTTP
