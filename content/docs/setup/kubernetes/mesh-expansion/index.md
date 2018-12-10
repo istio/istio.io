@@ -31,7 +31,7 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself and generate the configuration that will allow it to be used by the mesh expansion VMs. To prepare the cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1.    Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
+1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
     install with Helm, you can either `helm upgrade` with the new option (note that this will only work if you originally
     installed with Helm and Tiller), or you can use `helm template` to update your configuration with the option and reapply
     with `kubectl`. 
@@ -58,7 +58,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
     can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
 
-2.    Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
+2.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
 
     {{< text bash >}}
 
@@ -68,10 +68,10 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
     {{< /text >}}
 
-3.    Generate a `cluster.env` configuration to deploy in the VMs. This file contains the k8s cluster IP address ranges to
-      intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
-      Replace $MY_ZONE and $MY_PROJECT in the following example commands with the appropriate values to obtain the CIDR
-      after installation:
+3.  Generate a `cluster.env` configuration to deploy in the VMs. This file contains the k8s cluster IP address ranges to
+    intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
+    Replace $MY_ZONE and $MY_PROJECT in the following example commands with the appropriate values to obtain the CIDR
+    after installation:
 
     {{< text bash >}}
 
@@ -80,7 +80,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
     {{< /text >}}
 
-4.    Check the contents of the generated file. It should be similar to the following example:
+4.  Check the contents of the generated file. It should be similar to the following example:
 
     {{< text bash >}}
 
@@ -99,7 +99,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
     {{< /text >}}
 
-6.    Extract the initial keys for the service account to use on the VMs.
+6.  Extract the initial keys for the service account to use on the VMs.
 
     {{<text bash>}}
 
@@ -116,7 +116,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
 Next, on each VM you want to add to the mesh:
 
-1.    Install the debian package with the Envoy sidecar:
+1.  Install the debian package with the Envoy sidecar:
 
     {{< text bash >}}
 
@@ -125,9 +125,9 @@ Next, on each VM you want to add to the mesh:
 
     {{< /text >}}
 
-2.    Copy the cluster.env and *.pem files that you created in the previous section to the VM.
+2.  Copy the cluster.env and *.pem files that you created in the previous section to the VM.
 
-3.    Add the IP address of the Istio gateway (which we found in the previous section) to `/etc/hosts` or to the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is an example of updating an `/etc/hosts` file with the Istio gateway address:
+3.  Add the IP address of the Istio gateway (which we found in the previous section) to `/etc/hosts` or to the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is an example of updating an `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash>}}
 
@@ -135,7 +135,7 @@ Next, on each VM you want to add to the mesh:
 
     {{< /text >}}
 
-4.    Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs`.
+4.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs`.
 
     {{< text bash >}}
 
@@ -144,7 +144,7 @@ Next, on each VM you want to add to the mesh:
 
     {{< /text >}}
 
-6.    Install `cluster.env` under `/var/lib/istio/envoy`.
+6.  Install `cluster.env` under `/var/lib/istio/envoy`.
 
     {{< text bash >}}
 
@@ -152,7 +152,7 @@ Next, on each VM you want to add to the mesh:
 
     {{< /text >}}
 
-5.    Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy` to the Istio proxy.
+5.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy` to the Istio proxy.
 
     {{< text bash >}}
 
@@ -160,7 +160,7 @@ Next, on each VM you want to add to the mesh:
 
     {{< /text >}}
 
-7.    Verify the node agent works:
+7.  Verify the node agent works:
 
     {{< text bash >}}
 
@@ -170,7 +170,7 @@ Next, on each VM you want to add to the mesh:
 
     {{< /text >}}
 
-8.    Start Istio using `systemctl`.
+8.  Start Istio using `systemctl`.
 
     {{< text bash >}}
 
