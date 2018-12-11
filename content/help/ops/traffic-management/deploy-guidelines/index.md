@@ -249,7 +249,7 @@ For example, let's say you have 2 hosts that share the same TLS cert like this:
 * `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw2`
 
 Since both gateways are served by the same workload (i.e., selector `istio: ingressgateway`) requests to both services
-(`service1.test.com` and `service2.test.com`) will resolve to same IP. If `service1.test.com` is accessed first, it
+(`service1.test.com` and `service2.test.com`) will resolve to the same IP. If `service1.test.com` is accessed first, it
 will return the wildcard cert (`*.test.com`) indicating that connections to `service2.test.com` can use the same cert.
 Browsers like Chrome and Firefox will consequently reuse the existing connection for requests to `service2.test.com`.
 Since the gateway (`gw1`) has no route for `service2.test.com`, it will then return a 404 (Not Found) response.
