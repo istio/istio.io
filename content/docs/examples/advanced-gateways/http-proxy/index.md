@@ -151,7 +151,7 @@ In the following section you are going to configure traffic from Istio-enabled p
 
 1.  Define a TCP (!) Service Entry for the HTTPS proxy. Note that despite the fact that the HTTP
     [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) method is used to communicate with HTTPS proxies,
-    the traffic between the application and the proxies is TCP (a TCP tunnel), and not HTTP.
+    the traffic between the application and the proxy is TCP (a TCP tunnel), and not HTTP.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
