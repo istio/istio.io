@@ -41,8 +41,8 @@ through it. This example shows how to enable access to an external HTTPS proxy.
 
 ## Deploy an HTTPS proxy
 
-For this example, to simulate a legacy proxy, you deploy an HTTPS proxy inside your cluster. To simulate the fact that
-in the real life your proxy may be external to your cluster, you will address the pod of the proxy by its IP address and
+For this example, to simulate a legacy proxy, you deploy an HTTPS proxy inside your cluster. Also, to simulate a more
+realistic proxy that is running outside of your cluster, you will address the pod of the proxy by its IP address and
 not by a Kubernetes service.
 You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://www.squid-cache.org).
 
