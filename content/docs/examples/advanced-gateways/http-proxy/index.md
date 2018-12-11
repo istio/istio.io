@@ -8,7 +8,11 @@ The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gatewa
 external services from your mesh via an Istio edge component called _Egress Gateway_. However, there are cases when you
 must use an external, legacy (non-Istio) HTTPS proxy to access external services. For example, your company may already
 have such a proxy in place and all the applications within the organization may be required to direct their traffic
-through it. This example shows how to enable access to an external HTTPS proxy.
+through it.
+
+This example shows how to enable access to an external HTTPS proxy. Since access to HTTPS proxies is performed by the
+HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) method, configuring traffic to an external HTTPS
+proxy is different from configuring traffic to external HTTP and HTTPS services.
 
 ## Before you begin
 
