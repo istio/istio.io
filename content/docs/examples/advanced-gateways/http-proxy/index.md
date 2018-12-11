@@ -136,7 +136,7 @@ You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://w
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  Check the access log of the proxy and see your request:
+1.  Check the access log of the proxy for your request:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
@@ -180,14 +180,14 @@ In the following section you are going to configure traffic from Istio-enabled p
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  Check the Istio sidecar proxy's logs and see your request appear:
+1.  Check the Istio sidecar proxy's logs for your request:
 
     {{< text bash >}}
     $ kubectl logs $SOURCE_POD -c istio-proxy
     [2018-12-07T10:38:02.841Z] "- - -" 0 - 702 87599 92 - "-" "-" "-" "-" "172.30.109.95:3128" outbound|3128||my-company-proxy.com 172.30.230.52:44478 172.30.109.95:3128 172.30.230.52:44476 -
     {{< /text >}}
 
-1.  Check the access log of the proxy and see your request:
+1.  Check the access log of the proxy for your request:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
