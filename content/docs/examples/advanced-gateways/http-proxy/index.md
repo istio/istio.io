@@ -45,9 +45,9 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
 
 ## Deploy an HTTPS proxy
 
-For this example, to simulate a legacy proxy, you deploy an HTTPS proxy inside your cluster. Also, to simulate a more
-realistic proxy that is running outside of your cluster, you will address the pod of the proxy by its IP address and
-not by a Kubernetes service.
+For the sake of this example only, to simulate a legacy proxy, you deploy an HTTPS proxy inside your cluster.
+Also, to simulate a more realistic proxy that is running outside of your cluster, you will address the pod of the proxy
+by its IP address and not by a Kubernetes service.
 You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://www.squid-cache.org).
 
 1.  Create a namespace for the HTTPS proxy. Note that since you do not label it for Istio automatic sidecar injection,
