@@ -19,12 +19,12 @@ TBD
 
 ## Istioctl
 
-- 弃用 `istioctl create`，`istioctl replace`， `istioctl get` 和 `istioctl delete`。使用 `kubectl` 代替（参考<https://kubernetes.io/docs/tasks/tools/install-kubectl>）。下个版本（1.2）将删除这些弃用的命令。
-- 弃用 `istioctl gen-deploy`。使用 [`helm template`](/zh/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template) 代替。下个版本（1.2）将删除这些弃用的命令。
+- 弃用 `istioctl create`，`istioctl replace`， `istioctl get` 和 `istioctl delete`。使用 `kubectl` 代替（参考<https://kubernetes.io/docs/tasks/tools/install-kubectl>）。下个版本（1.2）将删除这些弃用的命令。
+- 弃用 `istioctl gen-deploy`。使用 [`helm template`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template) 代替。下个版本（1.2）将删除这些弃用的命令。
 
-- 为 Istio Kubernetes 资源的离线校验增加 [`istioctl validate`](/zh/docs/reference/commands/istioctl/#istioctl-validate)。其目的是代替已经弃用的 `istioctl create` 命令。
+- 为 Istio Kubernetes 资源的离线校验增加 [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate)。其目的是代替已经弃用的 `istioctl create` 命令。
 
-- 增加 [`istioctl experimental verify-install`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-verify-install)。这个实验命令验证给的 Istio 安装 YAML 文件的安装状态。
+- 增加 [`istioctl experimental verify-install`](/docs/reference/commands/istioctl/#istioctl-experimental-verify-install)。这个实验命令验证给的 Istio 安装 YAML 文件的安装状态。
 
 ## 配置
 
