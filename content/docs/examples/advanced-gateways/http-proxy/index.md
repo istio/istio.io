@@ -46,7 +46,7 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
 ## Deploy an HTTPS proxy
 
 To simulate a legacy proxy and only for this example, you deploy an HTTPS proxy inside your cluster.
-Also, to simulate a more realistic proxy that is running outside of your cluster, you will address the pod of the proxy
+Also, to simulate a more realistic proxy that is running outside of your cluster, you will address the proxy's pod
 by its IP address and not by the domain name of a Kubernetes service.
 You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://www.squid-cache.org).
 
