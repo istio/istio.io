@@ -210,7 +210,7 @@ In addition, for simulation of a remote proxy, you addressed the HTTPS proxy by 
 name of a Kubernetes service.
 
 To enable Istio-controlled traffic to the external HTTPS proxy you created a TCP service entry with the IP address and
- the port of the proxy. Note that you must not create service entries for the external services you access though the
+ the port of the proxy. Note that you must not create service entries for the external services you access through the
  external proxy, like `wikipedia.org`. This is because from Istio's point of view the requests are sent to the
  external proxy only; Istio is not aware of the fact that the external proxy forwards the requests further.
 
