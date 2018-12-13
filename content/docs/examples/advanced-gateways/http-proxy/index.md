@@ -36,7 +36,7 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
 
     You can use any pod with `curl` installed as a test source.
 
-*   Create the `SOURCE_POD` environment variable to store the name of the source pod for sending requests to external
+*   To send requests to external services, create the `SOURCE_POD` environment variable to store the name of the source pod:
     services:
 
     {{< text bash >}}
