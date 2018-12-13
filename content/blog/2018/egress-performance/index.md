@@ -77,12 +77,7 @@ This scenario verifies the case where another proxy is required to access wildca
 
 * Istio version: 1.0.2
 * K8s version: `1.10.5_1517`
-* Acmeair App:
-  * 4 services
-  * 1 replica of each
-  * inter-services transactions
-  * external Mongo DB
-  * avg payload: 620 bytes
+* Acmeair App: 4 services (1 replica of each), inter-services transactions, external Mongo DB, avg payload: 620 bytes.
 
 ## Results
 
