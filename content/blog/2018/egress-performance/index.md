@@ -55,7 +55,7 @@ The egress gateway for the MongoDB is defined as well as destination rule and vi
     caption="Introduction of the egress-gateway to access MongoDB"
     >}}
 
-### Case 4: Mutual TLS between sidecars and the egress gateway 
+### Case 4: Mutual TLS between sidecars and the egress gateway
 
 In this case, there is an extra layer of security between the sidecars and the gateway, so some impact in performance is expected.
 
@@ -75,14 +75,14 @@ This scenario verifies the case where another proxy is required to access wildca
 
 ## Environment
 
-* Istio version:  1.0.2	
+* Istio version: 1.0.2
 * K8s version: `1.10.5_1517`
 * Acmeair App:
   - 4 services
   - 1 replica of each
   - inter-services transactions
   - external Mongo DB
-  - avg payload: 620 bytes	
+  - avg payload: 620 bytes
 
 ## Results
 
@@ -98,7 +98,7 @@ The chart below shows the throughput obtained for the different cases:
     >}}
 
 As we can see, there is no major impact in having sidecars and the egress gateway between the application and the external MongoDB, but enabling mTLS and then adding the SNI proxy caused a degradation in the throughput of about 10% and 24%, respectively.
- 
+
 ### Response Time
 
 The average response times for the different requests were collect when traffic was being driven with 20 clients. The chart below shows the average, median, 90%, 95% and 99% average values for each case:
@@ -109,7 +109,7 @@ The average response times for the different requests were collect when traffic 
     >}}
 
 Likewise, not much difference in the response times for the 3 first cases, but mTLS and the extra proxy adds noticeable latency.
- 
+
 ### CPU Utilization
 
 The CPU usage was collected for all Istio components as well as for the sidecars during the runs. For a fair comparison, CPU used by Istio was normalized by the throughput obtained for a given run. The results are shown in the following graph:
