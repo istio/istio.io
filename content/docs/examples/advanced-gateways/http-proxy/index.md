@@ -18,8 +18,7 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which you will use as a test source for external calls via the proxy.
+*   To have test source for external calls via the proxy, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
     If you have enabled
     [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
