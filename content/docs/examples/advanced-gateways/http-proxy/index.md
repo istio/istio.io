@@ -121,7 +121,7 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  Define an environment variable to hold the IP address of the proxy pod:
+1.  Obtain the IP address of the proxy pod and define the `PROXY_IP` environment variable to store it:
 
     {{< text bash >}}
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
