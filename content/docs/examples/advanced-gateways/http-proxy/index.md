@@ -205,8 +205,9 @@ The next step is to configure the traffic from the Istio-enabled pods to use the
 ## Understanding what happened
 
 In this example you configured access to an external legacy HTTPS proxy from the Istio service mesh. To simulate a
-remote HTTPS proxy, you deployed an HTTPS proxy in a separate namespace, without Istio automatic sidecar injection. In addition, for simulation of a remote proxy, you addressed the HTTPS proxy by its IP address and not by a Kubernetes
-service.
+remote HTTPS proxy, you deployed an HTTPS proxy in a separate namespace, without Istio automatic sidecar injection.
+In addition, for simulation of a remote proxy, you addressed the HTTPS proxy by its IP address and not by the domain
+name of a Kubernetes service.
 
 To enable Istio-controlled traffic to the external HTTPS proxy you created a TCP service entry with the IP address and
  the port of the proxy. Note that you must not create service entries for the external services you access though the
