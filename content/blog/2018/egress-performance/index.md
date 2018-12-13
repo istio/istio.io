@@ -10,7 +10,7 @@ keywords: [performance,traffic-management,egress,mongo]
 
 The main objective of this investigation was to determine the impact on performance and resources utilization when an egress gateway is added in the service mesh to access an external service (MongoDB, in this case). The steps to configure an egress gateway for an external MongoDB are described in the blog [Consuming External MongoDB Services](/blog/2018/egress-mongo/).
 
-The application used for this investigation was the Java version of Acmeair, which simulates an airline reservation system. This application is used in the Performance Regression Patrol of Istio daily builds, but on that setup the microservices have been accessing the external MongoDB directly via their sidecars (istio-proxies), without an egress gateway.  
+The application used for this investigation was the Java version of Acmeair, which simulates an airline reservation system. This application is used in the Performance Regression Patrol of Istio daily builds, but on that setup the microservices have been accessing the external MongoDB directly via their sidecars (istio-proxies), without an egress gateway.
 
 The diagram below illustrates how regression patrol currently runs with Acmeair and Istio:
 
@@ -23,6 +23,7 @@ Another difference is that the application communicates with the external DB wit
 
 Several cases for accessing the external database from the mesh were tested and described next.
 
+## Egress Traffic Cases
 
 ### Case 1:  By-passing the sidecar
 
@@ -36,18 +37,14 @@ In this case, the sidecar does not intercept the communication between the appli
     caption="Traffic to external MongoDB by-passing the sidecar"
     >}}
 
-
-
 ### Case 2: Through the sidecar, with service entry
 
-This is the default configuration when the sidecar is injected into the application pod. All messages are intercepted by the sidecar and routed to the destination according to the configured rules, including the communication with external services. The MongoDB was defined as a ServiceEntry. 
+This is the default configuration when the sidecar is injected into the application pod. All messages are intercepted by the sidecar and routed to the destination according to the configured rules, including the communication with external services. The MongoDB was defined as a ServiceEntry.
 
 {{< image width="70%" ratio="60%"
     link="./case2_sidecar_passthru3.png"
     caption="Sidecar intercepting traffic to external MongoDB"
     >}}
-
-
 
 ### Case 3: Egress Gateway
 
@@ -58,7 +55,6 @@ The egress gateway for the MongoDB is defined as well as destination rule and vi
     caption="Introduction of the egress-gateway to access MongoDB"
     >}}
 
-
 ### Case 4: Mutual TLS between sidecars and the egress gateway 
 
 In this case, there is an extra layer of security between the sidecars and the gateway, so some impact in performance is expected.
@@ -68,33 +64,25 @@ In this case, there is an extra layer of security between the sidecars and the g
     caption="Enabling mTLS between sidecars and the egress-gateway"
     >}}
 
-
-
 ### Case 5: Egress Gateway with SNI Proxy
 
 This scenario verifies the case where another proxy is required to access wildcarded domains. This may be required due current limitations of envoy. An nginx proxy was created as sidecar in the egress-gateway pod.
-
 
 {{< image width="70%" ratio="60%"
     link="./case5_egressgw_sni_proxy3.png"
     caption="Egress gateway with additional SNI Proxy"
     >}}
 
-
 ## Environment
 
-	
 * Istio version:  1.0.2	
-* K8s version: 1.10.5_1517		
+* K8s version: `1.10.5_1517`
 * Acmeair App:
-
   - 4 services
   - 1 replica of each
   - inter-services transactions
   - external Mongo DB
   - avg payload: 620 bytes	
-
-
 
 ## Results
 
@@ -109,9 +97,7 @@ The chart below shows the throughput obtained for the different cases:
     caption="Throughput obtained for the different cases"
     >}}
 
-
 As we can see, there is no major impact in having sidecars and the egress gateway between the application and the external MongoDB, but enabling mTLS and then adding the SNI proxy caused a degradation in the throughput of about 10% and 24%, respectively.
-
  
 ### Response Time
 
@@ -122,11 +108,7 @@ The average response times for the different requests were collect when traffic 
     caption="Response times obtained for the different configurations"
     >}}
 
-
 Likewise, not much difference in the response times for the 3 first cases, but mTLS and the extra proxy adds noticeable latency.
-
-
-
  
 ### CPU Utilization
 
@@ -137,13 +119,9 @@ The CPU usage was collected for all Istio components as well as for the sidecars
     caption="CPU usage normalized by TPS"
     >}}
 
-
 In terms of CPU consumption per transaction, Istio has used significant more CPU only in the egress-gw + SNI proxy case.
-
-Detailed results for each case can be found here:  https://ibmcloud-perf.istio.io/may/1.0.2/
-
 
 ## Conclusion
 
-In this investigation, we tried different options to access an external TLS-enabled MongoDB to compare their performance. The introduction of the Ingress Gateway did not cause a significant impact to the performance nor meaningful additional CPU consumption. Only when enabling mTLS between sidecars and egress gateway or using an additional SNI proxy for wildcarded domains we could observe some degradation.    
+In this investigation, we tried different options to access an external TLS-enabled MongoDB to compare their performance. The introduction of the Ingress Gateway did not cause a significant impact to the performance nor meaningful additional CPU consumption. Only when enabling mTLS between sidecars and egress gateway or using an additional SNI proxy for wildcarded domains we could observe some degradation.
 
