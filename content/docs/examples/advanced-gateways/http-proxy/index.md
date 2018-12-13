@@ -36,7 +36,8 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
 
     You can use any pod with `curl` installed as a test source.
 
-*   To send requests to external services, create the `SOURCE_POD` environment variable to store the name of the source pod:
+*   To send requests to external services, create the `SOURCE_POD` environment variable to store the name of the source
+    pod:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
