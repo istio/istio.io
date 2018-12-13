@@ -34,7 +34,7 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    Note that you can use as a test source any pod that has `curl` installed.
+    You can use any pod with `curl` installed as a test source.
 
 *   Create the `SOURCE_POD` environment variable to store the name of the source pod for sending requests to external
     services:
