@@ -180,8 +180,8 @@ The next step is to configure the traffic from the Istio-enabled pods to use the
     EOF
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in the `default` namespace. The `sleep` pod has Istio sidecar injected and its
-    traffic is controlled by Istio.
+1.  Send a request from the `sleep` pod in the `default` namespace. The `sleep` pod has Istio sidecar injected so
+    Istio controls its traffic.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
