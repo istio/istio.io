@@ -152,7 +152,7 @@ So far, you completed the following tasks without Istio:
 * You deployed the HTTPS proxy.
 * You used `curl` to access the `wikipedia.org` external service through the proxy.
 
-The next step is to configure the traffic from the Istio-enabled pods to use the HTTPS proxy.
+Next, you must configure the traffic from the Istio-enabled pods to use the HTTPS proxy.
 
 ## Configure traffic to external HTTPS proxy
 
