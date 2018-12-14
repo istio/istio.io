@@ -126,7 +126,7 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
     {{< /text >}}
 
-1.  Define an environment variable to store the port of your proxy. The deployment of Squid in this example uses port
+1.  Define the `PROXY_PORT` environment variable to store the port of your proxy. In this case, Squid uses port
     3128.
 
     {{< text bash >}}
