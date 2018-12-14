@@ -10,9 +10,9 @@ cases require an external, legacy (non-Istio) HTTPS proxy to access external ser
 company may already have such a proxy in place and all the applications within the organization may be required to
 direct their traffic through it.
 
-This example shows how to enable access to an external HTTPS proxy. Since access to HTTPS proxies is performed by the
-HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) method, configuring traffic to an external HTTPS
-proxy is different from configuring traffic to external HTTP and HTTPS services.
+This example shows how to enable access to an external HTTPS proxy. Since applications use the HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) method to establish connections with HTTPS proxies,
+configuring traffic to an external HTTPS proxy is different from configuring traffic to external HTTP and HTTPS
+services.
 
 ## Before you begin
 
