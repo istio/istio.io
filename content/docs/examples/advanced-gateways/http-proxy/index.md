@@ -51,7 +51,7 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
 
 1.  Create a namespace for the HTTPS proxy. Since the automatic sidecar injection is disabled in Istio by default,
     Istio sidecars will not be injected and Istio will not control traffic in this namespace. You need this behavior to
-    simulate the proxy outside of the cluster.
+    simulate the proxy being outside of the cluster.
 
     {{< text bash >}}
     $ kubectl create namespace external
