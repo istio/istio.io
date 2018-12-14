@@ -179,7 +179,7 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
     EOF
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in the `default` namespace. The `sleep` pod has Istio sidecar injected so
+1.  Send a request from the `sleep` pod in the `default` namespace. Because the `sleep` pod has a sidecar, 
     Istio controls its traffic.
 
     {{< text bash >}}
