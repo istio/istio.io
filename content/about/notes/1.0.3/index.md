@@ -23,7 +23,7 @@ This release note describes what's different between Istio 1.0.2 and Istio 1.0.3
 
 - Pilot performance and scalability has been greatly enhanced. Pilot now delivers endpoint updates to 500 sidecars in under 1 second.
 
-- Default [trace sampling](/docs/tasks/telemetry/distributed-tracing/#trace-sampling) is set to 1%.
+- Default [trace sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) is set to 1%.
 
 ## Policy and telemetry
 
