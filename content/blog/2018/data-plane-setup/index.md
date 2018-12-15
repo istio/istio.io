@@ -19,7 +19,7 @@ _*From Istio’s Documentation:*_
 
 > - The control plane manages and configures the proxies to route traffic. Additionally, the control plane configures Mixers to enforce policies and collect telemetry.
 
-{{< image width="40%" ratio="33%" link="./arch-2.svg" caption="" >}}
+{{< image width="40%" ratio="33%" link="./arch-2.svg" alt="" caption="" >}}
 It is important to understand that the sidecar injection into application pods happens automatically, though manual injection is also possible. Traffic is directed from the application services to and from these sidecars without developers needing to worry about it. Once they are connected to the Istio service mesh, they can start using and reaping the benefits of all that it has to offer. But how does the data plane plumbing happen and what is really required to make it work seamlessly? In this post we will deep-dive into the specifics of sidecar injection models for a very clear understanding of how it works.
 
 ## Sidecar Injection
