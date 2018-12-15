@@ -1,72 +1,14 @@
 ---
-title: Distributed Tracing With Jaeger
-description: How to configure the proxies to send tracing requests to Zipkin or Jaeger.
-weight: 10
+title: Overview
+description: Overview of distributed tracing in Istio.
+weight: 1
 keywords: [telemetry,tracing]
-aliases:
-    - /docs/tasks/zipkin-tracing.html
 ---
 
-This task shows you how Istio-enabled applications can be configured to collect trace spans.
-After completing this task, you should understand all of the assumptions about your
-application and how to have it participate in tracing, regardless of what
-language/framework/platform you use to build your application.
+After completing this task, you understand how to have your application participate in tracing,
+regardless of the language, framework, or platform you use to build your application.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample is used as the
-example application for this task.
-
-## Before you begin
-
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
-
-    Either use the `istio-demo.yaml` or `istio-demo-auth.yaml` template, which includes tracing support, or
-    use the Helm chart with tracing enabled by setting the `--set tracing.enabled=true` option.
-
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
-
-## Accessing the dashboard
-
-Setup access to the Jaeger dashboard by using port-forwarding:
-
-{{< text bash >}}
-$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
-{{< /text >}}
-
-Access the Jaeger dashboard by opening your browser to [http://localhost:16686](http://localhost:16686).
-
-## Generating traces using the Bookinfo sample
-
-With the Bookinfo application up and running, generate trace information by accessing
-`http://$GATEWAY_URL/productpage` one or more times.
-
-From the left-hand pane of the Jaeger dashboard, select `productpage` from the Service drop-down list and click
-Find Traces. You should see something similar to the following:
-
-{{< image width="100%" ratio="52.68%"
-    link="./istio-tracing-list.png"
-    caption="Tracing Dashboard"
-    >}}
-
-If you click on the top (most recent) trace, you should see the details corresponding to your
-latest refresh of the `/productpage`.
-The page should look something like this:
-
-{{< image width="100%" ratio="36.32%"
-    link="./istio-tracing-details.png"
-    caption="Detailed Trace View"
-    >}}
-
-As you can see, the trace is comprised of a set of spans,
-where each span corresponds to a Bookinfo service invoked during the execution of a `/productpage` request.
-
-Every RPC is represented by two spans in the trace. For example, the call from `productpage` to `reviews` starts
-with the span labeled `productpage reviews.default.svc.cluster.local:9080/`, which represents the client-side
-span for the call. It took 24.13 ms. The second span (labeled `reviews reviews.default.svc.cluster.local:9080/`)
-is a child of the first span and represents the server-side span for the call. It took 22.99 ms.
-
-The trace for the call to the `reviews` services reveals two subsequent RPC's in the trace. The first is to the `istio-policy`
-service, reflecting the server-side Check call made for the service to authorize access. The second is the call out to
-the `ratings` service.
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
 
 ## Understanding what happened
 
@@ -138,7 +80,7 @@ When you make downstream calls in your applications, make sure to include these 
 
 Istio captures a trace for all requests by default. For example, when
 using the Bookinfo sample application above, every time you access
-`/productpage` you see a corresponding trace in the Jaeger
+`/productpage` you see a corresponding trace in the
 dashboard. This sampling rate is suitable for a test or low traffic
 mesh. For a high traffic mesh you can lower the trace sampling
 percentage in one of two ways:
@@ -162,14 +104,4 @@ percentage in one of two ways:
 
 In both cases, valid values are from 0.0 to 100.0 with a precision of 0.01.
 
-## Cleanup
 
-*   Remove any `kubectl port-forward` processes that may still be running:
-
-    {{< text bash >}}
-    $ killall kubectl
-    {{< /text >}}
-
-*   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-    to shutdown the application.

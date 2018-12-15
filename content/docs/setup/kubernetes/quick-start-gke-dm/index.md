@@ -221,7 +221,7 @@ You should see the trace statistics sent earlier on [http://localhost:16686](htt
     caption="Tracing Dashboard"
     >}}
 
-For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
+For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened).
 
 ## Uninstalling
 
