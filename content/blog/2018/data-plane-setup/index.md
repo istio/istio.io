@@ -11,30 +11,36 @@ keywords: [kubernetes, istio, sidecar-injection, admission-controller, mutatingw
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 
-_*From Istio’s Documentation:*_
+_From Istio’s Documentation:_
 
 > An Istio service mesh is logically split into a data plane and a control plane.
+>
+>  The data plane is composed of a set of intelligent proxies (Envoy) deployed as sidecars. These proxies mediate and control all network communication between microservices along with Mixer, a general-purpose policy and telemetry hub.
+>
+>  The control plane manages and configures the proxies to route traffic. Additionally, the control plane configures Mixers to enforce policies and collect telemetry.
 
-> - The data plane is composed of a set of intelligent proxies (Envoy) deployed as sidecars. These proxies mediate and control all network communication between microservices along with Mixer, a general-purpose policy and telemetry hub.
-
-> - The control plane manages and configures the proxies to route traffic. Additionally, the control plane configures Mixers to enforce policies and collect telemetry.
-
-{{< image width="40%" ratio="33%" link="./arch-2.svg" alt="" caption="" >}}
+{{< image width="40%"
+    ratio="33%"
+    link="./arch-2.svg"
+    alt="The overall architecture of an Istio-based application."
+    caption="Istio Architecture"
+    >}}
 It is important to understand that the sidecar injection into application pods happens automatically, though manual injection is also possible. Traffic is directed from the application services to and from these sidecars without developers needing to worry about it. Once they are connected to the Istio service mesh, they can start using and reaping the benefits of all that it has to offer. But how does the data plane plumbing happen and what is really required to make it work seamlessly? In this post we will deep-dive into the specifics of sidecar injection models for a very clear understanding of how it works.
 
 ## Sidecar Injection
 
 In simple terms, sidecar injection is done by modifying the pod template with the configuration of additional containers. The containers that are added as a part of Istio service mesh are:
 
-1. `istio-init`
+`istio-init`
 This is an [Init Container] (<https://kubernetes.io/docs/concepts/workloads/pods/init-containers/>) that is used to setup the iptables rules so that inbound/outbound traffic will go through the sidecar proxy. An init container is different than an app container in following ways:
 
-	- It runs before an app container is started and it always runs to completion.
-	- If there are many init containers, each should complete with success before the next container is started.
-   	So this is perfect for a set-up or initialization job which does not need to be a part of the actual application container. In this case, it does just that, which is to setup the iptables rules.
+- It runs before an app container is started and it always runs to completion.
+- If there are many init containers, each should complete with success before the next container is started.
 
-2. `istio-proxy`
-       	This is the actual sidecar proxy (based on Envoy).
+So this is perfect for a set-up or initialization job which does not need to be a part of the actual application container. In this case, it does just that, which is to setup the iptables rules.
+
+`istio-proxy`
+This is the actual sidecar proxy (based on Envoy).
 
 ### Manual Injection
 
@@ -197,7 +203,7 @@ To modify the current pod template for sidecar injection, the user can do the fo
 $ istioctl kube-inject -f demo-red.yaml | kubectl apply -f -
 {{< /text >}}
 
-_*OR*_
+OR
 
 To use modified configmaps or local configmaps:
 
