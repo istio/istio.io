@@ -20,6 +20,14 @@ number_of_entries: 5
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
@@ -139,6 +147,16 @@ number_of_entries: 5
 <td>Discovery service HTTP address  (default `:8080`)</td>
 </tr>
 <tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
+</tr>
+<tr>
 <td><code>--keyFile &lt;string&gt;</code></td>
 <td></td>
 <td>The location of the key file for mutual TLS  (default `/etc/istio/certs/key.pem`)</td>
@@ -216,12 +234,12 @@ number_of_entries: 5
 <tr>
 <td><code>--networksConfig &lt;string&gt;</code></td>
 <td></td>
-<td>File name for Istio mesh networks configuration. If not specified, a default mesh networks will be used.  (default `/etc/istio/config/networks`)</td>
+<td>File name for Istio mesh networks configuration. If not specified, a default mesh networks will be used.  (default `/etc/istio/config/meshNetworks`)</td>
 </tr>
 <tr>
 <td><code>--plugins &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>comma separated list of networking plugins to enable  (default `[authn,authz,health,mixer,envoyfilter,snidnat]`)</td>
+<td>comma separated list of networking plugins to enable  (default `[authn,authz,health,mixer,envoyfilter]`)</td>
 </tr>
 <tr>
 <td><code>--profile</code></td>
@@ -262,6 +280,14 @@ number_of_entries: 5
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -321,6 +347,16 @@ number_of_entries: 5
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
 <td></td>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
