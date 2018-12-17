@@ -234,7 +234,7 @@ EOF
 
 The following are some basic trouble shooting steps for common mesh expansion issues.
 
-*    When making requests from VM to the cluster, ensure you don't run the requests as `root` or
+*    When making requests from a VM to the cluster, ensure you don't run the requests as `root` or
     `istio-proxy` user. By default, Istio excludes both users from interception.
 
 *    Verify the machine can reach the IP of the all workloads running in the cluster. For example:
