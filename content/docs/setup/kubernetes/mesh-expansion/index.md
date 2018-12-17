@@ -62,7 +62,6 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
 
-    { #gateway-IP }
 2.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
 
     {{< text bash >}}
@@ -132,7 +131,8 @@ Next, run the following commands on each machine that you want to add to the mes
 
 2.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM.
 
-3.  Add the IP address of the Istio gateway (which we found in the [previous section](#gateway-IP)) to `/etc/hosts` or to
+3.  Add the IP address of the Istio gateway (which we found in the [previous section](#preparing-the-kubernetes-cluster-for-expansion))
+    to `/etc/hosts` or to
     the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is
     an example of updating an `/etc/hosts` file with the Istio gateway address:
 
