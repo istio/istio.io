@@ -197,8 +197,9 @@ is used for this purpose.
 To confirm that the Bookinfo application is running, run the following `curl` command:
 
 {{< text bash >}}
-$ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
-200
+$ curl -I http://${GATEWAY_URL}/productpage
+HTTP/1.1 200 OK
+...
 {{< /text >}}
 
 You can also point your browser to `http://$GATEWAY_URL/productpage`
