@@ -112,7 +112,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
 Next, on each VM you want to add to the mesh:
 
-1.  Install the debian package with the Envoy sidecar:
+1.  Install the Debian package with the Envoy sidecar:
 
     {{< text bash >}}
 
