@@ -40,11 +40,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, mcp]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, kube-converter, loadshedding, mcp, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, kube-converter, loadshedding, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -64,7 +64,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, kube-converter, loadshedding, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -103,6 +103,16 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td>Max number of goroutines in the API worker pool  (default `1024`)</td>
 </tr>
 <tr>
+<td><code>--averageLatencyThreshold &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum average response time supported by the server. When this limit is exceeded, the server will drop traffic.  (default `0s`)</td>
+</tr>
+<tr>
+<td><code>--burstSize &lt;int&gt;</code></td>
+<td></td>
+<td>Number of requests that are permitted beyond the configured maximum for a period of time. Only valid when used with &#39;maxRequestsPerSecond&#39;.  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
 <td></td>
 <td>The location of the certificate file for the root certificate authority  (default `/etc/istio/certs/root-cert.pem`)</td>
@@ -138,6 +148,16 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td>The location of the key file for mutual TLS  (default `/etc/istio/certs/key.pem`)</td>
 </tr>
 <tr>
+<td><code>--latencySampleHalflife &lt;duration&gt;</code></td>
+<td></td>
+<td>Decay rate of samples in calculation of average response latency.  (default `1s`)</td>
+</tr>
+<tr>
+<td><code>--latencySamplesPerSecond &lt;ratelimit&gt;</code></td>
+<td></td>
+<td>Controls the frequency at which the server will sample response times to calculate the average response latency.  (default `1.7976931348623157e+308`)</td>
+</tr>
+<tr>
 <td><code>--livenessProbeInterval &lt;duration&gt;</code></td>
 <td></td>
 <td>Interval of updating file for the liveness probe.  (default `0s`)</td>
@@ -148,6 +168,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td>Path to the file for the liveness probe.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--loadsheddingMode &lt;throttlermode&gt;</code></td>
+<td></td>
+<td>When enabled, the server will log violations but will not enforce load limits.  (default `disabled`)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
@@ -155,12 +180,12 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, mcp]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [adapters, api, attributes, default, grpcAdapter, kube-converter, loadshedding, mcp, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, kube-converter, loadshedding, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -185,7 +210,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, mcp] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [adapters, api, attributes, default, grpcAdapter, kube-converter, loadshedding, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -201,6 +226,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td><code>--maxMessageSize &lt;uint&gt;</code></td>
 <td></td>
 <td>Maximum size of individual gRPC messages  (default `1048576`)</td>
+</tr>
+<tr>
+<td><code>--maxRequestsPerSecond &lt;ratelimit&gt;</code></td>
+<td></td>
+<td>Maximum requests per second supported by the server. Any requests above this limit will be dropped.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--monitoringPort &lt;uint16&gt;</code></td>
@@ -246,6 +276,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td><code>--trace_log_spans</code></td>
 <td></td>
 <td>Whether or not to log trace spans. </td>
+</tr>
+<tr>
+<td><code>--trace_sampling_rate &lt;float&gt;</code></td>
+<td></td>
+<td>Sampling rate for generating trace data. Must be a value in the range [0.0, 1.0].  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--trace_zipkin_url &lt;string&gt;</code></td>

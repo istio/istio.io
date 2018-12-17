@@ -241,4 +241,4 @@ To enable Istio-controlled traffic to the external HTTPS proxy you created a TCP
 
     {{< text bash >}}
     $ kubectl delete serviceentry proxy
-    {{< /text >}}    
+    {{< /text >}}

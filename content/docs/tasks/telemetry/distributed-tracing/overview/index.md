@@ -55,7 +55,7 @@ def getForwardHeaders(request):
 
 The reviews application (Java) does something similar:
 
-{{< text jzvz >}}
+{{< text java >}}
 @GET
 @Path("/reviews/{productId}")
 public Response bookReviewsById(@PathParam("productId") int productId,
