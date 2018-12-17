@@ -66,7 +66,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 
 3.  Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges to
     intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
-    Replace $MY_ZONE and $MY_PROJECT in the following example commands with the appropriate values to obtain the CIDR
+    Replace the values of `$MY_ZONE` and `$MY_PROJECT` in the following example commands with the appropriate values to obtain the CIDR
     after installation:
 
     {{< text bash >}}
