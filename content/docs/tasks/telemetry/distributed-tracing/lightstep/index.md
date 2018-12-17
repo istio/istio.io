@@ -56,7 +56,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     $ NAMESPACE=default
     {{< /text >}}
 
-    ```bash
+    {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
       apiVersion: v1
       kind: Secret
@@ -69,7 +69,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
       data:
         cacert.pem: $CACERT
     EOF
-    ```
+    {{< /text >}}
 
 1.   Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
 
@@ -139,4 +139,3 @@ from your cluster.
 {{< text bash >}}
 $ kubectl delete secret lightstep.cacert
 {{< /text >}}
-

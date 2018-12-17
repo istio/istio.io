@@ -192,7 +192,7 @@ end-user authentication with built-in identity and credential management. You
 can use Citadel to upgrade unencrypted traffic in the service mesh. Using
 Citadel, operators can enforce policies based on service identity rather than
 on relatively unstable layer 3 or layer 4 network identifiers. Starting from
-release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization) 
+release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
 to control who can access your services.
 
 ### Galley
