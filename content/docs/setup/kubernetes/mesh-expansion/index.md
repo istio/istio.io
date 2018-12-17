@@ -87,7 +87,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
     {{< /text >}}
 
 5.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes  
-    to the cluster.env file with the following command. You can change the ports later if necessary.
+    to the `cluster.env` file with the following command. You can change the ports later if necessary.
     
     {{< text bash >}}
 
