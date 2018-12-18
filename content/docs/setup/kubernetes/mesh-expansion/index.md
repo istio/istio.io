@@ -10,7 +10,7 @@ deployed on Kubernetes.
 
 ## Prerequisites
 
-* You have already set up Istio on Kubernetes. If you haven't done so already, you can find out how in the [Installation guide](/docs/setup/kubernetes/quick-start/).
+* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/kubernetes/quick-start/).
 
 * Mesh expansion machines must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that
@@ -31,7 +31,7 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 ### Preparing the Kubernetes cluster for expansion
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself, and
-generate the configuration that will allow the mesh expansion VMs to connect to the mesh. To prepare the
+generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
 cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
 1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
