@@ -174,8 +174,6 @@ keywords: [遥测,指标,tcp]
     istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
     {{< /text >}}
 
-    > Istio 还会针对 MongoDB 收集协议特定的统计数据。例如来自 `ratings` 服务的 OP_QUERY 总数，同样可以使用[类似查询](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)获知。
-
 ## 理解 TCP 遥控数据的收集过程
 
 这一任务中，我们加入了一段 Istio 配置，对于所有目标为网格内 TCP 服务的流量，Mixer 自动为其生成并报告新的指标。
