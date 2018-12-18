@@ -174,7 +174,6 @@ keywords: [遥测,指标,tcp]
     istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
     {{< /text >}}
 
-
 ## 理解 TCP 遥控数据的收集过程
 
 这一任务中，我们加入了一段 Istio 配置，对于所有目标为网格内 TCP 服务的流量，Mixer 自动为其生成并报告新的指标。
