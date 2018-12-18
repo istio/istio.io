@@ -248,7 +248,7 @@ EOF
 
 ## Troubleshooting
 
-The following are some basic trouble shooting steps for common mesh expansion issues.
+The following are some basic troubleshooting steps for common mesh expansion issues.
 
 *    When making requests from a VM to the cluster, ensure you don't run the requests as `root` or
     `istio-proxy` user. By default, Istio excludes both users from interception.
