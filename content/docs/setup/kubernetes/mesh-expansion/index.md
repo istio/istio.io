@@ -62,7 +62,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
 
-2.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
+1.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
 
     {{< text bash >}}
 
@@ -72,7 +72,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< /text >}}
 
-3.  Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
+1.  Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
     to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
     Replace `$MY_ZONE` and `$MY_PROJECT` in the following example commands with the appropriate values to obtain the CIDR
     after installation:
@@ -84,7 +84,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< /text >}}
 
-4.  Check the contents of the generated `cluster.env` file. It should be similar to the following example:
+1.  Check the contents of the generated `cluster.env` file. It should be similar to the following example:
 
     {{< text bash >}}
 
@@ -94,7 +94,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< /text >}}
 
-5.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes  
+1.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes  
     to the `cluster.env` file with the following command. You can change the ports later if necessary.
     
     {{< text bash >}}
@@ -103,7 +103,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< /text >}}
 
-6.  Extract the initial keys for the service account to use on the VMs.
+1.  Extract the initial keys for the service account to use on the VMs.
 
     {{<text bash>}}
 
@@ -129,9 +129,9 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< /text >}}
 
-2.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM.
+1.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM.
 
-3.  Add the IP address of the Istio gateway (which we found in the [previous section](#preparing-the-kubernetes-cluster-for-expansion))
+1.  Add the IP address of the Istio gateway (which we found in the [previous section](#preparing-the-kubernetes-cluster-for-expansion))
     to `/etc/hosts` or to
     the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is
     an example of updating an `/etc/hosts` file with the Istio gateway address:
@@ -142,7 +142,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< /text >}}
 
-4.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
+1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
 
     {{< text bash >}}
 
@@ -151,7 +151,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< /text >}}
 
-6.  Install `cluster.env` under `/var/lib/istio/envoy/`.
+1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
 
@@ -159,7 +159,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< /text >}}
 
-5.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
+1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
 
     {{< text bash >}}
 
@@ -167,7 +167,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< /text >}}
 
-7.  Verify the node agent works:
+1.  Verify the node agent works:
 
     {{< text bash >}}
 
@@ -177,7 +177,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< /text >}}
 
-8.  Start Istio using `systemctl`.
+1.  Start Istio using `systemctl`.
 
     {{< text bash >}}
 
@@ -278,7 +278,8 @@ The following are some basic troubleshooting steps for common mesh expansion iss
 
     {{< /text >}}
 
-*    Check that the processes are running:
+*    Check that the processes are running. The following is an example of the processes you should see on the VM if you run
+     `ps`, filtered for `istio`:
 
     {{< text bash >}}
 
