@@ -101,7 +101,7 @@ data:
 EOF
 {{< /text >}}
 
-## Setup Steps
+## Setup steps
 
 1. Deploy `httpbin` service in cluster1.
 {{< text bash >}}
@@ -182,13 +182,14 @@ $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n fo
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in cluster1).
 
-1. Very Access `httpbin` is accessible from `sleep`.
+1. Verify that `httpbin` is accessible from `sleep`.
+
 {{< text bash >}}
 $ kubectl exec $(kubectl -n foo get pod -l app=sleep -o jsonpath={.items..metadata.name}) \
    -n foo -c sleep -- curl httpbin.bar.global:8000/ip
 {{< /text >}}
 
-## Force remote cluster traffic through Egress Gateway
+## Force remote cluster traffic through egress gateway
 
 If you wish to route all egress traffic from `cluster2` via a dedicated
 egress gateway, use the following service entry for `httpbin.bar`.
