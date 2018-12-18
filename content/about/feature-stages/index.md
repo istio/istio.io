@@ -54,7 +54,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
-| [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/#trace-sampling) | Alpha
+| [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Alpha
 
 ### Security and Policy Enforcement
 

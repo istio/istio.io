@@ -53,6 +53,13 @@ check_content() {
         FAILED=1
     fi
 
+    grep -nr -e "(https://istio.io" .
+    if [ "$?" == "0" ]
+    then
+        echo "Ensure markdown content uses relative references to istio.io"
+        FAILED=1
+    fi
+
     # go back whence we came
     popd  >/dev/null
 
@@ -62,13 +69,6 @@ check_content() {
 
 check_content content --en-us
 check_content content_zh --zh-cn
-
-grep -nr -e "MARKDOWN ERROR:" ./public
-if [ "$?" == "0" ]
-then
-    echo "Errors found in the markdown content"
-    FAILED=1
-fi
 
 grep -nr -e "“" ./content
 if [ "$?" == "0" ]

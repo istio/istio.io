@@ -34,10 +34,10 @@ $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base6
 
 To create a secret, run the following commands:
 
-```bash
-NAMESPACE=istio-system
-kubectl create namespace $NAMESPACE
-cat <<EOF | kubectl apply -f -
+{{< text bash >}}
+$ NAMESPACE=istio-system
+$ kubectl create namespace $NAMESPACE
+$ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
@@ -50,7 +50,7 @@ data:
   username: $KIALI_USERNAME
   passphrase: $KIALI_PASSPHRASE
 EOF
-```
+{{< /text >}}
 
 Once you create the Kiali secret, follow
 [the Helm install instructions](/docs/setup/kubernetes/helm-install/) to install Kiali via Helm.
@@ -67,13 +67,13 @@ integrates with them, you must pass additional arguments to the
 `helm` command, for example:
 
 {{< text bash >}}
-    $ helm template \
-        --set kiali.enabled=true \
-        --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing -o jsonpath='{.spec.clusterIP}'):80" \
-        --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana -o jsonpath='{.spec.clusterIP}'):3000" \
-        install/kubernetes/helm/istio \
-        --name istio --namespace istio-system > $HOME/istio.yaml
-    $ kubectl apply -f $HOME/istio.yaml
+$ helm template \
+    --set kiali.enabled=true \
+    --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing -o jsonpath='{.spec.clusterIP}'):80" \
+    --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana -o jsonpath='{.spec.clusterIP}'):3000" \
+    install/kubernetes/helm/istio \
+    --name istio --namespace istio-system > $HOME/istio.yaml
+$ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
 Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
@@ -118,7 +118,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     The **Overview** page displays all the namespaces that have services in your mesh.
     The following screenshot shows a similar page:
 
-    {{< image width="75%" ratio="58%"
+    {{< image width="75%" ratio="41%"
     link="./kiali-overview.png"
     caption="Example Overview"
     >}}
@@ -178,7 +178,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
    **Applications**, **Workloads**, and **Services** menu icons on the left menu
    bar. The following screenshot shows the Bookinfo applications information:
 
-   {{< image width="80%" ratio="56%"
+   {{< image width="80%" ratio="53%"
    link="./kiali-services.png"
    caption="Example Details"
    >}}

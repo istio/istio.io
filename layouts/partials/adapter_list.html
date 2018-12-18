@@ -16,6 +16,6 @@
     {{ if $target }}
         <a href="{{ $target.Permalink }}" title="{{ $target.Description }}">{{ $target.Title }}</a>{{- if ne $adap $last -}},{{- end -}}
     {{ else }}
-        MARKDOWN ERROR: Invalid adapter name: '{{ $adap }}'
+        {{ errorf "Invalid adapter name: %s" $adap }}
     {{ end }}
 {{ end }}

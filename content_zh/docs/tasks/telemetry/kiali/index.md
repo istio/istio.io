@@ -19,12 +19,12 @@ keywords: [可视化,遥测]
 
 在 Istio 命名空间中创建一个 Secret，作为 Kiali 的认证凭据。[Helm README](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/README.md#installing-the-chart) 中介绍了更多细节。修改并运行下列命令：
 
-```bash
-USERNAME=$(echo -n 'admin' | base64)
-PASSPHRASE=$(echo -n 'mysecret' | base64)
-NAMESPACE=istio-system
-kubectl create namespace $NAMESPACE
-cat <<EOF | kubectl apply -f -
+{{< text bash >}}
+$ USERNAME=$(echo -n 'admin' | base64)
+$ PASSPHRASE=$(echo -n 'mysecret' | base64)
+$ NAMESPACE=istio-system
+$ kubectl create namespace $NAMESPACE
+$ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
@@ -37,7 +37,7 @@ data:
   username: $USERNAME
   passphrase: $PASSPHRASE
 EOF
-```
+{{< /text >}}
 
 创建了 Kiali Secret 之后，根据 [Helm 安装简介](/zh/docs/setup/kubernetes/helm-install/) 使用 Helm 来安装 Kiali。在运行 `helm` 命令的时候必须使用 `--set kiali.enabled=true` 选项，例如：
 
@@ -49,13 +49,13 @@ $ kubectl apply -f $HOME/istio.yaml
 > {{< idea_icon >}} 本文并未涉及 Jaeger 和 Grafana。如果已经在集群中部署了这两个组件，并且希望能够集成到 Kiali 之中，就必须在 `helm` 命令中增加参数：
 
 {{< text bash >}}
-    $ helm template \
-        --set kiali.enabled=true \
-        --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing -o jsonpath='{.spec.clusterIP}'):80" \
-        --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana -o jsonpath='{.spec.clusterIP}'):3000" \
-        install/kubernetes/helm/istio \
-        --name istio --namespace istio-system > $HOME/istio.yaml
-    $ kubectl apply -f $HOME/istio.yaml
+$ helm template \
+    --set kiali.enabled=true \
+    --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing -o jsonpath='{.spec.clusterIP}'):80" \
+    --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana -o jsonpath='{.spec.clusterIP}'):3000" \
+    install/kubernetes/helm/istio \
+    --name istio --namespace istio-system > $HOME/istio.yaml
+$ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
 完成 Istio 和 Kiali 之后，就可以部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用了。
@@ -111,7 +111,7 @@ $ kubectl apply -f $HOME/istio.yaml
 
     **Overview** 页面中会显示网格里所有命名空间中的服务。例如下面的截图：
 
-    {{< image width="75%" ratio="58%"
+    {{< image width="75%" ratio="41%"
     link="/docs/tasks/telemetry/kiali/kiali-overview.png"
     caption="概览示例"
     >}}
@@ -159,7 +159,7 @@ $ kubectl apply -f $HOME/istio.yaml
 
 1. 要验证 Istio 配置的详情，可以点击左边菜单栏上的 **Applications**、**Workloads** 或者 **Services**。下面的截图展示了 Bookinfo 应用的信息：
 
-   {{< image width="80%" ratio="56%"
+   {{< image width="80%" ratio="53%"
    link="/docs/tasks/telemetry/kiali/kiali-services.png"
    caption="详情样例"
    >}}

@@ -15,7 +15,7 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
     <tr>
       <td class="logo"><img src="/about/community/join/mailing-list.svg" alt="Mailing Lists"/></td>
       <td class="desc">
-        加入 <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> 邮件列表以参与讨论和获取帮助。
+        加入 <a href="https://groups.google.com/forum/#!forum/istio-users-zh">istio-users-zh@</a> 邮件列表用中文参与讨论和获取帮助。
         加入 <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> 邮件列表以了解最新版本、活动和其他事件。
         还有一个 <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> 邮件列表用于讨论围绕 Istio 项目开发的问题。
       </td>

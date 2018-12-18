@@ -1,5 +1,5 @@
 ---
-title: Distributed Tracing With LightStep [𝑥]PM
+title: LightStep [𝑥]PM
 description: How to configure the proxies to send tracing requests to LightStep [𝑥]PM.
 weight: 11
 keywords: [telemetry,tracing,lightstep]
@@ -56,7 +56,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     $ NAMESPACE=default
     {{< /text >}}
 
-    ```bash
+    {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
       apiVersion: v1
       kind: Secret
@@ -69,7 +69,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
       data:
         cacert.pem: $CACERT
     EOF
-    ```
+    {{< /text >}}
 
 1.   Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
 
@@ -123,7 +123,7 @@ server-side span of the call. The screenshot shows that the call took 14.60 ms.
 ## Trace sampling
 
 Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
-visit the [Distributed Tracing With Jaeger trace sampling section](../distributed-tracing/#trace-sampling).
+visit the [Distributed Tracing trace sampling section](../overview/#trace-sampling).
 When using LightStep [𝑥]PM, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh,
 consider scaling up the size of your satellite pool.
 

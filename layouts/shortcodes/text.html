@@ -4,8 +4,8 @@
     {{- $downloadas = .Get 2 -}}
 {{- end -}}
 
-{{- $syntax := "error" -}}
-{{- $text := "MARKDOWN ERROR: text block does not specify syntax" -}}
+{{- $syntax := "" -}}
+{{- $text := "" -}}
 {{- $output := "" -}}
 
 {{- if .Get 0 -}}
@@ -32,17 +32,17 @@
     {{- $text = trim $text "\n" -}}
     {{- $syntax = .Get 0 -}}
     {{- $output = .Get 1 -}}
+{{- else -}}
+    {{- errorf "Text block does not specify a syntax (%s)" .Position -}}
 {{- end -}}
 
 {{- if (hasPrefix $text " ") -}}
-    {{- $syntax = "error" -}}
-    {{- $text = "MARKDOWN ERROR: text blocks need to not be indented, or indented by a multiple of 4 spaces" -}}
+    {{- errorf "Text blocks need to not be indented, or indented by a multiple of 4 spaces (%s)" .Position -}}
 {{- end -}}
 
 {{- if eq $syntax "bash" -}}
     {{- if not (hasPrefix $text "$") -}}
-        {{- $syntax = "error" -}}
-        {{- $text = "MARKDOWN ERROR: text block specifies a bash syntax, but first line does not start with $" -}}
+        {{- errorf "Text block specifies a bash syntax, but the first line of the block does not start with $ (%s)" .Position -}}
     {{- else -}}
         {{- if hasPrefix (trim $text " ") "$ cat <<EOF " -}}
             {{- $text = replace $text "$ cat" "cat" -}}
@@ -57,12 +57,6 @@
     {{- end -}}
 {{- end -}}
 
-{{- if $downloadas -}}
-<pre><code class='language-{{- $syntax -}}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
-{{- else -}}
-<pre><code class='language-{{- $syntax -}}'>{{- $text -}}</code></pre>
-{{- end -}}
-
 {{- /* include a link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
 {{- $branch := .Site.Data.args.source_branch_name -}}
 {{- $links := findRE "@(.*?)@" $text -}}
@@ -70,6 +64,12 @@
     {{- $target := trim $link "@" -}}
     {{- if gt (len $target) 0 -}}
         {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
-        <a hidden style="display:none" href="{{- $href -}}"></a>
+        <a hidden style="display:none" href="{{- $href -}}">Hello</a>
     {{- end -}}
+{{- end -}}
+
+{{- if $downloadas -}}
+<pre><code class='language-{{- $syntax -}}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
+{{- else -}}
+<pre><code class='language-{{- $syntax -}}'>{{- $text -}}</code></pre>
 {{- end -}}
