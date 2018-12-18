@@ -1,6 +1,6 @@
 ---
 title: Demystifying Istio's Sidecar Injection Model 
-description: De-mystify how Istio manages to plugin its data-plane components into an existing deployment. Deep-dive into sidecar injection, how it is done whether manually or `namespaceSelector` based automatic injection. And also how the iptables are modified in the pod namespace to redirect the traffic to the injected proxy. 
+description: De-mystify how Istio manages to plugin its data-plane components into an existing deployment.
 publishdate: 2018-12-12
 subtitle:
 attribution: Manish CHUGTU
@@ -27,7 +27,7 @@ _From Istio’s Documentation:_
     >}}
 It is important to understand that the sidecar injection into application pods happens automatically, though manual injection is also possible. Traffic is directed from the application services to and from these sidecars without developers needing to worry about it. Once they are connected to the Istio service mesh, they can start using and reaping the benefits of all that it has to offer. But how does the data plane plumbing happen and what is really required to make it work seamlessly? In this post we will deep-dive into the specifics of sidecar injection models for a very clear understanding of how it works.
 
-## Sidecar Injection
+## Sidecar injection
 
 In simple terms, sidecar injection is done by modifying the pod template with the configuration of additional containers. The containers that are added as a part of Istio service mesh are:
 
@@ -42,13 +42,15 @@ So this is perfect for a set-up or initialization job which does not need to be 
 `istio-proxy`
 This is the actual sidecar proxy (based on Envoy).
 
-### Manual Injection
+### Manual injection
 
 In the manual injection method, `istioctl` can be used to modify the pod template and update it with the configuration of the above two containers. For both manual as well as automatic injection, Istio takes the configuration from the `istio-sidecar-injector` configmap and the mesh configmap `istio`.
 Let’s look at the configuration of `istio-sidecar-injector` configmap, to get an idea of what actually is going on.
 
-{{< text bash >}}
+{{< text bash yaml>}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}'
+SNIPPET from the output:
+
 policy: enabled
 template: |-
   initContainers:
@@ -59,31 +61,7 @@ template: |-
     - [[ .MeshConfig.ProxyListenPort ]]
     - "-u"
     - 1337
-    - "-m"
-    - [[ or (index .ObjectMeta.Annotations "sidecar.istio.io/interceptionMode") .ProxyConfig.InterceptionMode.String ]]
-    - "-i"
-    [[ if (isset .ObjectMeta.Annotations "traffic.sidecar.istio.io/includeOutboundIPRanges") -]]
-    - "[[ index .ObjectMeta.Annotations "traffic.sidecar.istio.io/includeOutboundIPRanges"  ]]"
-    [[ else -]]
-    - "*"
-    [[ end -]]
-    - "-x"
-    [[ if (isset .ObjectMeta.Annotations "traffic.sidecar.istio.io/excludeOutboundIPRanges") -]]
-    - "[[ index .ObjectMeta.Annotations "traffic.sidecar.istio.io/excludeOutboundIPRanges"  ]]"
-    [[ else -]]
-    - ""
-    [[ end -]]
-    - "-b"
-    [[ if (isset .ObjectMeta.Annotations "traffic.sidecar.istio.io/includeInboundPorts") -]]
-    - "[[ index .ObjectMeta.Annotations "traffic.sidecar.istio.io/includeInboundPorts"  ]]"
-    [[ else -]]
-    - [[ range .Spec.Containers -]][[ range .Ports -]][[ .ContainerPort -]], [[ end -]][[ end -]][[ end]]
-    - "-d"
-    [[ if (isset .ObjectMeta.Annotations "traffic.sidecar.istio.io/excludeInboundPorts") -]]
-    - "[[ index .ObjectMeta.Annotations "traffic.sidecar.istio.io/excludeInboundPorts" ]]"
-    [[ else -]]
-    - ""
-    [[ end -]]
+    .....
     imagePullPolicy: IfNotPresent
     securityContext:
       capabilities:
@@ -101,53 +79,9 @@ template: |-
     args:
     - proxy
     - sidecar
-    - --configPath
-    - [[ .ProxyConfig.ConfigPath ]]
-    - --binaryPath
-    - [[ .ProxyConfig.BinaryPath ]]
-    - --serviceCluster
-    [[ if ne "" (index .ObjectMeta.Labels "app") -]]
-    - [[ index .ObjectMeta.Labels "app" ]]
-    [[ else -]]
-    - "istio-proxy"
-    [[ end -]]
-    - --drainDuration
-    - [[ formatDuration .ProxyConfig.DrainDuration ]]
-    - --parentShutdownDuration
-    - [[ formatDuration .ProxyConfig.ParentShutdownDuration ]]
-    - --discoveryAddress
-    - [[ or (index .ObjectMeta.Annotations "sidecar.istio.io/discoveryAddress") .ProxyConfig.DiscoveryAddress ]]
-    - --discoveryRefreshDelay
-    - [[ formatDuration .ProxyConfig.DiscoveryRefreshDelay ]]
-    - --connectTimeout
-    - [[ formatDuration .ProxyConfig.ConnectTimeout ]]
-    - --statsdUdpAddress
-    - [[ .ProxyConfig.StatsdUdpAddress ]]
-    - --proxyAdminPort
-    - [[ .ProxyConfig.ProxyAdminPort ]]
-    [[ if gt .ProxyConfig.Concurrency 0 -]]
-    - --concurrency
-    - [[ .ProxyConfig.Concurrency ]]
-    [[ end -]]
-    - --controlPlaneAuthPolicy
-    - [[ or (index .ObjectMeta.Annotations "sidecar.istio.io/controlPlaneAuthPolicy") .ProxyConfig.ControlPlaneAuthPolicy ]]
+    .....
     env:
-    - name: POD_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.name
-    - name: POD_NAMESPACE
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.namespace
-    - name: INSTANCE_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-    - name: ISTIO_META_POD_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.name
+    .....
     - name: ISTIO_META_INTERCEPTION_MODE
       value: [[ or (index .ObjectMeta.Annotations "sidecar.istio.io/interceptionMode") .ProxyConfig.InterceptionMode.String ]]
     imagePullPolicy: IfNotPresent
@@ -157,40 +91,8 @@ template: |-
       capabilities:
         add:
         - NET_ADMIN
-      runAsGroup: 1337
-      [[ else -]]
-      runAsUser: 1337
-      [[ end -]]
     restartPolicy: Always
-    resources:
-      [[ if (isset .ObjectMeta.Annotations "sidecar.istio.io/proxyCPU") -]]
-      requests:
-        cpu: "[[ index .ObjectMeta.Annotations "sidecar.istio.io/proxyCPU" ]]"
-        memory: "[[ index .ObjectMeta.Annotations "sidecar.istio.io/proxyMemory" ]]"
-    [[ else -]]
-      requests:
-        cpu: 100m
-        memory: 128Mi
-
-    [[ end -]]
-    volumeMounts:
-    - mountPath: /etc/istio/proxy
-      name: istio-envoy
-    - mountPath: /etc/certs/
-      name: istio-certs
-      readOnly: true
-  volumes:
-  - emptyDir:
-      medium: Memory
-    name: istio-envoy
-  - name: istio-certs
-    secret:
-      optional: true
-      [[ if eq .Spec.ServiceAccountName "" -]]
-      secretName: istio.default
-      [[ else -]]
-      secretName: [[ printf "istio.%s" .Spec.ServiceAccountName ]]
-      [[ end -]]
+    .....
 {{< /text >}}
 
 As can be seen, the configmap contains the configuration for both the init container `istio-init` as well as proxy container `istio-proxy`. The configuration includes the name of the container image and arguments like interception mode, capabilities etc.
@@ -235,14 +137,13 @@ demo-red-pod-8b5df99cc-pgnl7   2/2       Running   0          3d
 
 The reason the count is not 3 is because the `istio-init` container is an `Init Container` type that exits after doing what it supposed to do, which is setting up the `iptable` rules within the pod.  Let’s look at the output of `kubectl describe`, to confirm the same.
 
-{{< text bash >}}
+{{< text bash yaml>}}
 $ kubectl describe pod demo-red-pod-8b5df99cc-pgnl7
+SNIPPET from the output:
+
 Name:               demo-red-pod-8b5df99cc-pgnl7
 Namespace:          default
-Priority:           0
-PriorityClassName:  <none>
-Node:               c2-master.avi.local/10.160.146.64
-Start Time:         Sun, 09 Dec 2018 18:12:27 -0800
+.....
 Labels:             app=demo-red
                     pod-template-hash=8b5df99cc
                     version=version-red
@@ -255,123 +156,36 @@ Init Containers:
     Container ID:  docker://bef731eae1eb3b6c9d926cacb497bb39a7d9796db49cd14a63014fc1a177d95b
     Image:         docker.io/istio/proxy_init:1.0.2
     Image ID:      docker-pullable://docker.io/istio/proxy_init@sha256:e16a0746f46cd45a9f63c27b9e09daff5432e33a2d80c8cc0956d7d63e2f9185
-    Port:          <none>
-    Args:
-      -p
-      15001
-      -u
-      1337
-      -m
-      REDIRECT
-      -i
-      *
-      -x
-
-      -b
-
-      -d
-
+    .....
     State:          Terminated
       Reason:       Completed
-      Exit Code:    0
-      Started:      Sun, 09 Dec 2018 18:12:28 -0800
-      Finished:     Sun, 09 Dec 2018 18:12:29 -0800
+    .....
     Ready:          True
-    Restart Count:  0
-    Environment:    <none>
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from default-token-8dwc2 (ro)
 Containers:
   demo-red:
     Container ID:   docker://8cd9957955ff7e534376eb6f28b56462099af6dfb8b9bc37aaf06e516175495e
     Image:          chugtum/blue-green-image:v3
     Image ID:       docker-pullable://docker.io/chugtum/blue-green-image@sha256:274756dbc215a6b2bd089c10de24fcece296f4c940067ac1a9b4aea67cf815db
-    Port:           <none>
     State:          Running
       Started:      Sun, 09 Dec 2018 18:12:31 -0800
     Ready:          True
-    Restart Count:  0
-    Requests:
-      cpu:        100m
-      memory:     200
-    Environment:  <none>
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from default-token-8dwc2 (ro)
   istio-proxy:
     Container ID:  docker://ca5d690be8cd6557419cc19ec4e76163c14aed2336eaad7ebf17dd46ca188b4a
     Image:         docker.io/istio/proxyv2:1.0.2
     Image ID:      docker-pullable://docker.io/istio/proxyv2@sha256:54e206530ba6ca9b3820254454e01b7592e9f986d27a5640b6c03704b3b68332
-    Port:          <none>
     Args:
       proxy
       sidecar
-      --configPath
-      /etc/istio/proxy
-      --binaryPath
-      /usr/local/bin/envoy
-      --serviceCluster
-      demo-red
-      --drainDuration
-      45s
-      --parentShutdownDuration
-      1m0s
-      --discoveryAddress
-      10.160.126.45:15007
-      --discoveryRefreshDelay
-      1s
-      --connectTimeout
-      10s
-      --statsdUdpAddress
-      10.160.126.44:9125
-      --proxyAdminPort
-      15000
-      --controlPlaneAuthPolicy
-      NONE
+      .....
     State:          Running
       Started:      Sun, 09 Dec 2018 18:12:31 -0800
     Ready:          True
-    Restart Count:  0
-    Requests:
-      cpu:     100m
-      memory:  128Mi
-    Environment:
-      POD_NAME:                      demo-red-pod-8b5df99cc-pgnl7 (v1:metadata.name)
-      POD_NAMESPACE:                 default (v1:metadata.namespace)
-      INSTANCE_IP:                    (v1:status.podIP)
-      ISTIO_META_POD_NAME:           demo-red-pod-8b5df99cc-pgnl7 (v1:metadata.name)
-      ISTIO_META_INTERCEPTION_MODE:  REDIRECT
-    Mounts:
-      /etc/certs/ from istio-certs (ro)
-      /etc/istio/proxy from istio-envoy (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from default-token-8dwc2 (ro)
-Conditions:
-  Type              Status
-  Initialized       True
-  Ready             True
-  ContainersReady   True
-  PodScheduled      True
-Volumes:
-  istio-envoy:
-    Type:    EmptyDir (a temporary directory that shares a pod's lifetime)
-    Medium:  Memory
-  istio-certs:
-    Type:        Secret (a volume populated by a Secret)
-    SecretName:  istio.default
-    Optional:    true
-  default-token-8dwc2:
-    Type:        Secret (a volume populated by a Secret)
-    SecretName:  default-token-8dwc2
-    Optional:    false
-QoS Class:       Burstable
-Node-Selectors:  <none>
-Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
-                 node.kubernetes.io/unreachable:NoExecute for 300s
-Events:          <none>
+    .....
 {{< /text >}}
 
 As is seen from the output, the state of `istio-init` is terminated with reason completed. The only two containers running are the main application container and the istio-proxy.
 
-### Automatic Injection
+### Automatic injection
 
 Most of the times, you don’t want to manually inject a sidecar (using the `istioctl` command) every time you deploy an application, but would prefer that istio automatically inject the sidecar to your pod. This is a recommended approach and for this to work, all you need to do is to label the namespace where you are deploying the app with `istio-injection=enabled`.
 
@@ -395,8 +209,10 @@ From Kubernetes documentation:
 
 For automatic sidecar injection, Istio relies on `Mutating Admission Webhook`. Let’s look at the details of the  `istio-sidecar-injector` mutating webhook configuration.
 
-{{< text bash >}}
+{{< text bash yaml >}}
 $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml
+SNIPPET from the output:
+
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingWebhookConfiguration
 metadata:
@@ -411,17 +227,13 @@ metadata:
     heritage: Tiller
     release: istio-remote
   name: istio-sidecar-injector
-  resourceVersion: "8379313"
-  selfLink: /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations/istio-sidecar-injector
-  uid: 376c976c-fc57-11e8-9950-005056ad0356
+  .....
 webhooks:
 - clientConfig:
-    caBundle: XXXXXXXX
     service:
       name: istio-sidecar-injector
       namespace: istio-system
       path: /inject
-  failurePolicy: Fail
   name: sidecar-injector.istio.io
   namespaceSelector:
     matchLabels:
@@ -435,7 +247,6 @@ webhooks:
     - CREATE
     resources:
     - pods
-  sideEffects: Unknown
 {{< /text >}}
 
 This is where you can see the webhook `namespaceSelector` label that is matched for sidecar injection `(istio-injection: enabled`) and also the operations/resources for which this is done (in this case when pods are created). When an `apiserver` receives a request that matches one of the rules, the `apiserver` sends an Admission Review request to webhook service as specified in the `clientConfig (name: istio-sidecar-injector)`. We should be able to see that this service is running in `istio-system` namespace.
@@ -451,9 +262,9 @@ Apart from the webhooks `namespaceSelector`, automatic sidecar injection also de
 
 If you look at the `istio-sidecar-injector` ConfigMap again, it has the default injection policy defined. In our case, it is enabled by default.
 
-{{< text bash>}}
+{{< text bash yaml>}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}'
-SNIPPET of the output:
+SNIPPET from the output:
 
 policy: enabled
 template: |-
@@ -467,7 +278,7 @@ template: |-
 
 You can also use the annotation `sidecar.istio.io/inject` in the pod template to override the default policy. The following is to disable automatic injection of the sidecar.
 
-{{< text plain>}}
+{{< text yaml>}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -493,7 +304,7 @@ So it can be seen that there are many variables, based on which automatic sideca
 
 This [table] (<https://istio.io/help/ops/setup/injection/>) shows a clear picture of the final injection status based on the value of the above variables.
 
-## Traffic Flow from Application Container to Sidecar Proxy
+## Traffic flow from application container to sidecar proxy
 
 Now that we are clear about how a sidecar container and an init container are injected into an application manifest, how does the sidecar proxy grab the inbound/outbound traffic to/from the container ? We did briefly mention that it is done by setting up the `iptable` rules within the pod namespace, which in turn is done by the `istio-init` container. Now, it is time to verify what actually gets updated within the namespace.
 
