@@ -110,5 +110,5 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 * 如果需要，删除 CRD：
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
