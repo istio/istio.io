@@ -5,7 +5,7 @@ weight: 65
 keywords: [kubernetes,多集群]
 ---
 
-本文示例演示了如何使用 Istio 多集群功能，借助 [Istio 多集群设置](/zh/docs/setup/kubernetes/multicluster-install/)将两个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群连接起来。
+本文示例演示了如何使用 Istio 多集群功能，借助[基于 VPN 的多集群设置](/zh/docs/setup/kubernetes/multicluster-install/vpn/)将两个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群连接起来。
 
 ## 开始之前
 
@@ -307,7 +307,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ## 卸载
 
-除了卸载 Istio 之外，还应该执行以下操作 [Kubernetes 多集群安装说明](/zh/docs/setup/kubernetes/multicluster-install/)：
+除了按照[基于 VPN 的多集群卸载](/zh/docs/setup/kubernetes/multicluster-install/vpn/)操作之外，还应该执行以下步骤：
 
 1. 删除 Google Cloud 防火墙规则：
 
