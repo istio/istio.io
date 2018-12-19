@@ -1,12 +1,11 @@
 ---
-title: Add a new Custom Ingress Gateway
-description: Describes how to add a new custom ingress gateway manually.
+title: Deploy a custom ingress gateway using cert-manager
+description: Describes how to deploy a custom ingress gateway using cert-manager manually.
 weight: 89
 keywords: [ingress,traffic-management]
 ---
 
-This post provides instructions to manually create a new custom ingress [gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) with automatic provisioning of certificates based on cert-manager.
-This task was validated on AWS Infrastructure.
+This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) with automatic provisioning of certificates based on cert-manager.
 
 ## Before you begin
 
@@ -57,7 +56,7 @@ This task was validated on AWS Infrastructure.
         dns01:
           # Here we define a list of DNS-01 providers that can solve DNS challenges
           providers:
-          - name: aws-dns
+          - name: your-dns
             route53:
               accessKeyID: <REDACTED>
               region: eu-central-1
@@ -94,7 +93,7 @@ This task was validated on AWS Infrastructure.
       acme:
         config:
         - dns01:
-            provider: aws-dns
+            provider: your-dns
           domains:
           - '*.mydemo.com'
       commonName: '*.mydemo.com'
@@ -116,7 +115,7 @@ This task was validated on AWS Infrastructure.
     apiVersion: autoscaling/v1
     kind: HorizontalPodAutoscaler
     metadata:
-      name: istio-internal-custom
+      name: my-ingressgateway
       namespace: istio-system
     spec:
       maxReplicas: 5
@@ -124,7 +123,7 @@ This task was validated on AWS Infrastructure.
       scaleTargetRef:
         apiVersion: apps/v1beta1
         kind: Deployment
-        name: istio-internal-custom
+        name: my-ingressgateway
       targetCPUUtilizationPercentage: 80
     status:
       currentCPUUtilizationPercentage: 0
@@ -144,29 +143,29 @@ This task was validated on AWS Infrastructure.
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-      name: istio-internal-custom-service-account
+      name: my-ingressgateway-service-account
       labels:
-        app: istio-internal-custom
+        app: my-ingressgateway
     ---
     apiVersion: extensions/v1beta1
     kind: Deployment
     metadata:
-      name: istio-internal-custom
+      name: my-ingressgateway
       labels:
-        app: istio-internal-custom
-        istio: istio-internal-custom
+        app: my-ingressgateway
+        istio: my-ingressgateway
     spec:
       replicas: 3
       template:
         metadata:
           labels:
-            app: istio-internal-custom
-            istio: istio-internal-custom
+            app: my-ingressgateway
+            istio: my-ingressgateway
           annotations:
             sidecar.istio.io/inject: "false"
             scheduler.alpha.kubernetes.io/critical-pod: ""
         spec:
-          serviceAccountName: istio-internal-custom-service-account
+          serviceAccountName: my-ingressgateway-service-account
           containers:
             - name: ingressgateway
               image: "gcr.io/istio-release/proxyv2:1.0.0"
@@ -193,7 +192,7 @@ This task was validated on AWS Infrastructure.
               - --connectTimeout
               - '10s' #connectTimeout
               - --serviceCluster
-              - istio-internal-custom
+              - my-ingressgateway
               - --zipkinAddress
               - zipkin.istio-system:9411
               - --statsdUdpAddress
@@ -293,7 +292,7 @@ This task was validated on AWS Infrastructure.
                   - key: app
                     operator: In
                     values:
-                    - istio-internal-custom
+                    - my-ingressgateway
                 topologyKey: kubernetes.io/hostname
 
     {{< /text >}}
@@ -307,17 +306,17 @@ This task was validated on AWS Infrastructure.
     apiVersion: v1
     kind: Service
     metadata:
-      name: istio-internal-custom
+      name: my-ingressgateway
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: nlb
       labels:
-        app: istio-internal-custom
-        istio: istio-internal-custom
+        app: my-ingressgateway
+        istio: my-ingressgateway
     spec:
       type: LoadBalancer
       selector:
-        app: istio-internal-custom
-        istio: istio-internal-custom
+        app: my-ingressgateway
+        istio: my-ingressgateway
       ports:
         -
           name: http2
@@ -347,7 +346,7 @@ This task was validated on AWS Infrastructure.
       namespace: default
     spec:
       selector:
-        istio: istio-internal-custom
+        istio: my-ingressgateway
       servers:
       - hosts:
         - '*.mydemo.com'
