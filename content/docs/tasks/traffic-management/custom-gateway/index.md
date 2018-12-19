@@ -16,16 +16,14 @@ This post provides instructions to manually create a custom ingress [gateway](/d
 ## Configuring the custom ingress gateway
 
 1. Check if [cert-manager](https://github.com/helm/charts/tree/master/stable/cert-manager) was installed using Helm with the following command:
-
     {{< text bash >}}
 
     $ helm ls
 
     {{< /text>}}
-
     The output should be similar to the example below and show cert-manager with a `STATUS` of `DEPLOYED`:
 
-    {{< text plaintext >}}
+    {{< text plain >}}
 
     NAME   REVISION UPDATED                  STATUS   CHART                     APP VERSION   NAMESPACE
     istio     1     Thu Oct 11 13:34:24 2018 DEPLOYED istio-1.0.2               1.0.2         istio-system
