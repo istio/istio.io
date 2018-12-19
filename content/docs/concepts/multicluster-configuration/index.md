@@ -77,7 +77,8 @@ workload is running in a different cluster it will use the remote cluster Gatewa
     caption="Istio mesh spanning multiple Kubernetes clusters using single Istio control plane and Gateway to reach remote pods"
     >}}
 
-The [single control plane with gateways](TBD) example provides instructions for experimenting with this feature.
+The [single control plane with gateways](/docs/examples/multicluster/split-horizon-eds/) example provides
+instructions for experimenting with this feature.
 
 ### Multiple control plane topology
 
