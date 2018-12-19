@@ -9,7 +9,7 @@ To be a part of the service mesh, pods and services in a Kubernetes
 cluster must satisfy the following requirements:
 
 * _**Named ports**:_ Service ports must be named. The port names must be of
-  the form `<protocol>[-<suffix>]` with _http_, _http2_, _grpc_, _mongo_, or _redis_
+  the form `<protocol>[-<suffix>]` with `grpc`, `http`, `http2`, `https`, `mongo`, `redis`, `tcp`, `tls` or `udp`
   as the `<protocol>` in order to take advantage of Istio's routing features.
   For example, `name: http2-foo` or `name: http` are valid port names, but
   `name: http2foo` is not.  If the port name does not begin with a recognized
