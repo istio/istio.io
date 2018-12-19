@@ -30,7 +30,7 @@ icon: notes
 
 - **自发报告**：Mixer 和 Pilot 现在会生成遥测数据，并和网格中运行的其他服务一样，将遥测指标汇总到 Istio 的遥测管线之中。
 
-## 设置
+## 安装
 
 - **Istio 的按需安装**：Istio 具有丰富的功能，可能有用户并不需要使用所有功能，可以使用 Helm 或者 `istioctl gen-deploy` 工具，来满足按需安装的需要。例如用户可以只安装 Pilot 来对流量进行管理，而不去触及 Mixer 和 Citadel 方面的功能。
 
