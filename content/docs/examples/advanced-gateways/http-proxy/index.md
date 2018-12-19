@@ -49,9 +49,10 @@ Also, to simulate a more realistic proxy that is running outside of your cluster
 by its IP address and not by the domain name of a Kubernetes service.
 This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS proxy that supports HTTP CONNECT.
 
-1.  Create a namespace for the HTTPS proxy. Since the automatic sidecar injection is disabled in Istio by default,
-    Istio sidecars will not be injected and Istio will not control traffic in this namespace. You need this behavior to
-    simulate the proxy being outside of the cluster.
+1.  Create a namespace for the HTTPS proxy, without labeling it for sidecar injection. Without the label, sidecar
+    injection is disabled in the new namespace.
+    Without sidecar injection, Istio will not control traffic in the new namespace.
+    You need this behavior to simulate the proxy being outside of the cluster.
 
     {{< text bash >}}
     $ kubectl create namespace external
