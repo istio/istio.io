@@ -171,7 +171,7 @@ keywords: [遥测,指标,tcp]
     上面的连接会打开 Promethe 界面，并执行了对 `istio_mongo_received_bytes` 指标的查询。**Console** 标签页中包含了大致如下的内容：
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
+    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
     {{< /text >}}
 
 ## 理解 TCP 遥控数据的收集过程

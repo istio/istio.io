@@ -139,10 +139,10 @@ keywords: [遥测,指标]
     上面的链接会打开 Prometheus 界面并查询 `istio_double_request_count` 的值。**Console** 标签页会以表格形式进行数据展示，类似：
 
     {{< text plain >}}
-    istio_double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
-    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
-    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
-    istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+    istio_double_request_count{destination="details.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
+    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
+    istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
     {{< /text >}}
 
     要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/querying-metrics/)任务
