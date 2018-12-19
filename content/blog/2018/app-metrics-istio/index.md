@@ -6,7 +6,7 @@ subtitle:
 attribution: Mete Atamel
 twitter: meteatamel
 weight: 78
-keywords: [metrics, prometheus]
+keywords: [metrics, prometheus, mixer, envoy, sidecar, traffic management]
 ---
 ## Background
 
@@ -34,17 +34,18 @@ Assuming that you containerized and deployed your application on an Istio-enable
 ## Configuration
 In Istio 1.0.5, the default installation files for Kubernetes, `istio-demo.yaml` or `istio-demo-auth.yaml`, already have scraping configurations for Prometheus under a `ConfigMap`. You can just search for `prometheus.yml`. There are 2 scraping jobs that are relevant for application metrics: 
 
-{{< text bash >}}
-   - job_name: 'kubernetes-pods'
-      kubernetes_sd_configs:
-      - role: pod
+{{< text yaml >}}
+- job_name: 'kubernetes-pods'
+   kubernetes_sd_configs:
+   - role: pod
 ...
-   - job_name: 'kubernetes-pods-istio-secure'
-      scheme: https
+- job_name: 'kubernetes-pods-istio-secure'
+   scheme: https
 
 {{< /text >}}
 
 These are the jobs that scrape metrics from regular pods and pods where mTLS is enabled. It looks like Istio’s Prometheus should automatically scrape application metrics. However, in my first try, it didn’t work. I wasn’t sure what was wrong but Prometheus has some default endpoints:
+
 * `/config`: to see the current configuration of Prometheus.
 * `/metrics`: to see the scraped metrics.
 * `/targets`: to see the targets that’s being scraped and their status. 
@@ -55,12 +56,12 @@ All of these endpoints are useful for debugging Prometheus:
 
 Turns out, I needed to add some annotations in my pod YAML files in order to get Prometheus scrape the pod. I had to tell Prometheus to scrape the pod and on which port with these annotations:
 
-{{< text bash >}}
- template:
-    metadata:
+{{< text yaml >}}
+template:
+   metadata:
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+         prometheus.io/port: "8080"
 {{< /text >}}
 
 After adding the annotations, I was able to see my application’s metrics in Prometheus: 
