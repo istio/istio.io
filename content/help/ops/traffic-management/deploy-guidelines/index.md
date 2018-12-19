@@ -232,3 +232,31 @@ To make sure services will have zero down-time when configuring routes with subs
     1. Wait a few seconds for the `VirtualService` configuration to propagate to the Envoy sidecars.
 
     1. Update the `DestinationRule` to remove the unused subsets.
+
+## Browser problem when multiple gateways configured with same TLS certificate
+
+Configuring more than one gateway using the same TLS certificate will cause browsers
+that leverage [HTTP/2 connection reuse](https://httpwg.org/specs/rfc7540.html#reuse)
+(i.e., most browsers) to produce 404 errors when accessing a second host after a
+connection to another host has already been established.
+
+For example, let's say you have 2 hosts that share the same TLS certificate like this:
+
+* Wildcard certificate `*.test.com` installed in `istio-ingressgateway`
+* `Gateway` configuration `gw1` with host `service1.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
+* `Gateway` configuration `gw2` with host `service2.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
+* `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw1`
+* `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw2`
+
+Since both gateways are served by the same workload (i.e., selector `istio: ingressgateway`) requests to both services
+(`service1.test.com` and `service2.test.com`) will resolve to the same IP. If `service1.test.com` is accessed first, it
+will return the wildcard certificate (`*.test.com`) indicating that connections to `service2.test.com` can use the same certificate.
+Browsers like Chrome and Firefox will consequently reuse the existing connection for requests to `service2.test.com`.
+Since the gateway (`gw1`) has no route for `service2.test.com`, it will then return a 404 (Not Found) response.
+
+You can avoid this problem by configuring a single wildcard `Gateway`, instead of two (`gw1` and `gw2`).
+Then, simply bind both `VirtualServices` to it like this:
+
+* `Gateway` configuration `gw` with host `*.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
+* `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw`
+* `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw`
