@@ -1,12 +1,12 @@
 ---
 title: Application Metrics in Istio
-description: How to send application metrics to Prometheus instance in Istio.
+description: How to send application metrics to a Prometheus instance in Istio.
 publishdate: 2018-12-19
 subtitle:
 attribution: Mete Atamel
 twitter: meteatamel
 weight: 78
-keywords: [metrics, prometheus, mixer, envoy, sidecar, traffic management]
+keywords: [metrics,prometheus,mixer,envoy,sidecar,traffic-management]
 ---
 ## Background
 
