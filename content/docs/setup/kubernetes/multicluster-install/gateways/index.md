@@ -103,7 +103,8 @@ EOF
 
 ## Setup steps
 
-1. Deploy `httpbin` service in cluster1.
+1. Deploy `httpbin` service in `cluster1`.
+
 {{< text bash >}}
 
 $ kubectl create namespace bar
@@ -112,17 +113,18 @@ $ export GATEWAY_IP_CLUSTER1=$(kubectl get svc --selector=app=istio-ingressgatew
     -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
 {{< /text >}}
 
-1. Deploy `sleep` service in cluster2.
+1. Deploy `sleep` service in `cluster2`.
+
 {{< text bash >}}
 
 $ kubectl create namespace foo
 $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
 {{< /text >}}
 
-1. Create `ServiceEntry` for httpbin service in cluster2.
+1. Create `ServiceEntry` for httpbin service in `cluster2`.
 
-    To allow `sleep` in cluster2 access `httpbin` in cluster1, we need to create a `ServiceEntry`
-    for it. Host name of the `ServiceEntry` should be of the form
+    To allow `sleep` in `cluster2` access `httpbin` in `cluster1`, we need to create
+    `ServiceEntry` for it. Host name of the `ServiceEntry` should be of the form
     `<name>.<namespace>.global` where name and namespace correspond to the
     remote service's name and namespace respectively.
 
@@ -133,7 +135,7 @@ $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n fo
     be captured by the sidecar and routed to the appropriate remote service.
 
     > Each service (in the .global DNS domain) must have a unique IP within the
-    cluster.
+cluster.
 
     {{< text bash >}}
 
@@ -180,7 +182,7 @@ $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n fo
     preconfigured and installed as part of the Istio installation step
     described in the prerequisite section.  Traffic entering port 15443 will be
     load balanced among pods of the appropriate internal service of the target
-    cluster (in this case, `httpbin.bar` in cluster1).
+    cluster (in this case, `httpbin.bar` in `cluster1`).
 
 1. Verify that `httpbin` is accessible from `sleep`.
 
@@ -195,7 +197,6 @@ If you wish to route all egress traffic from `cluster2` via a dedicated
 egress gateway, use the following service entry for `httpbin.bar`.
 
 This dedicated egress gateway can only be used for routing inter-class traffic.
-It won't used for  traffic egressing the mesh.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
