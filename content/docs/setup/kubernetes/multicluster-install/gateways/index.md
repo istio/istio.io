@@ -121,8 +121,8 @@ $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n fo
 
 1. Create `ServiceEntry` for httpbin service in cluster2.
 
-    To allow `sleep` in cluster2 access `httpbin` in cluster1, we need to create
-    `ServiceEntry` for that. Host name of the `ServiceEntry` should be of the form
+    To allow `sleep` in cluster2 access `httpbin` in cluster1, we need to create a `ServiceEntry`
+    for it. Host name of the `ServiceEntry` should be of the form
     `<name>.<namespace>.global` where name and namespace correspond to the
     remote service's name and namespace respectively.
 
@@ -170,9 +170,9 @@ $ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml) -n fo
     EOF
     {{< /text >}}
 
-    The configurations above will result in all traffic in `cluster1` for
+    The configurations above will result in all traffic in `cluster2` for
     `httpbin.bar.global` on *any port* to be routed to the endpoint
-    `<IPofCluster2IngressGateway>:15443` over an mTLS connection.
+    `<IPofCluster1IngressGateway>:15443` over an mTLS connection.
 
     > Do not create a Gateway configuration for port 15443.
 
@@ -193,6 +193,9 @@ $ kubectl exec $(kubectl -n foo get pod -l app=sleep -o jsonpath={.items..metada
 
 If you wish to route all egress traffic from `cluster2` via a dedicated
 egress gateway, use the following service entry for `httpbin.bar`.
+
+This dedicated egress gateway can only be used for routing inter-class traffic.
+It won't used for  traffic egressing the mesh.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
