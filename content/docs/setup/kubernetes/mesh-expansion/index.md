@@ -97,7 +97,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
 1.  Extract the initial keys for the service account to use on the VMs.
 
-    {{<text bash>}}
+    {{< text bash >}}
     $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
         -o jsonpath='{.data.root-cert\.pem}' |base64 --decode > root-cert.pem
     $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
@@ -124,7 +124,7 @@ Next, run the following commands on each machine that you want to add to the mes
     the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is
     an example of updating an `/etc/hosts` file with the Istio gateway address:
 
-    {{< text bash>}}
+    {{< text bash >}}
     $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
     {{< /text >}}
 
