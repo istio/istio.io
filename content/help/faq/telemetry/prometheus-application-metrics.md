@@ -19,5 +19,5 @@ A few notes:
 
 - If the Prometheus pod started before the Istio Citadel pod could generate the required certs and distribute them to Prometheus, the Prometheus pod will need to
 be restarted in order to collect from mTLS-protected targets.
-- In mTLS-enabled environments, you will need to add the Prometheus metrics port to the service and deployment specifications.
+- If your application exposes Prometheus metrics on a dedicated port, that port should be added to the service and deployment specifications.
 
