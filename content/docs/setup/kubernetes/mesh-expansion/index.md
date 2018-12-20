@@ -36,26 +36,26 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
 1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
     install time with Helm, there are two options for enabling mesh expansion, depending on how you originally installed
-    Istio on the cluster: 
-    
+    Istio on the cluster:
+
     *   If you installed Istio with Helm and Tiller, run `helm upgrade` with the new option:
-    
+
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
     $ helm upgrade --set global.meshExpansion=true istio-system .
     $ cd -
     {{< /text >}}
-    
+
     *   If you installed Istio without Helm and Tiller, use `helm template` to update your configuration with the option and
         reapply with `kubectl`:
-    
+
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
     $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
     $ kubectl apply -f istio.yaml
     $ cd -
     {{< /text >}}
-    
+
     > When updating configuration with Helm, you can either set the option on the command line, as in our examples, or add
     it to a `.yaml` values file and pass it to
     the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
@@ -88,9 +88,9 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
 
-1.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes  
+1.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes
     to the `cluster.env` file with the following command. You can change the ports later if necessary.
-    
+
     {{< text bash >}}
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
