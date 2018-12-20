@@ -70,8 +70,8 @@ After adding the annotations, I was able to see my application’s metrics in Pr
 
 However, it was only working for regular pods and I was not able to see metrics with mTLS enabled between pods.
 
-## Bug with Istio Prometheus
-After some investigation, I contacted the Istio team and turns out, there’s a [bug](https://github.com/istio/istio/issues/10528). When the Istio Prometheus server starts, it cannot talk to the mTLS enabled pods since certificates are not ready yet. And it never retries to load after initialization and that prevents the metrics from being scraped. 
+## Issue with Istio certs and Prometheus
+After some investigation, I contacted the Istio team and turns out, there’s a [bug](https://github.com/istio/istio/issues/10528). When Prometheus starts, it will attempt to mount the Istio-supplied certificates. However, they may not have been issued by Istio Citadel yet. Unfortunately, Prometheus does not retry to load the certificates, which leads to an issue scraping mTLS-protected endpoints.
 
 It’s not ideal but there’s an easy workaround: restart the Prometheus pod. Restart forces Prometheus to pick up certificates and the application’s metrics start flowing for mTLS enabled pods as well.
 
