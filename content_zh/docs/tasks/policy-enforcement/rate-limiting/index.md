@@ -61,6 +61,8 @@ keywords: [策略,限额]
       namespace: istio-system
     spec:
       quotas:
+        redisServiceUrl: <redis_server_url>
+        connectionPoolSize: 10
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -74,22 +76,17 @@ keywords: [策略,限额]
         - dimensions:
             destination: reviews
           maxAmount: 1
-          validDuration: 5s
         # The following override applies to 'productpage' when
         # the source is a specific ip address.
         - dimensions:
             destination: productpage
             source: "10.28.11.20"
           maxAmount: 500
-          validDuration: 1s
         # The following override applies to 'productpage' regardless
         # of the source.
         - dimensions:
             destination: productpage
           maxAmount: 2
-          validDuration: 5s
-        redisServerUrl: <redis_server_url>
-        connectionPoolSize: 10
     ---
     apiVersion: "config.istio.io/v1alpha2"
     kind: quota
@@ -349,7 +346,7 @@ spec:
 1. 如果使用 `memquota` ，删除 `memquota` 速率限制相关的配置：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
     或者

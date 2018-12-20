@@ -4,22 +4,21 @@ description: Describes how to configure Istio to let applications use an externa
 weight: 60
 keywords: [traffic-management,egress]
 ---
-The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) showed how you can direct traffic to
-external services from your mesh via an Istio edge component called _Egress Gateway_. However, there are cases when you
-must use an external, legacy (non-Istio) HTTPS proxy to access external services. For example, your company may already
-have such a proxy in place and all the applications within the organization may be required to direct their traffic
-through it.
+The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example shows how to direct
+traffic to external services from your mesh via an Istio edge component called _Egress Gateway_. However, some
+cases require an external, legacy (non-Istio) HTTPS proxy to access external services. For example, your
+company may already have such a proxy in place and all the applications within the organization may be required to
+direct their traffic through it.
 
-This example shows how to enable access to an external HTTPS proxy. Since access to HTTPS proxies is performed by the
-HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) method, configuring traffic to an external HTTPS
-proxy is different from configuring traffic to external HTTP and HTTPS services.
+This example shows how to enable access to an external HTTPS proxy. Since applications use the HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) method to establish connections with HTTPS proxies,
+configuring traffic to an external HTTPS proxy is different from configuring traffic to external HTTP and HTTPS
+services.
 
 ## Before you begin
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which will be used as a test source for external calls via the proxy.
+*   To have test source for external calls via the proxy, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
     If you have enabled
     [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
@@ -34,10 +33,10 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    Note that any pod that you can `exec` and `curl` from would do.
+    You can use any pod with `curl` installed as a test source.
 
-*   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
+*   To send requests to external services, create the `SOURCE_POD` environment variable to store the name of the source
+    pod:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -45,13 +44,14 @@ proxy is different from configuring traffic to external HTTP and HTTPS services.
 
 ## Deploy an HTTPS proxy
 
-For this example, to simulate a legacy proxy, you deploy an HTTPS proxy inside your cluster. Also, to simulate a more
-realistic proxy that is running outside of your cluster, you will address the pod of the proxy by its IP address and
-not by a Kubernetes service.
-You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://www.squid-cache.org).
+To simulate a legacy proxy and only for this example, you deploy an HTTPS proxy inside your cluster.
+Also, to simulate a more realistic proxy that is running outside of your cluster, you will address the proxy's pod
+by its IP address and not by the domain name of a Kubernetes service.
+This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS proxy that supports HTTP CONNECT.
 
-1.  Create a namespace for the HTTPS proxy. Note that since you do not label it for Istio automatic sidecar injection,
-    Istio will not control traffic in this namespace.
+1.  Create a namespace for the HTTPS proxy, without labeling it for sidecar injection. Without the label, sidecar
+    injection is disabled in the new namespace so Istio will not control the traffic there.
+    You need this behavior to simulate the proxy being outside of the cluster.
 
     {{< text bash >}}
     $ kubectl create namespace external
@@ -120,13 +120,13 @@ You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://w
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  Define an environment variable to hold the IP address of the proxy pod:
+1.  Obtain the IP address of the proxy pod and define the `PROXY_IP` environment variable to store it:
 
     {{< text bash >}}
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
     {{< /text >}}
 
-1.  Define an environment variable to hold the port of your proxy. The deployment of Squid in this example uses port
+1.  Define the `PROXY_PORT` environment variable to store the port of your proxy. In this case, Squid uses port
     3128.
 
     {{< text bash >}}
@@ -147,15 +147,18 @@ You can use any HTTPS proxy that supports HTTP Connect. We used [Squid](http://w
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
-At this point the proxy has been deployed and tested by using `curl` to access `wikipedia.org` through the proxy, all
-without Istio. It's just plain Kubernetes setting so far, which simulates an external HTTPS proxy.
-In the following section you are going to configure traffic from Istio-enabled pods to the HTTPS proxy.
+So far, you completed the following tasks without Istio:
+
+* You deployed the HTTPS proxy.
+* You used `curl` to access the `wikipedia.org` external service through the proxy.
+
+Next, you must configure the traffic from the Istio-enabled pods to use the HTTPS proxy.
 
 ## Configure traffic to external HTTPS proxy
 
-1.  Define a TCP (!) Service Entry for the HTTPS proxy. Note that despite the fact that the HTTP
-    [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) method is used to communicate with HTTPS proxies,
-    the traffic between the application and the proxy is TCP (a TCP tunnel), and not HTTP.
+1.  Define a TCP (not HTTP!) Service Entry for the HTTPS proxy. Although applications use the HTTP CONNECT method to
+    establish connections with HTTPS proxies, you must configure the proxy for TCP traffic, instead of HTTP. Once the
+    connection is established, the proxy simply acts as a TCP tunnel.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -176,8 +179,8 @@ In the following section you are going to configure traffic from Istio-enabled p
     EOF
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in the `default` namespace. The `sleep` pod has Istio sidecar injected and its
-    traffic is controlled by Istio.
+1.  Send a request from the `sleep` pod in the `default` namespace. Because the `sleep` pod has a sidecar,
+    Istio controls its traffic.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
@@ -200,14 +203,14 @@ In the following section you are going to configure traffic from Istio-enabled p
 
 ## Understanding what happened
 
-In this example you configured access to an external legacy HTTPS proxy from the Istio service mesh. To simulate a
-remote HTTPS proxy, you deployed an HTTPS proxy in a separate namespace, without Istio automatic sidecar injection. In addition, for simulation of a remote proxy, you addressed the HTTPS proxy by its IP address and not by a Kubernetes
-service.
+In this example, you took the following steps:
 
-To enable Istio-controlled traffic to the external HTTPS proxy you created a TCP service entry with the IP address and
- the port of the proxy. Note that you must not create service entries for the external services you access though the
- external proxy, like `wikipedia.org`. This is because from Istio's point of view the requests are sent to the
- external proxy only; Istio is not aware of the fact that the external proxy forwards the requests further.
+1. Deployed an HTTPS proxy to simulate an external proxy.
+1. Created a TCP service entry to enable Istio-controlled traffic to the external proxy.
+
+Note that you must not create service entries for the external services you access through the external proxy, like
+`wikipedia.org`. This is because from Istio's point of view the requests are sent to the external proxy only; Istio is
+not aware of the fact that the external proxy forwards the requests further.
 
 ## Cleanup
 
