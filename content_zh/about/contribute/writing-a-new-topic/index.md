@@ -58,6 +58,7 @@ keywords: [keyword1,keyword2,...]
 | `skip_toc`         | 将其设置为 true，就不会生成目录
 | `skip_seealso`     | 将其设置为 false，就不会生成 “See also”
 | `force_inline_toc` | 将其设置为 true 会强制将生成的目录插入到文本而不是侧边栏中
+| `simple_list`      | 将其设置为 true 会强制生成章节页面并使用 simple list 布局而不是 gallery 布局
 
 除上表之外，还有几个特有的字段可以在博客中使用：
 
