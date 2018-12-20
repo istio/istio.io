@@ -9,7 +9,7 @@ that enables collection of application metrics in both mTLS-enabled and non-mTLS
 The `kubernetes-pods` job collects application metrics from pods in non-mTLS protected environments. The `kubernetes-pods-istio-secure` job collects metrics
 from application pods when mTLS is on for Istio.
 
-Both jobs require that the following annotations are added to any deployments from which application metric collection is required:
+Both jobs require that the following annotations are added to any deployments from which application metric collection is desired:
 
 - `prometheus.io/scrape: "true"`
 - `prometheus.io/path: "<metrics path>"`
