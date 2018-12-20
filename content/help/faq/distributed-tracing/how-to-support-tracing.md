@@ -16,4 +16,4 @@ In particular, Istio relies on applications to [propagate the B3 trace headers](
 - `b3`
 - `x-ot-span-context`
 
-Header propagation may be accomplished through client libraries, such as [Zipkin](https://zipkin.io/pages/existing_instrumentations.html) or [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation). It may also be accomplished manually, as documented in the [Distributed Tracing Task](https://istio.io/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).
+Header propagation may be accomplished through client libraries, such as [Zipkin](https://zipkin.io/pages/existing_instrumentations.html) or [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation). It may also be accomplished manually, as documented in the [Distributed Tracing Task](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened).

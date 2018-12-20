@@ -7,4 +7,4 @@ Since Istio 1.0.3, the default sampling rate for tracing has been reduced to 1% 
 instances captured by Istio will be reported to the tracing backend. The sampling rate in the `istio-demo.yaml` is still set to 100%. See
 [this section](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) for more information on how to set the sampling rate.
 
-If you still do not see any trace data, please confirm that your ports conform to the Istio [port naming conventions](https://istio.io/help/faq/traffic-management/#naming-port-convention).
+If you still do not see any trace data, please confirm that your ports conform to the Istio [port naming conventions](/help/faq/traffic-management/#naming-port-convention).
