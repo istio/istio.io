@@ -347,7 +347,7 @@ access. Serialized into Access-Control-Expose-Headers header.</p>
 <td><code>maxAge</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
 <td>
-<p>Specifies how long the the results of a preflight request can be
+<p>Specifies how long the results of a preflight request can be
 cached. Translates to the Access-Control-Max-Age header.</p>
 
 </td>
@@ -2121,8 +2121,8 @@ to the caller</p>
 <td><code>add</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>Apppend the given values to the the headers specified by keys
-(will create a comma seperated list of values)</p>
+<p>Append the given values to the headers specified by keys
+(will create a comma-separated list of values)</p>
 
 </td>
 </tr>
@@ -2976,7 +2976,7 @@ compute the sidecar configuration for every workload in the namespace.</p>
 same namespace, set defaultServiceDependency.importMode to SAME_NAMESPACE
 in the mesh global config map (in values.yaml).</p>
 
-<p>NOTE 2: To facilitate incremental pruning of the the sidecar
+<p>NOTE 2: To facilitate incremental pruning of the` sidecar
 configuration, the default import mode for the mesh is set to
 ALL_NAMESPACES. In other words, every workload will be able to reach
 every other workload. Adding a ServiceDependency resource in a namespace will
@@ -2985,7 +2985,7 @@ namespace.</p>
 
 <p>The following examples illustrate a few specific use cases of ServiceDependency.</p>
 
-<p>The example below delcares a ServiceDependency resource in the prod-us1
+<p>The example below declares a ServiceDependency resource in the prod-us1
 namespace that specifies that workloads in the namespace will be able to
 reach the services in the prod-apis namespace only.</p>
 
