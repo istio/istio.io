@@ -14,7 +14,7 @@ keywords: [流量管理,egress,tcp,mongo]
 
 ## 使用外部 ratings 数据库的 Bookinfo
 
-首先，在您的 Kubernetes 集群外部建立一个 MongoDB 数据实例以保存书籍评级数据。然后修改 [Bookinfo 示例应用程序](/docs/examples/bookinfo/)使用该数据库。
+首先，在您的 Kubernetes 集群外部建立一个 MongoDB 数据库实例以保存书籍评级数据。然后修改 [Bookinfo 示例应用程序](/docs/examples/bookinfo/)使用该数据库。
 
 ### 建立 ratings 数据库
 
