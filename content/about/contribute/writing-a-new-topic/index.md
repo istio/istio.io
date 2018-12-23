@@ -65,6 +65,11 @@ is the best fit for your content:
   </tr>
 </table>
 
+### About blog posts
+
+The Istio blog is intended to contain authoritative posts regarding Istio and technologies or products related to
+Istio. We generally do not publish user or enthusiast posts about using Istio.
+
 ## Naming a topic
 
 Choose a title for your topic that has the keywords you want search engines to find.
@@ -432,6 +437,22 @@ will use when the user chooses to download the file. For example:
 
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
+
+## Embedding boilerplate text
+
+You can embed common boilerplate text into any markdown output using the `boilerplate` sequence:
+
+{{< text markdown >}}
+{{</* boilerplate example */>}}
+{{< /text >}}
+
+which results in:
+
+{{< boilerplate example >}}
+
+You supply the name of a boilerplate file to insert at the current location. Boilerplates are
+located in language-specific subdirectories of the `boilerplates` directory. Boilerplates are just
+normal markdown files.
 
 ## Using tabs
 
