@@ -30,4 +30,4 @@ spec:
 |`apiVersion`|`string`|API 版本（api.version）|
 |`apiOperation`|`string`|被调用的 API 操作|
 |`apiKey`|`string`|API 调用中使用的 API Key|
-|`timestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|API 调用的时间戳|
+|`timestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|API 调用的时间戳|

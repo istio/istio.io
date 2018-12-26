@@ -43,18 +43,18 @@ spec:
 |---|---|---|
 |`apiProxy`|`string`|Proxy 的名称，通常是 Istio API 或者服务名称|
 |`responseStatusCode`|`int64`|HTTP 响应码|
-|`clientIp`|[`string`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|客户端 IP 地址|
+|`clientIp`|[`string`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|客户端 IP 地址|
 |`requestVerb`|`string`|HTTP 请求方法|
 |`requestUri`|`string`|HTTP 请求 URI|
 |`requestPath`|`string`|HTTP 请求路径|
 |`useragent`|`string`|HTTP user agent Header|
-|`clientReceiveStartTimestampe`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始接收请求的时间戳|
-|`clientReceivedEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成接收请求的时间戳|
-|`clientSentStartTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始向目标发送请求的时间戳|
-|`clientSentEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成向目标发送请求的时间戳|
-|`targetSentStartTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始请求目标的时间戳|
-|`targetSentEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成目标请求的时间戳|
-|`targetReceivedStartTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始从目标接收响应的时间戳|
-|`targetReceivedEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成从目标接收响应的时间戳|
+|`clientReceiveStartTimestampe`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始接收请求的时间戳|
+|`clientReceivedEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成接收请求的时间戳|
+|`clientSentStartTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始向目标发送请求的时间戳|
+|`clientSentEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成向目标发送请求的时间戳|
+|`targetSentStartTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始请求目标的时间戳|
+|`targetSentEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成目标请求的时间戳|
+|`targetReceivedStartTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 开始从目标接收响应的时间戳|
+|`targetReceivedEndTimestamp`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)|api_proxy 完成从目标接收响应的时间戳|
 |`apiClaims`|`map<string, string>`|JWT 声明，用于在需要的情况下进行请求的认证。使用 `json_claims` 来传递所有声明|
 |`apiKey`|`string`|API Key，用于在需要的情况下进行请求的认证|

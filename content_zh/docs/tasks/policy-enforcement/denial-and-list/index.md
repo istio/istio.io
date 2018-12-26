@@ -78,7 +78,7 @@ keywords: [策略, denial, 白名单, 黑名单]
 
     这段表达式匹配的条件是，来自服务 `reviews`，`version` 标签值为 `v3` 的，目标为 `ratings` 服务的请求。
 
-    这条规则使用 `denier` 适配器拒绝来自 `reviews:v3` 服务的请求。这个适配器会使用预定的状态码和消息拒绝请求。状态码和消息的定义可以参考 [Denier](/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器的配置文档。
+    这条规则使用 `denier` 适配器拒绝来自 `reviews:v3` 服务的请求。这个适配器会使用预定的状态码和消息拒绝请求。状态码和消息的定义可以参考 [Denier](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器的配置文档。
 
 1. 在浏览器中刷新 `productpage` 页面。
 
@@ -96,7 +96,7 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
 
 1. 在登出状态下浏览 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该看到红星图标。在完成后续步骤之后，只有在使用 "jason" 的身份进行登录之后才能看到星形图标。
 
-1. 给 [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器创建配置，其中包含 `v1, v2` 两个版本。保存下面的 YAML 代码为 `whitelist-handler.yaml`：
+1. 给 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器创建配置，其中包含 `v1, v2` 两个版本。保存下面的 YAML 代码为 `whitelist-handler.yaml`：
 
     {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2
@@ -115,7 +115,7 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
     $ istioctl create -f whitelist-handler.yaml
     {{< /text >}}
 
-1. 创建一个 [`listentry`](/docs/reference/config/policy-and-telemetry/templates/listentry/) 适配器的模板，用于解析版本标签，将下面的 YAML 代码段保存为 `appversion-instance.yaml`：
+1. 创建一个 [`listentry`](/zh/docs/reference/config/policy-and-telemetry/templates/listentry/) 适配器的模板，用于解析版本标签，将下面的 YAML 代码段保存为 `appversion-instance.yaml`：
 
     {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2

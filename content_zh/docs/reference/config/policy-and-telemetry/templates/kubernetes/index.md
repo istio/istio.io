@@ -42,24 +42,24 @@ spec:
 |字段|类型|说明|
 |---|---|---|
 |`sourcePodUid`|`string`|Pod 的 `source.uid`。TCP 用例中没有这一属性。在 `attribute_binding` 用表达式 `$out.source_pod_uid` 来使用该字段
-|`sourcePodIp`|[`istio.policy.v1beta1.IPAddress`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|源 Pod 的 IP 地址。在 `attribute_binding` 用表达式 `$out.source_pod_ip` 来使用该字段
+|`sourcePodIp`|[`istio.policy.v1beta1.IPAddress`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|源 Pod 的 IP 地址。在 `attribute_binding` 用表达式 `$out.source_pod_ip` 来使用该字段
 |`sourcePodName`|`string`|源 Pod 的名称。在 `attribute_binding` 用表达式 `$out.source_pod_name` 来使用该字段
 |`sourceLabels`|`map<string, string>`|源 Pod 的标签。在 `attribute_binding` 用表达式 `$out.source_labels` 来使用该字段
 |`sourceNamespace`|`string`|源 Pod 所属的命名空间。在 `attribute_binding` 用表达式 `$out.source_namespace` 来使用该字段
 |`sourceServiceAccountName`|`string`|源 Pod 的 `ServiceAccount` 名称。在 `attribute_binding` 用表达式 `$out.source_service_account_name` 来使用该字段
-|`sourceHostIp`|[`istio.policy.v1beta1.IPAddress`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|源 Pod 所在主机的 IP 地址。在 `attribute_binding` 用表达式 `$out.source_host_ip` 来使用该字段
+|`sourceHostIp`|[`istio.policy.v1beta1.IPAddress`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|源 Pod 所在主机的 IP 地址。在 `attribute_binding` 用表达式 `$out.source_host_ip` 来使用该字段
 |`sourceWorkloadUid`|`string`|源 Pod 所在的 Istio 工作负载标识符。在 `attribute_binding` 用表达式 `$out.source_workload_uid` 来使用该字段
 |`sourceWorkloadName`|`string`|源 Pod 所在的 Istio 工作负载的名称。在 `attribute_binding` 用表达式 `$out.source_workload_name` 来使用该字段
 |`sourceWorkloadNamespace`|`string`|源 Pod 所在的 Istio 工作负载的命名空间。在 `attribute_binding` 用表达式 `$out.source_workload_namespace` 来使用该字段
 |`sourceOwner`|`string`|源 Pod 的属主（控制器）。在 `attribute_binding` 用表达式 `$out.source_owner` 来使用该字段
 |`destinationPodUid`|`string`|Pod 的 `destination.uid`。TCP 用例中没有这一属性。在 `attribute_binding` 用表达式 `$out.destination_pod_uid` 来使用该字段
-|`destinationPodIp`|[`istio.policy.v1beta1.IPAddress`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|目的 Pod 的 IP 地址。在 `attribute_binding` 用表达式 `$out.destination_pod_ip` 来使用该字段
+|`destinationPodIp`|[`istio.policy.v1beta1.IPAddress`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|目的 Pod 的 IP 地址。在 `attribute_binding` 用表达式 `$out.destination_pod_ip` 来使用该字段
 |`destinationPodName`|`string`|目的 Pod 的名称。在 `attribute_binding` 用表达式 `$out.destination_pod_name` 来使用该字段
 |`destinationContainerName`|`string`|目的 Pod 的容器名称。在 `attribute_binding` 用表达式 `$out.destination_container_name` 来使用该字段
 |`destinationLabels`|`string`|目的 Pod 的标签。在 `attribute_binding` 用表达式 `$out.destination_labels` 来使用该字段
 |`destinationNamespace`|`string`|目的 Pod 所属的命名空间。在 `attribute_binding` 用表达式 `$out.destination_namespace` 来使用该字段
 |`destinationServiceAccountName`|`string`|目的 Pod 的 `ServiceAccount` 名称。在 `attribute_binding` 用表达式 `$out.destination_service_account_name` 来使用该字段
-|`destinationHostIp`|[`istio.policy.v1beta1.IPAddress`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|目的 Pod 所在主机的 IP 地址。在 `attribute_binding` 用表达式 `$out.destination_host_ip` 来使用该字段
+|`destinationHostIp`|[`istio.policy.v1beta1.IPAddress`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|目的 Pod 所在主机的 IP 地址。在 `attribute_binding` 用表达式 `$out.destination_host_ip` 来使用该字段
 |`destinationOwner`|`string`|目标 Pod 的属主（控制器）。在 `attribute_binding` 用表达式 `$out.destination_owner` 来使用该字段
 |`destinationWorkloadUid`|`string`|目的 Pod 所在的 Istio 工作负载标识符。在 `attribute_binding` 用表达式 `$out.destination_workload_uid` 来使用该字段
 |`destinationWorkloadName`|`string`|目的 Pod 所在的 Istio 工作负载的名称。在 `attribute_binding` 用表达式 `$out.destination_workload_name` 来使用该字段
@@ -72,7 +72,7 @@ spec:
 |字段|类型|描述|
 |---|---|---|
 |`sourceUid`|`string`|源 Pod 的 uid，格式为 `kubernetes://pod.namespace`|
-|`sourceIp`|[`istio.policy.v1beta1.IPAddress`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|源 Pod 的 IP 地址|
+|`sourceIp`|[`istio.policy.v1beta1.IPAddress`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|源 Pod 的 IP 地址|
 |`destinationUid`|`string`|目标 Pod 的 uid，格式为 `kubernetes://pod.namespace`|
-|`destinationIp`|[`istio.policy.v1beta1.IPAddress`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|目标 Pod 的 IP 地址|
+|`destinationIp`|[`istio.policy.v1beta1.IPAddress`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#IPAddress)|目标 Pod 的 IP 地址|
 |`destinationPort`|`int64`|目标容器的端口号|
