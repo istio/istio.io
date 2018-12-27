@@ -41,6 +41,7 @@ keywords: [kubernetes,helm]
 | `gateways.istio-ingressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
+| `gateways.istio-ingressgateway.externalIPs` | [] |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-ingressgateway.type` | `LoadBalancer` | `如果需要，请更改为 NodePort，ClusterIP 或 LoadBalancer` |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
@@ -233,20 +234,6 @@ keywords: [kubernetes,helm]
 | `security.replicaCount` | `1` |  |
 | `security.image` | `citadel` |  |
 | `security.selfSigned` | `true` | `指示是否使用自签名 CA.` |
-
-## `servicegraph` 选项
-
-| 键 | 默认值 | 描述 |
-| --- | --- | --- |
-| `servicegraph.enabled` | `false` |  |
-| `servicegraph.replicaCount` | `1` |  |
-| `servicegraph.image` | `servicegraph` |  |
-| `servicegraph.service.name` | `http` |  |
-| `servicegraph.service.type` | `ClusterIP` |  |
-| `servicegraph.service.externalPort` | `8088` |  |
-| `servicegraph.service.internalPort` | `8088` |  |
-| `servicegraph.ingress.enabled` | `false` |  |
-| `servicegraph.prometheusAddr` | `http://prometheus:9090` |  |
 
 ## `sidecarInjectorWebhook` 选项
 

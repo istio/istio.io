@@ -252,5 +252,3 @@ keywords: [流量管理,镜像]
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
     $ kubectl delete svc httpbin
     {{< /text >}}
-
-1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的说明去关闭应用程序。

@@ -568,50 +568,6 @@ runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
 authorization result, `ALLOW` or `DENY`.
 
-### Authorization permissive mode
-
-Authorization permissive mode allows users to verify authorization policies
-before applying them in production environment.
-
-Authorization permissive mode could be set on both global authorization
-configuration and individual policies. When setting permissive mode on global
-authorization configuration, all policies will be in permissive mode regardless
-its own mode. Otherwise If the global authorization configuration is set to
-`ENFORCED`, the enforcement mode set on individual policy takes effect.
-If not specified, both global authorization configuration and individual
-policies are in `ENFORCED` mode by default.
-
-In the following example, Istio authorization permissive mode is set on global configuration level.
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ClusterRbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-  enforcement_mode: PERMISSIVE
-{{< /text >}}
-
-In the following example, Istio authorization permissive mode is set on policy level.
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-details-reviews
-  namespace: default
-spec:
-  subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-  roleRef:
-    kind: ServiceRole
-    name: "details-reviews-viewer"
-  mode: PERMISSIVE
-{{< /text >}}
-
 ### Enabling authorization
 
 You enable Istio Authorization using a `ClusterRbacConfig` object. The `ClusterRbacConfig`
@@ -894,6 +850,52 @@ spec:
   roleRef:
     kind: ServiceRole
     name: "mongodb-viewer"
+{{< /text >}}
+
+### Authorization permissive mode
+
+The authorization permissive mode is an experimental feature in Istio's 1.1 release. Its interface can change in future releases.
+
+The authorization permissive mode allows you to verify authorization policies
+before applying them in a production environment.
+
+You can enable the authorization permissive mode on a global authorization
+configuration and on individual policies. If you set the permissive mode on a global
+authorization configuration, all policies switch to the permissive mode regardless
+of their own set mode. If you set the global authorization mode to
+`ENFORCED`, the enforcement mode set by the individual policies takes effect.
+If you do not set a mode, both the global authorization configuration and the individual
+policies are set to the `ENFORCED` mode by default.
+
+To enable the permissive mode globally, set the value of the `enforcement_mode:` key in the global Istio RBAC authorization configuration to `PERMISSIVE` as shown in the following example.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ClusterRbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["default"]
+  enforcement_mode: PERMISSIVE
+{{< /text >}}
+
+To enable the permissive mode for a specific policy, set the value of the `mode:` key to `PERMISSIVE` in the policy configuration file as shown in the following example.
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-details-reviews
+  namespace: default
+spec:
+  subjects:
+    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+  roleRef:
+    kind: ServiceRole
+    name: "details-reviews-viewer"
+  mode: PERMISSIVE
 {{< /text >}}
 
 ### Using other authorization mechanisms

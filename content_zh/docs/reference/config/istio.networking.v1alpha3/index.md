@@ -786,7 +786,7 @@ spec:
 
 ## `LoadBalancerSettings`
 
-特定目标的负载均衡策略。阅读 [Envoy 负载均衡文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing.html)能够获得更多这方面的信息。
+特定目标的负载均衡策略。阅读 [Envoy 负载均衡文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing)能够获得更多这方面的信息。
 
 例如下面的例子中，为所有指向 `ratings` 服务的流量指定了轮询调度算法负载均衡。
 
@@ -854,7 +854,7 @@ spec:
 |`ROUND_ROBIN`|轮询调度策略。缺省。|
 |`LEAST_CONN`|使用一个 O(1) 复杂度的算法：随机选择两个健康主机，从中选择一个较少请求的主机提供服务。|
 |`RANDOM`|随机的负载均衡算法会随机选择一个健康主机。在没有健康检查策略的情况下，随机策略通常会比轮询调度策略更加高效。|
-|`PASSTHROUGH`|这个策略会直接把请求发给客户端要求的地址上。这个选项需要慎重使用。这是一种高级用例。参考 [Envoy 的 Original destination 负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#original-destination) 一文进一步了解其应用方式。|
+|`PASSTHROUGH`|这个策略会直接把请求发给客户端要求的地址上。这个选项需要慎重使用。这是一种高级用例。参考 [Envoy 的 Original destination 负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing) 一文进一步了解其应用方式。|
 
 ## `OutlierDetection`
 
@@ -1399,7 +1399,7 @@ spec:
 
 ## `TLSSettings`
 
-SSL/TLS 相关的上游服务设置。参考 Envoy 的 [TLS 上下文](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_ssl.html#config-cluster-manager-cluster-ssl)来获取更多细节。这些设置对 HTTP 和 TCP 上游服务都有效。
+SSL/TLS 相关的上游服务设置。参考 Envoy 的 [TLS 上下文](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto.html)来获取更多细节。这些设置对 HTTP 和 TCP 上游服务都有效。
 
 例如下面的规则配置，要求客户端使用双向 TLS 连接上游的数据库集群。
 

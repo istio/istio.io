@@ -75,9 +75,9 @@ Kubernetes API server for changes to the pod registration information, ingress
 resources, and third-party resources that store traffic management rules.
 This data is translated into the canonical representation. An Envoy-specific configuration is then generated based on the canonical representation.
 
-Pilot enables [service discovery](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds),
-dynamic updates to [load balancing pools](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds)
-and [routing tables](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds).
+Pilot enables service discovery,
+dynamic updates to load balancing pools
+and routing tables.
 
 You can specify high-level traffic management rules through
 [Pilot's Rule configuration](/docs/reference/config/istio.networking.v1alpha3/). These rules are translated into low-level
@@ -176,7 +176,7 @@ As shown in the figure above, services in the mesh access each other
 using their DNS names. All HTTP traffic bound to a service is automatically
 re-routed through Envoy. Envoy distributes the traffic across instances in
 the load balancing pool. While Envoy supports several
-[sophisticated load balancing algorithms](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing),
+[sophisticated load balancing algorithms](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing),
 Istio currently allows three load balancing modes:
 round robin, random, and weighted least request.
 

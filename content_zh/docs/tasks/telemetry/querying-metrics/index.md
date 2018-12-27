@@ -82,11 +82,14 @@ keywords: [遥测,指标]
 
 Mixer 中内置了 Prometheus 适配器，这一适配器将生成的指标值以端点的形式公开出来；Prometheus 插件则是一个预配置的 Prometheus 服务器，他一方面从上述 Mixer 端点抓取 Istio 指标，另一方面还为 Istio 指标提供了持久化存储和查询的服务。
 
-配置好的 Prometheus 插件会抓取以下三个端点：
+配置好的 Prometheus 插件会抓取以下的端点：
 
-1. *istio-mesh* (`istio-mixer.istio-system:42422`): 所有 Mixer 生成的网格指标。
-1. *mixer* (`istio-mixer.istio-system:9093`):  所有特定于 Mixer 的指标, 用于监控 Mixer 本身。
-1. *envoy* (`istio-mixer.istio-system:9102`):  envoy 生成的原始统计数据（并从 `statsd` 转换为 `prometheus` ）。
+1. *istio-mesh* (`istio-telemetry.istio-system:42422`): 所有 Mixer 生成的网格指标。
+1. *mixer* (`istio-telemetry.istio-system:9093`):  所有特定于 Mixer 的指标, 用于监控 Mixer 本身。
+1. *envoy* (`istio-proxy:15090`): envoy 生成的原始统计数据。Prometheus 从 envoy 暴露的端口获取统计数据，过滤掉不想要的数据。
+1. *pilot* (`istio-pilot.istio-system:9093`): 所有 pilot 的指标。
+1. *galley* (`istio-galley.istio-system:9093`): 所有 galley 的指标。
+1. *istio-policy* (`istio-policy.istio-system:9093`): 所有 policy 的指标。
 
 有关查询 Prometheus 的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/)。
 

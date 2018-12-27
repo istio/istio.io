@@ -30,6 +30,8 @@ Istio [Bookinfo](/docs/examples/bookinfo/) 示例包含四个独立的微服务�
 
 要仅路由到一个版本，请应用为微服务设置默认版本的 virtual service。在这种情况下，virtual service 将所有流量路由到每个微服务的 `v1` 版本。
 
+  如果您还没有应用 destination rule，请先[应用缺省目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
+
 1.  运行以下命令以应用 virtual service：
 
     {{< text bash >}}

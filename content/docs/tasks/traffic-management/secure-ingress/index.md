@@ -79,10 +79,9 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     secret "istio-ingressgateway-certs" created
     {{< /text >}}
 
-    Note that by default all the service accounts in the `istio-system` namespace can access this secret, so the private
-    key can be leaked. You can change the
-    [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) rules to protect
-    it.
+    Note that by default all the pods in the `istio-system` namespace can mount this secret and access the
+    private key. You may want to deploy the ingress gateway in a separate namespace and create the secret there, so that
+    only the ingress gateway pod will be able to mount it.
 
 1.  Define a `Gateway` with a `server` section for port 443.
 

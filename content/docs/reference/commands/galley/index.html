@@ -15,11 +15,11 @@ number_of_entries: 4
 <tbody>
 <tr>
 <td><code>--accessListFile &lt;string&gt;</code></td>
-<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/istio/config/accesslist.yaml`)</td>
+<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/config/accesslist.yaml`)</td>
 </tr>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
-<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
+<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--configPath &lt;string&gt;</code></td>
@@ -40,6 +40,14 @@ number_of_entries: 4
 <tr>
 <td><code>--deployment-namespace &lt;string&gt;</code></td>
 <td>Namespace of the deployment for the validation pod  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--disableResourceReadyCheck</code></td>
+<td>Disable resource readiness checks. This allows Galley to start if not all resource types are supported </td>
+</tr>
+<tr>
+<td><code>--domain &lt;string&gt;</code></td>
+<td>DNS domain suffix  (default `cluster.local`)</td>
 </tr>
 <tr>
 <td><code>--enable-server</code></td>
@@ -71,11 +79,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -95,11 +103,15 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--meshConfigFile &lt;string&gt;</code></td>
+<td>Path to the mesh config file  (default `/etc/mesh-config/mesh`)</td>
 </tr>
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
@@ -135,11 +147,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
-<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
 <td><code>--validation-port &lt;uint&gt;</code></td>
@@ -167,11 +179,11 @@ number_of_entries: 4
 <tbody>
 <tr>
 <td><code>--accessListFile &lt;string&gt;</code></td>
-<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/istio/config/accesslist.yaml`)</td>
+<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/config/accesslist.yaml`)</td>
 </tr>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
-<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
+<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--configPath &lt;string&gt;</code></td>
@@ -192,6 +204,14 @@ number_of_entries: 4
 <tr>
 <td><code>--deployment-namespace &lt;string&gt;</code></td>
 <td>Namespace of the deployment for the validation pod  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--disableResourceReadyCheck</code></td>
+<td>Disable resource readiness checks. This allows Galley to start if not all resource types are supported </td>
+</tr>
+<tr>
+<td><code>--domain &lt;string&gt;</code></td>
+<td>DNS domain suffix  (default `cluster.local`)</td>
 </tr>
 <tr>
 <td><code>--enable-server</code></td>
@@ -227,11 +247,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -251,11 +271,15 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--meshConfigFile &lt;string&gt;</code></td>
+<td>Path to the mesh config file  (default `/etc/mesh-config/mesh`)</td>
 </tr>
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
@@ -295,11 +319,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
-<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
 <td><code>--validation-port &lt;uint&gt;</code></td>
@@ -329,12 +353,12 @@ number_of_entries: 4
 <tr>
 <td><code>--accessListFile &lt;string&gt;</code></td>
 <td></td>
-<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/istio/config/accesslist.yaml`)</td>
+<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/config/accesslist.yaml`)</td>
 </tr>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/istio/certs/root-cert.pem`)</td>
+<td>File containing the caBundle that signed the cert/key specified by --tlsCertFile and --tlsKeyFile.  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--configPath &lt;string&gt;</code></td>
@@ -360,6 +384,16 @@ number_of_entries: 4
 <td><code>--deployment-namespace &lt;string&gt;</code></td>
 <td></td>
 <td>Namespace of the deployment for the validation pod  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--disableResourceReadyCheck</code></td>
+<td></td>
+<td>Disable resource readiness checks. This allows Galley to start if not all resource types are supported </td>
+</tr>
+<tr>
+<td><code>--domain &lt;string&gt;</code></td>
+<td></td>
+<td>DNS domain suffix  (default `cluster.local`)</td>
 </tr>
 <tr>
 <td><code>--enable-server</code></td>
@@ -399,12 +433,12 @@ number_of_entries: 4
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -429,12 +463,17 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, default, file-source, grpcAdapter, kube-source, mcp, mcp-creds, model, rbac, runtime, snapshot] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--meshConfigFile &lt;string&gt;</code></td>
+<td></td>
+<td>Path to the mesh config file  (default `/etc/mesh-config/mesh`)</td>
 </tr>
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
@@ -489,12 +528,12 @@ number_of_entries: 4
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 Certificate for HTTPS.  (default `/etc/istio/certs/cert-chain.pem`)</td>
+<td>File containing the x509 Certificate for HTTPS.  (default `/etc/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--tlsKeyFile &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/istio/certs/key.pem`)</td>
+<td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
 <td><code>--validation-port &lt;uint&gt;</code></td>

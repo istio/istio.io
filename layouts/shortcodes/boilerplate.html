@@ -1,0 +1,4 @@
+{{- /* Inserts a boilerplate markdown file into the document. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-boilerplate-text for details */ -}}
+{{- $path := printf "boilerplates/%s/%s.md" .Site.Language.Lang (.Get 0) -}}
+{{- $markdown := readFile $path -}}
+{{- markdownify $markdown }}

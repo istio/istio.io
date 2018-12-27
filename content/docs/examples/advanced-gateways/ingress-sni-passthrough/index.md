@@ -1,7 +1,7 @@
 ---
-title: Ingress gateway without TLS termination
+title: Ingress Gateway without TLS Termination
 description: Describes how to configure SNI passthrough for an ingress gateway.
-weight: 31
+weight: 10
 keywords: [traffic-management,ingress, https]
 ---
 
@@ -33,7 +33,7 @@ Generate the certificates and keys in the same way as in the [Securing Gateways 
     Use any password with the following command:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
+    $ ./generate.sh nginx.example.com password
     {{< /text >}}
 
     When prompted, select `y` for all the questions.
@@ -235,7 +235,7 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 1.  Follow the instructions in
-    [Determining the ingress IP and ports](https://istio.io/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
     to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 1.  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and

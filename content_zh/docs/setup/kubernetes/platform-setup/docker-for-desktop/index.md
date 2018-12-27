@@ -14,4 +14,4 @@ keywords: [platform-setup,kubernetes,docker-for-desktop]
     >}}
 
 或者，您可以通过传递 helm 参数 `--set pilot.resources.requests.memory="512Mi"` 来减少 Pilot 的内存大小。否则 Pilot 可能因资源不足而无法启动。
-有关详细信息，请看[安装选项](https://istio.io/docs/reference/config/installation-options)。
+有关详细信息，请看[安装选项](/zh/docs/reference/config/installation-options)。

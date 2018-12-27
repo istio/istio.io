@@ -1,6 +1,6 @@
 ---
-title: 高级网关流量控制
-description: 在 Istio 中进行网关流量控制的各种完整工作示例。
+title: 高级边缘流量控制
+description: 用于管理 Istio 服务网格的边缘流量（即 Ingress 和 Egress 流量）的各种高级示例。
 weight: 61
 keywords: [ingress, egress, gateway]
 icon: examples

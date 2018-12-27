@@ -246,5 +246,3 @@ keywords: [流量管理,熔断]
     $ kubectl delete deploy httpbin fortio-deploy
     $ kubectl delete svc httpbin
     {{< /text >}}
-
-1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)说明以关闭应用程序。

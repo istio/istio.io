@@ -39,6 +39,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
+| `gateways.istio-ingressgateway.externalIPs` | [] |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-ingressgateway.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
@@ -231,20 +232,6 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `security.replicaCount` | `1` |  |
 | `security.image` | `citadel` |  |
 | `security.selfSigned` | `true # indicate if self-signed CA is used.` |  |
-
-## `servicegraph` options
-
-| Key | Default Value | Description |
-| --- | --- | --- |
-| `servicegraph.enabled` | `false` |  |
-| `servicegraph.replicaCount` | `1` |  |
-| `servicegraph.image` | `servicegraph` |  |
-| `servicegraph.service.name` | `http` |  |
-| `servicegraph.service.type` | `ClusterIP` |  |
-| `servicegraph.service.externalPort` | `8088` |  |
-| `servicegraph.service.internalPort` | `8088` |  |
-| `servicegraph.ingress.enabled` | `false` |  |
-| `servicegraph.prometheusAddr` | `http://prometheus:9090` |  |
 
 ## `sidecarInjectorWebhook` options
 

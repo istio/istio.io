@@ -188,7 +188,7 @@ After it is installed, you can find it by searching for its release name on the 
 - Click the menu button on the left side of the navigation bar.
 - Click `Workloads` and select `Helm Releases`.
 - Find the installed Istio using its release name.
-- Click `Action` and select `upgrade` or `rollback`.
+- Click `Action` and select `Upgrade` or `Rollback`.
 
 {{< image width="100%" ratio="41.28%"
     link="./istio-upgrade-1.png"
@@ -206,7 +206,7 @@ After it is installed, you can find it by searching for its release name on the 
 - Click the menu button on the left side of the navigation bar.
 - Click `Workloads` and select `Helm Releases`.
 - Find the installed Istio using its release name.
-- Click `Action` and select `delete`.
+- Click `Action` and select `Delete`.
 
 {{< image width="100%" ratio="32.52%"
     link="./istio-deletion.png"

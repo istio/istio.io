@@ -264,7 +264,3 @@ one connection and request concurrently, you should see some failures when the
     $ kubectl delete deploy httpbin fortio-deploy
     $ kubectl delete svc httpbin
     {{< /text >}}
-
-1. If you are not planning to explore any follow-on tasks, refer to the
-   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-   to shutdown the application.

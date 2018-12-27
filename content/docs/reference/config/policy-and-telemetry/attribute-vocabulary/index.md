@@ -46,7 +46,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.service.uid`       | string | Unique identifier of the destination service. | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name`      | string | Destination service name. | `istio-telemetry` |
 | `destination.service.namespace` | string | Destination service namespace. | `istio-system` |
-| `request.headers` | map[string, string] | HTTP request headers. For gRPC, its metadata will be here. | |
+| `request.headers` | map[string, string] | HTTP request headers with lowercase keys. For gRPC, its metadata will be here. | |
 | `request.id` | string | An ID for the request with statistically low probability of collision. | |
 | `request.path` | string | The HTTP URL path including query string | |
 | `request.url_path` | string | The path part of HTTP URL, with query string being stripped | |
@@ -60,7 +60,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `request.total_size` | int64 | Total size of HTTP request in bytes, including request headers, body and trailers. | |
 | `request.time` | timestamp | The timestamp when the destination receives the request. This should be equivalent to Firebase "now". | |
 | `request.useragent` | string | The HTTP User-Agent header. | |
-| `response.headers` | map[string, string] | HTTP response headers. | |
+| `response.headers` | map[string, string] | HTTP response headers with lowercase keys. | |
 | `response.size` | int64 | Size of the response body in bytes | |
 | `response.total_size` | int64 | Total size of HTTP response in bytes, including response headers and body. | |
 | `response.time` | timestamp | The timestamp when the destination produced the response. | |
@@ -85,8 +85,8 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `api.version` | string | The API version. | `v1alpha1` |
 | `api.operation` | string | Unique string used to identify the operation. The id is unique among all operations described in a specific &lt;service, version&gt;. | `getPetsById` |
 | `api.protocol` | string | The protocol type of the API call. Mainly for monitoring/analytics. Note that this is the frontend protocol exposed to the client, not the protocol implemented by the backend service. | `http`, `https`, or `grpc` |
-| `request.auth.principal` | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with "/” with a percent-encoded subject value. This attribute may come from the peer or the origin in the Istio authentication policy, depending on the binding rule defined in the Istio authentication policy. | `accounts.my-svc.com/104958560606` |
-| `request.auth.audiences` | string | The intended audience(s) for this authentication information. This should reflect the audience (`aud`) claim within a JWT. | ['my-svc.com', 'scopes/read'] |
+| `request.auth.principal` | string | The authenticated principal of the request. This is a string of the issuer (`iss`) and subject (`sub`) claims within a JWT concatenated with "/” with a percent-encoded subject value. This attribute may come from the peer or the origin in the Istio authentication policy, depending on the binding rule defined in the Istio authentication policy. | `issuer@foo.com/sub@foo.com` |
+| `request.auth.audiences` | string | The intended audience(s) for this authentication information. This should reflect the audience (`aud`) claim within a JWT. | `aud1` |
 | `request.auth.presenter` | string | The authorized presenter of the credential. This value should reflect the optional Authorized Presenter (`azp`) claim within a JWT or the OAuth2 client id. | 123456789012.my-svc.com |
 | `request.auth.claims` | map[string, string] | all raw string claims from the `origin` JWT | `iss`: `issuer@foo.com`, `sub`: `sub@foo.com`, `aud`: `aud1` |
 | `request.api_key` | string | The API key used for the request. | abcde12345 |

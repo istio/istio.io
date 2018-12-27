@@ -2,7 +2,7 @@
 title: TLS Origination for Egress Traffic
 description: Describes how to configure Istio to perform TLS origination for traffic to external services.
 keywords: [traffic-management,egress]
-weight: 42
+weight: 20
 ---
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, i.e., outside of the
