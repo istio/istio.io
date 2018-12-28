@@ -109,6 +109,10 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
 
+## Installation Options
+
+To customize Istio and install add-ons, use the --set <key>=<value> option in the helm template or install command. See [Installation Options](/docs/reference/config/installation-options/) for the list of supported keys.
+    
 ## Uninstall
 
 * For option 1, uninstall using `kubectl`:
