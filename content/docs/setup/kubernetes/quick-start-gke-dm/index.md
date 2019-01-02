@@ -51,7 +51,6 @@ caption="GKE-IAM Role"
     [Grafana](/docs/tasks/telemetry/using-istio-dashboard/) with
     [Prometheus](/docs/tasks/telemetry/querying-metrics/),
     [Kiali](/docs/tasks/telemetry/kiali/),
-    [ServiceGraph](/docs/tasks/telemetry/servicegraph/),
     and [Tracing](/docs/tasks/telemetry/distributed-tracing/).
     You'll find out more about how to access all of these below.  This script will enable Istio auto-injection on the `default` namespace only.
 
@@ -237,29 +236,6 @@ Otherwise, the default username/password for the console is `admin`/`mysecret`.
     >}}
 
 For more details, see [About the Kiali Add-on](/docs/tasks/telemetry/kiali/).
-
-#### ServiceGraph
-
-If you enabled ServiceGraph during the installation,
-
-1. Set up a tunnel to ServiceGraph:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
-    {{< /text >}}
-
-1. You should see the Bookinfo service topology at
-
-    {{< text plain >}}
-    http://localhost:8088/dotviz
-    {{< /text >}}
-
-{{< image width="100%" ratio="53.33%"
-    link="./dm_servicegraph.png"
-    caption="ServiceGraph"
-    >}}
-
-For more details, see [About the ServiceGraph Add-on](/docs/tasks/telemetry/servicegraph/#about-the-servicegraph-add-on).
 
 ## Tracing
 
