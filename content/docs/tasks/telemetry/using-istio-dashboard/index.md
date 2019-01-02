@@ -14,7 +14,7 @@ the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup/) in your cluster. Either use the istio-demo.yaml or istio-demo-auth.yaml template, which includes the Grafana Istio add-on, or use the Helm chart with Grafana add-on by setting the `--set grafana.enabled=true` [option](/docs/reference/config/installation-options/).
+* [Install Istio](/docs/setup) in your cluster. If you are installing using Helm, enable the Grafana add-on `--set grafana.enabled=true` [option](/docs/reference/config/installation-options/).
 * Deploy [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Viewing the Istio Dashboard

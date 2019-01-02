@@ -111,7 +111,7 @@ to manage the lifecycle of Istio.
 
 ## Installation Options
 
-To customize Istio and install add-ons, use the --set <key>=<value> option in the helm template or install command. See [Installation Options](/docs/reference/config/installation-options/) for the list of supported keys.
+To customize Istio and install add-ons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
     
 ## Uninstall
 
