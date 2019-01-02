@@ -45,6 +45,8 @@ caption="GKE-IAM Role"
 
     [Istio GKE Deployment Manager](https://accounts.google.com/signin/v2/identifier?service=cloudconsole&continue=https://console.cloud.google.com/launcher/config?templateurl={{< github_file >}}/install/gcp/deployment_manager/istio-cluster.jinja&followup=https://console.cloud.google.com/launcher/config?templateurl=https://raw.githubusercontent.com/istio/istio/master/install/gcp/deployment_manager/istio-cluster.jinja&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 
+    > You may also perform this task [from the command line using `gcloud`]({{< github_tree >}}/install/gcp/deployment_manager)
+
     We recommend that you leave the default settings as the rest of this tutorial shows how to access the installed features. By default the tool creates a
     GKE cluster with the specified settings, then installs the Istio [control plane](/docs/concepts/what-is-istio/#architecture), the
     [Bookinfo](/docs/examples/bookinfo/) sample app,
