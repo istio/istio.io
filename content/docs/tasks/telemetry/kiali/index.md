@@ -118,18 +118,12 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     The **Overview** page displays all the namespaces that have services in your mesh.
     The following screenshot shows a similar page:
 
-    {{< image width="75%" ratio="41%"
-    link="./kiali-overview.png"
-    caption="Example Overview"
-    >}}
+    {{< image width="75%" link="./kiali-overview.png" caption="Example Overview" >}}
 
 1.  To view a namespace graph, click on the `bookinfo` namespace in the Bookinfo namespace card.
     The page looks similar to:
 
-    {{< image width="75%" ratio="89%"
-    link="./kiali-graph.png"
-    caption="Example Graph"
-    >}}
+    {{< image width="75%" link="./kiali-graph.png" caption="Example Graph" >}}
 
 1.  To view a summary of metrics, select any node or edge in the graph to display
     its metric details in the summary details panel on the right.
@@ -142,46 +136,31 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
         The following example shows a single **reviews** node representing the three versions
         of the reviews app.
 
-        {{< image width="75%" ratio="35%"
-        link="./kiali-app.png"
-        caption="Example App Graph"
-        >}}
+        {{< image width="75%" link="./kiali-app.png" caption="Example App Graph" >}}
 
     *   The **Versioned App** graph type shows a node for each version of an app,
         but all versions of a particular app are grouped together. The following example
         shows the **reviews** group box that contains the three nodes that represents the
         three versions of the reviews app.
 
-        {{< image width="75%" ratio="67%"
-        link="./kiali-versionedapp.png"
-        caption="Example Versioned App Graph"
-        >}}
+        {{< image width="75%" link="./kiali-versionedapp.png" caption="Example Versioned App Graph" >}}
 
     *   The **Workload** graph type shows a node for each workload in your service mesh.
         This graph type does not require you to use the `app` and `version` labels so if you
         opt to not use those labels on your components, this is the graph type you will use.
 
-        {{< image width="70%" ratio="76%"
-        link="./kiali-workload.png"
-        caption="Example Workload Graph"
-        >}}
+        {{< image width="70%" link="./kiali-workload.png" caption="Example Workload Graph" >}}
 
     *   The **Service** graph type shows a node for each service in your mesh but excludes
         all apps and workloads from the graph.
 
-        {{< image width="70%" ratio="35%"
-        link="./kiali-service-graph.png"
-        caption="Example Service Graph"
-        >}}
+        {{< image width="70%" link="./kiali-service-graph.png" caption="Example Service Graph" >}}
 
 1. To examine the details about the Istio configuration, click on the
    **Applications**, **Workloads**, and **Services** menu icons on the left menu
    bar. The following screenshot shows the Bookinfo applications information:
 
-   {{< image width="80%" ratio="53%"
-   link="./kiali-services.png"
-   caption="Example Details"
-   >}}
+   {{< image width="80%" link="./kiali-services.png" caption="Example Details" >}}
 
 ## About the Kiali Public API
 

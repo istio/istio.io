@@ -95,18 +95,12 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 1.  Click **Run**. You see something similar to the following:
 
-    {{< image width="100%" ratio="50%"
-    link="./istio-tracing-list-lightstep.png"
-    caption="Explorer"
-    >}}
+    {{< image link="./istio-tracing-list-lightstep.png" caption="Explorer" >}}
 
 1.  Click on the first row in the table of example traces below the latency histogram to see the details
     corresponding to your refresh of the `/productpage`. The page then looks similar to:
 
-    {{< image width="100%" ratio="50%"
-    link="./istio-tracing-details-lightstep.png"
-    caption="Detailed Trace View"
-    >}}
+    {{< image link="./istio-tracing-details-lightstep.png" caption="Detailed Trace View" >}}
 
 The screenshot shows that the trace is comprised of a set of spans. Each span corresponds to a Bookinfo service invoked
 during the execution of a `/productpage` request.

@@ -73,10 +73,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 
 糟糕...页面显示 _Error fetching product details_，而不是书籍详细信息：
 
-{{< image width="80%" ratio="36.01%"
-    link="/blog/2018/egress-https/errorFetchingBookDetails.png"
-    caption="获取产品详细信息的错误消息"
-    >}}
+{{< image width="80%" link="/blog/2018/egress-https/errorFetchingBookDetails.png" caption="获取产品详细信息的错误消息" >}}
 
 好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。在我们的例子中，
 失败的 _details_ 微服务不会导致 `productpage` 微服务失败, 尽管 _details_ 微服务失败，
@@ -131,10 +128,7 @@ EOF
 
 现在访问应用程序的网页会显示书籍详细信息而不会出现错误：
 
-{{< image width="80%" ratio="34.82%"
-    link="/blog/2018/egress-https/externalBookDetails.png"
-    caption="正确显示书籍详细信息"
-    >}}
+{{< image width="80%" link="/blog/2018/egress-https/externalBookDetails.png" caption="正确显示书籍详细信息" >}}
 
 您可以查询您的 `ServiceEntry` ：
 
@@ -142,7 +136,6 @@ EOF
 $ kubectl get serviceentries
 NAME         AGE
 googleapis   8m
-
 {{< /text >}}
 
 您可以删除您的 `ServiceEntry` ：

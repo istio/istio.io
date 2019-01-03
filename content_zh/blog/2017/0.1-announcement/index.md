@@ -28,15 +28,9 @@ Google、IBM 和 Lyft 为了共同的愿景，基于为内部和企业客户构�
 
 **集群范围的可见性**：故障时有发生，运维人员需要工具来监控集群健康和微服务状态。Istio 生成有关应用和网络行为的详细监测数据，可使用 [Prometheus](https://prometheus.io/) 和 [Grafana](https://github.com/grafana/grafana) 渲染，也可以发送指标和日志到任何收集、聚合和查询的系统以轻松的扩展其功能。Istio 使用 [Zipkin](https://github.com/openzipkin/zipkin) 提供分析性能瓶颈和诊断分布式故障的功能。
 
-{{< image width="100%" ratio="55.42%"
-    link="./istio_grafana_dashboard-new.png"
-    caption="Grafana Dashboard with Response Size"
-    >}}
+{{< image link="./istio_grafana_dashboard-new.png" caption="Grafana Dashboard with Response Size" >}}
 
-{{< image width="100%" ratio="29.91%"
-    link="./istio_zipkin_dashboard.png"
-    caption="Zipkin Dashboard"
-    >}}
+{{< image link="./istio_zipkin_dashboard.png" caption="Zipkin Dashboard" >}}
 
 **适应能力和效率**：当开发微服务时，运维人员需要假设网络是不可靠的。运维人员可以使用重试、负载均衡、流程控制（HTTP/2）和熔断等措施来缓解不可靠网络中这些常见的故障。Istio 提供了一致的方式来配置这些功能，使其易于维护一个高适应性的服务网格。
 

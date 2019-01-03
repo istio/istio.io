@@ -25,17 +25,11 @@ application.  It uses Deployment Manager to automate the steps detailed in the [
 
 To set this up, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
 
-{{< image width="100%" ratio="22.94%"
-link="./dm_gcp_iam.png"
-caption="GKE-IAM Service"
->}}
+{{< image link="./dm_gcp_iam.png" caption="GKE-IAM Service" >}}
 
 Then add the `Kubernetes Engine Admin` role:
 
-{{< image width="70%" ratio="65.04%"
-link="./dm_gcp_iam_role.png"
-caption="GKE-IAM Role"
->}}
+{{< image width="70%" link="./dm_gcp_iam_role.png" caption="GKE-IAM Role" >}}
 
 ## Setup
 
@@ -58,10 +52,7 @@ caption="GKE-IAM Role"
 
 1. Click **Deploy**:
 
-    {{< image width="60%" ratio="160%"
-    link="./dm_launcher.png"
-    caption="GKE-Istio Launcher"
-    >}}
+    {{< image width="60%" link="./dm_launcher.png" caption="GKE-Istio Launcher" >}}
 
 Wait until Istio is fully deployed. Note that this can take up to five minutes.
 
@@ -134,10 +125,7 @@ Note down the IP address (EXTERNAL-IP) and port assigned to the Bookinfo product
 
 You can also view the installation using the **Kubernetes Engine -> Workloads** section on the [Cloud Console](https://console.cloud.google.com/kubernetes/workload):
 
-{{< image width="70%" ratio="143.91%"
-    link="./dm_kubernetes_workloads.png"
-    caption="GKE-Workloads"
-    >}}
+{{< image width="70%" link="./dm_kubernetes_workloads.png" caption="GKE-Workloads" >}}
 
 ### Access the Bookinfo sample
 
@@ -150,10 +138,7 @@ You can also view the installation using the **Kubernetes Engine -> Workloads** 
 
 1. Verify you can access the Bookinfo `http://${GATEWAY_URL}/productpage`:
 
-    {{< image width="100%" ratio="45.04%"
-    link="./dm_bookinfo.png"
-    caption="Bookinfo"
-    >}}
+    {{< image link="./dm_bookinfo.png" caption="Bookinfo" >}}
 
 1. Now send some traffic to it:
 
@@ -183,10 +168,7 @@ If you are using Cloud Shell rather than the installed `gcloud` client, you can 
 
 You should see some statistics for the requests you sent earlier.
 
-{{< image width="100%" ratio="48.49%"
-    link="./dm_grafana.png"
-    caption="Grafana"
-    >}}
+{{< image link="./dm_grafana.png" caption="Grafana" >}}
 
 For more details about using Grafana, see [About the Grafana Add-on](/docs/tasks/telemetry/using-istio-dashboard/#about-the-grafana-add-on).
 
@@ -206,10 +188,7 @@ Prometheus is installed with Grafana. You can view Istio and application metrics
     http://localhost:9090/graph
     {{< /text >}}
 
-{{< image width="100%" ratio="43.88%"
-    link="./dm_prometheus.png"
-    caption="Prometheus"
-    >}}
+{{< image link="./dm_prometheus.png" caption="Prometheus" >}}
 
 For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/querying-metrics/#about-the-prometheus-add-on).
 
@@ -232,10 +211,7 @@ For more details, see [About the Prometheus Add-on](/docs/tasks/telemetry/queryi
 Enter the username/password for the Kiali admin console you specified during setup.
 Otherwise, the default username/password for the console is `admin`/`mysecret`.
 
-{{< image width="100%" ratio="53.33%"
-    link="./dm_kiali.png"
-    caption="Kiali"
-    >}}
+{{< image link="./dm_kiali.png" caption="Kiali" >}}
 
 For more details, see [About the Kiali Add-on](/docs/tasks/telemetry/kiali/).
 
@@ -249,10 +225,7 @@ For more details, see [About the Kiali Add-on](/docs/tasks/telemetry/kiali/).
 
 1. You should see the trace statistics sent earlier on [http://localhost:16686](http://localhost:16686)
 
-{{< image width="100%" ratio="42.35%"
-    link="./dm-tracing.png"
-    caption="Tracing Dashboard"
-    >}}
+{{< image link="./dm-tracing.png" caption="Tracing Dashboard" >}}
 
 For more details on tracing see [Understanding what happened](/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened).
 

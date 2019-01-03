@@ -89,17 +89,11 @@ keywords: [遥测,追踪,lightstep]
 
 1. 点击 **Run**。您将看到一些和下面相似的东西：
 
-    {{< image width="100%" ratio="50%"
-    link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-list-lightstep.png"
-    caption="Explorer"
-    >}}
+    {{< image link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-list-lightstep.png" caption="Explorer" >}}
 
 1. 单击延迟直方图下方的示例跟踪表中的第一行，以查看与刷新 `/productpage` 时相对应的详细信息。页面看起来像这样：
 
-    {{< image width="100%" ratio="50%"
-    link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-details-lightstep.png"
-    caption="Detailed Trace View"
-    >}}
+    {{< image link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-details-lightstep.png" caption="Detailed Trace View" >}}
 
 屏幕截图显示跟踪由一组 span 组成。 每个 span 对应于执行 `/productpage` 时调用的 Bookinfo 服务。
 
