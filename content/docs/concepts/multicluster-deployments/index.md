@@ -83,7 +83,7 @@ configuring Istio Pilot to enable location-aware service routing (a.k.a. split-h
 In this configuration, the control plane forwards a request from a sidecar in one cluster to a service in
 the same cluster using the local service IP as usual. If the destination workload is running in a different cluster,
 the control plane uses the remote cluster Gateway IP to connect to the service instead.
-Visit our [single control plane with gateways example](/) (TODO ref: /docs/examples/multicluster/split-horizon-eds/)
+Visit our `single control plane with gateways example` (TODO ref: /docs/examples/multicluster/split-horizon-eds/)
 to experiment with this feature.
 
 Note that this approach still requires connectivity between the Istio control plane and the Kubernetes
