@@ -18,10 +18,7 @@ IP address and port to connect to in order to interact with ControlZ.
 
 Here's sample of the ControlZ interface:
 
-{{< image width="80%" ratio="47.52%"
-    link="./ctrlz.png"
-    caption="ControlZ User Interface"
-    >}}
+{{< image width="80%" link="./ctrlz.png" caption="ControlZ User Interface" >}}
 
 The `--ctrlz_port` and `--ctrlz_address` command-line options can be given when starting a component to control the
 specific address and port where ControlZ should be exposed.

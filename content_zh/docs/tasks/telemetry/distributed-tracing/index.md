@@ -33,17 +33,11 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 在 Jaeger dashboard 左侧版面中，从 Service 下拉列表中选择 `productpage`，点击 `Find Traces` 按钮，就会看到类似下图的内容：
 
-{{< image width="100%" ratio="42.35%"
-    link="/docs/tasks/telemetry/distributed-tracing/jaeger/istio-tracing-list.png"
-    caption="跟踪 Dashboard"
-    >}}
+{{< image link="/docs/tasks/telemetry/distributed-tracing/jaeger/istio-tracing-list.png" caption="跟踪 Dashboard" >}}
 
 如果点击顶部（`most recent`）的跟踪信息，会看到最后一次刷新 `/productpage` 页面的信息。显示的内容会跟下图类似：
 
-{{< image width="100%" ratio="42.35%"
-    link="/docs/tasks/telemetry/distributed-tracing/jaeger/istio-tracing-details.png"
-    caption="跟踪信息详细视图"
-    >}}
+{{< image link="/docs/tasks/telemetry/distributed-tracing/jaeger/istio-tracing-details.png" caption="跟踪信息详细视图" >}}
 
 正如你所见，跟踪信息是由一系列的 Span 组成的，每个 Span 对应着 `/productpage` 请求过程中 Bookinfo 服务的调用。目标服务（右侧）的标签标识了每一行的耗时。
 

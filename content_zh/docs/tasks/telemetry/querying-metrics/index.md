@@ -51,10 +51,7 @@ keywords: [遥测,指标]
 
 结果将类似于：
 
-{{< image width="100%" ratio="39.36%"
-    link="/docs/tasks/telemetry/querying-metrics/prometheus_query_result.png"
-    caption="Prometheus 查询结果"
-    >}}
+{{< image link="/docs/tasks/telemetry/querying-metrics/prometheus_query_result.png" caption="Prometheus 查询结果" >}}
 
 其他查询尝试：
 

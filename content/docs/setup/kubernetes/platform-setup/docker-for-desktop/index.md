@@ -10,10 +10,7 @@ If you want to run istio under docker for desktop's built-in Kubernetes, you may
 under the *Advanced* pane of docker's preferences.  Pilot by default requests `2048Mi` of memory, which is docker's
 default limit.
 
-{{< image width="60%" ratio="92.24%"
-    link="./dockerprefs.png"
-    caption="Docker Preferences"
-    >}}
+{{< image width="60%" link="./dockerprefs.png"  caption="Docker Preferences"  >}}
 
 Alternatively, you may reduce Pilot's memory reservation by passing the helm argument
 `--set pilot.resources.requests.memory="512Mi"`.  Otherwise Pilot may refuse to start due to insufficient resources.

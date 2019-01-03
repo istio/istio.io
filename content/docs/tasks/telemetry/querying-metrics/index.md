@@ -56,10 +56,7 @@ application.
 
 The results will be similar to:
 
-{{< image width="100%" ratio="42.63%"
-    link="./prometheus_query_result.png"
-    caption="Prometheus Query Result"
-    >}}
+{{< image link="./prometheus_query_result.png" caption="Prometheus Query Result" >}}
 
 Other queries to try:
 
