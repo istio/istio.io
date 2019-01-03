@@ -450,8 +450,8 @@ which results in:
 
 {{< boilerplate example >}}
 
-You supply the name of a boilerplate file to insert at the current location. Boilerplates are
-located in language-specific subdirectories of the `boilerplates` directory. Boilerplates are just
+You supply the name of a boilerplate file to insert at the current location. Available boilerplates are
+located in the `boilerplates` directory. Boilerplates are just
 normal markdown files.
 
 ## Using tabs
