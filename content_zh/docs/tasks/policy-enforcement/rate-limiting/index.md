@@ -50,7 +50,7 @@ keywords: [策略,限额]
 
     或者
 
-    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#参数-QuotaAlgorithm)，
+    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#quotaalgorithm)，
 [`redis_server_url`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#参数)包含配置值。
 
     {{< text yaml >}}
