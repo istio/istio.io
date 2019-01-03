@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/multicluster-install
 ---
 
-Instructions for installing an Istio [multicluster service mesh](/docs/concepts/multicluster-configuration/)
+Instructions for installing an Istio [multicluster service mesh](/docs/concepts/multicluster-deployments/)
 where Kubernetes cluster services and applications in each cluster have the capability to expose
 their internal Kubernetes network to other clusters.
 
