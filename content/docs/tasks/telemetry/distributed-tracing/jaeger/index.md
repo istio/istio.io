@@ -35,18 +35,12 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 1.  From the left-hand pane of the dashboard, select `productpage` from the **Service** drop-down list and click
     **Find Traces**:
 
-    {{< image width="100%" ratio="52.68%"
-    link="./istio-tracing-list.png"
-    caption="Tracing Dashboard"
-    >}}
+    {{< image link="./istio-tracing-list.png" caption="Tracing Dashboard" >}}
 
 1.  Click on the most recent trace at the top to see the details corresponding to the
     latest request to the `/productpage`:
 
-    {{< image width="100%" ratio="36.32%"
-    link="./istio-tracing-details.png"
-    caption="Detailed Trace View"
-    >}}
+    {{< image link="./istio-tracing-details.png" caption="Detailed Trace View" >}}
 
 1.  The trace is comprised of a set of spans,
     where each span corresponds to a Bookinfo service, invoked during the execution of a `/productpage` request, or

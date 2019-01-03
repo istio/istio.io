@@ -51,10 +51,7 @@ the example application throughout this task.
 
     The Istio Dashboard will look similar to:
 
-    {{< image width="100%" ratio="52.16%"
-        link="./grafana-istio-dashboard.png"
-        caption="Istio Dashboard"
-        >}}
+    {{< image link="./grafana-istio-dashboard.png" caption="Istio Dashboard" >}}
 
 1.  Send traffic to the mesh.
 
@@ -73,10 +70,7 @@ the example application throughout this task.
     Look at the Istio Dashboard again. It should reflect the traffic that was
     generated. It will look similar to:
 
-    {{< image width="100%" ratio="54.51%"
-    link="./dashboard-with-traffic.png"
-    caption="Istio Dashboard With Traffic"
-    >}}
+    {{< image link="./dashboard-with-traffic.png" caption="Istio Dashboard With Traffic" >}}
 
     This gives the global view of the Mesh along with services and workloads in the mesh.
     You can get more details about services and workloads by navigating to their specific dashboards as explained below.
@@ -88,10 +82,7 @@ the example application throughout this task.
 
     The Istio Service Dashboard will look similar to:
 
-    {{< image width="100%" ratio="51.65%"
-    link="./istio-service-dashboard.png"
-    caption="Istio Service Dashboard"
-    >}}
+    {{< image link="./istio-service-dashboard.png" caption="Istio Service Dashboard" >}}
 
     This gives details about metrics for the service and then client workloads (workloads that are calling this service)
     and service workloads (workloads that are providing this service) for that service.
@@ -103,10 +94,7 @@ the example application throughout this task.
 
     The Istio Workload Dashboard will look similar to:
 
-    {{< image width="100%" ratio="52.68%"
-    link="./istio-workload-dashboard.png"
-    caption="Istio Workload Dashboard"
-    >}}
+    {{< image link="./istio-workload-dashboard.png" caption="Istio Workload Dashboard" >}}
 
     This gives details about metrics for each workload and then inbound workloads (workloads that are sending request to
     this workload) and outbound services (services to which this workload send requests) for that workload.

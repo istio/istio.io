@@ -9,7 +9,7 @@ loaded asynchronously.
 
 Usage:
 
-{{< image width="<NN>%" ratio="<NN>%"
+{{< image width="<NN>%" ratio="<NN>"
     link="<path to image file>"
     alt="<text to display when the image is not available>"
     title="<text to display when hovering over the image>"
@@ -18,9 +18,14 @@ Usage:
 
 If you omit the alt parameter, it will take on the value of the title parameter.
 If you omit the title parameter, it will take on the value of the caption parameter.
-
 In other words, if all three strings are the same, you can just supply the caption
 parameter.
+
+The width value represents the percentage of the page that the image should occupy. If
+width is not supplied, it defaults to 100%.
+
+The ratio value represents the ratio of width to height for the image. You can normally
+omit this value and it will be computed automatically.
 
 */ -}}
 
@@ -35,6 +40,10 @@ parameter.
 {{- if (strings.HasSuffix . ".") -}}
 {{- errorf "Image caption ends with a period (%s)" .Position -}}
 {{- end -}}
+{{- end -}}
+
+{{- if not $width -}}
+{{- $width = "100%" -}}
 {{- end -}}
 
 {{- /* Turn relative values for $link into absolute URLs */ -}}
@@ -52,34 +61,29 @@ parameter.
     {{- end -}}
 {{- end -}}
 
+{{- $path := printf "content/%s" $link }}
 {{- if strings.HasSuffix $link ".svg" -}}
-    {{- $file := readFile (printf "content/%s" $link) -}}
+    {{- $file := readFile $path -}}
     {{- $viewBox := index (findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
     {{- $viewBox := index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
     {{- $sizes := split $viewBox " " -}}
     {{- $w := sub (float (index $sizes 2)) (float (index $sizes 0)) -}}
     {{- $h := sub (float (index $sizes 3)) (float (index $sizes 1)) -}}
-    {{- $ratio := mul (div $h $w) 100 -}}
-
-    <figure style="width: {{- $width -}}">
-        <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}%">
-            <a class="not-for-endnotes" href="{{- $link -}}" title="{{- $title -}}">
-                <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" />
-            </a>
-        </div>
-        <figcaption>{{- $caption -}}</figcaption>
-    </figure>
+    {{- $ratio = mul (div $h $w) 100 -}}
 {{- else -}}
-    {{- if $ratio -}}
-        <figure style="width: {{- $width -}}">
-            <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}">
-                <a class="not-for-endnotes" href="{{- $link -}}" title="{{- $title -}}">
-                    <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" />
-                </a>
-            </div>
-            <figcaption>{{- $caption -}}</figcaption>
-        </figure>
-    {{- else -}}
-        {{- errorf "Missing ratio for PNG or JPG image (%s)" .Position -}}
+    {{- if not $ratio -}}
+        {{- $img := imageConfig $path -}}
+        {{- $w := float $img.Width -}}
+        {{- $h := float $img.Height -}}
+        {{- $ratio = mul (div $h $w) 100 -}}
     {{- end -}}
 {{- end -}}
+
+<figure style="width: {{- $width -}}">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}%">
+        <a class="not-for-endnotes" href="{{- $link -}}" title="{{- $title -}}">
+            <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" />
+        </a>
+    </div>
+    <figcaption>{{- $caption -}}</figcaption>
+</figure>

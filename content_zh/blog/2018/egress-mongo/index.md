@@ -94,10 +94,7 @@ keywords: [流量管理,egress,tcp,mongo]
 
 作为提醒，这是 [Bookinfo 示例应用程序](/docs/examples/bookinfo/) 的端到端架构。
 
-{{< image width="80%" ratio="59.08%"
-    link="/docs/examples/bookinfo/withistio.svg"
-    caption="初始 Bookinfo 应用程序"
-    >}}
+{{< image width="80%" link="/docs/examples/bookinfo/withistio.svg" caption="初始 Bookinfo 应用程序" >}}
 
 ### 在 Bookinfo 应用程序中使用外部数据库
 
@@ -121,8 +118,7 @@ keywords: [流量管理,egress,tcp,mongo]
 
 更新的架构如下所示。请注意，网格内的蓝色箭头标记对应于我们添加的 virtual service。根据 virtual service，流量将被发送到 `reviews v3` 和 `ratings v2`。
 
-{{< image width="80%" ratio="59.31%"
-    link="./bookinfo-ratings-v2-mongodb-external.svg"
+{{< image width="80%" link="./bookinfo-ratings-v2-mongodb-external.svg"
     caption="使用 ratings v2 和外部 MongoDB 数据库的 Bookinfo 应用程序"
     >}}
 
@@ -134,10 +130,7 @@ keywords: [流量管理,egress,tcp,mongo]
 
 由于您尚未配置 egress 流量控制，所以 Istio 会阻止到 MongoDB 服务的访问。这就是为什么您当前不能看到评级的星标，只能看到 _"Ratings service is currently unavailable"_ 的信息：
 
-{{< image width="80%" ratio="36.19%"
-    link="./errorFetchingBookRating.png"
-    caption="Ratings service 错误信息"
-    >}}
+{{< image width="80%" link="./errorFetchingBookRating.png" caption="Ratings service 错误信息" >}}
 
 在以下部分中，您将使用不同的 Istio egress 控制选项，配置对外部 MongoDB 服务的访问。
 
@@ -184,10 +177,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1. 刷新应用程序的网页。应用程序现在应该显示评级数据而非错误：
 
-{{< image width="80%" ratio="36.69%"
-    link="./externalDBRatings.png"
-    caption="Book 评级显式正确"
-    >}}
+{{< image width="80%" link="./externalDBRatings.png" caption="Book 评级显式正确" >}}
 
 请注意，和预期的一样，您会看到两个显示评论的一星评级。您将评级设置为一星，以作为外部数据库确实被使用了的视觉证据。
 

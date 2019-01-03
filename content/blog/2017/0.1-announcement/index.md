@@ -32,15 +32,9 @@ Google, IBM and Lyft joined forces to create Istio from a desire to provide a re
 
 **Fleet-wide Visibility**: Failures happen, and operators need tools to stay on top of the health of clusters and their graphs of microservices. Istio produces detailed monitoring data about application and network behaviors that is rendered using [Prometheus](https://prometheus.io/) & [Grafana](https://github.com/grafana/grafana), and can be easily extended to send metrics and logs to any collection, aggregation and querying system. Istio enables analysis of performance hotspots and diagnosis of distributed failure modes with [Zipkin](https://github.com/openzipkin/zipkin) tracing.
 
-{{< image width="100%" ratio="55.42%"
-    link="./istio_grafana_dashboard-new.png"
-    caption="Grafana Dashboard with Response Size"
-    >}}
+{{< image link="./istio_grafana_dashboard-new.png" caption="Grafana Dashboard with Response Size" >}}
 
-{{< image width="100%" ratio="29.91%"
-    link="./istio_zipkin_dashboard.png"
-    caption="Zipkin Dashboard"
-    >}}
+{{< image link="./istio_zipkin_dashboard.png" caption="Zipkin Dashboard" >}}
 
 **Resiliency and efficiency**: When developing microservices, operators need to assume that the network will be unreliable. Operators can use retries, load balancing, flow-control (HTTP/2), and circuit-breaking to compensate for some of the common failure modes due to an unreliable network. Istio provides a uniform approach to configuring these features, making it easier to operate a highly resilient service mesh.
 

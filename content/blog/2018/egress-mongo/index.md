@@ -105,10 +105,7 @@ The example commands in this blog post work with Istio 1.0.
 As a reminder, here is the end-to-end architecture of the application from the
 [Bookinfo sample application](/docs/examples/bookinfo/).
 
-{{< image width="80%" ratio="59.08%"
-    link="/docs/examples/bookinfo/withistio.svg"
-    caption="The original Bookinfo application"
-    >}}
+{{< image width="80%" link="/docs/examples/bookinfo/withistio.svg" caption="The original Bookinfo application" >}}
 
 ### Use the external database in Bookinfo application
 
@@ -139,10 +136,7 @@ The updated architecture appears below. Note that the blue arrows inside the mes
 to the virtual services we added. According to the virtual services, the traffic is sent to _reviews v3_ and
  _ratings v2_.
 
-{{< image width="80%" ratio="59.31%"
-    link="./bookinfo-ratings-v2-mongodb-external.svg"
-    caption="The Bookinfo application with ratings v2 and an external MongoDB database"
-    >}}
+{{< image width="80%" link="./bookinfo-ratings-v2-mongodb-external.svg" caption="The Bookinfo application with ratings v2 and an external MongoDB database" >}}
 
 Note that the MongoDB database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The
 boundary of the service mesh is marked by a dashed line.
@@ -156,10 +150,7 @@ Since you did not configure the egress traffic control yet, the access to the Mo
 This is why instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
  displayed below each review:
 
-{{< image width="80%" ratio="36.19%"
-    link="./errorFetchingBookRating.png"
-    caption="The Ratings service error messages"
-    >}}
+{{< image width="80%" link="./errorFetchingBookRating.png" caption="The Ratings service error messages" >}}
 
 In the following sections you will configure egress access to the external MongoDB service, using different options for
 egress control in Istio.
@@ -225,10 +216,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
 
 1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
-{{< image width="80%" ratio="36.69%"
-    link="./externalDBRatings.png"
-    caption="Book Ratings Displayed Correctly"
-    >}}
+{{< image width="80%" link="./externalDBRatings.png" caption="Book Ratings Displayed Correctly" >}}
 
 Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
 provide yourself with a visual clue that your external database is indeed being used.

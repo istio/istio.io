@@ -45,7 +45,4 @@ CIDR.
 
 The image below shows the GUI where you complete all the previous steps:
 
-{{< image width="100%" ratio="67.17%"
-    link="./csconsole.png"
-    caption="Console"
-    >}}
+{{< image link="./csconsole.png" caption="Console" >}}
