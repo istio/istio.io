@@ -73,22 +73,23 @@ in our [single control plane with VPN instructions](/docs/setup/kubernetes/multi
 
 If setting up an environment with universal pod-to-pod connectivity is difficult or impossible,
 it may still be possible to configure a single control plane topology using Istio gateways and
-configuring Istio Pilot to enable location-aware service routing (a.k.a. split-horizon EDS).
+by enabling Istio Pilot's location-aware service routing feature, a.k.a., split-horizon EDS (Endpoint Discovery Service).
+This approach still requires connectivity to Kubernetes API servers from all of the clusters
+as, for example, on managed Kubernetes services where the API servers run on a network accessible
+to all tenant clusters.
+If this is not possible, a multiple control plane topology is probably a better alternative.
 
 {{< image width="80%" ratio="36.01%"
     link="./multicluster-split-horizon-eds.svg"
     caption="Istio mesh spanning multiple Kubernetes clusters using single Istio control plane and Gateway to reach remote pods"
     >}}
 
-In this configuration, the control plane forwards a request from a sidecar in one cluster to a service in
-the same cluster using the local service IP as usual. If the destination workload is running in a different cluster,
-the control plane uses the remote cluster Gateway IP to connect to the service instead.
+In this configuration, a request from a sidecar in one cluster to a service in
+the same cluster is forwarded to the local service IP as usual.
+If the destination workload is running in a different cluster,
+the remote cluster Gateway IP is used to connect to the service instead.
 Visit our [single control plane with gateways example](/) (TODO ref: /docs/examples/multicluster/split-horizon-eds/)
 to experiment with this feature.
-
-Note that this approach still requires connectivity between the Istio control plane and the Kubernetes
-API servers on every cluster. If this is also difficult or impossible, a multiple control plane topology is
-probably a better alternative.
 
 ### Multiple control plane topology
 
