@@ -217,7 +217,8 @@ $ helm template install/kubernetes/helm/istio <the flags you used to install Ist
 Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
 in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio, add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
 
-**You should remove the previously deployed ServiceEntry and VirtualService**.Redeploy the `sleep` application as described in the [Before you begin](/docs/tasks/traffic-management/egress/#before-you-begin) section.  
+Redeploy the `sleep` application as described in the [Before you begin](/docs/tasks/traffic-management/egress/#before-you-begin) section.  
+{{< warning_icon >}} Make sure to remove the previously deployed `ServiceEntry` and `VirtualService`.
 
 ### Set the value of `global.proxy.includeIPRanges`
 
