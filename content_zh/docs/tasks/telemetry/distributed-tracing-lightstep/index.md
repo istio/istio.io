@@ -65,11 +65,11 @@ keywords: [遥测,追踪,lightstep]
     EOF
     {{< /text >}}
 
-1. 遵循[部署 Bookinfo 示例应用程序说明](/docs/examples/bookinfo/#deploying-the-application)。
+1. 遵循[部署 Bookinfo 示例应用程序说明](/zh/docs/examples/bookinfo/#部署应用)。
 
 ## 可视化追踪数据
 
-1. 遵循[为 Bookinfo 应用创建 ingress gateway 的说明](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)。
+1. 遵循[为 Bookinfo 应用创建 ingress gateway 的说明](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)。
 
 1. 为了验证前序步骤是否成功，请确保在 shell 中设置了 `GATEWAY_URL` 环境变量。
 
@@ -111,7 +111,7 @@ Istio 以可配置的追踪采样百分比捕获追踪数据。要了解如何�
 
 如果您没有计划任何后续任务，请从集群中删除 Bookinfo 示例应用程序及任何 LightStep [𝑥]PM secret。
 
-1. 要删除 Bookinfo 应用程序，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)说明。
+1. 要删除 Bookinfo 应用程序，请参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理")说明。
 
 1. 删除为 LightStep [𝑥]PM 生成的 secret。
 

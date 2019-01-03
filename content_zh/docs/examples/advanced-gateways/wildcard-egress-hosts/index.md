@@ -5,7 +5,7 @@ keywords: [流量管理,egress]
 weight: 50
 ---
 
-[控制 Egress 流量](/docs/tasks/traffic-management/egress/)任务和[配置 Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) 示例讲述了如何为类似 `edition.cnn.com` 的特定主机名配置
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务和[配置 Egress Gateway](/zh/docs/examples/advanced-gateways/egress-gateway/) 示例讲述了如何为类似 `edition.cnn.com` 的特定主机名配置
 egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipedia.org`）的主机启用 egress 流量，而非单独配置每个主机。
 
 ## 背景
@@ -16,11 +16,11 @@ egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipe
 
 ## 开始之前
 
-* 按照[安装指南](/docs/setup/)中的说明安装 Istio。
+* 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
 * 启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将被用作外部请求的测试源。
 
-  如果您启用了[自动 sidecar 注入](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请运行
+  如果您启用了[自动 sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请运行
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
