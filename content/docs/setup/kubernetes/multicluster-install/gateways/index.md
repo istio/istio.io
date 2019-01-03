@@ -6,7 +6,7 @@ keywords: [kubernetes,multicluster,federation,gateway]
 ---
 
 Instructions for installing an Istio [multicluster service mesh](/docs/concepts/multicluster-configuration/)
-when pods in each cluster can only connect to remote gateway IPs.
+where Kubernetes cluster services and applications in each cluster are limited to remote communication using gateway IPs.
 
 Instead of using a central Istio control plane to manage the mesh,
 in this configuration each cluster has an **identical** Istio control plane
