@@ -6,7 +6,7 @@ keywords: [telemetry,visualization]
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh
-traffic. As part of this task, you will install the Grafana Istio add-on and use
+traffic. As part of this task, you will use the Grafana Istio add-on and
 the web-based interface for viewing service mesh traffic data.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
@@ -14,8 +14,8 @@ the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup/) in your cluster and deploy an
-  application.
+* [Install Istio](/docs/setup) in your cluster. If you are installing using Helm, enable the Grafana add-on `--set grafana.enabled=true` [option](/docs/reference/config/installation-options/).
+* Deploy [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Viewing the Istio Dashboard
 
