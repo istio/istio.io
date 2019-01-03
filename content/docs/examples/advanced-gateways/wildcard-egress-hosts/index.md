@@ -488,13 +488,18 @@ The SNI proxy will forward the traffic to port `443`.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's Envoy proxy for the counter that corresponds to your requests to
-    _*.wikipedia.org_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
-    to print the counter is:
+1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command to
+    print the log is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
-    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 2
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
+    {{< /text >}}
+
+    You should see lines similar to the following:
+
+    {{< text plain >}}
+    [2019-01-02T16:34:23.312Z] "- - -" 0 - 578 79141 624 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55018 172.30.109.84:443 172.30.109.112:45346 en.wikipedia.org
+    [2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
     {{< /text >}}
 
 1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the

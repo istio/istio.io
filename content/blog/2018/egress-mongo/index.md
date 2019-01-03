@@ -1025,13 +1025,18 @@ to hold the configuration of the Nginx SNI proxy:
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to your requests to
-    _*.com_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
-    to print the counter is:
+1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command
+    to print the log is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
-    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 1
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
+    {{< /text >}}
+
+    You should see lines similar to the following:
+
+    {{< text plain >}}
+    [2019-01-02T17:22:04.602Z] "- - -" 0 - 768 1863 88 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 placeholder.com
+    [2019-01-02T17:22:04.713Z] "- - -" 0 - 1534 2590 85 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 placeholder.com
     {{< /text >}}
 
 1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
