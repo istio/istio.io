@@ -132,7 +132,7 @@ Istio 也支持基于属性的黑名单和白名单。下面的白名单配置�
     $ istioctl create -f appversion-instance.yaml
     {{< /text >}}
 
-1. 为 `ratings` 服务启用 `whitelist` 检查功能，将下面的 YAML 代码段保存为 `appversion-instance.yaml`：
+1. 为 `ratings` 服务启用 `whitelist` 检查功能，将下面的 YAML 代码段保存为 `checkversion-rule.yaml`：
 
     {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2
