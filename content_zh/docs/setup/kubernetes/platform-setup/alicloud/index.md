@@ -36,7 +36,4 @@ keywords: [平台设置,阿里巴巴云服务,阿里云]
 
 下面的图像是显示了完成前面所有步骤的GUI:
 
-{{< image width="100%" ratio="67.17%"
-    link="/docs/setup/kubernetes/platform-setup/alicloud/csconsole.png"
-    caption="Console"
-    >}}
+{{< image link="/docs/setup/kubernetes/platform-setup/alicloud/csconsole.png" caption="Console" >}}

@@ -128,21 +128,25 @@ Within markdown, use the following sequence to add the image:
 {{< text html >}}
 {{</* image width="75%"
     link="./myfile.svg"
-    alt="Alternate text to display when the image is not available"
+    alt="Alternate text to display when the image can't be loaded"
     title="A tooltip displayed when hovering over the image"
     caption="A caption displayed under the image"
     */>}}
 {{< /text >}}
 
-The `width`, `link` and `caption` values are always required. If the image is a PNG or JPG file, then the
-`ratio` value is required. If the `title` value isn't
-supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
+The `link` and `caption` values are required, all other values are optional.
+
+If the `title` value isn't supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
 default to `title` or if that's not defined, to `caption`.
 
 `width` represents the percentage of space used by the image
-relative to the surrounding text.
+relative to the surrounding text. If the value is not specified, it
+defaults to 100$.
 
-For PNG and JPG images, `ratio` must be manually calculated using (image height / image width) * 100.
+`ratio` represents the ratio of the image height compared to the image width. This
+value is calculated automatically for any local image content, but must be calculated
+manually when referencing external image content.
+In that case, `ratio` must be manually calculated using (image height / image width) * 100.
 
 ## Adding icons & emojis
 

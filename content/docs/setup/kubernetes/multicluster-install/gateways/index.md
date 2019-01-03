@@ -18,10 +18,7 @@ A single Istio service mesh across the clusters is achieved by replicating
 shared services and namespaces and using a common root CA in all of the clusters.
 Cross-cluster communication occurs over Istio Gateways of the respective clusters.
 
-{{< image width="80%" ratio="36.01%"
-    link="./multicluster-with-gateways.svg"
-    caption="Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods"
-    >}}
+{{< image width="80%" link="./multicluster-with-gateways.svg" caption="Istio mesh spanning multiple Kubernetes clusters using Istio Gateway to reach remote pods" >}}
 
 ## Prerequisites
 

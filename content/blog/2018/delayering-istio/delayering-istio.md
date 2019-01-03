@@ -69,8 +69,7 @@ In all these cases, the proxy is not different from any low-level plumbing layer
 
 To illustrate this with an example, consider the application shown below.  It consists of a Python app and a set of memcached servers behind it.  An upstream memcached server is selected based on connection time routing.  Speed is the primary concern here.
 
-{{< image width="75%" ratio="40%"
-    link="memcached.png"
+{{< image width="75%" link="memcached.png"
     alt="Proxyless datapath"
     caption="Latency-sensitive application scenario"
     >}}
@@ -115,7 +114,7 @@ Here are the sequence of steps that would achieve this in the context of the Pyt
 1. It passes one end of the socket pair into the application such that the application would use that socket FD for read/write.  It also ensures that the application consistently sees it as a legitimate TCP socket as it expects by interposing all calls that query connection properties.
 1. The other end is passed to sidecar over a different Unix socket where the daemon exposes its API.  Information such as the original destination that the application was connecting to is also conveyed over the same interface.
 
-{{< image width="50%" ratio="25%"
+{{< image width="50%"
     link="socket-delegation.png"
     alt="Socket delegation protocol"
     caption="Socket delegation based connection redirection"
@@ -197,11 +196,7 @@ AppSwitch removes a number of layers and processing from the standard service me
 
 We ran some initial experiments to characterize the extent of the opportunity for optimization based on the initial integration of AppSwitch discussed earlier.  The experiments were run on GKE using fortio-0.11.0, istio-0.8.0 and appswitch-0.4.0-2.  In case of the proxyless test, AppSwitch daemon was run as a `DaemonSet` on the Kubernetes cluster and the Fortio pod spec was modified to inject AppSwitch client.  These were the only two changes made to the setup.  The test was configured to measure the latency of GRPC requests across 100 concurrent connections.
 
-{{< image width="100%" ratio="55%"
-    link="perf.png"
-    alt="Performance comparison"
-    caption="Latency with and without AppSwitch"
-    >}}
+{{< image link="perf.png" alt="Performance comparison" caption="Latency with and without AppSwitch" >}}
 
 Initial results indicate a difference of over 18x in p50 latency with and without AppSwitch (3.99ms vs 72.96ms).  The difference was around 8x when mixer and access logs were disabled.  Clearly the difference was due to sidestepping all those intermediate layers along the datapath.  Unix socket optimization wasn't triggered in case of AppSwitch because client and server pods were scheduled to separate hosts.  End-to-end latency of AppSwitch case would have been even lower if the client and server happened to be colocated.  Essentially the client and server running in their respective pods of the Kubernetes cluster are directly connected over a TCP socket going over the GKE network -- no tunneling, bridge or proxies.
 

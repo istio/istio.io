@@ -234,10 +234,7 @@ egress gateway 使用它作为代理。Envoy 将流量路由到预定义的主�
 
 具有 SNI 代理的 egress gateway 和 Istio 体系结构的相关部分如下图所示：
 
-{{< image width="80%" ratio="57.89%"
-    link="./EgressGatewayWithSNIProxy.svg"
-    caption="具有 SNI proxy 的 Egress Gateway"
-    >}}
+{{< image width="80%" link="./EgressGatewayWithSNIProxy.svg" caption="具有 SNI proxy 的 Egress Gateway" >}}
 
 以下部分介绍如何使用 SNI 代理重新部署 egress gateway，然后配置 Istio 通过 gateway 将 HTTPS 流量路由到任意通配符域名。
 

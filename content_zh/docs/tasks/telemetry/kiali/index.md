@@ -111,17 +111,11 @@ $ kubectl apply -f $HOME/istio.yaml
 
     **Overview** 页面中会显示网格里所有命名空间中的服务。例如下面的截图：
 
-    {{< image width="75%" ratio="41%"
-    link="/docs/tasks/telemetry/kiali/kiali-overview.png"
-    caption="概览示例"
-    >}}
+    {{< image width="75%" link="/docs/tasks/telemetry/kiali/kiali-overview.png" caption="概览示例" >}}
 
 1. 要查看指定命名空间的服务图，可以点击 Bookinfo 命名空间卡片，会显示类似的页面：
 
-    {{< image width="75%" ratio="89%"
-    link="/docs/tasks/telemetry/kiali/kiali-graph.png"
-    caption="服务图样例"
-    >}}
+    {{< image width="75%" link="/docs/tasks/telemetry/kiali/kiali-graph.png" caption="服务图样例" >}}
 
 1. 要查看指标的合计，可以在服务图上选择任何节点或者边缘，就会在右边的 Panel 上显示所选指标的详情。
 
@@ -129,40 +123,25 @@ $ kubectl apply -f $HOME/istio.yaml
 
     * **App** 类型会将同一应用的所有版本的数据聚合为单一的图形节点，下面的例子展示了一个 **reviews** 节点，其中包含三个版本的 Reviews 应用：
 
-        {{< image width="75%" ratio="35%"
-        link="/docs/tasks/telemetry/kiali/kiali-app.png"
-        caption="应用图样例"
-        >}}
+        {{< image width="75%" link="/docs/tasks/telemetry/kiali/kiali-app.png" caption="应用图样例" >}}
 
     * **Versioned App** 类型会把一个 App 的每个版本都用一个节点来展示，但是一个应用的所有版本会被汇总在一起，下面的示例中显示了一个在分组框中的 **reviews** 服务，其中包含了三个节点，每个节点都代表 reviews 应用的一个版本：
 
-        {{< image width="75%" ratio="67%"
-        link="/docs/tasks/telemetry/kiali/kiali-versionedapp.png"
-        caption="分版本应用图样例"
-        >}}
+        {{< image width="75%" link="/docs/tasks/telemetry/kiali/kiali-versionedapp.png" caption="分版本应用图样例" >}}
 
     * **Workload** 类型的图会将网格中的每个工作负载都呈现为一个节点。
 
         这种类型的图不需要读取工作负载的 `app` 和 `version` 标签。所以如果你的工作负载中没有这些标签，这种类型就是个合理选择了。
 
-        {{< image width="70%" ratio="76%"
-        link="/docs/tasks/telemetry/kiali/kiali-workload.png"
-        caption="工作负载图样例"
-        >}}
+        {{< image width="70%" link="/docs/tasks/telemetry/kiali/kiali-workload.png" caption="工作负载图样例"  >}}
 
     * **Service** 图类型为网格中的每个服务生成一个节点，但是会排除所有的应用和工作负载。
 
-        {{< image width="70%" ratio="35%"
-        link="/docs/tasks/telemetry/kiali/kiali-service-graph.png"
-        caption="服务图样例"
-        >}}
+        {{< image width="70%" link="/docs/tasks/telemetry/kiali/kiali-service-graph.png" caption="服务图样例" >}}
 
 1. 要验证 Istio 配置的详情，可以点击左边菜单栏上的 **Applications**、**Workloads** 或者 **Services**。下面的截图展示了 Bookinfo 应用的信息：
 
-   {{< image width="80%" ratio="53%"
-   link="/docs/tasks/telemetry/kiali/kiali-services.png"
-   caption="详情样例"
-   >}}
+    {{< image width="80%" link="/docs/tasks/telemetry/kiali/kiali-services.png" caption="详情样例" >}}
 
 ## 关于 Kiali 的 API
 
