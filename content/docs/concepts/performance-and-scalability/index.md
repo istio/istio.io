@@ -39,8 +39,7 @@ The [`perfcheck.sh` script]({{< github_file >}}/bin/perfcheck.sh) can be used to
 
 {{< image width="80%" ratio="75%"
     link="https://raw.githubusercontent.com/istio/istio/master/tools/perf_setup.svg?sanitize=true"
-    alt="Performance scenarios diagram"
-    caption="Performance scenarios diagram"
+    caption="Performance scenarios"
     >}}
 
 The synthetic benchmark scenarios and the source code of the tests are described
@@ -88,14 +87,16 @@ Acmeair is composed by the following microservices:
 
 The diagram below represents the different pods/containers of the application in the Kubernetes/Istio environment:
 
-{{< image width="100%" ratio="80%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png" alt="Acmeair microservices overview"
+{{< image ratio="80%"
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png"
+    alt="Acmeair microservices overview"
     >}}
 
 The following table shows the transactions that are driven by the script during the regression test and the approximate distribution of the requests:
 
-{{< image width="100%" ratio="20%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png" alt="Acmeair request types and distribution"
+{{< image ratio="20%"
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png"
+    alt="Acmeair request types and distribution"
     >}}
 
 The Acmeair benchmark application can be found here: [IBM's BluePerf](https://github.com/blueperf).

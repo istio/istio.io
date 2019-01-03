@@ -266,10 +266,7 @@ requests to the destination specified by the SNI value.
 
 The egress gateway with SNI proxy and the related parts of the Istio architecture are shown in the following diagram:
 
-{{< image width="80%" ratio="57.89%"
-    link="./EgressGatewayWithSNIProxy.svg"
-    caption="Egress Gateway with SNI proxy"
-    >}}
+{{< image width="80%" link="./EgressGatewayWithSNIProxy.svg" caption="Egress Gateway with SNI proxy" >}}
 
 The following sections show you how to redeploy the egress gateway with an SNI proxy and then configure Istio to route
 HTTPS traffic through the gateway to arbitrary wildcard domains.

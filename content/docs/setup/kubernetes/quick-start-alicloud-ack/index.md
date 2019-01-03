@@ -46,10 +46,7 @@ $ helm init --service-account tiller
 - Click **Application Catalog** in the left navigation pane.
 - Select the **ack-istio** in the right panel.
 
-{{< image width="100%" ratio="67.17%"
-    link="./app-catalog-istio-1.0.0.png"
-    caption="Istio"
-    >}}
+{{< image link="./app-catalog-istio-1.0.0.png" caption="Istio" >}}
 
 ### Customize the installation with parameters
 

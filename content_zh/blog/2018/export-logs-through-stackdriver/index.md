@@ -19,7 +19,7 @@ weight: 87
 
 Istio 使用 `logentry` [`模板`](/docs/reference/config/policy-and-telemetry/templates/logentry)导出日志。这里指定了可用于分析的所有变量。它包含源服务、目标服务、`auth` 指标（即将实现......）等信息。以下是示意图：
 
-{{< image width="75%" ratio="75%" link="/blog/2018/export-logs-through-stackdriver/istio-analytics-using-stackdriver.png" caption="导出日志到 Stackdriver 进行分析的图释" >}}
+{{< image width="75%" link="/blog/2018/export-logs-through-stackdriver/istio-analytics-using-stackdriver.png" caption="导出日志到 Stackdriver 进行分析的图释" >}}
 
 Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为将日志导出到喜欢的接收器，如 BigQuery、Pub/Sub 或 GCS。请按照以下步骤设置喜欢的接收器，首先导出日志，然后在 Istio 中使用 Stackdriver。
 

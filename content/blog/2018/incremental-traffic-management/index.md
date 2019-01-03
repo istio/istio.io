@@ -35,13 +35,13 @@ Pods that are part of the Istio mesh contain a sidecar proxy that is responsible
 
 Let’s say you have two services that are part of the Istio mesh, Service A and Service B. When A wants to communicate with B, the sidecar proxy of Pod A is responsible for directing traffic to Service B. For example, if you wanted to split traffic 50/50 across Service B v1 and v2, the traffic would flow as follows:
 
-{{< image width="60%" ratio="43%" link="./fifty-fifty.png" caption="50/50 Traffic Split" >}}
+{{< image width="60%" link="./fifty-fifty.png" caption="50/50 Traffic Split" >}}
 
 If Services A and B are not part of the Istio mesh, there is no sidecar proxy that knows how to route traffic to different versions of Service B. In that case you need to use another approach to get traffic from Service A to Service B, following the 50/50 rules you’ve setup.
 
 Fortunately, a standard Istio deployment already includes a [Gateway](/docs/concepts/traffic-management/#gateways) that specifically deals with ingress traffic outside of the Istio mesh. This Gateway is used to allow ingress traffic from outside the cluster via an external load balancer, or to allow ingress traffic from within the Kubernetes cluster but outside the service mesh. It can be configured to proxy incoming ingress traffic to the appropriate Pods, even if they don’t have a sidecar proxy. While this approach allows you to leverage Istio’s traffic management features, it does mean that traffic going through the ingress gateway will incur an extra hop.
 
-{{< image width="60%" ratio="55%" link="./fifty-fifty-ingress-gateway.png" caption="50/50 Traffic Split using Ingress Gateway" >}}
+{{< image width="60%" link="./fifty-fifty-ingress-gateway.png" caption="50/50 Traffic Split using Ingress Gateway" >}}
 
 ## In action: traffic routing with Istio
 
