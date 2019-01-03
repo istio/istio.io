@@ -22,7 +22,7 @@ application beyond a single cluster, for example:
   to access standalone external services or to access services exposed by another loosely-coupled service mesh,
   a.k.a. *mesh federation*.
 * You can [expand the service mesh](/docs/setup/kubernetes/mesh-expansion/) to include services running
-  on VMs or bare metal host.
+  on VMs or bare metal hosts.
 * You can combine the services from more than one cluster into a single composite service mesh,
   i.e., a *multicluster mesh*.
 
@@ -101,7 +101,7 @@ in our [single control plane with VPN instructions](/docs/setup/kubernetes/multi
 
 If setting up an environment with universal pod-to-pod connectivity is difficult or impossible,
 it may still be possible to configure a single control plane topology using Istio gateways and
-by enabling Istio Pilot's location-aware service routing feature, a.k.a., split-horizon EDS (Endpoint Discovery Service).
+by enabling Istio Pilot's location-aware service routing feature, a.k.a. *split-horizon EDS (Endpoint Discovery Service)*.
 This approach still requires connectivity to Kubernetes API servers from all of the clusters
 as, for example, on managed Kubernetes services where the API servers run on a network accessible
 to all tenant clusters.
