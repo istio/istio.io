@@ -2,7 +2,7 @@
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-*   To have test source for external calls via the proxy, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
+*   To have test source for sending requests, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
     If you have enabled
     [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
@@ -19,7 +19,7 @@
 
     You can use any pod with `curl` installed as a test source.
 
-*   To send requests to external services, create the `SOURCE_POD` environment variable to store the name of the source
+*   To send requests, create the `SOURCE_POD` environment variable to store the name of the source
     pod:
 
     {{< text bash >}}
