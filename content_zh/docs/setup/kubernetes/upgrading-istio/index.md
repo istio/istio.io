@@ -12,7 +12,7 @@ keywords: [kubernetes,升级]
 
 ## 升级步骤
 
-1. [下载新的 Istio 版本](/docs/setup/kubernetes/download-release/)并将目录更改为新版本目录。
+1. [下载新的 Istio 版本](/zh/docs/setup/kubernetes/download-release/)并将目录更改为新版本目录。
 
 1. 升级 Istio 的[自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 通过 `kubectl apply` ，等待几秒钟，让 CRD 在 kube-apiserver 中提交：
@@ -27,7 +27,7 @@ Istio 控制平面组件包括：Citadel、Ingress 网关、Egress 网关、Pilo
 
 #### 用 Helm 升级
 
-如果你用 [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) 安装了 Istio，那么首选升级方式是让 Helm 负责升级：
+如果你用 [Helm](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-和-tiller-的-helm-install-安装-istio) 安装了 Istio，那么首选升级方式是让 Helm 负责升级：
 
 {{< text bash >}}
 $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
