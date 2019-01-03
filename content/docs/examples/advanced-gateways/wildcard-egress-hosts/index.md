@@ -19,33 +19,7 @@ Each version of `wikipedia.org` in a particular language has its own hostname, e
 You want to enable egress traffic by common configuration items for all the _wikipedia_ sites,
 without the need to specify every language's site separately.
 
-## Before you begin
-
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
-
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which will be used as a test source for external calls.
-
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    {{< /text >}}
-
-    Note that any pod that you can `exec` and `curl` from would do.
-
-*   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
-
-    {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    {{< /text >}}
+{{< boilerplate before-you-begin-egress >}}
 
 ## Configure direct traffic to a wildcard host
 
