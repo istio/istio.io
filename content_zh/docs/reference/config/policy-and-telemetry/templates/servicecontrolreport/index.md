@@ -41,11 +41,11 @@ spec:
 |`apiProtocol`|`string`||
 |`apiService`|`string`||
 |`apiKey`|`string`||
-|`requestTime`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)||
+|`requestTime`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)||
 |`requestMethod`|`string`||
 |`requestPath`|`string`||
 |`requestBytes`|`int64`||
-|`responseTime`|[`istio.policy.v1beta1.TimeStamp`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)||
+|`responseTime`|[`istio.policy.v1beta1.TimeStamp`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#TimeStamp)||
 |`responseCode`|`int64`||
 |`responseByte`|`int64`||
-|`responseLatency`|[`istio.policy.v1beta1.Duration`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Duration)||
+|`responseLatency`|[`istio.policy.v1beta1.Duration`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Duration)||

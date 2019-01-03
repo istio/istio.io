@@ -50,8 +50,8 @@ keywords: [策略,限额]
 
     或者
 
-    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
-[`redis_server_url`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params)包含配置值。
+    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#参数-QuotaAlgorithm)，
+[`redis_server_url`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#参数)包含配置值。
 
     {{< text yaml >}}
     apiVersion: "config.istio.io/v1alpha2"

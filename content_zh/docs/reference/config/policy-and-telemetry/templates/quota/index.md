@@ -28,4 +28,4 @@ spec:
 
 |字段|类型|说明|
 |---|---|---|
-|`demensions`|`map<string,` [`istio.policy.v1beta1.Value`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)`>`||用于进行配额处理的唯一标识。|
+|`demensions`|`map<string,` [`istio.policy.v1beta1.Value`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)`>`||用于进行配额处理的唯一标识。|

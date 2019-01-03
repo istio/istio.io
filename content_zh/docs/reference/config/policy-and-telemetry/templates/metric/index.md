@@ -31,7 +31,7 @@ spec:
 
 |字段|类型|说明|
 |---|---|---|
-|`value`|[`istio.policy.v1beta1.Value`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)|用于上报的值|
-|`dimensions`|`map<string,` [`istio.policy.v1beta1.Value`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)`>`|上报指标的唯一标识符|
+|`value`|[`istio.policy.v1beta1.Value`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)|用于上报的值|
+|`dimensions`|`map<string,` [`istio.policy.v1beta1.Value`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)`>`|上报指标的唯一标识符|
 |`monitoredResourceType`|`string`|可选字段。这是一个表达式，用来生成将要上报的指标的监控资源的类型。如果目标后端支持这一资源，则接受这一字段并对相应的资源进行处理。否则这一字段会被适配器丢弃|
-|`monitoredResourceDimensions`|`map<string,` [`istio.policy.v1beta1.Value`](/zh/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)`>`|可选字段。一组表达式，用于生成该日志对应资源的 Dimension。如果日志后端支持针对资源的监控，这些字段就会用于对该资源的后续处理；否则适配器会丢弃该字段。|
+|`monitoredResourceDimensions`|`map<string,` [`istio.policy.v1beta1.Value`](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#Value)`>`|可选字段。一组表达式，用于生成该日志对应资源的 Dimension。如果日志后端支持针对资源的监控，这些字段就会用于对该资源的后续处理；否则适配器会丢弃该字段。|
