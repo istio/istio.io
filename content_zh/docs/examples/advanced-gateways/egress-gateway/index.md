@@ -5,7 +5,7 @@ weight: 43
 keywords: [traffic-management,egress]
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。这里提醒一下：默认情况下，启用 Istio 的应用程序无法访问集群外的 URL。要启用此类访问，必须定义外部服务的 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者配置[直接访问外部服务](/docs/tasks/traffic-management/egress/#calling-external-services-directly)。
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。这里提醒一下：默认情况下，启用 Istio 的应用程序无法访问集群外的 URL。要启用此类访问，必须定义外部服务的 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者配置[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
 
 [Egress 流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务演示了如何允许应用程序将 HTTP 请求发送到需要 HTTPS 的外部服务器。
 
