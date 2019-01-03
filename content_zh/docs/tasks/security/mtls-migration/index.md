@@ -104,7 +104,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 200
 {{< /text >}}
 
-还可以在 [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 中指定一个客户端的子集所发出的请求来是用双向 TLS 通信，然后使用 [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 验证配置执行情况，确认通过之后，将策略的应用范围扩大到该服务的所有子集。
+还可以在 [`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 中指定一个客户端的子集所发出的请求来是用双向 TLS 通信，然后使用 [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 验证配置执行情况，确认通过之后，将策略的应用范围扩大到该服务的所有子集。
 
 ## 锁定使用双向 TLS (可选)
 

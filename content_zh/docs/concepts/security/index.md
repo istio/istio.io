@@ -199,7 +199,7 @@ Istio 将两种类型的身份验证以及凭证中的其他声明（如果适�
 
 ### 认证策略
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
 下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
 
@@ -416,7 +416,7 @@ spec:
 
 - **谁**指的是 `ServiceRoleBinding` 中的 `subject` 部分。
 - **做什么**指的是 `ServiceRole` 中的 `permissions` 部分。
-- **哪些条件**指的是你可以在 `ServiceRole` 或 `ServiceRoleBinding` 中使用 [Istio 属性](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)指定的 `conditions` 部分。
+- **哪些条件**指的是你可以在 `ServiceRole` 或 `ServiceRoleBinding` 中使用 [Istio 属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)指定的 `conditions` 部分。
 
 #### `ServiceRole`
 
@@ -480,7 +480,7 @@ spec:
 
 在 `ServiceRole` 中，`namespace` + `services` + `paths`  + `methods` 的组合定义了**如何访问服务**。在某些情况下，您可能需要为规则指定其他条件。例如，规则可能仅适用于服务的某个**版本**，或仅适用于具有特定**标签**的服务，如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
 
-例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的`key`值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
+例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的`key`值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -505,7 +505,7 @@ spec:
 - **`roleRef`** 指的是同一命名空间中的 `ServiceRole` 资源。
 - **`subjects`** 分配给角色的列表。
 
-您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding`  *subject* 中的 *property* 类似于`ServiceRole` 规范中的 *constraint* 。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中。
+您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding`  *subject* 中的 *property* 类似于`ServiceRole` 规范中的 *constraint* 。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
 
 下面的例子显示了一个名为 `test-binding-products` 的 `ServiceRoleBinding`，它将两个 `subject` 绑定到名为 `product-viewer` 的 `ServiceRole` 并具有以下 `subject`
 
