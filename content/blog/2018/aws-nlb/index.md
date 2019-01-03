@@ -24,17 +24,11 @@ You need to apply policy on the master role in order to be able to provision net
 
 1. In AWS `iam` console click on policies and click on create a new one:
 
-    {{< image width="80%" ratio="60%"
-    link="./createpolicystart.png"
-    caption="Create a new policy"
-    >}}
+    {{< image width="80%" link="./createpolicystart.png" caption="Create a new policy" >}}
 
 1. Select `json`:
 
-    {{< image width="80%" ratio="60%"
-    link="./createpolicyjson.png"
-    caption="Select json"
-    >}}
+    {{< image width="80%" link="./createpolicyjson.png" caption="Select json" >}}
 
 1. Copy/paste text below:
 
@@ -79,17 +73,11 @@ You need to apply policy on the master role in order to be able to provision net
 
 1. Click review policy, fill all fields and click create policy:
 
-    {{< image width="80%" ratio="60%"
-        link="./create_policy.png"
-        caption="Validate policy"
-        >}}
+    {{< image width="80%" link="./create_policy.png" caption="Validate policy" >}}
 
 1. Click on roles, select you master role nodes, and click attach policy:
 
-    {{< image width="100%" ratio="35%"
-    link="./roles_summary.png"
-    caption="Attach policy"
-    >}}
+    {{< image link="./roles_summary.png" caption="Attach policy" >}}
 
 1. Your policy is now attach to your master node.
 

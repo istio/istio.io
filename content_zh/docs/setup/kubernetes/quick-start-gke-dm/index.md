@@ -24,17 +24,11 @@ keywords: [kubernetes,gke]
 
 为了设置以上内容，如下图所示，在 [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) 上导航到 **IAM** 章节，并找到你的形如 `projectNumber-compute@developer.gserviceaccount.com` 的默认 GCE/GKE 服务账号。服务账号默认应该仅是 **Editor** 角色。然后在这个账户的 **Roles** 下拉列表中，找到 **Kubernetes Engine** 组，并选择 **Kubernetes Engine Admin** 角色。你的账户将会变成**多重身份**。
 
-{{< image width="100%" ratio="22.94%"
-link="/docs/setup/kubernetes/quick-start-gke-dm/dm_gcp_iam.png"
-caption="GKE-IAM Service"
->}}
+{{< image link="/docs/setup/kubernetes/quick-start-gke-dm/dm_gcp_iam.png" caption="GKE-IAM Service" >}}
 
 然后添加 `Kubernetes Engine Admin` 角色:
 
-{{< image width="70%" ratio="65.04%"
-link="/docs/setup/kubernetes/quick-start-gke-dm/dm_gcp_iam_role.png"
-caption="GKE-IAM Role"
->}}
+{{< image width="70%" link="/docs/setup/kubernetes/quick-start-gke-dm/dm_gcp_iam_role.png" caption="GKE-IAM Role" >}}
 
 ## 安装
 
@@ -53,10 +47,7 @@ caption="GKE-IAM Role"
 
 1.  点击 **Deploy**:
 
-    {{< image width="100%" ratio="67.17%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_launcher.png"
-    caption="GKE-Istio Launcher"
-    >}}
+    {{< image link="/docs/setup/kubernetes/quick-start-gke-dm/dm_launcher.png" caption="GKE-Istio Launcher" >}}
 
 等 Istio 完全部署好。注意这会消耗5分钟左右。
 
@@ -125,10 +116,7 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
 
 你也可以在 [Cloud Console](https://console.cloud.google.com/kubernetes/workload) 中的 **Kubernetes Engine -> Workloads** 章节找到这些：
 
-{{< image width="70%" ratio="143.91%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_kubernetes_workloads.png"
-    caption="GKE-Workloads"
-    >}}
+{{< image width="70%" link="/docs/setup/kubernetes/quick-start-gke-dm/dm_kubernetes_workloads.png" caption="GKE-Workloads"  >}}
 
 ### 访问 Bookinfo 样例
 
@@ -141,10 +129,7 @@ istio-ingressgateway   LoadBalancer   10.59.251.109   35.194.26.85   80:31380/TC
 
 1.  确认一下你可以访问 Bookinfo `http://${GATEWAY_URL}/productpage`:
 
-    {{< image width="100%" ratio="45.04%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_bookinfo.png"
-    caption="Bookinfo"
-    >}}
+    {{< image link="/docs/setup/kubernetes/quick-start-gke-dm/dm_bookinfo.png" caption="Bookinfo" >}}
 
 1.  现在可以给它制造点流量：
 
@@ -174,10 +159,7 @@ http://localhost:3000/dashboard/db/istio-dashboard
 
 你应该可以看到一些你之前发送的请求的统计信息。
 
-{{< image width="100%" ratio="48.49%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_grafana.png"
-    caption="Grafana"
-    >}}
+{{< image link="/docs/setup/kubernetes/quick-start-gke-dm/dm_grafana.png" caption="Grafana" >}}
 
 更多关于 Grafana 插件的细节，请点击[关于 Grafana 插件](/zh/docs/tasks/telemetry/using-istio-dashboard/#关于-grafana-插件)。
 
@@ -195,10 +177,7 @@ $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=
 http://localhost:9090/graph
 {{< /text >}}
 
-{{< image width="100%" ratio="43.88%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_prometheus.png"
-    caption="Prometheus"
-    >}}
+{{< image link="/docs/setup/kubernetes/quick-start-gke-dm/dm_prometheus.png" caption="Prometheus" >}}
 
 更多关于 Prometheus 插件的细节，请点击[关于 Prometheus 插件](/zh/docs/tasks/telemetry/querying-metrics/#关于-prometheus-的附加组件)。
 
@@ -212,10 +191,7 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 你就可以在 [http://localhost:16686](http://localhost:16686) 查看之前的追踪统计信息
 
-{{< image width="100%" ratio="42.35%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm-tracing.png"
-    caption="Tracing Dashboard"
-    >}}
+{{< image link="/docs/setup/kubernetes/quick-start-gke-dm/dm-tracing.png" caption="Tracing Dashboard" >}}
 
 更多关于追踪的细节，请点击[了解一下发生了什么](/zh/docs/tasks/telemetry/distributed-tracing/#发生了什么)。
 

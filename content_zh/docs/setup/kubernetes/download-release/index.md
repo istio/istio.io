@@ -25,7 +25,7 @@ Istio 会被安装到自己的 `istio-system` 命名空间，并且能够对所�
 
     * 在 `install/` 目录中包含了 Kubernetes 安装所需的 `.yaml` 文件
     * `samples/` 目录中是示例应用
-    * `istioctl` 客户端文件保存在 `bin/` 目录之中。`istioctl` 的功能是手工进行 Envoy Sidecar 的注入，以及对路由规则、策略的管理
+    * `istioctl` 客户端文件保存在 `bin/` 目录之中。`istioctl` 的功能是手工进行 Envoy Sidecar 的注入。
     * `istio.VERSION` 配置文件
 
 1. 把 `istioctl` 客户端加入 PATH 环境变量，如果是 macOS 或者 Linux，可以这样实现：

@@ -50,7 +50,7 @@ keywords: [遥测,追踪,lightstep]
     $ NAMESPACE=default
     {{< /text >}}
 
-    ```bash
+    {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
       apiVersion: v1
       kind: Secret
@@ -63,13 +63,13 @@ keywords: [遥测,追踪,lightstep]
       data:
         cacert.pem: $CACERT
     EOF
-    ```
+    {{< /text >}}
 
-1. 遵循[部署 Bookinfo 示例应用程序说明](/docs/examples/bookinfo/#deploying-the-application)。
+1. 遵循[部署 Bookinfo 示例应用程序说明](/zh/docs/examples/bookinfo/#部署应用)。
 
 ## 可视化追踪数据
 
-1. 遵循[为 Bookinfo 应用创建 ingress gateway 的说明](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)。
+1. 遵循[为 Bookinfo 应用创建 ingress gateway 的说明](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)。
 
 1. 为了验证前序步骤是否成功，请确保在 shell 中设置了 `GATEWAY_URL` 环境变量。
 
@@ -89,17 +89,11 @@ keywords: [遥测,追踪,lightstep]
 
 1. 点击 **Run**。您将看到一些和下面相似的东西：
 
-    {{< image width="100%" ratio="50%"
-    link="./istio-tracing-list-lightstep.png"
-    caption="Explorer"
-    >}}
+    {{< image link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-list-lightstep.png" caption="Explorer" >}}
 
 1. 单击延迟直方图下方的示例跟踪表中的第一行，以查看与刷新 `/productpage` 时相对应的详细信息。页面看起来像这样：
 
-    {{< image width="100%" ratio="50%"
-    link="./istio-tracing-details-lightstep.png"
-    caption="Detailed Trace View"
-    >}}
+    {{< image link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-details-lightstep.png" caption="Detailed Trace View" >}}
 
 屏幕截图显示跟踪由一组 span 组成。 每个 span 对应于执行 `/productpage` 时调用的 Bookinfo 服务。
 
@@ -117,7 +111,7 @@ Istio 以可配置的追踪采样百分比捕获追踪数据。要了解如何�
 
 如果您没有计划任何后续任务，请从集群中删除 Bookinfo 示例应用程序及任何 LightStep [𝑥]PM secret。
 
-1. 要删除 Bookinfo 应用程序，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)说明。
+1. 要删除 Bookinfo 应用程序，请参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理")说明。
 
 1. 删除为 LightStep [𝑥]PM 生成的 secret。
 

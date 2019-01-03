@@ -15,8 +15,7 @@ Istio Security 尝试提供全面的安全解决方案来解决所有这些问�
 
 本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据，端点，通信和平台的内部和外部威胁。
 
-{{< image width="80%" ratio="56.25%"
-    link="/docs/concepts/security/overview.svg"
+{{< image width="80%" link="/docs/concepts/security/overview.svg"
     alt="Istio 安全模型的组件构成。"
     caption="Istio 安全概述"
     >}}
@@ -46,10 +45,7 @@ Istio 中的安全性涉及多个组件：
 
 - **Mixer** 管理授权和审计
 
-{{< image width="80%" ratio="56.25%"
-    link="/docs/concepts/security/architecture.svg"
-    caption="Istio 安全架构"
-    >}}
+{{< image width="80%" link="/docs/concepts/security/architecture.svg" caption="Istio 安全架构" >}}
 
 在下面的部分中，我们将详细介绍 Istio 安全功能。
 
@@ -123,10 +119,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 在不久的将来，Istio 将在 Kubernetes 中使用节点代理进行证书和密钥分配，如下图所示。请注意，本地计算机的标识提供流程是相同的，因此我们仅描述 Kubernetes 方案。
 
-{{< image width="80%" ratio="56.25%"
-    link="/docs/concepts/security/node_agent.svg"
-    caption="PKI 与 Kubernetes 中的节点代理"
-    >}}
+{{< image width="80%" link="/docs/concepts/security/node_agent.svg" caption="PKI 与 Kubernetes 中的节点代理" >}}
 
 流程如下：
 
@@ -200,16 +193,13 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [PKI 和身份部分](/zh/docs/concepts/security/#双向-TLS-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
-{{< image width="60%" ratio="67.12%"
-    link="/docs/concepts/security/authn.svg"
-    caption="认证架构"
-    >}}
+{{< image width="60%" link="/docs/concepts/security/authn.svg" caption="认证架构" >}}
 
 Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#授权和鉴权)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
 
 ### 认证策略
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/istio.networking.v1alpha3/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
 下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
 
@@ -345,11 +335,7 @@ Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Ist
 
 ### 授权架构
 
-{{< image width="90%" ratio="56.25%"
-    link="./authz.svg"
-    alt="Istio Authorization"
-    caption="Istio 授权架构"
-    >}}
+{{< image width="90%"  link="./authz.svg" alt="Istio Authorization" caption="Istio 授权架构" >}}
 
 上图显示了基本的 Istio 授权架构。运维人员使用 `.yaml` 文件指定 Istio 授权策略。部署后，Istio 将策略保存在 `Istio Config Store` 中。
 
@@ -430,7 +416,7 @@ spec:
 
 - **谁**指的是 `ServiceRoleBinding` 中的 `subject` 部分。
 - **做什么**指的是 `ServiceRole` 中的 `permissions` 部分。
-- **哪些条件**指的是你可以在 `ServiceRole` 或 `ServiceRoleBinding` 中使用 [Istio 属性](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)指定的 `conditions` 部分。
+- **哪些条件**指的是你可以在 `ServiceRole` 或 `ServiceRoleBinding` 中使用 [Istio 属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)指定的 `conditions` 部分。
 
 #### `ServiceRole`
 
@@ -494,7 +480,7 @@ spec:
 
 在 `ServiceRole` 中，`namespace` + `services` + `paths`  + `methods` 的组合定义了**如何访问服务**。在某些情况下，您可能需要为规则指定其他条件。例如，规则可能仅适用于服务的某个**版本**，或仅适用于具有特定**标签**的服务，如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
 
-例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的`key`值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
+例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的`key`值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -519,7 +505,7 @@ spec:
 - **`roleRef`** 指的是同一命名空间中的 `ServiceRole` 资源。
 - **`subjects`** 分配给角色的列表。
 
-您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding`  *subject* 中的 *property* 类似于`ServiceRole` 规范中的 *constraint* 。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/docs/reference/config/authorization/constraints-and-properties/)中。
+您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding`  *subject* 中的 *property* 类似于`ServiceRole` 规范中的 *constraint* 。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
 
 下面的例子显示了一个名为 `test-binding-products` 的 `ServiceRoleBinding`，它将两个 `subject` 绑定到名为 `product-viewer` 的 `ServiceRole` 并具有以下 `subject`
 

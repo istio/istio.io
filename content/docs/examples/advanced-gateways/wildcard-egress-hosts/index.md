@@ -19,33 +19,7 @@ Each version of `wikipedia.org` in a particular language has its own hostname, e
 You want to enable egress traffic by common configuration items for all the _wikipedia_ sites,
 without the need to specify every language's site separately.
 
-## Before you begin
-
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
-
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which will be used as a test source for external calls.
-
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    {{< /text >}}
-
-    Note that any pod that you can `exec` and `curl` from would do.
-
-*   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
-
-    {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    {{< /text >}}
+{{< boilerplate before-you-begin-egress >}}
 
 ## Configure direct traffic to a wildcard host
 
@@ -266,10 +240,7 @@ requests to the destination specified by the SNI value.
 
 The egress gateway with SNI proxy and the related parts of the Istio architecture are shown in the following diagram:
 
-{{< image width="80%" ratio="57.89%"
-    link="./EgressGatewayWithSNIProxy.svg"
-    caption="Egress Gateway with SNI proxy"
-    >}}
+{{< image width="80%" link="./EgressGatewayWithSNIProxy.svg" caption="Egress Gateway with SNI proxy" >}}
 
 The following sections show you how to redeploy the egress gateway with an SNI proxy and then configure Istio to route
 HTTPS traffic through the gateway to arbitrary wildcard domains.
@@ -517,13 +488,18 @@ The SNI proxy will forward the traffic to port `443`.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's Envoy proxy for the counter that corresponds to your requests to
-    _*.wikipedia.org_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
-    to print the counter is:
+1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command to
+    print the log is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
-    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 2
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
+    {{< /text >}}
+
+    You should see lines similar to the following:
+
+    {{< text plain >}}
+    [2019-01-02T16:34:23.312Z] "- - -" 0 - 578 79141 624 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55018 172.30.109.84:443 172.30.109.112:45346 en.wikipedia.org
+    [2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
     {{< /text >}}
 
 1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the

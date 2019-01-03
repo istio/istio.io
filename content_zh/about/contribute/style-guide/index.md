@@ -143,7 +143,7 @@ keywords: [贡献]
 
 链接有好坏。**这里**或者**点击这里**都是坏链接的例子。建议阅读下面链接中的文章，其中讲述了如何更好的使用超链接的问题，在创建或审核内容时，尝试遵循其中的建议。
 
-[Why "click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
+[Why "click here” is a terrible link, and what to write instead](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021).
 
 ### 避免使用“我们”
 

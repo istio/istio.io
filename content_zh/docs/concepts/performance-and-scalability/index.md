@@ -79,14 +79,16 @@ Acmeair 由以下微服务组成：
 
 下图展示了在 Kubernetes/Istio 环境中应用程序的不同 pod/容器：
 
-{{< image width="100%" ratio="80%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png" alt="Acmeair 微服务概览"
+{{< image ratio="80%"
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png"
+    alt="Acmeair 微服务概览"
     >}}
 
 下表展示了回归测试期间由脚本驱动的事务以及请求的近似分布：
 
-{{< image width="100%" ratio="20%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png" alt="Acmeair 请求类型和分布"
+{{< image ratio="20%"
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png"
+    alt="Acmeair 请求类型和分布"
     >}}
 
 Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https://github.com/blueperf).

@@ -23,7 +23,7 @@ keywords: [流量管理,TCP 流量转移]
         $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
         {{< /text >}}
 
-    `istioctl kube-inject` 的作用如[文档](/docs/reference/commands/istioctl/#istioctl-kube-inject)所言，是在提交 `tcp-echo-services.yaml` 之前进行修改。
+    `istioctl kube-inject` 的作用如[文档](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)所言，是在提交 `tcp-echo-services.yaml` 之前进行修改。
 
     * 如果使用的是一个启用了 [Sidecar 自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)的集群，可以给 `default` 命名空间打上 `istio-injection=enabled` 标签：
 
