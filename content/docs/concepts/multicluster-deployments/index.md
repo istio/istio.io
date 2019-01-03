@@ -42,13 +42,41 @@ To achieve this behavior, a single logical control plane needs to manage all ser
 however, the single logical control plane doesn't necessarily need to be a single physical
 Istio control plane. There are two possible deployment approaches:
 
-1. A single Istio control plane that can access and configure all the services in the mesh.
-
 1. Multiple synchronized Istio control planes that have replicated service and routing configurations.
+
+1. A single Istio control plane that can access and configure all the services in the mesh.
 
 Even within these two topologies, there is more than one way to configure a multicluster mesh.
 Which approach to use and how to configure it depends on the requirements of the application
 and on the features and limitations of the underlying cloud deployment platform.
+
+### Multiple control plane topology
+
+In a multiple control plane configuration, each cluster has an identical Istio control plane
+installation and each control plane manages its own endpoints.
+Using Istio gateways, a common root Certificate Authority (CA), and service entries,
+you can configure a single logical service mesh that is composed from the participating clusters.
+This approach has no special networking requirements and is therefore generally considered
+the easiest approach to start with when there is no universal connectivity across clusters.
+
+{{< image width="80%" ratio="36.01%"
+    link="./multicluster-with-gateways.svg"
+    caption="Istio mesh spanning multiple Kubernetes clusters using multiple Istio control planes and Gateway to reach remote pods"
+    >}}
+
+To achieve a single Istio service mesh across the clusters,
+you configure a common root CA and replicate the shared services and namespaces in all clusters.
+Cross-cluster communication occurs over the Istio gateways of the respective clusters.
+All clusters are within a shared administrative control for policy enforcement and security.
+
+In this configuration workloads in each cluster can access other local services using their
+Kubernetes DNS suffix, e.g., `foo.ns1.svc.cluster.local`, as usual.
+To provide DNS resolution for services in remote clusters, Istio includes a CoreDNS server
+that can be configured to handle service names of the form `<name>.<namespace>.global`.
+For example, calls from any cluster to `foo.ns1.global` will resolve to the `foo` service in
+namespace `ns1` of any cluster where it is running.
+To set up this this kind of multicluster configuration, visit our
+[multiple control planes with gateways instructions](/docs/setup/kubernetes/multicluster-install/gateways/).
 
 ### Single control plane topology
 
@@ -90,31 +118,3 @@ If the destination workload is running in a different cluster,
 the remote cluster Gateway IP is used to connect to the service instead.
 Visit our [single control plane with gateways example](/) (TODO ref: /docs/examples/multicluster/split-horizon-eds/)
 to experiment with this feature.
-
-### Multiple control plane topology
-
-In a multiple control plane configuration, each cluster has an identical Istio control plane
-installation and each control plane manages its own endpoints.
-Using Istio gateways, a common root Certificate Authority (CA), and service entries,
-you can configure a single logical service mesh that is composed from the participating clusters.
-This approach has no special networking requirements and is therefore generally considered
-the easiest approach to start with when there is no universal connectivity across clusters.
-
-{{< image width="80%" ratio="36.01%"
-    link="./multicluster-with-gateways.svg"
-    caption="Istio mesh spanning multiple Kubernetes clusters using multiple Istio control planes and Gateway to reach remote pods"
-    >}}
-
-To achieve a single Istio service mesh across the clusters,
-you configure a common root CA and replicate the shared services and namespaces in all clusters.
-Cross-cluster communication occurs over the Istio gateways of the respective clusters.
-All clusters are within a shared administrative control for policy enforcement and security.
-
-In this configuration workloads in each cluster can access other local services using their
-Kubernetes DNS suffix, e.g., `foo.ns1.svc.cluster.local`, as usual.
-To provide DNS resolution for services in remote clusters, Istio includes a CoreDNS server
-that can be configured to handle service names of the form `<name>.<namespace>.global`.
-For example, calls from any cluster to `foo.ns1.global` will resolve to the `foo` service in
-namespace `ns1` of any cluster where it is running.
-To set up this this kind of multicluster configuration, visit our
-[multiple control planes with gateways instructions](/docs/setup/kubernetes/multicluster-install/gateways/).
