@@ -110,7 +110,7 @@ to manage the lifecycle of Istio.
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
-    
+
 ## Uninstall
 
 * For option 1, uninstall using `kubectl`:

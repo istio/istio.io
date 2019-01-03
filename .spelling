@@ -201,6 +201,7 @@ accesslogs
 accounts.my
 addon
 addons
+add-ons
 strongSwan
 admissionregistration
 admissionregistration.k8s.io
@@ -547,4 +548,3 @@ gcse
 MB
 CPU
 CPUs
-add-ons
