@@ -56,7 +56,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 1. Choose one of the following two
 **mutually exclusive** options described below.
 
-    To customize Istio and install add-ons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
+    > To customize Istio and install add-ons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
 
 ### Option 1: Install with Helm via `helm template`
 
