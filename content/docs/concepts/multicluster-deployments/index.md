@@ -11,7 +11,7 @@ A service mesh essentially combines a set of individual microservices into
 a single controllable composite application.
 
 For applications up to a certain size, all of the microservices comprising the
-application can be running on a single orchestration platform (e.g., kubernetes cluster).
+application can be running on a single orchestration platform (e.g., Kubernetes cluster).
 However, for many reasons such as scale, redundancy, etc., most applications will eventually
 need to be distributed and have some of their services running elsewhere.
 
@@ -83,7 +83,7 @@ configuring Istio Pilot to enable location-aware service routing (a.k.a. split-h
 In this configuration, the control plane forwards a request from a sidecar in one cluster to a service in
 the same cluster using the local service IP as usual. If the destination workload is running in a different cluster,
 the control plane uses the remote cluster Gateway IP to connect to the service instead.
-Visit our [single control plane with gateways example](/docs/examples/multicluster/split-horizon-eds/)
+Visit our [single control plane with gateways example](/) (TODO ref: /docs/examples/multicluster/split-horizon-eds/)
 to experiment with this feature.
 
 Note that this approach still requires connectivity between the Istio control plane and the Kubernetes
@@ -110,7 +110,7 @@ Cross-cluster communication occurs over the Istio gateways of the respective clu
 All clusters are within a shared administrative control for policy enforcement and security.
 
 In this configuration workloads in each cluster can access other local services using their
-Kubernetes DNS suffix, e.g., `foo.ns1.svc.cluster.local`, as usual. 
+Kubernetes DNS suffix, e.g., `foo.ns1.svc.cluster.local`, as usual.
 To provide DNS resolution for services in remote clusters, Istio includes a CoreDNS server
 that can be configured to handle service names of the form `<name>.<namespace>.global`.
 For example, calls from any cluster to `foo.ns1.global` will resolve to the `foo` service in
