@@ -14,14 +14,15 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
 1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/):
-  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
-  * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
-  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
-  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
   * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
+  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
+  * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
+  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
+  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/platform-setup/oci/)
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
 
