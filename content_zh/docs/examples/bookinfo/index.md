@@ -173,8 +173,9 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 可以用 `curl` 命令来确认 Bookinfo 应用的运行情况：
 
 {{< text bash >}}
-$ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
-200
+$ curl -I http://${GATEWAY_URL}/productpage
+HTTP/1.1 200 OK
+...
 {{< /text >}}
 
 还可以用浏览器打开网址 `http://$GATEWAY_URL/productpage`，来浏览应用的 Web 页面。如果刷新几次应用的页面，就会看到 `productpage` 页面中会随机展示 `reviews` 服务的不同版本的效果（红色、黑色的星形或者没有显示）。`reviews` 服务出现这种情况是因为我们还没有使用 Istio 来控制版本的路由。

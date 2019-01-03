@@ -842,6 +842,8 @@ to hold the configuration of the Nginx SNI proxy:
         replicaCount: 1
         autoscaleMin: 1
         autoscaleMax: 5
+        cpu:
+          targetAverageUtilization: 80
         serviceAnnotations: {}
         type: ClusterIP
         ports:

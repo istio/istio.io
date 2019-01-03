@@ -53,6 +53,13 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml
     {{< /text >}}
 
+1.  Update Helm's dependencies:
+
+    {{< text bash >}}
+    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
+    $ helm dep update install/kubernetes/helm/istio
+    {{< /text >}}
+
 1. Choose one of the following two
 **mutually exclusive** options described below.
 
@@ -98,8 +105,6 @@ to manage the lifecycle of Istio.
 1. Install Istio:
 
     {{< text bash >}}
-    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
-    $ helm dep update install/kubernetes/helm/istio
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
 
