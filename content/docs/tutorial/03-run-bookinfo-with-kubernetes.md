@@ -2,7 +2,7 @@
 title: Run Bookinfo with Kubernetes
 overview: Deploy the Bookinfo application that uses the ratings microservice in Kubernetes.
 
-order: 03
+weight: 03
 
 ---
 

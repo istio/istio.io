@@ -2,7 +2,7 @@
 title: Dashboard with Istio
 overview: Adding a Grafana dashboard for Istio.
 
-order: 14
+weight: 14
 
 ---
 In this module, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.

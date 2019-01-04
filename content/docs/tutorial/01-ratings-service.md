@@ -2,7 +2,7 @@
 title: Review and run the ratings microservice locally
 overview: Work on a single microservice, on a local developer machine.
 
-order: 01
+weight: 01
 
 ---
 

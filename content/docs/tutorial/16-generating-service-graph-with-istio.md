@@ -2,7 +2,7 @@
 title: A service graph with Istio
 overview: Enable service graph generation.
 
-order: 16
+weight: 16
 
 ---
 In this module, we will add service graph generation on top of Prometheus.

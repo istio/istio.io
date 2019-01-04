@@ -2,7 +2,7 @@
 title: Logs with Istio
 overview: Add collecting logs to our application.
 
-order: 13
+weight: 13
 
 ---
 

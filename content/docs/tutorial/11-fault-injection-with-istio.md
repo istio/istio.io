@@ -2,7 +2,7 @@
 title: Fault injection with Istio
 overview: Inject an HTTP error and a delay to test our microservices in production.
 
-order: 11
+weight: 11
 
 ---
 

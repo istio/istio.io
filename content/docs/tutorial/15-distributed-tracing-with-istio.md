@@ -2,7 +2,7 @@
 title: Distributed tracing with Istio
 overview: Add Zipkin distributed tracing system.
 
-order: 15
+weight: 15
 
 ---
 

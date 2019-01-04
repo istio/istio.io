@@ -2,7 +2,7 @@
 title: Testing in production
 overview: Testing a new version of a microservice in production.
 
-order: 04
+weight: 04
 
 ---
 

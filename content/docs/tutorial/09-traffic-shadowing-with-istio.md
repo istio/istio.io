@@ -2,7 +2,7 @@
 title: Traffic shadowing with Istio
 overview: Shadow the traffic to the new version of a microservice.
 
-order: 09
+weight: 09
 
 ---
 

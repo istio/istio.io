@@ -2,7 +2,7 @@
 title: Run ratings in Docker
 overview: Run a single microservice in a Docker container.
 
-order: 02
+weight: 02
 
 ---
 

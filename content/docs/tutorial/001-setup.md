@@ -2,7 +2,7 @@
 title: Setup
 overview: The required setup instructions for the tutorial.
 
-order: 00
+weight: 00
 
 ---
 

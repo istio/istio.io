@@ -2,7 +2,7 @@
 title: Cleanup
 overview: Undeploy Bookinfo and the Istio control plane with all the addons.
 
-order: 99
+weight: 99
 
 ---
 
