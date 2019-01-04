@@ -8,7 +8,7 @@ weight: 70
 
 此适配器支持[指标模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)和 [tracespan 模板](/zh/docs/reference/config/policy-and-telemetry/templates/tracespan/)。
 
-在发送 Tracespan，该适配器可以对接收到的 Tracespan 进行一些配置来生成发送内容。以下是一个适用的 tracespan 示例：
+在发送 tracespan 时，该适配器可以对接收到的 tracespan 进行一些配置来生成发送内容。以下是一个适用的 tracespan 示例：
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
