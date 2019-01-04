@@ -4,8 +4,6 @@ overview: Testing a new version of a microservice in production.
 
 order: 04
 
-layout: docs
-type: markdown
 ---
 
 Let's perform some testing of our microservice, in production!

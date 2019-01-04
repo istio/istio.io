@@ -4,8 +4,6 @@ overview: A step-by-step introduction to microservices with Kubernetes and Istio
 
 order: 40
 
-layout: docs
-type: markdown
 toc: false
 ---
 

@@ -4,8 +4,6 @@ overview: Adding a Grafana dashboard for Istio.
 
 order: 14
 
-layout: docs
-type: markdown
 ---
 In this module, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.
 

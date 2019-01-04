@@ -4,8 +4,6 @@ overview: Incrementally direct live traffic to the new version of a microservice
 
 order: 10
 
-layout: docs
-type: markdown
 ---
 
 In this module, we will start phased rollout of _reviews v2_. After performing unit tests, integration tests, end-to-end tests, tests in the staging environment, and finally canary deployment and traffic shadowing, we are pretty confident. Now we can start directing live traffic from the real users. We will perform it gradually, first to 10% of the users, then to 20% and so on.

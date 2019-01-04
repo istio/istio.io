@@ -4,8 +4,6 @@ overview: Shadow the traffic to the new version of a microservice.
 
 order: 09
 
-layout: docs
-type: markdown
 ---
 
 In this module, we will perform traffic shadowing. We will shadow the traffic destined to _reviews v1_ to _reviews v2_ and verify that our new version provides correct results without errors.

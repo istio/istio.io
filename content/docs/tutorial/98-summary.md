@@ -4,8 +4,6 @@ overview: Tutorial summary and next steps.
 
 order: 98
 
-layout: docs
-type: markdown
 ---
 
 As we saw in the tutorial modules, Istio provides the following features:

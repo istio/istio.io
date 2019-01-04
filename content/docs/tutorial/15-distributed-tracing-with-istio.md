@@ -4,8 +4,6 @@ overview: Add Zipkin distributed tracing system.
 
 order: 15
 
-layout: docs
-type: markdown
 ---
 
 In this module, we will add [Zipkin distributed tracing system](https://zipkin.io) as part of our Istio infrastructure.

@@ -4,8 +4,6 @@ overview: Deploy and release a new version of a microservice.
 
 order: 05
 
-layout: docs
-type: markdown
 ---
 
 Let's deploy a new version of the _reviews_ microservice, the one that will return the ratings provided by reviewers, as a number of stars, with the color of stars. In real life, we would perform lint tests, unit tests, integration tests, end-to-end tests and tests in a staging environment.

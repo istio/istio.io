@@ -4,8 +4,6 @@ overview: Undeploy Bookinfo and the Istio control plane with all the addons.
 
 order: 99
 
-layout: docs
-type: markdown
 ---
 
 1. Undeploy Bookinfo:

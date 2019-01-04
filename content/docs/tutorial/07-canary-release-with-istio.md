@@ -4,8 +4,6 @@ overview: Enable a new version of a microservice for a tester, in production.
 
 order: 07
 
-layout: docs
-type: markdown
 ---
 
 In this module we will deploy a new version of the _reviews_ microservice again,

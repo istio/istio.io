@@ -4,8 +4,6 @@ overview: Deploy the Istio control plane and enable Istio on a single microservi
 
 order: 06
 
-layout: docs
-type: markdown
 ---
 
 As we saw in the previous module, Kubernetes does not provide us all the functionality we need to effectively operate our microservices. Istio comes to our help.

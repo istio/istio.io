@@ -4,8 +4,6 @@ overview: The required setup instructions for the tutorial.
 
 order: 00
 
-layout: docs
-type: markdown
 ---
 
 1. Install [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)

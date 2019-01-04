@@ -4,8 +4,6 @@ overview: Run a single microservice in a Docker container.
 
 order: 02
 
-layout: docs
-type: markdown
 ---
 
 This module shows how you create a Docker image and run it locally.

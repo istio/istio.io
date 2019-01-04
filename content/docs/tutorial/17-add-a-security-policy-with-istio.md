@@ -4,8 +4,6 @@ overview: Add a whitelist security policy.
 
 order: 17
 
-layout: docs
-type: markdown
 ---
 
 Note that in our setting, any microservice can access any other microservice. If any of the microservices is compromised, it can attack all the other microservices.

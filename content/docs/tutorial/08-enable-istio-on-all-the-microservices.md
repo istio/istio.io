@@ -3,8 +3,6 @@ title: Enable Istio on all the microservices
 overview: Enable Istio on our whole application and on the Ingress.
 order: 08
 
-layout: docs
-type: markdown
 ---
 
 Previously we deployed the Istio control plane and enabled Istio on a single microservice, _productpage_. We can proceed to enable Istio on the microservices incrementally, one by one, to get the functionality provided by Istio for more and more microservices. For the purpose of this tutorial, we will just enable Istio on the remaining microservices in one stroke. We will also enable Istio on our pod that we use for testing.

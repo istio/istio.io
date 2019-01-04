@@ -4,8 +4,6 @@ overview: Deploy two different versions of a microservice and split the traffic 
 
 order: 12
 
-layout: docs
-type: markdown
 ---
 
 In this module, we deploy a new version of the _reviews_ microservice, _v3_. This version returns review stars in red, as opposed to the black of _reviews v2_.

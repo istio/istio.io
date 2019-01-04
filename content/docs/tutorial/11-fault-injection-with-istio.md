@@ -4,8 +4,6 @@ overview: Inject an HTTP error and a delay to test our microservices in producti
 
 order: 11
 
-layout: docs
-type: markdown
 ---
 
 In this module we will perform _fault injection_ on our application. We know that in real life our microservices will fail, we cannot prevent all possible failures. What we can do is to verify that our microservices react to failures in a best possible way. We definitely want to prevent _cascading failures_: a situation when a failure in one microservice causes chain of failures in other microservices.

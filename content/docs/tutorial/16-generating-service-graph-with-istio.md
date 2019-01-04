@@ -4,8 +4,6 @@ overview: Enable service graph generation.
 
 order: 16
 
-layout: docs
-type: markdown
 ---
 In this module, we will add service graph generation on top of Prometheus.
 
