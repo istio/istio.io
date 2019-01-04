@@ -2,7 +2,7 @@
 title: Traffic shadowing with Istio
 overview: Shadow the traffic to the new version of a microservice.
 
-weight: 09
+weight: 90
 
 ---
 
@@ -29,4 +29,3 @@ In this module, we will perform traffic shadowing. We will shadow the traffic de
    ```bash
    istioctl delete -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-shadow-v2.yaml
    ```
-

@@ -2,7 +2,7 @@
 title: Phased rollout with Istio
 overview: Incrementally direct live traffic to the new version of a microservice.
 
-weight: 10
+weight: 100
 
 ---
 
@@ -76,4 +76,3 @@ In this module, we will start phased rollout of _reviews v2_. After performing u
    ```bash
    istioctl delete routerule reviews-default reviews-v2 -n default
    ```
-

@@ -2,7 +2,7 @@
 title: Canary release with Istio
 overview: Enable a new version of a microservice for a tester, in production.
 
-weight: 07
+weight: 80
 
 ---
 
@@ -37,4 +37,3 @@ this time with Istio enabled. We will release our new version to the `jason` use
    ```bash
    istioctl get routerules
    ```
-

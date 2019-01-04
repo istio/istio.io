@@ -2,7 +2,7 @@
 title: A/B testing with Istio
 overview: Deploy two different versions of a microservice and split the traffic between them.
 
-weight: 12
+weight: 120
 
 ---
 
@@ -20,4 +20,3 @@ Here we assume that we performed all the required testing of _reviews v3_, local
   ```
 
 3. Let's access the webpage of the application and see that now the red stars are displayed roughly every other refresh.
-

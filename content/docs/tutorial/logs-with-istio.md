@@ -2,7 +2,7 @@
 title: Logs with Istio
 overview: Add collecting logs to our application.
 
-weight: 13
+weight: 130
 
 ---
 
@@ -41,4 +41,3 @@ In this module, we will have Istio automatically collect logs for our applicatio
    ```
 
   Note that the log entries from all of Bookinfo's microservices appear in one place. We do not have to go after each and every microservice and to display their logs one by one.
-

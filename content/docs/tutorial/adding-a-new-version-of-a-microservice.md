@@ -2,7 +2,7 @@
 title: Add a new version of reviews
 overview: Deploy and release a new version of a microservice.
 
-weight: 05
+weight: 50
 
 ---
 
@@ -70,4 +70,3 @@ Now we have two choices:
 2. Use a service mesh. In a service mesh, we put all the reporting, routing, policies, security logic in _sidecar_ proxies, injected into our pods *transparently* to our application. The business logic remains in the code of the application, no changes are required to the application code.
 
 Enters [Istio service mesh]({{home}}). Istio can perform the tasks mentioned here and much more. In the next modules we will explore various features Istio provides.
-

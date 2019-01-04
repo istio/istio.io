@@ -2,7 +2,7 @@
 title: Security policy with Istio
 overview: Add a whitelist security policy.
 
-weight: 17
+weight: 170
 
 ---
 
@@ -29,4 +29,3 @@ In this module we will add a [security policy]({{home}}/docs/reference/config/is
    This time we will get the following error: `NOT_FOUND:whitelist-for-ratings.listchecker.default:sleep is not whitelisted`, as expected.
 
 4. Access the webpage of the application and check that it works as expected. It will mean that the _reviews_ microservice can still access the _ratings_ microservice, as expected.
-

@@ -2,7 +2,7 @@
 title: Review and run the ratings microservice locally
 overview: Work on a single microservice, on a local developer machine.
 
-weight: 01
+weight: 10
 
 ---
 
@@ -26,4 +26,3 @@ This module demonstrates the work on a single microservice, on a local developer
    ```bash
    curl localhost:9080/ratings/7
    ```
-

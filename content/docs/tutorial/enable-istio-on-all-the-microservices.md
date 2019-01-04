@@ -1,7 +1,7 @@
 ---
 title: Enable Istio on all the microservices
 overview: Enable Istio on our whole application and on the Ingress.
-weight: 08
+weight: 70
 
 ---
 
@@ -48,4 +48,3 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
    ```bash
    kubectl get pods
    ```
-

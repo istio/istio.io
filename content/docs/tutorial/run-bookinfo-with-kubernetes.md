@@ -2,7 +2,7 @@
 title: Run Bookinfo with Kubernetes
 overview: Deploy the Bookinfo application that uses the ratings microservice in Kubernetes.
 
-weight: 03
+weight: 30
 
 ---
 
@@ -32,4 +32,3 @@ This module shows you an application composed of four microservices: _productpag
    ```java
    private final static String ratings_service = "http://ratings:9080/ratings";
    ```
-

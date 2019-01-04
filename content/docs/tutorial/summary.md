@@ -2,7 +2,7 @@
 title: Summary
 overview: Tutorial summary and next steps.
 
-weight: 98
+weight: 980
 
 ---
 
@@ -20,4 +20,3 @@ In addition, Istio can [encrypt the traffic between microservices]({{home}}/docs
 Also note that [Istio can run on VMs]({{home}}/docs/guides/integrating-vms.html). Istio can be integrated with [service registries]({{home}}/docs/setup/) other than Kubernetes. Istio can [control the traffic from the outside into the service mesh]({{home}}/docs/tasks/traffic-management/ingress.html) and [the traffic to external services]({{home}}/docs/tasks/traffic-management/egress.html).
 
 See more guides, tasks and blog posts at [istio.io]({{home}}).
-

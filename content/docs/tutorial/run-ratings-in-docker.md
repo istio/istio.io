@@ -2,7 +2,7 @@
 title: Run ratings in Docker
 overview: Run a single microservice in a Docker container.
 
-weight: 02
+weight: 20
 
 ---
 
@@ -40,4 +40,3 @@ This module shows how you create a Docker image and run it locally.
    ```bash
    popd
    ```
-

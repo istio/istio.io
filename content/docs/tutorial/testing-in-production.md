@@ -2,7 +2,7 @@
 title: Testing in production
 overview: Testing a new version of a microservice in production.
 
-weight: 04
+weight: 40
 
 ---
 
@@ -28,4 +28,3 @@ Let's perform some testing of our microservice, in production!
       for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating $pod; kubectl exec -it $pod -- pkill ruby; done
       ```
    Note that in both cases the application did not crash. The crash in the _details_ microservice did not cause other microservices to fail. It means we did not have a _cascading failure_ in this situation. On the contrary, we had _gradual service degradation_: despite one microservice being crashed, the application still provided useful functionality: displayed the reviews and the basic info about the book.
-

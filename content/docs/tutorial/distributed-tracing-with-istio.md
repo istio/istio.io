@@ -2,7 +2,7 @@
 title: Distributed tracing with Istio
 overview: Add Zipkin distributed tracing system.
 
-weight: 15
+weight: 150
 
 ---
 
@@ -22,4 +22,3 @@ In this module, we will add [Zipkin distributed tracing system](https://zipkin.i
    ```
 
 3. Access the Zipkin dashboard on local machine: [http://localhost:9411](http://localhost:9411)
-

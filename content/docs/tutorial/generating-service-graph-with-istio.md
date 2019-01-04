@@ -2,7 +2,7 @@
 title: A service graph with Istio
 overview: Enable service graph generation.
 
-weight: 16
+weight: 160
 
 ---
 In this module, we will add service graph generation on top of Prometheus.
@@ -22,4 +22,3 @@ In this module, we will add service graph generation on top of Prometheus.
    ```
 
 3. Access the generated service graph on the local machine:  [http://localhost:8088/dotviz](http://localhost:8088/dotviz)
-

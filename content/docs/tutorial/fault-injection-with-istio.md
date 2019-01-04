@@ -2,7 +2,7 @@
 title: Fault injection with Istio
 overview: Inject an HTTP error and a delay to test our microservices in production.
 
-weight: 11
+weight: 110
 
 ---
 
@@ -63,4 +63,3 @@ To verify that our microservices behave well under failures, first we inject a f
    ```bash
    istioctl replace -f <(cat samples/bookinfo/kube/route-rule-ratings-test-delay.yaml | sed 's/7s/2s/g')
    ```
-
