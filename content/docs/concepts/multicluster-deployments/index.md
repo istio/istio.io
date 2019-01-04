@@ -75,7 +75,7 @@ To provide DNS resolution for services in remote clusters, Istio includes a Core
 that can be configured to handle service names of the form `<name>.<namespace>.global`.
 For example, calls from any cluster to `foo.ns1.global` will resolve to the `foo` service in
 namespace `ns1` of any cluster where it is running.
-To set up this this kind of multicluster configuration, visit our
+To set up this kind of multicluster configuration, visit our
 [multiple control planes with gateways instructions](/docs/setup/kubernetes/multicluster-install/gateways/).
 
 ### Single control plane topology
@@ -103,7 +103,7 @@ If setting up an environment with universal pod-to-pod connectivity is difficult
 it may still be possible to configure a single control plane topology using Istio gateways and
 by enabling Istio Pilot's location-aware service routing feature, a.k.a. *split-horizon EDS (Endpoint Discovery Service)*.
 This approach still requires connectivity to Kubernetes API servers from all of the clusters
-as, for example, on managed Kubernetes services where the API servers run on a network accessible
+as, for example, on managed Kubernetes platforms where the API servers run on a network accessible
 to all tenant clusters.
 If this is not possible, a multiple control plane topology is probably a better alternative.
 
