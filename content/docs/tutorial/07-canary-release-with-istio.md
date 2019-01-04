@@ -7,7 +7,6 @@ order: 07
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 In this module we will deploy a new version of the _reviews_ microservice again,
 this time with Istio enabled. We will release our new version to the `jason` user only (`jason` is our tester). It will allow the `jason` user to test the whole application end-to-end in production, with our new version.
@@ -41,4 +40,3 @@ this time with Istio enabled. We will release our new version to the `jason` use
    istioctl get routerules
    ```
 
-{% include what-is-next-footer.md %}

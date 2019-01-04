@@ -7,7 +7,6 @@ order: 14
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 In this module, we will add a [Grafana](https://grafana.com) dashboard on top of our Prometheus instance.
 
 1. Deploy a Grafana instance:
@@ -25,4 +24,3 @@ In this module, we will add a [Grafana](https://grafana.com) dashboard on top of
 
 3. Access the dashboard on local machine:  [http://localhost:3000/dashboard/db/istio-dashboard](http://localhost:3000/dashboard/db/istio-dashboard)
 
-{% include what-is-next-footer.md %}

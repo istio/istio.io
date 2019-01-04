@@ -7,7 +7,6 @@ order: 09
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 In this module, we will perform traffic shadowing. We will shadow the traffic destined to _reviews v1_ to _reviews v2_ and verify that our new version provides correct results without errors.
 
@@ -33,4 +32,3 @@ In this module, we will perform traffic shadowing. We will shadow the traffic de
    istioctl delete -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-shadow-v2.yaml
    ```
 
-{% include what-is-next-footer.md %}

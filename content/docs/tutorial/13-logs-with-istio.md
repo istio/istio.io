@@ -7,7 +7,6 @@ order: 13
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 Logs and monitoring are a very important aspect of microservices architecture. It is so important that it is considered one of the three prerequisites for transition to the microservices architecture style. No monitoring - no transition. (The other two requirements are _rapid provisioning_ and _rapid deployment_, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html)).
 
@@ -45,4 +44,3 @@ In this module, we will have Istio automatically collect logs for our applicatio
 
   Note that the log entries from all of Bookinfo's microservices appear in one place. We do not have to go after each and every microservice and to display their logs one by one.
 
-{% include what-is-next-footer.md %}

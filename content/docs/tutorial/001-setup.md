@@ -7,7 +7,6 @@ order: 00
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 1. Install [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)
 and get access to a [Kubernetes](https://kubernetes.io) cluster.

@@ -7,7 +7,6 @@ order: 10
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 In this module, we will start phased rollout of _reviews v2_. After performing unit tests, integration tests, end-to-end tests, tests in the staging environment, and finally canary deployment and traffic shadowing, we are pretty confident. Now we can start directing live traffic from the real users. We will perform it gradually, first to 10% of the users, then to 20% and so on.
 
@@ -80,4 +79,3 @@ In this module, we will start phased rollout of _reviews v2_. After performing u
    istioctl delete routerule reviews-default reviews-v2 -n default
    ```
 
-{% include what-is-next-footer.md %}

@@ -7,7 +7,6 @@ order: 17
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 Note that in our setting, any microservice can access any other microservice. If any of the microservices is compromised, it can attack all the other microservices.
 In this module we will add a [security policy]({{home}}/docs/reference/config/istio.mixer.v1.config.html) that states that only _reviews_ microservice can access _ratings_ microservice.
@@ -33,4 +32,3 @@ In this module we will add a [security policy]({{home}}/docs/reference/config/is
 
 4. Access the webpage of the application and check that it works as expected. It will mean that the _reviews_ microservice can still access the _ratings_ microservice, as expected.
 
-{% include what-is-next-footer.md %}

@@ -7,7 +7,6 @@ order: 98
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 As we saw in the tutorial modules, Istio provides the following features:
 * Control the traffic between the microservices. With Istio you can implement canary deployments, traffic shadowing, phased rollouts and A/B testing.
@@ -24,4 +23,3 @@ Also note that [Istio can run on VMs]({{home}}/docs/guides/integrating-vms.html)
 
 See more guides, tasks and blog posts at [istio.io]({{home}}).
 
-{% include what-is-next-footer.md %}

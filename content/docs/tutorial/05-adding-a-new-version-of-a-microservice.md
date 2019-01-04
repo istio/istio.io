@@ -7,7 +7,6 @@ order: 05
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 Let's deploy a new version of the _reviews_ microservice, the one that will return the ratings provided by reviewers, as a number of stars, with the color of stars. In real life, we would perform lint tests, unit tests, integration tests, end-to-end tests and tests in a staging environment.
 
@@ -74,4 +73,3 @@ Now we have two choices:
 
 Enters [Istio service mesh]({{home}}). Istio can perform the tasks mentioned here and much more. In the next modules we will explore various features Istio provides.
 
-{% include what-is-next-footer.md %}

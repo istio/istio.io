@@ -7,7 +7,6 @@ order: 11
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 In this module we will perform _fault injection_ on our application. We know that in real life our microservices will fail, we cannot prevent all possible failures. What we can do is to verify that our microservices react to failures in a best possible way. We definitely want to prevent _cascading failures_: a situation when a failure in one microservice causes chain of failures in other microservices.
 
@@ -67,4 +66,3 @@ To verify that our microservices behave well under failures, first we inject a f
    istioctl replace -f <(cat samples/bookinfo/kube/route-rule-ratings-test-delay.yaml | sed 's/7s/2s/g')
    ```
 
-{% include what-is-next-footer.md %}

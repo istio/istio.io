@@ -7,7 +7,6 @@ order: 15
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 In this module, we will add [Zipkin distributed tracing system](https://zipkin.io) as part of our Istio infrastructure.
 
@@ -26,4 +25,3 @@ In this module, we will add [Zipkin distributed tracing system](https://zipkin.i
 
 3. Access the Zipkin dashboard on local machine: [http://localhost:9411](http://localhost:9411)
 
-{% include what-is-next-footer.md %}

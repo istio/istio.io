@@ -7,7 +7,6 @@ order: 06
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 As we saw in the previous module, Kubernetes does not provide us all the functionality we need to effectively operate our microservices. Istio comes to our help.
 
@@ -37,4 +36,3 @@ We use the `istiocl kube-inject` command to inject Istio _sidecar proxies_ into 
 
 3. Note that Kubernetes replaced the original pods of _productpage_ with the Istio-enabled pods, transparently and incrementally, performing what is called a [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/). Kubernetes terminated an old pod only when a new pod started to run, and it transparently switched the traffic to the new pods, one by one. (To be more precise, it did not terminate more than one pod before a new pod was started.) All this was done to prevent disruption of our application, so it continued to work during the injection of Istio.
 
-{% include what-is-next-footer.md %}

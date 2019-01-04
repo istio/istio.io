@@ -7,7 +7,6 @@ order: 02
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 This module shows how you create a Docker image and run it locally.
 
@@ -44,4 +43,3 @@ This module shows how you create a Docker image and run it locally.
    popd
    ```
 
-{% include what-is-next-footer.md %}

@@ -9,7 +9,6 @@ type: markdown
 toc: false
 ---
 
-{% include home.html %}
 
 Step-by-step introductory tutorial to microservices based on the [Istio Bookinfo sample]({{home}}/docs/guides/bookinfo.html).
 

@@ -7,7 +7,6 @@ order: 12
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 In this module, we deploy a new version of the _reviews_ microservice, _v3_. This version returns review stars in red, as opposed to the black of _reviews v2_.
 
@@ -24,4 +23,3 @@ Here we assume that we performed all the required testing of _reviews v3_, local
 
 3. Let's access the webpage of the application and see that now the red stars are displayed roughly every other refresh.
 
-{% include what-is-next-footer.md %}

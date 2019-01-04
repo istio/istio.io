@@ -7,7 +7,6 @@ order: 04
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 Let's perform some testing of our microservice, in production!
 
@@ -32,4 +31,3 @@ Let's perform some testing of our microservice, in production!
       ```
    Note that in both cases the application did not crash. The crash in the _details_ microservice did not cause other microservices to fail. It means we did not have a _cascading failure_ in this situation. On the contrary, we had _gradual service degradation_: despite one microservice being crashed, the application still provided useful functionality: displayed the reviews and the basic info about the book.
 
-{% include what-is-next-footer.md %}

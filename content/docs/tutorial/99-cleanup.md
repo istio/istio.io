@@ -7,7 +7,6 @@ order: 99
 layout: docs
 type: markdown
 ---
-{% include home.html %}
 
 1. Undeploy Bookinfo:
   ```bash
