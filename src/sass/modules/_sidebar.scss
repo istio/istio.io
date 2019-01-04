@@ -1,0 +1,166 @@
+@media screen {
+    .row-offcanvas .sidebar-offcanvas {
+        @media (max-width: $bp-md - 1) {
+            position: absolute;
+            width: 80%;
+            transition: all .4s ease;
+            z-index: 42;
+            left: -$bp-md;
+            top: $headerHeight;
+        }
+
+        @media (min-width: $bp-md) {
+            position: unset;
+            width: auto;
+        }
+    }
+
+    .row-offcanvas.active .sidebar-offcanvas {
+        left: 0;
+    }
+}
+
+.sidebar {
+    order: 0;
+    font-size: 85%;
+
+    @media (min-width: $bp-xl) {
+        font-size: 100%;
+    }
+
+    @supports ((position:-webkit-sticky) or (position:sticky)) {
+        position: -webkit-sticky;
+        position: sticky;
+        top: $headerHeight;
+        z-index: 1000;
+    }
+
+    .directory {
+        @supports ((position:-webkit-sticky) or (position:sticky)) {
+            max-height: calc(100vh - 9rem);
+        }
+
+        @media (min-width: $bp-xl) {
+            max-width: 25em;
+        }
+
+        @media (min-width: $bp-md) {
+            @supports ((position:-webkit-sticky) or (position:sticky)) {
+                max-height: calc(100vh - 9rem);
+                overflow-y: auto;
+            }
+
+            display: block !important;
+        }
+
+        a {
+            font-weight: $sidebarLinkWeight;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            padding-left: .2em;
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: .3em;
+        }
+
+        li {
+            display: inline-block;
+            padding: 2px 0 1px 1.4em;
+            width: 100%;
+            font-size: 85%;
+
+            .current {
+                color: $linkActiveColor;
+                font-weight: $sidebarCurrentPageWeight;
+            }
+        }
+
+        li.sublist {
+            padding-left: 0;
+        }
+
+        .card-body {
+            padding: .5em .1em;
+        }
+
+        .card-body > ul {
+            padding-left: 0;
+        }
+
+        .card {
+            margin-top: .1rem;
+            margin-bottom: .1rem;
+        }
+
+        .card-header {
+            padding: 0;
+
+            div {
+                padding: .75em 1.25em;
+            }
+
+            svg {
+                margin-right: 0.3em;
+            }
+
+            a {
+                text-decoration: none;
+            }
+        }
+
+        @media (min-width: $bp-lg) {
+            .card-body {
+                padding-left: 1.25rem;
+                padding-right: 0.5rem;
+            }
+
+            ul {
+                padding-left: 1em;
+            }
+        }
+    }
+
+    .chevron {
+        svg {
+            margin-right: 0.3em;
+        }
+    }
+}
+
+.tree-toggle {
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.sidebar-toggler {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    z-index: 99;
+    outline: none;
+    background-color: rgba($backgroundColor, .7);
+    color: $floatingButtonColor;
+    cursor: pointer;
+    padding: 3px 5px;
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 0;
+    box-shadow: 0 0 2px 2px $floatingButtonColor;
+
+    &:hover {
+        color: $textBrandHighlightColor;
+    }
+
+    @media print {
+        display: none;
+    }
+
+    svg {
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+    }
+}

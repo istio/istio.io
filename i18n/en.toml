@@ -1,0 +1,164 @@
+[rocket_chat_desc]
+other = "Interactively chat with members of the Istio community."
+
+[istio_users_desc]
+other = "Join the istio-users@ mailing list to participate in discussions and get help troubleshooting problems"
+
+[twitter_desc]
+other = "Follow us on Twitter to get the latest news"
+
+[stackoverflow_desc]
+other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+
+[for_users]
+other = "for users"
+
+[for_developers]
+other = "for developers"
+
+[istio_dev_desc]
+other = "Join the istio-dev@ mailing list to discuss development issues around the Istio project"
+
+[github_desc]
+other = "GitHub is where development takes place on Istio code"
+
+[team_drive_desc]
+other = "Access our team drive if you'd like to take a look at the Istio technical design documents"
+
+[working_group_desc]
+other = "If you'd like to contribute to the Istio project, consider participating in our working groups"
+
+[slack_desc]
+other = "Interactively discuss development issues with the Istio community on Slack (Developers only, see FAQ)"
+
+[report_site_bugs]
+other = "Report Site Bugs"
+
+[edit_on_github]
+other = "Edit this Page on GitHub"
+
+[light_theme]
+other = "Light Theme"
+
+[dark_theme]
+other = "Dark Theme"
+
+[other_versions_of_site]
+other = "Other versions of this site"
+
+[current_release]
+other = "Current Release (%s)"
+
+[next_release]
+other = "Next Release (Preliminary %s)"
+
+[archived_releases]
+other = "Older Releases"
+
+[options_menu]
+other = "Options and settings"
+
+[search]
+other = "Search this site"
+
+[footer_istio]
+other = "Istio"
+
+[footer_istio_preliminary]
+other = "Istio Preliminary"
+
+[footer_istio_archive]
+other = "Istio Archive"
+
+[footer_archived_on]
+other = "Archived on %s"
+
+[footer_last_modified]
+other = "Page last modified: %s"
+
+[footer_date_format]
+other = "January 2, 2006"
+
+[footer_privacy_policy]
+other = "Privacy Policy"
+
+[page_publish_date_format]
+other = "January 2, 2006"
+
+[page_last_update_format]
+other = "(updated on %s)"
+
+[page_word_count]
+other = "%d words"
+
+[page_reading_time]
+other = "%v minute read"
+
+[relnote_download]
+other = "DOWNLOAD %s"
+
+[relnote_changes]
+other = "CHANGES IN %s"
+
+[relnote_docs]
+other = "%s DOCS"
+
+[page_attribution]
+other = "By "
+
+[button_copy]
+other = "Copy to clipoboard"
+
+[button_print]
+other = "Print"
+
+[button_download]
+other = "Download"
+
+[button_top]
+other = "Back to top"
+
+[button_sidenav]
+other = "Toggle the navigation bar"
+
+[partner_component_notice]
+other = "This component was created and is maintained by an Istio partner. Please address support questions to the partner directly."
+
+[partner_component_partner]
+other = "Partner"
+
+[partner_component_contact]
+other = "Contact"
+
+[partner_component_support_site]
+other = "Support Site"
+
+[partner_component_source_code]
+other = "Source Code"
+
+[partner_component_latest_release]
+other = "Latest Release"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "Tested by %s with these Istio Versions"
+
+[partner_component_supported_templates]
+other = "Supported Templates"
+
+[adapter]
+other = "Adapter"
+
+[supported_templates]
+other = "Supported Templates"
+
+[adapters]
+other = "Adapters"
+
+[template]
+other = "Template"
+
+[subscribe]
+other = "Subscribe"
