@@ -9,11 +9,11 @@ keywords: [遥测,追踪,jaeger,span,端口转发]
 
 ## 开始之前
 
-1. 按照[安装指南](/docs/setup/)中的说明安装 Istio。
+1. 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
     使用 Helm chart 进行安装时，设置 `--set tracing.enabled=true` 选项以启用追踪。
 
-1. 部署 [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) 示例应用程序。
+1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/#部署应用) 示例应用程序。
 
 ## 访问仪表盘
 
@@ -32,17 +32,11 @@ keywords: [遥测,追踪,jaeger,span,端口转发]
 1. 当 Bookinfo 应用程序启动并运行时，访问 `http://$GATEWAY_URL/productpage` 一次或多次以生成追踪信息。
 
 1. 从仪表盘左边面板的 **Service** 下拉列表中选择 `productpage` 并点击 **Find Traces**：
-    {{< image width="100%" ratio="52.68%"
-    link="./istio-tracing-list.png"
-    caption="追踪仪表盘"
-    >}}
+    {{< image link="./istio-tracing-list.png" caption="追踪仪表盘" >}}
 
 1. 点击位于最上面的最近一次追踪，查看对应最近一次访问 `/productpage` 的详细信息：
 
-    {{< image width="100%" ratio="36.32%"
-    link="./istio-tracing-details.png"
-    caption="详细追踪视图"
-    >}}
+    {{< image link="./istio-tracing-details.png" caption="详细追踪视图" >}}
 
 1. 追踪信息由一组 span 组成，每个 span 对应一个 Bookinfo service。这些 service 在执行 `/productpage` 请求时被调用，或是 Istio 内部组件，例如：`istio-ingressgateway`、`istio-mixer`、`istio-policy`
 
@@ -54,4 +48,4 @@ keywords: [遥测,追踪,jaeger,span,端口转发]
     $ killall kubectl
     {{< /text >}}
 
-1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)中的说明，关闭整个应用程序。
+1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)中的说明，关闭整个应用程序。
