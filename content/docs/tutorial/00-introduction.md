@@ -1,5 +1,5 @@
 ---
-title: Tutorial
+title: Introduction
 overview: A step-by-step introduction to microservices with Kubernetes and Istio.
 
 order: 40
