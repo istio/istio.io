@@ -34,6 +34,3 @@ For example, you can try the [Google Kubernetes Engine](https://cloud.google.com
       ```bash
       LICENSE, README.md, bin, install, istio.VERSION, istio_sources, samples, tools
       ```
-
-## What's next
-Next module:     [{{page.next.title}}]({{home}}{{page.next.url}})
