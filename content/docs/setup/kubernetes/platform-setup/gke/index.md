@@ -12,7 +12,8 @@ Follow these instructions to prepare an GKE cluster for Istio.
 
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
-      --num-nodes 4
+      --cluster-version latest \
+      --num-nodes 4 \
       --zone <zone> \
       --project <project-id>
     {{< /text >}}
