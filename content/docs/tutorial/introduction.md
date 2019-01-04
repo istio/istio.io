@@ -17,5 +17,3 @@ The ideas and scenarios were taken from the [Production-Ready Microservices](htt
 If you are not yet familiar with the microservices concept, [the article by James Lewis and Martin Fowler](https://martinfowler.com/articles/microservices.html) is a good place to start.
 
 Proceed with the following learning modules by their order. Each module builds on the previous one.
-
-{% include section-index.html docs=site.docs %}
