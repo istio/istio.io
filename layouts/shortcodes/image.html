@@ -79,6 +79,8 @@ omit this value and it will be computed automatically.
     {{- end -}}
 {{- end -}}
 
+{{- /* Ensure that $ratio does NOT end with % */ -}}
+
 {{- $ratio = strings.TrimRight "%" $ratio -}}
 
 <figure style="width: {{- $width -}}">
