@@ -19,6 +19,3 @@ weight: 990
   ```bash
   kubectl delete -f install/kubernetes/istio.yaml
   ```
-
-## What's next
-Previous module: [{{page.previous.title}}]({{home}}{{page.previous.url}})
