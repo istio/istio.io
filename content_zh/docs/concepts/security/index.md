@@ -157,7 +157,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 Istio 提供两种类型的身份验证：
 
-- **传输身份验证**，也称为**服务到服务身份验证**：验证直接客户端进行连接。
+- **传输身份验证**，也称为**服务到服务身份验证**：验证建立连接的直接客户端。
   Istio 提供 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
   您可以轻松打开此功能，而无需更改服务代码。这个解决方案：
 
@@ -165,7 +165,7 @@ Istio 提供两种类型的身份验证：
     - 保护服务到服务通信和最终用户到服务通信。
     - 提供密钥管理系统，以自动执行密钥和证书生成，分发和轮换。
 
-- **来源身份认证**，也称为**最终用户身份验证**：验证原始客户端将请求作为最终用户或设备。Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
+- **来源身份认证**，也称为**最终用户身份验证**：验证作为最终用户或设备发出请求的原始客户端。Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
 
 在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
