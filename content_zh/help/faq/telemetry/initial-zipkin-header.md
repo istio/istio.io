@@ -1,5 +1,5 @@
 ---
-title:  Zipkin 初始的 HTTP 标头是谁产生的？
+title:  Zipkin 初始的 HTTP Header 是谁产生的？
 weight: 90
 ---
 
