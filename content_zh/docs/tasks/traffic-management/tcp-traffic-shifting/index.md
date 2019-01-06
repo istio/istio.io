@@ -9,7 +9,7 @@ keywords: [流量管理,TCP 流量转移]
 
 ## 开始之前 {#before-you-begin}
 
-* 按照[安装指南](/zh/docs/setup/)中的说明安装Istio。
+* 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
 * 熟悉[流量管理](/zh/docs/concepts/traffic-management)中的相关概念。
 
