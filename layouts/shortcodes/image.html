@@ -79,6 +79,10 @@ omit this value and it will be computed automatically.
     {{- end -}}
 {{- end -}}
 
+{{- /* Ensure that $ratio does NOT end with % */ -}}
+
+{{- $ratio = strings.TrimRight "%" $ratio -}}
+
 <figure style="width: {{- $width -}}">
     <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}%">
         <a class="not-for-endnotes" href="{{- $link -}}" title="{{- $title -}}">
