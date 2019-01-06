@@ -105,7 +105,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 ### 本地机器方案
 
-1. Citadel 创建 gRPC 服务以获取[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSR）。
+1. Citadel 创建 gRPC 服务来接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSR）。
 
 1. 节点代理生成私钥和 CSR，并将 CSR 及其凭据发送给 Citadel 进行签名。
 
@@ -141,15 +141,15 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 ### 部署指南
 
-如果有多个服务运维团队（又名[SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的[Kubernetes命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
+如果有多个服务运维团队（又名 [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的 [Kubernetes 命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
 
 > {{<warning_icon>}}如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
 
 ### 示例
 
-让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`，`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend`服务可以访问`photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend`服务无法访问 `datastore`。
+让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`，`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend` 服务可以访问 `photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
 
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`，`photo-ns`和`datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片SRE团队创建了两个服务帐户，分别在`photo-ns`命名空间中运行`photo-frontend`和`photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在`datastore-ns`命名空间中运行`datastore`服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得`photo-frontend`无法访问数据存储区。
+在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`，`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
 
 在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
@@ -181,7 +181,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 #### 安全命名
 
-安全命名信息包含来自服务器标识的 *N 到 N* 映射，这些映射在证书中编码到由发现服务或 DNS 引用的服务名称。从身份 `A` 到服务名称 `B` 的映射意味着“允许 `A` 并授权其运行服务 `B` ”。Pilot 监视 Kubernetes `apiserver`，生成安全的命名信息，并将其安全地分发给 sidecar Envoy。以下示例说明了为什么安全命名在身份验证中至关重要。
+安全命名信息包含从编码在证书中的服务器标识到被发现服务或 DNS 引用的服务名称的 *N-到-N* 映射。从身份 `A` 到服务名称 `B` 的映射意味着“允许 `A` 并授权其运行服务 `B` ”。Pilot 监视 Kubernetes `apiserver`，生成安全的命名信息，并将其安全地分发给 sidecar Envoy。以下示例说明了为什么安全命名在身份验证中至关重要。
 
 假设运行服务 `datastore` 的合法服务器仅使用 `infra-team` 标识。恶意用户拥有 `test-team` 身份的证书和密钥。恶意用户打算模拟服务以检查从客户端发送的数据。恶意用户使用证书和 `test-team` 身份的密钥部署伪造服务器。假设恶意用户成功攻击了发现服务或 DNS，以将 `datastore` 服务名称映射到伪造服务器。
 
@@ -272,7 +272,7 @@ targets:
 
 对于每项服务，Istio 都应用最窄的匹配策略。顺序是：**特定服务>命名空间范围>网格范围**。如果多个特定于服务的策略与服务匹配，则 Istio 随机选择其中一个。运维人员在配置其策略时必须避免此类冲突。
 
-为了强制网格范围和命名空间范围的策略的唯一性，Istio 每个网格只接受一个身份认证策略，每个命名空间只接受一个身份认证策略。Istio 还要求网格范围和命名空间范围的策略具有特定名称`default`。
+为了强制网格范围和命名空间范围的策略的唯一性，Istio 每个网格只接受一个身份认证策略，每个命名空间只接受一个身份认证策略。Istio 还要求网格范围和命名空间范围的策略具有特定名称 `default`。
 
 #### 传输认证
 
@@ -382,7 +382,7 @@ spec:
 
 ### 启用授权
 
-您可以使用 `RbacConfig` 对象启用 Istio Authorization。`RbacConfig` 对象是一个网格范围的单例，其固定名称值为 `default`。您只能在网格中使用一个`RbacConfig` 实例。与其他 Istio 配置对象一样，`RbacConfig` 被定义为Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)对象。
+您可以使用 `RbacConfig` 对象启用 Istio Authorization。`RbacConfig` 对象是一个网格范围的单例，其固定名称值为 `default`。您只能在网格中使用一个 `RbacConfig` 实例。与其他 Istio 配置对象一样，`RbacConfig` 被定义为Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 对象。
 
 在 `RbacConfig` 对象中，运算符可以指定 `mode` 值，它可以是：
 
@@ -412,7 +412,7 @@ spec:
 - **`ServiceRole`** 定义了一组访问服务的权限。
 - **`ServiceRoleBinding`** 向特定主题授予 `ServiceRole`，例如用户、组或服务。
 
-`ServiceRole` 和 `ServiceRoleBinding` 的组合规定： 允许**谁**在**哪些条件**下**做什么** 。特别：
+`ServiceRole` 和 `ServiceRoleBinding` 的组合规定： 允许**谁**在**哪些条件**下**做什么** 。明确地说：
 
 - **谁**指的是 `ServiceRoleBinding` 中的 `subject` 部分。
 - **做什么**指的是 `ServiceRole` 中的 `permissions` 部分。
@@ -444,7 +444,7 @@ spec:
     methods: ["*"]
 {{< /text >}}
 
-这是另一个角色：`products-viewer`，它有读取，`GET` 和 `HEAD`，访问 `default` 命名空间中的`products.default.svc.cluster.local` 服务。
+这是另一个角色：`products-viewer`，它有读取权限，包括 `GET` 和 `HEAD`，能够访问 `default` 命名空间中的 `products.default.svc.cluster.local` 服务。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -461,7 +461,7 @@ spec:
 此外，我们支持规则中所有字段的前缀匹配和后缀匹配。例如，您可以在 `default`命名空间中定义具有以下权限的 `tester` 角色：
 
 - 完全访问前缀为 `test-*` 的所有服务，例如：`test-bookstore`、`test-performance`、`test-api.default.svc.cluster.local`。
-- 阅读（`GET`）使用 `*/reviews` 后缀访问所有路径，例如：`/books/reviews`、`/events/booksale/reviews`、`/reviews` in service`bookstore .default.svc.cluster.local`。
+- 读取（`GET`）使用 `*/reviews` 后缀访问的所有路径，例如：在 `bookstore .default.svc.cluster.local` 服务中的 `/books/reviews`、`/events/booksale/reviews`、`/reviews`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -480,7 +480,7 @@ spec:
 
 在 `ServiceRole` 中，`namespace` + `services` + `paths`  + `methods` 的组合定义了**如何访问服务**。在某些情况下，您可能需要为规则指定其他条件。例如，规则可能仅适用于服务的某个**版本**，或仅适用于具有特定**标签**的服务，如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
 
-例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的`key`值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
+例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的 `key` 值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -490,7 +490,6 @@ metadata:
   namespace: default
 spec:
   rules:
-
   - services: ["products.default.svc.cluster.local"]
     methods: ["GET", "HEAD"]
     constraints:
@@ -505,12 +504,12 @@ spec:
 - **`roleRef`** 指的是同一命名空间中的 `ServiceRole` 资源。
 - **`subjects`** 分配给角色的列表。
 
-您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding`  *subject* 中的 *property* 类似于`ServiceRole` 规范中的 *constraint* 。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
+您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding` *subject* 中的 *property* 类似于 `ServiceRole` 规范中的 *constraint*。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
 
 下面的例子显示了一个名为 `test-binding-products` 的 `ServiceRoleBinding`，它将两个 `subject` 绑定到名为 `product-viewer` 的 `ServiceRole` 并具有以下 `subject`
 
-- 代表服务的服务帐户 **a**，``service-account-a``。
-- 代表 Ingress 服务的服务帐户 `istio-ingress-service-account` **并且** JWT中的 `mail` 项声明为 `a@foo.com`。
+- 代表服务 **a** 的服务帐户，`service-account-a`。
+- 代表 Ingress 服务的服务帐户 `istio-ingress-service-account` **并且** 它的 JWT 中的 `mail` 项声明为 `a@foo.com`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -520,7 +519,6 @@ metadata:
   namespace: default
 spec:
   subjects:
-
   - user: "service-account-a"
   - user: "istio-ingress-service-account"
     properties:
