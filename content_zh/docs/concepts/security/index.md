@@ -105,7 +105,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 ### 本地机器方案
 
-1. Citadel 创建一个 gRPC 服务来接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSR）。
+1. Citadel 创建 gRPC 服务来接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSR）。
 
 1. 节点代理生成私钥和 CSR，并将 CSR 及其凭据发送给 Citadel 进行签名。
 
