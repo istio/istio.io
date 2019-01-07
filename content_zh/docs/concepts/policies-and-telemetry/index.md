@@ -148,24 +148,23 @@ metadata:
   namespace: istio-system
 spec:
   metrics:
-
-- name: request_count
-  instance_name: requestcount.metric.istio-system
-  kind: COUNTER
-  label_names:
-  - destination_service
-  - destination_version
-  - response_code
-- name: request_duration
-  instance_name: requestduration.metric.istio-system
-  kind: DISTRIBUTION
-  label_names:
-  - destination_service
-  - destination_version
-  - response_code
-    buckets:
-    explicit_buckets:
-      bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+  - name: request_count
+    instance_name: requestcount.metric.istio-system
+    kind: COUNTER
+    label_names:
+    - destination_service
+    - destination_version
+    - response_code
+  - name: request_duration
+    instance_name: requestduration.metric.istio-system
+    kind: DISTRIBUTION
+    label_names:
+    - destination_service
+    - destination_version
+    - response_code
+      buckets:
+      explicit_buckets:
+        bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 {{< /text >}}
 
 每个适配器都定义了自己格式的配置数据。适配器及其配置的详尽列表可以在[这里](/zh/docs/reference/config/policy-and-telemetry/adapters/)找到。
