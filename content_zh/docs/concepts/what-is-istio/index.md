@@ -18,7 +18,7 @@ Istio 提供了一个完整的解决方案，通过为整个服务网格提供�
 
 ## 为什么要使用 Istio？
 
-Istio 提供一种简单的方式来为已部署的服务建立网络，该网络具有负载均衡、服务间认证、监控等功能，只需要对服务的代码进行[一点](/zh/docs/tasks/telemetry/distributed-tracing/#发生了什么)或不需要做任何改动。想要让服务支持 Istio，只需要在您的环境中部署一个特殊的 sidecar 代理，使用 Istio 控制平面功能配置和管理代理，拦截微服务之间的所有网络通信：
+Istio 提供一种简单的方式来为已部署的服务建立网络，该网络具有负载均衡、服务间认证、监控等功能，只需要对服务的代码进行[一点](/zh/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened)或不需要做任何改动。想要让服务支持 Istio，只需要在您的环境中部署一个特殊的 sidecar 代理，使用 Istio 控制平面功能配置和管理代理，拦截微服务之间的所有网络通信：
 
 * HTTP、gRPC、WebSocket 和 TCP 流量的自动负载均衡。
 
