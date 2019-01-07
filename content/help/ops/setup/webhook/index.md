@@ -23,7 +23,7 @@ detailed documentation of the mutating and validating webhook configuration.
 
 ## Verify dynamic admission webhook prerequisites
 
-See the [quick start prerequisites](https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites)
+See the [quick start prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites)
 for Kubernetes provider specific setup instructions. Webhooks will not
 function properly if the cluster is misconfigured. You can follow
 these steps once the cluster has been configured and dynamic
@@ -49,7 +49,7 @@ webhooks and dependent features are not functioning properly.
 
 1. Verify `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` plugins are
    listed in the `kube-apiserver --enable-admission-plugins`. Access
-   to this flag is [provider specific](https://istio.io/docs/setup/kubernetes/quick-start/#prerequisites).
+   to this flag is [provider specific](/docs/setup/kubernetes/quick-start/#prerequisites).
 
 1. Verify the Kubernetes api-server has network connectivity to the
    webhook pod. e.g. incorrect `http_proxy` settings can interfere

@@ -24,17 +24,11 @@ keywords: [ingress,traffic-management,aws]
 
 1. 在 AWS  `iam`  控制台中，点击策略并单击“创建新策略”：
 
-    {{< image width="80%" ratio="60%"
-    link="./createpolicystart.png"
-    caption="创建一个新的策略"
-    >}}
+    {{< image width="80%" link="./createpolicystart.png" caption="创建一个新的策略" >}}
 
 1. 选择  `json`:
 
-    {{< image width="80%" ratio="60%"
-    link="./createpolicyjson.png"
-    caption="选择 json"
-    >}}
+    {{< image width="80%" link="./createpolicyjson.png" caption="选择 json" >}}
 
 1. 拷贝以下内容：
 
@@ -79,17 +73,11 @@ keywords: [ingress,traffic-management,aws]
 
 1. 点击审核策略，填写所有字段，接着点击创建策略：
 
-    {{< image width="80%" ratio="60%"
-        link="./create_policy.png"
-        caption="验证策略"
-        >}}
+    {{< image width="80%" link="./create_policy.png" caption="验证策略" >}}
 
 1. 点击角色，选择你的主角色节点，然后点击附加策略：
 
-    {{< image width="100%" ratio="35%"
-    link="./roles_summary.png"
-    caption="附加策略"
-    >}}
+    {{< image link="./roles_summary.png" caption="附加策略" >}}
 
 1. 现在，你的策略就已经附加到了主节点。
 

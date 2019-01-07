@@ -112,6 +112,11 @@ which parameters in order to perform the checks and allocations.</p>
 <td>Whether or not to log trace spans. </td>
 </tr>
 <tr>
+<td><code>--trace_sampling_rate &lt;float&gt;</code></td>
+<td></td>
+<td>Sampling rate for generating trace data. Must be a value in the range [0.0, 1.0].  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--trace_zipkin_url &lt;string&gt;</code></td>
 <td></td>
 <td>URL of Zipkin collector (example: &#39;http://zipkin:9411/api/v1/spans&#39;).  (default ``)</td>
@@ -216,6 +221,11 @@ which parameters in order to output the telemetry.</p>
 <td><code>--trace_log_spans</code></td>
 <td></td>
 <td>Whether or not to log trace spans. </td>
+</tr>
+<tr>
+<td><code>--trace_sampling_rate &lt;float&gt;</code></td>
+<td></td>
+<td>Sampling rate for generating trace data. Must be a value in the range [0.0, 1.0].  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--trace_zipkin_url &lt;string&gt;</code></td>

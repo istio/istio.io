@@ -16,6 +16,6 @@
     {{ if $target }}
         <a href="{{ $target.Permalink }}" title="{{ $target.Description }}"><code>{{ $target.Title }}</code></a>{{- if ne $temp $last -}},{{- end -}}
     {{ else }}
-        MARKDOWN ERROR: Invalid template name: '{{ $temp }}'
+        {{ errorf "Invalid template name: %s" $temp }}
     {{ end }}
 {{ end }}

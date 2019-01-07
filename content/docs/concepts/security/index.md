@@ -25,10 +25,7 @@ Istio Security tries to provide a comprehensive security solution to solve all t
 This page gives an overview on how you can use Istio security features to secure your services, wherever you run them.
 In particular, Istio security mitigates both insider and external threats against your data, endpoints, communication and platform.
 
-{{< image width="80%" ratio="56.25%"
-    link="./overview.svg"
-    caption="Istio Security Overview"
-    >}}
+{{< image width="80%" link="./overview.svg" caption="Istio Security Overview" >}}
 
 The Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization
 and audit (AAA) tools to protect your services and data. The goals of Istio security are:
@@ -55,10 +52,7 @@ Security in Istio involves multiple components:
 
 - **Mixer** to manage authorization and auditing
 
-{{< image width="80%" ratio="56.25%"
-    link="./architecture.svg"
-    caption="Istio Security Architecture"
-    >}}
+{{< image width="80%" link="./architecture.svg" caption="Istio Security Architecture" >}}
 
 In the following sections, we introduce the Istio security features in detail.
 
@@ -146,10 +140,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
 In the near future, Istio will use node agent in Kubernetes for certificate and key provision, as shown in the figure below.
 Note that the identity provision flow for on-premises machines is the same so we only describe the Kubernetes scenario.
 
-{{< image width="80%" ratio="56.25%"
-    link="./node_agent.svg"
-    caption="PKI with node agents in Kubernetes"
-    >}}
+{{< image width="80%" link="./node_agent.svg" caption="PKI with node agents in Kubernetes"  >}}
 
 The flow goes as follows:
 
@@ -319,10 +310,7 @@ initial connections using TLS with the certificates expected on the server
 side. You can find out more about how mutual TLS works in Istio in
 [PKI and identity section](/docs/concepts/security/mutual-tls/).
 
-{{< image width="60%" ratio="67.12%"
-    link="./authn.svg"
-    caption="Authentication Architecture"
-    >}}
+{{< image width="60%" link="./authn.svg" caption="Authentication Architecture" >}}
 
 Istio outputs identities with both types of authentication, as well as other
 claims in the credential if applicable, to the next layer:
@@ -548,8 +536,7 @@ services in an Istio Mesh. It features:
 
 ### Authorization architecture
 
-{{< image width="90%" ratio="56.25%"
-    link="./authz.svg"
+{{< image width="90%" link="./authz.svg"
     alt="Istio Authorization"
     caption="Istio Authorization Architecture"
     >}}

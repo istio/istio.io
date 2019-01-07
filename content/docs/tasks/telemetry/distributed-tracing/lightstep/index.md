@@ -1,5 +1,5 @@
 ---
-title: Distributed Tracing With LightStep [𝑥]PM
+title: LightStep [𝑥]PM
 description: How to configure the proxies to send tracing requests to LightStep [𝑥]PM.
 weight: 11
 keywords: [telemetry,tracing,lightstep]
@@ -56,7 +56,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     $ NAMESPACE=default
     {{< /text >}}
 
-    ```bash
+    {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
       apiVersion: v1
       kind: Secret
@@ -69,7 +69,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
       data:
         cacert.pem: $CACERT
     EOF
-    ```
+    {{< /text >}}
 
 1.   Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
 
@@ -95,18 +95,12 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 1.  Click **Run**. You see something similar to the following:
 
-    {{< image width="100%" ratio="50%"
-    link="./istio-tracing-list-lightstep.png"
-    caption="Explorer"
-    >}}
+    {{< image link="./istio-tracing-list-lightstep.png" caption="Explorer" >}}
 
 1.  Click on the first row in the table of example traces below the latency histogram to see the details
     corresponding to your refresh of the `/productpage`. The page then looks similar to:
 
-    {{< image width="100%" ratio="50%"
-    link="./istio-tracing-details-lightstep.png"
-    caption="Detailed Trace View"
-    >}}
+    {{< image link="./istio-tracing-details-lightstep.png" caption="Detailed Trace View" >}}
 
 The screenshot shows that the trace is comprised of a set of spans. Each span corresponds to a Bookinfo service invoked
 during the execution of a `/productpage` request.
@@ -123,7 +117,7 @@ server-side span of the call. The screenshot shows that the call took 14.60 ms.
 ## Trace sampling
 
 Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
-visit the [Distributed Tracing With Jaeger trace sampling section](../distributed-tracing/#trace-sampling).
+visit the [Distributed Tracing trace sampling section](../overview/#trace-sampling).
 When using LightStep [𝑥]PM, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh,
 consider scaling up the size of your satellite pool.
 

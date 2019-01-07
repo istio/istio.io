@@ -14,14 +14,15 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
 1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/):
-  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
-  * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
-  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
-  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
   * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
+  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
+  * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
+  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
+  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/platform-setup/oci/)
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
 
@@ -123,8 +124,8 @@ Follow our instructions on how to
 You can now deploy your own application or one of the sample applications
 provided with the installation like [Bookinfo](/docs/examples/bookinfo/).
 
-> Note: The application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP
-> traffic because HTTP/1.0 is not supported.
+> {{< warning_icon >}} The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
+> traffic; HTTP/1.0 is not supported.
 
 If you started the
 [Istio-sidecar-injector](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection),
@@ -171,5 +172,5 @@ non-existent resources because they may have been deleted hierarchically.
 * If desired, delete the CRDs:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}

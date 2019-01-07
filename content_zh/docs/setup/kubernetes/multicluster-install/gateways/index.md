@@ -12,16 +12,13 @@ keywords: [kubernetes,多集群,federation,gateway]
 为了实现跨集群部署单一 Istio 服务网格，需要在所有集群中复制共享的 service 和 namespace，并使用公共的 root CA。
 跨集群通信发生在相应集群的 Istio Gateway 上。
 
-{{< image width="80%" ratio="36.01%"
-    link="./multicluster-with-gateways.svg"
-    caption="Istio 网格使用 Istio Gateway 跨越多个 Kubernetes 集群访问远程 pod"
-    >}}
+{{< image width="80%" link="./multicluster-with-gateways.svg" caption="Istio 网格使用 Istio Gateway 跨越多个 Kubernetes 集群访问远程 pod" >}}
 
 ## 先决条件
 
 * 两个或以上安装 **1.10 或更新**版本的 Kubernetes 集群。
 
-* 在**每个** Kubernetes 集群上授权[使用 Helm 部署 Istio 控制平面](/docs/setup/kubernetes/helm-install/)。
+* 在**每个** Kubernetes 集群上授权[使用 Helm 部署 Istio 控制平面](/zh/docs/setup/kubernetes/helm-install/)。
 
 * 一个 **Root CA**。跨集群通信需要在 service 之间使用 mTLS 连接。为了启用跨集群 mTLS 通信，每个集群的 Citadel
  都将被配置使用共享 root CA 生成的中间 CA 凭证。出于演示目的，我们将使用 `samples/certs` 目录下的简单 root CA
@@ -52,7 +49,7 @@ keywords: [kubernetes,多集群,federation,gateway]
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
-更多细节和自定义选项请参考[使用 Helm 安装](/docs/setup/kubernetes/helm-install/)的说明。
+更多细节和自定义选项请参考[使用 Helm 安装](/zh/docs/setup/kubernetes/helm-install/)的说明。
 
 ## 配置 DNS
 

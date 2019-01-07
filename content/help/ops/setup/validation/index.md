@@ -25,7 +25,7 @@ Resource Definitions (CRDs).
 ## Seemingly valid configuration is rejected
 
 Manually verify your configuration is correct, cross-referencing
-[Istio API reference](https://istio.io/docs/reference/config) when
+[Istio API reference](/docs/reference/config) when
 necessary.
 
 ## Invalid configuration is accepted

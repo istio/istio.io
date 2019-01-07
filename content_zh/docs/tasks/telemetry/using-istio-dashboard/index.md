@@ -46,10 +46,7 @@ keywords: [遥测,可视化]
 
     Istio 仪表板看起来类似于：
 
-    {{< image width="100%" ratio="56.57%"
-        link="/docs/tasks/telemetry/using-istio-dashboard/grafana-istio-dashboard.png"
-        caption="Istio Dashboard"
-        >}}
+    {{< image link="/docs/tasks/telemetry/using-istio-dashboard/grafana-istio-dashboard.png" caption="Istio Dashboard" >}}
 
 1.  将流量发送到服务网格。
 
@@ -65,10 +62,7 @@ keywords: [遥测,可视化]
 
     再看一下 Istio Dashboard, 它应该反映生成的流量, 它看起来类似于下图所示的内容：
 
-    {{< image width="100%" ratio="56.57%"
-    link="/docs/tasks/telemetry/using-istio-dashboard/dashboard-with-traffic.png"
-    caption="Istio 的流量仪表板"
-    >}}
+    {{< image link="/docs/tasks/telemetry/using-istio-dashboard/dashboard-with-traffic.png" caption="Istio 的流量仪表板" >}}
 
 ### 关于 Grafana 插件
 
