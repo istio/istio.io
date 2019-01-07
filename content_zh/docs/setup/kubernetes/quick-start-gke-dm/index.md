@@ -193,7 +193,7 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 
 {{< image link="/docs/setup/kubernetes/quick-start-gke-dm/dm-tracing.png" caption="Tracing Dashboard" >}}
 
-更多关于追踪的细节，请点击[了解一下发生了什么](/zh/docs/tasks/telemetry/distributed-tracing/#发生了什么)。
+更多关于追踪的细节，请点击[了解一下发生了什么](/zh/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened)。
 
 ## 卸载
 
