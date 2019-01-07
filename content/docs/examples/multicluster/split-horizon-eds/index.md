@@ -1,19 +1,18 @@
 ---
-title: Multicluster with Split Horizon EDS
+title: Location-aware Multicluster Service Routing
 description: Example of leveraging Istio's Split Horizon EDS to create a Multicluster.
 weight: 85
 keywords: [kubernetes,multicluster]
 ---
 
-This example demonstrates how to use a single mesh [Istio multicluster](/docs/setup/kubernetes/multicluster-install/vpn/) together with _Split Horizon Endpoints Discovery Service (EDS)_ (introduced in Istio 1.1) to join two Kubernetes clusters together to allow access to remote instances of a service via the remote Istio ingress gateway. By following the steps in this example you will setup a topology of two clusters as described in the following diagram:
+This example demonstrates how to use a [single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology) together with the _Split Horizon Endpoints Discovery Service (EDS)_ feature (introduced in Istio 1.1) to join two Kubernetes clusters together to allow access to remote instances of a service via the remote Istio ingress gateway. By following the steps in this example you will setup a topology of two clusters as described in the following diagram:
 
   {{< image width="80%" ratio="36.01%"
   link="./diagram.svg"
-  caption="Single Istio mesh spanning multiple Kubernetes clusters with the Split Horizon EDS configured"
-  >}}
+  caption="Single Istio control plane topology spanning multiple Kubernetes clusters with the Split Horizon EDS configured" >}}
 
 The `local` cluster hosts the Istio Pilot and other Istio control plane components while the `remote` cluster only runs the Istio Citadel, Sidecar Injector and Ingress gateway.
-However, unlike the requirements of [Istio multicluster](/docs/setup/kubernetes/multicluster-install/vpn/), no VPN connectivity is required nor direct network access between workload from different clusters.
+No VPN connectivity is required nor direct network access between workload from different clusters.
 
 ## Before you begin
 
