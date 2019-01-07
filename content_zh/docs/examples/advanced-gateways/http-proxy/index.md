@@ -8,7 +8,7 @@
 
 此示例演示如何启用对外部HTTPS代理的访问。由于应用程序使用http[connect](https://tools.ietf.org/html/rfc7231#section-4.3.6)方法与https代理建立连接，因此配置流量到外部HTTPS代理不同于将流量配置为外部HTTP和HTTPS服务。
 
-{{< 样例 before-you-begin-egress >}}
+{{< boilerplate before-you-begin-egress >}}
 
 ## 部署HTTPS代理
 
