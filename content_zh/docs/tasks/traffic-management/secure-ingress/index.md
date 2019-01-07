@@ -101,7 +101,7 @@ keywords: [流量管理,ingress]
     EOF
     {{< /text >}}
 
-1.  为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress/#使用-istio-网关配置-ingress) 中一致的 `Virtualservice`：
+1.  为通过 Gateway 进入的流量进行路由配置。配置一个和[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress/#使用-istio-网关配置-ingress) 中一致的 `VirtualService`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -161,7 +161,7 @@ keywords: [流量管理,ingress]
     > Gateway 定义的传播可能需要一些时间，在传播完成之间的访问，可能会得到这样的错误响应：
     > `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`。只需等待一分钟，重新访问即可。
 
-    查看 `curl` 命令返回内容中的 `Server certificate` 部分，注意其中的 `common name`：`common name: httpbin.example.com (matched)`。另外输出中还包含了 `SSL certificate verify ok`，这说明对服务器的证书校验是成功的，返回状态码为 418 和一个茶壶画。
+    查看 `curl` 命令返回内容中的 `Server certificate` 部分，注意其中的 common name：`common name: httpbin.example.com (matched)`。另外输出中还包含了 `SSL certificate verify ok`，这说明对服务器的证书校验是成功的，返回状态码为 418 和一个茶壶画。
 
 ## 配置 Ingress gateway 的双向 TLS 支持
 
