@@ -20,6 +20,9 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
+1.  If you do not have Istio installed in your cluster, install it with mutual TLS enabled, following
+    [these instructions](/docs/setup/kubernetes/helm-install/).
+
 1.  **For instructors**: you may want to allocate a separate namespace per different participant. The tutorial supports
     work in multiple namespaces simultaneously by multiple participants.
 
