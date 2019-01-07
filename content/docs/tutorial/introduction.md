@@ -7,7 +7,7 @@ weight: 1
 Step-by-step introductory tutorial to microservices based on the
 [Istio Bookinfo sample]({{home}}/docs/guides/bookinfo.html).
 
-This tutorial demonstrates a single microservice as a web app; node.js and Docker. Then it proceeds to a whole
+This tutorial demonstrates a single microservice as a web app; Node.js and Docker. Then it proceeds to a whole
 application (Bookinfo), composed of multiple microservices, managed by Kubernetes with Istio. The learning modules show
 evolution of the application: development of a single microservice, creating a container, deploying the application to
 Kubernetes, adding Istio to the Kubernetes cluster, deploying new microservice versions, routing traffic to a new
