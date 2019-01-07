@@ -16,7 +16,8 @@ features are presented as part of the developing story. The focus is on why the 
 and what can be achieved using Istio. While presenting Istio features, various microservices concepts are briefly
 described. In the summary module, links to further Istio documents are provided.
 
-The ideas and scenarios were taken from the [Production-Ready Microservices](http://shop.oreilly.com/product/0636920053675.do) book of Susan Fowler and from the [istio.io]({{home}}) [guides]({{home}}/docs/guides), [tasks]({{home}}/docs/tasks) and [the istio.io blog]({{home}}/blog).
+The tutorial can be used for self-learning, for Istio demonstration or for teaching in class by an instructor. The
+tutorial supports working in separate namespaces by multiple participants simultaneously.
 
 The ideas and scenarios were taken from the
 [Production-Ready Microservices](http://shop.oreilly.com/product/0636920053675.do) book of Susan Fowler and from the
