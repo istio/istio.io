@@ -41,7 +41,7 @@ NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)  
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 {{< /text >}}
 
-如果 `EXTERNAL-IP` 有值（IP 地址或主机名），则说明您的环境具有可用于 ingress 网关的外部负载均衡器。如果 `EXTERNAL-IP` 值是 `<none>`（或一直是 `<pending>` ），则说明可能您的环境并没有为 ingress 网关提供外部负载均衡器的功能。在这种情况下，您可以使用 Service 的 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 方式访问网关。
+如果 `EXTERNAL-IP` 有值（IP 地址或主机名），则说明您的环境具有可用于 Ingress 网关的外部负载均衡器。如果 `EXTERNAL-IP` 值是 `<none>`（或一直是 `<pending>` ），则说明可能您的环境并没有为 Ingress 网关提供外部负载均衡器的功能。在这种情况下，您可以使用 Service 的 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 方式访问网关。
 
 #### 使用外部负载均衡器时确定 IP 和端口
 
@@ -184,7 +184,7 @@ Ingress [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#Gateway
     x-envoy-upstream-service-time: 48
     {{< /text >}}
 
-    请注意，这里使用该 `-H` 标志将 `Host` HTTP Header 设置为 "httpbin.example.com”。这一操作是必需的，因为上面的 Ingress `Gateway` 被配置为处理 "httpbin.example.com”，但在测试环境中没有该主机的 DNS 绑定，只是将请求发送到 Ingress IP。
+    请注意，这里使用该 `-H` 标志将 `Host` HTTP Header 设置为 “httpbin.example.com”。这一操作是必需的，因为上面的 Ingress `Gateway` 被配置为处理 “httpbin.example.com”，但在测试环境中没有该主机的 DNS 绑定，只是将请求发送到 Ingress IP。
 
 1.  访问任何未明确公开的其他 URL，应该会看到一个 HTTP 404 错误：
 
