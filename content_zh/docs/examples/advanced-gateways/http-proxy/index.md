@@ -12,7 +12,7 @@
 
 ## 部署 HTTPS 代理
 
-本例中为了模拟传统代理，请在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，您将通过代理的IP地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是[squid]（http://www.squid-cache.org），但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
+本例中为了模拟传统代理，请在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，您将通过代理的IP地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是[squid](http://www.squid-cache.org) ，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
 
 1.为 HTTPS 代理创建一个名称空间，而不标记为用于 SideCar 注入。如果没有标签，则在新名称空间中 SideCar 注入是不可用的，因此 Istio 将无法控制那里的流量。您需要在集群之外通过这种行为来模拟代理。
 
@@ -38,7 +38,7 @@
     EOF
     {{< /text >}}
 
-1.  创建 Kubernetes[configmap](https://kubernetes.io/docs/tasks/configure-pod-ontainer/configure-pod-configmap/)以保存代理的配置:
+1.  创建 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)以保存代理的配置:
 
     {{< text bash >}}
     $ kubectl create configmap proxy-configmap -n external --from-file=squid.conf=./proxy.conf
