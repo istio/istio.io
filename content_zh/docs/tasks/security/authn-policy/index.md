@@ -19,7 +19,7 @@ keywords: [安全,认证]
 ### 安装
 
 为了演示，需要创建两个命名空间 `foo` 和 `bar`，并且在两个空间中都部署带有 sidecar 的
- [httpbin]({{< github_tree >}}/samples/httpbin) 用和 [sleep]({{< github_tree >}}/samples/sleep) 应用。同时运行另外一份不带有 Sidecar 的 httpbin 和 sleep 应用（为了保证独立性，
+ [httpbin]({{< github_tree >}}/samples/httpbin) 应用和 [sleep]({{< github_tree >}}/samples/sleep) 应用。同时运行另外一份不带有 Sidecar 的 httpbin 和 sleep 应用（为了保证独立性，
  在 `legacy` 命名空间中运行它们）。如果您在尝试任务时想要使用相同的示例，运行以下内容：
 
 {{< text bash >}}
@@ -238,7 +238,7 @@ $ kubectl delete destinationrules default httpbin-legacy api-server
 
 ### 命名空间范围的策略
 
-下面的示例显示了为命名空间 `foo` 中的所有服务启用双向 TLS 的策略。正如你所看到的，它使用的类别是`Policy` 而不是 `MeshPolicy`，并指定了一个命名空间，在本例中为 `foo`。如果未指定命名空间值，则策略将应用于默认命名空间。
+下面的示例显示了为命名空间 `foo` 中的所有服务启用双向 TLS 的策略。正如你所看到的，它使用的类别是 `Policy` 而不是 `MeshPolicy`，并指定了一个命名空间，在本例中为 `foo`。如果未指定命名空间值，则策略将应用于默认命名空间。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -433,7 +433,7 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## 设置终端用户认证
 
-要验证这一功能，首先要有一个有效的 JWT。JWT 必须符合本例中的 JWKS 端点相匹配。本例中我们使用出自 Istio 代码库中的 [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) 以及
+要验证这一功能，首先要有一个有效的 JWT。JWT 必须与本例中的 JWKS 端点相匹配。本例中我们使用 Istio 代码库中的 [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) 以及
 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) 进行演示。
 
 另外为了方便起见，我们使用 `ingressgateway` 开放了 `httpbin.foo` 服务（这部分内容可以参看[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/)任务中的介绍）。
