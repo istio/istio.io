@@ -67,9 +67,9 @@ This will be used to access the `local` pilot securely using the ingress gateway
     __NOTE:__ Replace the gateway address with the public IP of your remote cluster.
 
     > If the remote gateway IP is unknown at this stage,
-    you can still proceed with an arbitrary value that can be modified after [Step 3 in Remote Cluster Setup](#setup-the-remote-cluster),
-    once the external IP is available. Modify the configmap by executing `kubectl edit cm -n istio-system --context=$CTX_LOCAL istio`.
-    Once saved, Pilot will automatically read the updated networks configuration.
+    > you can still proceed with an arbitrary value that can be modified after [Step 3 in Remote Cluster Setup](#setup-the-remote-cluster),
+    > once the external IP is available. Modify the configmap by executing `kubectl edit cm -n istio-system --context=$CTX_LOCAL istio`.
+    > Once saved, Pilot will automatically read the updated networks configuration.
 
 1. Use Helm to create the Istio `local` deployment YAML:
 
