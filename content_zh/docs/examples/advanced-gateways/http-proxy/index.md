@@ -75,19 +75,19 @@
     EOF
     {{< /text >}}
 
-1.  在“external”名称空间中部署[sleep]（<github_tree>/samples/sleep）示例，以测试到代理的通信量，而不进行ISIO流量控制。
+1.  在“external”名称空间中部署[sleep]({{<github_tree>}}/samples/sleep)示例，以测试到代理的通信量，而不进行ISIO流量控制。
 
     {{< text bash >}}
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  获取代理pod的IP地址并定义“proxy-ip”环境变量来存储它:
+1.  获取代理pod的IP地址并定义“PROXY_IP”环境变量来存储它:
 
     {{< text bash >}}
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
     {{< /text >}}
 
-1.  定义'proxy_port'环境变量以存储代理的端口。本例中，Squid使用 3128 端口。
+1.  定义'PROXY_PORT'环境变量以存储代理的端口。本例中，Squid使用 3128 端口。
 
     {{< text bash >}}
     $ export PROXY_PORT=3128
