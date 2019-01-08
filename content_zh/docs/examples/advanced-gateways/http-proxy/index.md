@@ -151,7 +151,7 @@
     [2018-12-07T10:38:02.841Z] "- - -" 0 - 702 87599 92 - "-" "-" "-" "-" "172.30.109.95:3128" outbound|3128||my-company-proxy.com 172.30.230.52:44478 172.30.109.95:3128 172.30.230.52:44476 -
     {{< /text >}}
 
-2.  查看您请求的代理的访问日志:
+1.  查看您请求的代理的访问日志:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
@@ -163,7 +163,7 @@
 在本例中，您采取了以下步骤:
 
 1. 部署了一个HTTPS代理来模拟外部代理。
-2. 创建了一个TCP服务实体，以启用到外部代理的ISIO控制流量。
+1. 创建了一个TCP服务实体，以启用到外部代理的ISIO控制流量。
 
 请注意，您不能为通过外部代理访问的外部服务创建服务实体，例如`wikipedia.org`。这是因为从istio的角度来看，请求只发送到外部代理；istio并不知道外部代理进一步转发请求。
 
@@ -200,3 +200,5 @@
     {{< text bash >}}
     $ kubectl delete serviceentry proxy
     {{< /text >}}
+
+	
