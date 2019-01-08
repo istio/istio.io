@@ -1,7 +1,7 @@
 ---
 title: Google Kubernetes Engine
 description: Instructions to setup a Google Kubernetes Engine cluster for Istio.
-weight: 9
+weight: 15 
 skip_seealso: true
 keywords: [platform-setup,kubernetes,gke,google]
 ---
@@ -12,7 +12,8 @@ Follow these instructions to prepare an GKE cluster for Istio.
 
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
-      --num-nodes 4
+      --cluster-version latest \
+      --num-nodes 4 \
       --zone <zone> \
       --project <project-id>
     {{< /text >}}

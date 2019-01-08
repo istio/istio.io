@@ -29,10 +29,7 @@ control to operators.
 
 Mixer is the Istio component responsible for providing policy controls and telemetry collection:
 
-{{< image width="55%" ratio="69.79%"
-    link="./topology-without-cache.svg"
-    caption="Mixer Topology"
-    >}}
+{{< image width="55%" link="./topology-without-cache.svg" caption="Mixer Topology" >}}
 
 The Envoy sidecar logically calls Mixer before each request to perform precondition checks, and after each request to report telemetry.
 The sidecar has local caching such that a large percentage of precondition checks can be performed from cache. Additionally, the
@@ -64,8 +61,7 @@ monitoring, quotas, ACL checking, and more. The exact set of
 adapters used at runtime is determined through configuration and can easily be
 extended to target new or custom infrastructure backends.
 
-{{< image width="80%" ratio="69.79%"
-    link="./adapters.svg"
+{{< image width="80%" link="./adapters.svg"
     alt="Showing Mixer with adapters."
     caption="Mixer and its Adapters"
     >}}
@@ -87,10 +83,7 @@ The sidecar proxies that sit next to each service instance in the mesh must nece
 caching and buffering. Mixer, however, lives independently and can use considerably larger caches and output buffers. Mixer thus acts as a highly-scaled and highly-available second-level
 cache for the sidecars.
 
-{{< image width="65%" ratio="65.89%"
-    link="./topology-with-cache.svg"
-    caption="Mixer Topology"
-    >}}
+{{< image width="65%" link="./topology-with-cache.svg" caption="Mixer Topology" >}}
 
 Since Mixer’s expected availability is considerably higher than most infrastructure backends (those often have availability of perhaps 99.9%). Mixer's local
 caches and buffers not only contribute to reduce latency, they also help mask infrastructure backend failures by being able to continue operating
@@ -126,10 +119,7 @@ every request, giving Mixer a set of attributes that describe the request and th
 around the request. Based on its configuration and the specific set of attributes it was
 given, Mixer generates calls to a variety of infrastructure backends.
 
-{{< image width="60%" ratio="42.60%"
-    link="./machine.svg"
-    caption="Attribute Machine"
-    >}}
+{{< image width="60%" link="./machine.svg" caption="Attribute Machine" >}}
 
 ### Attribute vocabulary
 

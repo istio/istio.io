@@ -47,7 +47,7 @@ icon: feature-status
 | [Zipkin/Jaeger 的分布式追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [服务追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [Fluentd 日志记录](/zh/docs/tasks/telemetry/fluentd/) | Alpha
-| [跟踪采样](/zh/docs/tasks/telemetry/distributed-tracing/#跟踪采样) | Alpha
+| [跟踪采样](/zh/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Alpha
 
 ### 安全和策略实施
 

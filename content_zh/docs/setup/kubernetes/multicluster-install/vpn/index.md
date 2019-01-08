@@ -11,10 +11,7 @@ aliases:
 
 在此配置中，运行远程配置的多个 Kubernetes 控制平面将连接到**单个** Istio 控制平面。一旦一个或多个远程 Kubernetes 集群连接到 Istio 控制平面，Envoy 就可以与单个控制平面通信并形成跨多个集群的服务网格。
 
-{{< image width="80%" ratio="36.01%"
-    link="/docs/setup/kubernetes/multicluster-install/vpn/multicluster-with-vpn.svg"
-    caption="通过 VPN 直连远程 pod 的多 Kubernetes 集群 Istio 网格"
-    >}}
+{{< image width="80%" link="/docs/setup/kubernetes/multicluster-install/vpn/multicluster-with-vpn.svg" caption="通过 VPN 直连远程 pod 的多 Kubernetes 集群 Istio 网格" >}}
 
 ## 先决条件
 

@@ -43,7 +43,7 @@ Action 定义了“如何访问资源”。
 |service|string|服务名称|
 |method|string|请求方法|
 |path|string|服务的 HTTP RestAPI|
-|properties|`map<string,[`istio.policy.v1beta1.Value`](/docs/reference/config/policy-and-telemetry/templates/authorization/#istio-policy-v1beta1-Value)>`|其他属性数据|
+|properties|`map<string,[`istio.policy.v1beta1.Value`](/zh/docs/reference/config/policy-and-telemetry/templates/authorization/#istio-policy-v1beta1-Value)>`|其他属性数据|
 
 ## Subject
 
@@ -53,7 +53,7 @@ Subject 包括用户身份识别属性
 |----|----|----|
 |user|string|用户名称或 ID|
 |group|string|认证的用户组，`groups` 可以从 JWT 断言或用户签名中获得。创建模版事例时可以指定。|
-|properties|`map<string,[`istio.policy.v1beta1.Value`](/docs/reference/config/policy-and-telemetry/templates/authorization/#istio-policy-v1beta1-Value)>`|其他属性数据|
+|properties|`map<string,[`istio.policy.v1beta1.Value`](/zh/docs/reference/config/policy-and-telemetry/templates/authorization/#istio-policy-v1beta1-Value)>`|其他属性数据|
 
 ## Template
 
@@ -61,8 +61,8 @@ Authorization 模版定义 Istio 中策略执行的参数。启动 Mixer 可以�
 
 |字段|类型|描述|
 |----|----|----|
-|subject|[`Subject`](/docs/reference/config/policy-and-telemetry/templates/authorization/#Subject)|主题包括用户身份识别的属性列表|
-|action|[`Action`](/docs/reference/config/policy-and-telemetry/templates/authorization/#Action)|操作定义了如何访问资源|
+|subject|[`Subject`](/zh/docs/reference/config/policy-and-telemetry/templates/authorization/#Subject)|主题包括用户身份识别的属性列表|
+|action|[`Action`](/zh/docs/reference/config/policy-and-telemetry/templates/authorization/#Action)|操作定义了如何访问资源|
 
 ## istio.policy.v1beta1.Value
 

@@ -27,11 +27,10 @@ RUN tar -xf /tmp/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
     && rm -rf /tmp/LICENSE.md \
     && rm -rf /tmp/README.md
 
-RUN npm install -g \
-    sass \
-    uglify-js \
-    markdown-spellcheck \
-    svgstore-cli
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm install
 
 RUN gem install \
     mdl \

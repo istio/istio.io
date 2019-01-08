@@ -9,7 +9,7 @@ keywords: [流量管理,TCP 流量转移]
 
 ## 开始之前 {#before-you-begin}
 
-* 按照[安装指南](/zh/docs/setup/)中的说明安装Istio。
+* 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
 * 熟悉[流量管理](/zh/docs/concepts/traffic-management)中的相关概念。
 
@@ -23,7 +23,7 @@ keywords: [流量管理,TCP 流量转移]
         $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
         {{< /text >}}
 
-    `istioctl kube-inject` 的作用如[文档](/docs/reference/commands/istioctl/#istioctl-kube-inject)所言，是在提交 `tcp-echo-services.yaml` 之前进行修改。
+    `istioctl kube-inject` 的作用如[文档](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)所言，是在提交 `tcp-echo-services.yaml` 之前进行修改。
 
     * 如果使用的是一个启用了 [Sidecar 自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)的集群，可以给 `default` 命名空间打上 `istio-injection=enabled` 标签：
 

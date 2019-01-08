@@ -69,8 +69,7 @@ TCP/IP 几乎是所有通信过程的媒介。如果恰好应用端点处于同�
 
 举例说明，看看下图的应用。其中包含了一个 Python 应用以及一组 Memcached。根据连接时间进行路由，选择了一个 Memcached 作为上游服务器。速度是这里的首要考量。
 
-{{< image width="75%" ratio="40%"
-    link="memcached.png"
+{{< image width="75%" link="memcached.png"
     alt="无代理的数据路径"
     caption="延迟敏感的应用场景"
     >}}
@@ -115,11 +114,7 @@ AppSwitch 提供了无需 root 特权就能重定向应用连接的方法。这�
 1. 发送 Socket 对中的一端给应用，应用会用这个 FD 进行读写。它还要确保应用始终视其为合法 Socket，以便于侵入所有对连接属性的查询。
 1. 另外一端会通过一个不同的用于开放守护进程 API 的 Unix Socket 发送给 Sidecar。原始目的之类的信息也会由相同的接口进行传输。
 
-{{< image width="50%" ratio="25%"
-    link="socket-delegation.png"
-    alt="Socket 委托协议"
-    caption="基于 Socket 委托的连接重定向"
-    >}}
+{{< image width="50%" link="socket-delegation.png" alt="Socket 委托协议"  caption="基于 Socket 委托的连接重定向" >}}
 
 应用和 Sidecar 连接之后，接下来的事情就很普通了。Sidecar 初始化一个到上游服务器的连接，并在从守护进程接收到的 Socket 和连接到上游服务器的 Socket 之间充当数据代理。这里的主要区别在于，Sidecar 得到的连接不是通过 `accept(2)` 系统调用而来的，而是由守护进程的 Unix socket 来的。Sidecar 不再通过监听来自应用的 `accept(2)` 通道，而是连接到 AppSwitch 守护进程的 REST 端点获取到的 Socket。
 
@@ -202,11 +197,7 @@ AppSwitch 从标准服务网格中移除了一组层次和操作。到底会对�
 
 我们做了一些初级的实验，来对前面提到的 AppSwitch 集成方式在提高性能方面的优化进行定性。这个实验运行在 GKE 上，对应的软件系统包括 Fortio 0.11.0、Istio 0.8.0 以及 AppSwitch 0.4.0-2。在无代理测试中，AppSwitch 守护进程以 `DaemonSet` 的形式运行在 Kubernetes 集群中，并给 Fortio Pod 注入了 AppSwitch 客户端。这是仅有的两个步骤。这个测试的目的是衡量 100 并发连接的情况下，GRPC 的延迟情况。
 
-{{< image width="100%" ratio="55%"
-    link="perf.png"
-    alt="性能对比"
-    caption="有无 AppSwitch 的对比。"
-    >}}
+{{< image link="perf.png" alt="性能对比" caption="有无 AppSwitch 的对比。" >}}
 
 初步显示，p50 延迟在有无 AppSwitch 的情况下有高达 18 倍的差距（3.99 毫秒 vs 72.96 毫秒）。如果禁用了日志和 Mixer，差距会缩减为 8 倍。很明显，这一差距就是因为数据路径上的多余层造成的。客户端和服务器分属两台不同主机，因此 Unix Socket 优化在这一场景上没有触发，有理由相信，如果客户端和服务器恰好在同一节点上，延迟会进一步缩小。究其根本，在 Kubernetes 上各自 Pod 中运行的服务器和客户端是通过 GKE 网络上的 TCP Socket 直接连接的——没有隧道、网桥或者代理。
 

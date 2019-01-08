@@ -7,8 +7,9 @@ aliases:
     - /docs/setup/kubernetes/multicluster-install
 ---
 
-Instructions for installing an Istio mesh across multiple clusters when pods
-in each cluster have direct network access to pods in other clusters.
+Instructions for installing an Istio [multicluster service mesh](/docs/concepts/multicluster-deployments/)
+where Kubernetes cluster services and applications in each cluster have the capability to expose
+their internal Kubernetes network to other clusters.
 
 In this configuration, multiple Kubernetes control planes running
 a remote configuration connect to a **single** Istio control plane.
@@ -16,10 +17,7 @@ Once one or more remote Kubernetes clusters are connected to the
 Istio control plane, Envoy can then communicate with the **single**
 control plane and form a mesh network across multiple clusters.
 
-{{< image width="80%" ratio="36.01%"
-    link="./multicluster-with-vpn.svg"
-    caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN"
-    >}}
+{{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
 ## Prerequisites
 

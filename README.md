@@ -58,6 +58,12 @@ If you get spelling errors, you have three choices to address each:
 
 * It's really valid, so go add the word to the `.spelling` file at the root of the repo.
 
+And you can set any value to an environment variable named "INTERNAL_ONLY", then the linter will not check external links. It looks like that:
+
+```bash
+$ make INTERNAL_ONLY=True lint
+```
+
 ## Site infrastructure
 
 Here's how things work:

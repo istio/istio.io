@@ -32,7 +32,7 @@ Istio provides behavioral insights and operational control over the service mesh
 
 ## Why use Istio?
 
-Istio makes it easy to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, with [few](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened) or no code changes
+Istio makes it easy to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, with [few](/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened) or no code changes
 in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication
 between microservices, then configure and manage Istio using its control plane functionality, which includes:
 
@@ -192,7 +192,7 @@ end-user authentication with built-in identity and credential management. You
 can use Citadel to upgrade unencrypted traffic in the service mesh. Using
 Citadel, operators can enforce policies based on service identity rather than
 on relatively unstable layer 3 or layer 4 network identifiers. Starting from
-release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization) 
+release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
 to control who can access your services.
 
 ### Galley
