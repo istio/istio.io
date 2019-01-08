@@ -81,13 +81,13 @@ keywords: [traffic-management,egress]
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  获取代理 pod 的 IP 地址并定义 PROXY_IP 环境变量来存储它:
+1.  获取代理 pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它:
 
     {{< text bash >}}
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
     {{< /text >}}
 
-1.  定义 PROXY_PORT 环境变量以存储代理的端口。本例中，Squid 使用 3128 端口。
+1.  定义 `PROXY_PORT` 环境变量以存储代理的端口。本例中，Squid 使用 3128 端口。
 
     {{< text bash >}}
     $ export PROXY_PORT=3128
