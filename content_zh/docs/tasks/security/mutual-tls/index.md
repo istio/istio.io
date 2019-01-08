@@ -21,7 +21,7 @@ keywords: [安全,双向 TLS]
 
 ## 检查 Citadel 是否运行正常
 
-[Citadel](/zh/docs/concepts/security/#pki)是 Istio 的密钥管理服务。 Citadel 必须正常运行才能使双向 TLS 正常工作。
+[Citadel](/zh/docs/concepts/security/#pki) 是 Istio 的密钥管理服务。Citadel 必须正常运行才能使双向 TLS 正常工作。
 使用以下命令验证 Citadel 在集群中是否正确运行：
 
 {{< text bash >}}
@@ -152,7 +152,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
     command terminated with exit code 56
     {{< /text >}}
 
-    > 请注意，退出代码为56.代码转换为无法接收网络数据。
+    > 请注意，退出代码为 56，代表无法接收网络数据。
 
 1. 确认没有客户端证书的 TLS 请求也会失败：
 
@@ -162,7 +162,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
     command terminated with exit code 35
     {{< /text >}}
 
-    > 这次，退出代码为35，这对应于 SSL/TLS 握手中某处发生的问题。
+    > 这次，退出代码为 35，这对应于 SSL/TLS 握手中某处发生的问题。
 
 1. 使用客户端证书确认 TLS 请求成功：
 
@@ -171,11 +171,10 @@ $ kubectl delete --ignore-not-found=true bad-rule
     200
     {{< /text >}}
 
-> Istio 使用 [Kubernetes Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)作为服务标识，
-提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#Istio-身份)）。因此，Istio 使用的证书
-没有注明服务名称，但是 `curl` 需要利用这些信息验证服务器的身份。为了防止 `curl` 客户端报错，我们使用 `curl`
-的 `-k` 参数。该参数可跳过客户端对服务器名称的验证，例如，`httpbin.default.svc.cluster.local`
-服务器提供的证书。
+> Istio 使用 [Kubernetes Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务标识，
+提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#Istio-身份)）。因此，Istio 使用的证书没有注明服务名称，
+但是 `curl` 需要利用这些信息验证服务器的身份。为了防止 `curl` 客户端报错，我们使用 `curl` 的 `-k` 参数。该参数可跳过客户端对服务器名称的验证，
+例如，`httpbin.default.svc.cluster.local` 服务器提供的证书。
 
 ## 清理
 
