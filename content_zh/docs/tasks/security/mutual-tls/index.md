@@ -2,7 +2,7 @@
 title: 深入了解双向 TLS
 description: 对 Istio 的自动双向 TLS 认证功能进行体验和测试。
 weight: 10
-keywords: [安全,双向 TLS]
+keywords: [security,mutual-tls]
 ---
 
 通过此任务，您可以仔细查看双向 TLS 并了解其设置。

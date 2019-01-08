@@ -2,7 +2,7 @@
 title: 控制 Ingress 流量
 description: 介绍在服务网格 Istio 中如何配置外部公开服务。
 weight: 30
-keywords: [流量管理,ingress]
+keywords: [traffic-management,ingress]
 ---
 
 在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在集群外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio `Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#Gateway) 。 `Gateway` 允许将 Istio 功能（例如，监控和路由规则）应用于进入集群的流量。

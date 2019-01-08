@@ -2,7 +2,7 @@
 title: Citadel 的健康检查
 description:  如何在 Kubernetes 中启用 Citadel 的健康检查。
 weight: 70
-keywords: [安全,健康检查]
+keywords: [security,health-check]
 ---
 
 本文中的任务展示了如何在 Kubernetes 中为 Citadel 启动健康检查，注意，这一功能仍处于 Alpha 阶段。
