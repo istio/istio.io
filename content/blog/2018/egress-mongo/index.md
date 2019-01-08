@@ -740,6 +740,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
           weight: 100
     EOF
 {{< /text >}}
+
     {{% /tab %}}
 
     {{< /tabset >}}
