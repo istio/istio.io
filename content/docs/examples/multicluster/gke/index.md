@@ -1,14 +1,13 @@
 ---
 title: Google Kubernetes Engine
-description: Example multicluster GKE install of Istio.
+description: Set up a multicluster mesh over two GKE clusters.
 weight: 65
 keywords: [kubernetes,multicluster]
 ---
 
-This example demonstrates how to use Istio's multicluster feature to join 2
-[Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters together,
-using the
-[VPN-based multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
+This example shows how to configure a multicluster mesh with a
+[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology)
+over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
 
 ## Before you begin
 
