@@ -233,10 +233,7 @@ Access the webpage of the application, after
 You have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
  displayed below each review:
 
-{{< image width="80%" ratio="36.19%"
-    link="./errorFetchingBookRating.png"
-    caption="The Ratings service error messages"
-    >}}
+{{< image width="80%" link="./errorFetchingBookRating.png" caption="The Ratings service error messages" >}}
 
 As in [Consuming External Web Services](/blog/2018/egress-https/), you experience **graceful service degradation**,
 which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the
@@ -300,10 +297,7 @@ webpage and see if the stars are back.
 
 It worked! Accessing the web page of the application displays the ratings without error:
 
-{{< image width="80%" ratio="36.69%"
-    link="./externalMySQLRatings.png"
-    caption="Book Ratings Displayed Correctly"
-    >}}
+{{< image width="80%" link="./externalMySQLRatings.png" caption="Book Ratings Displayed Correctly" >}}
 
 Note that you see a one-star rating for both displayed reviews, as expected. You changed the ratings to be one star to
 provide us with a visual clue that our external database is indeed being used.

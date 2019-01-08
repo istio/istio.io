@@ -172,11 +172,9 @@ Use simple and direct language. Avoid using unnecessary phrases, such as saying
 
 There are good hyperlinks, and bad hyperlinks. The common practice of calling
 links *here*  or *click here* are examples of bad hyperlinks. Check out [this
-excellent article](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/)
+excellent article](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021)
 explaining what makes a good hyperlink and try to keep these guidelines in
 mind when creating or reviewing site content.
-
-[Why "click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
 
 ### Avoid using "we"
 

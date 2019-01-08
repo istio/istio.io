@@ -27,9 +27,7 @@ This specifies all the variables that are available for analysis. It
 contains information like source service, destination service, auth
 metrics (coming..) among others. Following is a diagram of the pipeline:
 
-{{< image width="75%" ratio="75%"
-link="./istio-analytics-using-stackdriver.png"
-caption="Diagram of exporting logs from Istio to Stackdriver for analysis" >}}
+{{< image width="75%" link="./istio-analytics-using-stackdriver.png" caption="Exporting logs from Istio to Stackdriver for analysis" >}}
 
 Istio supports exporting logs to Stackdriver which can in turn be configured to export
 logs to your favorite sink like BigQuery, Pub/Sub or GCS. Please follow the steps

@@ -17,7 +17,7 @@ keywords: [流量管理,路由]
 
 ## 关于这个任务
 
-Istio [Bookinfo](/docs/examples/bookinfo/) 示例包含四个独立的微服务，每个微服务都有多个版本。
+Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服务，每个微服务都有多个版本。
 其中一个微服务 `reviews` 的三个不同版本已经部署并同时运行。
 为了说明这导致的问题，在浏览器中访问 Bookinfo 应用程序的 `/productpage` 并刷新几次。
 您会注意到，有时书评的输出包含星级评分，有时则不包含。
@@ -29,6 +29,8 @@ Istio [Bookinfo](/docs/examples/bookinfo/) 示例包含四个独立的微服务�
 ## 应用 virtual service
 
 要仅路由到一个版本，请应用为微服务设置默认版本的 virtual service。在这种情况下，virtual service 将所有流量路由到每个微服务的 `v1` 版本。
+
+  如果您还没有应用 destination rule，请先[应用缺省目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
 
 1.  运行以下命令以应用 virtual service：
 

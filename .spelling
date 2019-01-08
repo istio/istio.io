@@ -201,6 +201,7 @@ accesslogs
 accounts.my
 addon
 addons
+add-ons
 strongSwan
 admissionregistration
 admissionregistration.k8s.io
@@ -539,6 +540,8 @@ webhook
 Keycloak
 OpenID
 Istioctl
+Boilerplates
+boilerplates
 
  - search.md
 searchresults
@@ -546,4 +549,3 @@ gcse
 MB
 CPU
 CPUs
-add-ons

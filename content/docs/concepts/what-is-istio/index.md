@@ -32,7 +32,7 @@ Istio provides behavioral insights and operational control over the service mesh
 
 ## Why use Istio?
 
-Istio makes it easy to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, with [few](/docs/tasks/telemetry/distributed-tracing/#understanding-what-happened) or no code changes
+Istio makes it easy to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, with [few](/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened) or no code changes
 in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication
 between microservices, then configure and manage Istio using its control plane functionality, which includes:
 
@@ -187,13 +187,13 @@ management.
 
 ### Citadel
 
-[Citadel](/docs/concepts/security/) provides strong service-to-service and
+[Citadel](/docs/concepts/security/) enables strong service-to-service and
 end-user authentication with built-in identity and credential management. You
 can use Citadel to upgrade unencrypted traffic in the service mesh. Using
 Citadel, operators can enforce policies based on service identity rather than
-on network controls. Starting from release 0.5, you can use
-[Istio's authorization feature](/docs/concepts/security/#authorization) to control
-who can access your services.
+on relatively unstable layer 3 or layer 4 network identifiers. Starting from
+release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
+to control who can access your services.
 
 ### Galley
 
@@ -224,7 +224,7 @@ performance.
   functionality being provided. Components and APIs must all be designed with
   performance and scale in mind.
 
-* **Incrementality**: As operators and developers become more dependent on the
+* **Extensibility**: As operators and developers become more dependent on the
   functionality that Istio provides, the system must grow with their needs.
   While we continue to add new features, the greatest need is the ability to
   extend the policy system, to integrate with other sources of policy and

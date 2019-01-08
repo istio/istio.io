@@ -105,10 +105,7 @@ The example commands in this blog post work with Istio 1.0.
 As a reminder, here is the end-to-end architecture of the application from the
 [Bookinfo sample application](/docs/examples/bookinfo/).
 
-{{< image width="80%" ratio="59.08%"
-    link="/docs/examples/bookinfo/withistio.svg"
-    caption="The original Bookinfo application"
-    >}}
+{{< image width="80%" link="/docs/examples/bookinfo/withistio.svg" caption="The original Bookinfo application" >}}
 
 ### Use the external database in Bookinfo application
 
@@ -139,10 +136,7 @@ The updated architecture appears below. Note that the blue arrows inside the mes
 to the virtual services we added. According to the virtual services, the traffic is sent to _reviews v3_ and
  _ratings v2_.
 
-{{< image width="80%" ratio="59.31%"
-    link="./bookinfo-ratings-v2-mongodb-external.svg"
-    caption="The Bookinfo application with ratings v2 and an external MongoDB database"
-    >}}
+{{< image width="80%" link="./bookinfo-ratings-v2-mongodb-external.svg" caption="The Bookinfo application with ratings v2 and an external MongoDB database" >}}
 
 Note that the MongoDB database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The
 boundary of the service mesh is marked by a dashed line.
@@ -156,10 +150,7 @@ Since you did not configure the egress traffic control yet, the access to the Mo
 This is why instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
  displayed below each review:
 
-{{< image width="80%" ratio="36.19%"
-    link="./errorFetchingBookRating.png"
-    caption="The Ratings service error messages"
-    >}}
+{{< image width="80%" link="./errorFetchingBookRating.png" caption="The Ratings service error messages" >}}
 
 In the following sections you will configure egress access to the external MongoDB service, using different options for
 egress control in Istio.
@@ -225,10 +216,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
 
 1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
-{{< image width="80%" ratio="36.69%"
-    link="./externalDBRatings.png"
-    caption="Book Ratings Displayed Correctly"
-    >}}
+{{< image width="80%" link="./externalDBRatings.png" caption="Book Ratings Displayed Correctly" >}}
 
 Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
 provide yourself with a visual clue that your external database is indeed being used.
@@ -842,6 +830,8 @@ to hold the configuration of the Nginx SNI proxy:
         replicaCount: 1
         autoscaleMin: 1
         autoscaleMax: 5
+        cpu:
+          targetAverageUtilization: 80
         serviceAnnotations: {}
         type: ClusterIP
         ports:
@@ -1035,13 +1025,18 @@ to hold the configuration of the Nginx SNI proxy:
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  Check the statistics of the egress gateway's Envoy proxy and see a counter that corresponds to your requests to
-    _*.com_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
-    to print the counter is:
+1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command
+    to print the log is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
-    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 1
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
+    {{< /text >}}
+
+    You should see lines similar to the following:
+
+    {{< text plain >}}
+    [2019-01-02T17:22:04.602Z] "- - -" 0 - 768 1863 88 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 placeholder.com
+    [2019-01-02T17:22:04.713Z] "- - -" 0 - 1534 2590 85 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 placeholder.com
     {{< /text >}}
 
 1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
