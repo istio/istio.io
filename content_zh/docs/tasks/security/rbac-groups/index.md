@@ -82,7 +82,7 @@ JWT 声明值可以是字符串或字符串列表;两种类型都受支持。
     EOF
     {{< /text >}}
 
-1.  设置 `TOKEN` 环境变量以包含有效的样本 JWT。
+1.  设置 `TOKEN` 环境变量以包含有效的示例 JWT。
 
     {{< text bash>}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s)
@@ -231,7 +231,7 @@ Istio RBAC 支持配置列表类型声明的授权。
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    包含有效范围的 `scope` 声明值为[`"scope1"`，`"scope2"`]的 JWT 的 HTTP Header 返回 HTTP 代码 200，因为它包含 `scope1`。
+    HTTP Header 包括一个有效的 JWT，`scope` 的声明值为[`"scope1"`，`"scope2"`]，因为它包含 `scope1`， 所以返回 HTTP 代码 200。
 
 ## 清理
 
