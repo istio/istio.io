@@ -37,6 +37,7 @@ icon: helm
       --set mixer.enabled=false \
       --set prometheus.enabled=false \
       --set global.proxy.envoyStatsd.enabled=false \
+      --set global.useMCP=false \
       --set pilot.sidecar=false > $HOME/istio-minimal.yaml
     {{< /text >}}
 
@@ -76,6 +77,7 @@ icon: helm
       --set mixer.enabled=false \
       --set prometheus.enabled=false \
       --set global.proxy.envoyStatsd.enabled=false \
+      --set global.useMCP=false \
       --set pilot.sidecar=false
     {{< /text >}}
 
