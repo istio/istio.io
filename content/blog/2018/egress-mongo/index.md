@@ -590,7 +590,11 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
     the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
     identity.)
 
-    {{< text bash >}}
+    {{< tabset cookie-name="mtls" >}}
+
+    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+
+{{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -665,11 +669,13 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text >}}
+{{< /text >}}
 
-    otherwise:
+    {{% /tab %}}
 
-    {{< text bash >}}
+    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+
+{{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -733,7 +739,10 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text >}}
+{{< /text >}}
+    {{% /tab %}}
+
+    {{< /tabset >}}
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
