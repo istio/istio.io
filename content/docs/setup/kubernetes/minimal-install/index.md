@@ -36,6 +36,7 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
       --set gateways.istio-ingressgateway.enabled=false \
       --set gateways.istio-egressgateway.enabled=false \
       --set galley.enabled=false \
+      --set global.useMCP=false \
       --set sidecarInjectorWebhook.enabled=false \
       --set mixer.policy.enabled=false \
       --set mixer.telemetry.enabled=false \
@@ -78,6 +79,7 @@ to manage the lifecycle of Istio.
       --set gateways.istio-ingressgateway.enabled=false \
       --set gateways.istio-egressgateway.enabled=false \
       --set galley.enabled=false \
+      --set global.useMCP=false \
       --set sidecarInjectorWebhook.enabled=false \
       --set mixer.policy.enabled=false \
       --set mixer.telemetry.enabled=false \
