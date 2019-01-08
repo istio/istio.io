@@ -1,13 +1,15 @@
 ---
 title: IBM Cloud Kubernetes Service & IBM Cloud Private
-description: Example multicluster between IBM Cloud Kubernetes Service & IBM Cloud Private.
+description: Multicluster mesh between IBM Cloud Kubernetes Service and IBM Cloud Private.
 weight: 75
 keywords: [kubernetes,multicluster,hybrid]
 ---
 
-This example demonstrates how to use Istio's multicluster feature to join 1
-[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and 1 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster together,
-using the [VPN-based multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
+This example shows how to set up VPN connectivity between
+an [IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and an
+[IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster
+and then compose them into a multicluster mesh using a
+[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology).
 
 ## Set up two clusters
 
@@ -88,4 +90,4 @@ the local Istio control plane and Istio remote on IBM Cloud Private and IBM Clou
 
 This example uses IBM Cloud Private as the Istio local control plane and IBM Cloud Kubernetes Service as the Istio remote.
 
-Deploy Bookinfo example across clusters by following [these instructions](/docs/examples/multicluster/icp/)
+Deploy Bookinfo example across clusters by following [these instructions](/docs/examples/multicluster/icp/).
