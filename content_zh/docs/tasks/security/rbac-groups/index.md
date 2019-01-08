@@ -58,7 +58,7 @@ keywords: [security,authorization]
 您接下来应用的身份验证策略强制要求访问 `httpbin` 服务需要有效的 JWT。
 策略中定义的 JSON Web 密钥集（ JWKS ）端点必须对 JWT 进行签名。
 本教程使用 Istio 代码库中的[JWKS 端点]({{< github_file >}}/security/tools/jwt/samples/jwks.json)并使用[此示例 JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt)。
-示例 JWT 包含一个带有 `groups` 声明键和一个字符串列表的 JWT 声明，[`“group1”`，`“group2”`]作为声明值。
+示例 JWT 包含一个带有 `groups` 声明键和一个字符串列表的 JWT 声明，[`"group1"`，`"group2"`]作为声明值。
 JWT 声明值可以是字符串或字符串列表;两种类型都受支持。
 
 1.  应用身份验证策略以要求 `httpbin` 的双向 TLS 和 JWT 身份验证。
@@ -195,12 +195,12 @@ JWT 声明值可以是字符串或字符串列表;两种类型都受支持。
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    HTTP Header 包括一个有效的 JWT，其 `groups` 声明值为[`“group1”`，`“group2”`]，因为它包含 `group1`，所以返回 HTTP 代码 200。
+    HTTP Header 包括一个有效的 JWT，其 `groups` 声明值为[`"group1"`，`"group2"`]，因为它包含 `group1`，所以返回 HTTP 代码 200。
 
 ## 配置列表类型声明的授权
 
 Istio RBAC 支持配置列表类型声明的授权。
-示例 JWT 包含一个带有 `scope` 声明键和一个字符串列表的 JWT 声明，[`“scope1”`，`“scope2”`]作为声明值。
+示例 JWT 包含一个带有 `scope` 声明键和一个字符串列表的 JWT 声明，[`"scope1"`，`"scope2"`]作为声明值。
 您可以使用 `gen-jwt` [python 脚本]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py)生成带有其他列表类型声明的 JWT 以进行测试。
 按照 `gen-jwt` 脚本中的说明使用 `gen-jwt.py` 文件。
 
@@ -231,7 +231,7 @@ Istio RBAC 支持配置列表类型声明的授权。
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    包含有效范围的 `scope` 声明值为[`“scope1”`，`“scope2”`]的 JWT 的 HTTP Header 返回 HTTP 代码 200，因为它包含 `scope1`。
+    包含有效范围的 `scope` 声明值为[`"scope1"`，`"scope2"`]的 JWT 的 HTTP Header 返回 HTTP 代码 200，因为它包含 `scope1`。
 
 ## 清理
 
