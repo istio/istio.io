@@ -1,29 +1,36 @@
 ---
-title: Location-aware Multicluster Service Routing
-description: Example of leveraging Istio's Split Horizon EDS to create a Multicluster.
+title: Cluster-aware Service Routing
+description: Leveraging Istio's Split-horizon EDS to create a multicluster mesh.
 weight: 85
 keywords: [kubernetes,multicluster]
 ---
 
-This example demonstrates how to use a [single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology) together with the _Split Horizon Endpoints Discovery Service (EDS)_ feature (introduced in Istio 1.1) to join two Kubernetes clusters together to allow access to remote instances of a service via the remote Istio ingress gateway. By following the steps in this example you will setup a topology of two clusters as described in the following diagram:
+This example shows how to configure a multicluster mesh with a
+[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology)
+and using Istio's _Split-horizon EDS (Endpoints Discovery Service)_ feature (introduced in Istio 1.1) to
+route service requests to remote clusters via an ingress gateway.
+Split-horizon EDS enables Istio to route requests to different endpoints, depending on the location of the request source.
+
+By following the instructions in this example, you will setup a two cluster mesh as shown in the following diagram:
 
   {{< image width="80%" ratio="36.01%"
   link="./diagram.svg"
-  caption="Single Istio control plane topology spanning multiple Kubernetes clusters with the Split Horizon EDS configured" >}}
+  caption="Single Istio control plane topology spanning multiple Kubernetes clusters with Split-horizon EDS configured" >}}
 
-The `local` cluster hosts the Istio Pilot and other Istio control plane components while the `remote` cluster only runs the Istio Citadel, Sidecar Injector and Ingress gateway.
-No VPN connectivity is required nor direct network access between workload from different clusters.
+The `local` cluster will run Istio Pilot and the other Istio control plane components while the `remote` cluster only runs Istio Citadel,
+Sidecar Injector, and Ingress gateway.
+No VPN connectivity nor direct network access between workloads in different clusters is required.
 
 ## Before you begin
 
-In addition to the prerequisites for installing Istio the following setup is required for this example:
+In addition to the prerequisites for installing Istio, the following is required for this example:
 
-* Two Kubernetes clusters (also known as `local` and `remote`)
+* Two Kubernetes clusters (referred to as `local` and `remote`).
 
-* Access to the Kubernetes API server of remote cluster from the local
+* Access to the Kubernetes API server of the `remote` cluster from the `local` cluster.
 
-Throughout this tutorial we will assume that `kubectl` can access local and remote clusters with the `--context` flag.
-Setup the following two environment variables with the context names of your configuration:
+In the following instructions, the `kubectl` command will be used to access both `local` and `remote` clusters using
+the `--context` flag. Setup the following two environment variables with the context names of your configuration:
 
 {{< text bash >}}
 $ export CTX_LOCAL=<KUBECONFIG_LOCAL_CONTEXT>
@@ -32,15 +39,20 @@ $ export CTX_REMOTE=<KUBECONFIG_REMOTE_CONTEXT>
 
 ## Example multicluster setup
 
-This example procedure installs Istio with mutual TLS enabled for the control plane and application pods. We create the `cacerts` secret on both local and remote by using the same Istio certificate from samples as the shared root CA.
+In this example you will install Istio with mutual TLS enabled for both the control plane and application pods.
+For the shared root CA, you create a `cacerts` secret on both `local` and `remote` clusters using the same Istio
+certificate from the Istio samples directory.
 
-The steps below also set up a remote cluster with a selector-less service and an endpoint for `istio-pilot.istio-system` that has the address of the local Istio ingress gateway. This enables us to securely expose the local pilot to remote cluster(s) through the ingress gateway without terminating the mTLS.
+The instructions, below, also set up the `remote` cluster with a selector-less service and an endpoint for `istio-pilot.istio-system`
+that has the address of the `local` Istio ingress gateway.
+This will be used to access the `local` pilot securely using the ingress gateway without mTLS termination.
 
 ### Setup the local cluster
 
 1. Define the mesh networks:
 
-    By default the `global.meshNetworks` value for Istio is empty but we will need to modify it to declare a new network for endpoints on the remote cluster. Modify `install/kubernetes/helm/istio/values.yaml` and add a `network2` declaration:
+    By default the `global.meshNetworks` value for Istio is empty but you will need to modify it to declare a new network for endpoints on
+    the `remote` cluster. Modify `install/kubernetes/helm/istio/values.yaml` and add a `network2` declaration:
 
     {{< text yaml >}}
     meshNetworks:
@@ -52,9 +64,14 @@ The steps below also set up a remote cluster with a selector-less service and an
           port: 443
     {{< /text >}}
 
-    __NOTE:__ Replace the gateway address with the public IP of your remote cluster. If the remote gateway IP is unknown at this stage, you can still proceed with an arbitrary value that can be modified after [Step 3 in Remote Cluster Setup](#setup-the-remote-cluster) once the external IP is available. Modify the configmap by executing `kubectl edit cm -n istio-system --context=$CTX_LOCAL istio`. Once saved, Pilot will automatically read the updated networks configuration.
+    __NOTE:__ Replace the gateway address with the public IP of your remote cluster.
 
-1. Use Helm to create the Istio local deployment YAML:
+    > If the remote gateway IP is unknown at this stage,
+    > you can still proceed with an arbitrary value that can be modified after [Step 3 in Remote Cluster Setup](#setup-the-remote-cluster),
+    > once the external IP is available. Modify the configmap by executing `kubectl edit cm -n istio-system --context=$CTX_LOCAL istio`.
+    > Once saved, Pilot will automatically read the updated networks configuration.
+
+1. Use Helm to create the Istio `local` deployment YAML:
 
     {{< text bash >}}
     $ helm template --namespace=istio-system \
@@ -70,7 +87,7 @@ The steps below also set up a remote cluster with a selector-less service and an
     install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
-1. Deploy Istio to the local cluster:
+1. Deploy Istio to the `local` cluster:
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_LOCAL ns istio-system
@@ -79,7 +96,7 @@ The steps below also set up a remote cluster with a selector-less service and an
     $ kubectl create --context=$CTX_LOCAL -f istio-auth.yaml
     {{< /text >}}
 
-    Wait for Istio local pods to come up by checking their status:
+    Wait for Istio `local` pods to come up by checking their status:
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_LOCAL -n istio-system
@@ -87,15 +104,15 @@ The steps below also set up a remote cluster with a selector-less service and an
 
 ### Setup the remote cluster
 
-1. Export variables
+1. Export the `local` gateway address:
 
     {{< text bash >}}
     $ export LOCAL_GW_ADDR="192.23.120.102"
     {{< /text >}}
 
-    __NOTE:__ Replace the gateway address with the public IP of your local cluster.
+    __NOTE:__ Replace the gateway address with the public IP of your `local` cluster.
 
-1. Use Helm to create the Istio remote deployment YAML:
+1. Use Helm to create the Istio `remote` deployment YAML:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-remote \
@@ -118,7 +135,7 @@ The steps below also set up a remote cluster with a selector-less service and an
       --set global.network="network2" > istio-remote-auth.yaml
     {{< /text >}}
 
-1. Deploy Istio to remote cluster:
+1. Deploy Istio to the `remote` cluster:
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_REMOTE ns istio-system
@@ -126,7 +143,7 @@ The steps below also set up a remote cluster with a selector-less service and an
     $ kubectl create --context=$CTX_REMOTE -f istio-remote-auth.yaml
     {{< /text >}}
 
-    Wait for Istio remote pods to come up by checking their status:
+    Wait for the Istio `remote` pods to come up by checking their status:
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_REMOTE -n istio-system
@@ -142,7 +159,7 @@ The steps below also set up a remote cluster with a selector-less service and an
     $ TOKEN=$(kubectl get --context=$CTX_REMOTE secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    __NOTE__: An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    > An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
 
 1. Create the `remote_kubecfg` file in the working directory:
 
@@ -171,19 +188,21 @@ The steps below also set up a remote cluster with a selector-less service and an
 
 ### Start watching the remote cluster
 
-Execute the following commands to add and label the secret of the remote Kubernetes. After executing these commands the local Istio Pilot will begin watching the remote cluster for services and instances as it does with the local cluster.
+Execute the following commands to add and label the secret of the `remote` Kubernetes. After executing these commands the local Istio Pilot
+will begin watching the `remote` cluster for services and instances, just as it does for the `local` cluster.
 
 {{< text bash >}}
 $ kubectl create --context=$CTX_LOCAL secret generic iks --from-file remote_kubecfg -n istio-system
 $ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio-system
 {{< /text >}}
 
-Now that we have our local and remote clusters set up, we can deploy an example service.
+Now that you have your `local` and `remote` clusters set up, you can deploy an example service.
 
 ## Example service
 
-In this demo we show how traffic to a service is distributed between the local endpoint and the remote gateway.
-As can be seen in the diagram above, we deploy two different instances of the same service on the local and remote clusters. The difference between the instances is the version of their `helloworld` image.
+In this demo you will see how traffic to a service can be distributed across a local endpoint and a remote gateway.
+As shown in the diagram, above, you will deploy two instances of the `helloworld` service, one on the `local` cluster and one on the `remote` cluster.
+The difference between the two instances is the version of their `helloworld` image.
 
 ### Deploy helloworld v2 in remote
 
@@ -303,7 +322,8 @@ As can be seen in the diagram above, we deploy two different instances of the sa
         - "*"
     {{< /text >}}
 
-    Although deployed locally this Gateway instance will also affect the remote cluster by configuring it to passthrough incoming traffic to the relevant remote service (SNI-based) but keeping the mTLS all the way from the source to destination sidecars.
+    Although deployed locally, this Gateway instance will also affect the `remote` cluster by configuring it to passthrough
+    incoming traffic to the relevant remote service (SNI-based) but keeping the mTLS all the way from the source to destination sidecars.
 
 1. Deploy the files:
 
@@ -312,7 +332,7 @@ As can be seen in the diagram above, we deploy two different instances of the sa
     $ kubectl create --context=$CTX_LOCAL -f helloworld-gateway.yaml -n sample
     {{< /text >}}
 
-### Split Horizon EDS in action
+### Split-horizon EDS in action
 
 We will call the `helloworld.sample` service from another in-mesh `sleep` service.
 
@@ -328,7 +348,8 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
     $ kubectl exec --context=$CTX_LOCAL -it -n sample sleep-57f9d6fd6b-q4k4h -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
-If set up correctly the traffic to the `helloworld.sample` service will be distributed between the local and the remote instances resulting in responses with either `v1` or `v2` body:
+If set up correctly, the traffic to the `helloworld.sample` service will be distributed between the local and the remote instances
+resulting in responses with either `v1` or `v2` in the body:
 
 {{< text bash >}}
 $ kubectl exec --context=$CTX_LOCAL -it -n sample sleep-57f9d6fd6b-q4k4h -- curl helloworld.sample:5000/hello
@@ -352,13 +373,13 @@ $ kubectl logs --context=$CTX_LOCAL -n sample sleep-57f9d6fd6b-q4k4h istio-proxy
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
 
-I.e. `192.23.120.32:443` of the remote gateway when reached v2 and `10.10.0.90:5000` of the local instance when reached v1.
+The remote gateway IP, `192.23.120.32:443`, is logged when v2 was called and the local instance IP, `10.10.0.90:5000` is logged when v1 was called.
 
 ## Cleanup
 
-Execute the commands below to clean the demo services __and__ the Istio components.
+Execute the following commands to clean up the demo services __and__ the Istio components.
 
-Cleanup the remote cluster:
+Cleanup the `remote` cluster:
 
 {{< text bash >}}
 $ kubectl delete --context=$CTX_REMOTE -f istio-remote-auth.yaml
@@ -367,7 +388,7 @@ $ kubectl delete --context=$CTX_REMOTE -f install/kubernetes/helm/istio/template
 $ kubectl delete --context=$CTX_REMOTE -f helloworld-v2.yaml -n sample
 {{< /text >}}
 
-Cleanup the local cluster:
+Cleanup the `local` cluster:
 
 {{< text bash >}}
 $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
