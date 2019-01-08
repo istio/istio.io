@@ -200,5 +200,3 @@ keywords: [traffic-management,egress]
     {{< text bash >}}
     $ kubectl delete serviceentry proxy
     {{< /text >}}
-
-	
