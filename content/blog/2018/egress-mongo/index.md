@@ -945,8 +945,8 @@ to hold the configuration of the Nginx SNI proxy:
     {{< /text >}}
 
 1.  Create an egress `Gateway` for _*.com_, port 443, protocol TLS, a destination rule to set the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
-    traffic destined for _*.com_ to the gateway.
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a couple of filters to handle SNI
+    correctly in the sidecar proxy and in the egress gateway's Envoy proxy.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -973,7 +973,7 @@ to hold the configuration of the Nginx SNI proxy:
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: mtls-for-egress-gateway
     spec:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
       subsets:
@@ -986,7 +986,34 @@ to hold the configuration of the Nginx SNI proxy:
                 number: 443
               tls:
                 mode: ISTIO_MUTUAL
-                sni: placeholder.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: forward-downstream-sni
+    spec:
+      filters:
+      - listenerMatch:
+          portNumber: $MONGODB_PORT
+          listenerType: SIDECAR_OUTBOUND
+        filterName: forward_downstream_sni
+        filterType: NETWORK
+        filterConfig: {}
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: egress-gateway-sni-verifier
+    spec:
+      workloadLabels:
+        app: istio-egressgateway-with-sni-proxy
+      filters:
+      - listenerMatch:
+          portNumber: 443
+          listenerType: GATEWAY
+        filterName: sni_verifier
+        filterType: NETWORK
+        filterConfig: {}
     EOF
     {{< /text >}}
 
@@ -1044,8 +1071,8 @@ to hold the configuration of the Nginx SNI proxy:
     You should see lines similar to the following:
 
     {{< text plain >}}
-    [2019-01-02T17:22:04.602Z] "- - -" 0 - 768 1863 88 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 placeholder.com
-    [2019-01-02T17:22:04.713Z] "- - -" 0 - 1534 2590 85 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 placeholder.com
+    [2019-01-02T17:22:04.602Z] "- - -" 0 - 768 1863 88 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 <your MongoDB host>
+    [2019-01-02T17:22:04.713Z] "- - -" 0 - 1534 2590 85 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 <your MongoDB host>
     {{< /text >}}
 
 1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
@@ -1077,7 +1104,8 @@ section.
     $ kubectl delete serviceentry mongo
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-mongo-through-egress-gateway
-    $ kubectl delete destinationrule set-sni-for-egress-gateway
+    $ kubectl delete destinationrule mtls-for-egress-gateway
+    $ kubectl delete envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
 1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
