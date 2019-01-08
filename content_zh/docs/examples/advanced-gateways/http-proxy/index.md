@@ -2,7 +2,7 @@
 title: 连接到外部 HTTPS 代理
 description: 描述如何配置 Istio 以允许应用程序使用外部 HTTPS 代理。
 weight: 60
-keywords: [traffic-management,egress]
+keywords: [流量管理,egress]
 ---
 [配置 Egress Gateway]（/docs/examples/advanced gateways/egress-gateway/）示例显示如何通过名为 Egress Gateway 的 Istio 组件将流量从网格引导到外部服务。但是，有些情况下需要一个外部的传统（非ISTIO）HTTPS 代理来访问外部服务。例如，您的公司可能已经有了这样的代理，并且可能需要所有应用程序通过代理来引导其流量。
 
@@ -158,7 +158,7 @@ keywords: [traffic-management,egress]
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
-## 了解发生的事情
+##  理解原理
 
 在本例中，您采取了以下步骤:
 
@@ -195,7 +195,7 @@ keywords: [traffic-management,egress]
     $ kubectl delete namespace external
     {{< /text >}}
 
-1.  删除 external 命名空间:
+1.  删除服务实体:
 
     {{< text bash >}}
     $ kubectl delete serviceentry proxy
