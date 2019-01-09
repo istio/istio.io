@@ -175,7 +175,7 @@ keywords: [traffic-management,egress]
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  关闭 external 命名空间中的 [sleep]({{<github_tree>}}/samples/sleep)服务:
+1.  关闭 external 命名空间中的 [sleep]({{<github_tree>}}/samples/sleep) 服务:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
