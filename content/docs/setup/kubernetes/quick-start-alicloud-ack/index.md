@@ -1,7 +1,7 @@
 ---
 title: Quick Start with Alibaba Cloud Kubernetes Container Service
 description: How to quickly setup Istio using Alibaba Cloud Kubernetes Container Service.
-weight: 21
+weight: 60
 keywords: [kubernetes,alibabacloud,aliyun]
 ---
 
