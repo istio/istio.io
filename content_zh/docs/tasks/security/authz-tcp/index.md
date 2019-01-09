@@ -2,7 +2,7 @@
 title: TCP 服务的访问控制
 description: 展示如何为 TCP 服务设置基于角色的访问控制。
 weight: 40
-keywords: [安全,访问控制,rbac,tcp,授权]
+keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
 本任务涵盖了在服务网格中为 TCP 服务设置 Istio RBAC 所需的可能活动。可以阅读[安全概念文档](/zh/docs/concepts/security/#授权和鉴权)中的相关内容。

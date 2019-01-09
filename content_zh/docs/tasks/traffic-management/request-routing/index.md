@@ -2,7 +2,7 @@
 title: 配置请求路由
 description: 此任务将说明如何将请求动态路由到多个版本的微服务。
 weight: 10
-keywords: [流量管理,路由]
+keywords: [traffic-management,routing]
 ---
 
 此任务将说明如何将请求动态路由到多个版本的微服务。

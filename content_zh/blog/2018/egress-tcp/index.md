@@ -5,7 +5,7 @@ publishdate: 2018-02-06
 subtitle: 网格外部 TCP 流量的服务入口
 attribution: Vadim Eisenberg
 weight: 92
-keywords: [流量管理,egress,tcp]
+keywords: [traffic-management,egress,tcp]
 ---
 
 这篇博客在2018年7月23日有修改，修改的内容使用了新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果你想使用旧版本 API，请参考[这个文档](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html)。

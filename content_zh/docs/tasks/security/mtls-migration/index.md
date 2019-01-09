@@ -2,7 +2,7 @@
 title: 双向 TLS 的迁移
 description: 如何渐进式的为现有 Istio 服务添加双向 TLS 支持。
 weight: 80
-keywords: [安全,认证,迁移]
+keywords: [security,authentication,migration]
 ---
 
 本文任务展示了如何在不中断通信的情况下，把现存 Istio 服务的流量从明文升级为双向 TLS

@@ -1,13 +1,14 @@
 ---
 title: IBM Cloud Private
-description: Example multicluster IBM Cloud Private install of Istio.
+description: Example multicluster mesh over two IBM Cloud Private clusters.
 weight: 70
 keywords: [kubernetes,multicluster]
 ---
 
-This example demonstrates how to use Istio's multicluster feature to join two
-[IBM Cloud Private](https://www.ibm.com/cloud/private) clusters together,
-using the [VPN-based multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
+This example demonstrates how to setup networking between two
+[IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
+and then compose them into a multicluster mesh using a
+[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology).
 
 ## Create the IBM Cloud Private Clusters
 

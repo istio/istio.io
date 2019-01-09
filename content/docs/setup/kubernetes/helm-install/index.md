@@ -18,14 +18,7 @@ plane and the sidecars for the Istio data plane.
 
 1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
-1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/):
-  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
-  * [IBM Cloud Kubernetes Service (IKS)](/docs/setup/kubernetes/platform-setup/ibm/)
-  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
-  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
-  * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
-  * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
