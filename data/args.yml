@@ -1,20 +1,36 @@
+# The primary Istio version identifier the docs describe, used throughout the site
 version: "1.1"
+
+# The full Istio version identifier the docs describe
 full_version: "1.1.0"
 
-main_search_engine_id: "013699703217164175118:veyyqmfmpj4"
-main_analytics_id: "UA-98480406-1"
-
+# Controls the incarnation of the site
+#
+# when preliminary=false and archive=false, we're building for istio.io
+# When preliminary=true, we're building for preliminary.istio.io
+# when archive=true, we're building for archive.istio.io
 preliminary: true
-preliminary_search_engine_id: "013699703217164175118:dmevwrvc6os"
-preliminary_analytics_id: "UA-98480406-3"
-
 archive: false
-archive_search_engine_id: "013699703217164175118:iwwf17ikgf4"
+
+# When archive=true above, these values must be filled in
 archive_date: YYYY-MM-DD
-archive_analytics_id: "UA-98480406-2"
 archive_search_refinement: "V1.1"
 
-source_branch_name: master
+# GitHub branch names used when the docs have links to GitHub
+source_branch_name: release-1.1
 doc_branch_name: master
 
+# The list of supported versions described by the docs
 supported_kubernetes_versions: ["1.10", "1.11", "1.12"]
+
+####### Static values
+
+# we use different sesrch engines for each incarnation of the site
+main_search_engine_id: "013699703217164175118:veyyqmfmpj4"
+preliminary_search_engine_id: "013699703217164175118:dmevwrvc6os"
+archive_search_engine_id: "013699703217164175118:iwwf17ikgf4"
+
+# we use different site analytics ids for each incarnation of the site
+main_analytics_id: "UA-98480406-1"
+preliminary_analytics_id: "UA-98480406-3"
+archive_analytics_id: "UA-98480406-2"

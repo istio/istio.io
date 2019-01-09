@@ -58,6 +58,10 @@ number_of_entries: 4
 <td>Run galley validation mode </td>
 </tr>
 <tr>
+<td><code>--enableProfiling</code></td>
+<td>Enable profiling for Galley </td>
+</tr>
+<tr>
 <td><code>--insecure</code></td>
 <td>Use insecure gRPC communication </td>
 </tr>
@@ -79,11 +83,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -103,7 +107,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -116,6 +120,10 @@ number_of_entries: 4
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
 <td>Port to use for exposing self-monitoring information  (default `9093`)</td>
+</tr>
+<tr>
+<td><code>--pprofPort &lt;uint&gt;</code></td>
+<td>Port to use for exposing profiling  (default `9094`)</td>
 </tr>
 <tr>
 <td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
@@ -222,6 +230,10 @@ number_of_entries: 4
 <td>Run galley validation mode </td>
 </tr>
 <tr>
+<td><code>--enableProfiling</code></td>
+<td>Enable profiling for Galley </td>
+</tr>
+<tr>
 <td><code>--insecure</code></td>
 <td>Use insecure gRPC communication </td>
 </tr>
@@ -247,11 +259,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -271,7 +283,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -284,6 +296,10 @@ number_of_entries: 4
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
 <td>Port to use for exposing self-monitoring information  (default `9093`)</td>
+</tr>
+<tr>
+<td><code>--pprofPort &lt;uint&gt;</code></td>
+<td>Port to use for exposing profiling  (default `9094`)</td>
 </tr>
 <tr>
 <td><code>--probe-path &lt;string&gt;</code></td>
@@ -406,6 +422,11 @@ number_of_entries: 4
 <td>Run galley validation mode </td>
 </tr>
 <tr>
+<td><code>--enableProfiling</code></td>
+<td></td>
+<td>Enable profiling for Galley </td>
+</tr>
+<tr>
 <td><code>--insecure</code></td>
 <td></td>
 <td>Use insecure gRPC communication </td>
@@ -433,12 +454,12 @@ number_of_entries: 4
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -463,7 +484,7 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -484,6 +505,11 @@ number_of_entries: 4
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--pprofPort &lt;uint&gt;</code></td>
+<td></td>
+<td>Port to use for exposing profiling  (default `9094`)</td>
 </tr>
 <tr>
 <td><code>--readinessProbeInterval &lt;duration&gt;</code></td>
