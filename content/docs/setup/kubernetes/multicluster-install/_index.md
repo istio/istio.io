@@ -1,7 +1,7 @@
 ---
 title: Multicluster Installation
 description: Configure an Istio mesh across multiple kubernetes clusters.
-weight: 60
+weight: 85
 type: section-index
 keywords: [kubernetes,multicluster,federation]
 ---

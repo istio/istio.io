@@ -1,7 +1,7 @@
 ---
 title: Advanced Install Options
 description: Instructions for customizing the Istio installation.
-weight: 20
+weight: 35
 keywords: [kubernetes]
 draft: true
 ---

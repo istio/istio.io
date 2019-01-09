@@ -1,7 +1,7 @@
 ---
 title: Quick Start with IBM Cloud
 description: How to quickly setup Istio using IBM Cloud Public or IBM Cloud Private.
-weight: 21
+weight: 70
 keywords: [kubernetes,ibm,icp]
 ---
 
