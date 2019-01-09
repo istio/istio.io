@@ -116,7 +116,7 @@ keywords: [流量管理,egress]
 
 ## 配置流量到外部 HTTPS 代理
 
-1.  为 HTTPS 代理定义 TCP（不是 HTTP！）服务实体。尽管应用程序使用 HTTP CONNECT 方法与 HTTPS 代理建立连接，但必须为 TCP 通信而不是 HTTP 通信配置代理。一旦建立了连接，代理就简单地充当 TCP 隧道。
+1.  为 HTTPS 代理定义 TCP（不是 HTTP ！）服务实体。尽管应用程序使用 HTTP CONNECT 方法与 HTTPS 代理建立连接，但必须为 TCP 通信而不是 HTTP 通信配置代理。一旦建立了连接，代理就简单地充当 TCP 隧道。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
