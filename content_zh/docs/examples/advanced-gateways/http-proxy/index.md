@@ -195,7 +195,7 @@ keywords: [traffic-management,egress]
     $ kubectl delete namespace external
     {{< /text >}}
 
-1.  删除服务实体:
+1.  Delete the Service Entry:
 
     {{< text bash >}}
     $ kubectl delete serviceentry proxy
