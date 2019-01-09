@@ -2,7 +2,7 @@
 title: 使用 Google Kubernetes Engine 快速开始
 description: 如何使用 Google Kubernetes Engine (GKE) 快速搭建 Istio 服务。
 weight: 11
-keywords: [kubernetes,gke]
+keywords: [kubernetes,gke,google]
 ---
 
 快速开始操作指南，使用 [Google Cloud Deployment Manager](https://cloud.google.com/deployment-manager/)，在 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)（GKE）上安装和运行 Istio。

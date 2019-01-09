@@ -2,7 +2,7 @@
 title: 熔断
 description: 用连接、请求以及外部检测来进行熔断配置的过程。
 weight: 50
-keywords: [流量管理,熔断]
+keywords: [traffic-management,circuit-breaking]
 ---
 
 本任务展示了用连接、请求以及外部检测来进行熔断配置的过程。

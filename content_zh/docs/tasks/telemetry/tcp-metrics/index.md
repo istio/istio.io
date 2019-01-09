@@ -2,7 +2,7 @@
 title: 获取 TCP 服务指标
 description: 本任务展示了如何配置 Istio 进行 TCP 服务的指标收集。
 weight: 25
-keywords: [遥测,指标,tcp]
+keywords: [telemetry,metrics,tcp]
 ---
 
 本文任务展示了如何对 Istio 进行配置，从而自动收集网格中 TCP 服务的遥测数据。在任务最后，会为网格中的一个 TCP 服务启用一个新的指标。

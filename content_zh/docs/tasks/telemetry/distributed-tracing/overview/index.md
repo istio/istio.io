@@ -2,7 +2,7 @@
 title: 概述
 description: Istio 分布式追踪概述。
 weight: 1
-keywords: [遥测,追踪]
+keywords: [telemetry,tracing]
 ---
 
 在完成这个任务后，您将了解如何将应用加入追踪，而不用关心其语言、框架或者您构建应用的平台。

@@ -5,7 +5,7 @@ publishdate: 2018-07-30
 subtitle:
 attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
 weight: 86
-keywords: [appswitch,性能]
+keywords: [appswitch,performance]
 ---
 
 > 计算机科学中的所有问题，都可以用另一个层来解决，除了层数太多的问题。—— David Wheeler
