@@ -166,7 +166,7 @@ After setup, the machine can access services running in the Kubernetes cluster
 or on other mesh expansion machines.
 
 The following example shows accessing a service running in the Kubernetes cluster from a mesh expansion VM using
-`/etc/hosts/`, in this case using a service from the [Bookinfo example](docs/examples/bookinfo/).
+`/etc/hosts/`, in this case using a service from the [Bookinfo example](/docs/examples/bookinfo/).
 
 1.  First, on the cluster admin machine get the virtual IP address (`clusterIP`) for the service:
 
