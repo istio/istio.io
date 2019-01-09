@@ -2,7 +2,7 @@
 title: 控制 Egress 流量
 description: 在 Istio 中配置从网格内访问外部服务的流量路由。
 weight: 40
-keywords: [流量管理,egress]
+keywords: [traffic-management,egress]
 ---
 
 缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外的 URL，而只能处理集群内部的目标。

@@ -2,7 +2,7 @@
 title: Gateway 连接
 description: 使用 Istio Gateway 跨越多个 Kubernetes 集群安装 Istio 网格以访问远程 pod。
 weight: 2
-keywords: [kubernetes,多集群,federation,gateway]
+keywords: [kubernetes,multicluster,federation,gateway]
 ---
 
 跨越多个集群安装 Istio 网格的说明，每个集群中的 pod 均只能访问远程 gateway IP。

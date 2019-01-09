@@ -2,7 +2,7 @@
 title: 基础认证策略
 description: 介绍如何使用 Istio 认证策略设置双向 TLS 和基本的终端用户认证。
 weight: 10
-keywords: [安全,认证]
+keywords: [security,authentication]
 ---
 
 此任务涵盖启用、配置和使用 Istio 身份验证策略时可能需要执行的主要活动。[认证概述](/zh/docs/concepts/security/#认证)中可以了解更多相关的基本概念。

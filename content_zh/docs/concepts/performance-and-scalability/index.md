@@ -2,7 +2,7 @@
 title: 性能与可伸缩性
 description: 介绍 Istio 组件的性能与可伸缩性方法论、结果和最佳实践。
 weight: 50
-keywords: [性能,可伸缩性,伸缩,基准测试]
+keywords: [performance,scalability,scale,benchmarks]
 ---
 
 我们对 Istio 性能评估、跟踪和改进采用四管齐下的方法：

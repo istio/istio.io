@@ -1,7 +1,7 @@
 ---
 title: 使用通配符主机配置 Egress 流量
 description: 介绍如何为公共域中的一组主机启用 Egress 流量，而不是单独配置每个主机。
-keywords: [流量管理,egress]
+keywords: [traffic-management,egress]
 weight: 50
 ---
 

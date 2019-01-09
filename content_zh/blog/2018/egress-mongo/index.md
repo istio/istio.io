@@ -5,7 +5,7 @@ publishdate: 2018-11-16
 subtitle: MongoDB 流量的 Istio Egress 控制选项
 attribution: Vadim Eisenberg
 weight: 79
-keywords: [流量管理,egress,tcp,mongo]
+keywords: [traffic-management,egress,tcp,mongo]
 ---
 
 在[使用外部 TCP 服务](/blog/2018/egress-tcp/)博文中，我描述了网格内的 Istio 应用程序如何通过 TCP 使用外部服务。在本文中，我将演示如何使用外部 MongoDB

@@ -2,7 +2,7 @@
 title: 安全
 description: 描述 Istio 的授权与鉴权功能。
 weight: 30
-keywords: [安全,认证,鉴权,rbac,访问控制]
+keywords: [security,authentication,authorization,rbac,access-control]
 ---
 
 将单一应用程序分解为微服务可提供各种好处，包括更好的灵活性、可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：

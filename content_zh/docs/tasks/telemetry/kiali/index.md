@@ -2,7 +2,7 @@
 title: 网格可视化
 description: 本任务展示了在 Istio 网格中对服务进行可视化的过程。
 weight: 49
-keywords: [可视化,遥测]
+keywords: [telemetry,visualization]
 ---
 
 本任务中展示了如何对 Istio 服务网格进行多角度的可视化。
