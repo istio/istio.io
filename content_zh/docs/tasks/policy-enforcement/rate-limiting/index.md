@@ -232,7 +232,7 @@ keywords: [策略,限额]
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels ["app"]`、`destination.service.host` 或 `"unknown"` 中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/zh/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
+    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels["app"]`、`destination.service.host` 或 `"unknown"` 中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/zh/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
 
 1. 确认 `quota rule` 的创建情况：
 
