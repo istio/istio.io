@@ -93,7 +93,7 @@ with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 {{< text bash >}}
 $ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
 $ kubectl create ns istio-system
-$ kubectl apply -n istio-system -f istio.yaml
+$ kubectl apply -f istio.yaml
 {{< /text >}}
 
 In addition, there are some other configuration parameters defined for the sidecar injector webhook
