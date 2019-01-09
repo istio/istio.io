@@ -2,7 +2,7 @@
 title: 流量转移
 description: 向您展示如何将流量从旧版本迁移到新版本的服务。
 weight: 25
-keywords: [流量管理,流量转移]
+keywords: [traffic-management,traffic-shifting]
 ---
 
 > 该任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧版本的 API 已被弃用，并将在下一个 Istio 版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。

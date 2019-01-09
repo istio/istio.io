@@ -5,7 +5,7 @@ publishdate: 2018-01-31
 subtitle: HTTPS 流量的出口规则
 attribution: Vadim Eisenberg
 weight: 93
-keywords: [流量管理,egress,https]
+keywords: [traffic-management,egress,https]
 ---
 
 > 此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能

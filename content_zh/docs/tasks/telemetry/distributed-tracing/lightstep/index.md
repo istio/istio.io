@@ -2,7 +2,7 @@
 title: 使用 LightStep [𝑥]PM 进行分布式追踪
 description: 如何配置代理以发送请求至 LightStep [𝑥]PM.
 weight: 11
-keywords: [遥测,追踪,lightstep]
+keywords: [telemetry,tracing,lightstep]
 ---
 
 此任务说明如何配置 Istio 以收集追踪 span 并将其发送到 LightStep [𝑥]PM。

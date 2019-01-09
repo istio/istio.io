@@ -2,7 +2,7 @@
 title: 加入社区
 description: 有关参与 Istio 社区和与之互动的各种方式的信息。
 weight: 10
-keywords: [社区]
+keywords: [community]
 icon: community
 ---
 Istio 是一个开源项目，拥有一个支持其使用和持续开发的活跃社区。我们很乐意您加入我们并参与其中！

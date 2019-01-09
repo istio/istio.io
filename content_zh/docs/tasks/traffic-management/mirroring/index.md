@@ -2,7 +2,7 @@
 title: 镜像
 description: 此任务演示了 Istio 的流量镜像功能。
 weight: 60
-keywords: [流量管理,镜像]
+keywords: [traffic-management,mirroring]
 ---
 
 此任务演示了 Istio 的流量镜像功能。

@@ -2,7 +2,7 @@
 title: 用 HTTPS 加密 Gateway
 description: 配置 Istio 令其以 TLS 或双向 TLS 的方式在网格外公开服务。
 weight: 31
-keywords: [流量管理,ingress]
+keywords: [traffic-management,ingress]
 ---
 
 [控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress)任务描述了如何对 Ingress gateway 进行配置，从而对外以 HTTP 端点的形式暴露服务。本文中将会对这一任务进行扩展，为服务启用普通或双向 TLS 保护，以 HTTPS 的形式对网格外提供服务。

@@ -2,7 +2,7 @@
 title: 调试授权 
 description: 展示如何调试授权功能。 
 weight: 5
-keywords: [调试,安全,授权,RBAC]
+keywords: [debug,security,authorization,RBAC]
 ---
 
 这篇文章展示了如何调试 Istio 的授权。如果在本文的指导下你还是没有找到解决方案。我们很乐意你向 `istio-security@googlegroups.com` 发送邮件以寻求帮助。

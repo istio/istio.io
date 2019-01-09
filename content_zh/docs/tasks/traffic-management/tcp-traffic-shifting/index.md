@@ -2,7 +2,7 @@
 title: TCP 流量转移
 description: 展示如何将一个 TCP 服务的流量从老版本迁移到新版本。
 weight: 26
-keywords: [流量管理,TCP 流量转移]
+keywords: [traffic-management,tcp-traffic-shifting]
 ---
 
 本任务展示了如何优雅的将微服务中的 TCP 流量从一个版本迁移到另一个版本。例如将 TCP 流量从旧版本迁移到一个新版本。这是一个常见的场景。在 Istio 中可以通过定义一组规则，将 TCP 流量在不同服务之间进行分配。在这一任务中，首先把 100% 的 TCP 流量发送到 `tcp-echo:v1`；下一步就是使用 Istio 的路由分配能力，把 20% 的流量分配到 `tcp-echo:v2` 服务之中。

@@ -4,7 +4,7 @@ description: 使用 Istio 创建自动缩放的金丝雀部署。
 publishdate: 2017-06-14
 attribution: Frank Budinsky
 weight: 98
-keywords: [流量管理,金丝雀部署]
+keywords: [traffic-management,canary]
 ---
 
 > 本篇博客最后更新时间 2018 年 5 月 16 号，采用了最新版本的流量管理模型。

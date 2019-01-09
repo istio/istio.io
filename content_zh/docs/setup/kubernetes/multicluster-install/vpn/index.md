@@ -2,7 +2,7 @@
 title: VPN 连接
 description: 通过直连远程 pods 实现多 Kubernetes 集群安装 Istio 网格。
 weight: 5
-keywords: [kubernetes,多集群,联盟,vpn]
+keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
     - /zh/docs/setup/kubernetes/multicluster-install
 ---
