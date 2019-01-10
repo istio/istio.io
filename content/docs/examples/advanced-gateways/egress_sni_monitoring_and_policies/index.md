@@ -319,12 +319,12 @@ English and the French versions.
     <title>Wikipedia, la enciclopedia libre</title>
     {{< /text >}}
 
+    Note that only the allowed Wikipedia sites for _sleep-us_ service account are allowed, namely Wikipedia in English
+    and Spanish.
+
     > It may take several minutes for the Mixer policy components to synchronize on the new policy. In case you want to
     quickly demonstrate the new policy without waiting until the synchronization is complete, kill the Mixer policy pods:
-
-    {{< text bash >}}
-    $ kubectl delete pod -n istio-system -l istio-mixer-type=policy
-    {{< /text >}}
+    `kubectl delete pod -n istio-system -l istio-mixer-type=policy`
 
 1.  Resend HTTPS requests to Wikipedia sites in English, German, Spanish and French, from `sleep-canada`:
 
