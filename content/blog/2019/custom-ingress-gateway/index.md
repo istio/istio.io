@@ -24,7 +24,7 @@ This post provides instructions to manually create a custom ingress [gateway](/d
 
     {{< text bash >}}
     $ helm ls
-    {{< /text >}}
+    {{< /text>}}
 
     The output should be similar to the example below and show cert-manager with a `STATUS` of `DEPLOYED`:
 
