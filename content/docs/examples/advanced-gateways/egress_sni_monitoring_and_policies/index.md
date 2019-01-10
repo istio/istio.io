@@ -253,6 +253,7 @@ English and the French versions.
 
 1.  Define a policy that will allow access to the Wikipedia in English and Spanish for applications with the _sleep-us_
     service account and to the Wikipedia in English and French for applications with the _sleep-canada_ service account.
+    Access to other Wikipedia sites will be blocked.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
