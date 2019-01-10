@@ -22,7 +22,7 @@ Since you configured the egress traffic to flow through the egress gateway, you 
 enforcement on the egress traffic, **securely**. In this section you will define a log entry and an access policy for
 the egress traffic to _*.wikipedia.org_.
 
-1.  Create the `logentry`, `rules` and `handlers`:
+1.  Create `logentry`, `rules` and `handlers`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
