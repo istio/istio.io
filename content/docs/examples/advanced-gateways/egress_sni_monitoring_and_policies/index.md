@@ -351,6 +351,7 @@ $ kubectl delete listchecker us-wikipedia-checker canada-wikipedia-checker -n is
 {{< /text >}}
 
 ## Cleanup
+
 1.  Perform
     [the cleanup steps](/docs/examples/advanced-gateways/wildcard-egress-hosts#cleanup-wildcard-configuration-for-arbitrary-domains)
     from [Configure Egress Traffic using Wildcard Hosts](/docs/examples/advanced-gateways/wildcard-egress-hosts/)
