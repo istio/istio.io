@@ -1,7 +1,7 @@
 ---
 title: Announcing discuss.istio.io
 subtitle: Istio's discussion board
-description: Istio has a new discussion board\.
+description: Istio has a new discussion board.
 publishdate: 2019-01-10
 attribution: The Istio Team
 weight: 100
