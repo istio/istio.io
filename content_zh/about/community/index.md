@@ -14,14 +14,6 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
   <tbody>
 
     <tr>
-      <td class="logo">{{< inline_image "community/mailing-list.svg" >}}</td>
-      <td class="desc">
-        加入 <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> 邮件列表以参与讨论和获取帮助。
-        加入 <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> 邮件列表以了解最新版本、活动和其他事件。
-        还有一个 <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> 邮件列表用于讨论围绕 Istio 项目开发的问题。
-      </td>
-    </tr>
-    <tr>
       <td class="logo">{{< inline_image "community/twitter.svg" >}}</td>
       <td class="desc">
         关注我们的 <a href="https://twitter.com/IstioMesh">Twitter</a> 获取最新消息。
@@ -31,12 +23,6 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
       <td class="logo">{{< inline_image "community/stackoverflow.svg" >}}</td>
       <td class="desc">
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> 上有关于部署、配置和使用 Istio 等实际问题的解答。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo">{{< inline_image "community/rocket-chat.svg" >}}</td>
-      <td class="desc">
-        在 <a href="https://istio.rocket.chat">Rocket Chat</a> 上与 Istio 社区成员交流。
       </td>
     </tr>
     <tr>
