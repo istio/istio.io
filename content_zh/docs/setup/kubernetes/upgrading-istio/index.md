@@ -231,3 +231,50 @@ spec:
     tls:
       mode: DISABLE
 {{< /text >}}
+
+## 迁移 `RbacConfig` 到 `ClusterRbacConfig`
+
+`RbacConfig` 因为 [bug](https://github.com/istio/istio/issues/8825) 已经被废弃。如果你正在使用 `RbacConfig`，必须迁移到 `ClusterRbacConfig`。
+这个 bug 在某些情况下会将这个对象的范围降低到 namespace 级别。`ClusterRbacConfig` 的声明跟 `RbacConfig` 完全一样，但是以正确的集群级别范围实现。
+
+为了自动化迁移，我们开发了脚本`convert_RbacConfig_to_ClusterRbacConfig.sh`. 这个脚本在 [Istio 的安装包](/zh/docs/setup/kubernetes/download-release)中。
+
+下载并运行如下命令：
+
+{{< text bash >}}
+$ curl -L https://raw.githubusercontent.com/istio/istio/master/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+{{< /text >}}
+
+这个脚本自动化下如下操作：
+
+1. 这个脚本创建跟已经存在的 RBAC 配置一样的集群 RBAC 配置，因为 Kubernetes 不允许自定义资源的 `kind:` 在被创建之后修改。
+
+    例如，如果你创建如下 RBAC 配置：
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: RbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["default"]
+    {{< /text >}}
+
+    这个脚本创建如下的集群 RBAC 配置：
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ClusterRbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["default"]
+    {{< /text >}}
+
+1. 这个脚本应用这个配置，并等待几秒钟以使配置生效。
+
+1. 这个脚本在成功应用集群 RBAC 配置之后，删除之前的 RBAC 自定义资源。
