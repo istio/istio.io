@@ -86,7 +86,7 @@ the egress traffic to _*.wikipedia.org_.
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'
     {{< /text >}}
 
-1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for Wikipedia in
+1.  Define a policy that allows access to the hostnames matching `*.wikipedia.org` except for Wikipedia in
     English:
 
     {{< text bash >}}
