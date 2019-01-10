@@ -11,17 +11,12 @@ There are quite a few ways to get plugged in:
 
 <table class="community">
   <tbody>
-
     <tr>
-      <td class="logo"><img src="./mailing-list.svg" alt="Mailing List"/></td>
+      <td class="logo"><img src="./discourse.svg" alt="Discourse"/></td>
       <td class="desc">
-        Join the <a href="https://groups.google.com/forum/#!forum/istio-users">istio-users@</a> mailing list to participate in
+        Head for the <a href="https://discuss.istio.io">Istio discussion board</a> to participate in
          discussions
         and get help troubleshooting problems.
-        Join <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> to hear about the latest
-        releases, events, and other happenings.
-        There's also the <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> mailing list which
-        is used to discuss development issues around the Istio project.
       </td>
     </tr>
     <tr>
@@ -35,12 +30,6 @@ There are quite a few ways to get plugged in:
       <td class="desc">
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
         on deploying, configuring, and using Istio.
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="./rocket-chat.svg" alt="Rocket Chat"/></td>
-      <td class="desc">
-        Chat with members of the Istio community on <a href="https://istio.rocket.chat">Rocket Chat</a>.
       </td>
     </tr>
     <tr>
