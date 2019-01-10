@@ -13,7 +13,8 @@ example extends that example to show how to configure SNI monitoring and apply p
 
 *  Configure traffic to `*.wikipedia.org` by following
    [the steps](/docs/examples/advanced-gateways/wildcard-egress-hosts#wildcard-configuration-for-arbitrary-domains) in
-   [Configure Egress Traffic using Wildcard Hosts](/docs/examples/advanced-gateways/wildcard-egress-hosts/) example.
+   [Configure Egress Traffic using Wildcard Hosts](/docs/examples/advanced-gateways/wildcard-egress-hosts/) example,
+   **with mTLS enabled**.
 
 ## SNI monitoring and access policies
 
