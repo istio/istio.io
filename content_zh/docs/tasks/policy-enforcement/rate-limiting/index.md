@@ -212,7 +212,7 @@ keywords: [policies,quotas]
 
     * 如果 `destination` 的值为 `reviews`是 那么最大请求配额为 `1`。
     * 如果 `destination` 的值为 `productpage` 并且来源是 `10.28.11.20` 那么最大请求配额为 `500`，
-    * 如果 `destination` 的值为 `productpage` 那么最大请求配额为`2`。
+    * 如果 `destination` 的值为 `productpage` 那么最大请求配额为 `2`。
 
     处理请求时，Istio 会选择第一条符合条件的 `overrides`（读取顺序为从上到下）应用到请求上。
 
@@ -232,7 +232,7 @@ keywords: [policies,quotas]
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels [“app”]`，`destination.service.host`或`"unknown"`中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/zh/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
+    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels["app"]`、`destination.service.host` 或 `"unknown"` 中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/zh/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
 
 1. 确认 `quota rule` 的创建情况：
 
