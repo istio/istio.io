@@ -10,7 +10,7 @@ attribution: Julien Senon
 
 This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) with automatic provisioning of certificates based on cert-manager.
 
-The creation of custom ingress gateway could be used in order to have different loadbalancer in order to isolate traffic.
+The creation of custom ingress gateway could be used in order to have different `loadbalancer` in order to isolate traffic.
 
 ## Before you begin
 
