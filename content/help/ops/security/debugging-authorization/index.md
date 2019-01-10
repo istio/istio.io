@@ -5,8 +5,7 @@ weight: 5
 keywords: [debug,security,authorization,RBAC]
 ---
 
-This page demonstrates how to debug Istio authorization. If you still cannot find solutions after following
-this page, feel free to send an email to `istio-security@googlegroups.com` for help.
+This page demonstrates how to debug Istio authorization.
 
 > {{< idea_icon >}}
 It would be very helpful to also include a cluster state archive in your email by following instructions in

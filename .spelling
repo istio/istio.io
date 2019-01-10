@@ -520,6 +520,8 @@ VirtualService
 sha256
 deployment
 webhook
+RocketChat
+discuss.istio.io
 
  - search.md
 searchresults
