@@ -542,6 +542,8 @@ OpenID
 Istioctl
 Boilerplates
 boilerplates
+RocketChat
+discuss.istio.io
 
  - search.md
 searchresults
