@@ -339,16 +339,16 @@ English and the French versions.
 
 ### Cleanup of monitoring and policy enforcement of SNI and source identity
 
-    {{< text bash >}}
-    $ kubectl delete serviceaccount sleep-us sleep-canada
-    $ kubectl delete service sleep-us sleep-canada
-    $ kubectl delete deployment sleep-us sleep-canada
-    $ kubectl delete rule handle-wikipedia-access check-us-wikipedia-access check-canada-wikipedia-access -n istio-system
-    $ kubectl delete logentry egress-access -n istio-system
-    $ kubectl delete stdio egress-access-logger -n istio-system
-    $ kubectl delete listentry requested-server-name -n istio-system
-    $ kubectl delete listchecker us-wikipedia-checker canada-wikipedia-checker -n istio-system
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete serviceaccount sleep-us sleep-canada
+$ kubectl delete service sleep-us sleep-canada
+$ kubectl delete deployment sleep-us sleep-canada
+$ kubectl delete rule handle-wikipedia-access check-us-wikipedia-access check-canada-wikipedia-access -n istio-system
+$ kubectl delete logentry egress-access -n istio-system
+$ kubectl delete stdio egress-access-logger -n istio-system
+$ kubectl delete listentry requested-server-name -n istio-system
+$ kubectl delete listchecker us-wikipedia-checker canada-wikipedia-checker -n istio-system
+{{< /text >}}
 
 ## Cleanup
 1.  Perform
