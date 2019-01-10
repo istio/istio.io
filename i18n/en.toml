@@ -1,9 +1,5 @@
-[rocket_chat_desc]
-other = "Interactively chat with members of the Istio community."
-
-[istio_users_desc]
-other = "Join the istio-users@ mailing list to participate in discussions and get help troubleshooting problems"
-
+[discuss_istio_io_desc]
+other = "Join the Istio discussion board to participate in discussions and get help troubleshooting problems"
 [twitter_desc]
 other = "Follow us on Twitter to get the latest news"
 
@@ -15,9 +11,6 @@ other = "for users"
 
 [for_developers]
 other = "for developers"
-
-[istio_dev_desc]
-other = "Join the istio-dev@ mailing list to discuss development issues around the Istio project"
 
 [github_desc]
 other = "GitHub is where development takes place on Istio code"
