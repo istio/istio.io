@@ -83,7 +83,7 @@ the egress traffic to _*.wikipedia.org_.
 1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'; done
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'
     {{< /text >}}
 
 1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for Wikipedia in
