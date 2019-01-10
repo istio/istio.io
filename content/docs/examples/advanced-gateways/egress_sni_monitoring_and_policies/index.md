@@ -161,12 +161,12 @@ Since you enabled mutual TLS between the sidecar proxies and the egress gateway,
 based on the identities of the source of traffic.
 In Istio on Kubernetes, the identities are based on
 [Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
-subsection, you deploy two _sleep_ containers, _sleep-us_ and _sleep-canada_ under two service accounts,
-_sleep-us_ and _sleep-canada_, respectively. Then you define a policy that allows applications with the _sleep-us_
-identity access the English and the Spanish versions of Wikipedia, and services with _sleep-canada_ identity access the
+subsection, you deploy two _sleep_ containers, `sleep-us` and `sleep-canada` under two service accounts,
+`sleep-us` and `sleep-canada`, respectively. Then you define a policy that allows applications with the `sleep-us`
+identity access the English and the Spanish versions of Wikipedia, and services with `sleep-canada` identity access the
 English and the French versions.
 
-1.  Deploy two _sleep_ containers, namely _sleep-us_ and _sleep-canada_, with _sleep-us_ and _sleep-canada_ service
+1.  Deploy two _sleep_ containers, namely `sleep-us` and `sleep-canada`, with `sleep-us` and `sleep-canada` service
     accounts, respectively:
 
     {{< text bash >}}
@@ -251,8 +251,8 @@ English and the French versions.
 
     Note the `requestedServerName` attribute, and `sourcePrincipal`, it must be `cluster.local/ns/default/sa/sleep-us`.
 
-1.  Define a policy that will allow access to the Wikipedia in English and Spanish for applications with the _sleep-us_
-    service account and to the Wikipedia in English and French for applications with the _sleep-canada_ service account.
+1.  Define a policy that will allow access to the Wikipedia in English and Spanish for applications with the `sleep-us`
+    service account and to the Wikipedia in English and French for applications with the `sleep-canada` service account.
     Access to other Wikipedia sites will be blocked.
 
     {{< text bash >}}
@@ -319,7 +319,7 @@ English and the French versions.
     <title>Wikipedia, la enciclopedia libre</title>
     {{< /text >}}
 
-    Note that only the allowed Wikipedia sites for _sleep-us_ service account are allowed, namely Wikipedia in English
+    Note that only the allowed Wikipedia sites for `sleep-us` service account are allowed, namely Wikipedia in English
     and Spanish.
 
     > It may take several minutes for the Mixer policy components to synchronize on the new policy. In case you want to
@@ -334,7 +334,7 @@ English and the French versions.
     <title>Wikipédia, l'encyclopédie libre</title>
     {{< /text >}}
 
-    Note that only the allowed Wikipedia sites for _sleep-canada_ service account are allowed, namely Wikipedia in
+    Note that only the allowed Wikipedia sites for `sleep-canada` service account are allowed, namely Wikipedia in
     English and French.
 
 ### Cleanup of monitoring and policy enforcement of SNI and source identity
