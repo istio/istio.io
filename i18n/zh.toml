@@ -1,8 +1,5 @@
-[rocket_chat_desc]
-other = "与 Istio 社区中的成员交流"
-
-[istio_users_desc]
-other = "加入 istio-users@ 邮件列表参与讨论，获取排除故障的帮助"
+[discuss_istio_io_desc]
+other = "Join the Istio discussion board to participate in discussions and get help troubleshooting problems"
 
 [twitter_desc]
 other = "关注我们的 Twitter 来获取最新信息"
@@ -15,9 +12,6 @@ other = "对于用户"
 
 [for_developers]
 other = "对于开发者"
-
-[istio_dev_desc]
-other = "加入 istio-dev@ 邮件列表讨论 Istio 项目开发时遇到的问题"
 
 [github_desc]
 other = "Istio 的代码在 GitHub 上开发"

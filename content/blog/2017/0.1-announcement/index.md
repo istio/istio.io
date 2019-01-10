@@ -71,8 +71,7 @@ To get involved, connect with us via any of these channels:
 
 * [istio.io]() for documentation and examples.
 
-* The [istio-users@googlegroups.com](https://groups.google.com/forum/#!forum/istio-users) mailing list for general discussions,
-or [istio-announce@googlegroups.com](https://groups.google.com/forum/#!forum/istio-announce) for key announcements regarding the project.
+* The [Istio discussion board](https://discuss.istio.io) general discussions,
 
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for curated questions and answers
 
