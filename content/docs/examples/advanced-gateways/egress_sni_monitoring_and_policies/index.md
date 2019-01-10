@@ -157,8 +157,9 @@ $ kubectl delete listchecker wikipedia-checker -n istio-system
 
 ## Monitor the SNI and the source identity, and enforce access policies based on them
 
-Since you enabled mutual TLS between the sidecar proxy and the egress gateway, you can monitor the [service identity](/docs/concepts/what-is-istio/#citadel) and enforce policies based on it. In Istio on Kubernetes, the
-identities are based on
+Since you enabled mutual TLS between the sidecar proxy and the egress gateway, you can monitor the [service identity](/docs/concepts/what-is-istio/#citadel) of the applications that access external services, and enforce policies
+based on the identities of the source of traffic.
+In Istio on Kubernetes, the identities are based on
 [Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
 subsection, you deploy two _sleep_ containers, _sleep-us_ and _sleep-canada_ under two service accounts,
 `sleep-us` and `sleep-canada`, respectively. Then you define a policy that allows applications with the `sleep-us`
