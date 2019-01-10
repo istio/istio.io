@@ -334,6 +334,9 @@ English and the French versions.
     <title>Wikipédia, l'encyclopédie libre</title>
     {{< /text >}}
 
+    Note that only the allowed Wikipedia sites for _sleep-canada_ service account are allowed, namely Wikipedia in
+    English and French.
+
 ### Cleanup of monitoring and policy enforcement of SNI and source identity
 
     {{< text bash >}}
