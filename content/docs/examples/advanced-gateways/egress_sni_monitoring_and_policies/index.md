@@ -324,7 +324,10 @@ English and the French versions.
 
     > It may take several minutes for the Mixer policy components to synchronize on the new policy. In case you want to
     quickly demonstrate the new policy without waiting until the synchronization is complete, kill the Mixer policy pods:
-    `kubectl delete pod -n istio-system -l istio-mixer-type=policy`
+
+    {{< text bash >}}
+    $ kubectl delete pod -n istio-system -l istio-mixer-type=policy
+    {{< /text >}}
 
 1.  Resend HTTPS requests to Wikipedia sites in English, German, Spanish and French, from `sleep-canada`:
 
