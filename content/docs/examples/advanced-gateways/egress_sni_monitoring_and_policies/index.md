@@ -123,7 +123,7 @@ the egress traffic to _*.wikipedia.org_.
     EOF
     {{< /text >}}
 
-1.  Send an HTTPS request to the blacklisted [https://en.wikipedia.org](https://en.wikipedia.org):
+1.  Send an HTTPS request to the blacklisted [Wikipedia in English](https://en.wikipedia.org):
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
