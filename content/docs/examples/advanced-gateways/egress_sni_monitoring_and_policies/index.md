@@ -180,7 +180,7 @@ English and the French versions.
     deployment "sleep-canada" created
     {{< /text >}}
 
-1.  Create the `logentry`, `rules` and `handlers`:
+1.  Create `logentry`, `rules` and `handlers`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
