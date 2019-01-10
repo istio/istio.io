@@ -28,12 +28,12 @@ keywords: [traffic-management,fault-injection]
 
 ## 使用 HTTP 延迟进行故障注入
 
-为了测试我们的微服务应用程序 Bookinfo 的弹性，我们将在 `reviews:v2` 和 `ratings` 服务之间的一个用户 `jason` 注入一个 7 秒的延迟。
+为了测试微服务应用程序 Bookinfo 的弹性，我们将为用户 `jason` 在 `reviews:v2` 和 `ratings` 服务之间注入一个 7 秒的延迟。
 这个测试将会发现故意引入 Bookinfo 应用程序中的错误。
 
-由于 `reviews:v2` 服务对其 ratings 服务的调用具有 10 秒的硬编码连接超时,比我们设置的 7s 延迟要大，因此我们期望端到端流程是正常的（没有任何错误）。
+由于 `reviews:v2` 服务对其 ratings 服务的调用具有 10 秒的硬编码连接超时，比我们设置的 7s 延迟要大，因此我们期望端到端流程是正常的（没有任何错误）。
 
-1. 创建故障注入规则以延迟来自用户 "jason”（我们的测试用户）的流量
+1. 创建故障注入规则以延迟来自用户 `jason`（我们的测试用户）的流量
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
@@ -98,7 +98,7 @@ keywords: [traffic-management,fault-injection]
 
 这些类型的错误可能发生在典型的企业应用程序中，其中不同的团队独立地开发不同的微服务。Istio 的故障注入规则可帮助您识别此类异常，而不会影响最终用户。
 
-> 请注意，我们仅限制用户 "jason” 的失败影响。如果您以任何其他用户身份登录，则不会遇到任何延迟。
+> 请注意，我们仅限制用户 `jason` 的失败影响。如果您以任何其他用户身份登录，则不会遇到任何延迟。
 
 ## 错误修复
 
@@ -117,11 +117,11 @@ keywords: [traffic-management,fault-injection]
 
 ## 使用 HTTP abort 进行故障注入
 
-测试微服务弹性的另一种方法是引入 HTTP abort 故障。在这个任务中，在 ratings 微服务中引入 HTTP abort ，测试用户为 `jason` 。
+测试微服务弹性的另一种方法是引入 HTTP abort 故障。在这个任务中，在 `ratings` 微服务中引入 HTTP abort ，测试用户为 `jason` 。
 
 在这个案例中，我们希望页面能够立即加载，同时显示 `Ratings service is currently unavailable` 这样的消息。
 
-1. 为用户 "jason” 创建故障注入规则发送 HTTP abort
+1. 为用户 `jason` 创建故障注入规则发送 HTTP abort
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
@@ -166,8 +166,9 @@ keywords: [traffic-management,fault-injection]
 
     如果规则成功传播到所有的 pod，您应该能立即看到页面加载并看到 `Ratings service is currently unavailable` 消息。
 
-1. 如果您注销用户 `jason` 或在匿名窗口（或其他浏览器）中打开 Bookinfo 应用程序，您应该会在 `/productpage` 仍然调用 `reviews:v1`（没有调用  `ratings`）
- 除了 `jason` 外的用户都会看到网页上看到评级星标的评论成功显示。
+1. 如果您注销用户 `jason` 或在匿名窗口（或其他浏览器）中打开 Bookinfo 应用程序，
+   您将看到 `/productpage` 为除 `jason` 以外用户调用了 `reviews:v1`（它根本不调用 `ratings`）。
+   因此，您不会看到任何错误消息。
 
 ## 清理
 
