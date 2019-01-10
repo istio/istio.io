@@ -336,7 +336,7 @@ English and the French versions.
 ### Cleanup of monitoring and policy enforcement of SNI and source identity
 
     {{< text bash >}}
-    $ kubectl delete serviceaccount us canada
+    $ kubectl delete serviceaccount sleep-us sleep-canada
     $ kubectl delete service sleep-us sleep-canada
     $ kubectl delete deployment sleep-us sleep-canada
     $ kubectl delete rule handle-wikipedia-access check-us-wikipedia-access check-canada-wikipedia-access -n istio-system
