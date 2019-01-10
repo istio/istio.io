@@ -26,7 +26,7 @@ The creation of custom ingress gateway could be used in order to have different 
 
     {{< text bash >}}
     $ helm ls
-    {{< /text>}}
+    {{< /text >}}
 
     The output should be similar to the example below and show cert-manager with a `STATUS` of `DEPLOYED`:
 
