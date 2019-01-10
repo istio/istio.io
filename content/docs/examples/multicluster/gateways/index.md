@@ -8,9 +8,9 @@ keywords: [kubernetes,multicluster]
 This example shows how to configure and call remote services in a multicluster mesh with a
 [multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
 To demonstrate cross cluster access,
-the [sleep service](https://github.com/istio/istio/tree/master/samples/sleep)
+the [sleep service]({{<github_tree>}}/samples/sleep)
 running in one cluster will be configured
-to call the [httpbin service](https://github.com/istio/istio/tree/master/samples/httpbin)
+to call the [httpbin service]({{<github_tree>}}/samples/httpbin)
 running in a second cluster.
 
 ## Before you begin
@@ -33,7 +33,7 @@ running in a second cluster.
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 namespace foo
     $ kubectl label --context=$CTX_CLUSTER1 namespace foo istio-injection=enabled
-    $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f samples/sleep/sleep.yaml
+    $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
 1. Deploy the `httpbin` service in `cluster2`.
@@ -41,15 +41,15 @@ running in a second cluster.
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 namespace bar
     $ kubectl label --context=$CTX_CLUSTER2 namespace bar istio-injection=enabled
-    $ kubectl apply --context=$CTX_CLUSTER2 -n bar -f samples/httpbin/httpbin.yaml
+    $ kubectl apply --context=$CTX_CLUSTER2 -n bar -f @samples/httpbin/httpbin.yaml@
     $ export GATEWAY_IP_CLUSTER2=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
         -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
     {{< /text >}}
 
-1. Create a `ServiceEntry` for the `httpbin` service in `cluster1`.
+1. Create a service entry for the `httpbin` service in `cluster1`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
-    `ServiceEntry` for it. The host name of the `ServiceEntry` should be of the form
+    service entry for it. The host name of the service entry should be of the form
     `<name>.<namespace>.global` where name and namespace correspond to the
     remote service's name and namespace respectively.
 
@@ -103,7 +103,7 @@ running in a second cluster.
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the multicluster Istio installation step
-    in the [Before you begin](#before-you-begin) section. Traffic entering port 15443 will be
+    in the [before you begin](#before-you-begin) section. Traffic entering port 15443 will be
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in `cluster2`).
 
@@ -202,7 +202,7 @@ Execute the following commands to clean up the example services.
 * Cleanup `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f samples/httpbin/sleep.yaml
+    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/httpbin/sleep.yaml@
     $ kubectl delete --context=$CTX_CLUSTER1 -n foo serviceentry httpbin-bar
     $ kubectl delete --context=$CTX_CLUSTER1 ns foo
     {{< /text >}}
@@ -210,6 +210,6 @@ Execute the following commands to clean up the example services.
 * Cleanup `cluster2`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -n bar -f samples/httpbin/httpbin.yaml
+    $ kubectl delete --context=$CTX_CLUSTER2 -n bar -f @samples/httpbin/httpbin.yaml@
     $ kubectl delete --context=$CTX_CLUSTER1 ns bar
     {{< /text >}}
