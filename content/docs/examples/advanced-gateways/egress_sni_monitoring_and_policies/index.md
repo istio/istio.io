@@ -249,7 +249,7 @@ English and the French versions.
     {"level":"info","time":"2019-01-10T17:33:57.413908Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"fr.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
     {{< /text >}}
 
-    Note the `requestedServerName` attribute, and `sourcePrincipal`, it should be `cluster.local/ns/default/sa/sleep-us`.
+    Note the `requestedServerName` attribute, and `sourcePrincipal`, it must be `cluster.local/ns/default/sa/sleep-us`.
 
 1.  Define a policy that will allow access to the Wikipedia in English and Spanish for the services with the _sleep-us_
     service account and to the Wikipedia in English and French for services with the _sleep-canada_ service account.
