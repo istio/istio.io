@@ -132,7 +132,9 @@ the egress traffic to _*.wikipedia.org_.
     command terminated with exit code 35
     {{< /text >}}
 
-1.  Send HTTPS requests to some other sites, for example [https://es.wikipedia.org](https://es.wikipedia.org) and
+    Access to the Wikipedia in English is blocked according to the policy you defined.
+
+1.  Send HTTPS requests to some other Wikipedia sites, for example [https://es.wikipedia.org](https://es.wikipedia.org) and
     [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
@@ -140,6 +142,8 @@ the egress traffic to _*.wikipedia.org_.
     <title>Wikipedia, la enciclopedia libre</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
+
+    Access to Wikipedia sites in other languages is allowed, as expected.
 
 ### Cleanup of monitoring and policy enforcement
 
