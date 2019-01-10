@@ -251,8 +251,8 @@ English and the French versions.
 
     Note the `requestedServerName` attribute, and `sourcePrincipal`, it must be `cluster.local/ns/default/sa/sleep-us`.
 
-1.  Define a policy that will allow access to the Wikipedia in English and Spanish for the services with the _sleep-us_
-    service account and to the Wikipedia in English and French for services with the _sleep-canada_ service account.
+1.  Define a policy that will allow access to the Wikipedia in English and Spanish for applications with the _sleep-us_
+    service account and to the Wikipedia in English and French for applications with the _sleep-canada_ service account.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
