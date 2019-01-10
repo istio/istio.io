@@ -162,8 +162,8 @@ based on the identities of the source of traffic.
 In Istio on Kubernetes, the identities are based on
 [Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
 subsection, you deploy two _sleep_ containers, _sleep-us_ and _sleep-canada_ under two service accounts,
-`sleep-us` and `sleep-canada`, respectively. Then you define a policy that allows applications with the `sleep-us`
-identity access the English and the Spanish versions of Wikipedia, and services with `sleep-canada` identity access the
+_sleep-us_ and _sleep-canada_, respectively. Then you define a policy that allows applications with the _sleep-us_
+identity access the English and the Spanish versions of Wikipedia, and services with _sleep-canada_ identity access the
 English and the French versions.
 
 1.  Deploy two _sleep_ containers, namely _sleep-us_ and _sleep-canada_, with _sleep-us_ and _sleep-canada_ service
