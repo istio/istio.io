@@ -13,11 +13,11 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
   <tbody>
 
     <tr>
-      <td class="logo"><img src="/about/community/join/mailing-list.svg" alt="Mailing Lists"/></td>
+      <td class="logo"><img src="/about/community/join/discourse.svg" alt="Discourse"/></td>
       <td class="desc">
-        加入 <a href="https://groups.google.com/forum/#!forum/istio-users-zh">istio-users-zh@</a> 邮件列表用中文参与讨论和获取帮助。
-        加入 <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> 邮件列表以了解最新版本、活动和其他事件。
-        还有一个 <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> 邮件列表用于讨论围绕 Istio 项目开发的问题。
+        Head for the <a href="https://discuss.istio.io">Istio discussion board</a> to participate in
+         discussions
+        and get help troubleshooting problems.
       </td>
     </tr>
     <tr>
@@ -30,12 +30,6 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
       <td class="logo"><img src="/about/community/join/stackoverflow.svg" alt="Stack Overflow"/></td>
       <td class="desc">
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> 上有关于部署、配置和使用 Istio 等实际问题的解答。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/rocket-chat.svg" alt="Rocket Chat"/></td>
-      <td class="desc">
-        在 <a href="https://istio.rocket.chat">Rocket Chat</a> 上与 Istio 社区成员交流。
       </td>
     </tr>
     <tr>
