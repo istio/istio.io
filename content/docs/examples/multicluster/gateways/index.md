@@ -1,5 +1,5 @@
 ---
-title: Gateway-connected Clusters
+title: Gateway-Connected Clusters
 description: Configuring remote services in a gateway-connected multicluster mesh.
 weight: 20
 keywords: [kubernetes,multicluster]
@@ -9,7 +9,7 @@ This example shows how to configure and call remote services in a multicluster m
 [multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
 To demonstrate cross cluster access,
 the [sleep service]({{<github_tree>}}/samples/sleep)
-running in one cluster will be configured
+running in one cluster is configured
 to call the [httpbin service]({{<github_tree>}}/samples/httpbin)
 running in a second cluster.
 
@@ -49,7 +49,7 @@ running in a second cluster.
 1. Create a service entry for the `httpbin` service in `cluster1`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
-    service entry for it. The host name of the service entry should be of the form
+    a service entry for it. The host name of the service entry should be of the form
     `<name>.<namespace>.global` where name and namespace correspond to the
     remote service's name and namespace respectively.
 

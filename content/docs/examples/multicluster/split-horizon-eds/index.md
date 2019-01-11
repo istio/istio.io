@@ -1,5 +1,5 @@
 ---
-title: Cluster-aware Service Routing
+title: Cluster-Aware Service Routing
 description: Leveraging Istio's Split-horizon EDS to create a multicluster mesh.
 weight: 85
 keywords: [kubernetes,multicluster]
@@ -373,7 +373,7 @@ $ kubectl logs --context=$CTX_LOCAL -n sample sleep-57f9d6fd6b-q4k4h istio-proxy
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
 
-The remote gateway IP, `192.23.120.32:443`, is logged when v2 was called and the local instance IP, `10.10.0.90:5000` is logged when v1 was called.
+The remote gateway IP, `192.23.120.32:443`, is logged when v2 was called and the local instance IP, `10.10.0.90:5000`, is logged when v1 was called.
 
 ## Cleanup
 
