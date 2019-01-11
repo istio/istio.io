@@ -858,7 +858,7 @@ spec:
 
 ## `OutlierDetection`
 
-熔断器的实现需要对每个上游服务主机进行跟踪。对 HTTP 和 TCP 服务都可以生效。对 HTTP 服务来说，如果有主机持续返回 `5xx` 给 API 调用，会被踢出服务池，并持续一个预定义的时间长度；而对于 TCP 服务，到指定主机的连接超时和连接失败都会被记为错误次数，作为持续失败的指标进行统计。参考 Envoy 的 [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier) 可以获取更多信息。
+熔断器的实现需要对每个上游服务主机进行追踪。对 HTTP 和 TCP 服务都可以生效。对 HTTP 服务来说，如果有主机持续返回 `5xx` 给 API 调用，会被踢出服务池，并持续一个预定义的时间长度；而对于 TCP 服务，到指定主机的连接超时和连接失败都会被记为错误次数，作为持续失败的指标进行统计。参考 Envoy 的 [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier) 可以获取更多信息。
 
 下面的规则为 `reviews` 服务设置了一个 100 个 TCP 连接，以及 1000 个 HTTP2 并发请求同时每个连接不能超过 10 请求的连接池。另外其中还配置了每五分钟扫描一次上游服务主机，连续失败 7 次返回 `5xx` 错误码的主机会被移出连接池 15 分钟。
 

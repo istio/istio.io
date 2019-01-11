@@ -27,7 +27,7 @@ $ node_agent [flags]
 | `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大寿命(以天为单位，0表示无限制），将分割日志文件(默认为 `30`） |
 | `--log_rotate_max_backups <int>` | 删除旧文件之前要保留的最大日志文件备份数(0表示无限制）(默认为 `1000`） |
 | `--log_rotate_max_size <int>` | 日志文件的最大大小(以兆字节为单位），超过该值将分割文件(默认为 `104857600`） |
-| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的最小日志记录级别可以是\[debug、info、warn、error、none\]之一(默认为“default:none”） |
+| `--log_stacktrace_level <string>` | 捕获堆栈追踪的最小日志记录级别可以是\[debug、info、warn、error、none\]之一(默认为“default:none”） |
 | `--log_target <stringArray>` | 输出日志的路径集。 这可以是任何路径以及特殊值 `stdout` 和 `stderr`( 默认 `[stdout]`） |
 | `--org <string>` | 证书组织(默认 `''`） |
 | `--platform <string>` | 平台 `istio` 运行于：`vm` | `k8s`( 默认 `vm`） |
@@ -52,6 +52,6 @@ $ node_agent version [flags]
 | `--log_rotate_max_age <int>` |  | 日志文件超过文件分割的最大寿命(以天为单位，0表示无限制），将分割日志(默认为 `30`） |
 | `--log_rotate_max_backups <int>` |  | 删除旧文件之前要保留的最大日志文件备份数(0表示无限制）(默认为 `1000`） |
 | `--log_rotate_max_size <int>` |  | 日志文件的最大大小(以兆字节为单位），超过该日志文件将分割文件(默认为 `104857600`） |
-| `--log_stacktrace_level <string>` |  | 捕获堆栈跟踪的最小日志记录级别可以是\[debug、info、warn、error、none\]之一(默认为 `default:none`） |
+| `--log_stacktrace_level <string>` |  | 捕获堆栈追踪的最小日志记录级别可以是\[debug、info、warn、error、none\]之一(默认为 `default:none`） |
 | `--log_target <stringArray>` |  | 输出日志的路径集。 这可以是任何路径以及特殊值 `stdout` 和 `stderr`( 默认 `[stdout]`） |
 | `--short` | `-s` | 显示简短形式的版本信息 |
