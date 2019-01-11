@@ -15,9 +15,7 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
     <tr>
       <td class="logo"><img src="/about/community/join/discourse.svg" alt="Discourse"/></td>
       <td class="desc">
-        Head for the <a href="https://discuss.istio.io">Istio discussion board</a> to participate in
-         discussions
-        and get help troubleshooting problems.
+        前往 <a href="https://discuss.istio.io">Istio discussion board</a> 参与讨论获取帮助。
       </td>
     </tr>
     <tr>
@@ -51,7 +49,7 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
       <td class="logo"><img src="/about/community/join/group.svg" alt="Working Groups"/></td>
       <td class="desc">
         如果您想参与 Istio 项目，请考虑加入我们的
-        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">工作组 </a>。
+        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">工作组</a>。
       </td>
     </tr>
     <tr>
