@@ -480,11 +480,7 @@ spec:
 
 在 `ServiceRole` 中，`namespace` + `services` + `paths`  + `methods` 的组合定义了**如何访问服务**。在某些情况下，您可能需要为规则指定其他条件。例如，规则可能仅适用于服务的某个**版本**，或仅适用于具有特定**标签**的服务，如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
 
-<<<<<<< HEAD
-例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的`key`值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
-=======
 例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2` 。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的 `key` 值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
->>>>>>> 19e7bd43b53507757e51505fcb8f3351bfefe5af
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -508,11 +504,7 @@ spec:
 - **`roleRef`** 指的是同一命名空间中的 `ServiceRole` 资源。
 - **`subjects`** 分配给角色的列表。
 
-<<<<<<< HEAD
-您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding`  *subject* 中的 *property* 类似于`ServiceRole` 规范中的 *constraint* 。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
-=======
 您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding` *subject* 中的 *property* 类似于 `ServiceRole` 规范中的 *constraint*。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
->>>>>>> 19e7bd43b53507757e51505fcb8f3351bfefe5af
 
 下面的例子显示了一个名为 `test-binding-products` 的 `ServiceRoleBinding`，它将两个 `subject` 绑定到名为 `product-viewer` 的 `ServiceRole` 并具有以下 `subject`
 

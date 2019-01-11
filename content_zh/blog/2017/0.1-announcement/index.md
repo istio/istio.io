@@ -62,7 +62,7 @@ WeaveWorks 的 [Weave Cloud](https://www.weave.works/blog/istio-weave-cloud/) �
 
 * [istio.io](/zh) 提供文档和示例。
 
-* 用于供大家讨论的邮件列表 [`istio-users@googlegroups.com`](https://groups.google.com/forum/#!forum/istio-users)，或者用于公告项目相关信息的 [`istio-announce@googlegroups.com`](https://groups.google.com/forum/#!forum/istio-announce)。
+* [Istio discussion board](https://discuss.istio.io) 综合交流区。
 
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) 用于问答
 
