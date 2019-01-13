@@ -3,7 +3,7 @@ title: 如何获知 Istio 中一个请求的生命周期？
 weight: 80
 ---
 
-用户可以通过打开[跟踪](/zh/docs/tasks/telemetry/distributed-tracing/)功能来获知 Istio 中一个请求的流程。
+用户可以通过打开[追踪](/zh/docs/tasks/telemetry/distributed-tracing/)功能来获知 Istio 中一个请求的流程。
 
 另外，用户可以使用如下的一些指令来获取网格状态的更多信息：
 
