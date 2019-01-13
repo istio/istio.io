@@ -497,6 +497,10 @@ The SNI proxy will forward the traffic to port `443`.
               number: 8443
           weight: 100
     ---
+    # The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
+    # connection.
+    # The forwarded SNI will be reported to Mixer so Mixer policies will be enforced based on the reported value of the
+    # original SNI.
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -510,6 +514,11 @@ The SNI proxy will forward the traffic to port `443`.
         filterType: NETWORK
         filterConfig: {}
     ---
+    # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
+    # identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy).
+    # The filter prevents a possibility for deceiving Mixer by a malicious application: routing to one SNI while
+    # reporting some other value of SNI. If the original SNI will not match the SNI of the mutual TLS connection, the
+    # filter will block the connection to the external service.
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
