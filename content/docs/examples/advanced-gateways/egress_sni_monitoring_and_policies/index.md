@@ -132,7 +132,7 @@ the egress traffic to _*.wikipedia.org_.
     command terminated with exit code 35
     {{< /text >}}
 
-    Access to the Wikipedia in English is blocked according to the policy you defined.
+    Access to Wikipedia in English is blocked according to the policy you defined.
 
 1.  Send HTTPS requests to some other Wikipedia sites, for example [https://es.wikipedia.org](https://es.wikipedia.org) and
     [https://de.wikipedia.org](https://de.wikipedia.org):
@@ -251,8 +251,8 @@ access the English and the French versions.
 
     Note the `requestedServerName` attribute, and `sourcePrincipal`, it must be `cluster.local/ns/default/sa/sleep-us`.
 
-1.  Define a policy that will allow access to the Wikipedia in English and Spanish for applications with the `sleep-us`
-    service account and to the Wikipedia in English and French for applications with the `sleep-canada` service account.
+1.  Define a policy that will allow access to Wikipedia in English and Spanish for applications with the `sleep-us`
+    service account and to Wikipedia in English and French for applications with the `sleep-canada` service account.
     Access to other Wikipedia sites will be blocked.
 
     {{< text bash >}}
