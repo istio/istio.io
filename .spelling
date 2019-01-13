@@ -2,7 +2,8 @@
 # Format - lines beginning # are comments
 # global dictionary is at the start, file overrides afterwards
 # one word per line, to define a file override use ' - filename'
-# where filename is relative to this configuration file
+# followed by file specific exceptions, one per line
+# filename is relative to this configuration file
 0.1.x
 0.2.x
 0.8.x
@@ -544,6 +545,20 @@ Boilerplates
 boilerplates
 RocketChat
 discuss.istio.io
+add-ons
+recomposition
+interdependencies
+Interdependencies
+middleware
+interoperation
+misordered
+x86
+repurposed
+netmask
+Herness
+distro
+docker-compose's
+Taillefer
 
  - search.md
 searchresults
