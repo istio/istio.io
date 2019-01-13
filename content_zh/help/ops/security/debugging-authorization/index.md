@@ -5,10 +5,10 @@ weight: 5
 keywords: [debug,security,authorization,RBAC]
 ---
 
-这篇文章展示了如何调试 Istio 的授权。如果在本文的指导下你还是没有找到解决方案。
+这篇文章展示了如何调试 Istio 的授权。
 
 > {{< idea_icon >}}
-按照[报告错误](/about/bugs)的说明，在您的电子邮件中包含群集状态存档会非常有用。
+按照[报告错误](/zh/about/bugs)的说明，在您的电子邮件中包含集群状态存档会非常有用。
 
 ## 确保授权正常启用
 

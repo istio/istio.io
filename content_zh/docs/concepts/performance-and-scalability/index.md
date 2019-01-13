@@ -5,7 +5,7 @@ weight: 50
 keywords: [performance,scalability,scale,benchmarks]
 ---
 
-我们对 Istio 性能评估、跟踪和改进采用四管齐下的方法：
+我们对 Istio 性能评估、追踪和改进采用四管齐下的方法：
 
 * 代码级微基准测试
 
@@ -21,7 +21,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 查看 Mixer 的[示例微基准测试]({{< github_file >}}/mixer/test/perf/singlecheck_test.go)，以衡量属性处理代码的性能。
 
-开发人员还可以利用黄金文件（golden-file）的方式来捕获源代码树中基准测试结果的状态，以达到保持跟踪和引用的目的。 GitHub 上有该[基线文件]({{< github_file >}}/mixer/test/perf/bench.baseline)。
+开发人员还可以利用黄金文件（golden-file）的方式来捕获源代码树中基准测试结果的状态，以达到保持追踪和引用的目的。 GitHub 上有该[基线文件]({{< github_file >}}/mixer/test/perf/bench.baseline)。
 
 由于这种测试的性质，机器间的延迟数据可能存在很大差异。建议以这种方式捕获的微基准数据仅与同一台机器上先前运行的数据进行比较。
 
@@ -55,7 +55,7 @@ Fortio 也是 100％ 开源的，除了 go 和 gRPC 之外没有外部依赖，�
 
 <iframe src="https://fortio.istio.io/?xMin=2&xMax=110&xLog=true&sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06&sel=qps_400-s1_to_s2-0.6.0-2018-04-05-22-33" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
-跟踪该场景所有测试版本的进度：
+追踪该场景所有测试版本的进度：
 
 <iframe src="https://fortio.istio.io/?s=qps_400-s1_to_s2" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
@@ -100,7 +100,7 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 * [https://fortio-daily.istio.io/](https://fortio-daily.istio.io/)
 * [https://ibmcloud-perf.istio.io/regpatrol/](https://ibmcloud-perf.istio.io/regpatrol/)
 
-这使我们能够及早发现回归并跟踪一段时间内的改进。
+这使我们能够及早发现回归并追踪一段时间内的改进。
 
 ## 可伸缩性和规模调整指南
 

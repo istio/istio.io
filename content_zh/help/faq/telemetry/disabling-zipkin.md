@@ -3,7 +3,7 @@ title: 如何禁用 Istio 发送追踪 span 至 Zipkin？
 weight: 100
 ---
 
-如果已启用跟踪，则可以按如下方式禁用：
+如果已启用追踪，则可以按如下方式禁用：
 
 {{< text plain >}}
 # 使用 Istio 所在命名空间名称来替换 <istio namespace>，例如：istio-system。
