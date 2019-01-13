@@ -166,7 +166,7 @@ subsection, you deploy two _sleep_ containers, `sleep-us` and `sleep-canada` und
 identity to access the English and the Spanish versions of Wikipedia, and services with `sleep-canada` identity to
 access the English and the French versions.
 
-1.  Deploy two _sleep_ containers, namely `sleep-us` and `sleep-canada`, with `sleep-us` and `sleep-canada` service
+1.  Deploy two _sleep_ containers, `sleep-us` and `sleep-canada`, with `sleep-us` and `sleep-canada` service
     accounts, respectively:
 
     {{< text bash >}}
