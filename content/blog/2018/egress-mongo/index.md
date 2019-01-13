@@ -946,8 +946,9 @@ to hold the configuration of the Nginx SNI proxy:
     {{< /text >}}
 
 1.  Create an egress `Gateway` for _*.com_, port 443, protocol TLS, a destination rule to set the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and Envoy filters to handle
-    SNI correctly in the sidecar proxy and in the egress gateway's Envoy proxy.
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and Envoy filters to prevent tampering
+    with SNI by a malicious application (the filters verify that the SNI issued by the application is the SNI reported
+    to Mixer).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
