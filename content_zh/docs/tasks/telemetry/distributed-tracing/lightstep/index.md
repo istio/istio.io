@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,lightstep]
 ---
 
 此任务说明如何配置 Istio 以收集追踪 span 并将其发送到 LightStep [𝑥]PM。
-[𝑥]PM 让您可以从大规模生产软件中分析 100％ 未抽样的事务数据，从而产生有意义的分布式跟踪信息和 metrics，用于帮助解释性能行为并加快根本原因分析。
+[𝑥]PM 让您可以从大规模生产软件中分析 100％ 未抽样的事务数据，从而产生有意义的分布式追踪信息和 metrics，用于帮助解释性能行为并加快根本原因分析。
 更多信息请访问 [LightStep 网站](https://lightstep.com)。
 在此任务的最后，Istio 将从代理发送 span 到一个 LightStep [𝑥]PM Satellite pool，使得它们在 web 界面上可用。
 
@@ -91,11 +91,11 @@ keywords: [telemetry,tracing,lightstep]
 
     {{< image link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-list-lightstep.png" caption="Explorer" >}}
 
-1. 单击延迟直方图下方的示例跟踪表中的第一行，以查看与刷新 `/productpage` 时相对应的详细信息。页面看起来像这样：
+1. 单击延迟直方图下方的示例追踪表中的第一行，以查看与刷新 `/productpage` 时相对应的详细信息。页面看起来像这样：
 
     {{< image link="/docs/tasks/telemetry/distributed-tracing/lightstep/istio-tracing-details-lightstep.png" caption="Detailed Trace View" >}}
 
-屏幕截图显示跟踪由一组 span 组成。 每个 span 对应于执行 `/productpage` 时调用的 Bookinfo 服务。
+屏幕截图显示追踪由一组 span 组成。 每个 span 对应于执行 `/productpage` 时调用的 Bookinfo 服务。
 
 追踪中的两个 span 代表了每个 RPC。例如，从 `productpage` 到 `reviews` 的请求带有的 span 使用  `reviews.default.svc.cluster.local:9080/*` operation 和 `productpage.default: proxy client` 进行标记。这个
 service 代表了客户端请求的 span。屏幕截图显示请求耗时 15.30 毫秒。第二个 span 使用 `reviews.default.svc.cluster.local:9080/*` operation 和 `reviews.default: proxy server` service 进行标记。第二个 span 是第一个的子级，代表了服务端请求的 span。屏幕截图显示请求耗时 14.60 毫秒。

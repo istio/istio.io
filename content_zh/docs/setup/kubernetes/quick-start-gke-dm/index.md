@@ -42,7 +42,7 @@ keywords: [kubernetes,gke,google]
     [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用、
     [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 、
     [Prometheus](/zh/docs/tasks/telemetry/querying-metrics/) 和
-    [跟踪](/zh/docs/tasks/telemetry/distributed-tracing/) 。
+    [追踪](/zh/docs/tasks/telemetry/distributed-tracing/) 。
     接下来你可以了解一下怎样访问所有这些功能。脚本只在 `default` 的命名空间中启用 Istio 自动注入。
 
 1.  点击 **Deploy**:
