@@ -58,13 +58,15 @@ name.
 ## Configure monitoring and access policies
 
 Note that since you want to accomplish your tasks in a _secure way_, you must direct egress traffic through
-_egress gateway_, as described in the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/)
+_egress gateway_, as described in the [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)
 task. The _secure way_ here means that you want to prevent malicious applications from bypassing Istio monitoring and
 policy enforcement.
 
-In our scenario, the organization performed the instructions in the [Before you begin](#before-you-begin) section. It
-enabled traffic to _edition.cnn.com_ and configured that traffic to pass through the egress gateway. Now it is ready to
-configure Istio for monitoring and access policies for the traffic to _edition.cnn.com_.
+According to the scenario of this blog post, the organization performed the instructions in the
+[Before you begin](#before-you-begin) section. It enabled HTTP traffic to _edition.cnn.com_ and configured that traffic
+to pass through the egress gateway. The egress gateway will perform TLS origination to _edition.cnn.com_, so the traffic
+will leave the mesh encrypted. Now the organization is ready to configure Istio for monitoring and access policies for
+the traffic to _edition.cnn.com_.
 
 ### Logging
 
