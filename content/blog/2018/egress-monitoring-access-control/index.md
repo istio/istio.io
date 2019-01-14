@@ -42,7 +42,7 @@ The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task desc
  for services in a mesh. The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/) describes
  the Istio Dashboard to monitor mesh traffic. The [Basic Access Control](/docs/tasks/security/basic-access-control/)
  task shows how to control access to in-mesh services. The
- [Secure Access Control](http://localhost:1313/docs/tasks/security/secure-access-control/) task shows how to configure
+ [Secure Access Control](/docs/tasks/security/secure-access-control/) task shows how to configure
  access policies using black or white list checkers. As opposed to the telemetry and security tasks above, this blog
  post describes Istio's monitoring and access policies applied exclusively to the egress traffic.
 
