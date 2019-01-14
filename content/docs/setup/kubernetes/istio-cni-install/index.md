@@ -1,6 +1,6 @@
 ---
 title: Istio CNI Installation
-description: Instructions for installing and using Istio with the Istio CNI plugin to allow Istio users to deploy services via lower privileged RBAC.  The Istio CNI plugin removes the requirement for the privileged, `NET_ADMIN` initialization container in the users' pods in the mesh.
+description: Instructions for installing and using Istio with the Istio CNI plugin to allow Istio users to deploy services via lower privileged RBAC.
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
@@ -46,7 +46,7 @@ setup phase, thereby removing this level of RBAC requirement from users deployin
 
     > Refer to the full set of `istio-cni` Helm parameters in the chart's [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml).
 
-### Example: Excluding specific Kubernetes namespaces
+### Example: excluding specific Kubernetes namespaces
 
 The following example configures the Istio CNI plugin to ignore pods in the namespaces `istio-system`,
 `foo_ns`, and `bar_ns`.
@@ -89,7 +89,7 @@ of many common Kubernetes environments.
 | AKS (Azure) | Y | |
 | Red Hat OpenShift 3.10+ | Y | |
 
-#### GKE Setup
+#### GKE setup
 
 1.  Refer to the procedure to [prepare a GKE cluster for Istio](/docs/setup/kubernetes/platform-setup/gke/) and
     enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster.
@@ -98,7 +98,7 @@ of many common Kubernetes environments.
 1.  Install Istio via Helm including these options
     `--set istio_cni.enabled=true --set istio-cni.cniBinDir=/home/kubernetes/bin`
 
-## Sidecar Injection Compatibility
+## Sidecar injection compatibility
 
 The use of the Istio CNI plugin requires Kubernetes pods to be deployed with a sidecar injection method
 that uses the `istio-sidecar-injector` configmap created from the Helm installation with the
@@ -124,7 +124,7 @@ The following sidecar injection methods are supported for use with the Istio CNI
         $ kubectl apply -f deployment-injected.yaml
         {{< /text >}}
 
-## Operational Details
+## Operational details
 
 The Istio CNI plugin handles Kubernetes pod create and delete events and does the following:
 
@@ -173,5 +173,4 @@ When a pod is created or deleted, the container runtime invokes each plugin in t
 CNI plugin only performs actions to setup the application pod's traffic redirection to the injected Istio proxy
 sidecar (using `iptables` in the pod's network namespace).
 
-{{< warning_icon >}}
-> This _should_ have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI's have been validated.
+{{< warning_icon >}}  This _should_ have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI's have been validated.
