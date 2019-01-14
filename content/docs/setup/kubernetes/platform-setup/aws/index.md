@@ -56,7 +56,7 @@ Nevertheless, you must update the list of admission controllers.
 
     {{< text bash >}}
     $ for i in `kubectl \
-      get pods -nkube-system | grep api | awk '{print $1}'` ; \
+      get pods -n kube-system | grep api | awk '{print $1}'` ; \
       do  kubectl describe pods -nkube-system \
       $i | grep "/usr/local/bin/kube-apiserver"  ; done
     {{< /text >}}
