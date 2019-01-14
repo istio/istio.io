@@ -30,13 +30,14 @@ analyze Istio logs to verify that no unauthorized request was sent to
 The organization is resolved to prevent any tampering with the new policy. It decides to put mechanisms in place that
 will prevent any possibility for a malicious application to access the forbidden topic.
 
-## Related tasks
+## Related tasks and examples
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the
-  Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh. The
-  [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress-tls-origination/) task demonstrates how to
-  allow applications to send HTTP requests to external servers that require HTTPS. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task describes how to configure Istio to direct egress
-  traffic through a dedicated gateway service called _egress gateway_.
+  Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh. The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example describes how to configure Istio to direct egress
+  traffic through a dedicated gateway service called _egress gateway_. The
+  [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example demonstrates how
+  to allow applications to send HTTP requests to external servers that require HTTPS, while directing traffic through
+  egress gateway.
 
 The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task describes how to configure metrics and logs
  for services in a mesh. The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/) describes
@@ -48,8 +49,8 @@ The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task desc
 
 ## Before you begin
 
-Follow the steps in the [Configure an Egress Gateway, Perform TLS origination with the egress Gateway](/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway) task, without
-the [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) step. After you accomplish this, you will be able
+Follow the steps in the [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example, without
+the [Cleanup](/docs/examples/advanced-gateways/egress-gateway-tls-origination//#cleanup) step. After you accomplish this, you will be able
 to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_
 installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod
 name.
