@@ -991,8 +991,7 @@ to hold the configuration of the Nginx SNI proxy:
     ---
     # The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
     # connection.
-    # The forwarded SNI will be reported to Mixer so Mixer policies will be enforced based on the reported value of the
-    # original SNI.
+    # The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value.
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
