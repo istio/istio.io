@@ -21,8 +21,7 @@ into microservices deployed in an Istio service mesh. The applications access pa
 point in time the organization decides to banish politics. Practically, it means blocking access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) and allowing access to
 [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health)
-only. The organization will grant permissions to individual applications, to applications in particular namespaces and
-to particular users to access [edition.cnn.com/politics](https://edition.cnn.com/politics), on a case-by-case basis.
+only. The organization will grant permissions to individual applications and to particular users to access [edition.cnn.com/politics](https://edition.cnn.com/politics), on a case-by-case basis.
 
 To achieve that goal, the organization's operations people will monitor access to the external services and will
 analyze Istio logs to verify that no unauthorized request was sent to
