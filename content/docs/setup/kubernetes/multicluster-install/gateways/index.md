@@ -40,11 +40,11 @@ on **each** Kubernetes cluster.
 ## Deploy Istio control plane in each cluster
 
 1. Generate intermediate CA certs for each cluster's Citadel from your
-organization's root CA. The shared root CA enables mTLS communication
-across different clusters. For illustration purposes, we use
-the sample root certificates as the intermediate certificate.
+    organization's root CA. The shared root CA enables mTLS communication
+    across different clusters. For illustration purposes, we use
+    the sample root certificates as the intermediate certificate.
 
-1. In every cluster, create a Kubernetes secret for your generated CA certs
+1. In **every cluster**, create a Kubernetes secret for your generated CA certs
    using a command similar to the following:
 
     {{< text bash >}}
@@ -56,16 +56,21 @@ the sample root certificates as the intermediate certificate.
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1. Install the Istio control plane in every cluster using the following commands:
+1. Generate a multicluster-gateways Istio configuration file using `helm`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
         -f install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml > $HOME/istio.yaml
-    $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
-For further details and customization options, refer to the [Installation
-with Helm](/docs/setup/kubernetes/helm-install/) instructions.
+    For further details and customization options, refer to the
+    [Installation with Helm](/docs/setup/kubernetes/helm-install/) instructions.
+
+1. Run the following command in **every cluster** to deploy the Istio control planes:
+
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
 
 ## Setup DNS
 
@@ -106,6 +111,15 @@ The host used in the service entry should be of the form `<name>.<namespace>.glo
 where name and namespace correspond to the service's name and namespace respectively.
 Visit our [multicluster using gateways](/docs/examples/multicluster/gateways/)
 example for detailed configuration instructions.
+
+## Uninstall instructions
+
+Uninstall Istio by running the following commands on **every cluster**:
+
+{{< text bash >}}
+$ kubectl delete -f $HOME/istio.yaml
+$ kubectl delete ns istio-system
+{{< /text >}}
 
 ## Summary
 
