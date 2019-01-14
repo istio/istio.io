@@ -515,7 +515,7 @@ The SNI proxy will forward the traffic to port `443`.
     ---
     # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
     # identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy).
-    # The filter prevents a possibility for deceiving Mixer by a malicious application: routing to one SNI while
+    # The filter prevents Mixer from being deceived by a malicious application: routing to one SNI while
     # reporting some other value of SNI. If the original SNI will not match the SNI of the mutual TLS connection, the
     # filter will block the connection to the external service.
     apiVersion: networking.istio.io/v1alpha3
