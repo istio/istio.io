@@ -4,17 +4,17 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="channel">
-                        <span>istio-users@</span>
-                        <a title='{{ i18n "istio_users_desc" }}'
-                           href="https://groups.google.com/forum/#!forum/istio-users" aria-label="istio-users mailing list">
-                            {{ partial "icon.html" "mailing-list" }}
+                        <span>discuss</span>
+                        <a title='{{ i18n "discuss_istio_io_desc" }}'
+                           href="https://discuss.istio.io" aria-label="Istio discussion board">
+                            {{ partial "icon.html" "discourse" }}
                         </a>
                     </div>
 
                     <div class="channel">
                         <span>twitter</span>
                         <a title='{{ i18n "twitter_desc" }}'
-                           href="https://twitter.com/IstioMesh" aria-label="Twitter">
+                           href="https://twitter.cqom/IstioMesh" aria-label="Twitter">
                             {{ partial "icon.html" "twitter" }}
                         </a>
                     </div>
@@ -24,14 +24,6 @@
                         <a title='{{ i18n "stackoverflow_desc" }}'
                            href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
                             {{ partial "icon.html" "stackoverflow" }}
-                        </a>
-                    </div>
-
-                    <div class="channel">
-                        <span>rocket chat</span>
-                        <a title='{{ i18n "rocket_chat_desc" }}'
-                           href="https://istio.rocket.chat" aria-label="Rocket Chat">
-                            {{ partial "icon" "rocket-chat" }}
                         </a>
                     </div>
                 </div>
@@ -51,7 +43,7 @@
                 {{ else }}
                     {{ i18n "footer_istio" }}
                 {{ end }}
-                {{ .Site.Data.args.version }}<br>&copy; 2018 Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
+                {{ .Site.Data.args.version }}<br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
                 {{ if .Site.Data.args.archive }}
                     {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
                 {{ else }}
@@ -63,14 +55,6 @@
         <div class="col-6 col-lg-4 d-none d-lg-flex" role="navigation">
             <div class="container-fluid">
                 <div class="row justify-content-end">
-                    <div class="channel">
-                        <span>istio-dev@</span>
-                        <a title='{{ i18n "istio_dev_desc" }}'
-                           href="https://groups.google.com/forum/#!forum/istio-dev" aria-label="istio-dev mailing list">
-                            {{ partial "icon.html" "mailing-list" }}
-                        </a>
-                    </div>
-
                     <div class="channel">
                         <span>github</span>
                         <a title='{{ i18n "github_desc" }}'

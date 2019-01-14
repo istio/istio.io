@@ -2,7 +2,7 @@
 title: 修复 Citadel
 description: 如果 Citadel 表现不正常该怎么办。
 weight: 10
-keywords: [安全,citadel,运维]
+keywords: [security,citadel,ops]
 ---
 
 如果您怀疑 Citadel 无法正常工作，请验证 `istio-citadel` pod 的状态：

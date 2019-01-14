@@ -57,7 +57,7 @@ $ mixs probe [flags]
 | `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大寿命（以天为单位）（0表示无限制），将分割日志（默认为 `30`） |
 | `--log_rotate_max_backups <int>` | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` | 日志文件的最大大小（以兆字节为单位），超过该值将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的逗号分隔的最小每范围日志记录级别，格式为`<scope>:<level>`，`<scope:level>`，...其中 scope 可以是\[`adapters，api，attributes，default，grpcAdapter，mcp，mcp-creds`\]之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为`default:none`） |
+| `--log_stacktrace_level <string>` | 捕获堆栈追踪的逗号分隔的最小每范围日志记录级别，格式为`<scope>:<level>`，`<scope:level>`，...其中 scope 可以是\[`adapters，api，attributes，default，grpcAdapter，mcp，mcp-creds`\]之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为`default:none`） |
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（默认`\[stdout\]`） |
 | `--probe-path <string>` | 用于检查可用性的文件的路径。（默认 `''`） |
 
@@ -91,7 +91,7 @@ $ mixs server [flags]
 | `--log_rotate_max_age <int>` |  | 日志文件超过文件分割的最大寿命（以天为单位）（0表示无限制）（默认为 `30`） |
 | `--log_rotate_max_backups <int>` |  | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` |  | 日志文件的最大大小（以兆字节为单位），超过该日志文件将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` |  | 捕获堆栈跟踪的逗号分隔的最小每范围日志记录级别，格式为`<scope>`:`<level>`，`<scope:level>`，...其中 scope 可以是\[`adapters`，`api`，`attributes`，`default`，`grpcAdapter`，`mcp`，`mcp-creds`\]之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为`default:none`） |
+| `--log_stacktrace_level <string>` |  | 捕获堆栈追踪的逗号分隔的最小每范围日志记录级别，格式为`<scope>`:`<level>`，`<scope:level>`，...其中 scope 可以是\[`adapters`，`api`，`attributes`，`default`，`grpcAdapter`，`mcp`，`mcp-creds`\]之一和 level 可以是\[debug，info，warn，error，none\]之一（默认为`default:none`） |
 | `--log_target <stringArray>` |  | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（默认`[stdout]`） |
 | `--maxConcurrentStreams <uint>` |  | 每个连接的最大未完成 RPC 数（默认为 `1024`） |
 | `--maxMessageSize <uint>` |  | 单个 gRPC 消息的最大大小（默认为 `1048576`） |
@@ -103,7 +103,7 @@ $ mixs server [flags]
 | `--readinessProbePath <string>` |  | 准备探针的文件路径。（默认 `''`） |
 | `--singleThreaded` |  | 如果为 true，则每个对 `Mixer` 的请求将在单个 go 例程中执行（对于调试很有用） |
 | `--trace_jaeger_url <string>` |  | Jaeger HTTP 收集器的 URL（例如:`http://jaeger:14268/api/traces?format=jaeger.thrift`）。（默认 `''`） |
-| `--trace_log_spans` |  | 是否记录跟踪 span。|
+| `--trace_log_spans` |  | 是否记录追踪 span。|
 | `--trace_zipkin_url <string>` |  | Zipkin 收集器的 URL（例如:`http://zipkin:9411/api/v1/spans`）。（默认 `''`） |
 
 ## `mixs version`

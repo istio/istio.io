@@ -5,7 +5,7 @@ publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 weight: 88
-keywords: [流量管理]
+keywords: [traffic-management]
 ---
 
 到目前为止，Istio 提供了一个简单的API来进行流量管理，该API包括了四种资源：`RouteRule`，`DestinationPolicy`，`EgressRule` 和 （Kubernetes 的）`Ingress`。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等，所有这些功能都不必更改应用程序本身的代码。

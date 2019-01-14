@@ -2,7 +2,7 @@
 title: 注入 Istio sidecar
 description: 介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。
 weight: 30
-keywords: [kubernetes,sidecar,注入]
+keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
 ## 注入
@@ -74,7 +74,7 @@ admissionregistration.k8s.io/v1beta1
 {{< text bash >}}
 $ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
 $ kubectl create ns istio-system
-$ kubectl apply -n istio-system -f istio.yaml
+$ kubectl apply -f istio.yaml
 {{< /text >}}
 
 另外这个 Webhook 在 `values.yaml` 中还有一些其它的配置参数。可以覆盖这些缺省值来对安装过程进行定义。

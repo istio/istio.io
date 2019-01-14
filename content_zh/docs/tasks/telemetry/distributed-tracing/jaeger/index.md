@@ -2,7 +2,7 @@
 title: Jaeger
 description: 了解如何配置代理以向 Jaeger 发送追踪请求。
 weight: 10
-keywords: [遥测,追踪,jaeger,span,端口转发]
+keywords: [telemetry,tracing,jaeger,span,port forwarding]
 ---
 
 要了解 Istio 如何处理追踪，请查看这个任务的[概述](../overview/)。

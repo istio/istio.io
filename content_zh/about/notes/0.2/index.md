@@ -36,7 +36,7 @@ icon: notes
 
 - **新协议**。Mesh 范围内对 WebSocket 连接的支持，MongoDB 代理和 Kubernetes [Headless 服务](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services)。
 
-- **其他改进**。Ingress 正确支持 gRPC 服务，更好地支持健康检查和 Jaeger 跟踪。
+- **其他改进**。Ingress 正确支持 gRPC 服务，更好地支持健康检查和 Jaeger 追踪。
 
 ## 遥测和增强策略
 
@@ -52,7 +52,7 @@ icon: notes
 
 - **Mixer 适配器更新**。所有内置适配器都已重写，以适应新的适配器型号,已为此版本添加了 `stackdriver` 适配器,实验性 redis 配额适配器已在 0.2 版本中删除，但预计将在 0.3 版本中恢复生产质量。
 
-- **Mixer 呼叫跟踪**。现在可以在 Zipkin 仪表板中跟踪和分析 Envoy 和 Mixer 之间的调用。
+- **Mixer 呼叫追踪**。现在可以在 Zipkin 仪表板中追踪和分析 Envoy 和 Mixer 之间的调用。
 
 ## 安全
 

@@ -110,7 +110,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 ...
 {{< /text >}}
 
-要对 Envoy 进行除错，首先要了解一下 Envoy 的集群、监听器、路由、端点的概念，以及这些对象之间的交互过程。我们会使用 `proxy-config` 命令的 `-o json` 参数，并对结果进行过滤，来跟踪 Envoy 对请求（从 `productpage` Pod 发向 `reviews` Pod 上的 `reviews:9080`）的决策过程：
+要对 Envoy 进行除错，首先要了解一下 Envoy 的集群、监听器、路由、端点的概念，以及这些对象之间的交互过程。我们会使用 `proxy-config` 命令的 `-o json` 参数，并对结果进行过滤，来追踪 Envoy 对请求（从 `productpage` Pod 发向 `reviews` Pod 上的 `reviews:9080`）的决策过程：
 
 1. 如果查询一个 Pod 的监听器概要信息，会看到 Istio 生成了如下的监听器：
 

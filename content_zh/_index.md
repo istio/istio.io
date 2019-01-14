@@ -129,7 +129,7 @@ title: Istio
                         <h5 class="card-title text-center">观测</h5>
                         <hr class="card-line">
                         <p class="card-text">
-                            通过丰富的自动跟踪、监控和记录所有服务，了解正在发生的情况。
+                            通过丰富的自动追踪、监控和记录所有服务，了解正在发生的情况。
                        </p>
                     </div>
                 </a>

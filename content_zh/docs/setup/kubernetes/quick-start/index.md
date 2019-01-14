@@ -153,5 +153,5 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 * 另外如有有需要，也可以删除 CRD：
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
