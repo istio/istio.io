@@ -7,10 +7,10 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 
 By default Istio injects an `initContainer`, `istio-init`, in pods deployed in the mesh.  The `istio-init`
 container sets up the pod network traffic redirection to/from the Istio sidecar proxy.  This requires the user
-or service-account deploying pods to the mesh to have high enough Kubernetes RBAC permissions to deploy
-[`NET_ADMIN` containers](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).  Requiring Istio users to have such high Kubernetes RBAC permissions is problematic for
+or service-account deploying pods to the mesh to have sufficient Kubernetes RBAC permissions to deploy
+[`NET_ADMIN` containers](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).  Requiring Istio users to have elevated Kubernetes RBAC permissions is problematic for
 some organizations' security compliance.  The Istio CNI plugin is a replacement for the `istio-init`
-container that performs the same networking functionality but without requiring Istio users to have high
+container that performs the same networking functionality but without requiring Istio users to enable elevated
 Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
@@ -19,9 +19,9 @@ setup phase, thereby removing this level of RBAC requirement from users deployin
 
 ## Prerequisites
 
-1.  Install Kubernetes with the container runtime supporting CNI and `kubelet`s configured
+1.  Install Kubernetes with the container runtime supporting CNI and `kubelet` configured
     with the main [CNI](https://github.com/containernetworking/cni) plugin enabled via `--network-plugin=cni`.
-    *  Kubernetes installations for IBM Cloud IKS, Azure AKS, and AWS EKS clusters meet this criteria.
+    *  Kubernetes installations for AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
     *  Google Cloud GKE clusters require that the
        [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) feature
        is enabled to have Kubernetes configured with `network-plugin=cni`.
@@ -136,10 +136,10 @@ The Istio CNI plugin handles Kubernetes pod create and delete events and does th
 The Istio CNI plugin identifies pods requiring traffic redirection to/from the
 accompanying Istio proxy sidecar by checking that the pod meets all of the following conditions:
 
-1.  The pod is NOT in a Kubernetes namespace in the configured `exclude_namespaces` list
-1.  The pod has a container named `istio-proxy`
-1.  The pod has more than 1 container
-1.  The pod has no annotation with key `sidecar.istio.io/inject` OR the value of the annotation is `true`
+1.  The pod is NOT in a Kubernetes namespace in the configured `exclude_namespaces` list.
+1.  The pod has a container named `istio-proxy`.
+1.  The pod has more than 1 container.
+1.  The pod has no annotation with key `sidecar.istio.io/inject` OR the value of the annotation is `true`.
 
 ### Traffic redirection details
 
@@ -158,7 +158,7 @@ corresponding application pod annotation key.
 
 ### Logging
 
-The Istio CNI plugin is run by the container runtime process space, and, therefore, the log entries are added under
+The Istio CNI plugin is run by the container runtime process space, and, therefore, the log entries are added within
 the `kubelet` process.
 
 ## Compatibility with other CNI plugins
@@ -166,10 +166,12 @@ the `kubelet` process.
 The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current `NET_ADMIN`
 `istio-init` container.
 
-The Istio CNI plugin operates as a chained CNI plugin which means its configuration is added to the existing
+The Istio CNI plugin operates as a chained CNI plugin.  This means its configuration is added to the existing
 CNI plugins configuration as a new configuration list element.  See the
 [CNI specification reference](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists) for further details.
 When a pod is created or deleted, the container runtime invokes each plugin in the list in order.  The Istio
 CNI plugin only performs actions to setup the application pod's traffic redirection to the injected Istio proxy
-sidecar (using `iptables` in the pod's network namespace) and _should_ have no effect on the operations
-performed by the base CNI plugin actually configuring the pod's networking setup.
+sidecar (using `iptables` in the pod's network namespace).
+
+{{< warning_icon >}}
+> This _should_ have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI's have been validated.
