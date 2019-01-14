@@ -52,17 +52,17 @@ on **each** Kubernetes cluster.
     {{< text bash >}}
     $ kubectl create namespace istio-system
     $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=samples/certs/ca-cert.pem \
-        --from-file=samples/certs/ca-key.pem \
-        --from-file=samples/certs/root-cert.pem \
-        --from-file=samples/certs/cert-chain.pem
+        --from-file=@samples/certs/ca-cert.pem@ \
+        --from-file=@samples/certs/ca-key.pem@ \
+        --from-file=@samples/certs/root-cert.pem@ \
+        --from-file=@samples/certs/cert-chain.pem@
     {{< /text >}}
 
 1. Generate a multicluster-gateways Istio configuration file using `helm`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml > $HOME/istio.yaml
+        -f @install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
     {{< /text >}}
 
     For further details and customization options, refer to the
