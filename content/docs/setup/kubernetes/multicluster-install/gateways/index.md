@@ -37,12 +37,14 @@ on **each** Kubernetes cluster.
   sample root CA certificate available as part of Istio install
   under the `samples/certs` directory.
 
-## Deploy Istio control plane in each cluster
+## Deploy the Istio control plane in each cluster
 
 1. Generate intermediate CA certs for each cluster's Citadel from your
     organization's root CA. The shared root CA enables mTLS communication
-    across different clusters. For illustration purposes, we use
-    the sample root certificates as the intermediate certificate.
+    across different clusters.
+
+    > For illustration purposes, the following instructions use the root certificate from
+    > the Istio samples directory as the intermediate certificates.
 
 1. In **every cluster**, create a Kubernetes secret for your generated CA certs
    using a command similar to the following:
