@@ -52,11 +52,11 @@ To add content you must create a fork of the repository and a PR from
 your fork to the docs main repository. The following steps describe the
 process:
 
-1.  Click the button below to visit the GitHub repository.
+<a class="btn btn-istio"
+href="https://github.com/istio/istio.io/">Browse this site's source
+code</a>
 
-    <a class="btn btn-istio"
-    href="https://github.com/istio/istio.io/">Browse this site's source
-    code</a>
+1.  Click the button above to visit the GitHub repository.
 
 1.  Click the **Fork** button in the upper-right corner of the screen to
     create a copy of our repository in your GitHub account.
