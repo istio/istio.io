@@ -163,38 +163,6 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
 1. Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see **no** stars.
 Verify that after logging in as "jason" you see black stars.
 
-### Cleanup
-
-*   Remove the mixer configuration:
-
-    {{< text bash >}}
-    $ kubectl delete -f checkversion-rule.yaml
-    $ kubectl delete -f appversion-instance.yaml
-    $ kubectl delete -f whitelist-handler.yaml
-    {{< /text >}}
-
-*   Remove the application routing rules:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
-
-*   Remove the application destination rules:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-    If you enabled mutual TLS, please run the following instead
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
-
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
-
 ## IP-based _whitelists_ or _blacklists_
 
 Istio supports _whitelists_ and _blacklists_ based on IP address. You can
@@ -275,7 +243,7 @@ subnet.
    to: `PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is
    not whitelisted`
 
-### Cleanup
+## Cleanup
 
 * Remove the mixer configuration:
 
