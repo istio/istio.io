@@ -68,7 +68,8 @@ on **each** Kubernetes cluster.
     For further details and customization options, refer to the
     [Installation with Helm](/docs/setup/kubernetes/helm-install/) instructions.
 
-1. Run the following command in **every cluster** to deploy the same Istio control plane in all of them.
+1. Run the following command in **every cluster** to deploy an identical Istio control plane
+   configuration in all of them.
 
     {{< text bash >}}
     $ kubectl apply -f $HOME/istio.yaml
