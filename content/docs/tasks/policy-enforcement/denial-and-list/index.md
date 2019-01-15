@@ -9,7 +9,7 @@ aliases:
     - /docs/tasks/security/secure-access-control/index.html
 ---
 
-This task shows how to control access to a service using simple denials or white/black listing.
+This task shows how to control access to a service using simple denials, attribute-based white or black listing, or IP-based white or black listing.
 
 ## Before you begin
 
@@ -18,8 +18,9 @@ This task shows how to control access to a service using simple denials or white
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-* Initialize the application version routing to direct `reviews` service requests from
-  test user "jason" to version v2 and requests from any other user to v3.
+* Initialize the application version routing to direct `reviews` service
+  requests from test user "jason" to version v2 and requests from any other
+  user to v3.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -81,10 +82,12 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     In contrast, if you log in as user "jason" (the `reviews:v2` user) you continue to see
     the black ratings stars.
 
-## _whitelists_ or _blacklists_
+## Attribute-based _whitelists_ or _blacklists_
 
-Istio also supports attribute-based whitelists and blacklists. The following whitelist configuration is equivalent to the
-`denier` configuration in the previous section. The rule effectively rejects requests from version `v3` of the `reviews` service.
+Istio supports attribute-based whitelists and blacklists. The following
+whitelist configuration is equivalent to the `denier` configuration in the
+previous section. The rule effectively rejects requests from version `v3` of
+the `reviews` service.
 
 1.  Remove the denier configuration that you added in the previous section.
 
@@ -160,23 +163,103 @@ Save the following YAML snippet as `checkversion-rule.yaml`:
 1. Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see **no** stars.
 Verify that after logging in as "jason" you see black stars.
 
-## Cleanup
+## IP-based _whitelists_ or _blacklists_
 
-*   Remove the mixer configuration:
+Istio supports _whitelists_ and _blacklists_ based on IP address. You can
+configure Istio to accept or reject requests from a specific IP address or a
+subnet.
 
-    {{< text bash >}}
-    $ kubectl delete -f checkversion-rule.yaml
-    $ kubectl delete -f appversion-instance.yaml
-    $ kubectl delete -f whitelist-handler.yaml
+1. Verify you can access the Bookinfo `productpage` found at
+   `http://$GATEWAY_URL/productpage`. You won't be able to access it once you
+   apply the rules below.
+
+1.  Create configuration for the [list](/docs/reference/config/policy-and-telemetry/adapters/list/)
+    adapter that lists subnet `"10.57.0.0\16"`.
+    Save the following YAML snippet as `whitelistip-handler.yaml`:
+
+    {{< text yaml >}}
+    apiVersion: config.istio.io/v1alpha2
+    kind: listchecker
+    metadata:
+      name: whitelistip
+    spec:
+      # providerUrl: ordinarily black and white lists are maintained
+      # externally and fetched asynchronously using the providerUrl.
+      overrides: ["10.57.0.0/16"]  # overrides provide a static list
+      blacklist: false
+      entryType: IP_ADDRESSES
     {{< /text >}}
 
-*   Remove the application routing rules:
+1. After saving the snippet, run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f whitelistip-handler.yaml
+    {{< /text >}}
+
+1.  To extract the source IP, create a [list entry instance](/docs/reference/config/policy-and-telemetry/templates/listentry/)
+    from the template. You can use the request headers `x-forwarded-for` or
+    `x-real-ip` as needed. Save the following YAML snippet as
+    `sourceip-instance.yaml`:
+
+    {{< text yaml >}}
+    apiVersion: config.istio.io/v1alpha2
+    kind: listentry
+    metadata:
+      name: sourceip
+    spec:
+      value: source.ip | ip("0.0.0.0")
+    {{< /text >}}
+
+1. After saving the snippet, run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f sourceip-instance.yaml
+    {{< /text >}}
+
+1.  Enable `whitelist` checking for the ratings service. Save the following
+    YAML snippet as `checkip-rule.yaml`:
+
+    {{< text yaml >}}
+    apiVersion: config.istio.io/v1alpha2
+    kind: rule
+    metadata:
+      name: checkip
+    spec:
+      match: source.labels["istio"] == "ingressgateway"
+      actions:
+      - handler: whitelistip.listchecker
+        instances:
+        - sourceip.listentry
+    {{< /text >}}
+
+1. After saving the snippet, run the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f checkip-rule.yaml
+    {{< /text >}}
+
+1. Try to access the Bookinfo `productpage` at
+   `http://$GATEWAY_URL/productpage` and verify that you get an error similar
+   to: `PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is
+   not whitelisted`
+
+## Cleanup
+
+* Remove the mixer configuration:
+
+    {{< text bash >}}
+    $ kubectl delete -f checkip-rule.yaml
+    $ kubectl delete -f sourceip-instance.yaml
+    $ kubectl delete -f whitelistip-handler.yaml
+    {{< /text >}}
+
+* Remove the application routing rules:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-*   Remove the application destination rules:
+* Remove the application destination rules:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
