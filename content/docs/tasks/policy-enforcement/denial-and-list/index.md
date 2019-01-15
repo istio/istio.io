@@ -288,8 +288,7 @@ subnet.
 * Remove the application routing rules:
 
     {{< text bash >}}
-    $ kubectl delete -f
-@samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * Remove the application destination rules:
@@ -301,8 +300,7 @@ subnet.
     If you enabled mutual TLS, please run the following instead
 
     {{< text bash >}}
-    $ kubectl delete -f
-@samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
