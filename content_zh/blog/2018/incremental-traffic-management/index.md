@@ -1,6 +1,6 @@
 ---
 title: 增量式应用 Istio 第一部分，流量管理
-description: 如何在不部署 sidecar 代理的情况下使用 Istio 进行流量管理。
+description: 如何在不部署 Sidecar 代理的情况下使用 Istio 进行流量管理。
 publishdate: 2018-11-21
 subtitle:
 attribution: Sandeep Parikh
@@ -9,7 +9,7 @@ weight: 78
 keywords: [traffic-management, gateway]
 ---
 
-流量管理是 Istio 提供的重要优势之一。Istio 流量管理的核心是分离流量和扩展基础设施的能力。这使您可以在没有 Istio 这样的服务网格的情况下仍然能够控制流量。
+流量管理是 Istio 提供的重要优势之一。Istio 流量管理的核心是在将通信流量和基础设施的伸缩进行解耦。如果没有 Istio 这样的服务网格，这种流量控制方式是不可能实现的。
 
 例如，您希望执行一次[金丝雀部署](https://martinfowler.com/bliki/CanaryRelease.html)。当使用 Istio 时，您可以指定 service 的 **v1** 版本接收 90% 的传入流量，而该 service **v2** 版本仅接收 10%。如果使用标准的 Kubernetes deployment，实现此目的的唯一方法是手动控制每个版本的可用 Pod 数量，例如使 9 个 Pod 运行 v1 版本，使 1 个 Pod 运行 v2 版本。这种类型的手动控制难以实现，并且随着时间的推移可能无法扩展。有关更多信息，请查看[使用 Istio 进行金丝雀部署](/blog/2017/0.1-canary/)。
 
@@ -39,7 +39,7 @@ Pod 包含一个 sidecar 代理，该代理作为 Istio 网格的一部分，负
 
 如果 service A 和 B 不是 Istio 网格的一部分，则没有 sidecar 代理知道如何将流量路由到 service B 的不同版本。在这种情况下，您需要使用另一种方法来使 service A 到 service B 的流量遵循您设置的 50/50 规则。
 
-幸运的是，标准的 Istio 部署已经包含了一个 [Gateway](/zh/docs/concepts/traffic-management/#gateway)，它专门处理 Istio 网格之外的入口流量。此 Gateway 用于允许通过外部负载均衡器进入的集群外部入口流量，或来自 Kubernetes 集群，但在服务网格之外的入口流量。它可以被配置为将传入的入口流量代理到相应的 Pod，即使它们没有 sidecar 代理。虽然这种方法允许您利用 Istio 的流量管理功能，但确实意味着通过入口网关的流量将产生额外的跃点。
+幸运的是，标准的 Istio 部署已经包含了一个 [Gateway](/zh/docs/concepts/traffic-management/#gateway)，它专门处理 Istio 网格之外的入口流量。此 Gateway 用于允许通过外部负载均衡器进入的集群外部入口流量；或来自 Kubernetes 集群，但在服务网格之外的入口流量。网关可以进行配置，对没有 Sidecar 支持的入口流量进行代理，引导流量进入相应的 Pod。这种方法允许您利用 Istio 的流量管理功能，其代价是通过入口网关的流量将产生额外的跃点。
 
 {{< image width="60%" link="./fifty-fifty-ingress-gateway.png" caption="使用 Ingress Gateway 的 50/50 流量分割" >}}
 
@@ -154,7 +154,7 @@ $ kubectl apply -f samples/sleep/sleep.yaml
 
 ## 测试您的部署
 
-现在，您可以通过那个睡眠的 Pod（运行 sleep 命令）使用 `curl` 命令测试不同的行为。
+现在就可以通过 Sleep pod 使用 curl 命令来测试不同的行为了。
 
 第一个示例是使用标准 Kubernetes service DNS 行为向 reviews service 发出请求（**注意**：下面的示例中使用了 [`jq`](https://stedolan.github.io/jq/) 来过滤 `curl` 的输出）：
 
