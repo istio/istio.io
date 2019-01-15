@@ -197,7 +197,7 @@ Verify that after logging in as "jason" you see black stars.
 
 ## IP-based _whitelists_ or _blacklists_
 
-Istio supports _whitelists_ and _blacklists_ based on IP Address. You can
+Istio supports _whitelists_ and _blacklists_ based on IP address. You can
 configure Istio to accept or reject requests from a specific IP address or a
 subnet.
 
@@ -275,7 +275,7 @@ subnet.
    to: `PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is
    not whitelisted`
 
-### Clean up
+### Cleanup
 
 * Remove the mixer configuration:
 
