@@ -135,9 +135,9 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
-### Node Agent in Kubernetes (in development)
+### Node Agent in Kubernetes
 
-In the near future, Istio will use node agent in Kubernetes for certificate and key provision, as shown in the figure below.
+From 1.1, Istio will use node agent in Kubernetes for certificate and key provision, as shown in the figure below.
 Note that the identity provision flow for on-premises machines is the same so we only describe the Kubernetes scenario.
 
 {{< image width="80%" link="./node_agent.svg" caption="PKI with node agents in Kubernetes"  >}}
