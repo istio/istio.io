@@ -134,13 +134,13 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
-When Mutual TLS is enabled, we have two options to support HTTP probe, liveness probe rewrites and seperate port.
+When Mutual TLS is enabled, we have two options to support HTTP probse, liveness probe rewrites and seperate ports.
 
 #### Probe Rewrite
 
-This approache rewrites the application `PodSpec` liveness probe, such that the probe request will be sent to
-sidecar. And the sidecar then redirects the request to application, and strip the response body only returning
-the response code.
+This approach rewrites the application `PodSpec` liveness probe, such that the probe request will be sent to
+[Pilot agent](https://istio.io/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
+request to application, and strip the response body only returning the response code.
 
 To use this approach, you need to install istio with helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 
@@ -166,7 +166,7 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 Currently, this feature is not turned on by default and only available for `istioctl kube-inject`,
 not for webhook auto inject yet. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
-on whether changing this to default behavior for istio installment.
+on whether changing this to default behavior for istio installation.
 
 #### Separate Port
 
