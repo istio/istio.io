@@ -249,7 +249,7 @@ number_of_entries: 5
 <tr>
 <td><code>--registries &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, Mock})  (default `[Kubernetes]`)</td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, MCP, Mock})  (default `[Kubernetes]`)</td>
 </tr>
 <tr>
 <td><code>--resync &lt;duration&gt;</code></td>
@@ -260,6 +260,11 @@ number_of_entries: 5
 <td><code>--secureGrpcAddr &lt;string&gt;</code></td>
 <td></td>
 <td>Discovery service grpc address, with https  (default `:15012`)</td>
+</tr>
+<tr>
+<td><code>--trust-domain &lt;string&gt;</code></td>
+<td></td>
+<td>The domain serves to identify the system with spiffe  (default ``)</td>
 </tr>
 </tbody>
 </table>
