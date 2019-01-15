@@ -1,6 +1,6 @@
 ---
 title: Istio CNI Installation
-description: Instructions for installing and using Istio with the Istio CNI plugin to allow Istio users to deploy services via lower privileged RBAC.
+description: Instructions for installing and using Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
@@ -9,13 +9,15 @@ By default Istio injects an `initContainer`, `istio-init`, in pods deployed in t
 container sets up the pod network traffic redirection to/from the Istio sidecar proxy.  This requires the user
 or service-account deploying pods to the mesh to have sufficient Kubernetes RBAC permissions to deploy
 [`NET_ADMIN` containers](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).  Requiring Istio users to have elevated Kubernetes RBAC permissions is problematic for
-some organizations' security compliance.  The Istio CNI plugin is a replacement for the `istio-init`
-container that performs the same networking functionality but without requiring Istio users to enable elevated
-Kubernetes RBAC permissions.
+some organizations' security compliance.  The Istio CNI
+([Container Network Interface](https://github.com/containernetworking/cni#cni---the-container-network-interface))
+plugin is a replacement for the `istio-init` container that performs the same networking functionality but
+without requiring Istio users to enable elevated Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
-setup phase, thereby removing this level of RBAC requirement from users deploying pods into the Istio mesh.  The
-[Istio CNI plugin](https://github.com/istio/cni) replaces the functionality provided by the `istio-init` container.
+setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/kubernetes/spec-requirements/)
+for users deploying pods into the Istio mesh.  The [Istio CNI plugin](https://github.com/istio/cni)
+replaces the functionality provided by the `istio-init` container.
 
 ## Prerequisites
 
