@@ -30,7 +30,13 @@ down once the migration is done.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install/)).
 
-* For demo, create three namespaces `foo`, `bar`, `legacy`, and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them. Also, run another sleep app without sidecar (to keep it separate, run it in `legacy` namespace)
+* For demo
+    * Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them.
+        * `foo`
+        * `bar`
+
+    * Create the following namespace and deploy [sleep]({{< github_tree >}}/samples/sleep) without sidecar
+        * `legacy`
 
     {{< text bash >}}
     $ kubectl create ns foo
