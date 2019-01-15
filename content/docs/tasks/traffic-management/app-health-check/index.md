@@ -134,7 +134,7 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
-When Mutual TLS is enabled, we have two options to support HTTP probse, liveness probe rewrites and seperate ports.
+When Mutual TLS is enabled, we have two options to support HTTP probes, probe rewrites and seperate ports.
 
 #### Probe Rewrite
 
