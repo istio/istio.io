@@ -228,9 +228,10 @@ subnet.
     $ kubectl apply -f whitelistip-handler.yaml
     {{< /text >}}
 
-1.  To extract the source IP, create an instance of the [listentry](/docs/reference/config/policy-and-telemetry/templates/listentry/)
-    template. You can use the request headers `x-forwarded-for` or `x-real-ip`
-    as needed. Save the following YAML snippet as `sourceip-instance.yaml`:
+1.  To extract the source IP, create a [list entry instance](/docs/reference/config/policy-and-telemetry/templates/listentry/)
+    from the template. You can use the request headers `x-forwarded-for` or
+    `x-real-ip` as needed. Save the following YAML snippet as
+    `sourceip-instance.yaml`:
 
     {{< text yaml >}}
     apiVersion: config.istio.io/v1alpha2
