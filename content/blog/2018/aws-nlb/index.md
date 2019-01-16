@@ -84,6 +84,10 @@ You need to apply policy on the master role in order to be able to provision net
 
 ## Generate the Istio manifest
 
+To use an AWS `nlb` load balancer, it is necessary to add an AWS specific
+annotation to the Istio installation.  These instructions explain how to
+add the annotation.
+
 Save this as the file `override.yaml`:
 
 {{< text yaml >}}
@@ -96,5 +100,5 @@ gateways:
 Generate a manifest with Helm:
 
 {{< text bash >}}
-helm template install/kubernetes/helm/istio --namespace istio -f override.yaml > $HOME/istio.yaml
+$ helm template install/kubernetes/helm/istio --namespace istio -f override.yaml > $HOME/istio.yaml
 {{< /text >}}
