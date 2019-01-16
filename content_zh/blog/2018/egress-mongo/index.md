@@ -937,7 +937,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 1. 检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -c sni-proxy
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 1863 482 0.089
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
