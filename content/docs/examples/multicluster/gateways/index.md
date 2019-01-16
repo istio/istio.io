@@ -99,13 +99,24 @@ running in a second cluster.
     `httpbin.bar.global` on *any port* to be routed to the endpoint
     `<IPofCluster2IngressGateway>:15443` over an mTLS connection.
 
-    > Do not create a `Gateway` configuration for port 15443.
+    If your cluster2 Kubernetes cluster is running in an environment that does not
+    support external load-balancers, you must use the IP and nodePort corresponding
+    to port 15443 of a node running the `istio-ingressgateway` service. Instructions
+    for obtaining the node IP can be found in the
+    [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
+    guide. The following command can be used to obtain the nodePort:
+
+    {{< text bash >}}
+    $ kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'
+    {{< /text >}}
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the multicluster Istio installation step
     in the [before you begin](#before-you-begin) section. Traffic entering port 15443 will be
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in `cluster2`).
+
+    > Do not create a `Gateway` configuration for port 15443.
 
 1. Verify that `httpbin` is accessible from the `sleep` service.
 
