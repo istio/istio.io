@@ -58,6 +58,9 @@ on **each** Kubernetes cluster.
         --from-file=@samples/certs/cert-chain.pem@
     {{< /text >}}
 
+1. Update Helm’s dependencies by following step 2 in the
+   [Installation with Helm](/docs/setup/kubernetes/helm-install/#installation-steps) instructions.
+
 1. Generate a multicluster-gateways Istio configuration file using `helm`:
 
     {{< text bash >}}
@@ -90,8 +93,10 @@ services from remote clusters in the format
 `<name>.<namespace>.global`. Istio also ships with a CoreDNS server that
 will provide DNS resolution for these services. In order to utilize this
 DNS, Kubernetes' DNS needs to be configured to point to CoreDNS as the DNS
-server for the `.global` DNS domain. Create the following ConfigMap (or
-update an existing one):
+server for the `.global` DNS domain. Create one of the following ConfigMaps
+or update an existing one:
+
+For clusters that use kube-dns:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -103,6 +108,40 @@ metadata:
 data:
   stubDomains: |
     {"global": ["$(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})"]}
+EOF
+{{< /text >}}
+
+For clusters that use CoreDNS:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           upstream
+           fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        proxy . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
+    global:53 {
+        errors
+        cache 30
+        proxy . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})
+    }
 EOF
 {{< /text >}}
 
