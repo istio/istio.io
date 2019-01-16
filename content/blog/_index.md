@@ -1,5 +1,5 @@
 ---
-title: Istio Blog Posts
+title: Istio Blog
 description: Posts about using Istio.
 linktitle: Blog
 sidebar_multicard: true

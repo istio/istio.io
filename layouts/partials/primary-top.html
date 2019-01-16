@@ -28,11 +28,9 @@
             {{ end }}
 
             <main aria-labelledby="title">
-                {{ if not .Parent.IsHome }}
-                    <div class="pagenav">
-                        <p><a href="{{ .Parent.Permalink }}" title="{{ .Parent.Description }}"><svg class="icon"><use xlink:href="/img/icons.svg#level-up" /></svg>{{- .Parent.Title -}}</a></p>
-                    </div>
-                {{ end }}
+                <div class="pagenav">
+                    <p>{{- partial "breadcrumbs.html" . -}}</p>
+                </div>
 
                 <h1 id="title">
                     {{- if .Params.icon -}}
