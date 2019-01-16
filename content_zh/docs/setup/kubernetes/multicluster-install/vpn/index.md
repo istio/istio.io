@@ -196,7 +196,7 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    __NOTE__: 许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
+    {{< info_icon >}} 许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
 
 1. 通过以下命令为 `istio-multi` service account 在工作目录创建一个 `kubeconfig`  文件：
 
