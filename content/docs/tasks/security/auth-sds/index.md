@@ -73,7 +73,7 @@ As you can see there is no secret file mounted at `/etc/certs` folder.
 
 ## Cleanup
 
-Clean up test services and istio control plane:
+Clean up test services and Istio control plane:
 
 {{< text bash >}}
 $ kubectl delete ns foo
