@@ -227,7 +227,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') istio-proxy -n istio-system | tail
+    $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
     {{< /text >}}
 
     You should see a line similar to the following:
