@@ -14,7 +14,7 @@ and then compose them into a multicluster mesh using a
 ## Set up two clusters
 
 1.  [Install One IBM Cloud Private cluster](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
-    __NOTE__: You can configure Pod CIDR ranges and service CIDR ranges by `network_cidr` and
+    You can configure Pod CIDR ranges and service CIDR ranges by `network_cidr` and
     `service_cluster_ip_range` in `cluster/config.yaml` for IBM Cloud Private.
 
     {{< text plain >}}
@@ -25,7 +25,7 @@ and then compose them into a multicluster mesh using a
     {{< /text >}}
 
 1.  [Request One IBM Cloud Kubernetes Service cluster](https://console.bluemix.net/docs/containers/container_index.html).
-    __NOTE__: By default, when you have provisioned a IBM Cloud Kubernetes Service cluster, the CIDR is as below.
+    By default, when you have provisioned a IBM Cloud Kubernetes Service cluster, the CIDR is as below.
 
     {{< text plain >}}
     pod subnet CIDR: 172.30.0.0/16.

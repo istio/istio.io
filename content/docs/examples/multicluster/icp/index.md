@@ -13,7 +13,7 @@ and then compose them into a multicluster mesh using a
 ## Create the IBM Cloud Private Clusters
 
 1.  [Install two IBM Cloud Private clusters](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
-    __NOTE__: Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
+    {{< warning_icon >}} Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
     across the multicluster environment and may not overlap. This can be configured by `network_cidr` and
     `service_cluster_ip_range` in `cluster/config.yaml`.
 
@@ -138,9 +138,9 @@ local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
 
 This example uses `cluster-1` as the local Istio control plane and `cluster-2` as the Istio remote.
 
-## Deploy Bookinfo Example Across Clusters
+## Deploy the Bookinfo example across clusters
 
-__NOTE__: The following example enables [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
+The following example enables [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
 
 1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote:
 

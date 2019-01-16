@@ -861,7 +861,7 @@ version) of the destination service that the current request will be routed
 to. Next, the set of policies corresponding to the selected subset, if any,
 are evaluated to determine if they apply.
 
-**NOTE:** One subtlety of the algorithm to keep in mind is that policies
+> One subtlety of the algorithm to keep in mind is that policies
 that are defined for specific subsets will only be applied if
 the corresponding subset is explicitly routed to. For example,
 consider the following configuration as the one and only rule defined for the
