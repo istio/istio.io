@@ -112,3 +112,25 @@ If you created a fork of the repository, you can preview your changes locally.
 See this
 [README](https://github.com/istio/istio.io/blob/master/README.md) for
 instructions.
+
+## Becoming a member of an Istio repository
+
+The Istio Technical Oversight Committee has agreed on the following formal
+process to become a member of an Istio repository on GitHub. Being a member
+means the following things for contributors:
+
+* Members can be assigned bugs to fix.
+* Members can assign or change bugs.
+
+You don't need to become a member to be an effective contributor. Non-members
+can submit pull requests, submit bug reports, do code reviews, etc.
+
+To become a member, individuals must fulfill the following requirements:
+
+* The individual has made a contribution to the Istio repository.
+
+* The individual is sponsored by at least two existing members.
+
+* The individual has applied using the [application form](https://github.com/istio/community/issues/new?template=organization-membership-request.md).
+
+
