@@ -85,95 +85,97 @@ appears below:
     >}}
 
 1.  Create the `logentry`, `rules` and `handlers`:
-    ```bash
-        cat <<EOF | istioctl create -f -
-        # Log entry for egress access
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: logentry
-        metadata:
-          name: egress-access
-          namespace: istio-system
-        spec:
-          severity: '"info"'
-          timestamp: request.time
-          variables:
-            destination: request.host | "unknown"
-            path: request.path | "unknown"
-            source: source.labels["app"] | source.service | "unknown"
-            sourceNamespace: source.namespace | "unknown"
-            user: source.user | "unknown"
-            responseCode: response.code | 0
-            responseSize: response.size | 0
-          monitored_resource_type: '"UNSPECIFIED"'
-        ---
-        # Handler for error egress access entries
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: stdio
-        metadata:
-          name: egress-error-logger
-          namespace: istio-system
-        spec:
-         severity_levels:
-           info: 2 # output log level as error
-         outputAsJson: true
-        ---
-        # Rule to handle access to *.cnn.com/politics
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: handle-politics
-          namespace: istio-system
-        spec:
-          match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics")
-          actions:
-          - handler: egress-error-logger.stdio
-            instances:
-            - egress-access.logentry
-        ---
-        # Handler for info egress access entries
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: stdio
-        metadata:
-          name: egress-access-logger
-          namespace: istio-system
-        spec:
-          severity_levels:
-            info: 0 # output log level as info
-          outputAsJson: true
-        ---
-        # Rule to handle access to *.cnn.com
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: handle-cnn-access
-          namespace: istio-system
-        spec:
-          match: request.host.endsWith(".cnn.com")
-          actions:
-          - handler: egress-access-logger.stdio
-            instances:
-              - egress-access.logentry
-        EOF
-    ```
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl create -f -
+    # Log entry for egress access
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: logentry
+    metadata:
+      name: egress-access
+      namespace: istio-system
+    spec:
+      severity: '"info"'
+      timestamp: request.time
+      variables:
+        destination: request.host | "unknown"
+        path: request.path | "unknown"
+        source: source.labels["app"] | source.service | "unknown"
+        sourceNamespace: source.namespace | "unknown"
+        user: source.user | "unknown"
+        responseCode: response.code | 0
+        responseSize: response.size | 0
+      monitored_resource_type: '"UNSPECIFIED"'
+    ---
+    # Handler for error egress access entries
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stdio
+    metadata:
+      name: egress-error-logger
+      namespace: istio-system
+    spec:
+     severity_levels:
+       info: 2 # output log level as error
+     outputAsJson: true
+    ---
+    # Rule to handle access to *.cnn.com/politics
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: handle-politics
+      namespace: istio-system
+    spec:
+      match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics")
+      actions:
+      - handler: egress-error-logger.stdio
+        instances:
+        - egress-access.logentry
+    ---
+    # Handler for info egress access entries
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: stdio
+    metadata:
+      name: egress-access-logger
+      namespace: istio-system
+    spec:
+      severity_levels:
+        info: 0 # output log level as info
+      outputAsJson: true
+    ---
+    # Rule to handle access to *.cnn.com
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: handle-cnn-access
+      namespace: istio-system
+    spec:
+      match: request.host.endsWith(".cnn.com")
+      actions:
+      - handler: egress-access-logger.stdio
+        instances:
+          - egress-access.logentry
+    EOF
+    {{< /text >}}
 
 1.  Send three HTTP requests to _cnn.com_, to [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and [edition.cnn.com/health](https://edition.cnn.com/health).
 All three should return _200 OK_.
 
-    ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     200
     200
     200
-    ```
+    {{< /text >}}
 
 1.  Query the Mixer log and see that the information about the requests appears in the log:
-    ```command-output-as-json
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
+
+    {{< text bash >}}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
     {"level":"info","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
     {"level":"error","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
     {"level":"info","time":"2018-06-18T13:22:59.234426Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":358651,"source":"sleep","user":"unknown"}
     {"level":"info","time":"2018-06-18T13:22:59.354943Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":332218,"source":"sleep","user":"unknown"}
-    ```
+    {{< /text >}}
 
     You see four log entries related to your three requests. Three _info_ entries about the access to _edition.cnn.com_
     and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the
