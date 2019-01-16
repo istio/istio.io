@@ -226,7 +226,7 @@ the remote cluster.
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    __NOTE__: An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< info_icon >}} An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
 
 1. Create a `kubeconfig` file in the working directory for the
     `istio-multi` service account with the following command:
