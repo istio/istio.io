@@ -82,7 +82,8 @@ content in detail, follow these steps:
     example:
 
     {{< text markdown >}}
-    Use present tense to avoid verb congruence issues:
+    Use present tense to avoid verb congruence issues and
+    make the text easier to understand:
 
     ```suggestion
 
@@ -92,12 +93,12 @@ content in detail, follow these steps:
     {{< /text >}}
 
 1.  Publish your review to share your comments and suggestions with us and the
-    PR owner.
+    PR owner. Request changes as the review warrants.
 
     {{< warning_icon >}} If you do not publish your review, the PR owner and
     the community cannot see your comments.
 
-1.  Once your comments have been addressed, leave a comment with the words:
+1.  Once you publish your review, leave a comment with the words:
     `/hold cancel`. That command unblocks the PR from being merged.
 
 ## Previewing your work
