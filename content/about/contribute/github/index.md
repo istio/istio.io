@@ -83,7 +83,7 @@ content in detail, follow these steps:
 
     {{< text markdown >}}
     Use present tense to avoid verb congruence issues and
-    make the text easier to understand:
+    to make the text easier to understand:
 
     ```suggestion
 
@@ -98,7 +98,7 @@ content in detail, follow these steps:
     {{< warning_icon >}} If you do not publish your review, the PR owner and
     the community cannot see your comments.
 
-1.  Once you publish your review, leave a comment with the words:
+1.  Once you publish your review, leave a comment with the text:
     `/hold cancel`. That command unblocks the PR from being merged.
 
 ## Previewing your work
