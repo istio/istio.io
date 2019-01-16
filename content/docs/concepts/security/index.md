@@ -137,8 +137,8 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 ### Node Agent in Kubernetes
 
-Starting from the 1.1 release, Istio will use node agent in Kubernetes for certificate and key provision, as shown in the figure below.
-Note that the identity provision flow for on-premises machines is the same so we only describe the Kubernetes scenario.
+Istio provides the option of using node agent in Kubernetes for certificate and key provisioning, as shown in the figure below.
+Note that the identity provision flow for on-premises machines will be similar in near future, we only describe the Kubernetes scenario here.
 
 {{< image width="80%" link="./node_agent.svg" caption="PKI with node agents in Kubernetes"  >}}
 
