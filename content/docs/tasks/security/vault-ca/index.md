@@ -1,5 +1,5 @@
 ---
-title: Vault CA integration
+title: Istio Vault CA integration
 description: Tutorial on how to plug in a Vault CA for issuing certificates in Istio.
 weight: 10
 keywords: [security,certificate]
@@ -27,8 +27,8 @@ environmental variables based on your GKE cluster and run the following
 
 1.  Use `git clone` to download the latest Istio source code.
 As the time of writing, the latest Istio code is on the release-1.1 branch
-with a commit id of 4b6189fb170ce30c885fd83d8f8d20807d42929c.
-To make the instructions reproducible, sync the Istio code to the above commit. 
+with a commit id of `4b6189fb170ce30c885fd83d8f8d20807d42929c`.
+To make the instructions reproducible, sync the Istio code to the above commit.
 
     {{< text bash >}}
     $ mkdir -p ~/go/src/istio.io
@@ -38,25 +38,27 @@ To make the instructions reproducible, sync the Istio code to the above commit.
     $ git checkout release-1.1
     $ git reset --hard 4b6189fb170ce30c885fd83d8f8d20807d42929c
     {{< /text >}}
-    
-1.  Edit the Makefile under the root of the Istio repository to enable SDS.
-Change the line 695 to 697 in the Makefile to the content in the revised block.
 
-The line 695 to 697 in the original Makefile is as follows.
+1.  Edit the `Makefile` under the root of the Istio repository to enable SDS.
+Change the line 695 to 697 in the `Makefile` to the content in the revised block.
+
+The line 695 to 697 in the original `Makefile` is as follows.
+
     {{< text bash >}}
     ${EXTRA_HELM_SETTINGS} \
     --values install/kubernetes/helm/istio/values.yaml \
     install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
     {{< /text >}}
-    
+
 After the revision, the above block becomes as follows.
+
     {{< text bash >}}
     ${EXTRA_HELM_SETTINGS} \
     --set global.proxy.excludeIPRanges="35.233.249.249/32" \
     --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml \
     install/kubernetes/helm/istio >> install/kubernetes/istio-auth.yaml
     {{< /text >}}
-    
+
 The yaml file `install/kubernetes/helm/istio/values-istio-sds-auth.yaml`
 contains the configuration that enables SDS (secret discovery service) in Istio.
 The testing Vault server used in this tutorial has the IP
@@ -70,31 +72,31 @@ Node Agent to Vault.
     {{< text bash >}}
     $ HUB=gcr.io/istio-release TAG=release-1.1-20190115-09-15 make generate_yaml
     {{< /text >}}
-    
+
 1.  Deploy `istio-auth.yaml`:
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
-    $ kubectl apply -f install/kubernetes/istio-sds-auth.yaml
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
     {{< /text >}}
-    
-## Deploy a Node Agent that signs certificates at Vault 
 
-This section deploys a Node Agent that signs certificates at Vault and
-a testing workload. The sidecar of the testing workload requests for a
-certificate through SDS.
-    
+## Deploy a Node Agent that signs certificates at Vault
+
+This section deploys a testing workload `httpbin` and a Node Agent that sends
+certificate signing requests to Vault. The sidecar of the testing workload
+requests for a certificate through SDS.
+
 1.  Delete the daemon set of the original Node Agent before deploying
 the new Node Agent that signs certificates at Vault:
 
     {{< text bash >}}
     $ kubectl delete daemonset istio-nodeagent -n istio-system
     {{< /text >}}
-    
+
 1.  Download the
 [Istio install package](https://storage.googleapis.com/istio-prerelease/daily-build/release-1.1-20190115-09-15/istio-release-1.1-20190115-09-15-linux.tar.gz)
-and uncompress it:
-   
+and decompress it:
+
     {{< text bash >}}
     $ tar xfz istio-release-1.1-20190115-09-15-linux.tar.gz
     $ cd istio-release-1.1-20190115-09-15
@@ -114,7 +116,7 @@ If you prefer, you may also directly use the given example deployment file.
 The Vault CA related configuration is set as environmental variables in
 the deployment file. The testing Vault server is at `https://35.233.249.249:8200`.
 
-    {{< text bash >}}
+    {{< text yaml >}}
     env:
     - name: CA_ADDR
       value: "https://35.233.249.249:8200"
@@ -129,17 +131,24 @@ the deployment file. The testing Vault server is at `https://35.233.249.249:8200
     - name: "VAULT_SIGN_CSR_PATH"
       value: "istio_ca/sign/istio-pki-role"
     {{< /text >}}
-    
+
 1.  After the editing, run the deployment:
 
     {{< text bash >}}
     $ kubectl apply -f httpbin-injected.yaml
     {{< /text >}}
     
+1.  Wait a moment for the deployment to be ready before viewing the logs of Node Agent:
+
+    {{< text bash >}}
+    $ kubectl logs $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c citadel-agent
+    {{< /text >}}
+
 1.  Because in this example, Vault is not configured to accept the k8s JWT
 service account from the httpbin workload, you should see that Vault rejects the
-signing requests with the following logs. 
-    {{< text bash >}}
+signing requests with the following logs.
+
+    {{< text plain >}}
     2019-01-16T19:42:19.274291Z     info    SDS gRPC server start, listen "/var/run/sds/uds_path"
     2019-01-16T19:42:22.015814Z     error   failed to login Vault: Error making API request.
     URL: PUT https://35.233.249.249:8200/v1/auth/kubernetes/login
@@ -147,11 +156,11 @@ signing requests with the following logs.
     * service account name not authorized
     2019-01-16T19:42:22.016112Z     error   Failed to sign cert for "default": failed to login Vault at https://35.233.249.249:8200: Error making API request.
     {{< /text >}}
-    
+
 1.  With the above logs generated, you have completed the tutorial in this
 article, which plugs in an external Vault CA and routes the certificate signing
 requests to Vault.
-    
+
 ## Cleanup
 
 After completing this tutorial, you may delete the testing cluster created
