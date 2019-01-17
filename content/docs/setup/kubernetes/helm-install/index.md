@@ -55,7 +55,7 @@ The following commands have relative references in the Istio directory. You must
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system >> $HOME/istio.yaml
     {{< /text >}}
 
-    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true`:
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true` for the last command:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true > $HOME/istio.yaml
@@ -85,7 +85,7 @@ to manage the lifecycle of Istio.
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install `istio-init` chart:
+1. Install `istio-init` chart to bootstrap all the Istio's [CRDs]:
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
@@ -115,12 +115,6 @@ to manage the lifecycle of Istio.
     {{< text bash >}}
     $ helm delete --purge istio
     $ helm delete --purge istio-init
-    {{< /text >}}
-
-    If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system delete job --all
     {{< /text >}}
 
     > Warning: Deleting CRDs will delete any configuration that you have made to Istio.
