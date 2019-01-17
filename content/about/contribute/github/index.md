@@ -9,7 +9,7 @@ aliases:
     - /about/contribute/creating-a-pull-request
     - /about/contribute/editing
     - /about/contribute/staging-your-changes
-keywords: [contribute]
+keywords: [contribute, community, GitHub, PR]
 ---
 
 We're excited that you're interested in contributing to improve and expand
@@ -112,3 +112,15 @@ If you created a fork of the repository, you can preview your changes locally.
 See this
 [README](https://github.com/istio/istio.io/blob/master/README.md) for
 instructions.
+
+## Istio community roles
+
+Depending on your contributions and responsibilities, there are several roles
+you can assume.
+
+Visit our [role summary page](https://github.com/istio/community/blob/master/ROLES.md#role-summary)
+to learn about the roles, the related requirements and responsibilities, and
+the privileges associated with the roles.
+
+Visit our [community page](https://github.com/istio/community) to learn more
+about the Istio community in general.
