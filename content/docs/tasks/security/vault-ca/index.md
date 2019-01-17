@@ -1,5 +1,5 @@
 ---
-title: Istio Vault CA integration
+title: Istio Vault CA Integration
 description: Tutorial on how to plug in a Vault CA for issuing certificates in Istio.
 weight: 10
 keywords: [security,certificate]
@@ -12,44 +12,20 @@ certificates in Istio.
 
 * Create a new Kubernetes cluster to run the example in this tutorial.
 
-* On GKE, you may set the value of the `CLUSTER`, `ZONE`, and `PROJECT`
-environmental variables based on your GKE cluster and run the following
-`gcloud` command to fetch the credentials for your cluster.
-
-    {{< text bash >}}
-    $ export CLUSTER=YOUR-CLUSTER-NAME
-    $ export ZONE=YOUR-CLUSTER-ZONE
-    $ export PROJECT=YOUR-GKE-PROJECT-NAME
-    $ gcloud container clusters get-credentials $CLUSTER --zone $ZONE --project $PROJECT
-    {{< /text >}}
-
 ## Install Istio with SDS enabled
 
-1.  Use `git clone` to download the latest Istio source code.
+1.  Install Istio with SDS enabled using [Helm](/docs/setup/kubernetes/helm-install/#prerequisites)
+and Node Agent sending certificate signing
+requests to a testing Vault CA:
 
     {{< text bash >}}
-    $ mkdir -p ~/go/src/istio.io
-    $ cd ~/go/src/istio.io
-    $ git clone https://github.com/istio/istio.git
-    $ cd istio
-    {{< /text >}}
-
-1.  Install Istio with SDS enabled and Node Agent sending certificate signing
-requests to a testing Vault CA (this example uses the latest release on
-2019-01-15, you may also use other releases):
-
-    {{< text bash >}}
-    $ export HUB=gcr.io/istio-release
-    $ export TAG=release-1.1-20190115-09-15
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
     $ helm dep update --skip-refresh install/kubernetes/helm/istio
-    $ ./install/updateVersion.sh -a ${HUB},${TAG} >/dev/null 2>&1
     $ cat install/kubernetes/namespace.yaml > istio-auth.yaml
     $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth.yaml
-    $ helm template --set global.tag=${TAG} \
+    $ helm template \
         --name=istio \
         --namespace=istio-system \
-        --set global.hub=${HUB} \
         --set global.mtls.enabled=true \
         --set global.controlPlaneSecurityEnabled=true \
         --set global.proxy.excludeIPRanges="35.233.249.249/32" \
@@ -64,45 +40,36 @@ address `35.233.249.249`. The configuration
 the testing Vault server, so that Envoy will not intercept the traffic from
 Node Agent to Vault.
 
-The yaml file `install/kubernetes/helm/istio/values-istio-example-sds-vault.yaml`
+The yaml file [`values-istio-example-sds-vault.yaml`]({{< github_file >}}install/kubernetes/helm/istio/values-istio-example-sds-vault.yaml)
 contains the configuration that enables SDS (secret discovery service) in Istio.
 The Vault CA related configuration is set as environmental variables:
 
-    {{< text yaml >}}
-    env:
-    - name: CA_ADDR
-      value: "https://35.233.249.249:8200"
-    - name: CA_PROVIDER
-      value: "VaultCA"
-    - name: "VAULT_ADDR"
-      value: "https://35.233.249.249:8200"
-    - name: "VAULT_AUTH_PATH"
-      value: "auth/kubernetes/login"
-    - name: "VAULT_ROLE"
-      value: "istio-cert"
-    - name: "VAULT_SIGN_CSR_PATH"
-      value: "istio_ca/sign/istio-pki-role"
-    {{< /text >}}
+{{< text yaml >}}
+env:
+- name: CA_ADDR
+  value: "https://35.233.249.249:8200"
+- name: CA_PROVIDER
+  value: "VaultCA"
+- name: "VAULT_ADDR"
+  value: "https://35.233.249.249:8200"
+- name: "VAULT_AUTH_PATH"
+  value: "auth/kubernetes/login"
+- name: "VAULT_ROLE"
+  value: "istio-cert"
+- name: "VAULT_SIGN_CSR_PATH"
+  value: "istio_ca/sign/istio-pki-role"
+{{< /text >}}
 
 ## Deploy a testing workload
 
 This section deploys a testing workload `httpbin`. When the sidecar of the
-testing workload requests for a certificate through SDS, Node Agent will send
+testing workload requests a certificate through SDS, Node Agent will send
 certificate signing requests to Vault.
-
-1.  Download the Istio install package
-(the example here uses [this Istio release package](https://storage.googleapis.com/istio-prerelease/daily-build/release-1.1-20190115-09-15/istio-release-1.1-20190115-09-15-linux.tar.gz))
-and decompress it:
-
-    {{< text bash >}}
-    $ tar xfz istio-release-1.1-20190115-09-15-linux.tar.gz
-    $ cd istio-release-1.1-20190115-09-15
-    {{< /text >}}
 
 1.  Generate the deployment for an example `httpbin` backend:
 
     {{< text bash >}}
-    $ bin/istioctl kube-inject -f samples/httpbin/httpbin.yaml > httpbin-injected.yaml
+    $ istioctl kube-inject -f @@samples/httpbin/httpbin.yaml@@ > httpbin-injected.yaml
     {{< /text >}}
 
 1.  Deploy the example backend:
@@ -111,13 +78,13 @@ and decompress it:
     $ kubectl apply -f httpbin-injected.yaml
     {{< /text >}}
 
-1.  List the pods of Node Agent:
+1.  List Node Agent's pods:
 
     {{< text bash >}}
     $ kubectl get pod -n istio-system -l app=nodeagent -o jsonpath={.items..metadata.name}
     {{< /text >}}
 
-1.  View the logs of each Node Agent. The Node Agent residing on
+1.  View each Node Agent's logs. The Node Agent residing on
 the same node as the testing workload will contain Vault related logs.
 
     {{< text bash >}}
