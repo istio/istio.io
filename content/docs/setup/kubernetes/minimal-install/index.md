@@ -62,12 +62,13 @@ to manage the lifecycle of Istio.
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install `istio-init` chart to bootstrap all the Istio's [CRDs]:
+1. Install the `istio-init` chart to bootstrap all the Istio's [CRDs]:
+
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Install `istio` chart:
+1. Install the `istio` chart:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system \
