@@ -91,9 +91,9 @@ the same node as the testing workload will contain Vault related logs.
     $ kubectl logs -n istio-system THE-POD-NAME-FROM-PREVIOUS-COMMAND
     {{< /text >}}
 
-1.  Because in this example, Vault is not configured to accept the k8s JWT
+1.  Because in this example, Vault is not configured to accept the Kubernetes JWT
 service account from the `httpbin` workload, you should see that Vault rejects the
-signing requests with the following logs.
+signing requests with the following logs:
 
     {{< text plain >}}
     2019-01-16T19:42:19.274291Z     info    SDS gRPC server start, listen "/var/run/sds/uds_path"
