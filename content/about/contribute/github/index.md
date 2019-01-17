@@ -9,7 +9,7 @@ aliases:
     - /about/contribute/creating-a-pull-request
     - /about/contribute/editing
     - /about/contribute/staging-your-changes
-keywords: [contribute]
+keywords: [contribute, community, GitHub, PR]
 ---
 
 We're excited that you're interested in contributing to improve and expand
@@ -113,24 +113,14 @@ See this
 [README](https://github.com/istio/istio.io/blob/master/README.md) for
 instructions.
 
-## Becoming a member of an Istio repository
+## Istio community roles
 
-The Istio Technical Oversight Committee has agreed on the following formal
-process to become a member of an Istio repository on GitHub. Being a member
-means the following things for contributors:
+Depending on your contributions and responsibilities, there are several roles
+you can assume.
 
-* Members can be assigned bugs to fix.
-* Members can assign or change bugs.
+Visit our [role summary page](https://github.com/istio/community/blob/master/ROLES.md#role-summary)
+to learn about the roles, the related requirements and responsibilities, and
+the privileges associated with the roles.
 
-You don't need to become a member to be an effective contributor. Non-members
-can submit pull requests, submit bug reports, do code reviews, etc.
-
-To become a member, individuals must fulfill the following requirements:
-
-* The individual has made a contribution to the Istio repository.
-
-* The individual is sponsored by at least two existing members.
-
-* The individual has applied using the [application form](https://github.com/istio/community/issues/new?template=organization-membership-request.md).
-
-
+Visit our [community page](https://github.com/istio/community) to learn more
+about the Istio community in general.
