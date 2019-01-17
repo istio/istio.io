@@ -15,21 +15,15 @@ Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) 
 
 ## Installation steps
 
-1. If using a Helm version prior to 2.10.0, install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
-    {{< /text >}}
-
-1. Choose one of the following two
-**mutually exclusive** options described below.
+Choose one of the following two **mutually exclusive** options described below.
 
 ### Option 1: Install with Helm via `helm template`
 
 1. Render Istio's core components to a Kubernetes manifest called `istio-minimal.yaml`:
 
     {{< text bash >}}
+    $ cat install/kubernetes/namespace.yaml > $HOME/istio-minimal.yaml
+    $ cat install/kubernetes/helm/istio-init/files/crd-1* >> $HOME/istio-minimal.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
       --set security.enabled=false \
       --set ingress.enabled=false \
@@ -41,13 +35,12 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the 
       --set mixer.telemetry.enabled=false \
       --set prometheus.enabled=false \
       --set global.proxy.envoyStatsd.enabled=false \
-      --set pilot.sidecar=false > $HOME/istio-minimal.yaml
+      --set pilot.sidecar=false >> $HOME/istio-minimal.yaml
     {{< /text >}}
 
 1. Install the Pilot component via the manifest:
 
     {{< text bash >}}
-    $ kubectl create namespace istio-system
     $ kubectl apply -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
@@ -69,7 +62,12 @@ to manage the lifecycle of Istio.
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install Istio:
+1. Install `istio-init` chart to bootstrap all the Istio's [CRDs]:
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+    {{< /text >}}
+
+1. Install `istio` chart:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system \
@@ -104,18 +102,20 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 * For option 2, uninstall using Helm:
 
+> Uninstalling this chart does not delete Istio's registered CRDs. Istio by design expects
+> CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
+> data in CutomResources the Istio designers feel it is better to explicitly delete this
+> configuration rather then unexpectedly lose it.
+
     {{< text bash >}}
     $ helm delete --purge istio-minimal
+    $ helm delete --purge istio-init
     {{< /text >}}
 
-    If your Helm version is less than 2.10.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+* If desired, run the following command to delete all CRDs:
+
+> Warning: Deleting CRDs will delete any configuration that you have made to Istio.
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete job --all
-    {{< /text >}}
-
-* If desired, delete the CRDs:
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install install/kubernetes/helm/istio-init/files/*crd-1*yaml; do kubectl delete -f $i; done
     {{< /text >}}
