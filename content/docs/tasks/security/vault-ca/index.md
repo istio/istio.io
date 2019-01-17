@@ -69,7 +69,7 @@ certificate signing requests to Vault.
 1.  Generate the deployment for an example `httpbin` backend:
 
     {{< text bash >}}
-    $ istioctl kube-inject -f @@samples/httpbin/httpbin.yaml@@ > httpbin-injected.yaml
+    $ istioctl kube-inject -f @samples/httpbin/httpbin.yaml@ > httpbin-injected.yaml
     {{< /text >}}
 
 1.  Deploy the example backend:
