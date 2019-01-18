@@ -490,7 +490,7 @@ keywords: [流量管理,egress]
 1.  检查 `istio-egressgateway` pod 的日志，看看与我们的请求相对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system | grep 'nginx.example.com' | grep HTTP
+    $ kubectl logs -l istio=egressgateway -n istio-system | grep 'nginx.example.com' | grep HTTP
     {{< /text >}}
 
     您应该看到与您的请求相关的行，类似于以下内容：

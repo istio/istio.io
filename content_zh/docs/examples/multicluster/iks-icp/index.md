@@ -2,7 +2,7 @@
 title: IBM Cloud Kubernetes Service & IBM Cloud Private 
 description: IBM Cloud Kubernetes Service 和 IBM Cloud Private 之间的多集群示例。
 weight: 75
-keywords: [kubernetes,多集群,hybrid]
+keywords: [kubernetes,multicluster,hybrid]
 ---
 
 本文示例演示了如何使用 Istio 多集群功能，借助 [基于 VPN 的多集群设置](/zh/docs/setup/kubernetes/multicluster-install/vpn/)将 [IBM Cloud Private](https://www.ibm.com/cloud/private) 和 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) 两个集群连接起来。

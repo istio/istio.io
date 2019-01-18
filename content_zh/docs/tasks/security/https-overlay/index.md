@@ -2,7 +2,7 @@
 title: 通过 HTTPS 进行双向 TLS
 description: 展示如何在 HTTPS 服务上启用双向 TLS。
 weight: 80
-keywords: [安全,双向 TLS,https]
+keywords: [security,mutual-tls,https]
 ---
 
 这个任务展示了 Istio 双向 TLS 是如何与 HTTPS 服务一起工作的。它包括:

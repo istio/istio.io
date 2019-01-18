@@ -7,7 +7,7 @@ icon: vulnerabilities
 
 我们非常感谢报告 Istio 安全漏洞的安全研究人员和用户。我们会对每个报告进行彻底调查。
 
-创建报告，可以发送电子邮件至 [`istio-security-vulnerabilities@google.com`](mailto:istio-security-vulnerabilities@google.com) 邮件列表，包含漏洞详细信息。对于与潜在安全漏洞无关的常见产品错误，请访问我们的[`报告错误页面`](/about/bugs)了解该怎么做。
+创建报告，可以发送电子邮件至 [`istio-security-vulnerabilities@googlegroups.com`](mailto:istio-security-vulnerabilities@googlegroups.com) 邮件列表，包含漏洞详细信息。对于与潜在安全漏洞无关的常见产品错误，请访问我们的[`报告错误页面`](/about/bugs)了解该怎么做。
 
 ## 何时报告安全漏洞？
 

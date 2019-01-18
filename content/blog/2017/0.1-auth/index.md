@@ -41,10 +41,7 @@ Istio Auth is based on industry standards like mutual TLS and X.509. Furthermore
 
 The diagram below provides an overview of the Istio Auth service authentication architecture on Kubernetes.
 
-{{< image width="100%"
-    link="./istio_auth_overview.svg"
-    caption="Istio Auth Overview"
-    >}}
+{{< image link="./istio_auth_overview.svg" caption="Istio Auth Overview" >}}
 
 The above diagram illustrates three key security features:
 
@@ -76,10 +73,7 @@ Istio Auth provides a per-cluster CA (Certificate Authority) and automated key &
 
 The following diagram explains the end to end Istio Auth authentication workflow on Kubernetes:
 
-{{< image width="100%"
-    link="./istio_auth_workflow.svg"
-    caption="Istio Auth Workflow"
-    >}}
+{{< image link="./istio_auth_workflow.svg" caption="Istio Auth Workflow" >}}
 
 Istio Auth is part of the broader security story for containers. Red Hat, a partner on the development of Kubernetes, has identified [10 Layers](https://www.redhat.com/en/resources/container-security-openshift-cloud-devops-whitepaper) of container security. Istio and Istio Auth addresses two of these layers: "Network Isolation" and "API and Service Endpoint Management". As cluster federation evolves on Kubernetes and other platforms, our intent is for Istio to secure communications across services spanning multiple federated clusters.
 

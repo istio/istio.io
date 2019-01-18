@@ -37,12 +37,12 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -67,7 +67,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -121,12 +121,12 @@ A group of commands used to interact with Istio authentication policies.
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -151,7 +151,7 @@ A group of commands used to interact with Istio authentication policies.
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -211,12 +211,12 @@ service registry, and check if TLS settings are compatible between them.
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -241,7 +241,7 @@ service registry, and check if TLS settings are compatible between them.
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -303,12 +303,12 @@ istioctl authn tls-check foo.bar.svc.cluster.local
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -333,7 +333,7 @@ istioctl authn tls-check foo.bar.svc.cluster.local
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -388,12 +388,12 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -418,7 +418,7 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -476,12 +476,12 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -506,7 +506,7 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -581,12 +581,12 @@ m
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -611,7 +611,7 @@ m
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -673,12 +673,12 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -703,7 +703,7 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -771,12 +771,12 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -801,7 +801,7 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -878,12 +878,12 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -908,7 +908,7 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1004,12 +1004,12 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1034,7 +1034,7 @@ file/configmap created with a new Istio release.
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1080,6 +1080,11 @@ file/configmap created with a new Istio release.
 <td><code>--readinessPeriodSeconds &lt;uint32&gt;</code></td>
 <td></td>
 <td>The period between readiness probes (in seconds).  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--rewriteAppProbe</code></td>
+<td></td>
+<td>Whether injector rewrites the liveness health check to let kubelet health check the app when mtls is on. </td>
 </tr>
 <tr>
 <td><code>--statusPort &lt;int&gt;</code></td>
@@ -1140,12 +1145,12 @@ pc
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1170,7 +1175,7 @@ pc
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1196,11 +1201,11 @@ pc
 </table>
 <h3 id="istioctl-proxy-config Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve information about proxy configuration from an Envoy instance.
-  istioctl proxy-config &lt;clusters|listeners|routes|endpoints|bootstrap&gt; &lt;pod-name&gt;
+  istioctl proxy-config &lt;clusters|listeners|routes|endpoints|bootstrap&gt; &lt;pod-name[.namespace]&gt;
 </code></pre>
 <h2 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h2>
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config bootstrap &lt;pod-name&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
 <p>
 b
@@ -1235,12 +1240,12 @@ b
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1265,7 +1270,7 @@ b
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1291,12 +1296,12 @@ b
 </table>
 <h3 id="istioctl-proxy-config-bootstrap Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve full bootstrap configuration for a given pod from Envoy.
-  istioctl proxy-config bootstrap &lt;pod-name&gt;
+  istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt;
 
 </code></pre>
 <h2 id="istioctl-proxy-config-cluster">istioctl proxy-config cluster</h2>
 <p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config cluster &lt;pod-name&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config cluster &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
 <p>
 clustersc
@@ -1341,12 +1346,12 @@ clustersc
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1371,7 +1376,7 @@ clustersc
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1407,18 +1412,18 @@ clustersc
 </table>
 <h3 id="istioctl-proxy-config-cluster Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about cluster configuration for a given pod from Envoy.
-  istioctl proxy-config clusters &lt;pod-name&gt;
+  istioctl proxy-config clusters &lt;pod-name[.namespace]&gt;
 
   # Retrieve cluster summary for clusters with port 9080.
-  istioctl proxy-config clusters &lt;pod-name&gt; --port 9080
+  istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; --port 9080
 
   # Retrieve full cluster dump for clusters that are inbound with a FQDN of details.default.svc.cluster.local.
-  istioctl proxy-config clusters &lt;pod-name&gt; --fqdn details.default.svc.cluster.local --direction inbound -o json
+  istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; --fqdn details.default.svc.cluster.local --direction inbound -o json
 
 </code></pre>
 <h2 id="istioctl-proxy-config-endpoint">istioctl proxy-config endpoint</h2>
 <p>Retrieve information about endpoint configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config endpoint &lt;pod-name&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
 <p>
 endpointsep
@@ -1463,12 +1468,12 @@ endpointsep
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1493,7 +1498,7 @@ endpointsep
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1529,23 +1534,23 @@ endpointsep
 </table>
 <h3 id="istioctl-proxy-config-endpoint Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve full endpoint configuration for a given pod from Envoy.
-  istioctl proxy-config endpoint &lt;pod-name&gt;
+  istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt;
 
   # Retrieve endpoint summary for endpoint with port 9080.
-  istioctl proxy-config endpoint &lt;pod-name&gt; --port 9080
+  istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; --port 9080
 
   # Retrieve full endpoint with a address (172.17.0.2).
-  istioctl proxy-config endpoint &lt;pod-name&gt; --address 172.17.0.2 -o json
+  istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; --address 172.17.0.2 -o json
 
   # Retrieve full endpoint with a cluster name (outbound|9411||zipkin.istio-system.svc.cluster.local).
-  istioctl proxy-config endpoint &lt;pod-name&gt; --cluster &#34;outbound|9411||zipkin.istio-system.svc.cluster.local&#34; -o json
+  istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; --cluster &#34;outbound|9411||zipkin.istio-system.svc.cluster.local&#34; -o json
   # Retrieve full endpoint with the status (healthy).
-  istioctl proxy-config endpoint &lt;pod-name&gt; --status healthy -ojson
+  istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; --status healthy -ojson
 
 </code></pre>
 <h2 id="istioctl-proxy-config-listener">istioctl proxy-config listener</h2>
 <p>Retrieve information about listener configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config listener &lt;pod-name&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config listener &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
 <p>
 listenersl
@@ -1585,12 +1590,12 @@ listenersl
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1615,7 +1620,7 @@ listenersl
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1651,18 +1656,18 @@ listenersl
 </table>
 <h3 id="istioctl-proxy-config-listener Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about listener configuration for a given pod from Envoy.
-  istioctl proxy-config listeners &lt;pod-name&gt;
+  istioctl proxy-config listeners &lt;pod-name[.namespace]&gt;
 
   # Retrieve listener summary for listeners with port 9080.
-  istioctl proxy-config listeners &lt;pod-name&gt; --port 9080
+  istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; --port 9080
 
   # Retrieve full listener dump for HTTP listeners with a wildcard address (0.0.0.0).
-  istioctl proxy-config listeners &lt;pod-name&gt; --type HTTP --address 0.0.0.0 -o json
+  istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; --type HTTP --address 0.0.0.0 -o json
 
 </code></pre>
 <h2 id="istioctl-proxy-config-route">istioctl proxy-config route</h2>
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config route &lt;pod-name&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config route &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
 <p>
 routesr
@@ -1697,12 +1702,12 @@ routesr
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1727,7 +1732,7 @@ routesr
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1758,20 +1763,20 @@ routesr
 </table>
 <h3 id="istioctl-proxy-config-route Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about route configuration for a given pod from Envoy.
-  istioctl proxy-config routes &lt;pod-name&gt;
+  istioctl proxy-config routes &lt;pod-name[.namespace]&gt;
 
   # Retrieve route summary for route 9080.
-  istioctl proxy-config route &lt;pod-name&gt; --name 9080
+  istioctl proxy-config route &lt;pod-name[.namespace]&gt; --name 9080
 
   # Retrieve full route dump for route 9080
-  istioctl proxy-config route &lt;pod-name&gt; --name 9080 -o json
+  istioctl proxy-config route &lt;pod-name[.namespace]&gt; --name 9080 -o json
 
 </code></pre>
 <h2 id="istioctl-proxy-status">istioctl proxy-status</h2>
 <p>
 Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in the mesh</p>
 <p></p>
-<pre class="language-bash"><code>istioctl proxy-status [&lt;proxy-name&gt;] [flags]
+<pre class="language-bash"><code>istioctl proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <p>
 ps
@@ -1806,12 +1811,12 @@ ps
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1836,7 +1841,7 @@ ps
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1907,12 +1912,12 @@ ps
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -1937,7 +1942,7 @@ ps
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -2000,12 +2005,12 @@ ps
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -2030,7 +2035,7 @@ ps
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -2091,12 +2096,12 @@ ps
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -2121,7 +2126,7 @@ ps
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>

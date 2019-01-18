@@ -9,9 +9,9 @@ keywords: [kubernetes,ansible]
 
 ## 先决条件
 
-1. [下载对应的 Istio 版本](/docs/setup/kubernetes/download-release/)。
+1. [下载对应的 Istio 版本](/zh/docs/setup/kubernetes/download-release/)。
 
-1. 执行所有必要的[平台特定配置](/docs/setup/kubernetes/platform-setup/)。
+1. 执行所有必要的[平台特定配置](/zh/docs/setup/kubernetes/platform-setup/)。
 
 1. [安装 Ansible 2.4](https://docs.ansible.com/ansible/latest/intro_installation.html).
 

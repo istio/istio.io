@@ -70,6 +70,7 @@ services:
 ### 其他 Istio 组件
 
 Istio Pilot 、Mixer 和 Citadel 的 Debian 包可以通过 Istio 的发行版获得。同时，这些组件可以运行在 Docker 容器( docker.io/istio/pilot, docker.io/istio/mixer, docker.io/istio/citadel ) 中。请注意，这些组件都是无状态的并且可以水平伸缩。每个组件都依赖 Istio API server，而 Istio API server 依赖 etcd 集群做持久存储。为了实现高可用，每个控制平面服务可以作为 [job](https://www.nomadproject.io/docs/job-specification/index.html) 在 Nomad 中运行，其中 [service stanza](https://www.nomadproject.io/docs/job-specification/service.html) 可以用来描述控制平面服务的期望属性。
+其中的一些组件可能需要在 Istio API 服务器中进行额外的安装步骤才能正常工作。
 
 ## 将 sidecars 添加到服务实例中
 

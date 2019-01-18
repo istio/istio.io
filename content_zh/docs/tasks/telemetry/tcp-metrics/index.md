@@ -2,7 +2,7 @@
 title: 获取 TCP 服务指标
 description: 本任务展示了如何配置 Istio 进行 TCP 服务的指标收集。
 weight: 25
-keywords: [遥测,指标,tcp]
+keywords: [telemetry,metrics,tcp]
 ---
 
 本文任务展示了如何对 Istio 进行配置，从而自动收集网格中 TCP 服务的遥测数据。在任务最后，会为网格中的一个 TCP 服务启用一个新的指标。
@@ -171,10 +171,8 @@ keywords: [遥测,指标,tcp]
     上面的连接会打开 Promethe 界面，并执行了对 `istio_mongo_received_bytes` 指标的查询。**Console** 标签页中包含了大致如下的内容：
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="istio-mixer.istio-system:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
+    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
     {{< /text >}}
-
-    > Istio 还会针对 MongoDB 收集协议特定的统计数据。例如来自 `ratings` 服务的 OP_QUERY 总数，同样可以使用[类似查询](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22envoy_mongo_mongo_collection_ratings_query_total%22%2C%22tab%22%3A1%7D%5D)获知。
 
 ## 理解 TCP 遥控数据的收集过程
 
@@ -188,8 +186,7 @@ _instances_ 中属性集的可选范围不同，是 TCP 服务的指标收集过
 
 TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是由服务端的 Envoy 代理生成的。它们在连接建立时发给 Mixer，在连接的存活期间周期性的进行发送（周期性报告），最后在连接关闭时再次发送（最终报告）。周期性报告的缺省间隔时间为 10 秒钟，最小取值为 1 秒。另外上下文属性让策略有了区分 `http` 和 `tcp` 协议的能力。
 
-{{< image width="100%" ratio="192.50%"
-    link="/docs/tasks/telemetry/tcp-metrics/istio-tcp-attribute-flow.svg"
+{{< image link="/docs/tasks/telemetry/tcp-metrics/istio-tcp-attribute-flow.svg"
     alt="Istio 服务网格中的 TCP 服务属性生成流程"
     caption="TCP 属性流程"
     >}}
