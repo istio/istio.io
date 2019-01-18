@@ -245,7 +245,16 @@ subnet.
 
 ## Cleanup
 
-* Remove the Mixer configuration:
+* Remove the mixer configuration for attribute-based white- and blacklisting:
+
+    {{< text bash >}}
+    $ kubectl delete -f checkversion-rule.yaml
+    $ kubectl delete -f appversion-instance.yaml
+    $ kubectl delete -f whitelist-handler.yaml
+    {{< /text >}}
+
+
+* Remove the mixer configuration for IP-based white- and blacklisting:
 
     {{< text bash >}}
     $ kubectl delete -f checkip-rule.yaml
