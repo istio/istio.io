@@ -253,7 +253,6 @@ subnet.
     $ kubectl delete -f whitelist-handler.yaml
     {{< /text >}}
 
-
 * Remove the mixer configuration for IP-based white- and blacklisting:
 
     {{< text bash >}}
