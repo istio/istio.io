@@ -23,7 +23,7 @@ Choose one of the following two **mutually exclusive** options described below.
 
     {{< text bash >}}
     $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio-minimal.yaml
-    $ cat @install/kubernetes/helm/istio-init/files/crd-1*@ >> $HOME/istio-minimal.yaml
+    $ cat install/kubernetes/helm/istio-init/files/crd-1* >> $HOME/istio-minimal.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
       --set security.enabled=false \
       --set ingress.enabled=false \
@@ -118,5 +118,5 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 > {{< warning_icon >}} Deleting CRDs will delete any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ for i in install @install/kubernetes/helm/istio-init/files/*crd-1*yaml@; do kubectl delete -f $i; done
+    $ for i in install install/kubernetes/helm/istio-init/files/*crd-1*yaml; do kubectl delete -f $i; done
     {{< /text >}}
