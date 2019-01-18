@@ -50,8 +50,8 @@ The following commands have relative references in the Istio directory. You must
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
     {{< text bash >}}
-    $ cat install/kubernetes/namespace.yaml > $HOME/istio.yaml
-    $ cat install/kubernetes/helm/istio-init/files/crd-* >> $HOME/istio.yaml
+    $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio.yaml
+    $ cat @install/kubernetes/helm/istio-init/files/crd-*@ >> $HOME/istio.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system >> $HOME/istio.yaml
     {{< /text >}}
 
@@ -76,7 +76,7 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
@@ -128,5 +128,5 @@ to manage the lifecycle of Istio.
 > {{< warning_icon >}} Deleting CRDs will delete any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ for i in install install/kubernetes/helm/istio-init/files/*crd*yaml; do kubectl delete -f $i; done
+    $ for i in install @install/kubernetes/helm/istio-init/files/*crd*yaml@; do kubectl delete -f $i; done
     {{< /text >}}
