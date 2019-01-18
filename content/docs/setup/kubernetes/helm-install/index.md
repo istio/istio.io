@@ -51,7 +51,7 @@ The following commands have relative references in the Istio directory. You must
 
     {{< text bash >}}
     $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio.yaml
-    $ cat @install/kubernetes/helm/istio-init/files/crd-*@ >> $HOME/istio.yaml
+    $ cat install/kubernetes/helm/istio-init/files/crd-* >> $HOME/istio.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system >> $HOME/istio.yaml
     {{< /text >}}
 
@@ -128,5 +128,5 @@ to manage the lifecycle of Istio.
 > {{< warning_icon >}} Deleting CRDs will delete any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ for i in install @install/kubernetes/helm/istio-init/files/*crd*yaml@; do kubectl delete -f $i; done
+    $ for i in install install/kubernetes/helm/istio-init/files/*crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
