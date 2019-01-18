@@ -85,7 +85,7 @@ to manage the lifecycle of Istio.
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install the `istio-init` chart to bootstrap all the Istio's [CRDs]:
+1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
@@ -113,14 +113,19 @@ to manage the lifecycle of Istio.
 
 * For option 2, uninstall using Helm:
 
+> Uninstalling this chart does not delete Istio's registered CRDs. Istio by design expects
+> CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
+> data in custom resources the Istio designers feel it is better to explicitly delete this
+> configuration rather then unexpectedly lose it.
+
     {{< text bash >}}
     $ helm delete --purge istio
     $ helm delete --purge istio-init
     {{< /text >}}
 
-    > Warning: Deleting CRDs will delete any configuration that you have made to Istio.
-
 * If desired, run the following command to delete all CRDs:
+
+> {{< warning_icon >}} Deleting CRDs will delete any configuration changes that you have made to Istio.
 
     {{< text bash >}}
     $ for i in install install/kubernetes/helm/istio-init/files/*crd*yaml; do kubectl delete -f $i; done
