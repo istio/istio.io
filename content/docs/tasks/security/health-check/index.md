@@ -1,5 +1,5 @@
 ---
-title: Citadel health checking
+title: Citadel Health Checking
 description: Shows how to enable Citadel health checking with Kubernetes.
 weight: 70
 keywords: [security,health-check]
@@ -16,7 +16,7 @@ Citadel contains a _prober client_ module that periodically checks Citadel's sta
 status of the gRPC server).
 If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_
 (the file is always empty). Otherwise, it does nothing. Citadel relies on a
-[K8s liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+[Kubernetes liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
 with command line to check the _modification time_ of the _health status file_ on the pod.
 If the file is not updated for a period, the probe will be triggered and Kubelet will restart the Citadel container.
 

@@ -215,7 +215,7 @@ used the `istio-galley-configuration` `configmap` and root certificate
 mounted from `istio.istio-galley-service-account` secret in the
 `istio-system` namespace.
 
-1. Verify the `istio-galley` pods(s) are running:
+1. Verify the `istio-galley` pod(s) are running:
 
     {{< text bash >}}
     $  kubectl -n istio-system get pod -listio=galley
@@ -289,7 +289,7 @@ configuration cannot be created and updated.  In such cases you’ll see
 an error about `no such host` (Kubernetes 1.9) or `no endpoints
 available` (>=1.10).
 
-Verify the `istio-galley` pods(s) are running and endpoints are ready.
+Verify the `istio-galley` pod(s) are running and endpoints are ready.
 
 {{< text bash >}}
 $  kubectl -n istio-system get pod -listio=galley

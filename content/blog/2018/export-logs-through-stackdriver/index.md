@@ -9,7 +9,7 @@ weight: 87
 
 This post shows how to direct Istio logs to [Stackdriver](https://cloud.google.com/stackdriver/)
 and export those logs to various configured sinks such as such as
-[BigQuery](https://cloud.google.com/bigquery/), [Google Cloud Storage(GCS)](https://cloud.google.com/storage/)
+[BigQuery](https://cloud.google.com/bigquery/), [Google Cloud Storage](https://cloud.google.com/storage/)
 or [Cloud Pub/Sub](https://cloud.google.com/pubsub/). At the end of this post you can perform
 analytics on Istio data from your favorite places such as BigQuery, GCS or Cloud Pub/Sub.
 
