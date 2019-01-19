@@ -1,5 +1,5 @@
 ---
-title: VPN connectivity
+title: VPN Connectivity
 description: Install an Istio mesh across multiple Kubernetes clusters with direct network access to remote pods.
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn]

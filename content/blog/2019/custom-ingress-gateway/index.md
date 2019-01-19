@@ -1,5 +1,5 @@
 ---
-title: Deploy a custom ingress gateway using cert-manager
+title: Deploy a Custom Ingress Gateway Using Cert-Manager
 description: Describes how to deploy a custom ingress gateway using cert-manager manually.
 subtitle: Custom ingress gateway
 publishdate: 2019-01-10

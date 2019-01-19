@@ -1,5 +1,5 @@
 ---
-title: Connect to an external HTTPS proxy
+title: Connect to an External HTTPS Proxy
 description: Describes how to configure Istio to let applications use an external HTTPS proxy.
 weight: 60
 keywords: [traffic-management,egress]

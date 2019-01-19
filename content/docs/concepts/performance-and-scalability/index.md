@@ -117,7 +117,7 @@ This enables us to catch regression early and track improvements over time.
 
 * Setup [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
-* Split mixer check and report pods.
+* Split Mixer check and report pods.
 
 * High availability (HA).
 
@@ -129,7 +129,7 @@ Current recommendations (when using all Istio features):
 
 * 1 vCPU per peak thousand requests per second for the sidecar(s) with access logging (which is on by default) and 0.5 without, `fluentd` on the node is a big contributor to that cost as it captures and uploads logs.
 
-* Assuming typical cache hit ratio (>80%) for mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
+* Assuming typical cache hit ratio (>80%) for Mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
 
 * Latency cost/overhead is approximately [10 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we expect to bring this down to a low single digit ms.
 
