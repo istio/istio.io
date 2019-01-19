@@ -1,5 +1,5 @@
 ---
-title: Authorization for HTTP services
+title: Authorization for HTTP Services
 description: Shows how to set up role-based access control for HTTP services.
 weight: 40
 keywords: [security,access-control,rbac,authorization]

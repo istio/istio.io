@@ -1,5 +1,5 @@
 ---
-title: Istio Soft Multi-tenancy Support
+title: Istio Soft Multi-Tenancy Support
 description: Using Kubernetes namespaces and RBAC to create an Istio soft multi-tenancy environment.
 publishdate: 2018-04-19
 subtitle: Using multiple Istio control planes and RBAC to create multi-tenancy
@@ -50,8 +50,8 @@ the Istio namespace of *istio-system1*.
 $ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
 {{< /text >}}
 
-The istio yaml file contains the details of the Istio control plane deployment, including the
-pods that make up the control plane (mixer, pilot, ingress, CA). Deploying the two Istio
+The `istio.yaml` file contains the details of the Istio control plane deployment, including the
+pods that make up the control plane (Mixer, Pilot, Ingress, Galley, CA). Deploying the two Istio
 control plane yaml files:
 
 {{< text bash >}}
@@ -303,7 +303,7 @@ technology, ex. Kubernetes, rather than improvements in Istio capabilities.
 
 ## Issues
 
-* The CA (Certificate Authority) and mixer Istio pod logs from one tenant's Istio control
+* The CA (Certificate Authority) and Mixer pod logs from one tenant's Istio control
 plane (ex. *istio-system* `namespace`) contained 'info' messages from a second tenant's
 Istio control plane (ex *istio-system1* `namespace`).
 

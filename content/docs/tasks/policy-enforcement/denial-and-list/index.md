@@ -245,7 +245,7 @@ subnet.
 
 ## Cleanup
 
-* Remove the mixer configuration:
+* Remove the Mixer configuration:
 
     {{< text bash >}}
     $ kubectl delete -f checkip-rule.yaml

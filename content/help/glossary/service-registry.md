@@ -8,6 +8,6 @@ Istio uses the service registry to generate [Envoy](#envoy) configuration.
 
 Istio does not provide [service discovery](https://en.wikipedia.org/wiki/Service_discovery),
 although most services are automatically added to the registry by Pilot
-adapters that reflect the discovered services of the underlying platform (k8s/consul/plain DNS).
+adapters that reflect the discovered services of the underlying platform (Kubernetes, Consul, plain DNS).
 Additional services can also be registered manually using a
 [`ServiceEntry`](/docs/concepts/traffic-management/#service-entries) configuration.
