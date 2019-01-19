@@ -44,7 +44,7 @@ This may be caused by a known [Docker issue](https://github.com/docker/for-mac/i
 containers may skew significantly from the time on the host machine. If this is the case,
 when you select a very long date range in Zipkin you will see the traces appearing as much as several days too early.
 
-You can also confirm this problem by comparing the date inside a docker container to outside:
+You can also confirm this problem by comparing the date inside a Docker container to outside:
 
 {{< text bash >}}
 $ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest

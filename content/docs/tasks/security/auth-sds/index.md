@@ -17,7 +17,7 @@ through secret-mount files, this approach has the following side effects:
 
 These issues are addressed in Istio 1.1 through the support of SDS to provision identities.
 
-Workload requests key/certificate from SDS server(node agent, which runs as per-node daemon set) using k8s service account JWT through
+Workload requests key/certificate from SDS server (node agent, which runs as per-node daemon set) using a Kubernetes service account JWT through
 the SDS API, node agent generates private key and send CSR request to Citadel, Citadel verifies the JWT and signs the certificate,
 the key/certificate will eventually be sent back to workload sidecar through SDS server(node agent).
 Since key/certificate which are generated through SDS are stored in workload sidecar's memory, it's more secure than file mount;
