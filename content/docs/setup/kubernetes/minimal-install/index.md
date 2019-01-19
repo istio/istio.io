@@ -19,6 +19,8 @@ Choose one of the following two **mutually exclusive** options described below.
 
 ### Option 1: Install with Helm via `helm template`
 
+Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
+
 1. Render Istio's core components to a Kubernetes manifest called `istio-minimal.yaml`:
 
     {{< text bash >}}
