@@ -21,17 +21,21 @@ Choose one of the following two **mutually exclusive** options described below.
 
 Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
 
+1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+
+    {{< text bash >}}
+    $ for i in install install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    {{< /text >}}
+
 1. Render Istio's core components to a Kubernetes manifest called `istio-minimal.yaml`:
 
     {{< text bash >}}
     $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio-minimal.yaml
-    $ cat install/kubernetes/helm/istio-init/files/crd-1* >> $HOME/istio-minimal.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
       --set security.enabled=false \
-      --set ingress.enabled=false \
-      --set gateways.istio-ingressgateway.enabled=false \
-      --set gateways.istio-egressgateway.enabled=false \
+      --set gateways.enabled=false \
       --set galley.enabled=false \
+      --set global.useMCP=false \
       --set sidecarInjectorWebhook.enabled=false \
       --set mixer.policy.enabled=false \
       --set mixer.telemetry.enabled=false \
@@ -64,10 +68,16 @@ to manage the lifecycle of Istio.
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install the `istio-init` chart to bootstrap all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions):
+1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+    {{< /text >}}
+
+1. Verify all the Istio's CRDs have been be committed in the kube-apiserver by checking all the CRD creation jobs have been completed with success:
+
+    {{< text bash >}}
+    $ kubectl get job --namespace istio-system | grep istio-crd
     {{< /text >}}
 
 1. Install the `istio` chart:
@@ -75,10 +85,9 @@ to manage the lifecycle of Istio.
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system \
       --set security.enabled=false \
-      --set ingress.enabled=false \
-      --set gateways.istio-ingressgateway.enabled=false \
-      --set gateways.istio-egressgateway.enabled=false \
+      --set gateways.enabled=false \
       --set galley.enabled=false \
+      --set global.useMCP=false \
       --set sidecarInjectorWebhook.enabled=false \
       --set mixer.policy.enabled=false \
       --set mixer.telemetry.enabled=false \
@@ -120,5 +129,5 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 > {{< warning_icon >}} Deleting CRDs deletes any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ for i in install install/kubernetes/helm/istio-init/files/*crd-1*yaml; do kubectl delete -f $i; done
+    $ for i in install install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
