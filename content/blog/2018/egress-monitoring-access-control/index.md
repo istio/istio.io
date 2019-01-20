@@ -190,43 +190,43 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 
 1.  Redefine your `VirtualService` for _edition.cnn.com_:
 
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: direct-through-egress-gateway
-        spec:
-          hosts:
-          - edition.cnn.com
-          gateways:
-          - istio-egressgateway
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-cnn-through-egress-gateway
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - istio-egressgateway
+      - mesh
+      http:
+      - match:
+        - gateways:
           - mesh
-          http:
-          - match:
-            - gateways:
-              - mesh
-              port: 80
-            route:
-            - destination:
-                host: istio-egressgateway.istio-system.svc.cluster.local
-                port:
-                  number: 443
-              weight: 100
-          - match:
-            - gateways:
-              - istio-egressgateway
-              port: 443
-              uri:
-                regex: "/health|/sport"
-            route:
-            - destination:
-                host: edition.cnn.com
-                port:
-                  number: 443
-              weight: 100
-        EOF
-    ```
+          port: 80
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            port:
+              number: 443
+          weight: 100
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+          uri:
+            regex: "/health|/sport"
+        route:
+        - destination:
+            host: edition.cnn.com
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
 
     Note that you added a `match` by `uri` condition that checks that the URL path is
     either _/health_ or _/sport_. Also note that this condition is added to the `istio-egressgateway`
@@ -237,12 +237,12 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 
 1.  Send the previous three HTTP requests to _cnn.com_:
 
-    ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     404
     200
     200
-    ```
+    {{< /text >}}
 
     The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returned _404 Not Found_, while requests
      to [edition.cnn.com/sport](https://edition.cnn.com/sport) and
@@ -253,13 +253,13 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 
 1.  Query the Mixer log and see that the information about the requests appears again in the log:
 
-    ```command-output-as-json
+    {{< text bash >}}
     $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
     {"level":"info","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
     {"level":"error","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
     {"level":"info","time":"2018-06-19T12:39:48.091268Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":334027,"source":"sleep","sourceNamespace":"default","user":"unknown"}
     {"level":"info","time":"2018-06-19T12:39:48.063812Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":355267,"source":"sleep","sourceNamespace":"default","user":"unknown"}
-    ```
+    {{< /text >}}
 
     You still get info and error messages regarding accesses to
     [edition.cnn.com/politics](https://edition.cnn.com/politics), however this time the `responseCode` is `404`, as
@@ -286,47 +286,47 @@ in the next section.
 
 1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway) task:
 
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        apiVersion: networking.istio.io/v1alpha3
-        kind: VirtualService
-        metadata:
-          name: direct-through-egress-gateway
-        spec:
-          hosts:
-          - edition.cnn.com
-          gateways:
-          - istio-egressgateway
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-cnn-through-egress-gateway
+    spec:
+      hosts:
+      - edition.cnn.com
+      gateways:
+      - istio-egressgateway
+      - mesh
+      http:
+      - match:
+        - gateways:
           - mesh
-          http:
-          - match:
-            - gateways:
-              - mesh
-              port: 80
-            route:
-            - destination:
-                host: istio-egressgateway.istio-system.svc.cluster.local
-                port:
-                  number: 443
-              weight: 100
-          - match:
-            - gateways:
-              - istio-egressgateway
-              port: 443
-            route:
-            - destination:
-                host: edition.cnn.com
-                port:
-                  number: 443
-              weight: 100
-        EOF
-    ```
+          port: 80
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            port:
+              number: 443
+          weight: 100
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+        route:
+        - destination:
+            host: edition.cnn.com
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
 
 1.  Send the previous three HTTP requests to _cnn.com_, this time you should get three _200 OK_ responses as
 previously:
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     200
     200
     200
@@ -398,7 +398,7 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
  [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_.
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     404
     200
     200
@@ -446,7 +446,7 @@ external services.
   the exception for the _politics_ namespace.
 
     ```command
-    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     404
     200
     200
@@ -504,7 +504,7 @@ namespace exempt from monitoring and policy enforcement.
 1.  Perform your usual test from `$SOURCE_POD`:
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     404
     200
     200
@@ -515,7 +515,7 @@ namespace exempt from monitoring and policy enforcement.
 1.  Perform the previous test from `$SOURCE_POD_IN_POLITICS`:
 
     ```command
-    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     200
     200
     200
@@ -539,7 +539,7 @@ As an additional security measure, let our organization's operation people visua
 1.  Send requests to _cnn.com_ from `$SOURCE_POD`:
 
     ```command
-    $ kubectl exec -it $SOURCE_POD -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     404
     200
     200
@@ -550,7 +550,7 @@ As an additional security measure, let our organization's operation people visua
 1.  Send requests to _cnn.com_ from `$SOURCE_POD_IN_POLITICS`:
 
     ```command
-    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- bash -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     200
     200
     200
