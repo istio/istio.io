@@ -45,7 +45,7 @@ certificate from the Istio samples directory.
 
 The instructions, below, also set up the `remote` cluster with a selector-less service and an endpoint for `istio-pilot.istio-system`
 that has the address of the `local` Istio ingress gateway.
-This will be used to access the `local` pilot securely using the ingress gateway without mTLS termination.
+This will be used to access the `local` pilot securely using the ingress gateway without mutual TLS termination.
 
 ### Setup the local cluster
 
@@ -325,7 +325,7 @@ The difference between the two instances is the version of their `helloworld` im
     {{< /text >}}
 
     Although deployed locally, this Gateway instance will also affect the `remote` cluster by configuring it to passthrough
-    incoming traffic to the relevant remote service (SNI-based) but keeping the mTLS all the way from the source to destination sidecars.
+    incoming traffic to the relevant remote service (SNI-based) but keeping mutual TLS all the way from the source to destination sidecars.
 
 1. Deploy the files:
 

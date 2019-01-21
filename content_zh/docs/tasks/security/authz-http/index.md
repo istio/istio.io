@@ -108,7 +108,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 1. 查看日志，并检查 `permissiveResponseCode`。
 
-    Kubernetes 环境中，可以用下列操作搜索 istio-telemetry 的 Pod 日志：
+    Kubernetes 环境中，可以用下列操作搜索 `istio-telemetry` 的 Pod 日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -139,7 +139,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 1. 再一次查看日志，并检查 `permissiveResponseCode`。
 
-    Kubernetes 环境中，可以用下列操作搜索 istio-telemetry 的 Pod 日志：
+    Kubernetes 环境中，可以用下列操作搜索 `istio-telemetry` 的 Pod 日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -211,7 +211,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 1. 查看日志，检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，查看 istio-telemetry pod 的日志：
+    在 Kubernetes 环境中，查看 `istio-telemetry` pod 的日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"

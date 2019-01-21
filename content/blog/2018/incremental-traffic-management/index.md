@@ -47,7 +47,7 @@ Fortunately, a standard Istio deployment already includes a [Gateway](/docs/conc
 
 A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/platform-setup/) instructions, and then install Istio using [Helm](/docs/setup/kubernetes/minimal-install/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
 
-First, **setup and configure [GKE](/docs/setup/kubernetes/platform-setup/gke/)**:
+First, setup and configure [GKE](/docs/setup/kubernetes/platform-setup/gke/):
 
 {{< text bash >}}
 $ gcloud container clusters create istio-inc --zone us-central1-f
@@ -57,7 +57,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-Next, **[install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/minimal-install/)** --  only traffic management components:
+Next, [install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/minimal-install/) -- only traffic management components:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \
@@ -72,20 +72,20 @@ $ helm template install/kubernetes/helm/istio \
   --set pilot.sidecar=false > istio-minimal.yaml
 {{< /text >}}
 
-Then **create the istio-system namespace and deploy Istio**:
+Then create the `istio-system` namespace and deploy Istio:
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
 $ kubectl apply -f istio-minimal.yaml
 {{< /text >}}
 
-Next, **deploy the Bookinfo sample** without the Istio sidecar containers:
+Next, deploy the Bookinfo sample without the Istio sidecar containers:
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 {{< /text >}}
 
-Now, **configure a new Gateway** that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
+Now, configure a new Gateway that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -146,7 +146,7 @@ spec:
 EOF
 {{< /text >}}
 
-Finally, **deploy a Pod that you can use for testing** with `curl` (and without the Istio sidecar container):
+Finally, deploy a pod that you can use for testing with `curl` (and without the Istio sidecar container):
 
 {{< text bash >}}
 $ kubectl apply -f samples/sleep/sleep.yaml
@@ -222,4 +222,4 @@ null
 
 Mission accomplished! This post showed how to deploy a minimal installation of Istio that only contains the traffic management components (Pilot, ingress Gateway), and then use those components to direct traffic to specific versions of the reviews service. And it wasn't necessary to deploy the Istio sidecar proxy to gain these capabilities, so there was little to no interruption of existing workloads or applications.
 
-Using the built-in ingress Gateway (along with some `VirtualService` and `DestinationRule` resources) this post showed how you can easily leverage Istio’s traffic management for cluster-external ingress traffic and cluster-internal service-to-service traffic. This technique is a great example of an incremental approach to adopting Istio, and can be especially useful in real-world cases where Pods are owned by different teams or deployed to different namespaces.
+Using the built-in ingress gateway (along with some `VirtualService` and `DestinationRule` resources) this post showed how you can easily leverage Istio’s traffic management for cluster-external ingress traffic and cluster-internal service-to-service traffic. This technique is a great example of an incremental approach to adopting Istio, and can be especially useful in real-world cases where Pods are owned by different teams or deployed to different namespaces.

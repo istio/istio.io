@@ -32,13 +32,13 @@ icon: helm
 
 以下命令在 Istio 目录执行使用相对引用。您必须在 Istio 的根目录中执行下面的命令。
 
-1. 如果使用 Helm 2.10.0 之前的版本，通过 `kubectl apply` [自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，然后等待几秒钟，直到 kube-apiserver 中的 CRDs 提交完成：
+1. 如果使用 Helm 2.10.0 之前的版本，通过 `kubectl apply` [自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，然后等待几秒钟，直到 `kube-apiserver` 中的 CRDs 提交完成：
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
 
-    > 如果您正在启用 `certmanager`，那么您还需要安装它的 CRDs，并等待几秒钟，以便在 kube-apiserver 中提交 CRDs :
+    > 如果您正在启用 `certmanager`，那么您还需要安装它的 CRDs，并等待几秒钟，以便在 `kube-apiserver` 中提交 CRDs :
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml

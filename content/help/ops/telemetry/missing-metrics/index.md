@@ -25,7 +25,7 @@ If the Istio Dashboard or the Prometheus queries don’t show the expected metri
 
 Mixer generates metrics to monitor its own behavior. The first step is to check these metrics:
 
-1. Establish a connection to the Mixer self-monitoring endpoint for the istio-telemetry deployment. In Kubernetes environments, execute the following command:
+1. Establish a connection to the Mixer self-monitoring endpoint for the `istio-telemetry` deployment. In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
     $ kubectl -n istio-system port-forward <istio-telemetry pod> 9093 &
@@ -126,7 +126,7 @@ Confirm that the metric value with the largest configuration ID is 0. This will 
 
 ## Verify Mixer is sending metric instances to the Prometheus adapter
 
-1. Establish a connection to the istio-telemetry self-monitoring endpoint. Setup a port-forward to the istio-telemetry self-monitoring port as described in
+1. Establish a connection to the `istio-telemetry` self-monitoring endpoint. Setup a port-forward to the `istio-telemetry` self-monitoring port as described in
 [Verify Mixer is receiving Report calls](#verify-mixer-is-receiving-report-calls).
 
 1. On the Mixer self-monitoring port, search for `mixer_runtime_dispatch_count`. The output should be similar to:
