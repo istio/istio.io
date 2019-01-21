@@ -96,7 +96,7 @@ DNS, Kubernetes' DNS needs to be configured to point to CoreDNS as the DNS
 server for the `.global` DNS domain. Create one of the following ConfigMaps
 or update an existing one:
 
-For clusters that use kube-dns:
+For clusters that use `kube-dns`:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF

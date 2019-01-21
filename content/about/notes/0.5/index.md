@@ -32,7 +32,7 @@ providing a flexible fine-grained access control mechanism. [Learn more](https:/
 - **Istio RBAC**. Mixer now has a role-based access control adapter.
 [Learn more](/docs/concepts/security/#authorization)
 
-- **Fluentd**. Mixer now has an adapter for log collection through [fluentd](https://www.fluentd.org).
+- **Fluentd**. Mixer now has an adapter for log collection through [Fluentd](https://www.fluentd.org).
 [Learn more](/docs/tasks/telemetry/fluentd/)
 
 - **Stdio**. The stdio adapter now lets you log to files with support for log rotation & backup, along with a host

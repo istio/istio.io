@@ -11,7 +11,7 @@ Kubernetes `ValidatingWebhook`. The `istio-galley`
 
 * `pilot.validation.istio.io` - Served on path `/admitpilot` and is
 responsible for validating configuration consumed by Pilot
-(e.g. VirtualService, Authentication).
+(e.g. `VirtualService`, Authentication).
 
 * `mixer.validation.istio.io` - Served on path `/admitmixer` and is
 responsible for validating configuration consumed by Mixer.

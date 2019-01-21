@@ -78,8 +78,8 @@ services:
 
 Debian packages for Istio Pilot, Mixer, and Citadel are available through the
 Istio release. Alternatively, these components can be run as Docker
-containers (docker.io/istio/pilot, docker.io/istio/mixer,
-docker.io/istio/citadel). Note that these components are stateless and can
+containers (`docker.io/istio/pilot`, `docker.io/istio/mixer`,
+`docker.io/istio/citadel`). Note that these components are stateless and can
 be scaled horizontally. Each of these components depends on the Istio API
 server, which in turn depends on the etcd cluster for persistence. To
 achieve high availability, each control plane service could be run as a

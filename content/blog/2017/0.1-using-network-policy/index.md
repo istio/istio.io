@@ -79,7 +79,7 @@ spec:
     istio: ingress
 {{< /text >}}
 
-The istio-ingress exposes ports 80 and 443.  Let’s limit incoming traffic to just these two ports.  Envoy has a [built-in administrative interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#operations-admin-interface), and we don’t want a misconfigured istio-ingress image to accidentally expose our admin interface to the outside world.  This is an example of defense in depth: a properly configured image should not expose the interface, and a properly configured Network Policy will prevent anyone from connecting to it.  Either can fail or be misconfigured and we are still protected.
+The `istio-ingress` exposes ports 80 and 443.  Let’s limit incoming traffic to just these two ports.  Envoy has a [built-in administrative interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#operations-admin-interface), and we don’t want a misconfigured `istio-ingress` image to accidentally expose our admin interface to the outside world.  This is an example of defense in depth: a properly configured image should not expose the interface, and a properly configured Network Policy will prevent anyone from connecting to it.  Either can fail or be misconfigured and we are still protected.
 
 {{< text yaml >}}
 apiVersion: networking.k8s.io/v1

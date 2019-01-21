@@ -82,7 +82,7 @@ Istio service identities on different platforms:
 
 - **AWS**: AWS IAM user/role account
 
-- **On-premises (non-Kubernetes)**: user account, custom service account, service name, istio service account, or GCP service account.
+- **On-premises (non-Kubernetes)**: user account, custom service account, service name, Istio service account, or GCP service account.
   The custom service account refers to the existing service account just like the identities that the customer's Identity Directory manages.
 
 ### Istio security vs SPIFFE

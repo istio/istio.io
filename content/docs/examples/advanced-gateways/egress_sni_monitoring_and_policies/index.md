@@ -14,7 +14,7 @@ example extends that example to show how to configure SNI monitoring and apply p
 *  Configure traffic to `*.wikipedia.org` by following
    [the steps](/docs/examples/advanced-gateways/wildcard-egress-hosts#wildcard-configuration-for-arbitrary-domains) in
    [Configure Egress Traffic using Wildcard Hosts](/docs/examples/advanced-gateways/wildcard-egress-hosts/) example,
-   **with mTLS enabled**.
+   **with mutual TLS enabled**.
 
 ## SNI monitoring and access policies
 
@@ -323,7 +323,7 @@ access the English and the French versions.
     and Spanish.
 
     > It may take several minutes for the Mixer policy components to synchronize on the new policy. In case you want to
-    quickly demonstrate the new policy without waiting until the synchronization is complete, kill the Mixer policy pods:
+    quickly demonstrate the new policy without waiting until the synchronization is complete, delete the Mixer policy pods:
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio-mixer-type=policy
