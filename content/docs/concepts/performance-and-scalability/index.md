@@ -55,7 +55,7 @@ Fortio is a fast, small, reusable, embeddable go library as well as a command li
 
 Fortio is also 100% open-source and with no external dependencies beside go and gRPC so you can reproduce all our results easily and add your own variants or scenarios you are interested in exploring.
 
-Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for istio-0.7.1 at 400 Query-Per-Second (qps) between 2 services inside the mesh (with mutual TLS, Mixer policy checks and telemetry collection):
+Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for `istio-0.7.1` at 400 Query-Per-Second (qps) between 2 services inside the mesh (with mutual TLS, Mixer policy checks and telemetry collection):
 
 <iframe src="https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json&xMax=105&yLog=true" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 

@@ -10,7 +10,7 @@ icon: notes
 
 - 改善了 Pilot 的可伸缩性和 Envoy 的启动时间。
 
-- 修复了增加一个端口时 VirtualService Host 不匹配的问题。
+- 修复了增加一个端口时 virtual service host 不匹配的问题。
 
 - 添加了同一个主机内对 [合并多个 `VirtualService` 或 `DestinationRule` 定义](/zh/help/ops/traffic-management/deploy-guidelines/#在网关中配置多个-tls-主机) 的有限支持。
 

@@ -112,7 +112,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 1.  验证已创建日志流并检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，搜索日志以查找 istio-telemetry pods，如下所示：
+    在 Kubernetes 环境中，搜索日志以查找 `istio-telemetry` pods，如下所示：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -146,7 +146,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 1.  验证已创建日志流并检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，搜索日志以查找 istio-telemetry pods，如下所示：
+    在 Kubernetes 环境中，搜索日志以查找 `istio-telemetry` pods，如下所示：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -223,7 +223,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 1.  验证日志并再次检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，搜索日志以查找 istio-telemetry pods，如下所示：
+    在 Kubernetes 环境中，搜索日志以查找 `istio-telemetry` pods，如下所示：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"

@@ -42,9 +42,9 @@ when official multi-tenancy support is provided.
 Deploying multiple Istio control planes starts by replacing all `namespace` references
 in a manifest file with the desired namespace. Using `istio.yaml` as an example, if two tenant
 level Istio control planes are required; the first can use the `istio.yaml` default name of
-*istio-system* and a second control plane can be created by generating a new yaml file with
+`istio-system` and a second control plane can be created by generating a new yaml file with
 a different namespace. As an example, the following command creates a yaml file with
-the Istio namespace of *istio-system1*.
+the Istio namespace of `istio-system1`.
 
 {{< text bash >}}
 $ cat istio.yaml | sed s/istio-system/istio-system1/g > istio-system1.yaml
@@ -88,7 +88,7 @@ administrator to only the assigned namespace.
 The manifest files in the Istio repositories create both common resources that would
 be used by all Istio control planes as well as resources that are replicated per control
 plane. Although it is a simple matter to deploy multiple control planes by replacing the
-*istio-system* namespace references as described above, a better approach is to split the
+`istio-system` namespace references as described above, a better approach is to split the
 manifests into a common part that is deployed once for all tenants and a tenant
 specific part. For the [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions), the roles and the role
 bindings should be separated out from the provided Istio manifests.  Additionally, the
@@ -101,7 +101,7 @@ section.
 To restrict a tenant administrator to a single Istio namespace, the cluster
 administrator would create a manifest containing, at a minimum, a `Role` and `RoleBinding`
 similar to the one below. In this example, a tenant administrator named *sales-admin*
-is limited to the namespace *istio-system1*. A completed manifest would contain many
+is limited to the namespace `istio-system1`. A completed manifest would contain many
 more `apiGroups` under the `Role` providing resource access to the tenant administrator.
 
 {{< text yaml >}}
@@ -137,7 +137,7 @@ Istio control plane, the Istio manifest must be updated to specify the applicati
 that Pilot should watch for creation of its xDS cache. This is done by starting the Pilot
 component with the additional command line arguments `--appNamespace, ns-1`.  Where *ns-1*
 is the namespace that the tenant’s application will be deployed in. An example snippet from
-the istio-system1.yaml file is included below.
+the `istio-system1.yaml` file is shown below.
 
 {{< text yaml >}}
 apiVersion: extensions/v1beta1
@@ -167,7 +167,7 @@ spec:
 
 ### Deploying the tenant application in a namespace
 
-Now that the cluster administrator has created the tenant's namespace (ex. *istio-system1*) and
+Now that the cluster administrator has created the tenant's namespace (ex. `istio-system1`) and
 Pilot's service discovery has been configured to watch for a specific application
 namespace (ex. *ns-1*), create the application manifests to deploy in that tenant's specific
 namespace. For example:
@@ -209,7 +209,7 @@ The *-n* option will scope the rule to the tenant's mesh and should be set to th
 the tenant's app is deployed in. Note that the *-n* option can be skipped on the command line if
 the .yaml file for the resource scopes it properly instead.
 
-For example, the following command would be required to add a route rule to the *istio-system1*
+For example, the following command would be required to add a route rule to the `istio-system1`
 namespace:
 
 {{< text bash >}}
@@ -304,8 +304,8 @@ technology, ex. Kubernetes, rather than improvements in Istio capabilities.
 ## Issues
 
 * The CA (Certificate Authority) and Mixer pod logs from one tenant's Istio control
-plane (ex. *istio-system* `namespace`) contained 'info' messages from a second tenant's
-Istio control plane (ex *istio-system1* `namespace`).
+plane (e.g. `istio-system` namespace) contained 'info' messages from a second tenant's
+Istio control plane (e.g. `istio-system1` namespace).
 
 ## Challenges with other multi-tenancy models
 

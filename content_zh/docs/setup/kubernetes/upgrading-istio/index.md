@@ -15,7 +15,7 @@ keywords: [kubernetes,upgrading]
 1. [下载新的 Istio 版本](/zh/docs/setup/kubernetes/download-release/)并将目录更改为新版本目录。
 
 1. 升级 Istio 的[自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-通过 `kubectl apply` ，等待几秒钟，让 CRD 在 kube-apiserver 中提交：
+通过 `kubectl apply` ，等待几秒钟，让 CRD 在 `kube-apiserver` 中提交：
 
 {{< text bash >}}
 $ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@

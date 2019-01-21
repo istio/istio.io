@@ -42,11 +42,12 @@ The following commands have relative references in the Istio directory. You must
 
 1. Choose one of the following two **mutually exclusive** options described below.
 
-    > To customize Istio and install add-ons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
+    > To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
 
 ### Option 1: Install with Helm via `helm template`
 
-1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed to
+the Kubernetes API server:
 
     {{< text bash >}}
     $ for i in install install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
@@ -95,7 +96,7 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify all the Istio's CRDs have been committed in the kube-apiserver by checking all the CRD creation jobs complete with success:
+1. Verify all the Istio's CRDs have been committed to the Kubernetes API server by checking all the CRD creation jobs complete with success:
 
     {{< text bash >}}
     $ kubectl get job --namespace istio-system | grep istio-crd

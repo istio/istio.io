@@ -16,7 +16,7 @@ Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) 
 ## Installation steps
 
 1. If using a Helm version prior to 2.10.0, install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml

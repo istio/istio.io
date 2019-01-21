@@ -220,7 +220,7 @@ keywords: [traffic-management,circuit-breaking]
     Code 503 : 11 (36.7 %)
     {{< /text >}}
 
-1. 我们可以查询 istio-proxy 的状态，获取更多相关信息：
+1. 我们可以查询 `istio-proxy` 的状态，获取更多相关信息：
 
     {{< text bash >}}
     $ kubectl exec -it $FORTIO_POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats' | grep httpbin | grep pending

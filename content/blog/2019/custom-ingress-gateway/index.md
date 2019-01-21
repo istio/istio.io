@@ -133,7 +133,7 @@ The creation of custom ingress gateway could be used in order to have different 
 
 1. Create your service:
 
-    {{< warning_icon >}} The `NodePort` used needs to be an available Port.
+    {{< warning_icon >}} The `NodePort` used needs to be an available port.
 
     {{< text yaml >}}
     apiVersion: v1

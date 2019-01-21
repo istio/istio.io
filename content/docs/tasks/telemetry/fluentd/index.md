@@ -315,7 +315,7 @@ spec:
     latency: response.duration | "0ms"
   monitored_resource_type: '"UNSPECIFIED"'
 ---
-# Configuration for a fluentd handler
+# Configuration for a Fluentd handler
 apiVersion: "config.istio.io/v1alpha2"
 kind: fluentd
 metadata:
@@ -324,7 +324,7 @@ metadata:
 spec:
   address: "fluentd-es.logging:24224"
 ---
-# Rule to send logentry instances to the fluentd handler
+# Rule to send logentry instances to the Fluentd handler
 apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
