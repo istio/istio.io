@@ -32,16 +32,7 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
     {{< text bash >}}
     $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio-minimal.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-      --set security.enabled=false \
-      --set gateways.enabled=false \
-      --set galley.enabled=false \
-      --set global.useMCP=false \
-      --set sidecarInjectorWebhook.enabled=false \
-      --set mixer.policy.enabled=false \
-      --set mixer.telemetry.enabled=false \
-      --set prometheus.enabled=false \
-      --set global.proxy.envoyStatsd.enabled=false \
-      --set pilot.sidecar=false >> $HOME/istio-minimal.yaml
+      --values install/kubernetes/helm/istio/values-istio-minimal.yaml >> $HOME/istio-minimal.yaml
     {{< /text >}}
 
 1. Install the Pilot component via the manifest:
@@ -84,16 +75,7 @@ to manage the lifecycle of Istio.
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system \
-      --set security.enabled=false \
-      --set gateways.enabled=false \
-      --set galley.enabled=false \
-      --set global.useMCP=false \
-      --set sidecarInjectorWebhook.enabled=false \
-      --set mixer.policy.enabled=false \
-      --set mixer.telemetry.enabled=false \
-      --set prometheus.enabled=false \
-      --set global.proxy.envoyStatsd.enabled=false \
-      --set pilot.sidecar=false
+      --values install/kubernetes/helm/istio/values-istio-minimal.yaml
     {{< /text >}}
 
 1. Ensure the `istio-pilot-*` Kubernetes pod is deployed and its container is up and running:
