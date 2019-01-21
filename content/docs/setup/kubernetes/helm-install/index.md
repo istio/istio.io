@@ -50,7 +50,7 @@ The following commands have relative references in the Istio directory. You must
 the Kubernetes API server:
 
     {{< text bash >}}
-    $ for i in install install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
