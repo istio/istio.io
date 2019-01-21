@@ -13,7 +13,7 @@ keywords: [security,access-control,rbac,tcp,authorization]
 
 * 阅读 [Istio 中的授权和鉴权](/zh/docs/concepts/security/#授权和鉴权)。
 * 按照[快速开始](/zh/docs/setup/kubernetes/quick-start/)一文的指导，在 Kubernetes 中安装**启用了认证功能**的 Istio。
-* 执行[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)时启用双向 TLS（mTLS）认证
+* 执行[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)时启用双向 TLS 认证
 
 任务中所执行的命令还假设 Bookinfo 示例应用部署在 `default` 命名空间中。如果使用的是其它命名空间，在命令中需要加入 `-n` 参数。
 

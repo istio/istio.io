@@ -59,7 +59,7 @@ my-nginx-jwwck                    1/1       Running   0          1h
 sleep-847544bbfc-d27jg            2/2       Running   0          18h
 {{< /text >}}
 
-SSH 进入包含 sleep pod 的 istio-proxy 容器。
+SSH 进入包含 sleep pod 的 `istio-proxy` 容器。
 
 {{< text bash >}}
 $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy /bin/bash
@@ -117,7 +117,7 @@ $ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
 ...
 {{< /text >}}
 
-如果从 istio-proxy 容器运行，它也应该正常运行
+如果从 `istio-proxy` 容器运行，它也应该正常运行
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
@@ -130,13 +130,13 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 
 ### 用 Istio sidecar 创建一个 HTTPS 服务，并使用双向 TLS
 
-您需要使用启用了双向 TLS 的 Istio 控制平面。如果您已经安装了 istio 控制平面，并安装了双向 TLS，请删除它：
+您需要使用启用了双向 TLS 的 Istio 控制平面。如果您已经安装了 Istio 控制平面，并安装了双向 TLS，请删除它：
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-等待一切都完成了，也就是说在控制平面名称空间（istio-system）中没有 pod。
+等待一切都完成了，也就是说在控制平面名称空间（`istio-system`）中没有 pod。
 
 {{< text bash >}}
 $ kubectl get pod -n istio-system
@@ -198,7 +198,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 
 因为工作流"sleep --> sleep-proxy --> nginx-proxy --> nginx”，整个过程是7层流量，在 sleep-proxy 和 nginx-proxy 之间有一个 L4 双向 TLS 加密。在这种情况下，一切都很好。
 
-但是，如果您从 istio-proxy 容器运行这个命令，它将无法工作。
+但是，如果您从 `istio-proxy` 容器运行这个命令，它将无法工作。
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k

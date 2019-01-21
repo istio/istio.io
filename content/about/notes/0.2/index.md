@@ -12,7 +12,7 @@ icon: notes
 model to describe and store its configuration. When running in Kubernetes, configuration can now be optionally managed using the `kubectl`
 command.
 
-- **Multiple Namespace Support**. Istio control plane components are now in the dedicated "istio-system" namespace. Istio can manage
+- **Multiple Namespace Support**. Istio control plane components are now in the dedicated `istio-system` namespace. Istio can manage
 services in other non-system namespaces.
 
 - **Mesh Expansion**. Initial support for adding non-Kubernetes services (in the form of VMs and/or physical machines) to a mesh. This is an early version of
@@ -21,7 +21,7 @@ this feature and has some limitations (such as requiring a flat network across c
 - **Multi-Environment Support**. Initial support for using Istio in conjunction with other service registries
 including Consul and Eureka.
 
-- **Automatic injection of sidecars**. Istio sidecar can automatically be injected into a Pod upon deployment using the
+- **Automatic injection of sidecars**. Istio sidecar can automatically be injected into a pod upon deployment using the
 [Initializers](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) alpha feature in Kubernetes.
 
 ## Performance and quality
@@ -91,7 +91,7 @@ persistent storage to facilitate CA restarts.
 - **User may get periodical 404 when accessing the application**:  We have noticed that Envoy doesn't get routes properly occasionally
 thus a 404 is returned to the user.  We are actively working on this [issue](https://github.com/istio/istio/issues/1038).
 
-- **Istio Ingress or Egress reports ready before Pilot is actually ready**: You can check the istio-ingress and istio-egress pods status
+- **Istio Ingress or Egress reports ready before Pilot is actually ready**: You can check the `istio-ingress` and `istio-egress` pods status
 in the `istio-system` namespace and wait a few seconds after all the Istio pods reach ready status.  We are actively working on this
 [issue](https://github.com/istio/istio/pull/1055).
 

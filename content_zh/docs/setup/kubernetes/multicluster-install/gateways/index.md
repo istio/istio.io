@@ -20,13 +20,13 @@ keywords: [kubernetes,multicluster,federation,gateway]
 
 * 在**每个** Kubernetes 集群上授权[使用 Helm 部署 Istio 控制平面](/zh/docs/setup/kubernetes/helm-install/)。
 
-* 一个 **Root CA**。跨集群通信需要在 service 之间使用 mTLS 连接。为了启用跨集群 mTLS 通信，每个集群的 Citadel
+* 一个 **Root CA**。跨集群通信需要在 service 之间使用 mutual TLS 连接。为了启用跨集群 mutual TLS 通信，每个集群的 Citadel
  都将被配置使用共享 root CA 生成的中间 CA 凭证。出于演示目的，我们将使用 `samples/certs` 目录下的简单 root CA
   证书，该证书作为 Istio 安装的一部分提供。
 
 ## 在每个集群中部署 Istio 控制平面
 
-1. 从您的组织 root CA 生成每个集群 Citadel 使用的中间证书。使用共享的 root CA 启用跨越不同集群的 mTLS 通信。
+1. 从您的组织 root CA 生成每个集群 Citadel 使用的中间证书。使用共享的 root CA 启用跨越不同集群的 mutual TLS 通信。
    出于演示目的，我们将使用相同的简单 root 证书作为中间证书。
 
 1. 在每个集群中，使用类似如下的命令，为您生成的 CA 证书创建一个 Kubernetes secret：
@@ -154,7 +154,7 @@ spec:
 为了验证设置，请尝试从 `cluster1` 上的任意 pod 访问 `bar.ns2.global` 或 `bar.ns2`。
 两个 DNS 名称都应该被解析到 127.255.0.2 这个在 service entry 配置中使用的地址。
 
-以上配置将使得 `cluster1` 中所有到 `bar.ns2.global` 和*任意端口*的流量通过 mTLS 连接路由到
+以上配置将使得 `cluster1` 中所有到 `bar.ns2.global` 和*任意端口*的流量通过 mutual TLS 连接路由到
  endpoint `<IPofCluster2IngressGateway>:15443`。
 
 端口 15443 的 gateway 是一个特殊的 SNI 感知 Envoy，它已经预先进行了配置，并作为前提条件中描述的 Istio

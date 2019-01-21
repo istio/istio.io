@@ -100,7 +100,7 @@ running in a second cluster.
     `<IPofCluster2IngressGateway>:15443` over an mTLS connection.
 
     If your cluster2 Kubernetes cluster is running in an environment that does not
-    support external load-balancers, you must use the IP and nodePort corresponding
+    support external load balancers, you must use the IP and nodePort corresponding
     to port 15443 of a node running the `istio-ingressgateway` service. Instructions
     for obtaining the node IP can be found in the
     [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)

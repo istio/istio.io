@@ -15,7 +15,7 @@ keywords: [kubernetes,alibabacloud,aliyun]
 
 - 确保 `kubectl` 对你的 Kubernetes 集群工作正常
 
-- 你可以创建一个命名空间用来部署 Istio 组建。例如如下创建的命名空间 “istio-system”：
+- 你可以创建一个命名空间用来部署 Istio 组建。例如如下创建的命名空间 `istio-system`：
 
 {{< text bash >}}
 $ kubectl create namespace istio-system

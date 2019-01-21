@@ -100,4 +100,4 @@ Mixer 还很年轻。在 Istio 0.3 中，Mixer 并没有性能方面的重要改
 
 我们希望本文能够让读者能够意识到 Mixer 对 Istio 的益处。
 
-如果有说明或者问题，无需犹豫，尽管去 [istio-policies-and-telemetry](https://groups.google.com/forum/#!forum/istio-policies-and-telemetry) 提出吧。
+如果有说明或者问题，无需犹豫，

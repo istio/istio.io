@@ -493,7 +493,7 @@ they have valid values, according to the output of the following commands:
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
+1.  If the secret was created but the keys were not mounted, delete the ingress gateway pod and force it to reload certs:
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
@@ -521,7 +521,7 @@ In addition to the steps in the previous section, perform the following:
     Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
     {{< /text >}}
 
-1.  If the secret was created but the keys were not mounted, kill the ingress gateway pod and force it to reload certs:
+1.  If the secret was created but the keys were not mounted, delete the ingress gateway pod and force it to reload certs:
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway

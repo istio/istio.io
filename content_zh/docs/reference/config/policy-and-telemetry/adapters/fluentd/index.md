@@ -4,7 +4,7 @@ description: 用于将日志发送给 Fluentd 守护进程的适配器。
 weight: 70
 ---
 
-Fluentd 适配器的设计目的是将 Istio 的日志发送给 [fluentd](https://www.fluentd.org/) 守护进程。
+Fluentd 适配器的设计目的是将 Istio 的日志发送给 [Fluentd](https://www.fluentd.org/) 守护进程。
 
 该适配器支持 [logentry template](/zh/docs/reference/config/policy-and-telemetry/templates/logentry/)。
 

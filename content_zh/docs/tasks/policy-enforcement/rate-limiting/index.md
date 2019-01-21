@@ -339,7 +339,7 @@ spec:
 
 适配器配置中的 `maxAmount` 设置了关联到 Quota 实例中的所有计数器的缺省限制。如果所有 `overrides` 条目都无法匹配到一个请求，就只能使用 `maxAmount` 限制了。Memquota 会选择适合请求的第一条 `override`。`override` 条目无需定义所有 quota dimension， 例如例子中的 `0.2 qps` 条目在 4 条 quota dimensions 中只选用了三条。
 
-如果要把上面的策略应用到某个命名空间而非整个 Istio 网格，可以把所有 istio-system 替换成为给定的命名空间。
+如果要把上面的策略应用到某个命名空间而非整个 Istio 网格，可以把所有 `istio-system` 替换成为给定的命名空间。
 
 ## 清理
 

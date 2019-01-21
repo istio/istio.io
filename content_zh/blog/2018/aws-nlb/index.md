@@ -83,7 +83,7 @@ keywords: [ingress,traffic-management,aws]
 
 ## 重写 Istio Ingress 服务
 
-你需要使用以下内容来重写 istio ingress 服务：
+你需要使用以下内容来重写 `istio-ingress` 服务：
 
 {{< text yaml >}}
 apiVersion: v1
