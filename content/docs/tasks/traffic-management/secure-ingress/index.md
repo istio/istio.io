@@ -470,7 +470,7 @@ they have valid values, according to the output of the following commands:
 
     `tls.crt` and `tls.key` should exist in the directory contents.
 
-1.  If you created the `istio-ingressgateway-certs` secret, but the key and the certificate are not loaded, kill the
+1.  If you created the `istio-ingressgateway-certs` secret, but the key and the certificate are not loaded, delete the
     ingress gateway pod and force it to reload them.
 
     {{< text bash >}}
@@ -515,7 +515,7 @@ In addition to the steps in the previous section, perform the following:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
-1.  If you created the `istio-ingressgateway-ca-certs` secret, but the CA certificate is not loaded, kill the ingress
+1.  If you created the `istio-ingressgateway-ca-certs` secret, but the CA certificate is not loaded, delete the ingress
     gateway pod and force it to reload the certificate:
 
     {{< text bash >}}
