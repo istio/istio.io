@@ -83,6 +83,16 @@ Let's examine solutions for egress traffic control other than Istio in the follo
 
 ### Existing solutions for egress traffic control
 
+The most natural solution for egress traffic control is [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/). Using Kubernetes Network Policies, cluster operators can specify which external services can be accessed by which pods. The pods can be identified by pod labels, namespace labels, or by IP ranges. The external services can be specified by IP ranges - Kubernetes Network Policies are not DNS-aware. Requirement 1 is satisfied since any TCP traffic can be controlled by Kubernetes Network policies. Requirements 3 and 4 are satisfied partially: the policies can be specified per cluster or per pod, however the external services cannot be identified by domain names. The requirement 5 is satisfied if the attackers are not able to break from a malicious container into the Kubernetes node and to interfere with the kernel of the node. The requirement 6 is satisfied as well: there is no need to change the code or the container environment. We can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic control, which is not DNS-aware.
+
+Another approach that pre-dates Kubernetes network policies is a **DNS-aware egress proxy** or firewall. In this approach applications are configured to direct the traffic to the proxy and to use some proxy protocol, e.g. [SOCKS]. Since the applications must be configured, this solution is not transparent. Moreover, egress proxies are not Kubernetes aware, so the pod
+labels or pod namespace or pod service account are not known to the egress proxy. Such egress proxies cannot fulfill
+requirement 4, i.e. they cannot enforce policies by source if the source is specified by a Kubernetes artifact. The
+egress proxies can fulfill requirements 1, 2, 3 and 5, but not requirement 4 and 6. They are DNS-aware, but not
+transparent and not Kubernetes-aware.
+
+Let me explain Istio Egress Traffic control in the following section.
+
 ### Egress traffic control by Istio
 
 ## Further reading
