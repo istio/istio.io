@@ -22,7 +22,7 @@ $ istio_ca [flags]
 | `--custom-dns-names <string>` | `account.namespace: customdns` 名称列表，以逗号分隔。（默认 `''`） |
 | `--enable-profiling` | 启用监视 Citadel 的性能分析。|
 | `--experimental-dual-use` | 启用两用模式。使用与 `SAN` 相同的 `CommonName` 生成证书。|
-| `--grpc-host-identities <string>` | istio ca server 的主机名列表，以逗号分隔。（默认 `istio-ca`，`istio-citadel`） |
+| `--grpc-host-identities <string>` | Istio CA server 的主机名列表，以逗号分隔。（默认 `istio-ca`，`istio-citadel`） |
 | `--grpc-port <int>` | Citadel GRPC 服务器的端口号。如果未指定，Citadel 将不会提供 GRPC 请求。（默认为 `8060`） |
 | `--identity-domain <string>` | 用于标识的域（`default: cluster.local`）（默认为 `cluster.local`） |
 | `--key-size <int>` | 生成私钥的大小（默认为 `2048`） |
@@ -55,7 +55,7 @@ $ istio_ca [flags]
 | `--workload-cert-min-grace-period <duration>` | 最小工作负载证书轮换宽期限或者周期。（ 默认 `10m0s`） |
 | `--workload-cert-ttl <duration>` | 已发布工作负载证书的 TTL（ 默认为 `2160h0m0s`） |
 
-## istio\_ca probe
+## `istio\_ca` probe
 
 检查本地运行的服务器的活跃度或准备情况
 
@@ -80,7 +80,7 @@ $ istio_ca probe [flags]
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--probe-path <string>` | 用于检查可用性的文件的路径。（ 默认 `''`） |
 
-## istio\_ca version
+## `istio\_ca` version
 
 打印出版本信息
 

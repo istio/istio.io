@@ -272,8 +272,8 @@ TLS origination for an external service, only this time using a service that req
 This example is considerably more involved because you need to first:
 
 1. generate client and server certificates
-1. deploy an external service that supports the mTLS protocol
-1. redeploy the egress gateway with the needed mTLS certs
+1. deploy an external service that supports the mutual TLS protocol
+1. redeploy the egress gateway with the needed mutual TLS certs
 
 Only then can you configure the external traffic to go through the egress gateway which will perform
 TLS origination.
@@ -313,9 +313,9 @@ TLS origination.
     $ cd ..
     {{< /text >}}
 
-### Deploy an mTLS server
+### Deploy a mutual TLS server
 
-To simulate an actual external service that supports the mTLS protocol,
+To simulate an actual external service that supports the mutual TLS protocol,
 deploy an [NGINX](https://www.nginx.com) server in your Kubernetes cluster, but running outside of
 the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injection enabled.
 

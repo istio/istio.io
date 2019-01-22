@@ -59,7 +59,7 @@ Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环
 
 Istio 还为同一服务版本的多个实例提供流量负载均衡。可以在[服务发现和负载均衡](/zh/docs/concepts/traffic-management/#服务发现和负载均衡)中找到更多信息。
 
-Istio 不提供 DNS。应用程序可以尝试使用底层平台（kube-dns、mesos-dns 等）中存在的 DNS 服务来解析 FQDN。
+Istio 不提供 DNS。应用程序可以尝试使用底层平台（`kube-dns`、`mesos-dns` 等）中存在的 DNS 服务来解析 FQDN。
 
 ### Ingress 和 Egress
 

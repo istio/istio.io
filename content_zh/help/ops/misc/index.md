@@ -56,9 +56,9 @@ Thu Jun 15 02:25:42 UTC 2017
 
 要解决此问题，您需要在重新安装 Istio 之前关闭然后重新启动 Docker。
 
-## 如果 kube-apiserver 具有代理设置，则 sidecar 自动注入将失败
+## 如果 `kube-apiserver` 具有代理设置，则 sidecar 自动注入将失败
 
-当 Kube-apiserver 包含代理设置时，例如：
+当 `Kube-apiserver` 包含代理设置时，例如：
 
 {{< text yaml >}}
 env:
@@ -70,15 +70,15 @@ env:
   value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 
-sidecar 注入将失败。唯一相关的故障日志位于 kube-apiserver 日志中：
+sidecar 注入将失败。唯一相关的故障日志位于 `kube-apiserver` 日志中：
 
 {{< text plain >}}
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
 {{< /text >}}
 
-确保 pod 和 service CIDR 都没有通过 *_proxy 变量来代理。检查 kube-apiserver 文件和日志以验证配置以及是否正在代理任何请求。
+确保 pod 和 service CIDR 都没有通过 *_proxy 变量来代理。检查 `kube-apiserver` 文件和日志以验证配置以及是否正在代理任何请求。
 
-一个解决方法是从 kube-apiserver 配置中删除代理设置，然后重新启动服务器或使用更高版本的 Kubernetes。
+一个解决方法是从 `kube-apiserver` 配置中删除代理设置，然后重新启动服务器或使用更高版本的 Kubernetes。
 
 向Kubernetes提出了与此相关的问题，此后一直关闭。
 [https://github.com/kubernetes/kubeadm/issues/666](https://github.com/kubernetes/kubeadm/issues/666)

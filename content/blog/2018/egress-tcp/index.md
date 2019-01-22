@@ -346,7 +346,7 @@ becomes addressable by a local cluster domain name, for example by `mysqldb.vm.s
  to it can be secured by
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication). There is no need to create a service
 entry to access this service; however, the service must be registered with Istio. To enable such integration, Istio
-components (_Envoy proxy_, _node-agent_, _istio-agent_) must be installed on the machine and the Istio control plane
+components (_Envoy proxy_, _node-agent_, `_istio-agent_`) must be installed on the machine and the Istio control plane
 (_Pilot_, _Mixer_, _Citadel_) must be accessible from it. See the
 [Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/) instructions for more details.
 

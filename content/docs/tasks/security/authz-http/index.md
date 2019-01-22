@@ -132,8 +132,8 @@ Before you start, please make sure that you have finished [preparation task](#be
 
 1.  Verify the logs stream has been created and check `permissiveResponseCode`.
 
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pods as follows:
+    In a Kubernetes environment, search through the `istio-telemetry`
+    pods' logs as follows:
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -142,7 +142,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     {"level":"warn","time":"2018-08-30T21:53:41.019851Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"1.112521495s","permissiveResponseCode":"denied","permissiveResponsePolicyID":"","responseCode":200,"responseSize":5723,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
     {{< /text >}}
 
-    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
+    In the above telemetry logs,  the `responseCode` is 200 which is what user see now.
     The `permissiveResponseCode` is `denied` which is what user will see after switching
     global authorization configuration from `PERMISSIVE` mode to `ENFORCED` mode, which
     indicates the global authorization configuration will work as expected after rolling
@@ -172,8 +172,8 @@ Before you start, please make sure that you have finished [preparation task](#be
 
 1.  Verify the logs and check `permissiveResponseCode` again.
 
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pods as follows:
+    In a Kubernetes environment, search through the `istio-telemetry`
+    pods's logs as follows:
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -256,8 +256,8 @@ Before you start, please make sure that you have finished [step 1](#step-1-allow
 
 1.  Verify the logs and check `permissiveResponseCode` again.
 
-    In a Kubernetes environment, search through the logs for the istio-telemetry
-    pods as follows:
+    In a Kubernetes environment, search through the `istio-telemetry`
+    pods' logs as follows:
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"

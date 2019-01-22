@@ -185,13 +185,13 @@ a Stackdriver handler is described [here](/docs/reference/config/policy-and-tele
         project and you should find a bucket named
         `accesslog.logentry.istio-system` in your sink bucket.
     *   Pub/Sub: Navigate to the [Pub/Sub
-        TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for
+        Topic List](https://pantheon.corp.google.com/cloudpubsub/topicList) for
         your project and you should find a topic for `accesslog` in your sink
         topic.
 
 ## Understanding what happened
 
-`Stackdriver.yaml` file above configured Istio to send accesslogs to
+`Stackdriver.yaml` file above configured Istio to send access logs to
 Stackdriver and then added a sink configuration where these logs could be
 exported. In detail as follows:
 

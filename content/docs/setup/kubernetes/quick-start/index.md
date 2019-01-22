@@ -29,7 +29,7 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 ## Installation steps
 
 1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed in Kubernetes API server:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
@@ -107,8 +107,8 @@ Follow our instructions on how to
     > If your cluster is running in an environment that does not
     > support an external load balancer (e.g., minikube), the
     > `EXTERNAL-IP` of `istio-ingress` and `istio-ingressgateway` will
-    > say `<pending>`. You will need to access it using the service
-    > NodePort, or use port-forwarding instead.
+    > say `<pending>`. You will need to access it using the service's
+    > `NodePort`, or use port-forwarding instead.
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
     `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,

@@ -28,7 +28,7 @@ keywords: [kubernetes]
 
 ## 安装步骤
 
-1. 使用 `kubectl apply` 安装 Istio 的[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，几秒钟之后，CRD 被提交给 kube-apiserver：
+1. 使用 `kubectl apply` 安装 Istio 的[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，几秒钟之后，CRD 被提交给 `kube-apiserver`：
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml

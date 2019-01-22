@@ -54,7 +54,7 @@ in the mesh and uses this model to let Envoy instances know about the other Envo
 
 Each Envoy instance maintains [load balancing information](#discovery-and-load-balancing)
 based on the information it gets from Pilot and periodic health-checks
-of other instances in its load-balancing pool, allowing it to intelligently
+of other instances in its load balancing pool, allowing it to intelligently
 distribute traffic between destination instances while following its specified
 routing rules.
 
@@ -279,7 +279,7 @@ continued unavailability of critical services in the application, resulting
 in poor user experience.
 
 Istio enables protocol-specific fault injection into the network, instead
-of killing pods or delaying or corrupting packets at the TCP layer. The rationale
+of deleting pods or delaying or corrupting packets at the TCP layer. The rationale
 is that the failures observed by the application layer are the same
 regardless of network level failures, and that more meaningful failures can
 be injected at the application layer (for example, HTTP error codes) to exercise the resilience of an application.
@@ -477,7 +477,7 @@ spec:
     timeout: 10s
 {{< /text >}}
 
-You can also specify the number of retry attempts for an HTTP request in a VirtualService.
+You can also specify the number of retry attempts for an HTTP request in a virtual service.
 The maximum number of retry attempts, or the number of attempts possible within the default or overridden timeout period, can be set as follows:
 
 {{< text yaml >}}
@@ -505,7 +505,7 @@ See the [request timeouts task](/docs/tasks/traffic-management/request-timeouts)
 
 #### Injecting faults
 
-A VirtualService can specify one or more faults to inject
+A virtual service can specify one or more faults to inject
 while forwarding HTTP requests to the rule's corresponding request destination.
 The faults can be either delays or aborts.
 
