@@ -24,7 +24,7 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
 
     {{< text bash >}}
-    $ for i in install install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
 1. Render Istio's core components to a Kubernetes manifest called `istio-minimal.yaml`:
@@ -111,5 +111,5 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 > {{< warning_icon >}} Deleting CRDs deletes any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ for i in install install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
