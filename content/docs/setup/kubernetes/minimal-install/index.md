@@ -21,7 +21,7 @@ Choose one of the following two **mutually exclusive** options described below.
 
 Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
 
-1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube api-server:
+1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kube api-server:
 
     {{< text bash >}}
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
@@ -65,7 +65,7 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify all the Istio's CRDs have been committed in the kube api-server by checking all the CRD creation jobs complete with success:
+1. Verify all the Istio's CRDs have been committed in the Kube api-server by checking all the CRD creation jobs complete with success:
 
     {{< text bash >}}
     $ kubectl get job --namespace istio-system | grep istio-crd
