@@ -2,7 +2,7 @@
 title: 双向 TLS 的迁移
 description: 如何渐进式的为现有 Istio 服务添加双向 TLS 支持。
 weight: 80
-keywords: [安全,认证,迁移]
+keywords: [security,authentication,migration]
 ---
 
 本文任务展示了如何在不中断通信的情况下，把现存 Istio 服务的流量从明文升级为双向 TLS
@@ -42,7 +42,7 @@ keywords: [安全,认证,迁移]
     {{< text bash >}}
     $ kubectl get policies.authentication.istio.io --all-namespaces
     No resources found.
-    $ kubectl get destionationrule --all-namespaces
+    $ kubectl get destinationrule --all-namespaces
     No resources found.
     {{< /text >}}
 
@@ -104,7 +104,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 200
 {{< /text >}}
 
-还可以在 [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 中指定一个客户端的子集所发出的请求来是用双向 TLS 通信，然后使用 [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 验证配置执行情况，确认通过之后，将策略的应用范围扩大到该服务的所有子集。
+还可以在 [`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 中指定一个客户端的子集所发出的请求来是用双向 TLS 通信，然后使用 [Grafana](/zh/docs/tasks/telemetry/using-istio-dashboard/) 验证配置执行情况，确认通过之后，将策略的应用范围扩大到该服务的所有子集。
 
 ## 锁定使用双向 TLS (可选)
 

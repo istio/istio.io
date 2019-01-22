@@ -38,10 +38,7 @@ Google 在多年中都在使用一个内部的 API 和服务管理系统，用�
 
 下图中，Mixer 在 Mesh 和基础设施之间：
 
-{{< image width="75%" ratio="65.89%"
-    link="./mixer-spof-myth-2.svg"
-    caption="Istio 拓扑"
-    >}}
+{{< image width="75%" link="./mixer-spof-myth-2.svg" caption="Istio 拓扑" >}}
 
 逻辑上，Envoy Sidecar 会在每次请求之前调用 Mixer，进行前置检查，每次请求之后又要进行指标报告。Sidecar 中包含本地缓存，一大部分的前置检查可以通过缓存来进行。另外，Sidecar 会把待发送的指标数据进行缓冲，这样可能在几千次请求之后才调用一次 Mixer。前置检查和请求处理是同步的，指标数据上送是使用 fire-and-forget 模式异步完成的。
 
@@ -103,4 +100,4 @@ Mixer 还很年轻。在 Istio 0.3 中，Mixer 并没有性能方面的重要改
 
 我们希望本文能够让读者能够意识到 Mixer 对 Istio 的益处。
 
-如果有说明或者问题，无需犹豫，尽管去 [istio-policies-and-telemetry](https://groups.google.com/forum/#!forum/istio-policies-and-telemetry) 提出吧。
+如果有说明或者问题，无需犹豫，

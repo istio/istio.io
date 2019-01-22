@@ -2,7 +2,7 @@
 title: 注入 Istio sidecar
 description: 介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。
 weight: 30
-keywords: [kubernetes,sidecar,注入]
+keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
 ## 注入
@@ -55,7 +55,7 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 
 ### Sidecar 的自动注入
 
-使用 Kubernetes 的 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/)，可以进行 Sidecar 的自动注入。Kubernetes 1.9 以后的版本才具备这一能力。使用这一功能之前首先要检查 kube-apiserver 的进程，是否具备 `admission-control` 参数，并且这个参数的值中需要包含 `MutatingAdmissionWebhook` 以及 `ValidatingAdmissionWebhook` 两项，并且按照正确的顺序加载，这样才能启用 `admissionregistration` API：
+使用 Kubernetes 的 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/)，可以进行 Sidecar 的自动注入。Kubernetes 1.9 以后的版本才具备这一能力。使用这一功能之前首先要检查 `kube-apiserver` 的进程，是否具备 `admission-control` 参数，并且这个参数的值中需要包含 `MutatingAdmissionWebhook` 以及 `ValidatingAdmissionWebhook` 两项，并且按照正确的顺序加载，这样才能启用 `admissionregistration` API：
 
 {{< text bash >}}
 $ kubectl api-versions | grep admissionregistration
@@ -74,7 +74,7 @@ admissionregistration.k8s.io/v1beta1
 {{< text bash >}}
 $ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
 $ kubectl create ns istio-system
-$ kubectl apply -n istio-system -f istio.yaml
+$ kubectl apply -f istio.yaml
 {{< /text >}}
 
 另外这个 Webhook 在 `values.yaml` 中还有一些其它的配置参数。可以覆盖这些缺省值来对安装过程进行定义。

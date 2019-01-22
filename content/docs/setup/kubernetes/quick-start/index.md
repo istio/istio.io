@@ -1,7 +1,7 @@
 ---
 title: Quick Start with Kubernetes
 description: Instructions to setup the Istio service mesh in a Kubernetes cluster.
-weight: 5
+weight: 55
 keywords: [kubernetes]
 ---
 
@@ -14,21 +14,22 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 1. [Download the Istio release](/docs/setup/kubernetes/download-release/).
 
 1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/):
-  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
-  * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
-  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
-  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
   * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
+  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
+  * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
+  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
+  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/platform-setup/oci/)
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
 
 ## Installation steps
 
 1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed in Kubernetes API server:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
@@ -106,8 +107,8 @@ Follow our instructions on how to
     > If your cluster is running in an environment that does not
     > support an external load balancer (e.g., minikube), the
     > `EXTERNAL-IP` of `istio-ingress` and `istio-ingressgateway` will
-    > say `<pending>`. You will need to access it using the service
-    > NodePort, or use port-forwarding instead.
+    > say `<pending>`. You will need to access it using the service's
+    > `NodePort`, or use port-forwarding instead.
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
     `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,

@@ -2,7 +2,7 @@
 title: 加入社区
 description: 有关参与 Istio 社区和与之互动的各种方式的信息。
 weight: 10
-keywords: [社区]
+keywords: [community]
 icon: community
 ---
 Istio 是一个开源项目，拥有一个支持其使用和持续开发的活跃社区。我们很乐意您加入我们并参与其中！
@@ -13,11 +13,9 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
   <tbody>
 
     <tr>
-      <td class="logo"><img src="/about/community/join/mailing-list.svg" alt="Mailing Lists"/></td>
+      <td class="logo"><img src="/about/community/join/discourse.svg" alt="Discourse"/></td>
       <td class="desc">
-        加入 <a href="https://groups.google.com/forum/#!forum/istio-users-zh">istio-users-zh@</a> 邮件列表用中文参与讨论和获取帮助。
-        加入 <a href="https://groups.google.com/forum/#!forum/istio-announce">istio-announce@</a> 邮件列表以了解最新版本、活动和其他事件。
-        还有一个 <a href="https://groups.google.com/forum/#!forum/istio-dev">istio-dev@</a> 邮件列表用于讨论围绕 Istio 项目开发的问题。
+        前往 <a href="https://discuss.istio.io">Istio discussion board</a> 参与讨论获取帮助。
       </td>
     </tr>
     <tr>
@@ -30,12 +28,6 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
       <td class="logo"><img src="/about/community/join/stackoverflow.svg" alt="Stack Overflow"/></td>
       <td class="desc">
         <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> 上有关于部署、配置和使用 Istio 等实际问题的解答。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/rocket-chat.svg" alt="Rocket Chat"/></td>
-      <td class="desc">
-        在 <a href="https://istio.rocket.chat">Rocket Chat</a> 上与 Istio 社区成员交流。
       </td>
     </tr>
     <tr>
@@ -57,7 +49,7 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
       <td class="logo"><img src="/about/community/join/group.svg" alt="Working Groups"/></td>
       <td class="desc">
         如果您想参与 Istio 项目，请考虑加入我们的
-        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">工作组 </a>。
+        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">工作组</a>。
       </td>
     </tr>
     <tr>

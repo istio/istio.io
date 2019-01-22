@@ -12,7 +12,7 @@ icon: notes
 
 - [验证 Webhook](/zh/help/ops/setup/validation) 变成了必选项。如果禁用这一 Webhook 将会导致 Pilot 崩溃。
 
-- [Service entry](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry-endpoint) 不再允许使用通配符（`*`）的 DNS 解析。相关 API 从未允许这种行为，但在前一版本中，`ServiceEntry` 对象的验证过程错误的忽略了这一错误。
+- [Service entry](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry) 校验当配置了 DNS 解析的时候将拒绝不使用通配符主机名（`*`）。相关 API 从未允许这种行为，但在前一版本中，`ServiceEntry` 对象的验证过程错误的忽略了这一错误。
 
 - `istio-proxy` 的 Core dump 路径变为 `/var/lib/istio`。
 
@@ -22,7 +22,7 @@ icon: notes
 
 - Pilot 的性能和伸缩性有了很大提升。现在每秒钟之内，Pilot 可以向 500 个 Sidecar 发送端点更新信息。
 
-- 缺省的[跟踪采样]被设置为 `1%`。
+- 缺省的[追踪采样]被设置为 `1%`。
 
 ## 策略和遥测
 

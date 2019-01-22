@@ -2,7 +2,7 @@
 title: 流量管理
 description: 介绍 Istio 中关于流量路由与控制的各项功能。
 weight: 20
-keywords: [流量管理]
+keywords: [traffic-management]
 ---
 
 本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的顶层设计架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
@@ -59,7 +59,7 @@ Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环
 
 Istio 还为同一服务版本的多个实例提供流量负载均衡。可以在[服务发现和负载均衡](/zh/docs/concepts/traffic-management/#服务发现和负载均衡)中找到更多信息。
 
-Istio 不提供 DNS。应用程序可以尝试使用底层平台（kube-dns、mesos-dns 等）中存在的 DNS 服务来解析 FQDN。
+Istio 不提供 DNS。应用程序可以尝试使用底层平台（`kube-dns`、`mesos-dns` 等）中存在的 DNS 服务来解析 FQDN。
 
 ### Ingress 和 Egress
 
@@ -75,7 +75,7 @@ Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理�
 
 Istio 负载均衡服务网格中实例之间的通信。
 
-Istio 假定存在服务注册表，以跟踪应用程序中服务的 pod/VM。它还假设服务的新实例自动注册到服务注册表，并且不健康的实例将被自动删除。诸如 Kubernetes、Mesos 等平台已经为基于容器的应用程序提供了这样的功能。为基于虚拟机的应用程序提供的解决方案就更多了。
+Istio 假定存在服务注册表，以追踪应用程序中服务的 pod/VM。它还假设服务的新实例自动注册到服务注册表，并且不健康的实例将被自动删除。诸如 Kubernetes、Mesos 等平台已经为基于容器的应用程序提供了这样的功能。为基于虚拟机的应用程序提供的解决方案就更多了。
 
 Pilot 使用来自服务注册的信息，并提供与平台无关的服务发现接口。网格中的 Envoy 实例执行服务发现，并相应地动态更新其负载均衡池。
 
@@ -83,7 +83,7 @@ Pilot 使用来自服务注册的信息，并提供与平台无关的服务发�
     link="/docs/concepts/traffic-management/LoadBalancing.svg"
     caption="发现与负载均衡">}}
 
-如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种[复杂的负载均衡算法](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing)，但 Istio 目前仅允许三种负载均衡模式：轮循、随机和带权重的最少请求。
+如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种[复杂的负载均衡算法](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing)，但 Istio 目前仅允许三种负载均衡模式：轮询、随机和带权重的最少请求。
 
 除了负载均衡外，Envoy 还会定期检查池中每个实例的运行状况。Envoy 遵循熔断器风格模式，根据健康检查 API 调用的失败率将实例分类为不健康和健康两种。换句话说，当给定实例的健康检查失败次数超过预定阈值时，将会被从负载均衡池中弹出。类似地，当通过的健康检查数超过预定阈值时，该实例将被添加回负载均衡池。您可以在[处理故障](#故障处理)中了解更多有关 Envoy 的故障处理功能。
 
@@ -199,7 +199,7 @@ spec:
 
 ## Virtual Service
 
-是在 Istio 服务网格内对服务的请求如何进行路由控制？[`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 中就包含了这方面的定义。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的地、HTTP 路径和 Header 以及各个服务版本的权重等。
+[`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 定义了控制在 Istio 服务网格中如何路由服务请求的规则。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的地、HTTP 路径和 Header 以及各个服务版本的权重等。
 
 ### 规则的目标描述
 

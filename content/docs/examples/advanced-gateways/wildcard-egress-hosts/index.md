@@ -19,33 +19,7 @@ Each version of `wikipedia.org` in a particular language has its own hostname, e
 You want to enable egress traffic by common configuration items for all the _wikipedia_ sites,
 without the need to specify every language's site separately.
 
-## Before you begin
-
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
-
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which will be used as a test source for external calls.
-
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    {{< /text >}}
-
-    Note that any pod that you can `exec` and `curl` from would do.
-
-*   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
-
-    {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    {{< /text >}}
+{{< boilerplate before-you-begin-egress >}}
 
 ## Configure direct traffic to a wildcard host
 
@@ -266,10 +240,7 @@ requests to the destination specified by the SNI value.
 
 The egress gateway with SNI proxy and the related parts of the Istio architecture are shown in the following diagram:
 
-{{< image width="80%" ratio="57.89%"
-    link="./EgressGatewayWithSNIProxy.svg"
-    caption="Egress Gateway with SNI proxy"
-    >}}
+{{< image width="80%" link="./EgressGatewayWithSNIProxy.svg" caption="Egress Gateway with SNI proxy" >}}
 
 The following sections show you how to redeploy the egress gateway with an SNI proxy and then configure Istio to route
 HTTPS traffic through the gateway to arbitrary wildcard domains.
@@ -441,7 +412,16 @@ The SNI proxy will forward the traffic to port `443`.
 1.  Create an egress `Gateway` for _*.wikipedia.org_, port 443, protocol TLS, and a virtual service to direct the
     traffic destined for _*.wikipedia.org_ through the gateway.
 
-    {{< text bash >}}
+    Choose the instructions corresponding to whether or not you want to enable
+  [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+
+    > You may want to enable mutual TLS to let the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that identity.
+
+    {{< tabset cookie-name="mtls" >}}
+
+    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+
+{{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -453,12 +433,15 @@ The SNI proxy will forward the traffic to port `443`.
       servers:
       - port:
           number: 443
-          name: tls
+          name: tls-egress
           protocol: TLS
         hosts:
         - "*.wikipedia.org"
         tls:
-          mode: PASSTHROUGH
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -468,6 +451,14 @@ The SNI proxy will forward the traffic to port `443`.
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
       subsets:
         - name: wikipedia
+          trafficPolicy:
+            loadBalancer:
+              simple: ROUND_ROBIN
+            portLevelSettings:
+            - port:
+                number: 443
+              tls:
+                mode: ISTIO_MUTUAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -493,20 +484,130 @@ The SNI proxy will forward the traffic to port `443`.
             port:
               number: 443
           weight: 100
+      tcp:
       - match:
         - gateways:
           - istio-egressgateway-with-sni-proxy
           port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
         route:
         - destination:
             host: sni-proxy.local
             port:
               number: 8443
           weight: 100
+    ---
+    # The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
+    # connection.
+    # The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value.
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: forward-downstream-sni
+    spec:
+      filters:
+      - listenerMatch:
+          portNumber: 443
+          listenerType: SIDECAR_OUTBOUND
+        filterName: forward_downstream_sni
+        filterType: NETWORK
+        filterConfig: {}
+    ---
+    # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
+    # identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy).
+    # The filter prevents Mixer from being deceived by a malicious application: routing to one SNI while
+    # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection, the
+    # filter will block the connection to the external service.
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: egress-gateway-sni-verifier
+    spec:
+      workloadLabels:
+        app: istio-egressgateway-with-sni-proxy
+      filters:
+      - listenerMatch:
+          portNumber: 443
+          listenerType: GATEWAY
+        filterName: sni_verifier
+        filterType: NETWORK
+        filterConfig: {}
     EOF
-    {{< /text >}}
+{{< /text >}}
+
+    {{% /tab %}}
+
+    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+
+{{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+     name: istio-egressgateway-with-sni-proxy
+    spec:
+     selector:
+       istio: egressgateway-with-sni-proxy
+     servers:
+     - port:
+         number: 443
+         name: tls
+         protocol: TLS
+       hosts:
+       - "*.wikipedia.org"
+       tls:
+         mode: PASSTHROUGH
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+     name: egressgateway-for-wikipedia
+    spec:
+     host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+     subsets:
+       - name: wikipedia
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+     name: direct-wikipedia-through-egress-gateway
+    spec:
+     hosts:
+     - "*.wikipedia.org"
+     gateways:
+     - mesh
+     - istio-egressgateway-with-sni-proxy
+     tls:
+     - match:
+       - gateways:
+         - mesh
+         port: 443
+         sni_hosts:
+         - "*.wikipedia.org"
+       route:
+       - destination:
+           host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+           subset: wikipedia
+           port:
+             number: 443
+         weight: 100
+     - match:
+       - gateways:
+         - istio-egressgateway-with-sni-proxy
+         port: 443
+         sni_hosts:
+         - "*.wikipedia.org"
+       route:
+       - destination:
+           host: sni-proxy.local
+           port:
+             number: 8443
+         weight: 100
+    EOF
+{{< /text >}}
+
+    {{% /tab %}}
+
+    {{< /tabset >}}
 
 1.  Send HTTPS requests to
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
@@ -517,20 +618,25 @@ The SNI proxy will forward the traffic to port `443`.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's Envoy proxy for the counter that corresponds to your requests to
-    _*.wikipedia.org_ (the counter for traffic to the SNI proxy). If Istio is deployed in the `istio-system` namespace, the command
-    to print the counter is:
+1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command to
+    print the log is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
-    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 2
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
+    {{< /text >}}
+
+    You should see lines similar to the following:
+
+    {{< text plain >}}
+    [2019-01-02T16:34:23.312Z] "- - -" 0 - 578 79141 624 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55018 172.30.109.84:443 172.30.109.112:45346 en.wikipedia.org
+    [2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
     {{< /text >}}
 
 1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
     log is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -c sni-proxy
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
     127.0.0.1 [01/Aug/2018:15:32:02 +0000] TCP [en.wikipedia.org]200 81513 280 0.600
     127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
     {{< /text >}}
@@ -539,145 +645,11 @@ The SNI proxy will forward the traffic to port `443`.
     log is:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'; done
-    {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"placeholder.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/default/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'
+    {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"en.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/sleep/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
     {{< /text >}}
 
     Note the `requestedServerName` attribute.
-
-#### SNI monitoring and access policies
-
-Now, once you directed the egress traffic through an egress gateway, you can apply monitoring and access policy enforcement on the egress traffic,
-**securely**. In this section you will define a log entry and an access policy for the egress traffic to _*.wikipedia.org_.
-
-1.  Create the `logentry`, `rules` and `handlers`:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    # Log entry for egress access
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: logentry
-    metadata:
-      name: egress-access
-      namespace: istio-system
-    spec:
-      severity: '"info"'
-      timestamp: context.time | timestamp("2017-01-01T00:00:00Z")
-      variables:
-        connectionEvent: connection.event | ""
-        source: source.labels["app"] | "unknown"
-        sourceNamespace: source.namespace | "unknown"
-        sourceWorkload: source.workload.name | ""
-        sourcePrincipal: source.principal | "unknown"
-        requestedServerName: connection.requested_server_name | "unknown"
-        destinationApp: destination.labels["app"] | ""
-      monitored_resource_type: '"UNSPECIFIED"'
-    ---
-    # Handler for info egress access entries
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: stdio
-    metadata:
-      name: egress-access-logger
-      namespace: istio-system
-    spec:
-      severity_levels:
-        info: 0 # output log level as info
-      outputAsJson: true
-    ---
-    # Rule to handle access to *.wikipedia.org
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: handle-wikipedia-access
-      namespace: istio-system
-    spec:
-      match: source.labels["app"] == "istio-egressgateway-with-sni-proxy" && destination.labels["app"] == "" && connection.event == "open"
-      actions:
-      - handler: egress-access-logger.stdio
-        instances:
-          - egress-access.logentry
-    EOF
-    {{< /text >}}
-
-1.  Send HTTPS requests to
-    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
-    <title>Wikipedia, the free encyclopedia</title>
-    <title>Wikipedia – Die freie Enzyklopädie</title>
-    {{< /text >}}
-
-1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'; done
-    {{< /text >}}
-
-1.  Define a policy that will allow access to the hostnames matching `*.wikipedia.org` except for Wikipedia in
-    English:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl create -f -
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: listchecker
-    metadata:
-      name: wikipedia-checker
-      namespace: istio-system
-    spec:
-      overrides: ["en.wikipedia.org"]  # overrides provide a static list
-      blacklist: true
-    ---
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: listentry
-    metadata:
-      name: requested-server-name
-      namespace: istio-system
-    spec:
-      value: connection.requested_server_name
-    ---
-    # Rule to check access to *.wikipedia.org
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: check-wikipedia-access
-      namespace: istio-system
-    spec:
-      match: source.labels["app"] == "istio-egressgateway-with-sni-proxy" && destination.labels["app"] == ""
-      actions:
-      - handler: wikipedia-checker.listchecker
-        instances:
-          - requested-server-name.listentry
-    EOF
-    {{< /text >}}
-
-1.  Send an HTTPS request to the blacklisted [https://en.wikipedia.org](https://en.wikipedia.org):
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
-    ...
-    curl: (35) Unknown SSL protocol error in connection to en.wikipedia.org:443
-    command terminated with exit code 35
-    {{< /text >}}
-
-1.  Send HTTPS requests to some other sites, for example [https://es.wikipedia.org](https://es.wikipedia.org) and
-    [https://de.wikipedia.org](https://de.wikipedia.org):
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
-    <title>Wikipedia, la enciclopedia libre</title>
-    <title>Wikipedia – Die freie Enzyklopädie</title>
-    {{< /text >}}
-
-##### Cleanup of monitoring and policy enforcement
-
-{{< text bash >}}
-$ kubectl delete rule handle-wikipedia-access check-wikipedia-access -n istio-system
-$ kubectl delete logentry egress-access -n istio-system
-$ kubectl delete stdio egress-access-logger -n istio-system
-$ kubectl delete listentry requested-server-name -n istio-system
-$ kubectl delete listchecker wikipedia-checker -n istio-system
-{{< /text >}}
 
 #### Cleanup wildcard configuration for arbitrary domains
 
@@ -688,6 +660,7 @@ $ kubectl delete listchecker wikipedia-checker -n istio-system
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-wikipedia
+    $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
 1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:

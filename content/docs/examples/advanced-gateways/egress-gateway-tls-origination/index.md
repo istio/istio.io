@@ -243,7 +243,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') istio-proxy -n istio-system | tail
+    $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
     {{< /text >}}
 
     You should see a line similar to the following:
@@ -272,8 +272,8 @@ TLS origination for an external service, only this time using a service that req
 This example is considerably more involved because you need to first:
 
 1. generate client and server certificates
-1. deploy an external service that supports the mTLS protocol
-1. redeploy the egress gateway with the needed mTLS certs
+1. deploy an external service that supports the mutual TLS protocol
+1. redeploy the egress gateway with the needed mutual TLS certs
 
 Only then can you configure the external traffic to go through the egress gateway which will perform
 TLS origination.
@@ -313,9 +313,9 @@ TLS origination.
     $ cd ..
     {{< /text >}}
 
-### Deploy an mTLS server
+### Deploy a mutual TLS server
 
-To simulate an actual external service that supports the mTLS protocol,
+To simulate an actual external service that supports the mutual TLS protocol,
 deploy an [NGINX](https://www.nginx.com) server in your Kubernetes cluster, but running outside of
 the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injection enabled.
 
@@ -776,7 +776,7 @@ to hold the configuration of the NGINX server:
     If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system | grep 'nginx.example.com' | grep HTTP
+    $ kubectl logs -l istio=egressgateway -n istio-system | grep 'nginx.example.com' | grep HTTP
     {{< /text >}}
 
     You should see a line similar to the following:

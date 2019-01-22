@@ -1,8 +1,8 @@
 ---
-title: 没有 TLS 的 Ingress Gateway
+title: 没有 TLS 的 Ingress gateway
 description: 介绍如何为入口网关配置 SNI 直通。
-weight: 31
-keywords: [流量管理,ingress, https]
+weight: 10
+keywords: [traffic-management,ingress, https]
 ---
 
 [使用 HTTPS 保护网关](/zh/docs/tasks/traffic-management/secure-ingress/)任务描述了如何配置 HTTPS
@@ -31,7 +31,7 @@ keywords: [流量管理,ingress, https]
 1.  为 `nginx.example.com` 生成证书。使用以下命令的任何密码：
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
+    $ ./generate.sh nginx.example.com password
     {{< /text >}}
 
     遇见所有的问题请输入 `y` 来回答。

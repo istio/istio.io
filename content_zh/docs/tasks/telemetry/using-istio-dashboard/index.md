@@ -2,7 +2,7 @@
 title: 使用 Grafana 进行指标可视化
 description: 此任务说明如何设置和使用 Istio 仪表板来监视网格流量。
 weight: 40
-keywords: [遥测,可视化]
+keywords: [telemetry,visualization]
 ---
 
 此任务说明如何设置和使用 Istio 仪表板来监视网格流量, 作为此任务的一部分，您将需要安装 Grafana Istio 附加组件，并使用基于 Web 的界面查看服务网格中的流量数据。
@@ -46,10 +46,7 @@ keywords: [遥测,可视化]
 
     Istio 仪表板看起来类似于：
 
-    {{< image width="100%" ratio="56.57%"
-        link="/docs/tasks/telemetry/using-istio-dashboard/grafana-istio-dashboard.png"
-        caption="Istio Dashboard"
-        >}}
+    {{< image link="/docs/tasks/telemetry/using-istio-dashboard/grafana-istio-dashboard.png" caption="Istio Dashboard" >}}
 
 1.  将流量发送到服务网格。
 
@@ -65,10 +62,7 @@ keywords: [遥测,可视化]
 
     再看一下 Istio Dashboard, 它应该反映生成的流量, 它看起来类似于下图所示的内容：
 
-    {{< image width="100%" ratio="56.57%"
-    link="/docs/tasks/telemetry/using-istio-dashboard/dashboard-with-traffic.png"
-    caption="Istio 的流量仪表板"
-    >}}
+    {{< image link="/docs/tasks/telemetry/using-istio-dashboard/dashboard-with-traffic.png" caption="Istio 的流量仪表板" >}}
 
 ### 关于 Grafana 插件
 

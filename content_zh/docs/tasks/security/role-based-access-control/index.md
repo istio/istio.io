@@ -42,7 +42,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
     * 用这个命令移除所有现存 RBAC 策略：
 
-      > 保存现有策略是可以的，不过需要对策略的 `constraints` 以及 `properties` 字段进行修改，参考[约束和属性](/docs/reference/config/authorization/constraints-and-properties/)中的内容，了解这两个字段所支持的值。
+      > 保存现有策略是可以的，不过需要对策略的 `constraints` 以及 `properties` 字段进行修改，参考[约束和属性](/zh/docs/reference/config/authorization/constraints-and-properties/)中的内容，了解这两个字段所支持的值。
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
@@ -112,7 +112,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 1.  验证已创建日志流并检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，搜索日志以查找 istio-telemetry pods，如下所示：
+    在 Kubernetes 环境中，搜索日志以查找 `istio-telemetry` pods，如下所示：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -146,7 +146,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 1.  验证已创建日志流并检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，搜索日志以查找 istio-telemetry pods，如下所示：
+    在 Kubernetes 环境中，搜索日志以查找 `istio-telemetry` pods，如下所示：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -223,7 +223,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 1.  验证日志并再次检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，搜索日志以查找 istio-telemetry pods，如下所示：
+    在 Kubernetes 环境中，搜索日志以查找 `istio-telemetry` pods，如下所示：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"

@@ -52,4 +52,4 @@ management functionality without dealing with Mixer or Citadel.
 
 - There is a [problem with Google Kubernetes Engine 1.10.2](https://github.com/istio/istio/issues/5723). The workaround is to use Kubernetes 1.9 or switch the node image to Ubuntu. A fix is expected in GKE 1.10.4.
 
-- There is a known namespace issue with `istioctl experimental convert-networking-config` tool where the desired namespace may be changed to the istio-system namespace, please manually adjust to use the desired namespace after running the conversation tool.   [Learn more](https://github.com/istio/istio/issues/5817)
+- There is a known namespace issue with `istioctl experimental convert-networking-config` tool where the desired namespace may be changed to the `istio-system` namespace, please manually adjust to use the desired namespace after running the conversation tool.   [Learn more](https://github.com/istio/istio/issues/5817)

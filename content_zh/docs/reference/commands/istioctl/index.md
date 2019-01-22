@@ -161,7 +161,7 @@ istioctl deregister my-svc 172.17.0.2
 
 ## `istioctl experimental convert-ingress`
 
-将 Ingress 转化为 VirtualService 配置。其输出内容可以作为 Istio 配置的起点，可能需要进行一些小修改。如果指定配置无法完美的完成转化，就会出现警告信息。输入内容必须是 Kubernetes Ingress。对 v1alpha1 的 Istio 规则的转换支持现在已经移除。
+将 Ingress 转化为 `VirtualService` 配置。其输出内容可以作为 Istio 配置的起点，可能需要进行一些小修改。如果指定配置无法完美的完成转化，就会出现警告信息。输入内容必须是 Kubernetes Ingress。对 v1alpha1 的 Istio 规则的转换支持现在已经移除。
 
 基本用法：
 
@@ -268,7 +268,7 @@ $ istioctl gen-deploy [选项]
 |`--helm-chart-dir <string>`|在这一目录中查找 Helm chart 用来渲染生成 Istio 部署。`-o yaml` 会用这个参数在本地进行 Helm chart 的渲染。（缺省值 `.`）|
 |`--hyperkube-hub <string>`|用于拉取 Hyperkube 镜像的容器仓库（缺省值 `quay.io/coreos/hyperkube`）|
 |`--hyperkube-tag <Hyperkube>`|Hyperkube 镜像的 Tag（缺省值 `v1.7.6_coreos.0`）|
-|`--ingress-node-port <uint16>`|如果指定了这一选项，Istio ingress 会以 NodePort 的形式运行，并映射到这一选项指定的端口。注意，如果 `ingress` 选项没有打开，这一选项会被忽略（缺省值 `0`）|
+|`--ingress-node-port <uint16>`|如果指定了这一选项，Istio ingress 会以 `NodePort` 的形式运行，并映射到这一选项指定的端口。注意，如果 `ingress` 选项没有打开，这一选项会被忽略（缺省值 `0`）|
 |`--values <string>`|`values.yaml` 文件的路径，在使用 `--out=yaml` 时，会用来在本地渲染 YAML。如果直接使用这一文件，会忽略上面的选项值（缺省值 `''`）|
 
 典型用例：

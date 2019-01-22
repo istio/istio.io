@@ -21,7 +21,7 @@ Don't use capitalization for emphasis.
 Follow the original capitalization employed in the code or configuration files
 when referencing those values directly. Use back-ticks \`\` around the
 referenced content to make the connection explicit. For example, use
-`IstioRoleBinding`, not "Istio Role Binding" or "istio role binding".
+`IstioRoleBinding`, not `Istio Role Binding` or `istio role binding`.
 
 If you are not referencing values or code directly, use normal sentence
 capitalization, for example, "The Istio role binding configuration takes place
@@ -131,6 +131,7 @@ Related Terms:
 | Mixer          | `mixer`
 | certificate    | `cert`
 | configuration  | `config`
+| delete         | `kill`
 
 ## Best practices
 
@@ -172,11 +173,9 @@ Use simple and direct language. Avoid using unnecessary phrases, such as saying
 
 There are good hyperlinks, and bad hyperlinks. The common practice of calling
 links *here*  or *click here* are examples of bad hyperlinks. Check out [this
-excellent article](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/)
+excellent article](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021)
 explaining what makes a good hyperlink and try to keep these guidelines in
 mind when creating or reviewing site content.
-
-[Why "click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
 
 ### Avoid using "we"
 

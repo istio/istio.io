@@ -5,7 +5,7 @@ publishdate: 2018-02-06
 subtitle: 网格外部 TCP 流量的服务入口
 attribution: Vadim Eisenberg
 weight: 92
-keywords: [流量管理,egress,tcp]
+keywords: [traffic-management,egress,tcp]
 ---
 
 这篇博客在2018年7月23日有修改，修改的内容使用了新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果你想使用旧版本 API，请参考[这个文档](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html)。
@@ -186,10 +186,7 @@ keywords: [流量管理,egress,tcp]
 
 你会发现问题，在每次审核下方都会显示消息 _"Ratings service is currently unavailable”_  而不是评级星标。
 
-{{< image width="80%" ratio="36.19%"
-    link="/blog/2018/egress-tcp/errorFetchingBookRating.png"
-    caption="Ratings 服务的错误信息"
-    >}}
+{{< image width="80%" link="/blog/2018/egress-tcp/errorFetchingBookRating.png" caption="Ratings 服务的错误信息" >}}
 
 与[使用外部Web服务](/zh/blog/2018/egress-https/)一样，你会体验到**优雅的服务降级**，这很好，虽然 _ratings_ 服务中有错误，但是应用程序并没有因此而崩溃，应用程序的网页正确显示了书籍信息，详细信息和评论，只是没有评级星。
 
@@ -244,10 +241,7 @@ keywords: [流量管理,egress,tcp]
 
 有效！ 访问应用程序的网页会显示评级而不会出现错误：
 
-{{< image width="80%" ratio="36.69%"
-    link="/blog/2018/egress-tcp/externalMySQLRatings.png"
-    caption="Book Ratings 显示正常"
-    >}}
+{{< image width="80%" link="/blog/2018/egress-tcp/externalMySQLRatings.png" caption="Book Ratings 显示正常" >}}
 
 请注意，正如预期的那样，你会看到两个显示评论的一星评级。将评级更改为一颗星，为我们提供了一个视觉线索，确实使用了我们的外部数据库。
 
@@ -273,7 +267,7 @@ keywords: [流量管理,egress,tcp]
 
 ## 与网格扩展的关系
 
-请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同。 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 ，MySQL 服务成为网格的一等公民，具有 Istio 的所有有益功能，除此之外，服务可以通过本地集群域名寻址，例如通过 `mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证)保护与它的通信，无需创建服务入口来访问此服务; 但是，该服务必须在 Istio 注侧，要启用此类集成，必须在计算机上安装 Istio 组件（ _Envoy proxy_ ，_node-agent_ ，_istio-agent_ ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_Citadel_ ）。有关详细信息，请参阅 [Istio Mesh Expansion](/zh/docs/setup/kubernetes/mesh-expansion/) 说明。
+请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/integrating-vms/)示例中描述的网格扩展场景不同。 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 ，MySQL 服务成为网格的一等公民，具有 Istio 的所有有益功能，除此之外，服务可以通过本地集群域名寻址，例如通过 `mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证)保护与它的通信，无需创建服务入口来访问此服务; 但是，该服务必须在 Istio 注侧，要启用此类集成，必须在计算机上安装 Istio 组件（ _Envoy proxy_ ，_node-agent_ ，`_istio-agent_` ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_Citadel_ ）。有关详细信息，请参阅 [Istio Mesh Expansion](/zh/docs/setup/kubernetes/mesh-expansion/) 说明。
 
 在我们的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置，无需集成机器
 与 Istio ，无需从机器访问 Istio 控制平面，在 MySQL 作为服务的情况下，MySQL 运行的机器可能无法访问并在其上安装所需的组件可能是不可能的，在我们的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的，当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。

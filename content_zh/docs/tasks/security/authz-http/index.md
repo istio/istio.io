@@ -2,7 +2,7 @@
 title: HTTP 服务的访问控制
 description: 展示为 HTTP 服务设置基于角色的访问控制方法。
 weight: 40
-keywords: [安全,访问控制,rbac,认证]
+keywords: [security,access-control,rbac,authorization]
 ---
 
 Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP 设置访问控制的各个环节。在[认证概念](/zh/docs/concepts/security/)中一文中提供了 Istio 安全方面的入门教程。
@@ -108,7 +108,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 1. 查看日志，并检查 `permissiveResponseCode`。
 
-    Kubernetes 环境中，可以用下列操作搜索 istio-telemetry 的 Pod 日志：
+    Kubernetes 环境中，可以用下列操作搜索 `istio-telemetry` 的 Pod 日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -139,7 +139,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 1. 再一次查看日志，并检查 `permissiveResponseCode`。
 
-    Kubernetes 环境中，可以用下列操作搜索 istio-telemetry 的 Pod 日志：
+    Kubernetes 环境中，可以用下列操作搜索 `istio-telemetry` 的 Pod 日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -211,7 +211,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 1. 查看日志，检查 `permissiveResponseCode`。
 
-    在 Kubernetes 环境中，查看 istio-telemetry pod 的日志：
+    在 Kubernetes 环境中，查看 `istio-telemetry` pod 的日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"

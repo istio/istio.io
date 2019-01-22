@@ -2,7 +2,7 @@
 title: 收集指标和日志
 description: 这一任务讲述如何配置 Istio，进行指标和日志的收集工作。
 weight: 20
-keywords: [遥测,指标]
+keywords: [telemetry,metrics]
 ---
 
 本任务展示了配置 Istio，对网格内服务的遥测数据进行自动收集的方法。在任务的后一部分，会创建一个新的指标以及新的日志流，并在网格内的服务被调用时触发收集过程。
@@ -139,17 +139,17 @@ keywords: [遥测,指标]
     上面的链接会打开 Prometheus 界面并查询 `istio_double_request_count` 的值。**Console** 标签页会以表格形式进行数据展示，类似：
 
     {{< text plain >}}
-    istio_double_request_count{destination="details.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
-    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
-    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
-    istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="istio-mixer.istio-system:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+    istio_double_request_count{destination="details.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
+    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
+    istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
     {{< /text >}}
 
     要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/querying-metrics/)任务
 
 1. 检查请求过程中生成和处理的日志流。
 
-    在 Kubernetes 环境中，像这样在 istio-telemetry pods 中搜索日志：
+    在 Kubernetes 环境中，像这样在 `istio-telemetry` pods 中搜索日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"

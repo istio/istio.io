@@ -35,19 +35,19 @@ Pods that are part of the Istio mesh contain a sidecar proxy that is responsible
 
 Let’s say you have two services that are part of the Istio mesh, Service A and Service B. When A wants to communicate with B, the sidecar proxy of Pod A is responsible for directing traffic to Service B. For example, if you wanted to split traffic 50/50 across Service B v1 and v2, the traffic would flow as follows:
 
-{{< image width="60%" ratio="43%" link="./fifty-fifty.png" caption="50/50 Traffic Split" >}}
+{{< image width="60%" link="./fifty-fifty.png" caption="50/50 Traffic Split" >}}
 
 If Services A and B are not part of the Istio mesh, there is no sidecar proxy that knows how to route traffic to different versions of Service B. In that case you need to use another approach to get traffic from Service A to Service B, following the 50/50 rules you’ve setup.
 
 Fortunately, a standard Istio deployment already includes a [Gateway](/docs/concepts/traffic-management/#gateways) that specifically deals with ingress traffic outside of the Istio mesh. This Gateway is used to allow ingress traffic from outside the cluster via an external load balancer, or to allow ingress traffic from within the Kubernetes cluster but outside the service mesh. It can be configured to proxy incoming ingress traffic to the appropriate Pods, even if they don’t have a sidecar proxy. While this approach allows you to leverage Istio’s traffic management features, it does mean that traffic going through the ingress gateway will incur an extra hop.
 
-{{< image width="60%" ratio="55%" link="./fifty-fifty-ingress-gateway.png" caption="50/50 Traffic Split using Ingress Gateway" >}}
+{{< image width="60%" link="./fifty-fifty-ingress-gateway.png" caption="50/50 Traffic Split using Ingress Gateway" >}}
 
 ## In action: traffic routing with Istio
 
 A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/platform-setup/) instructions, and then install Istio using [Helm](/docs/setup/kubernetes/minimal-install/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
 
-First, **setup and configure [GKE](/docs/setup/kubernetes/platform-setup/gke/)**:
+First, setup and configure [GKE](/docs/setup/kubernetes/platform-setup/gke/):
 
 {{< text bash >}}
 $ gcloud container clusters create istio-inc --zone us-central1-f
@@ -57,7 +57,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-Next, **[install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/minimal-install/)** --  only traffic management components:
+Next, [install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/minimal-install/) -- only traffic management components:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \
@@ -72,20 +72,20 @@ $ helm template install/kubernetes/helm/istio \
   --set pilot.sidecar=false > istio-minimal.yaml
 {{< /text >}}
 
-Then **create the istio-system namespace and deploy Istio**:
+Then create the `istio-system` namespace and deploy Istio:
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
 $ kubectl apply -f istio-minimal.yaml
 {{< /text >}}
 
-Next, **deploy the Bookinfo sample** without the Istio sidecar containers:
+Next, deploy the Bookinfo sample without the Istio sidecar containers:
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 {{< /text >}}
 
-Now, **configure a new Gateway** that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
+Now, configure a new Gateway that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -146,7 +146,7 @@ spec:
 EOF
 {{< /text >}}
 
-Finally, **deploy a Pod that you can use for testing** with `curl` (and without the Istio sidecar container):
+Finally, deploy a pod that you can use for testing with `curl` (and without the Istio sidecar container):
 
 {{< text bash >}}
 $ kubectl apply -f samples/sleep/sleep.yaml
@@ -222,4 +222,4 @@ null
 
 Mission accomplished! This post showed how to deploy a minimal installation of Istio that only contains the traffic management components (Pilot, ingress Gateway), and then use those components to direct traffic to specific versions of the reviews service. And it wasn't necessary to deploy the Istio sidecar proxy to gain these capabilities, so there was little to no interruption of existing workloads or applications.
 
-Using the built-in ingress Gateway (along with some `VirtualService` and `DestinationRule` resources) this post showed how you can easily leverage Istio’s traffic management for cluster-external ingress traffic and cluster-internal service-to-service traffic. This technique is a great example of an incremental approach to adopting Istio, and can be especially useful in real-world cases where Pods are owned by different teams or deployed to different namespaces.
+Using the built-in ingress gateway (along with some `VirtualService` and `DestinationRule` resources) this post showed how you can easily leverage Istio’s traffic management for cluster-external ingress traffic and cluster-internal service-to-service traffic. This technique is a great example of an incremental approach to adopting Istio, and can be especially useful in real-world cases where Pods are owned by different teams or deployed to different namespaces.

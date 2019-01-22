@@ -2,7 +2,7 @@
 title: VPN 连接
 description: 通过直连远程 pods 实现多 Kubernetes 集群安装 Istio 网格。
 weight: 5
-keywords: [kubernetes,多集群,联盟,vpn]
+keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
     - /zh/docs/setup/kubernetes/multicluster-install
 ---
@@ -11,10 +11,7 @@ aliases:
 
 在此配置中，运行远程配置的多个 Kubernetes 控制平面将连接到**单个** Istio 控制平面。一旦一个或多个远程 Kubernetes 集群连接到 Istio 控制平面，Envoy 就可以与单个控制平面通信并形成跨多个集群的服务网格。
 
-{{< image width="80%" ratio="36.01%"
-    link="/docs/setup/kubernetes/multicluster-install/vpn/multicluster-with-vpn.svg"
-    caption="通过 VPN 直连远程 pod 的多 Kubernetes 集群 Istio 网格"
-    >}}
+{{< image width="80%" link="/docs/setup/kubernetes/multicluster-install/vpn/multicluster-with-vpn.svg" caption="通过 VPN 直连远程 pod 的多 Kubernetes 集群 Istio 网格" >}}
 
 ## 先决条件
 
@@ -110,7 +107,7 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
     {{< /text >}}
 
    {{< info_icon >}} 所有集群必须有相同的 Istio 组件命名空间。
-   只要命名空间对有所有集群中的 Istio 组件都相同，就可以覆盖住集群上的“istio-system”名称。
+   只要命名空间对有所有集群中的 Istio 组件都相同，就可以覆盖住集群上的`istio-system`名称。
 
 1. 通过以下命令实例化远程集群与 Istio 控制平面的连接：
 
@@ -199,7 +196,7 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    __NOTE__: 许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
+    {{< info_icon >}} 许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
 
 1. 通过以下命令为 `istio-multi` service account 在工作目录创建一个 `kubeconfig`  文件：
 
@@ -315,7 +312,7 @@ $ helm delete --purge istio-remote
     $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
-1. 为远程 Istio 创建 istio-system 命名空间：
+1. 为远程 Istio 创建 `istio-system` 命名空间：
 
     {{< text bash >}}
     $ kubectl create ns istio-system

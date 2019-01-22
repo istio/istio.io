@@ -53,7 +53,7 @@ keywords: [翻译，贡献]
 |telemetry|遥测|
 |tenancy|租户|
 |timeouts|超时|
-|tracing|跟踪|
+|tracing|追踪|
 |traffic-management|流量管理|
 |traffic-shifting|流量转移|
 |understanding What happened|理解原理|

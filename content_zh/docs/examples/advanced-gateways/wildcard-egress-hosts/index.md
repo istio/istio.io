@@ -1,11 +1,11 @@
 ---
 title: 使用通配符主机配置 Egress 流量
 description: 介绍如何为公共域中的一组主机启用 Egress 流量，而不是单独配置每个主机。
-keywords: [流量管理,egress]
+keywords: [traffic-management,egress]
 weight: 50
 ---
 
-[控制 Egress 流量](/docs/tasks/traffic-management/egress/)任务和[配置 Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) 示例讲述了如何为类似 `edition.cnn.com` 的特定主机名配置
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务和[配置 Egress Gateway](/zh/docs/examples/advanced-gateways/egress-gateway/) 示例讲述了如何为类似 `edition.cnn.com` 的特定主机名配置
 egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipedia.org`）的主机启用 egress 流量，而非单独配置每个主机。
 
 ## 背景
@@ -16,11 +16,11 @@ egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipe
 
 ## 开始之前
 
-* 按照[安装指南](/docs/setup/)中的说明安装 Istio。
+* 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
 * 启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将被用作外部请求的测试源。
 
-  如果您启用了[自动 sidecar 注入](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)，请运行
+  如果您启用了[自动 sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请运行
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -234,10 +234,7 @@ egress gateway 使用它作为代理。Envoy 将流量路由到预定义的主�
 
 具有 SNI 代理的 egress gateway 和 Istio 体系结构的相关部分如下图所示：
 
-{{< image width="80%" ratio="57.89%"
-    link="./EgressGatewayWithSNIProxy.svg"
-    caption="具有 SNI proxy 的 Egress Gateway"
-    >}}
+{{< image width="80%" link="./EgressGatewayWithSNIProxy.svg" caption="具有 SNI proxy 的 Egress Gateway" >}}
 
 以下部分介绍如何使用 SNI 代理重新部署 egress gateway，然后配置 Istio 通过 gateway 将 HTTPS 流量路由到任意通配符域名。
 
@@ -488,7 +485,7 @@ SNI 代理会将流量转发到 `443` 端口。
 1. 检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -c sni-proxy
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
     127.0.0.1 [01/Aug/2018:15:32:02 +0000] TCP [en.wikipedia.org]200 81513 280 0.600
     127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
     {{< /text >}}

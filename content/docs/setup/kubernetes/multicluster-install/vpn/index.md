@@ -1,5 +1,5 @@
 ---
-title: VPN connectivity
+title: VPN Connectivity
 description: Install an Istio mesh across multiple Kubernetes clusters with direct network access to remote pods.
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn]
@@ -7,8 +7,9 @@ aliases:
     - /docs/setup/kubernetes/multicluster-install
 ---
 
-Instructions for installing an Istio mesh across multiple clusters when pods
-in each cluster have direct network access to pods in other clusters.
+Instructions for installing an Istio [multicluster service mesh](/docs/concepts/multicluster-deployments/)
+where Kubernetes cluster services and applications in each cluster have the capability to expose
+their internal Kubernetes network to other clusters.
 
 In this configuration, multiple Kubernetes control planes running
 a remote configuration connect to a **single** Istio control plane.
@@ -16,10 +17,7 @@ Once one or more remote Kubernetes clusters are connected to the
 Istio control plane, Envoy can then communicate with the **single**
 control plane and form a mesh network across multiple clusters.
 
-{{< image width="80%" ratio="36.01%"
-    link="./multicluster-with-vpn.svg"
-    caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN"
-    >}}
+{{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
 ## Prerequisites
 
@@ -125,7 +123,7 @@ perform a manual sidecar injection refer to the [manual sidecar example](#manual
     {{< /text >}}
 
     {{< info_icon >}} All clusters must have the same namespace for the Istio
-    components. It is possible to override the "istio-system" name on the main
+    components. It is possible to override the `istio-system` name on the main
     cluster as long as the namespace is the same for all Istio components in
     all clusters.
 
@@ -228,7 +226,7 @@ the remote cluster.
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    __NOTE__: An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< info_icon >}} An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
 
 1. Create a `kubeconfig` file in the working directory for the
     `istio-multi` service account with the following command:
@@ -358,7 +356,7 @@ Before you begin, set the endpoint IP environment variables as described in the
     $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
-1. Create the istio-system namespace for remote Istio.
+1. Create the `istio-system` namespace for remote Istio:
 
     {{< text bash >}}
     $ kubectl create ns istio-system

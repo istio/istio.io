@@ -29,33 +29,7 @@ on them cannot access the Internet. Defining an egress gateway, directing all th
 allocating public IPs to the egress gateway nodes allows the application nodes to access external services in a
 controlled way.
 
-## Before you begin
-
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
-
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-    which will be used as a test source for external calls.
-
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    {{< /text >}}
-
-    Note that any pod that you can `exec` and `curl` from would do.
-
-*   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
-
-    {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    {{< /text >}}
+{{< boilerplate before-you-begin-egress >}}
 
 ## Egress gateway for HTTP traffic
 
@@ -253,7 +227,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') istio-proxy -n istio-system | tail
+    $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
     {{< /text >}}
 
     You should see a line similar to the following:
@@ -484,17 +458,18 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     ...
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy which includes a counter that corresponds to your
-    requests to _edition.cnn.com_. If Istio is deployed in the `istio-system` namespace, the command to print the
-    counter is:
+1.  Check the log of the egress gateway's proxy. If Istio is deployed in the `istio-system` namespace, the command to
+    print the log is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
-    cluster.outbound|443||edition.cnn.com.upstream_cx_total: 1
+    $ kubectl logs -l istio=egressgateway -n istio-system
     {{< /text >}}
 
-    You may want to perform a couple of additional requests and verify that the counter increases by 1 with each
-    request.
+    You should see a line similar to the following:
+
+    {{< text plain >}}
+    [2019-01-02T11:46:46.981Z] "- - -" 0 - 627 1879689 44 - "-" "-" "-" "-" "151.101.129.67:443" outbound|443||edition.cnn.com 172.30.109.80:41122 172.30.109.80:443 172.30.109.112:59970 edition.cnn.com
+    {{< /text >}}
 
 ### Cleanup HTTPS gateway
 
