@@ -45,7 +45,7 @@ certificate from the Istio samples directory.
 
 The instructions, below, also set up the `remote` cluster with a selector-less service and an endpoint for `istio-pilot.istio-system`
 that has the address of the `local` Istio ingress gateway.
-This will be used to access the `local` pilot securely using the ingress gateway without mTLS termination.
+This will be used to access the `local` pilot securely using the ingress gateway without mutual TLS termination.
 
 ### Setup the local cluster
 
@@ -81,6 +81,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
     --set security.selfSigned=false \
     --set mixer.telemetry.enabled=false \
     --set mixer.policy.enabled=false \
+    --set global.useMCP=false \
     --set global.controlPlaneSecurityEnabled=true \
     --set gateways.istio-egressgateway.enabled=false \
     --set global.meshExpansion.enabled=true \
@@ -92,7 +93,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
     {{< text bash >}}
     $ kubectl create --context=$CTX_LOCAL ns istio-system
     $ kubectl create --context=$CTX_LOCAL secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
-    $ kubectl apply --context=$CTX_LOCAL -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply --context=$CTX_LOCAL -f $i; done
     $ kubectl create --context=$CTX_LOCAL -f istio-auth.yaml
     {{< /text >}}
 
@@ -323,7 +324,7 @@ The difference between the two instances is the version of their `helloworld` im
     {{< /text >}}
 
     Although deployed locally, this Gateway instance will also affect the `remote` cluster by configuring it to passthrough
-    incoming traffic to the relevant remote service (SNI-based) but keeping the mTLS all the way from the source to destination sidecars.
+    incoming traffic to the relevant remote service (SNI-based) but keeping mutual TLS all the way from the source to destination sidecars.
 
 1. Deploy the files:
 
@@ -345,21 +346,21 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 1. Call the `helloworld.sample` service several times:
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_LOCAL -it -n sample sleep-57f9d6fd6b-q4k4h -- curl helloworld.sample:5000/hello
+    $ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between the local and the remote instances
 resulting in responses with either `v1` or `v2` in the body:
 
 {{< text bash >}}
-$ kubectl exec --context=$CTX_LOCAL -it -n sample sleep-57f9d6fd6b-q4k4h -- curl helloworld.sample:5000/hello
+$ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
 Defaulting container name to sleep.
 Use 'kubectl describe pod/sleep-57f9d6fd6b-q4k4h -n sample' to see all of the containers in this pod.
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl exec --context=$CTX_LOCAL -it -n sample sleep-57f9d6fd6b-q4k4h -- curl helloworld.sample:5000/hello
+$ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
 Defaulting container name to sleep.
 Use 'kubectl describe pod/sleep-57f9d6fd6b-q4k4h -n sample' to see all of the containers in this pod.
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
@@ -368,7 +369,7 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 You can also verify the IP addresses used to access the endpoints by printing the log of the sleep's `istio-proxy` container.
 
 {{< text bash >}}
-$ kubectl logs --context=$CTX_LOCAL -n sample sleep-57f9d6fd6b-q4k4h istio-proxy
+$ kubectl logs --context=$CTX_LOCAL -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) istio-proxy
 [2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
@@ -384,8 +385,8 @@ Cleanup the `remote` cluster:
 {{< text bash >}}
 $ kubectl delete --context=$CTX_REMOTE -f istio-remote-auth.yaml
 $ kubectl delete --context=$CTX_REMOTE ns istio-system
-$ kubectl delete --context=$CTX_REMOTE -f install/kubernetes/helm/istio/templates/crds.yaml
 $ kubectl delete --context=$CTX_REMOTE -f helloworld-v2.yaml -n sample
+$ kubectl delete --context=$CTX_REMOTE ns sample
 {{< /text >}}
 
 Cleanup the `local` cluster:
@@ -393,7 +394,8 @@ Cleanup the `local` cluster:
 {{< text bash >}}
 $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
 $ kubectl delete --context=$CTX_LOCAL ns istio-system
-$ kubectl delete --context=$CTX_LOCAL -f install/kubernetes/helm/istio/templates/crds.yaml
+$ helm delete --purge --kube-context=$CTX_LOCAL istio-init
 $ kubectl delete --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
 $ kubectl delete --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
+$ kubectl delete --context=$CTX_LOCAL ns sample
 {{< /text >}}

@@ -69,7 +69,7 @@ Istio 中的安全性涉及多个组件：
 
 - **AWS**: AWS IAM 用户/角色 帐户
 
-- **On-premises （非 Kubernetes）**: 用户帐户、自定义服务帐户、服务名称、istio 服务帐户或 GCP 服务帐户。
+- **On-premises （非 Kubernetes）**: 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
 
 自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 

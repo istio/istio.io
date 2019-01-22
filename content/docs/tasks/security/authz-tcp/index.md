@@ -18,7 +18,7 @@ The activities in this task assume that you:
 * Follow the instructions in the [quick start](/docs/setup/kubernetes/quick-start/) to install Istio on
   Kubernetes **with authentication enabled**.
 
-* Enable mutual TLS (mTLS) authentication when running the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+* Enable mutual TLS authentication when running the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 The commands used in this task assume the Bookinfo example application is deployed in the default
 namespace. To specify a namespace other than the default namespace, use the `-n` option in the command.

@@ -21,7 +21,7 @@ Don't use capitalization for emphasis.
 Follow the original capitalization employed in the code or configuration files
 when referencing those values directly. Use back-ticks \`\` around the
 referenced content to make the connection explicit. For example, use
-`IstioRoleBinding`, not "Istio Role Binding" or "istio role binding".
+`IstioRoleBinding`, not `Istio Role Binding` or `istio role binding`.
 
 If you are not referencing values or code directly, use normal sentence
 capitalization, for example, "The Istio role binding configuration takes place
@@ -131,6 +131,7 @@ Related Terms:
 | Mixer          | `mixer`
 | certificate    | `cert`
 | configuration  | `config`
+| delete         | `kill`
 
 ## Best practices
 
