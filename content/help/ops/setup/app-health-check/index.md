@@ -143,6 +143,8 @@ This approach rewrites the application `PodSpec` liveness probe, such that the p
 request to application, and strip the response body only returning the response code.
 
 To use this approach, you need to install istio with helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
+Note this is a global flag. **Turning it on means all Istio app deployment will be affected.**
+Please be aware of the risk.
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -152,6 +154,9 @@ $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
 Re-deploy liveness health check app.
+
+Helm configuration above make sidecar injection to automatically rewrite Kubernetes PodSpec, such that
+health check can work under mTLS. No need to update your app or PodSpecy by yourself.
 
 {{< text bash >}}
 $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
