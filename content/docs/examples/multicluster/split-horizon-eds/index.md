@@ -93,7 +93,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
     {{< text bash >}}
     $ kubectl create --context=$CTX_LOCAL ns istio-system
     $ kubectl create --context=$CTX_LOCAL secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
-    $ helm install install/kubernetes/helm/istio-init --name istio-init
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply --context=$CTX_LOCAL -f $i; done
     $ kubectl create --context=$CTX_LOCAL -f istio-auth.yaml
     {{< /text >}}
 
@@ -132,7 +132,6 @@ This will be used to access the `local` pilot securely using the ingress gateway
       --set global.proxy.envoyStatsd.enabled=false \
       --set global.disablePolicyChecks=true \
       --set global.policyCheckFailOpen=true \
-      --set global.useMCP=false \
       --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
       --set global.network="network2" > istio-remote-auth.yaml
     {{< /text >}}
