@@ -470,6 +470,13 @@ they have valid values, according to the output of the following commands:
 
     `tls.crt` and `tls.key` should exist in the directory contents.
 
+1.  If you created the `istio-ingressgateway-certs` secret, but the key and the certificate are not loaded, delete the
+    ingress gateway pod and force it to reload them.
+
+    {{< text bash >}}
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 1.  Verify that the _Subject_ is correct in the certificate of the ingress gateway:
 
     {{< text bash >}}
@@ -493,12 +500,6 @@ they have valid values, according to the output of the following commands:
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  If the secret was created but the keys were not mounted, delete the ingress gateway pod and force it to reload certs:
-
-    {{< text bash >}}
-    $ kubectl delete pod -n istio-system -l istio=ingressgateway
-    {{< /text >}}
-
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
     described in the [Before you begin](#before-you-begin) section.
 
@@ -514,17 +515,18 @@ In addition to the steps in the previous section, perform the following:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
+1.  If you created the `istio-ingressgateway-ca-certs` secret, but the CA certificate is not loaded, delete the ingress
+    gateway pod and force it to reload the certificate:
+
+    {{< text bash >}}
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 1.  Verify that the _Subject_ is correct in the CA certificate of the ingress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem | openssl x509 -text -noout | grep 'Subject:'
     Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
-    {{< /text >}}
-
-1.  If the secret was created but the keys were not mounted, delete the ingress gateway pod and force it to reload certs:
-
-    {{< text bash >}}
-    $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
 ## Cleanup
