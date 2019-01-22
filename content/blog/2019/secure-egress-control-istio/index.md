@@ -95,4 +95,6 @@ Let me explain Istio Egress Traffic control in the following section.
 
 ### Egress traffic control by Istio
 
+#### Advantage of Istio egress traffic controls
+
 ## Further reading
