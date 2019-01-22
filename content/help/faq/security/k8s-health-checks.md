@@ -1,5 +1,5 @@
 ---
-title: How can I use Kubernetes liveness and readiness for pod health check when mutual TLS is enabled?
+title: How can I use Kubernetes liveness and readiness for pod health checks when mutual TLS is enabled?
 weight: 50
 ---
 If mutual TLS is enabled, http and tcp health checks from the kubelet will

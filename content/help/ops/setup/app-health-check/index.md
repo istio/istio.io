@@ -134,15 +134,15 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
-When Mutual TLS is enabled, we have two options to support HTTP probes, probe rewrites and seperate ports.
+When Mutual TLS is enabled, we have two options to support HTTP probes, probe rewrites and separate ports.
 
-#### Probe Rewrite
+#### Probe rewrite
 
 This approach rewrites the application `PodSpec` liveness probe, such that the probe request will be sent to
 [Pilot agent](https://istio.io/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strip the response body only returning the response code.
 
-To use this approach, you need to install istio with helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
+To use this approach, you need to install Istio with helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 Note this is a global flag. **Turning it on means all Istio app deployment will be affected.**
 Please be aware of the risk.
 
@@ -153,7 +153,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
-Re-deploy liveness health check app.
+Re-deploy the liveness health check app.
 
 Helm configuration above make sidecar injection to automatically rewrite Kubernetes PodSpec, such that
 health check can work under mTLS. No need to update your app or PodSpecy by yourself.
@@ -171,9 +171,9 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 Currently, this feature is not turned on by default and only available for `istioctl kube-inject`,
 not for webhook auto inject yet. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
-on whether changing this to default behavior for istio installation.
+on whether we should change this to default behavior for Istio installation.
 
-#### Separate Port
+#### Separate port
 
 Again, enable mutual TLS for services in the default namespace by adding namespace-wide authentication policy and a destination rule:
 
