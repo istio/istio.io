@@ -289,7 +289,6 @@ A malicious application can bypass the Istio sidecar proxy and access any extern
 To implement egress traffic control in a secure way, you must [direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway) and address the security concerns expressed in
 [Configure an Egress Gateway example, Additional Security Considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations).
 
-
 ## Cleanup
 
 1.  Remove the rules:
