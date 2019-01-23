@@ -256,6 +256,15 @@ The second approach bypasses the Istio sidecar proxy, giving your services direc
 external URL. However, configuring the proxy this way does require
 cloud provider specific knowledge and configuration.
 
+## Security note
+
+{{< warning_icon >}} Note that configuration examples in this task **do not enable secure egress traffic control** in
+Istio.
+A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
+
+To implement egress traffic control in a secure way, you must [direct egress traffic through an egress gateway](/docs/tasks/traffic-management/egress-gateway) and address the security concerns expressed in
+[Configure an Egress Gateway task, Additional Security Considerations](/docs/tasks/traffic-management/egress-gateway#additional-security-considerations).
+
 ## Cleanup
 
 1.  Remove the rules.
