@@ -18,8 +18,17 @@ running in a second cluster.
 * Set up a multicluster environment with two Istio clusters by following the
     [multiple control planes with gateways](/docs/setup/kubernetes/multicluster-install/gateways/) instructions.
 
-* The `kubectl` command will be used to access both clusters with the `--context` flag.
-    Export the following environment variables with the context names of your configuration:
+* The `kubectl` command is used to access both clusters with the `--context` flag.
+    Use the following command to list your contexts:
+
+    {{< text bash >}}
+    $ kubectl config get-contexts
+    CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
+    *         cluster1   cluster1   user@foo.com   default
+              cluster2   cluster2   user@foo.com   default
+    {{< /text >}}
+
+* Export the following environment variables with the context names of your configuration:
 
     {{< text bash >}}
     $ export CTX_CLUSTER1=<cluster1 context name>
@@ -42,9 +51,17 @@ running in a second cluster.
     $ kubectl create --context=$CTX_CLUSTER2 namespace bar
     $ kubectl label --context=$CTX_CLUSTER2 namespace bar istio-injection=enabled
     $ kubectl apply --context=$CTX_CLUSTER2 -n bar -f @samples/httpbin/httpbin.yaml@
-    $ export GATEWAY_IP_CLUSTER2=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
+    {{< /text >}}
+
+1. Export the `cluster2` gateway address:
+
+    {{< text bash >}}
+    $ export CLUSTER2_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
         -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
     {{< /text >}}
+
+    This command sets the value to the gateway's public IP, but note that you can set it to
+    a DNS name instead, if you have one.
 
 1. Create a service entry for the `httpbin` service in `cluster1`.
 
@@ -89,7 +106,7 @@ running in a second cluster.
       # This is the routable address of the ingress gateway in cluster2 that
       # sits in front of sleep.bar service. Traffic from the sidecar will be
       # routed to this address.
-      - address: ${GATEWAY_IP_CLUSTER2}
+      - address: ${CLUSTER2_GW_ADDR}
         ports:
           http1: 15443 # Do not change this port value
     EOF
@@ -152,7 +169,7 @@ spec:
   addresses:
   - 127.255.0.2
   endpoints:
-  - address: ${GATEWAY_IP_CLUSTER2}
+  - address: ${CLUSTER2_GW_ADDR}
     network: external
     ports:
       http1: 15443 # Do not change this port value
@@ -189,7 +206,7 @@ spec:
   # must be unique for each service.
   - 127.255.0.2
   endpoints:
-  - address: ${GATEWAY_IP_CLUSTER2}
+  - address: ${CLUSTER2_GW_ADDR}
     labels:
       version: beta
       some: thing

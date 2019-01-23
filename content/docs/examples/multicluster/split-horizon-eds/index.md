@@ -27,20 +27,30 @@ In addition to the prerequisites for installing Istio, the following is required
 
 * Two Kubernetes clusters (referred to as `local` and `remote`).
 
-* Access to the Kubernetes API server of the `remote` cluster from the `local` cluster.
+    > {{< warning_icon >}} The Kubernetes API server of the `remote` cluster MUST be accessible from the `local` cluster
+    > in order to run this configuration.
 
-In the following instructions, the `kubectl` command will be used to access both `local` and `remote` clusters using
-the `--context` flag. Setup the following two environment variables with the context names of your configuration:
+* The `kubectl` command is used to access both the `local` and `remote` clusters with the `--context` flag.
+  Use the following command to list your contexts:
 
-{{< text bash >}}
-$ export CTX_LOCAL=<KUBECONFIG_LOCAL_CONTEXT>
-$ export CTX_REMOTE=<KUBECONFIG_REMOTE_CONTEXT>
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl config get-contexts
+    CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
+    *         cluster1   cluster1   user@foo.com   default
+              cluster2   cluster2   user@foo.com   default
+    {{< /text >}}
+
+* Export the following environment variables with the context names of your configuration:
+
+    {{< text bash >}}
+    $ export CTX_LOCAL=<KUBECONFIG_LOCAL_CONTEXT_NAME>
+    $ export CTX_REMOTE=<KUBECONFIG_REMOTE_CONTEXT_NAME>
+    {{< /text >}}
 
 ## Example multicluster setup
 
 In this example you will install Istio with mutual TLS enabled for both the control plane and application pods.
-For the shared root CA, you create a `cacerts` secret on both `local` and `remote` clusters using the same Istio
+For the shared root CA, you create a `cacerts` secret on both the `local` and `remote` clusters using the same Istio
 certificate from the Istio samples directory.
 
 The instructions, below, also set up the `remote` cluster with a selector-less service and an endpoint for `istio-pilot.istio-system`
@@ -60,16 +70,13 @@ This will be used to access the `local` pilot securely using the ingress gateway
         endpoints:
         - fromRegistry: remote_kubecfg
         gateways:
-        - address: 192.23.120.32
+        - address: 0.0.0.0
           port: 443
     {{< /text >}}
 
-    __NOTE:__ Replace the gateway address with the public IP of your remote cluster.
-
-    > If the remote gateway IP is unknown at this stage,
-    > you can still proceed with an arbitrary value that can be modified after [Step 3 in Remote Cluster Setup](#setup-the-remote-cluster),
-    > once the external IP is available. Modify the configmap by executing `kubectl edit cm -n istio-system --context=$CTX_LOCAL istio`.
-    > Once saved, Pilot will automatically read the updated networks configuration.
+    Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
+    later be updated to the value of the public IP of the `remote` cluster gateway after it is deployed
+    in the following section.
 
 1. Use Helm to create the Istio `local` deployment YAML:
 
@@ -108,10 +115,12 @@ This will be used to access the `local` pilot securely using the ingress gateway
 1. Export the `local` gateway address:
 
     {{< text bash >}}
-    $ export LOCAL_GW_ADDR="192.23.120.102"
+    $ export LOCAL_GW_ADDR=$(kubectl get --context=$CTX_LOCAL svc --selector=app=istio-ingressgateway \
+        -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
     {{< /text >}}
 
-    __NOTE:__ Replace the gateway address with the public IP of your `local` cluster.
+    This command sets the value to the gateway's public IP, but note that you can set it to
+    a DNS name instead, if you have one.
 
 1. Use Helm to create the Istio `remote` deployment YAML:
 
@@ -149,6 +158,25 @@ This will be used to access the `local` pilot securely using the ingress gateway
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_REMOTE -n istio-system
     {{< /text >}}
+
+1. Update the gateway address in the mesh network configuration:
+
+    * Determine the `remote` gateway address:
+
+        {{< text bash >}}
+        $ kubectl get --context=$CTX_REMOTE svc --selector=app=istio-ingressgateway -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
+        169.61.102.93
+        {{< /text >}}
+
+    * Edit the istio config map:
+
+        {{< text bash >}}
+        $ kubectl edit cm -n istio-system --context=$CTX_LOCAL istio
+        {{< /text >}}
+
+    * Change the gateway address of `network2` from `0.0.0.0` to the `remote` gateway address, save, and quit.
+
+      Once saved, Pilot will automatically read the updated network configuration.
 
 1. Prepare environment variables for building the `remote_kubecfg` file for the service account `istio-multi`:
 
