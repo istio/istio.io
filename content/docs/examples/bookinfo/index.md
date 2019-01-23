@@ -159,7 +159,7 @@ is used for this purpose.
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1.  Proceed to [Confirm the app is running](#confirm-the-app-is-running), below.
+1.  Proceed to [Confirm the app is running](#confirm-the-app-is-accessible-from-outside-the-cluster), below.
 
 ### If you are running on Docker with Consul
 
