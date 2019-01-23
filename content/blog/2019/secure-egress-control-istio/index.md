@@ -126,7 +126,8 @@ container environment. We can say that Kubernetes Network Policies provide trans
 control, which is not DNS-aware.
 
 Another approach that pre-dates Kubernetes network policies is a **DNS-aware egress proxy** or firewall. In this
-approach applications are configured to direct the traffic to the proxy and to use some proxy protocol, e.g. [SOCKS].
+approach applications are configured to direct the traffic to the proxy and to use some proxy protocol, e.g.
+[SOCKS](https://en.wikipedia.org/wiki/SOCKS).
 Since the applications must be configured, this solution is not transparent. Moreover, egress proxies are not Kubernetes
 aware, so the pod labels or pod namespace or pod service account are not known to the egress proxy. Such egress proxies
 cannot fulfill requirement 4, i.e. they cannot enforce policies by source if the source is specified by a Kubernetes
