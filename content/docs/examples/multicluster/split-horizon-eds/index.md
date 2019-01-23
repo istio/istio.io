@@ -30,7 +30,7 @@ In addition to the prerequisites for installing Istio, the following is required
     > {{< warning_icon >}} The Kubernetes API server of the `remote` cluster MUST be accessible from the `local` cluster
     > in order to run this configuration.
 
-* The `kubectl` command will be used to access both the `local` and `remote` clusters with the `--context` flag.
+* The `kubectl` command is used to access both the `local` and `remote` clusters with the `--context` flag.
   Use the following command to list your contexts:
 
     {{< text bash >}}
@@ -119,7 +119,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
         -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
     {{< /text >}}
 
-    This command sets the value to the public IP of the gateway, but note that you can set it to
+    This command sets the value to the gateway's public IP, but note that you can set it to
     a DNS name instead, if you have one.
 
 1. Use Helm to create the Istio `remote` deployment YAML:
@@ -176,7 +176,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
 
     * Change the gateway address of `network2` from `0.0.0.0` to the `remote` gateway address, save, and quit.
 
-      Once saved, Pilot will automatically read the updated networks configuration.
+      Once saved, Pilot will automatically read the updated network configuration.
 
 1. Prepare environment variables for building the `remote_kubecfg` file for the service account `istio-multi`:
 

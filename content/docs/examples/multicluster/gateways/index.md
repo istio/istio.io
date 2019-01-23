@@ -18,7 +18,7 @@ running in a second cluster.
 * Set up a multicluster environment with two Istio clusters by following the
     [multiple control planes with gateways](/docs/setup/kubernetes/multicluster-install/gateways/) instructions.
 
-* The `kubectl` command will be used to access both clusters with the `--context` flag.
+* The `kubectl` command is used to access both clusters with the `--context` flag.
     Use the following command to list your contexts:
 
     {{< text bash >}}
@@ -60,7 +60,7 @@ running in a second cluster.
         -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
     {{< /text >}}
 
-    This command sets the value to the public IP of the gateway, but note that you can set it to
+    This command sets the value to the gateway's public IP, but note that you can set it to
     a DNS name instead, if you have one.
 
 1. Create a service entry for the `httpbin` service in `cluster1`.
