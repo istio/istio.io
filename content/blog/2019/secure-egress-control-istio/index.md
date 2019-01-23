@@ -137,6 +137,12 @@ Let me explain Istio Egress Traffic control in the following section.
 
 ### Egress traffic control by Istio
 
+To implement secure egress traffic control in Istio, you must
+[direct traffic to external services thru an egress gateway](). (To support wildcard domain, you must create [a custom
+version of an egress gateway]()). In both cases you have to apply some [additional security mechanism](), like
+Kubernetes Network Policies or L3 firewall that will enforce that traffic from the cluster to the outside is allowed for
+the egress gateway only. See [an example for Kubernetes Network Policies configuration].
+
 #### Advantage of Istio egress traffic controls
 
 ## Further reading
