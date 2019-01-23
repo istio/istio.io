@@ -27,7 +27,7 @@ In addition to the prerequisites for installing Istio, the following is required
 
 * Two Kubernetes clusters (referred to as `local` and `remote`).
 
-    > {{< warning_icon >}} The Kubernetes API server of the `remote` cluster MUST be accessable from the `local` cluster
+    > {{< warning_icon >}} The Kubernetes API server of the `remote` cluster MUST be accessible from the `local` cluster
     > in order to run this configuration.
 
 * The `kubectl` command will be used to access both the `local` and `remote` clusters with the `--context` flag.
@@ -75,7 +75,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
     {{< /text >}}
 
     Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
-    later be updated to the value of the public IP of the remote cluster gateway after it is deployed
+    later be updated to the value of the public IP of the `remote` cluster gateway after it is deployed
     in the following section.
 
 1. Use Helm to create the Istio `local` deployment YAML:
@@ -162,6 +162,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
 1. Update the gateway address in the mesh network configuration:
 
     * Determine the `remote` gateway address:
+
         {{< text bash >}}
         $ kubectl get --context=$CTX_REMOTE svc --selector=app=istio-ingressgateway -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
         169.61.102.93
