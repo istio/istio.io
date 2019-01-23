@@ -14,8 +14,8 @@ cluster for further attacks on external services and legacy systems outside of t
 traffic control.
 
 Below I describe the Istio way for controlling egress traffic securely, and compare it with other solutions such as
-[Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and Legacy
-Proxy/Firewall.
+[Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
+egress proxy/firewall.
 
 ## The attacks
 
