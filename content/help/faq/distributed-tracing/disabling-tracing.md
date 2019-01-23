@@ -1,9 +1,9 @@
 ---
-title: How can I prevent Istio from sending trace spans to a backend service?
+title: How can I prevent Istio from sending trace spans to a backend system?
 weight: 50
 ---
 
-If you already have already installed Istio with tracing enabled, you can disable it as follows:
+If you already have installed Istio with tracing enabled, you can disable it as follows:
 
 {{< text plain >}}
 # Fill <istio namespace> with the namespace of your istio mesh.Ex: istio-system

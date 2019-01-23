@@ -1,5 +1,5 @@
 ---
-title: Can Istio send tracing information to an external Zipkin instance?
+title: Can Istio send tracing information to an external Zipkin (or Zipkin-compatible) instance?
 weight: 70
 ---
 

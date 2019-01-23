@@ -1,5 +1,5 @@
 ---
-title: What is required for Distributed Tracing with Istio?
+title: What is required for distributed tracing with Istio?
 weight: 10
 ---
 
