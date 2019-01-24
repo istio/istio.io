@@ -33,8 +33,13 @@ the application, or internal, i.e. a malicious DevOps person inside the organiza
 ## The solution: egress traffic control
 
 To prevent the attacks described above, the egress traffic control must be applied. This means that all the egress
-traffic must be monitored and security policies must be enforced. Let me present requirements for egress traffic
-control in the following section.
+traffic must be monitored and security policies must be enforced. You want to monitor every access to external services
+to be able to detect the attacks, possibly offline, even if you fail to prevent them in real time. You want to specify
+policies to limit access similar to the
+[Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
+need to access external services should be allowed to access the external services they need.
+
+Let me present requirements for egress traffic control in the following section.
 
 ## Requirements for egress traffic control
 
@@ -166,10 +171,6 @@ information, e.g HTTP methods, headers and URL paths, and you can
 [define policies](/blog/2018/egress-monitoring-access-control) based on the HTTP information. If the application
 performs TLS origination, for TLS traffic you can
 [monitor SNI and the service account](/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/) of the
-source pod, and define policies based on them. In general, you want to monitor every access to external services to be
-able to detect the attacks, possibly offline, even if you fail to prevent them online. You also want specify policies to
-limit the access similar to the
-[Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
-need to access external services should be allowed to access the external services they need.
+source pod, and define policies based on them.
 
 ### Advantage of Istio egress traffic controls
