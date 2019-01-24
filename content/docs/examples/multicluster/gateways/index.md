@@ -63,6 +63,14 @@ running in a second cluster.
     This command sets the value to the gateway's public IP, but note that you can set it to
     a DNS name instead, if you have one.
 
+    > If `cluster2` is running in an environment that does not
+    > support external load balancers, you will need to use a nodePort to access the gateway.
+    > Instructions for obtaining the IP to use can be found in the
+    > [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
+    > guide. You will also need to change the service entry endpoint port in the following step from 15443
+    > to its corresponding nodePort
+    > (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
+
 1. Create a service entry for the `httpbin` service in `cluster1`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
@@ -70,13 +78,18 @@ running in a second cluster.
     `<name>.<namespace>.global` where name and namespace correspond to the
     remote service's name and namespace respectively.
 
-    For DNS resolution for services under the
-    `*.global` domain, you need to assign these services an IP address. We
-    suggest assigning an IP address from the 127.255.0.0/16 subnet. These IPs
-    are non-routable outside of a pod. Application traffic for these IPs will
-    be captured by the sidecar and routed to the appropriate remote service.
+    For DNS resolution for services under the `*.global` domain, you need to assign these
+    services an IP address.
 
     > Each service (in the `.global` DNS domain) must have a unique IP within the cluster.
+
+    If the global services have actual VIPs, you can use those, but otherwise we suggest
+    using IPs from the loopback range `127.0.0.0/8` that are not already allocated.
+    These IPs are non-routable outside of a pod.
+    In this example we'll use IPs in `127.255.0.0/16` which avoids conflicting with
+    well known IPs such as `127.0.0.1` (`localhost`).
+    Application traffic for these IPs will be captured by the sidecar and routed to the
+    appropriate remote service.
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
@@ -115,17 +128,6 @@ running in a second cluster.
     The configurations above will result in all traffic in `cluster1` for
     `httpbin.bar.global` on *any port* to be routed to the endpoint
     `<IPofCluster2IngressGateway>:15443` over an mTLS connection.
-
-    If your cluster2 Kubernetes cluster is running in an environment that does not
-    support external load balancers, you must use the IP and nodePort corresponding
-    to port 15443 of a node running the `istio-ingressgateway` service. Instructions
-    for obtaining the node IP can be found in the
-    [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
-    guide. The following command can be used to obtain the nodePort:
-
-    {{< text bash >}}
-    $ kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'
-    {{< /text >}}
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the multicluster Istio installation step
