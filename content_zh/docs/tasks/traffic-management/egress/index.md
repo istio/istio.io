@@ -218,7 +218,7 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
 
 #### IBM Cloud Kubernetes Service
 
-使用 `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.20.0.0/16\,10.10.10.0/24"`
+使用 `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
 #### Google Container Engine (GKE)
 
