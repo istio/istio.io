@@ -11,7 +11,7 @@ keywords: [kubernetes, istio, sidecar injection, admission controller, mutating 
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 
-[From Istio’s documentation:](docs/concepts/what-is-istio/#architecture)
+[From Istio’s documentation:](../../../docs/concepts/what-is-istio/#architecture)
 
 > An Istio service mesh is logically split into a data plane and a control plane.
 >
@@ -304,7 +304,7 @@ This example shows there are many variables, based on whether the automatic side
 - default policy (Configured in the ConfigMap `istio-sidecar-injector`)
 - per-pod override annotation (`sidecar.istio.io/inject`)
 
-The [injection status table](https://istio.io/help/ops/setup/injection/) shows a clear picture of the final injection status based on the value of the above variables.
+The [injection status table](../../../help/ops/setup/injection/) shows a clear picture of the final injection status based on the value of the above variables.
 
 ## Traffic flow from application container to sidecar proxy
 
