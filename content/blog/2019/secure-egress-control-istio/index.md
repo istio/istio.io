@@ -33,7 +33,7 @@ To prevent the attacks described above, the egress traffic control must be appli
 traffic must be monitored and security policies must be enforced. Let me present the requirements for egress traffic
 control in the following section.
 
-## The requirements for egress traffic control
+## Requirements for egress traffic control
 
 We collected requirements for secure egress traffic control from several customers, and also
 [requirements from Kubernetes Network Special Interest Group](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg).
