@@ -23,7 +23,9 @@ egress proxy/firewall.
 Once the attackers are able to penetrate an application in the cluster, they can proceed to attack external services:
 legacy systems, external web services and databases. The attackers may want to steal the data of the application and to
 transfer it to their external servers. The attackers' malware may require access to attackers' servers to download
-updates. The attackers may use the pods in the service mesh to perform DOS attacks.
+updates. The attackers may use the pods in the service mesh to perform DOS attacks or to break into external systems.
+Even though we cannot know all the possible types of the attacks, we want to reduce possibilities for the attacks, both
+for known and unknown ones.
 
 The attackers can be external, i.e. can gain access to the application’s container from the outside, through a bug in
 the application, or internal, i.e. a malicious DevOps person inside the organization.
