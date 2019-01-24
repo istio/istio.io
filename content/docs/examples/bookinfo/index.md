@@ -123,6 +123,14 @@ To start the application, follow the instructions corresponding to your Istio ru
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
     {{< /text >}}
 
+1.  To confirm that the Bookinfo application is running, send a request to it by a `curl` command from some pod, for
+    example from `ratings`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
+
 #### Determining the ingress IP and port
 
 Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
@@ -151,7 +159,7 @@ is used for this purpose.
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1.  Proceed to [Confirm the app is running](#confirm-the-app-is-running), below.
+1.  Proceed to [Confirm the app is running](#confirm-the-app-is-accessible-from-outside-the-cluster), below.
 
 ### If you are running on Docker with Consul
 
@@ -186,9 +194,9 @@ is used for this purpose.
     For example, replace `samples/bookinfo/networking/destination-rule-all.yaml` with
     `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `kubectl apply` command, below.
 
-## Confirm the app is running
+## Confirm the app is accessible from outside the cluster
 
-To confirm that the Bookinfo application is running, run the following `curl` command:
+To confirm that the Bookinfo application is accessible from outside the cluster, run the following `curl` command:
 
 {{< text bash >}}
 $ curl http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
