@@ -33,7 +33,7 @@ To prevent the attacks described above, the egress traffic control must be appli
 traffic must be monitored and security policies must be enforced. Let me present the requirements for egress traffic
 control in the following section.
 
-### The requirements for egress traffic control
+## The requirements for egress traffic control
 
 We collected requirements for secure egress traffic control from several customers, and also
 [requirements from Kubernetes Network Special Interest Group](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg).
@@ -111,7 +111,7 @@ requirements, in particular it is transparent, DNS-aware, and Kubernetes-aware.
 
 Let's examine solutions for egress traffic control other than Istio in the following section.
 
-### Existing solutions for egress traffic control
+## Existing solutions for egress traffic control
 
 The most natural solution for egress traffic control is
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/). Using
@@ -136,7 +136,7 @@ but not transparent and not Kubernetes-aware.
 
 Let me explain Istio Egress Traffic control in the following section.
 
-### Egress traffic control by Istio
+## Egress traffic control by Istio
 
 To implement secure egress traffic control in Istio, you must
 [direct TLS traffic to external services through an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#egress-gateway-for-https-traffic).
@@ -165,4 +165,4 @@ performs TLS origination, for TLS traffic you can
 [monitor SNI and the service account](/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/) of the
 source pod, and define policies based on them.
 
-#### Advantage of Istio egress traffic controls
+### Advantage of Istio egress traffic controls
