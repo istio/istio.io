@@ -173,4 +173,21 @@ performs TLS origination, for TLS traffic you can
 [monitor SNI and the service account](/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/) of the
 source pod, and define policies based on them.
 
+### Possible attacks and their prevention
+
+Let's examine possible attacks and let me show you how the secure egress control in Istio prevents them. Consider the
+following security policy with regard to egress traffic:
+
+1. Application A is allowed to access `*.ibm.com` (all the external services with URL matching `*.ibm.com`,
+  e.g. `www.ibm.com`)
+1. Application B is allowed to access `mongo1.composedb.com`
+1. All the egress traffic must be monitored
+
+Now consider a scenario in which an application A (one is pods) is compromised. Suppose the attacker has the following
+goals:
+
+
+Now let's see which attacks the attackers will try to perform and how Istio secure egress traffic control will prevent
+each kind of the attack.
+
 ### Advantage of Istio egress traffic controls
