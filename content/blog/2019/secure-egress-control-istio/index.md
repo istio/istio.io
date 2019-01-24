@@ -139,10 +139,31 @@ Let me explain Istio Egress Traffic control in the following section.
 ### Egress traffic control by Istio
 
 To implement secure egress traffic control in Istio, you must
-[direct traffic to external services thru an egress gateway](). (To support wildcard domain, you must create [a custom
-version of an egress gateway]()). In both cases you have to apply some [additional security mechanism](), like
-Kubernetes Network Policies or L3 firewall that will enforce that traffic from the cluster to the outside is allowed for
-the egress gateway only. See [an example for Kubernetes Network Policies configuration].
+[direct TLS traffic to external services through an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#egress-gateway-for-https-traffic).
+(To support wildcard domains, you must create
+[a custom version of an egress gateway](/docs/examples/advanced-gateways/wildcard-egress-hosts/)). Alternatively, you
+can [direct HTTP traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#egress-gateway-for-http-traffic) and [let the egress gateway perform TLS origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway).
+
+
+In all the cases you have to apply some
+[additional security mechanisms](/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations),
+like Kubernetes Network Policies or an L3 firewall that will enforce that traffic from the cluster to the outside is
+allowed for the egress gateway only. See
+[an example for Kubernetes Network Policies configuration](/docs/examples/advanced-gateways/egress-gateway/#apply-kubernetes-network-policies).
+
+You must also increase the security measures applied to Istio control plane and the
+egress gateway by running them on nodes separate from the application nodes, in a separate namespace, monitoring them
+more thoroughly, etc. After all, if the attackers are able to attack Istio Mixer or the egress gateway, they could
+break any policy.
+
+Once you directed egress traffic through an egress gateway and applied additional security mechanisms to the egress
+gateway, you can securely monitor the traffic and define security policies on it.
+If the application sends HTTP requests and the egress gateway performs TLS origination, you can monitor HTTP
+information, e.g HTTP methods, headers and URL paths, and you can
+[define policies](/blog/2018/egress-monitoring-access-control) based on the HTTP information. If the application
+performs TLS origination, for TLS traffic you can
+[monitor SNI and the service account](/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/) of the
+source pod, and define policies based on them.
 
 #### Advantage of Istio egress traffic controls
 
