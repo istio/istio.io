@@ -218,7 +218,7 @@ Set the value of `global.proxy.includeIPRanges` according to your cluster provid
 
 #### IBM Cloud Kubernetes Service
 
-Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.20.0.0/16\,10.10.10.0/24"`
+Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
 #### Google Container Engine (GKE)
 
