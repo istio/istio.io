@@ -44,7 +44,7 @@ Here is a copy of the end-to-end architecture of the application from the origin
 
 Perform the steps in the
 [Deploying the application](/docs/examples/bookinfo/#deploying-the-application),
-[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-running), and
+[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster), and
 [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)
 sections.
 
