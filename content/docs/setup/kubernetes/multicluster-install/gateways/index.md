@@ -71,12 +71,20 @@ on **each** Kubernetes cluster.
     For further details and customization options, refer to the
     [Installation with Helm](/docs/setup/kubernetes/helm-install/) instructions.
 
-1. Run the following command in **every cluster** to deploy an identical Istio control plane
+1. Run the following commands in **every cluster** to deploy an identical Istio control plane
    configuration in all of them.
 
-    {{< text bash >}}
-    $ kubectl apply -f $HOME/istio.yaml
-    {{< /text >}}
+    * Install Istio's CRDs and wait a few seconds for them to be committed to the Kubernetes API server:
+
+        {{< text bash >}}
+        $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+        {{< /text >}}
+
+    * Deploy the Istio control plane:
+
+        {{< text bash >}}
+        $ kubectl apply -f $HOME/istio.yaml
+        {{< /text >}}
 
 ## Setup DNS
 
