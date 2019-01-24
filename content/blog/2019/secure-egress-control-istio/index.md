@@ -166,5 +166,3 @@ performs TLS origination, for TLS traffic you can
 source pod, and define policies based on them.
 
 #### Advantage of Istio egress traffic controls
-
-## Further reading
