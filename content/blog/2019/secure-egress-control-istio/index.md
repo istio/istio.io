@@ -4,6 +4,7 @@ subtitle: Secure Egress Traffic Control in Istio
 publishdate: 2019-01-31
 attribution: Vadim Eisenberg
 weight: 70
+keywords: [traffic-management,egress]
 ---
 
 In this blog post I describe how Istio can be used for secure egress traffic control. While the most important security
@@ -30,7 +31,7 @@ the application, or internal, i.e. a malicious DevOps person inside the organiza
 ## The solution: egress traffic control
 
 To prevent the attacks described above, the egress traffic control must be applied. This means that all the egress
-traffic must be monitored and security policies must be enforced. Let me present the requirements for egress traffic
+traffic must be monitored and security policies must be enforced. Let me present requirements for egress traffic
 control in the following section.
 
 ## Requirements for egress traffic control
