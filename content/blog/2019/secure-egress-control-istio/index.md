@@ -166,6 +166,10 @@ information, e.g HTTP methods, headers and URL paths, and you can
 [define policies](/blog/2018/egress-monitoring-access-control) based on the HTTP information. If the application
 performs TLS origination, for TLS traffic you can
 [monitor SNI and the service account](/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/) of the
-source pod, and define policies based on them.
+source pod, and define policies based on them. In general, you want to monitor every access to external services to be
+able to detect the attacks, possibly offline, even if you fail to prevent them online. You also want specify policies to
+limit the access similar to the
+[Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
+need to access external services should be allowed to access the external services they need.
 
 ### Advantage of Istio egress traffic controls
