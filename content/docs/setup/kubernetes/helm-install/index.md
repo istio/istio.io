@@ -139,5 +139,5 @@ to manage the lifecycle of Istio.
 > {{< warning_icon >}} Deleting CRDs will delete any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ for i in install install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
