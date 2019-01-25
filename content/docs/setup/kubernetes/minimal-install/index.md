@@ -98,7 +98,7 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 > Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
 > CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
-> data in custom resources the Istio designers consider better to explicitly delete this
+> data for Istio configuraiton the Istio designers consider better to explicitly delete this
 > configuration rather then unexpectedly to lose it.
 
     {{< text bash >}}
