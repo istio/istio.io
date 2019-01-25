@@ -20,7 +20,7 @@ through secret-volume mounted files, this approach has the following minor drawb
 
 These issues are addressed in Istio 1.1 through the SDS identity provision flow. The workflow can be described as follows.
 
-The workload sidecar Envoy requests key and certificates from the Citadel Agent (SDS server, which runs as per-node DaemonSet) using a Kubernetes
+The workload sidecar Envoy requests key and certificates from the Citadel Agent (SDS server, which runs as per-node `DaemonSet`) using a Kubernetes
 service account JWT through the SDS API.
 The Citadel Agent generates a key pair and sends the CSR request to Citadel. Citadel verifies the JWT and issues the certificate to the Citadel Agent.
 Eventually, Citadel Agent sends the key and certificate back to the workload sidecar.
