@@ -1,5 +1,5 @@
 ---
-title: How can I prevent Istio from sending trace spans to a backend system?
+title: How do I disable tracing?
 weight: 50
 ---
 

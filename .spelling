@@ -233,6 +233,8 @@ istio.io
 istio.io.
 Istiofied
 IstioMesh
+istio-mixer
+istio-policy
 jason
 Jog
 json
