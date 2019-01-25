@@ -1,9 +1,11 @@
 ---
-title: How does Distributed Tracing work with Istio?
+title: How does distributed tracing work with Istio?
 weight: 0
 ---
 
 Istio integrates with distributed tracing systems in two different ways: Envoy-based and Mixer-based tracing integrations.
+
+### Envoy-based tracing
 
 For Envoy-based tracing integrations, Envoy (the sidecar proxy) sends tracing information directly to tracing backends on behalf of the applications being proxied.
 
@@ -15,6 +17,9 @@ Envoy:
 - forwards the trace headers to the proxied application
 
 Istio supports the Envoy-based integrations of [LightStep](/docs/tasks/telemetry/distributed-tracing/lightstep/) and [Zipkin](/docs/tasks/telemetry/distributed-tracing/zipkin/), as well as all Zipkin API-compatible backends, including [Jaeger](/docs/tasks/telemetry/distributed-tracing/jaeger/).
+
+
+### Mixer-based tracing
 
 For Mixer-based tracing integrations, Mixer (addressed through the `istio-telemetry` service) provides the integration with tracing backends. The Mixer integration allows additional levels of operator control of the distributed tracing, including fine-grained selection of the data included in trace spans. It also provides the ability to send traces to backends not supported by Envoy directly.
 
