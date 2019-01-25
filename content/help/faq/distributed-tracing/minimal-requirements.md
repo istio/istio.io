@@ -1,6 +1,6 @@
 ---
-title: What is the minimal feasible Istio configuration required for Distributed Tracing?
-weight: 12
+title: What is the minimal Istio configuration required for distributed tracing?
+weight: 13
 ---
 
-The Istio minimal profile with tracing enabled is all that is required for Istio to integrate with Zipkin API-compatible tracing backends.
+The [Istio minimal profile](/docs/setup/kubernetes/minimal-install/) with tracing enabled is all that is required for Istio to integrate with Zipkin-compatible backends.
