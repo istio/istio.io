@@ -11,20 +11,20 @@ Prior to Istio 1.1, the keys and certificates of Istio workloads were generated 
 through secret-volume mounted files, this approach has the following minor drawbacks:
 
 * Performance regression during certificate rotation:
-  When certificate rotation happens, Pilot agent (running on the sidecar container) needs to hot restart Envoy to pick up the new key and certificate,
+  When certificate rotation happens, the Pilot Agent (running on the sidecar container) needs to hot restart Envoy to pick up the new key and certificate,
   which causes performance regression.
 
 * Potential security vulnerability:
-  Kubernetes secrets are used to store the workload private keys. Kubernetes secrets have known
+  The workload private keys are distributed through Kubernetes secrets, which have known
   [risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks). Also, the private key is stored in the pod local file system.
 
-These issues are addressed in Istio 1.1 through the support of SDS to provision identities. The workflow can be described as follows.
+These issues are addressed in Istio 1.1 through the SDS identity provision flow. The workflow can be described as follows.
 
-The workload sidecar Envoy requests key and certificates from Citadel agent (SDS server, which runs as per-node DaemonSet) using a Kubernetes
+The workload sidecar Envoy requests key and certificates from the Citadel Agent (SDS server, which runs as per-node DaemonSet) using a Kubernetes
 service account JWT through the SDS API.
-Citadel agent generates the private key and sends the CSR request to Citadel. Citadel verifies the JWT and signs the certificate,
-the key and certificate will eventually be sent back to the workload sidecar through the Citadel agent.
-In this approach, the private key never leaves the node; it is only kept in the Citadel agent and Envoy sidecar's memory.
+The Citadel Agent generates a key pair and sends the CSR request to Citadel. Citadel verifies the JWT and issues the certificate to the Citadel Agent.
+Eventually, Citadel Agent sends the key and certificate back to the workload sidecar.
+In this approach, the private key never leaves the node; it is only kept in the Citadel Agent and Envoy sidecar's memory.
 Thus, this approach is more secure than the secret volume mount approach, which relies on the secret and local files on pod.
 Also, the sidecar Envoy is able to dynamically renew the key and certificate through the SDS API, so restarting Envoy can be avoided.
 
@@ -85,8 +85,8 @@ $ kubectl delete -f istio-auth-sds.yaml
 
 ## Caveats
 
-Note this feature currently has the following caveats:
+Currently, the SDS identity provision flow has the following caveats:
 
 * The control plane security has to be turned off. Enabling SDS with control plane security turned on is working in progress.
 
-* The support for smoothy migration from existing clusters using the secret volume mount to using the SDS is working in progress.
+* The support clusters smoothly migrating from using the secret volume mount to using the SDS is working in progress.
