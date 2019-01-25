@@ -43,7 +43,7 @@ Follow the [authentication policy task](/docs/tasks/security/authn-policy/) to s
 $ kubectl create ns foo
 $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
 $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
-$ ubectl create ns bar
+$ kubectl create ns bar
 $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
 $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n bar
 {{< /text >}}
