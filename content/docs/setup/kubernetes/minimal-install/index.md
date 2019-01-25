@@ -65,10 +65,10 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify all the Istio's CRDs have been committed in the Kube api-server by checking all the CRD creation jobs complete with success:
+1. Verify all the Istio's CRDs have been committed in the Kube api-server by checking the number of CRD with specified suffix. Run the following command and check the result, totally `57` CRDs should be created for Istio:
 
     {{< text bash >}}
-    $ kubectl get job --namespace istio-system | grep istio-crd
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
     {{< /text >}}
 
 1. Install the `istio` chart:
