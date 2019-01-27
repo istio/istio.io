@@ -125,9 +125,10 @@ This will be used to access the `local` pilot securely using the ingress gateway
 1. Use Helm to create the Istio `remote` deployment YAML:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote \
+    $ helm template install/kubernetes/helm/istio \
       --name istio-remote \
       --namespace=istio-system \
+      --values install/kubernetes/helm/istio/values-istio-remote.yaml \
       --set global.mtls.enabled=true \
       --set global.enableTracing=false \
       --set gateways.enabled=true \
