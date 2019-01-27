@@ -340,7 +340,7 @@ or origin) should be used as principal. By default, it uses peer.</p>
 <pre><code class="language-yaml">apiVersion: authentication.istio.io/v1alpha1
 kind: Policy
 metadata:
-  name: mTLS_enable
+  name: mtls-enable
   namespace: frod
 spec:
   peers:
@@ -352,7 +352,7 @@ spec:
 <pre><code class="language-yaml">apiVersion: authentication.istio.io/v1alpha1
 kind: Policy
 metadata:
-  name: mTLS_disable
+  name: mtls-disable
   namespace: frod
 spec:
   targets:
@@ -365,7 +365,7 @@ for productpage:9000 except the path &lsquo;/health_check&rsquo; . Principal is 
 <pre><code class="language-yaml">apiVersion: authentication.istio.io/v1alpha1
 kind: Policy
 metadata:
-  name: mTLS_enable
+  name: mtls-enable
   namespace: frod
 spec:
   targets:
