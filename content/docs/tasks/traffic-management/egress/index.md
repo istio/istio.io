@@ -318,8 +318,9 @@ for HTTP traffic in Istio is discouraged.)
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl https://www.google.com | grep -o "<title>.*</title>"
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://www.google.com | grep -o "<title>.*</title>"; kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://edition.cnn.com | grep -o "<title>.*</title>"
     <title>Google</title>
+    <title>CNN International - Breaking News, US News, World News and Video</title>
     {{< /text >}}
 
 Note that the requests to port 80 are blocked for all the external services since Istio by default has HTTP services
