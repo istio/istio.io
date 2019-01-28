@@ -39,7 +39,11 @@ caption="GKE-IAM Role"
 
 ## Setup
 
-### Launch Deployment Manager
+### Using Istio on GKE
+
+Refer to the [Istio on GKE documentation](https://cloud.google.com/istio/docs/istio-on-gke/overview) for instructions.
+
+### Using Deployment Manager (deprecated)
 
 1.  Once you have an account and project enabled, click the following link to open the Deployment Manager.
 
