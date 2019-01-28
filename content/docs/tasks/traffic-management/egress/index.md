@@ -337,6 +337,29 @@ Istio monitoring on traffic to external services: the calls to external services
 example. To start monitoring access to external services, follow the steps in
 [configure access to external services](#configuring-istio-external-services) (no need to update Istio).
 
+### Change back to the blocking-by-default policy
+
+To cancel your policy change for external services, undo the changes you perfromed in the previous section and update
+Istio.
+
+1.  For demonstration purposes, run:
+
+    {{< text bash >}}
+    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
+    configmap "istio" replaced
+    {{< /text >}}
+
+1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are blocked now:
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://www.google.com | grep -o "<title>.*</title>"; kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://edition.cnn.com | grep -o "<title>.*</title>"
+    command terminated with exit code 35
+    command terminated with exit code 35
+    {{< /text >}}
+
+    > It might take time for the configuration change to propagate so you might still get successful connections.
+    Wait for several seconds and then retry the last command.
+
 ## Understanding what happened
 
 In this task you looked at two ways to call external services from an Istio mesh:
