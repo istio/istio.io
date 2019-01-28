@@ -401,11 +401,11 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
 1.  Perform your usual test by sending HTTP requests to
  [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport)
  and [edition.cnn.com/health](https://edition.cnn.com/health). As expected, the request to
- [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_.
+ [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _403_ (Forbidden).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
-    404
+    403
     200
     200
     {{< /text >}}
