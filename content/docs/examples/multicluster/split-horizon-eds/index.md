@@ -130,7 +130,6 @@ This will be used to access the `local` pilot securely using the ingress gateway
       --namespace=istio-system \
       --values install/kubernetes/helm/istio/values-istio-remote.yaml \
       --set global.mtls.enabled=true \
-      --set global.enableTracing=false \
       --set gateways.enabled=true \
       --set gateways.istio-egressgateway.enabled=false \
       --set gateways.istio-ingressgateway.enabled=true \
@@ -139,7 +138,6 @@ This will be used to access the `local` pilot securely using the ingress gateway
       --set global.createRemoteSvcEndpoints=true \
       --set global.remotePilotCreateSvcEndpoint=true \
       --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
-      --set global.proxy.envoyStatsd.enabled=false \
       --set global.disablePolicyChecks=true \
       --set global.policyCheckFailOpen=true \
       --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
