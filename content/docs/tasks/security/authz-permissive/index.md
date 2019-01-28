@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac,authorization]
 ---
 
 The authorization permissive mode is an experimental feature in Istio's 1.1 release. Its interface can change in future releases.
-You can skip enabling the permissive mode and directly [enable Istio authorization](#enabling-istio-authorization)
+You can skip enabling the permissive mode and directly [enable Istio authorization](/docs/tasks/security/authz-http#enabling-istio-authorization)
 if you do not want to try out the permissive mode feature.
 
 This task shows how to use authorization permissive mode in below two scenarios:
@@ -134,7 +134,7 @@ Before you start, please make sure that you have finished [preparation task](#be
     The `permissiveResponseCode` is `allowed` for productpage service, 403 for ratings
     and reviews services, which are what user will see after switching
     policy mode from `PERMISSIVE` mode to `ENFORCED` mode; the result aligns with
-    [step 1](#step-1-allowing-access-to-the-productpage-service).
+    [Emabling authorization for HTTP services step 1](/docs/tasks/security/authz-http#step-1-allowing-access-to-the-productpage-service).
 
 1.  Remove permissive mode related yaml files:
 
@@ -145,14 +145,14 @@ Before you start, please make sure that you have finished [preparation task](#be
     {{< /text >}}
 
 1.  Now we have verified authorization will work as expected when turning it on,
-    it's safe following below [Enabling Istio authorization](#enabling-istio-authorization) to turn on authorization.
+    it's safe following the [Enabling Istio authorization](/docs/tasks/security/authz-http#enabling-istio-authorization) to turn on authorization.
 
 ### Testing new authorization policy works as expected before rolling to production
 
 This tasks shows how to use authorization permissive mode to test a new authorization policy works
 as expected in environment with authorization already enabled.
 
-Before you start, please make sure that you have finished [step 1](#step-1-allowing-access-to-the-productpage-service).
+Before you start, please make sure that you have finished [Enabling authorization for HTTP services step 1](/docs/tasks/security/authz-http#step-1-allowing-access-to-the-productpage-service).
 
 1.  Before applying a new policy, test it by setting its mode to permissive:
 
@@ -163,7 +163,7 @@ Before you start, please make sure that you have finished [step 1](#step-1-allow
     {{< /text >}}
 
     The policy is the same as defined in [allowing access to the details and
-    reviews services](#step-2-allowing-access-to-the-details-and-reviews-services), except `PERMISSIVE` mode is set in ServiceRoleBinding.
+    reviews services](/docs/tasks/security/authz-http#step-2-allowing-access-to-the-details-and-reviews-services), except `PERMISSIVE` mode is set in ServiceRoleBinding.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -228,4 +228,4 @@ Before you start, please make sure that you have finished [step 1](#step-1-allow
     {{< /text >}}
 
 1.  Now we have verified the new policy will work as expected, it's safe
-    following [step 2](#step-2-allowing-access-to-the-details-and-reviews-services) to apply the policy.
+    following [Enabling authorization for HTTP services step 2](/docs/tasks/security/authz-http#step-2-allowing-access-to-the-details-and-reviews-services) to apply the policy.

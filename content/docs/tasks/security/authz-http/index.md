@@ -68,7 +68,6 @@ for the list of supported keys in `constraints` and `properties`.
     If you refresh the page several times, you should see different versions of reviews shown in the product page,
     presented in a round robin style (red stars, black stars, no stars)
 
-
 ## Enabling Istio authorization
 
 Run the following command to enable Istio authorization for the `default` namespace:
