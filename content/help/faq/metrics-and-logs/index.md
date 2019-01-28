@@ -5,4 +5,6 @@ description: Metrics and Logs Q & A.
 weight: 45
 layout: faq
 icon: faq
+aliases:
+ - /help/faq/telemetry
 ---
