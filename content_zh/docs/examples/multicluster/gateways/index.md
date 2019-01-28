@@ -1,6 +1,6 @@
 ---
 title: 通过网关进行连接的多集群
-description: 在一个使用网管进行连接的多集群网格中配置远程服务。
+description: 在一个使用网关进行连接的多集群网格中配置远程服务。
 weight: 20
 keywords: [kubernetes,multicluster]
 ---
