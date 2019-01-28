@@ -100,7 +100,7 @@ appears below:
       variables:
         destination: request.host | "unknown"
         path: request.path | "unknown"
-        source: source.labels["app"] | source.service | "unknown"
+        source: source.labels["app"] | source.name | "unknown"
         sourceNamespace: source.namespace | "unknown"
         user: source.user | "unknown"
         responseCode: response.code | 0
