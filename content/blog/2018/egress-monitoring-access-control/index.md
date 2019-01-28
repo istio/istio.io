@@ -170,7 +170,8 @@ All three should return _200 OK_.
 1.  Query the Mixer log and see that the information about the requests appears in the log:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn
+    ...
     {"level":"info","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
     {"level":"error","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
     {"level":"info","time":"2018-06-18T13:22:59.234426Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":358651,"source":"sleep","user":"unknown"}
