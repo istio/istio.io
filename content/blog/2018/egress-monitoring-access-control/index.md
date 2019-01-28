@@ -256,11 +256,12 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 1.  Query the Mixer log and see that the information about the requests appears again in the log:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
-    {"level":"info","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
-    {"level":"error","time":"2018-06-19T12:39:48.050666Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
-    {"level":"info","time":"2018-06-19T12:39:48.091268Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":334027,"source":"sleep","sourceNamespace":"default","user":"unknown"}
-    {"level":"info","time":"2018-06-19T12:39:48.063812Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":355267,"source":"sleep","sourceNamespace":"default","user":"unknown"}
+    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
+    ...
+    {"level":"info","time":"2019-01-28T13:38:41.332768Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
+    {"level":"error","time":"2019-01-28T13:38:41.329823Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"istio-egressgateway","sourceNamespace":"istio-system","user":"unknown"}
+    {"level":"info","time":"2019-01-28T13:38:41.365099Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":2100162,"source":"istio-egressgateway","sourceNamespace":"istio-system","user":"unknown"}
+    {"level":"info","time":"2019-01-28T13:38:41.635210Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":2166377,"source":"istio-egressgateway","sourceNamespace":"istio-system","user":"unknown"}
     {{< /text >}}
 
     You still get info and error messages regarding accesses to
