@@ -329,12 +329,13 @@ in the next section.
 1.  Send the previous three HTTP requests to _cnn.com_, this time you should get three _200 OK_ responses as
 previously:
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     200
     200
     200
-    ```
+    {{< /text >}}
+
 > You may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
 gateway.
 
