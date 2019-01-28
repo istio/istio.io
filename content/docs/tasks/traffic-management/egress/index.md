@@ -266,7 +266,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 
 ## Install Istio with access to all external services by default
 
-An alternative to calling external services directly is to instruct Istio proxy to pass through the calls to all the
+An alternative to calling external services directly is to instruct the Istio proxy to pass through the calls to all the
 external services. This option allows you to start evaluating Istio quickly, without controlling access to external
 services, and decide to [configure access to external services](#configuring-istio-external-services) later.
 
