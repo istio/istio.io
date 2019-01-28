@@ -268,7 +268,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 
 An alternative to calling external services directly is to instruct Istio proxy to pass through the calls to all the
 external services. This option allows you to start evaluating Istio quickly, without controlling access to external
-services; and decide to [configure access to external services](#configuring-istio-external-services) later.
+services, and decide to [configure access to external services](#configuring-istio-external-services) later.
 
 Istio has an installation option that allows access to all external services for which no HTTP service exist inside
 the mesh and no HTTP/TCP `ServiceEntry` is defined. For example, if your mesh does not have an HTTP service on port 443,
