@@ -1,5 +1,5 @@
 ---
-title: Can telemetry be accessed through REST?
+title: Can Istio metrics be accessed through REST?
 weight: 0
 ---
 
