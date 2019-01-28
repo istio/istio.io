@@ -339,7 +339,7 @@ example. To start monitoring access to external services, follow the steps in
 
 ### Change back to the blocking-by-default policy
 
-To cancel your policy change for external services, undo the changes you perfromed in the previous section and update
+To cancel your policy change for external services, undo the changes you performed in the previous section and update
 Istio.
 
 1.  For demonstration purposes, run:
