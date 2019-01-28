@@ -298,13 +298,13 @@ for HTTP traffic in Istio is discouraged.)
     just edit the files. Look for the following YAML part:
 
     {{< text yaml >}}
-        # Set the default behavior of the sidecar for handling outbound traffic from the application:
-        # REGISTRY_ONLY - restrict outbound traffic to services defined in the service registry as well
-        #   as those defined through ServiceEntries
-        # ALLOW_ANY - outbound traffic to unknown destinations will be allowed, in case there are no
-        #   services or ServiceEntries for the destination port
-        outboundTrafficPolicy:
-          mode: REGISTRY_ONLY
+    # Set the default behavior of the sidecar for handling outbound traffic from the application:
+    # REGISTRY_ONLY - restrict outbound traffic to services defined in the service registry as well
+    #   as those defined through ServiceEntries
+    # ALLOW_ANY - outbound traffic to unknown destinations will be allowed, in case there are no
+    #   services or ServiceEntries for the destination port
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
     {{< /text >}}
 
     Change `mode` of `outboundTrafficPolicy` from `REGISTRY_ONLY` to `ALLOW_ANY`. Then run `kubectl apply` with the
