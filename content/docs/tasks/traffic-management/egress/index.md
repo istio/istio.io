@@ -315,7 +315,7 @@ for HTTP traffic in Istio is discouraged.)
     istio-pilot-54b8685584-qqvz9   2/2       Running   0          1m
     {{< /text >}}
 
-1.  Make a copule of requests to external HTTPS services from `SOURCE_POD`:
+1.  Make a couple of requests to external HTTPS services from `SOURCE_POD`:
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl https://www.google.com | grep -o "<title>.*</title>"
