@@ -328,11 +328,14 @@ for HTTP traffic in Istio is discouraged.)
     <title>CNN International - Breaking News, US News, World News and Video</title>
     {{< /text >}}
 
+    > It might take time for the configuration change to propagate so you might still get connection errors.
+    Wait for several seconds and then retry the last command.
+
 Note that the requests to port 80 are blocked for all the external services since Istio by default has HTTP services
 that run on port 80. Also note that if you install Istio with allowed access to all the external services you loose
 Istio monitoring on traffic to external services: the calls to external services will not appear in the Mixer log, for
 example. To start monitoring access to external services, follow the steps in
-[configure access to external services](#configuring-istio-external-services) (no need to reinstall/update Istio).
+[configure access to external services](#configuring-istio-external-services) (no need to update Istio).
 
 ## Understanding what happened
 
