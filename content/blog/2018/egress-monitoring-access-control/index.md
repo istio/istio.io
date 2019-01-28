@@ -211,6 +211,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 443
           weight: 100
@@ -307,6 +308,7 @@ in the next section.
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: cnn
             port:
               number: 443
           weight: 100
