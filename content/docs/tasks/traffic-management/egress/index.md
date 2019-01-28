@@ -270,7 +270,7 @@ An alternative to calling external services directly is to instruct the Istio pr
 external services. This option allows you to start evaluating Istio quickly, without controlling access to external
 services, and decide to [configure access to external services](#configuring-istio-external-services) later.
 
-Istio has an installation option that allows access to all external services for which no HTTP service exist inside
+Istio has an installation option that allows access to all external services for which no HTTP service exists inside
 the mesh and no HTTP/TCP `ServiceEntry` is defined. For example, if your mesh does not have an HTTP service on port 443,
 and you did not define a `ServiceEntry` on port 443, you can access any external service on port 443. Note, however,
 that once you create an HTTP service on port 443 or define any `ServiceEntry` for any host on
