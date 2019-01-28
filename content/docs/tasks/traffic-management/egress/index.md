@@ -310,19 +310,14 @@ for HTTP traffic in Istio is discouraged.)
     Change `mode` of `outboundTrafficPolicy` from `REGISTRY_ONLY` to `ALLOW_ANY`. Then run `kubectl apply` with the
     edited file.
 
-1.  If you chose to update a running Istio control plane, delete the pilot pods so that the new pods will receive the
-    updated configuration map:
+    Yet another option is to use `kubectl edit` to edit the relevant configuration map directly:
+    `kubectl edit configmap istio -n istio-system`.
+
+    For demonstration purposes, let's use `kubectl get --export`, `kubectl replace` and `sed`:
 
     {{< text bash >}}
-    $ kubectl delete pod -l istio=pilot -n istio-system
-    {{< /text >}}
-
-1.  Wait until the pilot pods start and have all their containers in the `READY` state:
-
-    {{< text bash >}}
-    $ kubectl get pod -l istio=pilot -n istio-system
-    NAME                           READY     STATUS    RESTARTS   AGE
-    istio-pilot-54b8685584-qqvz9   2/2       Running   0          1m
+    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+    configmap "istio" replaced
     {{< /text >}}
 
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD`:
