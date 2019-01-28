@@ -274,7 +274,7 @@ Istio has an installation option that allows access to all external services for
 the mesh and no HTTP/TCP `ServiceEntry` is defined. For example, if your mesh does not have an HTTP service on port 443,
 and you did not define a `ServiceEntry` on port 443, you can access any external service on port 443. Note, however,
 that once you create an HTTP service on port 443 or define any `ServiceEntry` for any host on
-port 443, all the access to port 443 will be blocked: Istio will fall back to the blocking-by-default behavior for that
+port 443, all accesses to port 443 is blocked: Istio will fall back to the blocking-by-default behavior for that
 port only. (Defining an HTTP service on port 443 is not recommended anyway, since using the same port for TCP/HTTPS and
 for HTTP traffic in Istio is discouraged.)
 
