@@ -17,7 +17,7 @@ In this blog post we show how Istio monitoring and access policies are applied t
 ## Use case
 
 Consider an organization that runs applications that process content from _cnn.com_. The applications are decomposed
-into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/tasks/traffic-management/egress-tls-origination/) and everything works fine. However, at some
+into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/examples/advanced-gateways/egress-gateway-tls-origination//) and everything works fine. However, at some
 point in time the organization decides to banish politics. Practically, it means blocking access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) and allowing access to
 [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health)
@@ -42,7 +42,7 @@ The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demons
 
 The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task describes how to configure metrics and logs
  for services in a mesh. The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/) describes
- the Istio Dashboard to monitor mesh traffic. The [Basic Access Control](/docs/tasks/security/basic-access-control/)
+ the Istio Dashboard to monitor mesh traffic. The [Basic Access Control](/docs/tasks/policy-enforcement/denial-and-list/)
  task shows how to control access to in-mesh services. The
  [Secure Access Control](/docs/tasks/security/secure-access-control/) task shows how to configure
  access policies using black or white list checkers. As opposed to the telemetry and security tasks above, this blog
@@ -278,13 +278,14 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 While implementing access control using Istio routing worked for us in this simple case, it would not suffice for more
 complex cases. For example, the organization may want to allow access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) under certain conditions, so more complex policy logic than
- just filtering by URL paths will be required. You may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/),
- for example [white lists](/docs/tasks/security/basic-access-control/#access-control-using-whitelists) or [black lists](/docs/tasks/security/basic-access-control/#access-control-using-denials) of allowed/forbidden URL paths,
- respectively. [Policy Rules](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying
- complex conditions, specified in a
- [rich expression language](/docs/reference/config/policy-and-telemetry/expression-language/), which includes AND and OR
-  logical operators. The rules can be reused for both logging and policy checks. More advanced users may want to apply
-  [Istio Role-Based Access Control](/docs/concepts/security/rbac/).
+just filtering by URL paths will be required. You may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/),
+for example
+[white lists or black lists](/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)
+of allowed/forbidden URL paths, respectively.
+[Policy Rules](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
+specified in a [rich expression language](/docs/reference/config/policy-and-telemetry/expression-language/), which
+includes AND and OR logical operators. The rules can be reused for both logging and policy checks. More advanced users
+may want to apply [Istio Role-Based Access Control](/docs/concepts/security/rbac/).
 
 An additional aspect is integration with remote access policy systems. If the organization in our use case operates some
 [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, you may want to configure
@@ -294,7 +295,7 @@ Istio to use access policy information from such a system. You implement this in
 Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
-1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/#perform-tls-origination-with-the-egress-gateway) task:
+1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway//#perform-tls-origination-with-the-egress-gateway) task:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -349,7 +350,7 @@ gateway.
 ### Access control by Mixer policy checks
 
 In this step you use a Mixer
-[Listchecker adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
+[Listchecker adapter](/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
 variety. You define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a
 static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated
 diagram of the instances, rules and handlers appears below. Note that you reuse the same policy rule, `handle-cnn-access`
@@ -565,7 +566,7 @@ caption="HTTPS egress traffic through an egress gateway"
 
 The end-to-end HTTPS is considered a better approach from the security point of view. However, since the traffic is
 encrypted the Istio proxies and the egress gateway can only see the source and destination IPs and the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) of the destination. Since you configure Istio to use mutual TLS between the sidecar proxy
-and the egress gateway, the [identity of the source](/docs/concepts/security/mutual-tls/#identity) is also known.
+and the egress gateway, the [identity of the source](/docs/concepts/security/#istio-identity) is also known.
 The gateway is unable to inspect the URL path, the HTTP method and the headers of the requests, so no monitoring and
 policies based on the HTTP information can be possible.
 In our use case, the organization would be able to allow access to _edition.cnn.com_ and to specify which applications
@@ -588,8 +589,8 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
 
 ## Cleanup
 
-1.  Perform the instructions in [Cleanup](/docs/tasks/traffic-management/egress-gateway/#cleanup) section of the
-[Configure an Egress Gateway](/docs/tasks/traffic-management/egress-gateway/) task.
+1.  Perform the instructions in [Cleanup](/docs/examples/advanced-gateways/egress-gateway//#cleanup) section of the
+[Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway//) task.
 
 1.  Delete the logging and policy checks configuration:
 
