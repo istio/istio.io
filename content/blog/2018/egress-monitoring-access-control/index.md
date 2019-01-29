@@ -532,7 +532,7 @@ namespace exempt from monitoring and policy enforcement.
 
 ## Comparison with HTTPS egress traffic control
 
-In this use case the applications used HTTP and Istio Egress Gateway performed TLS origination for them. Alternatively,
+In this use case the applications use HTTP and Istio Egress Gateway performs TLS origination for them. Alternatively,
 the applications could originate TLS themselves by issuing HTTPS requests to _edition.cnn.com_. In this section we
 describe both approaches and their pros and cons.
 
