@@ -62,12 +62,12 @@ is the best fit for your content:
     <td>Blog Post</td>
     <td>
       A blog post is a timely article on Istio or products and technologies related to it. Typically, posts fall in one of the following four categories:
-      <li>
-        <ul>Posts detailing the author’s experience using and configuring Istio, especially those that articulate a novel experience or perspective.</ul>
-        <ul>Posts highlighting or announcing Istio features.</ul>
-        <ul>Posts announcing an Istio-related event.</ul>
-        <ul>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</ul>
-      </li>
+      <ul>
+      <li>Posts detailing the author’s experience using and configuring Istio, especially those that articulate a novel experience or perspective.</li>
+      <li>Posts highlighting or announcing Istio features.
+      <li>Posts announcing an Istio-related event.</li>
+      <li>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</li>
+      </ul>
     </td>
   </tr>
 
