@@ -85,7 +85,8 @@ appears below:
     caption="Instances, rules and handlers for egress monitoring"
     >}}
 
-1.  Create the `logentry`, `rules` and `handlers`:
+1.  Create the `logentry`, `rules` and `handlers`. Note that you specify `context.reporter.uid` as
+    `kubernetes://istio-egressgateway` in the rules to get logs from the egress gateway only.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -101,11 +102,10 @@ appears below:
       variables:
         destination: request.host | "unknown"
         path: request.path | "unknown"
-        source: source.labels["app"] | source.name | "unknown"
-        sourceNamespace: source.namespace | "unknown"
-        user: source.user | "unknown"
         responseCode: response.code | 0
         responseSize: response.size | 0
+        reporterUID: context.reporter.uid | "unknown"
+        sourcePrincipal: source.principal | "unknown"
       monitored_resource_type: '"UNSPECIFIED"'
     ---
     # Handler for error egress access entries
@@ -126,7 +126,7 @@ appears below:
       name: handle-politics
       namespace: istio-system
     spec:
-      match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics")
+      match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics") && context.reporter.uid.startsWith("kubernetes://istio-egressgateway")
       actions:
       - handler: egress-error-logger.stdio
         instances:
@@ -150,7 +150,7 @@ appears below:
       name: handle-cnn-access
       namespace: istio-system
     spec:
-      match: request.host.endsWith(".cnn.com")
+      match: request.host.endsWith(".cnn.com") && context.reporter.uid.startsWith("kubernetes://istio-egressgateway")
       actions:
       - handler: egress-access-logger.stdio
         instances:
@@ -171,19 +171,25 @@ All three should return _200 OK_.
 1.  Query the Mixer log and see that the information about the requests appears in the log:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn
-    ...
-    {"level":"info","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
-    {"level":"error","time":"2018-06-18T13:22:58.317448Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":200,"responseSize":150448,"source":"sleep","user":"unknown"}
-    {"level":"info","time":"2018-06-18T13:22:59.234426Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":358651,"source":"sleep","user":"unknown"}
-    {"level":"info","time":"2018-06-18T13:22:59.354943Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":332218,"source":"sleep","user":"unknown"}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
+    {"level":"info","time":"2019-01-29T07:43:24.611462Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":1883355,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
+    {"level":"info","time":"2019-01-29T07:43:24.886316Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":2094561,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
+    {"level":"info","time":"2019-01-29T07:43:25.369663Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":2157009,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
+    {"level":"error","time":"2019-01-29T07:43:24.611462Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":1883355,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
     {{< /text >}}
 
     You see four log entries related to your three requests. Three _info_ entries about the access to _edition.cnn.com_
     and one _error_ entry about the access to _edition.cnn.com/politics_. The service mesh operators can see all the
     access instances, and can also search the log for _error_ log entries that represent forbidden accesses. This is the
-    first security measure the organization can apply before blocking the forbidden accesses automatically, namely logging
-     all the forbidden access instances as errors. In some settings this can be a sufficient security measure.
+    first security measure the organization can apply before blocking the forbidden accesses automatically, namely
+    logging all the forbidden access instances as errors. In some settings this can be a sufficient security measure.
+
+    Note the attributes:
+      * `destination`, `path`, `responseCode`, `responseSize` are related to HTTP parameters of the requests
+      * `sourcePrincipal`:`cluster.local/ns/default/sa/sleep` - a string that represents the `sleep` service account in
+      the `default` namespace
+      * `reporterUID`: `kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system` - a UID of the reporting pod, in
+      this case `istio-egressgateway-747b6764b8-44rrh` in the `istio-system` namespace
 
 ### Access control by routing
 
@@ -257,12 +263,11 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 1.  Query the Mixer log and see that the information about the requests appears again in the log:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
-    ...
-    {"level":"info","time":"2019-01-28T13:38:41.332768Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"sleep","sourceNamespace":"default","user":"unknown"}
-    {"level":"error","time":"2019-01-28T13:38:41.329823Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":0,"source":"istio-egressgateway","sourceNamespace":"istio-system","user":"unknown"}
-    {"level":"info","time":"2019-01-28T13:38:41.365099Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":2100162,"source":"istio-egressgateway","sourceNamespace":"istio-system","user":"unknown"}
-    {"level":"info","time":"2019-01-28T13:38:41.635210Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":2166377,"source":"istio-egressgateway","sourceNamespace":"istio-system","user":"unknown"}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
+    {"level":"info","time":"2019-01-29T07:55:59.686082Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":404,"responseSize":0,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
+    {"level":"info","time":"2019-01-29T07:55:59.697565Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":2094561,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
+    {"level":"info","time":"2019-01-29T07:56:00.264498Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":2157009,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
+    {"level":"error","time":"2019-01-29T07:55:59.686082Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":404,"responseSize":0,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
     {{< /text >}}
 
     You still get info and error messages regarding accesses to
