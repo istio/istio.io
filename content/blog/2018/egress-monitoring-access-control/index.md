@@ -17,7 +17,7 @@ In this blog post we show how Istio monitoring and access policies are applied t
 ## Use case
 
 Consider an organization that runs applications that process content from _cnn.com_. The applications are decomposed
-into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/examples/advanced-gateways/egress-gateway-tls-origination//) and everything works fine. However, at some
+into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) and everything works fine. However, at some
 point in time the organization decides to banish politics. Practically, it means blocking access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) and allowing access to
 [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health)
@@ -295,7 +295,7 @@ Istio to use access policy information from such a system. You implement this in
 Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
-1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/#perform-tls-origination-with-an-egress-gateway) task:
+1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway) task:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
