@@ -529,47 +529,6 @@ namespace exempt from monitoring and policy enforcement.
     $  kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
     {{< /text >}}
 
-### Dashboard
-
-As an additional security measure, let the organization's operation people visually monitor egress traffic.
-
-1.  Follow the steps 1-3 of the [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/#viewing-the-istio-dashboard) task.
-
-1.  Send requests to _cnn.com_ from `SOURCE_POD`:
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
-    403
-    200
-    200
-    {{< /text >}}
-
-    Since `SOURCE_POD` does not the `politics` service account, access to
-    [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
-
-1.  Send requests to _cnn.com_ from `SOURCE_POD_POLITICS`:
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD_POLITICS -c politics -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
-    200
-    200
-    200
-    {{< /text >}}
-
-1.  Scroll the dashboard to _HTTP services_, _istio-egressgateway.istio-system.svc.cluster.local_ section. You should
-see a graph similar to the following:
-
-    {{< image width="100%" ratio="19.47%"
-    link="dashboard-egress-gateway.png"
-    caption="Dashboard section of istio-egressgateway"
-    >}}
-
-    You can see the _404_ error code received by the _sleep_ application from the _default_ namespace, _unknown_ version,
-     in the _Requests by Source, Version and Response Code_ section on the left. This information can give the operations
-      people a visual clue regarding which application tries to perform forbidden access. You can also see the _200_ code
-       received by _sleep_ applications from the _default_ and _politics_ namespaces, so you can know which applications
-       performed valid access to external services.
-
 ## Comparison with HTTPS egress traffic control
 
 In this use case the applications used HTTP and Istio Egress Gateway performed TLS origination for them. Alternatively,
@@ -619,7 +578,7 @@ appropriate to its needs.
 ## Summary
 
 In this blog post we showed how different monitoring and policy mechanisms of Istio can be applied to HTTP egress
-traffic. Monitoring can be implemented by configuring a logging adapter and deploying the Istio dashboard. Access
+traffic. Monitoring can be implemented by configuring a logging adapter. Access
 policies can be implemented by configuring `VirtualServices` or by configuring various policy check adapters. We
 demonstrated a simple policy that allowed certain URL paths only. We also showed a more complex policy that extended the
  simple policy by making an exemption to the applications from a certain namespace. Finally, we compared
