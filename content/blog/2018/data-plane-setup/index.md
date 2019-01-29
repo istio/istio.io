@@ -3,7 +3,7 @@ title: Demystifying Istio's Sidecar Injection Model
 description: De-mystify how Istio manages to plugin its data-plane components into an existing deployment.
 publishdate: 2018-12-12
 subtitle:
-attribution: Manish CHUGTU
+attribution: Manish Chugtu
 twitter: chugtum 
 weight: 78
 keywords: [kubernetes, istio, sidecar injection, admission controller, mutating webhook, control plane, traffic management]
