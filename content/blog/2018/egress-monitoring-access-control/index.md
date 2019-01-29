@@ -350,7 +350,7 @@ gateway.
 ### Access control by Mixer policy checks
 
 In this step you use a Mixer
-[Listchecker adapter](/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
+[`Listchecker` adapter](/docs/reference/config/policy-and-telemetry/adapters/list/), its whitelist
 variety. You define a `listentry` with the URL path of the request and a `listchecker` to check the `listentry` using a
 static list of allowed URL paths, specified by the `overrides` field. For an external [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, use the `providerurl` field instead. The updated
 diagram of the instances, rules and handlers appears below. Note that you reuse the same policy rule, `handle-cnn-access`
