@@ -393,7 +393,7 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
       name: handle-cnn-access
       namespace: istio-system
     spec:
-      match: request.host.endsWith(".cnn.com")
+      match: request.host.endsWith(".cnn.com") && context.reporter.uid.startsWith("kubernetes://istio-egressgateway")
       actions:
       - handler: egress-access-logger.stdio
         instances:
@@ -419,128 +419,115 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
 ### Access control by Mixer policy checks, part 2
 
 After the organization in our use case managed to configure logging and access control, it decided to extend its access
-policy by allowing the applications in the _politics_ namespace to access any topic of _cnn.com_, without being
-monitored. You'll see how this requirement can be configured in Istio.
+policy by allowing the applications with a special
+[Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) to access any topic of _cnn.com_, without being monitored. You'll see how this requirement can be configured in Istio.
 
-1.  Create the _politics_ namespace:
+1.  Start the [sleep]({{< github_tree >}}/samples/sleep) sample with the `politics` service account.
 
-    ```command
-    $ kubectl create namespace politics
-    namespace "politics" created
-    ```
+    {{< text bash >}}
+    $  sed 's/: sleep/: politics/g' samples/sleep/sleep.yaml | kubectl create -f -
+    serviceaccount "politics" created
+    service "politics" created
+    deployment "politics" created
+    {{< /text >}}
 
-1.  Start the [sleep]({{< github_tree >}}/samples/sleep) sample
-        in the _politics_ namespace.
+1.  Define the `SOURCE_POD_POLITICS` shell variable to hold the name of the source pod with the `politics` service
+    account, for sending requests to external services.
 
-    If you have enabled
-    [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+    {{< text bash >}}
+    $ export SOURCE_POD_POLITICS=$(kubectl get pod -l app=politics -o jsonpath={.items..metadata.name})
+    {{< /text >}}
 
-    ```command
-    $ kubectl apply -n politics -f @samples/sleep/sleep.yaml@
-    ```
-
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
-
-    ```command
-    $ kubectl apply -n politics -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-    ```
-
-1.  Define a shell variable to hold the name of the source pod in the _politics_ namespace for sending requests to
-external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, you run:
-
-    ```command
-    $ export SOURCE_POD_IN_POLITICS=$(kubectl get pod -n politics -l app=sleep -o jsonpath={.items..metadata.name})
-    ```
-
-1.  Perform your usual test of sending three HTTP requests this time from `$SOURCE_POD_IN_POLITICS`.
-  The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _404_, since you did not configure
+1.  Perform your usual test of sending three HTTP requests this time from `SOURCE_POD_POLITICS`.
+  The request to [edition.cnn.com/politics](https://edition.cnn.com/politics) returns _403_, since you did not configure
   the exception for the _politics_ namespace.
 
-    ```command
-    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
-    404
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD_POLITICS -c politics -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    403
     200
     200
-    ```
+    {{< /text >}}
 
 1.  Query the Mixer log and see that the information about the requests from the _politics_ namespace appears in
 the log:
 
-    ```command-output-as-json
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn | tail -4
-    {"level":"info","time":"2018-06-19T17:37:14.639102Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":76,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
-    {"level":"error","time":"2018-06-19T17:37:14.639102Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","responseCode":404,"responseSize":76,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
-    {"level":"info","time":"2018-06-19T17:37:14.653225Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","responseCode":200,"responseSize":356349,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
-    {"level":"info","time":"2018-06-19T17:37:14.767923Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","responseCode":200,"responseSize":334027,"source":"sleep","sourceNamespace":"politics","user":"unknown"}
-    ```
+    {{< text bash >}}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
+    {"level":"info","time":"2019-01-29T08:04:42.559812Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":403,"responseSize":84,"sourcePrincipal":"cluster.local/ns/default/sa/politics"}
+    {"level":"info","time":"2019-01-29T08:04:42.568424Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/sport","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":2094561,"sourcePrincipal":"cluster.local/ns/default/sa/politics"}
+    {"level":"error","time":"2019-01-29T08:04:42.559812Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":403,"responseSize":84,"sourcePrincipal":"cluster.local/ns/default/sa/politics"}
+    {"level":"info","time":"2019-01-29T08:04:42.615641Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/health","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":2157009,"sourcePrincipal":"cluster.local/ns/default/sa/politics"}
+    {{< /text >}}
 
-    Note that `sourceNamespace` equals `politics` in the output above.
+    Note that `sourcePrincipal` is `cluster.local/ns/default/sa/politics` which represents the `politics` service
+    account in the `default` namespace.
 
 1.  Redefine `handle-cnn-access` and `handle-politics` policy rules, to make the applications in the _politics_
 namespace exempt from monitoring and policy enforcement.
 
-    ```bash
-        cat <<EOF | istioctl replace -f -
-        # Rule to handle access to *.cnn.com/politics
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: handle-politics
-          namespace: istio-system
-        spec:
-          match: request.host.endsWith("cnn.com") && request.path.startsWith("/politics") && source.namespace != "politics"
-          actions:
-          - handler: egress-error-logger.stdio
-            instances:
-            - egress-access.logentry
-        ---
-        # Rule handle egress access to cnn.com
-        apiVersion: "config.istio.io/v1alpha2"
-        kind: rule
-        metadata:
-          name: handle-cnn-access
-          namespace: istio-system
-        spec:
-          match: request.host.endsWith(".cnn.com") && source.namespace != "politics"
-          actions:
-          - handler: egress-access-logger.stdio
-            instances:
-              - egress-access.logentry
-          - handler: path-checker.listchecker
-            instances:
-              - request-path.listentry
-        EOF
-    ```
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    # Rule to handle access to *.cnn.com/politics
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: handle-politics
+      namespace: istio-system
+    spec:
+      match: request.host.endsWith("cnn.com") && context.reporter.uid.startsWith("kubernetes://istio-egressgateway") && request.path.startsWith("/politics") && source.principal != "cluster.local/ns/default/sa/politics"
+      actions:
+      - handler: egress-error-logger.stdio
+        instances:
+        - egress-access.logentry
+    ---
+    # Rule handle egress access to cnn.com
+    apiVersion: "config.istio.io/v1alpha2"
+    kind: rule
+    metadata:
+      name: handle-cnn-access
+      namespace: istio-system
+    spec:
+      match: request.host.endsWith(".cnn.com") && context.reporter.uid.startsWith("kubernetes://istio-egressgateway") && source.principal != "cluster.local/ns/default/sa/politics"
+      actions:
+      - handler: egress-access-logger.stdio
+        instances:
+          - egress-access.logentry
+      - handler: path-checker.listchecker
+        instances:
+          - request-path.listentry
+    EOF
+    {{< /text >}}
 
-1.  Perform your usual test from `$SOURCE_POD`:
+1.  Perform your usual test from `SOURCE_POD`:
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
-    404
+    403
     200
     200
-    ```
+    {{< /text >}}
 
-    Since `$SOURCE_POD` is in the `default` namespace, access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
+    Since `$SOURCE_POD` does not have `politics` service account, access to
+    [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
 
-1.  Perform the previous test from `$SOURCE_POD_IN_POLITICS`:
+1.  Perform the previous test from `SOURCE_POD_POLITICS`:
 
-    ```command
-    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD_POLITICS -c politics -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     200
     200
     200
-    ```
+    {{< /text >}}
 
     Access to all the topics of _edition.cnn.com_ is allowed.
 
-1.  Examine the Mixer log and see that no more requests with `sourceNamespace` equal `"politics"` appear in the
-log.
+1.  Examine the Mixer log and see that no more requests with `sourcePrincipal` equal
+    `cluster.local/ns/default/sa/politics` appear in the log.
 
-    ```command
-    $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep egress-access | grep cnn
-    ```
+    {{< text bash >}}
+    $  kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
+    {{< /text >}}
 
 ### Dashboard
 
