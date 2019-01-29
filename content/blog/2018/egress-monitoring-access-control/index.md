@@ -531,7 +531,7 @@ namespace exempt from monitoring and policy enforcement.
 
 ### Dashboard
 
-As an additional security measure, let our organization's operation people visually monitor egress traffic.
+As an additional security measure, let the organization's operation people visually monitor egress traffic.
 
 1.  Follow the steps 1-3 of the [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/#viewing-the-istio-dashboard) task.
 
