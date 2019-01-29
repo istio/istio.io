@@ -54,8 +54,8 @@ Follow the steps in the [Egress Gateway with TLS Origination](/docs/examples/adv
 the [Cleanup](/docs/examples/advanced-gateways/egress-gateway-tls-origination//#cleanup) step.
 After you accomplish this, you will be able
 to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_
-installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod
-name.
+installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the
+source pod's name and the container's name is `sleep`.
 
 ## Configure monitoring and access policies
 
