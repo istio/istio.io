@@ -100,7 +100,7 @@ The output shows:
 To illustrate the case when there are conflicts, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n bar -f -
+$ cat <<EOF | istioctl create -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
