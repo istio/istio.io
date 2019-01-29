@@ -550,7 +550,7 @@ link="http-to-gateway.svg"
 caption="HTTP egress traffic through an egress gateway"
 >}}
 
-The drawback of this approach is that the requests are sent unencrypted on the localhost, which may be against security
+The drawback of this approach is that the requests are sent unencrypted inside the pod, which may be against security
 policies in some organizations. Also some SDKs have external service URLs hard-coded, including the protocol, so
 sending HTTP requests could be impossible. The advantage of this approach is the ability to inspect HTTP methods,
 headers and URL paths, and to apply policies based on them.
