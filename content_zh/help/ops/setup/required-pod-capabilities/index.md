@@ -1,5 +1,5 @@
 ---
-title: 必要的 Pod 功能
+title: Pod 的必要功能
 description: 如何检查 Pod 中被许可的功能。
 weight: 40
 ---
