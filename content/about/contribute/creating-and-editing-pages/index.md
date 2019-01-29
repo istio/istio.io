@@ -1,18 +1,19 @@
 ---
-title: Writing a New Topic
-description: Explains the mechanics of creating new documentation pages.
+title: Creating and Editing Pages
+description: Explains the mechanics of creating and maintaining documentation pages.
 weight: 30
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
     - /docs/reference/contribute/writing-a-new-topic.html
+    - /about/contribute/writing-a-new-topic.html
 keywords: [contribute]
 ---
 
-This page shows how to create a new Istio documentation topic.
+This page shows how to create and maintain Istio documentation topics.
 
 ## Before you begin
 
-You first need to create a fork of the Istio documentation repository as described in
+Before you can work on Istio documentation, you first need to create a fork of the Istio documentation repository as described in
 [Working with GitHub](/about/contribute/github/).
 
 ## Choosing a page type
@@ -61,6 +62,22 @@ is the best fit for your content:
     <td>Blog Post</td>
     <td>
       A blog post is a timely article on Istio or products and technologies related to it.
+    </td>
+  </tr>
+
+  <tr>
+    <td>FAQ</td>
+    <td>
+      A FAQ entry is for quick answers to common customer questions. An answer doesn't normally introduce any new
+      concept and is instead narrowly focused on some practical bit of advice or insight, with links back into the
+      main documentation for the user to learn more.
+    </td>
+  </tr>
+
+  <tr>
+    <td>Ops Guide</td>
+    <td>
+      For practical solutions to address specific problems encountered while running Istio in a real-world setting.
     </td>
   </tr>
 </table>
@@ -126,7 +143,7 @@ Put image files in the same directory as your markdown file. The preferred image
 Within markdown, use the following sequence to add the image:
 
 {{< text html >}}
-{{</* image width="75%"
+{{</* image width="75%" ratio="45.34%"
     link="./myfile.svg"
     alt="Alternate text to display when the image can't be loaded"
     title="A tooltip displayed when hovering over the image"
@@ -141,12 +158,12 @@ default to `title` or if that's not defined, to `caption`.
 
 `width` represents the percentage of space used by the image
 relative to the surrounding text. If the value is not specified, it
-defaults to 100$.
+defaults to 100%.
 
 `ratio` represents the ratio of the image height compared to the image width. This
 value is calculated automatically for any local image content, but must be calculated
 manually when referencing external image content.
-In that case, `ratio` must be manually calculated using (image height / image width) * 100.
+In that case, `ratio` should be set to (image height / image width) * 100.
 
 ## Adding icons & emojis
 
@@ -363,7 +380,7 @@ name of the current page.
 
 ### Links to GitHub files
 
-If your code block references a file from Istio's GitHub repo, you can surround the relative path name of the file with a pair
+If your code block references a file from Istio's GitHub repository, you can surround the relative path name of the file with a pair
 of @ symbols. These indicate the path should be rendered as a link to the file from the current branch. For example:
 
 {{< text markdown >}}
@@ -412,9 +429,9 @@ If you don't specify the `downloadas` attribute, then the download name is taken
 attribute instead.
 
 A common thing to do is to copy an example script or yaml file from GitHub into the documentation
-repo and then use snippets within the file to produce examples in the documentation. To pull
+repository and then use snippets within the file to produce examples in the documentation. To pull
 in annotated files from GitHub, add the needed entries at the end of the
-script `scripts/grab_reference_docs.sh` in the documentation repo.
+script `scripts/grab_reference_docs.sh` in the documentation repository.
 
 ### Dynamic content
 
@@ -528,7 +545,7 @@ following to the front-matter:
 
 {{< text plain >}}
 aliases:
-    - <url>
+    - <path>
 {{< /text >}}
 
 For example
@@ -543,7 +560,7 @@ aliases:
 ---
 {{< /text >}}
 
-With the above in a page saved as `_help/faq.md`, the user will be able to access the page by going
+With the above in a page saved as `help/faq.md`, the user will be able to access the page by going
 to `istio.io/help/faq/` as normal, as well as `istio.io/faq/`.
 
 You can also add many redirects like so:
