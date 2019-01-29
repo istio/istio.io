@@ -88,7 +88,7 @@ appears below:
 1.  Create the `logentry`, `rules` and `handlers`:
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl create -f -
+    $ cat <<EOF | kubectl apply -f -
     # Log entry for egress access
     apiVersion: "config.istio.io/v1alpha2"
     kind: logentry
@@ -357,7 +357,7 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
 1.  Define `path-checker` and `request-path`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl create -f -
+    $ cat <<EOF | kubectl create -f -
     apiVersion: "config.istio.io/v1alpha2"
     kind: listchecker
     metadata:
@@ -380,7 +380,7 @@ diagram of the instances, rules and handlers appears below. Note that you reuse 
 1.  Modify the `handle-cnn-access` policy rule to send `request-path` instances to the `path-checker`:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl replace -f -
+    $ cat <<EOF | kubectl apply -f -
     # Rule handle egress access to cnn.com
     apiVersion: "config.istio.io/v1alpha2"
     kind: rule
