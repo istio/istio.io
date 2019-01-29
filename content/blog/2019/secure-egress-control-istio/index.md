@@ -152,7 +152,6 @@ To implement secure egress traffic control in Istio, you must
 [a custom version of an egress gateway](/docs/examples/advanced-gateways/wildcard-egress-hosts/)). Alternatively, you
 can [direct HTTP traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#egress-gateway-for-http-traffic) and [let the egress gateway perform TLS origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway).
 
-
 In all the cases you have to apply some
 [additional security mechanisms](/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations),
 like Kubernetes Network Policies or an L3 firewall that will enforce that traffic from the cluster to the outside is
