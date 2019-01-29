@@ -242,7 +242,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     either _/health_ or _/sport_. Also note that this condition is added to the `istio-egressgateway`
     section of the `VirtualService`, since the egress gateway is a hardened component in terms of security (see
     [egress gateway security considerations]
-    (/docs/tasks/traffic-management/egress-gateway/#additional-security-considerations)). You don't want any tampering
+    (/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations)). You don't want any tampering
     with your policies.
 
 1.  Send the previous three HTTP requests to _cnn.com_:
