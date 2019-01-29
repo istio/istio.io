@@ -133,7 +133,7 @@ with the kernel of the node. The requirement 6 is satisfied as well: there is no
 container environment. We can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic
 control, which is not DNS-aware.
 
-Another approach that pre-dates Kubernetes network policies is a **DNS-aware egress proxy** or firewall. In this
+Another approach that predates Kubernetes network policies is a **DNS-aware egress proxy** or firewall. In this
 approach applications are configured to direct the traffic to the proxy and to use some proxy protocol, e.g.
 [SOCKS](https://en.wikipedia.org/wiki/SOCKS).
 Since the applications must be configured, this solution is not transparent. Moreover, egress proxies are not Kubernetes
