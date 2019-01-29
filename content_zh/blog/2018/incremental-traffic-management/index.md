@@ -11,19 +11,19 @@ keywords: [traffic-management, gateway]
 
 流量管理是 Istio 提供的重要优势之一。Istio 流量管理的核心是在将通信流量和基础设施的伸缩进行解耦。如果没有 Istio 这样的服务网格，这种流量控制方式是不可能实现的。
 
-例如，您希望执行一次[金丝雀部署](https://martinfowler.com/bliki/CanaryRelease.html)。当使用 Istio 时，您可以指定 service 的 **v1** 版本接收 90% 的传入流量，而该 service **v2** 版本仅接收 10%。如果使用标准的 Kubernetes deployment，实现此目的的唯一方法是手动控制每个版本的可用 Pod 数量，例如使 9 个 Pod 运行 v1 版本，使 1 个 Pod 运行 v2 版本。这种类型的手动控制难以实现，并且随着时间的推移可能无法扩展。有关更多信息，请查看[使用 Istio 进行金丝雀部署](/zh/blog/2017/0.1-canary/)。
+例如，您希望执行一次[金丝雀发布](https://martinfowler.com/bliki/CanaryRelease.html)。当使用 Istio 时，您可以指定 service 的 **v1** 版本接收 90% 的传入流量，而该 service **v2** 版本仅接收 10%。如果使用标准的 Kubernetes deployment，实现此目的的唯一方法是手动控制每个版本的可用 Pod 数量，例如使 9 个 Pod 运行 v1 版本，使 1 个 Pod 运行 v2 版本。这种类型的手动控制难以实现，并且随着时间的推移可能无法扩展。有关更多信息，请查看[使用 Istio 进行金丝雀发布](/zh/blog/2017/0.1-canary/)。
 
 部署现有 service 的更新时存在同样的问题。虽然您可以使用 Kubernetes 更新 deployment，但它需要将 v1 Pod 替换为 v2 Pod。使用 Istio，您可以部署 service 的 v2 版本，并使用内置流量管理机制在网络层面将流量转移到更新后的 service，然后删除 v1 版本的 Pod。
 
-除了金丝雀部署和一般流量转移之外，Istio 还使您能够实现动态请求路由（基于 HTTP header）、故障恢复、重试、断路器和故障注入。有关更多信息，请查看[流量管理文档](/zh/docs/concepts/traffic-management/)。
+除了金丝雀发布和一般流量转移之外，Istio 还使您能够实现动态请求路由（基于 HTTP header）、故障恢复、重试、断路器和故障注入。有关更多信息，请查看[流量管理文档](/zh/docs/concepts/traffic-management/)。
 
-这篇文章介绍的技术重点突出了一种特别有用的方法，可以逐步实现 Istio（在这种情况下，只有流量管理功能），而无需单独更新每个Pod。
+这篇文章介绍的技术重点突出了一种特别有用的方法，可以逐步实现 Istio（在这种情况下，只有流量管理功能），而无需单独更新每个 Pod。
 
 ## 设置：为什么要实施 Istio 流量管理功能？
 
 当然，第一个问题是：为什么要这样做？
 
-如果你是众多拥有大量团队和大型集群的组织中的一员，那么答案是很清楚的。假设 A 团队队正在开始使用 Istio，并希望在 service A 上开始一些金丝雀部署，但是 B 团队还没有开始使用 Istio，所以他们没有部署 sidecar。
+如果你是众多拥有大量团队和大型集群的组织中的一员，那么答案是很清楚的。假设 A 团队正在开始使用 Istio，并希望在 service A 上开始一些金丝雀发布，但是 B 团队还没有开始使用 Istio，所以他们没有部署 sidecar。
 
 使用 Istio，A 团队仍然可以让 service B 通过 Istio 的 ingress gateway 调用 service A 来实现他们的金丝雀发布。
 
