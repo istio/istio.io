@@ -64,7 +64,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 | 集群托管类型 | 是否 CNI | 是否需要非缺省配置 |
 |---------------------|----------|-------------------------------|
 | GKE 1.9+ default | N | |
-| GKE 1.9+ w/ [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) | Y | `istio-cni.cniBinDir=/home/kubernetes/bin` |
+| GKE 1.9+ w/[network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) | Y | `istio-cni.cniBinDir=/home/kubernetes/bin` |
 | IKS (IBM cloud) | Y | |
 | EKS (AWS) | Y | |
 | AKS (Azure) | Y | |
