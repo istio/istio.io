@@ -51,7 +51,8 @@ There are quite a few ways to get plugged in:
     <tr>
       <td class="logo"><img src="./group.svg" alt="Working Groups"/></td>
       <td class="desc">
-        If you'd like to contribute to the Istio project, consider participating in our
+        If you'd like to contribute to the Istio project, learn <a href="https://github.com/istio/community/blob/master/README.md">how we do things</a> and
+        consider participating in our
         <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">working groups</a>.
       </td>
     </tr>

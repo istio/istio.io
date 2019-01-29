@@ -149,7 +149,7 @@ keywords: [telemetry,metrics]
 
 1. 检查请求过程中生成和处理的日志流。
 
-    在 Kubernetes 环境中，像这样在 istio-telemetry pods 中搜索日志：
+    在 Kubernetes 环境中，像这样在 `istio-telemetry` pods 中搜索日志：
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"

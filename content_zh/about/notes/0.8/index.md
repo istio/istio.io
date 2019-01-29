@@ -44,4 +44,4 @@ icon: notes
 
 - [Google Kubernetes Engine 1.10.2](https://github.com/istio/istio/issues/5723) 中，使用 Kubernetes 1.9 或者把节点切换为 Ubuntu 就会复现这一问题。该问题在 GKE 1.10.4 中有望得到更正。
 
-- `istioctl experimental convert-networking-config` 会引发一个命名相关的问题——目标命名空间可能被替换为 istio-system，因此在运行这一工具之后，需要手工调整命名空间。[参考资料](https://github.com/istio/istio/issues/5817)
+- `istioctl experimental convert-networking-config` 会引发一个命名相关的问题——目标命名空间可能被替换为 `istio-system`，因此在运行这一工具之后，需要手工调整命名空间。[参考资料](https://github.com/istio/istio/issues/5817)

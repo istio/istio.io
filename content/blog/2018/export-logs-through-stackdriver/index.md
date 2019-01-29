@@ -9,7 +9,7 @@ weight: 87
 
 This post shows how to direct Istio logs to [Stackdriver](https://cloud.google.com/stackdriver/)
 and export those logs to various configured sinks such as such as
-[BigQuery](https://cloud.google.com/bigquery/), [Google Cloud Storage(GCS)](https://cloud.google.com/storage/)
+[BigQuery](https://cloud.google.com/bigquery/), [Google Cloud Storage](https://cloud.google.com/storage/)
 or [Cloud Pub/Sub](https://cloud.google.com/pubsub/). At the end of this post you can perform
 analytics on Istio data from your favorite places such as BigQuery, GCS or Cloud Pub/Sub.
 
@@ -185,13 +185,13 @@ a Stackdriver handler is described [here](/docs/reference/config/policy-and-tele
         project and you should find a bucket named
         `accesslog.logentry.istio-system` in your sink bucket.
     *   Pub/Sub: Navigate to the [Pub/Sub
-        TopicList](https://pantheon.corp.google.com/cloudpubsub/topicList) for
+        Topic List](https://pantheon.corp.google.com/cloudpubsub/topicList) for
         your project and you should find a topic for `accesslog` in your sink
         topic.
 
 ## Understanding what happened
 
-`Stackdriver.yaml` file above configured Istio to send accesslogs to
+`Stackdriver.yaml` file above configured Istio to send access logs to
 Stackdriver and then added a sink configuration where these logs could be
 exported. In detail as follows:
 

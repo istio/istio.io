@@ -6,8 +6,8 @@ skip_seealso: true
 keywords: [platform-setup,kubernetes,docker-for-desktop]
 ---
 
-If you want to run istio under docker for desktop's built-in Kubernetes, you may need to increase docker's memory limit
-under the *Advanced* pane of docker's preferences.  Pilot by default requests `2048Mi` of memory, which is docker's
+If you want to run Istio under Docker for desktop's built-in Kubernetes, you may need to increase Docker's memory limit
+under the *Advanced* pane of Docker's preferences.  Pilot by default requests `2048Mi` of memory, which is Docker's
 default limit.
 
 {{< image width="60%" link="./dockerprefs.png"  caption="Docker Preferences"  >}}

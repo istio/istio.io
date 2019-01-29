@@ -177,13 +177,13 @@ If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/#communication-between-services)
 the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
-[Helm](/docs/reference/config/installation-options/) and updating the `ConfigMap` _istio-sidecar-injector_ by using `kubectl apply`. After _istio-sidecar-injector_ is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
+[Helm](/docs/reference/config/installation-options/) and updating the `istio-sidecar-injector` configmap by using `kubectl apply`. After `istio-sidecar-injector` is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
 
 The simplest way to use the `global.proxy.includeIPRanges` variable is to pass it the IP range(s)
 used for internal cluster services, thereby excluding external IPs from being redirected
 to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running.
-For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `ConfigMap` _istio-sidecar-injector_ like this:
+For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `istio-sidecar-injector` configmap like this:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
@@ -218,7 +218,7 @@ Set the value of `global.proxy.includeIPRanges` according to your cluster provid
 
 #### IBM Cloud Kubernetes Service
 
-Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.20.0.0/16\,10.10.10.0/24"`
+Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
 #### Google Container Engine (GKE)
 
@@ -255,7 +255,7 @@ $ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-
 
 ### Access the external services
 
-After updating the `ConfigMap` _istio-sidecar-injector_ and redeploying the `sleep` application,
+After updating the `istio-sidecar-injector` configmap and redeploying the `sleep` application,
 the Istio sidecar will only intercept and manage internal requests
 within the cluster. Any external request bypasses the sidecar and goes straight to its intended destination. For example:
 
@@ -280,6 +280,15 @@ The second approach bypasses the Istio sidecar proxy, giving your services direc
 external URL. However, configuring the proxy this way does require
 cluster provider specific knowledge and configuration.
 
+## Security note
+
+{{< warning_icon >}} Note that configuration examples in this task **do not enable secure egress traffic control** in
+Istio.
+A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
+
+To implement egress traffic control in a secure way, you must [direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway) and address the security concerns expressed in
+[Configure an Egress Gateway example, Additional Security Considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations).
+
 ## Cleanup
 
 1.  Remove the rules:
@@ -295,7 +304,7 @@ cluster provider specific knowledge and configuration.
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  Update the `ConfigMap` _istio-sidecar-injector_ to redirect all outbound traffic to the sidecar proxies:
+1.  Update the `istio-sidecar-injector` configmap to redirect all outbound traffic to the sidecar proxies:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -

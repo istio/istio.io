@@ -74,7 +74,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
     authPolicy: MUTUAL_TLS
     {{< /text >}}
 
-1. 在此之后，你会发现访问 `EXTERNAL_IP` 不再生效， 因为 istio 代理仅接受安全网格链接。通过 Ingress 访问有效是因为 Ingress 使 HTTP 终止。
+1. 在此之后，你会发现访问 `EXTERNAL_IP` 不再生效， 因为 Istio 代理仅接受安全网格链接。通过 Ingress 访问有效是因为 Ingress 使 HTTP 终止。
 
 1. 安全访问 Ingress，查看相关[说明](/zh/docs/tasks/traffic-management/secure-ingress/)。
 

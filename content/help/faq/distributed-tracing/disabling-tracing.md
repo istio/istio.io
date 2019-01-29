@@ -1,9 +1,9 @@
 ---
-title: How can I prevent Istio from sending trace spans to ZipKin?
-weight: 100
+title: How do I disable tracing?
+weight: 50
 ---
 
-If you already have tracing enabled, you can disable it as follows:
+If you already have installed Istio with tracing enabled, you can disable it as follows:
 
 {{< text plain >}}
 # Fill <istio namespace> with the namespace of your istio mesh.Ex: istio-system
@@ -17,4 +17,4 @@ $ kubectl -n istio-system edit deployment istio-telemetry
 
 Then follow the steps of the [cleanup section of the Distributed Tracing task](/docs/tasks/telemetry/distributed-tracing/zipkin/#cleanup).
 
-If you don’t want tracing functionality at all, then disable tracing in [`istio-demo.yaml` or `istio-demo-auth.yaml`](/docs/tasks/telemetry/distributed-tracing/zipkin/#before-you-begin) or don’t enable it when installing Istio.
+If you don’t want tracing functionality at all, then [disable tracing](/docs/tasks/telemetry/distributed-tracing/zipkin/#before-you-begin) when installing Istio.

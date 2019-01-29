@@ -33,19 +33,6 @@ plane and the sidecars for the Istio data plane.
 
 The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
 
-1. If using a Helm version prior to 2.10.0, install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
-    {{< /text >}}
-
-    If you are enabling `certmanager`, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml
-    {{< /text >}}
-
 1.  Update Helm's dependencies:
 
     {{< text bash >}}
@@ -53,20 +40,27 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
     $ helm dep update install/kubernetes/helm/istio
     {{< /text >}}
 
-1. Choose one of the following two
-**mutually exclusive** options described below.
+1. Choose one of the following two **mutually exclusive** options described below.
 
-    > To customize Istio and install add-ons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
+    > To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
 
 ### Option 1: Install with Helm via `helm template`
+
+1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed to
+the Kubernetes API server:
+
+    {{< text bash >}}
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    {{< /text >}}
 
 1. Render Istio's core components to a Kubernetes manifest called `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
+    $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio.yaml
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system >> $HOME/istio.yaml
     {{< /text >}}
 
-    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true`:
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true` for the last command:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true > $HOME/istio.yaml
@@ -75,7 +69,6 @@ via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the 
 1. Install the components via the manifest:
 
     {{< text bash >}}
-    $ kubectl create namespace istio-system
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
@@ -88,7 +81,7 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
@@ -97,7 +90,19 @@ to manage the lifecycle of Istio.
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install Istio:
+1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
+
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+    {{< /text >}}
+
+1. Verify all the Istio's CRDs have been committed to the Kubernetes API server by checking all the CRD creation jobs complete with success:
+
+    {{< text bash >}}
+    $ kubectl get job --namespace istio-system | grep istio-crd
+    {{< /text >}}
+
+1. Install the `istio` chart:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
@@ -119,18 +124,20 @@ to manage the lifecycle of Istio.
 
 * For option 2, uninstall using Helm:
 
+    > Uninstalling this chart does not delete Istio's registered CRDs. Istio by design expects
+    > CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
+    > data in custom resources the Istio designers feel it is better to explicitly delete this
+    > configuration rather then unexpectedly lose it.
+
     {{< text bash >}}
     $ helm delete --purge istio
+    $ helm delete --purge istio-init
     {{< /text >}}
 
-    If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+* If desired, run the following command to delete all CRDs:
+
+    > {{< warning_icon >}} Deleting CRDs will delete any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete job --all
-    {{< /text >}}
-
-* If desired, delete the CRDs:
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}

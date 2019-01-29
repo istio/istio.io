@@ -18,7 +18,7 @@ TODO announcement
   Refer to our guide on [Migrating the `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrading-istio#migrating-the-rbacconfig-to-clusterrbacconfig)
   for migration instructions.
 
-## Istioctl
+## `istioctl`
 
 - Deprecated `istioctl create`, `istioctl replace`, `istioctl get`, and `istioctl delete`. Use `kubectl` instead (see <https://kubernetes.io/docs/tasks/tools/install-kubectl>). The next release (1.2) removes the deprecated commands.
 - Deprecated `istioctl gen-deploy`. Use a [`helm template`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template) instead. The next release (1.2) removes this command.
