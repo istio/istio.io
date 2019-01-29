@@ -23,9 +23,10 @@ point in time the organization decides to banish politics. Practically, it means
 [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health)
 only. The organization will grant permissions to individual applications and to particular users to access [edition.cnn.com/politics](https://edition.cnn.com/politics), on a case-by-case basis.
 
-To achieve that goal, the organization's operations people will monitor access to the external services and will
+To achieve that goal, the organization's operations people monitor access to the external services and
 analyze Istio logs to verify that no unauthorized request was sent to
-[edition.cnn.com/politics](https://edition.cnn.com/politics). They will also configure Istio to prevent access to [edition.cnn.com/politics](https://edition.cnn.com/politics) automatically.
+[edition.cnn.com/politics](https://edition.cnn.com/politics). They also configure Istio to prevent access to
+[edition.cnn.com/politics](https://edition.cnn.com/politics) automatically.
 
 The organization is resolved to prevent any tampering with the new policy. It decides to put mechanisms in place that
 will prevent any possibility for a malicious application to access the forbidden topic.
