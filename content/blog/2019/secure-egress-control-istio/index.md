@@ -58,8 +58,8 @@ All the requirements are implemented in Istio 1.1.
 
 1. Define and enforce **policies per source**, _Kubernetes-aware_:
 
-    * application `A` may access `*.foo.com`.
-    * application `B` may access `*.bar.com`.
+   * application `A` may access `*.foo.com`.
+   * application `B` may access `*.bar.com`.
 
     All other access must be blocked, in particular access of application `A` to `service1.bar.com`.
 
