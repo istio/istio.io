@@ -41,27 +41,33 @@ is the best fit for your content:
     <td>Examples</td>
     <td>An example page describes a fully working stand-alone example highlighting a particular set of features. Examples
     must have easy to follow setup and usage instructions so users can quickly run the sample
-    themselves and experiment with changing the example to explore the system.
+    themselves and experiment with changing the example to explore the system. Examples are tested and maintained for technical accuracy.
     </td>
   </tr>
 
   <tr>
     <td>Task</td>
     <td>A task page shows how to do a single thing, typically by giving a short sequence of steps. Task pages have minimal
-    explanation, but often provide links to conceptual topics that provide related background and knowledge.</td>
+    explanation, but often provide links to conceptual topics that provide related background and knowledge. Tasks are tested and maintained for technical accuracy.</td>
   </tr>
 
   <tr>
     <td>Setup</td>
     <td>A setup page is similar to a task page, except that it is focused on installation
-    activities.
+    activities. Setup pages are tested and maintained for technical accuracy.
     </td>
   </tr>
 
   <tr>
     <td>Blog Post</td>
     <td>
-      A blog post is a timely article on Istio or products and technologies related to it.
+      A blog post is a timely article on Istio or products and technologies related to it. Typically, posts fall in one of the following four categories:
+      <ul>
+      <li>Posts detailing the author’s experience using and configuring Istio, especially those that articulate a novel experience or perspective.</li>
+      <li>Posts highlighting or announcing Istio features.</li>
+      <li>Posts announcing an Istio-related event.</li>
+      <li>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</li>
+      </ul>
     </td>
   </tr>
 
@@ -81,11 +87,6 @@ is the best fit for your content:
     </td>
   </tr>
 </table>
-
-### About blog posts
-
-The Istio blog is intended to contain authoritative posts regarding Istio and technologies or products related to
-Istio. We generally do not publish user or enthusiast posts about using Istio.
 
 ## Naming a topic
 
