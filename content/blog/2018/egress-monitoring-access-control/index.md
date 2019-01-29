@@ -581,7 +581,7 @@ In this blog post we showed how different monitoring and policy mechanisms of Is
 traffic. Monitoring can be implemented by configuring a logging adapter. Access
 policies can be implemented by configuring `VirtualServices` or by configuring various policy check adapters. We
 demonstrated a simple policy that allowed certain URL paths only. We also showed a more complex policy that extended the
- simple policy by making an exemption to the applications from a certain namespace. Finally, we compared
+ simple policy by making an exemption to the applications with a certain service account. Finally, we compared
  HTTP-with-TLS-origination egress traffic with HTTPS egress traffic, in terms of control possibilities by Istio.
 
 ## Cleanup
