@@ -183,11 +183,32 @@ following security policy with regard to egress traffic:
 1. Application B is allowed to access `mongo1.composedb.com`
 1. All the egress traffic must be monitored
 
-Now consider a scenario in which an application A (one is pods) is compromised. Suppose the attacker has the following
-goals:
+Now consider a scenario in which the application A (one of the pods) is compromised. Suppose the attackers have the
+following goals:
 
+1. Application A will try to access `*.ibm.com` unmonitored
+1. Application A will try to access `mongo1.composedb.com`
+
+Note that the application A is allowed to access `*.ibm.com`, so the attacker is able to access it. There is no way
+to prevent such access since there is no way to distinguish, at least initially, between the original and the
+compromised versions of the application A. However, you want to monitor any access to external services to be able to
+detect suspicious traffic, for example by applying anomaly detection tools on logs of the egress traffic.
+The attackers, on the contrary, want to access external services unmonitored, so the attack will not be detected.
+Additional goal of the attackers is to access `mongo1.composedb.com`, which is forbidden for the application A. Istio
+must enforce the policy that forbids access of application A to `mongo1.composedb.com` and must prevent the attack.
 
 Now let's see which attacks the attackers will try to perform and how Istio secure egress traffic control will prevent
 each kind of the attack.
+
+1. **Bypass** Istio proxy and access the external services directly. This attack is prevented by a Kubernetes Network Policy
+   or by L3 firewall that allows egress traffic exit the mesh through the egress gateway.
+1. **Compromise** the egress gateway. This attack is prevented by applying special security measures to the egress gateway
+   pod.
+1. Since the previous attacks are prevented, the attackers have no other option but to direct the traffic through the
+   egress gateway. The traffic will be monitored by the egress gateway, so the goal of the attackers to access the
+   external services unmonitored cannot be achieved. The attackers may want to try to achieve their second goal, that is
+   to access `mongo1.composedb.com`. To achieve it, they may try to **impersonate** as the application B since the
+   application B is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong
+   identity support](/docs/concepts/security/#istio-identity).
 
 ### Advantage of Istio egress traffic controls
