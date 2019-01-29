@@ -104,6 +104,7 @@ CIOs
 Circonus
 cli
 CloudWatch
+CNI
 cnn.com
 colocated
 ConfigMap
@@ -168,6 +169,7 @@ fortio
 FQDNs
 frontend
 gbd
+GCP
 GCP-IAM
 GCP_OPTS
 gdb
