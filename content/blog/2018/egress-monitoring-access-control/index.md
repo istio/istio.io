@@ -610,6 +610,3 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
     service "politics" deleted
     deployment "politics" deleted
     {{< /text >}}
-
-1.  Perform the instructions in [Cleanup](/docs/tasks/telemetry/using-istio-dashboard/#cleanup) section of the
-[Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/) task.
