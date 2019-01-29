@@ -49,8 +49,9 @@ The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task desc
 
 ## Before you begin
 
-Follow the steps in the [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example, without
-the [Cleanup](/docs/examples/advanced-gateways/egress-gateway-tls-origination//#cleanup) step. After you accomplish this, you will be able
+Follow the steps in the [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example, **with mutual TLS authentication enabled**, without
+the [Cleanup](/docs/examples/advanced-gateways/egress-gateway-tls-origination//#cleanup) step.
+After you accomplish this, you will be able
 to access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container that has _curl_
 installed. In the instructions of this blog post we assume that the `SOURCE_POD` environment variable contains the pod
 name.
