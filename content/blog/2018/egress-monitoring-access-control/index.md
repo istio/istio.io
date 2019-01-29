@@ -295,7 +295,7 @@ Istio to use access policy information from such a system. You implement this in
 Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
-1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway) task:
+1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway) example:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -590,7 +590,7 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
 ## Cleanup
 
 1.  Perform the instructions in [Cleanup](/docs/examples/advanced-gateways/egress-gateway//#cleanup) section of the
-[Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway//) task.
+[Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway//) example.
 
 1.  Delete the logging and policy checks configuration:
 
