@@ -509,7 +509,7 @@ namespace exempt from monitoring and policy enforcement.
     200
     {{< /text >}}
 
-    Since `$SOURCE_POD` does not have `politics` service account, access to
+    Since `SOURCE_POD` does not have `politics` service account, access to
     [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
 
 1.  Perform the previous test from `SOURCE_POD_POLITICS`:
