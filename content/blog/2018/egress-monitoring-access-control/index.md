@@ -535,25 +535,26 @@ As an additional security measure, let the organization's operation people visua
 
 1.  Follow the steps 1-3 of the [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/#viewing-the-istio-dashboard) task.
 
-1.  Send requests to _cnn.com_ from `$SOURCE_POD`:
+1.  Send requests to _cnn.com_ from `SOURCE_POD`:
 
-    ```command
+    {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
-    404
+    403
     200
     200
-    ```
+    {{< /text >}}
 
-    Since `$SOURCE_POD` is in the `default` namespace, access to  [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
+    Since `SOURCE_POD` does not the `politics` service account, access to
+    [edition.cnn.com/politics](https://edition.cnn.com/politics) is forbidden, as previously.
 
-1.  Send requests to _cnn.com_ from `$SOURCE_POD_IN_POLITICS`:
+1.  Send requests to _cnn.com_ from `SOURCE_POD_POLITICS`:
 
-    ```command
-    $ kubectl exec -it $SOURCE_POD_IN_POLITICS -n politics -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD_POLITICS -c politics -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
     200
     200
     200
-    ```
+    {{< /text >}}
 
 1.  Scroll the dashboard to _HTTP services_, _istio-egressgateway.istio-system.svc.cluster.local_ section. You should
 see a graph similar to the following:
