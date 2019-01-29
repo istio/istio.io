@@ -278,16 +278,6 @@ port 443, all accesses to port 443 is blocked: Istio will fall back to the block
 port only. (Defining an HTTP service on port 443 is not recommended anyway, since using the same port for TCP/HTTPS and
 for HTTP traffic in Istio is discouraged.)
 
-1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are blocked (it means you
-    did not configure `ServiceEntry` and `VirtualService` for the external services and that you did not enable
-    direct access to external services).
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://www.google.com | grep -o "<title>.*</title>"; kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://edition.cnn.com | grep -o "<title>.*</title>"
-    command terminated with exit code 35
-    command terminated with exit code 35
-    {{< /text >}}
-
 1.  To allow access to all the external services, install or update Istio by using
 [Helm](https://preliminary.istio.io/docs/setup/kubernetes/helm-install/) while setting the value of
 `global.outboundTrafficPolicy.mode` to `ALLOW_ANY`: `--set global.outboundTrafficPolicy.mode=ALLOW_ANY`.
