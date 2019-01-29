@@ -295,7 +295,7 @@ Istio to use access policy information from such a system. You implement this in
 Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
-1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway//#perform-tls-origination-with-the-egress-gateway) task:
+1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/#perform-tls-origination-with-an-egress-gateway) task:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
