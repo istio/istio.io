@@ -639,7 +639,7 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
 
 1.  Delete the logging and policy checks configuration:
 
-    ```command
+    {{< text bash >}}
     $ kubectl delete logentry egress-access -n istio-system
     $ kubectl delete stdio egress-error-logger -n istio-system
     $ kubectl delete stdio egress-access-logger -n istio-system
@@ -647,13 +647,16 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
     $ kubectl delete rule handle-cnn-access -n istio-system
     $ kubectl delete -n istio-system listchecker path-checker
     $ kubectl delete -n istio-system listentry request-path
-    ```
+    {{< /text >}}
 
-1.  Delete the _politics_ namespace:
+1.  Delete the _politics_ source pod:
 
-    ```command
-    $ kubectl delete namespace politics
-    ```
+    {{< text bash >}}
+    $ sed 's/: sleep/: politics/g' samples/sleep/sleep.yaml | kubectl delete -f -
+    serviceaccount "politics" deleted
+    service "politics" deleted
+    deployment "politics" deleted
+    {{< /text >}}
 
 1.  Perform the instructions in [Cleanup](/docs/tasks/telemetry/using-istio-dashboard/#cleanup) section of the
 [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/) task.
