@@ -104,7 +104,7 @@ attackers from accessing malicious sites, for example for downloading updates/in
 want to limit the number of external sites that the attackers can access and attack.
 You want to allow access only to the external services that applications in the cluster need to
 access and to block access to all the other services, this way reducing the attack vector. While the external services
-can have their own security mechanisms, you want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to add multiple security mechanisms, one in our cluster, and other ones in the
+can have their own security mechanisms, you want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to add multiple security layers, one in your cluster, and other ones in the
 external systems.
 
 Note that the requirement must identify external services by domain names, we call this property of the egress control
