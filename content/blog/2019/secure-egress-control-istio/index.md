@@ -81,7 +81,7 @@ supported. The requirement is based on the observation that all the traffic that
 encrypted.
 This means that either the applications will perform TLS origination or Istio must perform TLS origination
 for them. Note that in the case an application performs TLS origination, the Istio proxies cannot see the original traffic,
-only the encrypted one, so the proxies see TLS protocol only. For the proxies it does not matter if the original
+only the encrypted one, so the proxies see the TLS protocol only. For the proxies it does not matter if the original
 protocol is HTTP or MongoDB, all the Istio proxies can see is TLS traffic.
 
 Requirement 2 states that SNI and the source of the traffic must be monitored. Monitoring is the first step to
