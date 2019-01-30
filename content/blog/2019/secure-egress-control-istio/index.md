@@ -33,10 +33,10 @@ organization.
 
 ## The solution: egress traffic control
 
-To prevent the attacks described above, the egress traffic control must be applied. This means that all the egress
-traffic must be monitored and security policies must be enforced. You want to monitor every access to external services
-to be able to detect the attacks, possibly offline, even if you fail to prevent them in real time. You want to specify
-policies to limit access similar to the
+To prevent the attacks described above, some form of egress traffic control must be applied. This means that all the
+egress traffic must be monitored and security policies must be enforced. You want to monitor every access to external
+services to be able to detect the attacks, possibly offline, even if you fail to prevent them in real time.
+You want to specify policies to limit access similar to the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
 need to access external services should be allowed to access the external services they need.
 
