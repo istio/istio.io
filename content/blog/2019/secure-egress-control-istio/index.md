@@ -182,8 +182,8 @@ egress gateway by running them on nodes separate from the application nodes, in 
 more thoroughly, etc. After all, if the attackers are able to attack Istio Mixer or the egress gateway, they could
 violate any policy.
 
-Once you directed egress traffic through an egress gateway and applied additional security mechanisms to the egress
-gateway, you can securely monitor the traffic and define security policies on it.
+Once you direct egress traffic through an egress gateway and apply the additional security mechanisms,
+you can securely monitor the traffic and define security policies on it.
 If the application sends HTTP requests and the egress gateway performs TLS origination, you can monitor HTTP
 information, e.g HTTP methods, headers and URL paths, and you can
 [define policies](/blog/2018/egress-monitoring-access-control) based on the HTTP information. If the application
