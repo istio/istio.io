@@ -211,8 +211,9 @@ each kind of the attack.
 
 1. **Bypass** Istio proxy and access the external services directly. This attack is prevented by a Kubernetes Network Policy
    or by L3 firewall that allows egress traffic exit the mesh through the egress gateway.
-1. **Compromise** the egress gateway. This attack is prevented by applying special security measures to the egress gateway
-   pod.
+1. **Compromise** the egress gateway and force it to send fake information to the monitoring system or to disable
+   enforcement the security policies.
+   This attack is prevented by applying special security measures to the egress gateway pod.
 1. Since the previous attacks are prevented, the attackers have no other option but to direct the traffic through the
    egress gateway. The traffic will be monitored by the egress gateway, so the goal of the attackers to access the
    external services unmonitored cannot be achieved. The attackers may want to try to achieve their second goal, that is
