@@ -3,6 +3,8 @@ title: Quick Start with Google Kubernetes Engine
 description: How to quickly setup Istio using Google Kubernetes Engine (GKE).
 weight: 65
 keywords: [kubernetes,gke,google]
+aliases:
+    - /docs/setup/kubernetes/quick-start-gke-dm/
 ---
 
 Quick Start instructions to install and run Istio in [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) using [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview).
