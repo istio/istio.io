@@ -110,10 +110,12 @@ access and to block access to all the other services, this way you reduce the
 can have their own security mechanisms, you want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to have multiple security layers: a security layer in your cluster in addition to
 the security layers in the external systems.
 
-Note that the requirement must identify external services by domain names, we call this property of the egress control
-system as _being DNS-aware_. If the system is not DNS-aware, the external services must be specified by IP addresses,
-which is not convenient and often is not feasible, since IP addresses of a service can change or when they are not
-known, for example in case of [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
+Note that according to the requirement the external services must be identified by domain names. We call this property
+of an egress control system _being DNS-aware_.
+If the system is not DNS-aware, the external services must be specified by IP addresses.
+Using IP addresses is not convenient and often is not feasible, since IP addresses of a service can change. Sometimes
+all the IP addresses of a service are not even known, for example in the case of
+[CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
 
 Requirement 4 extends requirement 3, by adding source of the egress traffic to the policies: the policies should specify
 which source can access which external service. The source must be identified as in the requirement 2, for example, by
