@@ -105,7 +105,8 @@ The rationale for this requirement is that you want to prevent
 attackers from accessing malicious sites, for example for downloading updates/instructions for their malware. You also
 want to limit the number of external sites that the attackers can access and attack.
 You want to allow access only to the external services that the applications in the cluster need to
-access and to block access to all the other services, this way reducing the attack vector. While the external services
+access and to block access to all the other services, this way you reduce the
+[attack surface](https://en.wikipedia.org/wiki/Attack_surface). While the external services
 can have their own security mechanisms, you want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to add multiple security layers, one in your cluster, and other ones in the
 external systems.
 
