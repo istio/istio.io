@@ -2,6 +2,8 @@
 title: Health Checking of Istio Services
 description: Shows how to do health checking for Istio services.
 weight: 65
+aliases:
+  - /docs/tasks/traffic-management/app-health-check/
 keywords: [security,health-check]
 ---
 
@@ -134,13 +136,13 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
-When Mutual TLS is enabled, we have two options to support HTTP probes, probe rewrites and separate ports.
+When Mutual TLS is enabled, we have two options to support HTTP probes: probe rewrites and separate ports.
 
 #### Probe rewrite
 
 This approach rewrites the application `PodSpec` liveness probe, such that the probe request will be sent to
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
-request to application, and strip the response body only returning the response code.
+request to application, and strips the response body only returning the response code.
 
 To use this approach, you need to install Istio with helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 Note this is a global flag. **Turning it on means all Istio app deployment will be affected.**
@@ -155,8 +157,8 @@ $ kubectl apply -f $HOME/istio.yaml
 
 Re-deploy the liveness health check app.
 
-Helm configuration above make sidecar injection to automatically rewrite Kubernetes Pod YAML, such that
-health check can work under mutual TLS. No need to update your app or Pod YAML by yourself.
+The above Helm configuration makes it so sidecar injection automatically rewrites the Kubernetes pod YAML,
+such that health check can work under mutual TLS. No need to update your app or Pod YAML by yourself.
 
 {{< text bash >}}
 $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
@@ -169,8 +171,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
-Currently, this feature is not turned on by default and only available for `istioctl kube-inject`,
-not for webhook auto inject yet. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
+This features is not currently turned on by default. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
 on whether we should change this to default behavior for Istio installation.
 
 #### Separate port

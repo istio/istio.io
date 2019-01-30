@@ -11,9 +11,9 @@ when this mode is turned on. This can solve the health checking issue.
 Please keep in mind that mutual TLS is not enforced since others can
 communicate with the service with http traffic.
 
-You can use a separate port for health check and enable mutual TLS only
-on the regular service port. Refer to [Health checking of Istio
-services by App Prober Rewrite](/help/ops/setup/app-health-check/) for more information.
+You can use a separate port for health checks and enable mutual TLS only
+on the regular service port. Refer to [Health Checking of Istio Services](/help/ops/setup/app-health-check/)
+for more information.
 
 Due to the risk of a new feature, we do not turn on above feature by default. The future rollout
 plan is tracked on [GitHub issue](https://github.com/istio/istio/issues/10357).
