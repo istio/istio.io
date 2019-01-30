@@ -28,6 +28,10 @@ number_of_entries: 5
 <td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
 </tr>
 <tr>
+<td><code>--keepaliveMaxServerConnectionAge &lt;duration&gt;</code></td>
+<td>Maximum duration a connection will be kept open on the server before a graceful close. Used to improve load distribution between instances. (default unlimited)</td>
+</tr>
+<tr>
 <td><code>--log_as_json</code></td>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
