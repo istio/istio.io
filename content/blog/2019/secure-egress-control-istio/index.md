@@ -123,7 +123,7 @@ example, by a label of the source pod or by service account of the pod. It means
 _Kubernetes-aware_. If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
 the IP of the pod, which is not convenient, especially since the pods can come and go and their IPs are not static.
 
-The requirement 5 states that even if the cluster is compromised and the attackers controls some of the pods, the attackers
+The requirement 5 states that even if the cluster is compromised and the attackers controls some of the pods, they
 must not be able to cheat the monitoring or to break the policies of the egress control system. We say that such a
 system provides _secure_ egress traffic control.
 
