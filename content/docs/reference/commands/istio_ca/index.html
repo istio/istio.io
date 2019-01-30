@@ -126,6 +126,10 @@ number_of_entries: 4
 <td>Interval of checking the liveness of the CA.  (default `30s`)</td>
 </tr>
 <tr>
+<td><code>--read-signing-cert-only</code></td>
+<td>When set, Citadel only reads the self-signed signing key and cert from Kubernetes secret without generating one (if not exist). This flag avoids racing condition between multiple Citadels generating self-signed key and cert. Please make sure one and only one Citadel instance has this flag set to false. </td>
+</tr>
+<tr>
 <td><code>--requested-ca-cert-ttl &lt;duration&gt;</code></td>
 <td>The requested TTL for the workload  (default `8760h0m0s`)</td>
 </tr>
@@ -140,6 +144,10 @@ number_of_entries: 4
 <tr>
 <td><code>--self-signed-ca-cert-ttl &lt;duration&gt;</code></td>
 <td>The TTL of self-signed CA root certificate  (default `8760h0m0s`)</td>
+</tr>
+<tr>
+<td><code>--server-only</code></td>
+<td>When set, Citadel only serves as a server without writing the Kubernetes secrets. </td>
 </tr>
 <tr>
 <td><code>--sign-ca-certs</code></td>
