@@ -124,7 +124,7 @@ _Kubernetes-aware_. If policy enforcement is not Kubernetes-aware, the policies 
 the IP of the pod, which is not convenient, especially since the pods can come and go and their IPs are not static.
 
 The requirement 5 states that even if the cluster is compromised and the attackers controls some of the pods, they
-must not be able to cheat the monitoring or to break the policies of the egress control system. We say that such a
+must not be able to cheat the monitoring or to violate policies of the egress control system. We say that such a
 system provides _secure_ egress traffic control.
 
 The requirement 6 states that the control should be provided without changing the application containers, in particular
