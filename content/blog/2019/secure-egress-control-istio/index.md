@@ -36,8 +36,8 @@ The attackers can be external, that is they can gain access to the applicationâ€
 bug in the application. The attackers can also be internal, that is, for example, malicious DevOps people inside the
 organization.
 
-To prevent the attacks described above, some form of egress traffic control must be applied. Let me present it in the
-following section.
+To prevent the attacks described above, some form of egress traffic control must be applied. Let me present egress
+traffic control in the following section.
 
 ## The solution: egress traffic control
 
