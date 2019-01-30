@@ -117,9 +117,9 @@ Using IP addresses is not convenient and often is not feasible, since IP address
 all the IP addresses of a service are not even known, for example in the case of
 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
 
-Requirement 4 extends requirement 3, by adding source of the egress traffic to the policies: the policies should specify
-which source can access which external service. The source must be identified as in the requirement 2, for example, by
-a label of the source pod or by service account of the pod. Here the policy enforcement must also be
+Requirement 4 extends requirement 3, by adding the source of the egress traffic to the policies: the policies can
+specify which source can access which external service. The source must be identified as in requirement 2, for
+example, by a label of the source pod or by service account of the pod. It means that policy enforcement must also be
 _Kubernetes-aware_. If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
 the IP of the pod, which is not convenient, especially since the pods can come and go and their IPs are not static.
 
