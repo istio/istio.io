@@ -27,8 +27,9 @@ updates. The attackers may use pods in the cluster to perform DDOS attacks or to
 Even though we cannot know all the possible types of the attacks, we want to reduce possibilities for any attacks, both
 for known and unknown ones.
 
-The attackers can be external, i.e. can gain access to the application’s container from the outside, through a bug in
-the application, or internal, i.e. a malicious DevOps person inside the organization.
+The attackers can be external, that is they can gain access to the application’s container from the outside, through a
+bug in the application. The attackers can also be internal, that is, for example, malicious DevOps people inside the
+organization.
 
 ## The solution: egress traffic control
 
