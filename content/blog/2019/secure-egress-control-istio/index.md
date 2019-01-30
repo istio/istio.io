@@ -76,7 +76,7 @@ All the requirements are implemented in Istio 1.1.
 from sending fake information to the monitoring system, and from breaking the egress policies.
 1. Preferably: perform traffic control **transparently** to the applications
 
-Let me explain each of the requirements. Requirement 1 states that only TLS traffic to the external services must be
+Let me explain each of the requirements. The requirement 1 states that only TLS traffic to the external services must be
 supported. The requirement is based on the observation that all the traffic that leaves the cluster usually must be
 encrypted.
 This means that either the applications will perform TLS origination or Istio must perform TLS origination
@@ -84,7 +84,7 @@ for them. Note that in the case an application performs TLS origination, the Ist
 only the encrypted one, so the proxies see the TLS protocol only. For the proxies it does not matter if the original
 protocol is HTTP or MongoDB, all the Istio proxies can see is TLS traffic.
 
-Requirement 2 states that SNI and the source of the traffic must be monitored. Monitoring is the first step to
+The requirement 2 states that SNI and the source of the traffic must be monitored. Monitoring is the first step to
 prevent attacks. Even if attackers would be able to access external services from the cluster, if the access is
 monitored, there is a chance to discover the suspicious traffic and take a corrective action.
 
@@ -95,7 +95,7 @@ other source identifier. We call this property of an egress control system _bein
 understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware, it can monitor
 only the IP address as the identifier of the source.
 
-Requirement 3 states that Istio operators must be able to define policies for egress traffic per whole cluster. The
+The requirement 3 states that Istio operators must be able to define policies for egress traffic per whole cluster. The
 policies state which external services may be accessed by any pod in the cluster. The external services can be
 identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
 service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified may be
@@ -117,17 +117,17 @@ Using IP addresses is not convenient and often is not feasible, since IP address
 all the IP addresses of a service are not even known, for example in the case of
 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
 
-Requirement 4 extends requirement 3, by adding the source of the egress traffic to the policies: the policies can
-specify which source can access which external service. The source must be identified as in requirement 2, for
+The requirement 4 extends the requirement 3, by adding the source of the egress traffic to the policies: the policies
+can specify which source can access which external service. The source must be identified as in the requirement 2, for
 example, by a label of the source pod or by service account of the pod. It means that policy enforcement must also be
 _Kubernetes-aware_. If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
 the IP of the pod, which is not convenient, especially since the pods can come and go and their IPs are not static.
 
-Requirement 5 states that even if the cluster is compromised and the attackers controls some of the pods, the attackers
+The requirement 5 states that even if the cluster is compromised and the attackers controls some of the pods, the attackers
 must not be able to cheat the monitoring or to break the policies of the egress control system. We say that such a
 system provides _secure_ egress traffic control.
 
-Requirement 6 states that the control should be provided without changing the application containers, in particular
+The requirement 6 states that the control should be provided without changing the application containers, in particular
 without changing the code of the applications and without changing the environment of the containers. We call such an
 egress traffic control system _transparent_.
 
