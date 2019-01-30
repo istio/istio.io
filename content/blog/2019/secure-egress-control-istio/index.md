@@ -99,11 +99,11 @@ Requirement 3 states that Istio operators must be able to define policies for eg
 policies state which external services may be accessed by any pod in the cluster. The external services can be
 identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
 service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified can be
-accessed, all other egress traffic must be blocked. You want to prevent attackers to access malicious sites, for example
-for downloading updates/instructions for their malware, and you want to limit the number of external sites that the
+accessed, all other egress traffic must be blocked. You want to prevent attackers from accessing malicious sites, for
+example for downloading updates/instructions for their malware, and you want to limit the number of external sites that the
 attackers can access. You want to allow access only to the external services that applications in the cluster need to
 access and to block access to all the other services, this way reducing the attack vector. While the external services
-can have their own security mechanisms, You want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to add multiple security mechanisms, one in our cluster, and other ones in the
+can have their own security mechanisms, you want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to add multiple security mechanisms, one in our cluster, and other ones in the
 external systems.
 
 Note that the requirement must identify external services by domain names, we call this property of the egress control
