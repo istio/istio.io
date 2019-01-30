@@ -5,25 +5,25 @@ weight: 85
 keywords: [kubernetes,multicluster]
 ---
 
-这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，Endpoint 发现服务）`特性（在 Istio 1.1 中引入），通过 ingress gateway 将服务请求路由到远程集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
+这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，Endpoint 发现服务）`特性（在 Istio 1.1 中引入），通过 ingress gateway 将服务请求路由到 remote 集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
 
 按照此示例中的说明，您将设置一个两集群网格，如下图所示：
 
   {{< image width="80%" ratio="36.01%"
   link="/docs/examples/multicluster/split-horizon-eds/diagram.svg"
-  caption="单个 Istio 控制平面配置水平分割EDS，跨越多个 Kubernetes 集群" >}}
+  caption="单个 Istio 控制平面配置水平分割 EDS，跨越多个 Kubernetes 集群" >}}
 
-`本地`集群将运行 Istio Pilot 和其它 Istio 控制平面组件，而`远程`集群仅运行 Istio Citadel、Sidecar Injector 和 Ingress gateway。不需要 VPN 连接，不同集群中的工作负载之间也无需直接网络访问。
+ `local` 集群将运行 Istio Pilot 和其它 Istio 控制平面组件，而 `remote` 集群仅运行 Istio Citadel、Sidecar Injector 和 Ingress gateway。不需要 VPN 连接，不同集群中的工作负载之间也无需直接网络访问。
 
 ## 开始之前
 
 除了安装 Istio 的先决条件之外，此示例还需要以下条件：
 
-* 两个 Kubernetes 集群（称之为`本地`和`远程`）。
+* 两个 Kubernetes 集群（称之为 `local` 和 `remote`）。
 
-    > {{< warning_icon >}} 为了运行此配置，要求必须可以从`本地`集群访问`远程`集群的 Kubernetes API server。
+    > {{< warning_icon >}} 为了运行此配置，要求必须可以从 `local` 集群访问 `remote` 集群的 Kubernetes API server。
 
-* `kubectl` 命令使用 `--context` 参数，同时访问`本地`和`远程`集群。请使用下列命令列出您的 context：
+* `kubectl` 命令使用 `--context` 参数，同时访问 `local` 和 `remote` 集群。请使用下列命令列出您的 context：
 
     {{< text bash >}}
     $ kubectl config get-contexts
@@ -41,15 +41,15 @@ keywords: [kubernetes,multicluster]
 
 ## 多集群设置示例
 
-在此示例中，您将安装对控制平面和应用程序 pod 都启用了双向 TLS 的 Istio。为了共享根 CA，您将使用同一个来自 Istio 示例目录的证书，在`本地`和`远程`集群上创建一个相同的 `cacerts` secret。
+在此示例中，您将安装对控制平面和应用程序 pod 都启用了双向 TLS 的 Istio。为了共享根 CA，您将使用同一个来自 Istio 示例目录的证书，在 `local` 和 `remote` 集群上创建一个相同的 `cacerts` secret。
 
-下面的说明还设置了`远程`集群，包含一个无 selector 的 service 和具有`本地` Istio ingress gateway 地址的 `istio-pilot.istio-system` endpoint。这将用于通过 ingress gateway 安全地访问`本地` pilot，而无需双向 TLS 终止。
+下面的说明还设置了 `remote` 集群，包含一个无 selector 的 service 和具有 `local` Istio ingress gateway 地址的 `istio-pilot.istio-system` endpoint。这将用于通过 ingress gateway 安全地访问 `local` pilot，而无需双向 TLS 终止。
 
-### 配置本地集群
+### 配置 local 集群
 
 1. 定义网格网络：
 
-    默认情况下 Istio 的 `global.meshNetworks` 值为空，但是您需要对其进行修改以为`远程`集群上的 endpoint 定义一个新的网络。修改 `install/kubernetes/helm/istio/values.yaml` 并添加一个 `network2` 定义：
+    默认情况下 Istio 的 `global.meshNetworks` 值为空，但是您需要对其进行修改以为 `remote` 集群上的 endpoint 定义一个新的网络。修改 `install/kubernetes/helm/istio/values.yaml` 并添加一个 `network2` 定义：
 
     {{< text yaml >}}
     meshNetworks:
@@ -61,9 +61,9 @@ keywords: [kubernetes,multicluster]
           port: 443
     {{< /text >}}
 
-    请注意，gateway address 被设置为 `0.0.0.0`。这是一个临时占位符，稍后将被更新为 `远程`集群 gateway 的公共 IP 地址，此 gateway 将在下一小节中部署。
+    请注意，gateway address 被设置为 `0.0.0.0`。这是一个临时占位符，稍后将被更新为 `remote` 集群 gateway 的公共 IP 地址，此 gateway 将在下一小节中部署。
 
-1. 使用 Helm 创建 Istio `本地` deployment YAML：
+1. 使用 Helm 创建 Istio `local` deployment YAML：
 
     {{< text bash >}}
     $ helm template --namespace=istio-system \
@@ -80,7 +80,7 @@ keywords: [kubernetes,multicluster]
     install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
-1. 部署 Istio 到`本地`集群：
+1. 部署 Istio 到 `local` 集群：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_LOCAL ns istio-system
@@ -89,15 +89,15 @@ keywords: [kubernetes,multicluster]
     $ kubectl create --context=$CTX_LOCAL -f istio-auth.yaml
     {{< /text >}}
 
-    通过检查`本地` pod 的状态等待其被拉起：
+    通过检查 `local` pod 的状态等待其被拉起：
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_LOCAL -n istio-system
     {{< /text >}}
 
-### 设置远程集群
+### 设置 remote 集群
 
-1. 导出`本地` gateway 地址：
+1. 导出 `local` gateway 地址：
 
     {{< text bash >}}
     $ export LOCAL_GW_ADDR=$(kubectl get --context=$CTX_LOCAL svc --selector=app=istio-ingressgateway \
@@ -106,7 +106,7 @@ keywords: [kubernetes,multicluster]
 
     此命令将值设置为 gateway 的公共 IP，但请注意，您也可以将其设置为一个 DNS 名称（如果有）。
 
-1. 使用 Helm 创建 Istio `远程` deployment YAML：
+1. 使用 Helm 创建 Istio `remote` deployment YAML：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-remote \
@@ -129,7 +129,7 @@ keywords: [kubernetes,multicluster]
       --set global.network="network2" > istio-remote-auth.yaml
     {{< /text >}}
 
-1. 部署 Istio 到`远程`集群：
+1. 部署 Istio 到 `remote` 集群：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_REMOTE ns istio-system
@@ -137,7 +137,7 @@ keywords: [kubernetes,multicluster]
     $ kubectl create --context=$CTX_REMOTE -f istio-remote-auth.yaml
     {{< /text >}}
 
-    通过检查`远程` pod 的状态等待其被拉起：
+    通过检查 `remote` pod 的状态等待其被拉起：
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_REMOTE -n istio-system
@@ -158,7 +158,7 @@ keywords: [kubernetes,multicluster]
         $ kubectl edit cm -n istio-system --context=$CTX_LOCAL istio
         {{< /text >}}
 
-    * 将 `network2` 的 gateway address 从 `0.0.0.0` 修改为`远程` gateway 地址，保存并退出。
+    * 将 `network2` 的 gateway address 从 `0.0.0.0` 修改为 `remote` gateway 地址，保存并退出。
 
       一旦保存，Pilot 将自动读取并更新网络配置。
 
@@ -199,22 +199,22 @@ keywords: [kubernetes,multicluster]
     EOF
     {{< /text >}}
 
-### 开始监听远程集群
+### 开始监听 remote 集群
 
-执行下列命令，添加并标记`远程` Kubernetes 的 secret。执行这些命令之后，本地 Istio Pilot 将开始监听`远程`集群的 service 和 instance，就像在`本地`集群中一样。
+执行下列命令，添加并标记 `remote` Kubernetes 的 secret。执行这些命令之后，local Istio Pilot 将开始监听 `remote` 集群的 service 和 instance，就像在 `local` 集群中一样。
 
 {{< text bash >}}
 $ kubectl create --context=$CTX_LOCAL secret generic iks --from-file remote_kubecfg -n istio-system
 $ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio-system
 {{< /text >}}
 
-现在您已经设置了`本地`和`远程`集群，可以开始部署示例 service。
+现在您已经设置了 `local` 和 `remote` 集群，可以开始部署示例 service。
 
 ## 示例 service
 
-在这个实例中，您将了解到一个 service 的流量是如何被分发到本地 endpoint 和远程 gateway。如上图所示，您将为 `helloworld` service 部署两个实例，一个在`本地集群`，另一个在`远程`集群。两个实例的区别在于其 `helloworld` 镜像的版本。
+在这个实例中，您将了解到一个 service 的流量是如何被分发到 local endpoint 和 remote gateway。如上图所示，您将为 `helloworld` service 部署两个实例，一个在 `local` 集群，另一个在 `remote` 集群。两个实例的区别在于其 `helloworld` 镜像的版本。
 
-### 在远程集群部署 helloworld v2
+### 在 remote 集群部署 helloworld v2
 
 1. 使用 sidecar 自动注入标签创建一个 `sample` namespace：
 
@@ -265,7 +265,7 @@ $ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio
     $ kubectl create --context=$CTX_REMOTE -f helloworld-v2.yaml -n sample
     {{< /text >}}
 
-### 在本地集群部署 helloworld v1
+### 在 local 集群部署 helloworld v1
 
 1. 使用 sidecar 自动注入标签创建一个 `sample` namespace：
 
@@ -332,7 +332,7 @@ $ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio
         - "*"
     {{< /text >}}
 
-    虽然是本地部署，这个 Gateway 实例仍然会影响`远程`集群，方法是将其配置为允许相关远程 service（基于 SNI）通过，但保持从源到目标 sidecar 的双向 TLS。
+    虽然是本地部署，这个 Gateway 实例仍然会影响 `remote` 集群，方法是将其配置为允许相关 remote service（基于 SNI）通过，但保持从源到目标 sidecar 的双向 TLS。
 
 1. 部署此文件：
 
@@ -357,7 +357,7 @@ $ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio
     $ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
-如果设置正确，到 `helloworld.sample` service 的流量将在本地和远程示例之间进行分发，导致响应 body 中 `v1` 或 `v2` 都可能出现。
+如果设置正确，到 `helloworld.sample` service 的流量将在 local 和 remote 实例之间进行分发，导致响应 body 中 `v1` 或 `v2` 都可能出现。
 
 {{< text bash >}}
 $ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
@@ -381,13 +381,13 @@ $ kubectl logs --context=$CTX_LOCAL -n sample $(kubectl get pod --context=$CTX_L
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
 
-v2 被调用时将记录远程 gateway IP  `192.23.120.32:443`，v1 被调用时将记录本地实例 IP `10.10.0.90:5000`。
+v2 被调用时将记录 remote gateway IP  `192.23.120.32:443`，v1 被调用时将记录 local 实例 IP `10.10.0.90:5000`。
 
 ## 清理
 
 执行下列命令清理 demo service __和__ Istio 组件。
 
-清理`远程集群`：
+清理 `remote` 集群：
 
 {{< text bash >}}
 $ kubectl delete --context=$CTX_REMOTE -f istio-remote-auth.yaml
@@ -396,7 +396,7 @@ $ kubectl delete --context=$CTX_REMOTE -f helloworld-v2.yaml -n sample
 $ kubectl delete --context=$CTX_REMOTE ns sample
 {{< /text >}}
 
-清理`本地`集群：
+清理 `local` 集群：
 
 {{< text bash >}}
 $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
