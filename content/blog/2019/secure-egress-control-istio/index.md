@@ -57,7 +57,7 @@ We collected requirements for egress traffic control from several customers, and
 All the requirements are implemented in Istio 1.1.
 
 1. Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/help/glossary/#tls-origination) by Istio.
-1. **Monitor** all the egress access by SNI and the source workload
+1. **Monitor** SNI and the source workload of every egress access
 1. Define and enforce **policies per cluster**, e.g.:
 
    * all the applications in the cluster may access `service1.foo.com` (a specific host)
