@@ -27,7 +27,7 @@ Once attackers are able to penetrate an application in a cluster, they can proce
 legacy systems, external web services and databases. The attackers may want to steal the data of the application and to
 transfer it to their external servers. Attackers' malware may require access to attackers' servers to download
 updates. The attackers may use pods in the cluster to perform DDOS attacks or to break into external systems.
-Even though we cannot know all the possible types of the attacks, we want to reduce possibilities for any attacks, both
+Even though we [cannot know](https://en.wikipedia.org/wiki/There_are_known_knowns) all the possible types of the attacks, we want to reduce possibilities for any attacks, both
 for known and unknown ones.
 
 The attackers can be external, that is they can gain access to the application’s container from the outside, through a
