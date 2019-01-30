@@ -210,4 +210,39 @@ each kind of the attack.
    application B is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong
    identity support](/docs/concepts/security/#istio-identity).
 
-### Advantage of Istio egress traffic controls
+### Advantages of Istio egress traffic control
+
+Istio egress traffic control is **DNS-aware**: you can define policies based on URLs or on wildcard domains like
+`*.ibm.com`. In this sense, it is superior to Kubernetes network policies which are not DNS-aware.
+
+Istio egress traffic control is **transparent** for TLS traffic, as Istio as a whole: you do not need to change the
+applications or to configure their containers. For HTTP traffic with TLS origination, the DevOps people must
+configure the applications to use HTTP when deploying Istio.
+
+Istio egress traffic control is **Kubernetes-aware**: the identity of the source of egress traffic is based on
+Kubernetes service accounts. Istio egress traffic control is superior to legacy DNS-aware proxies/firewalls which
+are not transparent and not Kubernetes-aware.
+
+Istio egress traffic control is **secure**: it is based on the strong identity of Istio and when the cluster operators
+provide additional security measures, it is tampering-proof.
+
+On top of these beneficial features, Istio egress traffic control provides additional advantages:
+
+*  It allows defining access policies in the same language for ingress/egress/in-cluster traffic. The cluster operators
+   need to learn a single policy and configuration language for all the traffic.
+*  Istio egress traffic control is integrated with Istio policy and telemetry adapters and can work out-of-the-box.
+*  When external monitoring/access control systems are using with Istio, the adapters for them must be written only
+   once, and then used for all kinds of the traffic, including egress traffic.
+*  The Istio operators can apply Istio traffic management features to egress traffic, such as
+   load balancing, passive and active health checking, circuit breaker, timeouts, retries, fault injection, and others.
+
+I call a system with the advantages above as **Istio-aware**.
+
+Let me summarize the features of Istio egress traffic control and of the alternative solutions in the following table:
+
+| | Kubernetes Network Policies | Legacy Egress Proxy/Firewall | Istio Egress Traffic Control |
+| --- | --- | --- | ---|
+| DNS-aware | {{< cancel_icon >}} | {{< checkmark_icon >}} | {{< checkmark_icon >}} |
+| Kubernetes-aware | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
+| Transparent | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
+| Istio-aware | {{< cancel_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
