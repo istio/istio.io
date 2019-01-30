@@ -62,6 +62,10 @@ number_of_entries: 4
 <td>Enable profiling for Galley </td>
 </tr>
 <tr>
+<td><code>--excludedResourceKinds &lt;stringSlice&gt;</code></td>
+<td>Comma-separated list of resource kinds that should not generate source events  (default `[Endpoints,Node,Pod,Service]`)</td>
+</tr>
+<tr>
 <td><code>--insecure</code></td>
 <td>Use insecure gRPC communication </td>
 </tr>
@@ -83,11 +87,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -107,7 +111,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -234,6 +238,10 @@ number_of_entries: 4
 <td>Enable profiling for Galley </td>
 </tr>
 <tr>
+<td><code>--excludedResourceKinds &lt;stringSlice&gt;</code></td>
+<td>Comma-separated list of resource kinds that should not generate source events  (default `[Endpoints,Node,Pod,Service]`)</td>
+</tr>
+<tr>
 <td><code>--insecure</code></td>
 <td>Use insecure gRPC communication </td>
 </tr>
@@ -259,11 +267,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -283,7 +291,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -427,6 +435,11 @@ number_of_entries: 4
 <td>Enable profiling for Galley </td>
 </tr>
 <tr>
+<td><code>--excludedResourceKinds &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Comma-separated list of resource kinds that should not generate source events  (default `[Endpoints,Node,Pod,Service]`)</td>
+</tr>
+<tr>
 <td><code>--insecure</code></td>
 <td></td>
 <td>Use insecure gRPC communication </td>
@@ -454,12 +467,12 @@ number_of_entries: 4
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -484,7 +497,7 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, fs, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
