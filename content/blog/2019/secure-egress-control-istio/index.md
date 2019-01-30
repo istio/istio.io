@@ -118,7 +118,7 @@ egress traffic control system _transparent_.
 In this blog post I show that can serve Istio as an example of an egress traffic control system that satisfies all the
 requirements, in particular it is transparent, DNS-aware, and Kubernetes-aware.
 
-Let's examine solutions for egress traffic control other than Istio in the following section.
+Let's examine solutions for egress traffic control that existed before Istio in the following section.
 
 ## Existing solutions for egress traffic control
 
