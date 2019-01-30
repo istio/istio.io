@@ -217,7 +217,7 @@ The second goal of the attackers is to access `mongo1.composedb.com`, which is f
 must enforce the policy that forbids access of application A to `mongo1.composedb.com` and must prevent the attack.
 
 Now let's see which attacks the attackers will try to perform and how Istio secure egress traffic control will prevent
-each kind of the attack.
+each kind of attack.
 
 1. **Bypass** Istio proxy and access the external services directly. This attack is prevented by a Kubernetes Network Policy
    or by L3 firewall that allows egress traffic exit the mesh through the egress gateway.
