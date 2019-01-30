@@ -19,6 +19,8 @@ describe the Istio way for controlling egress traffic securely, and compare it w
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
 egress proxies/firewalls.
 
+Let's start with the attacks that involve egress traffic.
+
 ## The attacks
 
 Any IT organization must operate under assumption that it will be attacked one day, if it is not attacked already, and
