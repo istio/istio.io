@@ -23,7 +23,7 @@ egress proxies/firewalls.
 Once attackers are able to penetrate an application in a cluster, they can proceed to attack external services:
 legacy systems, external web services and databases. The attackers may want to steal the data of the application and to
 transfer it to their external servers. Attackers' malware may require access to attackers' servers to download
-updates. The attackers may use the pods in the service mesh to perform DOS attacks or to break into external systems.
+updates. The attackers may use pods in the cluster to perform DOS attacks or to break into external systems.
 Even though we cannot know all the possible types of the attacks, we want to reduce possibilities for the attacks, both
 for known and unknown ones.
 
