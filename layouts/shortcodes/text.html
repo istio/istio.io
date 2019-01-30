@@ -7,11 +7,12 @@
 {{- $syntax := "" -}}
 {{- $text := "" -}}
 {{- $output := "" -}}
+{{- $line0 := "" -}}
 
 {{- if .Get 0 -}}
     {{- $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" -}}
 
-    {{- $line0 := index $lines 0 -}}
+    {{- $line0 = index $lines 0 -}}
     {{- $indent := 0 -}}
     {{- if hasPrefix $line0 "                " -}}{{- $indent = 16 -}}
     {{- else if hasPrefix $line0 "            " -}}{{- $indent = 12 -}}
@@ -44,10 +45,8 @@
     {{- if not (hasPrefix $text "$") -}}
         {{- errorf "Text block specifies a bash syntax, but the first line of the block does not start with $ (%s)" .Position -}}
     {{- else -}}
-        {{- if hasPrefix (trim $text " ") "$ cat <<EOF " -}}
-            {{- $text = replace $text "$ cat" "cat" -}}
-        {{- else if (or (hasPrefix (trim $text " ") "$ kubectl apply -f - <<EOF") (hasPrefix (trim $text " ") "$ kubectl create -f - <<EOF")) -}}
-            {{- $text = replace $text "$ kubectl" "kubectl" -}}
+        {{- if findRE "<<EOF" $line0 -}}
+            {{- $text = substr $text 2 -}}
         {{- else -}}
             {{- $syntax = "command" -}}
             {{- if $output -}}
