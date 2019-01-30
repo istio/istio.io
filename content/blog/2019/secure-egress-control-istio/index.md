@@ -79,7 +79,7 @@ from sending fake information to the monitoring system, and from breaking the eg
 Let me explain each of the requirements. Requirement 1 states that only TLS traffic to the external services must be
 supported. The requirement is based on the observation that all the traffic that leaves the cluster must be encrypted,
 so either the applications will perform TLS origination or Istio must perform TLS origination
-for them. Note that in case an application performs TLS origination, Istio's proxies cannot see the original traffic,
+for them. Note that in case an application performs TLS origination, the Istio proxies cannot see the original traffic,
 only the encrypted one, so the proxies see TLS protocol only. For the proxies it does not matter if the original
 protocol is HTTP or MongoDB, all Istio proxies can see is TLS traffic.
 
