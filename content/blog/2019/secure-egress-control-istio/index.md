@@ -27,8 +27,8 @@ Once attackers are able to penetrate an application in a cluster, they can proce
 legacy systems, external web services and databases. The attackers may want to steal the data of the application and to
 transfer it to their external servers. Attackers' malware may require access to attackers' servers to download
 updates. The attackers may use pods in the cluster to perform DDOS attacks or to break into external systems.
-Even though we [cannot know](https://en.wikipedia.org/wiki/There_are_known_knowns) all the possible types of the attacks, we want to reduce possibilities for any attacks, both
-for known and unknown ones.
+Even though you [cannot know](https://en.wikipedia.org/wiki/There_are_known_knowns) all the possible types of the
+attacks, you want to reduce possibilities for any attacks, both for known and unknown ones.
 
 The attackers can be external, that is they can gain access to the application’s container from the outside, through a
 bug in the application. The attackers can also be internal, that is, for example, malicious DevOps people inside the
@@ -95,11 +95,11 @@ Requirement 3 states that the Istio operators must be able to define policies fo
 policies state which external services may be accessed by any pod in the cluster. The external services can be
 identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
 service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified can be
-accessed, all other egress traffic must be blocked. We want to prevent attackers to access malicious sites, for example
-for downloading updates/instructions for their malware, and we want to limit the number of external sites that the
-attackers can access. We want to allow access only to the external services that applications in the cluster need to
+accessed, all other egress traffic must be blocked. You want to prevent attackers to access malicious sites, for example
+for downloading updates/instructions for their malware, and you want to limit the number of external sites that the
+attackers can access. You want to allow access only to the external services that applications in the cluster need to
 access and to block access to all the other services, this way reducing the attack vector. While the external services
-can have their own security mechanisms, we want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to add multiple security mechanisms, one in our cluster, and other ones in the
+can have their own security mechanisms, You want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to add multiple security mechanisms, one in our cluster, and other ones in the
 external systems.
 
 Note that the requirement must identify external services by domain names, we call this property of the egress control
