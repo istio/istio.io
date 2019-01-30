@@ -26,7 +26,7 @@ A simple overview of an Istio service-mesh architecture always starts with descr
     caption="Istio Architecture"
     >}}
 
-It is important to understand that the sidecar injection into the application pods happens automatically, though manual injection is also possible. Traffic is directed from the application services to and from these sidecars without developers needing to worry about it. Once the applications are connected to the Istio service mesh, developers can start using and reaping the benefits of all that the service mesh has to offer, but how does the data plane plumbing happen and what is really required to make it work seamlessly? In this post we will deep-dive into the specifics of the sidecar injection models to gain a very clear understanding of how sidecar injection works.
+It is important to understand that the sidecar injection into the application pods happens automatically, though manual injection is also possible. Traffic is directed from the application services to and from these sidecars without developers needing to worry about it. Once the applications are connected to the Istio service mesh, developers can start using and reaping the benefits of all that the service mesh has to offer. However, how does the data plane plumbing happen and what is really required to make it work seamlessly? In this post, we will deep-dive into the specifics of the sidecar injection models to gain a very clear understanding of how sidecar injection works.
 
 ## Sidecar injection
 
@@ -118,13 +118,13 @@ $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.da
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
     {{< /text >}}
 
-- Modify the existing pod template (Example: demo-red.yaml in my case)
+- Modify the existing pod template, in my case, `demo-red.yaml`:
 
     {{< text bash >}}
 $ istioctl kube-inject --injectConfigFile inject-config.yaml --meshConfigFile mesh-config.yaml --filename demo-red.yaml --output demo-red-injected.yaml
     {{< /text >}}
 
-- Apply the demo-red-injected.yaml
+- Apply the `demo-red-injected.yaml`
 
     {{< text bash >}}
 $ kubectl apply -f demo-red-injected.yaml
