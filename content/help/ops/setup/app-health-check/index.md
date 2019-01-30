@@ -136,7 +136,7 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### Mutual TLS is enabled
 
-When Mutual TLS is enabled, we have two options to support HTTP probes: probe rewrites and separate ports.
+When mutual TLS is enabled, we have two options to support HTTP probes: probe rewrites and separate ports.
 
 #### Probe rewrite
 
@@ -144,7 +144,7 @@ This approach rewrites the application `PodSpec` liveness probe, such that the p
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-To use this approach, you need to install Istio with helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
+To use this approach, you need to install Istio with Helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 Note this is a global flag. **Turning it on means all Istio app deployment will be affected.**
 Please be aware of the risk.
 
@@ -158,7 +158,7 @@ $ kubectl apply -f $HOME/istio.yaml
 Re-deploy the liveness health check app.
 
 The above Helm configuration makes it so sidecar injection automatically rewrites the Kubernetes pod YAML,
-such that health check can work under mutual TLS. No need to update your app or Pod YAML by yourself.
+such that health checks can work under mutual TLS. No need to update your app or Pod YAML by yourself.
 
 {{< text bash >}}
 $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
