@@ -61,7 +61,7 @@ All the requirements are implemented in Istio 1.1.
 1. Define and enforce **policies per cluster**, e.g.:
 
    * all the applications in the cluster may access `service1.foo.com` (a specific host)
-   * all the applications in the cluster may access any host of the form `*.bar.com` (a wildcard domain)
+   * all the applications in the cluster may access any host of the form `*.bar.com` (a wildcarded domain)
 
      All unspecified access must be blocked.
 
