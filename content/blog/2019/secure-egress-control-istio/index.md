@@ -48,7 +48,7 @@ You want to specify policies to limit access similar to the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
 need to access external services should be allowed to access the external services they need.
 
-Let me present requirements for egress traffic control in the following section.
+Let me now turn to the requirements for egress traffic control we collected.
 
 ## Requirements for egress traffic control
 
