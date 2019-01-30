@@ -61,12 +61,12 @@ In this case, there is an extra layer of security between the sidecars and the g
 
 {{< image width="70%" ratio="60%"
     link="./case4_egressgw_mtls3.png"
-    caption="Enabling mTLS between sidecars and the egress gateway"
+    caption="Enabling mutual TLS between sidecars and the egress gateway"
     >}}
 
 ### Case 5: Egress gateway with SNI proxy
 
-This scenario ia used to evaluate the case where another proxy is required to access wildcarded domains. This may be required due current limitations of envoy. An nginx proxy was created as sidecar in the egress gateway pod.
+This scenario is used to evaluate the case where another proxy is required to access wildcarded domains. This may be required due current limitations of envoy. An nginx proxy was created as sidecar in the egress gateway pod.
 
 {{< image width="70%" ratio="60%"
     link="./case5_egressgw_sni_proxy3.png"
@@ -92,7 +92,7 @@ The chart below shows the throughput obtained for the different cases:
     caption="Throughput obtained for the different cases"
     >}}
 
-As we can see, there is no major impact in having sidecars and the egress gateway between the application and the external MongoDB, but enabling mTLS and then adding the SNI proxy caused a degradation in the throughput of about 10% and 24%, respectively.
+As you can see, there is no major impact in having sidecars and the egress gateway between the application and the external MongoDB, but enabling mutual TLS and then adding the SNI proxy caused a degradation in the throughput of about 10% and 24%, respectively.
 
 ### Response time
 
@@ -103,7 +103,7 @@ The average response times for the different requests were collected when traffi
     caption="Response times obtained for the different configurations"
     >}}
 
-Likewise, not much difference in the response times for the 3 first cases, but mTLS and the extra proxy adds noticeable latency.
+Likewise, not much difference in the response times for the 3 first cases, but mutual TLS and the extra proxy adds noticeable latency.
 
 ### CPU utilization
 
@@ -118,5 +118,5 @@ In terms of CPU consumption per transaction, Istio has used significantly more C
 
 ## Conclusion
 
-In this investigation, we tried different options to access an external TLS-enabled MongoDB to compare their performance. The introduction of the Egress Gateway did not have a significant impact on the performance nor meaningful additional CPU consumption. Only when enabling mTLS between sidecars and egress gateway or using an additional SNI proxy for wildcarded domains we could observe some degradation.
+In this investigation, we tried different options to access an external TLS-enabled MongoDB to compare their performance. The introduction of the Egress Gateway did not have a significant impact on the performance nor meaningful additional CPU consumption. Only when enabling mutual TLS between sidecars and egress gateway or using an additional SNI proxy for wildcarded domains we could observe some degradation.
 
