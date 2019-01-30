@@ -180,7 +180,7 @@ allowed for the egress gateway only. See
 You must also increase the security measures applied to Istio control plane and the
 egress gateway by running them on nodes separate from the application nodes, in a separate namespace, monitoring them
 more thoroughly, etc. After all, if the attackers are able to attack Istio Mixer or the egress gateway, they could
-break any policy.
+violate any policy.
 
 Once you directed egress traffic through an egress gateway and applied additional security mechanisms to the egress
 gateway, you can securely monitor the traffic and define security policies on it.
