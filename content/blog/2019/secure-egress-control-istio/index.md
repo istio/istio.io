@@ -151,14 +151,14 @@ The requirement 6 is satisfied as well: there is no need to change the code or t
 container environment. We can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic
 control, which is not DNS-aware.
 
-Another approach that predates Kubernetes network policies is a **DNS-aware egress proxy** or firewall. In this
-approach applications are configured to direct the traffic to the proxy and to use some proxy protocol, e.g.
+Another approach that predates Kubernetes network policies is a **DNS-aware egress proxy/firewall**. In this
+approach, applications are configured to direct the traffic to the proxy and to use some proxy protocol, e.g.
 [SOCKS](https://en.wikipedia.org/wiki/SOCKS).
-Since the applications must be configured, this solution is not transparent. Moreover, egress proxies are not Kubernetes
-aware, so the pod labels or pod namespace or pod service account are not known to the egress proxy. Such egress proxies
-cannot fulfill requirement 4, i.e. they cannot enforce policies by source if the source is specified by a Kubernetes
-artifact. The egress proxies can fulfill requirements 1, 2, 3 and 5, but not requirement 4 and 6. They are DNS-aware,
-but not transparent and not Kubernetes-aware.
+Since the applications must be configured, this solution is not transparent. Moreover, egress proxies are not
+Kubernetes-aware, since neither pod labels nor pod service account are known to the egress proxy. Such egress proxies
+cannot fulfill the requirement 4, that is they cannot enforce policies by source if the source is specified by a
+Kubernetes artifact. The egress proxies can fulfill the requirements 1, 2, 3 and 5, but not the requirement 4 and 6.
+They are DNS-aware, but not transparent and not Kubernetes-aware.
 
 Let me explain Istio Egress Traffic control next.
 
