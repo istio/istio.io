@@ -259,3 +259,12 @@ Let me summarize the features of Istio egress traffic control and of the alterna
 | Kubernetes-aware | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
 | Transparent | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
 | Istio-aware | {{< cancel_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
+
+## Summary
+
+I hope that now you are convinced that controlling egress traffic is very important for the security of your cluster.
+I also hope that I managed to convince you that Istio can be an effective tool for controlling egress traffic securely,
+and that Istio has multiple advantages over the alternative solutions. In my opinion, you can choose secure egress
+traffic control even as the first use case for applying Istio to your cluster. Istio will already be beneficial for you,
+even before you start using all other great features of Istio, such as traffic management, security, policies and
+telemetry, applied to the traffic between microservices inside the cluster.
