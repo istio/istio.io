@@ -14,7 +14,8 @@ prepared for that scenario), you want to reduce the damage as much as possible a
 cluster for further attacks on external services and legacy systems outside of the cluster. For that you need egress
 traffic control.
 
-Below I describe the Istio way for controlling egress traffic securely, and compare it with alternative solutions such as
+In this post I present the attacks that involve egress traffic, present requirements for egress traffic control,
+describe the Istio way for controlling egress traffic securely, and compare it with alternative solutions such as
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
 egress proxies/firewalls.
 
