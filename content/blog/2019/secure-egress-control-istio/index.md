@@ -213,7 +213,7 @@ to prevent such access since there is no way to distinguish, at least initially,
 compromised versions of the application A. However, you want to monitor any access to external services to be able to
 detect suspicious traffic, for example by applying anomaly detection tools on logs of the egress traffic.
 The attackers, on the contrary, want to access external services unmonitored, so the attack will not be detected.
-Additional goal of the attackers is to access `mongo1.composedb.com`, which is forbidden for the application A. Istio
+The second goal of the attackers is to access `mongo1.composedb.com`, which is forbidden for the application A. Istio
 must enforce the policy that forbids access of application A to `mongo1.composedb.com` and must prevent the attack.
 
 Now let's see which attacks the attackers will try to perform and how Istio secure egress traffic control will prevent
