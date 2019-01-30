@@ -219,7 +219,7 @@ http://localhost:8088/dotviz
 {{< /text >}}
 
 {{< image width="100%" ratio="53.33%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_servicegraph.png"
+    link="/docs/setup/kubernetes/quick-start-gke/dm_servicegraph.png"
     caption="ServiceGraph"
     >}}
 

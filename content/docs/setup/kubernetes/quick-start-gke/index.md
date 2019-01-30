@@ -36,8 +36,8 @@ Refer to the [Istio on GKE documentation](https://cloud.google.com/istio/docs/is
 
 Once the cluster is ready, acquire the credentials for this cluster.
 
-    {{< text bash >}}
-    $ gcloud container clusters get-credentials <your_cluster> --zone=<your_zone>
-    {{< /text >}}
+{{< text bash >}}
+$ gcloud container clusters get-credentials <your_cluster> --zone=<your_zone>
+{{< /text >}}
 
 You can now try out one of the Istio examples like [Bookinfo](/docs/examples/bookinfo/).
