@@ -219,8 +219,9 @@ must enforce the policy that forbids access of application A to `mongo1.composed
 Now let's see which attacks the attackers will try to perform and how Istio secure egress traffic control will prevent
 each kind of attack. The attackers may try to:
 
-1. **Bypass** Istio proxy and access external services directly. This attack is prevented by a Kubernetes Network Policy
-   or by an L3 firewall that allow egress traffic to exit the mesh only from the egress gateway.
+1. **Bypass** the container's sidecar proxy and access external services directly. This attack is prevented by a
+   Kubernetes Network Policy or by an L3 firewall that allow egress traffic to exit the mesh only from the egress
+   gateway.
 1. **Compromise** the egress gateway and force it to send fake information to the monitoring system or to disable
    enforcement the security policies.
    This attack is prevented by applying special security measures to the egress gateway pod.
