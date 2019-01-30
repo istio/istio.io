@@ -127,9 +127,9 @@ The requirement 5 states that even if the cluster is compromised and the attacke
 must not be able to cheat the monitoring or to violate policies of the egress control system. We say that such a
 system provides _secure_ egress traffic control.
 
-The requirement 6 states that the control should be provided without changing the application containers, in particular
-without changing the code of the applications and without changing the environment of the containers. We call such an
-egress traffic control system _transparent_.
+The requirement 6 states that the traffic control should be provided without changing the application containers, in
+particular without changing the code of the applications and without changing the environment of the containers.
+We call such an egress traffic control system _transparent_.
 
 In this blog post I show that can serve Istio as an example of an egress traffic control system that satisfies all the
 requirements, in particular it is transparent, DNS-aware, and Kubernetes-aware.
