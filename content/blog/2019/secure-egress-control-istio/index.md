@@ -160,7 +160,7 @@ cannot fulfill the requirement 4, that is they cannot enforce policies by source
 Kubernetes artifact. The egress proxies can fulfill the requirements 1, 2, 3 and 5, but not the requirement 4 and 6.
 They are DNS-aware, but not transparent and not Kubernetes-aware.
 
-Let me explain Istio Egress Traffic control next.
+Let me explain Istio egress traffic control next.
 
 ## Egress traffic control by Istio
 
