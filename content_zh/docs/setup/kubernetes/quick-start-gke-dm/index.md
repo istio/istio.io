@@ -55,7 +55,7 @@ caption="GKE-IAM Role"
 1.  点击 **Deploy**:
 
     {{< image width="100%" ratio="67.17%"
-    link="/docs/setup/kubernetes/quick-start-gke-dm/dm_launcher.png"
+    link="/docs/setup/kubernetes/quick-start-gke/dm_launcher.png"
     caption="GKE-Istio Launcher"
     >}}
 
