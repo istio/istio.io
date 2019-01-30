@@ -99,7 +99,6 @@ Initializers
 Istio
 IstioMesh
 Istiofied
-Jmeter
 JSON-formatted
 JWT
 JWTs
@@ -150,7 +149,6 @@ Reviewer2
 SNI
 SREs
 Secura
-ServiceEntry
 ServiceGraph
 Servicegraph
 Sharding
@@ -237,7 +235,6 @@ devops
 docker.io
 e.g.
 eBPF
-egress-gw
 enablement
 endUser-to-Service
 env
@@ -286,7 +283,6 @@ int64
 intermediation
 interoperate
 intra-cluster
-ip
 ip_address
 iptables
 istio
@@ -551,4 +547,3 @@ MB
 CPU
 CPUs
 add-ons
-1.10.5_1517
