@@ -9,4 +9,6 @@ aliases:
 icon: kubernetes
 ---
 
-{{< info_icon >}} Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
+{{< tip >}}
+Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
+{{< /tip >}}

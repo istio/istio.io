@@ -13,9 +13,12 @@ and then compose them into a multicluster mesh using a
 ## Create the IBM Cloud Private Clusters
 
 1.  [Install two IBM Cloud Private clusters](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
-    {{< warning_icon >}} Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
+
+    {{< warning >}}
+    Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
     across the multicluster environment and may not overlap. This can be configured by `network_cidr` and
     `service_cluster_ip_range` in `cluster/config.yaml`.
+    {{< /warning >}}
 
     {{< text plain >}}
     ## Network in IPv4 CIDR format

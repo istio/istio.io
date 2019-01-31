@@ -140,7 +140,9 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-> This example is borrowed from [Kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
+{{< tip >}}
+This example is borrowed from [Kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
+{{< /tip >}}
 
 ### Create an HTTPS service with Istio sidecar with mutual TLS enabled
 

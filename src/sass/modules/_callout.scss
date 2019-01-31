@@ -1,0 +1,38 @@
+.callout.tip {
+    background-color: $tipCalloutBackgroundColor;
+}
+
+.callout.idea {
+    background-color: $ideaCalloutBackgroundColor;
+}
+
+.callout.warning {
+    background-color: $warningCalloutBackgroundColor;
+}
+
+.callout {
+    display: table;
+    padding: .5em .5em .5em 0;
+    border-radius: 4px 4px 4px 4px;
+
+    margin: 1em 1em 1em 2em;
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
+    .type {
+        position: relative;
+        display: table-cell;
+        width: 3em;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        min-height: 100%;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .content {
+        display: table-cell;
+        min-height: 100%;
+    }
+}

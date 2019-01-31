@@ -38,7 +38,9 @@ The creation of custom ingress gateway could be used in order to have different 
 
 1. To create the cluster's issuer, apply the following configuration:
 
-    {{< info_icon >}} Change the cluster's [issuer](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html#issuers) provider with your own configuration values. The example uses the values under `route53`.
+    {{< tip >}}
+    Change the cluster's [issuer](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html#issuers) provider with your own configuration values. The example uses the values under `route53`.
+    {{< /tip >}}
 
     {{< text yaml >}}
     apiVersion: certmanager.k8s.io/v1alpha1
@@ -129,11 +131,15 @@ The creation of custom ingress gateway could be used in order to have different 
 
 1. Apply your deployment with declaration provided in the [yaml definition](/blog/2019/custom-ingress-gateway/deployment-custom-ingress.yaml)
 
-    {{< info_icon >}} The annotations used, for example `aws-load-balancer-type`, only apply for AWS.
+    {{< tip >}}
+    The annotations used, for example `aws-load-balancer-type`, only apply for AWS.
+    {{< /tip >}}
 
 1. Create your service:
 
-    {{< warning_icon >}} The `NodePort` used needs to be an available port.
+    {{< warning >}}
+    The `NodePort` used needs to be an available port.
+    {{< /warning >}}
 
     {{< text yaml >}}
     apiVersion: v1

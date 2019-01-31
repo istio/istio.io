@@ -63,13 +63,15 @@ running in a second cluster.
     This command sets the value to the gateway's public IP, but note that you can set it to
     a DNS name instead, if you have one.
 
-    > If `cluster2` is running in an environment that does not
-    > support external load balancers, you will need to use a nodePort to access the gateway.
-    > Instructions for obtaining the IP to use can be found in the
-    > [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
-    > guide. You will also need to change the service entry endpoint port in the following step from 15443
-    > to its corresponding nodePort
-    > (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
+    {{< tip >}}
+    If `cluster2` is running in an environment that does not
+    support external load balancers, you will need to use a nodePort to access the gateway.
+    Instructions for obtaining the IP to use can be found in the
+    [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
+    guide. You will also need to change the service entry endpoint port in the following step from 15443
+    to its corresponding nodePort
+    (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
+    {{< /tip >}}
 
 1. Create a service entry for the `httpbin` service in `cluster1`.
 
@@ -81,7 +83,9 @@ running in a second cluster.
     For DNS resolution for services under the `*.global` domain, you need to assign these
     services an IP address.
 
-    > Each service (in the `.global` DNS domain) must have a unique IP within the cluster.
+    {{< tip >}}
+    Each service (in the `.global` DNS domain) must have a unique IP within the cluster.
+    {{< /tip >}}
 
     If the global services have actual VIPs, you can use those, but otherwise we suggest
     using IPs from the loopback range `127.0.0.0/8` that are not already allocated.
@@ -135,7 +139,9 @@ running in a second cluster.
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in `cluster2`).
 
-    > Do not create a `Gateway` configuration for port 15443.
+    {{< warning >}}
+    Do not create a `Gateway` configuration for port 15443.
+    {{< /warning >}}
 
 1. Verify that `httpbin` is accessible from the `sleep` service.
 
@@ -150,7 +156,9 @@ If you want to route traffic from `cluster1` via a dedicated
 egress gateway, instead of directly from the sidecars,
 use the following service entry for `httpbin.bar` instead of the one in the previous section.
 
-> The egress gateway used in this configuration cannot also be used for other, non inter-cluster, egress traffic.
+{{< tip >}}
+The egress gateway used in this configuration cannot also be used for other, non inter-cluster, egress traffic.
+{{< /tip >}}
 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
