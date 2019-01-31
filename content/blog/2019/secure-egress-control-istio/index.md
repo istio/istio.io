@@ -238,30 +238,33 @@ Kubernetes Network Policies and legacy egress proxies/firewalls.
 ### Advantages of Istio egress traffic control
 
 Istio egress traffic control is **DNS-aware**: you can define policies based on URLs or on wildcard domains like
-`*.ibm.com`. In this sense, it is superior to Kubernetes network policies which are not DNS-aware.
+`*.ibm.com`. In this sense, it is better than Kubernetes Network Policies which are not DNS-aware.
 
-Istio egress traffic control is **transparent** for TLS traffic, as Istio as a whole: you do not need to change the
-applications or to configure their containers. For HTTP traffic with TLS origination, the DevOps people must
-configure the applications to use HTTP when deploying Istio.
+Istio egress traffic control is **transparent** with regard to TLS traffic, since Istio is transparent:
+you do not need to change the applications or to configure their containers.
+For HTTP traffic with TLS origination, DevOps people must configure the applications to use HTTP instead of HTTPS
+when the applications run with Istio sidecars injected.
 
 Istio egress traffic control is **Kubernetes-aware**: the identity of the source of egress traffic is based on
-Kubernetes service accounts. Istio egress traffic control is superior to legacy DNS-aware proxies/firewalls which
+Kubernetes service accounts. Istio egress traffic control is better than the legacy DNS-aware proxies/firewalls which
 are not transparent and not Kubernetes-aware.
 
-Istio egress traffic control is **secure**: it is based on the strong identity of Istio and when the cluster operators
-provide additional security measures, it is tampering-proof.
+Istio egress traffic control is **secure**: it is based on the strong identity of Istio and, when the cluster operators
+provide
+[additional security measures](/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations),
+it is tampering-proof.
 
 On top of these beneficial features, Istio egress traffic control provides additional advantages:
 
 *  It allows defining access policies in the same language for ingress/egress/in-cluster traffic. The cluster operators
-   need to learn a single policy and configuration language for all the traffic.
+   need to learn a single policy and configuration language for all the kinds of traffic.
 *  Istio egress traffic control is integrated with Istio policy and telemetry adapters and can work out-of-the-box.
-*  When external monitoring/access control systems are using with Istio, the adapters for them must be written only
-   once, and then used for all kinds of the traffic, including egress traffic.
+*  When you use external monitoring/access control systems with Istio, you must write the adapters for them only once,
+   and then apply the adapters for all the kinds of traffic: ingress/egress/in-cluster.
 *  The Istio operators can apply Istio traffic management features to egress traffic, such as
    load balancing, passive and active health checking, circuit breaker, timeouts, retries, fault injection, and others.
 
-We call a system with the advantages above as **Istio-aware**.
+We call a system that has the advantages above **Istio-aware**.
 
 Let me summarize the features of Istio egress traffic control and of the alternative solutions in the following table:
 
