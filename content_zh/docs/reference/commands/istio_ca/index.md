@@ -40,7 +40,7 @@ $ istio_ca [flags]
 | `--log_stacktrace_level <string>` | 捕获堆栈追踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\]之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--max-workload-cert-ttl <duration>` | 已发布工作负载证书的最大 TTL（默认为 `2160h0m0s`） |
-| `--monitoring-port <int>` | 用于监控 Citadel 的端口号。如果未指定，Citadel 将禁用监控。（ 默认 `9093`） |
+| `--monitoring-port <int>` | 用于监控 Citadel 的端口号。如果未指定，Citadel 将禁用监控。（ 默认 `10514`） |
 | `--org <string>` | 证书组织（ 默认 `''`） |
 | `--probe-check-interval <duration>` | 检查 CA 的活跃性的间隔。（ 默认 `30s`） |
 | `--requested-ca-cert-ttl <duration>` | 请求的工作负载 TTL（默认为 `8760h0m0s`） |

@@ -56,7 +56,7 @@ Istio Pilot 在 Istio 服务网格中提供了更全面的流量管理能力。
 `--log_target <stringArray>` | | 设置日志输出路径集合。可以是任何路径，也可以是特殊值 `stdout` 和 `stderr` (默认 `[stdout]`)
 `--mcpServerAddrs <stringSlice>` | | 以逗号分割的 Mesh 配置协议服务器地址列表（默认 `[]`）
 `--meshConfig <string>` | |Istio mesh 配置的文件名。如果为指定，使用默认的 mesh。（默认 `/etc/istio/config/mesh`）
-`--monitoringAddr <string>` | | 用于暴露 pilot 自我监控信息的 HTTP 地址（默认 `:9093`）
+`--monitoringAddr <string>` | | 用于暴露 pilot 自我监控信息的 HTTP 地址（默认 `:10514`）
 `--namespace <string>` | -n | 选择控制器驻留的命名空间。如果未设置，则使用 `${POD_NAMESPACE}` 环境变量（默认 `''`）
 `--plugins <stringSlice>` | | 启用由逗号分隔的网络插件列表（默认 `[authn,authz,health,mixer,envoyfilter]`）
 `--profile` | | 通过 web 接口实现配置文件 host:port/debug/pprof
