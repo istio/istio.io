@@ -25,6 +25,12 @@ This example describes how use an ingress gateway as a front proxy to services o
         istio: ingressgateway # use istio default ingress gateway
       servers:
       - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - "*"
+      - port:
           number: 443
           name: https
           protocol: HTTPS
@@ -48,6 +54,16 @@ This example describes how use an ingress gateway as a front proxy to services o
       - "*"
       gateways:
       - front-proxy
+      http:
+      - match:
+        - port: 80
+          uri:
+            prefix: /status
+        route:
+        - destination:
+            host: httpbin.org
+            port:
+              number: 80
       tls:
       - match:
         - port: 443
@@ -61,10 +77,24 @@ This example describes how use an ingress gateway as a front proxy to services o
     EOF
     {{< /text >}}
 
-1.  Create a Service Entry for `www.google.com`:
+1.  Create service entries for `httpbin.org` and `www.google.com`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: httpbin-ext
+    spec:
+      hosts:
+      - httpbin.org
+      ports:
+      - number: 80
+        name: http
+        protocol: HTTP
+      resolution: DNS
+      location: MESH_EXTERNAL
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -85,6 +115,47 @@ This example describes how use an ingress gateway as a front proxy to services o
     [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
     to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
+1.  Access `httbin.org/status/418` through your ingress:
+
+    {{< text bash >}}
+    $ curl $INGRESS_HOST:$INGRESS_PORT/status/418 -Hhost:httpbin.org
+
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+    {{< /text >}}
+
+1.  Check the logs of the `istio-ingressgateway` pods. If the gateway is deployed in the `istio-system` namespace,
+    the command to print the log is:
+
+    {{< text bash >}}
+    $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'httpbin.org'
+    {{< /text >}}
+
+    You should see a line similar to the following:
+
+    {{< text plain >}}
+    [2019-01-31T14:40:18.645Z] "GET /status/418 HTTP/1.1" 418 - 0 135 187 186 "10.127.220.75" "curl/7.54.0" "28255618-6ca5-9d91-9634-c562694a3625" "httpbin.org" "34.232.181.106:80" outbound|80||httpbin.org - 172.30.230.33:80 10.127.220.75:52077 -
+    {{< /text >}}
+
+1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
+    {{< /text >}}
+
+    You should see a line similar to the following:
+
+    {{< text plain >}}
+    {"level":"info","time":"2019-01-31T14:40:18.645864Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"unknown","destinationApp":"","destinationIp":"Iui1ag==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"httpbin.org","destinationWorkload":"unknown","grpcMessage":"","grpcStatus":"","httpAuthority":"httpbin.org","latency":"187.003904ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":327,"referer":"","reporter":"source","requestId":"28255618-6ca5-9d91-9634-c562694a3625","requestSize":0,"requestedServerName":"","responseCode":418,"responseSize":135,"responseTimestamp":"2019-01-31T14:40:18.832770Z","sentBytes":365,"sourceApp":"istio-ingressgateway","sourceIp":"AAAAAAAAAAAAAP//rB7mIQ==","sourceName":"istio-ingressgateway-899f57d65-svpnt","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway","sourcePrincipal":"","sourceWorkload":"istio-ingressgateway","url":"/status/418","userAgent":"curl/7.54.0","xForwardedFor":"10.127.220.75"}
+    {{< /text >}}
+
 1.  Access the www.google.com through your ingress:
 
     {{< text bash >}}
@@ -92,10 +163,11 @@ This example describes how use an ingress gateway as a front proxy to services o
     <title>Google</title>
     {{< /text >}}
 
-1.  Check the logs of the `istio-ingressgateway` pods. If the gateway is deployed in the `istio-system` namespace, the command to print the log is:
+1.  Check the logs of the `istio-ingressgateway` pods. If the gateway is deployed in the `istio-system` namespace,
+    the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | tail
+    $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'www.google.com'
     {{< /text >}}
 
     You should see a line similar to the following:
@@ -118,10 +190,10 @@ This example describes how use an ingress gateway as a front proxy to services o
 
 ## Cleanup
 
-Remove the gateway, the virtual service and the service entry:
+Remove the gateway, the virtual service and the service entries:
 
 {{< text bash >}}
 $ kubectl delete gateway front-proxy
 $ kubectl delete virtualservice front-proxy
-$ kubectl delete serviceentry google
+$ kubectl delete serviceentry google httpbin-ext
 {{< /text >}}
