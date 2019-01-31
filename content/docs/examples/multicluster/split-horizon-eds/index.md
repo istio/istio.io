@@ -27,8 +27,10 @@ In addition to the prerequisites for installing Istio, the following is required
 
 * Two Kubernetes clusters (referred to as `local` and `remote`).
 
-    > {{< warning_icon >}} The Kubernetes API server of the `remote` cluster MUST be accessible from the `local` cluster
-    > in order to run this configuration.
+    {{< warning >}}
+    The Kubernetes API server of the `remote` cluster MUST be accessible from the `local` cluster
+    in order to run this configuration.
+    {{< /warning >}}
 
 * The `kubectl` command is used to access both the `local` and `remote` clusters with the `--context` flag.
   Use the following command to list your contexts:
@@ -188,7 +190,9 @@ This will be used to access the `local` pilot securely using the ingress gateway
     $ TOKEN=$(kubectl get --context=$CTX_REMOTE secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    > An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< idea >}}
+    An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< /idea >}}
 
 1. Create the `remote_kubecfg` file in the working directory:
 

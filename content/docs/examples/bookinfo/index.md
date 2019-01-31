@@ -62,7 +62,9 @@ To start the application, follow the instructions corresponding to your Istio ru
 
 ### If you are running on Kubernetes
 
-> If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+{{< tip >}}
+If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+{{< /tip >}}
 
 1. Change directory to the root of the Istio installation directory.
 
@@ -95,8 +97,10 @@ To start the application, follow the instructions corresponding to your Istio ru
     Either of the above commands launches all four microservices as illustrated in the above diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
 
-    > In a realistic deployment, new versions of a microservice are deployed
+    {{< tip >}}
+    In a realistic deployment, new versions of a microservice are deployed
     over time instead of deploying all versions simultaneously.
+    {{< /tip >}}
 
 1.  Confirm all services and pods are correctly defined and running:
 
@@ -180,7 +184,9 @@ is used for this purpose.
     $ docker ps -a
     {{< /text >}}
 
-    > If the Istio Pilot container terminates, re-run the command from the previous step.
+    {{< tip >}}
+    If the Istio Pilot container terminates, re-run the command from the previous step.
+    {{< /tip >}}
 
 1.  Set `GATEWAY_URL`:
 

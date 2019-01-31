@@ -42,9 +42,11 @@ key.pem
 root-cert.pem
 {{< /text >}}
 
-> `cert-chain.pem` is Envoy's cert that needs to be presented to the other side. `key.pem` is Envoy's private key
+{{< tip >}}
+`cert-chain.pem` is Envoy's cert that needs to be presented to the other side. `key.pem` is Envoy's private key
 paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
 In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
+{{< /tip >}}
 
 Use the `openssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
 
@@ -153,7 +155,9 @@ To perform this task, you want to by-pass client proxy. A simplest way to do so 
     command terminated with exit code 56
     {{< /text >}}
 
-    > Note that the exit code is 56. The code translates to a failure to receive network data.
+    {{< tip >}}
+    Note that the exit code is 56. The code translates to a failure to receive network data.
+    {{< /tip >}}
 
 1. Confirm TLS requests without client certificate also fail:
 
@@ -163,7 +167,9 @@ To perform this task, you want to by-pass client proxy. A simplest way to do so 
     command terminated with exit code 35
     {{< /text >}}
 
-    > This time, exit code is 35, which corresponds to a problem occurred somewhere in the SSL/TLS handshake.
+    {{< tip >}}
+    This time the exit code is 35, which corresponds to a problem occurring somewhere in the SSL/TLS handshake.
+    {{< /tip >}}
 
 1. Confirm TLS request with client certificate succeed:
 
@@ -172,11 +178,13 @@ To perform this task, you want to by-pass client proxy. A simplest way to do so 
     200
     {{< /text >}}
 
-> Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which
+{{< tip >}}
+Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which
 offers stronger security than service name (for more details, see [Istio identity](/docs/concepts/security/#istio-identity)). Thus, the certificates Istio uses do
 not have service names, which is the information that `curl` needs to verify server identity. To prevent the `curl` client from aborting, we use `curl`
 with the `-k` option. The option prevents the client from verifying and looking for the server name, for example, `httpbin.default.svc.cluster.local` in the
 certificate provided by the server.
+{{< /tip >}}
 
 ## Cleanup
 

@@ -185,7 +185,9 @@ discovery.
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    {{< info_icon >}} An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< tip >}}
+    An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< /tip >}}
 
 1.  Create a `kubeconfig` file in the working directory for the service account `istio-multi`:
 
