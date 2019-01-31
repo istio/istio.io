@@ -1,13 +1,16 @@
 ---
 title: Istio as a Front Proxy for External Services
-description: Describes how to configure ingress gateway for external services.
+description: Describes how to configure ingress gateway as a front proxy for external services.
 weight: 9
 keywords: [traffic-management,ingress,https,http]
 ---
 
-The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task and the [Ingress Gateway without TLS Termination](/docs/examples/advanced-gateways/ingress-sni-passthrough/) example describe how to configure an ingress gateway to expose services inside the mesh to external traffic. The services can be HTTP or HTTPS. In the the case of HTTPS, the gateway performs passthrough, without terminating TLS.
+The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task and the
+[Ingress Gateway without TLS Termination](/docs/examples/advanced-gateways/ingress-sni-passthrough/) example describe
+how to configure an ingress gateway to expose services inside the mesh to external traffic. The services can be HTTP or
+HTTPS. In the the case of HTTPS, the gateway passes the traffic through without terminating TLS.
 
-This example describes how use an ingress gateway as a front proxy to services outside of the mesh.
+This example describes how to use an ingress gateway as a front proxy to services outside of the mesh.
 
 ## Configure an ingress gateway
 
