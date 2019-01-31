@@ -24,11 +24,11 @@ Quick Start instructions to install and run Istio in [Google Kubernetes Engine](
 
 To set this up, navigate to the **IAM** section of the [Cloud Console](https://console.cloud.google.com/iam-admin/iam/project) as shown below and find your default GCE/GKE service account in the following form: `projectNumber-compute@developer.gserviceaccount.com`: by default it should just have the **Editor** role. Then in the **Roles** drop-down list for that account, find the **Kubernetes Engine** group and select the role **Kubernetes Engine Admin**. The **Roles** listing for your account will change to **Multiple**.
 
-{{< image link="./dm_gcp_iam.png" caption="GKE-IAM Service" >}}
+{{< image ratio="22.9%" link="./dm_gcp_iam.png" caption="GKE-IAM Service" >}}
 
 Then add the `Kubernetes Engine Admin` role:
 
-{{< image width="70%" link="./dm_gcp_iam_role.png" caption="GKE-IAM Role" >}}
+{{< image width="70%" ratio="65.1%" link="./dm_gcp_iam_role.png" caption="GKE-IAM Role" >}}
 
 ## Setup using Istio on GKE
 
