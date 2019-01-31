@@ -46,7 +46,9 @@ replaces the functionality provided by the `istio-init` container.
       --set istio_cni.enabled=true > $HOME/istio.yaml
     {{< /text >}}
 
-    > Refer to the full set of `istio-cni` Helm parameters in the chart's [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml).
+    {{< tip >}}
+    Refer to the full set of `istio-cni` Helm parameters in the chart's [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml).
+    {{< /tip >}}
 
 ### Example: excluding specific Kubernetes namespaces
 
@@ -175,4 +177,6 @@ When a pod is created or deleted, the container runtime invokes each plugin in t
 CNI plugin only performs actions to setup the application pod's traffic redirection to the injected Istio proxy
 sidecar (using `iptables` in the pod's network namespace).
 
-{{< warning_icon >}}  This _should_ have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI's have been validated.
+{{< warning >}}
+This _should_ have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI's have been validated.
+{{< /warning >}}

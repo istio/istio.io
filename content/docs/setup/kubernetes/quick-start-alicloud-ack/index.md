@@ -69,8 +69,10 @@ The following table explains the default configuration options shipped with the 
 
 The Parameters tab exposes the per-service options.
 
-{{< idea_icon >}} Before moving on, wait until Istio is fully deployed.
+{{< tip >}}
+Before moving on, wait until Istio is fully deployed.
 Deployment can take several minutes.
+{{< /tip >}}
 
 ## Uninstalling
 

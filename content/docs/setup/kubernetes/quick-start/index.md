@@ -5,7 +5,9 @@ weight: 55
 keywords: [kubernetes]
 ---
 
-{{< info_icon >}} Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
+{{< tip >}}
+Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
+{{< /tip >}}
 
 To install and configure Istio in a Kubernetes cluster, follow these instructions:
 
@@ -104,11 +106,13 @@ Follow our instructions on how to
     $ kubectl get svc -n istio-system
     {{< /text >}}
 
-    > If your cluster is running in an environment that does not
-    > support an external load balancer (e.g., minikube), the
-    > `EXTERNAL-IP` of `istio-ingress` and `istio-ingressgateway` will
-    > say `<pending>`. You will need to access it using the service's
-    > `NodePort`, or use port-forwarding instead.
+    {{< tip >}}
+    If your cluster is running in an environment that does not
+    support an external load balancer (e.g., minikube), the
+    `EXTERNAL-IP` of `istio-ingress` and `istio-ingressgateway` will
+    say `<pending>`. You will need to access it using the service's
+    `NodePort`, or use port-forwarding instead.
+    {{< /tip >}}
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
     `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
@@ -124,8 +128,10 @@ Follow our instructions on how to
 You can now deploy your own application or one of the sample applications
 provided with the installation like [Bookinfo](/docs/examples/bookinfo/).
 
-> {{< warning_icon >}} The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
-> traffic; HTTP/1.0 is not supported.
+{{< warning >}}
+The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
+traffic; HTTP/1.0 is not supported.
+{{< /warning >}}
 
 If you started the
 [Istio-sidecar-injector](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection),

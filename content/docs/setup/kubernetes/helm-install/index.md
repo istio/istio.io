@@ -42,7 +42,9 @@ The following commands have relative references in the Istio directory. You must
 
 1. Choose one of the following two **mutually exclusive** options described below.
 
-    > To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
+    {{< tip >}}
+    To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
+    {{< /tip >}}
 
 ### Option 1: Install with Helm via `helm template`
 
@@ -124,10 +126,12 @@ to manage the lifecycle of Istio.
 
 * For option 2, uninstall using Helm:
 
-    > Uninstalling this chart does not delete Istio's registered CRDs. Istio by design expects
-    > CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
-    > data in custom resources the Istio designers feel it is better to explicitly delete this
-    > configuration rather then unexpectedly lose it.
+    {{< tip >}}
+    Uninstalling this chart does not delete Istio's registered CRDs. Istio by design expects
+    CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
+    data in custom resources the Istio designers feel it is better to explicitly delete this
+    configuration rather then unexpectedly lose it.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ helm delete --purge istio
@@ -136,7 +140,9 @@ to manage the lifecycle of Istio.
 
 * If desired, run the following command to delete all CRDs:
 
-    > {{< warning_icon >}} Deleting CRDs will delete any configuration changes that you have made to Istio.
+    {{< warning >}}
+    Deleting CRDs will delete any configuration changes that you have made to Istio.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done

@@ -37,7 +37,9 @@ application.
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+    {{< tip >}}
+    `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+    {{< /tip >}}
 
 1.  Open the Prometheus UI.
 
