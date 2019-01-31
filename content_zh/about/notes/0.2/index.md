@@ -8,7 +8,7 @@ icon: notes
 
 - **更新了配置模型**。Istio 在Kubernetes中运行时，使用 Kubernetes [自定义资源](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)模型来描述和存储其配置,现在可以使用 `kubectl` 命令选择性地管理配置。
 
-- **多命名空间支持**。Istio 控制平面组件现在位于专用的 "istio-system" 命名空间中, Istio 可以管理其他非系统命名空间中的服务。
+- **多命名空间支持**。Istio 控制平面组件现在位于专用的 `istio-system` 命名空间中, Istio 可以管理其他非系统命名空间中的服务。
 
 - **网格扩展**。初始支持将非 Kubernetes 服务（以 VM 和/或物理机的形式）添加到网格中,这是此功能的早期版本，并且存在一些限制（例如需要跨容器和 VM 的扁平网络）。
 
@@ -68,7 +68,7 @@ icon: notes
 
 - **用户在访问应用程序时可能会获得定期404**:  我们注意到 Envoy 偶尔不会正确获取路由，因此 404 会返回给用户,我们正积极致力于[问题](https://github.com/istio/istio/issues/1038)。
 
-- **在Pilot实际准备就绪之前，Istio Ingress 或 Egress 报告已准备就绪**：您可以在 `istio-system` 命名空间中检查 istio-ingress 和 istio-egress pods 状态，并在所有 Istio pod 达到就绪状态后等待几秒钟,我们正积极致力于[问题](https://github.com/istio/istio/pull/1055)。
+- **在Pilot实际准备就绪之前，Istio Ingress 或 Egress 报告已准备就绪**：您可以在 `istio-system` 命名空间中检查 `istio-ingress` 和 `istio-egress` pods 状态，并在所有 Istio pod 达到就绪状态后等待几秒钟,我们正积极致力于[问题](https://github.com/istio/istio/pull/1055)。
 
 - **启用了 `Istio Auth` 的服务无法与没有 Istio 的服务通信**：此限制将在不久的将来删除。
 

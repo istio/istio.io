@@ -11,7 +11,7 @@ keywords: [kubernetes,vms]
 
 * 根据[安装指南](/zh/docs/setup/kubernetes/quick-start/)的步骤在 Kubernetes 上部署 Istio。
 * 待接入服务器必须能够通过 IP 接入网格中的服务端点。通常这需要 VPN 或者 VPC 的支持，或者容器网络为服务端点提供直接路由（非 NAT 或者防火墙屏蔽）。该服务器无需访问 Kubernetes 指派的集群 IP 地址。
-* Istio 控制平面服务（Pilot、Mixer、Citadel）以及 Kubernetes 的 DNS 服务器必须能够从虚拟机进行访问，通常会使用[内部负载均衡器](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)（也可以使用 NodePort）来满足这一要求，在虚拟机上运行 Istio 组件，或者使用自定义网络配置，相关的高级配置另有文档描述。
+* Istio 控制平面服务（Pilot、Mixer、Citadel）以及 Kubernetes 的 DNS 服务器必须能够从虚拟机进行访问，通常会使用[内部负载均衡器](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)（也可以使用 `NodePort`）来满足这一要求，在虚拟机上运行 Istio 组件，或者使用自定义网络配置，相关的高级配置另有文档描述。
 
 ## 安装步骤
 
@@ -117,7 +117,7 @@ $ @install/tools/setupMeshEx.sh@ machineSetup VM_NAME
     istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
     {{< /text >}}
 
-    用类似的方法检查 istio-ingress：
+    用类似的方法检查 `istio-ingress`：
 
     {{< text bash >}}
     $ host istio-ingress.istio-system.svc.cluster.local.
@@ -158,7 +158,7 @@ $ @install/tools/setupMeshEx.sh@ machineSetup VM_NAME
     $ @install/tools/setupMeshEx.sh@ machineCerts ACCOUNT NAMESPACE
     {{< /text >}}
 
-    生成的几个文件 (`key.pem`, `root-cert.pem`, `cert-chain.pem`) 必须复制到每台服务器的 `/etc/certs`，让 istio proxy 访问。
+    生成的几个文件 (`key.pem`, `root-cert.pem`, `cert-chain.pem`) 必须复制到每台服务器的 `/etc/certs`，让 `istio-proxy` 访问。
 
 * 安装 Istio Debian 文件，启动 `istio` 以及 `istio-auth-node-agent` 服务。从 [GitHub 发布页面](https://github.com/istio/istio/releases) 可以得到 Debian 文件，或者：
 

@@ -22,7 +22,7 @@ icon: notes
 
 - **Istio RBAC**：Mixer 有了一套基于角色的访问控制适配器。[参考资料](/zh/docs/concepts/security/#授权和鉴权)
 
-- **`Fluentd`**：Mixer 新增了使用 [fluentd](https://www.fluentd.org) 进行日志收集的功能。
+- **`Fluentd`**：Mixer 新增了使用 [Fluentd](https://www.fluentd.org) 进行日志收集的功能。
 
 - **`Stdio`**：该适配器可以将日志存储到主机的本地文件，并且支持日志的翻转和备份功能。
 

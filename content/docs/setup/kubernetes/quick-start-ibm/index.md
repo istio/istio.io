@@ -69,7 +69,8 @@ This guide installs the current release version of Istio.
 
 ### Deploy the Istio Helm chart
 
-1. If using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+1. If using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions via `kubectl apply`, and wait a few seconds for the CRDs to be committed
+to the Kubernetes API server:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
@@ -156,7 +157,7 @@ This guide installs the current release version of Istio.
 
 {{< image link="./istio-installation-1.png" caption="IBM Cloud Private - Istio Installation" >}}
 
-- Input the Helm release name (e.g. istio-1.0.3) and select `istio-system` as the target namespace.
+- Input the Helm release name (e.g. `istio-1.0.3`) and select `istio-system` as the target namespace.
 - Agree to the license terms.
 - (Optional) Customize the installation parameters by clicking `All parameters`.
 - Click the `Install` button.

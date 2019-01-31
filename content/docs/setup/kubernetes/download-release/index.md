@@ -20,7 +20,7 @@ services from all other namespaces.
     {{< /text >}}
 
 1.  Move to the Istio package directory. For example, if the package is
-    istio-{{< istio_full_version >}}:
+    `istio-{{< istio_full_version >}}`:
 
     {{< text bash >}}
     $ cd istio-{{< istio_full_version >}}
@@ -28,7 +28,7 @@ services from all other namespaces.
 
     The installation directory contains:
 
-    * Installation `.yaml` files for Kubernetes in `install/`
+    * Installation YAML files for Kubernetes in `install/`
     * Sample applications in `samples/`
     * The `istioctl` client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
