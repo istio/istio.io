@@ -22,7 +22,6 @@ import os
 
 from ruamel.yaml import YAML
 from __builtin__ import file
-from Carbon.Aliases import false
 
 #
 # Reads a documented Helm values.yaml file and produces a
@@ -35,6 +34,7 @@ YAML_CONFIG_DIR = "istio/install/kubernetes/helm/subcharts"
 ISTIO_CONFIG_DIR = "istio/install/kubernetes/helm/istio"
 VALUES_YAML = "values.yaml"
 ISTIO_IO_DIR = os.path.abspath(__file__ + "/../../")
+CONFIG_INDEX_DIR = "content/docs/reference/config/installation-options/index.md"
 
 def endOfTheList(context, lineNum, lastLineNum, totalNum):
     flag = 0
@@ -183,7 +183,7 @@ def process_helm_yaml(values_yaml, option):
             lineNum += 1
         return ret_val
 
-with open('index.md', 'r') as f:
+with open(os.path.join(ISTIO_IO_DIR, CONFIG_INDEX_DIR), 'r') as f:
     endReached = False
 
     data = f.read().split('\n')
