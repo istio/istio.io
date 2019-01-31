@@ -1,7 +1,7 @@
 ---
 title: Egress Gateway Performance Investigation
 description: Verifies the performance impact of adding an egress gateway.
-publishdate: 2018-12-12
+publishdate: 2019-01-31
 subtitle: An Istio Egress Gateway performance assessment
 attribution: Jose Nativio, IBM
 weight: 77
@@ -14,7 +14,7 @@ The application used for this investigation was the Java version of Acmeair, whi
 
 The diagram below illustrates how regression patrol currently runs with Acmeair and Istio:
 
-{{< image width="70%" ratio="60%"
+{{< image width="70%"
     link="./acmeair_regpatrol3.png"
     caption="Acmeair benchmark in the Istio performance regression patrol environment"
     >}}
@@ -32,7 +32,7 @@ In this case, the sidecar does not intercept the communication between the appli
         - -x
         - "169.47.232.211/32"
 
-{{< image width="70%" ratio="60%"
+{{< image width="70%"
     link="./case1_sidecar_bypass3.png"
     caption="Traffic to external MongoDB by-passing the sidecar"
     >}}
@@ -41,7 +41,7 @@ In this case, the sidecar does not intercept the communication between the appli
 
 This is the default configuration when the sidecar is injected into the application pod. All messages are intercepted by the sidecar and routed to the destination according to the configured rules, including the communication with external services. The MongoDB was defined as a `ServiceEntry`.
 
-{{< image width="70%" ratio="60%"
+{{< image width="70%"
     link="./case2_sidecar_passthru3.png"
     caption="Sidecar intercepting traffic to external MongoDB"
     >}}
@@ -50,7 +50,7 @@ This is the default configuration when the sidecar is injected into the applicat
 
 The egress gateway and corresponding destination rule and virtual service resources are defined for accessing MongoDB. All traffic to and from the external DB goes through the egress gateway (envoy).
 
-{{< image width="70%" ratio="60%"
+{{< image width="70%"
     link="./case3_egressgw3.png"
     caption="Introduction of the egress gateway to access MongoDB"
     >}}
@@ -59,7 +59,7 @@ The egress gateway and corresponding destination rule and virtual service resour
 
 In this case, there is an extra layer of security between the sidecars and the gateway, so some impact in performance is expected.
 
-{{< image width="70%" ratio="60%"
+{{< image width="70%"
     link="./case4_egressgw_mtls3.png"
     caption="Enabling mutual TLS between sidecars and the egress gateway"
     >}}
@@ -68,7 +68,7 @@ In this case, there is an extra layer of security between the sidecars and the g
 
 This scenario is used to evaluate the case where another proxy is required to access wildcarded domains. This may be required due current limitations of envoy. An nginx proxy was created as sidecar in the egress gateway pod.
 
-{{< image width="70%" ratio="60%"
+{{< image width="70%"
     link="./case5_egressgw_sni_proxy3.png"
     caption="Egress gateway with additional SNI Proxy"
     >}}
@@ -87,7 +87,7 @@ This scenario is used to evaluate the case where another proxy is required to ac
 
 The chart below shows the throughput obtained for the different cases:
 
-{{< image width="75%" ratio="60%"
+{{< image width="75%"
     link="./throughput3.png"
     caption="Throughput obtained for the different cases"
     >}}
@@ -98,7 +98,7 @@ As you can see, there is no major impact in having sidecars and the egress gatew
 
 The average response times for the different requests were collected when traffic was being driven with 20 clients. The chart below shows the average, median, 90%, 95% and 99% average values for each case:
 
-{{< image width="75%" ratio="60%"
+{{< image width="75%"
     link="./response_times3.png"
     caption="Response times obtained for the different configurations"
     >}}
@@ -109,7 +109,7 @@ Likewise, not much difference in the response times for the 3 first cases, but m
 
 The CPU usage was collected for all Istio components as well as for the sidecars during the runs. For a fair comparison, CPU used by Istio was normalized by the throughput obtained for a given run. The results are shown in the following graph:
 
-{{< image width="75%" ratio="60%"
+{{< image width="75%"
     link="./cpu_usage3.png"
     caption="CPU usage normalized by TPS"
     >}}
