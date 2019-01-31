@@ -44,7 +44,7 @@ Here is a copy of the end-to-end architecture of the application from the origin
 
 Perform the steps in the
 [Deploying the application](/docs/examples/bookinfo/#deploying-the-application),
-[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-running), and
+[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster), and
 [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)
 sections.
 
@@ -81,10 +81,7 @@ Access the web page of the application, after
 
 Oops... Instead of the book details you have the _Error fetching product details_ message displayed:
 
-{{< image width="80%" ratio="36.01%"
-    link="./errorFetchingBookDetails.png"
-    caption="The Error Fetching Product Details Message"
-    >}}
+{{< image width="80%" link="./errorFetchingBookDetails.png" caption="The Error Fetching Product Details Message" >}}
 
 The good news is that your application did not crash. With a good microservice design, you do not have **failure
 propagation**. In your case, the failing _details_ microservice does not cause the `productpage` microservice to fail.
@@ -142,10 +139,7 @@ EOF
 
 Now accessing the web page of the application displays the book details without error:
 
-{{< image width="80%" ratio="34.82%"
-    link="./externalBookDetails.png"
-    caption="Book Details Displayed Correctly"
-    >}}
+{{< image width="80%" link="./externalBookDetails.png" caption="Book Details Displayed Correctly" >}}
 
 You can query your service entries:
 
@@ -153,7 +147,6 @@ You can query your service entries:
 $ kubectl get serviceentries
 NAME         AGE
 googleapis   8m
-
 {{< /text >}}
 
 You can delete your service entry:

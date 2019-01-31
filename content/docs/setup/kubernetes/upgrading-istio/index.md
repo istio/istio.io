@@ -1,7 +1,7 @@
 ---
 title: Upgrading Istio
 description: Demonstrates how to upgrade the Istio control plane and data plane independently.
-weight: 70
+weight: 37
 keywords: [kubernetes,upgrading]
 ---
 
@@ -18,10 +18,10 @@ In the following steps, we assume that the Istio components are installed and up
 and change directory to the new release directory.
 
 1. Upgrade Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@ -n istio-system
+$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@
 {{< /text >}}
 
 ### Control plane upgrade

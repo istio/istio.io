@@ -69,8 +69,7 @@ In all these cases, the proxy is not different from any low-level plumbing layer
 
 To illustrate this with an example, consider the application shown below.  It consists of a Python app and a set of memcached servers behind it.  An upstream memcached server is selected based on connection time routing.  Speed is the primary concern here.
 
-{{< image width="75%" ratio="40%"
-    link="memcached.png"
+{{< image width="75%" link="memcached.png"
     alt="Proxyless datapath"
     caption="Latency-sensitive application scenario"
     >}}
@@ -89,7 +88,7 @@ Even though AppSwitch is not a proxy, it _does_ arbitrate connections between ap
 
 ### Zero-Cost Load Balancer, Firewall and Network Analyzer
 
-Typical implementations of network functions such as load balancers and firewalls require an intermediate layer that needs to tap into data/packet stream.  Kubernetes' implementation of load balancer (kube-proxy) for example introduces a probe into the packet stream through iptables and Istio implements the same at the proxy layer.  But if all that is required is to redirect or drop connections based on policy, it is not really necessary to stay in the datapath during the entire course of the connection.  AppSwitch can take care of that much more efficiently by simply manipulating the control path at the API level.  Given its intimate proximity to the application, AppSwitch also has easy access to various pieces of application level metrics such as dynamics of stack and heap usage, precisely when a service comes alive, attributes of active connections etc., all of which could potentially form a rich signal for monitoring and analytics.
+Typical implementations of network functions such as load balancers and firewalls require an intermediate layer that needs to tap into data/packet stream.  Kubernetes' implementation of load balancer (`kube-proxy`) for example introduces a probe into the packet stream through iptables and Istio implements the same at the proxy layer.  But if all that is required is to redirect or drop connections based on policy, it is not really necessary to stay in the datapath during the entire course of the connection.  AppSwitch can take care of that much more efficiently by simply manipulating the control path at the API level.  Given its intimate proximity to the application, AppSwitch also has easy access to various pieces of application level metrics such as dynamics of stack and heap usage, precisely when a service comes alive, attributes of active connections etc., all of which could potentially form a rich signal for monitoring and analytics.
 
 To go a step further, AppSwitch can also perform L7 load balancing and firewall functions based on the protocol data that it obtains from the socket buffers.  It can synthesize the protocol data and various other signals with the policy information acquired from Pilot to implement a highly efficient form of routing and access control enforcement.  It can essentially "influence" the application to connect to the right backend server without requiring any changes to the application or its configuration.  It is as if the application itself is infused with policy and traffic-management intelligence.  Except in this case, the application can't escape the influence.
 
@@ -115,7 +114,7 @@ Here are the sequence of steps that would achieve this in the context of the Pyt
 1. It passes one end of the socket pair into the application such that the application would use that socket FD for read/write.  It also ensures that the application consistently sees it as a legitimate TCP socket as it expects by interposing all calls that query connection properties.
 1. The other end is passed to sidecar over a different Unix socket where the daemon exposes its API.  Information such as the original destination that the application was connecting to is also conveyed over the same interface.
 
-{{< image width="50%" ratio="25%"
+{{< image width="50%"
     link="socket-delegation.png"
     alt="Socket delegation protocol"
     caption="Socket delegation based connection redirection"
@@ -195,13 +194,9 @@ Encrypted traffic completely undermines the ability of the service mesh to analy
 
 AppSwitch removes a number of layers and processing from the standard service mesh stack.  What does all that translate to in terms of performance?
 
-We ran some initial experiments to characterize the extent of the opportunity for optimization based on the initial integration of AppSwitch discussed earlier.  The experiments were run on GKE using fortio-0.11.0, istio-0.8.0 and appswitch-0.4.0-2.  In case of the proxyless test, AppSwitch daemon was run as a `DaemonSet` on the Kubernetes cluster and the Fortio pod spec was modified to inject AppSwitch client.  These were the only two changes made to the setup.  The test was configured to measure the latency of GRPC requests across 100 concurrent connections.
+We ran some initial experiments to characterize the extent of the opportunity for optimization based on the initial integration of AppSwitch discussed earlier.  The experiments were run on GKE using `fortio-0.11.0`, `istio-0.8.0` and `appswitch-0.4.0-2`.  In case of the proxyless test, AppSwitch daemon was run as a `DaemonSet` on the Kubernetes cluster and the Fortio pod spec was modified to inject AppSwitch client.  These were the only two changes made to the setup.  The test was configured to measure the latency of GRPC requests across 100 concurrent connections.
 
-{{< image width="100%" ratio="55%"
-    link="perf.png"
-    alt="Performance comparison"
-    caption="Latency with and without AppSwitch"
-    >}}
+{{< image link="perf.png" alt="Performance comparison" caption="Latency with and without AppSwitch" >}}
 
 Initial results indicate a difference of over 18x in p50 latency with and without AppSwitch (3.99ms vs 72.96ms).  The difference was around 8x when mixer and access logs were disabled.  Clearly the difference was due to sidestepping all those intermediate layers along the datapath.  Unix socket optimization wasn't triggered in case of AppSwitch because client and server pods were scheduled to separate hosts.  End-to-end latency of AppSwitch case would have been even lower if the client and server happened to be colocated.  Essentially the client and server running in their respective pods of the Kubernetes cluster are directly connected over a TCP socket going over the GKE network -- no tunneling, bridge or proxies.
 

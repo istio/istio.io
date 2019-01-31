@@ -2,7 +2,7 @@
 title: 组件内检
 description: 描述如何使用 ControlZ 检测查看单个组件的运行状态。
 weight: 20
-keywords: [ops, 运维]
+keywords: [ops]
 ---
 
 Istio 的组件使用了一种灵活的内检（Introspection）框架构建，因此可以方便地查看和调整正在运行中组件的内部状态。
@@ -16,10 +16,7 @@ Mixer、Pilot 和 Galley 都实现了 ControlZ 功能。这些组件启动时将
 
 下面是 ControlZ 界面的示例：
 
-{{< image width="80%" ratio="47.52%"
-    link="/help/ops/controlz/ctrlz.png"
-    caption="ControlZ 用户界面"
-    >}}
+{{< image width="80%" link="/help/ops/controlz/ctrlz.png" caption="ControlZ 用户界面" >}}
 
 当启动组件时，可以通过命令行参数 `--ctrlz_port` 和 `--ctrlz_address` 指定特定的地址和端口来控制 ControlZ 暴露的地址。
 

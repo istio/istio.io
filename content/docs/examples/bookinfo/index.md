@@ -28,10 +28,7 @@ There are 3 versions of the `reviews` microservice:
 
 The end-to-end architecture of the application is shown below.
 
-{{< image width="80%" ratio="68.52%"
-    link="./noistio.svg"
-    caption="Bookinfo Application without Istio"
-    >}}
+{{< image width="80%" link="./noistio.svg" caption="Bookinfo Application without Istio" >}}
 
 This application is polyglot, i.e., the microservices are written in different languages.
 It’s worth noting that these services have no dependencies on Istio, but make an interesting
@@ -51,10 +48,7 @@ Istio-enabled environment, with Envoy sidecars injected along side each service.
 The needed commands and configuration vary depending on the runtime environment
 although in all cases the resulting deployment will look like this:
 
-{{< image width="80%" ratio="59.08%"
-    link="./withistio.svg"
-    caption="Bookinfo Application"
-    >}}
+{{< image width="80%" link="./withistio.svg" caption="Bookinfo Application" >}}
 
 All of the microservices will be packaged with an Envoy sidecar that intercepts incoming
 and outgoing calls for the services, providing the hooks needed to externally control,
@@ -129,6 +123,14 @@ To start the application, follow the instructions corresponding to your Istio ru
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
     {{< /text >}}
 
+1.  To confirm that the Bookinfo application is running, send a request to it by a `curl` command from some pod, for
+    example from `ratings`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
+
 #### Determining the ingress IP and port
 
 Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
@@ -157,7 +159,7 @@ is used for this purpose.
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1.  Proceed to [Confirm the app is running](#confirm-the-app-is-running), below.
+1.  Proceed to [Confirm the app is running](#confirm-the-app-is-accessible-from-outside-the-cluster), below.
 
 ### If you are running on Docker with Consul
 
@@ -192,13 +194,13 @@ is used for this purpose.
     For example, replace `samples/bookinfo/networking/destination-rule-all.yaml` with
     `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `kubectl apply` command, below.
 
-## Confirm the app is running
+## Confirm the app is accessible from outside the cluster
 
-To confirm that the Bookinfo application is running, run the following `curl` command:
+To confirm that the Bookinfo application is accessible from outside the cluster, run the following `curl` command:
 
 {{< text bash >}}
-$ curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
-200
+$ curl http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+<title>Simple Bookstore App</title>
 {{< /text >}}
 
 You can also point your browser to `http://$GATEWAY_URL/productpage`

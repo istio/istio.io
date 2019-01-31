@@ -2,7 +2,7 @@
 title: 样式指南
 description: 编写 Istio 文档时候的“要”和“不要”。
 weight: 70
-keywords: [贡献]
+keywords: [contribute]
 ---
 
 本文为 Istio 文档提供内容指南。这是建议，不是规范，所以作者应自行做出最佳判断，也可以随时对本文以 PR 的形式提出变更建议。
@@ -143,7 +143,7 @@ keywords: [贡献]
 
 链接有好坏。**这里**或者**点击这里**都是坏链接的例子。建议阅读下面链接中的文章，其中讲述了如何更好的使用超链接的问题，在创建或审核内容时，尝试遵循其中的建议。
 
-[Why "click here” is a terrible link, and what to write instead](http://stephanieleary.com/2015/05/why-click-here-is-a-terrible-link-and-what-to-write-instead/).
+[Why "click here” is a terrible link, and what to write instead](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021).
 
 ### 避免使用“我们”
 

@@ -2,7 +2,7 @@
 title: 设置请求超时
 description: 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
 weight: 28
-keywords: [流量管理,超时]
+keywords: [traffic-management,timeouts]
 ---
 
 > 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
@@ -23,7 +23,7 @@ keywords: [流量管理,超时]
 
 ## 请求超时
 
-可以在[路由规则](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute)的 `timeout` 字段中来给 http 请求设置请求超时。缺省情况下，超时被设置为 15 秒钟，本文任务中，会把 `reviews` 服务的超时设置为一秒钟。为了能观察设置的效果，还需要在对 `ratings` 服务的调用中加入两秒钟的延迟。
+可以在[路由规则](/zh/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute)的 `timeout` 字段中来给 http 请求设置请求超时。缺省情况下，超时被设置为 15 秒钟，本文任务中，会把 `reviews` 服务的超时设置为一秒钟。为了能观察设置的效果，还需要在对 `ratings` 服务的调用中加入两秒钟的延迟。
 
 1. 到 `reviews:v2` 服务的路由定义：
 

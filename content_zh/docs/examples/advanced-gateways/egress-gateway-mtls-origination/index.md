@@ -8,7 +8,7 @@ keywords: [流量管理,egress]
 [配置出口网关](/zh/docs/examples/advanced-gateways/egress-gateway)示例描述了如何配置 Istio 以通过名为 _egress gateway_ 的专用服务引导出口流量。
 此示例展示如何配置出口网关以启用到外部服务的流量的双向 TLS。
 
-要模拟支持 mTLS 协议的实际外部服务，首先在 Kubernetes 集群中部署 [NGINX](https://www.nginx.com) 服务器，但在 Istio 服务网格之外运行，即在命名空间中运行没有启用 Istio 的代理注入 sidecar 。
+要模拟支持 mutual TLS 协议的实际外部服务，首先在 Kubernetes 集群中部署 [NGINX](https://www.nginx.com) 服务器，但在 Istio 服务网格之外运行，即在命名空间中运行没有启用 Istio 的代理注入 sidecar 。
 接下来，配置出口网关以与外部 NGINX 服务器执行双向 TLS。
 最后，通过出口网关将流量从网格内的应用程序 pod 引导到网格外的 NGINX 服务器。
 
@@ -490,7 +490,7 @@ keywords: [流量管理,egress]
 1.  检查 `istio-egressgateway` pod 的日志，看看与我们的请求相对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system | grep 'nginx.example.com' | grep HTTP
+    $ kubectl logs -l istio=egressgateway -n istio-system | grep 'nginx.example.com' | grep HTTP
     {{< /text >}}
 
     您应该看到与您的请求相关的行，类似于以下内容：

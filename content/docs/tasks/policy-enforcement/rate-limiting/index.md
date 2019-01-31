@@ -391,7 +391,7 @@ dimensions. In the example, the 0.2 qps override is selected by matching only
 three out of four quota dimensions.
 
 If you want the policies enforced for a given namespace instead of the entire
-Istio mesh, you can replace all occurrences of istio-system with the given
+Istio mesh, you can replace all occurrences of `istio-system` with the given
 namespace.
 
 ## Cleanup

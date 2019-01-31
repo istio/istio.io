@@ -2,7 +2,7 @@
 title: Gateway 连接
 description: 使用 Istio Gateway 跨越多个 Kubernetes 集群安装 Istio 网格以访问远程 pod。
 weight: 2
-keywords: [kubernetes,多集群,federation,gateway]
+keywords: [kubernetes,multicluster,federation,gateway]
 ---
 
 跨越多个集群安装 Istio 网格的说明，每个集群中的 pod 均只能访问远程 gateway IP。
@@ -12,24 +12,21 @@ keywords: [kubernetes,多集群,federation,gateway]
 为了实现跨集群部署单一 Istio 服务网格，需要在所有集群中复制共享的 service 和 namespace，并使用公共的 root CA。
 跨集群通信发生在相应集群的 Istio Gateway 上。
 
-{{< image width="80%" ratio="36.01%"
-    link="./multicluster-with-gateways.svg"
-    caption="Istio 网格使用 Istio Gateway 跨越多个 Kubernetes 集群访问远程 pod"
-    >}}
+{{< image width="80%" link="./multicluster-with-gateways.svg" caption="Istio 网格使用 Istio Gateway 跨越多个 Kubernetes 集群访问远程 pod" >}}
 
 ## 先决条件
 
 * 两个或以上安装 **1.10 或更新**版本的 Kubernetes 集群。
 
-* 在**每个** Kubernetes 集群上授权[使用 Helm 部署 Istio 控制平面](/docs/setup/kubernetes/helm-install/)。
+* 在**每个** Kubernetes 集群上授权[使用 Helm 部署 Istio 控制平面](/zh/docs/setup/kubernetes/helm-install/)。
 
-* 一个 **Root CA**。跨集群通信需要在 service 之间使用 mTLS 连接。为了启用跨集群 mTLS 通信，每个集群的 Citadel
+* 一个 **Root CA**。跨集群通信需要在 service 之间使用 mutual TLS 连接。为了启用跨集群 mutual TLS 通信，每个集群的 Citadel
  都将被配置使用共享 root CA 生成的中间 CA 凭证。出于演示目的，我们将使用 `samples/certs` 目录下的简单 root CA
   证书，该证书作为 Istio 安装的一部分提供。
 
 ## 在每个集群中部署 Istio 控制平面
 
-1. 从您的组织 root CA 生成每个集群 Citadel 使用的中间证书。使用共享的 root CA 启用跨越不同集群的 mTLS 通信。
+1. 从您的组织 root CA 生成每个集群 Citadel 使用的中间证书。使用共享的 root CA 启用跨越不同集群的 mutual TLS 通信。
    出于演示目的，我们将使用相同的简单 root 证书作为中间证书。
 
 1. 在每个集群中，使用类似如下的命令，为您生成的 CA 证书创建一个 Kubernetes secret：
@@ -52,7 +49,7 @@ keywords: [kubernetes,多集群,federation,gateway]
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
-更多细节和自定义选项请参考[使用 Helm 安装](/docs/setup/kubernetes/helm-install/)的说明。
+更多细节和自定义选项请参考[使用 Helm 安装](/zh/docs/setup/kubernetes/helm-install/)的说明。
 
 ## 配置 DNS
 
@@ -157,7 +154,7 @@ spec:
 为了验证设置，请尝试从 `cluster1` 上的任意 pod 访问 `bar.ns2.global` 或 `bar.ns2`。
 两个 DNS 名称都应该被解析到 127.255.0.2 这个在 service entry 配置中使用的地址。
 
-以上配置将使得 `cluster1` 中所有到 `bar.ns2.global` 和*任意端口*的流量通过 mTLS 连接路由到
+以上配置将使得 `cluster1` 中所有到 `bar.ns2.global` 和*任意端口*的流量通过 mutual TLS 连接路由到
  endpoint `<IPofCluster2IngressGateway>:15443`。
 
 端口 15443 的 gateway 是一个特殊的 SNI 感知 Envoy，它已经预先进行了配置，并作为前提条件中描述的 Istio

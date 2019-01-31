@@ -2,12 +2,12 @@
 title: 控制 Egress 流量
 description: 在 Istio 中配置从网格内访问外部服务的流量路由。
 weight: 40
-keywords: [流量管理,egress]
+keywords: [traffic-management,egress]
 ---
 
 缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外的 URL，而只能处理集群内部的目标。
 
-本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
+本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
 
 ## 开始之前
 
@@ -77,7 +77,7 @@ keywords: [流量管理,egress]
 ### 配置外部 HTTPS 服务
 
 1.  创建一个 `ServiceEntry` 以允许访问外部 HTTPS 服务。
-    对于 TLS 协议（包括 HTTPS），除了 `ServiceEntry` 之外，还需要 `VirtualService`。 没有 `VirtualService`, `ServiceEntry` 所暴露的服务将不被定义。 `VirtualService` 必须在 `match` 子句中包含 `tls` 规则和 `sni_hosts` 以启用 SNI 路由。
+    对于 TLS 协议（包括 HTTPS），除了 `ServiceEntry` 之外，还需要 `VirtualService`。 没有 `VirtualService`, `ServiceEntry` 所暴露的服务将不被定义。`VirtualService` 必须在 `match` 子句中包含 `tls` 规则和 `sni_hosts` 以启用 SNI 路由。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -218,7 +218,7 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
 
 #### IBM Cloud Kubernetes Service
 
-使用 `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.20.0.0/16\,10.10.10.0/24"`
+使用 `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
 #### Google Container Engine (GKE)
 

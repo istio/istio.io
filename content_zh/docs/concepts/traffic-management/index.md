@@ -2,7 +2,7 @@
 title: 流量管理
 description: 介绍 Istio 中关于流量路由与控制的各项功能。
 weight: 20
-keywords: [流量管理]
+keywords: [traffic-management]
 ---
 
 本页概述了 Istio 中流量管理的工作原理，包括流量管理原则的优点。本文假设你已经阅读了 [Istio 是什么？](/zh/docs/concepts/what-is-istio/)并熟悉 Istio 的顶层设计架构。有关单个流量管理功能的更多信息，您可以在本节其他指南中了解。
@@ -59,7 +59,7 @@ Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环
 
 Istio 还为同一服务版本的多个实例提供流量负载均衡。可以在[服务发现和负载均衡](/zh/docs/concepts/traffic-management/#服务发现和负载均衡)中找到更多信息。
 
-Istio 不提供 DNS。应用程序可以尝试使用底层平台（kube-dns、mesos-dns 等）中存在的 DNS 服务来解析 FQDN。
+Istio 不提供 DNS。应用程序可以尝试使用底层平台（`kube-dns`、`mesos-dns` 等）中存在的 DNS 服务来解析 FQDN。
 
 ### Ingress 和 Egress
 
@@ -75,7 +75,7 @@ Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理�
 
 Istio 负载均衡服务网格中实例之间的通信。
 
-Istio 假定存在服务注册表，以跟踪应用程序中服务的 pod/VM。它还假设服务的新实例自动注册到服务注册表，并且不健康的实例将被自动删除。诸如 Kubernetes、Mesos 等平台已经为基于容器的应用程序提供了这样的功能。为基于虚拟机的应用程序提供的解决方案就更多了。
+Istio 假定存在服务注册表，以追踪应用程序中服务的 pod/VM。它还假设服务的新实例自动注册到服务注册表，并且不健康的实例将被自动删除。诸如 Kubernetes、Mesos 等平台已经为基于容器的应用程序提供了这样的功能。为基于虚拟机的应用程序提供的解决方案就更多了。
 
 Pilot 使用来自服务注册的信息，并提供与平台无关的服务发现接口。网格中的 Envoy 实例执行服务发现，并相应地动态更新其负载均衡池。
 
@@ -83,7 +83,7 @@ Pilot 使用来自服务注册的信息，并提供与平台无关的服务发�
     link="/docs/concepts/traffic-management/LoadBalancing.svg"
     caption="发现与负载均衡">}}
 
-如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种[复杂的负载均衡算法](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing)，但 Istio 目前仅允许三种负载均衡模式：轮循、随机和带权重的最少请求。
+如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种[复杂的负载均衡算法](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing)，但 Istio 目前仅允许三种负载均衡模式：轮询、随机和带权重的最少请求。
 
 除了负载均衡外，Envoy 还会定期检查池中每个实例的运行状况。Envoy 遵循熔断器风格模式，根据健康检查 API 调用的失败率将实例分类为不健康和健康两种。换句话说，当给定实例的健康检查失败次数超过预定阈值时，将会被从负载均衡池中弹出。类似地，当通过的健康检查数超过预定阈值时，该实例将被添加回负载均衡池。您可以在[处理故障](#故障处理)中了解更多有关 Envoy 的故障处理功能。
 
@@ -145,13 +145,13 @@ Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、
 
 * [`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
 
-* [`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 是 `VirtualService` 路由生效后，配置应用与请求的策略集
+* [`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) 是 `VirtualService` 路由生效后，配置应用与请求的策略集。
 
 * [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 是通常用于在 Istio 服务网格之外启用对服务的请求。
 
 * [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#Gateway) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
 
-例如，将 `reviews` 服务 100％ 的传入流量发送到 `v1` 版本，这一需求可以用下面的规则来实现：
+例如，将 `reviews` 服务接收到的流量 100% 地发送到 `v1` 版本，这一需求可以用下面的规则来实现：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -168,9 +168,9 @@ spec:
         subset: v1
 {{< /text >}}
 
-这个配置的用意是，发送到 `reviews` 服务（在 `host` 字段中标识）的流量应该被路由到 `reviews` 服务实例的 `v1` 子集中。路由中的 `subset` 制定了一个预定义的子集名称，子集的定义来自于目标规则配置：
+这个配置的用意是，发送到 `reviews` 服务（在 `hosts` 字段中标识）的流量应该被路由到 `reviews` 服务实例的 `v1` 子集中。路由中的 `subset` 制定了一个预定义的子集名称，子集的定义来自于目标规则配置：
 
-子集指定了一个或多个特定版本的实例标签。例如，在 Kubernetes 中部署 Istio 时，"version: v1" 表示只有包含 "version: v1" 标签版本的 pods 才会接收流量。
+子集指定了一个或多个特定版本的实例标签。例如，在 Kubernetes 中部署 Istio 时，“version: v1” 表示只有包含 “version: v1” 标签版本的 pod 才会接收流量。
 
 在 `DestinationRule` 中，你可以添加其他策略，例如：下面的定义指定使用随机负载均衡模式：
 
@@ -195,15 +195,15 @@ spec:
 
 可以使用 `kubectl` 命令配置规则。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
-以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)
+以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)。
 
 ## Virtual Service
 
-是在 Istio 服务网格内对服务的请求如何进行路由控制？[`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 中就包含了这方面的定义。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的地、HTTP 路径和 Header 以及各个服务版本的权重等。
+[`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 定义了控制在 Istio 服务网格中如何路由服务请求的规则。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的地、HTTP 路径和 Header 以及各个服务版本的权重等。
 
 ### 规则的目标描述
 
-路由规则对应着一或多个用 `VirtualService` 配置指定的请求目的主机。这些主机可以是也可以不是实际的目标负载，甚至可以不是同一网格内可路由的服务。例如要给到 `reviews` 服务的请求定义路由规则，可以使用内部的名称 `reviews`，也可以用域名 `bookinfo.com`，`VirtualService` 可以定义这样的 `host` 字段：
+路由规则对应着一或多个用 `VirtualService` 配置指定的请求目的主机。这些主机可以是也可以不是实际的目标负载，甚至可以不是同一网格内可路由的服务。例如要给到 `reviews` 服务的请求定义路由规则，可以使用内部的名称 `reviews`，也可以用域名 `bookinfo.com`，`VirtualService` 可以定义这样的 `hosts` 字段：
 
 {{< text yaml >}}
 hosts:
@@ -211,7 +211,7 @@ hosts:
   - bookinfo.com
 {{< /text >}}
 
-`host` 字段用显示或者隐式的方式定义了一或多个完全限定名（FQDN）。上面的 `reviews`，会隐式的扩展成为特定的 FQDN，例如在 Kubernetes 环境中，全名会从 `VirtualService` 所在的集群和命名空间中继承而来（比如说 `reviews.default.svc.cluster.local`）。
+`hosts` 字段用显示或者隐式的方式定义了一或多个完全限定名（FQDN）。上面的 `reviews`，会隐式的扩展成为特定的 FQDN，例如在 Kubernetes 环境中，全名会从 `VirtualService` 所在的集群和命名空间中继承而来（比如说 `reviews.default.svc.cluster.local`）。
 
 ### 在服务之间分拆流量
 
@@ -671,7 +671,7 @@ spec:
 
 `ServiceEntry` 的配置不仅限于外部服务，它有两种类型：网格内部和网格外部。网格内的条目和其他的内部服务类似，用于显式的将服务加入网格。可以用来把服务作为服务网格扩展的一部分加入不受管理的基础设置（例如加入到基于 Kubernetes 的服务网格中的虚拟机）中。网格外的条目用于表达网格外的服务。对这种条目来说，双向 TLS 认证被禁用，策略实现需要在客户端执行，而不像内部服务请求那样在服务端执行。
 
-只要 `ServiceEntry` 涉及到了匹配 `host` 的服务，就可以和 `VirtualService` 以及 `DestinationRule` 配合工作。例如下面的规则可以和上面的 `ServiceEntry` 同时使用，在访问 `bar.foo.com` 的外部服务时，设置一个 10 秒钟的超时。
+只要 `ServiceEntry` 涉及到了匹配 `hosts` 的服务，就可以和 `VirtualService` 以及 `DestinationRule` 配合工作。例如下面的规则可以和上面的 `ServiceEntry` 同时使用，在访问 `bar.foo.com` 的外部服务时，设置一个 10 秒钟的超时。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -719,7 +719,7 @@ spec:
       privateKey: /tmp/tls.key
 {{< /text >}}
 
-要为 `Gateway` 配置对应的路由，必须为定义一个同样 `host` 定义的 `VirtualService`，其中用 `gateways` 字段来绑定到定义好的 `Gateway` 上：
+要为 `Gateway` 配置对应的路由，必须为定义一个同样 `hosts` 定义的 `VirtualService`，其中用 `gateways` 字段来绑定到定义好的 `Gateway` 上：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

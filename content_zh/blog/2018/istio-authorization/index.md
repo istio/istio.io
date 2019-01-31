@@ -5,7 +5,7 @@ publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
 weight: 87
-keywords: [授权,基于角色的访问控制,安全]
+keywords: [authorization,Role Based Access Control,security]
 ---
 
  Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域，并允许组织使用将工作负载彼此隔离并单独保护它们。

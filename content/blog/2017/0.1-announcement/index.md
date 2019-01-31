@@ -32,15 +32,9 @@ Google, IBM and Lyft joined forces to create Istio from a desire to provide a re
 
 **Fleet-wide Visibility**: Failures happen, and operators need tools to stay on top of the health of clusters and their graphs of microservices. Istio produces detailed monitoring data about application and network behaviors that is rendered using [Prometheus](https://prometheus.io/) & [Grafana](https://github.com/grafana/grafana), and can be easily extended to send metrics and logs to any collection, aggregation and querying system. Istio enables analysis of performance hotspots and diagnosis of distributed failure modes with [Zipkin](https://github.com/openzipkin/zipkin) tracing.
 
-{{< image width="100%" ratio="55.42%"
-    link="./istio_grafana_dashboard-new.png"
-    caption="Grafana Dashboard with Response Size"
-    >}}
+{{< image link="./istio_grafana_dashboard-new.png" caption="Grafana Dashboard with Response Size" >}}
 
-{{< image width="100%" ratio="29.91%"
-    link="./istio_zipkin_dashboard.png"
-    caption="Zipkin Dashboard"
-    >}}
+{{< image link="./istio_zipkin_dashboard.png" caption="Zipkin Dashboard" >}}
 
 **Resiliency and efficiency**: When developing microservices, operators need to assume that the network will be unreliable. Operators can use retries, load balancing, flow-control (HTTP/2), and circuit-breaking to compensate for some of the common failure modes due to an unreliable network. Istio provides a uniform approach to configuring these features, making it easier to operate a highly resilient service mesh.
 
@@ -77,8 +71,7 @@ To get involved, connect with us via any of these channels:
 
 * [istio.io]() for documentation and examples.
 
-* The [istio-users@googlegroups.com](https://groups.google.com/forum/#!forum/istio-users) mailing list for general discussions,
-or [istio-announce@googlegroups.com](https://groups.google.com/forum/#!forum/istio-announce) for key announcements regarding the project.
+* The [Istio discussion board](https://discuss.istio.io) general discussions,
 
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) for curated questions and answers
 

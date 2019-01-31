@@ -57,7 +57,7 @@ For example, run the following command on a macOS or Linux system:
     > {{< warning_icon >}} The Consul install only configures Istio Pilot. To use Istio Mixer (policy enforcement and telemetry reporting) or Istio Galley, further installation steps
     > will be necessary. Those steps are beyond the scope of this guide.
 
-1.  Confirm that all docker containers are running:
+1.  Confirm that all Docker containers are running:
 
     {{< text bash >}}
     $ docker ps -a
@@ -92,7 +92,7 @@ $ docker-compose -f <your-app-spec>.yaml up -d
 
 ## Uninstalling
 
-Uninstall Istio core components by removing the docker containers:
+Uninstall Istio core components by removing the Docker containers:
 
 {{< text bash >}}
 $ docker-compose -f install/consul/istio.yaml down

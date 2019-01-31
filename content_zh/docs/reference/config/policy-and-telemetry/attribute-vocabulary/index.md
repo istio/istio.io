@@ -39,7 +39,7 @@ weight: 10
 | `destination.service.uid`       | string | 目标服务特定于平台的唯一标识符。 | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name`      | string | 目标服务的名称。 | `istio-telemetry` |
 | `destination.service.namespace` | string | 目标服务的命名空间。 | `istio-system` |
-| `request.headers` | map[string, string] | HTTP 请求头，或者是 gRPC 的元数据。 | |
+| `request.headers` | map[string, string] | HTTP 请求头, key 使用小写，或者是 gRPC 的元数据。 | |
 | `request.id` | string | 从统计角度上拥有低碰撞概率的请求 ID。 | |
 | `request.path` | string | 包括 query string 的 HTTP URL 路径。 | |
 | `request.url_path` | string | 带有分离 query string 的 HTTP URL 路径部分。 | |
@@ -53,7 +53,7 @@ weight: 10
 | `request.total_size` | int64 | 以字节为单位的整个 HTTP 请求的大小，包括请求头、消息体和结束符。 | |
 | `request.time` | timestamp | 目标收到请求时的时间戳。相当于 Firebase 里的 "now"。 | |
 | `request.useragent` | string | HTTP 请求头中的 User-Agent 字段。 | |
-| `response.headers` | map[string, string] | HTTP 响应头。 | |
+| `response.headers` | map[string, string] | HTTP 响应头，key 使用小写。 | |
 | `response.size` | int64 | 以字节为单位的响应消息体大小。 | |
 | `response.total_size` | int64 | 以字节为单位的整个 HTTP 响应的大小，包括响应头和消息体。 | |
 | `response.time` | timestamp | 目标产生响应时的时间戳。 | |

@@ -72,7 +72,7 @@ my-nginx-jwwck                    1/1       Running   0          1h
 sleep-847544bbfc-d27jg            2/2       Running   0          18h
 {{< /text >}}
 
-Ssh into the istio-proxy container of sleep pod.
+Ssh into the `istio-proxy` container of sleep pod.
 
 {{< text bash >}}
 $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy /bin/bash
@@ -131,7 +131,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-If you run from istio-proxy container, it should work as well
+If you run from the `istio-proxy` container, it should work as well:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
@@ -144,7 +144,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 
 ### Create an HTTPS service with Istio sidecar with mutual TLS enabled
 
-You need to deploy Istio control plane with mutual TLS enabled. If you have istio
+You need to deploy Istio control plane with mutual TLS enabled. If you have the Istio
 control plane with mutual TLS disabled installed, please delete it. For example, if
 you followed the quick start:
 
@@ -152,7 +152,7 @@ you followed the quick start:
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-And wait for everything is down, i.e., there is no pod in control plane namespace (istio-system).
+And wait for everything to have been deleted, i.e., there is no pod in the control plane namespace (`istio-system`):
 
 {{< text bash >}}
 $ kubectl get pod -n istio-system
@@ -212,11 +212,11 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-The reason is that for the workflow "sleep -> sleep-proxy -> nginx-proxy -> nginx",
-the whole flow is L7 traffic, and there is a L4 mutual TLS encryption between sleep-proxy
-and nginx-proxy. In this case, everything works fine.
+The reason is that for the workflow "sleep -> `sleep-proxy` -> `nginx-proxy` -> nginx",
+the whole flow is L7 traffic, and there is a L4 mutual TLS encryption between `sleep-proxy`
+and `nginx-proxy`. In this case, everything works fine.
 
-However, if you run this command from istio-proxy container, it will not work.
+However, if you run this command from the `istio-proxy` container, it will not work:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k

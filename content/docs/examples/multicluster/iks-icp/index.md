@@ -1,18 +1,20 @@
 ---
 title: IBM Cloud Kubernetes Service & IBM Cloud Private
-description: Example multicluster between IBM Cloud Kubernetes Service & IBM Cloud Private.
+description: Multicluster mesh between IBM Cloud Kubernetes Service and IBM Cloud Private.
 weight: 75
 keywords: [kubernetes,multicluster,hybrid]
 ---
 
-This example demonstrates how to use Istio's multicluster feature to join 1
-[IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and 1 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster together,
-using the [VPN-based multicluster installation instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
+This example shows how to set up VPN connectivity between
+an [IBM Cloud Private](https://www.ibm.com/cloud/private) cluster and an
+[IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) cluster
+and then compose them into a multicluster mesh using a
+[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology).
 
 ## Set up two clusters
 
 1.  [Install One IBM Cloud Private cluster](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
-    __NOTE__: You can configure Pod CIDR ranges and service CIDR ranges by `network_cidr` and
+    You can configure Pod CIDR ranges and service CIDR ranges by `network_cidr` and
     `service_cluster_ip_range` in `cluster/config.yaml` for IBM Cloud Private.
 
     {{< text plain >}}
@@ -23,7 +25,7 @@ using the [VPN-based multicluster installation instructions](/docs/setup/kuberne
     {{< /text >}}
 
 1.  [Request One IBM Cloud Kubernetes Service cluster](https://console.bluemix.net/docs/containers/container_index.html).
-    __NOTE__: By default, when you have provisioned a IBM Cloud Kubernetes Service cluster, the CIDR is as below.
+    By default, when you have provisioned a IBM Cloud Kubernetes Service cluster, the CIDR is as below.
 
     {{< text plain >}}
     pod subnet CIDR: 172.30.0.0/16.
@@ -88,4 +90,4 @@ the local Istio control plane and Istio remote on IBM Cloud Private and IBM Clou
 
 This example uses IBM Cloud Private as the Istio local control plane and IBM Cloud Kubernetes Service as the Istio remote.
 
-Deploy Bookinfo example across clusters by following [these instructions](/docs/examples/multicluster/icp/)
+Deploy Bookinfo example across clusters by following [these instructions](/docs/examples/multicluster/icp/).

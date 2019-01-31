@@ -6,7 +6,7 @@ weight: 20
 
 Galley 配置验证确保用户授权的 Istio 配置在语法和语义上都是有效的。Galley 使用 Kubernetes `ValidatingWebhook`。 `istio-galley` `ValidationWebhookConfiguration` 有两个 webhook。
 
-* `pilot.validation.istio.io` - 服务地址路径为  `/admitpilot`，负责验证 Pilot 使用的配置（例如 VirtualService 、Authentication）。
+* `pilot.validation.istio.io` - 服务地址路径为  `/admitpilot`，负责验证 Pilot 使用的配置（例如 `VirtualService` 、Authentication）。
 
 * `mixer.validation.istio.io` - 服务地址路径为 `/admitmixer`，负责验证 Mixer 使用的配置。
 

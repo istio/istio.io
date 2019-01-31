@@ -30,7 +30,7 @@ icon: notes
 
 - **自发报告**：Mixer 和 Pilot 现在会生成遥测数据，并和网格中运行的其他服务一样，将遥测指标汇总到 Istio 的遥测管线之中。
 
-## 设置
+## 安装
 
 - **Istio 的按需安装**：Istio 具有丰富的功能，可能有用户并不需要使用所有功能，可以使用 Helm 或者 `istioctl gen-deploy` 工具，来满足按需安装的需要。例如用户可以只安装 Pilot 来对流量进行管理，而不去触及 Mixer 和 Citadel 方面的功能。
 
@@ -44,4 +44,4 @@ icon: notes
 
 - [Google Kubernetes Engine 1.10.2](https://github.com/istio/istio/issues/5723) 中，使用 Kubernetes 1.9 或者把节点切换为 Ubuntu 就会复现这一问题。该问题在 GKE 1.10.4 中有望得到更正。
 
-- `istioctl experimental convert-networking-config` 会引发一个命名相关的问题——目标命名空间可能被替换为 istio-system，因此在运行这一工具之后，需要手工调整命名空间。[参考资料](https://github.com/istio/istio/issues/5817)
+- `istioctl experimental convert-networking-config` 会引发一个命名相关的问题——目标命名空间可能被替换为 `istio-system`，因此在运行这一工具之后，需要手工调整命名空间。[参考资料](https://github.com/istio/istio/issues/5817)

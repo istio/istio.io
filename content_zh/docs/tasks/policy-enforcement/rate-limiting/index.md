@@ -2,7 +2,7 @@
 title: 启用速率限制
 description: 这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。
 weight: 10
-keywords: [策略,限额]
+keywords: [policies,quotas]
 ---
 
 这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。
@@ -31,7 +31,7 @@ keywords: [策略,限额]
 
 在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到访问 `productpage` 的用户。您将使用 `X-Forwarded-For` 请求 http header 作为客户端 IP 地址。您还将使用免除登录用户的条件速率限制。
 
-为方便起见，您可以配置 [memquota](/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，你需要 [`Redis`](http://redis.io/) ，然后配置 [`redisquota`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持 [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/)，因此，在两个适配器上启用速率限制的配置是相同的。
+为方便起见，您可以配置 [memquota](/zh/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，你需要 [`Redis`](http://redis.io/) ，然后配置 [`redisquota`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持 [quota template](/zh/docs/reference/config/policy-and-telemetry/templates/quota/)，因此，在两个适配器上启用速率限制的配置是相同的。
 
 1. 速率限制配置分为两部分。
     * 客户端
@@ -50,8 +50,8 @@ keywords: [策略,限额]
 
     或者
 
-    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
-[`redis_server_url`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params)包含配置值。
+    将以下 yaml 文件另存为 `redisquota.yaml` 。替换 [rate_limit_algorithm](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#quotaalgorithm)，
+[`redis_server_url`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#参数)包含配置值。
 
     {{< text yaml >}}
     apiVersion: "config.istio.io/v1alpha2"
@@ -61,6 +61,8 @@ keywords: [策略,限额]
       namespace: istio-system
     spec:
       quotas:
+        redisServiceUrl: <redis_server_url>
+        connectionPoolSize: 10
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -74,22 +76,17 @@ keywords: [策略,限额]
         - dimensions:
             destination: reviews
           maxAmount: 1
-          validDuration: 5s
         # The following override applies to 'productpage' when
         # the source is a specific ip address.
         - dimensions:
             destination: productpage
             source: "10.28.11.20"
           maxAmount: 500
-          validDuration: 1s
         # The following override applies to 'productpage' regardless
         # of the source.
         - dimensions:
             destination: productpage
           maxAmount: 2
-          validDuration: 5s
-        redisServerUrl: <redis_server_url>
-        connectionPoolSize: 10
     ---
     apiVersion: "config.istio.io/v1alpha2"
     kind: quota
@@ -215,7 +212,7 @@ keywords: [策略,限额]
 
     * 如果 `destination` 的值为 `reviews`是 那么最大请求配额为 `1`。
     * 如果 `destination` 的值为 `productpage` 并且来源是 `10.28.11.20` 那么最大请求配额为 `500`，
-    * 如果 `destination` 的值为 `productpage` 那么最大请求配额为`2`。
+    * 如果 `destination` 的值为 `productpage` 那么最大请求配额为 `2`。
 
     处理请求时，Istio 会选择第一条符合条件的 `overrides`（读取顺序为从上到下）应用到请求上。
 
@@ -235,7 +232,7 @@ keywords: [策略,限额]
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels [“app”]`，`destination.service.host`或`"unknown"`中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
+    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels["app"]`、`destination.service.host` 或 `"unknown"` 中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/zh/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
 
 1. 确认 `quota rule` 的创建情况：
 
@@ -342,14 +339,14 @@ spec:
 
 适配器配置中的 `maxAmount` 设置了关联到 Quota 实例中的所有计数器的缺省限制。如果所有 `overrides` 条目都无法匹配到一个请求，就只能使用 `maxAmount` 限制了。Memquota 会选择适合请求的第一条 `override`。`override` 条目无需定义所有 quota dimension， 例如例子中的 `0.2 qps` 条目在 4 条 quota dimensions 中只选用了三条。
 
-如果要把上面的策略应用到某个命名空间而非整个 Istio 网格，可以把所有 istio-system 替换成为给定的命名空间。
+如果要把上面的策略应用到某个命名空间而非整个 Istio 网格，可以把所有 `istio-system` 替换成为给定的命名空间。
 
 ## 清理
 
 1. 如果使用 `memquota` ，删除 `memquota` 速率限制相关的配置：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml@
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
     或者

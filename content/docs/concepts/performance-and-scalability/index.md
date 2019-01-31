@@ -39,8 +39,7 @@ The [`perfcheck.sh` script]({{< github_file >}}/bin/perfcheck.sh) can be used to
 
 {{< image width="80%" ratio="75%"
     link="https://raw.githubusercontent.com/istio/istio/master/tools/perf_setup.svg?sanitize=true"
-    alt="Performance scenarios diagram"
-    caption="Performance scenarios diagram"
+    caption="Performance scenarios"
     >}}
 
 The synthetic benchmark scenarios and the source code of the tests are described
@@ -56,7 +55,7 @@ Fortio is a fast, small, reusable, embeddable go library as well as a command li
 
 Fortio is also 100% open-source and with no external dependencies beside go and gRPC so you can reproduce all our results easily and add your own variants or scenarios you are interested in exploring.
 
-Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for istio-0.7.1 at 400 Query-Per-Second (qps) between 2 services inside the mesh (with mutual TLS, Mixer policy checks and telemetry collection):
+Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for `istio-0.7.1` at 400 Query-Per-Second (qps) between 2 services inside the mesh (with mutual TLS, Mixer policy checks and telemetry collection):
 
 <iframe src="https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json&xMax=105&yLog=true" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
 
@@ -88,14 +87,16 @@ Acmeair is composed by the following microservices:
 
 The diagram below represents the different pods/containers of the application in the Kubernetes/Istio environment:
 
-{{< image width="100%" ratio="80%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png" alt="Acmeair microservices overview"
+{{< image ratio="80%"
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png"
+    alt="Acmeair microservices overview"
     >}}
 
 The following table shows the transactions that are driven by the script during the regression test and the approximate distribution of the requests:
 
-{{< image width="100%" ratio="20%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png" alt="Acmeair request types and distribution"
+{{< image ratio="20%"
+    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png"
+    alt="Acmeair request types and distribution"
     >}}
 
 The Acmeair benchmark application can be found here: [IBM's BluePerf](https://github.com/blueperf).
@@ -116,7 +117,7 @@ This enables us to catch regression early and track improvements over time.
 
 * Setup [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
-* Split mixer check and report pods.
+* Split Mixer check and report pods.
 
 * High availability (HA).
 
@@ -128,7 +129,7 @@ Current recommendations (when using all Istio features):
 
 * 1 vCPU per peak thousand requests per second for the sidecar(s) with access logging (which is on by default) and 0.5 without, `fluentd` on the node is a big contributor to that cost as it captures and uploads logs.
 
-* Assuming typical cache hit ratio (>80%) for mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
+* Assuming typical cache hit ratio (>80%) for Mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
 
 * Latency cost/overhead is approximately [10 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we expect to bring this down to a low single digit ms.
 

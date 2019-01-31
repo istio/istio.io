@@ -46,7 +46,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.service.uid`       | string | Unique identifier of the destination service. | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name`      | string | Destination service name. | `istio-telemetry` |
 | `destination.service.namespace` | string | Destination service namespace. | `istio-system` |
-| `request.headers` | map[string, string] | HTTP request headers. For gRPC, its metadata will be here. | |
+| `request.headers` | map[string, string] | HTTP request headers with lowercase keys. For gRPC, its metadata will be here. | |
 | `request.id` | string | An ID for the request with statistically low probability of collision. | |
 | `request.path` | string | The HTTP URL path including query string | |
 | `request.url_path` | string | The path part of HTTP URL, with query string being stripped | |
@@ -60,7 +60,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `request.total_size` | int64 | Total size of HTTP request in bytes, including request headers, body and trailers. | |
 | `request.time` | timestamp | The timestamp when the destination receives the request. This should be equivalent to Firebase "now". | |
 | `request.useragent` | string | The HTTP User-Agent header. | |
-| `response.headers` | map[string, string] | HTTP response headers. | |
+| `response.headers` | map[string, string] | HTTP response headers with lowercase keys. | |
 | `response.size` | int64 | Size of the response body in bytes | |
 | `response.total_size` | int64 | Total size of HTTP response in bytes, including response headers and body. | |
 | `response.time` | timestamp | The timestamp when the destination produced the response. | |
