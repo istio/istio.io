@@ -22,7 +22,9 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
   Using [Helm](/docs/setup/kubernetes/helm-install/) with mutual TLS enabled.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+{{< tip >}}
+Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+{{< /tip >}}
 
 ## Plugging in the existing certificate and key
 

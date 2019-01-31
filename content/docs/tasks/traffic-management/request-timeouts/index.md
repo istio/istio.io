@@ -101,9 +101,11 @@ to the `ratings` service.
 
     You should now see that it returns in about 1 second, instead of 2, and the reviews are unavailable.
 
-    > The reason that the response takes 1 second, even though the timeout is configured at half a second, is
+    {{< tip >}}
+    The reason that the response takes 1 second, even though the timeout is configured at half a second, is
     because there is a hard-coded retry in the `productpage` service, so it calls the timing out `reviews` service
     twice before returning.
+    {{< /tip >}}
 
 ## Understanding what happened
 

@@ -39,11 +39,13 @@ $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 
 Alternatively, inject using local copies of the configuration.
 
-> The `istioctl kube-inject` operation may not be repeated on the output
-> from a previous `kube-inject`.  The `kube-inject` operation is not idempotent.
-> For upgrade purposes, if using manual injection, it is recommended to keep
-> the original non-injected `yaml` file so that the data plane sidecars may be
-> updated.
+{{< tip >}}
+The `istioctl kube-inject` operation may not be repeated on the output
+from a previous `kube-inject`.  The `kube-inject` operation is not idempotent.
+For upgrade purposes, if using manual injection, it is recommended to keep
+the original non-injected `yaml` file so that the data plane sidecars may be
+updated.
+{{< /tip >}}
 
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
@@ -165,7 +167,9 @@ is applied can be changed by editing the `MutatingWebhookConfiguration`
 with `kubectl edit mutatingwebhookconfiguration
 istio-sidecar-injector`.
 
-> {{< warning_icon >}} The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
+{{< warning >}}
+The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
+{{< /warning >}}
 
 The `istio-sidecar-injector` ConfigMap in the `istio-system` namespace has the default
 injection policy and sidecar injection template.
@@ -301,9 +305,11 @@ For completeness, you can also use a field called `alwaysInjectSelector`, with s
 
 The label selector approach gives a lot of flexibility on how to express those exceptions. Take a look at [these docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) to see what you can do with them!
 
+{{< tip >}}
 It's worth noting that annotations in the pods have higher precedence than the label selectors. If a pod is annotated with `sidecar.istio.io/inject: "true/false"` then it will be honored. So, the order of evaluation is:
 
-> `Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+`Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+{{< /tip >}}
 
 #### Uninstalling the automatic sidecar injector
 

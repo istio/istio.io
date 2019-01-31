@@ -32,8 +32,10 @@ This task shows how to control access to a service using simple denials, attribu
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
-    > If you are using a namespace other than `default`,
-    > use `kubectl -n namespace ...` to specify the namespace.
+    {{< tip >}}
+    If you are using a namespace other than `default`,
+    use `kubectl -n namespace ...` to specify the namespace.
+    {{< /tip >}}
 
 ## Simple _denials_
 

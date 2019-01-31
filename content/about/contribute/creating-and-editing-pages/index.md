@@ -175,10 +175,10 @@ You can embed some common icons in your content using:
 {{</* idea_icon */>}}
 {{</* checkmark_icon */>}}
 {{</* cancel_icon */>}}
-{{</* info_icon */>}}
+{{</* tip_icon */>}}
 {{< /text >}}
 
-which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< info_icon >}}.
+which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
 
 In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
 which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
@@ -459,6 +459,38 @@ will use when the user chooses to download the file. For example:
 
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
+
+## Callouts
+
+You can bring special attention to blocks of content by highlighting warnings, ideas, and tips:
+
+{{< text markdown >}}
+{{</* warning */>}}
+This is an important warning
+{{</* /warning */>}}
+
+{{</* idea */>}}
+This is a great idea
+{{</* /idea */>}}
+
+{{</* tip */>}}
+This is a useful tip from an expert
+{{</* /tip */>}}
+{{< /text >}}
+
+which looks like:
+
+{{< warning >}}
+This is an important warning
+{{< /warning >}}
+
+{{< idea >}}
+This is a great idea
+{{< /idea >}}
+
+{{< tip >}}
+This is a useful tip from an expert
+{{< /tip >}}
 
 ## Embedding boilerplate text
 
