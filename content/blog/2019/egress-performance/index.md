@@ -10,7 +10,7 @@ keywords: [performance,traffic-management,egress,mongo]
 
 The main objective of this investigation was to determine the impact on performance and resource utilization when an egress gateway is added in the service mesh to access an external service (MongoDB, in this case). The steps to configure an egress gateway for an external MongoDB are described in the blog [Consuming External MongoDB Services](/blog/2018/egress-mongo/).
 
-The application used for this investigation was the Java version of Acmeair, which simulates an airline reservation system. This application is used in the Performance Regression Patrol of Istio daily builds, but on that setup the microservices have been accessing the external MongoDB directly via their sidecars (istio-proxies), without an egress gateway.
+The application used for this investigation was the Java version of Acmeair, which simulates an airline reservation system. This application is used in the Performance Regression Patrol of Istio daily builds, but on that setup the microservices have been accessing the external MongoDB directly via their sidecars, without an egress gateway.
 
 The diagram below illustrates how regression patrol currently runs with Acmeair and Istio:
 
@@ -76,7 +76,7 @@ This scenario is used to evaluate the case where another proxy is required to ac
 ## Environment
 
 * Istio version: 1.0.2
-* K8s version: `1.10.5_1517`
+* `K8s` version: `1.10.5_1517`
 * Acmeair App: 4 services (1 replica of each), inter-services transactions, external Mongo DB, avg payload: 620 bytes.
 
 ## Results
