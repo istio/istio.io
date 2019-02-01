@@ -68,12 +68,12 @@ This will be used to access the `local` pilot securely using the ingress gateway
 
     {{< text yaml >}}
     meshNetworks:
-      network2:
-        endpoints:
-        - fromRegistry: remote_kubecfg
-        gateways:
-        - address: 0.0.0.0
-          port: 443
+        network2:
+            endpoints:
+            - fromRegistry: remote_kubecfg
+            gateways:
+            - address: 0.0.0.0
+            port: 443
     {{< /text >}}
 
     Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
