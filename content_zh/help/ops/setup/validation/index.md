@@ -47,10 +47,10 @@ webhooks:
       name: istio-galley
       namespace: istio-system
       path: /admitpilot
-    failurePolicy: Fail
-    name: pilot.validation.istio.io
-    namespaceSelector: {}
-    rules:
+  failurePolicy: Fail
+  name: pilot.validation.istio.io
+  namespaceSelector: {}
+  rules:
   - apiGroups:
     - config.istio.io
     apiVersions:
@@ -104,10 +104,10 @@ webhooks:
       name: istio-galley
       namespace: istio-system
       path: /admitmixer
-    failurePolicy: Fail
-    name: mixer.validation.istio.io
-    namespaceSelector: {}
-    rules:
+  failurePolicy: Fail
+  name: mixer.validation.istio.io
+  namespaceSelector: {}
+  rules:
   - apiGroups:
     - config.istio.io
     apiVersions:
@@ -169,7 +169,7 @@ webhooks:
       caBundle: ""
     rules:
       - operations:
-        (... snip ...)
+      (... snip ...)
 {{< /text >}}
 
 如果 `istio-galley-configuration` 中的 webhook 数组为空，且是使用的是 `helm template` 或 `helm install` 的方式，请验证 `--set galley.enabled` 和 `--set global.configValidation=true` 选项是否已经设置。如果并使用 helm 的方式，则需要找到生成的 YAML，其中包含填充的 webhook 数组。
