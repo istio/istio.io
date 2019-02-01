@@ -15,7 +15,9 @@ Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) 
 
 ## Installation steps
 
-Choose one of the following two **mutually exclusive** options described below.
+You have two mutually exclusive options to install Istio:
+- To use Kubernetes manifests to deploy Istio,  follow the instructions for [option #1](#option1).
+- To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option #2](#option2).
 
 ### Option 1: Install with Helm via `helm template` {#option1}
 
