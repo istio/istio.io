@@ -194,7 +194,9 @@ in particular, the same value of the `--namespace` flag. In addition to the flag
 
 Redeploy the `sleep` application as described in the [Before you begin](#before-you-begin) section.
 
-{{< warning_icon >}} Make sure to remove the previously deployed `ServiceEntry` and `VirtualService`.
+{{< warning >}}
+Make sure to remove the previously deployed `ServiceEntry` and `VirtualService`.
+{{< /warning >}}
 
 ### Set the value of `global.proxy.includeIPRanges`
 
@@ -218,7 +220,7 @@ Set the value of `global.proxy.includeIPRanges` according to your cluster provid
 
 #### IBM Cloud Kubernetes Service
 
-Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.20.0.0/16\,10.10.10.0/24"`
+Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
 #### Google Container Engine (GKE)
 
@@ -279,6 +281,17 @@ of the cluster. You saw this by setting a timeout rule for calls to an external 
 The second approach bypasses the Istio sidecar proxy, giving your services direct access to any
 external URL. However, configuring the proxy this way does require
 cluster provider specific knowledge and configuration.
+
+## Security note
+
+{{< warning >}}
+Note that configuration examples in this task **do not enable secure egress traffic control** in
+Istio.
+A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
+{{< /warning >}}
+
+To implement egress traffic control in a secure way, you must [direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway) and address the security concerns expressed in
+[Configure an Egress Gateway example, Additional Security Considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations).
 
 ## Cleanup
 

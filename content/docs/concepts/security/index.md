@@ -168,9 +168,11 @@ deploying different services in a medium- or large-size cluster, we recommend cr
  For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
 that both teams cannot access each other's services.
 
-> {{< warning_icon >}} If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
+{{< warning >}}
+If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
 We **strongly** recommend running Citadel in a dedicated namespace (for example, `istio-citadel-ns`), to restrict access to
 the cluster to only administrators.
+{{< /warning >}}
 
 ### Example
 

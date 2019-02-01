@@ -11,9 +11,10 @@ aliases:
 keywords: [traffic-management,egress,tcp]
 ---
 
-> This blog post was updated on July 23, 2018 to use the new
-[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow the docs
-[here](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
+{{< tip >}}
+This blog post was updated on July 23, 2018 to use the new
+[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow these [docs](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
+{{< /tip >}}
 
 In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services
  can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services

@@ -99,7 +99,7 @@ keywords: [keyword1,keyword2,...]
 {{</* info_icon */>}}
 {{< /text >}}
 
-这段代码会显示 {{< warning_icon >}} 、 {{< idea_icon >}}、 {{< checkmark_icon >}}、 {{< cancel_icon >}} 和 {{< info_icon >}}。
+这段代码会显示 {{< warning_icon >}} 、 {{< idea_icon >}}、 {{< checkmark_icon >}}、 {{< cancel_icon >}} 和 {{< tip_icon >}}。
 
 另外还可以用这种代码在内容中加入 `emoji` ： `:``sailboat``:` ，这样会显示帆船的 `emoji` ， 就像这样 `:sailboat:`。
 

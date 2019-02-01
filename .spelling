@@ -91,6 +91,7 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+Callouts
 camelCase
 canaried
 canarying
@@ -104,6 +105,7 @@ CIOs
 Circonus
 cli
 CloudWatch
+CNI
 cnn.com
 colocated
 ConfigMap
@@ -168,6 +170,7 @@ fortio
 FQDNs
 frontend
 gbd
+GCP
 GCP-IAM
 GCP_OPTS
 gdb
@@ -233,6 +236,8 @@ istio.io
 istio.io.
 Istiofied
 IstioMesh
+istio-mixer
+istio-policy
 jason
 Jog
 json
@@ -263,6 +268,7 @@ lifecycle
 LightStep
 liveness
 logInfo
+loopback
 Lyft
 machineSetup
 macOS

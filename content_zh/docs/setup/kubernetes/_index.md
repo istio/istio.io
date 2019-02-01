@@ -6,4 +6,4 @@ keywords: [kubernetes]
 icon: kubernetes
 ---
 
-{{< info_icon >}} Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
+{{< tip_icon >}} Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。

@@ -71,8 +71,10 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
 1. Create a Kubernetes `Secret` to hold the server's certificate and private key. Use `kubectl` to create the secret
 `istio-ingressgateway-certs` in namespace `istio-system` . The Istio gateway will load the secret automatically.
 
-    > The secret **must** be named `istio-ingressgateway-certs` in the `istio-system` namespace to align with the
-    > configuration of the Istio default ingress gateway used in this task.
+    {{< warning >}}
+    The secret **must** be named `istio-ingressgateway-certs` in the `istio-system` namespace to align with the
+    configuration of the Istio default ingress gateway used in this task.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key httpbin.example.com/3_application/private/httpbin.example.com.key.pem --cert httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
@@ -85,7 +87,9 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
 
 1.  Define a `Gateway` with a `server` section for port 443.
 
-    > The location of the certificate and the private key **must** be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
+    {{< warning >}}
+    The location of the certificate and the private key **must** be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -143,8 +147,10 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value `httpbin.example.com` when accessing the gateway IP
     over TLS. The `--cacert` option instructs _curl_ to use your generated certificate to verify the server.
 
-    > The `-HHost:httpbin.example.com` flag is included but only really needed if `SECURE_INGRESS_PORT` is different
-    > from the actual gateway port (443), for example, if you are accessing the server via a mapped `NodePort`.
+    {{< tip >}}
+    The `-HHost:httpbin.example.com` flag is included but only really needed if `SECURE_INGRESS_PORT` is different
+    from the actual gateway port (443), for example, if you are accessing the server via a mapped `NodePort`.
+    {{< /tip >}}
 
     By sending the request to the `/status/418` URL path, you get a nice visual clue that your `httpbin` service was
     indeed accessed. The `httpbin` service will return the
@@ -174,9 +180,11 @@ with a certificate and a private key. Then you create a `Gateway` definition tha
         `"""`
     {{< /text >}}
 
-    > It might take time for the gateway definition to propagate so you might get the following error:
-    > `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and
-    > then retry the _curl_ call.
+    {{< tip >}}
+    It might take time for the gateway definition to propagate so you might get the following error:
+    `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and
+    then retry the _curl_ call.
+    {{< /tip >}}
 
     Look for the _Server certificate_ section in the _curl_ output and specifically a line with the matched _common name_:
     `common name: httpbin.example.com (matched)`. The line `SSL certificate verify ok` in the output indicates
@@ -192,8 +200,10 @@ In this section you extend your gateway's definition from the previous section t
 the server will use to verify its clients. Create the secret `istio-ingressgateway-ca-certs` in namespace `istio-system`
  using `kubectl`. The Istio gateway will automatically load the secret.
 
-    > The secret **must** be named `istio-ingressgateway-ca-certs` in the `istio-system` namespace to align with the
-    > configuration of the Istio default ingress gateway used in this task.
+    {{< warning >}}
+    The secret **must** be named `istio-ingressgateway-ca-certs` in the `istio-system` namespace to align with the
+    configuration of the Istio default ingress gateway used in this task.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
@@ -202,9 +212,11 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 
 1.  Redefine your previous `Gateway` to change the `tls` `mode` to `MUTUAL` and to specify `caCertificates`:
 
-    > The location of the certificate **must** be `/etc/istio/ingressgateway-ca-certs`, or the gateway
+    {{< warning >}}
+    The location of the certificate **must** be `/etc/istio/ingressgateway-ca-certs`, or the gateway
     will fail to load them. The file (short) name of the certificate must be identical to the one you created the secret
     from, in this case `ca-chain.cert.pem`.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -238,8 +250,10 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
 
-    > It might take time for the gateway definition to propagate so you might still get _418_. Wait for a minute and
-    > then retry the _curl_ call.
+    {{< warning >}}
+    It might take time for the gateway definition to propagate so you might still get _418_. Wait for a minute and
+    then retry the _curl_ call.
+    {{< /warning >}}
 
     This time you will get an error since the server refuses to accept unauthenticated requests. You need to pass _curl_
     a client certificate and your private key for signing the request.
@@ -470,6 +484,13 @@ they have valid values, according to the output of the following commands:
 
     `tls.crt` and `tls.key` should exist in the directory contents.
 
+1.  If you created the `istio-ingressgateway-certs` secret, but the key and the certificate are not loaded, delete the
+    ingress gateway pod and force it to reload them.
+
+    {{< text bash >}}
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 1.  Verify that the _Subject_ is correct in the certificate of the ingress gateway:
 
     {{< text bash >}}
@@ -493,12 +514,6 @@ they have valid values, according to the output of the following commands:
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  If the secret was created but the keys were not mounted, delete the ingress gateway pod and force it to reload certs:
-
-    {{< text bash >}}
-    $ kubectl delete pod -n istio-system -l istio=ingressgateway
-    {{< /text >}}
-
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
     described in the [Before you begin](#before-you-begin) section.
 
@@ -514,17 +529,18 @@ In addition to the steps in the previous section, perform the following:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
+1.  If you created the `istio-ingressgateway-ca-certs` secret, but the CA certificate is not loaded, delete the ingress
+    gateway pod and force it to reload the certificate:
+
+    {{< text bash >}}
+    $ kubectl delete pod -n istio-system -l istio=ingressgateway
+    {{< /text >}}
+
 1.  Verify that the _Subject_ is correct in the CA certificate of the ingress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem | openssl x509 -text -noout | grep 'Subject:'
     Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
-    {{< /text >}}
-
-1.  If the secret was created but the keys were not mounted, delete the ingress gateway pod and force it to reload certs:
-
-    {{< text bash >}}
-    $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
 ## Cleanup

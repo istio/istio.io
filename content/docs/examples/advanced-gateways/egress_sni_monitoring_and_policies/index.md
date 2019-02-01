@@ -322,8 +322,10 @@ access the English and the French versions.
     Note that only the allowed Wikipedia sites for `sleep-us` service account are allowed, namely Wikipedia in English
     and Spanish.
 
-    > It may take several minutes for the Mixer policy components to synchronize on the new policy. In case you want to
+    {{< tip >}}
+    It may take several minutes for the Mixer policy components to synchronize on the new policy. In case you want to
     quickly demonstrate the new policy without waiting until the synchronization is complete, delete the Mixer policy pods:
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio-mixer-type=policy

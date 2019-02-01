@@ -62,7 +62,9 @@ To start the application, follow the instructions corresponding to your Istio ru
 
 ### If you are running on Kubernetes
 
-> If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+{{< tip >}}
+If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+{{< /tip >}}
 
 1. Change directory to the root of the Istio installation directory.
 
@@ -95,8 +97,10 @@ To start the application, follow the instructions corresponding to your Istio ru
     Either of the above commands launches all four microservices as illustrated in the above diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
 
-    > In a realistic deployment, new versions of a microservice are deployed
+    {{< tip >}}
+    In a realistic deployment, new versions of a microservice are deployed
     over time instead of deploying all versions simultaneously.
+    {{< /tip >}}
 
 1.  Confirm all services and pods are correctly defined and running:
 
@@ -121,6 +125,14 @@ To start the application, follow the instructions corresponding to your Istio ru
     reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
     reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
+    {{< /text >}}
+
+1.  To confirm that the Bookinfo application is running, send a request to it by a `curl` command from some pod, for
+    example from `ratings`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
     {{< /text >}}
 
 #### Determining the ingress IP and port
@@ -151,7 +163,7 @@ is used for this purpose.
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1.  Proceed to [Confirm the app is running](#confirm-the-app-is-running), below.
+1.  Proceed to [Confirm the app is running](#confirm-the-app-is-accessible-from-outside-the-cluster), below.
 
 ### If you are running on Docker with Consul
 
@@ -172,7 +184,9 @@ is used for this purpose.
     $ docker ps -a
     {{< /text >}}
 
-    > If the Istio Pilot container terminates, re-run the command from the previous step.
+    {{< tip >}}
+    If the Istio Pilot container terminates, re-run the command from the previous step.
+    {{< /tip >}}
 
 1.  Set `GATEWAY_URL`:
 
@@ -186,14 +200,13 @@ is used for this purpose.
     For example, replace `samples/bookinfo/networking/destination-rule-all.yaml` with
     `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `kubectl apply` command, below.
 
-## Confirm the app is running
+## Confirm the app is accessible from outside the cluster
 
-To confirm that the Bookinfo application is running, run the following `curl` command:
+To confirm that the Bookinfo application is accessible from outside the cluster, run the following `curl` command:
 
 {{< text bash >}}
-$ curl -I http://${GATEWAY_URL}/productpage
-HTTP/1.1 200 OK
-...
+$ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+<title>Simple Bookstore App</title>
 {{< /text >}}
 
 You can also point your browser to `http://$GATEWAY_URL/productpage`
