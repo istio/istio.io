@@ -17,7 +17,7 @@ Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) 
 
 Choose one of the following two **mutually exclusive** options described below.
 
-### Option 1: Install with Helm via `helm template`
+### Option 1: Install with Helm via `helm template` {#option1}
 
 Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
 
@@ -41,7 +41,7 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
     $ kubectl apply -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
-### Option 2: Install with Helm and Tiller via `helm install`
+### Option 2: Install with Helm and Tiller via `helm install` {#option2}
 
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
