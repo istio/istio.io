@@ -68,12 +68,12 @@ This will be used to access the `local` pilot securely using the ingress gateway
 
     {{< text yaml >}}
     meshNetworks:
-      network2:
-        endpoints:
-        - fromRegistry: remote_kubecfg
-        gateways:
-        - address: 0.0.0.0
-          port: 443
+        network2:
+            endpoints:
+            - fromRegistry: remote_kubecfg
+            gateways:
+            - address: 0.0.0.0
+            port: 15443
     {{< /text >}}
 
     Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
@@ -346,7 +346,7 @@ The difference between the two instances is the version of their `helloworld` im
         istio: ingressgateway
       servers:
       - port:
-          number: 443
+          number: 15443
           name: tls
           protocol: TLS
         tls:
@@ -402,11 +402,11 @@ You can also verify the IP addresses used to access the endpoints by printing th
 
 {{< text bash >}}
 $ kubectl logs --context=$CTX_LOCAL -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) istio-proxy
-[2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
+[2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
 
-The remote gateway IP, `192.23.120.32:443`, is logged when v2 was called and the local instance IP, `10.10.0.90:5000`, is logged when v1 was called.
+The remote gateway IP, `192.23.120.32:15443`, is logged when v2 was called and the local instance IP, `10.10.0.90:5000`, is logged when v1 was called.
 
 ## Cleanup
 
@@ -426,7 +426,7 @@ Cleanup the `local` cluster:
 {{< text bash >}}
 $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
 $ kubectl delete --context=$CTX_LOCAL ns istio-system
-$ helm delete --purge --kube-context=$CTX_LOCAL istio-init
+$ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete --context=$CTX_LOCAL -f $i; done
 $ kubectl delete --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
 $ kubectl delete --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
 $ kubectl delete --context=$CTX_LOCAL ns sample
