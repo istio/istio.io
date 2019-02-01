@@ -136,12 +136,16 @@ When you make downstream calls in your applications, make sure to include these 
 
 ## Trace sampling
 
-Istio captures a trace for all requests by default. For example, when
-using the Bookinfo sample application above, every time you access
-`/productpage` you see a corresponding trace in the Jaeger
-dashboard. This sampling rate is suitable for a test or low traffic
-mesh. For a high traffic mesh you can lower the trace sampling
-percentage in one of two ways:
+When using the demo configuration (as in this task), Istio captures a trace for all requests.
+For example, when using the Bookinfo sample application above, every time you access
+`/productpage` you see a corresponding trace in the Jaeger dashboard. This sampling
+rate is suitable for a test or low traffic mesh, which is why it is used as the default for
+the demo installs.
+
+In other configurations, Istio defaults to generating trace spans for 1 out of every 100 requests
+(sampling rate of of 1%).
+
+You can control the trace sampling percentage in one of two ways:
 
 * During the mesh setup, use the Helm option `pilot.traceSampling` to
   set the percentage of trace sampling. See the
