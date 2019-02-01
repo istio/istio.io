@@ -3,6 +3,7 @@
         <svg class="large_icon"><use xlink:href="/img/icons.svg#info"/></svg>
     </div>
     <div class="content">
-        {{ markdownify .Inner }}
+        {{ $trimmed := trim .Inner " \n" }}
+        {{ markdownify $trimmed }}
     </div>
 </div>
