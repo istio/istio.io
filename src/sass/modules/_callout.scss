@@ -13,11 +13,11 @@
 .callout {
     display: table;
     padding: .5em .5em .5em 0;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 4px;
 
-    margin: 1em 1em 1em 2em;
+    margin: 1em 0 1em 1em;
     @media (min-width: $bp-md) {
-        margin: 1em 3em;
+        margin: 1em;
     }
 
     .type {
