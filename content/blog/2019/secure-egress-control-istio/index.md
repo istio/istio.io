@@ -284,6 +284,33 @@ Let me summarize the features of Istio egress traffic control and of the alterna
 | Transparent | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
 | Istio-aware | {{< cancel_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
 
+### Performance considerations
+
+Note that Istio egress control has its price, which is the increased latency of the calls to external services and
+increase of CPU usage by the cluster pods.
+After all, the traffic has to pass through two proxies, namely the sidecar proxy of the
+application and the proxy of the egress gateway. In the case of
+[TLS egress traffic to wildcard domains](/docs/examples/advanced-gateways/wildcard-egress-hosts/),
+you have to add
+[an additional proxy](/docs/examples/advanced-gateways/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
+making the count of proxies between the application and the external service three. The traffic between the second and
+third proxies is on the local network of the pod, so it should not have significant impact on the latency.
+
+See a [performance evaluation](/blog/2019/egress-performance/) of different configurations of Istio egress
+traffic control. I would encourage you to measure carefully different configurations for your own applications and your
+external services, and decide whether you can afford the performance overhead for your use cases. You should weigh the
+required level of security versus your performance requirements, and also compare with the performance overhead of
+alternative solutions.
+
+Let me provide our take on the performance overhead of Istio egress traffic control. First, we are working to reduce
+performance overhead of Istio, so I hope the overhead of egress traffic control in Istio will be reduced in the future.
+Possible optimizations are to extend Envoy to handle wildcard domains so there will be no need for the
+third proxy; or to use mutual TLS for authentication only without encrypting the TLS traffic (since it is already
+encrypted). Second, note that the latency of access to external services could be already high, so adding the overhead
+of two or three proxies inside the cluster could be not very significant.
+After all, in the microservice architecture you can have chains of dozens of calls between microservices, so adding an
+additional hop with two proxies, the egress gateway, should not have a large impact.
+
 ## Summary
 
 I hope that you are convinced that controlling egress traffic is very important for the security of your cluster.
@@ -293,3 +320,5 @@ In my opinion, you can even choose secure egress traffic control as the first us
 cluster.
 Istio will already be beneficial for you, even before you start using all other features, such as
 traffic management, security, policies and telemetry, applied to traffic between microservices inside the cluster.
+You should pay attention, however, to performance considerations of Istio egress traffic control and measure performance
+overhead for your use cases.
