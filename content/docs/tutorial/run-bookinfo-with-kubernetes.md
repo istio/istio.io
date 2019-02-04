@@ -11,27 +11,111 @@ The application is called [Bookinfo](/docs/examples/bookinfo). Consider the appl
 which the _reviews_ microservice has three versions _v1_, _v2, _v3_. In this module we start with the application with
 the first version of the _reviews_ microservice, _v1_. In the next modules, we will evolve the application.
 
-1. Skim bookinfo.yaml TODO: ADD LINK - this is a Kubernetes deployment spec of the app. Notice the services and the deployments, and also the replication: 3 replicas of each microservice.
+1.  Skim [bookinfo.yaml](https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml).
+    This is the Kubernetes deployment spec of the app. Notice the services and the deployments.
 
-1. Deploy to Kubernetes.
-   ```
-   kubectl apply -f samples/bookinfo/istio.io-tutorial/bookinfo.yaml
-   ```
-1. Check the pods status. Notice that each microservice has three pods.
-   ```
-   kubectl get pods
-   ```
-1. Edit `ingress.yaml` TODO: ADD LINK - specify your host instead of `your host`.
-    * For _IBM Cloud Container Service_, get your host by running: `bx cs clusters`, `bx cs cluster-get <your cluster>`, use the `Ingress subdomain` field.
+1.  Deploy the application to Kubernetes:
 
-1. Deploy your ingress:
-   ```
-   kubectl apply -f samples/bookinfo/istio.io-tutorial/ingress.yaml
-   ```
+    {{< text bash >}}
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    service "details" created
+    deployment "details-v1" created
+    service "ratings" created
+    deployment "ratings-v1" created
+    service "reviews" created
+    deployment "reviews-v1" created
+    deployment "reviews-v2" created
+    deployment "reviews-v3" created
+    service "productpage" created
+    deployment "productpage-v1" created
+    {{< /text >}}
 
-1. Access `http://<your host>/productpage`.
+1.  Check the pods status:
 
-1. Observe how microservices call each other, for example, _reviews_ calls the _ratings_ microservice by the URL `http://ratings:9080/ratings`. See the [code of _reviews_](https://github.com/istio/istio/blob/master/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
-   ```java
-   private final static String ratings_service = "http://ratings:9080/ratings";
-   ```
+    {{< text bash >}}
+    $ kubectl get pods
+    {{< /text >}}
+
+1.  To confirm that the Bookinfo application is running, send a request to it by a curl command from some pod, for example from ratings:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
+
+1.  Scale the deployments: let each version of each microservice run in three pods.
+
+    {{< text bash >}}
+    $ kubectl scale deployments --all --replicas 3
+    deployment "details-v1" scaled
+    deployment "productpage-v1" scaled
+    deployment "ratings-v1" scaled
+    deployment "reviews-v1" scaled
+    deployment "reviews-v2" scaled
+    deployment "reviews-v3" scaled
+    {{< /text >}}
+
+1.  Check the pods status. Notice that each microservice has three pods:
+
+    {{< text bash >}}
+    $ kubectl get pods
+    {{< /text >}}
+
+1.  Set `MYHOST` variable to hold the URL of the application:
+
+    {{< text bash >}}
+    $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
+    {{< /text >}}
+
+1.  Create Kuberentes Ingress:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: bookinfo
+    spec:
+      rules:
+      - host: $MYHOST
+        http:
+          paths:
+          - path: /productpage
+            backend:
+              serviceName: productpage
+              servicePort: 9080
+          - path: /login
+            backend:
+              serviceName: productpage
+              servicePort: 9080
+          - path: /logout
+            backend:
+              serviceName: productpage
+              servicePort: 9080
+    EOF
+    {{< /text >}}
+
+1.  Append the output of the following command to `/etc/hosts`:
+
+    {{< text bash >}}
+    $ kubectl get ingress bookinfo -o jsonpath='{..ip} {..host}'
+    {{< /text >}}
+
+1.  Access the application home page from the command line:
+
+    {{< text bash >}}
+    $ curl -s $MYHOST/productpage | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
+
+1.  Paste the output of the following command in your browser address bar:
+
+    {{< text bash >}}
+    $ echo http://$MYHOST/productpage
+    {{< /text >}}
+
+1.  Observe how microservices call each other, for example, _reviews_ calls the _ratings_ microservice by the URL `http://ratings:9080/ratings`. See the [code of _reviews_](https://github.com/istio/istio/blob/master/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
+
+    {{< text java >}}
+    private final static String ratings_service = "http://ratings:9080/ratings";
+    {{< /text >}}
