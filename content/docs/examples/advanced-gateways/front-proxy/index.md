@@ -43,7 +43,7 @@ the mesh. The example shows configuring access to an HTTP and an HTTPS external 
         tls:
           mode: PASSTHROUGH
         hosts:
-        - "*"
+        - www.google.com
     EOF
     {{< /text >}}
 
@@ -161,7 +161,7 @@ the mesh. The example shows configuring access to an HTTP and an HTTPS external 
       name: google
     spec:
       hosts:
-      - ״*״
+      - www.google.com
       gateways:
       - front-proxy
       - mesh
