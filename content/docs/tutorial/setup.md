@@ -7,17 +7,17 @@ weight: 2
 and get access to a [Kubernetes](https://kubernetes.io) cluster.
 For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
 
-1.  Create a namespace for the tutorial, e.g.:
-
-    {{< text bash >}}
-    $ kubectl create namespace tutorial
-    {{< /text >}}
-
-1.  Create a shell variable to store the name of the namespace. All the commands in this tutorial will use this variable
-    so only the tutorial's namespace will be affected.
+1.  Create a shell variable to store the name of the namespace you will work with. All the commands in this tutorial
+    will use this variable so only the tutorial's namespace will be affected.
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
+    {{< /text >}}
+
+1.  Create a namespace for the tutorial, e.g.:
+
+    {{< text bash >}}
+    $ kubectl create namespace $NAMESPACE
     {{< /text >}}
 
 1.  If you do not have Istio installed in your cluster, install it with mutual TLS enabled, following
