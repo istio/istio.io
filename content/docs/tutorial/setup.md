@@ -101,3 +101,9 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
         You can send this Kube config file to the tutorial's participant. The participant will define the
         `KUBECONFIG` variable to store the location of the file, and as a result will have access to the tutorial's
         namespace only.
+
+        A commnad to set `KUBECONFIG` to point to the generated configuration:
+
+        {{< text bash >}}
+        $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+        {{< /text >}}
