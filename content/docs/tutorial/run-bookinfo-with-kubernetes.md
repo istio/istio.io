@@ -56,12 +56,12 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, we w
     $ kubectl get pods
     {{< /text >}}
 
-1. Let's deploy a testing pod, [sleep](https://github.com/istio/istio/tree/master/samples/sleep), to use it for sending
+1.  Let's deploy a testing pod, [sleep](https://github.com/istio/istio/tree/master/samples/sleep), to use it for sending
   requests to our microservices:
 
-  {{< text bash >}}
-  $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+    {{< /text >}}
 
 1.  To confirm that the Bookinfo application is running, send a request to it by a curl command from your testing pod:
 
