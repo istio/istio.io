@@ -8,13 +8,16 @@ keywords: [traffic-management,ingress,https,http]
 The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task and the
 [Ingress Gateway without TLS Termination](/docs/examples/advanced-gateways/ingress-sni-passthrough/) example describe
 how to configure an ingress gateway to expose services inside the mesh to external traffic. The services can be HTTP or
-HTTPS. In the the case of HTTPS, the gateway passes the traffic through without terminating TLS.
+HTTPS. In the case of HTTPS, the gateway passes the traffic through, without terminating TLS.
 
 This example describes how to use an ingress gateway as a front proxy to services outside of the mesh.
+You enable access to external services through an ingress gateway only, without enabling it for applications inside
+the mesh. The example shows configuring access to an HTTP and an HTTPS external service, namely `httpbin.org` and
+`www.google.com`.
 
 ## Configure an ingress gateway
 
-1.  Define a `Gateway` with a `server` section for ports 80 and 443. Note the `PASSTHROUGH` `tls` `mode` on the 443
+1.  Define a `Gateway` with a `server` section for the ports 80 and 443. Note the `PASSTHROUGH` `tls` `mode` on the 443
     port, which instructs the gateway to pass the ingress traffic AS IS, without terminating TLS.
 
     {{< text bash >}}
@@ -32,7 +35,7 @@ This example describes how to use an ingress gateway as a front proxy to service
           name: http
           protocol: HTTP
         hosts:
-        - "*"
+        - httpbin.org
       - port:
           number: 443
           name: https
@@ -44,43 +47,7 @@ This example describes how to use an ingress gateway as a front proxy to service
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the `Gateway`:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: front-proxy
-    spec:
-      hosts:
-      - "*"
-      gateways:
-      - front-proxy
-      http:
-      - match:
-        - port: 80
-          uri:
-            prefix: /status
-        route:
-        - destination:
-            host: httpbin.org
-            port:
-              number: 80
-      tls:
-      - match:
-        - port: 443
-          sni_hosts:
-          - www.google.com
-        route:
-        - destination:
-            host: www.google.com
-            port:
-              number: 443
-    EOF
-    {{< /text >}}
-
-1.  Create service entries for `httpbin.org` and `www.google.com`:
+1.  Create service entries for `httpbin.org` and `www.google.com` to make them accessible from the ingress gateway:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -111,6 +78,116 @@ This example describes how to use an ingress gateway as a front proxy to service
         protocol: HTTPS
       resolution: DNS
       location: MESH_EXTERNAL
+    EOF
+    {{< /text >}}
+
+1.  Configure a service entry and a destination rule for `localhost`. This service entry is used in the next step
+    as a destination for traffic to the external services from applications inside the mesh, effectively blocking such
+    traffic.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: localhost
+    spec:
+      hosts:
+      - localhost.local
+      location: MESH_EXTERNAL
+      ports:
+      - number: 80
+        name: http
+        protocol: HTTP
+      - number: 443
+        name: https
+        protocol: HTTPS
+      resolution: STATIC
+      endpoints:
+      - address: 127.0.0.1
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: localhost
+    spec:
+      host: localhost.local
+      trafficPolicy:
+        tls:
+          mode: DISABLE
+          sni: localhost.local
+    EOF
+    {{< /text >}}
+
+1.  Configure routing. For pods inside the mesh, direct the traffic to `localhost.local`, effectively blocking it.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - httbin.org
+      gateways:
+      - front-proxy
+      - mesh
+      http:
+      - match:
+        - gateways:
+          - front-proxy
+          port: 80
+          uri:
+            prefix: /status
+        route:
+        - destination:
+            host: httpbin.org
+            port:
+              number: 80
+      - match:
+        - gateways:
+          - mesh
+          port: 80
+        route:
+        - destination:
+            host: localhost.local
+            port:
+              number: 80
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: google
+    spec:
+      hosts:
+      - ״*״
+      gateways:
+      - front-proxy
+      - mesh
+      tls:
+      - match:
+        - gateways:
+          - front-proxy
+          port: 443
+          sni_hosts:
+          - www.google.com
+        route:
+        - destination:
+            host: www.google.com
+            port:
+              number: 443
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sni_hosts:
+          - www.google.com
+        route:
+        - destination:
+            host: localhost.local
+            port:
+              number: 443
     EOF
     {{< /text >}}
 
@@ -159,7 +236,7 @@ This example describes how to use an ingress gateway as a front proxy to service
     {"level":"info","time":"2019-01-31T14:40:18.645864Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"unknown","destinationApp":"","destinationIp":"Iui1ag==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"httpbin.org","destinationWorkload":"unknown","grpcMessage":"","grpcStatus":"","httpAuthority":"httpbin.org","latency":"187.003904ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":327,"referer":"","reporter":"source","requestId":"28255618-6ca5-9d91-9634-c562694a3625","requestSize":0,"requestedServerName":"","responseCode":418,"responseSize":135,"responseTimestamp":"2019-01-31T14:40:18.832770Z","sentBytes":365,"sourceApp":"istio-ingressgateway","sourceIp":"AAAAAAAAAAAAAP//rB7mIQ==","sourceName":"istio-ingressgateway-899f57d65-svpnt","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway","sourcePrincipal":"","sourceWorkload":"istio-ingressgateway","url":"/status/418","userAgent":"curl/7.54.0","xForwardedFor":"10.127.220.75"}
     {{< /text >}}
 
-1.  Access the www.google.com through your ingress:
+1.  Access `www.google.com` through your ingress:
 
     {{< text bash >}}
     $ curl -s --resolve www.google.com:$SECURE_INGRESS_PORT:$INGRESS_HOST https://www.google.com:$SECURE_INGRESS_PORT | grep -o "<title>.*</title>"
@@ -198,5 +275,6 @@ Remove the gateway, the virtual service and the service entries:
 {{< text bash >}}
 $ kubectl delete gateway front-proxy
 $ kubectl delete virtualservice front-proxy
-$ kubectl delete serviceentry google httpbin-ext
+$ kubectl delete serviceentry google httpbin-ext localhost
+$ kubectl delete destinationrule localhost
 {{< /text >}}
