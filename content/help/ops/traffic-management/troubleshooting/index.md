@@ -11,9 +11,9 @@ This section describes common problems and tools and techniques to address issue
 Requests may be rejected for various reasons, to identify the reason, you may inspect the access logs. By default,
 access logs are printed into standard output of the container, run the following command to see the log:
 
-{{<text bash>}}
+{{< text bash >}}
 $ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
-{{</text>}}
+{{< /text >}}
 
 In the default access log format, Envoy response flags and Mixer policy status are located after response code,
 if you are using custom log format, make sure to include `%RESPONSE_FLAGS%` and `%DYNAMIC_METADATA(istio.mixer:status)%`.
@@ -24,15 +24,15 @@ for details of response flags.
 Common response flags are:
 
 - `NR`: No route configured, check your `DestinationRule` or `VirtualService`.
-- `UO`: Upstream overflow with circuit breaking, check your circuit breaker config in `DestinationRule`.
-- `UF`: Failed to connect to upstream, if you're using Istio authentication, check your mTLS config too.
+- `UO`: Upstream overflow with circuit breaking, check your circuit breaker configuration in `DestinationRule`.
+- `UF`: Failed to connect to upstream, if you're using Istio authentication, check your mutual TLS configuration too.
 
 The request is rejected by Mixer if you see `UAEX` response flag and Mixer policy status is not `-`.
 
 Common policy mixer statuses are:
 
 - `UNAVAILABLE`: Envoy cannot connect to Mixer and the policy is configured to fail close.
-- `UNAUTHENTICATED`: The request is rejected by Mixer authenticaiton.
+- `UNAUTHENTICATED`: The request is rejected by Mixer authentication.
 - `PERMISSION_DENIED`: The request is rejected by Mixer authorization.
 - `RESOURCE_EXHAUSTED`: The request is rejected by Mixer quota.
 - `INTERNAL`: The request is rejected due to Mixer internal error.
