@@ -129,7 +129,7 @@ the mesh. The example shows configuring access to an HTTP and an HTTPS external 
       name: httpbin
     spec:
       hosts:
-      - httbin.org
+      - httpbin.org
       gateways:
       - front-proxy
       - mesh
