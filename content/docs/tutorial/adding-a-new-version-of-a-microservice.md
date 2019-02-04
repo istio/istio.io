@@ -6,16 +6,20 @@ weight: 50
 
 ---
 
-Let's deploy a new version of the _reviews_ microservice, the one that will return the ratings provided by reviewers, as a number of stars, with the color of stars. In real life, we would perform lint tests, unit tests, integration tests, end-to-end tests and tests in a staging environment.
+Let's deploy a new version of the _reviews_ microservice, namely _v2_, the one that will return the ratings provided by reviewers, as a number of stars, with the color of stars. In real life, we would perform lint tests, unit tests,
+integration tests, end-to-end tests and tests in a staging environment, before the deployment.
 
-1. Deploy the new version of the _reviews_ microservice without the `app` label. Without the `app` label, our new version of the microservice will not be selected to provide the _reviews_ service. As such, it will not be called by the production code.
+1. Deploy the new version of the _reviews_ microservice without the `app` label. Without the `app` label, the new
+version will not be selected to provide the _reviews_ service. As such, it will not be called by the production code.
+
    ```bash
    kubectl apply -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v2-without-app-label.yaml
    ```
 
-2. Let's access our application and see that the deployed microservice did not disrupt it. So far so good.
+2. Access your application and see that the deployed microservice did not disrupt it. So far so good.
 
-3. Now let's test the new version of our microservice from inside the cluster. We will use the `sleep` container we deployed earlier. Note that our new version hits the production pods of the _ratings_ microservice during the test. Also note that we have to access our new version of the microservice by its pod IP, since it is not selected for the _reviews_ service.
+3. Now let's test the new version of our microservice from inside the cluster. Use the testing container you deployed earlier. Note that your new version hits the production pods of the _ratings_ microservice during the test. Also note
+that you have to access our new version of the microservice by its pod IP, since it is not selected for the _reviews_ service.
 
   1. Get the IP of the pod:
      ```bash
