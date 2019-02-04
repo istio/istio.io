@@ -12,7 +12,7 @@ Requests may be rejected for various reasons, to identify the reason, you may in
 access logs are printed into standard output of the container, run following command to see the log:
 
 {{<text bash>}}
-`kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE`
+`$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE`
 {{</text>}}
 
 In the default access log format, Envoy response flags and Mixer policy status are located after response code,
