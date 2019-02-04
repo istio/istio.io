@@ -9,10 +9,10 @@ This section describes common problems and tools and techniques to address issue
 ## Requests are rejected by Envoy
 
 Requests may be rejected for various reasons, to identify the reason, you may inspect the access logs. By default,
-access logs are printed into standard output of the container, run following command to see the log:
+access logs are printed into standard output of the container, run the following command to see the log:
 
 {{<text bash>}}
-`$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE`
+$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
 {{</text>}}
 
 In the default access log format, Envoy response flags and Mixer policy status are located after response code,
