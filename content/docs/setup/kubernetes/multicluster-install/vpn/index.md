@@ -169,7 +169,15 @@ perform a manual sidecar injection refer to the [manual sidecar example](#manual
 1. Install the Helm chart for the `istio-remote` with the following command:
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
+    $ helm install install/kubernetes/helm/istio-remote \
+    --name istio-remote \
+    --namespace istio-system \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+    --set global.proxy.envoyStatsd.enabled=true \
+    --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} \
+    --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
     {{< /text >}}
 
 {{% /tab %}}
