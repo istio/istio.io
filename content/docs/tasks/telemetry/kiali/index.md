@@ -16,8 +16,10 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as th
 
 ## Before you begin
 
-> {{< idea_icon >}} The following instructions assume you have installed Helm and use it to install Kiali.
-To install Kiali without using Helm, following the [Kiali install instructions](https://www.kiali.io/gettingstarted/).
+{{< idea >}}
+The following instructions assume you have installed Helm and use it to install Kiali.
+To install Kiali without using Helm, follow the [Kiali installation instructions](https://www.kiali.io/gettingstarted/).
+{{< /idea >}}
 
 Create a secret in your Istio namespace with the credentials that you use to
 authenticate to Kiali.
@@ -26,9 +28,6 @@ First, define the credentials you want to use as the Kiali username and passphra
 
 {{< text bash >}}
 $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
-{{< /text >}}
-
-{{< text bash >}}
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
 {{< /text >}}
 
@@ -37,6 +36,9 @@ To create a secret, run the following commands:
 {{< text bash >}}
 $ NAMESPACE=istio-system
 $ kubectl create namespace $NAMESPACE
+{{< /text >}}
+
+{{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
@@ -61,7 +63,8 @@ $ helm template --set kiali.enabled=true install/kubernetes/helm/istio --name is
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
-> {{< idea_icon >}} This Task does not discuss Jaeger and Grafana. If
+{{< idea >}}
+This task does not discuss Jaeger and Grafana. If
 you already installed them in your cluster and you want to see how Kiali
 integrates with them, you must pass additional arguments to the
 `helm` command, for example:
@@ -75,6 +78,8 @@ $ helm template \
     --name istio --namespace istio-system > $HOME/istio.yaml
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
+
+{{< /idea >}}
 
 Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 

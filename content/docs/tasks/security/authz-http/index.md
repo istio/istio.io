@@ -37,7 +37,9 @@ microservices running under them.
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     {{< /text >}}
 
-> If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
+{{< tip >}}
+If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
+{{< /tip >}}
 
 * There is a major update to RBAC in Istio 1.0. Please make sure to remove any existing RBAC configuration before continuing.
 
@@ -294,7 +296,9 @@ Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpa
 `"RBAC: access denied"`. This is because Istio authorization is "deny by default", which means that you need to
 explicitly define access control policy to grant access to any service.
 
-> There may be some delays due to caching and other propagation overhead.
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ## Namespace-level access control
 
@@ -365,7 +369,9 @@ servicerolebinding "bind-service-viewer" created
 Now if you point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/productpage`). You should see the "Bookinfo Sample" page,
 with the "Book Details" section in the lower left part and the "Book Reviews" section in the lower right part.
 
-> There may be some delays due to caching and other propagation overhead.
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ### Cleanup namespace-level access control
 
@@ -433,7 +439,9 @@ page. But there are errors `Error fetching product details` and `Error fetching 
 are expected because we have not granted the `productpage` service access to the `details` and `reviews` services. We will fix the errors
 in the following steps.
 
-> There may be some delays due to caching and other propagation overhead.
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ### Step 2. allowing access to the `details` and `reviews` services
 
@@ -486,7 +494,9 @@ there is an error `Ratings service currently unavailable`. This is because "revi
 "ratings" service. To fix this issue, you need to grant the `reviews` service access to the `ratings` service.
 We will show how to do that in the next step.
 
-> There may be some delays due to caching and other propagation overhead.
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ### Step 3. allowing access to the `ratings` service
 
@@ -536,7 +546,9 @@ The policy does the following:
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
 the "black" and "red" ratings in the "Book Reviews" section.
 
-> There may be some delays due to caching and other propagation overhead.
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ## Cleanup
 

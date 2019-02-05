@@ -118,10 +118,12 @@ perform a manual sidecar injection refer to the [manual sidecar example](#manual
     $ kubectl create ns istio-system
     {{< /text >}}
 
-    {{< info_icon >}} All clusters must have the same namespace for the Istio
+    {{< tip >}}
+    All clusters must have the same namespace for the Istio
     components. It is possible to override the `istio-system` name on the main
     cluster as long as the namespace is the same for all Istio components in
     all clusters.
+    {{< /tip >}}
 
 1.  Instantiate the remote cluster's connection to the Istio control plane with
     the following command:
@@ -219,7 +221,9 @@ the remote cluster.
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    {{< info_icon >}} An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< tip >}}
+    An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< /tip >}}
 
 1. Create a `kubeconfig` file in the working directory for the
     `istio-multi` service account with the following command:
@@ -278,9 +282,11 @@ secret, source the file with the following command:
 You can install Istio in a different namespace. This procedure uses the
 `istio-system` namespace.
 
-{{< warning_icon >}} Do not store and label the secrets for the local cluster
+{{< warning >}}
+Do not store and label the secrets for the local cluster
 running the Istio control plane. Istio is always aware of the local cluster's
 Kubernetes credentials.
+{{< /warning >}}
 
 Create a secret and label it properly for each remote cluster:
 
@@ -289,10 +295,12 @@ $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n $
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
 
-{{< warning_icon >}} The Kubernetes secret data keys must conform with the
+{{< warning >}}
+The Kubernetes secret data keys must conform with the
 `DNS-1123 subdomain` [format](https://tools.ietf.org/html/rfc1123#page-13). For
 example, the filename can't have underscores.  Resolve any issue with the
 filename simply by changing the filename to conform with the format.
+{{< /warning >}}
 
 ## Uninstalling the remote cluster
 
@@ -514,8 +522,10 @@ To enable mutual TLS for all application pods, follow these general steps:
       The CA of the main cluster or a root CA must sign the CA certificate for
       the remote clusters too.
 
-> The CA certificate steps are identical for both control plane security and
-> application pod security steps.
+{{< tip >}}
+The CA certificate steps are identical for both control plane security and
+application pod security steps.
+{{< /tip >}}
 
 ### Example deployment
 

@@ -27,8 +27,10 @@ In addition to the prerequisites for installing Istio, the following is required
 
 * Two Kubernetes clusters (referred to as `local` and `remote`).
 
-    > {{< warning_icon >}} The Kubernetes API server of the `remote` cluster MUST be accessible from the `local` cluster
-    > in order to run this configuration.
+    {{< warning >}}
+    The Kubernetes API server of the `remote` cluster MUST be accessible from the `local` cluster
+    in order to run this configuration.
+    {{< /warning >}}
 
 * The `kubectl` command is used to access both the `local` and `remote` clusters with the `--context` flag.
   Use the following command to list your contexts:
@@ -186,7 +188,9 @@ This will be used to access the `local` pilot securely using the ingress gateway
     $ TOKEN=$(kubectl get --context=$CTX_REMOTE secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    > An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< idea >}}
+    An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< /idea >}}
 
 1. Create the `remote_kubecfg` file in the working directory:
 
@@ -396,11 +400,11 @@ You can also verify the IP addresses used to access the endpoints by printing th
 
 {{< text bash >}}
 $ kubectl logs --context=$CTX_LOCAL -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) istio-proxy
-[2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
+[2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
 
-The remote gateway IP, `192.23.120.32:443`, is logged when v2 was called and the local instance IP, `10.10.0.90:5000`, is logged when v1 was called.
+The remote gateway IP, `192.23.120.32:15443`, is logged when v2 was called and the local instance IP, `10.10.0.90:5000`, is logged when v1 was called.
 
 ## Cleanup
 
@@ -420,7 +424,7 @@ Cleanup the `local` cluster:
 {{< text bash >}}
 $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
 $ kubectl delete --context=$CTX_LOCAL ns istio-system
-$ helm delete --purge --kube-context=$CTX_LOCAL istio-init
+$ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete --context=$CTX_LOCAL -f $i; done
 $ kubectl delete --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
 $ kubectl delete --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
 $ kubectl delete --context=$CTX_LOCAL ns sample

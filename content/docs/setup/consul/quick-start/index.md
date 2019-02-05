@@ -54,8 +54,10 @@ For example, run the following command on a macOS or Linux system:
     $ docker-compose -f install/consul/istio.yaml up -d
     {{< /text >}}
 
-    > {{< warning_icon >}} The Consul install only configures Istio Pilot. To use Istio Mixer (policy enforcement and telemetry reporting) or Istio Galley, further installation steps
-    > will be necessary. Those steps are beyond the scope of this guide.
+    {{< warning >}}
+    The Consul install only configures Istio Pilot. To use Istio Mixer (policy enforcement and telemetry reporting) or Istio Galley, further installation steps
+    will be necessary. Those steps are beyond the scope of this guide.
+    {{< /warning >}}
 
 1.  Confirm that all Docker containers are running:
 
@@ -63,7 +65,9 @@ For example, run the following command on a macOS or Linux system:
     $ docker ps -a
     {{< /text >}}
 
-    > If the Istio Pilot container terminates, ensure that you ran the `kubectl config` commands below and re-run the command from the previous step.
+    {{< tip >}}
+    If the Istio Pilot container terminates, ensure that you ran the `kubectl config` commands below and re-run the command from the previous step.
+    {{< /tip >}}
 
 1.  Configure `kubectl` to use mapped local port for the API server:
 
@@ -78,13 +82,15 @@ For example, run the following command on a macOS or Linux system:
 You can now deploy your own application or one of the sample applications provided with the
 installation like [Bookinfo](/docs/examples/bookinfo/).
 
-> Since there is no concept of pods in a Docker setup, the Istio
-> sidecar runs in the same container as the application.  We will
-> use [Registrator](https://gliderlabs.github.io/registrator/latest/) to
-> automatically register instances of services in the Consul service
-> registry.
->
-> The application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
+{{< tip >}}
+Since there is no concept of pods in a Docker setup, the Istio
+sidecar runs in the same container as the application.  We will
+use [Registrator](https://gliderlabs.github.io/registrator/latest/) to
+automatically register instances of services in the Consul service
+registry.
+
+The application must use HTTP/1.1 or HTTP/2.0 protocol for all its HTTP traffic because HTTP/1.0 is not supported.
+{{< /tip >}}
 
 {{< text bash >}}
 $ docker-compose -f <your-app-spec>.yaml up -d

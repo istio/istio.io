@@ -106,7 +106,7 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
     $ kubectl create ns istio-system
     {{< /text >}}
 
-   {{< info_icon >}} 所有集群必须有相同的 Istio 组件命名空间。
+   {{< tip_icon >}} 所有集群必须有相同的 Istio 组件命名空间。
    只要命名空间对有所有集群中的 Istio 组件都相同，就可以覆盖住集群上的`istio-system`名称。
 
 1. 通过以下命令实例化远程集群与 Istio 控制平面的连接：
@@ -196,7 +196,7 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    {{< info_icon >}} 许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
+    {{< tip_icon >}} 许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
 
 1. 通过以下命令为 `istio-multi` service account 在工作目录创建一个 `kubeconfig`  文件：
 
