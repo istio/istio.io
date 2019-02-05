@@ -71,7 +71,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
             - fromRegistry: remote_kubecfg
             gateways:
             - address: 0.0.0.0
-              port: 443
+              port: 15443
     {{< /text >}}
 
     Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
@@ -340,7 +340,7 @@ The difference between the two instances is the version of their `helloworld` im
         istio: ingressgateway
       servers:
       - port:
-          number: 443
+          number: 15443
           name: tls
           protocol: TLS
         tls:
