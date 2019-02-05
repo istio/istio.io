@@ -16,22 +16,15 @@ a basic tutorial in Istio Security Basics.
 
 The activities in this task assume that you:
 
-* Understand [authorization](/docs/concepts/security/#authorization) concepts.
+* Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Have set up Istio on Kubernetes **with authentication enabled** by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/), this tutorial requires mutual TLS to work. Mutual TLS
-  authentication should be enabled in the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+* Follow the instructions in the [Kubernetes quick start](/docs/setup/kubernetes/quick-start/) to
+install Istio **with mutual TLS enabled**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-* In this task, we will enable access control based on Service Accounts, which are cryptographically authenticated in the mesh.
-In order to give different microservices different access privileges, we will create some service accounts and redeploy Bookinfo
-microservices running under them.
-
-    Run the following command to
-    * Create service account `bookinfo-productpage`, and redeploy the service `productpage` with the service account.
-    * Create service account `bookinfo-reviews`, and redeploy the services `reviews` (deployments `reviews-v2` and `reviews-v3`)
-    with the service account.
+* Create service accounts and for the Bookinfo application. Run the following command to create service
+account `bookinfo-productpage` for `productpage` and service account `bookinfo-reviews` for `reviews`:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)

@@ -5,38 +5,46 @@ weight: 10
 keywords: [security,access-control,rbac,authorization]
 ---
 
-The authorization permissive mode is an experimental feature in Istio's 1.1 release. Its interface can change in future releases.
-You can skip enabling the permissive mode and directly [enable Istio authorization](/docs/tasks/security/authz-http#enabling-istio-authorization)
-if you do not want to try out the permissive mode feature.
+The [authorization permissive mode](/docs/concepts/security/#authorization-permissive-mode) allows
+you to verify authorization policies before applying them in a production environment.
 
-This task shows how to use authorization permissive mode in below two scenarios:
+The authorization permissive mode is an experimental feature in version 1.1. Its interface can change
+in future releases. If you do not want to try out the permissive mode feature, you can directly
+[enable Istio authorization](/docs/tasks/security/authz-http#enabling-istio-authorization) to skip
+enabling the permissive mode.
 
-* In environment without authorization, test whether it's safe to enable authorization.
+This task covers two scenarios regarding the use of the permissive mode for authorization:
 
-* In environment already with authorization enabled, test whether it's safe to add a new authorization policy.
+* For environments where **authorization is disabled**, this task helps you test whether it's safe to
+enable the authorization.
+
+* For environments where **authorization is enabled**, this task helps you test whether it's safe to
+add a new authorization policy.
 
 ## Before you begin
 
-The activities in this task assume that you:
+To complete this task, you should first take the following actions:
 
-* Understand [authorization](/docs/concepts/security/#authorization) concepts.
+* Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Have set up Istio on Kubernetes **with authentication enabled** by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/), this tutorial requires mutual TLS to work. Mutual TLS
-  authentication should be enabled in the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+* Follow the instructions in the [Kubernetes quick start](/docs/setup/kubernetes/quick-start/) to
+install Istio **with mutual TLS enabled**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-### Testing whether it's safe to turn on authorization globally
+* Create service accounts and for the Bookinfo application. Run the following command to create service
+account `bookinfo-productpage` for `productpage` and service account `bookinfo-reviews` for `reviews`:
 
-This tasks show how to use authorization permissive mode to test whether it's safe to
-turn on authorization globally.
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
+    {{< /text >}}
 
-Before you start, please make sure that you have finished [preparation task](#before-you-begin).
+### Test enabling authorization globally
 
-1.  Set the global authorization configuration to permissive mode.
+The following steps show you how to use authorization permissive mode to test whether it's safe to
+turn on authorization globally:
 
-    Run the following command:
+1.  To enable the permissive mode in the global authorization configuration, run the following command:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -52,12 +60,9 @@ Before you start, please make sure that you have finished [preparation task](#be
     EOF
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
-    see everything works fine, same as in [preparation task](#before-you-begin).
+1.  Go to the `productpage` at `http://$GATEWAY_URL/productpage` and verify that everything works fine.
 
-1.  Apply YAML file for the permissive mode metric collection.
-
-    Run the following command:
+1.  Apply the `rbac-permissive-telemetry.yaml` YAML file to enable the metric collection for the permissive mode:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
@@ -66,22 +71,15 @@ Before you start, please make sure that you have finished [preparation task](#be
     rule.config.istio.io/rabcsamplestdio created
     {{< /text >}}
 
-1.  Send traffic to the sample application.
-
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+1.  Send traffic to the sample application with the following command:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
-    see everything works fine.
+1.  Go to the `productpage` at `http://$GATEWAY_URL/productpage` and verify that everything works fine.
 
-1.  Verify the logs stream has been created and check `permissiveResponseCode`.
-
-    In a Kubernetes environment, search through the `istio-telemetry`
-    pods' logs as follows:
+1.  Get the log for telemetry and search for the `permissiveResponseCode` with the following command:
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -90,38 +88,21 @@ Before you start, please make sure that you have finished [preparation task](#be
     {"level":"warn","time":"2018-08-30T21:53:41.019851Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"1.112521495s","permissiveResponseCode":"denied","permissiveResponsePolicyID":"","responseCode":200,"responseSize":5723,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
     {{< /text >}}
 
-    In the above telemetry logs,  the `responseCode` is 200 which is what user see now.
-    The `permissiveResponseCode` is `denied` which is what user will see after switching
-    global authorization configuration from `PERMISSIVE` mode to `ENFORCED` mode, which
-    indicates the global authorization configuration will work as expected after rolling
-    to production.
+1.  Verify that the the log shows a `responseCode` of `200` and a `permissiveResponseCode` of `denied`.
 
-1.  Before rolling out a new authorization policy in production, apply it in permissive mode.
-    `Note`, when global authorization configuration is in permissive mode, all policies will be in
-    permissive mode by default.
-
-    Run the following command:
+1.  Apply the `productpage-policy.yaml` authorization policy in permissive mode with the following command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
     {{< /text >}}
 
-1.  Send traffic to the sample application again.
-
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+1.  Send traffic to the sample application with the following command:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should
-    see everything works fine.
-
-1.  Verify the logs and check `permissiveResponseCode` again.
-
-    In a Kubernetes environment, search through the `istio-telemetry`
-    pods's logs as follows:
+1.  Get the log for telemetry and search for the `permissiveResponseCode` with the following command:
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -130,13 +111,10 @@ Before you start, please make sure that you have finished [preparation task](#be
     {"level":"warn","time":"2018-08-30T21:55:53.544441Z","instance":"rbacsamplelog.logentry.istio-system","destination":"productpage","latency":"57.800056ms","permissiveResponseCode":"allowed","permissiveResponsePolicyID":"productpage-viewer","responseCode":200,"responseSize":5723,"source":"istio-ingressgateway","user":"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"}
     {{< /text >}}
 
-    In telemetry logs above,  the `responseCode` is 200 which is what user see now.
-    The `permissiveResponseCode` is `allowed` for productpage service, 403 for ratings
-    and reviews services, which are what user will see after switching
-    policy mode from `PERMISSIVE` mode to `ENFORCED` mode; the result aligns with
-    [Emabling authorization for HTTP services step 1](/docs/tasks/security/authz-http#step-1-allowing-access-to-the-productpage-service).
+1.  Verify that the the log shows a `responseCode` of `200` and a `permissiveResponseCode` of `allowed`
+    for `productpage` service.
 
-1.  Remove permissive mode related yaml files:
+1.  Remove the YAML files related to enabling the permissive mode:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
@@ -144,68 +122,41 @@ Before you start, please make sure that you have finished [preparation task](#be
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Now we have verified authorization will work as expected when turning it on,
-    it's safe following the [Enabling Istio authorization](/docs/tasks/security/authz-http#enabling-istio-authorization) to turn on authorization.
+1.  Congratulations! You tested an authorization policy with permissive mode and verified it will
+    work as expected. To enable the authorization policy, follow the steps described in the
+    [Enabling Istio authorization task](/docs/tasks/security/authz-http#enabling-istio-authorization).
 
-### Testing new authorization policy works as expected before rolling to production
+### Test adding authorization policy
 
-This tasks shows how to use authorization permissive mode to test a new authorization policy works
-as expected in environment with authorization already enabled.
+The following steps show how to test a new authorization policy with permissive mode when authorization
+has already been enabled.
 
-Before you start, please make sure that you have finished [Enabling authorization for HTTP services step 1](/docs/tasks/security/authz-http#step-1-allowing-access-to-the-productpage-service).
+1.  Allow access to the `producepage` service by following
+[Enabling authorization for HTTP services step 1](/docs/tasks/security/authz-http#step-1-allowing-access-to-the-productpage-service).
 
-1.  Before applying a new policy, test it by setting its mode to permissive:
-
-    Run the following command:
+1.  Allow access to the details and reviews service in permissive mode with the following command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
     {{< /text >}}
 
-    The policy is the same as defined in [allowing access to the details and
-    reviews services](/docs/tasks/security/authz-http#step-2-allowing-access-to-the-details-and-reviews-services), except `PERMISSIVE` mode is set in ServiceRoleBinding.
+1.  Verify there are errors `Error fetching product details` and `Error fetching product reviews` on
+    the Bookinfo `productpage` by pointing your browser at the `productpage` (`http://$GATEWAY_URL/productpage`),
+    These errors are expected because the policy is in `PERMISSIVE` mode.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-details-reviews
-      namespace: default
-    spec:
-      subjects:
-      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-      roleRef:
-        kind: ServiceRole
-        name: "details-reviews-viewer"
-      mode: PERMISSIVE
-    {{< /text >}}
-
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`), you should still
-    see there are errors `Error fetching product details` and `Error fetching
-    product reviews` on the page. These errors are expected because the policy is
-    in `PERMISSIVE` mode.
-
-1.  Apply YAML file for the permissive mode metric collection.
-
-    Run the following command:
+1.  Apply the `rbac-permissive-telemetry.yaml` YAML file to enable the permissive mode metric collection.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Send traffic to the sample application.
-
-    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+1.  Send traffic to the sample application:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Verify the logs and check `permissiveResponseCode` again.
-
-    In a Kubernetes environment, search through the `istio-telemetry`
-    pods' logs as follows:
+1.  Get the log for telemetry and search for the `permissiveResponseCode` with the following command:
 
     {{< text bash json >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"rbacsamplelog.logentry.istio-system\"
@@ -213,19 +164,16 @@ Before you start, please make sure that you have finished [Enabling authorizatio
     {"level":"warn","time":"2018-08-30T22:59:42.763423Z","instance":"rbacsamplelog.logentry.istio-system","destination":"reviews","latency":"237.333µs","permissiveResponseCode":"allowed","permissiveResponsePolicyID":"details-reviews-viewer","responseCode":403,"responseSize":19,"source":"productpage","user":"cluster.local/ns/default/sa/bookinfo-productpage"}
     {{< /text >}}
 
-    In telemetry logs above, the `responseCode` is 403 for ratings
-    and reviews services, which is what users see now.
-    The `permissiveResponseCode` is `allowed` for ratings and reviews services,
-    which is what users will see after switching policy mode from `PERMISSIVE` mode
-    to `ENFORCED` mode; it indicates the new authorization policy will work as expected
-    after rolling to production.
+1.  Verify that the the log shows a `responseCode` of `403` and a `permissiveResponseCode` of `allowed`
+    for ratings and reviews services.
 
-1.  Remove permissive mode related yaml files:
+1.  Remove the YAML files related to enabling the permissive mode:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Now we have verified the new policy will work as expected, it's safe
-    following [Enabling authorization for HTTP services step 2](/docs/tasks/security/authz-http#step-2-allowing-access-to-the-details-and-reviews-services) to apply the policy.
+1.  Congratulations! You tested adding an authorization policy with permissive mode and verified it will
+    work as expected. To add the authorization policy, follow the steps described in the
+    [Enabling Istio authorization task](/docs/tasks/security/authz-http#enabling-istio-authorization).
