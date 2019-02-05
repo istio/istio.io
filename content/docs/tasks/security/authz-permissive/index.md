@@ -32,7 +32,7 @@ install Istio **with mutual TLS enabled**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-* Create service accounts and for the Bookinfo application. Run the following command to create service
+* Create service accounts for the Bookinfo application. Run the following command to create service
 account `bookinfo-productpage` for `productpage` and service account `bookinfo-reviews` for `reviews`:
 
     {{< text bash >}}
@@ -122,8 +122,8 @@ turn on authorization globally:
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  Congratulations! You tested an authorization policy with permissive mode and verified it will
-    work as expected. To enable the authorization policy, follow the steps described in the
+1.  Congratulations! You tested an authorization policy with permissive mode and verified it works
+    as expected. To enable the authorization policy, follow the steps described in the
     [Enabling Istio authorization task](/docs/tasks/security/authz-http#enabling-istio-authorization).
 
 ### Test adding authorization policy
@@ -131,7 +131,7 @@ turn on authorization globally:
 The following steps show how to test a new authorization policy with permissive mode when authorization
 has already been enabled.
 
-1.  Allow access to the `producepage` service by following
+1.  Allow access to the `producepage` service by following the instructions in
 [Enabling authorization for HTTP services step 1](/docs/tasks/security/authz-http#step-1-allowing-access-to-the-productpage-service).
 
 1.  Allow access to the details and reviews service in permissive mode with the following command:
