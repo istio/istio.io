@@ -72,7 +72,7 @@ $ helm template install/kubernetes/helm/istio \
   --set pilot.sidecar=false > istio-minimal.yaml
 {{< /text >}}
 
-然后**创建 istio-system namespace 并部署 Istio**：
+然后**创建 `istio-system` namespace 并部署 Istio**：
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
