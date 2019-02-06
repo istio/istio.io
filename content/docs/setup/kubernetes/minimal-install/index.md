@@ -15,43 +15,35 @@ Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) 
 
 ## Installation steps
 
-1. If using a Helm version prior to 2.10.0, install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
+You have two mutually exclusive options to install Istio:
+- To use Kubernetes manifests to deploy Istio, follow the instructions for [option #1](#option-1).
+- To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option #2](#option-2).
+
+### Option 1: Install with Helm via `helm template` {#option-1}
+
+Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
+
+1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kube api-server:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
-
-1. Choose one of the following two
-**mutually exclusive** options described below.
-
-### Option 1: Install with Helm via `helm template`
 
 1. Render Istio's core components to a Kubernetes manifest called `istio-minimal.yaml`:
 
     {{< text bash >}}
+    $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio-minimal.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-      --set security.enabled=false \
-      --set ingress.enabled=false \
-      --set gateways.istio-ingressgateway.enabled=false \
-      --set gateways.istio-egressgateway.enabled=false \
-      --set galley.enabled=false \
-      --set sidecarInjectorWebhook.enabled=false \
-      --set mixer.policy.enabled=false \
-      --set mixer.telemetry.enabled=false \
-      --set prometheus.enabled=false \
-      --set global.proxy.envoyStatsd.enabled=false \
-      --set pilot.sidecar=false > $HOME/istio-minimal.yaml
+      --values install/kubernetes/helm/istio/values-istio-minimal.yaml >> $HOME/istio-minimal.yaml
     {{< /text >}}
 
 1. Install the Pilot component via the manifest:
 
     {{< text bash >}}
-    $ kubectl create namespace istio-system
     $ kubectl apply -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
-### Option 2: Install with Helm and Tiller via `helm install`
+### Option 2: Install with Helm and Tiller via `helm install` {#option-2}
 
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
@@ -60,7 +52,7 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
@@ -69,21 +61,23 @@ to manage the lifecycle of Istio.
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Install Istio:
+1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
+
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+    {{< /text >}}
+
+1. To verify all Istio's CRDs were committed in the Kubernetes api-server, check the number of CRDs with the specified suffix with the following command. Verify that the number of total CRDs created was `56` for Istio:
+
+    {{< text bash >}}
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+    {{< /text >}}
+
+1. Install the `istio` chart:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system \
-      --set security.enabled=false \
-      --set ingress.enabled=false \
-      --set gateways.istio-ingressgateway.enabled=false \
-      --set gateways.istio-egressgateway.enabled=false \
-      --set galley.enabled=false \
-      --set sidecarInjectorWebhook.enabled=false \
-      --set mixer.policy.enabled=false \
-      --set mixer.telemetry.enabled=false \
-      --set prometheus.enabled=false \
-      --set global.proxy.envoyStatsd.enabled=false \
-      --set pilot.sidecar=false
+      --values install/kubernetes/helm/istio/values-istio-minimal.yaml
     {{< /text >}}
 
 1. Ensure the `istio-pilot-*` Kubernetes pod is deployed and its container is up and running:
@@ -104,18 +98,20 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 * For option 2, uninstall using Helm:
 
+> Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
+> CRDs to leak into the Kubernetes environment. As CRDs contain all the runtime configuration
+> data needed to configure Istio. Because of this, we consider it better for operators to
+> explicitly delete the runtime configuration data rather than unexpectedly lose it.
+
     {{< text bash >}}
     $ helm delete --purge istio-minimal
+    $ helm delete --purge istio-init
     {{< /text >}}
 
-    If your Helm version is less than 2.10.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+* If desired, run the following command to delete all CRDs:
+
+> {{< warning_icon >}} Deleting CRDs deletes any configuration changes that you have made to Istio.
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete job --all
-    {{< /text >}}
-
-* If desired, delete the CRDs:
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
