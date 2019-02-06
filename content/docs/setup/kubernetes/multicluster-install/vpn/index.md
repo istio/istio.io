@@ -165,7 +165,12 @@ perform a manual sidecar injection refer to the [manual sidecar example](#manual
 1. Install the Helm chart for the `istio-remote` with the following command:
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio --name istio-remote --namespace istio-system --values install/kubernetes/helm/istio/values-istio-remote.yaml --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP}
+    $ helm install install/kubernetes/helm/istio \
+    --name istio-remote --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP}
     {{< /text >}}
 
 {{% /tab %}}
@@ -354,7 +359,13 @@ Before you begin, set the endpoint IP environment variables as described in the
    control plane service endpoints:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --namespace istio-system --name istio-remote --values install/kubernetes/helm/istio/values-istio-remote.yaml --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
+    $ helm template install/kubernetes/helm/istio \
+    --namespace istio-system --name istio-remote \
+    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+    --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
 1. Create the `istio-system` namespace for remote Istio:
