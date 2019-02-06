@@ -86,8 +86,14 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and a destination rule for
     sidecar requests that will be directed to the egress gateway.
 
-    Choose the instructions corresponding to whether or not you have
-    [mutual TLS authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    Choose the instructions corresponding to whether or not you want to enable
+    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+
+    {{< idea >}}
+    You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.
+    In addition, mutual TLS will allow the egress gateway monitor the identity of the source pods and enable Mixer
+    policy enforcement based on that identity.
+    {{< /idea >}}
 
     {{< tabset cookie-name="mtls" >}}
 
