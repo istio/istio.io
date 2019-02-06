@@ -104,7 +104,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
         istio: egressgateway
       servers:
       - port:
-          number: 443
+          number: 80
           name: https
           protocol: HTTPS
         hosts:
@@ -128,7 +128,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
             simple: ROUND_ROBIN
           portLevelSettings:
           - port:
-              number: 443
+              number: 80
             tls:
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
@@ -150,7 +150,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
         istio: egressgateway
       servers:
       - port:
-          number: 443
+          number: 80
           name: http-port-for-tls-origination
           protocol: HTTP
         hosts:
@@ -196,12 +196,12 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
             host: istio-egressgateway.istio-system.svc.cluster.local
             subset: cnn
             port:
-              number: 443
+              number: 80
           weight: 100
       - match:
         - gateways:
           - istio-egressgateway
-          port: 443
+          port: 80
         route:
         - destination:
             host: edition.cnn.com
