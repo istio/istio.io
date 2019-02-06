@@ -62,10 +62,10 @@ the Kubernetes API server:
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system >> $HOME/istio.yaml
     {{< /text >}}
 
-    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` to `true` for the last command:
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` and `global.controlPlaneSecurityEnabled` to `true` for the last command:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true > $HOME/istio.yaml
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true >> $HOME/istio.yaml
     {{< /text >}}
 
 1. Install the components via the manifest:
