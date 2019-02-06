@@ -602,7 +602,7 @@ spec:
   - ratings
   http:
   - match:
-      sourceLabels:
+    - sourceLabels:
         app: reviews
     route:
     ...
