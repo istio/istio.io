@@ -1,17 +1,17 @@
 ---
-title: Demystifying Istio's Sidecar Injection Model 
+title: Demystifying Istio's Sidecar Injection Model
 description: De-mystify how Istio manages to plugin its data-plane components into an existing deployment.
 publishdate: 2019-01-31
 subtitle:
 attribution: Manish Chugtu
-twitter: chugtum 
+twitter: chugtum
 weight: 76
 keywords: [kubernetes, istio, sidecar injection, admission controller, mutating webhook, control plane, traffic management]
 
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 
-[From Istio’s documentation:](../../../docs/concepts/what-is-istio/#architecture)
+[From Istio’s documentation:](/docs/concepts/what-is-istio/#architecture)
 
 > An Istio service mesh is logically split into a data plane and a control plane.
 >
