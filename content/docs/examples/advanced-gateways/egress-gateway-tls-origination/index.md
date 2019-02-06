@@ -60,11 +60,11 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       - edition.cnn.com
       ports:
       - number: 80
-        name: http-port
+        name: http
         protocol: HTTP
       - number: 443
-        name: http-port-for-tls-origination
-        protocol: HTTP
+        name: https
+        protocol: HTTPS
       resolution: DNS
     EOF
     {{< /text >}}
