@@ -461,7 +461,7 @@ Istio Helm charts or the Istio manifests.
 
 This method uses the Istio ingress gateway functionality. The remote clusters
 have the `istio-pilot`, `istio-telemetry` and `istio-policy` services
-pointing to the load balanced IP of the Istio ingress gateway. Then, all the 
+pointing to the load balanced IP of the Istio ingress gateway. Then, all the
 services point to the same IP.
 You must then create the destination rules to reach the proper Istio service in
 the main cluster in the ingress gateway.
