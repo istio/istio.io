@@ -15,7 +15,7 @@ Because most, if not all, real-world cloud and microservices-based applications 
 and will need to have the services distributed and running in more than one location, you may be
 wondering if all these things will be just as simple in your real production environment.
 
-Fortunately, Istio provides serveral ways to configure a service mesh so that applications
+Fortunately, Istio provides several ways to configure a service mesh so that applications
 can, more-or-less transparently, be part of a service mesh where the services are running
 in more than one cluster, i.e., in a
 [multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
@@ -26,7 +26,7 @@ In this configuration, each Kubernetes cluster contributing to the mesh has it's
 but each control plane is synchronized and running under a single administrative control.
 
 In this article we'll look at how one of the popular features of Istio,
-[traffic managment](/docs/concepts/traffic-management/), works in a multicluster mesh with
+[traffic management](/docs/concepts/traffic-management/), works in a multicluster mesh with
 a multiple control plane topology.
 We'll show how to configure Istio route rules to call remote services in a multicluster service mesh
 by deploying the [Bookinfo sample]({{<github_tree>}}/samples/bookinfo) with version `v1` of the `reviews` service
@@ -56,7 +56,7 @@ To start, you'll need two Kubernetes clusters, both running a slightly customize
     $ export CTX_CLUSTER2=<cluster2 context name>
     {{< /text >}}
 
-## Deploy version v1 of the bookinfo application in cluster1
+## Deploy version v1 of the `bookinfo` application in `cluster1`
 
 Run the `productpage` and `details` services and version `v1` of the `reviews` service in `cluster1`:
 
@@ -161,7 +161,7 @@ spec:
 EOF
 {{< /text >}}
 
-## Deploy bookinfo v2 and v3 services in cluster2
+## Deploy `bookinfo` v2 and v3 services in `cluster2`
 
 Run the `ratings` service and version `v2` and `v3` of the `reviews` service in `cluster2`:
 
@@ -253,11 +253,11 @@ spec:
 EOF
 {{< /text >}}
 
-## Access the bookinfo application
+## Access the `bookinfo` application
 
-Just like any application, we'll use an Istio gateway to access the bookinfo application.
+Just like any application, we'll use an Istio gateway to access the `bookinfo` application.
 
-* Create the bookinfo gateway in `cluster1`:
+* Create the `bookinfo` gateway in `cluster1`:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/bookinfo-gateway.yaml
@@ -266,10 +266,10 @@ Just like any application, we'll use an Istio gateway to access the bookinfo app
 * Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
     to determine the ingress IP and port and then point your browser to `http://$GATEWAY_URL/productpage`.
 
-You should see the productpage with reviews, but without ratings, because only `v1` of the `reviews` service
+You should see the `productpage` with reviews, but without ratings, because only `v1` of the `reviews` service
 is running on `cluster1` and we have not yet configured access to `cluster2`.
 
-## Create a service entry and destination rule on cluster1 for the remote reviews service
+## Create a service entry and destination rule on `cluster1` for the remote reviews service
 
 As described in the [setup instructions](/docs/setup/kubernetes/multicluster-install/gateways/#setup-dns),
 remote services are accessed with a `.global` DNS name. In our case, it's `reviews.default.global`,
@@ -322,7 +322,7 @@ spec:
 EOF
 {{< /text >}}
 
-The address `127.255.0.3` of the service entry can be any arbirary unallocated IP.
+The address `127.255.0.3` of the service entry can be any arbitrary unallocated IP.
 Using an IP from the loopback range 127.0.0.0/8 is a good choice.
 Check out the
 [gateway-connected multicluster example](/docs/examples/multicluster/gateways/#configure-the-example-services)
@@ -438,7 +438,7 @@ only see reviews without ratings (`v1`).
 ## Summary
 
 In this article, we've seen how to use Istio route rules to distribute the versions of a service
-accross clusters in a multicluster service mesh with a
+across clusters in a multicluster service mesh with a
 [multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
 In this example, we manually configured the `.global` service entry and destination rules needed to provide
 connectivity to one remote service, `reviews`. In general, however, if we wanted to enable any service
