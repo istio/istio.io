@@ -16,16 +16,16 @@ and will need to have the services distributed and running in more than one loca
 wondering if all these things will be just as simple in your real production environment.
 
 Fortunately, Istio provides several ways to configure a service mesh so that applications
-can, more-or-less transparently, be part of a service mesh where the services are running
+can, more-or-less transparently, be part of a mesh where the services are running
 in more than one cluster, i.e., in a
 [multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
 The simplest way to setup a multicluster mesh, because it has no special networking requirements,
 is using a
 [multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
-In this configuration, each Kubernetes cluster contributing to the mesh has it's own control plane,
+In this configuration, each Kubernetes cluster contributing to the mesh has its own control plane,
 but each control plane is synchronized and running under a single administrative control.
 
-In this article we'll look at how one of the popular features of Istio,
+In this article we'll look at how one of the features of Istio,
 [traffic management](/docs/concepts/traffic-management/), works in a multicluster mesh with
 a multiple control plane topology.
 We'll show how to configure Istio route rules to call remote services in a multicluster service mesh
