@@ -16,10 +16,10 @@ Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) 
 ## Installation steps
 
 You have two mutually exclusive options to install Istio:
-- To use Kubernetes manifests to deploy Istio,  follow the instructions for [option #1](#option1).
-- To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option #2](#option2).
+- To use Kubernetes manifests to deploy Istio, follow the instructions for [option #1](#option-1).
+- To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option #2](#option-2).
 
-### Option 1: Install with Helm via `helm template` {#option1}
+### Option 1: Install with Helm via `helm template` {#option-1}
 
 Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
 
@@ -43,7 +43,7 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
     $ kubectl apply -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
-### Option 2: Install with Helm and Tiller via `helm install` {#option2}
+### Option 2: Install with Helm and Tiller via `helm install` {#option-2}
 
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
@@ -67,7 +67,7 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify all the Istio's CRDs have been committed in the Kube api-server by checking the number of CRD with specified suffix. Run the following command and check the result, totally `57` CRDs should be created for Istio:
+1. To verify all Istio's CRDs were committed in the Kubernetes api-server, check the number of CRDs with the specified suffix with the following command. Verify that the number of total CRDs created was `57` for Istio:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
@@ -99,9 +99,9 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 * For option 2, uninstall using Helm:
 
 > Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
-> CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
-> data for Istio configuration the Istio designers consider better to explicitly delete this
-> configuration rather then unexpectedly to lose it.
+> CRDs to leak into the Kubernetes environment. As CRDs contain all the runtime configuration 
+> data needed to configure Istio. Because of this, we consider it better for operators to 
+> explicitly delete the runtime configuration data rather than unexpectedly lose it.
 
     {{< text bash >}}
     $ helm delete --purge istio-minimal
