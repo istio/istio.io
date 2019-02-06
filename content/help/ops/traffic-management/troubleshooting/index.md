@@ -8,9 +8,9 @@ This section describes common problems and tools and techniques to address issue
 
 ## Requests are rejected by Envoy
 
-Requests may be rejected for various reasons, to identify the reasons, and you may inspect
-the access logs to understand what is happening. By default, access logs are output to the standard
-output of the container. Run the following command to see the log:
+Requests may be rejected for various reasons. The best way to understand why requests are being rejected is
+by inspecting Envoy's access logs. By default, access logs are output to the standard output of the container.
+Run the following command to see the log:
 
 {{< text bash >}}
 $ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
