@@ -43,6 +43,7 @@ running in a second cluster.
     $ kubectl create --context=$CTX_CLUSTER1 namespace foo
     $ kubectl label --context=$CTX_CLUSTER1 namespace foo istio-injection=enabled
     $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f @samples/sleep/sleep.yaml@
+    $ export SLEEP_POD=$(kubectl get --context=$CTX_CLUSTER1 -n foo pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 1. Deploy the `httpbin` service in `cluster2`.
@@ -140,8 +141,7 @@ running in a second cluster.
 1. Verify that `httpbin` is accessible from the `sleep` service.
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_CLUSTER1 $(kubectl get --context=$CTX_CLUSTER1 -n foo pod -l app=sleep -o jsonpath={.items..metadata.name}) \
-       -n foo -c sleep -- curl httpbin.bar.global:8000/ip
+    $ kubectl exec --context=$CTX_CLUSTER1 $SLEEP_POD -n foo -c sleep -- curl httpbin.bar.global:8000/headers
     {{< /text >}}
 
 ## Send remote cluster traffic using egress gateway
@@ -218,12 +218,11 @@ spec:
 EOF
 {{< /text >}}
 
-You can then follow the steps outlined in the
-[request routing](/docs/tasks/traffic-management/request-routing/) task
-to create appropriate virtual services and destination rules.
-Use destination rules to define subsets of the `httpbin.bar.global` service with
-the appropriate label selectors.
-The instructions are identical to those used for routing to a local service.
+You can then create virtual services and destination rules
+to define subsets of the `httpbin.bar.global` service with the appropriate label selectors.
+The instructions are the same as those used for routing to a local service.
+See [multicluster version routing](/blog/2019/multicluster-version-routing/)
+for a concrete example.
 
 ## Cleanup
 
