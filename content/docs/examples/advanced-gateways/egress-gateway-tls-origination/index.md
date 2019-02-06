@@ -91,7 +91,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     {{< idea >}}
     You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.
-    In addition, mutual TLS will allow the egress gateway monitor the identity of the source pods and enable Mixer
+    In addition, mutual TLS will allow the egress gateway to monitor the identity of the source pods and enable Mixer
     policy enforcement based on that identity.
     {{< /idea >}}
 
