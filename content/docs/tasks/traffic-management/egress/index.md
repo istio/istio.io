@@ -266,6 +266,92 @@ $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata
 $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 {{< /text >}}
 
+## Install Istio with access to all external services by default
+
+An alternative to calling external services directly is to instruct the Istio proxy to pass through the calls to all the
+external services. This option allows you to start evaluating Istio quickly, without controlling access to external
+services, and decide to [configure access to external services](#configuring-istio-external-services) later.
+
+Istio has an installation option that allows access to all external services for which no HTTP service exists inside
+the mesh and no HTTP/TCP `ServiceEntry` is defined. For example, if your mesh does not have an HTTP service on port 443,
+and you did not define a `ServiceEntry` on port 443, you can access any external service on port 443. Note, however,
+that once you create an HTTP service on port 443 or define any `ServiceEntry` for any host on
+port 443, all accesses to port 443 is blocked: Istio will fall back to the blocking-by-default behavior for that
+port only. (Defining an HTTP service on port 443 is not recommended anyway, since using the same port for TCP/HTTPS and
+for HTTP traffic in Istio is discouraged.)
+
+1.  To allow access to all the external services, install or update Istio by using
+[Helm](https://preliminary.istio.io/docs/setup/kubernetes/helm-install/) while setting the value of
+`global.outboundTrafficPolicy.mode` to `ALLOW_ANY`: `--set global.outboundTrafficPolicy.mode=ALLOW_ANY`.
+
+    Alternatively, if you followed the instructions in
+    [Quick Start with Kubernetes](https://preliminary.istio.io/docs/setup/kubernetes/quick-start/#installation-steps)
+    and used `install/kubernetes/istio-demo.yaml` or `install/kubernetes/istio-demo-auth.yaml` files to install Istio,
+    just edit the files. Look for the following YAML part:
+
+    {{< text yaml >}}
+    # Set the default behavior of the sidecar for handling outbound traffic from the application:
+    # REGISTRY_ONLY - restrict outbound traffic to services defined in the service registry as well
+    #   as those defined through ServiceEntries
+    # ALLOW_ANY - outbound traffic to unknown destinations will be allowed, in case there are no
+    #   services or ServiceEntries for the destination port
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
+    {{< /text >}}
+
+    Change `mode` of `outboundTrafficPolicy` from `REGISTRY_ONLY` to `ALLOW_ANY`. Then run `kubectl apply` with the
+    edited file.
+
+    Yet another option is to use `kubectl edit` to edit the relevant configuration map directly:
+    `kubectl edit configmap istio -n istio-system`.
+
+    For demonstration purposes, let's use `kubectl get --export`, `kubectl replace` and `sed`:
+
+    {{< text bash >}}
+    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+    configmap "istio" replaced
+    {{< /text >}}
+
+1.  Make a couple of requests to external HTTPS services from `SOURCE_POD`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://www.google.com | grep -o "<title>.*</title>"; kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://edition.cnn.com | grep -o "<title>.*</title>"
+    <title>Google</title>
+    <title>CNN International - Breaking News, US News, World News and Video</title>
+    {{< /text >}}
+
+    > It might take time for the configuration change to propagate so you might still get connection errors.
+    Wait for several seconds and then retry the last command.
+
+Note that the requests to port 80 are blocked for all the external services since Istio by default has HTTP services
+that run on port 80. Also note that if you install Istio with allowed access to all the external services you loose
+Istio monitoring on traffic to external services: the calls to external services will not appear in the Mixer log, for
+example. To start monitoring access to external services, follow the steps in
+[configure access to external services](#configuring-istio-external-services) (no need to update Istio).
+
+### Change back to the blocking-by-default policy
+
+To cancel your policy change for external services, undo the changes you performed in the previous section and update
+Istio.
+
+1.  For demonstration purposes, run:
+
+    {{< text bash >}}
+    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
+    configmap "istio" replaced
+    {{< /text >}}
+
+1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://www.google.com | grep -o "<title>.*</title>"; kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://edition.cnn.com | grep -o "<title>.*</title>"
+    command terminated with exit code 35
+    command terminated with exit code 35
+    {{< /text >}}
+
+    > It might take time for the configuration change to propagate so you might still get successful connections.
+    Wait for several seconds and then retry the last command.
+
 ## Understanding what happened
 
 In this task you looked at two ways to call external services from an Istio mesh:
