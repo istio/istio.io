@@ -30,7 +30,7 @@ from __builtin__ import file
 # comments are needed in order to decode the commented helm
 # values.yaml file
 #
-YAML_CONFIG_DIR = "istio/install/kubernetes/helm/subcharts"
+YAML_CONFIG_DIR = "istio/install/kubernetes/helm/istio/charts"
 ISTIO_CONFIG_DIR = "istio/install/kubernetes/helm/istio"
 VALUES_YAML = "values.yaml"
 ISTIO_IO_DIR = os.path.abspath(__file__ + "/../../")
@@ -72,7 +72,7 @@ prdict = collections.defaultdict(list)
 def decode_helm_yaml(s):
     ret_val = ''
     #
-    # Iterate through all the directories under /istio/install/kubernetes/heml/subcharts 
+    # Iterate through all the directories under /istio/install/kubernetes/heml/istio/charts 
     # and process the configuration options from the respective values.yaml. The
     # configuration option name is the name of the directory that contains values.yaml.
     # This name will be passed in to the the function process_helm_yaml

@@ -31,15 +31,6 @@ plane and the sidecars for the Istio data plane.
 
 ## Installation steps
 
-The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
-
-1.  Update Helm's dependencies:
-
-    {{< text bash >}}
-    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
-    $ helm dep update install/kubernetes/helm/istio
-    {{< /text >}}
-
 1. Choose one of the following two **mutually exclusive** options described below.
 
     {{< tip >}}

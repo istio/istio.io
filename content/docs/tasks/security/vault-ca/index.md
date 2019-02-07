@@ -20,7 +20,6 @@ requests to a testing Vault CA:
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
-    $ helm dep update --skip-refresh install/kubernetes/helm/istio
     $ cat install/kubernetes/namespace.yaml > istio-auth.yaml
     $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth.yaml
     $ helm template \
