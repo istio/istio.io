@@ -222,7 +222,7 @@ You can then create virtual services and destination rules
 to define subsets of the `httpbin.bar.global` service with the appropriate label selectors.
 The instructions are the same as those used for routing to a local service.
 See [multicluster version routing](/blog/2019/multicluster-version-routing/)
-for a concrete example.
+for a complete example.
 
 ## Cleanup
 

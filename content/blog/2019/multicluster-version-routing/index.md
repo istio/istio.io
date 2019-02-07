@@ -274,6 +274,15 @@ is running on `cluster1` and we have not yet configured access to `cluster2`.
 As described in the [setup instructions](/docs/setup/kubernetes/multicluster-install/gateways/#setup-dns),
 remote services are accessed with a `.global` DNS name. In our case, it's `reviews.default.global`,
 so we need to create a service entry and destination rule for that host.
+The service entry will use the `cluster2` gateway as the endpoint address to access the service.
+You can use the gateway's DNS name, if it has one, or its public IP, like this:
+
+{{< text bash >}}
+$ export CLUSTER2_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
+    -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
+{{< /text >}}
+
+Now create the service entry and destination rule using the following command:
 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
@@ -340,7 +349,7 @@ for versions that are not actually deployed.
 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
-aapiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: reviews
@@ -364,7 +373,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER2 -f - <<EOF
-aapiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: reviews
