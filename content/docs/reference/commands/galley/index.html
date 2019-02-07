@@ -123,7 +123,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
-<td>Port to use for exposing self-monitoring information  (default `9093`)</td>
+<td>Port to use for exposing self-monitoring information  (default `15014`)</td>
 </tr>
 <tr>
 <td><code>--pprofPort &lt;uint&gt;</code></td>
@@ -156,6 +156,14 @@ number_of_entries: 4
 <tr>
 <td><code>--service-name &lt;string&gt;</code></td>
 <td>Name of the validation service running in the same namespace as the deployment  (default `istio-galley`)</td>
+</tr>
+<tr>
+<td><code>--sinkAddress &lt;string&gt;</code></td>
+<td>Address of MCP Resource Sink server for Galley to connect to. Ex: &#39;foo.com:1234&#39;  (default ``)</td>
+</tr>
+<tr>
+<td><code>--sinkAuthMode &lt;string&gt;</code></td>
+<td>Name of authentication plugin to use for connection to sink server.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
@@ -303,7 +311,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
-<td>Port to use for exposing self-monitoring information  (default `9093`)</td>
+<td>Port to use for exposing self-monitoring information  (default `15014`)</td>
 </tr>
 <tr>
 <td><code>--pprofPort &lt;uint&gt;</code></td>
@@ -340,6 +348,14 @@ number_of_entries: 4
 <tr>
 <td><code>--service-name &lt;string&gt;</code></td>
 <td>Name of the validation service running in the same namespace as the deployment  (default `istio-galley`)</td>
+</tr>
+<tr>
+<td><code>--sinkAddress &lt;string&gt;</code></td>
+<td>Address of MCP Resource Sink server for Galley to connect to. Ex: &#39;foo.com:1234&#39;  (default ``)</td>
+</tr>
+<tr>
+<td><code>--sinkAuthMode &lt;string&gt;</code></td>
+<td>Name of authentication plugin to use for connection to sink server.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
@@ -512,7 +528,7 @@ number_of_entries: 4
 <tr>
 <td><code>--monitoringPort &lt;uint&gt;</code></td>
 <td></td>
-<td>Port to use for exposing self-monitoring information  (default `9093`)</td>
+<td>Port to use for exposing self-monitoring information  (default `15014`)</td>
 </tr>
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
@@ -563,6 +579,16 @@ number_of_entries: 4
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
+</tr>
+<tr>
+<td><code>--sinkAddress &lt;string&gt;</code></td>
+<td></td>
+<td>Address of MCP Resource Sink server for Galley to connect to. Ex: &#39;foo.com:1234&#39;  (default ``)</td>
+</tr>
+<tr>
+<td><code>--sinkAuthMode &lt;string&gt;</code></td>
+<td></td>
+<td>Name of authentication plugin to use for connection to sink server.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
