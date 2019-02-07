@@ -24,13 +24,13 @@ Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy co
 1.  Test connectivity to Pilot using `curl`. The following example invokes the v1 registration API using default Pilot configuration parameters and mutual TLS enabled:
 
     {{< text bash >}}
-    $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:8080/v1/registration
+    $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:8080/debug/edsz
     {{< /text >}}
 
     If mutual TLS is disabled:
 
     {{< text bash >}}
-    $ curl http://istio-pilot:8080/v1/registration
+    $ curl http://istio-pilot:8080/debug/edsz
     {{< /text >}}
 
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
