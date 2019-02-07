@@ -191,8 +191,8 @@ EOF
 
 ## Version-aware routing to remote services
 
-If the remote service has multiple versions, you can add one or more
-labels to the service entry endpoint.
+If the remote service has multiple versions, you can add
+labels to the service entry endpoints.
 For example:
 
 {{< text bash >}}
@@ -218,16 +218,14 @@ spec:
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     labels:
-      version: beta
-      some: thing
-      foo: bar
+      cluster: cluster2
     ports:
       http1: 15443 # Do not change this port value
 EOF
 {{< /text >}}
 
 You can then create virtual services and destination rules
-to define subsets of the `httpbin.bar.global` service with the appropriate label selectors.
+to define subsets of the `httpbin.bar.global` service using the appropriate gateway label selectors.
 The instructions are the same as those used for routing to a local service.
 See [multicluster version routing](/blog/2019/multicluster-version-routing/)
 for a complete example.

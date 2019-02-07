@@ -304,8 +304,7 @@ spec:
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     labels:
-      version: v2
-      version: v3
+      cluster: cluster2
     ports:
       http1: 15443 # Do not change this port value
 ---
@@ -319,15 +318,12 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
   subsets:
-  - name: v1
-    labels:
-      version: v1
   - name: v2
     labels:
-      version: v2
+      cluster: cluster2
   - name: v3
     labels:
-      version: v3
+      cluster: cluster2
 EOF
 {{< /text >}}
 
@@ -337,8 +333,11 @@ Check out the
 [gateway-connected multicluster example](/docs/examples/multicluster/gateways/#configure-the-example-services)
 for more details.
 
-Note that the labels of the remote versions (`v2` and `v3`) must also be included in the `endpoints` definition
-of the service entry.
+Note that the labels of the subsets in the destination rule map to the service entry
+endpoint label (`cluster: cluster2`) corresponding to the `cluster2` gateway.
+Once the request reaches the destination cluster, a local destination rule will be used
+to identify the actual pod labels (`version: v1` or `version: v2`) corresponding to the
+requested subset.
 
 ## Create a destination rule on both clusters for the local reviews service
 
