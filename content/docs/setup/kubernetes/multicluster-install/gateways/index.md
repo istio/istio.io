@@ -43,8 +43,10 @@ on **each** Kubernetes cluster.
     organization's root CA. The shared root CA enables mutual TLS communication
     across different clusters.
 
-    > For illustration purposes, the following instructions use the root certificate from
-    > the Istio samples directory as the intermediate certificates.
+    {{< tip >}}
+    For illustration purposes, the following instructions use the root certificate from
+    the Istio samples directory as the intermediate certificates.
+    {{< /tip >}}
 
 1. Generate a multicluster-gateways Istio configuration file using `helm`:
 

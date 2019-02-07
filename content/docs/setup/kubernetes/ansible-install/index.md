@@ -24,7 +24,9 @@ The following prerequisites must be met if using OpenShift.
 
 ## Deploy with Ansible
 
-{{< warning_icon >}} All execution of the Ansible playbooks must take place in the `install/kubernetes/ansible` path of Istio.
+{{< warning >}}
+All execution of the Ansible playbooks must take place in the `install/kubernetes/ansible` path of Istio.
+{{< /warning >}}
 
 This playbook will install Istio locally on your machine. To deploy the default settings of
 Istio on OpenShift, the following command may be used:
@@ -92,4 +94,6 @@ In this case, the `istio.delete_resources` flag does not need to be set.
 
 Setting `istio.delete_resources` to true will delete the Istio control plane from the cluster.
 
-> In order to avoid any inconsistencies, this flag should only be used to reinstall the same version of Istio on a cluster.
+{{< warning >}}
+In order to avoid any inconsistencies, this flag should only be used to reinstall the same version of Istio on a cluster.
+{{< /warning >}}

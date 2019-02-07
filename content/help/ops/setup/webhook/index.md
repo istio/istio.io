@@ -6,12 +6,14 @@ weight: 10
 
 From [Kubernetes mutating and validating webhook mechanisms](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/):
 
-> Admission webhooks are HTTP callbacks that receive admission requests
+{{< tip >}}
+Admission webhooks are HTTP callbacks that receive admission requests
 and do something with them. You can define two types of admission
 webhooks, validating admission webhook and mutating admission
 webhook. With validating admission webhooks, you may reject requests
 to enforce custom admission policies. With mutating admission
 webhooks, you may change requests to enforce custom defaults.
+{{< /tip >}}
 
 Istio uses `ValidatingAdmissionWebhooks` for validating Istio
 configuration and `MutatingAdmissionWebhooks` for automatically
