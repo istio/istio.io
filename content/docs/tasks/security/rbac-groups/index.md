@@ -1,5 +1,5 @@
 ---
-title: Groups-Based Authorization and Authorization for List-Typed Claims
+title: Authorization for groups and list claims
 description: Tutorial on how to configure the groups-base authorization and configure the authorization of list-typed claims in Istio.
 weight: 10
 keywords: [security,authorization]

@@ -9,7 +9,9 @@ aliases:
 icon: bugs
 ---
 
-Oh no! You found a bug?
+Oh no! You found a bug? We'd love to hear about it.
+
+## Product bugs
 
 Search our [issue database](https://github.com/istio/istio/issues/) to see if
 we already know about your problem and learn about when we think we can fix
@@ -20,13 +22,12 @@ what's going on.
 If you think a bug is in fact a security vulnerability, please visit [Reporting Security Vulnerabilities](/about/security-vulnerabilities/)
 to learn what to do.
 
-If you're running on Kubernetes, consider including a [cluster state
-archive](#generating-a-cluster-state-archive) in your bug report.
+### Kubernetes cluster state archives
 
-## Generating a cluster state archive
-
+If you're running on Kubernetes, consider including a cluster state
+archive with your bug report.
 For convenience, you can run a dump script to produce an archive containing
-all of the needed state from your Kubernetes cluster:
+all of the relevant state from your Kubernetes cluster:
 
 * Run via `curl`:
 
@@ -85,3 +86,11 @@ containing:
     {{< text bash >}}
     $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
     {{< /text >}}
+
+## Documentation bugs
+
+Search our [documentation issue database](https://github.com/istio/istio.io/issues/) to see if
+we already know about your problem and learn about when we think we can fix
+it. If you don't find your problem in the database, please navigate to the page
+with the problem, then select the gear menu at the
+top right of this page, and finally chose *Report a Site Bug*.

@@ -1,7 +1,7 @@
 ---
 title: Authorization for TCP Services
 description: Shows how to set up role-based access control for TCP services.
-weight: 40
+weight: 10
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
