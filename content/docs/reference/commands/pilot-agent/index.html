@@ -116,10 +116,6 @@ number_of_entries: 5
 <td>Proxy IP address. If not provided uses ${INSTANCE_IP} environment variable.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--kubeAppProberConfig &lt;string&gt;</code></td>
-<td>The json encoded string to pass app HTTP probe information from injector(istioctl or webhook). For example, --kubeAppProberConfig=&#39;{&#34;/app-health/httpbin/livez&#34;:{&#34;path&#34;: &#34;/hello&#34;, &#34;port&#34;: 8080}&#39; indicates that httpbin container liveness prober port is 8080 and probing path is /hello. This flag should never be set manually.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--lightstepAccessToken &lt;string&gt;</code></td>
 <td>Access Token for LightStep Satellite pool  (default ``)</td>
 </tr>
