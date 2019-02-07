@@ -87,8 +87,17 @@ An [issue](https://github.com/kubernetes/kubeadm/issues/666) was filed with Kube
 
 ## What Envoy version is Istio using?
 
-To find out the envoy version, you can follow below steps:
+To find out the envoy version used in deployment, you can `exec` into the container and query the `server_info` endpoint:
 
-1. `kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE /bin/bash`
+{{< text bash >}}
+$ kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE /bin/bash
+root@5c7e9d3a4b67:/# curl localhost:15000/server_info
+envoy 0/1.9.0-dev//RELEASE live 57964 57964 0
+{{< /text >}}
 
-1. `curl localhost:15000/server_info`
+In addition, the `Envoy` and `istio-api` repository versions are stored as labels on the image:
+
+{{< text bash >}}
+$ docker inspect -f '{{json .Config.Labels }}' ISTIO-PROXY-IMAGE
+{"envoy-vcs-ref":"b3be5713f2100ab5c40316e73ce34581245bd26a","istio-api-vcs-ref":"825044c7e15f6723d558b7b878855670663c2e1e"}
+{{< /text >}}
