@@ -6,6 +6,39 @@ weight: 30
 
 This section describes common problems and tools and techniques to address issues related to traffic management.
 
+## Requests are rejected by Envoy
+
+Requests may be rejected for various reasons. The best way to understand why requests are being rejected is
+by inspecting Envoy's access logs. By default, access logs are output to the standard output of the container.
+Run the following command to see the log:
+
+{{< text bash >}}
+$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
+{{< /text >}}
+
+In the default access log format, Envoy response flags and Mixer policy status are located after the response code,
+if you are using a custom log format, make sure to include `%RESPONSE_FLAGS%` and `%DYNAMIC_METADATA(istio.mixer:status)%`.
+
+Refer to the [Envoy response flags](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-response-flags)
+for details of response flags.
+
+Common response flags are:
+
+- `NR`: No route configured, check your `DestinationRule` or `VirtualService`.
+- `UO`: Upstream overflow with circuit breaking, check your circuit breaker configuration in `DestinationRule`.
+- `UF`: Failed to connect to upstream, if you're using Istio authentication, check for a
+[mutual TLS configuration conflict](#503-errors-after-setting-destination-rule).
+
+A request is rejected by Mixer if the response flag is `UAEX` and the Mixer policy status is not `-`.
+
+Common Mixer policy statuses are:
+
+- `UNAVAILABLE`: Envoy cannot connect to Mixer and the policy is configured to fail close.
+- `UNAUTHENTICATED`: The request is rejected by Mixer authentication.
+- `PERMISSION_DENIED`: The request is rejected by Mixer authorization.
+- `RESOURCE_EXHAUSTED`: The request is rejected by Mixer quota.
+- `INTERNAL`: The request is rejected due to Mixer internal error.
+
 ## Route rules don't seem to affect traffic flow
 
 With the current Envoy sidecar implementation, up to 100 requests may be required for weighted
