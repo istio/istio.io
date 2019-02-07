@@ -43,20 +43,20 @@ check_content() {
     pushd ${TMP} >/dev/null
 
     mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report *.md */*.md */*/*.md */*/*/*.md */*/*/*/*.md */*/*/*/*/*.md */*/*/*/*/*/*.md
-    if [ "$?" != "0" ]
+    if [[ "$?" != "0" ]]
     then
         echo "To learn how to address spelling errors, please see https://github.com/istio/istio.io#linting"
         FAILED=1
     fi
 
     mdl --ignore-front-matter --style mdl_style.rb .
-    if [ "$?" != "0" ]
+    if [[ "$?" != "0" ]]
     then
         FAILED=1
     fi
 
     grep -nr -e "(https://istio.io" .
-    if [ "$?" == "0" ]
+    if [[ "$?" == "0" ]]
     then
         echo "Ensure markdown content uses relative references to istio.io"
         FAILED=1
@@ -73,18 +73,19 @@ check_content content --en-us
 check_content content_zh --zh-cn
 
 grep -nr -e "“" ./content
-if [ "$?" == "0" ]
+if [[ "$?" == "0" ]]
 then
     echo "Ensure markdown content only uses standard quotation marks and not “"
     FAILED=1
 fi
+
 htmlproofer ./public --assume-extension --check-html --disable_external ${DISABLE_EXTERNAL} --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
-if [ "$?" != "0" ]
+if [[ "$?" != "0" ]]
 then
     FAILED=1
 fi
 
-if [ ${FAILED} -eq 1 ]
+if [[ ${FAILED} -eq 1 ]]
 then
     echo "LINTING FAILED"
     exit 1
