@@ -50,9 +50,11 @@ on **each** Kubernetes cluster.
 
 1. Generate a multicluster-gateways Istio configuration file using `helm`:
 
-    {{< warning_icon >}} If you're not sure if your `helm` dependencies are up to date, update them using the
+    {{< warning >}}
+    If you're not sure if your `helm` dependencies are up to date, update them using the
     command shown in [Helm installation steps](/docs/setup/kubernetes/helm-install/#installation-steps)
     before running the following command.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -165,7 +167,7 @@ cluster requires a `ServiceEntry` configuration in the remote cluster.
 The host used in the service entry should be of the form `<name>.<namespace>.global`
 where name and namespace correspond to the service's name and namespace respectively.
 
-To confirm that your multicluster configuration is working, we suggest proceeding to our
+To confirm that your multicluster configuration is working, we suggest you proceed to our
 simple [multicluster using gateways](/docs/examples/multicluster/gateways/)
 example to test your setup.
 
