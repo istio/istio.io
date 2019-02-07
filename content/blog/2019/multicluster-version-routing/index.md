@@ -403,6 +403,10 @@ local version of the service.
 The corresponding remote service is named `reviews.default.global`, so route rules are needed to
 redirect requests to the global host.
 
+> Note that if all of the versions of the `reviews` service were remote, so there is no local `reviews`
+> service defined, the DNS would resolve `reviews` directly to `reviews.default.global`. In that case
+> we could call the remote `reviews` service without any route rules.
+
 Apply the following virtual service to direct traffic for user `jason` to `reviews` versions `v2` and `v3` (50/50)
 which are running on `cluster2`. Traffic for any other user will go to `reviews` version `v1`.
 
