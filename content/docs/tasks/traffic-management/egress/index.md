@@ -47,17 +47,44 @@ from within your Istio cluster. This task shows you how to access an external HT
     EOF
     {{< /text >}}
 
-1.  Exec into the `sleep service` source pod:
+1.  Make a request to the external HTTP service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep sh
+    $  kubectl exec -it $SOURCE_POD -c sleep -- curl http://httpbin.org/headers
+    {
+      "headers": {
+      "Accept": "*/*",
+      "Connection": "close",
+      "Host": "httpbin.org",
+      "User-Agent": "curl/7.60.0",
+      ...
+      "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
+      "X-Istio-Attributes": ...
+      }
+    }
     {{< /text >}}
 
-1.  Make a request to the external HTTP service:
+    Note the headers added by the Istio sidecar proxy: `X-Envoy-Decorator-Operation` and `X-Istio-Attributes`.
+
+1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
     {{< text bash >}}
-    $ curl http://httpbin.org/headers
+    $  kubectl logs $SOURCE_POD -c istio-proxy | tail
+    [2019-01-24T12:17:11.640Z] "GET /headers HTTP/1.1" 200 - 0 599 214 214 "-" "curl/7.60.0" "17fde8f7-fa62-9b39-8999-302324e6def2" "httpbin.org" "35.173.6.94:80" outbound|80||httpbin.org - 35.173.6.94:80 172.30.109.82:55314 -
     {{< /text >}}
+
+    Note the entry related to your HTTP request to `httpbin.org/headers`.
+
+1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
+    {"level":"info","time":"2019-01-24T12:17:11.855496Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"unknown","destinationApp":"","destinationIp":"I60GXg==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"httpbin.org","destinationWorkload":"unknown","grpcMessage":"","grpcStatus":"","httpAuthority":"httpbin.org","latency":"214.661667ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":270,"referer":"","reporter":"source","requestId":"17fde8f7-fa62-9b39-8999-302324e6def2","requestSize":0,"requestedServerName":"","responseCode":200,"responseSize":599,"responseTimestamp":"2019-01-24T12:17:11.855521Z","sentBytes":806,"sourceApp":"sleep","sourceIp":"AAAAAAAAAAAAAP//rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","url":"/headers","userAgent":"curl/7.60.0","xForwardedFor":"0.0.0.0"}
+    {{< /text >}}
+
+    Note that the `destinationServiceHost` attribute is equal to `httpbin.org`. Also note HTTP-related attributes:
+    `method`, `url`, `responseCode` and others. Using Istio egress traffic control, you can monitor access to external
+    HTTP services, including the HTTP-related information of each access.
 
 ### Configuring an external HTTPS service
 
@@ -103,17 +130,36 @@ from within your Istio cluster. This task shows you how to access an external HT
     EOF
     {{< /text >}}
 
-1.  Exec into the `sleep service` source pod:
+1.  Make a request to the external HTTPS service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep sh
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl https://www.google.com | grep -o "<title>.*</title>"
+    <title>Google</title>
     {{< /text >}}
 
-1.  Make a request to the external HTTPS service:
+1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
     {{< text bash >}}
-    $ curl https://www.google.com
+    $  kubectl logs $SOURCE_POD -c istio-proxy | tail
+    [2019-01-24T12:48:54.977Z] "- - -" 0 - 601 17766 1289 - "-" "-" "-" "-" "172.217.161.36:443" outbound|443||www.google.com 172.30.109.82:59480 172.217.161.36:443 172.30.109.82:59478 www.google.com
     {{< /text >}}
+
+    Note the entry related to your HTTPS request to `www.google.com`.
+
+1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'www.google.com'
+    {"level":"info","time":"2019-01-24T12:48:56.266553Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"1.289085134s","connectionEvent":"close","connection_security_policy":"unknown","destinationApp":"","destinationIp":"rNmhJA==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"www.google.com","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":601,"reporter":"source","requestedServerName":"www.google.com","sentBytes":17766,"sourceApp":"sleep","sourceIp":"rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","totalReceivedBytes":601,"totalSentBytes":17766}
+    {{< /text >}}
+
+    Note that the `requestedServerName` attribute is equal to `www.google.com`. Using Istio egress traffic control, you
+    can monitor access to external HTTPS services, in particular the
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) and the number of sent and received bytes. Note that in
+    HTTPS all the HTTP-related information like method, URL path, response code, is encrypted so Istio cannot see and
+    cannot monitor that information for HTTPS. If you need to monitor HTTP-related information in access to external
+    HTTPS services, you may want to let your applications issue HTTP requests and
+    [configure Istio to perform TLS origination](/docs/examples/advanced-gateways/egress-tls-origination/).
 
 ### Setting route rules on an external service
 
@@ -264,7 +310,19 @@ within the cluster. Any external request bypasses the sidecar and goes straight 
 {{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
+{
+  "headers": {
+    "Accept": "*/*",
+    "Connection": "close",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.60.0"
+  }
+}
 {{< /text >}}
+
+Note that this time you do not see any headers related to Istio sidecar. Also note that the requests sent to external
+services appear neither in the log of the sidecar nor in the Mixer log: by bypassing Istio sidecars you lost monitoring
+of access to external services.
 
 ## Install Istio with access to all external services by default
 
@@ -356,17 +414,19 @@ Istio.
 
 In this task you looked at two ways to call external services from an Istio mesh:
 
-1. Using a `ServiceEntry` (recommended).
+1. Using a `ServiceEntry` for HTTP and a combination of `ServiceEntry` and `VirtualService` for HTTPS. This is the
+   recommended way.
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
 
-The first approach, using `ServiceEntry`, lets
-you use all of the same Istio service mesh features for calls to services inside or outside
-of the cluster. You saw this by setting a timeout rule for calls to an external service.
+The first approach lets you use all of the same Istio service mesh features for calls to services inside or outside of
+the cluster. You saw that you can monitor access to external services and set a timeout rule for calls to an external
+service.
 
-The second approach bypasses the Istio sidecar proxy, giving your services direct access to any
-external URL. However, configuring the proxy this way does require
-cluster provider specific knowledge and configuration.
+The second approach bypasses the Istio sidecar proxy, giving your services direct access to any external server.
+However, configuring the proxy this way does require cluster provider specific knowledge and configuration.
+In addition to that, you loose monitoring of access to external services and cannot apply Istio features on traffic to
+external services.
 
 ## Security note
 
