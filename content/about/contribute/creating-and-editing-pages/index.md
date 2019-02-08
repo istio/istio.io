@@ -460,6 +460,31 @@ will use when the user chooses to download the file. For example:
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
 
+## Glossary terms
+
+When first introducing a specialized Istio term in a page, it is desirable to annotate the terms as being in the glossary. This
+will produce special rendering inviting the user to click on the term in order to get a pop-up with the definition.
+
+{{< text markdown >}}
+Mixer uses {{</*gloss*/>}}adapters{{</*/gloss*/>}} to interface to backends.
+{{< /text >}}
+
+which looks like:
+
+Mixer uses {{<gloss>}}adapters{{</gloss>}} to interface to backends.
+
+If the term displayed on the page doesn't exactly match the entry in the glossary, you can specify a substitution:
+
+{{< text markdown >}}
+Mixer use an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
+{{< /text >}}
+
+which looks like:
+
+Mixer use an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
+
+So even though the glossary entry is for *adapters*, the word singular form of *adapter* can be used in the text.
+
 ## Callouts
 
 You can bring special attention to blocks of content by highlighting warnings, ideas, and tips:
