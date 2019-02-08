@@ -571,3 +571,244 @@ In addition to the steps in the previous section, perform the following:
     {{< text bash >}}
     $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
+
+## Configure a TLS ingress gateway with secret discovery service enabled
+
+In this section you will configure a TLS ingress gateway that fetches credentials from ingress gateway agent via secret discovery service (SDS). 
+The ingress gateway agent is running in the same pod as the ingress gateway, and watches credentials created in the same namespace as the ingress gateway.
+
+### Enable SDS at ingress gateway and deploy ingress gateway agent
+This feature is disabled by default, you need to manually enable the [feature flag](https://github.com/istio/istio/blob/db4830636d4dd6657a2358c609ccf5ce301c884b/install/kubernetes/helm/subcharts/gateways/values.yaml#L17) in helm,
+and then generate istio-auth.yaml file:
+
+    {{< text bash >}}
+    $ make generate_yaml
+    $ kubectl apply -f install/kubernetes/istio-auth.yaml
+    {{< /text >}} 
+ 
+### Start the httpbin sample
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: httpbin
+      labels:
+        app: httpbin
+    spec:
+      ports:
+      - name: http
+        port: 8000
+      selector:
+        app: httpbin
+    ---
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: httpbin
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: httpbin
+            version: v1
+        spec:
+          containers:
+          - image: docker.io/citizenstig/httpbin
+            imagePullPolicy: IfNotPresent
+            name: httpbin
+            ports:
+            - containerPort: 8000
+    EOF
+    {{< /text >}}
+
+### Create secret for ingress gateway
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
+    {{< /text >}} 
+    
+### Define a Gateway with a server section for port 443. 
+Define a Gateway and specify `credentialName` to be `httpbin-credential`, which should be the same as the secret name.
+TLS mode should be specified as SIMPLE. `serverCertificate` and `privateKey` should not be empty.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: mygateway
+    spec:
+      selector:
+        istio: ingressgateway # use istio default ingress gateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          serverCertificate: "use sds"         # arbitrary non-empty string
+          privateKey: "use sds"                # arbitrary non-empty string
+          credentialName: "httpbin-credential" # must be the same as secret
+        hosts:
+        - "httpbin.example.com"
+    EOF
+    {{< /text >}}  
+    
+### Configure routes for traffic entering via the Gateway. Define the same VirtualService.
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - "httpbin.example.com"
+      gateways:
+      - mygateway
+      http:
+      - match:
+        - uri:
+            prefix: /status
+        - uri:
+            prefix: /delay
+        route:
+        - destination:
+            port:
+              number: 8000
+            host: httpbin
+    EOF
+    {{< /text >}}  
+    
+### Access the httpbin service with HTTPS by sending an https request
+    {{< text bash >}}
+    $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    {{< /text >}} 
+The httpbin service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
+
+### Replace credential for ingress gateway
+We can change the  credentials at ingress gateway by deleting kubernetes secret and creating a new one.
+    
+    {{< text bash >}}
+    $ kubectl -n istio-system delete secret httpbin-credential
+    {{< /text >}}  
+    
+    {{< text bash >}}
+    $ pushd mtls-go-example
+    $ ./generate.sh httpbin.example.com <password>
+    $ mkdir ~+1/httpbin.new.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/httpbin.new.example.com
+    $ popd
+    $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.new.example.com/3_application/private/httpbin.example.com.key.pem --from-file=cert=httpbin.new.example.com/3_application/certs/httpbin.example.com.cert.pem
+    {{< /text >}}  
+
+### Access the httpbin service using CURL
+    {{< text bash >}}
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.new.example.com.b/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    {{< /text >}}
+
+    {{< text bash >}}
+    ...
+    HTTP/2 418
+    ...
+    -=[ teapot ]=-
+    
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+    {{< /text >}}
+    
+### Accessing httpbin with previous cert-chain would fail
+    {{< text bash >}}
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    ...
+    * TLSv1.2 (OUT), TLS handshake, Client hello (1):
+    * TLSv1.2 (IN), TLS handshake, Server hello (2):
+    * TLSv1.2 (IN), TLS handshake, Certificate (11):
+    * TLSv1.2 (OUT), TLS alert, Server hello (2):
+    * SSL certificate problem: unable to get local issuer certificate    
+    {{< /text >}}    
+    
+## Configure a mutual TLS ingress gateway
+In this section you will extend your gateway's definition to support [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication).
+ 
+We can change the  credentials at ingress gateway by deleting kubernetes secret and creating a new one.
+This time we need to pass CA certificate that the server will use to verify its clients, and we must use the name cacert to hold CA certificate.
+    
+    {{< text bash >}}
+    $ kubectl -n istio-system delete secret httpbin-credential
+    {{< /text >}}  
+    
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
+    {{< /text >}}   
+ 
+### Redefine Gateway and change the tls mode to MUTUAL
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+     name: mygateway
+    spec:
+     selector:
+       istio: ingressgateway # use istio default ingress gateway
+     servers:
+     - port:
+         number: 443
+         name: https
+         protocol: HTTPS
+       tls:
+         mode: MUTUAL
+         serverCertificate: "use sds"         # arbitrary non-empty string
+         privateKey: "use sds"                # arbitrary non-empty string
+         credentialName: "httpbin-credential" # must be the same as secret
+       hosts:
+       - "httpbin.example.com"
+    EOF
+    {{< /text >}}       
+
+### Sending HTTPS request with previous way will fail
+    {{< text bash >}}
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    {{< /text >}}   
+    
+    {{< text bash >}}
+    * TLSv1.2 (OUT), TLS header, Certificate Status (22):
+    * TLSv1.2 (OUT), TLS handshake, Client hello (1):
+    * TLSv1.2 (IN), TLS handshake, Server hello (2):
+    * TLSv1.2 (IN), TLS handshake, Certificate (11):
+    * TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+    * TLSv1.2 (IN), TLS handshake, Request CERT (13):
+    * TLSv1.2 (IN), TLS handshake, Server finished (14):
+    * TLSv1.2 (OUT), TLS handshake, Certificate (11):
+    * TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+    * TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+    * TLSv1.2 (OUT), TLS handshake, Finished (20):
+    * TLSv1.2 (IN), TLS alert, Server hello (2):
+    * error:14094410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure
+    {{< /text >}}
+    
+### Resend the previous request by passing client certificate and private key to CURL 
+This time passing as parameters your client certificate (additional --cert option) and your private key (the --key option):
+    
+    {{< text bash >}}
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+        
+        -=[ teapot ]=-
+    
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+
+    {{< /text >}}   
