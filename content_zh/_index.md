@@ -9,7 +9,7 @@ title: Istio
         "logo": "https://istio.io/img/logo.png",
         "sameAs": [
             "https://twitter.com/IstioMesh",
-            "https://istio.rocket.chat/"
+            "https://discuss.istio.io/"
         ]
     }
 </script>

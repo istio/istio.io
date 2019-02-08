@@ -7,8 +7,10 @@ aliases:
     - /docs/reference/config/adapters/
 ---
 
-{{< idea_icon >}} To implement a new adapter for Mixer, please refer to the
+{{< idea >}}
+To implement a new adapter for Mixer, please refer to the
 [Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide).
+{{< /idea >}}
 
 ## Templates
 

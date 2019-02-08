@@ -7,9 +7,10 @@ keywords: [debug,security,authorization,RBAC]
 
 This page demonstrates how to debug Istio authorization.
 
-> {{< idea_icon >}}
+{{< idea >}}
 It would be very helpful to also include a cluster state archive in your email by following instructions in
 [reporting bugs](/about/bugs).
+{{< /idea >}}
 
 ## Ensure Authorization is Enabled Correctly
 
@@ -57,8 +58,10 @@ you ensure Pilot is working as expected:
 
 1. Print the log of Pilot and search for `rbac` with the following command:
 
-    > Note: You probably need to first delete and then re-apply your authorization policies so that
-the debug output is generated for these policies.
+    {{< tip >}}
+    You probably need to first delete and then re-apply your authorization policies so that
+    the debug output is generated for these policies.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl logs $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
@@ -100,8 +103,10 @@ the debug output is generated for these policies.
 Pilot distributes the authorization policies to proxies. The following steps help you ensure Pilot
 is working as expected:
 
-> Note: The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/),
+{{< tip >}}
+The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/),
 otherwise you should replace `"-l app=productpage"` with your actual pod.
+{{< /tip >}}
 
 1. Run the following command to get the proxy configuration dump for the `productpage` service:
 
@@ -171,8 +176,10 @@ with rules that allows anyone to access it via `GET` method. The `shadow_rules` 
 Proxies eventually enforce the authorization policies. The following steps help you ensure the proxy
 is working as expected:
 
-> Note: The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/).
+{{< tip >}}
+The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/).
 otherwise you should replace `"-l app=productpage"` with your actual pod.
+{{< /tip >}}
 
 1. Turn on the authorization debug logging in proxy with the following command:
 

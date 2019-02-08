@@ -116,8 +116,10 @@ service is hard-coded at 10 seconds. Because of the delay we introduced, the `/p
 Bugs like this can occur in typical enterprise applications where different teams
 develop different microservices independently. Istio's fault injection rules help you identify such anomalies without impacting end users.
 
-> Notice that the fault injection test is restricted to when the logged in user is
+{{< tip >}}
+Notice that the fault injection test is restricted to when the logged in user is
 `jason`. If you login as any other user, you will not experience any delays.
+{{< /tip >}}
 
 ## Fixing the bug
 

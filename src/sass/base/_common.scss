@@ -67,6 +67,10 @@ th {
     color: $textBrandColor;
     background-color: $secondBrandColor;
     font-weight: $tableHeaderWeight;
+
+    code {
+        color: $textBrandColor;
+    }
 }
 
 tr.oneof>td {
