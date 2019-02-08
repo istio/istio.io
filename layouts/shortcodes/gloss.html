@@ -1,0 +1,23 @@
+{{- $position := .Position }}
+{{- $term := .Inner -}}
+{{- $gloss_entry := $term -}}
+{{- if .Get 0 -}}
+    {{- $gloss_entry = .Get 0 -}}
+{{- end -}}
+
+{{- $glossary := .Site.GetPage "/help/glossary" -}}
+{{- $words := $glossary.Resources.ByType "page" -}}
+{{- $dfn := "" -}}
+{{- $title := $term -}}
+{{- range $w := $words -}}
+    {{- if (eq (upper $w.Title) (upper $gloss_entry)) -}}
+        {{- $dfn = $w.Content -}}
+        {{- $title = $w.Title -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if (eq $dfn "") -}}
+    {{- errorf "Could not find glossary entry for '%s' (%s)" $gloss_entry $position -}}
+{{- end -}}
+
+<dfn class="term" data-trigger="click" data-toggle="popover" data-placement="right" data-html="true" data-content="{{- $dfn | string -}}" title="{{- $title -}}">{{- $term -}}</dfn>

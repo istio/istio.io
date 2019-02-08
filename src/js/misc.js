@@ -143,6 +143,9 @@ $(function ($) {
         $(document).on('mouseleave', 'button.print', function () {
             $(this).removeClass("toolbar-show");
         });
+
+        // activate the popovers
+        $("[data-toggle=popover]").popover();
     });
 }(jQuery));
 
@@ -228,7 +231,7 @@ function handleDOMLoaded() {
                 div.appendChild(copyButton);
             }
 
-            var copyCode = new Clipboard('button.copy', {
+            var copyCode = new ClipboardJS('button.copy', {
                 text: function (trigger) {
                     return getToolbarDivText(trigger.parentElement);
                 }
