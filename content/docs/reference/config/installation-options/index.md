@@ -3,6 +3,7 @@ title: Installation Options
 description: Describes the options available when installing Istio using the included Helm chart.
 weight: 30
 keywords: [kubernetes,helm]
+force_inline_toc: true
 ---
 
 To customize Istio install using Helm, use the `--set <key>=<value>` option in Helm command to override one or more values. The set of supported keys is shown in the table below.
