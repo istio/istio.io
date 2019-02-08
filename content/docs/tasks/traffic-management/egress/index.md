@@ -284,22 +284,16 @@ Use `--set global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
 
 Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
 
-#### Minikube
+#### Minikube, Docker For Desktop, Bare Metal
 
-Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
-
-#### Docker For Desktop
-
-Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
-
-#### Bare Metal
-
-Use the value of your `service-cluster-ip-range`.  It's not fixed, but the default value is 10.96.0.0/12.  To determine your actual value:
+The default value is `10.96.0.0/12`, but it's not fixed. Use the following command to determine your actual value:
 
 {{< text bash >}}
 $ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
       --service-cluster-ip-range=10.96.0.0/12
 {{< /text >}}
+
+Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
 
 ### Access the external services
 
