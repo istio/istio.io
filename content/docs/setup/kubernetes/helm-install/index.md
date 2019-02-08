@@ -101,7 +101,7 @@ to manage the lifecycle of Istio.
 1. Verify all the Istio's CRDs have been committed to the Kubernetes API server by checking all the CRD creation jobs complete with success:
 
     {{< text bash >}}
-    $ kubectl get job --namespace istio-system | grep istio-crd
+    $ kubectl get job --namespace istio-system | grep istio-init-crd
     {{< /text >}}
 
 1. Install the `istio` chart:
