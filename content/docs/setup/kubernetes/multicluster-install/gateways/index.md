@@ -48,22 +48,13 @@ on **each** Kubernetes cluster.
     the Istio samples directory as the intermediate certificates.
     {{< /tip >}}
 
-1. In **every cluster**, create a Kubernetes secret for your generated CA certificates
-   using a command similar to the following:
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=@samples/certs/ca-cert.pem@ \
-        --from-file=@samples/certs/ca-key.pem@ \
-        --from-file=@samples/certs/root-cert.pem@ \
-        --from-file=@samples/certs/cert-chain.pem@
-    {{< /text >}}
-
-1. Update Helm’s dependencies by following step 2 in the
-   [Installation with Helm](/docs/setup/kubernetes/helm-install/#installation-steps) instructions.
-
 1. Generate a multicluster-gateways Istio configuration file using `helm`:
+
+    {{< warning >}}
+    If you're not sure if your `helm` dependencies are up to date, update them using the
+    command shown in [Helm installation steps](/docs/setup/kubernetes/helm-install/#installation-steps)
+    before running the following command.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -75,6 +66,17 @@ on **each** Kubernetes cluster.
 
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
    configuration in all of them.
+
+    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following:
+
+        {{< text bash >}}
+        $ kubectl create namespace istio-system
+        $ kubectl create secret generic cacerts -n istio-system \
+            --from-file=@samples/certs/ca-cert.pem@ \
+            --from-file=@samples/certs/ca-key.pem@ \
+            --from-file=@samples/certs/root-cert.pem@ \
+            --from-file=@samples/certs/cert-chain.pem@
+        {{< /text >}}
 
     * Install Istio's CRDs and wait a few seconds for them to be committed to the Kubernetes API server:
 
@@ -103,8 +105,11 @@ services from remote clusters in the format
 `<name>.<namespace>.global`. Istio also ships with a CoreDNS server that
 will provide DNS resolution for these services. In order to utilize this
 DNS, Kubernetes' DNS needs to be configured to point to CoreDNS as the DNS
-server for the `.global` DNS domain. Create one of the following ConfigMaps
-or update an existing one:
+server for the `.global` DNS domain.
+
+Create one of the following ConfigMaps, or update an existing one, in each
+cluster that will be calling services in remote clusters
+(every cluster in the general case):
 
 For clusters that use `kube-dns`:
 
@@ -161,8 +166,10 @@ Every service in a given cluster that needs to be accessed from a different remo
 cluster requires a `ServiceEntry` configuration in the remote cluster.
 The host used in the service entry should be of the form `<name>.<namespace>.global`
 where name and namespace correspond to the service's name and namespace respectively.
-Visit our [multicluster using gateways](/docs/examples/multicluster/gateways/)
-example for detailed configuration instructions.
+
+To confirm that your multicluster configuration is working, we suggest you proceed to our
+simple [multicluster using gateways](/docs/examples/multicluster/gateways/)
+example to test your setup.
 
 ## Uninstalling
 
