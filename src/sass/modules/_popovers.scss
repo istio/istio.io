@@ -1,0 +1,49 @@
+dfn.term {
+    border-bottom: dashed 1px;
+    cursor: help;
+    position: relative;
+    display: inline-block;
+    font-style: normal;
+}
+
+.popover {
+    background-color: $popoverHeaderBackgroundColor;
+    border-radius: 4px;
+    border: 1px solid $popoverBorderColor;
+    box-shadow: 3px 3px 8px $popoverShadowColor, -3px -3px 8px $popoverShadowColor;
+    font-family: inherit;
+
+    max-width: 276px;
+    @media (min-width: $bp-md) {
+        max-width: 350px;
+    }
+    @media (min-width: $bp-xl) {
+        max-width: 500px;
+    }
+
+    h3 {
+        font-style: normal;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .arrow {
+        &:after {
+            border-right-color: $popoverBackgroundColor;
+        }
+        &:before {
+            border-right-color: $popoverBorderColor;
+        }
+    }
+
+    .popover-header {
+        color: $popoverHeaderTextColor;
+        background-color: $popoverHeaderBackgroundColor;
+        border-bottom: 0;
+    }
+
+    .popover-body {
+        color: $popoverTextColor;
+        background-color: $popoverBackgroundColor;
+    }
+}

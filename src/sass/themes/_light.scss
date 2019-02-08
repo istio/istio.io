@@ -41,6 +41,13 @@ $dropdownBorderColor: black;
 $dropdownCheck: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='black' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
 $dropdownHoverCheck: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='white' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
 
+$popoverBorderColor: #777777;
+$popoverShadowColor: #777777;
+$popoverHeaderBackgroundColor: $light-gray;
+$popoverHeaderTextColor: $textColor;
+$popoverBackgroundColor: $backgroundColor;
+$popoverTextColor: $textColor;
+
 $headerLightShadowColor: rgba(0, 0, 0, .14);
 $headerDarkShadowColor: rgba(0, 0, 0, .28);
 

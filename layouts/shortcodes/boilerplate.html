@@ -15,7 +15,7 @@
 			{{- with $page }}
 				{{ .Content }}
 			{{- else -}}
-				{{ errorf "Could not find %s (%s)." $pattern $position }}
+				{{ errorf "Could not find %s (%s)" $pattern $position }}
 			{{- end -}}
 		{{- end -}}
 	{{- else -}}
