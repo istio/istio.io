@@ -1,5 +1,5 @@
 ---
-title: Version routing in a multicluster service mesh
+title: Version Routing in a Multicluster Service Mesh
 description: Configuring Istio route rules in a multicluster service mesh.
 publishdate: 2019-02-07
 subtitle:
