@@ -14,7 +14,7 @@ through secret-volume mounted files, this approach has the following minor drawb
   When certificate rotation happens, the Pilot Agent (running on the sidecar container) needs to hot restart Envoy to pick up the new key and certificate,
   which causes performance regression.
 
-* Potential security vulnerability:
+* Potential security vulnerabilities:
   The workload private keys are distributed through Kubernetes secrets, which have known
   [risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks). Also, the private key is stored in the pod local file system.
 
