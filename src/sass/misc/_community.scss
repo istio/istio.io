@@ -1,0 +1,20 @@
+.community-item {
+    display: table-row;
+
+    .logo {
+        display: table-cell;
+        width: 65px;
+        vertical-align: middle;
+        padding-left: 1em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+
+    .desc {
+        display: table-cell;
+        vertical-align: middle;
+        padding-left: 1em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+}

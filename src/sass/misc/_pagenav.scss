@@ -1,4 +1,20 @@
 .pagenav {
+    display: flex;
+    width: 100%;
+
+    @media print {
+        display: none;
+    }
+
+    .left {
+        width: 50%;
+    }
+
+    .right {
+        width: 50%;
+        text-align: right;
+    }
+
     p {
         text-transform: uppercase;
         font-size: 80%;

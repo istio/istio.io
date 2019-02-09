@@ -1,97 +1,96 @@
 {{ $toc := partial "toc.html" (dict "page" .) }}
 {{ $needTOC := .Scratch.Get "needTOC" }}
 
-<div class="container-fluid">
-    <div class="row row-offcanvas">
-        <div class="col-0 col-md-3 col-xl-2 sidebar-offcanvas">
-            {{ $section := .Site.GetPage "section" .Section }}
-            {{ if $section.Params.sidebar_multicard }}
-                {{ partial "sidebar-multicard.html" . }}
-            {{ else if $section.Params.sidebar_none }}
-            {{ else }}
-                {{ partial "sidebar-singlecard.html" . }}
-            {{ end }}
-        </div>
+{{ if and $needTOC (ne .Params.force_inline_toc true) }}
+    <div class="primary">
+{{ else }}
+    <div class="primary notoc">
+{{ end }}
 
-        {{ if and $needTOC (ne .Params.force_inline_toc true) }}
-            <div class="col-12 col-md-9 col-xl-8">
+    <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
+        {{ $section := .Site.GetPage "section" .Section }}
+        {{ if $section.Params.sidebar_multicard }}
+            {{ partial "sidebar-multicard.html" . }}
+        {{ else if $section.Params.sidebar_none }}
         {{ else }}
-            <div class="col-12 col-md-9 col-xl-10">
+            {{ partial "sidebar-singlecard.html" . }}
+        {{ end }}
+    </div>
+
+    <div class="article-container">
+        {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
+            <p class="d-md-none">
+                <label class="sidebar-toggler" id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
+                    {{ partial "icon.html" "pull" }}
+                </label>
+            </p>
         {{ end }}
 
-            {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
-                <p class="d-md-none">
-                    <label class="sidebar-toggler" data-toggle="offcanvas" title='{{ i18n "button_sidenav" }}'>
-                        {{ partial "icon.html" "pull" }}
-                    </label>
+        <div class="pagenav">
+            <p>{{- partial "breadcrumbs.html" . -}}</p>
+        </div>
+
+        <main aria-labelledby="title">
+            <h1 id="title">
+                {{- if .Params.icon -}}
+                    <i class="page_icon">
+                        {{- partial "icon.html" .Params.icon -}}
+                    </i>
+                {{- end -}}
+                {{- .Title -}}
+            </h1>
+
+            {{ if .Params.subtitle }}
+                {{ if (strings.HasSuffix .Params.subtitle ".") }}
+                    {{ errorf "Subtitles should not end in a period: '%s" .Params.subtitle }}
+                {{ else }}
+                    <p class="subtitle">{{ .Params.subtitle }}</p>
+                {{ end }}
+            {{ end }}
+
+            {{ if or .Params.attribution (gt .Page.ReadingTime 1) }}
+                <p class="byline">
+                    {{- if .Params.attribution -}}
+                        <span>{{- i18n "page_attribution" -}}</span>
+                        <span class="attribution">{{- .Params.attribution -}}</span>
+
+                        {{- if .Params.twitter -}}
+                            (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
+                        {{- end -}}
+                        <span> | </span>
+                        <span>
+                            {{- partial "icon.html" "calendar" -}}
+                            <span>&nbsp;</span>
+                            {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
+
+                            {{- if .Params.last_update -}}
+                                <span>&nbsp;</span>
+                                {{- $date := time .Params.last_update -}}
+                                {{- $date := $date.Format (i18n "page_publish_date_format") -}}
+                                {{- printf (i18n "page_last_update_format") $date -}}
+                            {{- end -}}
+                        </span>
+                    {{- end -}}
+
+                    {{- if gt .Page.ReadingTime 1 -}}
+                        {{- if .Params.attribution -}}
+                            <span> | </span>
+                        {{- end -}}
+                        <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
+                            {{- partial "icon.html" "clock" -}}
+                            <span>&nbsp;</span>
+                            {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
+                        </span>
+                    {{- end -}}
                 </p>
             {{ end }}
 
-            <main aria-labelledby="title">
-                <div class="pagenav">
-                    <p>{{- partial "breadcrumbs.html" . -}}</p>
-                </div>
-
-                <h1 id="title">
-                    {{- if .Params.icon -}}
-                        <i class="page_icon">
-                            {{- partial "icon.html" .Params.icon -}}
-                        </i>
-                    {{- end -}}
-                    {{- .Title -}}
-                </h1>
-
-                {{ if .Params.subtitle }}
-                    {{ if (strings.HasSuffix .Params.subtitle ".") }}
-                        {{ errorf "Subtitles should not end in a period: '%s" .Params.subtitle }}
-                    {{ else }}
-                        <p class="subtitle">{{ .Params.subtitle }}</p>
-                    {{ end }}
-                {{ end }}
-
-                {{ if or .Params.attribution (gt .Page.ReadingTime 1) }}
-                    <p class="byline">
-                        {{- if .Params.attribution -}}
-                            <span>{{- i18n "page_attribution" -}}</span>
-                            <span class="attribution">{{- .Params.attribution -}}</span>
-
-                            {{- if .Params.twitter -}}
-                                (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
-                            {{- end -}}
-                            <span> | </span>
-                            <span>
-                                {{- partial "icon.html" "calendar" -}}
-                                <span>&nbsp;</span>
-                                {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
-
-                                {{- if .Params.last_update -}}
-                                    <span>&nbsp;</span>
-                                    {{- $date := time .Params.last_update -}}
-                                    {{- $date := $date.Format (i18n "page_publish_date_format") -}}
-                                    {{-  printf (i18n "page_last_update_format") $date -}}
-                                {{- end -}}
-                            </span>
-                        {{- end -}}
-
-                        {{- if gt .Page.ReadingTime 1 -}}
-                            {{- if .Params.attribution -}}
-                                <span> | </span>
-                            {{- end -}}
-                            <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
-                                {{- partial "icon.html" "clock" -}}
-                                <span>&nbsp;</span>
-                                {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
-                            </span>
-                        {{- end -}}
-                    </p>
-                {{ end }}
-
-                {{ if $needTOC }}
-                    <nav class="toc-inlined d-xl-none d-print-none" {{ if .Params.force_inline_toc }}style="display:block!important" {{ end }}>
-                        <hr/>
-                        <div class="directory" role="directory">
-                            {{ replace $toc "TableOfContents" "InlinedTableOfContents" | safeHTML }}
-                        </div>
-                        <hr/>
-                    </nav>
-                {{ end }}
+            {{ if $needTOC }}
+                <nav class="toc-inlined{{ if .Params.force_inline_toc }} toc-forced{{ end }}">
+                    <hr/>
+                    <div class="directory" role="directory">
+                        {{ replace $toc "TableOfContents" "InlinedTableOfContents" | safeHTML }}
+                    </div>
+                    <hr/>
+                </nav>
+            {{ end }}

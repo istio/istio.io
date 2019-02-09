@@ -1,18 +1,17 @@
 {{ define "main" }}
-<div class="container-fluid">
-    <div class="row notfound">
-        <div class="col-12">
-            <main role="main">
-                <svg class="icon"><use xlink:href="{{ .Site.BaseURL }}/img/icons.svg#exclamation-mark"/></svg>
-                <div class="error">
-                    We're sorry, the page you requested cannot be found
-                </div>
 
-                <div class="explanation">
-                    The URL may be misspelled or the page you're looking for is no longer available
-                </div>
-            </main>
-        </div>
+<main class="notfound" role="main">
+    <svg class="icon">
+        <use xlink:href="{{ .Site.BaseURL }}/img/icons.svg#exclamation-mark"/>
+    </svg>
+
+    <div class="error">
+        We're sorry, the page you requested cannot be found
     </div>
-</div>
+
+    <div class="explanation">
+        The URL may be misspelled or the page you're looking for is no longer available
+    </div>
+</main>
+
 {{ end }}

@@ -1,5 +1,5 @@
 @media screen {
-    .row-offcanvas .sidebar-offcanvas {
+    .sidebar-offcanvas {
         @media (max-width: $bp-md - 1) {
             position: absolute;
             width: 80%;
@@ -15,8 +15,8 @@
         }
     }
 
-    .row-offcanvas.active .sidebar-offcanvas {
-        left: 0;
+    .sidebar-offcanvas.active {
+        left: 1rem;
     }
 }
 
@@ -128,16 +128,16 @@
             margin-right: 0.3em;
         }
     }
-}
 
-.tree-toggle {
-    cursor: pointer;
-    margin-bottom: 0;
+    .tree-toggle {
+        cursor: pointer;
+        margin-bottom: 0;
+    }
 }
 
 .sidebar-toggler {
     position: absolute;
-    top: 0;
+    top: $headerHeight;
     right: 10px;
     z-index: 99;
     outline: none;

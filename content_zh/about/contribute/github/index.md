@@ -22,7 +22,7 @@ keywords: [contribute]
 * 如果要编辑现有页面，可以在浏览器中打开页面，然后从每页右上角的齿轮菜单中选择**在 GitHub 上编辑此页面**选项。这将带您到 GitHub 上编辑和提交更改。
 * 如果您希望修改网站源码，则必须创建存储库分支。单击下面的按钮以访问 GitHub 存储库。然后，您必须单击屏幕右上角的 **Fork** 按钮，在 GitHub 帐户中创建我们的存储库副本。创建 fork 的克隆并进行任何需要的更改。当您准备将这些更改发送给我们时，将更改推送到您的 fork，转到 fork 的索引页面，然后单击 **New Pull Request** 以告知我们。
 
-<a class="btn btn-istio"
+<a class="btn"
 href="https://github.com/istio/istio.io/">浏览该站点的源码</a>
 
 一旦您的更改被合并后，它们会立即显示在 `preliminary.istio.io` 上。但是，这些更改只会在下次我们生成新版本时显示在 `istio.io` 上，该版本每月发布一次。
