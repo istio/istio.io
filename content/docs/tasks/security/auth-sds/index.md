@@ -11,14 +11,14 @@ Prior to Istio 1.1, the keys and certificates of Istio workloads were generated 
 through secret-volume mounted files, this approach has the following minor drawbacks:
 
 * Performance regression during certificate rotation:
-  When certificate rotation happens, the Pilot Agent (running on the sidecar container) needs to hot restart Envoy to pick up the new key and certificate,
+  When certificate rotation happens, Envoy performs a hot restart to pick up the new key and certificate causing the performance regression.
   which causes performance regression.
 
 * Potential security vulnerabilities:
-  The workload private keys are distributed through Kubernetes secrets, which have known
-  [risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks). Also, the private key is stored in the pod local file system.
+  Citadel distributes the workload private keys through Kubernetes secrets, which have known
+  [risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks). Storing the private key in the pod local file system can cause additional vulnerabilities
 
-These issues are addressed in Istio 1.1 through the SDS identity provision flow. The workflow can be described as follows.
+The SDS identity provision flow addresses these issues:
 
 The workload sidecar Envoy requests key and certificates from the Citadel Agent (SDS server, which runs as per-node `DaemonSet`) using a Kubernetes
 service account JWT through the SDS API.
