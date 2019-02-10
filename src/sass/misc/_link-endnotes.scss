@@ -1,0 +1,7 @@
+.link-endnotes {
+    display: none;
+
+    @media print {
+        display: block;
+    }
+}

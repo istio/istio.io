@@ -52,7 +52,7 @@ To add content you must create a fork of the repository and a PR from
 your fork to the docs main repository. The following steps describe the
 process:
 
-<a class="btn btn-istio"
+<a class="btn"
 href="https://github.com/istio/istio.io/">Browse this site's source
 code</a>
 

@@ -1,65 +1,56 @@
 {{ $toc := partial "toc.html" (dict "page" .) }}
 {{ $needTOC := .Scratch.Get "needTOC" }}
 
-                {{ if .Scratch.Get "seeAlso" }}
-                    {{ $related := .Site.RegularPages.Related . | first 6 }}
-                    {{ with $related }}
-                        <h2 id="see-also">See also</h2>
+            {{ if .Scratch.Get "seeAlso" }}
+                {{ $related := .Site.RegularPages.Related . | first 6 }}
+                {{ with $related }}
+                    <h2 id="see-also">{{ i18n "see_also" }}</h2>
 
-                        <div class="see-also">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    {{ range . }}
-                                        <div class="col-xs-12 col-sm-6 col-xl-4">
-                                            <p class="link"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
-                                            <p class="desc">{{ .Description }}</p>
-                                        </div>
-                                    {{ end }}
-                                </div>
+                    <div class="see-also">
+                        {{ range . }}
+                            <div class="entry">
+                                <p class="link"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
+                                <p class="desc">{{ .Description }}</p>
                             </div>
-                        </div>
-                    {{ end }}
+                        {{ end }}
+                    </div>
                 {{ end }}
-            </main>
-
-            {{ if or .NextInSection .PrevInSection }}
-                <div class="container-fluid d-print-none">
-                    <br/>
-
-                    <div class="row">
-                        <div class="col-6 pagenav">
-                            {{ if .NextInSection }}
-                                <p>
-                                    <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}">{{- partial "icon.html" "left-arrow" -}}{{- .NextInSection.LinkTitle -}}</a>
-                                </p>
-                            {{ end }}
-                        </div>
-                        <div class="col-6 pagenav" style="text-align: right">
-                            {{ if .PrevInSection }}
-                                <p>
-                                    <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}">{{- .PrevInSection.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
-                                </p>
-                            {{ end }}
-                        </div>
-                    </div>
-                </div>
             {{ end }}
+        </main>
 
-            <div class="d-none d-print-block" aria-hidden="true">
-                <h2>Links</h2>
-                <ol id="endnotes"></ol>
-            </div>
-        </div>
-
-        {{ if and $needTOC (not .Params.force_inline_toc) }}
-            <div class="col-12 col-md-2 d-none d-xl-block d-print-none">
-                <nav class="toc">
-                    <div class="spacer"></div>
-                    <div id="toc" class="directory" role="directory">
-                        {{ $toc }}
-                    </div>
-                </nav>
+        {{ if or .NextInSection .PrevInSection }}
+            <div class="pagenav">
+                <div class="left">
+                    {{ if .NextInSection }}
+                        <p>
+                            <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}">{{- partial "icon.html" "left-arrow" -}}{{- .NextInSection.LinkTitle -}}</a>
+                        </p>
+                    {{ end }}
+                </div>
+                <div class="right">
+                    {{ if .PrevInSection }}
+                        <p>
+                            <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}">{{- .PrevInSection.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
+                        </p>
+                    {{ end }}
+                </div>
             </div>
         {{ end }}
+
+        <div class="link-endnotes" aria-hidden="true">
+            <h2>{{ i18n "links" }}</h2>
+            <ol id="endnotes"></ol>
+        </div>
     </div>
+
+    {{ if and $needTOC (not .Params.force_inline_toc) }}
+        <div class="toc-container">
+            <nav class="toc">
+                <div class="spacer"></div>
+                <div id="toc" class="directory" role="directory">
+                    {{ $toc }}
+                </div>
+            </nav>
+        </div>
+    {{ end }}
 </div>

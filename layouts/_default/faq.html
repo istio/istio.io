@@ -5,7 +5,7 @@
 {{ $questions := .Resources.ByType "page" }}
 {{ $sorted_questions := sort $questions ".Params.weight" }}
 
-<nav class="toc-inlined d-xl-none d-print-none" style="display:block!important;">
+<nav class="toc-inlined toc-forced">
     <hr/>
     <div class="directory" role="directory">
         <nav id="InlineTableOfContents">

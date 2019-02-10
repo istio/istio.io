@@ -6,17 +6,47 @@ footer {
     width: 100%;
     height: $footerHeight;
     overflow: hidden;
-    padding: 1rem 0 1.5rem;
+    padding: 1rem 4px 1.5rem;
     text-align: center;
+    display: grid;
+    grid-template-columns: [user-links] 40% [info] 60% [dev-links] 0%;
+    grid-template-rows: 100%;
+
+    @media print {
+        display: none;
+    }
 
     @media (min-width: $bp-sm) {
-        padding: 1.5rem 0 1rem 0;
+        padding: 1.5rem 1.25rem 1rem 1.25rem;
+    }
+
+    @media (min-width: $bp-lg) {
+        grid-template-columns: [user-links] 30% [info] 40% [dev-links] 30%;
+    }
+
+    .user-links {
+        grid-column: user-links;
+        text-align: left;
+    }
+
+    .info {
+        grid-column: info;
+    }
+
+    .dev-links {
+        grid-column: dev-links;
+        text-align: right;
+        display: none;
+
+        @media (min-width: $bp-lg) {
+            display: block;
+        }
     }
 
     .channel {
         position: relative;
         display: inline-flex;
-        padding: 4px;
+        padding: 4px 0;
         border-width: 2px;
         border-color: rgba(0, 0, 0, 0);
         border-style: solid;
@@ -83,7 +113,7 @@ footer {
     }
 
     .tag {
-        padding: 0;
+        padding: 0 1rem;
         font-style: italic;
         margin: 0;
         line-height: 1.6em;

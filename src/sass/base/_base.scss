@@ -207,8 +207,6 @@ pre {
 }
 
 div.toolbar {
-    position: relative;
-
     button {
         font-size: .8em;
         padding: 0 .5em;
@@ -462,18 +460,6 @@ blockquote {
 }
 
 @media print {
-    // Soak up space used up by the TOC when printing
-    .col-md-9, .col-lg-7, .col-xl-8 {
-        max-width: 83.2%;
-        flex: 0 0 83.2%;
-    }
-
-    // Soak up space used up by the TOC when printing
-    .col-12 {
-        max-width: 100%;
-        flex: 0 0 100%;
-    }
-
     h1, h2, h3 {
         color: #000;
         background: none;
@@ -525,41 +511,4 @@ blockquote {
 
 .attribution {
     font-weight: $blogAttributeWeight;
-}
-
-.partner-component-notice {
-    display: block;
-    margin: 1em 0 1em 2em;
-    @media (min-width: $bp-md) {
-        margin: 1em 3em;
-    }
-
-    padding-left: 1em;
-    padding-right: 1em;
-    background-color: $blockQuoteBackgroundColor;
-    border-radius: 4px 4px 4px 4px;
-
-    table td:first-of-type {
-        color: $textBrandColor;
-        background-color: $secondBrandColor;
-        font-weight: $tableHeaderWeight;
-        border-bottom: 1px solid lighten($secondBrandColor, 7%);
-    }
-
-    table td:last-of-type {
-        background-color: $backgroundColor;
-    }
-
-    table tr:last-of-type td {
-        border-bottom-color: $boxBorderColor;
-    }
-
-    table.with_logo td:first-of-type {
-        opacity: .9;
-    }
-
-    table.with_logo td:last-of-type {
-        opacity: .9;
-    }
-
 }

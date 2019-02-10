@@ -1,3 +1,5 @@
 {{ define "main" }}
-{{ partial "primary.html" . }}
+{{ partial "primary-top.html" . }}
+{{ .Content }}
+{{ partial "primary-bottom.html" . }}
 {{ end }}

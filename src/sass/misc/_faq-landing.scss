@@ -1,0 +1,25 @@
+.faq-landing {
+    display: grid;
+    grid-template-columns: [card] 1fr;
+    grid-gap: 2rem;
+
+    @media (min-width: $bp-sm) {
+        grid-template-columns: [card] 1fr [card] 1fr;
+    }
+
+    .panel {
+        border: 1px solid $boxBorderColor;
+        border-radius: 4px;
+
+        .header {
+            color: $textBrandColor;
+            background-color: $boxBorderColor;
+            padding: .75rem 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+
+        .body {
+            padding: 1.25rem;
+        }
+    }
+}

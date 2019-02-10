@@ -3,6 +3,10 @@
         font-size: $font-size--l;
         text-align: center;
         padding-top: .8rem;
+
+        @media print {
+            display: none;
+        }
     }
 
     .entries {
