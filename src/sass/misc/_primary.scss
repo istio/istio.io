@@ -21,11 +21,13 @@
     display: grid;
     grid-template-columns: [article] 100%;
     grid-column-gap: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
 
     @media screen AND (min-width: $bp-md) {
         grid-template-columns: [sidebar] 20% [article] calc(80% - 1rem);
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     @media screen AND (min-width: $bp-xl) {

@@ -124,8 +124,12 @@
         }
 
         .btn {
-            margin: 1rem 5rem;
+            margin: 1rem 1rem;
             width: 18rem;
+
+            @media (min-width: $bp-md) {
+                margin: 1rem 5rem;
+            }
         }
     }
 }
