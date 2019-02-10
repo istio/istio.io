@@ -374,15 +374,13 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between the local and the remote instances
 resulting in responses with either `v1` or `v2` in the body:
 
-{{< text bash >}}
-$ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
+{{< text sh >}}
 Defaulting container name to sleep.
 Use 'kubectl describe pod/sleep-57f9d6fd6b-q4k4h -n sample' to see all of the containers in this pod.
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
+{{< text sh >}}
 Defaulting container name to sleep.
 Use 'kubectl describe pod/sleep-57f9d6fd6b-q4k4h -n sample' to see all of the containers in this pod.
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
