@@ -368,7 +368,7 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 1. Call the `helloworld.sample` service several times:
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -c sleep -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
+    $ kubectl exec --context=$CTX_LOCAL -it -n sample -c sleep $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between the local and the remote instances
