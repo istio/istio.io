@@ -186,7 +186,7 @@ function handleDOMLoaded() {
                         var text = getToolbarDivText(div);
                         var downloadas = code.getAttribute("data-downloadas");
                         if (downloadas === null || downloadas === "") {
-                            downloadas = "foo.txt";
+                            downloadas = "foo";
 
                             var lang = "";
                             for (var j = 0; j < code.classList.length; j++) {
@@ -283,6 +283,7 @@ function handleDOMLoaded() {
                     var lines = code.innerText.split("\n");
                     var cmd = "";
                     var escape = false;
+                    var escapeUntilEOF = false;
                     var tmp = "";
                     for (var j = 0; j < lines.length; j++) {
                         var line = lines[j];
@@ -293,9 +294,22 @@ function handleDOMLoaded() {
                             }
 
                             tmp = line.slice(2);
+
+                            if (line.endsWith("<<EOF")) {
+                                escapeUntilEOF = true;
+                            }
                         } else if (escape) {
                             // continuation
                             tmp += "\n" + line;
+
+                            if (line.endsWith("<<EOF")) {
+                                escapeUntilEOF = true;
+                            }
+                        } else if (escapeUntilEOF) {
+                            tmp += "\n" + line;
+                            if (line === "EOF") {
+                                escapeUntilEOF = false;
+                            }
                         } else {
                             outputStart = j;
                             break;
