@@ -84,15 +84,9 @@ This will be used to access the `local` pilot securely using the ingress gateway
 
     {{< text bash >}}
     $ helm template --name=istio --namespace=istio-system \
-    --values install/kubernetes/helm/istio/values.yaml \
     --set global.mtls.enabled=true \
-    --set global.enableTracing=false \
     --set security.selfSigned=false \
-    --set mixer.telemetry.enabled=false \
-    --set mixer.policy.enabled=false \
-    --set global.useMCP=false \
     --set global.controlPlaneSecurityEnabled=true \
-    --set gateways.istio-egressgateway.enabled=false \
     --set global.meshExpansion.enabled=true \
     install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
@@ -131,15 +125,11 @@ This will be used to access the `local` pilot securely using the ingress gateway
     --values install/kubernetes/helm/istio/values-istio-remote.yaml \
     --set global.mtls.enabled=true \
     --set gateways.enabled=true \
-    --set gateways.istio-egressgateway.enabled=false \
-    --set gateways.istio-ingressgateway.enabled=true \
     --set security.selfSigned=false \
     --set global.controlPlaneSecurityEnabled=true \
     --set global.createRemoteSvcEndpoints=true \
     --set global.remotePilotCreateSvcEndpoint=true \
     --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
-    --set global.disablePolicyChecks=true \
-    --set global.policyCheckFailOpen=true \
     --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
     --set global.network="network2" \
     install/kubernetes/helm/istio > istio-remote-auth.yaml
