@@ -1,0 +1,22 @@
+.btn {
+    background-color: $secondBrandColor;
+    color: $textBrandColor;
+    font-weight: $buttonWeight;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 3px 3px 8px #a7a7a7;
+
+    &:hover {
+        background-color: $mainBrandColor;
+        color: $textBrandColor;
+    }
+
+    &:active {
+        background-color: $buttonActiveColor;
+        color: $textBrandColor;
+    }
+
+    &:focus {
+        color: $textBrandColor;
+    }
+}

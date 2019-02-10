@@ -155,3 +155,9 @@ other = "Template"
 
 [subscribe]
 other = "Subscribe"
+
+[see_also]
+other = "See also"
+
+[links]
+other = "Links"

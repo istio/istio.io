@@ -9,55 +9,35 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
 
 融入 Istio 社区有很多种方式：
 
-<table class="community">
-  <tbody>
+{{< community_item logo="/about/community/join/discourse.svg" alt="Discourse" >}}
+前往 [Istio discussion board](https://discuss.istio.io) 参与讨论获取帮助。
+{{< /community_item >}}
 
-    <tr>
-      <td class="logo"><img src="/about/community/join/discourse.svg" alt="Discourse"/></td>
-      <td class="desc">
-        前往 <a href="https://discuss.istio.io">Istio discussion board</a> 参与讨论获取帮助。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/twitter.svg" alt="Twitter"/></td>
-      <td class="desc">
-        关注我们的 <a href="https://twitter.com/IstioMesh">Twitter</a> 获取最新消息。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/stackoverflow.svg" alt="Stack Overflow"/></td>
-      <td class="desc">
-        <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> 上有关于部署、配置和使用 Istio 等实际问题的解答。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/github.png" alt="GitHub"/></td>
-      <td class="desc">
-        <a href="https://github.com/istio/community">GitHub</a> 用于托管 Istio 的代码并在其上开发。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/drive.svg" alt="Google Drive"/></td>
-      <td class="desc">
-        如果您想深入了解 Istio 的具体细节，请查看我们不断丰富的设计文档集。要访问这些文档，只需加入
-        <a href="https://groups.google.com/forum/#!forum/istio-team-drive-access">istio-team-drive-access@</a> 邮件列表即可。
-        加入之后，您就可以直接前往
-        <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA">文件夹（这里有很多技术文档）</a>。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/group.svg" alt="Working Groups"/></td>
-      <td class="desc">
-        如果您想参与 Istio 项目，请考虑加入我们的
-        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">工作组</a>。
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="/about/community/join/servicemesher.svg" alt="ServiceMesher"/></td>
-      <td class="desc">
-        中文内容由
-        <a href="http://www.servicemesher.com">ServiceMesher 社区</a> 维护，加入我们并参与进来吧！
-      </td>
-    </tr>
-  </tbody>
-</table>
+{{< community_item logo="/about/community/join/twitter.svg" alt="Twitter" >}}
+关注我们的 [Twitter](https://twitter.com/IstioMesh) 获取最新消息。
+{{< /community_item >}}
+
+{{< community_item logo="/about/community/join/stackoverflow.svg" alt="Stack Overflow" >}}
+[Stack Overflow](https://stackoverflow.com/questions/tagged/istio) 上有关于部署、配置和使用 Istio 等实际问题的解答。
+{{< /community_item >}}
+
+{{< community_item logo="/about/community/join/github.png" alt="GitHub" >}}
+[GitHub](https://github.com/istio/community) 用于托管 Istio 的代码并在其上开发。
+{{< /community_item >}}
+
+{{< community_item logo="/about/community/join/drive.svg" alt="Google Drive" >}}
+如果您想深入了解 Istio 的具体细节，请查看我们不断丰富的设计文档集。要访问这些文档，只需加入
+[`istio-team-drive-access@`](https://groups.google.com/forum/#!forum/istio-team-drive-access) 邮件列表即可。
+加入之后，您就可以直接前往
+[文件夹（这里有很多技术文档）](https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA)。
+{{< /community_item >}}
+
+{{< community_item logo="/about/community/join/group.svg" alt="Working Groups" >}}
+如果您想参与 Istio 项目，请考虑加入我们的
+[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)。
+{{< /community_item >}}
+
+{{< community_item logo="/about/community/join/servicemesher.svg" alt="ServiceMesher" >}}
+中文内容由
+[ServiceMesher 社区](http://www.servicemesher.com) 维护，加入我们并参与进来吧！
+{{< /community_item >}}

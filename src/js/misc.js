@@ -89,8 +89,8 @@ $(function ($) {
 
     $(document).ready(function() {
         // toggle sidebar on/off
-        $('[data-toggle="offcanvas"]').on('click', function () {
-            $('.row-offcanvas').toggleClass('active');
+        $('#sidebar-toggler').on('click', function () {
+            $('#sidebar-container').toggleClass('active');
             $(this).children('svg.icon').toggleClass('flipped');
         });
 
@@ -426,6 +426,7 @@ function handleDOMLoaded() {
             var main = document.getElementsByTagName("main")[0];
             var links = main.getElementsByTagName("a");
             var map = new Map(null);
+            var num_links = 0;
             for (var i = 0; i < links.length; i++) {
                 var link = links[i];
                 if (link.pathname === location.pathname) {
@@ -435,6 +436,11 @@ function handleDOMLoaded() {
 
                 if (link.pathname.endsWith("/") && link.hash !== "") {
                     // skip links on the current page
+                    continue;
+                }
+
+                if (link.classList.contains("btn")) {
+                    // skip button links
                     continue;
                 }
 
@@ -456,6 +462,13 @@ function handleDOMLoaded() {
 
                 // add the superscript reference
                 link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
+                num_links++;
+            }
+
+            if (num_links === 0) {
+                // if there are no links on this page, hide the whole section
+                var div = document.getElementsByClassName("link-endnotes")[0];
+                div.style.display = "none";
             }
         }
 

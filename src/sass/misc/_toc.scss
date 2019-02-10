@@ -56,6 +56,16 @@
 }
 
 .toc-inlined {
+    display: block;
+
+    @media print {
+        display: none;
+    }
+
+    @media (min-width: $bp-xl) {
+        display: none;
+    }
+
     .directory {
         border-left: 0;
 
@@ -77,5 +87,11 @@
                 font-weight: $tocLinkWeight;
             }
         }
+    }
+}
+
+.toc-forced {
+    @media screen {
+        display: block;
     }
 }
