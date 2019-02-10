@@ -9,7 +9,7 @@ footer {
     padding: 1rem 4px 1.5rem;
     text-align: center;
     display: grid;
-    grid-template-columns: [user-links] 40% [info] 60% [dev-links] 0%;
+    grid-template-columns: [user-links] 35% [info] 65% [dev-links] 0%;
     grid-template-rows: 100%;
 
     @media print {
@@ -31,6 +31,28 @@ footer {
 
     .info {
         grid-column: info;
+
+        .copyright {
+            padding: 0;
+            margin: 0;
+            color: $textBrandColorLight;
+            line-height: 1.6em;
+            font-size: 0.7em;
+            text-align: right!important;
+
+            @media (min-width: $bp-lg) {
+                text-align: center!important;
+            }
+
+            a {
+                color: $textBrandColorLight;
+                text-decoration: underline;
+
+                &:hover {
+                    color: $textBrandColorLight;
+                }
+            }
+        }
     }
 
     .dev-links {
@@ -58,10 +80,15 @@ footer {
         }
 
         svg {
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             fill: $textBrandColor;
             stroke: $mainBrandColor;
+
+            @media (min-width: $bp-sm) {
+                width: 35px;
+                height: 35px;
+            }
         }
 
         span {
@@ -86,28 +113,6 @@ footer {
             span {
                 opacity: 1;
                 transition: opacity .5s;
-            }
-        }
-    }
-
-    .copyright {
-        padding: 0;
-        margin: 0;
-        color: $textBrandColorLight;
-        line-height: 1.6em;
-        font-size: 0.7em;
-        text-align: right!important;
-
-        @media (min-width: $bp-lg) {
-            text-align: center!important;
-        }
-
-        a {
-            color: $textBrandColorLight;
-            text-decoration: underline;
-
-            &:hover {
-                color: $textBrandColorLight;
             }
         }
     }
