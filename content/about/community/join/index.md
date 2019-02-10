@@ -9,59 +9,39 @@ Istio is an open source project with an active community that supports its use a
 to join us and get involved!
 There are quite a few ways to get plugged in:
 
-<table class="community">
-  <tbody>
-    <tr>
-      <td class="logo"><img src="./discourse.svg" alt="Discourse"/></td>
-      <td class="desc">
-        Head for the <a href="https://discuss.istio.io">Istio discussion board</a> to participate in
-         discussions
-        and get help troubleshooting problems.
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="./twitter.svg" alt="Twitter"/></td>
-      <td class="desc">
-        Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="./stackoverflow.svg" alt="Stack Overflow"/></td>
-      <td class="desc">
-        <a href="https://stackoverflow.com/questions/tagged/istio">Stack Overflow</a> is for practical questions and curated answers
-        on deploying, configuring, and using Istio.
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="./github.png" alt="GitHub"/></td>
-      <td class="desc">
-        <a href="https://github.com/istio/community">GitHub</a> is where development takes place on Istio code.
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="./drive.svg" alt="Google Drive"/></td>
-      <td class="desc">
-        If you want to get into the nuts and bolts of Istio, check out our growing collection
-        of design documents. To access these, simply join the
-        <a href="https://groups.google.com/forum/#!forum/istio-team-drive-access">istio-team-drive-access@</a> mailing list.
-        Once you've done that, you can head straight to our
-        <a href="https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA">folder full of technical goodies</a>.
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="./group.svg" alt="Working Groups"/></td>
-      <td class="desc">
-        If you'd like to contribute to the Istio project, learn <a href="https://github.com/istio/community/blob/master/README.md">how we do things</a> and
-        consider participating in our
-        <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">working groups</a>.
-      </td>
-    </tr>
-    <tr>
-      <td class="logo"><img src="./servicemesher.svg" alt="ServiceMesher"/></td>
-      <td class="desc">
-        Our Chinese-language documentation is maintained by the
-        <a href="http://www.servicemesher.com">ServiceMesher community</a>, join us and get involved!
-      </td>
-    </tr>
-  </tbody>
-</table>
+{{< community_item logo="./discourse.svg" alt="Discourse" >}}
+Head for the [Istio discussion board](https://discuss.istio.io) to participate in discussions
+and get help troubleshooting problems.
+{{< /community_item >}}
+
+{{< community_item logo="./twitter.svg" alt="Twitter" >}}
+Follow us on [Twitter](https://twitter.com/IstioMesh) to get the latest news.
+{{< /community_item >}}
+
+{{< community_item logo="./stackoverflow.svg" alt="Stack Overflow" >}}
+[Stack Overflow](https://stackoverflow.com/questions/tagged/istio) is for practical questions and curated answers
+on deploying, configuring, and using Istio.
+{{< /community_item >}}
+
+{{< community_item logo="./github.png" alt="GitHub" >}}
+[GitHub](https://github.com/istio/community) is where development takes place on Istio code.
+{{< /community_item >}}
+
+{{< community_item logo="./drive.svg" alt="Google Drive" >}}
+If you want to get into the nuts and bolts of Istio, check out our growing collection
+of design documents. To access these, simply join the
+[istio-team-drive-access@](https://groups.google.com/forum/#!forum/istio-team-drive-access) group.
+Once you've done that, you can head straight to our
+[folder full of technical goodies](https://drive.google.com/corp/drive/u/0/folders/0AIS5p3eW9BCtUk9PVA).
+{{< /community_item >}}
+
+{{< community_item logo="./group.svg" alt="Working Groups" >}}
+If you'd like to contribute to the Istio project, learn [how we do things](https://github.com/istio/community/blob/master/README.md) and
+consider participating in our
+[working groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
+{{< /community_item >}}
+
+{{< community_item logo="./servicemesher.svg" alt="ServiceMesher" >}}
+Our Chinese-language documentation is maintained by the
+[ServiceMesher community](http://www.servicemesher.com), join us and get involved!
+{{< /community_item >}}

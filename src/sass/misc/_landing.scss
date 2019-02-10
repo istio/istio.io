@@ -1,0 +1,131 @@
+.landing {
+    .banner {
+        display: flex;
+        justify-content: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+
+        .hero-label {
+            margin: 0 0 0 0;
+            padding: 30px 0 0 0;
+            font-size: 4rem;
+            font-family: "Verdana", serif;
+            text-align: center;
+        }
+
+        .hero-lead {
+            display: block;
+            font-size: 1rem;
+            font-weight: $heroLeadWeight;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-logo {
+            width: 0;
+            fill: $heroLogoColor;
+        }
+
+        .hero-text {
+            width: 20rem;
+            margin-left: 0;
+        }
+
+        @media (min-width: $bp-sm) {
+            .hero-logo {
+                width: 7rem;
+            }
+
+            .hero-label {
+                text-align: left;
+            }
+
+            .hero-lead {
+                text-align: left;
+            }
+
+            .hero-text {
+                margin-left: 3rem;
+            }
+        }
+    }
+
+    .placards {
+        display: grid;
+        grid-template-columns: [card] auto;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        grid-gap: 2rem;
+        justify-content: center;
+        align-content: end;
+
+        @media (min-width: $bp-md) {
+            padding-top: 50px;
+            padding-bottom: 50px;
+            grid-template-columns: [card] auto [card] auto;
+        }
+
+        @media (min-width: 80rem) { // 4 card of 18rem each, 3 grid gap of 2 rem each, 2 padding rems
+            grid-template-columns: [card] auto [card] auto [card] auto [card] auto;
+        }
+
+        .card {
+            color: $landingCardTextColor;
+            opacity: 0.1;
+            transition: opacity .25s linear;
+            background-color: $landingCardBackgroundColor;
+            border-color: $landingCardBorderColor;
+            width: 18rem;
+            box-shadow: 3px 3px 8px $landingCardShadowColor;
+
+            a {
+                text-decoration: none;
+                color: $textColor;
+
+                &:hover {
+                    color: $textColor;
+                    text-decoration: none;
+                }
+            }
+
+            &:hover {
+                box-shadow: 3px 3px 8px $landingCardShadowHoverColor;
+            }
+
+            .card-title {
+                text-align: center;
+            }
+
+            .card-line {
+                margin-left: 1.6rem;
+                margin-right: 1.6rem;
+                background-color: $landingCardTextColor;
+            }
+
+            .card-img-top {
+                text-align: center;
+                padding: 0;
+            }
+
+            .card-body {
+                padding-top: 0;
+            }
+        }
+    }
+
+    #buttons {
+        opacity: 0;
+        transition: opacity .25s ease-in;
+        text-align: center;
+
+        @media (min-width: $bp-md) {
+            padding-bottom: 20px;
+        }
+
+        .btn {
+            margin: 1rem 5rem;
+            width: 18rem;
+        }
+    }
+}
