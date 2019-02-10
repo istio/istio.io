@@ -130,6 +130,8 @@ This will be used to access the `local` pilot securely using the ingress gateway
     --set global.createRemoteSvcEndpoints=true \
     --set global.remotePilotCreateSvcEndpoint=true \
     --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
+    --set global.remotePolicyAddress=${LOCAL_GW_ADDR} \
+    --set global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
     --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
     --set global.network="network2" \
     install/kubernetes/helm/istio > istio-remote-auth.yaml
