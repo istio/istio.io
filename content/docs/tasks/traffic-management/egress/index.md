@@ -140,7 +140,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
     {{< text bash >}}
-    $  kubectl logs $SOURCE_POD -c istio-proxy | tail
+    $ kubectl logs $SOURCE_POD -c istio-proxy | tail
     [2019-01-24T12:48:54.977Z] "- - -" 0 - 601 17766 1289 - "-" "-" "-" "-" "172.217.161.36:443" outbound|443||www.google.com 172.30.109.82:59480 172.217.161.36:443 172.30.109.82:59478 www.google.com
     {{< /text >}}
 
@@ -372,8 +372,10 @@ for HTTP traffic in Istio is discouraged.)
     <title>CNN International - Breaking News, US News, World News and Video</title>
     {{< /text >}}
 
-    > It might take time for the configuration change to propagate so you might still get connection errors.
+    {{< warning >}}
+    It might take time for the configuration change to propagate so you might still get connection errors.
     Wait for several seconds and then retry the last command.
+    {{< /warning >}}
 
 Note that the requests to port 80 are blocked for all the external services since Istio by default has HTTP services
 that run on port 80. Also note that if you install Istio with allowed access to all the external services you loose

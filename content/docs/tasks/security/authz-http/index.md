@@ -46,9 +46,11 @@ If you are using a namespace other than `default`, use `kubectl -n namespace ...
 
     * Run the following commands to remove any existing RBAC policies:
 
-      > You could keep existing policies but you will need to make some changes to the `constraints` and `properties` field
+    {{< tip >}}
+    You could keep existing policies but you will need to make some changes to the `constraints` and `properties` field
 in the policy, see [constraints and properties](/docs/reference/config/authorization/constraints-and-properties/)
 for the list of supported keys in `constraints` and `properties`.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
