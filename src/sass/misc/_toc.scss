@@ -16,10 +16,6 @@
             max-height: calc(100vh - 9rem);
         }
 
-        @media (min-width: $bp-xl) {
-            max-width: 25em;
-        }
-
         @media (min-width: $bp-md) {
             @supports ((position:-webkit-sticky) or (position:sticky)) {
                 max-height: calc(100vh - 9rem);
