@@ -74,7 +74,7 @@ trafficPolicy:
     mode: ISTIO_MUTUAL
 {{< /text >}}
 
-Otherwise, the mode defaults to `DISABLED` causing client proxy sidecars to make plain HTTP requests
+Otherwise, the mode defaults to `DISABLE` causing client proxy sidecars to make plain HTTP requests
 instead of TLS encrypted requests. Thus, the requests conflict with the server proxy because the server proxy expects
 encrypted requests.
 
