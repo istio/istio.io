@@ -471,9 +471,8 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 In this section you will configure a TLS ingress gateway that fetches credentials from ingress gateway agent via secret discovery service (SDS).
 The ingress gateway agent is running in the same pod as the ingress gateway, and watches credentials created in the same namespace as the ingress gateway.
 
-1.  Enable SDS at ingress gateway and deploy ingress gateway agent
-
-    This feature is disabled by default, you need to manually enable the [feature flag](https://github.com/istio/istio/blob/db4830636d4dd6657a2358c609ccf5ce301c884b/install/kubernetes/helm/subcharts/gateways/values.yaml#L17) in helm,
+1.  Enable SDS at ingress gateway and deploy ingress gateway agent.
+    This feature is disabled by default, you need to manually enable the [feature flag]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml#L17) in helm,
     and then generate `istio-auth.yaml` file:
 
     {{< text bash >}}
@@ -481,7 +480,14 @@ The ingress gateway agent is running in the same pod as the ingress gateway, and
     $ kubectl apply -f install/kubernetes/istio-auth.yaml
     {{< /text >}}
 
-1.  Start the httpbin sample
+1.  Set the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT`
+
+    {{< text bash >}}
+    $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    {{< /text >}}
+
+1.  Start the `httpbin` sample
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -525,9 +531,7 @@ The ingress gateway agent is running in the same pod as the ingress gateway, and
     $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
-1.  Define a Gateway with a server section for port 443.
-
-    Define a Gateway and specify `credentialName` to be `httpbin-credential`, which should be the same as the secret name.
+1.  Define a Gateway with a server section for port 443. Define a Gateway and specify `credentialName` to be `httpbin-credential`, which should be the same as the secret name.
     TLS mode should be specified as SIMPLE. `serverCertificate` and `privateKey` should not be empty.
 
     {{< text bash >}}
@@ -581,19 +585,15 @@ The ingress gateway agent is running in the same pod as the ingress gateway, and
     EOF
     {{< /text >}}
 
-1.  Access the httpbin service with HTTPS by sending an https request
+1.  Access the `httpbin` service with HTTPS by sending an https request
 
     {{< text bash >}}
-    $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     {{< /text >}}
 
-    The httpbin service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
+    The `httpbin` service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
-1.  Replace credential for ingress gateway
-
-    We can change the  credentials at ingress gateway by deleting secret and creating a new one.
+1.  Replace credential for ingress gateway. We can change the credentials at ingress gateway by deleting the secret and creating a new one.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -607,7 +607,7 @@ The ingress gateway agent is running in the same pod as the ingress gateway, and
     $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.new.example.com/3_application/private/httpbin.example.com.key.pem --from-file=cert=httpbin.new.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
-1.  Access the httpbin service using CURL
+1.  Access the `httpbin` service using _curl_
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.new.example.com.b/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -625,7 +625,7 @@ The ingress gateway agent is running in the same pod as the ingress gateway, and
         `"""`
     {{< /text >}}
 
-1.  Accessing httpbin with previous cert-chain would fail
+1.  Accessing `httpbin` with previous cert chain would fail
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -641,7 +641,7 @@ The ingress gateway agent is running in the same pod as the ingress gateway, and
 
 In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `helloworld-v1.example.com`. The ingress gateway will retrieve unique credentials corresponding to specific `credentialName`.
 
-1.  Start the helloworld-v1 sample
+1.  Start the `helloworld-v1` sample
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -681,7 +681,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
     EOF
     {{< /text >}}
 
-1.  Create secret for ingress gateway. Assume you already create secret httpbin-credential. Now create secret helloworld-credential.
+1.  Create secret for ingress gateway. Assume you already create secret `httpbin-credential`. Now create secret `helloworld-credential`.
 
     {{< text bash >}}
     $ pushd mtls-go-example
@@ -835,9 +835,7 @@ This time we need to pass CA certificate that the server will use to verify its 
     * error:14094410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure
     {{< /text >}}
 
-1. Resend the previous request by passing client certificate and private key to CURL
-
-    This time passing as parameters your client certificate (additional --cert option) and your private key (the --key option):
+1. Resend the previous request by passing client certificate and private key to _curl_. This time pass your client certificate (additional --cert option) and your private key (the --key option) to _curl_.
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
