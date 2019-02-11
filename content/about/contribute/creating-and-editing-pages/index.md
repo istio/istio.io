@@ -215,21 +215,21 @@ current hierarchy:
 There are a few ways to reference files from GitHub:
 
 - **{{</* github_file */>}}** is how you reference individual files in GitHub such as yaml files. This
-produces a link to `https://raw.githubusercontent.com/istio/istio/...`
+produces a link to `https://raw.githubusercontent.com/istio/istio*`
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
 - **{{</* github_tree */>}}** is how you reference a directory tree in GitHub. This produces a link to
-`https://github.com/istio/istio/tree/...`
+`https://github.com/istio/istio/tree*`
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
 - **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
-`https://github.com/istio/istio/blob/...`
+`https://github.com/istio/istio/blob*`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)

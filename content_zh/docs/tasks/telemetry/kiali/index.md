@@ -17,7 +17,7 @@ keywords: [telemetry,visualization]
 
 [Kiali 安装指南](https://www.kiali.io/gettingstarted/)中还介绍了不借助 Helm 安装 Kiali 的方法。
 
-在 Istio 命名空间中创建一个 Secret，作为 Kiali 的认证凭据。[Helm README](https://github.com/istio/istio/blob/master/install/kubernetes/helm/istio/README.md#installing-the-chart) 中介绍了更多细节。修改并运行下列命令：
+在 Istio 命名空间中创建一个 Secret，作为 Kiali 的认证凭据。[Helm README]({{< github_blob >}}/install/kubernetes/helm/istio/README.md#installing-the-chart) 中介绍了更多细节。修改并运行下列命令：
 
 {{< text bash >}}
 $ USERNAME=$(echo -n 'admin' | base64)
