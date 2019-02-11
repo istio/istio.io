@@ -422,7 +422,7 @@ endpoints in the remote cluster, Kubernetes adds DNS entries to the `kube-dns`
 configuration object.
 
 This allows the `kube-dns` configuration object in the remote clusters to
-resolve the Istio service names for all envoy sidecars in those remote
+resolve the Istio service names for all Envoy sidecars in those remote
 clusters. Since Kubernetes pods don't have stable IPs, restart of any Istio
 service pod in the control plane cluster causes its endpoint to change.
 Therefore, any connection made from remote clusters to that endpoint are
