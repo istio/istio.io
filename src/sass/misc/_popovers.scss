@@ -1,9 +1,12 @@
-dfn.term {
+a.term {
     border-bottom: dashed 1px;
     cursor: help;
     position: relative;
     display: inline-block;
     font-style: normal;
+    text-decoration: none;
+    color: $textColor;
+    font-family: "Work Sans", sans-serif;
 }
 
 .popover {
@@ -17,6 +20,7 @@ dfn.term {
     @media (min-width: $bp-md) {
         max-width: 350px;
     }
+
     @media (min-width: $bp-xl) {
         max-width: 500px;
     }
@@ -28,9 +32,16 @@ dfn.term {
     }
 
     .arrow {
+        display: none;
+
+        @media (min-width: $bp-lg) {
+            display: block;
+        }
+
         &:after {
             border-right-color: $popoverBackgroundColor;
         }
+
         &:before {
             border-right-color: $popoverBorderColor;
         }
