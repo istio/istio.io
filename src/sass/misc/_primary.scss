@@ -1,6 +1,5 @@
 .sidebar-container {
     grid-column: sidebar;
-    max-width: 25rem;
 
     @media print {
         display: none;
@@ -13,7 +12,6 @@
 
 .toc-container {
     grid-column: toc;
-    max-width: 25rem;
     display: none;
 }
 
@@ -37,10 +35,10 @@
             display: block;
         }
     }
-}
 
-.primary.notoc {
-    @media screen AND (min-width: $bp-xl) {
-        grid-template-columns: [sidebar] 16% [article] calc(84% - 1rem);
+    &.notoc {
+        @media screen AND (min-width: $bp-xl) {
+            grid-template-columns: [sidebar] 16% [article] calc(84% - 1rem);
+        }
     }
 }

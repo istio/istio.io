@@ -27,7 +27,7 @@ Several cases for accessing the external database from the mesh were tested and 
 
 ### Case 1:  Bypassing the sidecar
 
-In this case, the sidecar does not intercept the communication between the application and the external DB. This is accomplished by setting the init container argument -x with the CIDR of the MongoDB, which makes the sidecar ignore messages to/from this `ip` address. For example:
+In this case, the sidecar does not intercept the communication between the application and the external DB. This is accomplished by setting the init container argument -x with the CIDR of the MongoDB, which makes the sidecar ignore messages to/from this IP address. For example:
 
         - -x
         - "169.47.232.211/32"
