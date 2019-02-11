@@ -1,15 +1,17 @@
 .faq-landing {
-    display: grid;
-    grid-template-columns: [card] 1fr;
-    grid-gap: 2rem;
+    column-count: 1;
+    column-gap: 2rem;
 
     @media (min-width: $bp-sm) {
-        grid-template-columns: [card] 1fr [card] 1fr;
+        column-count: 2
     }
 
     .panel {
+        display: inline-block;
         border: 1px solid $boxBorderColor;
         border-radius: 4px;
+        width: 100%;
+        margin-bottom: 2rem;
 
         .header {
             color: $textBrandColor;
