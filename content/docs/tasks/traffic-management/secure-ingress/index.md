@@ -781,7 +781,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
 ## Configure a mutual TLS ingress gateway with secret discovery service enabled
 
 In this section you will extend your gateway's definition to support [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication).
-We can change the credentials at ingress gateway by deleting secret and creating a new one.
+We can change the credentials at ingress gateway by deleting the secret and creating a new one.
 This time we need to pass CA certificate that the server will use to verify its clients, and we must use the name `cacert` to hold CA certificate.
 
     {{< text bash >}}
