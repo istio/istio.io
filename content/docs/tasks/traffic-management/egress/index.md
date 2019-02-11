@@ -337,7 +337,7 @@ $ helm template install/kubernetes/helm/istio <the flags you used to install Ist
 
 An alternative to calling external services directly is to instruct the Istio proxy to pass through the calls to all the
 external services. This option allows you to start evaluating Istio quickly, without controlling access to external
-services, and decide to [configure access to external services](#configuring-istio-external-services) later.
+services, and decide to [configure access to external services](#controlled-access-to-external-services) later.
 
 Istio has an installation option that allows access to any external service on any ports that have no HTTP service and
 no service entry defined inside the mesh. For example, if there is no registered HTTP service or service entry defined for
@@ -394,7 +394,7 @@ Note that the requests to port 80 are blocked for all the external services sinc
 that run on port 80. Also note that if you install Istio with allowed access to all the external services you loose
 Istio monitoring on traffic to external services: the calls to external services will not appear in the Mixer log, for
 example. To start monitoring access to external services, follow the steps in
-[configure access to external services](#configuring-istio-external-services) (no need to update Istio).
+[configure access to external services](#controlled-access-to-external-services) (no need to update Istio).
 
 ### Change back to the blocking-by-default policy
 
