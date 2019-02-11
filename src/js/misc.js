@@ -279,7 +279,7 @@ function handleDOMLoaded() {
                 }
 
                 if (cl !== "") {
-                    var outputStart = 0;
+                    var firstLineOfOutput = 0;
                     var lines = code.innerText.split("\n");
                     var cmd = "";
                     var escape = false;
@@ -295,14 +295,14 @@ function handleDOMLoaded() {
 
                             tmp = line.slice(2);
 
-                            if (line.contains("<<EOF")) {
+                            if (line.includes("<<EOF")) {
                                 escapeUntilEOF = true;
                             }
                         } else if (escape) {
                             // continuation
                             tmp += "\n" + line;
 
-                            if (line.endsWith("<<EOF")) {
+                            if (line.includes("<<EOF")) {
                                 escapeUntilEOF = true;
                             }
                         } else if (escapeUntilEOF) {
@@ -311,7 +311,7 @@ function handleDOMLoaded() {
                                 escapeUntilEOF = false;
                             }
                         } else {
-                            outputStart = j;
+                            firstLineOfOutput = j;
                             break;
                         }
 
@@ -328,8 +328,8 @@ function handleDOMLoaded() {
                         var html = "<div class='command'>" + cmd + "</div>";
 
                         var output = "";
-                        if (outputStart > 0) {
-                            for (var j = outputStart; j < lines.length; j++) {
+                        if (firstLineOfOutput > 0) {
+                            for (var j = firstLineOfOutput; j < lines.length; j++) {
                                 if (output !== "") {
                                     output += "\n";
                                 }
