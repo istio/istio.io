@@ -73,7 +73,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
             - fromRegistry: remote_kubecfg
             gateways:
             - address: 0.0.0.0
-            port: 15443
+              port: 15443
     {{< /text >}}
 
     Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
@@ -83,16 +83,10 @@ This will be used to access the `local` pilot securely using the ingress gateway
 1. Use Helm to create the Istio `local` deployment YAML:
 
     {{< text bash >}}
-    $ helm template --namespace=istio-system \
-    --values install/kubernetes/helm/istio/values.yaml \
+    $ helm template --name=istio --namespace=istio-system \
     --set global.mtls.enabled=true \
-    --set global.enableTracing=false \
     --set security.selfSigned=false \
-    --set mixer.telemetry.enabled=false \
-    --set mixer.policy.enabled=false \
-    --set global.useMCP=false \
     --set global.controlPlaneSecurityEnabled=true \
-    --set gateways.istio-egressgateway.enabled=false \
     --set global.meshExpansion.enabled=true \
     install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
@@ -127,24 +121,20 @@ This will be used to access the `local` pilot securely using the ingress gateway
 1. Use Helm to create the Istio `remote` deployment YAML:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote \
-      --name istio-remote \
-      --namespace=istio-system \
-      --set global.mtls.enabled=true \
-      --set global.enableTracing=false \
-      --set gateways.enabled=true \
-      --set gateways.istio-egressgateway.enabled=false \
-      --set gateways.istio-ingressgateway.enabled=true \
-      --set security.selfSigned=false \
-      --set global.controlPlaneSecurityEnabled=true \
-      --set global.createRemoteSvcEndpoints=true \
-      --set global.remotePilotCreateSvcEndpoint=true \
-      --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
-      --set global.proxy.envoyStatsd.enabled=false \
-      --set global.disablePolicyChecks=true \
-      --set global.policyCheckFailOpen=true \
-      --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-      --set global.network="network2" > istio-remote-auth.yaml
+    $ helm template --name istio-remote --namespace=istio-system \
+    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+    --set global.mtls.enabled=true \
+    --set gateways.enabled=true \
+    --set security.selfSigned=false \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.createRemoteSvcEndpoints=true \
+    --set global.remotePilotCreateSvcEndpoint=true \
+    --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
+    --set global.remotePolicyAddress=${LOCAL_GW_ADDR} \
+    --set global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
+    --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
+    --set global.network="network2" \
+    install/kubernetes/helm/istio > istio-remote-auth.yaml
     {{< /text >}}
 
 1. Deploy Istio to the `remote` cluster:
@@ -378,23 +368,17 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 1. Call the `helloworld.sample` service several times:
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
+    $ kubectl exec --context=$CTX_LOCAL -it -n sample -c sleep $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between the local and the remote instances
 resulting in responses with either `v1` or `v2` in the body:
 
-{{< text bash >}}
-$ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
-Defaulting container name to sleep.
-Use 'kubectl describe pod/sleep-57f9d6fd6b-q4k4h -n sample' to see all of the containers in this pod.
+{{< text sh >}}
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec --context=$CTX_LOCAL -it -n sample $(kubectl get pod --context=$CTX_LOCAL -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
-Defaulting container name to sleep.
-Use 'kubectl describe pod/sleep-57f9d6fd6b-q4k4h -n sample' to see all of the containers in this pod.
+{{< text sh >}}
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 {{< /text >}}
 
