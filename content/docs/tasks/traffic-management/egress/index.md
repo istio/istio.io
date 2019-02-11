@@ -217,6 +217,13 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     This time a 504 (Gateway Timeout) appears after 3 seconds.
     Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
+### Cleanup of controlled access to external services
+
+{{< text bash >}}
+$ kubectl delete serviceentry httpbin-ext google
+$ kubectl delete virtualservice httpbin-ext google
+{{< /text >}}
+
 ## Direct access to external services
 
 If you want to completely bypass Istio for a specific IP range,
@@ -317,6 +324,14 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 Note that this time you do not see any headers related to the Istio sidecar. Also note that the requests sent to
 external services appear neither in the log of the sidecar nor in the Mixer log: by bypassing Istio sidecars you lost
 monitoring of access to external services.
+
+### Cleanup of direct access to external services
+
+Update the `istio-sidecar-injector` configmap to redirect all outbound traffic to the sidecar proxies:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
+{{< /text >}}
 
 ## Install Istio with access to all external services by default
 
@@ -445,21 +460,8 @@ To implement egress traffic control in a secure way, you must [direct egress tra
 
 ## Cleanup
 
-1.  Remove the rules:
+Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
-    {{< text bash >}}
-    $ kubectl delete serviceentry httpbin-ext google
-    $ kubectl delete virtualservice httpbin-ext google
-    {{< /text >}}
-
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-1.  Update the `istio-sidecar-injector` configmap to redirect all outbound traffic to the sidecar proxies:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+{{< /text >}}
