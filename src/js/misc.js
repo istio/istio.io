@@ -295,7 +295,7 @@ function handleDOMLoaded() {
 
                             tmp = line.slice(2);
 
-                            if (line.endsWith("<<EOF")) {
+                            if (line.contains("<<EOF")) {
                                 escapeUntilEOF = true;
                             }
                         } else if (escape) {
