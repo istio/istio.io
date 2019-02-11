@@ -406,12 +406,14 @@ Istio.
 
 ## Understanding what happened
 
-In this task you looked at two ways to call external services from an Istio mesh:
+In this task you looked at three ways to call external services from an Istio mesh:
 
 1. Using a `ServiceEntry` for HTTP and a combination of `ServiceEntry` and `VirtualService` for HTTPS. This is the
    recommended way.
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
+
+1. Configuring Istio to allow access to any external service on some of the ports.
 
 The first approach lets you use all of the same Istio service mesh features for calls to services inside or outside of
 the cluster. You saw that you can monitor access to external services and set a timeout rule for calls to an external
@@ -421,6 +423,14 @@ The second approach bypasses the Istio sidecar proxy, giving your services direc
 However, configuring the proxy this way does require cluster provider specific knowledge and configuration.
 In addition to that, you loose monitoring of access to external services and cannot apply Istio features on traffic to
 external services.
+
+The third approach directs the traffic through the Istio sidecar proxy, however it allows access to any service on any
+ports that have no HTTP service inside the mesh and no service entry defined. In this approach, similarly to the
+previous one, you cannot monitor access to external services. The advantage of this approach is that you must not
+know which IP ranges are external to the cluster. Additional advantage is that you can decide to switch to the first
+approach per specific port, by creating service entries for that port. This way you can start Istio by allowing access
+to any external service and then decide to start controlling access to external services per specific port, gaining
+monitoring and traffic control features later, once they are needed.
 
 ## Security note
 
