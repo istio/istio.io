@@ -23,7 +23,7 @@
     padding-right: .5rem;
 
     @media screen AND (min-width: $bp-md) {
-        grid-template-columns: [sidebar] 20% [article] calc(80% - 1rem);
+        grid-template-columns: [sidebar] 16% [article] calc(84% - 1rem);
         padding-left: 1rem;
         padding-right: 1rem;
     }
@@ -33,6 +33,18 @@
 
         .toc-container {
             display: block;
+        }
+
+        .toc {
+            .directory {
+                max-width: min(25em, 16%);
+            }
+        }
+
+        .sidebar {
+            .directory {
+                max-width: min(25em, 16%);
+            }
         }
     }
 
