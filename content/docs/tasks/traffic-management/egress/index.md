@@ -18,14 +18,14 @@ or alternatively, to bypass the Istio proxy for a specific range of IPs.
 
 {{< boilerplate before-you-begin-egress >}}
 
-## Configuring Istio external services
+## Controlled access to external services
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
 from within your Istio cluster. This task shows you how to access an external HTTP service,
 [httpbin.org](http://httpbin.org), as well as an external HTTPS service,
 [www.google.com](https://www.google.com).
 
-### Configuring an external HTTP service
+### Access to an external HTTP service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
@@ -86,7 +86,7 @@ from within your Istio cluster. This task shows you how to access an external HT
     `method`, `url`, `responseCode` and others. Using Istio egress traffic control, you can monitor access to external
     HTTP services, including the HTTP-related information of each access.
 
-### Configuring an external HTTPS service
+### Access to an external HTTPS service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
     For TLS protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
@@ -161,7 +161,7 @@ from within your Istio cluster. This task shows you how to access an external HT
     HTTPS services, you may want to let your applications issue HTTP requests and
     [configure Istio to perform TLS origination](/docs/examples/advanced-gateways/egress-tls-origination/).
 
-### Setting route rules on an external service
+### Management of traffic to external services
 
 Similar to inter-cluster requests, Istio
 [routing rules](/docs/concepts/traffic-management/#rule-configuration)
@@ -217,7 +217,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     This time a 504 (Gateway Timeout) appears after 3 seconds.
     Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
-## Calling external services directly
+## Direct access to external services
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
