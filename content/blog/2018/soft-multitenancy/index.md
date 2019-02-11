@@ -328,7 +328,7 @@ address the use cases.
 Current Istio capabilities are poorly suited to support the first model as it lacks
 sufficient RBAC capabilities to support cluster versus tenant operations. Additionally,
 having multiple tenants under one mesh is too insecure with the current mesh model and the
-way Istio drives configuration to the envoy proxies.
+way Istio drives configuration to the Envoy proxies.
 
 Regarding the second option, the current Istio paradigm assumes a single mesh per Istio control
 plane. The needed changes to support this model are substantial. They would require

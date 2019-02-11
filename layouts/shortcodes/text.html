@@ -1,4 +1,4 @@
-{{- /* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */ -}}
+{{- /* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks for details */ -}}
 {{- $downloadas := "" -}}
 {{- if .Get 2 -}}
     {{- $downloadas = .Get 2 -}}
@@ -45,13 +45,9 @@
     {{- if not (hasPrefix $text "$") -}}
         {{- errorf "Text block specifies a bash syntax, but the first line of the block does not start with $ (%s)" .Position -}}
     {{- else -}}
-        {{- if findRE "<<EOF" $line0 -}}
-            {{- $text = substr $text 2 -}}
-        {{- else -}}
-            {{- $syntax = "command" -}}
-            {{- if $output -}}
-                {{- $syntax = printf "command-output-as-%s" $output -}}
-            {{- end -}}
+        {{- $syntax = "command" -}}
+        {{- if $output -}}
+            {{- $syntax = printf "command-output-as-%s" $output -}}
         {{- end -}}
     {{- end -}}
 {{- end -}}
