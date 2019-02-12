@@ -4,7 +4,6 @@ description: Istio 0.2 公告。
 publishdate: 2017-10-10
 subtitle: 改善网格并支持多种环境
 attribution: The Istio Team
-weight: 96
 ---
 
 我在2017年5月24日发布了 Istio ，它是一个用于连接、管理、监控和保护微服务的开放平台。看着饱含浓厚兴趣的开发者、运营商、合作伙伴和不断发展的社区，我们感到十分的欣慰。我们 0.1 版本的重点是展示 Istio 在 Kubernetes 中的所有概念。

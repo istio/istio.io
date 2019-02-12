@@ -5,7 +5,6 @@ publishdate: 2018-01-31
 last_update: 2018-08-09
 subtitle: Mesh-external service entries for egress HTTPS traffic
 attribution: Vadim Eisenberg
-weight: 93
 keywords: [traffic-management,egress,https]
 ---
 

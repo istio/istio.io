@@ -4,7 +4,6 @@ description: Istio Auth 0.1 公告。
 publishdate: 2017-05-25
 subtitle: 默认保护服务间通信
 attribution: The Istio Team
-weight: 99
 ---
 
 传统的网络安全方式无法解决部署在动态变化环境下分布式应用的安全威胁。这里，我们将描述 `Istio Auth` 如何帮助企业将其安全从边界保护转变为内部所有服务间通信保护。 使用 `Istio Auth` 开发人员和运维人员可以在不改动程序的情况下，对于敏感数据进行保护，防止未经授权的内部人员访问。

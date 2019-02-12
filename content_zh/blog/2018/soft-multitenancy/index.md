@@ -4,7 +4,6 @@ description: 使用 Kubernetes 命名空间和 RBAC 为 Istio 构建软性多租
 publishdate: 2018-04-19
 subtitle: 使用多个 Istio 控制平面和 RBAC 提供多租户支持
 attribution: John Joyce 和 Rich Curran
-weight: 90
 keywords: [tenancy]
 ---
 

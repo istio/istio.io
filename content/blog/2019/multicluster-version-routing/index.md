@@ -4,7 +4,6 @@ description: Configuring Istio route rules in a multicluster service mesh.
 publishdate: 2019-02-07
 subtitle:
 attribution: Frank Budinsky (IBM)
-weight: 74
 keywords: [traffic-management,multicluster]
 ---
 

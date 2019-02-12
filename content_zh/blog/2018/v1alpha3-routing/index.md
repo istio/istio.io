@@ -4,7 +4,6 @@ description: Istio v1alpha3 路由 API 介绍,动机及其设计原则。
 publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
-weight: 88
 keywords: [traffic-management]
 ---
 
