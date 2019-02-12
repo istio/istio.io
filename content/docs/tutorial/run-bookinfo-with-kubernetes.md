@@ -56,7 +56,7 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, we w
     $ kubectl get pods
     {{< /text >}}
 
-1.  Let's deploy a testing pod, [sleep](https://github.com/istio/istio/tree/master/samples/sleep), to use it for sending
+1.  Deploy a testing pod, [sleep](https://github.com/istio/istio/tree/master/samples/sleep), to use it for sending
   requests to our microservices:
 
     {{< text bash >}}
