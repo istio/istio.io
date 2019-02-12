@@ -12,6 +12,7 @@ enableGitInfo = true
 enableEmoji = true
 buildFuture = true
 ignoreFiles = [ "OWNERS" ]
+staticDir = ["static", "generated"]
 
 # MARKDOWN
 ## Configuration for BlackFriday markdown parser: https://github.com/russross/blackfriday

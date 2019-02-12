@@ -11,12 +11,10 @@
     .type {
         position: relative;
         display: table-cell;
-        width: 3em;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
+        top: -1.25em;
+        left: -.75em;
         min-height: 100%;
         text-align: center;
-        vertical-align: middle;
     }
 
     .content {
@@ -39,7 +37,6 @@
     &:hover {
         svg {
             animation: shake 2.82s cubic-bezier(.36, .07, .19, .97) both;
-            animation-iteration-count: infinite;
             transform: translate3d(0, 0, 0);
             backface-visibility: hidden;
             perspective: 1000px;
