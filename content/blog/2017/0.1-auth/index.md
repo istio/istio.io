@@ -4,7 +4,6 @@ description: Istio Auth 0.1 announcement.
 publishdate: 2017-05-25
 subtitle: Secure by default service to service communications
 attribution: The Istio Team
-weight: 99
 aliases:
     - /blog/0.1-auth.html
     - /blog/istio-auth-for-microservices.html

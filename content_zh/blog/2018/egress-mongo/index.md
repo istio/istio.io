@@ -4,7 +4,6 @@ description: 描述了一个基于 Istio 的 Bookinfo 示例的简单场景。
 publishdate: 2018-11-16
 subtitle: MongoDB 流量的 Istio Egress 控制选项
 attribution: Vadim Eisenberg
-weight: 79
 keywords: [traffic-management,egress,tcp,mongo]
 ---
 

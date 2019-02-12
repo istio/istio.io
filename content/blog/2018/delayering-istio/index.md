@@ -4,7 +4,6 @@ description: Automatic application onboarding and latency optimizations using Ap
 publishdate: 2018-07-30
 subtitle:
 attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
-weight: 86
 keywords: [appswitch,performance]
 ---
 
