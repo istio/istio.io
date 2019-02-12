@@ -38,6 +38,11 @@
         background-color: $warningCalloutBackgroundColor;
     }
 
+    &.quote {
+        background-color: $blockQuoteBackgroundColor;
+        font-style: italic;
+    }
+
     &:hover {
         svg {
             animation: shake 2.82s cubic-bezier(.36, .07, .19, .97) both;

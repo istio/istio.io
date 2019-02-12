@@ -403,8 +403,10 @@ Istio.
     command terminated with exit code 35
     {{< /text >}}
 
-    > It might take time for the configuration change to propagate so you might still get successful connections.
+    {{< warning >}}
+    It might take time for the configuration change to propagate so you might still get successful connections.
     Wait for several seconds and then retry the last command.
+    {{< /warning >}}
 
 ## Understanding what happened
 
