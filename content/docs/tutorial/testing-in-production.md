@@ -10,12 +10,11 @@ Let's perform some testing of our microservice, in production!
 
 ## Testing individual microservices
 
-1. Issue an HTTP request from the testing pod to one of your services:
+1.  Issue an HTTP request from the testing pod to one of your services:
 
-   {{< text bash >}}
-   $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') bash
-   curl http://ratings:9080/ratings/7
-   {{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
+    {{< /text >}}
 
 Exercise: test other microservices. For that, check in the
 [source code](https://github.com/istio/istio/tree/master/samples/bookinfo/src) of the Bookinfo application how other microservices are called.
