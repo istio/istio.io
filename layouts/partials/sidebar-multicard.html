@@ -1,4 +1,4 @@
-<nav class="sidebar d-print-none">
+<nav class="sidebar">
     <div class="spacer"></div>
     <div class="directory" role="tablist">
         {{ $section := .Site.GetPage "section" .Section }}
@@ -32,7 +32,7 @@
 
         {{ if not .Site.Data.args.archive }}
             {{ if strings.HasSuffix $section.Dir "blog/" }}
-                <div class="text-center subscribe" >
+                <div class="subscribe" >
                     <a href="/feed.xml" target="_blank">
                         {{ partial "large_icon.html" "rss" }}{{ i18n "subscribe" }}
                     </a>
