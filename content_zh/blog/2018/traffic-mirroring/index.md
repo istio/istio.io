@@ -4,7 +4,6 @@ description: 介绍更安全，低风险的部署和发布到生产。
 publishdate: 2018-02-08
 subtitle: Routing rules for HTTP traffic
 attribution: Christian Posta
-weight: 91
 keywords: [traffic-management,mirroring]
 ---
 
