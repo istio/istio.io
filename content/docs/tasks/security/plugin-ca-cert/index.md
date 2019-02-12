@@ -42,6 +42,14 @@ Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.
 
 These files are ready to use in the `samples/certs/` directory.
 
+  {{< tip >}}
+  The default Citadel installation mounts the `cacert` secret as a volume under `/etc/certs`.
+  It is configured via [command line options](/docs/reference/commands/istio_ca/index.html)
+  to load certificates and keys from the predefined file names used in the command below
+  (i.e., root certificate must be in a file named `root-cert.pem`, Citadel key in
+  `ca-key.pem`, etc.)
+  {{< /tip >}}
+
 The following steps enable plugging in the certificates and key into Citadel:
 
 1.  Create a secret `cacert` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
