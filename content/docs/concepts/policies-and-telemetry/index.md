@@ -136,7 +136,7 @@ Attribute expressions are used when configuring [instances](#instances).
 Here's an example use of expressions:
 
 {{< text yaml >}}
-destination_service: destination.service
+destination_service: destination.service.host
 response_code: response.code
 destination_version: destination.labels["version"] | "unknown"
 {{< /text >}}
