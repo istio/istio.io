@@ -15,6 +15,10 @@
         left: -.75em;
         min-height: 100%;
         text-align: center;
+
+        svg {
+            fill: $boxBorderColor;
+        }
     }
 
     .content {
