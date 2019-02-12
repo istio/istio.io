@@ -11,10 +11,10 @@
     .type {
         position: relative;
         display: table-cell;
-        top: -1.25em;
         left: -.75em;
         min-height: 100%;
         text-align: center;
+        vertical-align: middle;
 
         svg {
             fill: $boxBorderColor;
