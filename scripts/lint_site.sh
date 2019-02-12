@@ -106,7 +106,7 @@ fi
 #    grep -l -e "blockquote" $f
 #    if [[ "$?" == "0" ]]
 #    then
-#        echo "Ensure site use {{< tip >}}, {{< warning >}} and {{< idea >}} instead of block quotes"
+#        echo "Ensure markdown content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
 #        FAILED=1
 #    fi
 #done
