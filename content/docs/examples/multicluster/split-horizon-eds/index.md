@@ -236,46 +236,11 @@ The difference between the two instances is the version of their `helloworld` im
     $ kubectl label --context=$CTX_REMOTE namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Create a file `helloworld-v2.yaml` with the following content:
-
-    {{< text yaml >}}
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: helloworld
-      labels:
-        app: helloworld
-    spec:
-      ports:
-      - port: 5000
-        name: http
-      selector:
-        app: helloworld
-    ---
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: helloworld-v2
-    spec:
-      replicas: 1
-      template:
-        metadata:
-          labels:
-            app: helloworld
-            version: v2
-        spec:
-          containers:
-          - name: helloworld
-            image: istio/examples-helloworld-v2
-            imagePullPolicy: IfNotPresent
-            ports:
-            - containerPort: 5000
-    {{< /text >}}
-
-1. Deploy the file:
+1. Deploy `helloworld v2`:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_REMOTE -f helloworld-v2.yaml -n sample
+    $ kubectl create --context=$CTX_REMOTE -f samples/helloworld/helloworld.yaml -l app=helloworld -n sample
+    $ kubectl create --context=$CTX_REMOTE -f samples/helloworld/helloworld.yaml -l version=v2 -n sample
     {{< /text >}}
 
 ### Deploy helloworld v1 in local
@@ -287,45 +252,17 @@ The difference between the two instances is the version of their `helloworld` im
     $ kubectl label --context=$CTX_LOCAL namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Create a file `helloworld-v1.yaml` with the following content:
+1. Deploy `helloworld v1`:
 
-    {{< text yaml >}}
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: helloworld
-      labels:
-        app: helloworld
-    spec:
-      ports:
-      - port: 5000
-        name: http
-      selector:
-        app: helloworld
-    ---
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: helloworld-v1
-    spec:
-      replicas: 1
-      template:
-        metadata:
-          labels:
-            app: helloworld
-            version: v1
-        spec:
-          containers:
-          - name: helloworld
-            image: istio/examples-helloworld-v1
-            imagePullPolicy: IfNotPresent
-            ports:
-            - containerPort: 5000
+    {{< text bash >}}
+    $ kubectl create --context=$CTX_LOCAL -f samples/helloworld/helloworld.yaml -l app=helloworld -n sample
+    $ kubectl create --context=$CTX_LOCAL -f samples/helloworld/helloworld.yaml -l version=v1 -n sample
     {{< /text >}}
 
-1. Create a file `helloworld-gateway.yaml` with the following content:
+1. Create the Gateway to access the service:
 
-    {{< text yaml >}}
+    {{< text bash >}}
+    $ kubectl create -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -343,17 +280,11 @@ The difference between the two instances is the version of their `helloworld` im
           mode: AUTO_PASSTHROUGH
         hosts:
         - "*"
+    EOF
     {{< /text >}}
 
     Although deployed locally, this Gateway instance will also affect the `remote` cluster by configuring it to passthrough
     incoming traffic to the relevant remote service (SNI-based) but keeping mutual TLS all the way from the source to destination sidecars.
-
-1. Deploy the files:
-
-    {{< text bash >}}
-    $ kubectl create --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
-    $ kubectl create --context=$CTX_LOCAL -f helloworld-gateway.yaml -n sample
-    {{< /text >}}
 
 ### Split-horizon EDS in action
 
@@ -401,7 +332,6 @@ Cleanup the `remote` cluster:
 {{< text bash >}}
 $ kubectl delete --context=$CTX_REMOTE -f istio-remote-auth.yaml
 $ kubectl delete --context=$CTX_REMOTE ns istio-system
-$ kubectl delete --context=$CTX_REMOTE -f helloworld-v2.yaml -n sample
 $ kubectl delete --context=$CTX_REMOTE ns sample
 {{< /text >}}
 
@@ -411,7 +341,5 @@ Cleanup the `local` cluster:
 $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
 $ kubectl delete --context=$CTX_LOCAL ns istio-system
 $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete --context=$CTX_LOCAL -f $i; done
-$ kubectl delete --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
-$ kubectl delete --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
 $ kubectl delete --context=$CTX_LOCAL ns sample
 {{< /text >}}
