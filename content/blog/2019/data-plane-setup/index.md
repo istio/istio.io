@@ -13,11 +13,13 @@ A simple overview of an Istio service-mesh architecture always starts with descr
 
 [From Istio’s documentation:](/docs/concepts/what-is-istio/#architecture)
 
-> An Istio service mesh is logically split into a data plane and a control plane.
->
->  The data plane is composed of a set of intelligent proxies (Envoy) deployed as sidecars. These proxies mediate and control all network communication between microservices along with Mixer, a general-purpose policy and telemetry hub.
->
->  The control plane manages and configures the proxies to route traffic. Additionally, the control plane configures Mixers to enforce policies and collect telemetry.
+{{< quote >}}
+An Istio service mesh is logically split into a data plane and a control plane.
+
+The data plane is composed of a set of intelligent proxies (Envoy) deployed as sidecars. These proxies mediate and control all network communication between microservices along with Mixer, a general-purpose policy and telemetry hub.
+
+The control plane manages and configures the proxies to route traffic. Additionally, the control plane configures Mixers to enforce policies and collect telemetry.
+{{< /quote >}}
 
 {{< image width="40%"
     ratio="33%"
@@ -207,7 +209,9 @@ But how does this work? To get to the bottom of this, we need to understand Kube
 
 [From Kubernetes documentation:](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
 
-> An admission controller is a piece of code that intercepts requests to the Kubernetes API server prior to persistence of the object, but after the request is authenticated and authorized. You can define two types of admission webhooks, validating admission Webhook and mutating admission webhook. With validating admission Webhooks, you may reject requests to enforce custom admission policies. With mutating admission Webhooks, you may change requests to enforce custom defaults.
+{{< tip >}}
+An admission controller is a piece of code that intercepts requests to the Kubernetes API server prior to persistence of the object, but after the request is authenticated and authorized. You can define two types of admission webhooks, validating admission Webhook and mutating admission webhook. With validating admission Webhooks, you may reject requests to enforce custom admission policies. With mutating admission Webhooks, you may change requests to enforce custom defaults.
+{{< /tip >}}
 
 For automatic sidecar injection, Istio relies on `Mutating Admission Webhook`. Let’s look at the details of the  `istio-sidecar-injector` mutating webhook configuration.
 
@@ -343,4 +347,6 @@ The output above clearly shows that all the incoming traffic to port 80, which i
 
 This brings us to the end of this post. I hope it helped to de-mystify how Istio manages to inject the sidecar proxies into an existing deployment and how Istio routes the traffic to the proxy.
 
-> Update: In place of `istio-init`, there now seems to be an option of using the new CNI, which removes the need for the init container and associated privileges. This [`istio-cni`] (<https://github.com/istio/cni>) plugin sets up the pods' networking to fulfill this requirement in place of the current Istio injected pod `istio-init` approach.
+{{< idea >}}
+Update: In place of `istio-init`, there now seems to be an option of using the new CNI, which removes the need for the init container and associated privileges. This [`istio-cni`] (<https://github.com/istio/cni>) plugin sets up the pods' networking to fulfill this requirement in place of the current Istio injected pod `istio-init` approach.
+{{< /idea >}}

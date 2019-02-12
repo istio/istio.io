@@ -8,7 +8,9 @@ weight: 86
 keywords: [appswitch,performance]
 ---
 
->_All problems in computer science can be solved with another layer, except of course the problem of too many layers._ -- David Wheeler
+{{< quote >}}
+All problems in computer science can be solved with another layer, except of course the problem of too many layers. -- David Wheeler
+{{< /quote >}}
 
 The sidecar proxy approach enables a lot of awesomeness.  Squarely in the datapath between microservices, the sidecar can precisely tell what the application is trying to do.  It can monitor and instrument protocol traffic, not in the bowels of the networking layers but at the application level, to enable deep visibility, access controls and traffic management.
 
@@ -208,7 +210,9 @@ Yes, AppSwitch is clearly another layer.  However it is one that can remove mult
 
 Perhaps Wheeler’s quote should read:
 
->_All problems in computer science can be solved with another layer, **even** the problem of too many layers!_
+{{< quote >}}
+All problems in computer science can be solved with another layer, **even** the problem of too many layers!
+{{< /quote >}}
 
 ## Acknowledgements
 
