@@ -73,6 +73,8 @@ so the configuration to enable rate limiting on both adapters is the same.
       name: handler
       namespace: istio-system
     spec:
+      redisServerUrl: <redis_server_url>
+      connectionPoolSize: 10
       quotas:
       - name: requestcount.quota.istio-system
         maxAmount: 500
@@ -87,22 +89,17 @@ so the configuration to enable rate limiting on both adapters is the same.
         - dimensions:
             destination: reviews
           maxAmount: 1
-          validDuration: 5s
         # The following override applies to 'productpage' when
         # the source is a specific ip address.
         - dimensions:
             destination: productpage
             source: "10.28.11.20"
           maxAmount: 500
-          validDuration: 1s
         # The following override applies to 'productpage' regardless
         # of the source.
         - dimensions:
             destination: productpage
           maxAmount: 2
-          validDuration: 5s
-        redisServerUrl: <redis_server_url>
-        connectionPoolSize: 10
     ---
     apiVersion: "config.istio.io/v1alpha2"
     kind: quota
@@ -175,6 +172,7 @@ so the configuration to enable rate limiting on both adapters is the same.
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
+        overrides:
         - dimensions:
             destination: reviews
           maxAmount: 1
