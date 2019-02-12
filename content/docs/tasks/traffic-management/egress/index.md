@@ -444,7 +444,7 @@ ports that have no HTTP service inside the mesh and no service entry defined. In
 previous one, you cannot monitor access to external services. The advantage of this approach is that you don't need to
 know which IP ranges are external to the cluster. Another advantage is that you can easily switch to the first approach
 for a specific port by simply creating a service entry for that port. This way you can start Istio by allowing access
-to any external service and then decide to start controlling access to external services per specific port, gaining
+to any external service and then decide to start controlling access to external services for specific ports, enabling
 monitoring and traffic control features later, once they are needed.
 
 ## Security note
