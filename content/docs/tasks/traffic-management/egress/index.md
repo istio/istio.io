@@ -445,7 +445,8 @@ previous one, you cannot monitor access to external services. The advantage of t
 know which IP ranges are external to the cluster. Another advantage is that you can easily switch to the first approach
 for a specific port by simply creating a service entry for that port. This way you can start Istio by allowing access
 to any external service and then decide to start controlling access to external services for specific ports, enabling
-monitoring and traffic control features later, once they are needed.
+monitoring and traffic control features later, once they are needed. A caveat is that some ports, for example port 80,
+already have HTTP services inside Istio by default, so for them only the first and the second approaches can be applied.
 
 ## Security note
 
