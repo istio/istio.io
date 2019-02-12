@@ -38,18 +38,18 @@ title: Istio
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('card1').style.opacity = "1";
+        document.getElementById('panel1').style.opacity = "1";
 
         window.setTimeout(function() {
-            document.getElementById('card2').style.opacity = "1";
+            document.getElementById('panel2').style.opacity = "1";
         }, 375);
 
         window.setTimeout(function() {
-            document.getElementById('card3').style.opacity = "1";
+            document.getElementById('panel3').style.opacity = "1";
         }, 750);
 
         window.setTimeout(function() {
-            document.getElementById('card4').style.opacity = "1";
+            document.getElementById('panel4').style.opacity = "1";
         }, 1125);
 
         window.setTimeout(function() {
@@ -67,17 +67,17 @@ title: Istio
         </div>
     </div>
 
-    <div class="placards">
-        <div id="card1" class="card">
+    <div class="panels">
+        <div id="panel1" class="panel">
             <a href="/docs/concepts/traffic-management/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/routing-and-load-balancing.svg" >}}
                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Connect</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Connect</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         Intelligently control the flow of traffic and API calls between services, conduct a range of tests, and upgrade gradually with
                         red/black deployments.
                     </p>
@@ -85,16 +85,16 @@ title: Istio
             </a>
         </div>
 
-        <div id="card2" class="card">
+        <div id="panel2" class="panel">
             <a href="/docs/concepts/security/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/resiliency.svg" >}}
                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Secure</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Secure</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         Automatically secure your services through managed authentication, authorization, and encryption of communication between
                         services.
                     </p>
@@ -102,32 +102,32 @@ title: Istio
             </a>
         </div>
 
-        <div id="card3" class="card">
+        <div id="panel3" class="panel">
             <a href="/docs/concepts/policies-and-telemetry/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/policy-enforcement.svg" >}}
                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Control</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Control</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         Apply policies and ensure that they’re enforced, and that resources are fairly distributed among consumers.
                     </p>
                 </div>
             </a>
         </div>
 
-        <div id="card4" class="card">
+        <div id="panel4" class="panel">
             <a href="/docs/concepts/policies-and-telemetry/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/telemetry-and-reporting.svg" >}}
                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">Observe</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Observe</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         See what's happening with rich automatic tracing, monitoring, and logging of all your services.
                    </p>
                 </div>
