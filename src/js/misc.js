@@ -96,7 +96,7 @@ $(function ($) {
 
         // toggle category tree in sidebar
         $(document).on('click', '.tree-toggle', function () {
-            $(this).children('i.chevron').toggleClass('d-none');
+            $(this).children('i.chevron').toggleClass('show');
             $(this).parent().children('ul.tree').toggle(200);
         });
 

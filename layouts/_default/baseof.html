@@ -132,7 +132,7 @@
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
 
-        <div class="d-xl-none d-print-none">
+        <div id="scroll-to-top-container">
             <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title='{{ i18n "button_top"}}'>
                 {{ partial "icon.html" "top" }}
             </button>

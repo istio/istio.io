@@ -119,15 +119,20 @@
         }
     }
 
-    .chevron {
-        svg {
-            margin-right: 0.3em;
-        }
-    }
-
     .tree-toggle {
         cursor: pointer;
         margin-bottom: 0;
+
+        .chevron {
+            svg {
+                margin-right: 0.3em;
+            }
+
+            display: none;
+            &.show {
+                display: inline;
+            }
+        }
     }
 }
 
@@ -148,6 +153,10 @@
 
     &:hover {
         color: $textBrandHighlightColor;
+    }
+
+    @media (min-width: $bp-md) {
+        display: none;
     }
 
     @media print {
