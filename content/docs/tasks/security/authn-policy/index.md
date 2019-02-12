@@ -352,9 +352,10 @@ spec:
 EOF
 {{< /text >}}
 
->
+{{< tip >}}
 * In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`), which has an identical effect.
 * There is no restriction on the authentication policy and destination rule name. This example uses the name of the service itself for simplicity.
+{{< /tip >}}
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
@@ -546,7 +547,7 @@ spec:
 EOF
 {{< /text >}}
 
-The same curl command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
+The same `curl` command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"

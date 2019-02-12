@@ -1,0 +1,9 @@
+<div class="callout quote">
+    <div class="type">
+        <svg class="large_icon"><use xlink:href="/img/icons.svg#callout-quote"/></svg>
+    </div>
+    <div class="content">
+        {{ $trimmed := trim .Inner " \n" }}
+        {{ markdownify $trimmed }}
+    </div>
+</div>

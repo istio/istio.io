@@ -483,11 +483,11 @@ which looks like:
 
 Mixer use an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
 
-So even though the glossary entry is for *adapters*, the word singular form of *adapter* can be used in the text.
+So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
 
 ## Callouts
 
-You can bring special attention to blocks of content by highlighting warnings, ideas, and tips:
+You can bring special attention to blocks of content by highlighting warnings, ideas, tips, and quotes:
 
 {{< text markdown >}}
 {{</* warning */>}}
@@ -501,6 +501,10 @@ This is a great idea
 {{</* tip */>}}
 This is a useful tip from an expert
 {{</* /tip */>}}
+
+{{</* quote */>}}
+This is a quote from somewhere
+{{</* /quote */>}}
 {{< /text >}}
 
 which looks like:
@@ -516,6 +520,10 @@ This is a great idea
 {{< tip >}}
 This is a useful tip from an expert
 {{< /tip >}}
+
+{{< quote >}}
+This is a quote from somewhere
+{{< /quote >}}
 
 ## Embedding boilerplate text
 
