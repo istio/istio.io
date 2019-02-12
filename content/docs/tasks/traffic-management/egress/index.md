@@ -442,8 +442,8 @@ external services.
 The third approach directs the traffic through the Istio sidecar proxy, however it allows access to any service on any
 ports that have no HTTP service inside the mesh and no service entry defined. In this approach, similarly to the
 previous one, you cannot monitor access to external services. The advantage of this approach is that you don't need to
-know which IP ranges are external to the cluster. Additional advantage is that you can decide to switch to the first
-approach per specific port, by creating service entries for that port. This way you can start Istio by allowing access
+know which IP ranges are external to the cluster. Another advantage is that you can easily switch to the first approach
+for a specific port by simply creating a service entry for that port. This way you can start Istio by allowing access
 to any external service and then decide to start controlling access to external services per specific port, gaining
 monitoring and traffic control features later, once they are needed.
 
