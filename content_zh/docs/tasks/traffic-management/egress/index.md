@@ -196,6 +196,10 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
 
 [和前面一样](/zh/docs/tasks/traffic-management/egress/#开始之前)，重新部署 `sleep` 应用。
 
+{{< warning >}}
+确保已删除之前部署的 `ServiceEntry` 和 `VirtualService`。
+{{< /warning >}}
+
 ### 确定 `global.proxy.includeIPRanges` 的值
 
 根据集群部署情况为 `global.proxy.includeIPRanges` 赋值。

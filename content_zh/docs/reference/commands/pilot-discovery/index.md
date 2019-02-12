@@ -27,7 +27,9 @@ Istio Pilot 在 Istio 服务网格中提供了更全面的流量管理能力。
 
 启动 Istio 代理服务发现。
 
-> pilot-discovery discovery [flags]
+{{< text plain >}}
+pilot-discovery discovery [flags]
+{{< /text >}}
 
 标识 | 缩写 | 描述 |
 ----- | --------- | ----------- |
@@ -66,9 +68,11 @@ Istio Pilot 在 Istio 服务网格中提供了更全面的流量管理能力。
 
 ## pilot-discovery request
 
-对 Pilot metrics/debug 端点发送 HTTP 请求
+对 Pilot metrics/debug 端点发送 HTTP 请求。
 
-> pilot-discovery request \< method> \< path> [flags]
+{{< text plain >}}
+pilot-discovery request <method> <path> [flags]
+{{< /text >}}
 
 标识 | 描述
 ----- | -----------
@@ -88,7 +92,9 @@ Istio Pilot 在 Istio 服务网格中提供了更全面的流量管理能力。
 
 打印版本信息
 
-> pilot-discovery version [flags]
+{{< text plain >}}
+pilot-discovery version [flags]
+{{< /text >}}
 
 标识 | 缩写 | 描述
 ----- | --------- | -----------

@@ -45,7 +45,9 @@ keywords: [policies, denial, whitelist, blacklist]
     $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
-    > 如果在之前的例子中遗留下了同名规则，则应使用 `istioctl replace` 而非 `istioctl create`。如果使用的命名空间不是 `default`，就需要用 `istioctl -n namespace ...` 来指定命名空间。
+    {{< tip >}}
+    如果在之前的例子中遗留下了同名规则，则应使用 `istioctl replace` 而非 `istioctl create`。如果使用的命名空间不是 `default`，就需要用 `istioctl -n namespace ...` 来指定命名空间。
+    {{< /tip >}}
 
 ## 简单的 Denier 适配器
 

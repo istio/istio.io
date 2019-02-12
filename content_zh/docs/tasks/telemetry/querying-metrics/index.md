@@ -33,7 +33,9 @@ keywords: [telemetry,metrics]
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    > `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
+    {{< tip >}}
+    `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
+    {{< /tip >}}
 
 1.  打开 Prometheus UI。
 
