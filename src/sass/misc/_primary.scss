@@ -1,21 +1,21 @@
-.sidebar-container {
-    grid-column: sidebar;
-
-    @media print {
-        display: none;
-    }
-}
-
-.article-container {
-    grid-column: article;
-}
-
-.toc-container {
-    grid-column: toc;
-    display: none;
-}
-
 .primary {
+    .sidebar-container {
+        min-width: 10em;
+        max-width: 25em;
+
+        @media print {
+            display: none;
+        }
+    }
+
+    .article-container {
+    }
+
+    .toc-container {
+        display: none;
+        min-width: 5em;
+    }
+
     display: grid;
     grid-template-columns: [article] 100%;
     grid-column-gap: 1rem;
@@ -33,18 +33,6 @@
 
         .toc-container {
             display: block;
-        }
-
-        .toc {
-            .directory {
-                max-width: min(25em, 16%);
-            }
-        }
-
-        .sidebar {
-            .directory {
-                max-width: min(25em, 16%);
-            }
         }
     }
 

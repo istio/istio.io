@@ -51,9 +51,9 @@
         }
     }
 
-    .placards {
+    .panels {
         display: grid;
-        grid-template-columns: [card] auto;
+        grid-template-columns: [panel] auto;
         padding-top: 30px;
         padding-bottom: 30px;
         grid-gap: 2rem;
@@ -63,21 +63,21 @@
         @media (min-width: $bp-md) {
             padding-top: 50px;
             padding-bottom: 50px;
-            grid-template-columns: [card] auto [card] auto;
+            grid-template-columns: [panel] auto [panel] auto;
         }
 
-        @media (min-width: 80rem) { // 4 card of 18rem each, 3 grid gap of 2 rem each, 2 padding rems
-            grid-template-columns: [card] auto [card] auto [card] auto [card] auto;
+        @media (min-width: 80rem) { // 4 panel of 18rem each, 3 grid gap of 2 rem each, 2 padding rems
+            grid-template-columns: [panel] auto [panel] auto [panel] auto [panel] auto;
         }
 
-        .card {
-            color: $landingCardTextColor;
+        .panel {
+            color: $landingPanelTextColor;
             opacity: 0.1;
             transition: opacity .25s linear;
-            background-color: $landingCardBackgroundColor;
-            border-color: $landingCardBorderColor;
+            background-color: $landingPanelBackgroundColor;
+            border-color: $landingPanelBorderColor;
             width: 18rem;
-            box-shadow: 3px 3px 8px $landingCardShadowColor;
+            box-shadow: 3px 3px 8px $landingPanelShadowColor;
 
             a {
                 text-decoration: none;
@@ -90,25 +90,25 @@
             }
 
             &:hover {
-                box-shadow: 3px 3px 8px $landingCardShadowHoverColor;
+                box-shadow: 3px 3px 8px $landingPanelShadowHoverColor;
             }
 
-            .card-title {
+            .panel-title {
                 text-align: center;
             }
 
-            .card-line {
+            .panel-line {
                 margin-left: 1.6rem;
                 margin-right: 1.6rem;
-                background-color: $landingCardTextColor;
+                background-color: $landingPanelTextColor;
             }
 
-            .card-img-top {
+            .panel-img-top {
                 text-align: center;
                 padding: 0;
             }
 
-            .card-body {
+            .panel-body {
                 padding-top: 0;
             }
         }

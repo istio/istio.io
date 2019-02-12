@@ -38,18 +38,18 @@ title: Istio
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('card1').style.opacity = "1";
+        document.getElementById('panel1').style.opacity = "1";
 
         window.setTimeout(function() {
-            document.getElementById('card2').style.opacity = "1";
+            document.getElementById('panel2').style.opacity = "1";
         }, 375);
 
         window.setTimeout(function() {
-            document.getElementById('card3').style.opacity = "1";
+            document.getElementById('panel3').style.opacity = "1";
         }, 750);
 
         window.setTimeout(function() {
-            document.getElementById('card4').style.opacity = "1";
+            document.getElementById('panel4').style.opacity = "1";
         }, 1125);
 
         window.setTimeout(function() {
@@ -67,65 +67,65 @@ title: Istio
         </div>
     </div>
 
-    <div class="placards">
-        <div id="card1" class="card">
+    <div class="panels">
+        <div id="panel1" class="panel">
             <a href="/zh/docs/concepts/traffic-management/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/routing-and-load-balancing.svg" >}}
                  </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">连接</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">连接</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         智能控制服务之间的流量和 API 调用，进行一系列测试，并通过红/黑部署逐步升级。
                     </p>
                 </div>
             </a>
         </div>
 
-        <div id="card2" class="card">
+        <div id="panel2" class="panel">
             <a href="/zh/docs/concepts/security/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/resiliency.svg" >}}
                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">保护</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">保护</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         通过托管身份验证、授权和服务之间通信加密自动保护您的服务。
                     </p>
                 </div>
             </a>
         </div>
 
-        <div id="card3" class="card">
+        <div id="panel3" class="panel">
             <a href="/zh/docs/concepts/policies-and-telemetry/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/policy-enforcement.svg" >}}
                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">控制</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">控制</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         应用策略并确保其执行使得资源在消费者之间公平分配。
                     </p>
                 </div>
             </a>
         </div>
 
-        <div id="card4" class="card">
+        <div id="panel4" class="panel">
             <a href="/zh/docs/concepts/policies-and-telemetry/">
-                <div class="card-img-top">
+                <div class="panel-img-top">
                     {{< inline_image "landing/telemetry-and-reporting.svg" >}}
                 </div>
-                <div class="card-body">
-                    <hr class="card-line">
-                    <h5 class="card-title text-center">观测</h5>
-                    <hr class="card-line">
-                    <p class="card-text">
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">观测</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
                         通过丰富的自动追踪、监控和记录所有服务，了解正在发生的情况。
                    </p>
                 </div>
