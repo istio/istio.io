@@ -4,7 +4,6 @@ description: Istio 0.2 announcement.
 publishdate: 2017-10-10
 subtitle: Improved mesh and support for multiple environments
 attribution: The Istio Team
-weight: 96
 aliases:
     - /blog/istio-0.2-announcement.html
 ---

@@ -4,7 +4,6 @@ description: Verifies the performance impact of adding an egress gateway.
 publishdate: 2019-01-31
 subtitle: An Istio Egress Gateway performance assessment
 attribution: Jose Nativio, IBM
-weight: 77
 keywords: [performance,traffic-management,egress,mongo]
 ---
 

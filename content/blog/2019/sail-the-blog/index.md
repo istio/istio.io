@@ -3,8 +3,7 @@ title: Sail the Blog!
 description: Announces the new Istio blog policy.
 publishdate: 2019-02-05
 attribution: Rigs Caballero, Google
-weight: 75
-keywords: [community, blog, contribution, guide, guideline, event]
+keywords: [community,blog,contribution,guide,guideline,event]
 ---
 
 Welcome to the Istio blog!

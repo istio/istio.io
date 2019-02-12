@@ -4,7 +4,6 @@ description: 描述基于 Istio 的 Bookinfo 示例的简单场景。
 publishdate: 2018-02-06
 subtitle: 网格外部 TCP 流量的服务入口
 attribution: Vadim Eisenberg
-weight: 92
 keywords: [traffic-management,egress,tcp]
 ---
 

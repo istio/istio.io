@@ -4,7 +4,6 @@ description: Addressing application startup ordering and startup latency using A
 publishdate: 2019-01-14
 subtitle:
 attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
-weight: 78
 keywords: [appswitch,performance]
 ---
 

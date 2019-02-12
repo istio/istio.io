@@ -4,7 +4,6 @@ description: Using Istio to create autoscaled canary deployments.
 publishdate: 2017-06-14
 last_update: 2018-05-16
 attribution: Frank Budinsky
-weight: 98
 keywords: [traffic-management,canary]
 aliases:
     - /blog/canary-deployments-using-istio.html

@@ -5,7 +5,6 @@ publishdate: 2019-01-31
 subtitle:
 attribution: Manish Chugtu
 twitter: chugtum
-weight: 76
 keywords: [kubernetes, istio, sidecar injection, admission controller, mutating webhook, control plane, traffic management]
 
 ---
