@@ -359,13 +359,6 @@ h6 {
     font-size: 0.6em;
 }
 
-.subtitle {
-    margin-top: .15rem;
-    margin-bottom: 0;
-    padding: 0 0 0 0;
-    font-size: 125%;
-}
-
 h2:hover .header-link,
 h3:hover .header-link,
 h4:hover .header-link,
@@ -428,6 +421,17 @@ blockquote {
     border-bottom-color: $dividerBarColor;
 }
 
+#scroll-to-top-container {
+    @media print {
+        display: none;
+    }
+
+    // don't display the scroll-to-top button if the TOC is being displayed
+    @media (min-width: $bp-xl) {
+        display: none;
+    }
+}
+
 #scroll-to-top {
     display: none;
     position: fixed;
@@ -452,12 +456,6 @@ blockquote {
         width: 1.5em;
         height: 1.5em;
         vertical-align: middle;
-    }
-}
-
-@media screen {
-    .endnote-ref {
-        display: none;
     }
 }
 
@@ -501,6 +499,13 @@ blockquote {
 
 .flipped {
     transform: scaleX(-1);
+}
+
+.subtitle {
+    margin-top: .15rem;
+    margin-bottom: 0;
+    padding: 0 0 0 0;
+    font-size: 125%;
 }
 
 .byline {
