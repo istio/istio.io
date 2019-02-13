@@ -262,7 +262,7 @@ The difference between the two instances is the version of their `helloworld` im
 1. Create the Gateway to access the service:
 
     {{< text bash >}}
-    $ kubectl create -f - <<EOF
+    $ kubectl create --context=$CTX_LOCAL -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
