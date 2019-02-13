@@ -19,15 +19,13 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, we w
 1.  Deploy the application to Kubernetes:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -l version!=v2,version!=v3 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
     service "details" created
     deployment "details-v1" created
     service "ratings" created
     deployment "ratings-v1" created
     service "reviews" created
     deployment "reviews-v1" created
-    deployment "reviews-v2" created
-    deployment "reviews-v3" created
     service "productpage" created
     deployment "productpage-v1" created
     {{< /text >}}
