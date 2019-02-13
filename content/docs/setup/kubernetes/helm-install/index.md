@@ -42,14 +42,14 @@ The following commands have relative references in the Istio directory. You must
 
 1. Choose one of the following two **mutually exclusive** options described below.
 
-    - To use Kubernetes manifests to deploy Istio, follow the instructions for [option #1](#option-1).
-    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option #2](#option-2).
+    - To use Kubernetes manifests to deploy Istio, follow the instructions for option #1
+    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for option #2
 
     {{< tip >}}
     To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
     {{< /tip >}}
 
-### Option 1: Install with Helm via `helm template` {#option-1}
+### Option 1: Install with Helm via `helm template`
 
 Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
 
@@ -80,7 +80,7 @@ the Kubernetes API server:
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
-### Option 2: Install with Helm and Tiller via `helm install` {#option-2}
+### Option 2: Install with Helm and Tiller via `helm install`
 
 This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
