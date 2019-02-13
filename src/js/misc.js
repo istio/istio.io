@@ -1,158 +1,9 @@
 "use strict";
 
-$(function ($) {
-    // Show the navbar links, hide the search box
-    function showNavBarLinks() {
-        var $form = $('#search_form');
-        var $textbox = $('#search_textbox');
-        var $links = $('#navbar-links');
-
-        $form.removeClass('active');
-        $links.addClass('active');
-        $textbox.val('');
-    }
-
-    // Show the navbar search box, hide the links
-    function showSearchBox() {
-        var $form = $('#search_form');
-        var $textbox = $('#search_textbox');
-        var $links = $('#navbar-links');
-
-        $form.addClass('active');
-        $links.removeClass('active');
-        $textbox.focus();
-    }
-
-    // Hide the search box when the user hits the ESC key
-    $('body').on('keyup', function(event) {
-        if (event.which === 27) {
-            showNavBarLinks();
-        }
-    });
-
-    // Show the search box
-    $('#search_show').on('click', function(event) {
-        event.preventDefault();
-        showSearchBox();
-    });
-
-    // Hide the search box
-    $('#search_close').on('click', function(event) {
-        event.preventDefault();
-        showNavBarLinks();
-    });
-
-    // When the user submits the search form, initiate a search
-    $('#search_form').submit(function(event) {
-        event.preventDefault();
-        var $textbox = $('#search_textbox');
-        var $search_page_url = $('#search_page_url');
-        var url = $search_page_url.val() + '?q=' + $textbox.val();
-        showNavBarLinks();
-        window.location.assign(url);
-    });
-
-    var recurse = false;
-
-    // Save a cookie when a user selects a tab in a tabset
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        if (recurse) {
-            // prevent endless recursion...
-            return;
-        }
-
-        var tab = e.target;
-        var cookie_name = tab.getAttribute("data-cookie-name");
-        var cookie_value = tab.getAttribute("data-cookie-value");
-        if (cookie_name === null || cookie_name === "") {
-            return;
-        }
-
-        createCookie(cookie_name, cookie_value);
-
-        var tabs = document.querySelectorAll('a[data-toggle="tab"]');
-        for (var i = 0; i < tabs.length; i++) {
-            var tab = tabs[i];
-            if (cookie_name === tab.getAttribute("data-cookie-name")) {
-                if (cookie_value === tab.getAttribute("data-cookie-value")) {
-
-                    // there's gotta be a way to call the tab() function directly since I already have the
-                    // requisite object in hand. Alas, I can't figure it out. So query the document to find
-                    // the same object again, and call the tab function on the result.
-                    recurse = true;
-                    $('.nav-tabs a[href="' + tab.hash + '"]').tab('show');
-                    recurse = false;
-                }
-            }
-        }
-    });
-
-    $(document).ready(function() {
-        // toggle sidebar on/off
-        $('#sidebar-toggler').on('click', function () {
-            $('#sidebar-container').toggleClass('active');
-            $(this).children('svg.icon').toggleClass('flipped');
-        });
-
-        // toggle category tree in sidebar
-        $(document).on('click', '.tree-toggle', function () {
-            $(this).children('i.chevron').toggleClass('show');
-            $(this).parent().children('ul.tree').toggle(200);
-        });
-
-        // toggle toolbar buttons
-        $(document).on('mouseenter', 'pre', function () {
-            $(this).next().addClass("toolbar-show");
-            $(this).next().next().addClass("toolbar-show");
-            $(this).next().next().next().addClass("toolbar-show");
-        });
-
-        // toggle toolbar buttons
-        $(document).on('mouseleave', 'pre', function () {
-            $(this).next().removeClass("toolbar-show");
-            $(this).next().next().removeClass("toolbar-show");
-            $(this).next().next().next().removeClass("toolbar-show");
-        });
-
-        // toggle copy button
-        $(document).on('mouseenter', 'button.copy', function () {
-            $(this).addClass("toolbar-show");
-        });
-
-        // toggle copy button
-        $(document).on('mouseleave', 'button.copy', function () {
-            $(this).removeClass("toolbar-show");
-        });
-
-        // toggle download button
-        $(document).on('mouseenter', 'button.download', function () {
-            $(this).addClass("toolbar-show");
-        });
-
-        // toggle download button
-        $(document).on('mouseleave', 'button.download', function () {
-            $(this).removeClass("toolbar-show");
-        });
-
-        // toggle print button
-        $(document).on('mouseenter', 'button.print', function () {
-            $(this).addClass("toolbar-show");
-        });
-
-        // toggle print button
-        $(document).on('mouseleave', 'button.print', function () {
-            $(this).removeClass("toolbar-show");
-        });
-
-        // activate the popovers
-        $("[data-toggle=popover]").popover();
-    });
-}(jQuery));
-
 // initialized after the DOM has been loaded by getDOMTopology
-var scrollToTopButton;
-var tocLinks;
-var tocHeadings;
+let scrollToTopButton;
+let tocLinks;
+let tocHeadings;
 
 // post-processing we do once the DOM has loaded
 function handleDOMLoaded() {
@@ -163,33 +14,130 @@ function handleDOMLoaded() {
     // way.
     function patchDOM() {
 
-        // Add a toolbar to all PRE blocks
-        function attachToolbarToPreBlocks() {
-            var pre = document.getElementsByTagName('PRE');
-            for (var i = 0; i < pre.length; i++) {
-                var copyButton = document.createElement("BUTTON");
+        function attachLink(node) {
+            const anchor = document.createElement("a");
+            anchor.className = "header-link";
+            anchor.href = "#" + node.id;
+            anchor.setAttribute("aria-hidden", "true");
+            anchor.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#links'/></svg>";
+
+            node.appendChild(anchor);
+        }
+
+        // Add a link icon next to each header so people can easily get bookmarks to headers
+        function attachLinksToHeaders() {
+            for (let level = 2; level <= 6; level++) {
+                document.querySelectorAll("h" + level.toString()).forEach(hdr => {
+                    if (hdr.id !== "") {
+                        attachLink(hdr);
+                    }
+                });
+            }
+        }
+
+        // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
+        function attachLinksToDefinedTerms() {
+            document.querySelectorAll('dt').forEach(dt => {
+                if (dt.id !== "") {
+                    attachLink(dt);
+                }
+            });
+        }
+
+        // Make it so each link outside of the current domain opens up in a different window
+        function makeOutsideLinksOpenInTabs() {
+            document.querySelectorAll('a').forEach(link => {
+                if (link.hostname && link.hostname !== location.hostname) {
+                    link.setAttribute("target", "_blank");
+                    link.setAttribute("rel", "noopener");
+                }
+            });
+        }
+
+        function createEndnotes() {
+            const notes = document.getElementById("endnotes");
+            if (notes === null) {
+                return;
+            }
+
+            // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
+            const main = document.getElementsByTagName("main")[0];
+            const map = new Map(null);
+            let num_links = 0;
+            main.querySelectorAll('a').forEach(link => {
+                if (link.pathname === location.pathname) {
+                    // skip links on the current page
+                    return;
+                }
+
+                if (link.pathname.endsWith("/") && link.hash !== "") {
+                    // skip links on the current page
+                    return;
+                }
+
+                if (link.classList.contains("btn")) {
+                    // skip button links
+                    return;
+                }
+
+                if (link.classList.contains("not-for-endnotes")) {
+                    // skip links that don't want to be included
+                    return;
+                }
+
+                let count = map.get(link.href);
+                if (count === undefined) {
+                    count = map.size + 1;
+                    map.set(link.href, count);
+
+                    // add a list entry for the link
+                    const li = document.createElement("li");
+                    li.innerText = link.href;
+                    notes.appendChild(li);
+                }
+
+                // add the superscript reference
+                link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
+                num_links++;
+            });
+
+            if (num_links === 0) {
+                // if there are no links on this page, hide the whole section
+                const div = document.getElementsByClassName("link-endnotes")[0];
+                div.style.display = "none";
+            }
+        }
+
+        function fixupPreBlocks() {
+
+            // Add a toolbar to all PRE blocks
+            function attachToolbar(pre) {
+                const copyButton = document.createElement("BUTTON");
                 copyButton.title = buttonCopy;
                 copyButton.className = "copy";
                 copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
                 copyButton.setAttribute("aria-label", "Copy to clipboard");
+                copyButton.addEventListener("mouseenter", (e) => e.currentTarget.classList.add("toolbar-show"));
+                copyButton.addEventListener("mouseleave", (e) => e.currentTarget.classList.remove("toolbar-show"));
 
-                var downloadButton = document.createElement("BUTTON");
+                const downloadButton = document.createElement("BUTTON");
                 downloadButton.title = buttonDownload;
                 downloadButton.className = "download";
                 downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
                 downloadButton.setAttribute("aria-label", downloadButton.title);
-                downloadButton.onclick = function(e) {
-                    var div = e.currentTarget.parentElement;
-                    var codes = div.getElementsByTagName("CODE");
-                    if ((codes !== null) && (codes.length > 0)) {
-                        var code = codes[0];
-                        var text = getToolbarDivText(div);
-                        var downloadas = code.getAttribute("data-downloadas");
-                        if (downloadas === null || downloadas === "") {
-                            downloadas = "foo";
+                downloadButton.addEventListener("mouseenter", (e) => e.currentTarget.classList.add("toolbar-show"));
+                downloadButton.addEventListener("mouseleave", (e) => e.currentTarget.classList.remove("toolbar-show"));
 
-                            var lang = "";
-                            for (var j = 0; j < code.classList.length; j++) {
+                downloadButton.addEventListener("click", (e) => {
+                    const div = e.currentTarget.parentElement;
+                    const codes = div.getElementsByTagName("CODE");
+                    if ((codes !== null) && (codes.length > 0)) {
+                        const code = codes[0];
+                        const text = getToolbarDivText(div);
+                        let downloadas = code.getAttribute("data-downloadas");
+                        if (downloadas === null || downloadas === "") {
+                            let lang = "";
+                            for (let j = 0; j < code.classList.length; j++) {
                                 if (code.classList.item(j).startsWith("language-")) {
                                     lang = code.classList.item(j).substr(9);
                                     break;
@@ -198,6 +146,8 @@ function handleDOMLoaded() {
 
                             if (lang.startsWith("command")) {
                                 lang = "bash";
+                            } else if (lang === "markdown") {
+                                lang = "md";
                             } else if (lang === "") {
                                 lang = "txt";
                             }
@@ -207,71 +157,73 @@ function handleDOMLoaded() {
                         saveFile(downloadas, text);
                     }
                     return true;
-                };
+                });
 
-                var printButton = document.createElement("BUTTON");
+                const printButton = document.createElement("BUTTON");
                 printButton.title = buttonPrint;
                 printButton.className = "print";
                 printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
                 printButton.setAttribute("aria-label", printButton.title);
-                printButton.onclick = function(e) {
-                    var div = e.currentTarget.parentElement;
-                    var text = getToolbarDivText(div);
+                printButton.addEventListener("mouseenter", (e) => e.currentTarget.classList.add("toolbar-show"));
+                printButton.addEventListener("mouseleave", (e) => e.currentTarget.classList.remove("toolbar-show"));
+
+                printButton.addEventListener("click", (e) => {
+                    const div = e.currentTarget.parentElement;
+                    const text = getToolbarDivText(div);
                     printText(text);
                     return true;
-                };
+                });
 
                 // wrap the PRE block in a DIV so we have a place to attach the toolbar buttons
-                var div = document.createElement("DIV");
+                const div = document.createElement("DIV");
                 div.className = "toolbar";
-                pre[i].parentElement.insertBefore(div, pre[i]);
-                div.appendChild(pre[i]);
+                pre.parentElement.insertBefore(div, pre);
+                div.appendChild(pre);
                 div.appendChild(printButton);
                 div.appendChild(downloadButton);
                 div.appendChild(copyButton);
+
+                pre.addEventListener("mouseenter", (e) => {
+                    e.currentTarget.nextSibling.classList.add("toolbar-show");
+                    e.currentTarget.nextSibling.nextSibling.classList.add("toolbar-show");
+                    e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add("toolbar-show");
+                });
+
+                pre.addEventListener("mouseleave", (e) => {
+                    e.currentTarget.nextSibling.classList.remove("toolbar-show");
+                    e.currentTarget.nextSibling.nextSibling.classList.remove("toolbar-show");
+                    e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove("toolbar-show");
+                });
             }
 
-            var copyCode = new ClipboardJS('button.copy', {
-                text: function (trigger) {
-                    return getToolbarDivText(trigger.parentElement);
-                }
-            });
+            function getToolbarDivText(div) {
+                const commands = div.getElementsByClassName("command");
+                if ((commands !== null) && (commands.length > 0)) {
+                    const lines = commands[0].innerText.split("\n");
+                    let cmd = "";
+                    for (let i = 0; i < lines.length; i++) {
+                        if (lines[i].startsWith("$ ")) {
+                            lines[i] = lines[i].substring(2);
+                        }
 
-            copyCode.on('error', function (event) {
-                alert("Sorry, but copying is not supported by your browser");
-            });
-        }
+                        if (cmd !== "") {
+                            cmd = cmd + "\n";
+                        }
 
-        function getToolbarDivText(div) {
-            var commands = div.getElementsByClassName("command");
-            if ((commands !== null) && (commands.length > 0)) {
-                var lines = commands[0].innerText.split("\n");
-                var cmd = "";
-                for (var i = 0; i < lines.length; i++) {
-                    if (lines[i].startsWith("$ ")) {
-                        lines[i] = lines[i].substring(2);
+                        cmd += lines[i];
                     }
 
-                    if (cmd !== "") {
-                        cmd = cmd + "\n";
-                    }
-
-                    cmd += lines[i];
+                    return cmd;
                 }
 
-                return cmd;
+                return div.innerText;
             }
 
-            return div.innerText;
-        }
+            function applySyntaxColoring(pre) {
+                const code = pre.firstChild;
 
-        function applySyntaxColoringToPreBlocks() {
-            var pre = document.getElementsByTagName('PRE');
-            for (var i = 0; i < pre.length; i++) {
-                var code = pre[i].firstChild;
-
-                var cl = "";
-                for (var j = 0; j < code.classList.length; j++) {
+                let cl = "";
+                for (let j = 0; j < code.classList.length; j++) {
                     if (code.classList.item(j).startsWith("language-command")) {
                         cl = code.classList.item(j);
                         break;
@@ -279,14 +231,14 @@ function handleDOMLoaded() {
                 }
 
                 if (cl !== "") {
-                    var firstLineOfOutput = 0;
-                    var lines = code.innerText.split("\n");
-                    var cmd = "";
-                    var escape = false;
-                    var escapeUntilEOF = false;
-                    var tmp = "";
-                    for (var j = 0; j < lines.length; j++) {
-                        var line = lines[j];
+                    let firstLineOfOutput = 0;
+                    let lines = code.innerText.split("\n");
+                    let cmd = "";
+                    let escape = false;
+                    let escapeUntilEOF = false;
+                    let tmp = "";
+                    for (let j = 0; j < lines.length; j++) {
+                        const line = lines[j];
 
                         if (line.startsWith("$ ")) {
                             if (tmp !== "") {
@@ -325,11 +277,11 @@ function handleDOMLoaded() {
                     if (cmd !== "") {
                         cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
 
-                        var html = "<div class='command'>" + cmd + "</div>";
+                        let html = "<div class='command'>" + cmd + "</div>";
 
-                        var output = "";
+                        let output = "";
                         if (firstLineOfOutput > 0) {
-                            for (var j = firstLineOfOutput; j < lines.length; j++) {
+                            for (let j = firstLineOfOutput; j < lines.length; j++) {
                                 if (output !== "") {
                                     output += "\n";
                                 }
@@ -339,9 +291,9 @@ function handleDOMLoaded() {
 
                         if (output !== "") {
                             // apply formatting to the output?
-                            var prefix = "language-command-output-as-";
+                            let prefix = "language-command-output-as-";
                             if (cl.startsWith(prefix)) {
-                                var lang = cl.substr(prefix.length);
+                                let lang = cl.substr(prefix.length);
                                 output = Prism.highlight(output, Prism.languages[lang], lang);
                             } else {
                                 output = escapeHTML(output);
@@ -362,178 +314,193 @@ function handleDOMLoaded() {
                     Prism.highlightElement(code, false);
                 }
             }
+
+            // Load the content of any externally-hosted PRE block
+            function loadExternal(pre) {
+
+                function fetchFile(elem, url) {
+                    fetch(url).then(function (response) {
+                        return response.text();
+                    }).then(function (data) {
+                        elem.firstChild.textContent = data;
+                        Prism.highlightElement(elem.firstChild, false);
+                    });
+                }
+
+                if (pre.hasAttribute("data-src")) {
+                    fetchFile(pre, pre.getAttribute("data-src"))
+                }
+            }
+
+            document.querySelectorAll('pre').forEach((pre) => {
+                attachToolbar(pre);
+                applySyntaxColoring(pre);
+                loadExternal(pre);
+            });
+
+            const clipboard = new ClipboardJS('button.copy', {
+                text: function (trigger) {
+                    return getToolbarDivText(trigger.parentElement);
+                }
+            });
+
+            clipboard.on('error', () => alert("Sorry, but copying is not supported by your browser"));
         }
 
-        function attachLink(node) {
-            var anchor = document.createElement("a");
-            anchor.className = "header-link";
-            anchor.href = "#" + node.id;
-            anchor.setAttribute("aria-hidden", "true");
-            anchor.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#links'/></svg>";
-
-            node.appendChild(anchor);
-        }
-
-        // Add a link icon next to each header so people can easily get bookmarks to headers
-        function attachLinksToHeaders() {
-            for (var level = 2; level <= 6; level++) {
-                var headers = document.getElementsByTagName("h" + level.toString());
-                for (var i = 0; i < headers.length; i++) {
-                    var header = headers[i];
-                    if (header.id !== "") {
-                        attachLink(header);
-                    }
-                }
-            }
-        }
-
-        // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
-        function attachLinksToDefinedTerms() {
-            var terms = document.getElementsByTagName("dt");
-            for (var i = 0; i < terms.length; i++) {
-                var term = terms[i];
-                if (term.id !== "") {
-                    attachLink(term);
-                }
-            }
-        }
-
-        // Make it so each link outside of the current domain opens up in a different window
-        function makeOutsideLinksOpenInTabs() {
-            var links = document.getElementsByTagName("a");
-            for (var i = 0; i < links.length; i++) {
-                var link = links[i];
-                if (link.hostname && link.hostname !== location.hostname) {
-                    link.setAttribute("target", "_blank");
-                    link.setAttribute("rel", "noopener");
-                }
-            }
-        }
-
-        // Load the content of any externally-hosted PRE blocks
-        function loadExternalPreBlocks() {
-
-            function fetchFile(elem, url) {
-                fetch(url).then(function (response) {
-                    return response.text();
-                }).then(function (data) {
-                    elem.firstChild.textContent = data;
-                    Prism.highlightElement(elem.firstChild, false);
-                });
-            }
-
-            var pre = document.getElementsByTagName('PRE');
-            for (var i = 0; i < pre.length; i++) {
-                if (pre[i].hasAttribute("data-src")) {
-                    fetchFile(pre[i], pre[i].getAttribute("data-src"))
-                }
-            }
-        }
-
-        function createEndnotes() {
-            var notes = document.getElementById("endnotes");
-            if (notes === null) {
-                return;
-            }
-
-            // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
-            var main = document.getElementsByTagName("main")[0];
-            var links = main.getElementsByTagName("a");
-            var map = new Map(null);
-            var num_links = 0;
-            for (var i = 0; i < links.length; i++) {
-                var link = links[i];
-                if (link.pathname === location.pathname) {
-                    // skip links on the current page
-                    continue;
-                }
-
-                if (link.pathname.endsWith("/") && link.hash !== "") {
-                    // skip links on the current page
-                    continue;
-                }
-
-                if (link.classList.contains("btn")) {
-                    // skip button links
-                    continue;
-                }
-
-                if (link.classList.contains("not-for-endnotes")) {
-                    // skip links that don't want to be included
-                    continue;
-                }
-
-                var count = map.get(link.href);
-                if (count === undefined) {
-                    count = map.size + 1;
-                    map.set(link.href, count);
-
-                    // add a list entry for the link
-                    var li = document.createElement("li");
-                    li.innerText = link.href;
-                    notes.appendChild(li);
-                }
-
-                // add the superscript reference
-                link.insertAdjacentHTML("afterend", "<sup class='endnote-ref'>" + count + "</sup>");
-                num_links++;
-            }
-
-            if (num_links === 0) {
-                // if there are no links on this page, hide the whole section
-                var div = document.getElementsByClassName("link-endnotes")[0];
-                div.style.display = "none";
-            }
-        }
-
-        attachToolbarToPreBlocks();
-        applySyntaxColoringToPreBlocks();
+        fixupPreBlocks();
         attachLinksToHeaders();
         attachLinksToDefinedTerms();
         makeOutsideLinksOpenInTabs();
-        loadExternalPreBlocks();
         createEndnotes();
     }
 
     function selectTabs() {
-        var tabs = document.querySelectorAll('a[data-toggle="tab"]');
-        for (var i = 0; i < tabs.length; i++) {
-            var tab = tabs[i];
-            var cookie_name = tab.getAttribute("data-cookie-name");
-            var cookie_value = tab.getAttribute("data-cookie-value");
+        document.querySelectorAll('a[data-toggle="tab"]').forEach(tab => {
+            const cookie_name = tab.getAttribute("data-cookie-name");
+            const cookie_value = tab.getAttribute("data-cookie-value");
 
             if (cookie_name === null || cookie_name === "") {
-                continue;
+                return;
             }
 
-            var v = readCookie(cookie_name);
+            const v = readCookie(cookie_name);
             if (cookie_value === v) {
                 // there's gotta be a way to call the tab() function directly since I already have the
                 // requisite object in hand. Alas, I can't figure it out. So query the document to find
                 // the same object again, and call the tab function on the result.
                 $('.nav-tabs a[href="' + tab.hash + '"]').tab('show');
             }
-        }
+        });
     }
 
     // discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
     function getDOMTopology() {
         scrollToTopButton = document.getElementById("scroll-to-top");
 
-        var toc = document.getElementById("toc");
+        const toc = document.getElementById("toc");
         if (toc !== null) {
             tocLinks = toc.getElementsByTagName("A");
             tocHeadings = new Array(tocLinks.length);
 
-            for (var i = 0; i < tocLinks.length; i++) {
+            for (let i = 0; i < tocLinks.length; i++) {
                 tocHeadings[i] = document.getElementById(tocLinks[i].hash.substring(1));
             }
         }
     }
 
+    function attachSearchHandlers() {
+        // Show the navbar links, hide the search box
+        function showNavBarLinks() {
+            document.getElementById('search_form').classList.remove('active');
+            document.getElementById('navbar-links').classList.add('active');
+            document.getElementById('search_textbox').value = '';
+        }
+
+        // Show the navbar search box, hide the links
+        function showSearchBox() {
+            document.getElementById('search_form').classList.add('active');
+            document.getElementById('navbar-links').classList.remove('active');
+            document.getElementById('search_textbox').focus();
+        }
+
+        // Hide the search box when the user hits the ESC key
+        document.body.addEventListener("keyup", e => {
+            if (e.which === 27) {
+                showNavBarLinks();
+            }
+        });
+
+        // Show the search box
+        document.getElementById('search_show').addEventListener("click", e => {
+            e.preventDefault();
+            showSearchBox();
+        });
+
+        // Hide the search box
+        document.getElementById('search_close').addEventListener("click", e => {
+            e.preventDefault();
+            showNavBarLinks();
+        });
+
+        // When the user submits the search form, initiate a search
+        document.getElementById('search_form').addEventListener("submit", e => {
+            e.preventDefault();
+            const textbox = document.getElementById('search_textbox');
+            const search_page_url = document.getElementById('search_page_url');
+            const url = search_page_url.value + '?q=' + textbox.value;
+            showNavBarLinks();
+            window.location.assign(url);
+        });
+    }
+
+    function attachSidebarHandlers() {
+        // toggle sidebar on/off
+        document.getElementById('sidebar-toggler').addEventListener("click", (e) => {
+            document.getElementById("sidebar-container").classList.toggle('active');
+            e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
+        });
+
+        // toggle subtree in sidebar
+        document.querySelectorAll('.tree-toggle').forEach(o => {
+            o.addEventListener("click", () => {
+                o.querySelectorAll('i.chevron').forEach(chevron => {
+                    chevron.classList.toggle('show');
+                });
+
+                if (o.nextElementSibling.style.display === "none") {
+                    o.nextElementSibling.style.display = "block";
+                } else {
+                    o.nextElementSibling.style.display = "none";
+                }
+            });
+        });
+    }
+
+    let recurse = false;
+
+    function attachTabHandlers() {
+        // Save a cookie when a user selects a tab in a tabset
+        $('a[data-toggle="tab"]').on('shown.bs.tab', e => {
+            if (recurse) {
+                // prevent endless recursion...
+                return;
+            }
+
+            let tab = e.target;
+            let cookie_name = tab.getAttribute("data-cookie-name");
+            let cookie_value = tab.getAttribute("data-cookie-value");
+            if (cookie_name === null || cookie_name === "") {
+                return;
+            }
+
+            createCookie(cookie_name, cookie_value);
+
+            document.querySelectorAll('a[data-toggle="tab"]').forEach(tab => {
+                if (cookie_name === tab.getAttribute("data-cookie-name")) {
+                    if (cookie_value === tab.getAttribute("data-cookie-value")) {
+                        // there's gotta be a way to call the tab() function directly since I already have the
+                        // DOM object in hand. Alas, I can't figure it out. So query and call the tab function on the result.
+                        recurse = true;
+                        $('.nav-tabs a[href="' + tab.hash + '"]').tab('show');
+                        recurse = false;
+                    }
+                }
+            });
+        });
+    }
+
+    function enablePopovers() {
+        // activate the popovers
+        $("[data-toggle=popover]").popover();
+    }
+
     patchDOM();
     selectTabs();
     getDOMTopology();
+    attachSearchHandlers();
+    attachSidebarHandlers();
+    attachTabHandlers();
+    enablePopovers();
 
     // one forced call here to make sure everything looks right
     handlePageScroll();
@@ -555,18 +522,18 @@ function handlePageScroll() {
     // Based on the scroll position, activate a TOC entry
     function controlTOCActivation() {
         if (tocLinks) {
-            var closestHeadingBelowTop = -1;
-            var closestHeadingBelowTopPos = 1000000;
-            var closestHeadingAboveTop = -1;
-            var closestHeadingAboveTopPos = -1000000;
+            let closestHeadingBelowTop = -1;
+            let closestHeadingBelowTopPos = 1000000;
+            let closestHeadingAboveTop = -1;
+            let closestHeadingAboveTopPos = -1000000;
 
-            for (var i = 0; i < tocLinks.length; i++) {
-                var heading = tocHeadings[i];
+            for (let i = 0; i < tocLinks.length; i++) {
+                const heading = tocHeadings[i];
                 if (heading === null) {
                     continue;
                 }
 
-                var cbr = heading.getBoundingClientRect();
+                const cbr = heading.getBoundingClientRect();
 
                 if (cbr.width || cbr.height) {
                     if ((cbr.top >= 0) && (cbr.top < window.innerHeight)) {
