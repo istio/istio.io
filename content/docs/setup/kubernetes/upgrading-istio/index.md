@@ -21,12 +21,12 @@ and change directory to the new release directory.
 via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@
+$ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
 {{< /text >}}
 
 ### Control plane upgrade
 
-The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry and
+The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry, Galley and
 Sidecar injector.
 
 #### Helm upgrade
@@ -41,7 +41,7 @@ $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
 
 You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
-First, generate the desired Istio control plane yaml file, e.g.
+First, generate the desired Istio control plane yaml file based on your desired configuration, e.g.
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio \
@@ -54,8 +54,6 @@ or
 $ helm template install/kubernetes/helm/istio --name istio \
     --namespace istio-system --set global.mtls.enabled=true > install/kubernetes/istio-auth.yaml
 {{< /text >}}
-
-If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
 
 Second, simply apply the new version of the desired Istio control plane yaml file directly, e.g.
 
@@ -71,18 +69,16 @@ $ kubectl apply -f install/kubernetes/istio-auth.yaml
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
 your Istio control plane should be updated to the new version. Your existing application should continue to work without
-any change, using the Envoy v1 proxy and the v1alpha1 route rules. If there is any critical issue with the new control plane,
-you can rollback the changes by applying the yaml files from the old version.
+any change. If there is any critical issue with the new control plane, you can rollback the changes by applying the yaml files from the old version.
 
 ### Sidecar upgrade
 
-After the control plane upgrade, the applications already running Istio will still be using an older sidecar. To upgrade the sidecar,
-you will need to re-inject it.
+After the control plane upgrade, the applications already running Istio will still be using an older sidecar. To upgrade the sidecar, you will need to re-inject it.
 
 If you're using automatic sidecar injection, you can upgrade the sidecar
 by doing a rolling update for all the pods, so that the new version of the
 sidecar will be automatically re-injected. There are some tricks to reload
-all pods. E.g. There is a [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
+all pods. E.g. There is a sample [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
 which triggers the rolling update by patching the grace termination period.
 
 If you're using manual injection, you can upgrade the
