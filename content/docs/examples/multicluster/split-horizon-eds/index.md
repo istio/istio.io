@@ -70,7 +70,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
     meshNetworks:
         network2:
             endpoints:
-            - fromRegistry: remote_kubecfg
+            - fromRegistry: n2-k8s-config
             gateways:
             - address: 0.0.0.0
               port: 15443
@@ -170,7 +170,7 @@ This will be used to access the `local` pilot securely using the ingress gateway
 
       Once saved, Pilot will automatically read the updated network configuration.
 
-1. Prepare environment variables for building the `remote_kubecfg` file for the service account `istio-multi`:
+1. Prepare environment variables for building the `n2-k8s-config` file for the service account `istio-multi`:
 
     {{< text bash >}}
     $ CLUSTER_NAME=$(kubectl --context=$CTX_REMOTE config view --minify=true -o "jsonpath={.clusters[].name}")
@@ -184,11 +184,12 @@ This will be used to access the `local` pilot securely using the ingress gateway
     An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
     {{< /idea >}}
 
-1. Create the `remote_kubecfg` file in the working directory:
+1. Create the `n2-k8s-config` file in the working directory:
 
     {{< text bash >}}
-    $ cat <<EOF > remote_kubecfg
+    $ cat <<EOF > n2-k8s-config
     apiVersion: v1
+    kind: Config
     clusters:
       - cluster:
           certificate-authority-data: ${CA_DATA}
@@ -200,8 +201,6 @@ This will be used to access the `local` pilot securely using the ingress gateway
           user: ${CLUSTER_NAME}
         name: ${CLUSTER_NAME}
     current-context: ${CLUSTER_NAME}
-    kind: Config
-    preferences: {}
     users:
       - name: ${CLUSTER_NAME}
         user:
@@ -215,8 +214,8 @@ Execute the following commands to add and label the secret of the `remote` Kuber
 will begin watching the `remote` cluster for services and instances, just as it does for the `local` cluster.
 
 {{< text bash >}}
-$ kubectl create --context=$CTX_LOCAL secret generic iks --from-file remote_kubecfg -n istio-system
-$ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio-system
+$ kubectl create --context=$CTX_LOCAL secret generic n2-k8s-secret --from-file n2-k8s-config -n istio-system
+$ kubectl label --context=$CTX_LOCAL secret n2-k8s-secret istio/multiCluster=true -n istio-system
 {{< /text >}}
 
 Now that you have your `local` and `remote` clusters set up, you can deploy an example service.
