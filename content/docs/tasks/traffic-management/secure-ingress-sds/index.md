@@ -29,8 +29,11 @@ This task shows you how to do the same, but using an ingress gateway agent to pr
 In this section you will configure a TLS ingress gateway that fetches credentials from ingress gateway agent via secret discovery service (SDS).
 The ingress gateway agent is running in the same pod as the ingress gateway, and watches credentials created in the same namespace as the ingress gateway.
 Enabling SDS at ingress gateway brings the following benefits.
+
 * The ingress gateway is able to dynamically add/delete/update ingress gateway key/cert and root cert. You do not have to restart ingress gateway.
+
 * The secret volume mount is no longer needed. Once you create a `kubernetes` secret, that secret is captured by gateway agent and sent to ingress gateway as key/cert or root cert.
+
 * Gateway agent is able to watch multiple key/certs. You only need to create secrets for multiple hosts and update gateway definition.
 
 1.  Enable SDS at ingress gateway and deploy ingress gateway agent.
