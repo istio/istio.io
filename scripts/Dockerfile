@@ -29,11 +29,11 @@ RUN tar -xf /tmp/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
 
 RUN npm install -g \
     sass \
-    uglify-js \
     markdown-spellcheck \
     svgstore-cli \
     @babel/cli \
     @babel/core
+RUN npm install babel-preset-minify --save-dev
 
 RUN gem install mdl
 RUN gem install html-proofer -v 3.9.2

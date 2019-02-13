@@ -1,4 +1,4 @@
-img := gcr.io/istio-testing/website-builder:2019-02-12
+img := gcr.io/istio-testing/website-builder:2019-02-13
 docker := docker run -e INTERNAL_ONLY=true -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site $(img)
 
 ifeq ($(INTERNAL_ONLY),)
