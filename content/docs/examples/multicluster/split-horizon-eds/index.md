@@ -17,7 +17,7 @@ By following the instructions in this example, you will setup a two cluster mesh
   link="./diagram.svg"
   caption="Single Istio control plane topology spanning multiple Kubernetes clusters with Split-horizon EDS configured" >}}
 
-The `cluster1` cluster will run the full Istio control plane components while `cluster2` only runs Istio Citadel,
+The primary cluster, `cluster1`, runs the full set of Istio control plane components while `cluster2` only runs Istio Citadel,
 Sidecar Injector, and Ingress gateway.
 No VPN connectivity nor direct network access between workloads in different clusters is required.
 
@@ -106,7 +106,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
     {{< /text >}}
 
-### Setup Cluster 2
+### Setup cluster 2
 
 1. Export the `cluster1` gateway address:
 
