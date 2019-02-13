@@ -42,8 +42,8 @@ The following commands have relative references in the Istio directory. You must
 
 1. Choose one of the following two **mutually exclusive** options described below.
 
-    - To use Kubernetes manifests to deploy Istio, follow the instructions for option #1
-    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for option #2
+    - To use Kubernetes manifests to deploy Istio, follow the instructions for option 1.
+    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for option 2.
 
     {{< tip >}}
     To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
