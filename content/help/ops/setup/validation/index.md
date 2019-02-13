@@ -300,7 +300,7 @@ istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-galley
 NAME           ENDPOINTS                          AGE
-istio-galley   10.48.6.108:9093,10.48.6.108:443   3d
+istio-galley   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and
