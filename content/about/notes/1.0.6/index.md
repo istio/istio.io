@@ -1,7 +1,7 @@
 ---
 title: Istio 1.0.6
 weight: 86
-icon: /img/notes.svg
+icon: notes
 ---
 
 This release includes security vulnerability fixes and improvements to robustness.
