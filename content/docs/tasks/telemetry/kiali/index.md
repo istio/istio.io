@@ -72,7 +72,7 @@ integrates with them, you must pass additional arguments to the
 {{< text bash >}}
 $ helm template \
     --set kiali.enabled=true \
-    --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing --namespace istio-system -o jsonpath='{.spec.clusterIP}'):80" \
+    --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc jaeger-query --namespace istio-system -o jsonpath='{.spec.clusterIP}'):16686" \
     --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana --namespace istio-system -o jsonpath='{.spec.clusterIP}'):3000" \
     install/kubernetes/helm/istio \
     --name istio --namespace istio-system > $HOME/istio.yaml
