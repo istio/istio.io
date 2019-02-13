@@ -76,9 +76,11 @@ This will be used to access the `local` pilot securely using the ingress gateway
               port: 15443
     {{< /text >}}
 
+    {{< warning >}}
     Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
     later be updated to the value of the public IP of the `remote` cluster gateway after it is deployed
     in the following section.
+    {{< /warning >}}
 
 1. Use Helm to create the Istio `local` deployment YAML:
 
