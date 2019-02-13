@@ -28,7 +28,7 @@ Mixer generates metrics to monitor its own behavior. The first step is to check 
 1. Establish a connection to the Mixer self-monitoring endpoint for the `istio-telemetry` deployment. In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward <istio-telemetry pod> 9093 &
+    $ kubectl -n istio-system port-forward <istio-telemetry pod> 10514 &
     {{< /text >}}
 
 1. Verify successful report calls. On the Mixer self-monitoring endpoint, search for `grpc_server_handled_total`. You should see something like:
