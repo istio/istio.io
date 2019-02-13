@@ -36,7 +36,7 @@ The following commands have relative references in the Istio directory. You must
 1.  Update Helm's dependencies:
 
     {{< text bash >}}
-    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
+    $ helm repo add istio.io "https://gcsweb.istio.io/gcs/istio-prerelease/daily-build/release-1.1-latest-daily/charts/"
     $ helm dep update install/kubernetes/helm/istio
     {{< /text >}}
 
