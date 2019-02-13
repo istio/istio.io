@@ -73,7 +73,7 @@ $ galley validator [选项]
 |`--deployment-namespace <string>`|Galley Deployment 所在的命名空间。（缺省值 `istio-system`）|
 |`--healthCheckFile <string>`|在启用了健康监测的情况下，进行周期性更新的文件名。（缺省值 `''`）|
 |`--healthCheckInterval <string>`|`--healthCheckFile` 所指定的健康检查文件名称的更新频率。（缺省值 `0s`）|
-|`--monitoringPort <duration>`|用于自监控信息的开放端口。（缺省值 `15014`）|
+|`--monitoringPort <duration>`|用于自监控信息的开放端口。（缺省值 `9093`）|
 |`--port <uint>`|用于验证服务的 HTTPS 端口。如果服务端口不止一个，这里取值必须是 443.（缺省值 `443`）|
 |`--tlsCertFile <string>`| 用于 x509 认证的证书文件。（缺省值 `/etc/istio/certs/cert-chain.pem`）|
 |`--tlsKeyFile <string>`|对应 `--tlsCertFile` 证书文件的 x509 密钥。（缺省值 `/etc/istio/certs/key.pem` ）|

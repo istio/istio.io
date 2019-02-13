@@ -95,7 +95,7 @@ $ mixs server [flags]
 | `--log_target <stringArray>` |  | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（默认`[stdout]`） |
 | `--maxConcurrentStreams <uint>` |  | 每个连接的最大未完成 RPC 数（默认为 `1024`） |
 | `--maxMessageSize <uint>` |  | 单个 gRPC 消息的最大大小（默认为 `1048576`） |
-| `--monitoringPort <uint16>` |  | 用于公开 Mixer 自我监控信息的 HTTP 端口（默认为 `15014`） |
+| `--monitoringPort <uint16>` |  | 用于公开 Mixer 自我监控信息的 HTTP 端口（默认为 `9093`） |
 | `--numCheckCacheEntries <int32>` |  | 检查结果缓存中的最大条目数（默认为 `1500000`） |
 | `--port <uint16>` | `-p` | 用于 `Mixer` 的 gRPC API 的 TCP 端口，如果未指定地址选项（默认为 `9091`） |
 | `--profile` |  | 通过 Web 界面主机启用性能分析:port/debug/pprof |
