@@ -46,9 +46,23 @@ HTTP GET requests on the path `/ratings/{productID}` and returns the product rat
     Server listening on: http://0.0.0.0:9080
     {{< /text >}}
 
-1.  Access [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or by the _curl_ command:
+1.  Access [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or by the `curl` command:
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
+    {{< /text >}}
+
+1.  Change ratings by using the POST method, set them to `1`:
+
+    {{< text bash >}}
+    $ curl -X POST localhost:9080/ratings/7 -d '{"Reviewer1":1,"Reviewer2":1}'
+    {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
+    {{< /text >}}
+
+1.  Check that `curl` returns the updated ratings:
+
+    {{< text bash >}}
+    $ curl localhost:9080/ratings/7
+    {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
