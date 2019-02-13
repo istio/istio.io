@@ -1,6 +1,6 @@
 ---
 title: Istio 0.1
-weight: 100
+publishdate: 2017-05-24
 aliases:
     - /docs/welcome/notes/0.1.html
 icon: notes
