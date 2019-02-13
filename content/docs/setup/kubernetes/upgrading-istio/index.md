@@ -17,21 +17,28 @@ In the following steps, we assume that the Istio components are installed and up
 1. [Download the new Istio release](/docs/setup/kubernetes/download-release/)
 and change directory to the new release directory.
 
-1. Upgrade Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
-
-{{< text bash >}}
-$ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
-{{< /text >}}
-
 ### Control plane upgrade
 
-The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry, Galley and
+The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Galley, Policy, Telemetry and
 Sidecar injector.
 
 #### Helm upgrade
 
 If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
+
+1. Upgrade the `istio-init` chart or install new release if it doesn't exists to keep all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) up-to-date:
+
+{{< text bash >}}
+$ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
+{{< /text >}}
+
+1. Verify all the Istio's CRDs have been committed to the Kubernetes API server by checking all the CRD creation jobs complete with success:
+
+{{< text bash >}}
+$ kubectl get job --namespace istio-system | grep istio-init-crd
+{{< /text >}}
+
+1. Upgrade the `istio` chart:
 
 {{< text bash >}}
 $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
@@ -41,30 +48,38 @@ $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
 
 You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
-First, generate the desired Istio control plane yaml file based on your desired configuration, e.g.
+1. Upgrade all the Istio's CRDs via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kube api-server:
+
+{{< text bash >}}
+$ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+{{< /text >}}
+
+1. Render Istio's core components to a Kubernetes manifest file, e.g.
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system > install/kubernetes/istio.yaml
+  --namespace istio-system > $HOME/istio.yaml
+{{< /text >}}
+
+If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` and `global.controlPlaneSecurityEnabled` to `true` for the last command:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+  --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true > $HOME/istio-auth.yaml
+{{< /text >}}
+
+If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
+
+1. Upgrade the Istio control plane components via the manifest, e.g.
+
+{{< text bash >}}
+$ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
 or
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system --set global.mtls.enabled=true > install/kubernetes/istio-auth.yaml
-{{< /text >}}
-
-Second, simply apply the new version of the desired Istio control plane yaml file directly, e.g.
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio.yaml
-{{< /text >}}
-
-or
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
+$ kubectl apply -f $HOME/istio-auth.yaml
 {{< /text >}}
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
