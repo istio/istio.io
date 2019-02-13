@@ -434,12 +434,6 @@ function handleDOMLoaded() {
     }
 
     function attachSidebarHandlers() {
-        // toggle sidebar on/off
-        document.getElementById('sidebar-toggler').addEventListener("click", (e) => {
-            document.getElementById("sidebar-container").classList.toggle('active');
-            e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
-        });
-
         // toggle subtree in sidebar
         document.querySelectorAll('.tree-toggle').forEach(o => {
             o.addEventListener("click", () => {
@@ -453,6 +447,12 @@ function handleDOMLoaded() {
                     o.nextElementSibling.style.display = "none";
                 }
             });
+        });
+
+        // toggle sidebar on/off
+        document.getElementById('sidebar-toggler').addEventListener("click", (e) => {
+            document.getElementById("sidebar-container").classList.toggle('active');
+            e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
         });
     }
 
