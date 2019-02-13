@@ -1,5 +1,5 @@
 ---
-title: Troubleshooting Envoy Configuration Issues
+title: Debugging Envoy and Pilot
 description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
 weight: 40
 keywords: [debug,proxy,status,config,pilot,envoy]
