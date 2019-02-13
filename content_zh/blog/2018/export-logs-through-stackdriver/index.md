@@ -4,7 +4,6 @@ description: 如何通过 Stackdriver 将 Istio 访问日志导出到 BigQuery�
 publishdate: 2018-07-09
 subtitle:
 attribution: Nupur Garg and Douglas Reid
-weight: 87
 ---
 
 这篇文章展示了如何将 Istio 日志指向 [`Stackdriver`](https://cloud.google.com/stackdriver/) 并将这些日志导出到各种配置的接收器，例如 [`BigQuery`](https://cloud.google.com/bigquery/)、[`Google Cloud Storage(GCS)`](https://cloud.google.com/storage/) 或 [`Cloud Pub/Sub`](https://cloud.google.com/pubsub/)。在这篇文章的最后，可以从喜欢的地方（如 BigQuery、GCS 或 Cloud Pub/Sub）对 Istio 数据进行分析。

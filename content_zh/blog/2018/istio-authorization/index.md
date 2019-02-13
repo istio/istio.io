@@ -4,7 +4,6 @@ description: 描述 Istio 的授权功能以及如何在各种用例中使用它
 publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
-weight: 87
 keywords: [authorization,Role Based Access Control,security]
 ---
 

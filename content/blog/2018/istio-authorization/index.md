@@ -4,7 +4,6 @@ description: Describe Istio's authorization feature and how to use it in various
 publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
-weight: 87
 keywords: [authorization,Role Based Access Control,security]
 ---
 

@@ -137,11 +137,12 @@ spec:
 EOF
 {{< /text >}}
 
->
+{{< tip >}}
 * Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or
 namespace for destination rule.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to
 its internal implementation.
+{{< /tip >}}
 
 Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service
 requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with
@@ -351,9 +352,10 @@ spec:
 EOF
 {{< /text >}}
 
->
+{{< tip >}}
 * In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`), which has an identical effect.
 * There is no restriction on the authentication policy and destination rule name. This example uses the name of the service itself for simplicity.
+{{< /tip >}}
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
@@ -545,7 +547,7 @@ spec:
 EOF
 {{< /text >}}
 
-The same curl command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
+The same `curl` command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
@@ -604,7 +606,7 @@ spec:
   origins:
   - jwt:
       issuer: "testing@secure.istio.io"
-      jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
       trigger_rules:
       - excluded_paths:
         - exact: /user-agent

@@ -23,7 +23,7 @@ spec:
   startTime: request.time
   endTime: response.time
   clientSpan: (context.reporter.local | true) == false
-  rewriteClientSpanId: &quot;false&quot;
+  rewriteClientSpanId: false
   spanTags:
     http.method: request.method | &quot;&quot;
     http.status_code: response.code | 200

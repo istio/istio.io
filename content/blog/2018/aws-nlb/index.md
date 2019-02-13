@@ -5,7 +5,6 @@ publishdate: 2018-04-20
 last_update: 2019-01-16
 subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
-weight: 89
 keywords: [ingress,traffic-management,aws]
 ---
 

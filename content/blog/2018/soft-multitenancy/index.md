@@ -4,7 +4,6 @@ description: Using Kubernetes namespaces and RBAC to create an Istio soft multi-
 publishdate: 2018-04-19
 subtitle: Using multiple Istio control planes and RBAC to create multi-tenancy
 attribution: John Joyce and Rich Curran
-weight: 90
 keywords: [tenancy]
 ---
 
@@ -31,9 +30,11 @@ actions are not expected, but a clean separation of the tenants is still require
 Potential future Istio multi-tenant deployment models are described at the bottom of this
 blog.
 
->Note: This blog is a high-level description of how to deploy Istio in a
+{{< tip >}}
+This blog is a high-level description of how to deploy Istio in a
 limited multi-tenancy environment. The [docs](/docs/) section will be updated
 when official multi-tenancy support is provided.
+{{< /tip >}}
 
 ## Deployment
 

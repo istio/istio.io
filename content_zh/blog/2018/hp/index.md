@@ -4,7 +4,6 @@ description: 惠普如何在 Istio 上构建其下一代鞋类个性化平台。
 subtitle: 惠普如何在 Istio 上构建其下一代鞋类个性化平台
 publishdate: 2018-07-31
 attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Source Advocate & Contributor
-weight: 84
 ---
 
 惠普的 FitStation 团队坚信， 未来的 Kubernetes、BPF 和服务网络是云基础设施的下一个标准。

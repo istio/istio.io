@@ -98,10 +98,12 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 * For option 2, uninstall using Helm:
 
-> Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
-> CRDs to leak into the Kubernetes environment. As CRDs contain all the runtime configuration
-> data needed to configure Istio. Because of this, we consider it better for operators to
-> explicitly delete the runtime configuration data rather than unexpectedly lose it.
+    {{< warning >}}
+    Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
+    CRDs to leak into the Kubernetes environment. As CRDs contain all the runtime configuration
+    data needed to configure Istio. Because of this, we consider it better for operators to
+    explicitly delete the runtime configuration data rather than unexpectedly lose it.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ helm delete --purge istio-minimal
@@ -110,7 +112,9 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 * If desired, run the following command to delete all CRDs:
 
-> {{< warning_icon >}} Deleting CRDs deletes any configuration changes that you have made to Istio.
+    {{< warning >}}
+    Deleting CRDs deletes any configuration changes that you have made to Istio.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done

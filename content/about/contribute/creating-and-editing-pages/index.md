@@ -215,21 +215,21 @@ current hierarchy:
 There are a few ways to reference files from GitHub:
 
 - **{{</* github_file */>}}** is how you reference individual files in GitHub such as yaml files. This
-produces a link to `https://raw.githubusercontent.com/istio/istio/...`
+produces a link to `https://raw.githubusercontent.com/istio/istio*`
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
 - **{{</* github_tree */>}}** is how you reference a directory tree in GitHub. This produces a link to
-`https://github.com/istio/istio/tree/...`
+`https://github.com/istio/istio/tree*`
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
 - **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
-`https://github.com/istio/istio/blob/...`
+`https://github.com/istio/istio/blob*`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
@@ -483,11 +483,11 @@ which looks like:
 
 Mixer use an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
 
-So even though the glossary entry is for *adapters*, the word singular form of *adapter* can be used in the text.
+So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
 
 ## Callouts
 
-You can bring special attention to blocks of content by highlighting warnings, ideas, and tips:
+You can bring special attention to blocks of content by highlighting warnings, ideas, tips, and quotes:
 
 {{< text markdown >}}
 {{</* warning */>}}
@@ -501,6 +501,10 @@ This is a great idea
 {{</* tip */>}}
 This is a useful tip from an expert
 {{</* /tip */>}}
+
+{{</* quote */>}}
+This is a quote from somewhere
+{{</* /quote */>}}
 {{< /text >}}
 
 which looks like:
@@ -516,6 +520,10 @@ This is a great idea
 {{< tip >}}
 This is a useful tip from an expert
 {{< /tip >}}
+
+{{< quote >}}
+This is a quote from somewhere
+{{< /quote >}}
 
 ## Embedding boilerplate text
 
