@@ -16,13 +16,13 @@ figure {
         width: 100%;
         height: 100%;
     }
-}
 
-figcaption {
-    text-align: center;
-    font-size: $font-size--s;
-    font-style: italic;
-    font-weight: $figureCaptionWeight;
-    color: $figureCaptionColor;
-    padding-top: .5rem;
+    figcaption {
+        text-align: center;
+        font-size: $font-size--s;
+        font-style: italic;
+        font-weight: $figureCaptionWeight;
+        color: $figureCaptionColor;
+        padding-top: .5rem;
+    }
 }

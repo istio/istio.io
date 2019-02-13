@@ -112,7 +112,9 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 * If desired, run the following command to delete all CRDs:
 
-> {{< warning_icon >}} Deleting CRDs deletes any configuration changes that you have made to Istio.
+    {{< warning >}}
+    Deleting CRDs deletes any configuration changes that you have made to Istio.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done

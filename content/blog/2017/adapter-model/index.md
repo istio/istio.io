@@ -4,7 +4,6 @@ description: Provides an overview of Mixer's plug-in architecture.
 publishdate: 2017-11-03
 subtitle: Extending Istio to integrate with a world of infrastructure backends
 attribution: Martin Taillefer
-weight: 95
 keywords: [adapters,mixer,policies,telemetry]
 aliases:
     - /blog/mixer-adapter-model.html

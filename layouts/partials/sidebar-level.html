@@ -12,9 +12,9 @@
 
                     <label class='tree-toggle'>
                         {{- if $collapse -}}
-                            <i class="chevron">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron d-none">{{- partial "icon.html" "down-chevron" -}}</i>
+                            <i class="chevron show">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron">{{- partial "icon.html" "down-chevron" -}}</i>
                         {{- else -}}
-                            <i class="chevron d-none">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron">{{- partial "icon.html" "down-chevron" -}}</i>
+                            <i class="chevron">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron show">{{- partial "icon.html" "down-chevron" -}}</i>
                         {{- end -}}
                         <a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
                     </label>

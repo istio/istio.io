@@ -4,7 +4,6 @@ description: 描述基于 Istio Bookinfo 示例的简单场景。
 publishdate: 2018-01-31
 subtitle: HTTPS 流量的出口规则
 attribution: Vadim Eisenberg
-weight: 93
 keywords: [traffic-management,egress,https]
 ---
 

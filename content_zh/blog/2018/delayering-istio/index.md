@@ -4,7 +4,6 @@ description: 使用 AppSwitch 自动接入应用并降低延迟。
 publishdate: 2018-07-30
 subtitle:
 attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
-weight: 86
 keywords: [appswitch,performance]
 ---
 

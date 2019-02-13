@@ -4,7 +4,6 @@ description: How Kubernetes Network Policy relates to Istio policy.
 publishdate: 2017-08-10
 subtitle:
 attribution: Spike Curtis
-weight: 97
 aliases:
     - /blog/using-network-policy-in-concert-with-istio.html
 ---

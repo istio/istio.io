@@ -3,7 +3,6 @@ title: 使用 Istio 进行金丝雀部署
 description: 使用 Istio 创建自动缩放的金丝雀部署。
 publishdate: 2017-06-14
 attribution: Frank Budinsky
-weight: 98
 keywords: [traffic-management,canary]
 ---
 

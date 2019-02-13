@@ -60,9 +60,9 @@ keywords: [policies,quotas]
       name: handler
       namespace: istio-system
     spec:
+      redisServiceUrl: <redis_server_url>
+      connectionPoolSize: 10
       quotas:
-        redisServiceUrl: <redis_server_url>
-        connectionPoolSize: 10
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -159,6 +159,7 @@ keywords: [policies,quotas]
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
+        overrides:
         - dimensions:
             destination: reviews
           maxAmount: 1

@@ -4,7 +4,6 @@ subtitle:
 description: Istio 在 Twitch 举办了为期一天的直播庆祝 1.0 的发布。
 publishdate: 2018-08-03
 attribution: Spencer Krum, IBM
-weight: 83
 ---
 
 为了庆祝 Istio 1.0 版本的发布并向更广泛的受众推广该软件，8月17日 Istio 社区在 Twitch 举办了一天的实况直播。

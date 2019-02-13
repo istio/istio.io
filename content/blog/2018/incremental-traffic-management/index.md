@@ -5,7 +5,6 @@ publishdate: 2018-11-21
 subtitle:
 attribution: Sandeep Parikh
 twitter: crcsmnky
-weight: 78
 keywords: [traffic-management, gateway]
 ---
 
