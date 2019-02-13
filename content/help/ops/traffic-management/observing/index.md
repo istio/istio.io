@@ -1,6 +1,6 @@
 ---
-title: Diagnosing Configuration Problems
-description: Describes tools and techniques to diagnose configuration issues related to traffic management.
+title: Troubleshooting Envoy Configuration Issues
+description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
 weight: 40
 keywords: [debug,proxy,status,config,pilot,envoy]
 ---
