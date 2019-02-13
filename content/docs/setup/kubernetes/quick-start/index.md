@@ -114,8 +114,8 @@ Follow our instructions on how to
     {{< /tip >}}
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
-    `istio-egressgateway-*`, `istio-galley-*`, `istio-ingressgateway-*`, `istio-pilot-*`, 
-    `istio-policy-*`, `istio-telemetry-*`, `prometheus-*`, and, optionally, `istio-ingress-*`, 
+    `istio-egressgateway-*`, `istio-galley-*`, `istio-ingressgateway-*`, `istio-pilot-*`,
+    `istio-policy-*`, `istio-telemetry-*`, `prometheus-*`, and, optionally, `istio-ingress-*`,
     `istio-sidecar-injector-*`, have a `STATUS` of `Running`:
 
     {{< text bash >}}
