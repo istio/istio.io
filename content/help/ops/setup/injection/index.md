@@ -217,7 +217,7 @@ istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-sidecar-injector
 NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:9093,10.48.6.108:443   3d
+istio-sidecar-injector   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and status
