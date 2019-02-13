@@ -26,7 +26,7 @@ Handler 配置必须和 Instance 配置包含一致的指标，满足这一要�
 | `accessKeyId` | `string` | AliCloud 访问帐户的访问密钥 ID |
 | `accessKeySecret` | `string` | AliCloud 访问帐户的访问密钥秘密 |
 | `groupId` | `int64` | AliCloud Cloud Monitor 服务实例中的应用程序组的 ID |
-| `metricInfo` | `map<string,` [Params.MetricList](#Params-MetricList)`>` | Istio 指标名称到 CloudMonitor 指标信息的映射。 |
+| `metricInfo` | `map<string,` [Params.MetricList](#params-metriclist)`>` | Istio 指标名称到 CloudMonitor 指标信息的映射。 |
 
 ## Params.MetricList
 

@@ -14,7 +14,7 @@ Denier 适配器的配置格式。
 
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
-| `status` | [google.rpc.Status](#google-rpc-Status) | 拒绝请求时返回的错误。|
+| `status` | [google.rpc.Status](#google-rpc-status) | 拒绝请求时返回的错误。|
 | `validDuration` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) | 拒绝有效的持续时间。|
 | `validUseCount` | `int32` | 拒绝可以使用的次数。|
 

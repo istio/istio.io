@@ -16,7 +16,7 @@ Circonus 适配器的配置格式。
 | --- | --- | --- |
 | `submissionUrl` | `string` | Circonus SubmissionURL 到 HTTPTrap 检查 |
 | `submissionInterval` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) |  |
-| `metrics` | [Params.MetricInfo[]](#Params-MetricInfo) |  |
+| `metrics` | [Params.MetricInfo[]](#params-metricinfo) |  |
 
 ## Params.MetricInfo
 
@@ -25,7 +25,7 @@ Circonus 适配器的配置格式。
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
 | `name` | `string` | 名称 |
-| `type` | [Params.MetricInfo.Type](#Params-MetricInfo-Type) |  |
+| `type` | [Params.MetricInfo.Type](#params-metricinfo-type) |  |
 
 ## Params.MetricInfo.Type
 
