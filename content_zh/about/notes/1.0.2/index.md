@@ -1,6 +1,6 @@
 ---
 title: Istio 1.0.2
-weight: 90
+publishdate: 2018-09-06
 icon: notes
 ---
 
