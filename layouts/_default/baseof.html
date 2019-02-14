@@ -8,7 +8,7 @@
 
         {{ with .Page.Description }}
             {{ if not (or (strings.HasSuffix . ".") (strings.HasSuffix . "。")) }}
-                {{ errorf "Page description doesn't end with a period: '%s'" .Page.Description }}
+                {{ errorf "Page description doesn't end with a period: '%s'" . }}
             {{ end }}
         {{ end }}
 
