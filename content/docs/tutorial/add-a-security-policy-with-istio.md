@@ -10,21 +10,21 @@ Note that in our setting, any microservice can access any other microservice. If
 In this module we will add a [security policy]({{home}}/docs/reference/config/istio.mixer.v1.config.html) that states that only _reviews_ microservice can access _ratings_ microservice.
 
 1. Let's see that without a security policy, our _sleep_ microservice can call the _ratings_ microservice.
-   ```bash
+   {{< text bash >}}
    kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
-   ```
+   {{< /text >}}
 
    We will get `{"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}` as an output
 
 2. Let's define a security policy (a whitelist) that will allow only the _reviews_ microservice to access the _ratings_ microservice:
-   ```bash
+   {{< text bash >}}
    istioctl create -f samples/bookinfo/istio.io-tutorial/whitelist-for-ratings.yaml
-   ```
+   {{< /text >}}
 
 3. Now let's see that the _sleep_ microservice cannot access the _ratings_ microservice, as expected:
-   ```bash
+   {{< text bash >}}
    kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
-   ```
+   {{< /text >}}
 
    This time we will get the following error: `NOT_FOUND:whitelist-for-ratings.listchecker.default:sleep is not whitelisted`, as expected.
 

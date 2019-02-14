@@ -9,34 +9,34 @@ weight: 20
 This module shows how you create a Docker image and run it locally.
 
 1. Observe the [Dockerfile](https://github.com/istio/istio/blob/master/samples/bookinfo/src/ratings/Dockerfile):
-   ```bash
+   {{< text bash >}}
    more Dockerfile
-   ```
+   {{< /text >}}
 1. Build Docker image:
-   ```bash
+   {{< text bash >}}
    docker build -t $USER/ratings .
-   ```
+   {{< /text >}}
 1. Run ratings in Docker:
-   ```bash
+   {{< text bash >}}
    docker run -d -p 9081:9080 $USER/ratings
-   ```
+   {{< /text >}}
 
 1. Access [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or by the _curl_ command:
-   ```bash
+   {{< text bash >}}
    curl localhost:9080/ratings/7
-   ```
+   {{< /text >}}
 
 1. Observe the running container:
-   ```bash
+   {{< text bash >}}
    docker ps
-   ```
+   {{< /text >}}
 
 1. Stop the running container:
-   ```bash
+   {{< text bash >}}
    docker stop <container ID>
-   ```
+   {{< /text >}}
 
 1. Go back to the Istio directory:
-   ```bash
+   {{< text bash >}}
    popd
-   ```
+   {{< /text >}}
