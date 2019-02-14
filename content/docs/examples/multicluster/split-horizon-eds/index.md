@@ -82,6 +82,12 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
 1. Use Helm to create the Istio deployment YAML for `cluster1`:
 
+    {{< warning >}}
+    If you're not sure if your `helm` dependencies are up to date, update them using the
+    command shown in [Helm installation steps](/docs/setup/kubernetes/helm-install/#installation-steps)
+    before running the following command.
+    {{< /warning >}}
+
     {{< text bash >}}
     $ helm template --name=istio --namespace=istio-system \
     --set global.mtls.enabled=true \
@@ -242,6 +248,14 @@ The difference between the two instances is the version of their `helloworld` im
     $ kubectl create --context=$CTX_CLUSTER2 -f samples/helloworld/helloworld.yaml -l version=v2 -n sample
     {{< /text >}}
 
+1. Confirm `helloworld v2` is running:
+
+    {{< text bash >}}
+    $ kubectl get po --context=$CTX_CLUSTER2 -n sample
+    NAME                             READY     STATUS    RESTARTS   AGE
+    helloworld-v2-7dd57c44c4-f56gq   2/2       Running   0          35s
+    {{< /text >}}
+
 ### Deploy helloworld v1 in cluster 1
 
 1. Create a `sample` namespace with a sidecar auto-injection label:
@@ -256,6 +270,14 @@ The difference between the two instances is the version of their `helloworld` im
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -f samples/helloworld/helloworld.yaml -l app=helloworld -n sample
     $ kubectl create --context=$CTX_CLUSTER1 -f samples/helloworld/helloworld.yaml -l version=v1 -n sample
+    {{< /text >}}
+
+1. Confirm `helloworld v1` is running:
+
+    {{< text bash >}}
+    $ kubectl get po --context=$CTX_CLUSTER1 -n sample
+    NAME                            READY     STATUS    RESTARTS   AGE
+    helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
 
 1. Create the Gateway to access the service:
