@@ -450,10 +450,13 @@ function handleDOMLoaded() {
         });
 
         // toggle sidebar on/off
-        document.getElementById('sidebar-toggler').addEventListener("click", (e) => {
-            document.getElementById("sidebar-container").classList.toggle('active');
-            e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
-        });
+        const toggler = document.getElementById('sidebar-toggler');
+        if (toggler) {
+            toggler.addEventListener("click", (e) => {
+                document.getElementById("sidebar-container").classList.toggle('active');
+                e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
+            });
+        }
     }
 
     let recurse = false;
