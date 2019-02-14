@@ -53,6 +53,8 @@ table, th, td, tr {
 table {
     margin-left: .5em;
     margin-right: .5em;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 table p:first-of-type {
@@ -76,11 +78,6 @@ th {
 tr.oneof>td {
     border-bottom: 1px dashed $dividerBarColor;
     border-top: 1px dashed $dividerBarColor;
-}
-
-table {
-    border-collapse: separate;
-    border-spacing: 0;
 }
 
 th, td {
