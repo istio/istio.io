@@ -3,7 +3,7 @@
 {{ $current := .current }}
 {{ $collapse := .collapse }}
 
-<ul style="{{ if $collapse }}display:none{{ end }}">
+<ul {{ if not $collapse }}class="show"{{ end }}>
     {{ range $pages }}
         {{ if eq .Parent $parent }}
             {{ if not .IsPage }}

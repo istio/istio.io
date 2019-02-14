@@ -101,10 +101,9 @@ function handleDOMLoaded() {
                 num_links++;
             });
 
-            if (num_links === 0) {
-                // if there are no links on this page, hide the whole section
-                const div = document.getElementsByClassName("link-endnotes")[0];
-                div.style.display = "none";
+            if (num_links > 0) {
+                // only show the section if there are links
+                document.getElementById("endnotes-container").classList.add('show');
             }
         }
 
@@ -441,11 +440,7 @@ function handleDOMLoaded() {
                     chevron.classList.toggle('show');
                 });
 
-                if (o.nextElementSibling.style.display === "none") {
-                    o.nextElementSibling.style.display = "block";
-                } else {
-                    o.nextElementSibling.style.display = "none";
-                }
+                o.nextElementSibling.classList.toggle("show");
             });
         });
 
@@ -516,9 +511,9 @@ function handlePageScroll() {
     function controlScrollToTopButton() {
         if (scrollToTopButton) {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                scrollToTopButton.style.display = "block";
+                scrollToTopButton.classList.add("show");
             } else {
-                scrollToTopButton.style.display = "none";
+                scrollToTopButton.classList.remove("show");
             }
         }
     }

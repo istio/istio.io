@@ -454,6 +454,10 @@ blockquote {
         height: 1.5em;
         vertical-align: middle;
     }
+
+    &.show {
+        display: block;
+    }
 }
 
 @media print {

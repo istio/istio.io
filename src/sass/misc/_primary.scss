@@ -30,8 +30,6 @@
 
     @media screen AND (min-width: $bp-lg) {
         grid-template-columns: [sidebar] 20% [article] calc(80% - 1rem);
-        padding-left: 1rem;
-        padding-right: 1rem;
     }
 
     @media screen AND (min-width: $bp-xl) {
