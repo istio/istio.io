@@ -3,6 +3,7 @@ title: Istio 0.1
 publishdate: 2017-05-24
 aliases:
     - /docs/welcome/notes/0.1.html
+    - /about/notes/0.1/index.html
 icon: notes
 ---
 
