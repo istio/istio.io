@@ -27,7 +27,7 @@ Mixer 会生成指标来监控它自身行为。第一步是检查这些指标�
 1. 建立与 mixer 自监控 endpoint 的连接以进行 Istio 遥测部署。在 Kubernetes 环境中，执行以下命令：
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward <istio-telemetry pod> 9093 &
+    $ kubectl -n istio-system port-forward <istio-telemetry pod> 10514 &
     {{< /text >}}
 
 1. 查看成功的返回，在 Mixer 的自监控 endpoint 上，搜索 `grpc_server_handled_total`。你应该能看到类似的东西：

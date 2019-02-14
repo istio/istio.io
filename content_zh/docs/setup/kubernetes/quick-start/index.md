@@ -79,16 +79,16 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
+    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,10514/TCP                                                     7m
     istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
     istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
     istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
     istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
-    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
-    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
+    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,10514/TCP   7m
+    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,10514/TCP                                           7m
     istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
     istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
-    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
+    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,10514/TCP,42422/TCP                                 7m
     prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     {{< /text >}}
 
