@@ -504,6 +504,7 @@ function handleDOMLoaded() {
     attachSidebarHandlers();
     attachTabHandlers();
     enablePopovers();
+    loadActiveStyleSheet();
 
     // one forced call here to make sure everything looks right
     handlePageScroll();
