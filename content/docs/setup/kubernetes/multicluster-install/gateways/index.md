@@ -44,8 +44,10 @@ on **each** Kubernetes cluster.
     across different clusters.
 
     {{< tip >}}
-    For illustration purposes, the following instructions use the root certificate from
-    the Istio samples directory as the intermediate certificates.
+    For illustration purposes, the following instructions use the certificates
+    from the Istio samples directory for both clusters. In real world deployments,
+    you would likely use a different CA certificate for each cluster, all signed
+    by a common root CA.
     {{< /tip >}}
 
 1. Generate a multicluster-gateways Istio configuration file using `helm`:
@@ -67,7 +69,7 @@ on **each** Kubernetes cluster.
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
    configuration in all of them.
 
-    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following:
+    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
         {{< text bash >}}
         $ kubectl create namespace istio-system
