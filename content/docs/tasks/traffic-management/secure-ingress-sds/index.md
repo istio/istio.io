@@ -9,36 +9,23 @@ The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress
 gateway to expose an HTTP endpoint of a service to external traffic with either simple or mutual TLS.
 This task shows you how to do the same, but using an ingress gateway agent to provision key/cert and root cert to ingress gateway dynamically.
 
-## Before you begin
-
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports) sections of the
-[Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
-
-1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
-
-    {{< text bash >}}
-    $ curl --version | grep LibreSSL
-    curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
-    {{< /text >}}
-
-    If a version of _LibreSSL_ is printed as in the output above, your _curl_ should work correctly with the
-    instructions in this task. Otherwise, try another installation of _curl_, for example on a Linux machine.
+{{< boilerplate before-you-begin-ingress >}}
 
 ## Configure a TLS ingress gateway with secret discovery service enabled
 
-In this section you will configure a TLS ingress gateway that fetches credentials from ingress gateway agent via secret discovery service (SDS).
+In this section you will configure a TLS ingress gateway that fetches credentials from the ingress gateway agent via secret discovery service (SDS).
 The ingress gateway agent is running in the same pod as the ingress gateway, and watches credentials created in the same namespace as the ingress gateway.
 Enabling SDS at ingress gateway brings the following benefits.
 
-* The ingress gateway is able to dynamically add/delete/update ingress gateway key/cert and root cert. You do not have to restart ingress gateway.
+* The ingress gateway is able to dynamically add/delete/update ingress gateway key/certificate and root certificate. You do not have to restart the ingress gateway.
 
-* The secret volume mount is no longer needed. Once you create a `kubernetes` secret, that secret is captured by gateway agent and sent to ingress gateway as key/cert or root cert.
+* The secret volume mount is no longer needed. Once you create a `kubernetes` secret, that secret is captured by the gateway agent and sent to ingress gateway as key/certificate or root certificate.
 
-* Gateway agent is able to watch multiple key/certs. You only need to create secrets for multiple hosts and update gateway definition.
+* The gateway agent is able to watch multiple key/certificate pairs. You only need to create secrets for multiple hosts and update the gateway definitions.
 
-1.  Enable SDS at ingress gateway and deploy ingress gateway agent.
-    This feature is disabled by default, you need to enable the [feature flag]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml#L17) in helm,
-    and then generate `istio-ingressgateway.yaml` file:
+1.  Enable SDS at ingress gateway and deploy the ingress gateway agent.
+    This feature is disabled by default, you need to enable the feature flag [`istio-ingressgateway.sds.enabled`]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml) in helm,
+    and then generate the `istio-ingressgateway.yaml` file:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml \
@@ -91,13 +78,13 @@ Enabling SDS at ingress gateway brings the following benefits.
     EOF
     {{< /text >}}
 
-1.  Create secret for ingress gateway
+1.  Create a secret for ingress gateway
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
-1.  Define a Gateway with a server section for port 443. Define a Gateway and specify `credentialName` to be `httpbin-credential`, which should be the same as the secret name.
+1.  Define a Gateway with a server section for port 443, and specify `credentialName` to be `httpbin-credential`, which should be the same as the secret name.
     TLS mode should be specified as SIMPLE. `serverCertificate` and `privateKey` should not be empty.
 
     {{< text bash >}}
@@ -159,7 +146,7 @@ Enabling SDS at ingress gateway brings the following benefits.
 
     The `httpbin` service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
-1.  Replace credential for ingress gateway. We can change the credentials at ingress gateway by deleting the secret and creating a new one.
+1.  Replace the credentials for the ingress gateway. You can change the credentials at ingress gateway by deleting the secret and creating a new one.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -191,7 +178,7 @@ Enabling SDS at ingress gateway brings the following benefits.
         `"""`
     {{< /text >}}
 
-1.  Accessing `httpbin` with previous cert chain would fail
+1.  Accessing `httpbin` with previous cert chain will now fail
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -247,7 +234,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
     EOF
     {{< /text >}}
 
-1.  Create secret for ingress gateway. Assume you already create secret `httpbin-credential`. Now create secret `helloworld-credential`.
+1.  Create a secret for the ingress gateway. Assuming you've already created the `httpbin-credential` secret, now create the `helloworld-credential` secret.
 
     {{< text bash >}}
     $ pushd mtls-go-example
@@ -257,9 +244,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
     $ kubectl create -n istio-system secret generic helloworld-credential --from-file=key=helloworld-v1.example.com/3_application/private/helloworld-v1.example.com.key.pem --from-file=cert=helloworld-v1.example.com/3_application/certs/helloworld-v1.example.com.cert.pem
     {{< /text >}}
 
-1.  Define a Gateway with a server section for port 443.
-
-    Define a Gateway for two hosts, and specify `credentialName` to be `httpbin-credential` and `helloworld-credential` respectively.
+1.  Define a Gateway with two server sections for port 443, and specify `credentialName` to be `httpbin-credential` and `helloworld-credential` respectively.
     TLS mode should be specified as SIMPLE. `serverCertificate` and `privateKey` should not be empty.
 
     {{< text bash >}}
@@ -297,7 +282,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the Gateway. Define the same `VirtualService`.
+1.  Configure routes for traffic entering via the Gateway. Define the same `VirtualService`
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -322,14 +307,14 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
     EOF
     {{< /text >}}
 
-1. Send HTTPS request to `helloworld-v1.example.com`
+1. Send an HTTPS request to `helloworld-v1.example.com`
 
     {{< text bash >}}
     $ curl -v -HHost:helloworld-v1.example.com --resolve helloworld-v1.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert helloworld-v1.example.com/2_intermediate/certs/ca-chain.cert.pem https://helloworld-v1.example.com:$SECURE_INGRESS_PORT/hello
     HTTP/2 200
     {{< /text >}}
 
-1. Send HTTPS request to `httpbin.example.com` still returns teapot.
+1. Send HTTPS request to `httpbin.example.com` still returns teapot
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -348,7 +333,7 @@ In this section you will configure an ingress gateway for multiple hosts, `httpb
 
 In this section you will extend your gateway's definition to support [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication).
 We can change the credentials at ingress gateway by deleting the secret and creating a new one.
-This time we need to pass CA certificate that the server will use to verify its clients, and we must use the name `cacert` to hold CA certificate.
+This time we need to pass the CA certificate that the server will use to verify its clients, and we must use the name `cacert` to hold the CA certificate.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -385,7 +370,7 @@ This time we need to pass CA certificate that the server will use to verify its 
     EOF
     {{< /text >}}
 
-1. Sending HTTPS request with previous way will fail
+1. Sending an HTTPS request using the prior approach now fails
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -404,7 +389,7 @@ This time we need to pass CA certificate that the server will use to verify its 
     * error:14094410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure
     {{< /text >}}
 
-1. Resend the previous request by passing client certificate and private key to _curl_. This time pass your client certificate (additional --cert option) and your private key (the --key option) to _curl_.
+1. Resend the previous request by passing a client certificate and private key to _curl_. This time pass your client certificate (additional --cert option) and your private key (the --key option) to _curl_.
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -430,7 +415,7 @@ they have valid values, according to the output of the following commands:
     $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     {{< /text >}}
 
-1.  Verify that the secrets are successfully created in namespace `istio-system`:
+1.  Verify that the secrets are successfully created in the `istio-system` namespace:
 
     {{< text bash >}}
     $ kubectl -n istio-system get secrets
@@ -438,17 +423,17 @@ they have valid values, according to the output of the following commands:
 
     `httpbin-credential` and `helloworld-credential` should show in the secrets list.
 
-1.  Verify that ingress gateway agent has pushed key/cert to ingress gateway by checking logs.
+1.  Verify that the ingress gateway agent has pushed key/certificate to the ingress gateway by checking logs.
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c ingress-sds
     {{< /text >}}
 
     It should show that secret `httpbin-credential` is added. If using mutual TLS, then secret `httpbin-credential-cacert` is added as well.
-    It should also show that gateway agent receives SDS request from ingress gateway and the resource name is `httpbin-credential`, and pushes key/cert to ingress gateway.
-    If using mutual TLS, then it should show that gateway agent receives SDS request with resource name `httpbin-credential-cacert`, and pushes root cert to ingress gateway.
+    It should also show that the gateway agent receives SDS request from the ingress gateway and the resource name is `httpbin-credential`, and pushes key/certificate to the ingress gateway.
+    If using mutual TLS, then it should show that the gateway agent receives SDS request with resource name `httpbin-credential-cacert`, and pushes root certificate to the ingress gateway.
 
-1.  Check the log of `istio-ingressgateway` for error messages:
+1.  Check `istio-ingressgateway`'s log for error messages:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=ingressgateway -c istio-proxy
