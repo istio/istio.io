@@ -80,6 +80,22 @@ the Kubernetes API server:
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
+1. Uninstall steps:
+
+    {{< text bash >}}
+    $ kubectl delete -f $HOME/istio.yaml
+    {{< /text >}}
+
+1. If desired, run the following command to delete all CRDs:
+
+    {{< warning >}}
+    Deleting CRDs deletes any configuration changes that you have made to Istio.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
+    {{< /text >}}
+
 ### Option 2: Install with Helm and Tiller via `helm install`
 
 This option allows Helm and
@@ -122,15 +138,7 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
 
-## Uninstall
-
-- For option 1, uninstall using `kubectl`:
-
-    {{< text bash >}}
-    $ kubectl delete -f $HOME/istio.yaml
-    {{< /text >}}
-
-- For option 2, uninstall using Helm:
+1. Uninstall steps:
 
     {{< warning >}}
     Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
@@ -144,7 +152,7 @@ to manage the lifecycle of Istio.
     $ helm delete --purge istio-init
     {{< /text >}}
 
-- If desired, run the following command to delete all CRDs:
+1. If desired, run the following command to delete all CRDs:
 
     {{< warning >}}
     Deleting CRDs deletes any configuration changes that you have made to Istio.
