@@ -14,58 +14,73 @@ In the following steps, we assume that the Istio components are installed and up
 
 ## Upgrade steps
 
-1. [Download the new Istio release](/docs/setup/kubernetes/download-release/)
+[Download the new Istio release](/docs/setup/kubernetes/download-release/)
 and change directory to the new release directory.
-
-1. Upgrade Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
-
-{{< text bash >}}
-$ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
-{{< /text >}}
 
 ### Control plane upgrade
 
-The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry, Galley and
+The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Galley, Policy, Telemetry and
 Sidecar injector.
 
 #### Helm upgrade
 
 If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
 
-{{< text bash >}}
-$ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
-{{< /text >}}
+1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
+
+    {{< text bash >}}
+    $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
+    {{< /text >}}
+
+1. Check that all the CRD creation jobs completed successfully to verify that the Kubernetes API server received all the CRDs:
+
+    {{< text bash >}}
+    $ kubectl get job --namespace istio-system | grep istio-init-crd
+    {{< /text >}}
+
+1. Upgrade the `istio` chart:
+
+    {{< text bash >}}
+    $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+    {{< /text >}}
 
 #### Kubernetes rolling update
 
 You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
-First, generate the desired Istio control plane yaml file based on your desired configuration, e.g.
+1. Use `kubectl apply` to upgrade all the Istio's CRDs.  Wait a few seconds for the Kubernetes API server to receive the upgraded CRDs:
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system > install/kubernetes/istio.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    {{< /text >}}
 
-or
+1. Add Istio's core components to a Kubernetes manifest file, for example.
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system --set global.mtls.enabled=true > install/kubernetes/istio-auth.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio \
+      --namespace istio-system > $HOME/istio.yaml
+    {{< /text >}}
 
-Second, simply apply the new version of the desired Istio control plane yaml file directly, e.g.
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` and `global.controlPlaneSecurityEnabled` to `true` for the last command:
 
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+      --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true > $HOME/istio-auth.yaml
+    {{< /text >}}
 
-or
+    If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
 
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
-{{< /text >}}
+1. Upgrade the Istio control plane components via the manifest, for example:
+
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
+
+    or
+
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio-auth.yaml
+    {{< /text >}}
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
 your Istio control plane should be updated to the new version. Your existing application should continue to work without
