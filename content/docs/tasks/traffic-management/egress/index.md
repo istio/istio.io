@@ -217,7 +217,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     This time a 504 (Gateway Timeout) appears after 3 seconds.
     Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
-### Cleanup of controlled access to external services
+### Cleanup the controlled access to external services
 
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
