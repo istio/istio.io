@@ -18,9 +18,9 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     deployment "reviews-v2" created
     {{< /text >}}
 
-2.  Access your application and see that the deployed microservice did not disrupt it. So far so good.
+1.  Access your application and see that the deployed microservice did not disrupt it. So far so good.
 
-3.  Test the new version of our microservice from inside the cluster. Use the testing container you deployed
+1.  Test the new version of our microservice from inside the cluster. Use the testing container you deployed
     earlier. Note that your new version hits the production pods of the _ratings_ microservice during the test. Also
     note that you have to access our new version of the microservice by its pod IP, since it is not selected for the
     _reviews_ service.
