@@ -86,7 +86,7 @@ from within your Istio cluster. This task shows you how to access an external HT
     `method`, `url`, `responseCode` and others. Using Istio egress traffic control, you can monitor access to external
     HTTP services, including the HTTP-related information of each access.
 
-### Access to an external HTTPS service
+### Access an external HTTPS service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
     For TLS protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
