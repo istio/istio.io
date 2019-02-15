@@ -348,8 +348,8 @@ An alternative to calling external services directly is to instruct the Istio pr
 external services. This option allows you to start evaluating Istio quickly, without controlling access to external
 services, and decide to [configure access to external services](#controlled-access-to-external-services) later.
 
-Istio has an installation option that allows access to any external service on any ports that have no HTTP service and
-no service entry defined inside the mesh.
+To allow access to any external service on any ports without an HTTP service or a service entry within the mesh,
+Istio has an [installation option](/docs/reference/config/installation-options/).
 For example, if there is no registered HTTP service or service entry defined for port 8000 inside the mesh, the sidecar
 proxy can be configured to pass the request on to any external service on that port.
 Note, however, that if you later create an HTTP service inside the mesh on port 8000 or define any service entry for any
