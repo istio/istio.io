@@ -122,7 +122,6 @@ keywords: [kubernetes,multicluster]
       --set global.createRemoteSvcEndpoints=true \
       --set global.remotePilotCreateSvcEndpoint=true \
       --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
-      --set global.proxy.envoyStatsd.enabled=false \
       --set global.disablePolicyChecks=true \
       --set global.policyCheckFailOpen=true \
       --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \

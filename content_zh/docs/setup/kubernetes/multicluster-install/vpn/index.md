@@ -64,7 +64,6 @@ Statsd Pod IP 端点。
 {{< text bash >}}
 $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
 $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
-$ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
 $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
 $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{range .items[*]}{.status.podIP}{end}')
 {{< /text >}}
@@ -95,8 +94,6 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
    --set global.remotePilotAddress=${PILOT_POD_IP} \
    --set global.remotePolicyAddress=${POLICY_POD_IP} \
    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-   --set global.proxy.envoyStatsd.enabled=true \
-   --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} \
    --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} > $HOME/istio-remote.yaml
 {{< /text >}}
 
@@ -144,7 +141,7 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
 1. 通过以下命令来为  `istio-remote`  安装 Helm chart：
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
+    $ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
     {{< /text >}}
 
 {{% /tab %}}
@@ -309,7 +306,7 @@ $ helm delete --purge istio-remote
    控制平面的 service 端点：
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
+    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
 1. 为远程 Istio 创建 `istio-system` 命名空间：
@@ -495,7 +492,6 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
       --set global.remotePilotAddress=${PILOT_POD_IP} \
       --set global.remotePolicyAddress=${POLICY_POD_IP} \
       --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-      --set global.proxy.envoyStatsd.enabled=true \
       --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > ${HOME}/istio-remote-auth.yaml
     $ kubectl apply -f ${HOME}/istio-remote-auth.yaml
     {{< /text >}}
