@@ -101,10 +101,9 @@ function handleDOMLoaded() {
                 num_links++;
             });
 
-            if (num_links === 0) {
-                // if there are no links on this page, hide the whole section
-                const div = document.getElementsByClassName("link-endnotes")[0];
-                div.style.display = "none";
+            if (num_links > 0) {
+                // only show the section if there are links
+                document.getElementById("endnotes-container").classList.add('show');
             }
         }
 
@@ -117,18 +116,18 @@ function handleDOMLoaded() {
                 copyButton.className = "copy";
                 copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
                 copyButton.setAttribute("aria-label", "Copy to clipboard");
-                copyButton.addEventListener("mouseenter", (e) => e.currentTarget.classList.add("toolbar-show"));
-                copyButton.addEventListener("mouseleave", (e) => e.currentTarget.classList.remove("toolbar-show"));
+                copyButton.addEventListener("mouseenter", e => e.currentTarget.classList.add("toolbar-show"));
+                copyButton.addEventListener("mouseleave", e => e.currentTarget.classList.remove("toolbar-show"));
 
                 const downloadButton = document.createElement("BUTTON");
                 downloadButton.title = buttonDownload;
                 downloadButton.className = "download";
                 downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
                 downloadButton.setAttribute("aria-label", downloadButton.title);
-                downloadButton.addEventListener("mouseenter", (e) => e.currentTarget.classList.add("toolbar-show"));
-                downloadButton.addEventListener("mouseleave", (e) => e.currentTarget.classList.remove("toolbar-show"));
+                downloadButton.addEventListener("mouseenter", e => e.currentTarget.classList.add("toolbar-show"));
+                downloadButton.addEventListener("mouseleave", e => e.currentTarget.classList.remove("toolbar-show"));
 
-                downloadButton.addEventListener("click", (e) => {
+                downloadButton.addEventListener("click", e => {
                     const div = e.currentTarget.parentElement;
                     const codes = div.getElementsByTagName("CODE");
                     if ((codes !== null) && (codes.length > 0)) {
@@ -164,10 +163,10 @@ function handleDOMLoaded() {
                 printButton.className = "print";
                 printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
                 printButton.setAttribute("aria-label", printButton.title);
-                printButton.addEventListener("mouseenter", (e) => e.currentTarget.classList.add("toolbar-show"));
-                printButton.addEventListener("mouseleave", (e) => e.currentTarget.classList.remove("toolbar-show"));
+                printButton.addEventListener("mouseenter", e => e.currentTarget.classList.add("toolbar-show"));
+                printButton.addEventListener("mouseleave", e => e.currentTarget.classList.remove("toolbar-show"));
 
-                printButton.addEventListener("click", (e) => {
+                printButton.addEventListener("click", e => {
                     const div = e.currentTarget.parentElement;
                     const text = getToolbarDivText(div);
                     printText(text);
@@ -183,13 +182,13 @@ function handleDOMLoaded() {
                 div.appendChild(downloadButton);
                 div.appendChild(copyButton);
 
-                pre.addEventListener("mouseenter", (e) => {
+                pre.addEventListener("mouseenter", e => {
                     e.currentTarget.nextSibling.classList.add("toolbar-show");
                     e.currentTarget.nextSibling.nextSibling.classList.add("toolbar-show");
                     e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add("toolbar-show");
                 });
 
-                pre.addEventListener("mouseleave", (e) => {
+                pre.addEventListener("mouseleave", e => {
                     e.currentTarget.nextSibling.classList.remove("toolbar-show");
                     e.currentTarget.nextSibling.nextSibling.classList.remove("toolbar-show");
                     e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove("toolbar-show");
@@ -319,12 +318,12 @@ function handleDOMLoaded() {
             function loadExternal(pre) {
 
                 function fetchFile(elem, url) {
-                    fetch(url).then(function (response) {
-                        return response.text();
-                    }).then(function (data) {
-                        elem.firstChild.textContent = data;
-                        Prism.highlightElement(elem.firstChild, false);
-                    });
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(data => {
+                            elem.firstChild.textContent = data;
+                            Prism.highlightElement(elem.firstChild, false);
+                        });
                 }
 
                 if (pre.hasAttribute("data-src")) {
@@ -332,7 +331,7 @@ function handleDOMLoaded() {
                 }
             }
 
-            document.querySelectorAll('pre').forEach((pre) => {
+            document.querySelectorAll('pre').forEach(pre => {
                 attachToolbar(pre);
                 applySyntaxColoring(pre);
                 loadExternal(pre);
@@ -434,12 +433,6 @@ function handleDOMLoaded() {
     }
 
     function attachSidebarHandlers() {
-        // toggle sidebar on/off
-        document.getElementById('sidebar-toggler').addEventListener("click", (e) => {
-            document.getElementById("sidebar-container").classList.toggle('active');
-            e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
-        });
-
         // toggle subtree in sidebar
         document.querySelectorAll('.tree-toggle').forEach(o => {
             o.addEventListener("click", () => {
@@ -447,13 +440,18 @@ function handleDOMLoaded() {
                     chevron.classList.toggle('show');
                 });
 
-                if (o.nextElementSibling.style.display === "none") {
-                    o.nextElementSibling.style.display = "block";
-                } else {
-                    o.nextElementSibling.style.display = "none";
-                }
+                o.nextElementSibling.classList.toggle("show");
             });
         });
+
+        // toggle sidebar on/off
+        const toggler = document.getElementById('sidebar-toggler');
+        if (toggler) {
+            toggler.addEventListener("click", e => {
+                document.getElementById("sidebar-container").classList.toggle('active');
+                e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
+            });
+        }
     }
 
     let recurse = false;
@@ -501,6 +499,7 @@ function handleDOMLoaded() {
     attachSidebarHandlers();
     attachTabHandlers();
     enablePopovers();
+    loadActiveStyleSheet();
 
     // one forced call here to make sure everything looks right
     handlePageScroll();
@@ -512,9 +511,9 @@ function handlePageScroll() {
     function controlScrollToTopButton() {
         if (scrollToTopButton) {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                scrollToTopButton.style.display = "block";
+                scrollToTopButton.classList.add("show");
             } else {
-                scrollToTopButton.style.display = "none";
+                scrollToTopButton.classList.remove("show");
             }
         }
     }

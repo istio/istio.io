@@ -21,7 +21,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ## 安装 {#installation}
 
 1. 获取 Kubernetes 环境 CNI 插件 `--cni-bin-dir` 以及 `--cni-conf-dir` 的设置。
-    * [托管 Kubernetes 用法](#hosted-kubernetes-usage)一节中的介绍了非缺省配置的介绍。
+    * [托管 Kubernetes 用法](#hosted-Kubernetes-usage)一节中的介绍了非缺省配置的介绍。
 
 1. 在[使用 Helm 安装 Istio](/zh/docs/setup/kubernetes/helm-install/)的过程中，加入  `--set istio_cni.enabled=true` 的设置，来启用 Istio CNI 插件的安装。例如：
 

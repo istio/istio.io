@@ -54,7 +54,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 ## 宽松模式（PERMISSIVE Mode）
 
-宽松模式是 Istio 1.1 中的一个实验功能。因此将来可能会发生变更。如果不想尝试这一功能，可以直接跳到[启用 Istio 访问控制](#启用-istio-访问控制)。
+宽松模式是 Istio 1.1 中的一个实验功能。因此将来可能会发生变更。如果不想尝试这一功能，可以直接跳到[启用 Istio 访问控制](#enable-Istio-access-control)一节。
 
 本节展示了在两种场景中启用宽松模式的方法：
 
@@ -158,7 +158,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1. 现在我们已经完成了对开启访问控制后果的验证，可以按照[启用 Istio 访问控制](#启用-Istio-访问控制)的步骤来继续操作了。
+1. 现在我们已经完成了对开启访问控制后果的验证，可以按照[启用 Istio 访问控制](#enable-Istio-access-control)的步骤来继续操作了。
 
 ### 测试添加新的策略是否安全
 
@@ -230,7 +230,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 1. 现在我们知道新策略会按设计目标工作，就可以安全的按照[步骤 2](#第二步-开放到-details-和-reviews-服务的访问) 的步骤来应用策略了。
 
-## 启用 Istio 访问控制
+## 启用 Istio 访问控制 {#enable-Istio-access-control}
 
 运行下面的命令，在 `default` 命名空间中启用 Istio 访问控制：
 
@@ -315,7 +315,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 
 接下来展示的是如何使用 Istio 在服务一级进行访问控制。开始之前，首先确认两个前提条件：
 
-* 已经[启用 Istio 访问控制](#启用-Istio-访问控制)。
+* 已经[启用 Istio 访问控制](#enable-Istio-access-control)。
 * 已经[清理命名空间级别的访问控制](#清理命名空间级别的访问控制)。
 
 用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），会看到 `"RBAC: access denied"`。我们将会逐步在 Bookinfo 中加入访问权限。
