@@ -209,7 +209,7 @@ spec:
 
 ### `DestinationRule`
 
-[`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#destinationRule) 配置将流量转发到服务时应用的策略集。 这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
+[`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#destinationrule) 配置将流量转发到服务时应用的策略集。 这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
 除了下述改变外，`DestinationRule` 与其前身 `DestinationPolicy` 大致相同。
 
 1. `DestinationRule` 的 `host` 可以包含通配符前缀，以允许单个规则应用于多个服务。

@@ -60,7 +60,7 @@ spec:
 
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
-| `metrics` | [Params.MetricConfig[]](#Params-MetricConfig) | 必选项。要发送到 SignalFx 的指标标准集。如果将 Istio 指标标准配置为发送到此适配器，则此处必须具有相应的描述。|
+| `metrics` | [Params.MetricConfig[]](#params-metricconfig) | 必选项。要发送到 SignalFx 的指标标准集。如果将 Istio 指标标准配置为发送到此适配器，则此处必须具有相应的描述。|
 | `ingestUrl` | `string` | 可选项。要使用的 SignalFx 接受服务器的 URL。如果未指定，将默认为全局摄取服务器。|
 | `accessToken` | `string` | 必选项。应接收指标的 SignalFx 组织的访问令牌。|
 | `datapointInterval` | [google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) | 可选项。指定将指标发送到 SignalFx 的频率。报告给此适配器的指标标准将作为时间序列进行收集和报告。这将四舍五入到最接近的秒，小于一秒的舍入值无效。如果未指定，则默认为10秒。|
@@ -76,7 +76,7 @@ spec:
 | 属性 | 类型 | 描述 |
 | --- | --- | --- |
 | `name` | `string` | 必选项。发送到适配器的指标标准的名称。在 Kubernetes 中，其形式为 ".metric." 其中双引号中 “ ” 既有指标资源的名称字段， 也有指标资源的命名空间。|
-| `type` | [Params.MetricConfig.Type](#Params-MetricConfig-Type) | 指标标准类型  |
+| `type` | [Params.MetricConfig.Type](#params-metricconfig-type) | 指标标准类型  |
 
 ## Params.MetricConfig.Type
 
