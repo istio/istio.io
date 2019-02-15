@@ -446,7 +446,7 @@ know which IP ranges are external to the cluster. Additionally, you can easily s
 for a specific port: simply create a service entry for that port. You can use this approach to start using Istio allowing access
 to any external service and then decide to start controlling access to external services for specific ports.
 Then, you can enable traffic monitoring and control features once they are needed.  Some ports, for example port 80,
-already have HTTP services inside Istio by default, so for them only the first and the second approaches can be used.
+already have HTTP services inside Istio by default. Because of this caveat, you can only use the first and second approaches for those ports.
 
 ## Security note
 
