@@ -322,7 +322,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 {{< /text >}}
 
 Unlike accessing external services through HTTP or HTTPS, you don't see any headers related to the Istio sidecar and the requests sent to
-external services appear neither in the log of the sidecar nor in the Mixer log: by bypassing Istio sidecars you lost
+external services appear neither in the log of the sidecar nor in the Mixer log. Bypassing the Istio sidecars means you can no longer monitor the access to external services.
 monitoring of access to external services.
 
 ### Cleanup of direct access to external services
