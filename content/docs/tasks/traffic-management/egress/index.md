@@ -352,11 +352,9 @@ To allow access to any external service on any ports without an HTTP service or 
 Istio has an [installation option](/docs/reference/config/installation-options/).
 For example, if there is no registered HTTP service or service entry defined for port 8000 inside the mesh, the sidecar
 proxy can be configured to pass the request on to any external service on that port.
-Note, however, that if you later create an HTTP service inside the mesh on port 8000 or define any service entry for any
-host on port 8000, all external accesses to port 8000 will be blocked: Istio will fall back to the blocking-by-default
 If you later create an HTTP service inside the mesh on port 8000 or define a service entry for any
-host on port 8000, Istio will block all external access to port 8000 since Istio then falls back to the blocking-by-default
-behavior for that port.
+host on port 8000, Istio will block all external access to port 8000 since Istio then falls back to the
+blocking-by-default behavior for that port.
 
 1.  To allow access to all the external services, install or update Istio by using
 [Helm](https://preliminary.istio.io/docs/setup/kubernetes/helm-install/) while setting the value of
