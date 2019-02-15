@@ -23,6 +23,16 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
 1.  If you do not have Istio installed in your cluster, install it with mutual TLS enabled, following
     [these instructions](/docs/setup/kubernetes/helm-install/).
 
+1.  Download one of the [Istio release archives](https://github.com/istio/istio/releases) and extract
+    `istioctl` command line tool from it. The tool is in the `bin` directory of the archive.
+
+    Verify that you can run `istioctl`:
+
+    {{< text bash >}}
+    $ istioctl version
+    version.BuildInfo{Version:"release-1.1-20190214-09-16", GitRevision:"6113e155ac85e2485e30dfea2b80fd97afd3130a", User:"root", Host:"4496ae63-3039-11e9-86e9-0a580a2c0304", GolangVersion:"go1.10.4", DockerHub:"gcr.io/istio-release", BuildStatus:"Clean", GitTag:"1.1.0-snapshot.6-6-g6113e15"}
+    {{< /text >}}
+
 1.  **For instructors**: you may want to allocate a separate namespace per different participant. The tutorial supports
     work in multiple namespaces simultaneously by multiple participants.
 
