@@ -81,7 +81,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 
 那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
 默认情况下，Istio sidecar 代理（[Envoy proxies](https://www.envoyproxy.io)）
-**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[mesh-external service entry](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)。
+**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[mesh-external service entry](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry)。
 
 ### 启用对 Google Books 网络服务的 HTTPS 访问
 

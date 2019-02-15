@@ -195,7 +195,7 @@ istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-sidecar-injector
 NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:9093,10.48.6.108:443   3d
+istio-sidecar-injector   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
 如果 pod 或 endpoint 准备尚未就绪，可以通过检查 pod 日志和状态查找有关 webhook pod 无法启动和提供流量的原因。

@@ -46,6 +46,10 @@ a.active {
     font-weight: $linkWeight;
 }
 
+a.dropdown-item {
+    cursor: pointer;
+}
+
 table, th, td, tr {
     padding: .5em;
 }
@@ -53,6 +57,8 @@ table, th, td, tr {
 table {
     margin-left: .5em;
     margin-right: .5em;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 table p:first-of-type {
@@ -76,11 +82,6 @@ th {
 tr.oneof>td {
     border-bottom: 1px dashed $dividerBarColor;
     border-top: 1px dashed $dividerBarColor;
-}
-
-table {
-    border-collapse: separate;
-    border-spacing: 0;
 }
 
 th, td {
@@ -456,6 +457,10 @@ blockquote {
         width: 1.5em;
         height: 1.5em;
         vertical-align: middle;
+    }
+
+    &.show {
+        display: block;
     }
 }
 
