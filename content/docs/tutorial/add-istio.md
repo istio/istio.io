@@ -62,8 +62,13 @@ serve user requests.
     [2019-02-15T09:06:04.053Z] "GET /productpage HTTP/1.1" 200 - 0 5723 90 83 "10.127.220.66" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "18710783-58a1-9e5f-992c-9ceff05b74c5" "tutorial.bookinfo.com" "127.0.0.1:9080" inbound|9080|http|productpage.tutorial.svc.cluster.local - 172.30.146.104:9080 10.127.220.66:0 -
     {{< /text >}}
 
+1.  Check the dashboard, access `my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`. In the top left drop-down
+    menu, select _Istio Service Dashboard_, and then `productpage` service from your namespace, it is name should be
+    `productpage.<your namespace>.svc.cluster.local`.
+
     This is the immediate gain you get by applying Istio even on a single microservice. You can get logs of traffic to
-    and from the microservice, including time, HTTP method, path, response code. In the next modules you will learn the
-    functionality Istio can provide to your applications. While some of Istio functionality is relevant when applied
-    even to a single microservice, for expediency's sake you will apply Istio on the whole application to exploit its full
-    potential.
+    and from the microservice, including time, HTTP method, path, response code. You can monitor your microservice using
+    Istio dashboard.
+    In the next modules you will learn the functionality Istio can provide to your applications. While some of Istio
+    functionality is relevant when applied even to a single microservice, for expediency's sake you will apply Istio on
+    the whole application to exploit its full potential.
