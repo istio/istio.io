@@ -437,7 +437,7 @@ In this task you looked at three ways to call external services from an Istio me
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
 
-1. Configuring Istio to allow access to any external service on some of the ports.
+1. Configuring Istio to allow access to any external service on some ports.
 
 The first approach lets you use all of the same Istio service mesh features for calls to services inside or outside of
 the cluster. You saw that you can monitor access to external services and set a timeout rule for calls to an external
