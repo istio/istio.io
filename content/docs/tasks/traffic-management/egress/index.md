@@ -161,7 +161,7 @@ from within your Istio cluster. This task shows you how to access an external HT
     HTTPS services, you may want to let your applications issue HTTP requests and
     [configure Istio to perform TLS origination](/docs/examples/advanced-gateways/egress-tls-origination/).
 
-### Management of traffic to external services
+### Manage traffic to external services
 
 Similar to inter-cluster requests, Istio
 [routing rules](/docs/concepts/traffic-management/#rule-configuration)
