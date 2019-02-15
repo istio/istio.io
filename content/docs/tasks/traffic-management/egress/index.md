@@ -328,13 +328,15 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 }
 {{< /text >}}
 
-Unlike accessing external services through HTTP or HTTPS, you don't see any headers related to the Istio sidecar and the requests sent to
-external services appear neither in the log of the sidecar nor in the Mixer log. Bypassing the Istio sidecars means you can no longer monitor the access to external services.
-monitoring of the access to external services.
+Unlike accessing external services through HTTP or HTTPS, you don't see any headers related to the Istio sidecar and the
+requests sent to external services appear neither in the log of the sidecar nor in the Mixer log.
+Bypassing the Istio sidecars means you can no longer monitor the access to external services.
+
 
 ### Cleanup the direct access to external services
 
-Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect all outbound traffic to the sidecar proxies:
+Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect all outbound traffic to the sidecar
+proxies:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
