@@ -168,7 +168,7 @@ keywords: [安全,访问控制,rbac,鉴权]
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-permissive-telemetry.yaml@
     {{< /text >}}
 
-1.  现在我们已经验证了授权在打开时按预期工作，在[启用 Istio 授权](#启用-Istio-授权)下面打开授权是安全的。
+1.  现在我们已经验证了授权在打开时按预期工作，在[启用 Istio 授权](#启用-istio-授权)下面打开授权是安全的。
 
 ### 在滚动到生产之前，测试新的授权策略按预期工作
 
@@ -330,7 +330,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 
 这个任务展示了使用 Istio 授权功能配置服务级访问控制的方法。开始之前，请进行下面的确认：
 
-* 已经[启用 Istio 授权](#启用-Istio-授权)
+* 已经[启用 Istio 授权](#启用-istio-授权)
 * 已经[清除命名空间级的访问控制](清除命名空间级的访问控制：
 
 浏览器打开 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。会看到：`RBAC: access denied`。我们会在 Bookinfo 中逐步为服务加入访问许可。

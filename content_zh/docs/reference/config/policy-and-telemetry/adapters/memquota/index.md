@@ -36,4 +36,4 @@ weight: 100
 |name|string|配额名称|
 |maxAmount|int64|配额的上限数量|
 |validDuration|[`google.protobuf.Duration`](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration)|有效的配额持续时间分配。此值只对速率配额有效，否则此值必须为零。|
-|overrides|[`Params.Override[]`](#Override)|配额的覆盖值。首先定义的有效。|
+|overrides|[`Params.Override[]`](#override)|配额的覆盖值。首先定义的有效。|
