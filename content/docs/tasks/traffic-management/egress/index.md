@@ -327,7 +327,7 @@ monitoring of the access to external services.
 
 ### Cleanup the direct access to external services
 
-Update the `istio-sidecar-injector` configmap to redirect all outbound traffic to the sidecar proxies:
+Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect all outbound traffic to the sidecar proxies:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
