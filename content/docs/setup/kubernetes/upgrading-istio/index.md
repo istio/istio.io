@@ -14,7 +14,7 @@ In the following steps, we assume that the Istio components are installed and up
 
 ## Upgrade steps
 
-1. [Download the new Istio release](/docs/setup/kubernetes/download-release/)
+[Download the new Istio release](/docs/setup/kubernetes/download-release/)
 and change directory to the new release directory.
 
 ### Control plane upgrade
