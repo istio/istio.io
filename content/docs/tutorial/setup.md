@@ -29,6 +29,22 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
 1.  **For instructors**: you may want to limit the permissions of each participant so they will be able to create
     resources only in their namespace. Perform the following steps to achieve this:
 
+    1.  Create a role to provide read access to `istio-system` namespace:
+
+        {{< text bash >}}
+        $ kubectl apply -f - <<EOF
+        kind: Role
+        apiVersion: rbac.authorization.k8s.io/v1beta1
+        metadata:
+          name: istio-system-access
+          namespace: istio-system
+        rules:
+        - apiGroups: ["", "extensions", "apps"]
+          resources: ["*"]
+          verbs: ["get", "list"]
+        EOF
+        {{< /text >}}
+
     1.  Create a service account for the user of the namespace and provide access to the namespace's resources to that
     service account:
 
@@ -63,6 +79,20 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
           apiGroup: rbac.authorization.k8s.io
           kind: Role
           name: ${NAMESPACE}-access
+        ---
+        kind: RoleBinding
+        apiVersion: rbac.authorization.k8s.io/v1beta1
+        metadata:
+          name: ${NAMESPACE}-istio-system-access
+          namespace: istio-system
+        subjects:
+        - kind: ServiceAccount
+          name: ${NAMESPACE}-user
+          namespace: $NAMESPACE
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: Role
+          name: istio-system-access
         EOF
         {{< /text >}}
 
