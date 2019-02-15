@@ -46,53 +46,55 @@
                 {{ end }}
             {{ end }}
 
-            {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
-                <p class="byline">
-                    {{- $needBar := false -}}
-                    {{- if .Params.attribution -}}
-                        <span>{{- i18n "page_attribution" -}}</span>
-                        <span class="attribution">{{- .Params.attribution -}}</span>
+            {{ if not .Params.skip_byline }}
+                {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                    <p class="byline">
+                        {{- $needBar := false -}}
+                        {{- if .Params.attribution -}}
+                            <span>{{- i18n "page_attribution" -}}</span>
+                            <span class="attribution">{{- .Params.attribution -}}</span>
 
-                        {{- if .Params.twitter -}}
-                            (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
-                        {{- end -}}
-
-                        {{- $needBar = true -}}
-                    {{- end -}}
-
-                    {{- if ne .PublishDate.Year 0001 -}}
-                        {{- if $needBar -}}
-                            <span> | </span>
-                        {{- end -}}
-
-                        <span>
-                            {{- partial "icon.html" "calendar" -}}
-                            <span>&nbsp;</span>
-                            {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
-
-                            {{- if .Params.last_update -}}
-                                <span>&nbsp;</span>
-                                {{- $date := time .Params.last_update -}}
-                                {{- $date = $date.Format (i18n "page_publish_date_format") -}}
-                                {{- printf (i18n "page_last_update_format") $date -}}
+                            {{- if .Params.twitter -}}
+                                (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
                             {{- end -}}
-                        </span>
 
-                        {{- $needBar = true }}
-                    {{- end -}}
-
-                    {{- if gt .Page.ReadingTime 1 -}}
-                        {{- if $needBar -}}
-                            <span> | </span>
+                            {{- $needBar = true -}}
                         {{- end -}}
 
-                        <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
-                            {{- partial "icon.html" "clock" -}}
-                            <span>&nbsp;</span>
-                            {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
-                        </span>
-                    {{- end -}}
-                </p>
+                        {{- if ne .PublishDate.Year 0001 -}}
+                            {{- if $needBar -}}
+                                <span> | </span>
+                            {{- end -}}
+
+                            <span>
+                                {{- partial "icon.html" "calendar" -}}
+                                <span>&nbsp;</span>
+                                {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
+
+                                {{- if .Params.last_update -}}
+                                    <span>&nbsp;</span>
+                                    {{- $date := time .Params.last_update -}}
+                                    {{- $date = $date.Format (i18n "page_publish_date_format") -}}
+                                    {{- printf (i18n "page_last_update_format") $date -}}
+                                {{- end -}}
+                            </span>
+
+                            {{- $needBar = true }}
+                        {{- end -}}
+
+                        {{- if gt .Page.ReadingTime 1 -}}
+                            {{- if $needBar -}}
+                                <span> | </span>
+                            {{- end -}}
+
+                            <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
+                                {{- partial "icon.html" "clock" -}}
+                                <span>&nbsp;</span>
+                                {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
+                            </span>
+                        {{- end -}}
+                    </p>
+                {{ end }}
             {{ end }}
 
             {{ if $needTOC }}
