@@ -125,6 +125,7 @@ The available front matter fields are:
 |`draft`            | When true, prevents the page from showing up in any navigation area
 |`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
 |`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout

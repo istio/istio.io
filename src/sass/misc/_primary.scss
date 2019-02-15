@@ -1,6 +1,5 @@
 .primary {
     .sidebar-container {
-        min-width: 10em;
         max-width: 25em;
 
         @media print {
@@ -13,7 +12,6 @@
 
     .toc-container {
         display: none;
-        min-width: 5em;
     }
 
     display: grid;
@@ -23,13 +21,9 @@
     padding-right: .5rem;
 
     @media screen AND (min-width: $bp-md) {
-        grid-template-columns: [sidebar] 16% [article] calc(84% - 1rem);
+        grid-template-columns: [sidebar] 20% [article] calc(80% - 1rem);
         padding-left: 1rem;
         padding-right: 1rem;
-    }
-
-    @media screen AND (min-width: $bp-lg) {
-        grid-template-columns: [sidebar] 20% [article] calc(80% - 1rem);
     }
 
     @media screen AND (min-width: $bp-xl) {
