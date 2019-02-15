@@ -30,11 +30,10 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 
 ## Installation steps
 
-1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in Kubernetes API server:
+1. Install all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
 1. To install Istio's core components you can choose any of the following four
@@ -115,9 +114,9 @@ Follow our instructions on how to
     {{< /tip >}}
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
-    `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
-    `istio-pilot-*`, `istio-policy-*`, `istio-statsd-prom-bridge-*`, `istio-telemetry-*`,
-    `prometheus-*`, and, optionally, `istio-sidecar-injector-*`, have a `STATUS` of `Running`:
+    `istio-egressgateway-*`, `istio-galley-*`, `istio-ingressgateway-*`, `istio-pilot-*`,
+    `istio-policy-*`, `istio-telemetry-*`, `prometheus-*`, and, optionally, `istio-ingress-*`,
+    `istio-sidecar-injector-*`, have a `STATUS` of `Running`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -178,5 +177,5 @@ non-existent resources because they may have been deleted hierarchically.
 * If desired, delete the CRDs:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
