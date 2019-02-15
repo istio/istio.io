@@ -173,7 +173,7 @@ non-existent resources because they may have been deleted hierarchically.
     $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* If you installed Istio with Helm, follow the [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall) steps.
+* If you installed Istio with Helm, follow the uninstall steps in [Istio Installation with Helm](/docs/setup/kubernetes/helm-install).
 
 * If desired, delete the CRDs:
 
