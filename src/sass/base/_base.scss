@@ -46,6 +46,10 @@ a.active {
     font-weight: $linkWeight;
 }
 
+a.dropdown-item {
+    cursor: pointer;
+}
+
 table, th, td, tr {
     padding: .5em;
 }
