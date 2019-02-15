@@ -25,7 +25,7 @@ from within your Istio cluster. This task shows you how to access an external HT
 [httpbin.org](http://httpbin.org), as well as an external HTTPS service,
 [www.google.com](https://www.google.com).
 
-### Access to an external HTTP service
+### Access an external HTTP service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
