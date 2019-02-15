@@ -325,7 +325,7 @@ Unlike accessing external services through HTTP or HTTPS, you don't see any head
 external services appear neither in the log of the sidecar nor in the Mixer log. Bypassing the Istio sidecars means you can no longer monitor the access to external services.
 monitoring of the access to external services.
 
-### Cleanup of direct access to external services
+### Cleanup the direct access to external services
 
 Update the `istio-sidecar-injector` configmap to redirect all outbound traffic to the sidecar proxies:
 
