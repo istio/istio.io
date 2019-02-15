@@ -94,7 +94,6 @@ to the Kubernetes API server:
     istio-pilot-5fd885964b-l4df6               2/2       Running     0          2m
     istio-policy-56f4f4cbbd-2z2bk              2/2       Running     0          2m
     istio-sidecar-injector-646655c8cd-rwvsx    1/1       Running     0          2m
-    istio-statsd-prom-bridge-7fdbbf769-8k42l   1/1       Running     0          2m
     istio-telemetry-8687d9d745-mwjbf           2/2       Running     0          2m
     prometheus-55c7c698d6-f4drj                1/1       Running     0          2m
     {{< /text >}}
