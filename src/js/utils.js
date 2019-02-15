@@ -48,3 +48,24 @@ function printText(text) {
     printWin.print();
     printWin.close();
 }
+
+// Navigate to the given URL if possible. If the page doesn't exist then navigate to the
+// root of the target site instead.
+function navigateToUrlOrRoot(url) {
+    const request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 404) {
+            const u = new URL(url);
+            u.pathname = '';
+            url = u.toString();
+        } else {
+            console.log("OK");
+        }
+
+        // go!
+        window.location.href = url;
+    };
+
+    request.send();
+}
