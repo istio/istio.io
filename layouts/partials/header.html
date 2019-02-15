@@ -78,15 +78,15 @@
                         {{ $current := index .Site.Data.releases 1 }}
 
                         {{ if .Site.Data.args.archive }}
-                            <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf (i18n "next_release") $next.name }}</a>
-                            <a href="https://archive.istio.io" class="dropdown-item">{{ i18n "archived_releases" }}</a>
+                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ else if .Site.Data.args.preliminary }}
-                            <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a href="https://archive.istio.io" class="dropdown-item">{{ i18n "archived_releases" }}</a>
+                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                            <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ else }}
-                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf (i18n "next_release") $next.name }}</a>
-                            <a href="https://archive.istio.io" class="dropdown-item">{{ i18n "archived_releases" }}</a>
+                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ end }}
                     </div>
                 </li>
