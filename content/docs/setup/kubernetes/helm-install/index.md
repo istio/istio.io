@@ -42,11 +42,16 @@ The following commands have relative references in the Istio directory. You must
 
 1. Choose one of the following two **mutually exclusive** options described below.
 
+    - To use Kubernetes manifests to deploy Istio, follow the instructions for [option 1](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
+
     {{< tip >}}
     To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
     {{< /tip >}}
 
 ### Option 1: Install with Helm via `helm template`
+
+Choose this option if your cluster doesn't have [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) deployed and you don't want to install it.
 
 1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed to
 the Kubernetes API server:
@@ -65,13 +70,30 @@ the Kubernetes API server:
     If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` and `global.controlPlaneSecurityEnabled` to `true` for the last command:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true >> $HOME/istio.yaml
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+      --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true >> $HOME/istio.yaml
     {{< /text >}}
 
 1. Install the components via the manifest:
 
     {{< text bash >}}
     $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
+
+1. Uninstall steps:
+
+    {{< text bash >}}
+    $ kubectl delete -f $HOME/istio.yaml
+    {{< /text >}}
+
+1. If desired, run the following command to delete all CRDs:
+
+    {{< warning >}}
+    Deleting CRDs deletes any configuration changes that you have made to Istio.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -98,10 +120,10 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify all the Istio's CRDs have been committed to the Kubernetes API server by checking all the CRD creation jobs complete with success:
+1. To verify all Istio's CRDs were committed in the Kubernetes api-server, check the number of CRDs with the specified suffix with the following command. Verify that the number of total CRDs created was `56` for Istio:
 
     {{< text bash >}}
-    $ kubectl get job --namespace istio-system | grep istio-init-crd
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
     {{< /text >}}
 
 1. Install the `istio` chart:
@@ -116,32 +138,24 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
     {{< /text >}}
 
-## Uninstall
+1. Uninstall steps:
 
-* For option 1, uninstall using `kubectl`:
-
-    {{< text bash >}}
-    $ kubectl delete -f $HOME/istio.yaml
-    {{< /text >}}
-
-* For option 2, uninstall using Helm:
-
-    {{< tip >}}
-    Uninstalling this chart does not delete Istio's registered CRDs. Istio by design expects
-    CRDs to leak into the Kubernetes environment. As CRDs contain all runtime configuration
-    data in custom resources the Istio designers feel it is better to explicitly delete this
-    configuration rather then unexpectedly lose it.
-    {{< /tip >}}
+    {{< warning >}}
+    Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
+    CRDs to leak into the Kubernetes environment. As CRDs contain all the runtime configuration
+    data needed to configure Istio. Because of this, we consider it better for operators to
+    explicitly delete the runtime configuration data rather than unexpectedly lose it.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ helm delete --purge istio
     $ helm delete --purge istio-init
     {{< /text >}}
 
-* If desired, run the following command to delete all CRDs:
+1. If desired, run the following command to delete all CRDs:
 
     {{< warning >}}
-    Deleting CRDs will delete any configuration changes that you have made to Istio.
+    Deleting CRDs deletes any configuration changes that you have made to Istio.
     {{< /warning >}}
 
     {{< text bash >}}
