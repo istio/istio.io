@@ -448,7 +448,7 @@ However, configuring the proxy this way does require cluster provider specific k
 In addition to that, you loose monitoring of access to external services and cannot apply Istio features on traffic to
 external services.
 
-The third approach directs the traffic through the Istio sidecar proxy, however it allows access to any service on any
+The third approach directs the traffic through the Istio sidecar proxy but it allows access to any service on any
 ports that have no HTTP service inside the mesh and no service entry defined. With this approach, like with the
 previous one, you cannot monitor access to external services. The advantage of this approach is that you don't need to
 know which IP ranges are external to the cluster. Additionally, you can easily switch to the first approach
