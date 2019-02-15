@@ -79,7 +79,7 @@ configure the steps below successfully, you will be able to access the applicati
     $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
     {{< /text >}}
 
-1.  Create Kuberentes Ingress:
+1.  Create Kubernetes Ingress:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -110,7 +110,7 @@ configure the steps below successfully, you will be able to access the applicati
 1.  Append the output of the following command to `/etc/hosts`:
 
     {{< text bash >}}
-    $ kubectl get ingress bookinfo -o jsonpath='{..ip} {..host}'
+    $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
     {{< /text >}}
 
 1.  Access the application home page from the command line:
