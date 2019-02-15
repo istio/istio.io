@@ -168,7 +168,8 @@ Similar to inter-cluster requests, Istio
 can also be set for external services that are accessed using `ServiceEntry` configurations.
 In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
-1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the httpbin.org external service:
+1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the
+    httpbin.org external service:
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep sh
@@ -230,13 +231,17 @@ If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/#communication-between-services)
 the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
-[Helm](/docs/reference/config/installation-options/) and updating the `istio-sidecar-injector` configmap by using `kubectl apply`. After `istio-sidecar-injector` is updated, the value of `global.proxy.includeIPRanges` will affect all the future deployments of the application pods.
+[Helm](/docs/reference/config/installation-options/) and
+updating the `istio-sidecar-injector` configmap by using `kubectl apply`.
+After `istio-sidecar-injector` is updated, the value of `global.proxy.includeIPRanges` will affect all the future
+deployments of the application pods.
 
 The simplest way to use the `global.proxy.includeIPRanges` variable is to pass it the IP range(s)
 used for internal cluster services, thereby excluding external IPs from being redirected
 to the sidecar proxy.
 The values used for internal IP range(s), however, depends on where your cluster is running.
-For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `istio-sidecar-injector` configmap like this:
+For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `istio-sidecar-injector` configmap
+like this:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
@@ -277,7 +282,8 @@ Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.
 
 #### Google Container Engine (GKE)
 
-The ranges are not fixed, so you will need to run the `gcloud container clusters describe` command to determine the ranges to use. For example:
+The ranges are not fixed, so you will need to run the `gcloud container clusters describe` command to determine the
+ranges to use. For example:
 
 {{< text bash >}}
 $ gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
@@ -306,7 +312,8 @@ Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
 
 After updating the `istio-sidecar-injector` configmap and redeploying the `sleep` application,
 the Istio sidecar will only intercept and manage internal requests
-within the cluster. Any external request bypasses the sidecar and goes straight to its intended destination. For example:
+within the cluster. Any external request bypasses the sidecar and goes straight to its intended destination.
+For example:
 
 {{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -340,9 +347,9 @@ external services. This option allows you to start evaluating Istio quickly, wit
 services, and decide to [configure access to external services](#controlled-access-to-external-services) later.
 
 Istio has an installation option that allows access to any external service on any ports that have no HTTP service and
-no service entry defined inside the mesh. For example, if there is no registered HTTP service or service entry defined for
-port 8000 inside the mesh, the sidecar proxy can be configured to pass the request on to any external service on that
-port.
+no service entry defined inside the mesh.
+For example, if there is no registered HTTP service or service entry defined for port 8000 inside the mesh, the sidecar
+proxy can be configured to pass the request on to any external service on that port.
 Note, however, that if you later create an HTTP service inside the mesh on port 8000 or define any service entry for any
 host on port 8000, all external accesses to port 8000 will be blocked: Istio will fall back to the blocking-by-default
 behavior for that port.
@@ -443,16 +450,17 @@ The third approach directs the traffic through the Istio sidecar proxy, however 
 ports that have no HTTP service inside the mesh and no service entry defined. With this approach, like with the
 previous one, you cannot monitor access to external services. The advantage of this approach is that you don't need to
 know which IP ranges are external to the cluster. Additionally, you can easily switch to the first approach
-for a specific port: simply create a service entry for that port. You can use this approach to start using Istio allowing access
-to any external service and then decide to start controlling access to external services for specific ports.
+for a specific port: simply create a service entry for that port.
+You can use this approach to start using Istio allowing access to any external service and then decide to start
+controlling access to external services for specific ports.
 Then, you can enable traffic monitoring and control features once they are needed.  Some ports, for example port 80,
-already have HTTP services inside Istio by default. Because of this caveat, you can only use the first and second approaches for those ports.
+already have HTTP services inside Istio by default.
+Because of this caveat, you can only use the first and second approaches for those ports.
 
 ## Security note
 
 {{< warning >}}
-Note that configuration examples in this task **do not enable secure egress traffic control** in
-Istio.
+Note that configuration examples in this task **do not enable secure egress traffic control** in Istio.
 A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
 {{< /warning >}}
 
