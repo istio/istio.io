@@ -36,6 +36,34 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
 1.  **For instructors**: you may want to allocate a separate namespace per different participant. The tutorial supports
     work in multiple namespaces simultaneously by multiple participants.
 
+1.  Create a Kubernetes Ingress resource for common Istio services:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: istio-system
+      namespace: istio-system
+    spec:
+      rules:
+      - host: my-istio-dashboard.io
+        http:
+          paths:
+          - path: /
+            backend:
+              serviceName: grafana
+              servicePort: 3000
+      - host: my-istio-tracing.io
+        http:
+          paths:
+          - path: /
+            backend:
+              serviceName: tracing
+              servicePort: 80
+    EOF
+    {{< /text >}}
+
 1.  **For instructors**: you may want to limit the permissions of each participant so they will be able to create
     resources only in their namespace. Perform the following steps to achieve this:
 
