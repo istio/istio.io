@@ -26,7 +26,7 @@ serve user requests.
     spec:
       peers:
     EOF
-    $ kubectl create -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
 1.  Redeploy the _productpage_ microservice, Istio-enabled:

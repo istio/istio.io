@@ -52,7 +52,7 @@ microservices in your namespace.
       peers:
       - mtls: {}
     EOF
-    $ kubectl create -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     {{< /text >}}
 
 
