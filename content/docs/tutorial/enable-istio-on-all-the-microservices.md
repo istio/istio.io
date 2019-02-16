@@ -34,7 +34,6 @@ Previously you deployed the Istio control plane and enabled Istio on a single mi
     details-v1-58c68b9ff-kz9lf        2/2       Running   0          2m
     productpage-v1-59b4f9f8d5-d4prx   2/2       Running   0          2m
     ratings-v1-b7b7fbbc9-sggxf        2/2       Running   0          2m
-    reviews-v1-6f954d668-d7w4l        2/2       Running   0          2m
     reviews-v2-dfbcf859c-27dvk        2/2       Running   0          2m
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     sleep-88ddbcfdd-flvp6             1/1       Running   0          7h
