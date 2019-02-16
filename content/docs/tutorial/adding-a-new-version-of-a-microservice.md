@@ -6,7 +6,8 @@ weight: 50
 
 ---
 
-Let's deploy a new version of the _reviews_ microservice, namely _v2_, the one that will return the ratings provided by reviewers, as a number of stars, with the color of stars. In real life, You would perform lint tests, unit tests,
+Let's deploy a new version of the _reviews_ microservice, namely _v2_, the one that will return the ratings provided by
+reviewers, as a number of stars, with the color of stars. In real life, You would perform lint tests, unit tests,
 integration tests, end-to-end tests and tests in a staging environment, before the deployment.
 
 1.  Deploy the new version of the _reviews_ microservice without the `app=reviews` label. Without that label, the new
