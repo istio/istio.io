@@ -115,7 +115,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
     {{< /text >}}
 
-1.  Visit <http://localhost:20001/kiali> in your web browser.
+1.  Visit <http://localhost:20001/kiali/console> in your web browser.
 
 1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
