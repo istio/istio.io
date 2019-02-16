@@ -6,37 +6,118 @@ weight: 80
 
 ---
 
-In this module we will deploy a new version of the _reviews_ microservice again,
-this time with Istio enabled. We will release our new version to the `jason` user only (`jason` is our tester). It will allow the `jason` user to test the whole application end-to-end in production, with our new version.
+In this module you deploy a new version of the _reviews_ microservice, _v3_. This version displays ratings as red stars
+(_v2_ displayed ratings as black stars). In this and a couple of next modules, you will learn how deploying a new
+version of a microservice can be made simple, effective and safe with Istio.
 
-1.  Let's specify a routing rule to send all production traffic to version _v1_ of all the microservices:
+First, you want your new version to be accessible to testers only and not to the real clients. In this module you deploy
+a new version and enable traffic to it for a tester with login name `jason`.
+
+1.  Create destination rules to specify subsets of versions of microservices. You need it to be able to control which
+    traffic arrives to which version.
 
     {{< text bash >}}
-    $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+    $ kubectl create -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    destinationrule "productpage" created
+    destinationrule "reviews" created
+    destinationrule "ratings" created
+    destinationrule "details" created
     {{< /text >}}
 
-1.  Let's deploy our new version of the _reviews_ microservice. This time we will deploy the microservice's pod with the _app_ label, so the Kubernetes _reviews service_ will apply to it. Still, we are safe: no traffic will arrive to our new version of the _reviews_ microservice thanks to the route rule ([samples/bookinfo/kube/route-rule-all-v1.yaml](https://github.com/istio/istio/blob/master/samples/bookinfo/kube/route-rule-all-v1.yaml)) we defined in the previous step.
+1.  Create a virtual service to limit the traffic to _reviews_ microservice to the _v1_ and _v2_ versions:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+        - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+          weight: 50
+        - destination:
+            host: reviews
+            subset: v2
+          weight: 50
+    EOF
     {{< /text >}}
 
-1.  Let's access the application's web page multiple times and verify that our new version is not called.
+1.  Access your application's webpage and verify that it works as previously, in particular you see reviews as black
+    stars or without stars, intermittently.
 
-1.  Now, let's apply an Istio [route rule]({{home}}/docs/reference/config/istio.routing.v1alpha1.html) to allow the `jason` user to access our new version for testing:
+1.  Deploy a new version of the _reviews_ microservice, _v3_.
+    Note that you are safe to deploy it: no traffic will arrive to your new version of the _reviews_ microservice
+    thanks to the virtual service you defined in the previous step.
 
     {{< text bash >}}
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    $ kubectl apply -l app=reviews,version=v3 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    deployment "reviews-v3" created
     {{< /text >}}
 
-1.  Let's login as `jason` (any password would do). We will see that now the reviews have black stars (our new version is used). Now we can let a human tester or a testing tool test our new version as part of the whole application.
-
-1.  We verify that our new version of the _reviews_ microserice works correctly with all other microservices in production. We test the whole application, end-to-end, with the new version of the _reviews_ microservice.
-
-1.  Let's logout. Now all the reviews appear without stars (our old version is used).
-
-1.  We can query our routing rules:
+1.  Check the pods of `reviews`. Note that you have three pods each of the different version, and each of them has two
+    containers (an Istio sidecar was injected automatically in the `reviews v3`).
 
     {{< text bash >}}
-    $ istioctl get routerules
+    $ kubectl get pods -l app=reviews
+    NAME                          READY     STATUS    RESTARTS   AGE
+    reviews-v1-6f954d668-d7w4l    2/2       Running   0          4h
+    reviews-v2-dfbcf859c-27dvk    2/2       Running   0          4h
+    reviews-v3-6cf47594fd-gnsxj   2/2       Running   0          2m
+    {{< /text >}}
+
+1.  Access the application's web page multiple times and verify that your new version is not called, that is you
+    do not see red stars as ratings.
+
+1.  Create an Istio virtual service to allow the `jason` user to access your new version for testing:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+        - reviews
+      http:
+      - match:
+        - headers:
+            end-user:
+              exact: jason
+        route:
+        - destination:
+            host: reviews
+            subset: v3
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+          weight: 50
+        - destination:
+            host: reviews
+            subset: v2
+          weight: 50
+    EOF
+    {{< /text >}}
+
+1.  Use the _Sign in_ button in the top right corner to sign in as `jason` (any password would do).
+    You will see that now the ratings have red stars which means that your new version is used.
+    You can let a human tester test your new version as part of the whole application or use some automatic testing
+    tool. This way you verify that your new version of the _reviews_ microserice works correctly with all other
+    microservices in production. You test the whole application, end-to-end, with the new version.
+
+1.  Sign out. Now all the ratings appear without stars or with black stars which means that your old versions are used.
+
+1.  You can query your virtual services:
+
+    {{< text bash >}}
+    $ kubectl get virtualservices
+    NAME      AGE
+    reviews   22m
     {{< /text >}}
