@@ -1,5 +1,5 @@
 ---
-title: Enable Mutual TLS Authentication
+title: Enable mutual TLS Authentication with Istio
 overview: Enable Mutual TLS Authentication on the traffic between microservices
 weight: 75
 
