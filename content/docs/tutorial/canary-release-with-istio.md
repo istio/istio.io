@@ -13,17 +13,6 @@ version of a microservice can be made simple, effective and safe with Istio.
 First, you want your new version to be accessible to testers only and not to the real clients. In this module you deploy
 a new version and enable traffic to it for a tester with login name `jason`.
 
-1.  Create destination rules to specify subsets of versions of microservices. You need it to be able to control which
-    traffic arrives to which version.
-
-    {{< text bash >}}
-    $ kubectl create -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
-    destinationrule "productpage" created
-    destinationrule "reviews" created
-    destinationrule "ratings" created
-    destinationrule "details" created
-    {{< /text >}}
-
 1.  Create a virtual service to limit the traffic to _reviews_ microservice to the _v1_ and _v2_ versions:
 
     {{< text bash >}}
