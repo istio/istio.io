@@ -25,6 +25,16 @@ serve user requests.
       name: default
     spec:
       peers:
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: default
+    spec:
+      host: "*.local"
+      trafficPolicy:
+        tls:
+          mode: DISABLE
     EOF
     {{< /text >}}
 
