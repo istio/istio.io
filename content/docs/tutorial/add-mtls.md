@@ -72,5 +72,14 @@ microservices in your namespace.
     your microservices, except from the frontend microservice, only from pods with Istio sidecars injected and only if
     the traffic is encrypted by the sidecar.
 
+1.  Access the Istio dashboard at
+    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). Check _ratings_ in _Istio Service Dashboard_. Notice that now a lock icon with text `mTLS` appears in
+    _Service Workload_.
+
+    {{< image width="80%"
+        link="images/dashboard-ratings-mtls.png"
+        caption="Istio Service Dashboard"
+        >}}
+
 Note that you made all the traffic between the pods in your cluster encrypted, transparently to your microservice, that
 is you changed neither code nor configuration of your microservices.
