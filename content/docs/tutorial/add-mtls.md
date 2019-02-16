@@ -80,31 +80,5 @@ microservices in your namespace.
     your microservices, except from the frontend microservice, only from pods with Istio sidecars injected and only if
     the traffic is encrypted by the sidecar.
 
-1.  Inject an Istio sidecar into your testing pod:
-
-    {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml | istioctl kube-inject -f - | kubectl apply -f -
-    serviceaccount "sleep" unchanged
-    service "sleep" unchanged
-    deployment "sleep" configured
-    {{< /text >}}
-
-1.  Check the sleep pod and see that now it has two containers. Wait for the old pods to terminate:
-
-    {{< text bash >}}
-    $ kubectl get pods -l app=sleep
-    NAME                    READY     STATUS    RESTARTS   AGE
-    sleep-ccb8594c9-8pmz5   2/2       Running   0          2m
-    {{< /text >}}
-
-1.  Resend the request to _ratings_ from your testing pod:
-
-    {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl http://ratings:9080/ratings/7
-    {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
-    {{< /text >}}
-
-    This time the request succeeds, since your testing pod now has an Istio sidecar that encrypts outgoing traffic for it.
-
 Note that you made all the traffic between the pods in your cluster encrypted, transparently to your microservice, that
 is you changed neither code nor configuration of your microservices.
