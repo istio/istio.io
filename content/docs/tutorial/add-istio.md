@@ -15,14 +15,14 @@ microservice by microservice. Also note that Istio is enabled transparently to t
 microservices code. And also note that you enable Istio without disrupting our application, it continues to run and
 serve user requests.
 
-1.  Disable mututal TLS for _productpage_ microservice:
+1.  Disable mututal TLS in your namespace (will be explained later):
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: "authentication.istio.io/v1alpha1"
     kind: Policy
     metadata:
-      name: disable-mtls
+      name: default
     spec:
       peers:
     EOF
