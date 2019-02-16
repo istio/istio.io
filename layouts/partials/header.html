@@ -78,14 +78,14 @@
                         {{ $current := index .Site.Data.releases 1 }}
 
                         {{ if .Site.Data.args.archive }}
-                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
                             <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ else if .Site.Data.args.preliminary }}
-                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
                             <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ else }}
-                            <a class="dropdown-item" href="#" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
                             <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ end }}
                     </div>
