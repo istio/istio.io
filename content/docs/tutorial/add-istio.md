@@ -35,7 +35,7 @@ serve user requests.
     deployment "productpage-v1" configured
     {{< /text >}}
 
-1.  Access the application and verify that the application continues to work. Note that Istio was added
+1.  Access the application's webpage and verify that the application continues to work. Note that Istio was added
     **transparently**, the code of the original application did not change.
 
 1.  Check the the _productpage_'s pods and see that now each replica has two containers.
@@ -62,13 +62,28 @@ serve user requests.
     [2019-02-15T09:06:04.053Z] "GET /productpage HTTP/1.1" 200 - 0 5723 90 83 "10.127.220.66" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "18710783-58a1-9e5f-992c-9ceff05b74c5" "tutorial.bookinfo.com" "127.0.0.1:9080" inbound|9080|http|productpage.tutorial.svc.cluster.local - 172.30.146.104:9080 10.127.220.66:0 -
     {{< /text >}}
 
-1.  Check the dashboard, access `my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`. In the top left drop-down
-    menu, select _Istio Service Dashboard_, and then `productpage` service from your namespace, it is name should be
-    `productpage.<your namespace>.svc.cluster.local`.
+1.  Check the Istio dashboard, access `http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`. In the top left
+    drop-down menu, select _Istio Mesh Dashboard_. Notice the `productpage` service from your namespace, it's name
+    should be `productpage.<your namespace>.svc.cluster.local`.
 
-    This is the immediate gain you get by applying Istio even on a single microservice. You can get logs of traffic to
-    and from the microservice, including time, HTTP method, path, response code. You can monitor your microservice using
-    Istio dashboard.
-    In the next modules you will learn the functionality Istio can provide to your applications. While some of Istio
-    functionality is relevant when applied even to a single microservice, for expediency's sake you will apply Istio on
-    the whole application to exploit its full potential.
+    {{< image width="80%"
+        link="images/dashboard-mesh.png"
+        caption="Istio Mesh Dashboard"
+        >}}
+
+    Select _Istio Service Dashboard_ from the top left drop-down menu, and then select your `productpage` service from
+    the drop-down menu of services.
+    Scroll down to the _Service Workloads_ section. Access the application's webpage several times and see that the
+    dashboard graphs are updated.
+
+    {{< image width="80%"
+        link="images/dashboard-service.png"
+        caption="Istio Service Dashboard"
+        >}}
+
+This is the immediate gain you get by applying Istio even on a single microservice. You can get logs of traffic to
+and from the microservice, including time, HTTP method, path, response code. You can monitor your microservice using
+the Istio dashboard.
+In the next modules you will learn the functionality Istio can provide to your applications. While some of Istio
+functionality is relevant when applied even to a single microservice, for expediency's sake you will apply Istio on
+the whole application to exploit its full potential.
