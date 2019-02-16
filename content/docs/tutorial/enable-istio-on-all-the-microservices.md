@@ -31,7 +31,8 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
     deployment "sleep" configured
     {{< /text >}}
 
-1.  Access the application. Note that Istio was added **transparently**, the original application did not change.
+1.  Access the application's webpage several times. Note that Istio was added **transparently**, the original
+    application did not change.
     It was added on the fly, without the need to undeploy and redeploy the whole application, without hurting the
     application's availability.
 
