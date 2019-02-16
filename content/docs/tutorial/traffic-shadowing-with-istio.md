@@ -9,7 +9,7 @@ weight: 90
 The next step in deploying a new version of a microservice is to perform [traffic shadowing](https://blog.christianposta.com/microservices/advanced-traffic-shadowing-patterns-for-microservices-with-istio-service-mesh/). You will shadow the
 traffic destined to _reviews_ to _reviews v3_ and verify that your new version provides correct results without errors.
 
-1.  Add a virtual service to route traffic to _reviews v1_ and _reviews v2_, while shadowing traffic to _reviews 2_
+1.  Add a virtual service to route traffic to _reviews v2_, while shadowing traffic to _reviews 2_
     (using the
       [HTTP route _mirror_ attribute](http://localhost:1313/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute)
     ):
@@ -27,20 +27,15 @@ traffic destined to _reviews_ to _reviews v3_ and verify that your new version p
       - route:
         - destination:
             host: reviews
-            subset: v1
-          weight: 50
-        - destination:
-            host: reviews
             subset: v2
-          weight: 50
         mirror:
           host: reviews
           subset: v3
     EOF
     {{< /text >}}
 
-1.  Access the webpage of the application a couple of times. You'll see that the red ratings stars are not displayed
-    which means that _reviews v1_ and _reviews v2_ are called as previously.
+1.  Access the webpage of the application a couple of times. You'll see that the black ratings stars are displayed
+    which means that _reviews v2_ are called as previously.
     Examine the logs of the sidecar proxy of _reviews v3_:
 
     {{< text bash >}}
