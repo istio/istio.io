@@ -51,3 +51,5 @@ have Istio sidecar injected automatically.
 
     This time the request succeeds, since your testing pod now has an Istio sidecar that encrypts outgoing traffic for
     it.
+
+From now on, all the new versions of your microservices will have Istio sidecars injected automatically.
