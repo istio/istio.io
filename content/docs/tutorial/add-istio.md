@@ -87,6 +87,13 @@ serve user requests.
     [2019-02-15T09:06:04.053Z] "GET /productpage HTTP/1.1" 200 - 0 5723 90 83 "10.127.220.66" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "18710783-58a1-9e5f-992c-9ceff05b74c5" "tutorial.bookinfo.com" "127.0.0.1:9080" inbound|9080|http|productpage.tutorial.svc.cluster.local - 172.30.146.104:9080 10.127.220.66:0 -
     {{< /text >}}
 
+1.  Output the name of your namespace. You will need it to recognize your microservices in the Istio dashboard:
+
+    {{< text bash >}}
+    $ echo $(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
+    tutorial
+    {{< /text >}}
+
 1.  Check the Istio dashboard, access
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
     In the top left drop-down menu, select _Istio Mesh Dashboard_. Notice the `productpage` service from your namespace,
