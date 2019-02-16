@@ -51,18 +51,10 @@ microservices in your namespace.
     spec:
       peers:
       - mtls: {}
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: default
-    spec:
-      host: "*.local"
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
     EOF
+    $ kubectl create -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     {{< /text >}}
+
 
 1.  Access your application's web page and verify that everything continued to work as expected.
 

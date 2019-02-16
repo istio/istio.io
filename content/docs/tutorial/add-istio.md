@@ -25,17 +25,8 @@ serve user requests.
       name: default
     spec:
       peers:
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: default
-    spec:
-      host: "*.local"
-      trafficPolicy:
-        tls:
-          mode: DISABLE
     EOF
+    $ kubectl create -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
 1.  Redeploy the _productpage_ microservice, Istio-enabled:
