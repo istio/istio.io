@@ -234,7 +234,7 @@ which creates a Kubernetes `selector-less` service.
     $ istioctl  register vmhttp 0.0.0.0 8080
     {{< /text >}}
 
-1. We deploy a sleep pod in Kubernetes cluster, and wait for the sleep pod to be ready.
+1. We deploy a sleep pod in Kubernetes cluster, and wait for the pod to be ready.
 
     {{< text bash >}}
     $ kubectl apply -f samples/sleep/sleep.yaml
@@ -245,7 +245,7 @@ which creates a Kubernetes `selector-less` service.
     ...
     {{< /text >}}
 
-1. Then send a request from sleep container to the VM serivce.
+1. Send a request from sleep container to VM HTTP service.
 
     {{< text bash >}}
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -- curl vmhttp:8080
