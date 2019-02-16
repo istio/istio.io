@@ -43,6 +43,21 @@ serve user requests.
 
     {{< text bash >}}
     $ kubectl get pods
+    details-v1-68868454f5-8nbjv       1/1       Running   0          7h
+    details-v1-68868454f5-nmngq       1/1       Running   0          7h
+    details-v1-68868454f5-zmj7j       1/1       Running   0          7h
+    productpage-v1-6dcdf77948-6tcbf   2/2       Running   0          7h
+    productpage-v1-6dcdf77948-t9t97   2/2       Running   0          7h
+    productpage-v1-6dcdf77948-tjq5d   2/2       Running   0          7h
+    ratings-v1-76f4c9765f-khlvv       1/1       Running   0          7h
+    ratings-v1-76f4c9765f-ntvkx       1/1       Running   0          7h
+    ratings-v1-76f4c9765f-zd5mp       1/1       Running   0          7h
+    reviews-v1-56f6855586-cnrjp       1/1       Running   0          7h
+    reviews-v1-56f6855586-lxc49       1/1       Running   0          7h
+    reviews-v1-56f6855586-qh84k       1/1       Running   0          7h
+    sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
+    sleep-88ddbcfdd-flvp6             1/1       Running   0          7h
+    sleep-88ddbcfdd-zpn8m             1/1       Running   0          11h
     {{< /text >}}
 
 1.  Note that Kubernetes replaced the original pods of _productpage_ with the Istio-enabled pods, transparently and
