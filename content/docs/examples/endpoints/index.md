@@ -26,7 +26,7 @@ To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine]
 ## HTTP Endpoints service
 
 1. Inject the service into the mesh using `--includeIPRanges` by following the
-[instructions](/docs/tasks/traffic-management/egress/#calling-external-services-directly)
+[instructions](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)
 so that Egress is allowed to call external services directly.
 Otherwise, ESP won't be able to access Google cloud service control.
 
