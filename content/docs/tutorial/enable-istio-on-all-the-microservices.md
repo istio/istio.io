@@ -51,3 +51,6 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
         link="images/dashboard-mesh-all.png"
         caption="Istio Mesh Dashboard"
         >}}
+
+Now, once you enabled Istio on your whole application, you can explore the Istio functionality in its full potential.
+You will do it in the following modules.
