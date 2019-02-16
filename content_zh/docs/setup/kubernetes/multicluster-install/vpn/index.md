@@ -54,7 +54,7 @@ aliases:
 
 等待 Istio 控制平面完成初始化，然后再执行本节中的步骤。
 
-你必须在 Istio 控制平面上运行这些操作以捕获 Istio 控制平面服务端点，如：Pilot、Policy端点。
+你必须在 Istio 控制平面上运行这些操作以捕获 Istio 控制平面服务端点，如：Pilot、Policy 端点。
 
 如果你在每个远程组件上使用 Helm 和 Tiller，你必须将环境变量复制到每个节点，然后再使用 Helm 将远程集群连接到 Istio 控制平面。
 
@@ -377,7 +377,7 @@ pod 重启的一个简单的解决方案是给 Istio 服务使用负载均衡器
 ### 通过网关暴露 Istio 服务
 
 此方法使用了 Istio ingress 网关的功能。远程集群有 `istio-pilot`、`istio-telemetry`、 `istio-policy`、
-和 `zipkin` 服务，它们指向了 Istio ingress 网关的负载均衡 IP 地址。然后，所有的服务均指向相同的IP 地址。你必须创建目标规则以在主集群的 ingress 网关中获得正确的 Istio 服务。
+和 `zipkin` 服务，它们指向了 Istio ingress 网关的负载均衡 IP 地址。然后，所有的服务均指向相同的 IP 地址。你必须创建目标规则以在主集群的 ingress 网关中获得正确的 Istio 服务。
 
 以下两种方案可供选择：
 
