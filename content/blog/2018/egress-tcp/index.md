@@ -332,7 +332,7 @@ Also note that the IPs of an external service are not always static, for example
 be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible
 IPs is known, you should specify the range by CIDR blocks. If the range of the possible IPs is not known, service
 entries for TCP cannot be used and
-[the external services must be called directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly),
+[the external services must be called directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services),
 bypassing the sidecar proxies.
 
 ## Relation to mesh expansion
