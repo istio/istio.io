@@ -21,9 +21,9 @@ version will not be selected to provide the _reviews_ service. As such, it will 
 
 1.  Access your application and see that the deployed microservice did not disrupt it. So far so good.
 
-1.  Test the new version of our microservice from inside the cluster. Use the testing container you deployed
+1.  Test the new version of your microservice from inside the cluster. Use the testing container you deployed
     earlier. Note that your new version hits the production pods of the _ratings_ microservice during the test. Also
-    note that you have to access our new version of the microservice by its pod IP, since it is not selected for the
+    note that you have to access your new version of the microservice by its pod IP, since it is not selected for the
     _reviews_ service.
 
     1.  Get the IP of the pod:
@@ -48,7 +48,7 @@ version will not be selected to provide the _reviews_ service. As such, it will 
         ...
         {{< /text >}}
 
-1.  Now you are rather confident that our new version of _reviews_ will work and you can release it.
+1.  Now you are rather confident that your new version of _reviews_ will work and you can release it.
     You will release a single replica of it into production so the real production traffic will arrive to your new
     version. With the current setting, 75% of the traffic will arrive to the old version (three pods of the old
     version) and 25% will arrive to the new version (one pod).
@@ -81,7 +81,7 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     deployment "reviews-v2" created
     {{< /text >}}
 
-7.  Next you increase the replicas of our new version. You can do it gradually, carefully checking that the number of
+7.  Next you increase the replicas of your new version. You can do it gradually, carefully checking that the number of
     errors does not increase:
 
     {{< text bash >}}
@@ -103,12 +103,12 @@ production traffic. You tested it in the production environment, on test traffic
 You checked that the new version new version provides correct results. You released the new version,
 gradually increasing the production traffic to it. Finally, You decommissioned the old version.
 
-It all went well, however you want to improve our release strategy. First, you want to allow our testers to test the new
-version end-to-end in production.
-For that you need an ability to drive traffic to our new version by request parameters, for example by the user name
-stored in a cookie. In addition, you would like to perform _shadowing_ of the production traffic to our new version and
-checking if our new version provides incorrect results or produces any errors. Finally, you would like to be more
-fine-grained with our rollout. You would like to release our new version to 10% of the users and then increase it by
+It all went well, however you want to improve your release strategy. First, you want to allow your testers to test the
+new version end-to-end in production.
+For that you need an ability to drive traffic to your new version by request parameters, for example by the user name
+stored in a cookie. In addition, you would like to perform _shadowing_ of the production traffic to your new version and
+checking if your new version provides incorrect results or produces any errors. Finally, you would like to be more
+fine-grained with your rollout. You would like to release your new version to 10% of the users and then increase it by
 10%. Kubernetes is unable to help with any of these tasks in a straightforward way.
 
 Now you have two choices:
@@ -116,14 +116,14 @@ Now you have two choices:
 1. Implement the required functionality in the application code.
 Most of the functionality is already available in various libraries, for example in the Netflix's
 [Hystrix](https://github.com/Netflix/Hystrix) library  for the Java programming language.
-However, now You have to change our code to call the functions from the libraries.
-You have to put additional effort, our code will bloat, business logic will be mixed with reporting, routing, policies,
+However, now You have to change your code to call the functions from the libraries.
+You have to put additional effort, your code will bloat, business logic will be mixed with reporting, routing, policies,
 networking logic.
-Since our microservices use different programming languages You have to learn, use, update multiple libraries.
+Since your microservices use different programming languages You have to learn, use, update multiple libraries.
 You are not happy with this option.
 
 1. Use a service mesh. In a service mesh, you put all the reporting, routing, policies, security logic in _sidecar_
-proxies, injected into our pods *transparently* to our application. The business logic remains in the code of the
+proxies, injected into your pods *transparently* to your application. The business logic remains in the code of the
 application, no changes are required to the application code.
 
 Enters [Istio service mesh](/). Istio can perform the tasks mentioned here and much more.
