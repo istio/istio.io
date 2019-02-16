@@ -13,7 +13,7 @@ version of a microservice can be made simple, effective and safe with Istio.
 First, you want your new version to be accessible to testers only and not to the real clients. In this module you deploy
 a new version and enable traffic to it for a tester with login name `jason`.
 
-1.  Create a virtual service to limit the traffic to _reviews_ microservice to the _v1_ and _v2_ versions:
+1.  Create a virtual service to limit the traffic to the _reviews_ microservice to the _v2_ version:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -28,17 +28,12 @@ a new version and enable traffic to it for a tester with login name `jason`.
       - route:
         - destination:
             host: reviews
-            subset: v1
-          weight: 50
-        - destination:
-            host: reviews
             subset: v2
-          weight: 50
     EOF
     {{< /text >}}
 
 1.  Access your application's webpage and verify that it works as previously, in particular you see reviews as black
-    stars or without stars, intermittently.
+    stars.
 
 1.  Deploy a new version of the _reviews_ microservice, _v3_.
     Note that you are safe to deploy it: no traffic will arrive to your new version of the _reviews_ microservice
@@ -55,7 +50,6 @@ a new version and enable traffic to it for a tester with login name `jason`.
     {{< text bash >}}
     $ kubectl get pods -l app=reviews
     NAME                          READY     STATUS    RESTARTS   AGE
-    reviews-v1-6f954d668-d7w4l    2/2       Running   0          4h
     reviews-v2-dfbcf859c-27dvk    2/2       Running   0          4h
     reviews-v3-6cf47594fd-gnsxj   2/2       Running   0          2m
     {{< /text >}}
@@ -86,12 +80,7 @@ a new version and enable traffic to it for a tester with login name `jason`.
       - route:
         - destination:
             host: reviews
-            subset: v1
-          weight: 50
-        - destination:
-            host: reviews
             subset: v2
-          weight: 50
     EOF
     {{< /text >}}
 
@@ -101,7 +90,7 @@ a new version and enable traffic to it for a tester with login name `jason`.
     tool. This way you verify that your new version of the _reviews_ microserice works correctly with all other
     microservices in production. You test the whole application, end-to-end, with the new version.
 
-1.  Sign out. Now all the ratings appear without stars or with black stars which means that your old versions are used.
+1.  Sign out. Now all the ratings appear with black stars which means that your old versions are used.
 
 1.  You can query your virtual services:
 
