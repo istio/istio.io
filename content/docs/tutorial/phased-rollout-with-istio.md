@@ -6,22 +6,50 @@ weight: 100
 
 ---
 
-In this module, we will start phased rollout of _reviews v2_. After performing unit tests, integration tests, end-to-end tests, tests in the staging environment, and finally canary deployment and traffic shadowing, we are pretty confident. Now we can start directing live traffic from the real users. We will perform it gradually, first to 10% of the users, then to 20% and so on.
+In this module, you perform phased rollout of _reviews v2_. After performing unit tests, integration tests,
+end-to-end tests, tests in the staging environment, and finally canary deployment and traffic shadowing,
+you are pretty confident.
+Now you can start directing live traffic from the real users. you will perform it gradually, first to 10% of the users,
+then to 20% and so on.
 
-1.  Let's add a route rule to distribute the traffic 90:10 between _reviews v1_ and _reviews v2_:
-
-    {{< text bash >}}
-    $ istioctl create -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-90-10.yaml
-    {{< /text >}}
-
-1.  Let's call reviews 20 times and see that _reviews v2_ is called, part of the times:
+1.  Configure a virtual service to distribute the traffic 90:10 between _reviews v1_ and _reviews v2_:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') bash
-    $ for i in {1..20}; do echo perform request $i; curl -s http://reviews:9080/reviews/0 | grep -l star; done
+    $
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+        - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v2
+          weight: 90
+        - destination:
+            host: reviews
+            subset: v2
+          weight: 10
     {{< /text >}}
 
-    We will see output similar to:
+1.  Call reviews 20 times and see that _reviews v2_ is called, part of the times.
+
+    Get a shell to the testing pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep sh
+    {{< /text >}}
+
+    Run the following command in the shell of the testing pod:
+
+    {{< text bash >}}
+    $ for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do echo perform request $i; curl -s http://reviews:9080/reviews/0 | grep -l star; done
+    {{< /text >}}
+
+    you will see output similar to:
 
     {{< text plain >}}
     perform request 1
@@ -54,16 +82,17 @@ In this module, we will start phased rollout of _reviews v2_. After performing u
     In the cases _reviews v2_ is called, the `(standard output)` string is printed. Note that the percentage of
     requests sent to _reviews v2_ is about 10%.
 
-1.  Let's increase the rollout of _reviews v2_, this time to 20%:
+1.  Increase the rollout of _reviews v2_, this time to 20%:
 
     {{< text bash >}}
-    $ istioctl delete -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-90-10.yaml
-    $ istioctl create -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-80-20.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/virtual-service-reviews-80-20.yaml
     {{< /text >}}
 
-1.  Let's send multiple requests again and see that the number of requests sent to _reviews v2_ was increased.
+1.  Send multiple requests again and see that the number of requests sent to _reviews v2_ was increased.
 
-1.  Finally, let's direct all the traffic to _reviews v2_.
+1.  **Exercise**: direct 70% of the traffic to _reviews v2_.
+
+1.  Finally, direct all the traffic to _reviews v2_.
 
     {{< text bash >}}
     $ istioctl delete -f samples/bookinfo/istio.io-tutorial/route-rule-reviews-80-20.yaml
@@ -76,14 +105,9 @@ In this module, we will start phased rollout of _reviews v2_. After performing u
     $ kubectl logs -l app=reviews,version=v1 -c istio-proxy
     {{< /text >}}
 
-1.  We examined the logs and saw that no more requests to _reviews v1_ arrived (in reality we would take a while to be sure). Now we can safely decommission _reviews v1_:
+1.  you examined the logs and saw that no more requests to _reviews v1_ arrived
+    (in real life you would take a while to be sure). Now you can safely decommission _reviews v1_:
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v1
-    {{< /text >}}
-
-1.  Let's remove the route rules for _reviews_, since they are not relevant anymore:
-
-    {{< text bash >}}
-    $ istioctl delete routerule reviews-default reviews-v2 -n default
     {{< /text >}}
