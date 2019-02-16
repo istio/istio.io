@@ -22,15 +22,6 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
     deployment "productpage-v1" configured
     {{< /text >}}
 
-1.  Redeploy the _sleep_ pod, Istio-enabled, for testing:
-
-    {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml | istioctl kube-inject -f - | kubectl apply -f -
-    serviceaccount "sleep" unchanged
-    service "sleep" unchanged
-    deployment "sleep" configured
-    {{< /text >}}
-
 1.  Access the application's webpage several times. Note that Istio was added **transparently**, the original
     application did not change.
     It was added on the fly, without the need to undeploy and redeploy the whole application, without hurting the
@@ -41,10 +32,12 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
 
     {{< text bash >}}
     $ kubectl get pods
-    details-v1-58c68b9ff-jlmzc        2/2       Running   0          2m
-    productpage-v1-59b4f9f8d5-qshtn   2/2       Running   0          2m
-    ratings-v1-b7b7fbbc9-thrxr        2/2       Running   0          2m
-    reviews-v1-6f954d668-xdx6m        2/2       Running   0          2m
-    reviews-v2-dfbcf859c-zqq5l        2/2       Running   0          2m
-    sleep-ccb8594c9-tts8r             2/2       Running   0          47s
+    details-v1-58c68b9ff-kz9lf        2/2       Running   0          2m
+    productpage-v1-59b4f9f8d5-d4prx   2/2       Running   0          2m
+    ratings-v1-b7b7fbbc9-sggxf        2/2       Running   0          2m
+    reviews-v1-6f954d668-d7w4l        2/2       Running   0          2m
+    reviews-v2-dfbcf859c-27dvk        2/2       Running   0          2m
+    sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
+    sleep-88ddbcfdd-flvp6             1/1       Running   0          7h
+    sleep-88ddbcfdd-zpn8m             1/1       Running   0          11h
     {{< /text >}}
