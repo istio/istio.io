@@ -18,3 +18,11 @@ $bp-xl: 1200px;
 // Embellishments
 $headerHeight: 3.7rem;
 $footerHeight: 7rem;
+
+// Z-index of different layers
+$promotion-z: 200;
+$header-z: 100;
+$overlay-z: 75;
+$sidebar-z: 50;
+$floating-button-z: 5;
+$toolbar-button-z: 1;
