@@ -10,16 +10,15 @@ Previously you deployed the Istio control plane and enabled Istio on a single mi
 1.  Redeploy the Bookinfo application, Istio-enabled. _productpage_ will not be redeployed since it already has Istio injected, its pods will not be changed.
 
     {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l version!=v3 -f -
+    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
+    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app=reviews,version=v2 -f -
     service "details" unchanged
     deployment "details-v1" configured
     service "ratings" unchanged
     deployment "ratings-v1" configured
-    service "reviews" unchanged
-    deployment "reviews-v1" configured
-    deployment "reviews-v2" configured
     service "productpage" unchanged
     deployment "productpage-v1" configured
+    deployment "reviews-v2" configured
     {{< /text >}}
 
 1.  Access the application's webpage several times. Note that Istio was added **transparently**, the original
