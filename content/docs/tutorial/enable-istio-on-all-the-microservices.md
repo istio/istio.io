@@ -41,3 +41,13 @@ Previously we deployed the Istio control plane and enabled Istio on a single mic
     sleep-88ddbcfdd-flvp6             1/1       Running   0          7h
     sleep-88ddbcfdd-zpn8m             1/1       Running   0          11h
     {{< /text >}}
+
+1.  Check the Istio dashboard, access
+    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
+    In the top left drop-down menu, select _Istio Mesh Dashboard_. Note that now all the services from your namespace
+    appear in the list of services.
+
+    {{< image width="80%"
+        link="images/dashboard-mesh-all.png"
+        caption="Istio Mesh Dashboard"
+        >}}
