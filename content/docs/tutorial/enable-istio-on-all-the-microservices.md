@@ -51,5 +51,12 @@ Previously you deployed the Istio control plane and enabled Istio on a single mi
         caption="Istio Mesh Dashboard"
         >}}
 
+1.  Check some other microservice in _Istio Service Dashboard_, e.g. _ratings_ :
+
+    {{< image width="80%"
+        link="images/dashboard-ratings.png"
+        caption="Istio Service Dashboard"
+        >}}
+
 Now, once you enabled Istio on your whole application, you can explore the Istio functionality in its full potential.
 You will do it in the following modules.
