@@ -134,9 +134,9 @@ Ingress [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)Êè
     spec:
       hosts:
       - "httpbin.example.com"
-        gateways:
+      gateways:
       - httpbin-gateway
-        http:
+      http:
       - match:
         - uri:
             prefix: /status
