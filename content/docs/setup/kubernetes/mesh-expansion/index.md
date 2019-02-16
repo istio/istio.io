@@ -112,9 +112,9 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
+<!-- TODO: find a better way to reference release in the URL instead of manually sync... -->
 1.  Install the Debian package with the Envoy sidecar:
 
-<!-- TODO: find a better way to reference release in the URL instead of manually sync... -->
     {{< text bash >}}
     $ curl -L https://storage.googleapis.com/istio-release/releases/1.1.0-snapshot.6/deb/istio-sidecar.deb > istio-sidecar.deb
     $ dpkg -i istio-sidecar.deb
@@ -123,9 +123,9 @@ Next, run the following commands on each machine that you want to add to the mes
 1.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM.
 
 1.  Add the IP address of the Istio gateway (which we found in the [previous section](#preparing-the-kubernetes-cluster-for-expansion))
-    to `/etc/hosts` or to
-    the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is
-    an example of updating an `/etc/hosts` file with the Istio gateway address:
+to `/etc/hosts` or to
+the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way to get things working. The following is
+an example of updating an `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
     $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
@@ -189,18 +189,14 @@ $ curl productpage.default.svc.cluster.local:9080
 
 ## Running services on a mesh expansion machine
 
-### Setup a HTTP server on the VM
-
-We first run a simple http server on the VM instance, serving HTTP traffic on port 8080.
+1. We first setup a HTTP server on the VM instance, serving HTTP traffic on port 8080.
 
     {{< text bash >}}
     $ gcloud compute ssh your-vm-instance
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-### Configure Service Discovery for VM by `ServiceEntry`
-
-You add VM services to the mesh by configuring a
+1. Configure Service Discovery for VM by `ServiceEntry`. You add VM services to the mesh by configuring a
 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A service entry lets you manually add
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
@@ -230,25 +226,26 @@ spec:
 EOF
 {{< /text >}}
 
-### Setup DNS for VM services
-
-Workloads in Kubernetes cluster need a DNS mapping to resolve the service running on the VM.
+1. Workloads in Kubernetes cluster need a DNS mapping to resolve the service running on the VM.
 You can integrate with your own DNS system. For illustration purpose, we use `istioctl register`
-which creates a Kubernetes selector-less service.
+which creates a Kubernetes `selector-less` service.
 
     {{< text bash >}}
     $ istioctl  register vmhttp 0.0.0.0 8080
     {{< /text >}}
 
-### Send requests to VM service
-
-We deploy a sleep pod in Kubernetes cluster.
+1. We deploy a sleep pod in Kubernetes cluster, and wait for the sleep pod to be ready.
 
     {{< text bash >}}
     $ kubectl apply -f samples/sleep/sleep.yaml
+    $ kubectl get po
+    NAME                             READY     STATUS    RESTARTS   AGE
+    productpage-v1-8fcdcb496-xgkwg   2/2       Running   0          1d
+    sleep-88ddbcfdd-rm42k            2/2       Running   0          1s
+    ...
     {{< /text >}}
 
-Wait for the sleep pod to be ready, then send a request from sleep container to the VM serivce.
+1. Then send a request from sleep container to the VM serivce.
 
     {{< text bash >}}
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -- curl vmhttp:8080
