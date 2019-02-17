@@ -43,7 +43,7 @@ In this module you will see how you can inspect and query logs related to the tr
     You do not have to go after each and every microservice and to display their logs one by one.
 
 While you can dump the log in the textual format and search the relevant entries, you can do something smarter.
-Instead of working with logs as text, use a logging database, where you can query your logs, similar to querying
+Instead of working with logs as text, use a log database, where you can query your logs, similar to querying
 structured data in SQL databases. Querying a database is more efficient than searching text, so you can run
 sophisticated queries to quickly get precise results. You can also let the database process the results, for example
 to aggregate some metrics.
