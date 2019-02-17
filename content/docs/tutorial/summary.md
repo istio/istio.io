@@ -8,13 +8,13 @@ weight: 980
 
 As you saw in the tutorial modules, Istio provides the following features:
 
-* Control the traffic between the microservices. With Istio you can perform canary deployments, traffic shadowing,
-phased rollouts and A/B testing.
+* Management of the traffic between the microservices. With Istio you can perform canary deployments,
+traffic shadowing, phased rollouts and A/B testing.
 * Reporting and Monitoring. With Istio you can collect logs and metrics related to the traffic between your
 microservices, monitor traffic by a dashboard, examine distributed tracing and service graph.
-* Enforce security policies.
-* Implement fault injection.
-* Encrypt traffic between microservices.
+* Fault injection.
+* Traffic encryption.
+* Security policies enforcement.
 
 # Next steps to learn Istio
 
