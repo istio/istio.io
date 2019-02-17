@@ -6,17 +6,31 @@ weight: 980
 
 ---
 
-As we saw in the tutorial modules, Istio provides the following features:
-* Control the traffic between the microservices. With Istio you can implement canary deployments, traffic shadowing, phased rollouts and A/B testing.
-* Reporting and Monitoring. With Istio you can collect the logs about the traffic between all the microservices, collect metrics, implement a dashboard and calculate the service graph.
+As you saw in the tutorial modules, Istio provides the following features:
+
+* Control the traffic between the microservices. With Istio you can perform canary deployments, traffic shadowing,
+phased rollouts and A/B testing.
+* Reporting and Monitoring. With Istio you can collect logs and metrics related to the traffic between your
+microservices, monitor traffic by a dashboard, examine distributed tracing and service graph.
 * Enforce security policies.
 * Implement fault injection.
+* Encrypt traffic between microservices.
 
 # Next steps to learn Istio
-We learned explicit injection of Istio sidecar proxies into our microservices, incrementally. We can perform [automatic injection of the sidecar proxies]({{home}}/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection) and use the regular `kubectl` command to deploy our Istio-enabled microservices.
 
-In addition, Istio can [encrypt the traffic between microservices]({{home}}/docs/tasks/security/mutual-tls.html). Also, Istio supports various microservices patterns, for example [timeouts]({{home}}/docs/tasks/traffic-management/request-timeouts.html), retries, [circuit breakers]({{home}}/docs/tasks/traffic-management/circuit-breaking.html).
+Istio provides many more features, not covered in this tutorial.
+For example, Istio supports various microservices patterns, like
+[timeouts](/docs/tasks/traffic-management/request-timeouts),
+[retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRetry),
+[rate limitings](/docs/tasks/policy-enforcement/rate-limiting/),
+[circuit breakers](/docs/tasks/traffic-management/circuit-breaking).
 
-Also note that [Istio can run on VMs]({{home}}/docs/guides/integrating-vms.html). Istio can be integrated with [service registries]({{home}}/docs/setup/) other than Kubernetes. Istio can [control the traffic from the outside into the service mesh]({{home}}/docs/tasks/traffic-management/ingress.html) and [the traffic to external services]({{home}}/docs/tasks/traffic-management/egress.html).
+Also note that [Istio can run on VMs](/docs/guides/integrating-vms).
+Istio can be integrated with [service registries](/docs/setup/consul) other than Kubernetes.
+Istio can [control the traffic from the outside into the service mesh](/docs/tasks/traffic-management/ingress)
+and [the traffic to external services](/docs/tasks/traffic-management/egress).
 
-See more guides, tasks and blog posts at [istio.io]({{home}}).
+And, last but not least, Istio can be used to
+[connect applications in multiple clusters](/docs/setup/kubernetes/multicluster-install/).
+
+See more tasks, examples and blog posts at [istio.io](/).
