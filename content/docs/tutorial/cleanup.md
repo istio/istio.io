@@ -1,23 +1,21 @@
 ---
 title: Cleanup
-overview: Undeploy Bookinfo and the Istio control plane with all the addons.
+overview: Remove the participant's namespace, ingress and roles.
 
 weight: 990
 
 ---
 
-1.  Undeploy Bookinfo:
+1.  Delete the tutorial's namespace:
 
     {{< text bash >}}
-    $ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/bookinfo.yaml)
-    $ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/ingress-for-istio.yaml)
-    $ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo-reviews-v2.yaml)
-    $ kubectl delete -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v3.yaml)
-    $ kubectl delete -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+    $ kubectl delete namespace $NAMESPACE
     {{< /text >}}
 
-1.  Undeploy Istio with all the addons:
+2.  Delete the tutorial-related resources in the `istio-system` namespace (requires write access to `istio-system`):
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio.yaml
+    $ kubectl delete ingress istio-system -n istio-system
+    $ kubectl delete role istio-system-access -n istio-system
+    $ kubectl delete rolebinding $NAMESPACE-istio-system-access -n istio-system
     {{< /text >}}
