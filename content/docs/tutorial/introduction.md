@@ -5,7 +5,7 @@ weight: 1
 
 
 Step-by-step introductory tutorial to microservices based on the
-[Istio Bookinfo sample]({{home}}/docs/guides/bookinfo.html).
+[Istio Bookinfo sample](/docs/guides/bookinfo).
 
 This tutorial demonstrates a single microservice as a web app; Node.js and Docker. Then it proceeds to a whole
 application (Bookinfo), composed of multiple microservices, managed by Kubernetes with Istio. The learning modules show
@@ -21,7 +21,7 @@ tutorial supports working in separate namespaces by multiple participants simult
 
 The ideas and scenarios were taken from the
 [Production-Ready Microservices](http://shop.oreilly.com/product/0636920053675.do) book of Susan Fowler and from the
-[istio.io]({{home}}) [guides]({{home}}/docs/guides), [tasks]({{home}}/docs/tasks) and [the istio.io blog]({{home}}/blog).
+[istio.io](/) [guides](/docs/guides), [tasks](/docs/tasks) and [the istio.io blog](/blog).
 
 If you are not yet familiar with the microservices concept,
 [the article by James Lewis and Martin Fowler](https://martinfowler.com/articles/microservices.html) is a good place to
