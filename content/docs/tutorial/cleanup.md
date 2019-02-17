@@ -18,4 +18,5 @@ weight: 990
     $ kubectl delete ingress istio-system -n istio-system
     $ kubectl delete role istio-system-access -n istio-system
     $ kubectl delete rolebinding $NAMESPACE-istio-system-access -n istio-system
+    $ kubectl delete rbacconfig default -n istio-system
     {{< /text >}}
