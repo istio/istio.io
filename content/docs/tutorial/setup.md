@@ -1,6 +1,6 @@
 ---
 title: Setup
-weight: 2
+weight: 3
 ---
 
 1.  Install [curl](https://curl.haxx.se/download.html), [node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)
