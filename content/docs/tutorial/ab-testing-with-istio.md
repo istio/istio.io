@@ -6,20 +6,27 @@ weight: 120
 
 ---
 
-In this module, we deploy a new version of the _reviews_ microservice, _v3_. This version returns review stars in red, as opposed to the black of _reviews v2_.
+In the previous module you deployed a new version of the _reviews_ microservice, _v3_. This version returns ratings as
+red stars, as opposed to the black stars of _reviews v2_.
 
-Here we assume that we performed all the required testing of _reviews v3_, locally, in the staging and in the production environments. Now we want to perform _A/B_ testing: we will run two versions of the _reviews_ microservice, _v2_ and _v3_, splitting the requests 50:50. Then we will measure by various metrics which version is accepted better by the users. (Measuring business metrics is out of scope of Istio). Let's apply the corresponding rule and see that traffic is distributed between _v2_ and _v3_.
+While you performed a successful rollout of the new version, how can you be sure that the new version is actually
+better than the previous one?
+You may want to perform _A/B_ testing: to run two versions of the _reviews_ microservice, _v2_ and _v3_, splitting the
+requests 50:50. Then you will measure by various metrics which version is accepted better by the users.
+(Measuring business metrics is out of scope of Istio). In this module you redeploy _reviews v2_ and configure istio
+to split the traffic destined to _reviews_ equally between the _v2_ and _v3_ versions.
 
-1.  Let's deploy _reviews v3_:
+1.  Deploy _reviews v2_:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/istio.io-tutorial/bookinfo-reviews-v3.yaml)
+    $ kubectl apply -l app=reviews,version=v2 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    deployment "reviews-v2" created
     {{< /text >}}
 
-1.  Let's add a rule to distribute the traffic 50:50 between _reviews v2_ and _reviews v3_.
+1.  Configure a virtual service to distribute the traffic 50:50 between _reviews v2_ and _reviews v3_.
 
     {{< text bash >}}
-    $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-v2-v3.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-reviews-v2-v3.yaml
     {{< /text >}}
 
-1. Let's access the webpage of the application and see that now the red stars are displayed roughly every other refresh.
+1.  Access application's webpage and verify that now the red stars are displayed roughly every other access.
