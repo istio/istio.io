@@ -114,7 +114,7 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
           name: ${NAMESPACE}-access
           namespace: $NAMESPACE
         rules:
-        - apiGroups: ["", "extensions", "apps", "networking.istio.io", "authentication.istio.io"]
+        - apiGroups: ["", "extensions", "apps", "networking.istio.io", "authentication.istio.io", "rbac.istio.io"]
           resources: ["*"]
           verbs: ["*"]
         ---
