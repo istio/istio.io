@@ -112,6 +112,36 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
     {{< /text >}}
 
+1. Create the Gateway to access remote service(s):
+
+    {{< text bash >}}
+    $ kubectl create --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: cluster-aware-gateway
+      namespace: istio-system
+    spec:
+      selector:
+        istio: ingressgateway
+      servers:
+      - port:
+          number: 15443
+          name: tls
+          protocol: TLS
+        tls:
+          mode: AUTO_PASSTHROUGH
+        hosts:
+        - "*"
+    EOF
+    {{< /text >}}
+
+    This Gateway instance is configuring an automatic routing for incoming traffic, through a dedicated port, to the relevant service
+    (SNI-based) but keeping mutual TLS all the way from the source to destination sidecars.
+
+    Although we apply to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
+    same Pilot.
+
 ### Setup cluster 2
 
 1. Export the `cluster1` gateway address:
@@ -279,33 +309,6 @@ The difference between the two instances is the version of their `helloworld` im
     NAME                            READY     STATUS    RESTARTS   AGE
     helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
-
-1. Create the Gateway to access the service:
-
-    {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER1 -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: helloworld-gateway
-      namespace: sample
-    spec:
-      selector:
-        istio: ingressgateway
-      servers:
-      - port:
-          number: 15443
-          name: tls
-          protocol: TLS
-        tls:
-          mode: AUTO_PASSTHROUGH
-        hosts:
-        - "*"
-    EOF
-    {{< /text >}}
-
-    Although deployed locally, this Gateway instance will also affect `cluster2` by configuring it to passthrough
-    incoming traffic to the relevant service (SNI-based) but keeping mutual TLS all the way from the source to destination sidecars.
 
 ### Split-horizon EDS in action
 
