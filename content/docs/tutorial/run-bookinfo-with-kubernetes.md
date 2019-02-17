@@ -73,11 +73,23 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, we w
 Once your application is running, enable external (by clients from outside of the cluster) access to it. Once you
 configure the steps below successfully, you will be able to access the application by browser from your laptop.
 
+### Update your /etc/hosts file
+
 1.  Set `MYHOST` variable to hold the URL of the application:
 
     {{< text bash >}}
     $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
     {{< /text >}}
+
+1.  Append the output of the following command to `/etc/hosts`. You should have a
+    [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use the
+    [`sudo`](https://en.wikipedia.org/wiki/Sudo) command for it.
+
+    {{< text bash >}}
+    $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
+    {{< /text >}}
+
+### Configure Ingress and access your application's webpage
 
 1.  Create Kubernetes Ingress:
 
@@ -105,12 +117,6 @@ configure the steps below successfully, you will be able to access the applicati
               serviceName: productpage
               servicePort: 9080
     EOF
-    {{< /text >}}
-
-1.  Append the output of the following command to `/etc/hosts`:
-
-    {{< text bash >}}
-    $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
     {{< /text >}}
 
 1.  Access the application home page from the command line:
