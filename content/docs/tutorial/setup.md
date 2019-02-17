@@ -61,6 +61,13 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
             backend:
               serviceName: tracing
               servicePort: 80
+      - host: my-istio-logs-database.io
+        http:
+          paths:
+          - path: /
+            backend:
+              serviceName: prometheus
+              servicePort: 9090
     EOF
     {{< /text >}}
 
