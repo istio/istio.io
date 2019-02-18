@@ -88,7 +88,6 @@ In this module you add security policies to enforce the access requirements abov
     kind: ServiceRole
     metadata:
       name: productpage-viewer
-      namespace: $NAMESPACE
     spec:
       rules:
       - services: ["productpage.$NAMESPACE.svc.cluster.local"]
@@ -98,7 +97,6 @@ In this module you add security policies to enforce the access requirements abov
     kind: ServiceRole
     metadata:
       name: reviews-viewer
-      namespace: $NAMESPACE
     spec:
       rules:
       - services: ["reviews.$NAMESPACE.svc.cluster.local"]
@@ -108,7 +106,6 @@ In this module you add security policies to enforce the access requirements abov
     kind: ServiceRole
     metadata:
       name: ratings-viewer
-      namespace: $NAMESPACE
     spec:
       rules:
       - services: ["ratings.$NAMESPACE.svc.cluster.local"]
@@ -118,7 +115,6 @@ In this module you add security policies to enforce the access requirements abov
     kind: ServiceRole
     metadata:
       name: details-viewer
-      namespace: $NAMESPACE
     spec:
       rules:
       - services: ["details.$NAMESPACE.svc.cluster.local"]
