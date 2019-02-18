@@ -13,7 +13,7 @@ You want to specify policies to limit access similar to the
 that need to access other microservices should be allowed to access the microservices they need.
 
 In our case, _ratings_ microservice can be accessed by _reviews_ only. Access from _productpage_ and from _details_
-should not be allowed.
+should be denied.
 _productpage_ and _details_ should not be able to access _ratings_, neither accidentally nor intentionally.
 
 In the same way, the following access must be allowed:
