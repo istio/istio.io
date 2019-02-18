@@ -13,7 +13,7 @@ While you performed a successful rollout of the new version, how can you be sure
 better than the previous one?
 You may want to perform _A/B_ testing: to run two versions of the _reviews_ microservice, _v2_ and _v3_, splitting the
 requests 50:50. Then you will measure by various metrics which version is accepted better by the users.
-(Measuring business metrics is out of scope of Istio). In this module you redeploy _reviews v2_ and configure istio
+(Measuring business metrics is out of scope of Istio). In this module you redeploy _reviews v2_ and configure Istio
 to split the traffic destined to _reviews_ equally between the _v2_ and _v3_ versions.
 
 1.  Deploy _reviews v2_:
