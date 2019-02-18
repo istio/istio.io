@@ -16,7 +16,7 @@ microservices, monitor traffic by a dashboard, examine distributed tracing and s
 * Traffic encryption.
 * Security policies enforcement.
 
-# Next steps to learn Istio
+## Next steps to learn Istio
 
 Istio provides many more features, not covered in this tutorial.
 For example, Istio supports various microservices patterns, like
