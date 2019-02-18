@@ -1,6 +1,6 @@
 ---
-title: Security policies with Istio
-overview: Apply RBAC policies with Istio
+title: Access policies with Kubernetes and Istio
+overview: Apply Kubernetes Network Policies and Istio RBAC
 
 weight: 170
 
@@ -25,7 +25,7 @@ In the same way, the following access must be allowed:
 HTTP POST method must be prohibited.
 * all other access must be prohibited
 
-In this module you add security policies to enforce the access requirements above.
+In this module you add access policies to enforce the access requirements above.
 
 1.  Verify that any microservice can access any microservice, including sending POST requests to _ratings_.
 
@@ -57,6 +57,108 @@ In this module you add security policies to enforce the access requirements abov
         $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":5,"Reviewer2":4}'
         {"id":0,"ratings":{"Reviewer1":1,"Reviewer2":1}}
         {{< /text >}}
+
+## Kubernetes Network Policies
+
+1.  Define the policies:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
+    metadata:
+      name: reviews
+    spec:
+      podSelector:
+        matchLabels:
+          app: reviews
+      ingress:
+        - from:
+          - podSelector:
+              matchLabels:
+                app: productpage
+          - podSelector:
+              matchLabels:
+                app: sleep
+    ---
+    kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
+    metadata:
+      name: ratings
+    spec:
+      podSelector:
+        matchLabels:
+          app: ratings
+      ingress:
+        - from:
+          - podSelector:
+              matchLabels:
+                app: reviews
+          - podSelector:
+              matchLabels:
+                app: sleep
+    ---
+    kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
+    metadata:
+      name: details
+    spec:
+      podSelector:
+        matchLabels:
+          app: details
+      ingress:
+        - from:
+          - podSelector:
+              matchLabels:
+                app: productpage
+          - podSelector:
+              matchLabels:
+                app: sleep
+    EOF
+    {{< /text >}}
+
+1.  Check that unauthorized access is denied.
+
+    1.  GET request from _ratings_ to _reviews_
+
+        {{< text bash >}}
+        $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl reviews:9080/reviews/0
+        upstream connect error or disconnect/reset before headers
+        {{< /text >}}
+
+    1.  GET request from _ratings_ to _details_
+
+        {{< text bash >}}
+        $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl details:9080/details/0
+        upstream connect error or disconnect/reset before headers
+        {{< /text >}}
+
+    1.  POST request from _sleep_ to _ratings_
+
+        {{< text bash >}}
+        $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":1,"Reviewer2":1}'
+        {"id":0,"ratings":{"Reviewer1":1,"Reviewer2":1}}
+        {{< /text >}}
+
+    The unauthorized access is denied as expected in the first and the second checks, but not in the third one!
+    You spoiled ratings data in production! This is because Kubernetes Network Policies can only specify which
+    pod/namespace can access which pod. They cannot specify HTTP methods that the pods can apply. In your case you
+    want to provide read-only access for the _sleep_ pod. However, in the case of Kubernetes Network Policies it is
+    either read-write, or nothing. Similarly, you cannot allow/deny traffic based on other HTTP parameters, like
+    HTTP Path. To specify access policies based on HTTP parameters you have to use Istio policies.
+
+    Delete the Kubernetes Network Policies in the next subsection and proceed to define Istio policies.
+
+### Clean Kubernetes Network Policies
+
+{{< text bash >}}
+$ kubectl delete networkpolicy reviews ratings details
+{{< /text >}}
+
+## Istio RBAC
+
+In this section you apply Istio
+[Role-based Access Control (RBAC)](https://preliminary.istio.io/docs/concepts/security/#authorization).
 
 1.   Secure access control in Istio is based on
      [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
@@ -219,3 +321,10 @@ In this module you add security policies to enforce the access requirements abov
         {{< /text >}}
 
     The unauthorized access is denied as expected.
+
+In this module you used Kubernetes Network Policies and Istio RBAC rules to enforce access control requirements for your
+application. Note that Istio RBAC provides more flexibility than Kubernetes Network Policies since it allows to specify
+HTTP parameters of the access, in your case which HTTP method which microservice is allowed to apply on which
+microservice. Also note that you can follow the
+[Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) principle and apply Kubernetes
+Network Policies together with Istio RBAC.
