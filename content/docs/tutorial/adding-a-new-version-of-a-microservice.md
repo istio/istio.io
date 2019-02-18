@@ -61,11 +61,11 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     pod "reviews-v2-79c8c8c7c5-4p4mn" labeled
     {{< /text >}}
 
-5.  Now you access the application web page and observe that the black stars appear for ratings! You can hit the page
+1.  Now you access the application web page and observe that the black stars appear for ratings! You can hit the page
     several times and notice that sometimes the page is returned with stars (approximately 25% of the time) and
     sometimes without stars (approximately 75% of the time).
 
-6.  If you encounter any problems you can quickly undeploy the new version, so only the old version will be used:
+1.  If you encounter any problems you can quickly undeploy the new version, so only the old version will be used:
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v2
@@ -81,7 +81,7 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     deployment "reviews-v2" created
     {{< /text >}}
 
-7.  Next you increase the replicas of your new version. You can do it gradually, carefully checking that the number of
+1.  Next you increase the replicas of your new version. You can do it gradually, carefully checking that the number of
     errors does not increase:
 
     {{< text bash >}}
@@ -89,14 +89,14 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     deployment "reviews-v2" scaled
     {{< /text >}}
 
-8.  Now you can decommission the old version:
+1.  Now you can decommission the old version:
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v1
     deployment "reviews-v1" deleted
     {{< /text >}}
 
-9.  Accessing the web page of the application will return reviews with black stars only.
+1.  Accessing the web page of the application will return reviews with black stars only.
 
 You performed the update of _reviews_ pretty well. First, you deployed the new version without directing to it any
 production traffic. You tested it in the production environment, on test traffic.
