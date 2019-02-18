@@ -3,7 +3,6 @@ title: Introduction
 weight: 1
 ---
 
-
 Step-by-step introductory tutorial to microservices based on the
 [Istio Bookinfo sample](/docs/guides/bookinfo).
 
