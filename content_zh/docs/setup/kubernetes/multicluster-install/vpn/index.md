@@ -54,8 +54,7 @@ aliases:
 
 等待 Istio 控制平面完成初始化，然后再执行本节中的步骤。
 
-你必须在 Istio 控制平面上运行这些操作以捕获 Istio 控制平面服务端点，如：Pilot、Policy 和
-Statsd Pod IP 端点。
+你必须在 Istio 控制平面上运行这些操作以捕获 Istio 控制平面服务端点，如：Pilot、Policy 端点。
 
 如果你在每个远程组件上使用 Helm 和 Tiller，你必须将环境变量复制到每个节点，然后再使用 Helm 将远程集群连接到 Istio 控制平面。
 
@@ -64,7 +63,6 @@ Statsd Pod IP 端点。
 {{< text bash >}}
 $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
 $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
-$ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
 $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
 $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{range .items[*]}{.status.podIP}{end}')
 {{< /text >}}
@@ -95,8 +93,6 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
    --set global.remotePilotAddress=${PILOT_POD_IP} \
    --set global.remotePolicyAddress=${POLICY_POD_IP} \
    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-   --set global.proxy.envoyStatsd.enabled=true \
-   --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} \
    --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} > $HOME/istio-remote.yaml
 {{< /text >}}
 
@@ -144,7 +140,7 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
 1. 通过以下命令来为  `istio-remote`  安装 Helm chart：
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
+    $ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
     {{< /text >}}
 
 {{% /tab %}}
@@ -165,8 +161,6 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
 | `global.remotePilotAddress` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面的 pilot Pod IP 地址或远程集群 DNS 可解析的主机名。 |
 | `global.remotePolicyAddress` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面的 policy Pod IP 地址或远程集群 DNS 可解析的主机名。 |
 | `global.remoteTelemetryAddress` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面的 telemetry Pod IP 地址或远程集群 DNS 可解析的主机名。 |
-| `global.proxy.envoyStatsd.enabled` | true, false | false | 指定 Istio 控制平面是否启用了Statsd |
-| `global.proxy.envoyStatsd.host` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面的  `statsd-prom-bridge` Pod IP 地址或远程集群 DNS 可解析的主机名。  如果设置了`global.proxy.envoyStatsd.enabled=false`将会被忽略。 |
 | `global.remoteZipkinAddress` | 一个合法的 IP 地址或主机名 | None | 指定 Istio 控制平面追踪应用的 Pod IP 地址或远程集群 DNS 可解析的主机名。例如：`zipkin` 或 `jaeger`。 |
 | `sidecarInjectorWebhook.enabled` | true, false | true | 指定是否在远程集群中启用了自动 sidecar 注入 |
 | `global.remotePilotCreateSvcEndpoint` | true, false | false | 如果设置该项，一个无选择器服务和端点将以`remotePilotAddress` IP的形式被创建给 `istio-pilot.<namespace>`是远程集群 DNS 可解析的。 |
@@ -309,7 +303,7 @@ $ helm delete --purge istio-remote
    控制平面的 service 端点：
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
+    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
 1. 为远程 Istio 创建 `istio-system` 命名空间：
@@ -376,7 +370,6 @@ pod 重启的一个简单的解决方案是给 Istio 服务使用负载均衡器
 * `istio-pilot`
 * `istio-telemetry`
 * `istio-policy`
-* `istio-statsd-prom-bridge`
 * `zipkin`
 
 目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 您可以在 Istio Helm chart 或 Istio 清单中手动指定服务类型。
@@ -384,7 +377,7 @@ pod 重启的一个简单的解决方案是给 Istio 服务使用负载均衡器
 ### 通过网关暴露 Istio 服务
 
 此方法使用了 Istio ingress 网关的功能。远程集群有 `istio-pilot`、`istio-telemetry`、 `istio-policy`、
-`istio-statsd-prom-bridge` 和 `zipkin` 服务，它们指向了 Istio ingress 网关的负载均衡 IP 地址。然后，所有的服务均指向相同的IP 地址。你必须创建目标规则以在主集群的 ingress 网关中获得正确的 Istio 服务。
+和 `zipkin` 服务，它们指向了 Istio ingress 网关的负载均衡 IP 地址。然后，所有的服务均指向相同的 IP 地址。你必须创建目标规则以在主集群的 ingress 网关中获得正确的 Istio 服务。
 
 以下两种方案可供选择：
 
@@ -494,9 +487,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
       --set global.remotePilotCreateSvcEndpoint=true \
       --set global.remotePilotAddress=${PILOT_POD_IP} \
       --set global.remotePolicyAddress=${POLICY_POD_IP} \
-      --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-      --set global.proxy.envoyStatsd.enabled=true \
-      --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > ${HOME}/istio-remote-auth.yaml
+      --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > ${HOME}/istio-remote-auth.yaml
     $ kubectl apply -f ${HOME}/istio-remote-auth.yaml
     {{< /text >}}
 
