@@ -1,16 +1,20 @@
 ---
 title: Fault injection with Istio
-overview: Inject an HTTP error and a delay to test our microservices in production.
+overview: Inject an HTTP error and a delay to test your microservices in production.
 
 weight: 110
 
 ---
 
-In this module you will perform _fault injection_ on our application. you know that in real life our microservices will fail, you cannot prevent all possible failures. What you can do is to verify that our microservices react to failures in a best possible way. you definitely want to prevent _cascading failures_: a situation when a failure in one microservice causes chain of failures in other microservices.
+In this module you will perform _fault injection_ on your application. you know that in real life your microservices will
+fail, you cannot prevent all possible failures.
+What you can do is to verify that your microservices react to failures in a best possible way.
+You definitely want to prevent _cascading failures_: a situation when a failure in one microservice causes chain of
+failures in other microservices.
 
-To verify that our microservices behave well under failures, first you inject a fault, an HTTP error on the path from one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how our microservices react to the faults you injected.
+To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your microservices react to the faults you injected.
 
-1.  Configure a virtual service to inject a fault on requests to _ratings_, for our test user `jason`:
+1.  Configure a virtual service to inject a fault on requests to _ratings_, for your test user `jason`:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml
