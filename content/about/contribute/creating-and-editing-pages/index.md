@@ -477,12 +477,12 @@ Mixer uses {{<gloss>}}adapters{{</gloss>}} to interface to backends.
 If the term displayed on the page doesn't exactly match the entry in the glossary, you can specify a substitution:
 
 {{< text markdown >}}
-Mixer use an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
+Mixer uses an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
 {{< /text >}}
 
 which looks like:
 
-Mixer use an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
+Mixer uses an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
 
 So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
 
