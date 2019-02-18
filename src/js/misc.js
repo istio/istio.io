@@ -5,9 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Expand spans that define terms into appropriate popup markup
     function expandPopovers() {
         document.querySelectorAll('.term').forEach(term => {
+            const i = document.createElement('i');
+            i.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#glossary'/></svg>";
+
+            const span = document.createElement('span');
+            span.innerText = " " + term.dataset.title;
+
             const title = document.createElement('div');
             title.className = 'title';
-            title.innerText = term.dataset.title;
+            title.appendChild(i);
+            title.appendChild(span);
 
             const body = document.createElement('div');
             body.className = 'body';

@@ -19,7 +19,7 @@
                         <a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
                     </label>
 
-                    {{ partial "sidebar-level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}
+                    {{ partial "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}
                 </li>
             {{ else }}
                 <li>
