@@ -95,7 +95,7 @@ To verify that your microservices behave well under failures, first you inject a
 
     Note that the call to _productpage_ took 5.08 s, and that it took 2.5 s for _reviews_ to return a response.
 
-1.   Examine [_reviews_'s code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L88) that calls _ratings_:
+1.   Examine [_reviews_'s code]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L88) that calls _ratings_:
 
     {{< text java >}}
     String timeout = star_color.equals("black") ? "10000" : "2500";
@@ -110,7 +110,7 @@ To verify that your microservices behave well under failures, first you inject a
 
     Go up the call chain and check the delay between _productpage_ and _reviews_.
     Examine
-    [_productpage_'s code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/productpage/productpage.py#L296):
+    [_productpage_'s code]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L296):
 
     {{< text python >}}
     def getProductReviews(product_id, headers):

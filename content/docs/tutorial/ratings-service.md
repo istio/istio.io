@@ -9,9 +9,9 @@ This module demonstrates work on a single microservice, on a local developer mac
 HTTP GET requests on the path `/ratings/{productID}` and returns the product ratings by the reviewers.
 
 1.  Download
-    [the service's code](https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/src/ratings/ratings.js)
+    [the service's code]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
     and
-    [the package file](https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/src/ratings/package.json)
+    [the package file]({{< github_blob >}}/samples/bookinfo/src/ratings/package.json)
     into a separate directory:
 
     {{< text bash >}}
