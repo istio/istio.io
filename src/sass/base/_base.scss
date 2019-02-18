@@ -221,27 +221,27 @@ div.toolbar {
         border: 0;
         position: absolute;
         top: 3px;
-        z-index: 5;
+        z-index: $toolbar-button-z;
         transition: opacity .4s ease-in-out;
         opacity: 0;
-    }
 
-    button.toolbar-show {
-        transition: opacity 1.1s ease-in-out;
-        opacity: 1;
-    }
+        &.toolbar-show {
+            transition: opacity 1.1s ease-in-out;
+            opacity: 1;
+        }
 
-    button.copy {
-        right: 2.2rem;
-        width: 3rem;
-    }
+        &.copy {
+            right: 2.2rem;
+            width: 3rem;
+        }
 
-    button.download {
-        right: 5.5rem;
-    }
+        &.download {
+            right: 5.5rem;
+        }
 
-    button.print {
-        right: 7.4rem;
+        &.print {
+            right: 7.25rem;
+        }
     }
 
     svg {
@@ -438,7 +438,7 @@ blockquote {
     position: fixed;
     top: $headerHeight;
     right: 10px;
-    z-index: 99;
+    z-index: $floating-button-z;
     outline: none;
     background-color: rgba($backgroundColor, .7);
     color: $floatingButtonColor;

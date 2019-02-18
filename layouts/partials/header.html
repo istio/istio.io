@@ -46,57 +46,57 @@
                     </li>
                 {{ end }}
 
-                <li class="nav-item dropdown" id="gearDropdown" style="white-space: nowrap">
-                    <a title='{{ i18n "options_menu" }}' href="" class="nav-link" data-toggle="dropdown" aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item menu" id="gearDropdown" style="white-space: nowrap">
+                    <a class="menu-trigger nav-link" title='{{ i18n "options_menu" }}' aria-label="Tools" aria-haspopup="true" aria-expanded="false">
                         {{ partial "icon.html" "gear" }}
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gearDropdown">
-                        <a lang="en" href="/" class="dropdown-item {{ if eq $home.Lang "en" }}active{{ end }}" onclick="createCookie('nf_lang', 'en'); return true;">English</a>
-                        <a lang="zh" href="/zh" class="dropdown-item {{ if eq $home.Lang "zh" }}active{{ end }}" onclick="createCookie('nf_lang', 'zh'); return true;">中文</a>
+                    <div class="menu-content" aria-labelledby="gearDropdown">
+                        <a lang="en" href="/" {{ if eq $home.Lang "en" }}class="active"{{ end }} onclick="createCookie('nf_lang', 'en'); return true;">English</a>
+                        <a lang="zh" href="/zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }} onclick="createCookie('nf_lang', 'zh'); return true;">中文</a>
 
-                        <div class="dropdown-divider"></div>
+                        <div></div>
 
-                        <a class="dropdown-item active" id="light-theme-item" href="" onclick="setActiveStyleSheet('Light Theme');return false;">{{ i18n "light_theme" }}</a>
-                        <a class="dropdown-item" id="dark-theme-item" href="" onclick="setActiveStyleSheet('Dark Theme');return false;">{{ i18n "dark_theme" }}</a>
+                        <a class="active" id="light-theme-item" href="" onclick="setActiveStyleSheet('Light Theme');return false;">{{ i18n "light_theme" }}</a>
+                        <a id="dark-theme-item" href="" onclick="setActiveStyleSheet('Dark Theme');return false;">{{ i18n "dark_theme" }}</a>
 
                         {{ if not .Site.Data.args.archive }}
-                            <div class="dropdown-divider"></div>
+                            <div></div>
 
-                            <a class="dropdown-item" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
+                            <a href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
 
                             {{ if not .Params.generator }}
-                                <a class="dropdown-item" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                <a href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ end }}
                         {{ end }}
 
-                        <div class="dropdown-divider"></div>
+                        <div></div>
 
-                        <h6 class="dropdown-header">{{ i18n "other_versions_of_site" }}</h6>
+                        <h6>{{ i18n "other_versions_of_site" }}</h6>
 
                         {{ $next := index .Site.Data.releases 0 }}
                         {{ $current := index .Site.Data.releases 1 }}
 
                         {{ if .Site.Data.args.archive }}
-                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
-                            <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                            <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                            <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ else if .Site.Data.args.preliminary }}
-                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                            <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                            <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ else }}
-                            <a class="dropdown-item" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
-                            <a class="dropdown-item" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                            <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                         {{ end }}
                     </div>
                 </li>
 
                 <li class="nav-item">
-                    <a id="search_show" class="nav-link" href="" title='{{ i18n "search" }}' aria-label="Search">{{ partial "icon.html" "magnifier" }}</a>
+                    <a id="search-show" class="nav-link" href="" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</a>
                 </li>
             </ul>
 
-            <form name="cse" id="search_form" class="form-inline mr-sm-2" role="search">
+            <form name="cse" id="search-form" class="form-inline mr-sm-2" role="search">
                 {{ if .Site.Data.args.preliminary }}
                     <input type="hidden" name="cx" value="{{ .Site.Data.args.preliminary_search_engine_id }}" />
                 {{ else if .Site.Data.args.archive }}
@@ -106,9 +106,9 @@
                 {{ end }}
                 <input type="hidden" name="ie" value="utf-8" />
                 <input type="hidden" name="hl" value="en" />
-                <input type="hidden" id="search_page_url" value="{{ .Site.BaseURL }}/search.html" />
-                <input id="search_textbox" class="form-control" name="q" type="text" aria-label="Search this site"/>
-                <button id="search_close" type="reset" aria-label="Cancel Search">{{ partial "icon.html" "cancel-x" }}</button>
+                <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search.html" />
+                <input id="search-textbox" class="form-control" name="q" type="text" aria-label='{{ i18n "search" }}'/>
+                <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "cancel-x" }}</button>
             </form>
         </div>
     </nav>

@@ -1,0 +1,77 @@
+.menu {
+    position: relative;
+    cursor: pointer;
+
+    .menu-content {
+        display: none;
+        position: absolute;
+        min-width: 160px;
+        z-index: $overlay-z;
+        padding: 0;
+        background-color: $backgroundColor;
+        border: 1px solid $dropdownBorderColor;
+        border-radius: 4px;
+        margin-top: .125rem;
+
+        @media (min-width: $bp-md) {
+            right: 0;
+        }
+
+        a {
+            display: block;
+            font-weight: $linkWeight;
+            color: $textColor;
+            padding: .25rem 1.5rem;
+
+            &:hover {
+                color: $textBrandColor;
+                background-color: $mainBrandColor;
+                text-decoration: none;
+            }
+
+            &.active {
+                font-weight: 500;
+                background-color: transparent;
+                background-image: $dropdownCheck;
+                background-repeat: no-repeat;
+                background-position: .4rem .6rem;
+                background-size: .75rem .75rem;
+                border: 0;
+
+                &:hover {
+                    background-image: $dropdownHoverCheck;
+                    background-color: $mainBrandColor;
+                }
+            }
+
+            &:focus {
+                text-decoration: none;
+            }
+        }
+
+        i {
+            color: $textColor;
+        }
+
+        h6 {
+            padding: .5rem 1.5rem;
+            margin-bottom: 0;
+            font-size: .875rem;
+            color: #6c757d;
+            white-space: nowrap;
+        }
+
+        div {
+            height: 0;
+            margin: .5rem 0;
+            overflow: hidden;
+            border-top: 1px solid #e9ecef;
+        }
+    }
+
+    &.show {
+        .menu-content {
+            display: block;
+        }
+    }
+}

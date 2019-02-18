@@ -55,6 +55,12 @@ other = "选项和设置"
 [search]
 other = "搜索istio.io"
 
+[search_label]
+other = "Search"
+
+[search_cancel]
+other = "Cancel search"
+
 [footer_istio]
 other = "Istio"
 

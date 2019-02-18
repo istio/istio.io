@@ -1,0 +1,100 @@
+.popover {
+    display: none;
+    z-index: $overlay-z;
+    color: $popoverTextColor;
+    background-color: $popoverBackgroundColor;
+    border-radius: 4px;
+    border: 1px solid $popoverBorderColor;
+    box-shadow: 3px 3px 8px $popoverShadowColor, -3px -3px 8px $popoverShadowColor;
+    font-family: inherit;
+
+    max-width: 276px;
+    @media (min-width: $bp-md) {
+        max-width: 350px;
+    }
+
+    @media (min-width: $bp-xl) {
+        max-width: 500px;
+    }
+
+    &.show {
+        display: block;
+    }
+
+    .title {
+        text-align: center;
+        color: $popoverHeaderTextColor;
+        background-color: $popoverHeaderBackgroundColor;
+        font-size: 110%;
+        border-radius: 4px 4px 0 0;
+    }
+
+    .body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    $arrow-width: 5px;
+    $arrow-height: 5px;
+
+    .arrow {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        position: absolute;
+        border-color: transparent;
+    }
+
+    &[x-placement^="top"] {
+        margin-bottom: $arrow-height;
+
+        .arrow {
+            border-width: $arrow-height $arrow-width 0 $arrow-height;
+            border-top-color: $popoverBackgroundColor;
+            bottom: -$arrow-height;
+            margin: 0 $arrow-width;
+        }
+    }
+
+    &[x-placement^="bottom"] {
+        margin-top: $arrow-height;
+
+        .arrow {
+            border-width: 0 $arrow-width $arrow-height $arrow-width;
+            border-bottom-color: $popoverBackgroundColor;
+            top: -$arrow-height;
+            margin: 0 $arrow-width;
+        }
+    }
+
+    &[x-placement^="right"] {
+        margin-left: $arrow-width;
+
+        .arrow {
+            border-width: $arrow-height $arrow-width $arrow-height 0;
+            border-right-color: $popoverBackgroundColor;
+            left: -$arrow-width;
+            margin: $arrow-height 0;
+        }
+    }
+
+    &[x-placement^="left"] {
+        margin-right: $arrow-width;
+
+        .arrow {
+            border-width: $arrow-height 0 $arrow-width $arrow-height;
+            border-left-color: $popoverBackgroundColor;
+            right: -$arrow-width;
+            margin: $arrow-height 0;
+        }
+    }
+}
+
+.term {
+    @media screen {
+        border-bottom: dashed 1px;
+        cursor: help;
+        position: relative;
+        display: inline-block;
+    }
+}
