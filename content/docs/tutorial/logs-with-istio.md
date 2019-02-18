@@ -69,22 +69,25 @@ the _Console_ tab. The queries use `tutorial` as the name of the application's n
 your namespace.
 
     1.  Get all the requests in your namespace:
+
     {{< text plain >}}
     istio_requests_total{destination_service_namespace="tutorial", reporter="destination"}
     {{< /text >}}
 
     1.  Get the sum of all the requests in your namespace:
+
     {{< text plain >}}
     sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination"})
     {{< /text >}}
 
     1.  Get the requests to `reviews` microservice:
+
     {{< text plain >}}
     istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}
     {{< /text >}}
 
-    1.  [Rate](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate) of requests over the past 5
-        minutes to all instances of the _reviews_ microservice:
+    1.  [Rate](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate) of requests over the past 5 minutes to all instances of the _reviews_ microservice:
+
     {{< text plain >}}
     rate(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}[5m])
     {{< /text >}}
