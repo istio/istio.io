@@ -12,7 +12,7 @@ your microservices. Istio comes to your help.
 In this module you enable Istio on a single microservice, _productpage_.
 The rest of the application will continue to operate as previously. Note that you can enable Istio gradually,
 microservice by microservice. Also note that Istio is enabled transparently to the microservices, you do not change the
-microservices code. And also note that you enable Istio without disrupting our application, it continues to run and
+microservices code. And also note that you enable Istio without disrupting your application, it continues to run and
 serve user requests.
 
 1.  Disable mututal TLS authentication in your namespace (will be explained later):
@@ -66,7 +66,7 @@ serve user requests.
     [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/).
     Kubernetes terminated an old pod only when a new pod started to run, and it transparently switched the traffic to
     the new pods, one by one. (To be more precise, it did not terminate more than one pod before a new pod was started.)
-    All this was done to prevent disruption of our application, so it continued to work during the injection of Istio.
+    All this was done to prevent disruption of your application, so it continued to work during the injection of Istio.
 
 1.  Check the logs of the Istio sidecar of _productpage_:
 

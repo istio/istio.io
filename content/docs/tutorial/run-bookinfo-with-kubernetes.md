@@ -55,7 +55,7 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, you 
     {{< /text >}}
 
 1.  Deploy a testing pod, [sleep](https://github.com/istio/istio/tree/master/samples/sleep), to use it for sending
-  requests to our microservices:
+  requests to your microservices:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml

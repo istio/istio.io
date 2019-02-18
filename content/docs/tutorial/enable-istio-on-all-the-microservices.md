@@ -1,6 +1,6 @@
 ---
 title: Enable Istio on all the microservices
-overview: Enable Istio on our whole application and on the Ingress.
+overview: Enable Istio on your whole application and on the Ingress.
 weight: 70
 
 ---
