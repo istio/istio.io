@@ -15,7 +15,7 @@ microservice by microservice. Also note that Istio is enabled transparently to t
 microservices code. And also note that you enable Istio without disrupting your application, it continues to run and
 serve user requests.
 
-1.  Disable mututal TLS authentication in your namespace (will be explained later):
+1.  Disable mutual TLS authentication in your namespace (will be explained later):
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
