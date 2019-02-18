@@ -54,29 +54,65 @@ then to 20% and so on.
 
     {{< text plain >}}
     perform request 1 : black
-    perform request 2 : red
+    perform request 2 : black
     perform request 3 : black
-    perform request 4 : black
+    perform request 4 : red
     perform request 5 : black
     perform request 6 : black
     perform request 7 : black
     perform request 8 : black
     perform request 9 : black
     perform request 10 : black
-    perform request 11 : black
+    perform request 11 : red
     perform request 12 : black
-    perform request 13 : red
+    perform request 13 : black
     perform request 14 : black
     perform request 15 : black
     perform request 16 : black
-    perform request 17 : black
+    perform request 17 : red
     perform request 18 : black
     perform request 19 : black
     perform request 20 : black
     {{< /text >}}
 
     In the cases _reviews v2_ is called, the `(standard output)` string is printed. Note that the percentage of
-    requests sent to _reviews v2_ is about 10%.
+    requests sent to _reviews v2_ is approximately 10%.
+
+1.  Check the distribution of the requests in your log database,
+    at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
+
+    Execute the following query:
+
+    {{< text plain >}}
+    istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep"}
+    {{< /text >}}
+
+    Switch to the _Graph_ tab:
+
+    {{< image width="80%"
+        link="images/prometheus-reviews-graph.png"
+        caption="Prometheus Query UI, distribution of calls to reviews v1 and reviews v2"
+        >}}
+
+1.  Execute the following queries:
+
+    1.  Number of requests from _sleep_ to _reviews v2_:
+
+    {{< text plain >}}
+    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v2"})
+    {{< /text >}}
+
+    1.  Number of requests from _sleep_ to _reviews v3_:
+
+    {{< text plain >}}
+    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v3"})
+    {{< /text >}}
+
+    1.  You can even perform math on the results of queries above:
+
+    {{< text plain >}}
+    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v2"}) + sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v3"})
+    {{< /text >}}
 
 1.  Increase the rollout of _reviews v2_, this time to 20%:
 
