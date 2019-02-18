@@ -20,4 +20,4 @@
     {{- errorf "Could not find glossary entry for '%s' (%s)" $gloss_entry $position -}}
 {{- end -}}
 
-<a tabindex=0 class="term" data-trigger="focus" data-toggle="popover" data-placement="right" data-html="true" data-content="{{- $dfn | string -}}" title="{{- $title -}}">{{- $term -}}</a>
+<span class="term" data-title="{{- $title }}" data-body="{{- $dfn | string -}}">{{ $term }}</span>

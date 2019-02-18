@@ -70,43 +70,6 @@ header {
                 stroke: $textBrandHighlightColor;
             }
         }
-
-        .dropdown-menu {
-            padding: 0;
-            background-color: $backgroundColor;
-            border-color: $dropdownBorderColor;
-
-            a {
-                font-weight: $linkWeight;
-            }
-
-            i {
-                color: $textColor;
-            }
-        }
-
-        .dropdown-item.active {
-            font-weight: 500;
-            background-color: transparent;
-            background-image: $dropdownCheck;
-            background-repeat: no-repeat;
-            background-position: .4rem .6rem;
-            background-size: .75rem .75rem;
-            border: 0;
-
-            &:hover {
-                background-image: $dropdownHoverCheck
-            }
-        }
-
-        .dropdown-item {
-            color: $textColor;
-
-            &:hover {
-                color: $textBrandColor;
-                background-color: $mainBrandColor;
-            }
-        }
     }
 
     .navbar-dark .navbar-nav .nav-link {
@@ -139,20 +102,20 @@ header {
     position: static;
 }
 
-#search_form {
+#search-form {
     position: static;
     display: flex;
 }
 
-#search_close {
+#search-close {
     display: none;
 }
 
-#search_show {
+#search-show {
     display: none;
 }
 
-#search_textbox {
+#search-textbox {
     margin: 4px 0 5px 0;
     width: 100%;
 }
@@ -169,18 +132,18 @@ header {
         transition: right 0.5s;
     }
 
-    #search_form {
+    #search-form {
         position: absolute;
         right: -700px;
         transition: right 0.5s;
     }
 
-    #search_form.active {
+    #search-form.active {
         right: 1rem;
         transition: right 0.5s;
     }
 
-    #search_close {
+    #search-close {
         display: block;
         background-color: rgba(0, 0, 0, 0);
         color: $textBrandColor;
@@ -192,11 +155,11 @@ header {
         }
     }
 
-    #search_show {
+    #search-show {
         display: block;
     }
 
-    #search_textbox {
+    #search-textbox {
         width: calc(1rem * 22);
     }
 }
