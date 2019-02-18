@@ -21,7 +21,8 @@ Exercise: test other microservices. For that, check in the
 
 ## Chaos testing
 
-Let's do some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/) in production and see how our application reacts. After each chaos operation, access the application home page and see if anything was
+Perform some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/) in production and see how
+your application reacts. After each chaos operation, access the application home page and see if anything was
 changed. Also check the pods' status with `kubectl get pods`.
 
 1.  Terminate the _details_ service in one pod.
@@ -36,7 +37,10 @@ changed. Also check the pods' status with `kubectl get pods`.
     $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating $pod; kubectl exec -it $pod -- pkill ruby; done
     {{< /text >}}
 
-Note that in both cases the application did not crash. The crash in the _details_ microservice did not cause other microservices to fail. It means we did not have a _cascading failure_ in this situation. On the contrary, we had _gradual service degradation_: despite one microservice being crashed, the application still provided useful functionality: displayed the reviews and the basic info about the book.
+Note that in both cases the application did not crash. The crash in the _details_ microservice did not cause other
+microservices to fail. It means you did not have a _cascading failure_ in this situation. On the contrary,
+you had _gradual service degradation_: despite one microservice being crashed, the application still provided useful
+functionality: displayed the reviews and the basic info about the book.
 
 Exercise: terminate some other microservice. For that, get a shell into a container of a microservice and kill the
 process of the microservice. Access the application home page and see how it is affected by microservice termination.
