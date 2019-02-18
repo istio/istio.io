@@ -21,7 +21,7 @@ have Istio sidecar injected automatically.
     tutorial   Active    3d        istio-injection=enabled
     {{< /text >}}
 
-1.  Test the automatic sidecr injection by redeploying your testing pod:
+1.  Test the automatic sidecar injection by redeploying your testing pod:
 
     {{< text bash >}}
     $ kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
