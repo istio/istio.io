@@ -2,7 +2,7 @@
 title: A/B testing with Istio
 overview: Deploy two different versions of a microservice and split the traffic between them.
 
-weight: 120
+weight: 101
 
 ---
 
