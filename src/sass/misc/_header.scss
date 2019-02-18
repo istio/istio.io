@@ -1,15 +1,37 @@
 header {
-    .navbar {
-        background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
-        box-shadow: 0 0 2px 2px $headerLightShadowColor, 0 2px 4px 2px $headerDarkShadowColor;
-        padding-top: .2em;
-        padding-bottom: .2em;
+    background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+    box-shadow: 0 0 2px 2px $headerLightShadowColor, 0 2px 4px 2px $headerDarkShadowColor;
+    padding-top: .2em;
+    padding-bottom: .2em;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: $header-z;
+
+    #brand {
+        display: inline-block;
+        font-size: 1.25rem;
+        padding-top: .3125rem;
+        padding-bottom: .3125rem;
+        margin-right: 1rem;
+        line-height: inherit;
+        white-space: nowrap;
+        width: 100%;
+
+        @media (min-width: $bp-sm) {
+            width: unset;
+        }
+
+        &.open-hamburger {
+            display: none;
+        }
 
         .logo {
             width: 2em;
             height: 2em;
             top: 3px;
-            left: 1.3em;
+            left: 0.8em;
             position: fixed;
             fill: $textBrandColor;
             transition-duration: 0.8s;
@@ -24,142 +46,174 @@ header {
             @media (min-width: $bp-md) {
                 width: 3em;
                 height: 3em;
-                left: 0.8em;
+            }
+
+            &:hover {
+                transform: rotate(360deg);
             }
         }
 
-        .logo:hover {
-            transform: rotate(360deg);
-        }
-
-        .brand-name {
+        .name {
             color: $textBrandColor;
-            font-size: 1em;
             font-weight: 400;
             vertical-align: bottom;
             line-height: 1.1em;
-            margin-left: 3.7em;
+            display: inline-block;
+            padding-top: .35rem;
+            text-align: center;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+
+            @media (min-width: $bp-sm) {
+                text-align: left;
+                margin-left: 3.0em;
+                margin-right: 1rem;
+                width: unset;
+            }
+
+            @media (min-width: $bp-md) {
+                margin-left: 4.2em;
+            }
+        }
+    }
+
+    a {
+        font-weight: 500;
+        margin-left: .65rem;
+        margin-right: .65rem;
+        color: $textBrandColor;
+        font-size: 1.1em;
+
+        @media (min-width: $bp-sm) {
+            font-size: .9em;
+            margin-left: .58rem;
+            margin-right: .58rem;
         }
 
-        a {
-            font-weight: 500;
+        &:hover {
+            text-decoration: none;
+            color: $textBrandHighlightColor;
         }
 
-        a.active {
+        &.active {
             border-bottom: solid 3px $textBrandColor;
             border-radius: 2px;
-        }
-
-        a.nav-link {
             color: $textBrandColor;
-            font-size: .9em;
-
-            &:hover {
-                color: $textBrandHighlightColor;
-            }
-        }
-
-        svg.icon {
-            stroke: $textBrandColor;
-            fill: $textBrandColor;
-            width: 1.1em;
-            height: 1.1em;
-
-            &:hover {
-                fill: $textBrandHighlightColor;
-                stroke: $textBrandHighlightColor;
-            }
         }
     }
 
-    .navbar-dark .navbar-nav .nav-link {
-        color: $textBrandColor;
+    div.menu {
+        display: inline-block;
+    }
+
+    svg.icon {
+        stroke: $textBrandColor;
+        fill: $textBrandColor;
+        width: 1.1em;
+        height: 1.1em;
 
         &:hover {
-            color: $textBrandHighlightColor;
-        }
-
-        &:active {
-            color: $textBrandHighlightColor;
+            fill: $textBrandHighlightColor;
+            stroke: $textBrandHighlightColor;
         }
     }
 
-    .navbar-dark .navbar-nav .nav-link.active {
-        color: $textBrandColor;
-        cursor: default;
-
-        &:hover {
-            color: $textBrandColor;
-        }
-
-        &:active {
-            color: $textBrandColor;
-        }
-    }
-}
-
-#navbar-links {
-    position: static;
-}
-
-#search-form {
-    position: static;
-    display: flex;
-}
-
-#search-close {
-    display: none;
-}
-
-#search-show {
-    display: none;
-}
-
-#search-textbox {
-    margin: 4px 0 5px 0;
-    width: 100%;
-}
-
-@media (min-width: $bp-md) {
-    #navbar-links {
+    #hamburger {
+        display: inline-block;
         position: absolute;
-        right: -700px;
-        transition: right 0.5s;
+        top: .6rem;
+        right: 1.1rem;
+
+        @media (min-width: $bp-sm) {
+            display: none;
+        }
     }
 
-    #navbar-links.active {
-        right: 1rem;
+    #header-links {
+        display: none;
+
+        &.open-hamburger {
+            display: block;
+            text-align: center;
+            margin-top: 1em;
+        }
+
+        @media (min-width: $bp-sm) {
+            display: inline-block;
+            position: absolute;
+        }
+
+        top: .6rem;
+        right: 1.1rem;
         transition: right 0.5s;
+
+        &.show-search {
+            right: -700px;
+            transition: right 0.5s;
+        }
+    }
+
+    #search-show {
+        display: none;
+
+        @media (min-width: $bp-sm) {
+            display: inline-block;
+        }
     }
 
     #search-form {
-        position: absolute;
+        display: none;
+
+        &.open-hamburger {
+            display: flex;
+        }
+
+        @media (min-width: $bp-sm) {
+            display: flex;
+            position: absolute;
+        }
+
+        top: 0;
         right: -700px;
         transition: right 0.5s;
+
+        &.show-search {
+            right: 1rem;
+            transition: right 0.5s;
+        }
+
+        button:focus {
+            outline: 0;
+        }
     }
 
-    #search-form.active {
-        right: 1rem;
-        transition: right 0.5s;
+    #search-textbox {
+        margin: 12px 1rem 5px 1rem;
+        width: 100%;
+        text-align: center;
+
+        @media (min-width: $bp-sm) {
+            margin: 4px 0 5px 0;
+            width: 22rem;
+            text-align: unset;
+        }
     }
 
     #search-close {
-        display: block;
+        display: none;
+
+        @media (min-width: $bp-sm) {
+            display: block;
+        }
+
         background-color: rgba(0, 0, 0, 0);
         color: $textBrandColor;
         border-width: 0;
         cursor: pointer;
 
         &:hover {
-            color:  $textBrandHighlightColor;
+            color: $textBrandHighlightColor;
         }
-    }
-
-    #search-show {
-        display: block;
-    }
-
-    #search-textbox {
-        width: calc(1rem * 22);
     }
 }
