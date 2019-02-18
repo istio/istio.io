@@ -46,6 +46,7 @@ root-cert.pem
 {{< tip >}}
 `cert-chain.pem` 是 Envoy 的证书，会在需要的时候提供给对端。而 `key.pem` 就是 Envoy 的私钥，和 `cert-chain.pem` 中的证书相匹配。`root-cert.pem` 是用于证书校验的根证书。这个例子中，我们集群中只部署了一个 Citadel，所以所有的 Envoy 共用同一个 `root-cert.pem`。
 {{< /tip >}}
+
 使用 `openssl` 工具来检查证书的有效性（当前时间应该处于 `Not Before` 和 `Not After` 之间）
 
 {{< text bash >}}
