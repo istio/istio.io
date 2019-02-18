@@ -87,7 +87,6 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,10514/TCP   7m
     istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,10514/TCP                                           7m
     istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
-    istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
     istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,10514/TCP,42422/TCP                                 7m
     prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     {{< /text >}}
@@ -106,7 +105,6 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
     istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
     istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
-    istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
     istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
     prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
     {{< /text >}}

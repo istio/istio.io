@@ -36,7 +36,6 @@ icon: helm
       --set sidecarInjectorWebhook.enabled=false \
       --set mixer.enabled=false \
       --set prometheus.enabled=false \
-      --set global.proxy.envoyStatsd.enabled=false \
       --set pilot.sidecar=false > $HOME/istio-minimal.yaml
     {{< /text >}}
 
@@ -75,7 +74,6 @@ icon: helm
       --set sidecarInjectorWebhook.enabled=false \
       --set mixer.enabled=false \
       --set prometheus.enabled=false \
-      --set global.proxy.envoyStatsd.enabled=false \
       --set pilot.sidecar=false
     {{< /text >}}
 
