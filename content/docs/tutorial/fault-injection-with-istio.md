@@ -81,6 +81,16 @@ To verify that our microservices behave well under failures, first you inject a 
         caption="Istio Service Dashboard"
         >}}
 
+1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your _productpage_ service, find the
+    trace with errors:
+
+    {{< image width="80%"
+        link="images/jaeger-tracing-timeout-errors.png"
+        caption="Jaeger UI, timeout errors"
+        >}}
+
+    Note that the call to _productpage_ took 5.08 s, and that it took 2.5 s for _reviews_ to return a response.
+
 1.   Examine [_reviews_'s code](https://github.com/istio/istio/blob/master/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L88) that calls _ratings_:
 
     {{< text java >}}
@@ -89,7 +99,10 @@ To verify that our microservices behave well under failures, first you inject a 
     cb.property("com.ibm.ws.jaxrs.client.receive.timeout", timeout);
     {{< /text >}}
 
-    You can see that the code sets the timeout as 10 seconds, so it should absorb the delay of seven seconds.
+    You can see that the code sets the timeout as 10 seconds for the version with black stars,
+    so it should absorb the delay of seven seconds for that version. For the version with red stars the timeout is 2.5
+    seconds, exactly the latency you see in the tracing system. In real life you would increase the timeout for the
+    version with red stars.
 
     Go up the call chain and check the delay between _productpage_ and _reviews_.
     Examine
@@ -101,8 +114,9 @@ To verify that our microservices behave well under failures, first you inject a 
         res = requests.get(url, headers=headers, timeout=3.0)
     {{< /text >}}
 
-    As you can see, the timeout is too low (three seconds), it cannot accommodate the delays of seven seconds.
-    You must increase it. Also note that you can remove the timeouts from the code to make it cleaner, and
+    As you can see, the timeout is too low (three seconds), it cannot accommodate the delays of seven seconds, even if
+    _reviews_ could accommodate it. In real life you would increase this timeout.
+    Also note that you can remove the timeouts from the code to make it cleaner, and
     [handle the timeouts by Istio virtual services](/docs/tasks/traffic-management/request-timeouts).
 
 1.  Set the delay to two seconds and see that the current application can handle it:
@@ -110,3 +124,14 @@ To verify that our microservices behave well under failures, first you inject a 
     {{< text bash >}}
     $ curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml | sed 's/7s/2s/g' | kubectl apply -f -
     {{< /text >}}
+
+1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your productpage service, check the
+    latest trace:
+
+    {{< image width="80%"
+        link="images/jaeger-trace-delay-2.png"
+        caption="Jaeger UI, two seconds delay"
+        >}}
+
+    You can see that now there were no errors and the whole call chain took 2.3 s. It took 2 s for _reviews_ to return
+    a response, as you set by fault injection in the previous step.
