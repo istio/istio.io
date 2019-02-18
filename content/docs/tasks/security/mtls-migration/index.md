@@ -58,13 +58,18 @@ down once the migration is done.
     sleep.legacy to httpbin.foo: 200
     {{< /text >}}
 
-* Also verify that there are no authentication policy or destination rule in the system
+* Also verify that there are no authentication policy or destination rules (except mixer's) in the system:
 
     {{< text bash >}}
     $ kubectl get policies.authentication.istio.io --all-namespaces
     No resources found.
+    {{< /text >}}
+
+    {{< text bash >}}
     $ kubectl get destinationrule --all-namespaces
-    No resources found.
+    NAMESPACE      NAME              AGE
+    istio-system   istio-policy      25m
+    istio-system   istio-telemetry   25m
     {{< /text >}}
 
 ## Configure the server to accept both mutual TLS and plain text traffic
