@@ -1,0 +1,526 @@
+@media screen {
+    :target::before {
+        content: "";
+        display: block;
+        height: $headerHeight;
+        margin-top: -$headerHeight;
+    }
+
+    html {
+        overflow-y: scroll;
+        position: relative;
+        min-height: 100%;
+    }
+
+    body {
+        margin-top: $headerHeight;
+        margin-bottom: calc(#{$footerHeight} + 3rem);
+        font-family: "Work Sans", sans-serif;
+        color: $textColor;
+        background-color: $backgroundColor;
+    }
+}
+
+a {
+    color: $linkColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+    font-family: "Chivo", sans-serif;
+}
+
+a:hover, a:focus {
+    color: $linkHoverColor;
+    text-decoration: underline;
+    font-weight: $linkWeight;
+}
+
+a.disabled {
+    color: $linkDisabledColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+}
+
+a.active {
+    color: $linkActiveColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+}
+
+a.dropdown-item {
+    cursor: pointer;
+}
+
+table, th, td, tr {
+    padding: .5em;
+}
+
+table {
+    margin-left: .5em;
+    margin-right: .5em;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+table p:first-of-type {
+    margin-top: 0
+}
+
+table p:last-of-type {
+    margin-bottom: 0
+}
+
+th {
+    color: $textBrandColor;
+    background-color: $secondBrandColor;
+    font-weight: $tableHeaderWeight;
+
+    code {
+        color: $textBrandColor;
+    }
+}
+
+tr.oneof>td {
+    border-bottom: 1px dashed $dividerBarColor;
+    border-top: 1px dashed $dividerBarColor;
+}
+
+th, td {
+    border-left: 1px solid $boxBorderColor;
+    border-top: 1px solid $boxBorderColor;
+}
+
+tr:first-child th:first-child {
+    border-radius: 4px 0 0 0;
+}
+
+tr:first-child td:first-child {
+    border-radius: 4px 0 0 0;
+}
+
+tr:first-child th:last-child {
+    border-radius: 0 4px 0 0;
+}
+
+tr:first-child td:last-child {
+    border-radius: 0 4px 0 0;
+}
+
+tr:last-child td {
+    border-bottom: 1px solid $boxBorderColor;
+}
+
+tr:last-child td:first-child {
+    border-radius: 0 0 0 4px;
+}
+
+tr:last-child td:last-child {
+    border-radius: 0 0 4px 0;
+}
+
+tr th:last-child {
+    border-right: 1px solid $boxBorderColor;
+}
+
+tr td:last-child {
+    border-right: 1px solid $boxBorderColor;
+}
+
+thead+tbody tr:first-child td:first-child {
+    border-radius: 0;
+}
+
+thead+tbody tr:first-child td:last-child {
+    border-radius: 0;
+}
+
+code {
+    color: $textCodeColor;
+    font-size: 80%;
+    font-weight: $textCodeWeight;
+    word-break: normal;
+}
+
+pre {
+    margin: 1em 0 1em 1em;
+    @media (min-width: $bp-md) {
+        margin: 1em;
+    }
+
+    max-height: 31em;
+    border: 1px solid $preBlockBorderColor;
+    border-radius: 4px;
+    box-shadow: 3px 3px 8px $preBlockShadowColor;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    tab-size: 4;
+    hyphens: none;
+    background: $preBlockBackgroundColor;
+
+    code {
+        display: block;
+        padding: .5em;
+        color: $textColor;
+        font-size: 80%;
+        font-weight: $textCodeWeight;
+        word-break: normal;
+    }
+
+    code.command-output {
+        padding: 0;
+
+        .command {
+            padding: 1.5em 1em;
+            @media (min-width: $bp-md) {
+                padding: .5em .5em 0 .5em;
+            }
+        }
+
+        .output {
+            color: $preBlockCommandOutputTextColor;
+            background-color: $preBlockCommandOutputBackgroundColor;
+            font-style: italic;
+            padding: 1em;
+            float: left;
+            clear: left;
+            min-width: 100%;
+            @media (min-width: $bp-md) {
+                padding: 0 .5em .5em .5em;
+            }
+        }
+
+        // if the output div is empty, we need extra padding
+        div:only-of-type {
+            padding: 1.5em 1em;
+            @media (min-width: $bp-md) {
+                padding: .5em;
+            }
+        }
+    }
+
+    @media print {
+        max-height: unset;
+    }
+}
+
+div.toolbar {
+    position: relative;
+
+    button {
+        font-size: .8em;
+        padding: 0 .5em;
+        border-radius: .3em;
+        background-color: $secondBrandColor;
+        cursor: pointer;
+        color: $textBrandColor;
+        text-decoration: none;
+        border: 0;
+        position: absolute;
+        top: 3px;
+        z-index: 5;
+        transition: opacity .4s ease-in-out;
+        opacity: 0;
+    }
+
+    button.toolbar-show {
+        transition: opacity 1.1s ease-in-out;
+        opacity: 1;
+    }
+
+    button.copy {
+        right: 2.2rem;
+        width: 3rem;
+    }
+
+    button.download {
+        right: 5.5rem;
+    }
+
+    button.print {
+        right: 7.4rem;
+    }
+
+    svg {
+        width: .8em;
+        height: .8em;
+        display: inline;
+        fill: $textBrandColor;
+        stroke: $textBrandColor;
+    }
+}
+
+p {
+    font-size: $font-size--xs;
+    font-weight: $textWeight;
+    line-height: 1.5;
+    margin: .75em 0;
+
+    @media (min-width: $bp-md) {
+        margin: 1.5em 0;
+    }
+}
+
+li, dt, dd {
+    font-size: $font-size--xs;
+    font-weight: $textWeight;
+    line-height: 1.5;
+    margin: .25em;
+}
+
+ol, ul, dl {
+    list-style: initial;
+    font-size: $font-size--primary;
+    font-weight: $textWeight;
+    margin: 0 0 0 1.5em;
+    padding: 0;
+}
+
+li p, dt p, dd p {
+    margin: .4em 0;
+}
+
+ol {
+    list-style: decimal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    border: 0;
+}
+
+h1 {
+    font-size: $font-size--xxl;
+    color: $h1Color;
+    font-weight: $h1Weight;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: $font-size--xl;
+    color: $h2Color;
+    font-weight: $h2Weight;
+    margin-top: 3rem;
+    margin-bottom: 1.8rem;
+
+    &:before {
+        display: block;
+        content: ' ';
+        width: 5rem;
+        border-bottom: 2px solid $mainBrandColor;
+        margin-bottom: 1.1rem;
+        visibility: visible;
+    }
+}
+
+h3 {
+    font-size: $font-size--l;
+    color: $h3Color;
+    font-weight: $h3Weight;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+h4 {
+    font-size: $font-size--l;
+    color: $h4Color;
+    font-weight: $h4Weight;
+    margin: 30px 0 20px;
+
+    // Text immediately following h4 should have same level of indention
+    + p {
+        margin: 5px 0;
+
+        @media (min-width: $bp-md) {
+            margin: 10px 0;
+        }
+    }
+}
+
+h5 {
+    font-size: $font-size--s;
+    color: $h5Color;
+    font-weight: $h5Weight;
+}
+
+h6 {
+    font-size: .9rem;
+    color: $h6Color;
+    font-weight: $h6Weight;
+}
+
+.header-link {
+    position: relative;
+    left: 0.5em;
+    top: -.1em;
+    opacity: 0;
+    font-size: 0.6em;
+}
+
+h2:hover .header-link,
+h3:hover .header-link,
+h4:hover .header-link,
+h5:hover .header-link,
+h6:hover .header-link,
+dt:hover .header-link {
+    transition: opacity .4s ease-in-out;
+    opacity: 1;
+}
+
+@media print {
+    .header-link {
+        display: none;
+    }
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: $boldTextWeight;
+}
+
+img {
+    width: 100%;
+}
+
+blockquote {
+    display: block;
+    margin: 1em 0 1em 2em;
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: $blockQuoteBackgroundColor;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.spacer {
+    height: .1rem;
+
+    @media (min-width: $bp-md) {
+        height: 1rem;
+    }
+}
+
+.deprecated {
+    background: $deprecatedBackgroundColor;
+}
+
+.card {
+    background-color: $backgroundColor;
+    border-color: $dividerBarColor;
+}
+
+.card-header {
+    border-bottom-color: $dividerBarColor;
+}
+
+#scroll-to-top-container {
+    @media print {
+        display: none;
+    }
+
+    // don't display the scroll-to-top button if the TOC is being displayed
+    @media (min-width: $bp-xl) {
+        display: none;
+    }
+}
+
+#scroll-to-top {
+    display: none;
+    position: fixed;
+    top: $headerHeight;
+    right: 10px;
+    z-index: 99;
+    outline: none;
+    background-color: rgba($backgroundColor, .7);
+    color: $floatingButtonColor;
+    cursor: pointer;
+    padding: 3px 5px;
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 0;
+    box-shadow: 0 0 2px 2px $floatingButtonColor;
+
+    &:hover {
+        color: $textBrandHighlightColor;
+    }
+
+    svg {
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+    }
+
+    &.show {
+        display: block;
+    }
+}
+
+@media print {
+    h1, h2, h3 {
+        color: #000;
+        background: none;
+        page-break-after: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    pre, blockquote, img {
+        page-break-inside: avoid;
+    }
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
+.large_icon {
+    width: 1.4em;
+    height: 1.4em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
+.page_icon {
+    margin-right: .3em;
+}
+
+.flipped {
+    transform: scaleX(-1);
+}
+
+.subtitle {
+    margin-top: .15rem;
+    margin-bottom: 0;
+    padding: 0 0 0 0;
+    font-size: 125%;
+}
+
+.byline {
+    margin-top: .15rem;
+    margin-bottom: 2rem;
+    padding: 0;
+    text-transform: uppercase;
+    font-size: 75%;
+}
+
+.attribution {
+    font-weight: $blogAttributeWeight;
+}

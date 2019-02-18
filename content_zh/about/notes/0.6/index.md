@@ -1,6 +1,6 @@
 ---
 title: Istio 0.6
-weight: 95
+publishdate: 2018-03-08
 icon: notes
 ---
 

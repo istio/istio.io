@@ -2,7 +2,7 @@
 title: 深入了解双向 TLS
 description: 对 Istio 的自动双向 TLS 认证功能进行体验和测试。
 weight: 10
-keywords: [安全,双向 TLS]
+keywords: [security,mutual-tls]
 ---
 
 通过此任务，您可以仔细查看双向 TLS 并了解其设置。
@@ -12,7 +12,7 @@ keywords: [安全,双向 TLS]
 * 您熟悉使用基础验证策略来启用双向 TLS。
 * Istio 在 Kubernetes 上运行，启用全局双向 TLS。您可以按照我们的[安装 Istio 的说明](/zh/docs/setup/kubernetes/)。
 如果您已经安装了 Istio，则可以添加或修改基础验证策略和目标规则以启用双向 TLS，如 [网格中的所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-tls-认证) 中所述。
-* 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [手工注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-Sidecar)部署这些服务的命令：
+* 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [手工注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)部署这些服务的命令：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
@@ -21,7 +21,7 @@ keywords: [安全,双向 TLS]
 
 ## 检查 Citadel 是否运行正常
 
-[Citadel](/zh/docs/concepts/security/#pki)是 Istio 的密钥管理服务。 Citadel 必须正常运行才能使双向 TLS 正常工作。
+[Citadel](/zh/docs/concepts/security/#pki) 是 Istio 的密钥管理服务。Citadel 必须正常运行才能使双向 TLS 正常工作。
 使用以下命令验证 Citadel 在集群中是否正确运行：
 
 {{< text bash >}}
@@ -152,7 +152,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
     command terminated with exit code 56
     {{< /text >}}
 
-    > 请注意，退出代码为56.代码转换为无法接收网络数据。
+    > 请注意，退出代码为 56，代表无法接收网络数据。
 
 1. 确认没有客户端证书的 TLS 请求也会失败：
 
@@ -162,7 +162,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
     command terminated with exit code 35
     {{< /text >}}
 
-    > 这次，退出代码为35，这对应于 SSL/TLS 握手中某处发生的问题。
+    > 这次，退出代码为 35，这对应于 SSL/TLS 握手中某处发生的问题。
 
 1. 使用客户端证书确认 TLS 请求成功：
 
@@ -171,11 +171,10 @@ $ kubectl delete --ignore-not-found=true bad-rule
     200
     {{< /text >}}
 
-> Istio 使用 [Kubernetes Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)作为服务标识，
-提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#Istio-身份)）。因此，Istio 使用的证书
-没有注明服务名称，但是 `curl` 需要利用这些信息验证服务器的身份。为了防止 `curl` 客户端报错，我们使用 `curl`
-的 `-k` 参数。该参数可跳过客户端对服务器名称的验证，例如，`httpbin.default.svc.cluster.local`
-服务器提供的证书。
+> Istio 使用 [Kubernetes Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务标识，
+提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#istio-身份)）。因此，Istio 使用的证书没有注明服务名称，
+但是 `curl` 需要利用这些信息验证服务器的身份。为了防止 `curl` 客户端报错，我们使用 `curl` 的 `-k` 参数。该参数可跳过客户端对服务器名称的验证，
+例如，`httpbin.default.svc.cluster.local` 服务器提供的证书。
 
 ## 清理
 

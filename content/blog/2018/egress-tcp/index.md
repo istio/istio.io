@@ -5,15 +5,15 @@ publishdate: 2018-02-06
 last_update: 2018-07-23
 subtitle: Mesh-external Service Entries for TCP traffic
 attribution: Vadim Eisenberg
-weight: 92
 aliases:
   - /docs/tasks/traffic-management/egress-tcp/
 keywords: [traffic-management,egress,tcp]
 ---
 
-> This blog post was updated on July 23, 2018 to use the new
-[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow the docs
-[here](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
+{{< tip >}}
+This blog post was updated on July 23, 2018 to use the new
+[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow these [docs](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
+{{< /tip >}}
 
 In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services
  can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services
@@ -332,7 +332,7 @@ Also note that the IPs of an external service are not always static, for example
 be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible
 IPs is known, you should specify the range by CIDR blocks. If the range of the possible IPs is not known, service
 entries for TCP cannot be used and
-[the external services must be called directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly),
+[the external services must be called directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services),
 bypassing the sidecar proxies.
 
 ## Relation to mesh expansion
@@ -346,7 +346,7 @@ becomes addressable by a local cluster domain name, for example by `mysqldb.vm.s
  to it can be secured by
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication). There is no need to create a service
 entry to access this service; however, the service must be registered with Istio. To enable such integration, Istio
-components (_Envoy proxy_, _node-agent_, _istio-agent_) must be installed on the machine and the Istio control plane
+components (_Envoy proxy_, _node-agent_, `_istio-agent_`) must be installed on the machine and the Istio control plane
 (_Pilot_, _Mixer_, _Citadel_) must be accessible from it. See the
 [Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/) instructions for more details.
 

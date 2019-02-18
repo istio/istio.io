@@ -73,9 +73,9 @@ so the configuration to enable rate limiting on both adapters is the same.
       name: handler
       namespace: istio-system
     spec:
+      redisServerUrl: <redis_server_url>
+      connectionPoolSize: 10
       quotas:
-        redisServerUrl: <redis_server_url>
-        connectionPoolSize: 10
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -172,6 +172,7 @@ so the configuration to enable rate limiting on both adapters is the same.
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
+        overrides:
         - dimensions:
             destination: reviews
           maxAmount: 1
@@ -391,7 +392,7 @@ dimensions. In the example, the 0.2 qps override is selected by matching only
 three out of four quota dimensions.
 
 If you want the policies enforced for a given namespace instead of the entire
-Istio mesh, you can replace all occurrences of istio-system with the given
+Istio mesh, you can replace all occurrences of `istio-system` with the given
 namespace.
 
 ## Cleanup

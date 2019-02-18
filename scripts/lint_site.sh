@@ -7,10 +7,12 @@ mdspell --version
 echo -ne "mdl "
 mdl --version
 htmlproofer --version
+DISABLE_EXTERNAL=${INTERNAL_ONLY:-false}
+
 
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
-# blocks into classic markdown ``` code blocks, so that the linters aren't confused
+# into classic markdown ``` code blocks, so that the linters aren't confused
 # by the code blocks
 check_content() {
     DIR=$1
@@ -41,22 +43,43 @@ check_content() {
     pushd ${TMP} >/dev/null
 
     mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report *.md */*.md */*/*.md */*/*/*.md */*/*/*/*.md */*/*/*/*/*.md */*/*/*/*/*/*.md
-    if [ "$?" != "0" ]
+    if [[ "$?" != "0" ]]
     then
         echo "To learn how to address spelling errors, please see https://github.com/istio/istio.io#linting"
         FAILED=1
     fi
 
     mdl --ignore-front-matter --style mdl_style.rb .
-    if [ "$?" != "0" ]
+    if [[ "$?" != "0" ]]
     then
         FAILED=1
     fi
 
     grep -nr -e "(https://istio.io" .
-    if [ "$?" == "0" ]
+    if [[ "$?" == "0" ]]
     then
         echo "Ensure markdown content uses relative references to istio.io"
+        FAILED=1
+    fi
+
+    grep -nr -e "https://github.com/istio/istio/blob/" .
+    if [[ "$?" == "0" ]]
+    then
+        echo "Ensure markdown content uses {{< github_blob >}}"
+        FAILED=1
+    fi
+
+    grep -nr -e "https://github.com/istio/istio/tree/" .
+    if [[ "$?" == "0" ]]
+    then
+        echo "Ensure markdown content uses {{< github_tree >}}"
+        FAILED=1
+    fi
+
+    grep -nr -e "https://raw.githubusercontent.com/istio/istio/" .
+    if [[ "$?" == "0" ]]
+    then
+        echo "Ensure markdown content uses {{< github_file >}}"
         FAILED=1
     fi
 
@@ -71,19 +94,30 @@ check_content content --en-us
 check_content content_zh --zh-cn
 
 grep -nr -e "“" ./content
-if [ "$?" == "0" ]
+if [[ "$?" == "0" ]]
 then
     echo "Ensure markdown content only uses standard quotation marks and not “"
     FAILED=1
 fi
 
-htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
-if [ "$?" != "0" ]
+# disabled until the Chinese content has been updated
+#for f in `find ./public -type f -name '*.html'`
+#do
+#    grep -l -e "blockquote" $f
+#    if [[ "$?" == "0" ]]
+#    then
+#        echo "Ensure markdown content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
+#        FAILED=1
+#    fi
+#done
+
+htmlproofer ./public --assume-extension --check-html --disable_external ${DISABLE_EXTERNAL} --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
+if [[ "$?" != "0" ]]
 then
     FAILED=1
 fi
 
-if [ ${FAILED} -eq 1 ]
+if [[ ${FAILED} -eq 1 ]]
 then
     echo "LINTING FAILED"
     exit 1

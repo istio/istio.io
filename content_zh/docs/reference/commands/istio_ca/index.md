@@ -22,7 +22,7 @@ $ istio_ca [flags]
 | `--custom-dns-names <string>` | `account.namespace: customdns` 名称列表，以逗号分隔。（默认 `''`） |
 | `--enable-profiling` | 启用监视 Citadel 的性能分析。|
 | `--experimental-dual-use` | 启用两用模式。使用与 `SAN` 相同的 `CommonName` 生成证书。|
-| `--grpc-host-identities <string>` | istio ca server 的主机名列表，以逗号分隔。（默认 `istio-ca`，`istio-citadel`） |
+| `--grpc-host-identities <string>` | Istio CA server 的主机名列表，以逗号分隔。（默认 `istio-ca`，`istio-citadel`） |
 | `--grpc-port <int>` | Citadel GRPC 服务器的端口号。如果未指定，Citadel 将不会提供 GRPC 请求。（默认为 `8060`） |
 | `--identity-domain <string>` | 用于标识的域（`default: cluster.local`）（默认为 `cluster.local`） |
 | `--key-size <int>` | 生成私钥的大小（默认为 `2048`） |
@@ -37,7 +37,7 @@ $ istio_ca [flags]
 | `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大寿命，将自动分割（以天为单位,0 表示无限制）（默认为 `30`） |
 | `--log_rotate_max_backups <int>` | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` | 日志文件的最大大小（以兆为单位），超过该值日志文件将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\]之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
+| `--log_stacktrace_level <string>` | 捕获堆栈追踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\]之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--max-workload-cert-ttl <duration>` | 已发布工作负载证书的最大 TTL（默认为 `2160h0m0s`） |
 | `--monitoring-port <int>` | 用于监控 Citadel 的端口号。如果未指定，Citadel 将禁用监控。（ 默认 `9093`） |
@@ -55,7 +55,7 @@ $ istio_ca [flags]
 | `--workload-cert-min-grace-period <duration>` | 最小工作负载证书轮换宽期限或者周期。（ 默认 `10m0s`） |
 | `--workload-cert-ttl <duration>` | 已发布工作负载证书的 TTL（ 默认为 `2160h0m0s`） |
 
-## istio\_ca probe
+## `istio\_ca` probe
 
 检查本地运行的服务器的活跃度或准备情况
 
@@ -76,11 +76,11 @@ $ istio_ca probe [flags]
 | `--log_rotate_max_age <int>` | 日志文件超过文件分割的最大寿命（以天为单位，0表示无限制），将分割文件（默认为 `30`） |
 | `--log_rotate_max_backups <int>` | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` | 日志文件的最大大小（以兆为单位），超过该值日志文件将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
+| `--log_stacktrace_level <string>` | 捕获堆栈追踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
 | `--log_target <stringArray>` | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--probe-path <string>` | 用于检查可用性的文件的路径。（ 默认 `''`） |
 
-## istio\_ca version
+## `istio\_ca` version
 
 打印出版本信息
 
@@ -100,6 +100,6 @@ $ istio_ca version [flags]
 | `--log_rotate_max_age <int>` |  | 日志文件超过文件分割的最大寿命（以天为单位，0表示无限制），将分割日志文件（默认为 `30`） |
 | `--log_rotate_max_backups <int>` |  | 删除旧文件之前要保留的最大日志文件备份数（0表示无限制）（默认为 `1000`） |
 | `--log_rotate_max_size <int>` |  | 日志文件的最大大小（以兆为单位），超过该日志文件将分割文件（默认为 `104857600`） |
-| `--log_stacktrace_level <string>` |  | 捕获堆栈跟踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
+| `--log_stacktrace_level <string>` |  | 捕获堆栈追踪的日志记录级别，逗号分隔的最小的每个范围，格式为 `<scope>` :  `<level>` ，`<scope: level>`，...其中 scope 可以是\[default，model\] 之一和 level 可以是\[debug，info，warn，error，none\]之一（ 默认 `default: none`） |
 | `--log_target <stringArray>` |  | 输出日志的路径集。这可以是任何路径以及特殊值 `stdout` 和 `stderr`（ 默认 `[stdout]`） |
 | `--short` | `-s` | 显示简短的版本信息 |

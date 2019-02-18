@@ -14,7 +14,7 @@ icon: helm
 
 ## 安装步骤
 
-1. 如果你的 Helm 版本低于 2.10.0，通过 `kubectl apply` 安装 Istio 的 [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，稍等片刻 CRD 会被提交到 kube-apiserver：
+1. 如果你的 Helm 版本低于 2.10.0，通过 `kubectl apply` 安装 Istio 的 [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，稍等片刻 CRD 会被提交到 `kube-apiserver`：
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml

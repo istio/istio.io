@@ -4,8 +4,7 @@ description: 描述 Istio 的授权功能以及如何在各种用例中使用它
 publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
-weight: 87
-keywords: [授权,基于角色的访问控制,安全]
+keywords: [authorization,Role Based Access Control,security]
 ---
 
  Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域，并允许组织使用将工作负载彼此隔离并单独保护它们。
@@ -127,7 +126,7 @@ spec:
 #### 使用经过身份验证的客户端身份
 
 假设你想把这个 `book-reader` 角色授予你的 `bookstore-frontend` 服务。如果您已启用
-您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-TLS-认证),您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
+您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证),您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"

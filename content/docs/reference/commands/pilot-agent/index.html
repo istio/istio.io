@@ -84,6 +84,10 @@ number_of_entries: 5
 <td>Control Plane Authentication Policy  (default `NONE`)</td>
 </tr>
 <tr>
+<td><code>--controlPlaneBootstrap</code></td>
+<td>Process bootstrap provided via templateFile to be used by control plane components. </td>
+</tr>
+<tr>
 <td><code>--customConfigFile &lt;string&gt;</code></td>
 <td>Path to the custom configuration file  (default ``)</td>
 </tr>
@@ -181,7 +185,7 @@ number_of_entries: 5
 </tr>
 <tr>
 <td><code>--serviceregistry &lt;string&gt;</code></td>
-<td>Select the platform for service registry, options are {Kubernetes, Consul, MCP, Mock, Config}  (default `Kubernetes`)</td>
+<td>Select the platform for service registry, options are {Kubernetes, Consul, Mock}  (default `Kubernetes`)</td>
 </tr>
 <tr>
 <td><code>--statsdUdpAddress &lt;string&gt;</code></td>

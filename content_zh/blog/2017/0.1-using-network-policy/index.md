@@ -4,7 +4,6 @@ description: Istio 的策略如何关联 Kubernetes 的网络策略 。
 publishdate: 2017-08-10
 subtitle:
 attribution: Spike Curtis
-weight: 97
 ---
 
 使用网络策略去保护运行在 Kubernetes 上的应用程序现在是一种广泛接受的行业最佳实践。 鉴于 Istio 也支持策略，我们希望花一些时间来解释 Istio 策略和 Kubernetes 网络策略的相互作用和互相支持提供应用程序的安全。
@@ -74,7 +73,7 @@ spec:
     istio: ingress
 {{< /text >}}
 
-istio-ingress 暴露端口 80 和 443 . 我们需要将流入流量限制在这两个端口上。 Envoy 有[`内置管理接口`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#operations-admin-interface)，我们不希望错误配置 istio-ingress 镜像而导致意外地将我们的管理接口暴露给外界。这里深度防御的示例：正确配置的镜像应该暴露接口，正确配置的网络策略将阻止任何人连接到它，要么失败，要么配置错误，受到保护。
+`istio-ingress` 暴露端口 80 和 443 . 我们需要将流入流量限制在这两个端口上。 Envoy 有[`内置管理接口`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#operations-admin-interface)，我们不希望错误配置 `istio-ingress` 镜像而导致意外地将我们的管理接口暴露给外界。这里深度防御的示例：正确配置的镜像应该暴露接口，正确配置的网络策略将阻止任何人连接到它，要么失败，要么配置错误，受到保护。
 
 {{< text yaml >}}
 apiVersion: networking.k8s.io/v1

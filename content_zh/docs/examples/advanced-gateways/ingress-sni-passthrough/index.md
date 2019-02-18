@@ -2,7 +2,7 @@
 title: 没有 TLS 的 Ingress gateway
 description: 介绍如何为入口网关配置 SNI 直通。
 weight: 10
-keywords: [流量管理,ingress, https]
+keywords: [traffic-management,ingress, https]
 ---
 
 [使用 HTTPS 保护网关](/zh/docs/tasks/traffic-management/secure-ingress/)任务描述了如何配置 HTTPS
@@ -231,7 +231,7 @@ keywords: [流量管理,ingress, https]
     EOF
     {{< /text >}}
 
-1.  按照[确定入口IP和端口](/zh/docs/tasks/traffic-management/ingress/#确定入口-IP-和端口)中的说明定义 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST` 环境变量。
+1.  按照[确定入口IP和端口](/zh/docs/tasks/traffic-management/ingress/#确定入口-ip-和端口)中的说明定义 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST` 环境变量。
 
 1.  从群集外部访问 NGINX 服务。请注意，服务器返回正确的证书并成功验证（打印 _SSL certificate verify ok_ ）。
 

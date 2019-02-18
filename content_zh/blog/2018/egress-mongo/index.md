@@ -4,8 +4,7 @@ description: 描述了一个基于 Istio 的 Bookinfo 示例的简单场景。
 publishdate: 2018-11-16
 subtitle: MongoDB 流量的 Istio Egress 控制选项
 attribution: Vadim Eisenberg
-weight: 79
-keywords: [流量管理,egress,tcp,mongo]
+keywords: [traffic-management,egress,tcp,mongo]
 ---
 
 在[使用外部 TCP 服务](/blog/2018/egress-tcp/)博文中，我描述了网格内的 Istio 应用程序如何通过 TCP 使用外部服务。在本文中，我将演示如何使用外部 MongoDB
@@ -138,7 +137,7 @@ keywords: [流量管理,egress,tcp,mongo]
 
 由于 [MongoDB 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)运行在 TCP 之上，您可以像控制到[其余 TCP 服务](/blog/2018/egress-tcp/)的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 [CIDR](https://tools.ietf.org/html/rfc2317) 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。
 
-在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/docs/tasks/traffic-management/egress/#calling-external-services-directly)路由流量。
+在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)路由流量。
 
 获取 MongoDB 数据库实例的 IP 地址。一种选择是使用 [host](https://linux.die.net/man/1/host) 命令。
 
@@ -937,7 +936,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 1. 检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -c sni-proxy
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 1863 482 0.089
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}

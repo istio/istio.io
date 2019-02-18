@@ -4,7 +4,6 @@ description: 描述如何在AWS上使用网络负载均衡器配置 Istio Ingres
 publishdate: 2018-04-20
 subtitle: Ingress AWS 网络负载均衡器
 attribution: Julien SENON
-weight: 89
 keywords: [ingress,traffic-management,aws]
 ---
 
@@ -83,7 +82,7 @@ keywords: [ingress,traffic-management,aws]
 
 ## 重写 Istio Ingress 服务
 
-你需要使用以下内容来重写 istio ingress 服务：
+你需要使用以下内容来重写 `istio-ingress` 服务：
 
 {{< text yaml >}}
 apiVersion: v1

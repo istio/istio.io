@@ -4,7 +4,6 @@ description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-11-16
 subtitle: Istio Egress Control Options for MongoDB traffic
 attribution: Vadim Eisenberg
-weight: 79
 keywords: [traffic-management,egress,tcp,mongo]
 ---
 
@@ -165,7 +164,7 @@ stable or known in advance.
 
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be
 [controlled as TLS traffic](#egress-control-for-tls), or the traffic can be routed
-[directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
+[directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services), bypassing the Istio sidecar
 proxies.
 
 Get the IP address of your MongoDB database instance. As an option, you can use the
@@ -590,7 +589,11 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
     the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
     identity.)
 
-    {{< text bash >}}
+    {{< tabset cookie-name="mtls" >}}
+
+    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+
+{{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -665,11 +668,13 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text >}}
+{{< /text >}}
 
-    otherwise:
+    {{% /tab %}}
 
-    {{< text bash >}}
+    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+
+{{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -733,7 +738,11 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text >}}
+{{< /text >}}
+
+    {{% /tab %}}
+
+    {{< /tabset >}}
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
@@ -936,8 +945,9 @@ to hold the configuration of the Nginx SNI proxy:
     {{< /text >}}
 
 1.  Create an egress `Gateway` for _*.com_, port 443, protocol TLS, a destination rule to set the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and a virtual service to direct the
-    traffic destined for _*.com_ to the gateway.
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) for the gateway, and Envoy filters to prevent tampering
+    with SNI by a malicious application (the filters verify that the SNI issued by the application is the SNI reported
+    to Mixer).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -964,7 +974,7 @@ to hold the configuration of the Nginx SNI proxy:
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: mtls-for-egress-gateway
     spec:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
       subsets:
@@ -977,7 +987,42 @@ to hold the configuration of the Nginx SNI proxy:
                 number: 443
               tls:
                 mode: ISTIO_MUTUAL
-                sni: placeholder.com
+    ---
+    # The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
+    # connection.
+    # The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value.
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: forward-downstream-sni
+    spec:
+      filters:
+      - listenerMatch:
+          portNumber: $MONGODB_PORT
+          listenerType: SIDECAR_OUTBOUND
+        filterName: forward_downstream_sni
+        filterType: NETWORK
+        filterConfig: {}
+    ---
+    # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
+    # identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy).
+    # The filter prevents Mixer from being deceived by a malicious application: routing to one SNI while
+    # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection, the
+    # filter will block the connection to the external service.
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: egress-gateway-sni-verifier
+    spec:
+      workloadLabels:
+        app: istio-egressgateway-with-sni-proxy
+      filters:
+      - listenerMatch:
+          portNumber: 443
+          listenerType: GATEWAY
+        filterName: sni_verifier
+        filterType: NETWORK
+        filterConfig: {}
     EOF
     {{< /text >}}
 
@@ -1035,15 +1080,15 @@ to hold the configuration of the Nginx SNI proxy:
     You should see lines similar to the following:
 
     {{< text plain >}}
-    [2019-01-02T17:22:04.602Z] "- - -" 0 - 768 1863 88 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 placeholder.com
-    [2019-01-02T17:22:04.713Z] "- - -" 0 - 1534 2590 85 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 placeholder.com
+    [2019-01-02T17:22:04.602Z] "- - -" 0 - 768 1863 88 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 <your MongoDB host>
+    [2019-01-02T17:22:04.713Z] "- - -" 0 - 1534 2590 85 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 <your MongoDB host>
     {{< /text >}}
 
 1.  Check the logs of the SNI proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
     log is:
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -c sni-proxy
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 1863 482 0.089
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
@@ -1068,7 +1113,8 @@ section.
     $ kubectl delete serviceentry mongo
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-mongo-through-egress-gateway
-    $ kubectl delete destinationrule set-sni-for-egress-gateway
+    $ kubectl delete destinationrule mtls-for-egress-gateway
+    $ kubectl delete envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
 1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:

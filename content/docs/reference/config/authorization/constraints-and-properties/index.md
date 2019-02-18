@@ -13,7 +13,9 @@ Specifically, you can use constraints to specify extra conditions in the access 
 role. You can use properties to specify extra conditions in the subject field of a service role binding.
 Istio supports all keys listed on this page for the HTTP protocol but supports only some for the plain TCP protocol.
 
-> {{< warning_icon >}} Unsupported keys and values will be ignored silently.
+{{< warning >}}
+Unsupported keys and values will be ignored silently.
+{{< /warning >}}
 
 For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
 

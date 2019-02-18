@@ -2,7 +2,7 @@
 title: 组件内检
 description: 描述如何使用 ControlZ 检测查看单个组件的运行状态。
 weight: 20
-keywords: [ops, 运维]
+keywords: [ops]
 ---
 
 Istio 的组件使用了一种灵活的内检（Introspection）框架构建，因此可以方便地查看和调整正在运行中组件的内部状态。

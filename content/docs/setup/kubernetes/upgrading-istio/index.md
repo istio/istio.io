@@ -1,7 +1,7 @@
 ---
 title: Upgrading Istio
 description: Demonstrates how to upgrade the Istio control plane and data plane independently.
-weight: 70
+weight: 37
 keywords: [kubernetes,upgrading]
 ---
 
@@ -14,75 +14,86 @@ In the following steps, we assume that the Istio components are installed and up
 
 ## Upgrade steps
 
-1. [Download the new Istio release](/docs/setup/kubernetes/download-release/)
+[Download the new Istio release](/docs/setup/kubernetes/download-release/)
 and change directory to the new release directory.
-
-1. Upgrade Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
-
-{{< text bash >}}
-$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@ -n istio-system
-{{< /text >}}
 
 ### Control plane upgrade
 
-The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Policy, Telemetry and
+The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Galley, Policy, Telemetry and
 Sidecar injector.
 
 #### Helm upgrade
 
 If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
 
-{{< text bash >}}
-$ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
-{{< /text >}}
+1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
+
+    {{< text bash >}}
+    $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
+    {{< /text >}}
+
+1. Check that all the CRD creation jobs completed successfully to verify that the Kubernetes API server received all the CRDs:
+
+    {{< text bash >}}
+    $ kubectl get job --namespace istio-system | grep istio-init-crd
+    {{< /text >}}
+
+1. Upgrade the `istio` chart:
+
+    {{< text bash >}}
+    $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+    {{< /text >}}
 
 #### Kubernetes rolling update
 
 You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
 
-First, generate the desired Istio control plane yaml file, e.g.
+1. Use `kubectl apply` to upgrade all the Istio's CRDs.  Wait a few seconds for the Kubernetes API server to receive the upgraded CRDs:
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system > install/kubernetes/istio.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    {{< /text >}}
 
-or
+1. Add Istio's core components to a Kubernetes manifest file, for example.
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system --set global.mtls.enabled=true > install/kubernetes/istio-auth.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio \
+      --namespace istio-system > $HOME/istio.yaml
+    {{< /text >}}
 
-If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` and `global.controlPlaneSecurityEnabled` to `true` for the last command:
 
-Second, simply apply the new version of the desired Istio control plane yaml file directly, e.g.
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+      --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true > $HOME/istio-auth.yaml
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio.yaml
-{{< /text >}}
+    If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
 
-or
+1. Upgrade the Istio control plane components via the manifest, for example:
 
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
+
+    or
+
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio-auth.yaml
+    {{< /text >}}
 
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
 your Istio control plane should be updated to the new version. Your existing application should continue to work without
-any change, using the Envoy v1 proxy and the v1alpha1 route rules. If there is any critical issue with the new control plane,
-you can rollback the changes by applying the yaml files from the old version.
+any change. If there is any critical issue with the new control plane, you can rollback the changes by applying the yaml files from the old version.
 
 ### Sidecar upgrade
 
-After the control plane upgrade, the applications already running Istio will still be using an older sidecar. To upgrade the sidecar,
-you will need to re-inject it.
+After the control plane upgrade, the applications already running Istio will still be using an older sidecar. To upgrade the sidecar, you will need to re-inject it.
 
 If you're using automatic sidecar injection, you can upgrade the sidecar
 by doing a rolling update for all the pods, so that the new version of the
 sidecar will be automatically re-injected. There are some tricks to reload
-all pods. E.g. There is a [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
+all pods. E.g. There is a sample [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
 which triggers the rolling update by patching the grace termination period.
 
 If you're using manual injection, you can upgrade the
@@ -101,65 +112,6 @@ $ kubectl apply -f <(istioctl kube-inject \
      --injectConfigFile inject-config.yaml \
      --filename $ORIGINAL_DEPLOYMENT_YAML)
 {{< /text >}}
-
-## Migrating to the new networking APIs
-
-Once you've upgraded the control plane and sidecar, you can gradually update your deployment to use the new Envoy sidecar.  You can do this by using
-one of the options below:
-
-- Add the following to your pod annotation for your deployment:
-
-    {{< text yaml >}}
-    kind: Deployment
-    ...
-    spec:
-      template:
-        metadata:
-          annotations:
-            sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:0.8.0
-    {{< /text >}}
-
-    Then replace your deployment with your updated application yaml file:
-
-    {{< text bash >}}
-    $ kubectl replace -f $UPDATED_DEPLOYMENT_YAML
-    {{< /text >}}
-
-or
-
-- Use an `injectConfigFile` that has `docker.io/istio/proxyv2:0.8.0` as the proxy image.  If you don't have an `injectConfigFile`, you can
-[generate one](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection).   `injectConfigFile` is recommended if you need to add
-the `sidecar.istio.io/proxyImage` annotations in multiple deployment definitions.
-
-    {{< text bash >}}
-    $ kubectl replace -f <(istioctl kube-inject --injectConfigFile inject-config.yaml -f $ORIGINAL_DEPLOYMENT_YAML)
-    {{< /text >}}
-
-Next, use `istioctl experimental convert-networking-config` to convert your existing ingress or route rules:
-
-1. If your yaml file contains more than the ingress definition such as deployment or service definition, move the ingress definition out to a separate yaml file for the `
-istioctl experimental convert-networking-config` tool to process.
-
-1. Execute the following to generate the new network configuration file, where replacing FILE*.yaml with your ingress file or deprecated route rule files.
-*Tip: Make sure to feed all the files using `-f` for one or more deployments.*
-
-    {{< text bash >}}
-    $ istioctl experimental convert-networking-configuration-f FILE1.yaml -f FILE2.yaml -f FILE3.yaml > UPDATED_NETWORK_CONFIG.yaml
-    {{< /text >}}
-
-1. Edit `UPDATED_NETWORK_CONFIG.yaml` to update all namespace references to your desired namespace.
-There is a known issue with the `convert-networking-config` tool where the `istio-system` namespace
-is used incorrectly. Further, ensure the `hosts` value is correct.
-
-1. Deploy the updated network configuration file:
-
-    {{< text bash >}}
-    $ kubectl replace -f UPDATED_NETWORK_CONFIG.yaml
-    {{< /text >}}
-
-When all your applications have been migrated and tested, you can repeat the Istio upgrade process, removing the
-`--set global.proxy.image=proxy` option.  This will set the default proxy to `docker.io/istio/proxyv2` for all
-sidecars injected in the future.
 
 ## Migrating per-service mutual TLS enablement via annotations to authentication policy
 
@@ -269,7 +221,7 @@ The script is included in the [Istio installation package](/docs/setup/kubernete
 Download and run the script with the following command:
 
 {{< text bash >}}
-$ curl -L https://raw.githubusercontent.com/istio/istio/master/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+$ curl -L {{% github_file %}}/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
 {{< /text >}}
 
 The script automates the following operations:

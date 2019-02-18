@@ -1,3 +1,9 @@
+| Site | Status
+|------|-------
+| istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/c98435af-5464-4ac3-93c2-9c98faeec9b6/deploy-status)](https://app.netlify.com/sites/istio/deploys) [![CircleCI](https://circleci.com/gh/istio/istio.svg?style=shield)](https://circleci.com/gh/istio/istio.io)
+| preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys)
+| archive.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/f8c3eecb-3c5c-48d9-b952-54c7ed0ece8f/deploy-status)](https://app.netlify.com/sites/archive-istio/deploys)
+
 ## istio.io
 
 This repository contains the source code for the [istio.io](https://istio.io),
@@ -58,6 +64,12 @@ If you get spelling errors, you have three choices to address each:
 
 * It's really valid, so go add the word to the `.spelling` file at the root of the repo.
 
+And you can set any value to an environment variable named "INTERNAL_ONLY", then the linter will not check external links. It looks like that:
+
+```bash
+$ make INTERNAL_ONLY=True lint
+```
+
 ## Site infrastructure
 
 Here's how things work:
@@ -75,7 +87,7 @@ Hugo directly copies to the site without any processing.
     $ make build
     ```
 
-    to build the material from the `src` directory and refresh what's in the `static`
+    to build the material from the `src` directory and refresh what's in the `generated`
     directory.
 
 ## Versions and releases
@@ -105,7 +117,7 @@ are included on archive.istio.io is determined by the `TOBUILD` variable in this
 [script](https://github.com/istio/admin-sites/blob/master/archive.istio.io/build.sh)
 
 > The above means that if you want to do a change to the main istio.io site, you need
-to make the change in the master branch of istio.io and then merge that change into the
+to make the change in the master branch of https://github.com/istio/istio.io and then merge that change into the
 current release branch.
 
 ### Publishing content immediately

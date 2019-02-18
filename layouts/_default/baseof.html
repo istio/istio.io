@@ -8,7 +8,7 @@
 
         {{ with .Page.Description }}
             {{ if not (or (strings.HasSuffix . ".") (strings.HasSuffix . "。")) }}
-                {{ errorf "Page description doesn't end with a period: '%s'" .Page.Description }}
+                {{ errorf "Page description doesn't end with a period: '%s'" . }}
             {{ end }}
         {{ end }}
 
@@ -100,7 +100,7 @@
         <link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
         <link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
         <link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
-        <link rel="icon" type="image/png" href="/favicons/android-96x196.png" sizes="96x196">
+        <link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96xW96">
         <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
         <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
@@ -111,17 +111,17 @@
 
         <!-- style sheets -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,300,700,300italic,400italic,500italic,700italic|Chivo:400,500,300,700,300italic,400italic,500italic,700italic">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
         {{ if .Site.Data.args.archive }}
-            <link rel="stylesheet" href="/css/light_theme_archive.css" title="light">
-            <link rel="alternate stylesheet" href="/css/dark_theme_archive.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_archive.css" title="Light Theme">
+            <link rel="alternate stylesheet" href="/css/dark_theme_archive.css" title="Dark Theme">
         {{ else if .Site.Data.args.preliminary }}
-            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="light">
-            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="Light Theme">
+            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="Dark Theme">
         {{ else }}
-            <link rel="stylesheet" href="/css/light_theme_normal.css" title="light">
-            <link rel="alternate stylesheet" href="/css/dark_theme_normal.css" title="dark">
+            <link rel="stylesheet" href="/css/light_theme_normal.css" title="Light Theme">
+            <link rel="alternate stylesheet" href="/css/dark_theme_normal.css" title="Dark Theme">
         {{ end }}
 
         <script src="/js/styleSwitcher.min.js"></script>
@@ -132,7 +132,7 @@
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
 
-        <div class="d-xl-none d-print-none">
+        <div id="scroll-to-top-container">
             <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title='{{ i18n "button_top"}}'>
                 {{ partial "icon.html" "top" }}
             </button>
@@ -140,8 +140,9 @@
 
         <!-- libraries we pull in -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
         <script src="https://www.google.com/cse/brand?form=search_form"></script>
 
         <!-- our own scripts -->

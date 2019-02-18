@@ -2,11 +2,15 @@
 title: Configuring Istio Ingress with AWS NLB
 description: Describes how to configure Istio ingress with a network load balancer on AWS.
 publishdate: 2018-04-20
+last_update: 2019-01-16
 subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
-weight: 89
 keywords: [ingress,traffic-management,aws]
 ---
+
+{{< tip >}}
+This post was updated on January 16, 2019 to include some usage warnings.
+{{< /tip >}}
 
 This post provides instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
 
@@ -16,7 +20,11 @@ Network load balancer (NLB) could be used instead of classical load balancer. Yo
 
 The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 
-{{< warning_icon >}} Usage of AWS `nlb` on Kubernetes is an Alpha feature and not recommended for production clusters.
+{{< warning >}}
+Usage of AWS `nlb` on Kubernetes is an Alpha feature and not recommended for production clusters.
+
+Usage of AWS `nlb` does not support the creation of two or more Kubernetes clusters running Istio in the same zone as a result of [Kubernetes Bug #69264](https://github.com/kubernetes/kubernetes/issues/69264).
+{{< /warning >}}
 
 ## IAM Policy
 
@@ -81,32 +89,23 @@ You need to apply policy on the master role in order to be able to provision net
 
 1. Your policy is now attach to your master node.
 
-## Rewrite Istio Ingress Service
+## Generate the Istio manifest
 
-You need to rewrite ingress service with the following:
+To use an AWS `nlb` load balancer, it is necessary to add an AWS specific
+annotation to the Istio installation.  These instructions explain how to
+add the annotation.
+
+Save this as the file `override.yaml`:
 
 {{< text yaml >}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-ingress
-  namespace: istio-system
-  labels:
-    istio: ingress
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-spec:
-  externalTrafficPolicy: Local
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: http
-  - port: 443
-    protocol: TCP
-    targetPort: 443
-    name: https
-  selector:
-    istio: ingress
-  type: LoadBalancer
+gateways:
+  istio-ingressgateway:
+    serviceAnnotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+{{< /text >}}
+
+Generate a manifest with Helm:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --namespace istio -f override.yaml > $HOME/istio.yaml
 {{< /text >}}

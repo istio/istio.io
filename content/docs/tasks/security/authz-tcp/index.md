@@ -1,7 +1,7 @@
 ---
-title: Authorization for TCP services
+title: Authorization for TCP Services
 description: Shows how to set up role-based access control for TCP services.
-weight: 40
+weight: 10
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
@@ -18,7 +18,7 @@ The activities in this task assume that you:
 * Follow the instructions in the [quick start](/docs/setup/kubernetes/quick-start/) to install Istio on
   Kubernetes **with authentication enabled**.
 
-* Enable mutual TLS (mTLS) authentication when running the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+* Enable mutual TLS authentication when running the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
 
 The commands used in this task assume the Bookinfo example application is deployed in the default
 namespace. To specify a namespace other than the default namespace, use the `-n` option in the command.
@@ -128,7 +128,9 @@ Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpa
 This is because Istio authorization is "deny by default", which means that you need to explicitly
 define access control policies to grant access to the MongoDB service.
 
-> There may be some delays due to caching and other propagation overhead.
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ## Enforcing Service-level access control
 
@@ -180,7 +182,9 @@ to access the MongoDB service.
     * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
     * The **Book Reviews** section on the lower right of the page includes red stars.
 
-    > There may be some delays due to caching and other propagation overhead.
+    {{< tip >}}
+    There may be some delays due to caching and other propagation overhead.
+    {{< /tip >}}
 
 1. To confirm the MongoDB service can only be accessed by service account `bookinfo-ratings-v2`:
 
@@ -197,7 +201,9 @@ to access the MongoDB service.
     * The **Book Reviews** section on the lower right of the page includes an error message **"Ratings
       service is currently unavailable"**.
 
-    > There may be some delays due to caching and other propagation overhead.
+    {{< tip >}}
+    There may be some delays due to caching and other propagation overhead.
+    {{< /tip >}}
 
 ## Cleanup
 

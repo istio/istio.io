@@ -166,7 +166,7 @@ as the example application throughout this task.
 1.  Verify that the logs stream has been created and is being populated for
     requests.
 
-    In a Kubernetes environment, search through the logs for the istio-telemetry pods as
+    In a Kubernetes environment, search through the logs for the `istio-telemetry``` pods as
     follows:
 
     {{< text bash json >}}

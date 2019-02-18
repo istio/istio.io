@@ -3,7 +3,7 @@ title: 阿里云
 description: 为 Istio 设置阿里云 Kubernetes 集群的说明。
 weight: 3
 skip_seealso: true
-keywords: [平台设置,阿里巴巴云服务,阿里云]
+keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 ---
 
 按照这些说明给 Istio 准备一个阿里云 Kubernetes 的集群。

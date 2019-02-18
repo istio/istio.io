@@ -1,14 +1,14 @@
 ---
 title: Requirements for Pods and Services
 description:  Describes the requirements for Kubernetes pods and services to run Istio.
-weight: 80
+weight: 50
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
 To be a part of the service mesh, pods and services in a Kubernetes
 cluster must satisfy the following requirements:
 
-* _**Named ports**:_ Service ports must be named. The port names must be of
+* _**Named service ports**:_ Service ports must be named. The port names must be of
   the form `<protocol>[-<suffix>]` with `grpc`, `http`, `http2`, `https`, `mongo`, `redis`, `tcp`, `tls` or `udp`
   as the `<protocol>` in order to take advantage of Istio's routing features.
   For example, `name: http2-foo` or `name: http` are valid port names, but
@@ -16,6 +16,10 @@ cluster must satisfy the following requirements:
   prefix or if the port is unnamed, traffic on the port will be treated as
   plain TCP traffic (unless the port [explicitly](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
   uses `Protocol: UDP` to signify a UDP port).
+
+* _**Pod ports**:_ Pods must include an explicit list of ports each container will listen on.
+  Use a `containerPort` in the container spec for each port.  Any unlisted ports will bypass the Istio
+  Proxy.
 
 * _**Service association**:_ If a pod belongs to multiple
   [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
@@ -31,3 +35,6 @@ cluster must satisfy the following requirements:
   in the metric telemetry collected by Istio.
 
 * _**Application UIDs**_: Do **not** run applications as a user with the user ID (UID) value of **1337**.
+
+* _**`NET_ADMIN` capability**:_ If pod security policies are enforced in your cluster and unless you use the [Istio CNI Plugin](/docs/setup/kubernetes/istio-cni-install/), your pods must have the `NET_ADMIN` capability allowed.
+See [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).

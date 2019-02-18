@@ -7,36 +7,34 @@
 <p>{{ .Description }}</p>
 
 <div class="section-index">
-    <div class="row">
-        {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
-        {{ $parent := .Page }}
+    {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+    {{ $parent := .Page }}
 
-
-        {{ if $parent.Params.simple_list }}
-            <ul>
-                {{ range $pages }}
-                    {{ if eq .Parent $parent }}
-                        <li><a href="{{ .Permalink }}">{{- .Title -}}</a></li>
-                    {{ end }}
-                {{ end }}
-            </ul>
-        {{ else }}
+    {{ if $parent.Params.simple_list }}
+        <ul>
             {{ range $pages }}
                 {{ if eq .Parent $parent }}
-                    <div class="col-xs-12 col-sm-6 col-xl-4 entry">
-                        <h5>
-                            <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page_icon">
-                            {{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}</a>
-                        </h5>
-                        <p>{{ .Description }}</p>
-                    </div>
+                    <li><a href="{{ .Permalink }}">{{- .Title -}}</a></li>
                 {{ end }}
             {{ end }}
+        </ul>
+    {{ else }}
+        {{ range $pages }}
+            {{ if eq .Parent $parent }}
+                <div class="entry">
+                    <h5>
+                        <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page_icon">
+                                {{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}</a>
+                    </h5>
+                    <p>{{ .Description }}</p>
+                </div>
+            {{ end }}
         {{ end }}
-    </div>
+    {{ end }}
 </div>
 
 {{ .Content }}
 
 {{ partial "primary-bottom.html" . }}
+
 {{ end }}

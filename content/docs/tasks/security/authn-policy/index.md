@@ -83,8 +83,10 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
     host: istio-telemetry.istio-system.svc.cluster.local
 {{< /text >}}
 
-> Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`,
+{{< tip >}}
+Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`,
 `bar` and `legacy` namespace, nor is the match-all wildcard `*`
+{{< /tip >}}
 
 ## Globally enabling Istio mutual TLS
 
@@ -135,11 +137,12 @@ spec:
 EOF
 {{< /text >}}
 
->
+{{< tip >}}
 * Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or
 namespace for destination rule.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to
 its internal implementation.
+{{< /tip >}}
 
 Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service
 requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with
@@ -168,7 +171,9 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-> Due to the way Envoy rejects plain-text requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
+{{< tip >}}
+Due to the way Envoy rejects plain-text requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
+{{< /tip >}}
 
 This works as intended, and unfortunately, there is no solution for this without reducing authentication requirements for these services.
 
@@ -227,8 +232,10 @@ spec:
 EOF
 {{< /text >}}
 
-> If you install Istio with [default mutual TLS option](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication),
+{{< tip >}}
+If you install Istio with the [default mutual TLS option](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication),
 this rule, together with the global authentication policy and destination rule above will be injected to the system during installation process.
+{{< /tip >}}
 
 Re-run the testing command above to confirm that it returns 200 after the rule is added:
 
@@ -270,7 +277,9 @@ spec:
 EOF
 {{< /text >}}
 
-> Similar to *mesh-wide policy*, namespace-wide policy must be named `default`, and doesn't restrict any specific service (no `targets` section)
+{{< tip >}}
+Similar to *mesh-wide policy*, namespace-wide policy must be named `default`, and doesn't restrict any specific service (no `targets` section)
+{{< /tip >}}
 
 Add corresponding destination rule:
 
@@ -289,7 +298,9 @@ spec:
 EOF
 {{< /text >}}
 
-> Host `*.foo.svc.cluster.local` limits the matches to services in `foo` namespace only.
+{{< tip >}}
+Host `*.foo.svc.cluster.local` limits the matches to services in `foo` namespace only.
+{{< /tip >}}
 
 As these policy and destination rule are applied on services in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
 
@@ -341,9 +352,10 @@ spec:
 EOF
 {{< /text >}}
 
->
+{{< tip >}}
 * In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`), which has an identical effect.
 * There is no restriction on the authentication policy and destination rule name. This example uses the name of the service itself for simplicity.
+{{< /tip >}}
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
@@ -535,7 +547,7 @@ spec:
 EOF
 {{< /text >}}
 
-The same curl command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
+The same `curl` command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
@@ -594,7 +606,7 @@ spec:
   origins:
   - jwt:
       issuer: "testing@secure.istio.io"
-      jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
       trigger_rules:
       - excluded_paths:
         - exact: /user-agent
@@ -685,7 +697,9 @@ spec:
 EOF
 {{< /text >}}
 
-> Use `istio create` if the `jwt-example` policy hasn't been submitted.
+{{< tip >}}
+Use `istio create` if the `jwt-example` policy hasn't been submitted.
+{{< /tip >}}
 
 And add a destination rule:
 
@@ -704,8 +718,10 @@ spec:
 EOF
 {{< /text >}}
 
-> If you already enable mutual TLS mesh-wide or namespace-wide, the host `httpbin.foo` is already covered by the other destination rule.
+{{< tip >}}
+If you already enable mutual TLS mesh-wide or namespace-wide, the host `httpbin.foo` is already covered by the other destination rule.
 Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mtls` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
+{{< /tip >}}
 
 After these changes, traffic from Istio services, including ingress gateway, to `httpbin.foo` will use mutual TLS. The test command above will still work. Requests from Istio services directly to `httpbin.foo` also work, given the correct token:
 

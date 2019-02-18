@@ -5,7 +5,9 @@ weight: 30
 keywords: [consul]
 ---
 
-> Setup on Nomad has not been tested.
+{{< warning >}}
+Setup on Nomad has not been tested.
+{{< /warning >}}
 
 Using Istio in a non-Kubernetes environment involves a few key tasks:
 
@@ -78,8 +80,8 @@ services:
 
 Debian packages for Istio Pilot, Mixer, and Citadel are available through the
 Istio release. Alternatively, these components can be run as Docker
-containers (docker.io/istio/pilot, docker.io/istio/mixer,
-docker.io/istio/citadel). Note that these components are stateless and can
+containers (`docker.io/istio/pilot`, `docker.io/istio/mixer`,
+`docker.io/istio/citadel`). Note that these components are stateless and can
 be scaled horizontally. Each of these components depends on the Istio API
 server, which in turn depends on the etcd cluster for persistence. To
 achieve high availability, each control plane service could be run as a
@@ -119,5 +121,7 @@ the Istio sidecars. The IP table script to setup such forwarding can be
 found in the
 [here]({{< github_file >}}/tools/deb/istio-iptables.sh).
 
-> This script must be executed before starting the application or
-> the sidecar process.
+{{< warning >}}
+This script must be executed before starting the application or
+the sidecar process.
+{{< /warning >}}

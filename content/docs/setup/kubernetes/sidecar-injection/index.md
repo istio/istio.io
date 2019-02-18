@@ -1,7 +1,7 @@
 ---
-title: Installing the sidecar
+title: Installing the Sidecar
 description: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
-weight: 30
+weight: 45
 keywords: [kubernetes,sidecar,sidecar-injection]
 aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
@@ -39,11 +39,13 @@ $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 
 Alternatively, inject using local copies of the configuration.
 
-> The `istioctl kube-inject` operation may not be repeated on the output
-> from a previous `kube-inject`.  The `kube-inject` operation is not idempotent.
-> For upgrade purposes, if using manual injection, it is recommended to keep
-> the original non-injected `yaml` file so that the data plane sidecars may be
-> updated.
+{{< tip >}}
+The `istioctl kube-inject` operation may not be repeated on the output
+from a previous `kube-inject`.  The `kube-inject` operation is not idempotent.
+For upgrade purposes, if using manual injection, it is recommended to keep
+the original non-injected `yaml` file so that the data plane sidecars may be
+updated.
+{{< /tip >}}
 
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
@@ -72,7 +74,7 @@ sleep     1         1         1            1           2h        sleep,istio-pro
 ### Automatic sidecar injection
 
 Sidecars can be automatically added to applicable Kubernetes pods using a
-[mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/). This feature requires Kubernetes 1.9 or later. Verify that the kube-apiserver process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order and the admissionregistration API is enabled.
+[mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/). This feature requires Kubernetes 1.9 or later. Verify that the `kube-apiserver` process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order and the admissionregistration API is enabled.
 
 {{< text bash >}}
 $ kubectl api-versions | grep admissionregistration
@@ -93,7 +95,7 @@ with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 {{< text bash >}}
 $ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
 $ kubectl create ns istio-system
-$ kubectl apply -n istio-system -f istio.yaml
+$ kubectl apply -f istio.yaml
 {{< /text >}}
 
 In addition, there are some other configuration parameters defined for the sidecar injector webhook
@@ -161,11 +163,13 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 configures when the webhook is invoked by Kubernetes. The default
 supplied with Istio selects pods in namespaces with label
 `istio-injection=enabled`.  The set of namespaces in which injection
-is applied can be changed by editing the MutatingWebhookConfiguration
+is applied can be changed by editing the `MutatingWebhookConfiguration`
 with `kubectl edit mutatingwebhookconfiguration
 istio-sidecar-injector`.
 
-> {{< warning_icon >}} The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
+{{< warning >}}
+The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
+{{< /warning >}}
 
 The `istio-sidecar-injector` ConfigMap in the `istio-system` namespace has the default
 injection policy and sidecar injection template.
@@ -301,9 +305,11 @@ For completeness, you can also use a field called `alwaysInjectSelector`, with s
 
 The label selector approach gives a lot of flexibility on how to express those exceptions. Take a look at [these docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) to see what you can do with them!
 
+{{< tip >}}
 It's worth noting that annotations in the pods have higher precedence than the label selectors. If a pod is annotated with `sidecar.istio.io/inject: "true/false"` then it will be honored. So, the order of evaluation is:
 
-> `Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+`Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+{{< /tip >}}
 
 #### Uninstalling the automatic sidecar injector
 

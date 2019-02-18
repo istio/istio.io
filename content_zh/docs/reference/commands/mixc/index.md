@@ -32,7 +32,7 @@ $ mixc check [flags]
 | `--stringmap_attributes <string>` |  | 名称/值字符串 map 属性的列表，指定为 `name1=k1:v1; k2:v2`，`name2=k3:v3` ...（默认为 `''`） |
 | `--timestamp_attributes <string>` | `-t` | 名称/值时间戳属性列表，指定为 `name1=value1`，`name2=value2`，...（默认为 `''`） |
 | `--trace_jaeger_url <string>` |  | Jaeger HTTP 收集器的 URL（例如: `http://jaeger:14268/api/traces?format=jaeger.thrift` ）。（默认 `''`） |
-| `--trace_log_spans` |  | 是否记录跟踪 span。|
+| `--trace_log_spans` |  | 是否记录追踪 span。|
 | `--trace_zipkin_url <string>` |  | Zipkin 收集器的 URL（例如: `http://zipkin:9411/api/v1/spans` ）。（默认 `''`） |
 
 ## `mixc` report
@@ -59,7 +59,7 @@ $ mixc report [flags]
 | `--stringmap_attributes <string>` |  | 名称/值字符串 map 属性的列表，指定为 `name1=k1:v1`; `k2:v2`，`name2=k3:v3` ...（默认为 `''`） |
 | `--timestamp_attributes <string>` | `-t` | 名称/值时间戳属性列表，指定为 `name1=value1`，`name2=value2`，...（默认为 `''`） |
 | `--trace_jaeger_url <string>` |  | Jaeger HTTP 收集器的 URL（例如: `http://jaeger:14268/api/traces?format=jaeger.thrift` ）。（默认 `''`） |
-| `--trace_log_spans` |  | 是否记录跟踪 span。|
+| `--trace_log_spans` |  | 是否记录追踪 span。|
 | `--trace_zipkin_url <string>` |  | Zipkin 收集器的 URL（例如: `http://zipkin:9411/api/v1/spans` ）。（默认 `''`） |
 
 ## `mixc` version

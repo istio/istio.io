@@ -1,0 +1,23 @@
+{{ $url := replace .Permalink ( printf "%s" .Site.BaseURL) "" }}
+{{ $page := .Page }}
+{{ range $index, $element := split $url "/" }}
+    {{ if $page }}
+        {{ $.Scratch.Add "urls" (slice $page.Permalink) }}
+        {{ $.Scratch.Add "titles" (slice $page.LinkTitle) }}
+        {{ $page = $page.Parent }}
+    {{ end }}
+{{ end }}
+
+{{ $len := len ($.Scratch.Get "titles") }}
+{{ range $index, $element := $.Scratch.Get "titles" }}
+    {{ $i := sub (sub $len $index) 1 }}
+    {{ $title := index ($.Scratch.Get "titles") $i }}
+    {{ $url := index ($.Scratch.Get "urls") $i }}
+
+    {{ if ne $i 0 }}
+        <a href="{{- $url -}}">{{- $title -}}</a>
+        <span>/</span>
+    {{ else }}
+        {{ $title }}
+    {{ end }}
+{{ end }}

@@ -82,7 +82,7 @@ Istio service identities on different platforms:
 
 - **AWS**: AWS IAM user/role account
 
-- **On-premises (non-Kubernetes)**: user account, custom service account, service name, istio service account, or GCP service account.
+- **On-premises (non-Kubernetes)**: user account, custom service account, service name, Istio service account, or GCP service account.
   The custom service account refers to the existing service account just like the identities that the customer's Identity Directory manages.
 
 ### Istio security vs SPIFFE
@@ -135,10 +135,10 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
-### Node Agent in Kubernetes (in development)
+### Node Agent in Kubernetes
 
-In the near future, Istio will use node agent in Kubernetes for certificate and key provision, as shown in the figure below.
-Note that the identity provision flow for on-premises machines is the same so we only describe the Kubernetes scenario.
+Istio provides the option of using node agent in Kubernetes for certificate and key provisioning, as shown in the figure below.
+Note that the identity provisioning flow for on-premises machines will be similar in the near future, we only describe the Kubernetes scenario here.
 
 {{< image width="80%" link="./node_agent.svg" caption="PKI with node agents in Kubernetes"  >}}
 
@@ -168,9 +168,11 @@ deploying different services in a medium- or large-size cluster, we recommend cr
  For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
 that both teams cannot access each other's services.
 
-> {{< warning_icon >}} If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
+{{< warning >}}
+If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
 We **strongly** recommend running Citadel in a dedicated namespace (for example, `istio-citadel-ns`), to restrict access to
 the cluster to only administrators.
+{{< /warning >}}
 
 ### Example
 

@@ -5,7 +5,7 @@ weight: 5
 keywords: [kubernetes]
 ---
 
-{{< info_icon >}} Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
+{{< tip_icon >}} Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
 
 依照本文说明，在 Kubernetes 集群中安装和配置 Istio。
 
@@ -28,7 +28,7 @@ keywords: [kubernetes]
 
 ## 安装步骤
 
-1. 使用 `kubectl apply` 安装 Istio 的[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，几秒钟之后，CRD 被提交给 kube-apiserver：
+1. 使用 `kubectl apply` 安装 Istio 的[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，几秒钟之后，CRD 被提交给 `kube-apiserver`：
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
@@ -79,16 +79,16 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
+    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,10514/TCP                                                     7m
     istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
     istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
     istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
     istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
-    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
-    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
+    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,10514/TCP   7m
+    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,10514/TCP                                           7m
     istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
     istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
-    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
+    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,10514/TCP,42422/TCP                                 7m
     prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     {{< /text >}}
 
@@ -153,5 +153,5 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 * 另外如有有需要，也可以删除 CRD：
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}

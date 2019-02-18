@@ -1,6 +1,6 @@
 ---
 title: Istio 1.0.3
-weight: 89
+publishdate: 2018-10-30
 icon: notes
 ---
 
@@ -22,7 +22,7 @@ icon: notes
 
 - Pilot 的性能和伸缩性有了很大提升。现在每秒钟之内，Pilot 可以向 500 个 Sidecar 发送端点更新信息。
 
-- 缺省的[跟踪采样]被设置为 `1%`。
+- 缺省的[追踪采样]被设置为 `1%`。
 
 ## 策略和遥测
 

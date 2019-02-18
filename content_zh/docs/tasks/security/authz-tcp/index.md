@@ -2,7 +2,7 @@
 title: TCP 服务的访问控制
 description: 展示如何为 TCP 服务设置基于角色的访问控制。
 weight: 40
-keywords: [安全,访问控制,rbac,tcp,授权]
+keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
 本任务涵盖了在服务网格中为 TCP 服务设置 Istio RBAC 所需的可能活动。可以阅读[安全概念文档](/zh/docs/concepts/security/#授权和鉴权)中的相关内容。
@@ -13,7 +13,7 @@ keywords: [安全,访问控制,rbac,tcp,授权]
 
 * 阅读 [Istio 中的授权和鉴权](/zh/docs/concepts/security/#授权和鉴权)。
 * 按照[快速开始](/zh/docs/setup/kubernetes/quick-start/)一文的指导，在 Kubernetes 中安装**启用了认证功能**的 Istio。
-* 执行[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)时启用双向 TLS（mTLS）认证
+* 执行[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)时启用双向 TLS 认证
 
 任务中所执行的命令还假设 Bookinfo 示例应用部署在 `default` 命名空间中。如果使用的是其它命名空间，在命令中需要加入 `-n` 参数。
 

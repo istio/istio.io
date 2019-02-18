@@ -2,7 +2,7 @@
 title: 启用速率限制
 description: 这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。
 weight: 10
-keywords: [策略,限额]
+keywords: [policies,quotas]
 ---
 
 这一任务展示了如何使用 Istio 动态的对服务通信进行速率限制。
@@ -60,9 +60,9 @@ keywords: [策略,限额]
       name: handler
       namespace: istio-system
     spec:
+      redisServiceUrl: <redis_server_url>
+      connectionPoolSize: 10
       quotas:
-        redisServiceUrl: <redis_server_url>
-        connectionPoolSize: 10
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -159,6 +159,7 @@ keywords: [策略,限额]
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
+        overrides:
         - dimensions:
             destination: reviews
           maxAmount: 1
@@ -212,7 +213,7 @@ keywords: [策略,限额]
 
     * 如果 `destination` 的值为 `reviews`是 那么最大请求配额为 `1`。
     * 如果 `destination` 的值为 `productpage` 并且来源是 `10.28.11.20` 那么最大请求配额为 `500`，
-    * 如果 `destination` 的值为 `productpage` 那么最大请求配额为`2`。
+    * 如果 `destination` 的值为 `productpage` 那么最大请求配额为 `2`。
 
     处理请求时，Istio 会选择第一条符合条件的 `overrides`（读取顺序为从上到下）应用到请求上。
 
@@ -232,7 +233,7 @@ keywords: [策略,限额]
         destinationVersion: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels [“app”]`，`destination.service.host`或`"unknown"`中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/zh/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
+    `quota` 模板定义了 `memquota` 或 `redisquota` 使用的三个维度，用于设置匹配某些属性的请求。 `destination` 将被设置为 `destination.labels["app"]`、`destination.service.host` 或 `"unknown"` 中的第一个非空值。有关表达式的更多信息，请参阅[表达式语言文档](/zh/docs/reference/config/policy-and-telemetry/expression-language/)中获取更多表达式方面的内容。
 
 1. 确认 `quota rule` 的创建情况：
 
@@ -339,7 +340,7 @@ spec:
 
 适配器配置中的 `maxAmount` 设置了关联到 Quota 实例中的所有计数器的缺省限制。如果所有 `overrides` 条目都无法匹配到一个请求，就只能使用 `maxAmount` 限制了。Memquota 会选择适合请求的第一条 `override`。`override` 条目无需定义所有 quota dimension， 例如例子中的 `0.2 qps` 条目在 4 条 quota dimensions 中只选用了三条。
 
-如果要把上面的策略应用到某个命名空间而非整个 Istio 网格，可以把所有 istio-system 替换成为给定的命名空间。
+如果要把上面的策略应用到某个命名空间而非整个 Istio 网格，可以把所有 `istio-system` 替换成为给定的命名空间。
 
 ## 清理
 

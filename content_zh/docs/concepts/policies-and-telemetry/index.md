@@ -2,7 +2,7 @@
 title: 策略与遥测
 description: 描述策略实施和遥测机制。
 weight: 40
-keywords: [策略,遥测,控制,配置]
+keywords: [policies,telemetry,control,config]
 ---
 
 Istio 提供灵活的模型来执行授权策略，并为网格中的服务收集遥测数据。
@@ -148,24 +148,23 @@ metadata:
   namespace: istio-system
 spec:
   metrics:
-
-- name: request_count
-  instance_name: requestcount.metric.istio-system
-  kind: COUNTER
-  label_names:
-  - destination_service
-  - destination_version
-  - response_code
-- name: request_duration
-  instance_name: requestduration.metric.istio-system
-  kind: DISTRIBUTION
-  label_names:
-  - destination_service
-  - destination_version
-  - response_code
-    buckets:
-    explicit_buckets:
-      bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+  - name: request_count
+    instance_name: requestcount.metric.istio-system
+    kind: COUNTER
+    label_names:
+    - destination_service
+    - destination_version
+    - response_code
+  - name: request_duration
+    instance_name: requestduration.metric.istio-system
+    kind: DISTRIBUTION
+    label_names:
+    - destination_service
+    - destination_version
+    - response_code
+      buckets:
+      explicit_buckets:
+        bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 {{< /text >}}
 
 每个适配器都定义了自己格式的配置数据。适配器及其配置的详尽列表可以在[这里](/zh/docs/reference/config/policy-and-telemetry/adapters/)找到。

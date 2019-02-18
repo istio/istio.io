@@ -7,7 +7,7 @@
 <div class="glossary">
     {{ $words := .Resources.ByType "page" }}
 
-    <div class="trampolines d-print-none">
+    <div class="trampolines">
         {{ $previous := "-" }}
 
         {{ range $w := $words }}

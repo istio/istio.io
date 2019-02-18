@@ -54,7 +54,7 @@ in the mesh and uses this model to let Envoy instances know about the other Envo
 
 Each Envoy instance maintains [load balancing information](#discovery-and-load-balancing)
 based on the information it gets from Pilot and periodic health-checks
-of other instances in its load-balancing pool, allowing it to intelligently
+of other instances in its load balancing pool, allowing it to intelligently
 distribute traffic between destination instances while following its specified
 routing rules.
 
@@ -279,7 +279,7 @@ continued unavailability of critical services in the application, resulting
 in poor user experience.
 
 Istio enables protocol-specific fault injection into the network, instead
-of killing pods or delaying or corrupting packets at the TCP layer. The rationale
+of deleting pods or delaying or corrupting packets at the TCP layer. The rationale
 is that the failures observed by the application layer are the same
 regardless of network level failures, and that more meaningful failures can
 be injected at the application layer (for example, HTTP error codes) to exercise the resilience of an application.
@@ -477,7 +477,7 @@ spec:
     timeout: 10s
 {{< /text >}}
 
-You can also specify the number of retry attempts for an HTTP request in a VirtualService.
+You can also specify the number of retry attempts for an HTTP request in a virtual service.
 The maximum number of retry attempts, or the number of attempts possible within the default or overridden timeout period, can be set as follows:
 
 {{< text yaml >}}
@@ -505,7 +505,7 @@ See the [request timeouts task](/docs/tasks/traffic-management/request-timeouts)
 
 #### Injecting faults
 
-A VirtualService can specify one or more faults to inject
+A virtual service can specify one or more faults to inject
 while forwarding HTTP requests to the rule's corresponding request destination.
 The faults can be either delays or aborts.
 
@@ -602,7 +602,7 @@ spec:
   - ratings
   http:
   - match:
-      sourceLabels:
+    - sourceLabels:
         app: reviews
     route:
     ...
@@ -861,11 +861,13 @@ version) of the destination service that the current request will be routed
 to. Next, the set of policies corresponding to the selected subset, if any,
 are evaluated to determine if they apply.
 
-**NOTE:** One subtlety of the algorithm to keep in mind is that policies
+{{< tip >}}
+One subtlety of the algorithm to keep in mind is that policies
 that are defined for specific subsets will only be applied if
 the corresponding subset is explicitly routed to. For example,
 consider the following configuration as the one and only rule defined for the
 *reviews* service, meaning there are no route rules in the corresponding `VirtualService` definition:
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

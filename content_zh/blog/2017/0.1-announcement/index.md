@@ -4,7 +4,6 @@ description: Istio 0.1 宣布。
 publishdate: 2017-05-24
 subtitle: 一个为微服务而生的强壮的服务网格
 attribution: The Istio Team
-weight: 100
 ---
 
 Google、 IBM 和 Lyft 骄傲的宣布了 [Istio](/zh) 的首个公开版本，Istio 是一个提供一致的方式用于连接、加固、管理和监控微服务的开源项目。当前版本专注于支持 [Kubernetes](https://kubernetes.io/) 环境，我们计划在接下来的几个月添加诸如虚拟机和 Cloud Foundry 等环境的支持。
@@ -62,7 +61,7 @@ WeaveWorks 的 [Weave Cloud](https://www.weave.works/blog/istio-weave-cloud/) �
 
 * [istio.io](/zh) 提供文档和示例。
 
-* 用于供大家讨论的邮件列表 [`istio-users@googlegroups.com`](https://groups.google.com/forum/#!forum/istio-users)，或者用于公告项目相关信息的 [`istio-announce@googlegroups.com`](https://groups.google.com/forum/#!forum/istio-announce)。
+* [Istio discussion board](https://discuss.istio.io) 综合交流区。
 
 * [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) 用于问答
 

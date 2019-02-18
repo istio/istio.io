@@ -3,7 +3,7 @@ title: Istio in Action
 description: 使用 Istio 的用户。
 weight: 30
 icon: customers
-keywords: [社区]
+keywords: [community]
 skip_seealso: true
 ---
 

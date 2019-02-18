@@ -4,7 +4,6 @@ description: 提高可用，降低延迟。
 subtitle: 提高可用，降低延迟
 publishdate: 2017-12-07
 attribution: Martin Taillefer
-weight: 94
 ---
 Mixer 出现在请求路径上，很自然的会引发一个疑问：他对系统可用性和延迟会产生什么样的影响？第一次看到 Istio 架构图时，人们最常见的问题就是："这不就是一个单点失败的典型案例么？”
 
@@ -100,4 +99,4 @@ Mixer 还很年轻。在 Istio 0.3 中，Mixer 并没有性能方面的重要改
 
 我们希望本文能够让读者能够意识到 Mixer 对 Istio 的益处。
 
-如果有说明或者问题，无需犹豫，尽管去 [istio-policies-and-telemetry](https://groups.google.com/forum/#!forum/istio-policies-and-telemetry) 提出吧。
+如果有说明或者问题，无需犹豫，

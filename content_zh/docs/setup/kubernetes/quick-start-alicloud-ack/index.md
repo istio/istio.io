@@ -2,7 +2,7 @@
 title: 使用阿里云 Kubernetes 容器服务快速启动
 description: 如何使用阿里云 Kubernetes 容器服务快速安装 Istio。
 weight: 21
-keywords: [kubernetes,阿里云]
+keywords: [kubernetes,alibabacloud,aliyun]
 ---
 
 在[阿里云 Kubernetes 容器服务](https://www.alibabacloud.com/product/kubernetes)中使用‘应用程序目录’中的项目，按照说明安装和运行 Istio 。
@@ -15,7 +15,7 @@ keywords: [kubernetes,阿里云]
 
 - 确保 `kubectl` 对你的 Kubernetes 集群工作正常
 
-- 你可以创建一个命名空间用来部署 Istio 组建。例如如下创建的命名空间 “istio-system”：
+- 你可以创建一个命名空间用来部署 Istio 组建。例如如下创建的命名空间 `istio-system`：
 
 {{< text bash >}}
 $ kubectl create namespace istio-system

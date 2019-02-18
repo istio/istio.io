@@ -11,7 +11,7 @@ Kubernetes `ValidatingWebhook`. The `istio-galley`
 
 * `pilot.validation.istio.io` - Served on path `/admitpilot` and is
 responsible for validating configuration consumed by Pilot
-(e.g. VirtualService, Authentication).
+(e.g. `VirtualService`, Authentication).
 
 * `mixer.validation.istio.io` - Served on path `/admitmixer` and is
 responsible for validating configuration consumed by Mixer.
@@ -215,7 +215,7 @@ used the `istio-galley-configuration` `configmap` and root certificate
 mounted from `istio.istio-galley-service-account` secret in the
 `istio-system` namespace.
 
-1. Verify the `istio-galley` pods(s) are running:
+1. Verify the `istio-galley` pod(s) are running:
 
     {{< text bash >}}
     $  kubectl -n istio-system get pod -listio=galley
@@ -289,7 +289,7 @@ configuration cannot be created and updated.  In such cases you’ll see
 an error about `no such host` (Kubernetes 1.9) or `no endpoints
 available` (>=1.10).
 
-Verify the `istio-galley` pods(s) are running and endpoints are ready.
+Verify the `istio-galley` pod(s) are running and endpoints are ready.
 
 {{< text bash >}}
 $  kubectl -n istio-system get pod -listio=galley
@@ -300,7 +300,7 @@ istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-galley
 NAME           ENDPOINTS                          AGE
-istio-galley   10.48.6.108:9093,10.48.6.108:443   3d
+istio-galley   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and
