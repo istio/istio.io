@@ -10,10 +10,10 @@
     <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
         {{ $section := .Site.GetPage "section" .Section }}
         {{ if $section.Params.sidebar_multicard }}
-            {{ partial "sidebar-multicard.html" . }}
+            {{ partial "sidebar_multicard.html" . }}
         {{ else if $section.Params.sidebar_none }}
         {{ else }}
-            {{ partial "sidebar-singlecard.html" . }}
+            {{ partial "sidebar_singlecard.html" . }}
         {{ end }}
     </div>
 
@@ -31,7 +31,7 @@
         <main aria-labelledby="title">
             <h1 id="title">
                 {{- if .Params.icon -}}
-                    <i class="page_icon">
+                    <i class="page-icon">
                         {{- partial "icon.html" .Params.icon -}}
                     </i>
                 {{- end -}}
