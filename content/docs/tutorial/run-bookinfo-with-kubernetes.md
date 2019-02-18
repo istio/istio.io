@@ -13,7 +13,7 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, you 
 
 ## Deploy the application and a testing pod
 
-1.  Skim [bookinfo.yaml](https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml).
+1.  Skim [`bookinfo.yaml`](https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml).
     This is the Kubernetes deployment spec of the app. Notice the services and the deployments.
 
 1.  Deploy the application to Kubernetes:
