@@ -6,7 +6,7 @@ weight: 40
 
 ---
 
-Perform some testing of our microservice, in production!
+Perform testing of your microservice, in production!
 
 ## Testing individual microservices
 
