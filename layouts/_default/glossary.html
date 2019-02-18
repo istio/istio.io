@@ -31,8 +31,10 @@
             {{ if ne $first $previous }}
                 {{ if ne $previous "-" }}
                     </dl>
+                    </div>
                 {{ end }}
-                <h4 id="{{ $first }}">{{ $first }}</h4>
+                <div id="{{ $first }}" class="letter">
+                <h4>{{ $first }}</h4>
                 <dl>
                 {{ $previous = $first }}
             {{ end }}
@@ -42,6 +44,7 @@
             <dd aria-labelledby="{{ $name }}">{{ $w.Content }}</dd>
         {{ end }}
         </dl>
+        </div>
     </div>
 </div>
 
