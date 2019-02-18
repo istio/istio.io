@@ -11,6 +11,6 @@ npx sass src/sass/dark_theme_normal.scss dark_theme_normal.css -s compressed
 npx sass src/sass/dark_theme_preliminary.scss dark_theme_preliminary.css -s compressed
 mv light_theme* generated/css
 mv dark_theme* generated/css
-npx uglifyjs src/js/misc.js src/js/utils.js src/js/prism.js --mangle --compress -o generated/js/all.min.js --source-map
-npx uglifyjs src/js/styleSwitcher.js --mangle --compress -o generated/js/styleSwitcher.min.js --source-map
+npx babel src/js/misc.js src/js/prism.js src/js/utils.js --out-file generated/js/all.min.js --source-maps --minified --no-comments --presets minify
+npx babel src/js/styleSwitcher.js --out-file generated/js/styleSwitcher.min.js --source-maps --minified --no-comments --presets minify
 npx svgstore -o generated/img/icons.svg src/icons/**/*.svg

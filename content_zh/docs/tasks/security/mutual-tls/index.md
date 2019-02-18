@@ -12,7 +12,7 @@ keywords: [security,mutual-tls]
 * 您熟悉使用基础验证策略来启用双向 TLS。
 * Istio 在 Kubernetes 上运行，启用全局双向 TLS。您可以按照我们的[安装 Istio 的说明](/zh/docs/setup/kubernetes/)。
 如果您已经安装了 Istio，则可以添加或修改基础验证策略和目标规则以启用双向 TLS，如 [网格中的所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-tls-认证) 中所述。
-* 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [手工注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-Sidecar)部署这些服务的命令：
+* 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [手工注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)部署这些服务的命令：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
@@ -46,7 +46,6 @@ root-cert.pem
 {{< tip >}}
 `cert-chain.pem` 是 Envoy 的证书，会在需要的时候提供给对端。而 `key.pem` 就是 Envoy 的私钥，和 `cert-chain.pem` 中的证书相匹配。`root-cert.pem` 是用于证书校验的根证书。这个例子中，我们集群中只部署了一个 Citadel，所以所有的 Envoy 共用同一个 `root-cert.pem`。
 {{< /tip >}}
-
 使用 `openssl` 工具来检查证书的有效性（当前时间应该处于 `Not Before` 和 `Not After` 之间）
 
 {{< text bash >}}
@@ -179,7 +178,7 @@ $ kubectl delete --ignore-not-found=true bad-rule
 
 {{< tip >}}
 Istio 使用 [Kubernetes Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务标识，
-提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#Istio-身份)）。因此，Istio 使用的证书没有注明服务名称，
+提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#istio-身份)）。因此，Istio 使用的证书没有注明服务名称，
 但是 `curl` 需要利用这些信息验证服务器的身份。为了防止 `curl` 客户端报错，我们使用 `curl` 的 `-k` 参数。该参数可跳过客户端对服务器名称的验证，
 例如，`httpbin.default.svc.cluster.local` 服务器提供的证书。
 {{< /tip >}}

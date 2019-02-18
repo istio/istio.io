@@ -164,7 +164,7 @@ stable or known in advance.
 
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be
 [controlled as TLS traffic](#egress-control-for-tls), or the traffic can be routed
-[directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
+[directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services), bypassing the Istio sidecar
 proxies.
 
 Get the IP address of your MongoDB database instance. As an option, you can use the

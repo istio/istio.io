@@ -137,7 +137,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 由于 [MongoDB 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)运行在 TCP 之上，您可以像控制到[其余 TCP 服务](/blog/2018/egress-tcp/)的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 [CIDR](https://tools.ietf.org/html/rfc2317) 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。
 
-在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/docs/tasks/traffic-management/egress/#calling-external-services-directly)路由流量。
+在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)路由流量。
 
 获取 MongoDB 数据库实例的 IP 地址。一种选择是使用 [host](https://linux.die.net/man/1/host) 命令。
 

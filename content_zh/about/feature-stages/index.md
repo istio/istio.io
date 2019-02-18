@@ -57,7 +57,7 @@ icon: feature-status
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
 | [插入外部 CA 密钥和证书](/zh/docs/tasks/security/plugin-ca-cert/)| Stable
 | [服务间的双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)         | Stable
-| [Kubernetes：服务凭证分发](/zh/docs/concepts/security/#双向-TLS-认证)   | Stable
+| [Kubernetes：服务凭证分发](/zh/docs/concepts/security/#双向-tls-认证)   | Stable
 | [VM：服务凭证分发](/zh/docs/concepts/security/#pki)         | Beta
 | [双向 TLS 的迁移](/zh/docs/tasks/security/mtls-migration)    | Beta
 | [认证策略](/zh/docs/concepts/security/#认证策略)  | Alpha
