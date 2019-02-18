@@ -42,5 +42,5 @@ microservices to fail. It means you did not have a _cascading failure_ in this s
 you had _gradual service degradation_: despite one microservice being crashed, the application still provided useful
 functionality: displayed the reviews and the basic info about the book.
 
-Exercise: terminate some other microservice. For that, get a shell into a container of a microservice and kill the
+**Exercise**: terminate some other microservice. For that, get a shell into a container of a microservice and kill the
 process of the microservice. Access the application home page and see how it is affected by microservice termination.
