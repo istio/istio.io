@@ -5,7 +5,10 @@ weight: 70
 
 ---
 
-Previously you deployed the Istio control plane and enabled Istio on a single microservice, _productpage_. you can proceed to enable Istio on the microservices incrementally, one by one, to get the functionality provided by Istio for more and more microservices. For the purpose of this tutorial, you will just enable Istio on the remaining microservices in one stroke. you will also enable Istio on our pod that you use for testing.
+Previously you deployed the Istio control plane and enabled Istio on a single microservice, _productpage_.
+You can proceed to enable Istio on the microservices incrementally, one by one, to get the functionality provided by
+Istio for more and more microservices. For the purpose of this tutorial, you will just enable Istio on the remaining
+microservices in one stroke.
 
 1.  Redeploy the Bookinfo application, Istio-enabled. _productpage_ will not be redeployed since it already has Istio injected, its pods will not be changed.
 
