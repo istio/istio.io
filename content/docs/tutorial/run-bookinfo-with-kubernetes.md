@@ -13,7 +13,7 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, you 
 
 ## Deploy the application and a testing pod
 
-1.  Skim [`bookinfo.yaml`](https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml).
+1.  Skim [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml).
     This is the Kubernetes deployment spec of the app. Notice the services and the deployments.
 
 1.  Deploy the application to Kubernetes:
@@ -132,7 +132,7 @@ configure the steps below successfully, you will be able to access the applicati
     $ echo http://$MYHOST/productpage
     {{< /text >}}
 
-1.  Observe how microservices call each other, for example, _reviews_ calls the _ratings_ microservice by the URL `http://ratings:9080/ratings`. See the [code of _reviews_](https://github.com/istio/istio/blob/master/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
+1.  Observe how microservices call each other, for example, _reviews_ calls the _ratings_ microservice by the URL `http://ratings:9080/ratings`. See the [code of _reviews_]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
 
     {{< text java >}}
     private final static String ratings_service = "http://ratings:9080/ratings";

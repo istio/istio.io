@@ -17,7 +17,7 @@ Perform testing of your microservice, in production!
     {{< /text >}}
 
 **Exercise:** test other microservices. For that, check in the
-[source code](https://github.com/istio/istio/tree/master/samples/bookinfo/src) of the Bookinfo application how other microservices are called.
+[source code]({{< github_tree >}}/samples/bookinfo/src) of the Bookinfo application how other microservices are called.
 
 ## Chaos testing
 
