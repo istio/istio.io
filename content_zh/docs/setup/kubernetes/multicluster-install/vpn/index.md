@@ -102,8 +102,9 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
     $ kubectl create ns istio-system
     {{< /text >}}
 
-   {{< tip_icon >}} 所有集群必须有相同的 Istio 组件命名空间。
-   只要命名空间对有所有集群中的 Istio 组件都相同，就可以覆盖住集群上的`istio-system`名称。
+    {{< tip >}}
+    所有集群必须有相同的 Istio 组件命名空间。只要命名空间对有所有集群中的 Istio 组件都相同，就可以覆盖住集群上的 `istio-system` 名称。
+    {{< /tip >}}
 
 1. 通过以下命令实例化远程集群与 Istio 控制平面的连接：
 
@@ -190,7 +191,9 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    {{< tip_icon >}} 许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
+    {{< tip >}}
+    许多系统对 `base64 --decode` 都有 `openssl enc -d -base64 -A` 这样的替代方案。
+    {{< /tip >}}
 
 1. 通过以下命令为 `istio-multi` service account 在工作目录创建一个 `kubeconfig`  文件：
 
@@ -244,7 +247,9 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
 
 你可以在不同的命名空间中安装 Istio。该过程需要使用 `istio-system` 命名空间。
 
-{{< warning_icon >}} 不要存储和标记运行了 Istio 控制平面的本地集群的 secret。Istio 始终了解本地集群的 Kubernetes 凭据。
+{{< warning >}}
+不要存储和标记运行了 Istio 控制平面的本地集群的 secret。Istio 始终了解本地集群的 Kubernetes 凭据。
+{{< /warning >}}
 
 为每个集群创建一个正确的 secret 和 标记：
 
@@ -253,7 +258,9 @@ $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n $
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
 
-{{< warning_icon >}}  Kubernetes secret 数据秘钥必须符合 `DNS-1123 subdomain` [格式](https://tools.ietf.org/html/rfc1123#page-13)。例如，文件名不能有下划线。只需更改文件名以符合格式，即可解决文件名的任何问题。
+{{< warning >}}
+Kubernetes secret 数据秘钥必须符合 `DNS-1123 subdomain` [格式](https://tools.ietf.org/html/rfc1123#page-13)。例如，文件名不能有下划线。只需更改文件名以符合格式，即可解决文件名的任何问题。
+{{< /warning >}}
 
 ## 卸载远程集群
 
@@ -436,7 +443,9 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
     * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)下发在Istio 控制平面命名空间中。
       主集群的 CA 或根 CA 也必须为远程集群签署CA证书。
 
-> 对于控制平面安全性和应用 pod 安全性步骤，CA 证书步骤是相同的。
+{{< tip >}}
+对于控制平面安全性和应用 pod 安全性步骤，CA 证书步骤是相同的。
+{{< /tip >}}
 
 ### 部署示例
 

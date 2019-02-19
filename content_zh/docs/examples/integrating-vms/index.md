@@ -7,7 +7,9 @@ keywords: [vms]
 
 这个例子把 Bookinfo 服务部署到 Kubernetes 集群和一组虚拟机上，然后演示从单一服务网格的角度，如何使用 Istio 来对其进行控制。
 
-> 这个例子还在开发之中，只在 Google Cloud Platform 上进行了测试。Pod 叠加网络和虚拟机网络之间进行隔离的平台，例如 IBM Cloud，即使有 Istio 的帮助，虚拟机还是无法建立到 Kubernetes Pod 的直接连接的。
+{{< warning >}}
+这个例子还在开发之中，只在 Google Cloud Platform 上进行了测试。Pod 叠加网络和虚拟机网络之间进行隔离的平台，例如 IBM Cloud，即使有 Istio 的帮助，虚拟机还是无法建立到 Kubernetes Pod 的直接连接的。
+{{< /warning >}}
 
 ## 概述
 

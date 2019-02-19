@@ -21,7 +21,9 @@ keywords: [security,certificates]
 
     使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 并设置 `global.mtls.enabled` 为 `true`.
 
-> 从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+{{< tip >}}
+从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+{{< /tip >}}
 
 ## 插入现有密钥和证书
 
@@ -48,8 +50,6 @@ keywords: [security,certificates]
     --set global.mtls.enabled=true --set security.selfSigned=false > $HOME/citadel-plugin-cert.yaml
     $ kubectl apply -f $HOME/citadel-plugin-cert.yaml
     {{< /text >}}
-
-    > 注意：如果使用不同的证书/密钥文件，或者不同的 secret 名称，需要根据实际情况变更 `istio-citadel-plugin-certs.yaml`
 
 1. 为了确定工作负载获取了正确的证书，删除 Citadel 生成的 Secret（命名为 `istio.\*`）。在本例中就是 `istio.default`。Citadel 会签发新的证书给工作负载。
 

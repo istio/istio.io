@@ -7,7 +7,10 @@ attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
 ---
 
-> 此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能
+{{< tip >}}
+此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能。
+{{< /tip >}}
+
 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果您需要使用旧版本，请按照文档进行操作
 [使用外部 Web 服务归档版](https://archive.istio.io/v0.7/blog/2018/egress-https.html)。
 

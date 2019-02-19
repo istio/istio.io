@@ -7,7 +7,9 @@ attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
 keywords: [appswitch,performance]
 ---
 
-> 计算机科学中的所有问题，都可以用另一个层来解决，除了层数太多的问题。—— David Wheeler
+{{< quote >}}
+计算机科学中的所有问题，都可以用另一个层来解决，除了层数太多的问题。—— David Wheeler
+{{< /quote >}}
 
 Sidecar proxy 模式成就了很多奇迹。Sidecar 身处微服务的数据路径之中，能够精确的了解到应用程序的意图。它在应用程序级别而非网络层级别对流量进行监控和协议的检测，从而实现了深度的可见性、访问控制以及流量管理能力。
 
@@ -208,7 +210,9 @@ AppSwitch 从标准服务网格中移除了一组层次和操作。到底会对�
 
 可能 Wheeler 的引言可以换个说法：
 
->计算机科学中的所有问题，都可以用另一个层来解决，**即使是**层数太多的问题。
+{{< quote >}}
+计算机科学中的所有问题，都可以用另一个层来解决，**即使**是层数太多的问题。
+{{< /quote >}}
 
 ## 感谢
 

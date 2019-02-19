@@ -27,7 +27,9 @@ $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 
 此外还可以使用本地的配置信息来进行注入。
 
-> `istioctl kube-inject` 操作不具备幂等性，因此 `istioctl kube-inject` 的输出内容是无法再次进行注入的。要对手工注入的工作负载进行更新，建议保留原本的未经注入的 `yaml` 文件，这样数据平面的 Sidecar 就可以被更新了。
+{{< tip >}}
+`istioctl kube-inject` 操作不具备幂等性，因此 `istioctl kube-inject` 的输出内容是无法再次进行注入的。要对手工注入的工作负载进行更新，建议保留原本的未经注入的 `yaml` 文件，这样数据平面的 Sidecar 就可以被更新了。
+{{< /tip >}}
 
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
@@ -139,7 +141,9 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 被 Kubernetes 调用时，[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10) 会进行配置。Istio 提供的缺省配置，会在带有 `istio-injection=enabled` 标签的命名空间中选择 Pod。使用 `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector` 命令可以编辑目标命名空间的范围。
 
-> {{< warning_icon >}} 修改 mutatingwebhookconfiguration 之后，应该重新启动已经被注入 Sidecar 的 Pod。
+{{< warning >}}
+修改 mutatingwebhookconfiguration 之后，应该重新启动已经被注入 Sidecar 的 Pod。
+{{< /warning >}}
 
 `istio-system` 命名空间中的 ConfigMap `istio-sidecar-injector` 中包含了缺省的注入策略以及 Sidecar 的注入模板。
 
@@ -264,9 +268,11 @@ data:
 
 这里用到的标签选择器方式，给实际工作中的例外场景带来了很多弹性。参看 [Kubernetes 文档](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements)，可以更好的使用这一特性。
 
+{{< tip >}}
 Pod 注解的优先级是高于标签选择器的，所以具体的注入评估顺序是：
 
-> `Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+`Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+{{< /tip >}}
 
 #### 删除 Sidecar 注入器
 

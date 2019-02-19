@@ -95,6 +95,12 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 * 对于选项 2，使用 Helm 卸载：
 
+    {{< warning >}}
+    卸载此 chart 不会删除 Istio 已注册的 CRD。根据设计，Istio 预计 CRD 会泄漏到 Kubernetes 环境中。
+    由于 CRD 包含配置 Istio 所需的所有运行时配置数据。因此，
+    我们认为运维人员会更好地明确删除运行时配置数据而不是是它意外丢失。
+    {{< /warning >}}
+
     {{< text bash >}}
     $ helm delete --purge istio-minimal
     {{< /text >}}

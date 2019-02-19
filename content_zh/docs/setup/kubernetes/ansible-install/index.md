@@ -34,6 +34,10 @@ $ ansible-playbook main.yml
 
 ## 使用 Ansible 进行自定义安装
 
+{{< warning >}}
+所有 Ansible `playbook` 都必须在 Istio 的 `install/kubernetes/ansible` 目录下执行。
+{{< /warning >}}
+
 `Ansible playbook` 附带了合理的默认值。
 
 目前公开的选项有：
@@ -91,4 +95,6 @@ $ ansible-playbook main.yml -e '{"istio": {"samples": ["helloworld", "bookinfo"]
 
 将 `istio.delete_resources` 设置为 true 会从集群中删除 Istio 控制平面。
 
-> 为了避免任何不一致，该标志只能在集群上重新安装相同版本的 Istio 时使用。
+{{< warning >}}
+为了避免任何不一致，该标志只能在集群上重新安装相同版本的 Istio 时使用。
+{{< /warning >}}

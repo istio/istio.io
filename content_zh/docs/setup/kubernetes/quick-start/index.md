@@ -5,7 +5,9 @@ weight: 5
 keywords: [kubernetes]
 ---
 
-{{< tip_icon >}} Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
+{{< tip >}}
+Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
+{{< /tip >}}
 
 依照本文说明，在 Kubernetes 集群中安装和配置 Istio。
 
@@ -91,7 +93,9 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     {{< /text >}}
 
-    > 如果该集群在不支持外部负载均衡器的环境中运行（例如 minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将会显示为 `<pending>` 状态。这种情况下，只能通过服务的 NodePort，或者使用 port-forwarding 方式来访问服务。
+    {{< tip >}}
+    如果该集群在不支持外部负载均衡器的环境中运行（例如 minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将会显示为 `<pending>` 状态。这种情况下，只能通过服务的 NodePort，或者使用 port-forwarding 方式来访问服务。
+    {{< /tip >}}
 
 1. 确保所有相应的 Kubernetes pod 都已被部署且所有的容器都已启动并正在运行：`istio-pilot-*`、`istio-ingressgateway-*`、`istio-egressgateway-*`、`istio-policy-*`、`istio-telemetry-*`、`istio-citadel-*`、`prometheus-*`、`istio-galley-*` 以及 `istio-sidecar-injector-*`（可选）。
 
@@ -113,7 +117,9 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 上面步骤完成之后，就可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/) 这样的示例应用了。
 
-> 注意：已经不再支持 HTTP/1.0，所以应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量。
+{{< warning >}}
+已经不再支持 HTTP/1.0，所以应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量。
+{{< /warning >}}
 
 如果您启动了 [Istio-sidecar-injector](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，就可以使用 `kubectl apply` 直接部署应用。
 
