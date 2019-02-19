@@ -2,7 +2,7 @@
 
 {{ .Scratch.Set "skipSeeAlso" true }}
 
-{{ partial "primary-top.html" . }}
+{{ partial "primary_top.html" . }}
 
 <p>{{ .Description }}</p>
 
@@ -23,7 +23,7 @@
             {{ if eq .Parent $parent }}
                 <div class="entry">
                     <h5>
-                        <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page_icon">
+                        <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page-icon">
                                 {{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}</a>
                     </h5>
                     <p>{{ .Description }}</p>
@@ -35,6 +35,6 @@
 
 {{ .Content }}
 
-{{ partial "primary-bottom.html" . }}
+{{ partial "primary_bottom.html" . }}
 
 {{ end }}

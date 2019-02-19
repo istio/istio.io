@@ -108,7 +108,7 @@ spec:
 
 `Destination` 用于定义在网络中可寻址的服务，请求或连接在经过路由规则的处理之后，就会被发送给 `Destination`。`destination.host` 应该明确指向服务注册表中的一个服务。Istio 的服务注册表除包含平台服务注册表中的所有服务（例如 Kubernetes 服务、Consul 服务）之外，还包含了 [`ServiceEntry`](#serviceentry) 资源所定义的服务。
 
-> Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。**为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**
+_Kubernetes 用户注意_ ：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。**为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**
 
 下面的 Kubernetes 实例，缺省把所有的流量路由到 `reviews` 服务中具有标签 `version: v1`（也就是 `v1` 子集）的 Pod 中，另外还有一部分会路由到 `v2` 子集之中。
 
@@ -250,7 +250,7 @@ spec:
         simple: ROUND_ROBIN
 {{< /text >}}
 
-> 注意：只有在流量被显式的发送给某一子集的时候，指派给该子集的策略才会生效。
+**注意**：只有在流量被显式的发送给某一子集的时候，指派给该子集的策略才会生效。
 
 流量策略还可以根据端口来进行定义。接下来的规则，要求所有使用 `80` 端口的流量使用 `LEAST_CONN` 方式的负载均衡；而使用 `9080` 端口的流量则使用 `ROUND_ROBIN` 方式。
 
@@ -773,9 +773,7 @@ spec:
 
 ## `L4MatchAttributes`
 
-四层连接匹配的属性。
-
-> 注意：四层连接的匹配属性支持尚未完成。
+四层连接匹配的属性。注意：四层连接的匹配属性支持尚未完成。
 
 |字段|类型|描述|
 |---|---|---|
@@ -1314,7 +1312,7 @@ spec:
 
 {{< /text >}}
 
-> 注意：在路由规则显式引用一个 `Subset` 的时候，该 `Subset` 定义的策略才会生效。
+**注意**：在路由规则显式引用一个 `Subset` 的时候，该 `Subset` 定义的策略才会生效。
 
 |字段|类型|描述|
 |---|---|---|

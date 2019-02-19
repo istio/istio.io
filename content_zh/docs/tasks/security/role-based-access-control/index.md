@@ -28,7 +28,9 @@ keywords: [安全,访问控制,rbac,鉴权]
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
     {{< /text >}}
 
-> 如果使用的命名空间不是 `default`，就应改用 `kubectl -n namespace ...` 来指定命名空间。
+{{< tip >}}
+如果使用的命名空间不是 `default`，就应改用 `kubectl -n namespace ...` 来指定命名空间。
+{{< /tip >}}
 
 * Istio 1.0 中的 RBAC 有较大更新。请确认在继续之前，已经清理了所有现存 RBAC 规则。
 
@@ -42,7 +44,9 @@ keywords: [安全,访问控制,rbac,鉴权]
 
     * 用这个命令移除所有现存 RBAC 策略：
 
-      > 保存现有策略是可以的，不过需要对策略的 `constraints` 以及 `properties` 字段进行修改，参考[约束和属性](/zh/docs/reference/config/authorization/constraints-and-properties/)中的内容，了解这两个字段所支持的值。
+    {{< tip >}}
+    保存现有策略是可以的，不过需要对策略的 `constraints` 以及 `properties` 字段进行修改，参考[约束和属性](/zh/docs/reference/config/authorization/constraints-and-properties/)中的内容，了解这两个字段所支持的值。
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
@@ -255,7 +259,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
 
 用浏览器再次打开 `productpage` (`http://$GATEWAY_URL/productpage`)，这次会看到 `RBAC: access denied`。Istio 的鉴权行为是“缺省拒绝”的，也就是说必须要显式的进行授权，才能对服务进行访问。
 
-> 缓存和传播可能会造成一定的延迟。
+{{< tip >}}
+缓存和传播可能会造成一定的延迟。
+{{< /tip >}}
 
 ## 命名空间级的访问控制
 
@@ -316,7 +322,9 @@ servicerolebinding "bind-service-viewer" created
 
 如果这时用浏览器浏览 Bookinfo 的 `productpage` 页面 (`http://$GATEWAY_URL/productpage`)，会再次看到完整的页面，包含了左下角的 “Book Details” 以及右下角的 “Book Reviews”。
 
-> 缓存和传播可能会造成一定的延迟。
+{{< tip >}}
+缓存和传播可能会造成一定的延迟。
+{{< /tip >}}
 
 ### 清除命名空间级的访问控制
 
@@ -379,7 +387,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 
 再次浏览 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。应该能看到 “Bookinfo Sample” 页面了。但是还会显示 `Error fetching product details` 和 `Error fetching product reviews` 的错误信息。这是因为我们还没有给 `productpage` 访问 `details` 和 `reviews` 服务的授权。我们接下来就修复这个问题。
 
-> 缓存和传播可能会造成一定的延迟。
+{{< tip >}}
+缓存和传播可能会造成一定的延迟。
+{{< /tip >}}
 
 ### 第二步，允许对 `details` 和 `reviews` 服务的访问
 
@@ -425,7 +435,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.y
 
 浏览 Bookinfo 页面 `productpage` (`http://$GATEWAY_URL/productpage`)。现在看到的 “Bookinfo Sample” 中包含了左下角的 “Book Details” 以及右下角的 “Book Reviews”。然而 “Book Reviews” 中有一条错误信息： `Ratings service currently unavailable`，这是因为 `reviews` 服务无权访问 `ratings` 服务，要更正这一问题，就应该给 `ratings` 服务授权，使其能够访问 `reviews` 服务。下面的步骤就会完成这一需要。
 
-> 缓存和传播可能会造成一定的延迟。
+{{< tip >}}
+缓存和传播可能会造成一定的延迟。
+{{< /tip >}}
 
 ### 第三步，允许对 `ratings` 服务的访问
 
@@ -471,7 +483,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 
 用浏览器浏览 Bookinfo 应用的 `productpage` (`http://$GATEWAY_URL/productpage`)，应该就会看到 “Book Reviews” 区域中显示红色或者黑色的评级信息。
 
-> 缓存和传播可能会造成一定的延迟。
+{{< tip >}}
+缓存和传播可能会造成一定的延迟。
+{{< /tip >}}
 
 ## 清理
 

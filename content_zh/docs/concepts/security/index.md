@@ -143,7 +143,9 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 如果有多个服务运维团队（又名 [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的 [Kubernetes 命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
 
-> {{<warning_icon>}}如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
+{{< warning >}}
+如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
+{{< /warning >}}
 
 ### 示例
 

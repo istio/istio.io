@@ -50,7 +50,9 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 ### 如果在 Kubernetes 中运行
 
-> 如果运行的是 GKE，请确认你的集群具有至少四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
+{{< tip >}}
+如果运行的是 GKE，请确认你的集群具有至少四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
+{{< /tip >}}
 
 1. 进入 Istio 安装目录。
 
@@ -78,7 +80,9 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
     上面的命令会启动全部的四个服务，其中也包括了 `reviews` 服务的三个版本（`v1`、`v2` 以及 `v3`）
 
-    > 在实际部署中，微服务版本的启动过程需要持续一段时间，并不是同时完成的。
+    {{< tip >}}
+    在实际部署中，微服务版本的启动过程需要持续一段时间，并不是同时完成的。
+    {{< /tip >}}
 
 1. 给应用定义 Ingress gateway：
 
@@ -158,7 +162,9 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     $ docker ps -a
     {{< /text >}}
 
-    > 如果 Istio Pilot 容器已经终止，重新运行上一步即可。
+    {{< tip >}}
+    如果 Istio Pilot 容器已经终止，重新运行上一步即可。
+    {{< /tip >}}
 
 1. 设置 `GATEWAY_URL`:
 
@@ -166,7 +172,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-1. __Note for Consul users:__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
+1. __Consul 用户请注意：__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
 
 ## 确认应用在运行中
 
