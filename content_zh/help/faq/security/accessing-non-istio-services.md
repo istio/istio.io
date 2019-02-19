@@ -19,6 +19,8 @@ spec:
 EOF
 {{< /text >}}
 
-> 这个目标规则已作为 [Istio 安装的一部分添加到系统中，并具有默认的双向 TLS](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication)
+{{< tip >}}
+这个目标规则已作为 [Istio 安装的一部分添加到系统中，并具有默认的双向 TLS](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication)
+{{< /tip >}}
 
 同样，您可以为其他非 Istio 服务添加目标规则。 有关更多示例，请参阅[任务](/docs/tasks/security/authn-policy/#request-from-istio-services-to-non-istio-services)。

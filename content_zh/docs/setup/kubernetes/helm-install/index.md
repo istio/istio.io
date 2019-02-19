@@ -38,7 +38,9 @@ icon: helm
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
 
-    > 如果您正在启用 `certmanager`，那么您还需要安装它的 CRDs，并等待几秒钟，以便在 `kube-apiserver` 中提交 CRDs :
+    {{< tip >}}
+    如果您正在启用 `certmanager`，那么您还需要安装它的 CRDs，并等待几秒钟，以便在 `kube-apiserver` 中提交 CRD :
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml
@@ -101,17 +103,20 @@ icon: helm
 
 * 对于选项 2，使用 Helm 进行卸载：
 
+    {{< tip >}}
+    卸载此 chart 不会删除 Istio 已注册的 CRD。Istio 设计期望 CRD 泄漏到 Kubernetes 环境中。由于 CRD 包含自定义资源中的所有运行时配置数据，因此 Istio 设计人员认为最好明确删除此配置，而不是意外地丢失它。
+    {{< /tip >}}
+
     {{< text bash >}}
     $ helm delete --purge istio
-    {{< /text >}}
-
-    如果您的 Helm 版本低于 2.9.0，那么在重新部署新版 Istio chart 之前，您需要手动清理额外的 job 资源：
-
-    {{< text bash >}}
-    $ kubectl -n istio-system delete job --all
+    $ helm delete --purge istio-init
     {{< /text >}}
 
 * 如果需要，可以删除 CRD：
+
+    {{< warning >}}
+    删除 CRD 将删除您对 Istio 配置的所有修改。
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
