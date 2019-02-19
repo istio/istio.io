@@ -260,7 +260,7 @@ it up using the following instructions corresponding to your Istio runtime envir
 1.  Delete the routing rules and terminate the application pods
 
     {{< text bash >}}
-    $ @samples/bookinfo/platform/kube/cleanup.sh@
+    $ @./samples/bookinfo/platform/kube/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm shutdown
@@ -279,7 +279,7 @@ it up using the following instructions corresponding to your Istio runtime envir
     In a Consul setup, run the following command:
 
     {{< text bash >}}
-    $ @samples/bookinfo/platform/consul/cleanup.sh@
+    $ @./samples/bookinfo/platform/consul/cleanup.sh@
     {{< /text >}}
 
 1.  Confirm cleanup
