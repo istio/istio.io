@@ -130,8 +130,8 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. Citadel validates the credentials carried with the CSR, and signs the CSR to generate the certificate.
 
-1. The node agent sends both, the certificate received from Citadel and the
-   private key, to Envoy.
+1. The node agent sends both the certificate received from Citadel and the
+   private key to Envoy.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
