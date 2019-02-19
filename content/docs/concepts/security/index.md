@@ -130,8 +130,8 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. Citadel validates the credentials carried with the CSR, and signs the CSR to generate the certificate.
 
-1. The node agent sends both, the certificate received from Citadel and the
-   private key, to Envoy.
+1. The node agent sends both the certificate received from Citadel and the
+   private key to Envoy.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
@@ -148,11 +148,11 @@ The flow goes as follows:
 
 1. Envoy sends a certificate and key request via Envoy secret discovery service (SDS) API.
 
-1. Upon receiving the SDS request, node agent creates the private key and CSR, and sends the CSR with its credentials to Citadel for signing.
+1. Upon receiving the SDS request, the node agent creates the private key and CSR before sending the CSR with its credentials to Citadel for signing.
 
-1. Citadel validates the credentials carried in the CSR, and signs the CSR to generate the certificate.
+1. Citadel validates the credentials carried in the CSR and signs the CSR to generate the certificate.
 
-1. The node agent sends the certificate received from Citadel and the private key to Envoy, via the Envoy SDS API.
+1. The node agent sends the certificate received from Citadel and the private key to Envoy via the Envoy SDS API.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
