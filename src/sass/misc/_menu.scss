@@ -12,10 +12,7 @@
         border: 1px solid $dropdownBorderColor;
         border-radius: 4px;
         margin-top: .125rem;
-
-        @media (min-width: $bp-md) {
-            right: 0;
-        }
+        right: 0;
 
         a {
             display: block;
