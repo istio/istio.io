@@ -139,7 +139,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### 理解原理
 
-被 Kubernetes 调用时，[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10) 会进行配置。Istio 提供的缺省配置，会在带有 `istio-injection=enabled` 标签的命名空间中选择 Pod。使用 `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector` 命令可以编辑目标命名空间的范围。
+被 Kubernetes 调用 Webhook 时，[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io) 会进行配置。Istio 提供的缺省配置，会在带有 `istio-injection=enabled` 标签的命名空间中选择 Pod。使用 `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector` 命令可以编辑目标命名空间的范围。
 
 {{< warning >}}
 修改 mutatingwebhookconfiguration 之后，应该重新启动已经被注入 Sidecar 的 Pod。
@@ -271,7 +271,7 @@ data:
 {{< tip >}}
 Pod 注解的优先级是高于标签选择器的，所以具体的注入评估顺序是：
 
-`Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
+`Pod 注解 → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
 {{< /tip >}}
 
 #### 删除 Sidecar 注入器
