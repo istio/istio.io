@@ -136,10 +136,9 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     EOF
     {{< /text >}}
 
-    This Gateway instance is configuring an automatic routing for incoming traffic, through a dedicated port, to the relevant service
-    (SNI-based) but keeping mutual TLS all the way from the source to destination sidecars.
+    This `Gateway` configures a dedicated port (15443) to pass incoming traffic through to the target service specified in a request's SNI header. Mutual TLS connections will be used all the way from the source to the destination sidecar.
 
-    Although we apply to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
+    Although applied to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
     same Pilot.
 
 ### Setup cluster 2
