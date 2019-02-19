@@ -6,6 +6,10 @@
 
 <p>{{ .Description }}</p>
 
+{{ if .Params.content_above }}
+{{ .Content }}
+{{ end }}
+
 <div class="section-index">
     {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
     {{ $parent := .Page }}
@@ -33,7 +37,9 @@
     {{ end }}
 </div>
 
+{{ if not .Params.content_above }}
 {{ .Content }}
+{{ end }}
 
 {{ partial "primary_bottom.html" . }}
 
