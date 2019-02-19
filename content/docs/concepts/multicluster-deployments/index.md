@@ -82,9 +82,12 @@ To set up this kind of multicluster configuration, visit our
 
 This multicluster configuration uses a single Istio control plane running on one of the clusters.
 The control plane's Pilot manages services on the local and remote clusters and configures the
-Envoy sidecars for all of the clusters. This approach works best in environments where all of
-the participating clusters have VPN connectivity so every pod in the mesh is reachable from anywhere
-else using the same IP address.
+Envoy sidecars for all of the clusters.
+
+#### Single control plane with VPN connectivity
+
+The following approach works best in environments where all of the participating clusters have VPN connectivity so
+every pod in the mesh is reachable from anywhere else using the same IP address.
 
 {{< image width="80%" ratio="36.01%"
     link="./multicluster-with-vpn.svg"
@@ -98,6 +101,8 @@ overlap and note that DNS resolution for services on remote clusters is not auto
 Users need to replicate the services on every participating cluster.
 You can find detailed steps to set up this kind of multicluster topology
 in our [single control plane with VPN instructions](/docs/setup/kubernetes/multicluster-install/vpn/).
+
+#### Single control plane without VPN connectivity
 
 If setting up an environment with universal pod-to-pod connectivity is difficult or impossible,
 it may still be possible to configure a single control plane topology using Istio gateways and
