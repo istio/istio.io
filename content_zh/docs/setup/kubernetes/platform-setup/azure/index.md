@@ -75,7 +75,9 @@ keywords: [platform-setup,azure]
       --api-model istio.json
     {{< /text >}}
 
-    > 几分钟之后，就可以在 Azure 订阅中发现一个资源组，命名方式是 `<dns_prefix>-<id>`。假设 `dns-prefix` 取值为 `myclustername`，会在后面加入一个随机 ID 后缀，生成资源组名，例如 `mycluster-5adfba82`。`acs-engine` 会生成 `kubeconfig` 文件，放置到 `_output` 文件夹中。
+    {{< tip >}}
+    几分钟之后，就可以在 Azure 订阅中发现一个资源组，命名方式是 `<dns_prefix>-<id>`。假设 `dns-prefix` 取值为 `myclustername`，会在后面加入一个随机 ID 后缀，生成资源组名，例如 `mycluster-5adfba82`。`acs-engine` 会生成 `kubeconfig` 文件，放置到 `_output` 文件夹中。
+    {{< /tip >}}
 
 1. 使用 `<dns_prefix>-<id>` 集群 ID，把 `kubeconfig` 从 `_output` 文件夹中复制出来：
 

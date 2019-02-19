@@ -35,7 +35,9 @@ keywords: [traffic-management,circuit-breaking]
 
 1. 创建一个 [目标规则](/zh/docs/reference/config/istio.networking.v1alpha3/#destinationrule)，针对 `httpbin` 服务设置断路器：
 
-    > 如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[设置目标规则后出现 503 错误](/zh/help/ops/traffic-management/troubleshooting/#设置目标规则后出现-503-错误)所述。
+    {{< warning >}}
+    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[设置目标规则后出现 503 错误](/zh/help/ops/traffic-management/troubleshooting/#设置目标规则后出现-503-错误)所述。
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

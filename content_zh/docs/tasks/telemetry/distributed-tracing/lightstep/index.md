@@ -100,7 +100,9 @@ keywords: [telemetry,tracing,lightstep]
 追踪中的两个 span 代表了每个 RPC。例如，从 `productpage` 到 `reviews` 的请求带有的 span 使用  `reviews.default.svc.cluster.local:9080/*` operation 和 `productpage.default: proxy client` 进行标记。这个
 service 代表了客户端请求的 span。屏幕截图显示请求耗时 15.30 毫秒。第二个 span 使用 `reviews.default.svc.cluster.local:9080/*` operation 和 `reviews.default: proxy server` service 进行标记。第二个 span 是第一个的子级，代表了服务端请求的 span。屏幕截图显示请求耗时 14.60 毫秒。
 
-> {{< warning_icon >}} LightStep 集成目前不能捕获 Istio 内部组件（如 Mixer）产生的 span。
+{{< warning >}}
+LightStep 集成目前不能捕获 Istio 内部组件（如 Mixer）产生的 span。
+{{< /warning >}}
 
 ## 追踪采样
 

@@ -5,8 +5,6 @@ weight: 28
 keywords: [traffic-management,timeouts]
 ---
 
-> 本文任务使用了新的 [v1alpha3 流量控制 API](/zh/blog/2018/v1alpha3-routing/)。旧版本 API 已经过时，会在下一个 Istio 版本中移除。如果需要使用旧版本 API，请阅读[旧版本文档](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)
-
 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
 
 ## 开始之前
@@ -95,7 +93,11 @@ keywords: [traffic-management,timeouts]
 
     这时候应该看到一秒钟就会返回，而不是之前的两秒钟，但 `reviews` 的显示已经不见了。
 
-## 发生了什么？
+    {{< tip >}}
+    即使超时配置为半秒，响应需要 1 秒的原因是因为 `productpage` 页面服务中存在硬编码重试，因此它在返回之前调用 `reviews` 服务超时两次。
+    {{< /tip >}}
+
+## 理解原理
 
 上面的任务中，使用 Istio 为调用 `reviews` 微服务的请求中加入了一秒钟的超时控制，覆盖了缺省的 15 秒钟设置。页面刷新时，`reviews` 服务后面会调用 `ratings` 服务，使用 Istio 在对 `ratings` 的调用中注入了两秒钟的延迟，这样就让 `reviews` 服务要花费超过一秒钟的时间来调用 `ratings` 服务，从而触发了我们加入的超时控制。
 

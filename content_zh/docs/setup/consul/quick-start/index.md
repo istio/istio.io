@@ -46,7 +46,9 @@ keywords: [consul]
     $ docker-compose -f install/consul/istio.yaml up -d
     {{< /text >}}
 
-    > {{< warning_icon >}} 这里讲述的 Consul 的安装过程只配置了 Istio Pilot，要使用 Istio Mixer（安全策略和遥测报告 ） 或者 Istio Galley，就要完成更多的安装步骤。这部分内容已经超出了本指南的范围。
+    {{< warning >}}
+    这里讲述的 Consul 的安装过程只配置了 Istio Pilot，要使用 Istio Mixer（安全策略和遥测报告 ） 或者 Istio Galley，就要完成更多的安装步骤。这部分内容已经超出了本指南的范围。
+    {{< /warning >}}
 
 1.  确认所有的 docker 容器都在运行：
 
@@ -54,7 +56,9 @@ keywords: [consul]
     $ docker ps -a
     {{< /text >}}
 
-    > 如果 Istio Pilot 容器停止了，确保运行 `istioctl context-create` 命令并且重复上一步骤。
+    {{< tip >}}
+    如果 Istio Pilot 容器停止了，确保运行 `istioctl context-create` 命令并且重复上一步骤。
+    {{< /tip >}}
 
 1.  使用 `istioctl` 为 Istio API server 配置端口映射：
 
@@ -66,10 +70,12 @@ keywords: [consul]
 
 你现在可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/) 中提供的示例应用。
 
-> 由于在 Docker 中没有 pods 的概念，因此 Istio sidecar 需要和应用运行在同一个容器中。
-> 我们会使用 [Registrator](https://gliderlabs.github.io/registrator/latest/) 将服务实例自动注册到 Consul 中。
->
-> 应用必须使用 HTTP 1.1 或者 HTTP 2.0 协议进行 HTTP 通信，因为 Istio 不支持 HTTP 1.0 。
+{{< tip >}}
+由于在 Docker 中没有 pods 的概念，因此 Istio sidecar 需要和应用运行在同一个容器中。
+我们会使用 [Registrator](https://gliderlabs.github.io/registrator/latest/) 将服务实例自动注册到 Consul 中。
+
+应用必须使用 HTTP 1.1 或者 HTTP 2.0 协议进行 HTTP 通信，因为 Istio 不支持 HTTP 1.0 。
+{{< /tip >}}
 
 {{< text bash >}}
 $ docker-compose -f <your-app-spec>.yaml up -d
