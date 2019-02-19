@@ -1,115 +1,102 @@
+{{ $home := .Site.GetPage "home" }}
+{{ $section := .Section }}
 {{ $posts := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
 {{ $latest_post := index $posts 0 }}
+{{ $blog_home := .Site.GetPage "section" "blog" }}
 
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-between">
-        {{ $home := .Site.GetPage "home" }}
-
-        <a class="navbar-brand" href="{{ $home.Permalink }}">
+    <nav >
+        <a id="brand" href="{{ $home.Permalink }}">
             <span class="logo">{{ with resources.Get "inline_images/istio-whitelogo-bluebackground-rounded.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}</span>
 
             {{ if .Site.Data.args.archive }}
-                <span class="brand-name">Istioldie {{ .Site.Data.args.version }}</span>
+                <span class="name">Istioldie {{ .Site.Data.args.version }}</span>
             {{ else if .Site.Data.args.preliminary }}
-                <span class="brand-name">Istio Prelim {{ .Site.Data.args.version }}</span>
+                <span class="name">Istio Prelim {{ .Site.Data.args.version }}</span>
             {{ else }}
-                <span class="brand-name">Istio {{ .Site.Data.args.version }}</span>
+                <span class="name">Istio {{ .Site.Data.args.version }}</span>
             {{ end }}
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        {{ $section := .Section }}
-        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-            <ul id="navbar-links" class="navbar-nav active">
-                {{ with (.Site.GetPage "section" "docs") }}
-                    <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "docs" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
-                    </li>
-                {{ end }}
-                {{ with $latest_post }}
-                    <li class="nav-item">
-                        {{ $blog_home := .Site.GetPage "section" "blog" }}
-                        <a class="nav-link {{ if eq $section "blog" }}active{{ end }}" title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
-                    </li>
-                {{ end }}
-                {{ with (.Site.GetPage "section" "help") }}
-                    <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "help" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
-                    </li>
-                {{ end }}
-                {{ with (.Site.GetPage "section" "about") }}
-                    <li class="nav-item">
-                        <a class="nav-link {{ if eq $section "about" }}active{{ end }}" title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
-                    </li>
-                {{ end }}
-
-                <li class="nav-item menu" id="gearDropdown" style="white-space: nowrap">
-                    <a class="menu-trigger nav-link" title='{{ i18n "options_menu" }}' aria-label="Tools" aria-haspopup="true" aria-expanded="false">
-                        {{ partial "icon.html" "gear" }}
-                    </a>
-
-                    <div class="menu-content" aria-labelledby="gearDropdown">
-                        <a lang="en" href="/" {{ if eq $home.Lang "en" }}class="active"{{ end }} onclick="createCookie('nf_lang', 'en'); return true;">English</a>
-                        <a lang="zh" href="/zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }} onclick="createCookie('nf_lang', 'zh'); return true;">中文</a>
-
-                        <div></div>
-
-                        <a class="active" id="light-theme-item" href="" onclick="setActiveStyleSheet('Light Theme');return false;">{{ i18n "light_theme" }}</a>
-                        <a id="dark-theme-item" href="" onclick="setActiveStyleSheet('Dark Theme');return false;">{{ i18n "dark_theme" }}</a>
-
-                        {{ if not .Site.Data.args.archive }}
-                            <div></div>
-
-                            <a href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
-
-                            {{ if not .Params.generator }}
-                                <a href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
-                            {{ end }}
-                        {{ end }}
-
-                        <div></div>
-
-                        <h6>{{ i18n "other_versions_of_site" }}</h6>
-
-                        {{ $next := index .Site.Data.releases 0 }}
-                        {{ $current := index .Site.Data.releases 1 }}
-
-                        {{ if .Site.Data.args.archive }}
-                            <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
-                            <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
-                        {{ else if .Site.Data.args.preliminary }}
-                            <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
-                        {{ else }}
-                            <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
-                            <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
-                        {{ end }}
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a id="search-show" class="nav-link" href="" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</a>
-                </li>
-            </ul>
-
-            <form name="cse" id="search-form" class="form-inline mr-sm-2" role="search">
-                {{ if .Site.Data.args.preliminary }}
-                    <input type="hidden" name="cx" value="{{ .Site.Data.args.preliminary_search_engine_id }}" />
-                {{ else if .Site.Data.args.archive }}
-                    <input type="hidden" name="cx" value="{{ .Site.Data.args.archive_search_engine_id }}" />
-                {{ else }}
-                    <input type="hidden" name="cx" value="{{ .Site.Data.args.main_search_engine_id }}" />
-                {{ end }}
-                <input type="hidden" name="ie" value="utf-8" />
-                <input type="hidden" name="hl" value="en" />
-                <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search.html" />
-                <input id="search-textbox" class="form-control" name="q" type="text" aria-label='{{ i18n "search" }}'/>
-                <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "cancel-x" }}</button>
-            </form>
+        <div id="hamburger">
+            {{ partial "icon.html" "hamburger" }}
         </div>
+
+        <div id="header-links">
+            {{ with (.Site.GetPage "section" "docs") }}
+                <a{{ if eq $section "docs" }} class="active"{{ end }} title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+            {{ end }}
+            {{ with $latest_post }}
+                <a{{ if eq $section "blog" }} class="active"{{ end }} title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+            {{ end }}
+            {{ with (.Site.GetPage "section" "help") }}
+                <a{{ if eq $section "help" }} class="active"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+            {{ end }}
+            {{ with (.Site.GetPage "section" "about") }}
+                <a{{ if eq $section "about" }} class="active"{{ end }} title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+            {{ end }}
+
+            <div class="menu" id="gearDropdown" style="white-space: nowrap">
+                <a class="menu-trigger" title='{{ i18n "options_menu" }}' aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                    {{ partial "icon.html" "gear" }}
+                </a>
+
+                <div class="menu-content" aria-labelledby="gearDropdown">
+                    <a lang="en" href="/" {{ if eq $home.Lang "en" }}class="active"{{ end }} onclick="createCookie('nf_lang', 'en'); return true;">English</a>
+                    <a lang="zh" href="/zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }} onclick="createCookie('nf_lang', 'zh'); return true;">中文</a>
+
+                    <div></div>
+
+                    <a class="active" id="light-theme-item" href="" onclick="setActiveStyleSheet('Light Theme');return false;">{{ i18n "light_theme" }}</a>
+                    <a id="dark-theme-item" href="" onclick="setActiveStyleSheet('Dark Theme');return false;">{{ i18n "dark_theme" }}</a>
+
+                    {{ if not .Site.Data.args.archive }}
+                        <div></div>
+
+                        <a href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
+
+                        {{ if not .Params.generator }}
+                            <a href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                        {{ end }}
+                    {{ end }}
+
+                    <div></div>
+
+                    <h6>{{ i18n "other_versions_of_site" }}</h6>
+
+                    {{ $next := index .Site.Data.releases 0 }}
+                    {{ $current := index .Site.Data.releases 1 }}
+
+                    {{ if .Site.Data.args.archive }}
+                        <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                        <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                        <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                    {{ else if .Site.Data.args.preliminary }}
+                        <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                        <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                    {{ else }}
+                        <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                        <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                    {{ end }}
+                </div>
+            </div>
+
+            <a id="search-show" href='' title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</a>
+        </div>
+
+        <form id="search-form" name="cse" role="search">
+            {{ if .Site.Data.args.preliminary }}
+                <input type="hidden" name="cx" value="{{ .Site.Data.args.preliminary_search_engine_id }}" />
+            {{ else if .Site.Data.args.archive }}
+                <input type="hidden" name="cx" value="{{ .Site.Data.args.archive_search_engine_id }}" />
+            {{ else }}
+                <input type="hidden" name="cx" value="{{ .Site.Data.args.main_search_engine_id }}" />
+            {{ end }}
+            <input type="hidden" name="ie" value="utf-8" />
+            <input type="hidden" name="hl" value="en" />
+            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search.html" />
+            <input id="search-textbox" class="form-control" name="q" type="text" aria-label='{{ i18n "search" }}'/>
+            <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "cancel-x" }}</button>
+        </form>
     </nav>
 </header>

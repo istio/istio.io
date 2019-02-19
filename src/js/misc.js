@@ -65,19 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Attach the event handlers to support the search box
-    function attachSearchHandlers() {
+    // Attach the event handlers to support the search box and hamburger
+    function attachHeaderHandlers() {
         // Show the navbar links, hide the search box
         function showNavBarLinks() {
-            document.getElementById('search-form').classList.remove('active');
-            document.getElementById('navbar-links').classList.add('active');
+            document.getElementById('search-form').classList.remove('show-search');
+            document.getElementById('header-links').classList.remove('show-search');
             document.getElementById('search-textbox').value = '';
         }
 
         // Show the navbar search box, hide the links
         function showSearchBox() {
-            document.getElementById('search-form').classList.add('active');
-            document.getElementById('navbar-links').classList.remove('active');
+            document.getElementById('search-form').classList.add('show-search');
+            document.getElementById('header-links').classList.add('show-search');
             document.getElementById('search-textbox').focus();
         }
 
@@ -108,6 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const url = searchPageUrl.value + '?q=' + textbox.value;
             showNavBarLinks();
             window.location.assign(url);
+        });
+
+        document.getElementById('hamburger').addEventListener("click", () => {
+            document.getElementById('brand').classList.toggle('open-hamburger');
+            document.getElementById('header-links').classList.toggle('open-hamburger');
+            document.getElementById('search-form').classList.toggle('open-hamburger');
         });
     }
 
@@ -180,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     expandPopovers();
     selectTabs();
-    attachSearchHandlers();
+    attachHeaderHandlers();
     attachSidebarHandlers();
     attachTabHandlers();
     attachMenuHandlers();

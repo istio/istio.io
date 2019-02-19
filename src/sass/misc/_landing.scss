@@ -78,6 +78,7 @@
             border-color: $landingPanelBorderColor;
             width: 18rem;
             box-shadow: 3px 3px 8px $landingPanelShadowColor;
+            padding: 1rem;
 
             a {
                 text-decoration: none;
@@ -110,6 +111,13 @@
 
             .panel-body {
                 padding-top: 0;
+                padding-left: .5rem;
+                padding-right: .5rem;
+
+                @media (min-width: $bp-md) {
+                    padding-left: 1.25rem;
+                    padding-right: 1.25rem;
+                }
             }
         }
     }
