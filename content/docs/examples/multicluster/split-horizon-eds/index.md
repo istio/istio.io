@@ -60,26 +60,6 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
 ### Setup cluster 1 (primary)
 
-1. Define the mesh networks:
-
-    By default the `global.meshNetworks` value for Istio is empty but you will need to modify it to declare a new network for endpoints on `cluster2`. Modify `install/kubernetes/helm/istio/values.yaml` and add a `network2` declaration:
-
-    {{< text yaml >}}
-    meshNetworks:
-        network2:
-            endpoints:
-            - fromRegistry: n2-k8s-config
-            gateways:
-            - address: 0.0.0.0
-              port: 15443
-    {{< /text >}}
-
-    {{< warning >}}
-    Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
-    later be updated to the value of the public IP of `cluster2`'s gateway after it is deployed
-    in the following section.
-    {{< /warning >}}
-
 1. Use Helm to create the Istio deployment YAML for `cluster1`:
 
     {{< warning >}}
@@ -94,8 +74,17 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     --set security.selfSigned=false \
     --set global.controlPlaneSecurityEnabled=true \
     --set global.meshExpansion.enabled=true \
+    --set global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config \
+    --set global.meshNetworks.network2.gateways[0].address=0.0.0.0 \
+    --set global.meshNetworks.network2.gateways[0].port=15443 \
     install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
+
+    {{< warning >}}
+    Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
+    later be updated to the value of the public IP of `cluster2`'s gateway after it is deployed
+    in the following section.
+    {{< /warning >}}
 
 1. Deploy Istio to `cluster1`:
 
