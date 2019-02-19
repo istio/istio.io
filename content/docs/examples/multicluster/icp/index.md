@@ -8,7 +8,7 @@ keywords: [kubernetes,multicluster]
 This example demonstrates how to setup network connectivity between two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
 and then compose them into a multicluster mesh using a
-[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology).
+[single control plane topology with VPN connectivity](/docs/concepts/multicluster-deployments/#single-control-plane-with-vpn-connectivity).
 
 ## Create the IBM Cloud Private Clusters
 
