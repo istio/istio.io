@@ -251,7 +251,7 @@ log entries for `v1` and none for `v2`:
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
     {{< /text >}}
 
-1. If you want to take a look inside the traffic, run the following commands on another console and send the traffic:
+1. If you want to examine traffic internals, run the following commands on another console:
 
     {{< text bash >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
