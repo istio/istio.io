@@ -13,6 +13,10 @@ This minimal install provides traffic management features of Istio.
 
 Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) described in the Quick Start guide.  The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
 
+    {{< tip >}}
+    To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
+    {{< /tip >}}
+    
 ## Installation steps
 
 The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
@@ -20,11 +24,6 @@ The following commands have relative references in the Istio directory. You must
 Choose one of the following two **mutually exclusive** options described below.
 - To use Kubernetes manifests to deploy Istio, follow the instructions for [option #1](#option-1).		
 - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option #2](#option-2).
- 
-    {{< tip >}}
-    To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
-    {{< /tip >}}
-
 
 ### Option 1: Install with Helm via `helm template` {#option-1}
 
