@@ -198,14 +198,14 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` `bind-productpager-viewer` which assigns the `productpage-viewer` role to all
+*   Creates a `ServiceRoleBinding` `bind-productpage-viewer` which assigns the `productpage-viewer` role to all
 users and services.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRoleBinding
     metadata:
-      name: bind-productpager-viewer
+      name: bind-productpage-viewer
       namespace: default
     spec:
       subjects:
@@ -293,7 +293,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 
 The policy does the following:
 
-*   Creates a `ServiceRole` `ratings-viewer\` which allows access to the `ratings` service.
+*   Creates a `ServiceRole` `ratings-viewer` which allows access to the `ratings` service.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
