@@ -75,10 +75,11 @@
             opacity: 0.1;
             transition: opacity .25s linear;
             background-color: $landingPanelBackgroundColor;
-            border-color: $landingPanelBorderColor;
             width: 18rem;
             box-shadow: 3px 3px 8px $landingPanelShadowColor;
             padding: 1rem;
+            border: 1px solid $landingPanelBorderColor;
+            border-radius: 4px;
 
             a {
                 text-decoration: none;
