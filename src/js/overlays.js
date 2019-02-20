@@ -30,26 +30,29 @@ function closeActiveOverlay() {
     }
 }
 
-function attachPopper(anchor, element) {
-    if (popper !== null) {
-        popper.destroy();
+document.addEventListener("DOMContentLoaded", () => {
+    // Attach a popper to the given anchor
+    function attachPopper(anchor, element) {
+        if (popper !== null) {
+            popper.destroy();
+        }
+
+        popper = new Popper(anchor, element, {
+            placement: 'auto-start',
+            modifiers: {
+                preventOverflow: {
+                    enabled: true,
+                },
+                shift: {
+                    enabled: true,
+                },
+                flip: {
+                    enabled: true,
+                }
+            },
+        });
     }
 
-    popper = new Popper(anchor, element, {
-        placement: 'auto-start',
-        modifiers: {
-            preventOverflow: {
-                enabled: true,
-            },
-            flip: {
-                enabled: true,
-                behavior: ['left', 'right', 'top', 'bottom']
-            },
-        },
-    });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
     // Expand spans that define terms into appropriate popup markup
     document.querySelectorAll('.term').forEach(term => {
         const i = document.createElement('i');
@@ -93,3 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener("click", closeActiveOverlay);
+window.addEventListener("resize", closeActiveOverlay);
