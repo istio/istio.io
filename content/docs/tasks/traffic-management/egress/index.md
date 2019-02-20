@@ -331,7 +331,7 @@ Istio has an [installation option](/docs/reference/config/installation-options/)
 that allows access to any external service on any ports without an HTTP service or a service entry within the mesh.
 For example, if you don't register an HTTP service or define a service entry for port 8000
 within the mesh, you can configure the sidecar proxy to pass the request to any external service on that port.
-If you later create an HTTP service inside the mesh, on port 8000, or define a service entry for any
+If you later create an HTTP service inside the mesh on port 8000 or define a service entry for any
 host on port 8000, Istio will block all external access to port 8000 since Istio then falls back to the
 blocking-by-default behavior for that port.
 
@@ -420,7 +420,7 @@ Istio.
 
 In this task you looked at three ways to call external services from an Istio mesh:
 
-1. Using a `ServiceEntry` to register an accessable external service inside the mesh. This is the
+1. Using a `ServiceEntry` to register an accessible external service inside the mesh. This is the
    recommended approach.
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
@@ -442,7 +442,7 @@ you can't monitor access to external services but you don't need to
 know which IP ranges are external to the cluster.
 You can also easily switch to the first approach
 for a specific port by simply creating a service entry for that port.
-This way, you can use this approach initially, allowing access to any external service,
+This way you can use this approach initially, allowing access to any external service,
 and then later decide to start controlling access to external services for specific ports.
 You can enable traffic monitoring and control features as they are needed.
 
