@@ -10,12 +10,12 @@ keywords: [traffic-management,egress]
 By default, Istio-enabled services are unable to access URLs outside of the cluster because the pod uses
 iptables to transparently redirect all outbound traffic to the sidecar proxy,
 which only handles intra-cluster destinations.
+This task describes how to configure Istio to expose external services to Istio-enabled clients
+in three different ways:
 
-This task describes how to configure Istio to expose external services to Istio-enabled clients.
-You'll learn how to enable access to external services by defining
-[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) configurations,
-or alternatively, by bypassing the Istio proxy for a specific range of IPs or configuring it
-to pass requests through to external services on ports that are not configured inside the mesh.
+1. Configure a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
+1. Bypass the Envoy proxy for a specific range of IPs.
+1. Configure the Envoy proxy to pass requests through to external services on ports that are not configured inside the mesh.
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -440,11 +440,10 @@ The third approach directs traffic through the Istio sidecar proxy but it allows
 port that has no HTTP service or service entry defined in the mesh. Similar to the second approach,
 you can't monitor access to external services but you don't need to
 know which IP ranges are external to the cluster.
-You can also easily switch to the first approach
-for a specific port by simply creating a service entry for that port.
-This way you can use this approach initially, allowing access to any external service,
-and then later decide to start controlling access to external services for specific ports.
-You can enable traffic monitoring and control features as they are needed.
+You can easily switch to the first approach for a specific port by simply creating a service entry for that port.
+This means you can use this approach initially to allow access to any external service.
+Later, you can decide to start controlling access to external services for specific ports and
+enable traffic monitoring and control features as they are needed.
 
 ## Security note
 
