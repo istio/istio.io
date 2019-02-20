@@ -293,7 +293,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 
 The policy does the following:
 
-*   Creates a `ServiceRole` `ratings-viewer\` which allows access to the `ratings` service.
+*   Creates a `ServiceRole` `ratings-viewer` which allows access to the `ratings` service.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
