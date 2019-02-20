@@ -10,11 +10,12 @@ keywords: [traffic-management,egress]
 By default, Istio-enabled services are unable to access URLs outside of the cluster because the pod uses
 iptables to transparently redirect all outbound traffic to the sidecar proxy,
 which only handles intra-cluster destinations.
+This task describes how to configure Istio to expose external services to Istio-enabled clients
+in three different ways:
 
-This task describes how to configure Istio to expose external services to Istio-enabled clients.
-You'll learn how to enable access to external services by defining
-[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) configurations,
-or alternatively, to bypass the Istio proxy for a specific range of IPs.
+1. Configure a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
+1. Bypass the Envoy proxy for a specific range of IPs.
+1. Configure the Envoy proxy to pass requests through to external services on ports that are not configured inside the mesh.
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -321,17 +322,23 @@ $ helm template install/kubernetes/helm/istio <the flags you used to install Ist
 
 ## Install Istio with access to all external services by default
 
-An alternative to calling external services directly is to instruct the Istio proxy to pass through the calls to all the
-external services. This option allows you to start evaluating Istio quickly, without controlling access to external
+An alternative to calling external services directly is to instruct the Istio proxy to pass through, instead
+of block, calls to external services by default. This option allows you to start evaluating Istio quickly,
+without controlling access to external
 services, and decide to [configure access to external services](#controlled-access-to-external-services) later.
 
-To allow access to any external service on any ports without an HTTP service or a service entry within the mesh,
-Istio has an [installation option](/docs/reference/config/installation-options/).
-For example, if you don't register an HTTP service or define a service entry for the 8000
-port within the mesh, you can configure the sidecar proxy to pass the request to any external service on that port.
+Istio has an [installation option](/docs/reference/config/installation-options/)
+that allows access to any external service on any ports without an HTTP service or a service entry within the mesh.
+For example, if you don't register an HTTP service or define a service entry for port 8000
+within the mesh, you can configure the sidecar proxy to pass the request to any external service on that port.
 If you later create an HTTP service inside the mesh on port 8000 or define a service entry for any
 host on port 8000, Istio will block all external access to port 8000 since Istio then falls back to the
 blocking-by-default behavior for that port.
+
+{{< warning >}}
+Some ports, for example port 80, have HTTP services inside Istio by default. Because of this caveat,
+you cannot use this approach for services using those ports.
+{{< /warning >}}
 
 1.  To allow access to all the external services, install or update Istio by using
 [Helm](https://preliminary.istio.io/docs/setup/kubernetes/helm-install/) while setting the value of
@@ -413,32 +420,30 @@ Istio.
 
 In this task you looked at three ways to call external services from an Istio mesh:
 
-1. Using a `ServiceEntry` for HTTP and a combination of `ServiceEntry` and `VirtualService` for HTTPS. This is the
-   recommended way.
+1. Use a service entry to register an accessible external service inside the mesh. This is the
+   recommended approach.
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
 
 1. Configuring Istio to allow access to any external service on some ports.
 
 The first approach lets you use all of the same Istio service mesh features for calls to services inside or outside of
-the cluster. You saw that you can monitor access to external services and set a timeout rule for calls to an external
+the cluster. You saw how to monitor access to external services and set a timeout rule for calls to an external
 service.
 
 The second approach bypasses the Istio sidecar proxy, giving your services direct access to any external server.
-However, configuring the proxy this way does require cluster provider specific knowledge and configuration.
-In addition to that, you loose monitoring of access to external services and cannot apply Istio features on traffic to
+However, configuring the proxy this way does require cluster-provider specific knowledge and configuration.
+Additionally, you lose monitoring of access to external services and you can't apply Istio features on traffic to
 external services.
 
-The third approach directs the traffic through the Istio sidecar proxy but it allows access to any service on any
-ports without an HTTP service in the mesh or without a service entry. Similarly to the second approach,
-you cannot monitor the access to external services but you don't need to
-know which IP ranges are external to the cluster. Additionally, you can easily switch to the first approach
-for a specific port: simply create a service entry for that port.
-You can use this approach to start using Istio allowing access to any external service and then decide to start
-controlling access to external services for specific ports.
-Then, you can enable traffic monitoring and control features once they are needed.  Some ports, for example port 80,
-already have HTTP services inside Istio by default.
-Because of this caveat, you can only use the first and second approaches for those ports.
+The third approach directs traffic through the Istio sidecar proxy but it allows access to any service on any
+port that has no HTTP service or service entry defined in the mesh. Similar to the second approach,
+you can't monitor access to external services but you don't need to
+know which IP ranges are external to the cluster.
+You can easily switch to the first approach for a specific port by simply creating a service entry for that port.
+This means you can use this approach initially to allow access to any external service.
+Later, you can decide to start controlling access to external services for specific ports and
+enable traffic monitoring and control features as they are needed.
 
 ## Security note
 
