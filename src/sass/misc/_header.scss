@@ -80,10 +80,10 @@ header {
 
     a {
         font-weight: 500;
-        margin-left: .65rem;
-        margin-right: .65rem;
         color: $textBrandColor;
         font-size: 1.1em;
+        margin-left: .3rem;
+        margin-right: .3rem;
 
         @media (min-width: $bp-sm) {
             font-size: .9em;
@@ -100,6 +100,8 @@ header {
             border-bottom: solid 3px $textBrandColor;
             border-radius: 2px;
             color: $textBrandColor;
+            font-weight: 500;
+            cursor: default;
         }
     }
 
@@ -122,8 +124,8 @@ header {
     #hamburger {
         display: inline-block;
         position: absolute;
-        top: .6rem;
-        right: 1.1rem;
+        top: .8rem;
+        right: 1.3rem;
 
         @media (min-width: $bp-sm) {
             display: none;
@@ -137,6 +139,8 @@ header {
             display: block;
             text-align: center;
             margin-top: 1em;
+            padding-left: 1em;
+            padding-right: 2.5em;
         }
 
         @media (min-width: $bp-sm) {

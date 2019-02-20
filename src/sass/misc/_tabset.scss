@@ -1,42 +1,43 @@
 .tabset {
-    .nav-tabs {
-        border: none;
-        margin: 0 0 0 4px;
-        padding: 0;
+    border: none;
+    margin: 0 0 0 4px;
+    padding: 0;
 
-        .nav-item {
+    .tab-strip {
+        margin-bottom: -2px;
+
+        a {
             display: inline-block;
             margin: 0 3px;
-            padding: 0;
-        }
-
-        .nav-link {
             border: 1px solid $mainBrandColor;
             border-bottom: none;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
-            display: block;
             padding: 0 1rem;
             transform: skewX(-30deg);
             transform-origin: left bottom;
+            text-decoration: none;
+            cursor: pointer;
 
             span {
                 display: block;
                 transform: skewX(10deg);
                 font-size: 80%;
+                color: $textColor;
             }
 
             &:hover {
                 background-color: $textBrandHighlightColor;
+                text-decoration: none;
             }
-        }
 
-        .nav-link.active {
-            background-color: $mainBrandColor;
-            cursor: default;
+            &.active {
+                background-color: $mainBrandColor;
+                cursor: default;
 
-            span {
-                color: $textBrandColor;
+                span {
+                    color: $textBrandColor;
+                }
             }
         }
     }
@@ -44,5 +45,15 @@
     .tab-content {
         border: 1px solid $mainBrandColor;
         border-radius: 4px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        > div {
+            display: none;
+
+            &.active {
+                display: block;
+            }
+        }
     }
 }
