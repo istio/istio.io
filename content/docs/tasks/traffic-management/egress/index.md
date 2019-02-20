@@ -420,7 +420,7 @@ Istio.
 
 In this task you looked at three ways to call external services from an Istio mesh:
 
-1. Using a `ServiceEntry` to register an accessible external service inside the mesh. This is the
+1. Use a service entry to register an accessible external service inside the mesh. This is the
    recommended approach.
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
@@ -428,7 +428,7 @@ In this task you looked at three ways to call external services from an Istio me
 1. Configuring Istio to allow access to any external service on some ports.
 
 The first approach lets you use all of the same Istio service mesh features for calls to services inside or outside of
-the cluster. You saw how one can monitor access to external services and set a timeout rule for calls to an external
+the cluster. You saw how to monitor access to external services and set a timeout rule for calls to an external
 service.
 
 The second approach bypasses the Istio sidecar proxy, giving your services direct access to any external server.
