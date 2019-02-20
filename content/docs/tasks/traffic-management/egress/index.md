@@ -89,9 +89,6 @@ from within your Istio cluster. This task shows you how to access an external HT
 ### Access an external HTTPS service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
-    For TLS protocols, including HTTPS, a `VirtualService` is required in addition to the `ServiceEntry`.
-    Without it, exactly what service or services are exposed by the `ServiceEntry` is undefined.
-    The `VirtualService` must include a `tls` rule with `sni_hosts` in the `match` clause to enable SNI routing.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -108,25 +105,6 @@ from within your Istio cluster. This task shows you how to access an external HT
         protocol: HTTPS
       resolution: DNS
       location: MESH_EXTERNAL
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: google
-    spec:
-      hosts:
-      - www.google.com
-      tls:
-      - match:
-        - port: 443
-          sni_hosts:
-          - www.google.com
-        route:
-        - destination:
-            host: www.google.com
-            port:
-              number: 443
-          weight: 100
     EOF
     {{< /text >}}
 
@@ -222,7 +200,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
-$ kubectl delete virtualservice httpbin-ext google
+$ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 {{< /text >}}
 
 ## Direct access to external services
