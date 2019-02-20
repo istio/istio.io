@@ -168,7 +168,7 @@ value is calculated automatically for any local image content, but must be calcu
 manually when referencing external image content.
 In that case, `ratio` should be set to (image height / image width) * 100.
 
-## Adding icons & emojis
+## Adding icons
 
 You can embed some common icons in your content using:
 
@@ -181,9 +181,6 @@ You can embed some common icons in your content using:
 {{< /text >}}
 
 which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
-
-In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
-which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
 
 ## Linking to other pages
 
