@@ -43,7 +43,7 @@ for a running application.
    Note that all other users are unaware of this testing against the live system.
 
 1. [Traffic Shifting](/docs/tasks/traffic-management/traffic-shifting/) Finally, we will
-   use Istio to gradually migrate traffic for all users from to a v3 version of
+   use Istio to gradually migrate traffic for all users from v2 to a v3 version of
    the `reviews` service, one which includes the fix for the bug discovered in v2.
 
 ## Cleanup
