@@ -26,8 +26,6 @@ requests to a testing Vault CA:
     $ helm template \
         --name=istio \
         --namespace=istio-system \
-        --set global.mtls.enabled=true \
-        --set global.controlPlaneSecurityEnabled=true \
         --set global.proxy.excludeIPRanges="35.233.249.249/32" \
         --values install/kubernetes/helm/istio/values-istio-example-sds-vault.yaml \
         install/kubernetes/helm/istio >> istio-auth.yaml
