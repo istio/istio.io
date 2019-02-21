@@ -26,9 +26,9 @@ by using Helm and the IBM Cloud Kubernetes Service.
 -  Make sure you have a cluster of Kubernetes version of 1.10 or later. If you do not have a cluster available, [create a version 1.10 or later cluster](https://cloud.ibm.com/docs/containers/cs_clusters.html).
 -  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID>` and copying and pasting the command in the output.
 
-{{ warning }}
+{{< warning >}}
 Make sure to use the `kubectl` CLI version that matches the Kubernetes version of your cluster.
-{{ /warning }}
+{{< /warning >}}
 
 ### Initialize Helm and Tiller
 
