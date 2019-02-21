@@ -176,10 +176,10 @@ istioctl authn tls-check
 </code></pre>
 <h2 id="istioctl-authn-tls-check">istioctl authn tls-check</h2>
 <p>
-Requests Pilot to check for what authentication policy and destination rule it uses for each service in
-service registry, and check if TLS settings are compatible between them.
+Check what authentication policies and destination rules pilot uses to config a proxy instance,
+and check if TLS settings are compatible between them.
 </p>
-<pre class="language-bash"><code>istioctl authn tls-check [&lt;service&gt;] [flags]
+<pre class="language-bash"><code>istioctl authn tls-check &lt;pod-name[.namespace]&gt; [&lt;service&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -262,11 +262,12 @@ service registry, and check if TLS settings are compatible between them.
 </table>
 <h3 id="istioctl-authn-tls-check Examples">Examples</h3>
 <pre class="language-bash"><code>
-# Check settings for all known services in the service registry:
-istioctl authn tls-check
+# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default:
+istioctl authn tls-check 656bd7df7c-5zp4s.default
 
-# Check settings for a specific service
-istioctl authn tls-check foo.bar.svc.cluster.local
+# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default, filtered on destintation
+service &#34;bar&#34; :
+istioctl authn tls-check 656bd7df7c-5zp4s.default bar
 
 </code></pre>
 <h2 id="istioctl-deregister">istioctl deregister</h2>
