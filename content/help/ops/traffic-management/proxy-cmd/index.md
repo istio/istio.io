@@ -283,7 +283,7 @@ one route that matches on everything. This route tells Envoy to send the request
 1. To see the endpoints currently available for this cluster use the `proxy-config` endpoints command.
 
     {{< text bash json >}}
-    $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster outbound|9080||reviews.default.svc.cluster.local
+    $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
     ENDPOINT             STATUS      CLUSTER
     172.17.0.17:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
     172.17.0.18:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
