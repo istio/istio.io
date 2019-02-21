@@ -30,6 +30,12 @@ Then add the `Kubernetes Engine Admin` role:
 
 {{< image width="70%" link="./dm_gcp_iam_role.png" caption="GKE-IAM Role" >}}
 
+Create clusterrolebinding for Istio to be able to manage the cluster.
+
+    {{< text bash >}}
+    $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin  --user=$(gcloud config get-value core/account)
+    {{< /text >}}
+
 ## Setup using Istio on GKE
 
 Refer to the [Istio on GKE documentation](https://cloud.google.com/istio/docs/istio-on-gke/overview) for instructions on creating a cluster with Istio installed.
