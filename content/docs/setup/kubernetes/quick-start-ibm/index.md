@@ -48,19 +48,25 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
 
 ### Deploy the Istio Helm charts
 
-1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
+1. Install the `istio-init` chart to bootstrap all the Istio CRDs:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-    To verify all Istio's CRDs were committed in the Kubernetes api-server, check the number of CRDs with the specified suffix with the following command. Verify that the number of total CRDs created was `56` for Istio:
+    To verify that all Istio CRDs were committed in the Kubernetes api-server, check the number of CRDs with the specified suffix with the following command. Verify that the number of total CRDs created was `58` for Istio:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+    58
     {{< /text >}}
 
 1. Install the Helm chart to your cluster:
+
+    {{< tip >}}
+    The Istio `demo` profile (`install/kubernetes/helm/istio/values-istio-demo.yaml`) is specified in the above command to support the IBM Cloud Kubernetes Service free cluster, which only contains a single worker providing fewer resources than needed.
+    If using a paid cluster of sufficient size, you can remove the `--values` parameter which will use the default Istio configuration values instead.
+    {{< /tip >}}
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml
@@ -89,11 +95,9 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
     servicegraph-86b55fc8b8-k87n9             1/1     Running     0          57m
     {{< /text >}}
 
-     _Note:_ The IBM Cloud Kubernetes Service free cluster contains a single worker providing fewer resources, so the `demo` profile was specified. If using a paid cluster of sufficient size, one can remove the --values parameter to use the `values.yaml` values.
-
 ### Upgrade
 
-1. To keep all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs) upgraded, you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
+1. Upgrade the `istio-init` chart to keep all the [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs) up to date. The `--install` parameter will run an install if the chart doesn't exist.
 
     {{< text bash >}}
     $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
