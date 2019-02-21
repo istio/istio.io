@@ -19,7 +19,7 @@
 
     <div class="article-container">
         {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
-            <label class="sidebar-toggler" id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
+            <label id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
                 {{ partial "icon.html" "pull" }}
             </label>
         {{ end }}
