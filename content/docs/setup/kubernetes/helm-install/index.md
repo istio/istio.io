@@ -188,15 +188,15 @@ configuration data rather than unexpectedly lose it.
 {{< /tip >}}
 
 {{< warning >}}
-Deleting CRDs permanantly deletes any configuration changes that you have made to Istio.
+Deleting CRDs permanently deletes any configuration changes that you have made to Istio.
 {{< /warning >}}
 
 {{< tip >}}
 The `istio-init` chart contains all raw CRDs in the `istio-init/ifiles` directory.  After fetching this
-chart, you can simply delete the CRDs using kubectl.
+chart, you can simply delete the CRDs using `kubectl`.
 {{< /tip >}}
 
-1. To permanantly delete Istio's CRDs and all Istio configuration:
+1. To permanently delete Istio's CRDs and all Istio configuration:
 
     {{< text bash >}}
 
