@@ -69,7 +69,7 @@ In this option, all services, as servers, can accept both plain text and
 mutual TLS traffic. However, all services, as clients, will send plain
 text traffic.
 Visit [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic)
-for how to configure clients behavior.
+for how to configure clients behavior. To enforce mutual TLS authenticaiont, choose Option 2.
 
 ### Option 2: Install Istio with default mutual TLS authentication
 
