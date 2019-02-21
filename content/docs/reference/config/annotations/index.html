@@ -1,0 +1,290 @@
+---
+title: Annotations
+description: Istio Annotations that can be applied to other Mesh resources.
+location: https://istio.io/docs/reference/config/annotations.html
+layout: protoc-gen-docs
+generator: protoc-gen-docs
+number_of_entries: 1
+---
+<p>Istio Annotations that can be applied to other Mesh resources.</p>
+
+<h2 id="Sidecar">Sidecar</h2>
+<section>
+<p>Sidecar annotations alter the behavior of sidecars.</p>
+
+<p>See <a href="/docs/setup/kubernetes/sidecar-injection/#policy">Automatic Sidecar Injection</a>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="sidecar.istio.io/inject">
+<td><code>sidecar.istio.io/inject</code></td>
+<td><code>boolean</code></td>
+<td>
+<p>The sidecar injector will inject the sidecar into pods by default. Add the sidecar.istio.io/inject annotation with value false to the pod template spec to override the default and disable injection.</p>
+
+</td>
+</tr>
+<tr id="sidecar.istio.io/status">
+<td><code>sidecar.istio.io/status</code></td>
+<td><code>string</td>
+<td>
+<p>TODO</p>
+
+</td>
+</tr>
+<tr id="sidecar.istio.io/proxyImage">
+<td><code>sidecar.istio.io/proxyImage</code></td>
+<td><code>string</td>
+<td>
+<p>TODO Docker image</p>
+
+</td>
+</tr>
+<tr id="sidecar.istio.io/interceptionMode">
+<td><code>sidecar.istio.io/interceptionMode</code></td>
+<td><code>string</td>
+<td>
+<p>See <a href="/docs/setup/kubernetes/istio-cni-install/#traffic-redirection-details">Traffic Redirection</a>.</p>
+
+</td>
+</tr>
+<tr id="status.sidecar.istio.io/port">
+<td><code>status.sidecar.istio.io/port</code></td>
+<td><code>string</td>
+<td>
+<p>See <a href="/docs/setup/kubernetes/istio-cni-install/#traffic-redirection-details">Traffic Redirection</a>.</p>
+
+</td>
+</tr>
+<tr id="readiness.status.sidecar.istio.io/initialDelaySeconds">
+<td><code>readiness.status.sidecar.istio.io/initialDelaySeconds</code></td>
+<td><code>unsigned</td>
+<td>
+<p>TODO</p>
+
+</td>
+</tr>
+<tr id="readiness.status.sidecar.istio.io/periodSecond">
+<td><code>readiness.status.sidecar.istio.io/periodSecond</code></td>
+<td><code>unsigned</td>
+<td>
+<p>TODO</p>
+
+</td>
+</tr>
+<tr id="readiness.status.sidecar.istio.io/failureThreshold">
+<td><code>readiness.status.sidecar.istio.io/failureThreshold</code></td>
+<td><code>unsigned</td>
+<td>
+<p>TODO</p>
+
+</td>
+</tr>
+<tr id="readiness.status.sidecar.istio.io/applicationPorts">
+<td><code>readiness.status.sidecar.istio.io/applicationPorts</code></td>
+<td><code>string</td>
+<td>
+<p>TODO comma separated list or *</p>
+
+</td>
+</tr>
+<tr id="traffic.sidecar.istio.io/includeOutboundIPRanges">
+<td><code>traffic.sidecar.istio.io/includeOutboundIPRanges</code></td>
+<td><code>string</td>
+<td>
+<p>TODO comma separated CIDR list</p>
+
+</td>
+</tr>
+<tr id="traffic.sidecar.istio.io/excludeOutboundIPRanges">
+<td><code>traffic.sidecar.istio.io/excludeOutboundIPRanges</code></td>
+<td><code>string</td>
+<td>
+<p>TODO comma separated CIDR list</p>
+
+</td>
+</tr>
+<tr id="traffic.sidecar.istio.io/includeInboundPorts">
+<td><code>traffic.sidecar.istio.io/includeInboundPorts</code></td>
+<td><code>string</td>
+<td>
+<p>TODO</p>
+
+</td>
+</tr>
+<tr id="traffic.sidecar.istio.io/excludeInboundPorts">
+<td><code>traffic.sidecar.istio.io/excludeInboundPorts</code></td>
+<td><code>string</td>
+<td>
+<p>TODO comma separated list or *</p>
+
+</td>
+</tr>
+<tr id="sidecar.istio.io/v1alpha1/statsInclusionPrefixes">
+<td><code>sidecar.istio.io/v1alpha1/statsInclusionPrefixes</code></td>
+<td><code>string</td>
+<td>
+<p>Override Istio's default for local Envoy statistics collection.  Comma separated list
+that will be applied to Envoy's <code>inclusion_list</code>.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/stats.proto#envoy-api-msg-config-metrics-v2-statsmatcher">config.metrics.v2.StatsMatcher</a>  
+Example: <code>cluster_manager,cluster.xds-grpc,listener.</code></p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="KubernetesIngress">Kubernetes Ingress</h2>
+<section>
+<p>See <a href="/docs/tasks/traffic-management/ingress/">Ingress traffic</a>.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="kubernetes.io/ingress.class">
+<td><code>kubernetes.io/ingress.class</code></td>
+<td><code>&quot;istio&quot;</code></td>
+<td>
+<p>Use the Istio ingress to handle traffic for this ingress.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Policy">Policy</h2>
+<section>
+<p>TODO</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="policy.istio.io/lang">
+<td><code>policy.istio.io/lang</code></td>
+<td><code>string</code></td>
+<td>
+<p>TODO select a language runtime</p>
+
+</td>
+</tr>
+<tr id="policy.istio.io/check">
+<td><code>policy.istio.io/check</code></td>
+<td><code>string</code></td>
+<td>
+<p>Workload-bound annotations for controlling mixerfilter</p>
+
+</td>
+</tr>
+<tr id="policy.istio.io/checkRetries">
+<td><code>policy.istio.io/checkRetries</code></td>
+<td><code>number</code></td>
+<td>
+<p>Workload-bound annotation for max number of retries on transport error</p>
+
+</td>
+</tr>
+<tr id="policy.istio.io/checkBaseRetryWaitTime">
+<td><code>policy.istio.io/checkBaseRetryWaitTime</code></td>
+<td><code>string in duration format</code></td>
+<td>
+<p>Workload-bound annotation for base time to wait between retries, will be adjusted by backoff and jitter.
+Example: <code>80ms</code>.</p>
+
+</td>
+</tr>
+<tr id="policy.istio.io/checkMaxRetryWaitTime">
+<td><code>policy.istio.io/checkMaxRetryWaitTime</code></td>
+<td><code>string in duration format</code></td>
+<td>
+<p>Workload-bound annotation for max time to wait between retries.
+Example: <code>1000ms</code>.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServiceAccounts">ServiceAccounts</h2>
+<section>
+<p>TODO</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="alpha.istio.io/kubernetes-serviceaccounts">
+<td><code>alpha.istio.io/kubernetes-serviceaccounts</code></td>
+<td><code>string</code></td>
+<td>
+<p>specify the K8s service accounts that are allowed to run this service on the VMs</p>
+
+</td>
+</tr>
+<tr id="alpha.istio.io/canonical-serviceaccounts">
+<td><code>alpha.istio.io/canonical-serviceaccounts</code></td>
+<td><code>string</code></td>
+<td>
+<p>Specify the non-Kubernetes service accounts that are allowed to run this service.</p>
+
+</td>
+</tr>
+<tr id="istio.io/service-account.name">
+<td><code>istio.io/service-account.name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Key to specify corresponding service account in the annotation of K8s secrets.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Networking">Networking</h2>
+<section>
+<p>TODO.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="networking.istio.io/exportTo">
+<td><code>networking.istio.io/exportTo</code></td>
+<td><code>string</code></td>
+<td>
+<p>Specifies the namespaces to which this service should be exported to.
+	`*` which is the default, indicates it is reachable within the mesh.
+	`.` indicates it is reachable within its namespace.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
