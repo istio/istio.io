@@ -191,7 +191,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
     As you can see, the `VirtualService` redirects HTTP requests on port 80 to port 443 where the corresponding
     `DestinationRule` then performs the TLS origination.
-    Notice that unlike the `ServiceEntry` in the previous section, this time the protocol on port 433 is HTTP, instead of HTTPS.
+    Notice that unlike the `ServiceEntry` in the previous section, this time the protocol on port 443 is HTTP, instead of HTTPS.
     This is because clients will only send HTTP requests and Istio will upgrade the connection to HTTPS.
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
