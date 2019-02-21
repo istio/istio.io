@@ -31,6 +31,14 @@ image that contains Hugo. To build and serve the site, simply go to the root of 
 $ make serve
 ```
 
+To make and serve the site from a remote server, override `ISTIO_SERVE_DOMAIN` as follows with the IP address
+or DNS Domain of the server as follows:
+
+```bash
+$ export ISTIO_SERVE_DOMAIN=192.168.7.105
+$ make serve
+```
+
 This will build the site and start a web server hosting the site. You can then connect to the web server
 at `http://localhost:1313`.
 
