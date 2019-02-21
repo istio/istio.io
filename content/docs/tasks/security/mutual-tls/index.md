@@ -69,11 +69,19 @@ Please check [Istio identity](/docs/concepts/security/#istio-identity) for more 
 
 ## Verify mutual TLS configuration
 
-You can use the `istioctl` tool to check the effective mutual TLS settings. To identify the authentication policy and destination rules used for the
-`httpbin.default.svc.cluster.local` configuration and the mode employed, use the following command:
+For this task, you may want to get the pod ID of the client app (`sleep`) with the following command:
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+{{< /text >}}
+
+You can use the `istioctl` tool to check the effective mutual TLS settings. The command requires the client pod as depend on the client namespace, the destination rule for it can be different.
+You can also provide the destination service to filter the status to that service only.
+
+For example, to identify the authentication policy for service `httpbin.default.svc.cluster.local` and destination rules to it, as seen from pod `${SLEEP_POD}`, use the following command:
+
+{{< text bash >}}
+$ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 {{< /text >}}
 
 In the following example output you can see that:
@@ -102,7 +110,7 @@ The output shows:
 To illustrate the case when there are conflicts, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | istioctl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -118,7 +126,7 @@ EOF
 Run the same `istioctl` command as above, you now see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ i authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/            bad-rule/default
 {{< /text >}}
