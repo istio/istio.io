@@ -18,7 +18,7 @@ Follow these instructions to prepare Minikube for Istio.
    machine (VM) driver. To install Istio control plane components and addons,
    as well as other applications,
    we recommend starting Minikube with 8192 `MB` of memory and 4 `CPUs`:
-   
+
     On Kubernetes **1.13**:
 
     {{< text bash >}}
