@@ -51,7 +51,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
-    $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
+    $ helm template --set global.meshExpansion.enabled=true --namespace istio-system . > istio.yaml
     $ kubectl apply -f istio.yaml
     $ cd -
     {{< /text >}}
@@ -64,9 +64,10 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
     {{< /tip >}}
 
-1.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
+1.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy). Also throughout this doc, we assume the GCE VM is part of `$SERVICE_NAMESPACE`.
 
     {{< text bash >}}
+    $ export SERVICE_NAMESPACE="default"
     $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GWIP
     35.232.112.158
@@ -197,13 +198,13 @@ $ curl productpage.default.svc.cluster.local:9080
     {{< /text >}}
 
 1. Configure Service Discovery for VM by `ServiceEntry`. You add VM services to the mesh by configuring a
-[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A service entry lets you manually add
+[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A `ServiceEntry` lets you manually add
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
 particular service, as in the following example.
 
 {{< text bash yaml >}}
-$ kubectl apply -f - <<EOF
+$ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -222,7 +223,7 @@ spec:
         http: 8080
       labels:
         app: vmhttp
-        version: 1
+        label: "v1"
 EOF
 {{< /text >}}
 
@@ -231,7 +232,7 @@ You can integrate with your own DNS system. For illustration purpose, we use `is
 which creates a Kubernetes `selector-less` service.
 
     {{< text bash >}}
-    $ istioctl  register vmhttp 0.0.0.0 8080
+    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp 10.128.0.17 8080
     {{< /text >}}
 
 1. We deploy a sleep pod in Kubernetes cluster, and wait for the pod to be ready.
@@ -248,13 +249,24 @@ which creates a Kubernetes `selector-less` service.
 1. Send a request from sleep container to VM HTTP service.
 
     {{< text bash >}}
-    $ kubectl exec -it sleep-88ddbcfdd-rm42k -- curl vmhttp:8080
+    $ kubectl exec -it sleep-88ddbcfdd-rm42k -- curl -v vmhttp.${SERVICE_NAMESPACE}:8080
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
     <title>Directory listing for /</title>
     <body>
     </body>
     </html>
     {{< /text >}}
+
+## Cleanup
+
+After finishes the setup, you can clean up the mesh expansion.
+
+{{< text bash >}}
+$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp 10.128.0.17
+2019-02-21T22:12:22.023775Z     info    Deregistered service successfull
+$ kubectl delete ServiceEntry vmhttp -n ${SERVICE_NAMESPACE}
+serviceentry.networking.istio.io "vmhttp" deleted
+{{< /text >}}
 
 ## Troubleshooting
 
