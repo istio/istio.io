@@ -20,7 +20,7 @@ plane and the sidecars for the Istio data plane.
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
-1. [Install the Helm client](https://docs.helm.sh/using_helm/).
+1. [Install a Helm client with a version higher than 2.10](https://github.com/helm/helm/blob/master/docs/install.md).
 
 1. Istio by default uses `LoadBalancer` service object types.  Some platforms do not support `LoadBalancer`
    service objects.  For platforms lacking `LoadBalancer` support, install Istio with `NodePort` support
