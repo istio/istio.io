@@ -67,7 +67,7 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. To verify all Istio's CRDs were committed in the Kubernetes api-server, check the number of CRDs with the specified suffix with the following command. Verify that the number of total CRDs created was `56` for Istio:
+1. To verify all Istio's CRDs were committed in the Kubernetes api-server, check the number of CRDs with the specified suffix with the following command. Verify that the number of total CRDs created was `58` for Istio:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
