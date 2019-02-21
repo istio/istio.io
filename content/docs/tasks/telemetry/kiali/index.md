@@ -31,7 +31,8 @@ $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
 {{< /text >}}
 
-If you are using the Z Shell, zsh, use the following to define the credentials:
+If you are using the Z Shell, `zsh`, use the following to define the credentials:
+
 {{< text bash >}}
 $ KIALI_USERNAME=$(read '?Kiali Username: ' uval && echo -n $uval | base64)
 $ KIALI_PASSPHRASE=$(read -s "?Kiali Passphrase: " pval && echo -n $pval | base64)
