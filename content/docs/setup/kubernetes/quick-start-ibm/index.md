@@ -23,7 +23,7 @@ by using Helm and the IBM Cloud Kubernetes Service.
 ### Prerequisites - IBM Cloud Public
 
 -  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers/cs_cli_install.html).
-- Istio has been tested with these Kubernetes releases: 1.11, 1.12, 1.13. Make sure to install the `kubectl` CLI version that matches the Kubernetes version of your cluster. If you do not have a cluster available with a tested Kubernetes version, [create or update an existing cluster to a tested version](https://cloud.ibm.com/docs/containers/cs_clusters.html).
+- Istio has been tested with these Kubernetes releases: 1.11, 1.12, 1.13. If you do not have a cluster available with a tested Kubernetes version, [create or update an existing cluster to a tested version](https://cloud.ibm.com/docs/containers/cs_clusters.html).
 -  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID> --export` and copying, pasting and running the command in the output.
 
 {{< warning >}}
