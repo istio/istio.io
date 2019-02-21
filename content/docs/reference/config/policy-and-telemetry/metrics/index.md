@@ -159,7 +159,7 @@ We will describe metrics first and then the labels for each metric.
     {{< /text >}}
 
 *   **Response Flags**: Additional details about the response or connection from proxy.
-    In case of Envoy, see %RESPONSE_FLAGS% in [envoy access log](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)
+    In case of Envoy, see `%RESPONSE_FLAGS%` in [envoy access log](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)
     for more detail.
 
     {{< text yaml >}}
