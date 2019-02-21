@@ -6,21 +6,29 @@ keywords: [kubernetes,ibm,icp]
 ---
 
 Follow these instructions to install and run Istio in IBM Cloud.
-You can install Istio in [IBM Cloud Public](#ibm-cloud-public) or [IBM Cloud Private](#ibm-cloud-private).
+You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on) in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#ibm-cloud-public), or install Istio in [IBM Cloud Private](#ibm-cloud-private).
+
+## Managed Istio add-on
+
+Istio on IBM Cloud Kubernetes Service provides a seamless installation of Istio, automatic updates and lifecycle management of Istio control plane components, and integration with platform logging and monitoring tools. With one click, you can get all Istio core components, additional tracing, monitoring, and visualization, and the Bookinfo sample app up and running. Istio on IBM Cloud Kubernetes Service is offered as a managed add-on, so IBM Cloud automatically keeps all your Istio components up to date.
+
+To install the managed Istio add-on in IBM Cloud Public, see the [IBM Cloud Kubernetes Service documentation](https://cloud.ibm.com/docs/containers/cs_istio.html).
 
 ## IBM Cloud Public
 
-Follow these instructions to install and run Istio in
+Follow these instructions to install and run the current release version of Istio in
 [IBM Cloud Public](https://www.ibm.com/cloud/)
 by using Helm and the IBM Cloud Kubernetes Service.
 
-This guide installs the current release version of Istio.
-
 ### Prerequisites - IBM Cloud Public
 
--  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://console.bluemix.net/docs/containers/cs_cli_install.html). Istio requires the Kubernetes version 1.9 or later. Make sure to install the `kubectl` CLI version that matches the Kubernetes version of your cluster.
--  Make sure you have a cluster of Kubernetes version of 1.9 or later. If you do not have a cluster available, [create a version 1.9 or later cluster](https://console.bluemix.net/docs/containers/cs_clusters.html).
+-  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers/cs_cli_install.html).
+-  Make sure you have a cluster of Kubernetes version of 1.10 or later. If you do not have a cluster available, [create a version 1.10 or later cluster](https://cloud.ibm.com/docs/containers/cs_clusters.html).
 -  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID>` and copying and pasting the command in the output.
+
+{{< warning >}}
+Make sure to use the `kubectl` CLI version that matches the Kubernetes version of your cluster.
+{{< /warning >}}
 
 ### Initialize Helm and Tiller
 
