@@ -19,7 +19,7 @@
     }
 }
 
-.sidebar {
+#sidebar {
     order: 0;
     font-size: 85%;
 
@@ -81,43 +81,92 @@
             padding-left: 0;
         }
 
-        .card-body {
-            padding: .5em .1em;
-        }
-
-        .card-body > ul {
-            padding-left: 0;
-        }
-
         .card {
+            background-color: $backgroundColor;
             margin-top: .1rem;
             margin-bottom: .1rem;
-        }
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-clip: border-box;
+            border: 1px solid $dividerBarColor;
+            border-radius: 4px;
 
-        .card-header {
-            padding: 0;
-
-            div {
+            .header {
+                margin-bottom: 0;
+                background-color: rgba(0, 0, 0, .03);
+                border-bottom: 1px solid $dividerBarColor;
                 padding: .75em 1.25em;
+                cursor: pointer;
+                color: $linkColor;
+
+                &:hover {
+                    color: $linkHoverColor;
+                }
+
+                div {
+                    padding: .75em 1.25em;
+                }
+
+                svg {
+                    margin-right: 0.3em;
+                }
+
+                a {
+                    text-decoration: none;
+                }
             }
 
-            svg {
-                margin-right: 0.3em;
-            }
+            .body {
+                flex: 1 1 auto;
+                overflow: hidden;
+                padding: 0;
+                max-height: 0;
+                transform: scaleY(0) scaleX(0);
+                transition: max-height .6s ease-out, padding, transform .6s;
 
-            a {
-                text-decoration: none;
-            }
-        }
+                &.show {
+                    padding: .5em .1em;
+                    transform: scaleY(1) scaleX(1);
 
-        @media (min-width: $bp-lg) {
-            .card-body {
-                padding-left: 1.25rem;
-                padding-right: 0.5rem;
-            }
+                    @media (min-width: $bp-lg) {
+                        .body {
+                            padding-left: 1.25rem;
+                            padding-right: 0.5rem;
 
-            ul {
-                padding-left: 1em;
+                            ul {
+                                padding-left: 1em;
+                            }
+                        }
+                    }
+
+                    .body > ul {
+                        padding-left: 0;
+                    }
+                }
+
+                &.default {
+                    padding: .5em .1em;
+                    transform: scaleY(1) scaleX(1);
+                    max-height: unset;
+
+                    @media (min-width: $bp-lg) {
+                        .body {
+                            padding-left: 1.25rem;
+                            padding-right: 0.5rem;
+
+                            ul {
+                                padding-left: 1em;
+                            }
+                        }
+                    }
+
+                    .body > ul {
+                        padding-left: 0;
+                    }
+                }
             }
         }
     }
@@ -139,7 +188,7 @@
     }
 }
 
-.sidebar-toggler {
+#sidebar-toggler {
     position: absolute;
     top: $headerHeight;
     right: 10px;

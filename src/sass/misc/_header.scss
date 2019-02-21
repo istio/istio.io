@@ -193,6 +193,15 @@ header {
     }
 
     #search-textbox {
+        display: block;
+        height: calc(2.25rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        outline-offset: -2px;
         margin: 12px 1rem 5px 1rem;
         width: 100%;
         text-align: center;
@@ -201,6 +210,10 @@ header {
             margin: 4px 0 5px 0;
             width: 22rem;
             text-align: unset;
+        }
+
+        &:focus {
+            outline: 0;
         }
     }
 
@@ -215,6 +228,8 @@ header {
         color: $textBrandColor;
         border-width: 0;
         cursor: pointer;
+        font-size: inherit;
+        line-height: inherit;
 
         &:hover {
             color: $textBrandHighlightColor;
