@@ -94,6 +94,15 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 
     {{< /text >}}
 
+1. To verify all Istio's CRDs were committed in the Kubernetes api-server, check that all CRDs
+that Istio uses are instantiated.  Verify that the number of total CRDs created was `56` for Istio:
+
+    {{< text bash >}}
+
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+
+    {{< /text >}}
+
 1. Render and apply Istio's core components:
 
     {{< text bash >}}
