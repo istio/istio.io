@@ -165,7 +165,7 @@ that Istio uses are instantiated.  Verify that the number of total CRDs created 
 
     {{< text bash >}}
 
-    $ helm install iistio --name istio --namespace istio-system
+    $ helm install istio --name istio --namespace istio-system
 
     {{< /text >}}
 
