@@ -1,4 +1,10 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 @media screen {
+    // ensure that jumping to a # location in a doc positions the target correctly relative
+    // to the header
     :target::before {
         content: "";
         display: block;
@@ -19,6 +25,10 @@
         color: $textColor;
         background-color: $backgroundColor;
     }
+}
+
+body {
+    line-height: 1.5;
 }
 
 a {
@@ -151,15 +161,16 @@ pre {
     border-radius: 4px;
     box-shadow: 3px 3px 8px $preBlockShadowColor;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 87.5%;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
     word-break: normal;
     word-wrap: normal;
-    line-height: 1.5;
     tab-size: 4;
     hyphens: none;
     background: $preBlockBackgroundColor;
+    overflow: auto;
 
     code {
         display: block;
@@ -256,7 +267,6 @@ div.toolbar {
 p {
     font-size: $font-size--xs;
     font-weight: $textWeight;
-    line-height: 1.5;
     margin: .75em 0;
 
     @media (min-width: $bp-md) {
@@ -267,7 +277,6 @@ p {
 li, dt, dd {
     font-size: $font-size--xs;
     font-weight: $textWeight;
-    line-height: 1.5;
     margin: .25em;
 }
 
@@ -289,6 +298,7 @@ ol {
 
 h1, h2, h3, h4, h5, h6 {
     border: 0;
+    line-height: 1.2;
 }
 
 h1 {
@@ -411,15 +421,6 @@ blockquote {
 
 .deprecated {
     background: $deprecatedBackgroundColor;
-}
-
-.card {
-    background-color: $backgroundColor;
-    border-color: $dividerBarColor;
-}
-
-.card-header {
-    border-bottom-color: $dividerBarColor;
 }
 
 #scroll-to-top-container {
