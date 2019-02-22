@@ -72,7 +72,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
     Depending on whether or not your install of Istio was a fresh install or upgrade, you may also need to issue the following command:
 
-    {{<text bash>}}
+    {{< text bash >}}
     $ kubectl get handlers.config.istio.io --all-namespaces
     NAMESPACE      NAME            AGE
     istio-system   kubernetesenv   4h
