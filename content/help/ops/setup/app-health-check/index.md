@@ -171,6 +171,25 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
+#### Probe rewrite cleanup
+
+Remove the service and redeploy Istio with Helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=false`.
+
+1. To remove the service, run:
+
+{{< text bash >}}
+$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+{{< /text >}}
+
+1. To reinstall Istio, run:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set global.mtls.enabled=false --set sidecarInjectorWebhook.rewriteAppHTTPProbe=false \
+    -f install/kubernetes/helm/istio/values.yaml > $HOME/istio.yaml
+$ kubectl apply -f $HOME/istio.yaml
+{{< /text >}}
+
 This features is not currently turned on by default. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
 on whether we should change this to default behavior for Istio installation.
 
