@@ -872,7 +872,7 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
     is enabled and SDS is present, then the secrets do not have to be mounted in
     the path. If SDS is not present, and secrets are mounted, then these paths
     will be used as a fallback option and the ingress gateway is configured
-    using file mount based approach introduced in the last section.
+    using file mount based approach introduced above.
     {{< /warning >}}
 
     {{< text bash >}}
