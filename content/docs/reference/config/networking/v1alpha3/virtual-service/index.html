@@ -203,7 +203,7 @@ destination.host should unambiguously refer to a service in the service
 registry. Istio&rsquo;s service registry is composed of all the services found
 in the platform&rsquo;s service registry (e.g., Kubernetes services, Consul
 services), as well as services declared through the
-<a href="#ServiceEntry">ServiceEntry</a> resource.</p>
+<a href="/docs/reference/config/networking/v1alpha3/service-entry/#ServiceEntry">ServiceEntry</a> resource.</p>
 
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
 instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
@@ -337,7 +337,7 @@ spec:
 <p>REQUIRED. The name of a service from the service registry. Service
 names are looked up from the platform&rsquo;s service registry (e.g.,
 Kubernetes services, Consul services, etc.) and from the hosts
-declared by <a href="#ServiceEntry">ServiceEntry</a>. Traffic forwarded to
+declared by <a href="/docs/reference/config/networking/v1alpha3/service-entry/#ServiceEntry">ServiceEntry</a>. Traffic forwarded to
 destinations that are not found in either of the two, will be dropped.</p>
 
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;

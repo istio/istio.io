@@ -75,7 +75,7 @@ Use fs:/// to specify a file-based backend with absolute path to the directory.<
 </tr>
 <tr id="ConfigSource-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/istio.networking.v1alpha3.html#TLSSettings">istio.networking.v1alpha3.TLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/v1alpha3/virtual-service.html#TLSSettings">istio.networking.v1alpha3.TLSSettings</a></code></td>
 <td>
 <p>Use the tls<em>settings to specify the tls mode to use. If the MCP server
 uses Istio MTLS and shares the root CA with Pilot, specify the TLS
@@ -348,7 +348,7 @@ other services.</p>
 </tr>
 <tr id="MeshConfig-tcp_keepalive">
 <td><code>tcpKeepalive</code></td>
-<td><code><a href="/docs/reference/config/istio.networking.v1alpha3.html#ConnectionPoolSettings-TCPSettings-TcpKeepalive">istio.networking.v1alpha3.ConnectionPoolSettings.TCPSettings.TcpKeepalive</a></code></td>
+<td><code><a href="/docs/reference/config/networking/v1alpha3/virtual-service.html#ConnectionPoolSettings-TCPSettings-TcpKeepalive">istio.networking.v1alpha3.ConnectionPoolSettings.TCPSettings.TcpKeepalive</a></code></td>
 <td>
 <p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
 
@@ -896,11 +896,13 @@ DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
 
 </td>
 </tr>
-<tr id="ProxyConfig-metrics_service_address">
-<td><code>metricsServiceAddress</code></td>
+<tr id="ProxyConfig-envoy_metrics_service_address">
+<td><code>envoyMetricsServiceAddress</code></td>
 <td><code>string</code></td>
 <td>
-<p>Address of the Envoy Metrics Service implementation (e.g. metrics-service:15000).</p>
+<p>Address of the Envoy Metrics Service implementation (e.g. metrics-service:15000).
+See https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto
+for details about Envoy&rsquo;s Metrics Service API.</p>
 
 </td>
 </tr>
