@@ -211,7 +211,7 @@ metadata:
   name: vmhttp
 spec:
    hosts:
-   - vmhttp.default.svc.cluster.local
+   - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
    ports:
    - number: 8080
      name: http
@@ -249,7 +249,7 @@ which creates a Kubernetes `selector-less` service.
 1. Send a request from sleep container to VM HTTP service.
 
     {{< text bash >}}
-    $ kubectl exec -it sleep-88ddbcfdd-rm42k -- curl -v vmhttp.${SERVICE_NAMESPACE}:8080
+    $ kubectl exec -it sleep-88ddbcfdd-rm42k -- curl -v vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8080
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
     <title>Directory listing for /</title>
     <body>
