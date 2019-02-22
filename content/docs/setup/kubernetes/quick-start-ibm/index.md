@@ -12,7 +12,7 @@ You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed
 
 Istio on IBM Cloud Kubernetes Service provides a seamless installation of Istio, automatic updates and lifecycle management of Istio control plane components, and integration with platform logging and monitoring tools. With one click, you can get all Istio core components, additional tracing, monitoring, and visualization, and the Bookinfo sample app up and running. Istio on IBM Cloud Kubernetes Service is offered as a managed add-on, so IBM Cloud automatically keeps all your Istio components up to date.
 
-To install the managed Istio add-on in IBM Cloud Public, see the [IBM Cloud Kubernetes Service documentation](https://cloud.ibm.com/docs/containers/cs_istio.html).
+To install the managed Istio add-on in IBM Cloud Public, see the [IBM Cloud Kubernetes Service documentation](https://cloud.ibm.com/docs/containers?topic=containers-istio).
 
 ## IBM Cloud Public
 
@@ -22,8 +22,8 @@ by using Helm and the IBM Cloud Kubernetes Service.
 
 ### Prerequisites - IBM Cloud Public
 
--  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers/cs_cli_install.html).
-- Istio has been tested with these Kubernetes releases: 1.11, 1.12, 1.13. If you do not have a cluster available with a tested Kubernetes version, [create or update an existing cluster to a tested version](https://cloud.ibm.com/docs/containers/cs_clusters.html).
+-  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
+- Istio has been tested with these Kubernetes releases: 1.11, 1.12, 1.13. If you do not have a cluster available with a tested Kubernetes version, [create or update an existing cluster to a tested version](https://cloud.ibm.com/docs/containers?topic=containers-clusters).
 -  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID> --export` and copying, pasting and running the command in the output.
 
 {{< warning >}}
