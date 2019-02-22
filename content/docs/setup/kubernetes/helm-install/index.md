@@ -100,7 +100,7 @@ that Istio uses are instantiated.  Verify that the number of total CRDs created 
     {{< text bash >}}
 
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-
+    58
     {{< /text >}}
 
 1. Render and apply Istio's core components:
@@ -167,7 +167,7 @@ that Istio uses are instantiated.  Verify that the number of total CRDs created 
     {{< text bash >}}
 
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-
+    58
     {{< /text >}}
 
 1. Install the `istio` chart:
