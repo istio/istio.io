@@ -126,6 +126,7 @@ Next, run the following commands on each machine that you want to add to the mes
 1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
+    $ gcloud compute ssh "${GCE_NAME}"
     $ curl -L https://storage.googleapis.com/istio-release/releases/1.1.0-snapshot.6/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
