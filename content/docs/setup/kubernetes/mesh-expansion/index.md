@@ -50,6 +50,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
         reapply with `kubectl`:
 
     {{< text bash >}}
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     $ cd install/kubernetes/helm/istio
     $ helm template --set global.meshExpansion.enabled=true --namespace istio-system . > istio.yaml
     $ kubectl apply -f istio.yaml
@@ -68,7 +69,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="default"
-    $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GWIP
     35.232.112.158
     {{< /text >}}
@@ -109,19 +110,25 @@ cluster for mesh expansion, run the following commands on a machine with cluster
           -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
     {{< /text >}}
 
-### Setting up the machines
+### Setting up VM machines
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
 <!-- TODO: find a better way to reference release in the URL instead of manually sync... -->
-1.  Install the Debian package with the Envoy sidecar:
+
+1.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM. For example
+
+    {{< text bash >}}
+    $ export GCE_NAME="your-gce-instance"
+    $ gcloud compute scp {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
+    {{< /text >}}
+
+1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
     $ curl -L https://storage.googleapis.com/istio-release/releases/1.1.0-snapshot.6/deb/istio-sidecar.deb > istio-sidecar.deb
-    $ dpkg -i istio-sidecar.deb
+    $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
-
-1.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM.
 
 1.  Add the IP address of the Istio gateway (which we found in the [previous section](#preparing-the-kubernetes-cluster-for-expansion))
 to `/etc/hosts` or to
@@ -129,13 +136,13 @@ the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way t
 an example of updating an `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
-    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
+    $ sudo echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
     {{< /text >}}
 
 1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
 
     {{< text bash >}}
-    $ sudo mkdir /etc/certs
+    $ sudo mkdir -p /etc/certs
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
@@ -166,6 +173,8 @@ an example of updating an `/etc/hosts` file with the Istio gateway address:
     $ sudo systemctl start istio
     {{< /text >}}
 
+## VM workloads send request to Kubernetes services
+
 After setup, the machine can access services running in the Kubernetes cluster
 or on other mesh expansion machines.
 
@@ -175,8 +184,8 @@ The following example shows accessing a service running in the Kubernetes cluste
 1.  First, on the cluster admin machine get the virtual IP address (`clusterIP`) for the service:
 
     {{< text bash >}}
-$ kubectl get svc productpage -o jsonpath='{.spec.clusterIP}'
-10.55.246.247
+    $ kubectl get svc productpage -o jsonpath='{.spec.clusterIP}'
+    10.55.246.247
     {{< /text >}}
 
 1.  Then on the mesh expansion machine, add the service name and address to its `etc/hosts` file. You can then connect to
@@ -185,15 +194,21 @@ $ kubectl get svc productpage -o jsonpath='{.spec.clusterIP}'
     {{< text bash >}}
 $ sudo echo "10.55.246.247 productpage.default.svc.cluster.local" >> /etc/hosts
 $ curl productpage.default.svc.cluster.local:9080
+< HTTP/1.1 200 OK
+< content-type: text/html; charset=utf-8
+< content-length: 1836
+< server: envoy
 ... html content ...
     {{< /text >}}
+
+The `server: envoy` header indicates the traffic indeed is intercepted by sidecar.
 
 ## Running services on a mesh expansion machine
 
 1. We first setup a HTTP server on the VM instance, serving HTTP traffic on port 8080.
 
     {{< text bash >}}
-    $ gcloud compute ssh your-vm-instance
+    $ gcloud compute ssh ${GCE_NAME}
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
@@ -202,6 +217,11 @@ $ curl productpage.default.svc.cluster.local:9080
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
 particular service, as in the following example.
+
+    {{< text bash >}}
+    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe  ${GCE_NAME})
+    $ echo ${GCE_IP}
+    {{ /text}}
 
 {{< text bash yaml >}}
 $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
@@ -218,7 +238,7 @@ spec:
      protocol: HTTP
    resolution: STATIC
    endpoints:
-    - address: 10.128.0.17
+    - address: ${GCE_IP}
       ports:
         http: 8080
       labels:
@@ -232,7 +252,7 @@ You can integrate with your own DNS system. For illustration purpose, we use `is
 which creates a Kubernetes `selector-less` service.
 
     {{< text bash >}}
-    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp 10.128.0.17 8080
+    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP} 8080
     {{< /text >}}
 
 1. We deploy a sleep pod in Kubernetes cluster, and wait for the pod to be ready.
@@ -249,12 +269,18 @@ which creates a Kubernetes `selector-less` service.
 1. Send a request from sleep container to VM HTTP service.
 
     {{< text bash >}}
-    $ kubectl exec -it sleep-88ddbcfdd-rm42k -- curl -v vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8080
+    $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8080
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
     <title>Directory listing for /</title>
     <body>
-    </body>
-    </html>
+    <h2>Directory listing for /</h2>
+    <hr>   
+    <ul>                                                                
+    <li><a href=".bash_logout">.bash_logout</a>
+    <li><a href=".bashrc">.bashrc</a>
+    <li><a href=".cache/">.cache/</a>
+    <li><a href=".profile">.profile</a>
+    <li><a href=".ssh/">.ssh/</a>
     {{< /text >}}
 
 ## Cleanup
@@ -278,7 +304,7 @@ The following are some basic troubleshooting steps for common mesh expansion iss
 *    Verify the machine can reach the IP of the all workloads running in the cluster. For example:
 
     {{< text bash >}}
-    $ kubectl get endpoints -n bookinfo productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
+    $ kubectl get endpoints productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
     10.52.39.13
     {{< /text >}}
 
