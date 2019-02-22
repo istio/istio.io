@@ -213,40 +213,43 @@ The `server: envoy` header indicates the traffic indeed is intercepted by sideca
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
+1. Determine the GCE instance IP address.
+
+    {{< text bash >}}
+    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe  ${GCE_NAME})
+    $ echo ${GCE_IP}
+    {{< /text >}}
+
 1. Configure Service Discovery for VM by `ServiceEntry`. You add VM services to the mesh by configuring a
 [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A `ServiceEntry` lets you manually add
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
 particular service, as in the following example.
 
-    {{< text bash >}}
-    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe  ${GCE_NAME})
-    $ echo ${GCE_IP}
-    {{ /text}}
 
-{{< text bash yaml >}}
-$ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: vmhttp
-spec:
-   hosts:
-   - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
-   ports:
-   - number: 8080
-     name: http
-     protocol: HTTP
-   resolution: STATIC
-   endpoints:
-    - address: ${GCE_IP}
-      ports:
-        http: 8080
-      labels:
-        app: vmhttp
-        label: "v1"
-EOF
-{{< /text >}}
+    {{< text bash yaml >}}
+    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+    name: vmhttp
+    spec:
+    hosts:
+    - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
+    ports:
+    - number: 8080
+        name: http
+        protocol: HTTP
+    resolution: STATIC
+    endpoints:
+        - address: ${GCE_IP}
+        ports:
+            http: 8080
+        labels:
+            app: vmhttp
+            label: "v1"
+    EOF
+    {{< /text >}}
 
 1. Workloads in Kubernetes cluster need a DNS mapping to resolve the service running on the VM.
 You can integrate with your own DNS system. For illustration purpose, we use `istioctl register`
@@ -277,11 +280,9 @@ which creates a Kubernetes `selector-less` service.
     <h2>Directory listing for /</h2>
     <hr>   
     <ul>                                                                
-    <li><a href=".bash_logout">.bash_logout</a>
     <li><a href=".bashrc">.bashrc</a>
-    <li><a href=".cache/">.cache/</a>
-    <li><a href=".profile">.profile</a>
     <li><a href=".ssh/">.ssh/</a>
+    </body>
     {{< /text >}}
 
 ## Cleanup
