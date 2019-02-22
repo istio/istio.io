@@ -23,8 +23,8 @@ by using Helm and the IBM Cloud Kubernetes Service.
 ### Prerequisites - IBM Cloud Public
 
 -  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers/cs_cli_install.html).
--  Make sure you have a cluster of Kubernetes version of 1.10 or later. If you do not have a cluster available, [create a version 1.10 or later cluster](https://cloud.ibm.com/docs/containers/cs_clusters.html).
--  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID>` and copying and pasting the command in the output.
+- Istio has been tested with these Kubernetes releases: 1.11, 1.12, 1.13. If you do not have a cluster available with a tested Kubernetes version, [create or update an existing cluster to a tested version](https://cloud.ibm.com/docs/containers/cs_clusters.html).
+-  Target the CLI to your cluster by running `ibmcloud ks cluster-config <cluster_name_or_ID> --export` and copying, pasting and running the command in the output.
 
 {{< warning >}}
 Make sure to use the `kubectl` CLI version that matches the Kubernetes version of your cluster.
@@ -34,33 +34,10 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
 
 1. Install the [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm).
 
-1. Create a service account for Tiller in the `kube-system` namespace and a Kubernetes RBAC cluster role binding for the `tiller-deploy` pod:
-
-    {{< text yaml >}}
-    apiVersion: v1
-    kind: ServiceAccount
-    metadata:
-      name: tiller
-      namespace: kube-system
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: tiller
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: cluster-admin
-    subjects:
-      - kind: ServiceAccount
-        name: tiller
-        namespace: kube-system
-    {{< /text >}}
-
-1. Create the service account and cluster role binding:
+1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-    $ kubectl create -f rbac-config.yaml
+    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
     {{< /text >}}
 
 1. Initialize Helm and install Tiller:
@@ -69,69 +46,99 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. Add the IBM Cloud Helm repository to your Helm instance:
+### Deploy the Istio Helm charts
+
+1. Install the `istio-init` chart to bootstrap all the Istio CRDs:
 
     {{< text bash >}}
-    $ helm repo add ibm-charts https://registry.bluemix.net/helm/ibm-charts
+    $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-### Deploy the Istio Helm chart
-
-1. If using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions via `kubectl apply`, and wait a few seconds for the CRDs to be committed
-to the Kubernetes API server:
+    Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+    58
     {{< /text >}}
 
 1. Install the Helm chart to your cluster:
 
+    {{< tip >}}
+    The Istio `demo` profile (`install/kubernetes/helm/istio/values-istio-demo.yaml`) is specified in the following command to support the IBM Cloud Kubernetes Service free cluster, which only contains a single worker providing fewer resources than needed.
+    If using a paid cluster of sufficient size, you can remove the `--values` parameter which will use the default Istio configuration values instead.
+    {{< /tip >}}
+
     {{< text bash >}}
-    $ helm install ibm-charts/ibm-istio --name=istio --namespace istio-system
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml
     {{< /text >}}
 
 1. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
-    NAME                                       READY     STATUS      RESTARTS   AGE
-    istio-citadel-748d656b-pj9bw               1/1       Running     0          2m
-    istio-egressgateway-6c65d7c98d-l54kg       1/1       Running     0          2m
-    istio-galley-65cfbc6fd7-bpnqx              1/1       Running     0          2m
-    istio-ingressgateway-f8dd85989-6w6nj       1/1       Running     0          2m
-    istio-pilot-5fd885964b-l4df6               2/2       Running     0          2m
-    istio-policy-56f4f4cbbd-2z2bk              2/2       Running     0          2m
-    istio-sidecar-injector-646655c8cd-rwvsx    1/1       Running     0          2m
-    istio-telemetry-8687d9d745-mwjbf           2/2       Running     0          2m
-    prometheus-55c7c698d6-f4drj                1/1       Running     0          2m
+    NAME                                      READY   STATUS      RESTARTS   AGE
+    grafana-57586c685b-sjs2s                  1/1     Running     0          57m
+    istio-citadel-754b8b478-ggf7s             1/1     Running     0          57m
+    istio-egressgateway-748fb48647-npjgx      1/1     Running     0          57m
+    istio-galley-c66f4f44c-nwb4m              1/1     Running     0          57m
+    istio-ingressgateway-5d444855c8-9ksvn     1/1     Running     0          57m
+    istio-init-crd-10-xcfqb                   0/1     Completed   0          19h
+    istio-init-crd-11-nslct                   0/1     Completed   0          19h
+    istio-init-crd-certmanager-10-2l8hs       0/1     Completed   0          19h
+    istio-pilot-6f6fff9944-twzcp              2/2     Running     0          57m
+    istio-policy-7b6bfcf94d-v6sr7             2/2     Running     2          57m
+    istio-sidecar-injector-6657dd87b9-ccg87   1/1     Running     0          57m
+    istio-telemetry-77d557f66-nsn87           2/2     Running     2          57m
+    istio-tracing-6994cd89bb-gcssk            1/1     Running     0          57m
+    kiali-69d6978b45-5zjzl                    1/1     Running     0          57m
+    prometheus-5488844b5c-vwd9p               1/1     Running     0          57m
+    servicegraph-86b55fc8b8-k87n9             1/1     Running     0          57m
     {{< /text >}}
 
 ### Upgrade
 
-1. To upgrade your Istio Helm chart to the latest version:
+1. Upgrade the `istio-init` chart to keep all the [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs) up to date. The `--install` parameter will run an install if the chart doesn't exist.
 
     {{< text bash >}}
-    $ helm upgrade -f config.yaml istio ibm/ibm-istio
+    $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
+    {{< /text >}}
+
+1. Check that all the CRD creation jobs completed successfully to verify that the Kubernetes API server received all the CRDs. The second column is the number of completions for the job.
+
+    {{< text bash >}}
+    $ kubectl get job --namespace istio-system | grep istio-init-crd
+    {{< /text >}}
+
+1. Upgrade the `istio` chart:
+
+    {{< text bash >}}
+    $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
     {{< /text >}}
 
 ### Uninstall
 
-1. Uninstall the Istio Helm deployment:
+1. Uninstall steps:
+
+    {{< warning >}}
+    Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
+    CRDs to leak into the Kubernetes environment. As CRDs contain all the runtime configuration
+    data needed to configure Istio. Because of this, we consider it better for operators to
+    explicitly delete the runtime configuration data rather than unexpectedly lose it.
+    {{< /warning >}}
 
     {{< text bash >}}
-    $ helm del istio --purge
+    $ helm delete --purge istio
+    $ helm delete --purge istio-init
     {{< /text >}}
 
-    If your Helm version is less than 2.9.0, then you need to manually cleanup extra job resource before redeploy new version of Istio chart:
+1. If desired, run the following command to delete all CRDs:
+
+    {{< warning >}}
+    Deleting CRDs deletes any configuration changes that you have made to Istio.
+    {{< /warning >}}
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete job --all
-    {{< /text >}}
-
-1. If desired, delete the Istio custom resource definitions:
-
-    {{< text bash >}}
-    $ kubectl delete -f https://raw.githubusercontent.com/IBM/charts/master/stable/ibm-istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
 
 ## IBM Cloud Private
