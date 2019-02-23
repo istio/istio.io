@@ -12,7 +12,7 @@ icon: feature-status
 
 This page lists the relative maturity and support
 level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
-within the project, not to the project as a whole. Here is a high level description of what these labels means:
+within the project, not to the project as a whole. Here is a high level description of what these labels means
 
 ## Feature phase definitions
 
