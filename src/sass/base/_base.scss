@@ -433,48 +433,6 @@ blockquote {
     background: $deprecatedBackgroundColor;
 }
 
-#scroll-to-top-container {
-    @media print {
-        display: none;
-    }
-
-    // don't display the scroll-to-top button if the TOC is being displayed
-    @media (min-width: $bp-xl) {
-        display: none;
-    }
-}
-
-#scroll-to-top {
-    display: none;
-    position: fixed;
-    top: $headerHeight;
-    right: 10px;
-    z-index: $floating-button-z;
-    outline: none;
-    background-color: rgba($backgroundColor, .7);
-    color: $floatingButtonColor;
-    cursor: pointer;
-    padding: 3px 5px;
-    border-radius: 10px;
-    font-size: 1rem;
-    border: 0;
-    box-shadow: 0 0 2px 2px $floatingButtonColor;
-
-    &:hover {
-        color: $textBrandHighlightColor;
-    }
-
-    svg {
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: middle;
-    }
-
-    &.show {
-        display: block;
-    }
-}
-
 @media print {
     h1, h2, h3 {
         color: #000;

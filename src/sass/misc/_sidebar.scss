@@ -187,37 +187,3 @@
         }
     }
 }
-
-#sidebar-toggler {
-    position: absolute;
-    top: $headerHeight;
-    right: 10px;
-    z-index: $floating-button-z;
-    outline: none;
-    background-color: rgba($backgroundColor, .7);
-    color: $floatingButtonColor;
-    cursor: pointer;
-    padding: 3px 5px;
-    border-radius: 10px;
-    font-size: 1rem;
-    border: 0;
-    box-shadow: 0 0 2px 2px $floatingButtonColor;
-
-    &:hover {
-        color: $textBrandHighlightColor;
-    }
-
-    @media (min-width: $bp-md) {
-        display: none;
-    }
-
-    @media print {
-        display: none;
-    }
-
-    svg {
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: middle;
-    }
-}
