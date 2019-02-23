@@ -1,4 +1,6 @@
 ---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE https://github.com/istio/istio REPO
+source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
@@ -840,7 +842,10 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 </code></pre>
 <h2 id="istioctl-experimental-verify-install">istioctl experimental verify-install</h2>
 <p>
-		verify-install Verifies Istio Installation Status
+		verify-install verifies Istio installation status against the installation file
+		you specified when you installed Istio. It loops through all the installation
+		resources defined in your installation file and reports whether all of them are
+		in ready status. It will report failure when any of them are not ready.
 </p>
 <pre class="language-bash"><code>istioctl experimental verify-install [flags]
 </code></pre>
@@ -859,7 +864,7 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>  (default `[]`)</td>
+<td>Istio YAML installation file.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
