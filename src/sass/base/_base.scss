@@ -12,6 +12,15 @@
         margin-top: -$headerHeight;
     }
 
+    // This is here to undo the effect of the above for table rows. Otherwise,
+    // table rows with ids don't render properly when used for deep-linking.
+    //
+    // Unfortunately, although this fixes the bad rendering, it does mean that linking to a
+    // table row will position the row right underneath the header. Argh. Need a plan B.
+    tr[id]:before {
+        content: normal;
+    }
+
     html {
         overflow-y: scroll;
         position: relative;
