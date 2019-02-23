@@ -46,6 +46,12 @@
             &:focus {
                 text-decoration: none;
             }
+
+            &.disabled {
+                color: lighten($textColor, 50%);
+                background-color: $backgroundColor;
+                cursor: default;
+            }
         }
 
         i {

@@ -168,3 +168,6 @@ other = "See also"
 
 [links]
 other = "Links"
+
+[generated_file]
+other = "This is an auto-generated file, please edit the source in the %s repo."
