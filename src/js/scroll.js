@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollToTopButton = document.getElementById('scroll-to-top');
 
     const toc = document.getElementById('toc');
-    if (toc !== null) {
+    if (toc) {
         tocLinks = toc.getElementsByTagName('a');
         tocHeadings = new Array(tocLinks.length);
 
@@ -83,4 +83,16 @@ function handlePageScroll() {
 
     controlScrollToTopButton();
     controlTOCActivation();
+
+    // HACK ALERT! When deep linking to a table row, the row ends up under the page header. This
+    // hack is here to detect that case and force-scroll the row into view.
+    //
+    // Note that this only works once for a given target row per page load. If the user is clicking
+    // around within a page, the second click to the same deep link will not trigger this hack and
+    // the user will be left with the row under the page header.
+    const target = document.querySelector(":target");
+    if (target && target.tagName === 'TR' && !target.dataset.scrolled) {
+        document.documentElement.scrollTop -= 55;   // where 55 is the approximate header height
+        target.dataset.scrolled = 'true';
+    }
 }
