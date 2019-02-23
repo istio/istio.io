@@ -138,11 +138,22 @@
         </div>
 
         {{ if .Site.Data.args.preliminary }}
-            <div id="edit-this-page-container">
-                <a id="edit-this-page" class="not-for-endnotes" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}" aria-hidden="true" title='{{ i18n "edit_on_github"}}'>
-                    {{ partial "icon.html" "pencil" }}
-                </a>
-            </div>
+            {{ if .Page.Params.source_repo }}
+                <div id="edit-this-page-container">
+                    {{ $msg := i18n "generated_file" }}
+                    {{ $title := printf $msg .Page.Params.source_repo }}
+
+                    <a id="edit-this-page" class="disabled not-for-endnotes" aria-hidden="true" title='{{ $title }}'>
+                        {{ partial "icon.html" "pencil" }}
+                    </a>
+                </div>
+            {{ else }}
+                <div id="edit-this-page-container">
+                    <a id="edit-this-page" class="not-for-endnotes" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}" aria-hidden="true" title='{{ i18n "edit_on_github"}}'>
+                        {{ partial "icon.html" "pencil" }}
+                    </a>
+                </div>
+            {{ end }}
 
             <div id="report-site-bugs-container">
                 <a id="report-site-bugs" class="not-for-endnotes" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>

@@ -53,11 +53,15 @@
                     {{ if not .Site.Data.args.archive }}
                         <div></div>
 
-                        <a href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
-
-                        {{ if not .Params.generator }}
+                        {{ if .Params.source_repo }}
+                            {{ $msg := i18n "generated_file" }}
+                            {{ $title := printf $msg .Page.Params.source_repo }}
+                            <a class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
+                        {{ else }}
                             <a href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                         {{ end }}
+
+                        <a href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
                     {{ end }}
 
                     <div></div>

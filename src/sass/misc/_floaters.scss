@@ -68,6 +68,15 @@
         bottom: calc(4rem + #{$footerHeight});
         right: 1rem;
         background-color: bisque;
+
+        &.disabled {
+            background-color: lightgrey;
+            cursor: default;
+
+            svg:hover {
+                fill: $floatingButtonColor;
+            }
+        }
     }
 }
 
