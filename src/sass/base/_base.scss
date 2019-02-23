@@ -3,8 +3,8 @@
 }
 
 @media screen {
-    // ensure that jumping to a # location in a doc positions the target correctly relative
-    // to the header
+    // ensure that deep-linking in a doc positions the target correctly relative
+    // to the page header. Without this, the target ends up under the page header.
     :target::before {
         content: "";
         display: block;
@@ -15,8 +15,9 @@
     // This is here to undo the effect of the above for table rows. Otherwise,
     // table rows with ids don't render properly when used for deep-linking.
     //
-    // Unfortunately, although this fixes the bad rendering, it does mean that linking to a
-    // table row will position the row right underneath the header. Argh. Need a plan B.
+    // Unfortunately, although this fixes the bad rendering, it does mean that deep-linking to a
+    // table row will position the row right underneath the page header. To deal with that case,
+    // we have a hack in JavaScript to force-scroll the row into view.
     tr[id]:before {
         content: normal;
     }
