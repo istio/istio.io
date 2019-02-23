@@ -1,4 +1,6 @@
 ---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE https://github.com/istio/api REPO
+source_repo: https://github.com/istio/api
 title: Service Mesh
 description: Configuration affecting the service mesh as a whole.
 location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
@@ -893,6 +895,16 @@ DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
 <td><code>string</code></td>
 <td>
 <p>IP Address and Port of a statsd UDP listener (e.g. <em>10.75.241.127:9125</em>).</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-envoy_metrics_service_address">
+<td><code>envoyMetricsServiceAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Envoy Metrics Service implementation (e.g. metrics-service:15000).
+See https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto
+for details about Envoy&rsquo;s Metrics Service API.</p>
 
 </td>
 </tr>
