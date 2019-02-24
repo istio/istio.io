@@ -3,6 +3,9 @@
 // Attach the event handlers to support the sidebar
 document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
+    if (sidebar == null) {
+        return;
+    }
 
     // toggle subtree in sidebar
     sidebar.querySelectorAll('.tree-toggle').forEach(o => {

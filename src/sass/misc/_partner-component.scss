@@ -13,9 +13,8 @@
 
     table td:first-of-type {
         color: $textBrandColor;
-        background-color: $secondBrandColor;
+        background-color: $mainBrandColor;
         font-weight: $tableHeaderWeight;
-        border-bottom: 1px solid lighten($secondBrandColor, 7%);
     }
 
     table td:last-of-type {

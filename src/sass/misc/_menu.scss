@@ -48,7 +48,7 @@
             }
 
             &.disabled {
-                color: lighten($textColor, 50%);
+                color: $disabledTextColor;
                 background-color: $backgroundColor;
                 cursor: default;
             }

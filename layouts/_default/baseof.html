@@ -111,22 +111,19 @@
 
         <!-- style sheets -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,300,700,300italic,400italic,500italic,700italic|Chivo:400,500,300,700,300italic,400italic,500italic,700italic">
-
-        {{ if .Site.Data.args.archive }}
-            <link rel="stylesheet" href="/css/light_theme_archive.css" title="Light Theme">
-            <link rel="alternate stylesheet" href="/css/dark_theme_archive.css" title="Dark Theme">
-        {{ else if .Site.Data.args.preliminary }}
-            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="Light Theme">
-            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="Dark Theme">
-        {{ else }}
-            <link rel="stylesheet" href="/css/light_theme_normal.css" title="Light Theme">
-            <link rel="alternate stylesheet" href="/css/dark_theme_normal.css" title="Dark Theme">
-        {{ end }}
-
-        <script src="/js/styleSwitcher.min.js"></script>
+        <link rel="stylesheet" href="/css/all.css">
     </head>
 
-    <body class="language-unknown">
+    {{ $site_mode := ""}}
+    {{ if .Site.Data.args.archive }}
+        {{ $site_mode = "archive-site" }}
+    {{ else if .Site.Data.args.preliminary }}
+        {{ $site_mode = "preliminary-site" }}
+    {{ end }}
+
+    <body class="language-unknown {{ $site_mode}}">
+        <script src="/js/styleSwitcher.min.js"></script>
+
         {{ partial "header.html" . }}
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
