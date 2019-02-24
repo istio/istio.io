@@ -28,6 +28,12 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
 
+## Production install
+
+For a production setup of Istio, we recommend installing with the
+[Helm Chart](/docs/setup/kubernetes/helm-install/), to use all the
+configuration options. This permits customization of Istio to operator specific requirements.
+
 ## Installation steps
 
 1. Install all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
@@ -37,10 +43,7 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
     {{< /text >}}
 
 1. To install Istio's core components you can choose any of the following four
-**mutually exclusive** options described below. However, for a production setup of Istio,
-we recommend installing with the
-[Helm Chart](/docs/setup/kubernetes/helm-install/), to use all the
-configuration options. This permits customization of Istio to operator specific requirements.
+**mutually exclusive** options described below.
 
 ### Option 1: Install Istio with mutual TLS enabled and set to use permissive mode between sidecars
 
