@@ -1,4 +1,3 @@
-
 ---
 title: Installation with Helm
 description: Install Istio with the included Helm chart.
@@ -11,8 +10,8 @@ icon: helm
 ---
 Quick start instructions for the setup and configuration of Istio using Helm.
 This is the recommended install method for installing Istio to your
-production environment as it offers rich customization to the Istio control
-plane and the sidecars for the Istio data plane.
+production environment as it offers rich customization for both the Istio control
+plane and the sidecars used witin the Istio data plane.
 
 ## Prerequisites
 
@@ -20,14 +19,14 @@ plane and the sidecars for the Istio data plane.
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/) on Pods and Services.
 
-1. [Install a Helm client with a version higher than 2.10](https://github.com/helm/helm/blob/master/docs/install.md).
+1. [Install a Helm client with a minimum version of 2.10](https://github.com/helm/helm/blob/master/docs/install.md).
 
 1. Istio by default uses `LoadBalancer` service object types.  Some platforms do not support `LoadBalancer`
    service objects.  For platforms lacking `LoadBalancer` support, install Istio with `NodePort` support
    instead with the flags `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort`
    appended to the end of the Helm instructions in the installation steps below.
 
-## Installation steps
+## Installing Istio
 
 The following commands may be run from any directory. We use Helm to obtain the charts via a secure
 HTTPS endpoint hosted in Istio's infrastructure throughout this document.
@@ -94,11 +93,11 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 
     {{< /text >}}
 
-1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify that all `56` Istio CRDs are committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
+    56
     {{< /text >}}
 
 1. Render and apply Istio's core components:
@@ -106,26 +105,6 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
     {{< text bash >}}
 
     $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl apply -f -
-
-    {{< /text >}}
-
-1. Uninstall steps:
-
-    {{< text bash >}}
-
-    $ kubectl delete namespace istio-system
-
-    {{< /text >}}
-
-1. If desired, run the following command to delete all CRDs:
-
-    {{< warning >}}
-    Deleting CRDs permanently deletes any configuration changes that you have made to Istio.
-    {{< /warning >}}
-
-    {{< text bash >}}
-
-    $ kubectl delete -f $HOME/istio-fetch/istio-init/files
 
     {{< /text >}}
 
@@ -159,11 +138,11 @@ to manage the lifecycle of Istio.
 
     {{< /text >}}
 
-1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
+    56
     {{< /text >}}
 
 1. Install the `istio` chart:
@@ -176,6 +155,35 @@ to manage the lifecycle of Istio.
 
 1. Uninstall steps:
 
+
+## Uninstalling Istio
+
+### Option 1: Uninstall with Helm via `helm template`
+
+1. Remove `istio-init` and `istio`:
+
+    {{< text bash >}}
+
+    $ mkdir -p $HOME/istio-fetch
+    $ helm fetch istio.io/istio --untar --untardir $HOME/istio
+    $ helm fetch istio.io/istio-init --untar --untardir $HOME/istio-fetch
+    $ helm template $HOME/istio-fetch/istio-init --name istio --namespace istio-system | kubectl delete -f -
+    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl delete -f -
+
+    {{< /text >}}
+
+1. Remove the Istio namespace
+
+    {{< text bash >}}
+
+    kubectl delete namespace istio-system
+
+    {{< /text >}}
+
+### Option 2: Uninstall with Helm and Tiller via `helm delete`
+
+1. Remove `istio-init` and `istio`:
+
     {{< text bash >}}
 
     $ helm delete --purge istio
@@ -183,7 +191,11 @@ to manage the lifecycle of Istio.
 
     {{< /text >}}
 
-## Deleting CRDs and Istio Configuration
+## Permanently deleting CRDs and Istio Configuration
+
+{{< warning >}}
+Deleting CRDs permanently deletes any configuration changes that you have made to Istio.
+{{< /warning >}}
 
 {{< tip >}}
 Istio, by design, expects Istio's Custom Resources contained within CRDs to leak into the
@@ -192,12 +204,8 @@ Because of this, we consider it better for operators to explicitly delete the ru
 configuration data rather than unexpectedly lose it.
 {{< /tip >}}
 
-{{< warning >}}
-Deleting CRDs permanently deletes any configuration changes that you have made to Istio.
-{{< /warning >}}
-
 {{< tip >}}
-The `istio-init` chart contains all raw CRDs in the `istio-init/ifiles` directory.  After fetching this
+The `istio-init` chart contains all raw CRDs in the `istio-init/files` directory.  After fetching this
 chart, you can simply delete the CRDs using `kubectl`.
 {{< /tip >}}
 
