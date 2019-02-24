@@ -1,0 +1,102 @@
+
+$black: #000;
+$near-black: #2E2E2E;
+$white: #FFFFFF;
+$gray: #737373;
+$light-gray: lighten($gray, 52%);
+$medium-gray: lighten($gray, 35%);
+$dark-gray: darken($gray, 20%);
+
+@import "brand";
+@import "light";
+@import "light_syntax";
+@import "dark";
+@import "dark_syntax";
+
+$backgroundColor: var(--backgroundColor);
+
+$textColor: var(--textColor);
+$textCodeColor: var(--textCodeColor);
+$disabledTextColor: var(--disabledTextColor);
+
+$linkColor: var(--linkColor);
+$linkHoverColor: var(--linkHoverColor);
+$linkDisabledColor: var(--linkDisabledColor);
+$linkActiveColor: var(--linkActiveColor);
+
+$h1Color: var(--h1Color);
+$h2Color: var(--h2Color);
+$h3Color: var(--h3Color);
+$h4Color: var(--h4Color);
+$h5Color: var(--h5Color);
+$h6Color: var(--h6Color);
+$h2UnderlineColor: var(--h2UnderlineColor);
+
+$buttonActiveColor: var(--buttonActiveColor);
+$dividerBarColor: var(--dividerBarColor);
+$glossaryHeaderColor: var(--glossaryHeaderColor);
+$blockQuoteBackgroundColor: var(--blockQuotaBackgroundColor);
+$tipCalloutBackgroundColor: var(--tipCalloutBackgroundColor);
+$ideaCalloutBackgroundColor: var(--ideaCalloutBackgroundColor);
+$warningCalloutBackgroundColor: var(--warningCalloutBackgroundColor);
+$deprecatedBackgroundColor: var(--deprecateBackgroundColor);
+$boxBorderColor: var(--boxBorderColor);
+
+$preBlockShadowColor: var(--preBlockShadowColor);
+$preBlockBorderColor: var(--preBlockBorderColor);
+$preBlockBackgroundColor: var(--preBlockBackgroundColor);
+$preBlockCommandOutputTextColor: var(--preBlockCommandOutputTextColor);
+$preBlockCommandOutputBackgroundColor: var(--preBlockCommandOutputBackgroundColor);
+
+$dropdownBorderColor: var(--dropdownBorderColor);
+$dropdownCheck: var(--dropdownCheck);
+$dropdownHoverCheck: var(--dropdownHoverCheck);
+
+$popoverBorderColor: var(--popoverBoardColor);
+$popoverShadowColor: var(--popoverShadowColor);
+$popoverHeaderBackgroundColor: var(--popoverHeaderBackgroundColor);
+$popoverHeaderTextColor: var(--popoverHeaderTextColor);
+$popoverBackgroundColor: var(--popoverBackgroundColor);
+$popoverTextColor: var(--popoverTextColor);
+
+$headerLightShadowColor: var(--headerLightShadowColor);
+$headerDarkShadowColor: var(--heaserDarkShadowColor);
+
+$figureBackgroundColor: var(--figureBackgroundColor);
+$figureCaptionColor: var(--figureCaptionColor);
+
+$heroLogoColor: var(--heroLogoColor);
+$landingPanelBackgroundColor: var(--landingPanelBackgroundColor);
+$landingPanelBorderColor: var(--landingPanelBorderColor);
+$landingPanelTextColor: var(--landingPanelTextColor);
+$landingPanelShadowColor: var(--landingPanelShadowColor);
+$landingPanelShadowHoverColor: var(--landingPanelShadowHoverColor);
+
+$floatingButtonColor: var(--floatingButtonColor);
+$floatingButtonHoverColor: var(--floatingButtonHoverColor);
+
+$companyLogoBackgroundColor: var(--companyLogoBackgroundColor);
+$companyLogoTaglineColor: var(--companyLogoTaglineColor);
+
+$textWeight: var(--textWeight);
+$linkWeight: var(--linkWeight);
+$h1Weight: var(--h1Weight);
+$h2Weight: var(--h2Weight);
+$h3Weight: var(--h3Weight);
+$h4Weight: var(--h4Weight);
+$h5Weight: var(--h5Weight);
+$h6Weight: var(--h6Weight);
+$tableHeaderWeight: var(--tableHeaderWeight);
+$boldTextWeight: var(--boldTextWeight);
+$heroLeadWeight: var(--heroLeadTextWeight);
+$blogAttributeWeight: var(--blogAttributeWeight);
+$sectionIndexLinkWeight: var(--sextionIndexLinkWeight);
+$buttonWeight: var(--buttonWeight);
+$tocLinkWeight: var(--tocLinkWeight);
+$sidebarLinkWeight: var(--sidebarLinkWeight);
+$sidebarCurrentPageWeight: var(--sidebarCurrentPageWeight);
+$glossaryHeaderWeight: var(--glossaryHeaderWeight);
+$glossaryWordWeight: var(--glossaryWordWeight);
+$figureCaptionWeight: var(--figureCaptionWeight);
+$textCodeWeight: var(--textCodeWeight);
+$faqQuestionWeight: var(--faqQuestionWeight);
