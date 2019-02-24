@@ -176,7 +176,7 @@ to manage the lifecycle of Istio.
 
     {{< text bash >}}
 
-    kubectl delete namespace istio-system
+    $ kubectl delete namespace istio-system
 
     {{< /text >}}
 
