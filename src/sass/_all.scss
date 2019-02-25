@@ -1,3 +1,10 @@
+@import "themes/brand";
+@import "themes/light-theme";
+@import "themes/light-theme-syntax";
+@import "themes/dark-theme";
+@import "themes/dark-theme-syntax";
+@import "themes/vars";
+
 @import "base/constants";
 @import "base/reset";
 @import "base/base";
@@ -10,6 +17,7 @@
 @import "misc/faq";
 @import "misc/faq-landing";
 @import "misc/figure";
+@import "misc/floaters";
 @import "misc/footer";
 @import "misc/glossary";
 @import "misc/header";

@@ -21,6 +21,12 @@ The following instructions assume you have installed Helm and use it to install 
 To install Kiali without using Helm, follow the [Kiali installation instructions](https://www.kiali.io/gettingstarted/).
 {{< /idea >}}
 
+### Create a secret
+
+{{< idea >}}
+If you plan on installing Kiali using the `istio-demo.yaml` or `istio-demo-auth.yaml` file as described in the [Istio Quick Start Installation Steps](/docs/setup/kubernetes/quick-start/#installation-steps) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
+{{< /idea >}}
+
 Create a secret in your Istio namespace with the credentials that you use to
 authenticate to Kiali.
 
@@ -60,6 +66,8 @@ data:
   passphrase: $KIALI_PASSPHRASE
 EOF
 {{< /text >}}
+
+### Install Via Helm
 
 Once you create the Kiali secret, follow
 [the Helm install instructions](/docs/setup/kubernetes/helm-install/) to install Kiali via Helm.
@@ -198,5 +206,5 @@ If you are not planning any follow-up tasks, remove the Bookinfo sample applicat
 1. To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
 
 {{< text bash >}}
-$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules --selector=app=kiali -n istio-system
+$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules,customresourcedefinitions --selector=app=kiali -n istio-system
 {{< /text >}}

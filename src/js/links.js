@@ -1,6 +1,6 @@
 "use strict";
 
-document.addEventListener('DOMContentLoaded', () => {
+onDOMLoaded(() => {
 
     function attachLink(node) {
         const anchor = document.createElement("a");
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add a link icon next to each header so people can easily get bookmarks to headers
     function attachLinksToHeaders() {
         for (let level = 2; level <= 6; level++) {
-            document.querySelectorAll("h" + level.toString()).forEach(hdr => {
+            queryAll(document, "h" + level.toString()).forEach(hdr => {
                 if (hdr.id !== "") {
                     attachLink(hdr);
                 }
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
     function attachLinksToDefinedTerms() {
-        document.querySelectorAll('dt').forEach(dt => {
+        queryAll(document, 'dt').forEach(dt => {
             if (dt.id !== "") {
                 attachLink(dt);
             }
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make it so each link outside of the current domain opens up in a different window
     function makeOutsideLinksOpenInTabs() {
-        document.querySelectorAll('a').forEach(link => {
+        queryAll(document, 'a').forEach(link => {
             if (link.hostname && link.hostname !== location.hostname) {
                 link.setAttribute("target", "_blank");
                 link.setAttribute("rel", "noopener");
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create the set of endnotes that expand URLs when printing
     function createEndnotes() {
-        const notes = document.getElementById("endnotes");
+        const notes = getById("endnotes");
         if (notes === null) {
             return;
         }
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const main = document.getElementsByTagName("main")[0];
         const map = new Map(null);
         let numLinks = 0;
-        main.querySelectorAll('a').forEach(link => {
+        queryAll(main, 'a').forEach(link => {
             if (link.pathname === location.pathname) {
                 // skip links pointing to the current page
                 return;
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (numLinks > 0) {
             // only show the section if there are links
-            document.getElementById("endnotes-container").classList.add('show');
+            getById("endnotes-container").classList.add('show');
         }
     }
 

@@ -3,13 +3,23 @@
 }
 
 @media screen {
-    // ensure that jumping to a # location in a doc positions the target correctly relative
-    // to the header
+    // ensure that deep-linking in a doc positions the target correctly relative
+    // to the page header. Without this, the target ends up under the page header.
     :target::before {
         content: "";
         display: block;
         height: $headerHeight;
         margin-top: -$headerHeight;
+    }
+
+    // This is here to undo the effect of the above for table rows. Otherwise,
+    // table rows with ids don't render properly when used for deep-linking.
+    //
+    // Unfortunately, although this fixes the bad rendering, it does mean that deep-linking to a
+    // table row will position the row right underneath the page header. To deal with that case,
+    // we have a hack in JavaScript to force-scroll the row into view.
+    tr[id]:before {
+        content: normal;
     }
 
     html {
@@ -81,7 +91,7 @@ table p:last-of-type {
 
 th {
     color: $textBrandColor;
-    background-color: $secondBrandColor;
+    background-color: $mainBrandColor;
     font-weight: $tableHeaderWeight;
 
     code {
@@ -100,19 +110,19 @@ th, td {
 }
 
 tr:first-child th:first-child {
-    border-radius: 4px 0 0 0;
+    border-radius: $border-radius 0 0 0;
 }
 
 tr:first-child td:first-child {
-    border-radius: 4px 0 0 0;
+    border-radius: $border-radius 0 0 0;
 }
 
 tr:first-child th:last-child {
-    border-radius: 0 4px 0 0;
+    border-radius: 0 $border-radius 0 0;
 }
 
 tr:first-child td:last-child {
-    border-radius: 0 4px 0 0;
+    border-radius: 0 $border-radius 0 0;
 }
 
 tr:last-child td {
@@ -120,11 +130,11 @@ tr:last-child td {
 }
 
 tr:last-child td:first-child {
-    border-radius: 0 0 0 4px;
+    border-radius: 0 0 0 $border-radius;
 }
 
 tr:last-child td:last-child {
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 $border-radius 0;
 }
 
 tr th:last-child {
@@ -158,7 +168,7 @@ pre {
 
     max-height: 31em;
     border: 1px solid $preBlockBorderColor;
-    border-radius: 4px;
+    border-radius: $border-radius;
     box-shadow: 3px 3px 8px $preBlockShadowColor;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     font-size: 87.5%;
@@ -265,7 +275,7 @@ div.toolbar {
 }
 
 p {
-    font-size: $font-size--xs;
+    font-size: $font-size--primary;
     font-weight: $textWeight;
     margin: .75em 0;
 
@@ -275,7 +285,7 @@ p {
 }
 
 li, dt, dd {
-    font-size: $font-size--xs;
+    font-size: $font-size--primary;
     font-weight: $textWeight;
     margin: .25em;
 }
@@ -408,7 +418,7 @@ blockquote {
     padding-left: 1em;
     padding-right: 1em;
     background-color: $blockQuoteBackgroundColor;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: $border-radius;
 }
 
 .spacer {
@@ -421,48 +431,6 @@ blockquote {
 
 .deprecated {
     background: $deprecatedBackgroundColor;
-}
-
-#scroll-to-top-container {
-    @media print {
-        display: none;
-    }
-
-    // don't display the scroll-to-top button if the TOC is being displayed
-    @media (min-width: $bp-xl) {
-        display: none;
-    }
-}
-
-#scroll-to-top {
-    display: none;
-    position: fixed;
-    top: $headerHeight;
-    right: 10px;
-    z-index: $floating-button-z;
-    outline: none;
-    background-color: rgba($backgroundColor, .7);
-    color: $floatingButtonColor;
-    cursor: pointer;
-    padding: 3px 5px;
-    border-radius: 10px;
-    font-size: 1rem;
-    border: 0;
-    box-shadow: 0 0 2px 2px $floatingButtonColor;
-
-    &:hover {
-        color: $textBrandHighlightColor;
-    }
-
-    svg {
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: middle;
-    }
-
-    &.show {
-        display: block;
-    }
 }
 
 @media print {

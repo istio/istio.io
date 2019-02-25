@@ -62,7 +62,7 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-You should also verify that there are no existing authentication policies in the system, which you can do as follows:
+You should also verify that there is a default mesh authentication policy in the system, which you can do as follows:
 
 {{< text bash >}}
 $ kubectl get policies.authentication.istio.io --all-namespaces
@@ -71,7 +71,8 @@ No resources found.
 
 {{< text bash >}}
 $ kubectl get meshpolicies.authentication.istio.io
-No resources found.
+NAME      AGE
+default   3m
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of

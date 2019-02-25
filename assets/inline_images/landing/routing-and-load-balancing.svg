@@ -1,4 +1,4 @@
-<svg class="landing-image" data-name="expanded art" viewBox="0 0 1200 900">
+<svg class="landing-image" viewBox="0 0 1200 900">
     <defs>
         <style>
             .cls-1, .cls-2, .cls-3, .cls-4 {
@@ -15,7 +15,6 @@
             }
 
             .cls-2 {
-//                            stroke: #fff;
                 stroke-width: 30px;
             }
 
@@ -36,42 +35,26 @@
             }
         </style>
     </defs>
-    <g>
-        <g>
-            <circle cx="149.5" cy="149.5" r="50"/>
-            <circle cx="149.5" cy="750.5" r="50"/>
-            <polygon points="240 120 210 150 240 180 240 120"/>
-            <polygon points="240 720 210 750 240 780 240 720"/>
-        </g>
-        <g>
-            <path class="cls-1" d="M250,150c200,0,500,300,700,300"/>
-            <path class="cls-1" d="M250,750c200,0,499-300,700-300"/>
-            <line class="cls-1" x1="250" y1="750" x2="950" y2="750"/>
-            <line class="cls-1" x1="250" y1="150" x2="950" y2="150"/>
-        </g>
-    </g>
-    <g>
-        <g>
-            <g>
-                <path class="cls-2" d="M950,150c-200,0-500,300-700,300"/>
-                <path class="cls-2" d="M950,750c-200,0-499-300-700-300"/>
-                <line class="cls-2" x1="250" y1="450" x2="950" y2="450"/>
-            </g>
-            <g>
-                <line class="cls-3" x1="340" y1="450" x2="950" y2="450"/>
-                <path class="cls-4" d="M950,150c-200,0-500,300-700,300"/>
-                <path class="cls-4" d="M950,750c-200,0-499-300-700-300"/>
-            </g>
-        </g>
-        <g>
-            <circle class="cls-5" cx="149.5" cy="449.5" r="50"/>
-            <circle class="cls-5" cx="1050.5" cy="149.5" r="50"/>
-            <circle class="cls-5" cx="1050.5" cy="750.5" r="50"/>
-            <circle class="cls-6" cx="1050.5" cy="449.5" r="50"/>
-            <polygon class="cls-5" points="240 420 210 450 240 480 240 420"/>
-            <polygon class="cls-6" points="960 480 990 450 960 420 960 480"/>
-            <polygon class="cls-5" points="960 180 990 150 960 120 960 180"/>
-            <polygon class="cls-5" points="960 780 990 750 960 720 960 780"/>
-        </g>
-    </g>
+    <circle cx="149.5" cy="149.5" r="50"/>
+    <circle cx="149.5" cy="750.5" r="50"/>
+    <polygon points="240 120 210 150 240 180 240 120"/>
+    <polygon points="240 720 210 750 240 780 240 720"/>
+    <path class="cls-1" d="M250,150c200,0,500,300,700,300"/>
+    <path class="cls-1" d="M250,750c200,0,499-300,700-300"/>
+    <line class="cls-1" x1="250" y1="750" x2="950" y2="750"/>
+    <line class="cls-1" x1="250" y1="150" x2="950" y2="150"/>
+    <path class="cls-2" d="M950,150c-200,0-500,300-700,300"/>
+    <path class="cls-2" d="M950,750c-200,0-499-300-700-300"/>
+    <line class="cls-2" x1="250" y1="450" x2="950" y2="450"/>
+    <line class="cls-3" x1="340" y1="450" x2="950" y2="450"/>
+    <path class="cls-4" d="M950,150c-200,0-500,300-700,300"/>
+    <path class="cls-4" d="M950,750c-200,0-499-300-700-300"/>
+    <circle class="cls-5" cx="149.5" cy="449.5" r="50"/>
+    <circle class="cls-5" cx="1050.5" cy="149.5" r="50"/>
+    <circle class="cls-5" cx="1050.5" cy="750.5" r="50"/>
+    <circle class="cls-6" cx="1050.5" cy="449.5" r="50"/>
+    <polygon class="cls-5" points="240 420 210 450 240 480 240 420"/>
+    <polygon class="cls-6" points="960 480 990 450 960 420 960 480"/>
+    <polygon class="cls-5" points="960 180 990 150 960 120 960 180"/>
+    <polygon class="cls-5" points="960 780 990 750 960 720 960 780"/>
 </svg>
