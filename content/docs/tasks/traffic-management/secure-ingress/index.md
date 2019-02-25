@@ -567,15 +567,6 @@ need to create secrets for multiple hosts and update the gateway definitions.
 `credentialName` to be `httpbin-credential`, which should be the same as the
 secret name. TLS mode should be specified as SIMPLE.
 
-    {{< warning >}}
-    `serverCertificate` and `privateKey` should not be empty. If you are sure
-    that feature flag [`istio-ingressgateway.sds.enabled`]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml)
-    is enabled and SDS is present, then the secrets do not have to be mounted in
-    the path. If SDS is not present, and secrets are mounted, then these paths
-    will be used as a fallback option and the ingress gateway is configured
-    using file mount based approach introduced in the last section.
-    {{< /warning >}}
-
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
@@ -592,8 +583,6 @@ secret name. TLS mode should be specified as SIMPLE.
           protocol: HTTPS
         tls:
           mode: SIMPLE
-          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-          privateKey: /etc/istio/ingressgateway-certs/tls.key
           credentialName: "httpbin-credential" # must be the same as secret
         hosts:
         - "httpbin.example.com"
@@ -775,8 +764,6 @@ respectively. TLS mode should be specified as SIMPLE. `serverCertificate` and
           protocol: HTTPS
         tls:
           mode: SIMPLE
-          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-          privateKey: /etc/istio/ingressgateway-certs/tls.key
           credentialName: "httpbin-credential"
         hosts:
         - "httpbin.example.com"
@@ -786,8 +773,6 @@ respectively. TLS mode should be specified as SIMPLE. `serverCertificate` and
           protocol: HTTPS
         tls:
           mode: SIMPLE
-          serverCertificate: /etc/istio/ingressgateway-helloworld-certs/tls.crt
-          privateKey: /etc/istio/ingressgateway-helloworld-certs/tls.key
           credentialName: "helloworld-credential"
         hosts:
         - "helloworld-v1.example.com"
@@ -866,15 +851,6 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
 
 1. Redefine Gateway and change the TLS mode to MUTUAL.
 
-    {{< warning >}}
-    `serverCertificate`, `privateKey` and `caCertificates` should not be empty.
-    If you are sure that feature flag [`istio-ingressgateway.sds.enabled`]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml)
-    is enabled and SDS is present, then the secrets do not have to be mounted in
-    the path. If SDS is not present, and secrets are mounted, then these paths
-    will be used as a fallback option and the ingress gateway is configured
-    using file mount based approach introduced above.
-    {{< /warning >}}
-
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
     apiVersion: networking.istio.io/v1alpha3
@@ -891,9 +867,6 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
          protocol: HTTPS
        tls:
          mode: MUTUAL
-         serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-         privateKey: /etc/istio/ingressgateway-certs/tls.key
-         caCertificates: /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem
          credentialName: "httpbin-credential" # must be the same as secret
        hosts:
        - "httpbin.example.com"
