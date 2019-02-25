@@ -78,7 +78,7 @@ $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 You can use the `istioctl` tool to check the effective mutual TLS settings. The command requires the client pod as the destination rule depends on the client namespace.
 You can also provide the destination service to filter the status to that service only.
 
-For example, to identify the authentication policy for service `httpbin.default.svc.cluster.local` and destination rules to it, as seen from pod `${SLEEP_POD}`, use the following command:
+To identify the authentication policy for the `httpbin.default.svc.cluster.local` service and its destination rules as seen from the `${SLEEP_POD}` pod, use the following command:
 
 {{< text bash >}}
 $ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
