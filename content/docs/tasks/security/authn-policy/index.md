@@ -573,9 +573,9 @@ chmod +x gen-jwt.py
 
 You also need the `key.pem` file:
 
-```
+{{< text bash >}}
 wget https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
-```
+{{< /text >}}
 
 For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
