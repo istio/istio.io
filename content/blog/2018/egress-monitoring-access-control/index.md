@@ -58,7 +58,7 @@ source pod's name and the container's name is `sleep`.
 
 ## Configure monitoring and access policies
 
-Note that since you want to accomplish your tasks in a _secure way_, you must direct egress traffic through
+Since you want to accomplish your tasks in a _secure way_, you should direct egress traffic through
 _egress gateway_, as described in the [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)
 task. The _secure way_ here means that you want to prevent malicious applications from bypassing Istio monitoring and
 policy enforcement.
