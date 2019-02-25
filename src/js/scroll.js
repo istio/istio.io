@@ -6,19 +6,24 @@ let tocLinks;
 let tocHeadings;
 
 // what we do when the user scrolls the page
-window.addEventListener("scroll", handlePageScroll);
+listen(window, "scroll", handlePageScroll);
 
 // discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
-document.addEventListener('DOMContentLoaded', () => {
-    scrollToTopButton = document.getElementById('scroll-to-top');
+onDOMLoaded(() => {
+    scrollToTopButton = getById('scroll-to-top');
+    listen(scrollToTopButton, click, () => {
+        // scroll the document to the top
+        document.body.scrollTop = 0;            // for Safari
+        document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE and Opera
+    });
 
-    const toc = document.getElementById('toc');
+    const toc = getById('toc');
     if (toc) {
         tocLinks = toc.getElementsByTagName('a');
         tocHeadings = new Array(tocLinks.length);
 
         for (let i = 0; i < tocLinks.length; i++) {
-            tocHeadings[i] = document.getElementById(tocLinks[i].hash.substring(1));
+            tocHeadings[i] = getById(tocLinks[i].hash.substring(1));
         }
     }
 
@@ -90,7 +95,7 @@ function handlePageScroll() {
     // Note that this only works once for a given target row per page load. If the user is clicking
     // around within a page, the second click to the same deep link will not trigger this hack and
     // the user will be left with the row under the page header.
-    const target = document.querySelector(":target");
+    const target = query(document, ":target");
     if (target && target.tagName === 'TR' && !target.dataset.scrolled) {
         document.documentElement.scrollTop -= 55;   // where 55 is the approximate header height
         target.dataset.scrolled = 'true';
