@@ -46,6 +46,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.service.uid`       | string | Unique identifier of the destination service. | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name`      | string | Destination service name. | `istio-telemetry` |
 | `destination.service.namespace` | string | Destination service namespace. | `istio-system` |
+| `origin.ip` | ip_address | IP address of the proxy client, e.g. origin for the ingress proxies. | `127.0.0.1` |
 | `request.headers` | map[string, string] | HTTP request headers with lowercase keys. For gRPC, its metadata will be here. | |
 | `request.id` | string | An ID for the request with statistically low probability of collision. | |
 | `request.path` | string | The HTTP URL path including query string | |
