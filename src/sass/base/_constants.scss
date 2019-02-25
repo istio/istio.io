@@ -1,7 +1,5 @@
-// Font
+// Font sizes
 $font-size--primary         : 1rem;
-$font-size--xxs             : .8rem;
-$font-size--xs              : 1rem;
 $font-size--s               : 1.15rem;
 $font-size--m               : 1.65rem;
 $font-size--l               : 1.85rem;
@@ -27,3 +25,6 @@ $sidebar-z: 50;
 $floating-button-z: 15;
 $glossary-letter-z: 10;
 $toolbar-button-z: 1;
+
+// various manifest constants
+$border-radius: 4px;

@@ -9,7 +9,7 @@
     padding-left: 1em;
     padding-right: 1em;
     background-color: $blockQuoteBackgroundColor;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: $border-radius;
 
     table td:first-of-type {
         color: $textBrandColor;
