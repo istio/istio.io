@@ -1,60 +1,66 @@
 "use strict";
 
 // Attach the event handlers to support the search box and hamburger
-document.addEventListener('DOMContentLoaded', () => {
+onDOMLoaded(() => {
+    const searchForm = 'search-form';
+    const headerLinks = 'header-links';
+    const searchTextbox = 'search-textbox';
+    const showSearch = 'show-search';
+    const openHamburger = 'open-hamburger';
+
     // Show the header links, hide the search box
     function showNavBarLinks() {
-        document.getElementById('search-form').classList.remove('show-search');
-        document.getElementById('header-links').classList.remove('show-search');
-        document.getElementById('search-textbox').value = '';
+        getById(searchForm).classList.remove(showSearch);
+        getById(headerLinks).classList.remove(showSearch);
+        getById(searchTextbox).value = '';
     }
 
     // Show the header search box, hide the links
     function showSearchBox() {
-        document.getElementById('search-form').classList.add('show-search');
-        document.getElementById('header-links').classList.add('show-search');
-        document.getElementById('search-textbox').focus();
+        getById(searchForm).classList.add(showSearch);
+        getById(headerLinks).classList.add(showSearch);
+        getById(searchTextbox).focus();
     }
 
     // Hide the search box when the user hits the ESC key
-    document.body.addEventListener("keyup", e => {
+    listen(document.body, "keyup", e => {
         if (e.which === 27) {
             showNavBarLinks();
         }
     });
 
     // Show the search box
-    document.getElementById('search-show').addEventListener("click", e => {
+    listen(getById('search-show'), click, e => {
         e.preventDefault();
         showSearchBox();
     });
 
     // Hide the search box
-    document.getElementById('search-close').addEventListener("click", e => {
+    listen(getById('search-close'), click, e => {
         e.preventDefault();
         showNavBarLinks();
     });
 
     // When the user submits the search form, initiate a search
-    document.getElementById('search-form').addEventListener("submit", e => {
+    listen(getById(searchForm), "submit", e => {
         e.preventDefault();
-        const textbox = document.getElementById('search-textbox');
-        const searchPageUrl = document.getElementById('search-page-url');
+        const textbox = getById(searchTextbox);
+        const searchPageUrl = getById('search-page-url');
         const url = searchPageUrl.value + '?q=' + textbox.value;
         showNavBarLinks();
         window.location.assign(url);
     });
 
-    document.getElementById('hamburger').addEventListener("click", () => {
-        document.getElementById('brand').classList.toggle('open-hamburger');
-        document.getElementById('header-links').classList.toggle('open-hamburger');
-        document.getElementById('search-form').classList.toggle('open-hamburger');
-        document.getElementById('search-textbox').focus();
+    listen(getById('hamburger'), click, () => {
+        getById('brand').classList.toggle(openHamburger);
+        getById(headerLinks).classList.toggle(openHamburger);
+        getById(searchForm).classList.toggle(openHamburger);
+        getById(searchTextbox).focus();
     });
 
-    window.addEventListener("resize", () => {
-        document.getElementById('brand').classList.remove('open-hamburger');
-        document.getElementById('header-links').classList.remove('open-hamburger');
-        document.getElementById('search-form').classList.remove('open-hamburger');
+    listen(window, "resize", () => {
+        getById('brand').classList.remove(openHamburger);
+        getById(headerLinks).classList.remove(openHamburger);
+        getById(searchForm).classList.remove(openHamburger);
     });
 });
