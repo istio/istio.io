@@ -75,7 +75,7 @@ For this task, you may want to get the pod ID of the client app (`sleep`) with t
 $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 {{< /text >}}
 
-You can use the `istioctl` tool to check the effective mutual TLS settings. The command requires the client pod as depend on the client namespace, the destination rule for it can be different.
+You can use the `istioctl` tool to check the effective mutual TLS settings. The command requires the client pod as the destination rule depends on the client namespace.
 You can also provide the destination service to filter the status to that service only.
 
 For example, to identify the authentication policy for service `httpbin.default.svc.cluster.local` and destination rules to it, as seen from pod `${SLEEP_POD}`, use the following command:
