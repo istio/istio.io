@@ -80,7 +80,7 @@ For example, run the following command on a macOS or Linux system:
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications provided with the
-installation like [Bookinfo](/docs/examples/bookinfo/).
+installation like[Bookinfo](/docs/examples/bookinfo/#if-you-are-running-on-docker-with-consul).
 
 {{< tip >}}
 Since there is no concept of pods in a Docker setup, the Istio
