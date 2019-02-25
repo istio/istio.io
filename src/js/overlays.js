@@ -30,7 +30,7 @@ function closeActiveOverlay() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+onDOMLoaded(() => {
     // Attach a popper to the given anchor
     function attachPopper(anchor, element) {
         if (popper !== null) {
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Expand spans that define terms into appropriate popup markup
-    document.querySelectorAll('.term').forEach(term => {
+    queryAll(document, '.term').forEach(term => {
         const i = document.createElement('i');
         i.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#glossary'/></svg>";
 
@@ -80,14 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
         div.appendChild(body);
         div.appendChild(arrow);
         div.setAttribute("aria-hidden", "true");
-        div.addEventListener('click', e => {
+        listen(div, click, e => {
             e.cancelBubble = true;
         });
 
         term.parentNode.insertBefore(div, term.nextSibling);
         term.removeAttribute('data-title');
         term.removeAttribute('data-body');
-        term.addEventListener('click', e => {
+        listen(term, click, e => {
             e.cancelBubble = true;
             toggleOverlay(div);
             attachPopper(term, div);
@@ -95,5 +95,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-window.addEventListener("click", closeActiveOverlay);
-window.addEventListener("resize", closeActiveOverlay);
+listen(window, click, closeActiveOverlay);
+listen(window, "resize", closeActiveOverlay);

@@ -1,11 +1,11 @@
 .landing {
-    .banner {
+    #banner {
         display: flex;
         justify-content: center;
         padding-top: 1rem;
         padding-bottom: 1rem;
 
-        .hero-label {
+        #hero-label {
             margin: 0 0 0 0;
             padding: 30px 0 0 0;
             font-size: 4rem;
@@ -13,7 +13,7 @@
             text-align: center;
         }
 
-        .hero-lead {
+        #hero-lead {
             display: block;
             font-size: 1rem;
             font-weight: $heroLeadWeight;
@@ -22,36 +22,36 @@
             padding: 0;
         }
 
-        .hero-logo {
+        #hero-logo {
             width: 0;
             fill: $heroLogoColor;
         }
 
-        .hero-text {
+        #hero-text {
             width: 20rem;
             margin-left: 0;
         }
 
         @media (min-width: $bp-sm) {
-            .hero-logo {
+            #hero-logo {
                 width: 7rem;
             }
 
-            .hero-label {
+            #hero-label {
                 text-align: left;
             }
 
-            .hero-lead {
+            #hero-lead {
                 text-align: left;
             }
 
-            .hero-text {
+            #hero-text {
                 margin-left: 3rem;
             }
         }
     }
 
-    .panels {
+    #panels {
         display: grid;
         grid-template-columns: [panel] auto;
         padding-top: 30px;

@@ -1,11 +1,5 @@
 "use strict";
 
-// Scroll the document to the top
-function scrollToTop() {
-    document.body.scrollTop = 0;            // for Safari
-    document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE and Opera
-}
-
 const escapeChars = {
     '¢': 'cent',
     '£': 'pound',
@@ -59,8 +53,6 @@ function navigateToUrlOrRoot(url) {
             const u = new URL(url);
             u.pathname = '';
             url = u.toString();
-        } else {
-            console.log("OK");
         }
 
         // go!
@@ -68,4 +60,24 @@ function navigateToUrlOrRoot(url) {
     };
 
     request.send();
+}
+
+function onDOMLoaded(cb) {
+    listen(document, "DOMContentLoaded", cb);
+}
+
+function getById(id) {
+    return document.getElementById(id);
+}
+
+function query(o, s) {
+    return o.querySelector(s);
+}
+
+function queryAll(o, s) {
+    return o.querySelectorAll(s);
+}
+
+function listen(o, e, f) {
+    o.addEventListener(e, f);
 }
