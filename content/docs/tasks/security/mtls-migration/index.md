@@ -72,36 +72,6 @@ down once the migration is done.
     istio-system   istio-telemetry   25m
     {{< /text >}}
 
-## Configure the server to accept both mutual TLS and plain text traffic
-
-In authentication policy, we have a `PERMISSIVE` mode which makes the server accept both mutual TLS and plain text traffic.
-We need to configure the server to this mode.
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "example-httpbin-permissive"
-  namespace: foo
-spec:
-  targets:
-  - name: httpbin
-  peers:
-  - mtls:
-      mode: PERMISSIVE
-EOF
-{{< /text >}}
-
-Now send traffic to `httpbin.foo` again to ensure all requests can still succeed.
-
-{{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
-200
-200
-200
-{{< /text >}}
-
 ## Configure clients to send mutual TLS traffic
 
 Configure Istio services to send mutual TLS traffic by setting `DestinationRule`.
