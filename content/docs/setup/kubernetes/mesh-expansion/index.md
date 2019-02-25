@@ -65,17 +65,21 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
     {{< /tip >}}
 
-1.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy). VM workloads belong to certain namespace, which means their SPIFFE certificates and `ServiceEntry` should match to that namespace.
-Throughout this doc we use `SERVICE_NAMESPACE` to denote that.
+1. In this step, we define the namespace to which the VM will join. Throughout this example, we'll reference the `SERVICE_NAMESPACE` variable; the value of this variable needs to match the namespace setting in configuration files that we later write. For example, `ServiceEntry` below should be stored in that namespace.
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="default"
+    {{< /text>}}
+
+1. Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
+
+    {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GWIP
     35.232.112.158
     {{< /text >}}
 
-1.  Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
+1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
     to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
     Replace `$MY_ZONE` and `$MY_PROJECT` in the following example commands with the appropriate values to obtain the CIDR
     after installation:
@@ -85,7 +89,7 @@ Throughout this doc we use `SERVICE_NAMESPACE` to denote that.
     $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
 
-1.  Check the contents of the generated `cluster.env` file. It should be similar to the following example:
+1. Check the contents of the generated `cluster.env` file. It should be similar to the following example:
 
     {{< text bash >}}
     $ cat cluster.env
@@ -93,14 +97,14 @@ Throughout this doc we use `SERVICE_NAMESPACE` to denote that.
     ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
 
-1.  (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes
+1. (Optional)  If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes
     to the `cluster.env` file with the following command. You can change the ports later if necessary.
 
     {{< text bash >}}
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
 
-1.  Extract the initial keys for the service account to use on the VMs.
+1. Extract the initial keys for the service account to use on the VMs.
 
     {{< text bash >}}
     $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
@@ -138,7 +142,7 @@ the DNS server. In our example we'll use `/etc/hosts` as it is the easiest way t
 an example of updating an `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
-    $ sudo echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
+    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" | sudo tee -a /etc/hosts
     {{< /text >}}
 
 1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
@@ -194,7 +198,7 @@ The following example shows accessing a service running in the Kubernetes cluste
     the cluster service from the VM, as in the example below:
 
     {{< text bash >}}
-$ sudo echo "10.55.246.247 productpage.default.svc.cluster.local" >> /etc/hosts
+$ echo "10.55.246.247 productpage.default.svc.cluster.local" | sudo tee -a /etc/hosts
 $ curl productpage.default.svc.cluster.local:9080
 < HTTP/1.1 200 OK
 < content-type: text/html; charset=utf-8
@@ -288,7 +292,7 @@ which creates a Kubernetes `selector-less` service.
 
 ## Cleanup
 
-After finishes the setup, you can clean up the mesh expansion.
+After completing the setup, you can clean up the mesh expansion.
 
 {{< text bash >}}
 $ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP}
