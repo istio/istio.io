@@ -32,20 +32,23 @@ will prevent any possibility for a malicious application to access the forbidden
 
 ## Related tasks and examples
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the
-  Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh. The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example describes how to configure Istio to direct egress
-  traffic through a dedicated gateway service called _egress gateway_. The
-  [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example demonstrates how
-  to allow applications to send HTTP requests to external servers that require HTTPS, while directing traffic through
-  egress gateway.
+* The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the
+  Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh.
+* The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example describes how to configure
+  Istio to direct egress traffic through a dedicated gateway service called _egress gateway_.
+* The [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example
+  demonstrates how to allow applications to send HTTP requests to external servers that require HTTPS, while directing
+  traffic through egress gateway.
+* The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task describes how to configure metrics and
+  logs for services in a mesh. The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/)
+  describes the Istio Dashboard to monitor mesh traffic.
+* The [Basic Access Control](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to control access to
+  in-mesh services.
+* The [Secure Access Control](/docs/tasks/security/secure-access-control/) task shows how to configure
+  access policies using black or white list checkers.
 
-The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task describes how to configure metrics and logs
- for services in a mesh. The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/) describes
- the Istio Dashboard to monitor mesh traffic. The [Basic Access Control](/docs/tasks/policy-enforcement/denial-and-list/)
- task shows how to control access to in-mesh services. The
- [Secure Access Control](/docs/tasks/security/secure-access-control/) task shows how to configure
- access policies using black or white list checkers. As opposed to the telemetry and security tasks above, this blog
- post describes Istio's monitoring and access policies applied exclusively to the egress traffic.
+As opposed to the telemetry and security tasks above, this blog post describes Istio's monitoring and access policies
+applied exclusively to the egress traffic.
 
 ## Before you begin
 
