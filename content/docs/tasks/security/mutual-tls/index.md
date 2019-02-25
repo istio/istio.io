@@ -69,18 +69,13 @@ Please check [Istio identity](/docs/concepts/security/#istio-identity) for more 
 
 ## Verify mutual TLS configuration
 
-For this task, you may want to get the pod ID of the client app (`sleep`) with the following command:
-
-{{< text bash >}}
-$ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-{{< /text >}}
-
 You can use the `istioctl` tool to check the effective mutual TLS settings. The command requires the client pod as the destination rule depends on the client namespace.
 You can also provide the destination service to filter the status to that service only.
 
-To identify the authentication policy for the `httpbin.default.svc.cluster.local` service and its destination rules as seen from the `${SLEEP_POD}` pod, use the following command:
+To identify the authentication policy for the `httpbin.default.svc.cluster.local` service and its destination rules as seen from the some a pod of the `sleep` app, use the following command:
 
 {{< text bash >}}
+$ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 $ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 {{< /text >}}
 
