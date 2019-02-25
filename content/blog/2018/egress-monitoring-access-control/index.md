@@ -64,7 +64,7 @@ task. The _secure way_ here means that you want to prevent malicious application
 policy enforcement.
 
 According to the scenario of this blog post, the organization performed the instructions in the
-[Before you begin](#before-you-begin) section. It enabled HTTP traffic to _edition.cnn.com_ and configured that traffic
+[Before you begin](#before-you-begin) section, enabled HTTP traffic to _edition.cnn.com_, and configured that traffic
 to pass through the egress gateway. The egress gateway performs TLS origination to _edition.cnn.com_, so the traffic
 leaves the mesh encrypted. Now the organization is ready to configure Istio for monitoring and access policies for
 the traffic to _edition.cnn.com_.
