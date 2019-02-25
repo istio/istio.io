@@ -62,7 +62,7 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-You should also verify that there are a default mesh authentication policy in the system, which you can do as follows:
+You should also verify that there is a default mesh authentication policy in the system, which you can do as follows:
 
 {{< text bash >}}
 $ kubectl get policies.authentication.istio.io --all-namespaces
