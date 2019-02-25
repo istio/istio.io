@@ -188,13 +188,13 @@ to access the MongoDB service.
 
 1. To confirm the MongoDB service can only be accessed by service account `bookinfo-ratings-v2`:
 
-    Run the following command to delete the `ratings` with service account `bookinfo-ratings-v2`:
+    Run the following command to delete the `ratings` deployment with service account `bookinfo-ratings-v2`:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
     {{< /text >}}
 
-    Run the following command to deploy the `ratings` with service account `default`:
+    Run the following command to deploy the `ratings` deployment with service account `default`:
 
     * To deploy in a cluster **with** automatic sidecar injection enabled:
 
