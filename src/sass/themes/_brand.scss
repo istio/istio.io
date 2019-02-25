@@ -19,3 +19,11 @@ $secondBrandColor: var(--secondBrandColor);
 $textBrandColor: var(--textBrandColor);
 $textBrandColorLight: var(--textBrandColorLight);
 $textBrandHighlightColor: var(--textBrandHighlightColor);
+
+$black: #000;
+$near-black: #2E2E2E;
+$white: #FFFFFF;
+$gray: #737373;
+$light-gray: lighten($gray, 52%);
+$medium-gray: lighten($gray, 35%);
+$dark-gray: darken($gray, 20%);

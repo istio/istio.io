@@ -1,4 +1,9 @@
-@import "colors/colors";
+@import "themes/brand";
+@import "themes/light-theme";
+@import "themes/light-theme-syntax";
+@import "themes/dark-theme";
+@import "themes/dark-theme-syntax";
+@import "themes/vars";
 
 @import "base/constants";
 @import "base/reset";
