@@ -65,7 +65,8 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
     {{< /tip >}}
 
-1.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy). Also throughout this doc, we assume the GCE VM is part of `$SERVICE_NAMESPACE`.
+1.  Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy). VM workloads belong to certain namespace, which means their SPIFFE certificates and `ServiceEntry` should match to that namespace.
+Throughout this doc we use `SERVICE_NAMESPACE` to denote that.
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="default"
@@ -290,7 +291,7 @@ which creates a Kubernetes `selector-less` service.
 After finishes the setup, you can clean up the mesh expansion.
 
 {{< text bash >}}
-$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp 10.128.0.17
+$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP}
 2019-02-21T22:12:22.023775Z     info    Deregistered service successfull
 $ kubectl delete ServiceEntry vmhttp -n ${SERVICE_NAMESPACE}
 serviceentry.networking.istio.io "vmhttp" deleted
