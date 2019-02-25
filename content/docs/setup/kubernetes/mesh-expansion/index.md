@@ -189,7 +189,7 @@ $ curl productpage.bookinfo.svc.cluster.local:9080
 ## Running services on a mesh expansion machine
 
 You add VM services to the mesh by configuring a
-[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A service entry lets you manually add
+[`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/). A service entry lets you manually add
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
 particular service, as in the following example.

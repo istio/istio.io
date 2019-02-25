@@ -10,7 +10,7 @@ aliases:
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 is used to specify services that should be exposed outside the cluster.
 In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
-different configuration model, namely [Istio Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway).
+different configuration model, namely [Istio Gateway](/docs/reference/config/networking/v1alpha3/gateway/).
 A `Gateway` allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
 
 This task describes how to configure Istio to expose a service outside of the service mesh using an Istio `Gateway`.
@@ -128,7 +128,7 @@ Setting the ingress IP depends on the cluster provider:
 
 ## Configuring ingress using an Istio Gateway
 
-An ingress [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) describes a load balancer operating at the edge of the mesh that receives incoming HTTP/TCP connections.
+An ingress [Gateway](/docs/reference/config/networking/v1alpha3/gateway/) describes a load balancer operating at the edge of the mesh that receives incoming HTTP/TCP connections.
 It configures exposed ports, protocols, etc.
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
@@ -184,11 +184,11 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     EOF
     {{< /text >}}
 
-    You have now created a [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+    You have now created a [virtual service](/docs/reference/config/networking/v1alpha3/virtual-service/)
     configuration for the `httpbin` service containing two route rules that allow traffic for paths `/status` and
     `/delay`.
 
-    The [gateways](/docs/reference/config/istio.networking.v1alpha3/#VirtualService-gateways) list
+    The [gateways](/docs/reference/config/networking/v1alpha3/virtual-service/#VirtualService-gateways) list
     specifies that only requests through your `httpbin-gateway` are allowed.
     All other external requests will be rejected with a 404 response.
 
