@@ -5,7 +5,7 @@ weight: 43
 keywords: [traffic-management,egress]
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。这里提醒一下：默认情况下，启用 Istio 的应用程序无法访问集群外的 URL。要启用此类访问，必须定义外部服务的 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry)，或者配置[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。这里提醒一下：默认情况下，启用 Istio 的应用程序无法访问集群外的 URL。要启用此类访问，必须定义外部服务的 [`ServiceEntry`](/zh/docs/reference/config/networking/v1alpha3/service-entry/)，或者配置[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
 
 [Egress 流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务演示了如何允许应用程序将 HTTP 请求发送到需要 HTTPS 的外部服务器。
 
@@ -15,7 +15,7 @@ keywords: [traffic-management,egress]
 
 设想一个具有严格安全要求的组织。根据这些要求，服务网格的所有外发流量必须流经一组专用节点。这些节点和运行其他应用分别在不同的节点上运行。这些专用的节点将用于 Egress 流量的策略实施，并且将比其余节点进行更详细地监控。
 
-Istio 0.8 引入了 [Ingress 和 Egress gateway](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway) 的概念。 Ingress 网关允许定义进入服务网格的入口点，所有入站流量都通过该入口点；`Egress gateway` 与之相对，它定义了网格的出口点。 Egress gateway 允许将 Istio 功能（例如，监控和路由规则）应用于 Egress 流量。
+Istio 0.8 引入了 [Ingress 和 Egress gateway](/zh/docs/reference/config/networking/v1alpha3/gateway/) 的概念。 Ingress 网关允许定义进入服务网格的入口点，所有入站流量都通过该入口点；`Egress gateway` 与之相对，它定义了网格的出口点。 Egress gateway 允许将 Istio 功能（例如，监控和路由规则）应用于 Egress 流量。
 
 另一个用例是应用程序节点没有公共 IP 的集群，因此在其上运行的网格内服务无法访问 Internet。定义 Egress gateway ，通过它引导所有出口流量并将公共 IP 分配给 Egress gateway 节点，允许应用节点以受控方式访问外部服务。
 
