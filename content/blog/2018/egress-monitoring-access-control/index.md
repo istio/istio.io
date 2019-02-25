@@ -17,7 +17,7 @@ In this blog post, we show how to apply monitoring and access policies to HTTP e
 
 Consider an organization that runs applications that process content from _cnn.com_. The applications are decomposed
 into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) and everything works fine. However, at some
-point in time the organization decides to banish politics. Practically, it means blocking access to
+point in time, the organization decides to banish politics. Practically, it means blocking access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) and allowing access to
 [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health)
 only. The organization will grant permissions to individual applications and to particular users to access [edition.cnn.com/politics](https://edition.cnn.com/politics), on a case-by-case basis.
