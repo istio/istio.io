@@ -1,16 +1,16 @@
 "use strict";
 
 // Attach the event handlers to support the sidebar
-document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.getElementById('sidebar');
+onDOMLoaded(() => {
+    const sidebar = getById('sidebar');
     if (sidebar == null) {
         return;
     }
 
     // toggle subtree in sidebar
-    sidebar.querySelectorAll('.tree-toggle').forEach(o => {
-        o.addEventListener("click", () => {
-            o.querySelectorAll('i.chevron').forEach(chevron => {
+    queryAll(sidebar, '.tree-toggle').forEach(o => {
+        listen(o, click, () => {
+            queryAll(o, 'i.chevron').forEach(chevron => {
                 chevron.classList.toggle('show');
             });
 
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // expand/collapse cards
-    sidebar.querySelectorAll('.header').forEach(header => {
-        header.addEventListener("click", () => {
+    queryAll(sidebar, '.header').forEach(header => {
+        listen(header, click, () => {
             const body = header.nextElementSibling;
 
             body.classList.toggle('show');
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // force expand the default cards
-    sidebar.querySelectorAll('.body').forEach(body => {
+    queryAll(sidebar, '.body').forEach(body => {
         if (body.classList.contains("default")) {
             body.style.maxHeight = body.scrollHeight + "px";
             body.classList.toggle("default");
@@ -52,11 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // toggle sidebar on/off
-    const toggler = document.getElementById('sidebar-toggler');
+    const toggler = getById('sidebar-toggler');
     if (toggler) {
-        toggler.addEventListener("click", e => {
-            document.getElementById("sidebar-container").classList.toggle('active');
-            e.currentTarget.querySelector('svg.icon').classList.toggle('flipped');
+        listen(toggler, click, e => {
+            getById("sidebar-container").classList.toggle(active);
+            query(e.currentTarget, 'svg.icon').classList.toggle('flipped');
         });
     }
 });

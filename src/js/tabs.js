@@ -1,54 +1,42 @@
 "use strict";
 
-document.addEventListener('DOMContentLoaded', () => {
+onDOMLoaded(() => {
 
-    // Select the active tabs on the page per cookie values
-    function selectActiveTabs() {
-        document.querySelectorAll(".tabset").forEach(tabset => {
-            tabset.querySelectorAll(".tab-strip").forEach(strip => {
-                const cookieName = strip.dataset.cookieName;
-                if (cookieName) {
-                    const cookieValue = readCookie(cookieName);
-                    if (cookieValue) {
-                        strip.querySelectorAll("a").forEach(anchor => {
-                            if (anchor.dataset.cookieValue == cookieValue) {
-                                anchor.classList.add("active");
-                                document.getElementById(anchor.dataset.tab).classList.add('active');
-                            } else {
-                                anchor.classList.remove("active");
-                                document.getElementById(anchor.dataset.tab).classList.remove('active');
-                            }
-                        });
-                    }
-                }
-            });
-        });
-    }
+    queryAll(document, ".tabset").forEach(tabset => {
+        queryAll(tabset, ".tab-strip").forEach(strip => {
+            const cookieName = strip.dataset.cookieName;
 
-    // Attach the event handlers to support tab sets
-    function attachTabHandlers() {
-        document.querySelectorAll(".tabset").forEach(tabset => {
-            tabset.querySelectorAll(".tab-strip").forEach(strip => {
-                const cookieName = strip.dataset.cookieName;
-                strip.querySelectorAll("a").forEach(anchor => {
-                    const cookieValue = anchor.dataset.cookieValue;
-                    anchor.addEventListener("click", () => {
-                        strip.querySelectorAll("a").forEach(anchor2 => {
-                            anchor2.classList.remove('active');
-                            document.getElementById(anchor2.dataset.tab).classList.remove('active');
-                        });
-
-                        anchor.classList.add("active");
-                        document.getElementById(anchor.dataset.tab).classList.add('active');
-                        if (cookieName !== null) {
-                            createCookie(cookieName, cookieValue);
+            // select the active tabs on the page per cookie values
+            if (cookieName) {
+                const cookieValue = readCookie(cookieName);
+                if (cookieValue) {
+                    queryAll(strip, "a").forEach(anchor => {
+                        if (anchor.dataset.cookieValue === cookieValue) {
+                            anchor.classList.add(active);
+                            getById(anchor.dataset.tab).classList.add(active);
+                        } else {
+                            anchor.classList.remove(active);
+                            getById(anchor.dataset.tab).classList.remove(active);
                         }
                     });
+                }
+            }
+
+            // attach the event handlers to support tab sets
+            queryAll(strip, "a").forEach(anchor => {
+                listen(anchor, click, () => {
+                    queryAll(strip, "a").forEach(anchor2 => {
+                        anchor2.classList.remove(active);
+                        getById(anchor2.dataset.tab).classList.remove(active);
+                    });
+
+                    anchor.classList.add(active);
+                    getById(anchor.dataset.tab).classList.add(active);
+                    if (cookieName !== null) {
+                        createCookie(cookieName, anchor.dataset.cookieValue);
+                    }
                 });
             });
         });
-    }
-
-    selectActiveTabs();
-    attachTabHandlers();
+    });
 });

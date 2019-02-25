@@ -1,7 +1,7 @@
 "use strict";
 
-// All the voodoo needed to support our fsancy code blocks
-document.addEventListener('DOMContentLoaded', () => {
+// All the voodoo needed to support our fancy code blocks
+onDOMLoaded(() => {
 
     // Add a toolbar to all PRE blocks
     function attachToolbar(pre) {
@@ -10,18 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
         copyButton.className = "copy";
         copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
         copyButton.setAttribute("aria-label", buttonCopy);
-        copyButton.addEventListener("mouseenter", e => e.currentTarget.classList.add("toolbar-show"));
-        copyButton.addEventListener("mouseleave", e => e.currentTarget.classList.remove("toolbar-show"));
+        listen(copyButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
+        listen(copyButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
 
         const downloadButton = document.createElement('button');
         downloadButton.title = buttonDownload;
         downloadButton.className = "download";
         downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
         downloadButton.setAttribute("aria-label", buttonDownload);
-        downloadButton.addEventListener("mouseenter", e => e.currentTarget.classList.add("toolbar-show"));
-        downloadButton.addEventListener("mouseleave", e => e.currentTarget.classList.remove("toolbar-show"));
+        listen(downloadButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
+        listen(downloadButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
 
-        downloadButton.addEventListener("click", e => {
+        listen(downloadButton, click, e => {
             const div = e.currentTarget.parentElement;
             const codes = div.getElementsByTagName("CODE");
             if ((codes !== null) && (codes.length > 0)) {
@@ -57,10 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
         printButton.className = "print";
         printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
         printButton.setAttribute("aria-label", buttonPrint);
-        printButton.addEventListener("mouseenter", e => e.currentTarget.classList.add("toolbar-show"));
-        printButton.addEventListener("mouseleave", e => e.currentTarget.classList.remove("toolbar-show"));
+        listen(printButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
+        listen(printButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
 
-        printButton.addEventListener("click", e => {
+        listen(printButton, click, e => {
             const div = e.currentTarget.parentElement;
             const text = getToolbarDivText(div);
             printText(text);
@@ -76,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
         div.appendChild(downloadButton);
         div.appendChild(copyButton);
 
-        pre.addEventListener("mouseenter", e => {
+        listen(pre, mouseenter, e => {
             e.currentTarget.nextSibling.classList.add("toolbar-show");
             e.currentTarget.nextSibling.nextSibling.classList.add("toolbar-show");
             e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add("toolbar-show");
         });
 
-        pre.addEventListener("mouseleave", e => {
+        listen(pre, mouseleave, e => {
             e.currentTarget.nextSibling.classList.remove("toolbar-show");
             e.currentTarget.nextSibling.nextSibling.classList.remove("toolbar-show");
             e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove("toolbar-show");
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.querySelectorAll('pre').forEach(pre => {
+    queryAll(document, 'pre').forEach(pre => {
         attachToolbar(pre);
         applySyntaxColoring(pre);
         loadExternal(pre);
