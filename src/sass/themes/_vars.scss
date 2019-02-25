@@ -1,18 +1,4 @@
 
-$black: #000;
-$near-black: #2E2E2E;
-$white: #FFFFFF;
-$gray: #737373;
-$light-gray: lighten($gray, 52%);
-$medium-gray: lighten($gray, 35%);
-$dark-gray: darken($gray, 20%);
-
-@import "brand";
-@import "light";
-@import "light_syntax";
-@import "dark";
-@import "dark_syntax";
-
 $backgroundColor: var(--backgroundColor);
 
 $textColor: var(--textColor);

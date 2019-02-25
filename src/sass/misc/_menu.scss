@@ -10,7 +10,7 @@
         padding: 0;
         background-color: $backgroundColor;
         border: 1px solid $dropdownBorderColor;
-        border-radius: 4px;
+        border-radius: $border-radius;
         margin-top: .125rem;
         right: 0;
         text-align: left;

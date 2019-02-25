@@ -110,19 +110,19 @@ th, td {
 }
 
 tr:first-child th:first-child {
-    border-radius: 4px 0 0 0;
+    border-radius: $border-radius 0 0 0;
 }
 
 tr:first-child td:first-child {
-    border-radius: 4px 0 0 0;
+    border-radius: $border-radius 0 0 0;
 }
 
 tr:first-child th:last-child {
-    border-radius: 0 4px 0 0;
+    border-radius: 0 $border-radius 0 0;
 }
 
 tr:first-child td:last-child {
-    border-radius: 0 4px 0 0;
+    border-radius: 0 $border-radius 0 0;
 }
 
 tr:last-child td {
@@ -130,11 +130,11 @@ tr:last-child td {
 }
 
 tr:last-child td:first-child {
-    border-radius: 0 0 0 4px;
+    border-radius: 0 0 0 $border-radius;
 }
 
 tr:last-child td:last-child {
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 $border-radius 0;
 }
 
 tr th:last-child {
@@ -168,7 +168,7 @@ pre {
 
     max-height: 31em;
     border: 1px solid $preBlockBorderColor;
-    border-radius: 4px;
+    border-radius: $border-radius;
     box-shadow: 3px 3px 8px $preBlockShadowColor;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     font-size: 87.5%;
@@ -275,7 +275,7 @@ div.toolbar {
 }
 
 p {
-    font-size: $font-size--xs;
+    font-size: $font-size--primary;
     font-weight: $textWeight;
     margin: .75em 0;
 
@@ -285,7 +285,7 @@ p {
 }
 
 li, dt, dd {
-    font-size: $font-size--xs;
+    font-size: $font-size--primary;
     font-weight: $textWeight;
     margin: .25em;
 }
@@ -418,7 +418,7 @@ blockquote {
     padding-left: 1em;
     padding-right: 1em;
     background-color: $blockQuoteBackgroundColor;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: $border-radius;
 }
 
 .spacer {
