@@ -564,7 +564,7 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 {{< /text >}}
 
 To observe other aspects of JWT validation, use the script [`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) to
-generate new tokens to test with different issuer, audiences, expiry date, etc. The script can be downloaded from Istio repository
+generate new tokens to test with different issuer, audiences, expiry date, etc. The script can be downloaded from the Istio repository:
 
 {{< text bash >}}
 $ wget https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
