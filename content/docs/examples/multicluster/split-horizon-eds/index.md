@@ -141,7 +141,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     This command sets the value to the gateway's public IP and displays it.
     {{< warning >}}
-    The command above only works, if the load balancer configuration provides an IP. Support for using DNS names is not yet implemented.
+    The command above only works if the load balancer configuration provides an IP. Support for using DNS names is not yet implemented.
     {{< /warning >}}
 
 1. Use Helm to create the Istio deployment YAML for `cluster2`:
