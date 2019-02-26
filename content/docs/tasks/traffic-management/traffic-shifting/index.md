@@ -28,6 +28,10 @@ complete the migration by sending 100% of traffic to `reviews:v3`.
 
 ## Apply weight-based routing
 
+{{< warning >}}
+If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+{{< /warning >}}
+
 1.  To get started, run this command to route all traffic to the `v1` version of
 each microservice.
 
