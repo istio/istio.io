@@ -46,14 +46,14 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     $ cd -
     {{< /text >}}
 
-    *   If you installed Istio without Helm and Tiller, use `helm template` to update your configuration with the option and
-        reapply with `kubectl`:
+    *   If you installed Istio without Helm and Tiller, use `helm template` to update your configuration with the option and reapply with `kubectl`:
 
     {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    $ kubectl create namespace istio-system
+    $ helm template  install/kubernetes/helm/istio-init --name istio-init --namespace istio-system  | kc apply -f -
     $ cd install/kubernetes/helm/istio
     $ helm template --set global.meshExpansion.enabled=true --namespace istio-system . > istio.yaml
-    $ kubectl create namespace istio-system && kubectl apply -f istio.yaml
+    $ kubectl apply -f istio.yaml
     $ cd -
     {{< /text >}}
 
