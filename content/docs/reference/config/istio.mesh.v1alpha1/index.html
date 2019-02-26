@@ -1,10 +1,10 @@
 ---
-WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE istio REPO
-source_repo: istio
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE https://github.com/istio/api REPO
+source_repo: https://github.com/istio/api
 title: Service Mesh
 description: Configuration affecting the service mesh as a whole.
 location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
-layout: partner-component
+layout: protoc-gen-docs
 generator: protoc-gen-docs
 number_of_entries: 19
 ---
@@ -77,7 +77,7 @@ Use fs:/// to specify a file-based backend with absolute path to the directory.<
 </tr>
 <tr id="ConfigSource-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/istio.networking.v1alpha3.html#TLSSettings">istio.networking.v1alpha3.TLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/v1alpha3/destination-rule.html#TLSSettings">istio.networking.v1alpha3.TLSSettings</a></code></td>
 <td>
 <p>Use the tls<em>settings to specify the tls mode to use. If the MCP server
 uses Istio MTLS and shares the root CA with Pilot, specify the TLS
@@ -95,7 +95,7 @@ distribution of traffic to endpoints based on the localities of where the
 traffic originates and where it will terminate. These localities are
 specified using arbitrary labels that designate a hierarchy of localities in
 &lbrace;region}/&lbrace;zone}/&lbrace;sub-zone} form. For additional detail refer to
-https://www.envoyproxy.io/docs/envoy/latest/intro/arch<em>overview/load</em>balancing/locality_weight
+<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/locality_weight">Locality Weight</a>
 The following example shows how to setup locality weights mesh-wide.</p>
 
 <p>Given a mesh with workloads and their service deployed to &ldquo;us-west/zone1/<em>&rdquo;
@@ -350,7 +350,7 @@ other services.</p>
 </tr>
 <tr id="MeshConfig-tcp_keepalive">
 <td><code>tcpKeepalive</code></td>
-<td><code><a href="/docs/reference/config/istio.networking.v1alpha3.html#ConnectionPoolSettings-TCPSettings-TcpKeepalive">istio.networking.v1alpha3.ConnectionPoolSettings.TCPSettings.TcpKeepalive</a></code></td>
+<td><code><a href="/docs/reference/config/networking/v1alpha3/destination-rule.html#ConnectionPoolSettings-TCPSettings-TcpKeepalive">istio.networking.v1alpha3.ConnectionPoolSettings.TCPSettings.TcpKeepalive</a></code></td>
 <td>
 <p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
 
@@ -477,7 +477,7 @@ can be configured for a single control plane.</p>
 <td><code>string</code></td>
 <td>
 <p>The trust domain corresponds to the trust root of a system.
-Refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain
+Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain">SPIFEE-ID</a>
 Fallback to old identity format(without trust domain) if not set.</p>
 
 </td>
@@ -895,6 +895,16 @@ DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
 <td><code>string</code></td>
 <td>
 <p>IP Address and Port of a statsd UDP listener (e.g. <em>10.75.241.127:9125</em>).</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-envoy_metrics_service_address">
+<td><code>envoyMetricsServiceAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Envoy Metrics Service implementation (e.g. metrics-service:15000).
+See https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto
+for details about Envoy&rsquo;s Metrics Service API.</p>
 
 </td>
 </tr>
