@@ -54,11 +54,11 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-    Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
+    Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
+    56
     {{< /text >}}
 
 1. Install the Helm chart to your cluster:
