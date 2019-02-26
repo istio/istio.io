@@ -33,7 +33,7 @@ icon: helm
 
 1. 在下面的两个**互斥方案**中选择一个完成部署。
 
-    - 要使用 Kubernetes 清单来部署 Istio，可以使用[方案 1](http://localhost:1313/zh/docs/setup/kubernetes/helm-install/#方案-1-使用-helm-template-进行安装) 中的步骤。
+    - 要使用 Kubernetes 清单来部署 Istio，可以使用[方案 1](#方案-1-使用-helm-template-进行安装) 中的步骤。
     - 也可以用 [Helm Tiller pod](https://helm.sh/) 来对 Istio 进行管理，[方案 2](#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装) 中描述了这种方式。
 
     {{< tip >}}
