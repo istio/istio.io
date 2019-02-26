@@ -107,7 +107,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 1. 将所有到 `reviews` service 的流量路由到它的 `v3` 版本，以确保 `reviews` service 总是调用 `ratings` service。此外，将所有到 `ratings` service
    的流量路由到使用外部数据库的 `ratings v2版本`。
 
-   通过添加两个 [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 来为以上两个 service 指定路由。这些 virtual service
+   通过添加两个 [virtual service](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 来为以上两个 service 指定路由。这些 virtual service
    在 Istio 发布包中有指定。
    ***重要：*** 请确保在运行以下命令之前[应用了默认的 destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)。
 

@@ -20,7 +20,7 @@ In my previous blog post, [Consuming External Web Services](/blog/2018/egress-ht
  over TCP. You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
   ratings data is persisted in a MySQL database. You deploy this database outside the cluster and configure the
   _ratings_ microservice to use it. You define a
- [Service Entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) to allow the in-mesh applications to
+ [Service Entry](/docs/reference/config/networking/v1alpha3/service-entry/) to allow the in-mesh applications to
  access the external database.
 
 ## Bookinfo sample application with external ratings database
@@ -203,7 +203,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2-mysql_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService). These virtual services are
+    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the

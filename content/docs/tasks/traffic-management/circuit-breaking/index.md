@@ -37,7 +37,7 @@ configuration by intentionally "tripping" the circuit breaker.
 
 ## Configuring the circuit breaker
 
-1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to apply circuit breaking settings
+1.  Create a [destination rule](/docs/reference/config/networking/v1alpha3/destination-rule/) to apply circuit breaking settings
 when calling the `httpbin` service:
 
     {{< warning >}}

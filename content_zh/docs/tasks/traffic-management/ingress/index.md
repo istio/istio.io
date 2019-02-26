@@ -166,7 +166,7 @@ Ingress [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway
 
     在这里，我们为服务创建了一个[虚拟服务](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice)配置 `httpbin` ，其中包含两条路由规则，允许路径 `/status` 和 路径的流量 `/delay`。
 
-    该[网关](/docs/reference/config/istio.networking.v1alpha3/#VirtualService-gateways)列表指定，只有通过我们的要求 `httpbin-gateway` 是允许的。所有其他外部请求将被拒绝，并返回 404 响应。
+    该[网关](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice)列表指定，只有通过我们的要求 `httpbin-gateway` 是允许的。所有其他外部请求将被拒绝，并返回 404 响应。
 
     请注意，在此配置中，来自网格中其他服务的内部请求不受这些规则约束，而是简单地默认为循环路由。要将这些（或其他规则）应用于内部调用，我们可以将特殊值 `mesh` 添加到 `gateways` 的列表中。
 
