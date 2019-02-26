@@ -78,11 +78,11 @@ icon: helm
 
     {{< /text >}}
 
-1. 用下面的命令，来确认 Istio 的 `58` 个 CRD 都已经成功的提交给 Kubernetes API Server：
+1. 用下面的命令，来确认 Istio 的 `56` 个 CRD 都已经成功的提交给 Kubernetes API Server：
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
+    56
     {{< /text >}}
 
 1. 渲染和提交 Istio 的核心组件：
@@ -141,11 +141,11 @@ icon: helm
 
     {{< /text >}}
 
-1. 用下面的命令，来确认 Istio 的 `58` 个 CRD 都已经成功的提交给 Kubernetes API Server：
+1. 用下面的命令，来确认 Istio 的 `56` 个 CRD 都已经成功的提交给 Kubernetes API Server：
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
+    56
     {{< /text >}}
 
 1. 安装 `istio` Chart：
