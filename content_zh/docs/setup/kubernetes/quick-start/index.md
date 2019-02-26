@@ -68,11 +68,11 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ### 选项 3：使用 Helm 渲染 Kubernetes 清单文件并使用 `kubectl` 进行部署
 
-根据相关章节：[通过 Helm 的 `helm template` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-的-helm-template-安装-istio)，并跟随其中内容完成安装。
+根据相关章节：[通过 Helm 的 `helm template` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#方案-1-使用-helm-template-进行安装)，并跟随其中内容完成安装。
 
 ### 选项 4：使用 Helm 和 Tiller 来管理 Istio 部署
 
-阅读相关章节：[通过 Helm 和 Tiller 的 `helm install` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-和-tiller-的-helm-install-安装-istio)，并跟随其中内容完成安装。
+阅读相关章节：[通过 Helm 和 Tiller 的 `helm install` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装)，并跟随其中内容完成安装。
 
 ## 确认部署结果
 
@@ -152,7 +152,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
     $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* 如果是使用 Helm 安装的 Istio，可以依照[文档中的卸载](/zh/docs/setup/kubernetes/helm-install/#卸载)步骤完成删除。
+* 如果是使用 Helm 安装的 Istio，可以依照[使用 Helm 进行安装](/zh/docs/setup/kubernetes/helm-install/)一文中介绍的步骤完成删除。
 
 * 另外如有有需要，也可以删除 CRD：
 
