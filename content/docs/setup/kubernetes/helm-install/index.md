@@ -159,11 +159,11 @@ to manage the lifecycle of Istio.
 
     {{< /text >}}
 
-1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
+    56
     {{< /text >}}
 
 1. Install the `istio` chart:
