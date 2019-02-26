@@ -34,7 +34,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
 cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion=true` at
+1.  Ensure that mesh expansion is enabled for the cluster. If you did not specify `--set global.meshExpansion.enabled=true` at
     install time with Helm, there are two options for enabling mesh expansion, depending on how you originally installed
     Istio on the cluster:
 
