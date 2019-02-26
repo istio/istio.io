@@ -83,11 +83,11 @@ In the following example output you can see that:
 
 * Mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port 8000.
 * Istio uses the mesh-wide `default` authentication policy.
-* Istio has the `default` destination rule in the `default` namespace.
+* Istio has the `default` destination rule in the `istio-system` namespace.
 
 {{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/default
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/istio-system
 {{< /text >}}
 
 The output shows:
@@ -110,6 +110,7 @@ apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "bad-rule"
+  namespace: "default"
 spec:
   host: "httpbin.default.svc.cluster.local"
   trafficPolicy:
