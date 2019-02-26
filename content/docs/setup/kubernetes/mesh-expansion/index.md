@@ -132,7 +132,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< text bash >}}
     $ gcloud compute ssh "${GCE_NAME}"
-    $ curl -L https://storage.googleapis.com/istio-release/releases/1.1.0-snapshot.6/deb/istio-sidecar.deb > istio-sidecar.deb
+    $ curl -L https://storage.googleapis.com/istio-release/releases/1.1.0-rc.0/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
@@ -218,7 +218,7 @@ The `server: envoy` header indicates the traffic indeed is intercepted by sideca
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-1. Determine the GCE instance IP address.
+1. Determine the VM instance IP address. For example, commands to find GCE instance IP are as below.
 
     {{< text bash >}}
     $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe  ${GCE_NAME})
@@ -252,11 +252,11 @@ particular service, as in the following example.
             http: 8080
         labels:
             app: vmhttp
-            label: "v1"
+            version: "v1"
     EOF
     {{< /text >}}
 
-1. Workloads in Kubernetes cluster need a DNS mapping to resolve the service running on the VM.
+1. Workloads in a Kubernetes cluster need a DNS mapping to resolve the service running on the VM.
 You can integrate with your own DNS system. For illustration purpose, we use `istioctl register`
 which creates a Kubernetes `selector-less` service.
 
@@ -264,7 +264,7 @@ which creates a Kubernetes `selector-less` service.
     $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP} 8080
     {{< /text >}}
 
-1. We deploy a sleep pod in Kubernetes cluster, and wait for the pod to be ready.
+1. We deploy a sleep pod in the Kubernetes cluster, and wait for the pod to be ready.
 
     {{< text bash >}}
     $ kubectl apply -f samples/sleep/sleep.yaml
@@ -275,7 +275,7 @@ which creates a Kubernetes `selector-less` service.
     ...
     {{< /text >}}
 
-1. Send a request from sleep container to VM HTTP service.
+1. Send a request from the sleep container to the VM HTTP service.
 
     {{< text bash >}}
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8080
@@ -292,7 +292,7 @@ which creates a Kubernetes `selector-less` service.
 
 ## Cleanup
 
-After completing the setup, you can clean up the mesh expansion.
+Run the following commands to remove the expansion VM from the mesh.
 
 {{< text bash >}}
 $ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP}
