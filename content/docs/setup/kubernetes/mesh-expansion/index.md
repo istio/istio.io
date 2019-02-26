@@ -115,7 +115,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
           -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
     {{< /text >}}
 
-### Setting up VM machines
+### Setting up the VM
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
@@ -125,7 +125,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< text bash >}}
     $ export GCE_NAME="your-gce-instance"
-    $ gcloud compute scp {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
+    $ gcloud compute scp --project=${MY_PROJECT} --zone={MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
     {{< /text >}}
 
 1.  Install the Debian package with the Envoy sidecar.
