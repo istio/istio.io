@@ -567,14 +567,14 @@ To observe other aspects of JWT validation, use the script [`gen-jwt.py`]({{< gi
 generate new tokens to test with different issuer, audiences, expiry date, etc. The script can be downloaded from the Istio repository:
 
 {{< text bash >}}
-$ wget https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
+$ wget {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
 $ chmod +x gen-jwt.py
 {{< /text >}}
 
 You also need the `key.pem` file:
 
 {{< text bash >}}
-$ wget https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
+$ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
 {{< /text >}}
 
 For example, the command below creates a token that
