@@ -304,6 +304,7 @@ natively
 netmask
 networking.istio.io
 nginx
+NodePort
 nodePorts
 non-sandboxed
 ns
@@ -322,6 +323,7 @@ openssl
 OpenTracing
 OS-level
 Ostrowski
+overridable
 p50
 p99
 PaaS

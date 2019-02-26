@@ -59,3 +59,70 @@ cluster must satisfy the following requirements:
   pods must allow the `NET_ADMIN` capability. If you use the [Istio CNI Plugin](/docs/setup/kubernetes/additional-setup/cni/),
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, visit [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
+
+* _**Check required ports**_:
+
+    | Component | Port | NodePort | Description |
+    |----|----|----|----|
+    | Citadel | 8060 |   | The port number for Citadel GRPC server |
+    | | | | |
+    | Core DNS | 53 |   | DNS - TCP/UDP Protocols |
+    | Core DNS | 8053 |   | DNS plugin |
+    | Core DNS | 9153 |   | DNS |
+    | | | | |
+    | Egress gateway | 80 |   |   |
+    | Egress gateway | 443 |   |   |
+    | Egress gateway | 15090 |   | Proxy |
+    | Egress gateway | 15443 |   | This is the port where SNI routing happens |
+    | | | | |
+    | Galley | 443 |   | Validation port |
+    | Galley | 9091 |   | Mesh control Plane - Running mixer |
+    | Galley | 9094 |   | Port to use for exposing profiling (no longer used?) |
+    | Galley | 15014* |   | Monitoring |
+    | | | | |
+    | Grafana | 3000 |   | Grafana |
+    | Grafana | 15031 |   | Grafana |
+    | | | | |
+    | Envoy | 15000 |   | Envoy admin port (commands/diagnostics) |
+    | | | | |
+    | Ingress gateway | 80 | 31380 |   |
+    | Ingress gateway | 443 | 31390 |   |
+    | Ingress gateway | 15029 |   | Kiali |
+    | Ingress gateway | 15030 |   | Prometheus |
+    | Ingress gateway | 15031 |   | Grafana |
+    | Ingress gateway | 15032 |   | Tracing |
+    | Ingress gateway | 15090 |   | Proxy |
+    | Ingress gateway | 15443 |   | This is the port where SNI routing happens |
+    | Ingress gateway | 31400 | 31400 | Sample port|
+    | | | | |
+    | Mixer | 9091 |   | Policy/Telemetry |
+    | Mixer | 15004 |   | Policy/Telemetry - `mTLS`|
+    | Mixer | 15014* |   | Policy/Telemetry monitoring port |
+    | Mixer | 15090 |   | Proxy |
+    | Mixer | 42422 |   | Telemetry - Prometheus |
+    | | | | |
+    | Pilot | 8080 |   | Pilot service - Discovery - legacy |
+    | Pilot | 15003 |   | Pilot service - Proxy - http - Discovery - old |
+    | Pilot | 15004 |   | Pilot service - Mixer |
+    | Pilot | 15005 |   | Pilot service - Proxy - https - Discovery |
+    | Pilot | 15007 |   | Pilot service - Proxy - http - Discovery |
+    | Pilot | 15010 |   | Pilot service - XDS pilot - discovery |
+    | Pilot | 15011 |   | Pilot service - `mTLS` - Proxy - discovery |
+    | Pilot | 15012 |   | Pilot service - `mTLS` - Proxy - Discovery service grpc address, with https discovery (still used?) |
+    | Pilot | 15014* |   | Pilot service - Monitoring |
+    | | | | |
+    | Prometheus | 9090 |   | Prometheus |
+    | | | | |
+    | Service Graph | 8088 |   | Service Graph |
+    | | | | |
+    | Sidecar injector | 443 |   | Sidecar injector |
+    | | | | |
+    | Tracing | 80 |   | Tracing - Jaeger |
+    | Tracing | 9411 |   | Tracing - Other |
+    | Tracing | 15032 |   | Tracing - Jaeger |
+    | Tracing | 16686 |   | Tracing - Jaeger |
+    | | | | |
+    | Zipkin | 9411 |   | Zipkin collector |
+
+Any port numbers marked with * are overridable, so you will need to ensure any
+custom ports you provide are also open.
