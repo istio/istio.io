@@ -94,16 +94,15 @@ Follow our instructions on how to
 [use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 ## Verifying the installation
+{{< tip >}}
+Note that istio-egressgateway is not present by default if you have used Helm to install.
+{{< /tip>}}
 
 1.  To ensure the following Kubernetes services are deployed: `istio-citadel`,
     `istio-egressgateway`, `istio-galley`, `istio-ingress`, `istio-ingressgateway`,
     `istio-pilot`, `istio-policy`, `istio-statsd-prom-bridge`, `istio-telemetry`,
     `prometheus`, and optionally, `istio-sidecar-injector`, verify they all have
     an appropriate `CLUSTER-IP`:
-
-    {{< tip >}}
-    Note that istio-egress gateway is not present by default if you have used Helm to install.
-    {{< /tip>}}
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
