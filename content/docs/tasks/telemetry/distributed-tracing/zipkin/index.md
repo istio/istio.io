@@ -16,8 +16,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
     Use the Helm chart with tracing enabled to set the `--set tracing.enabled=true` option and
     select the `zipkin` tracing provider with `--set tracing.provider=zipkin`.
 
-    When you enable tracing, you may also want to set the sampling rate that Istio will use for tracing.
-    This can be accomplished via the `pilot.traceSampling` option. By default, the sampling rate is set to 1%.
+    {{< boilerplate trace-sampling-warn >}}
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
@@ -38,14 +37,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage` one or more times
     to generate trace information.
 
-    The number of requests you need to send in order to see trace data depends on the sampling rate set at install.
-    By default, the sampling rate is set to 1%, meaning that you need to send at least 100 requests.
-
-    To send multiple requests, use a command like:
-
-    {{< text bash >}}
-    $ for i in `seq 1 100`; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
-    {{< /text >}}
+    {{< boilerplate trace-generation >}}
 
 1.  From the top panel, select a service of interest (or 'all') from the **Service Name** drop-down list and click
     **Find Traces**:
