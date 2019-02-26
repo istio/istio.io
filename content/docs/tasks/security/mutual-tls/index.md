@@ -72,7 +72,7 @@ Please check [Istio identity](/docs/concepts/security/#istio-identity) for more 
 Use the `istioctl` tool to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
 You can also provide the destination service to filter the status to that service only.
 
-To identify the authentication policy for the `httpbin.default.svc.cluster.local` service and its destination rules as seen from the some a pod of the `sleep` app, use the following command:
+To identify the authentication policy for the `httpbin.default.svc.cluster.local` service and its destination rules as seen from the some a pod of the `sleep` app, use the following commands:
 
 {{< text bash >}}
 $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
