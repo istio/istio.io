@@ -81,7 +81,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.secretVolumes.mountPath` | `/etc/istio/ingressgateway-ca-certs` |  |
 | `gateways.istio-ingressgateway.env.ISTIO_META_ROUTER_MODE` | `"sni-dnat"` |  |
 | `gateways.istio-ingressgateway.nodeSelector` | `{}` |  |
-| `gateways.istio-egressgateway.enabled` | `true` |  |
+| `gateways.istio-egressgateway.enabled` | `false` |  |
 | `gateways.istio-egressgateway.labels.app` | `istio-egressgateway` |  |
 | `gateways.istio-egressgateway.labels.istio` | `egressgateway` |  |
 | `gateways.istio-egressgateway.replicaCount` | `1` |  |

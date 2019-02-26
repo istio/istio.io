@@ -102,9 +102,9 @@ Follow our instructions on how to
     an appropriate `CLUSTER-IP`:
 
     {{< tip >}}
-    Note that istio-egress gateway is not present by default if you have used Helm to install. If you wish to enable it, set enabled to true in values.yaml under istio-egressgateway.
-    {{< /tip> }}
-    
+    Note that istio-egress gateway is not present by default if you have used Helm to install.
+    {{< /tip>}}
+
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     {{< /text >}}
