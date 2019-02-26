@@ -96,11 +96,15 @@ Follow our instructions on how to
 ## Verifying the installation
 
 1.  To ensure the following Kubernetes services are deployed: `istio-citadel`,
-    `istio-engressgateway`, `istio-galley`, `istio-ingress`, `istio-ingressgateway`,
+    `istio-egressgateway`, `istio-galley`, `istio-ingress`, `istio-ingressgateway`,
     `istio-pilot`, `istio-policy`, `istio-statsd-prom-bridge`, `istio-telemetry`,
     `prometheus`, and optionally, `istio-sidecar-injector`, verify they all have
     an appropriate `CLUSTER-IP`:
 
+    {{< tip >}}
+    Note that istio-egress gateway is not present by default if you have used Helm to install. If you wish to enable it, set enabled to true in values.yaml under istio-egressgateway.
+    {{< /tip> }}
+    
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     {{< /text >}}
