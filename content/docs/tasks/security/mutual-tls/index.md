@@ -69,7 +69,7 @@ Please check [Istio identity](/docs/concepts/security/#istio-identity) for more 
 
 ## Verify mutual TLS configuration
 
-You can use the `istioctl` tool to check the effective mutual TLS settings. The command requires the client pod as the destination rule depends on the client namespace.
+Use the `istioctl` tool to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
 You can also provide the destination service to filter the status to that service only.
 
 To identify the authentication policy for the `httpbin.default.svc.cluster.local` service and its destination rules as seen from the some a pod of the `sleep` app, use the following command:
