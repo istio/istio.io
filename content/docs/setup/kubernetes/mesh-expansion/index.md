@@ -53,7 +53,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     $ cd install/kubernetes/helm/istio
     $ helm template --set global.meshExpansion.enabled=true --namespace istio-system . > istio.yaml
-    $ kubectl apply -f istio.yaml
+    $ kubectl create namespace istio-system && kubectl apply -f istio.yaml
     $ cd -
     {{< /text >}}
 
