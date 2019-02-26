@@ -51,7 +51,7 @@ keywords: [traffic-management]
 
 ### `Gateway`
 
-[`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/) 用于为 HTTP / TCP 流量配置负载均衡器，并不管该负载均衡器将在哪里运行。 网格中可以存在任意数量的 Gateway，并且多个不同的 Gateway 实现可以共存。 实际上，通过在配置中指定一组工作负载（Pod）标签，可以将 Gateway 配置绑定到特定的工作负载，从而允许用户通过编写简单的 Gateway Controller 来重用现成的网络设备。
+[`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#Gateway) 用于为 HTTP / TCP 流量配置负载均衡器，并不管该负载均衡器将在哪里运行。 网格中可以存在任意数量的 Gateway，并且多个不同的 Gateway 实现可以共存。 实际上，通过在配置中指定一组工作负载（Pod）标签，可以将 Gateway 配置绑定到特定的工作负载，从而允许用户通过编写简单的 Gateway Controller 来重用现成的网络设备。
 
 对于入口流量管理，您可能会问： _为什么不直接使用 Kubernetes Ingress API_ ？ 原因是 Ingress API 无法表达 Istio 的路由需求。 Ingress 试图在不同的 HTTP 代理之间取一个公共的交集，因此只能支持最基本的 HTTP 路由，最终导致需要将代理的其他高级功能放入到注解（annotation）中，而注解的方式在多个代理之间是不兼容的，无法移植。
 
@@ -104,7 +104,7 @@ spec:
 
 用一种叫做 "Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。
 
-实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [`VirtualService`](/zh/docs/reference/config/networking/v1alpha3/virtual-service/) 资源中。
+实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 [`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 资源中。
 
 例如，之前在 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序的 `reviews` 服务中有两个 `RouteRule` 资源，如下所示：
 
@@ -209,7 +209,7 @@ spec:
 
 ### `DestinationRule`
 
-[`DestinationRule`](/zh/docs/reference/config/networking/v1alpha3/destination-rule/) 配置将流量转发到服务时应用的策略集。 这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
+[`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#destinationrule) 配置将流量转发到服务时应用的策略集。 这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
 除了下述改变外，`DestinationRule` 与其前身 `DestinationPolicy` 大致相同。
 
 1. `DestinationRule` 的 `host` 可以包含通配符前缀，以允许单个规则应用于多个服务。
@@ -245,7 +245,7 @@ spec:
 
 ### `ServiceEntry`
 
-[`ServiceEntry`](/zh/docs/reference/config/networking/v1alpha3/service-entry/) 用于将附加条目添加到 Istio 内部维护的服务注册表中。
+[`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry) 用于将附加条目添加到 Istio 内部维护的服务注册表中。
 它最常用于对访问网格外部依赖的流量进行建模，例如访问 Web 上的 API 或遗留基础设施中的服务。
 
 所有以前使用 `EgressRule` 进行配置的内容都可以通过 `ServiceEntry` 轻松完成。 例如，可以使用类似这样的配置来允许从网格内部访问一个简单的外部服务：

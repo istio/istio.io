@@ -5,7 +5,7 @@ weight: 30
 keywords: [traffic-management,ingress]
 ---
 
-在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在集群外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio `Gateway`](/zh/docs/reference/config/networking/v1alpha3/gateway/) 。 `Gateway` 允许将 Istio 功能（例如，监控和路由规则）应用于进入集群的流量。
+在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 用于指定应在集群外部公开的服务。在 Istio 服务网格中，更好的方法（也适用于 Kubernetes 和其他环境）是使用不同的配置模型，即 [Istio `Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway) 。 `Gateway` 允许将 Istio 功能（例如，监控和路由规则）应用于进入集群的流量。
 
 此任务描述如何配置 Istio 以使用 Istio 在服务网格外部公开服务 `Gateway`。
 
@@ -112,7 +112,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 ## 使用 Istio 网关配置 Ingress
 
-Ingress [`Gateway`](/zh/docs/reference/config/networking/v1alpha3/gateway/) 描述了在网格边缘操作的负载平衡器，用于接收传入的 HTTP/TCP 连接。它配置暴露的端口、协议等，但与 [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) 不同，它不包括任何流量路由配置。流入流量的流量路由使用 Istio 路由规则进行配置，与内部服务请求完全相同。
+Ingress [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway) 描述了在网格边缘操作的负载平衡器，用于接收传入的 HTTP/TCP 连接。它配置暴露的端口、协议等，但与 [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/) 不同，它不包括任何流量路由配置。流入流量的流量路由使用 Istio 路由规则进行配置，与内部服务请求完全相同。
 
 让我们看看如何为 `Gateway` 在 HTTP 80 端口上配置流量。
 
@@ -164,9 +164,9 @@ Ingress [`Gateway`](/zh/docs/reference/config/networking/v1alpha3/gateway/) 描�
     EOF
     {{< /text >}}
 
-    在这里，我们为服务创建了一个[虚拟服务](/zh/docs/reference/config/networking/v1alpha3/virtual-service/)配置 `httpbin` ，其中包含两条路由规则，允许路径 `/status` 和 路径的流量 `/delay`。
+    在这里，我们为服务创建了一个[虚拟服务](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice)配置 `httpbin` ，其中包含两条路由规则，允许路径 `/status` 和 路径的流量 `/delay`。
 
-    该[网关](/docs/reference/config/networking/v1alpha3/virtual-service/#VirtualService-gateways)列表指定，只有通过我们的要求 `httpbin-gateway` 是允许的。所有其他外部请求将被拒绝，并返回 404 响应。
+    该[网关](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService-gateways)列表指定，只有通过我们的要求 `httpbin-gateway` 是允许的。所有其他外部请求将被拒绝，并返回 404 响应。
 
     请注意，在此配置中，来自网格中其他服务的内部请求不受这些规则约束，而是简单地默认为循环路由。要将这些（或其他规则）应用于内部调用，我们可以将特殊值 `mesh` 添加到 `gateways` 的列表中。
 
