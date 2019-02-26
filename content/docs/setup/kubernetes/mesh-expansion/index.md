@@ -24,6 +24,10 @@ server, or configuring the IPs in any other DNS server accessible from the VM.
 * If you haven't already enabled mesh expansion [at install time with Helm](/docs/setup/kubernetes/helm-install/), you have
 installed the [Helm client](https://docs.helm.sh/using_helm/). You'll need it to enable mesh expansion for the cluster.
 
+{{< tip >}}
+The following instructions assume that the expansion VM is running on GCE and use Google platform-specific command for some of the steps.
+{{< /tip >}}
+
 ## Installation steps
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
