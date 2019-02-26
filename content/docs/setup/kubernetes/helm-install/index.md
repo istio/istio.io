@@ -43,15 +43,13 @@ the appropriate snapshot.  For example, if you want to run with snapshot 6, use 
 1.  Update Helm's local package cache with the location of the Helm daily release:
 
     {{< text bash >}}
-
     $ helm repo add istio.io "https://gcsweb.istio.io/gcs/istio-prerelease/daily-build/release-1.1-latest-daily/charts/"
-
     {{< /text >}}
 
 1. Choose one of the following two **mutually exclusive** options described below.
 
-    - To use Kubernetes manifests to deploy Istio, follow the instructions for [option 1](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
-    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
+    * To use Kubernetes manifests to deploy Istio, follow the instructions for [option 1](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+    * To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
     {{< tip >}}
     To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
@@ -64,34 +62,26 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 1. Make an Istio working directory for fetching the charts:
 
     {{< text bash >}}
-
     $ mkdir -p $HOME/istio-fetch
-
     {{< /text >}}
 
 1. Fetch the helm templates needed for installation:
 
     {{< text bash >}}
-
     $ helm fetch istio.io/istio-init --untar --untardir $HOME/istio-fetch
     $ helm fetch istio.io/istio --untar --untardir $HOME/istio-fetch
-
     {{< /text >}}
 
 1. Create a namespace for the `istio-system` components:
 
     {{< text bash >}}
-
     $ kubectl create namespace istio-system
-
     {{< /text >}}
 
 1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
 
     {{< text bash >}}
-
     $ helm template $HOME/istio-fetch/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-
     {{< /text >}}
 
 1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
@@ -103,30 +93,16 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 
 1. Render and apply Istio's core components:
 
-    {{< text bash >}}
+    * For a production environment use the recommended Helm values or customize as needed:
 
+    {{< text bash >}}
     $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl apply -f -
-
     {{< /text >}}
 
-1. Uninstall steps:
+    *  To try the `bookinfo` demo, use Helm values customized for the `bookinfo` application:
 
     {{< text bash >}}
-
-    $ kubectl delete namespace istio-system
-
-    {{< /text >}}
-
-1. If desired, run the following command to delete all CRDs:
-
-    {{< warning >}}
-    Deleting CRDs permanently deletes any configuration changes that you have made to Istio.
-    {{< /warning >}}
-
-    {{< text bash >}}
-
-    $ kubectl delete -f $HOME/istio-fetch/istio-init/files
-
+    $ helm template $HOME/istio-fetch/istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -138,25 +114,19 @@ to manage the lifecycle of Istio.
 1. If a service account has not already been installed for Tiller, install one:
 
     {{< text bash >}}
-
     $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
-
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:
 
     {{< text bash >}}
-
     $ helm init --service-account tiller
-
     {{< /text >}}
 
 1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
 
     {{< text bash >}}
-
     $ helm install istio.io/istio-init --name istio-init --namespace istio-system
-
     {{< /text >}}
 
 1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
@@ -168,19 +138,31 @@ to manage the lifecycle of Istio.
 
 1. Install the `istio` chart:
 
+    * For a production environment use the recommended Helm values or customize as needed:
+
     {{< text bash >}}
-
     $ helm install istio --name istio --namespace istio-system
-
     {{< /text >}}
 
-1. Uninstall steps:
+    * To try the `bookinfo` demo, use Helm values customized for the `bookinfo` application:
 
     {{< text bash >}}
+    $ helm install istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system
+    {{< /text >}}
 
+## Uninstall
+
+* If you installed using Option 1 with `helm template`, uninstall with this command:
+
+    {{< text bash >}}
+    $ kubectl delete namespace istio-system
+    {{< /text >}}
+
+* If you installed using Option 2 and `Tiller`, uninstall with these commands:
+
+    {{< text bash >}}
     $ helm delete --purge istio
     $ helm delete --purge istio-init
-
     {{< /text >}}
 
 ## Deleting CRDs and Istio Configuration
