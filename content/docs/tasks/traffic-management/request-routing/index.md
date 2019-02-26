@@ -36,9 +36,9 @@ will apply a rule to route traffic based on the value of an HTTP request header.
 To route to one version only, you apply virtual services that set the default version for the microservices.
 In this case, the virtual services will route all traffic to `v1` of each microservice.
 
-{{< tip >}}
+{{< warning >}}
 If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
-{{< /tip >}}
+{{< /warning >}}
 
 1.  Run the following command to apply the virtual services:
 
