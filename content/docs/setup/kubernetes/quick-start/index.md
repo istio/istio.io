@@ -95,7 +95,7 @@ Follow our instructions on how to
 
 ## Verifying the installation
 {{< tip >}}
-Note that istio-egressgateway is not present by default if you have used Helm to install.
+Note that istio-egressgateway is not present by default if you used Helm to install.
 {{< /tip>}}
 
 1.  To ensure the following Kubernetes services are deployed: `istio-citadel`,
