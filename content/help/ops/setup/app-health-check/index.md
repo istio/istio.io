@@ -4,6 +4,7 @@ description: Shows how to do health checking for Istio services.
 weight: 65
 aliases:
   - /docs/tasks/traffic-management/app-health-check/
+  - /help/ops/security/health-checks-and-mtls/
 keywords: [security,health-check]
 ---
 
