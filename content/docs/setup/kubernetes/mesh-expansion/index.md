@@ -121,7 +121,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
 <!-- TODO: find a better way to reference release in the URL instead of manually sync... -->
 
-1.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM. For example
+1.  Copy the `cluster.env` and `*.pem` files that you created in the previous section to the VM. For example:
 
     {{< text bash >}}
     $ export GCE_NAME="your-gce-instance"
