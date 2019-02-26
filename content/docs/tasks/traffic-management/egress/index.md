@@ -13,7 +13,7 @@ which only handles intra-cluster destinations.
 This task describes how to configure Istio to expose external services to Istio-enabled clients
 in three different ways:
 
-1. Configure a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
+1. Configure a [service entry](/docs/reference/config/networking/v1alpha3/service-entry/).
 1. Bypass the Envoy proxy for a specific range of IPs.
 1. Configure the Envoy proxy to pass requests through to external services on ports that are not configured inside the mesh.
 

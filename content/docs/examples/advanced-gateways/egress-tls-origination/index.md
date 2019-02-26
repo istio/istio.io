@@ -8,7 +8,7 @@ weight: 20
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, i.e., outside of the
 service mesh, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that task,
 by default Istio-enabled applications are unable to access URLs outside of the cluster. To enable external access,
-a [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be
+a [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) for the external service must be
 defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)
 must be configured.
 

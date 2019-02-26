@@ -121,7 +121,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService). These virtual services are
+    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
