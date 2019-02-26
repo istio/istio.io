@@ -118,6 +118,7 @@ handle_components() {
     done
 
     popd
+    rm -fr istio
 }
 
 # delete all the existing generated files so that any stale files are removed
