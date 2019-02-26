@@ -81,12 +81,12 @@
         <!-- End Google Analytics -->
 
         <script>
-            var branchName = "{{ .Site.Data.args.source_branch_name }}";
-            var docTitle = "{{ .Title }}";
-            var iconFile = "{{ .Site.BaseURL}}/img/icons.svg";
-            var buttonCopy = '{{ i18n "button_copy" }}';
-            var buttonPrint = '{{ i18n "button_print" }}';
-            var buttonDownload = '{{ i18n "button_download" }}';
+            const branchName = "{{ .Site.Data.args.source_branch_name }}";
+            const docTitle = "{{ .Title }}";
+            const iconFile = "{{ .Site.BaseURL}}/img/icons.svg";
+            const buttonCopy = '{{ i18n "button_copy" }}';
+            const buttonPrint = '{{ i18n "button_print" }}';
+            const buttonDownload = '{{ i18n "button_download" }}';
         </script>
 
         <!-- RSS -->
@@ -111,39 +111,57 @@
 
         <!-- style sheets -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,300,700,300italic,400italic,500italic,700italic|Chivo:400,500,300,700,300italic,400italic,500italic,700italic">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-        {{ if .Site.Data.args.archive }}
-            <link rel="stylesheet" href="/css/light_theme_archive.css" title="Light Theme">
-            <link rel="alternate stylesheet" href="/css/dark_theme_archive.css" title="Dark Theme">
-        {{ else if .Site.Data.args.preliminary }}
-            <link rel="stylesheet" href="/css/light_theme_preliminary.css" title="Light Theme">
-            <link rel="alternate stylesheet" href="/css/dark_theme_preliminary.css" title="Dark Theme">
-        {{ else }}
-            <link rel="stylesheet" href="/css/light_theme_normal.css" title="Light Theme">
-            <link rel="alternate stylesheet" href="/css/dark_theme_normal.css" title="Dark Theme">
-        {{ end }}
-
-        <script src="/js/styleSwitcher.min.js"></script>
+        <link rel="stylesheet" href="/css/all.css">
     </head>
 
-    <body class="language-unknown">
+    {{ $site_mode := ""}}
+    {{ if .Site.Data.args.archive }}
+        {{ $site_mode = "archive-site" }}
+    {{ else if .Site.Data.args.preliminary }}
+        {{ $site_mode = "preliminary-site" }}
+    {{ end }}
+
+    <body class="language-unknown {{ $site_mode}}">
+        <script src="/js/styleSwitcher.min.js"></script>
+
         {{ partial "header.html" . }}
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
 
         <div id="scroll-to-top-container">
-            <button id="scroll-to-top" aria-hidden="true" onclick="scrollToTop()" title='{{ i18n "button_top"}}'>
+            <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>
                 {{ partial "icon.html" "top" }}
             </button>
         </div>
 
+        {{ if .Site.Data.args.preliminary }}
+            {{ if .Page.Params.source_repo }}
+                <div id="edit-this-page-container">
+                    {{ $msg := i18n "generated_file" }}
+                    {{ $title := printf $msg .Page.Params.source_repo }}
+
+                    <a id="edit-this-page" class="disabled not-for-endnotes" aria-hidden="true" title='{{ $title }}'>
+                        {{ partial "icon.html" "pencil" }}
+                    </a>
+                </div>
+            {{ else }}
+                <div id="edit-this-page-container">
+                    <a id="edit-this-page" class="not-for-endnotes" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}" aria-hidden="true" title='{{ i18n "edit_on_github"}}'>
+                        {{ partial "icon.html" "pencil" }}
+                    </a>
+                </div>
+            {{ end }}
+
+            <div id="report-site-bugs-container">
+                <a id="report-site-bugs" class="not-for-endnotes" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
+                    {{ partial "icon.html" "bugs" }}
+                </a>
+            </div>
+        {{ end }}
+
         <!-- libraries we pull in -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script src="https://www.google.com/cse/brand?form=search_form"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://www.google.com/cse/brand?form=search-form"></script>
 
         <!-- our own scripts -->
         <script src="/js/all.min.js" data-manual></script>

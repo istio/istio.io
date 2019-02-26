@@ -36,8 +36,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
   --set galley.enabled=false \
   --set sidecarInjectorWebhook.enabled=false \
   --set mixer.enabled=false \
-  --set prometheus.enabled=false \
-  --set global.proxy.envoyStatsd.enabled=false
+  --set prometheus.enabled=false
 {{< /text >}}
 
 在 Kubernetes 中确认 `istio-pilot-*` 以及 `istio-citadel-*` Pod 被正确部署，其中的容器正在运行：

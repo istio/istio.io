@@ -129,6 +129,7 @@ The available front matter fields are:
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
+|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated content
 
 There are a few more front matter fields available specifically for blog posts:
 
@@ -167,7 +168,7 @@ value is calculated automatically for any local image content, but must be calcu
 manually when referencing external image content.
 In that case, `ratio` should be set to (image height / image width) * 100.
 
-## Adding icons & emojis
+## Adding icons
 
 You can embed some common icons in your content using:
 
@@ -180,9 +181,6 @@ You can embed some common icons in your content using:
 {{< /text >}}
 
 which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
-
-In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
-which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
 
 ## Linking to other pages
 
@@ -477,12 +475,12 @@ Mixer uses {{<gloss>}}adapters{{</gloss>}} to interface to backends.
 If the term displayed on the page doesn't exactly match the entry in the glossary, you can specify a substitution:
 
 {{< text markdown >}}
-Mixer use an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
+Mixer uses an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
 {{< /text >}}
 
 which looks like:
 
-Mixer use an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
+Mixer uses an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
 
 So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
 

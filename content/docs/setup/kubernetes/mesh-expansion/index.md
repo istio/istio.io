@@ -226,7 +226,7 @@ The `server: envoy` header indicates the traffic indeed is intercepted by sideca
     {{< /text >}}
 
 1. Configure Service Discovery for VM by `ServiceEntry`. You add VM services to the mesh by configuring a
-[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A `ServiceEntry` lets you manually add
+[`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/). A `ServiceEntry` lets you manually add
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
 particular service, as in the following example.

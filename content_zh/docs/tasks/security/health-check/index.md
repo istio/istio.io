@@ -25,7 +25,9 @@ Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状
 
     用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 进行部署，设置 `global.mtls.enabled` 为 `true`。
 
-> Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)为命名空间内的部分或者全部服务配置双向 TLS 支持（在所有命名空间重复一遍就算是全局配置了）。请参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+{{< tip >}}
+Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)为命名空间内的部分或者全部服务配置双向 TLS 支持（在所有命名空间重复一遍就算是全局配置了）。请参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+{{< /tip >}}
 
 ## 部署启用健康检查的 Citadel
 

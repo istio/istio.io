@@ -1,7 +1,7 @@
 .callout {
     display: table;
     padding: .5em .5em .5em 0;
-    border-radius: 4px;
+    border-radius: $border-radius;
 
     margin: 1em 0 1em 1em;
     @media (min-width: $bp-md) {

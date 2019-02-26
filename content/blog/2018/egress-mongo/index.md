@@ -121,7 +121,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService). These virtual services are
+    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
@@ -164,7 +164,7 @@ stable or known in advance.
 
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be
 [controlled as TLS traffic](#egress-control-for-tls), or the traffic can be routed
-[directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
+[directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services), bypassing the Istio sidecar
 proxies.
 
 Get the IP address of your MongoDB database instance. As an option, you can use the

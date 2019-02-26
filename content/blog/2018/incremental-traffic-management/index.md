@@ -67,7 +67,6 @@ $ helm template install/kubernetes/helm/istio \
   --set sidecarInjectorWebhook.enabled=false \
   --set mixer.enabled=false \
   --set prometheus.enabled=false \
-  --set global.proxy.envoyStatsd.enabled=false \
   --set pilot.sidecar=false > istio-minimal.yaml
 {{< /text >}}
 

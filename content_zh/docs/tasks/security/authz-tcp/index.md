@@ -105,7 +105,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
 
 这是因为 Istio 授权是`默认拒绝`的，也就是说必须显式的进行合适的授权之后才能访问 MongoDB 服务。
 
-> 因为缓存和传播的关系，可能需要一些等待时间。
+{{< tip >}}
+因为缓存和传播的关系，可能需要一些等待时间。
+{{< /tip >}}
 
 ## 执行服务级的访问控制
 
@@ -156,7 +158,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
     * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
     * 页面右下角的 **Book Reviews** 显示了红色星星。
 
-    > 缓存和传播过程可能会造成一定延迟。
+    {{< tip >}}
+    缓存和传播过程可能会造成一定延迟。
+    {{< /tip >}}
 
 1. 要确认 MongoDB 服务职能被 `bookinfo-ratings-v2` 服务账号访问：
 
@@ -172,7 +176,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
     * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
     * 页面右下角的 **Book Reviews** 显示了错误信息：**"Ratings service is currently unavailable"**。
 
-    > 缓存和传播过程可能会造成一定延迟。
+    {{< tip >}}
+    缓存和传播过程可能会造成一定延迟。
+    {{< /tip >}}
 
 ## 清理
 

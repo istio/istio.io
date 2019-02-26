@@ -55,7 +55,9 @@ keywords: [kubernetes,multicluster]
 
     这个命令使用了网关的公网 IP，如果条件允许，这里使用 DNS 名称也是可以的
 
-    > 如果 `cluster2` 正在一个不支持外部负载均衡的环境下运行，需要使用 nodePort 来完成对网关的访问。可以在[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/#确定使用-node-port-时的-ingress-ip-和端口)一文中，找到获取网关地址和端口的说明。还需要把服务的入口端点用下面的步骤从 15443 更换为对应的 nodePort（也就是 `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`）。
+    {{< tip >}}
+    如果 `cluster2` 正在一个不支持外部负载均衡的环境下运行，需要使用 nodePort 来完成对网关的访问。可以在[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/#确定使用-node-port-时的-ingress-ip-和端口)一文中，找到获取网关地址和端口的说明。还需要把服务的入口端点用下面的步骤从 15443 更换为对应的 nodePort（也就是 `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`）。
+    {{< /tip >}}
 
 1. 在 `cluster1` 中为 `httpbin` 服务创建 `ServiceEntry`。
 
@@ -63,7 +65,9 @@ keywords: [kubernetes,multicluster]
 
     为了让 DNS 为 `*.global` 域的服务进行解析。必须给这些服务提供 IP 地址。
 
-    > （`.global` DNS 域）中的每个服务必须在集群内具有唯一的 IP 地址。
+    {{< tip >}}
+    （`.global` DNS 域）中的每个服务必须在集群内具有唯一的 IP 地址。
+    {{< /tip >}}
 
     如果这些全局服务具有真实的 VIP，可以直接使用；否则我们推荐使用 loopback 范围内的 `127.0.0.0/8`。这些 IP 在 Pod 之外是不可路由的。在这个例子中我们会使用 `127.255.0.0/16`，这样就不会和一些知名地址例如 `127.0.0.1` 重叠了。对这些 IP 的访问会被 Sidecar 截获，并路由到对应的远程服务之中。
 
@@ -101,7 +105,9 @@ keywords: [kubernetes,multicluster]
 
     端口 15443 的 Gateway 是一个定义了 SNI 感知的 Envoy，是[开始之前](#before-you-begin)一节中的多集群部署步骤中设置的。进入 15443 端口的流量在对应内部服务的 Pod 中做负载均衡（本例中就是 `cluster` 中的 `httpbin.bar`）。
 
-    > 不要为 15443 端口创建 `Gateway` 配置。
+    {{< warning >}}
+    不要为 15443 端口创建 `Gateway` 配置。
+    {{< /warning >}}
 
 1. 从 `sleep` 服务中检查对 `httpbin` 的访问：
 
@@ -114,7 +120,9 @@ keywords: [kubernetes,multicluster]
 
 如果要从 `cluster1` 中使用单独的 Egress Gateway 进行流量路由，而非直接通过 Sidecar 完成。可以用下面的 `ServiceEntry` 定义来替代前一节中的定义：
 
-> 这里定义的配置不能用于其它非跨集群的 Egress 流量。
+{{< tip >}}
+这里定义的配置不能用于其它非跨集群的 Egress 流量。
+{{< /tip >}}
 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF

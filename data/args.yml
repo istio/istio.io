@@ -24,7 +24,7 @@ source_branch_name: release-1.1
 doc_branch_name: master
 
 # The list of supported versions described by the docs
-supported_kubernetes_versions: ["1.10", "1.11", "1.12"]
+supported_kubernetes_versions: ["1.11", "1.12", "1.13"]
 
 ####### Static values
 

@@ -1,8 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 27">
-    <g stroke-width="2px" fill="none">
-        <rect x="1" y="1" width="17" height="17" rx="2" ry="2"/>
-        <path d="M2206,1721h2v2h-2v-2Zm4,0h2v2h-2v-2Zm4,0h2v2h-2v-2Zm4,0h2v2h-2v-2Zm4,0h2v2h-2v-2Zm-16,4h2v2h-2v-2Zm16,0h2v2h-2v-2Zm-16,4h2v2h-2v-2Zm16,0h2v2h-2v-2Zm-16,4h2v2h-2v-2Zm16,0h2v2h-2v-2Zm-16,4h2v2h-2v-2Zm4,0h2v2h-2v-2Zm4,0h2v2h-2v-2Zm4,0h2v2h-2v-2Zm4,0h2v2h-2v-2Z"
-              transform="translate(-2199 -1712)"/>
-    </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 27"><g stroke-width="2" fill="none"><rect x="1" y="1" width="17" height="17" rx="2" ry="2"/><path d="M7 9h2v2H7V9zm4 0h2v2h-2V9zm4 0h2v2h-2V9zm4 0h2v2h-2V9zm4 0h2v2h-2V9zM7 13h2v2H7v-2zm16 0h2v2h-2v-2zM7 17h2v2H7v-2zm16 0h2v2h-2v-2zM7 21h2v2H7v-2zm16 0h2v2h-2v-2zM7 25h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/></g></svg>

@@ -12,7 +12,7 @@ icon: notes
 
 ## 网络
 
-- **使用 Virtual Service 进行 SNI 路由**。[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 中新引入的 TLS 部分可用于根据 SNI 值路由 TLS 流量。名为 TLS/HTTPS 的服务端口可与虚拟服务 TLS 路由一起使用。没有附带虚拟服务的 TLS/HTTPS 端口将被视为不透明 TCP。
+- **使用 Virtual Service 进行 SNI 路由**。[`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 中新引入的 TLS 部分可用于根据 SNI 值路由 TLS 流量。名为 TLS/HTTPS 的服务端口可与虚拟服务 TLS 路由一起使用。没有附带虚拟服务的 TLS/HTTPS 端口将被视为不透明 TCP。
 
 - **流式 gRPC 恢复**。Istio 0.8 导致长时间运行的流 gRPC 连接的周期性终止。这已在 1.0 中修复。
 

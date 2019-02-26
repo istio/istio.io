@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-{{ partial "primary-top.html" . }}
+{{ partial "primary_top.html" . }}
 
 {{ $questions := .Resources.ByType "page" }}
 {{ $sorted_questions := sort $questions ".Params.weight" }}
@@ -30,6 +30,6 @@
     {{ end }}
 </div>
 
-{{ partial "primary-bottom.html" . }}
+{{ partial "primary_bottom.html" . }}
 
 {{ end }}
