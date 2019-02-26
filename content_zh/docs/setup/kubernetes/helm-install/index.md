@@ -6,118 +6,185 @@ keywords: [kubernetes,helm]
 icon: helm
 ---
 
-使用 Helm 安装和配置 Istio 的快速入门说明。
-这是将 Istio 安装到您的生产环境的推荐安装方式，因为它为 Istio 控制平面和数据平面 sidecar 提供了丰富的配置。
+使用 Helm 安装和配置 Istio 的快速入门说明。这种方式为 Istio 控制平面和 Sidecar 提供了丰富的配置，因此推荐用这种方式进行生产环境中的 Istio 部署。
 
 ## 先决条件
 
-1. [下载 Istio 的发布版本](/zh/docs/setup/kubernetes/download-release/)。
-1. [Kubernetes 平台设置](/zh/docs/setup/kubernetes/platform-setup/)
-
-* [Minikube](/zh/docs/setup/kubernetes/platform-setup/minikube/)
-* [Google 容器引擎 (GKE)](/zh/docs/setup/kubernetes/platform-setup/gke/)
-* [IBM 云 Kubernetes 服务 (IKS)](/zh/docs/setup/kubernetes/platform-setup/ibm/)
-* [OpenShift Origin](/zh/docs/setup/kubernetes/platform-setup/openshift/)
-* [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/platform-setup/aws/)
-* [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
-* [Docker For Desktop](/zh/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
-
-1. 在 Pod 和服务上检查对 [Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
-
-1. [安装 Helm 客户端](https://docs.helm.sh/using_helm)。
-
-1. 默认情况下，Istio 使用 `负载均衡器` 服务对象类型。有些平台不支持 `负载均衡器` 服务对象类型。对于缺少 `负载均衡器` 支持的平台，安装需要带有 “`NodePort`” 支持的 Istio，而不是在 Helm 操作完后追加 `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort` 的标记。
+1. 完成必要的 [Kubernetes 平台设置](/zh/docs/setup/kubernetes/platform-setup/)
+1. 检查对 [Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
+1. [安装高于 2.10 版本的 Helm 客户端](https://docs.helm.sh/using_helm)。
+1. 默认情况下，Istio 使用 `LoadBalancer` 服务类型，而有些平台是不支持 `LoadBalancer` 服务的。对于缺少 `LoadBalancer` 支持的平台，执行下面的安装步骤时，可以在 Helm 命令中加入 `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort` 选项，使用 `NodePort` 来替代 `LoadBalancer` 服务类型。
 
 ## 安装步骤
 
-以下命令在 Istio 目录执行使用相对引用。您必须在 Istio 的根目录中执行下面的命令。
+下面的命令可以在任何目录下运行。这里 Helm 用 https 方式从 Istio 提供的服务中下载 Chart。
 
-1. 如果使用 Helm 2.10.0 之前的版本，通过 `kubectl apply` [自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，然后等待几秒钟，直到 `kube-apiserver` 中的 CRDs 提交完成：
+{{< tip >}}
+本文中提到的方法，使用的是 Istio 1.1 Helm 包的每日构建版本。在 Istio 完成 1.1 版本发布之前，这样获得的 Helm Chart 会比快照版本更早。要指定一个特定的快照版本，需要将仓库地址更换为特定的快照地址。例如想要运行 snapshot 6，步骤 1 中需要指定使用 [`1.1.0-snapshot.6` 的地址](https://gcsweb.istio.io/gcs/istio-prerelease/prerelease/1.1.0-snapshot.6/charts)。
+{{< /tip >}}
+
+1. 用 Helm 每日构建版本的地址来更新 Helm 的本地包缓存。
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+
+    $ helm repo add istio.io "https://gcsweb.istio.io/gcs/istio-prerelease/daily-build/release-1.1-latest-daily/charts/"
+
     {{< /text >}}
+
+1. 在下面的两个**互斥方案**中选择一个完成部署。
+
+    - 要使用 Kubernetes 清单来部署 Istio，可以使用[方案 1](#方案-1-使用-helm-template-进行安装) 中的步骤。
+    - 也可以用 [Helm Tiller pod](https://helm.sh/) 来对 Istio 进行管理，[方案 2](#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装) 中描述了这种方式。
 
     {{< tip >}}
-    如果您正在启用 `certmanager`，那么您还需要安装它的 CRDs，并等待几秒钟，以便在 `kube-apiserver` 中提交 CRD :
+    要对 Istio 及其组件进行定制，可以在 `helm template` 或者 `helm install` 命令中使用 `--set <key>=<value>` 参数来完成。[安装选项](/zh/docs/reference/config/installation-options/)中陈述了目前支持的键值对。
+
     {{< /tip >}}
 
+### 方案 1：使用 `helm template` 进行安装
+
+如果你的集群中没有运行 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)，你也不想安装它。
+
+1. 创建一个 Istio 的工作目录，用于下载 Chart：
+
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/subcharts/certmanager/templates/crds.yaml
+
+    $ mkdir -p $HOME/istio-fetch
+
     {{< /text >}}
 
-1. 从下面的两个选项中选择一个，**相互排斥** 选项描述如下
-
-## 选项1：通过 Helm 的 `helm template` 安装 Istio
-
-1. 将 Istio 的核心组件呈现为名为 `istio.yaml` 的 Kubernetes 清单文件：
+1. 下载安装过程所需的 Helm 模板：
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
+
+    $ helm fetch istio.io/istio-init --untar --untardir $HOME/istio-fetch
+    $ helm fetch istio.io/istio --untar --untardir $HOME/istio-fetch
+
     {{< /text >}}
 
-1. 通过清单文件安装组件
+1. 为 Istio 组件创建命名空间 `istio-system`：
 
     {{< text bash >}}
+
     $ kubectl create namespace istio-system
-    $ kubectl apply -f $HOME/istio.yaml
+
     {{< /text >}}
 
-## 选项2：通过 Helm 和 Tiller 的 `helm install` 安装 Istio
-
-此选项允许 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 管理 Istio 的生命周期。
-
-1. 如果还没有为 Tiller 配置 service account，请配置一个：
+1. 使用 `kubectl apply` 安装所有的 Istio [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，命令执行之后，会隔一段时间才能被 Kubernetes API Server 收到：
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+
+    $ helm template $HOME/istio-fetch/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+
     {{< /text >}}
 
-1. 使用 service account 在您的集群中安装 Tiller：
+1. 用下面的命令，来确认 Istio 的 `58` 个 CRD 都已经成功的提交给 Kubernetes API Server：
 
     {{< text bash >}}
-    $ helm init --service-account tiller
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+    58
     {{< /text >}}
 
-1. 安装 Istio：
+1. 渲染和提交 Istio 的核心组件：
 
     {{< text bash >}}
-    $ helm repo add istio.io "https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts"
-    $ helm dep update install/kubernetes/helm/istio
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+
+    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl apply -f -
+
     {{< /text >}}
 
-    如果您想启用[全局双向 TLS](/zh/docs/concepts/security/#双向-tls-认证)，请将 `global.mtls.enabled` 设置为 `true`：
+1. 删除步骤：
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
+
+    $ kubectl delete namespace istio-system
+
     {{< /text >}}
 
-## 卸载
-
-* 对于选项 1，使用 `kubectl` 进行卸载：
-
-    {{< text bash >}}
-    $ kubectl delete -f $HOME/istio.yaml
-    {{< /text >}}
-
-* 对于选项 2，使用 Helm 进行卸载：
-
-    {{< tip >}}
-    卸载此 chart 不会删除 Istio 已注册的 CRD。Istio 设计期望 CRD 泄漏到 Kubernetes 环境中。由于 CRD 包含自定义资源中的所有运行时配置数据，因此 Istio 设计人员认为最好明确删除此配置，而不是意外地丢失它。
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ helm delete --purge istio
-    $ helm delete --purge istio-init
-    {{< /text >}}
-
-* 如果需要，可以删除 CRD：
+1. 如果需要，可以用下列命令删除所有的 CRD：
 
     {{< warning >}}
-    删除 CRD 将删除您对 Istio 配置的所有修改。
+    CRD 的删除，意味着删掉所有的用户配置。
     {{< /warning >}}
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+
+    $ kubectl delete -f $HOME/istio-fetch/istio-init/files
+
+    {{< /text >}}
+
+### 方案 2：在 Helm 和 Tiller 的环境中使用 `helm install` 命令进行安装
+
+这个方案使用 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 来对 Istio 的生命周期进行管理。
+
+1. 如果没有为 Tiller 创建 Service account，就创建一个：
+
+    {{< text bash >}}
+
+    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
+
+    {{< /text >}}
+
+1. 使用 Service account 在集群上安装 Tiller：
+
+    {{< text bash >}}
+
+    $ helm init --service-account tiller
+
+    {{< /text >}}
+
+1. 安装 `istio-init` chart，来启动 Istio CRD 的安装过程：
+
+    {{< text bash >}}
+
+    $ helm install istio.io/istio-init --name istio-init --namespace istio-system
+
+    {{< /text >}}
+
+1. 用下面的命令，来确认 Istio 的 `58` 个 CRD 都已经成功的提交给 Kubernetes API Server：
+
+    {{< text bash >}}
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+    58
+    {{< /text >}}
+
+1. 安装 `istio` Chart：
+
+    {{< text bash >}}
+
+    $ helm install istio --name istio --namespace istio-system
+
+    {{< /text >}}
+
+1. 删除步骤：
+
+    {{< text bash >}}
+
+    $ helm delete --purge istio
+    $ helm delete --purge istio-init
+
+    {{< /text >}}
+
+## 删除 CRD 和 Istio 配置
+
+{{< tip >}}
+Istio 的设计中，其自定义资源以 CRD 的形式存在于 Kubernetes 环境之中。CRD 中包含了运维过程中产生的运行时配置。正因如此，我们建议运维人员应该显式的对其进行删除，从而避免意外操作。
+{{< /tip >}}
+
+{{< warning >}}
+CRD 的删除，意味着删掉所有的用户配置。
+{{< /warning >}}
+
+{{< tip >}}
+`istio-init` Chart 包含了 `istio-init/ifiles` 目录中的所有原始 CRD。下载该 Chart 之后，可以简单的使用 `kubectl` 删除 CRD。
+{{< /tip >}}
+
+1. 要永久删除 Istio 的 CRD 以及所有 Istio 配置：
+
+    {{< text bash >}}
+
+    $ mkdir -p $HOME/istio-fetch
+    $ helm fetch istio.io/istio-init --untar --untardir $HOME/istio-fetch
+    $ kubectl delete -f $HOME/istio-fetch/istio-init/files
+
     {{< /text >}}
