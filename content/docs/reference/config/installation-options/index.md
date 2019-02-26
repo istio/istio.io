@@ -156,9 +156,6 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `global.proxy.includeInboundPorts` | `"*"` |  |
 | `global.proxy.excludeInboundPorts` | `""` |  |
 | `global.proxy.autoInject` | `enabled` |  |
-| `global.proxy.envoyStatsd.enabled` | `false` |  |
-| `global.proxy.envoyStatsd.host` | `# example: statsd-svc.istio-system` |  |
-| `global.proxy.envoyStatsd.port` | `# example: 9125` |  |
 | `global.proxy.tracer` | `"zipkin"` |  |
 | `global.proxy_init.image` | `proxy_init` |  |
 | `global.imagePullPolicy` | `IfNotPresent` |  |

@@ -115,7 +115,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
           -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
     {{< /text >}}
 
-### Setting up VM machines
+### Setting up the VM
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
@@ -125,7 +125,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< text bash >}}
     $ export GCE_NAME="your-gce-instance"
-    $ gcloud compute scp {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
+    $ gcloud compute scp --project=${MY_PROJECT} --zone={MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
     {{< /text >}}
 
 1.  Install the Debian package with the Envoy sidecar.
@@ -226,7 +226,7 @@ The `server: envoy` header indicates the traffic indeed is intercepted by sideca
     {{< /text >}}
 
 1. Configure Service Discovery for VM by `ServiceEntry`. You add VM services to the mesh by configuring a
-[`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry). A `ServiceEntry` lets you manually add
+[`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/). A `ServiceEntry` lets you manually add
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
 particular service, as in the following example.

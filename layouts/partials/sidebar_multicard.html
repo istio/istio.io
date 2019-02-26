@@ -1,0 +1,37 @@
+<nav id="sidebar">
+    <div class="spacer"></div>
+    <div class="directory" role="tablist">
+        {{ $section := .Site.GetPage "section" .Section }}
+
+        {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+        {{ $current := . }}
+
+        {{ range $count, $page := $pages }}
+            {{ if eq .Parent $section }}
+
+                <div class="card">
+                    <div class="header" role="tab" id="header{{ $count }}" title="{{ $page.Description }}">
+                        {{- if $page.Params.icon -}}
+                            {{- partial "icon.html" .Params.icon -}}
+                        {{- end -}}
+                        {{- $page.Title -}}
+                    </div>
+
+                    <div class="body{{if .IsAncestor $current}} default{{end}}" role="tabpanel" aria-labelledby="header{{ $count }}">
+                        {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $page "current" $current "collapse" false) }}
+                    </div>
+                </div>
+            {{ end }}
+        {{ end }}
+
+        {{ if not .Site.Data.args.archive }}
+            {{ if strings.HasSuffix $section.Dir "blog/" }}
+                <div id="subscribe" >
+                    <a href="/feed.xml" target="_blank">
+                        {{ partial "large_icon.html" "rss" }}{{ i18n "subscribe" }}
+                    </a>
+                </div>
+            {{ end }}
+        {{ end }}
+    </div>
+</nav>

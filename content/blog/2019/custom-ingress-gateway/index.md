@@ -7,7 +7,7 @@ keywords: [ingress,traffic-management]
 attribution: Julien Senon
 ---
 
-This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) with automatic provisioning of certificates based on cert-manager.
+This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/networking/v1alpha3/gateway/) with automatic provisioning of certificates based on cert-manager.
 
 The creation of custom ingress gateway could be used in order to have different `loadbalancer` in order to isolate traffic.
 
@@ -230,4 +230,4 @@ The creation of custom ingress gateway could be used in order to have different 
       SSL certificate verify ok.
     {{< /text >}}
 
-**Congratulations!** You can now use your custom `istio-custom-gateway` [gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway) configuration object.
+**Congratulations!** You can now use your custom `istio-custom-gateway` [gateway](/docs/reference/config/networking/v1alpha3/gateway/) configuration object.

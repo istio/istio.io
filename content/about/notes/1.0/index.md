@@ -15,7 +15,7 @@ relative to 0.8 as most of the effort for this release went into fixing bugs and
 ## Networking
 
 - **SNI Routing using Virtual Services**. Newly introduced `TLS` sections in
-[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) can be used to route TLS traffic
+[`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) can be used to route TLS traffic
 based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with
 virtual service TLS routes. TLS/HTTPS ports without an accompanying virtual service will be treated as opaque TCP.
 

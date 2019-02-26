@@ -2,7 +2,7 @@ figure {
     margin: 1.5rem auto;
     padding: .5rem;
     background-color: $figureBackgroundColor;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: $border-radius;
 
     .wrapper-with-intrinsic-ratio {
         position: relative;

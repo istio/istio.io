@@ -188,12 +188,25 @@ to access the MongoDB service.
 
 1. To confirm the MongoDB service can only be accessed by service account `bookinfo-ratings-v2`:
 
-    Run the following command to re-deploy the `v2` of `ratings` with service account `default`:
+    Run the following command to delete the `ratings` deployment with service account `bookinfo-ratings-v2`:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
     {{< /text >}}
+
+    Run the following command to deploy the `ratings` deployment with service account `default`:
+
+    * To deploy in a cluster **with** automatic sidecar injection enabled:
+
+        {{< text bash >}}
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+        {{< /text >}}
+
+    * To deploy in a cluster **without** automatic sidecar injection enabled:
+
+        {{< text bash >}}
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
+        {{< /text >}}
 
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
 

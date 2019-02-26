@@ -31,7 +31,13 @@ The following table lists the currently supported keys for the `constraints` fie
 | `destination.name` | Destination workload instance name | YES | `destination.name` | `["productpage*", "*-test"]` |
 | `destination.namespace` | Destination workload instance namespace | YES | `destination.namespace` | `["default"]` |
 | `destination.user` | The identity of the destination workload | YES | `destination.user` | `["bookinfo-productpage"]` |
+| `experimental.envoy.filters.*` | Experimental metadata matching for filters, values wrapped in `[]` are matched as a list | YES | `experimental.envoy.filters.network.mysql_proxy[db.table]` | `["[update]"]` |
 | `request.headers` | HTTP request headers, The actual header name is surrounded by brackets | NO | `request.headers[X-Custom-Token]` | `["abc123"]` |
+
+{{< warning >}}
+Note that no backward compatibility is guaranteed for the `experimental.*` keys. They may be removed
+at any time, and customers are advised to use them at their own risk.
+{{< /warning >}}
 
 ## Supported Properties
 

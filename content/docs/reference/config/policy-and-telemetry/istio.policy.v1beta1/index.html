@@ -1,4 +1,6 @@
 ---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE https://github.com/istio/api REPO
+source_repo: https://github.com/istio/api
 title: Rules
 description: Describes the rules used to configure Mixer's policy and telemetry features.
 location: https://istio.io/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1.html
@@ -1008,6 +1010,15 @@ include Istio CA certificates and system certificates in cert pool.</p>
 
 </td>
 </tr>
+<tr id="Mutual-server_name">
+<td><code>serverName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Indicates the name of adapter backend server which is useful for routing with
+proxy-fronted backend.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1312,6 +1323,15 @@ key, etc).</p>
 <td>
 <p>Customized header key to hold access token, e.g. x-api-key. Token will be
 passed as what it is.</p>
+
+</td>
+</tr>
+<tr id="Tls-server_name">
+<td><code>serverName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Indicates the name of adapter backend which is useful for routing with
+proxy-fronted backend.</p>
 
 </td>
 </tr>
