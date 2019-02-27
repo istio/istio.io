@@ -37,13 +37,13 @@ omit this value and it will be computed automatically.
 {{- $alt := or (.Get "alt") (.Get "title") (.Get "caption") -}}
 
 {{- with $caption -}}
-{{- if (strings.HasSuffix . ".") -}}
-{{- errorf "Image caption ends with a period (%s)" .Position -}}
-{{- end -}}
+    {{- if (strings.HasSuffix . ".") -}}
+        {{- errorf "Image caption ends with a period (%s)" .Position -}}
+    {{- end -}}
 {{- end -}}
 
 {{- if not $width -}}
-{{- $width = "100%" -}}
+    {{- $width = "100%" -}}
 {{- end -}}
 
 {{- /* Turn relative values for $link into absolute URLs */ -}}
@@ -62,7 +62,12 @@ omit this value and it will be computed automatically.
 {{- end -}}
 
 {{- $path := printf "content/%s" $link }}
+
 {{- if strings.HasSuffix $link ".svg" -}}
+    {{- if not (fileExists $path) -}}
+        {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
+    {{- end -}}
+
     {{- $file := readFile $path -}}
     {{- $viewBox := index (findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
     {{- $viewBox := index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
@@ -72,6 +77,10 @@ omit this value and it will be computed automatically.
     {{- $ratio = mul (div $h $w) 100 -}}
 {{- else -}}
     {{- if not $ratio -}}
+        {{- if not (fileExists $path) -}}
+            {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
+        {{- end -}}
+
         {{- $img := imageConfig $path -}}
         {{- $w := float $img.Width -}}
         {{- $h := float $img.Height -}}
@@ -80,7 +89,6 @@ omit this value and it will be computed automatically.
 {{- end -}}
 
 {{- /* Ensure that $ratio does NOT end with % */ -}}
-
 {{- $ratio = strings.TrimRight "%" $ratio -}}
 
 <figure style="width: {{- $width -}}">
