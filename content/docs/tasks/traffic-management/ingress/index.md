@@ -295,7 +295,7 @@ they have valid values, according to the output of the following commands:
     $ kubectl get gateway --all-namespaces
     {{< /text >}}
 
-1.  Check that you have no other Kubernetes Ingress resources defined on the same IP and port:
+1.  Check that you have no Kubernetes Ingress resources defined on the same IP and port:
 
     {{< text bash >}}
     $ kubectl get ingress --all-namespaces
