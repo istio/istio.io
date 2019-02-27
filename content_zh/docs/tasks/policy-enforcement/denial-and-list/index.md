@@ -205,7 +205,7 @@ Istio 支持基于 IP 的黑名单和白名单。你可以给 Istio 设置接受
     $ kubectl apply -f checkip-rule.yaml
     {{< /text >}}
 
-1. 试着访问 Bookinfo 的 `productpage` 
+1. 试着访问 Bookinfo 的 `productpage`
    `http://$GATEWAY_URL/productpage` 并验证您是否收到类似于的错误： `PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is
    not whitelisted`
 
