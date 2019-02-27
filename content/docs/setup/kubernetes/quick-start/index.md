@@ -94,6 +94,7 @@ Follow our instructions on how to
 [use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 ## Verifying the installation
+
 {{< tip >}}
 If you installed Istio using Helm, the `istio-egressgateway` service is not present by default. Consider this fact as you verify that the services are deployed.
 {{< /tip>}}
