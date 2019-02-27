@@ -309,7 +309,7 @@ they have valid values, according to the output of the following commands:
     {{< /text >}}
 
 1.  If you have an external load balancer and it does not work for you, try to access the gateway using the service's
-    [node port](http://localhost:1313/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
+    [node port](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
 
 ## Cleanup
 
