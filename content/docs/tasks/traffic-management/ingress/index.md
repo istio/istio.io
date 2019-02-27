@@ -301,13 +301,6 @@ they have valid values, according to the output of the following commands:
     $ kubectl get ingress --all-namespaces
     {{< /text >}}
 
-1.  Check the logs of the ingress gateway and verify that your request appears in the logs. If your request is not there,
-    it does not arrive to the ingress gateway.
-
-    {{< text bash >}}
-    $ kubectl logs -l app=istio-ingressgateway -n istio-system
-    {{< /text >}}
-
 1.  If you have an external load balancer and it does not work for you, try to access the gateway using the service's
     [node port](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
 
