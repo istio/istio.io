@@ -21,7 +21,6 @@ $ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
 
 详细的响应标志请参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-response-flags)
 
-
 常见的响应标志是：
 
 - `NR`: 没有配置路由， 检查你的 `DestinationRule` 或 `VirtualService`.
