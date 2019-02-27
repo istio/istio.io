@@ -3,15 +3,45 @@ title: Performance and Scalability
 description: Introduces Performance and Scalability methodology, results and best practices for Istio components.
 weight: 50
 aliases:
+    - /docs/performance-and-scalability/scalability
     - /docs/performance-and-scalability/overview
     - /docs/performance-and-scalability/microbenchmarks
     - /docs/performance-and-scalability/performance-testing-automation
     - /docs/performance-and-scalability/realistic-app-benchmark
-    - /docs/performance-and-scalability/scalability
     - /docs/performance-and-scalability/scenarios
     - /docs/performance-and-scalability/synthetic-benchmarks
 keywords: [performance,scalability,scale,benchmarks]
 ---
+
+## Scalability and sizing guide
+
+* Setup multiple replicas of the control plane components.
+
+* Setup [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+
+* Split Mixer check and report pods.
+
+* High availability (HA).
+
+* See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Istio-Performance-oriented-setup-FAQ)
+
+* And the [Performance and Scalability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#performance-and-scalability) work.
+
+Current recommendations (when using all Istio features):
+
+* 1 vCPU per peak thousand requests per second for the sidecar(s) with access logging (which is on by default) and 0.5 without, `fluentd` on the node is a big contributor to that cost as it captures and uploads logs.
+
+* Assuming typical cache hit ratio (>80%) for Mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
+
+* Latency cost/overhead is approximately [10 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we expect to bring this down to a low single digit ms.
+
+* Mutual TLS costs are negligible on AES-NI capable hardware in terms of both CPU and latency.
+
+We have an ongoing goal to reduce both the CPU overhead and latency of adding Istio to your application. Please note however that if your application is
+handling its own telemetry, policy, security, network routing, a/b testing, etc... all that code and cost can be removed and that should offset most if
+not all of the Istio overhead.
+
+
 
 We follow a four-pronged approach to Istio performance characterization, tracking and improvements:
 
@@ -111,32 +141,3 @@ are part of the nightly release pipeline and you can see the results on:
 
 This enables us to catch regression early and track improvements over time.
 
-## Scalability and sizing guide
-
-* Setup multiple replicas of the control plane components.
-
-* Setup [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
-
-* Split Mixer check and report pods.
-
-* High availability (HA).
-
-* See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Istio-Performance-oriented-setup-FAQ)
-
-* And the [Performance and Scalability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#performance-and-scalability) work.
-
-Current recommendations (when using all Istio features):
-
-* 1 vCPU per peak thousand requests per second for the sidecar(s) with access logging (which is on by default) and 0.5 without, `fluentd` on the node is a big contributor to that cost as it captures and uploads logs.
-
-* Assuming typical cache hit ratio (>80%) for Mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
-
-* Latency cost/overhead is approximately [10 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we expect to bring this down to a low single digit ms.
-
-* Mutual TLS costs are negligible on AES-NI capable hardware in terms of both CPU and latency.
-
-We plan on providing more granular guidance for customers adopting Istio "A la carte".
-
-We have an ongoing goal to reduce both the CPU overhead and latency of adding Istio to your application. Please note however that if you application is
-handling its own telemetry, policy, security, network routing, a/b testing, etc... all that code and cost can be removed and that should offset most if
-not all of the Istio overhead.
