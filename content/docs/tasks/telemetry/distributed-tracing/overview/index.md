@@ -26,7 +26,7 @@ To do this, an application needs to collect and propagate the following headers 
 * `x-b3-flags`
 * `x-ot-span-context`
 
-If you look in the sample services, you can see that the `productpage` service (Python) extracts the required headers from an HTTP request using [OpenTracing](https://opentracing.io/) libraries:
+If you look at the sample Python `productpage` service, for example, you see that the application extracts the required headers from an HTTP request using [OpenTracing](https://opentracing.io/) libraries:
 
 {{< text python >}}
 def getForwardHeaders(request):

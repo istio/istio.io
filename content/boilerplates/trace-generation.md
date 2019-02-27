@@ -1,7 +1,6 @@
-The number of requests you need to send in order to see trace data depends on the sampling rate set at the time Istio was installed.
-By default, the sampling rate is set to 1%, meaning that you need to send at least 100 requests before the first trace will be visible.
-
-To send multiple requests, use a command like:
+To see trace data, you must send requests to your service. The number of requests depends on Istio's sampling rate.
+You set this rate when you install Istio. The default sampling rate is 1%. You need to send at least 100 requests before the first trace is visible.
+To send a 100 requests to the `productpage` service, use the following command:
 
 {{< text bash >}}
 $ for i in `seq 1 100`; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done

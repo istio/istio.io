@@ -1,2 +1,0 @@
-When you enable tracing, you may also want to set the sampling rate that Istio will use for tracing.
-This can be accomplished via the `pilot.traceSampling` option. By default, the sampling rate is set to 1%.

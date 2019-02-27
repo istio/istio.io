@@ -11,12 +11,18 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/).
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/kubernetes/helm-install/).
 
-    Use the Helm chart with tracing enabled to set the `--set tracing.enabled=true` option and
-    select the `zipkin` tracing provider with `--set tracing.provider=zipkin`.
+    Use the following Helm install options to enable tracing and select the `zipkin` tracing provider:
+    * `--set tracing.enabled=true`
+    * `--set tracing.provider=zipkin`
 
-    {{< boilerplate trace-sampling-warn >}}
+    {{< warning >}}
+
+    When you enable tracing, you may also want to set the sampling rate that Istio will use for tracing.
+    Set the sampling rate using the `pilot.traceSampling` option. The default sampling rate is 1%.
+
+    {{< /warning >}}
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
