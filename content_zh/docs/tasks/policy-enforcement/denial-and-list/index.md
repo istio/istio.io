@@ -5,7 +5,7 @@ weight: 20
 keywords: [policies, denial, whitelist, blacklist]
 ---
 
-本文任务展示了使用简单的 Denier 适配器，基于属性的黑白名单或者基于IP的黑白名单对服务进行访问控制的方法
+本文任务展示了使用简单的 Denier 适配器，基于属性的黑白名单或者基于 IP 的黑白名单对服务进行访问控制的方法
 
 ## 开始之前
 
@@ -137,7 +137,7 @@ Istio 支持基于属性的黑名单和白名单。下面的白名单配置和�
 
 1. 校验，在没有登录的情况下访问 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该是看不到星形图标的；如果使用 "jason" 用户登录，则应该看到黑星图标。
 
-## 基于IP的 _whitelists_ or _blacklists_
+## 基于 IP 的 _whitelists_ or _blacklists_
 
 Istio 支持基于 IP 的黑名单和白名单。你可以给 Istio 设置接受或拒绝来自特定 IP 或子网的请求。
 
@@ -153,7 +153,7 @@ Istio 支持基于 IP 的黑名单和白名单。你可以给 Istio 设置接受
     metadata:
       name: whitelistip
     spec:
-      # providerUrl: 通常，黑色和白色列表在外部维护，并使用 providerUrl 异步提取。
+      # providerUrl: 通常，黑白名单在外部维护，并使用 providerUrl 异步提取。
       overrides: ["10.57.0.0/16"]  # 覆盖提供静态列表
       blacklist: false
       entryType: IP_ADDRESSES
@@ -219,7 +219,7 @@ Istio 支持基于 IP 的黑名单和白名单。你可以给 Istio 设置接受
     $ kubectl delete -f whitelist-handler.yaml
     {{< /text >}}
 
-* 删除基于IP的白名单和黑名单的 Mixer 配置：
+* 删除基于 IP 的白名单和黑名单的 Mixer 配置：
 
     {{< text bash >}}
     $ kubectl delete -f checkip-rule.yaml
