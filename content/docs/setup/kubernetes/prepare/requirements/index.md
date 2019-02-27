@@ -60,7 +60,7 @@ cluster must satisfy the following requirements:
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, visit [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
 
-* _**Check required ports**_: The following table lists the default ports used by Istio components. Make sure the ports are available before installing Istio components. You can override any port numbers marked with a * during the install. Ensure any custom ports used are also available.
+* _**Check required ports**_: The following table lists the default ports used by Istio components. Make sure the ports are available before installing Istio components.
 
     | Component | Port | NodePort | Description |
     |----|----|----|----|
@@ -78,7 +78,7 @@ cluster must satisfy the following requirements:
     | Galley | 443 |   | Validation port |
     | Galley | 9091 |   | Mesh control Plane - Running mixer |
     | Galley | 9094 |   | Port to use for exposing profiling (no longer used?) |
-    | Galley | 15014* |   | Monitoring |
+    | Galley | 15014 |   | Monitoring |
     | | | | |
     | Grafana | 3000 |   | Grafana |
     | Grafana | 15031 |   | Grafana |
@@ -97,7 +97,7 @@ cluster must satisfy the following requirements:
     | | | | |
     | Mixer | 9091 |   | Policy/Telemetry |
     | Mixer | 15004 |   | Policy/Telemetry - `mTLS`|
-    | Mixer | 15014* |   | Policy/Telemetry monitoring port |
+    | Mixer | 15014 |   | Policy/Telemetry monitoring port |
     | Mixer | 15090 |   | Proxy |
     | Mixer | 42422 |   | Telemetry - Prometheus |
     | | | | |
@@ -109,7 +109,7 @@ cluster must satisfy the following requirements:
     | Pilot | 15010 |   | Pilot service - XDS pilot - discovery |
     | Pilot | 15011 |   | Pilot service - `mTLS` - Proxy - discovery |
     | Pilot | 15012 |   | Pilot service - `mTLS` - Proxy - Discovery service grpc address, with https discovery (still used?) |
-    | Pilot | 15014* |   | Pilot service - Monitoring |
+    | Pilot | 15014 |   | Pilot service - Monitoring |
     | | | | |
     | Prometheus | 9090 |   | Prometheus |
     | | | | |
