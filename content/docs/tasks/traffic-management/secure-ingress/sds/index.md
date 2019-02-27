@@ -73,7 +73,7 @@ any value you like in the following command:
     $ popd
     {{< /text >}}
 
-## Configure a TLS ingress gateway with secret discovery service enabled
+## Configure a TLS ingress gateway using SDS
 
 In this section you will configure a TLS ingress gateway that fetches credentials
  from the ingress gateway agent via secret discovery service (SDS). The ingress
