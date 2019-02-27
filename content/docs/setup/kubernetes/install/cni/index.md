@@ -3,6 +3,8 @@ title: Istio CNI Installation
 description: Instructions for installing and using Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
+aliases:
+    - /docs/setup/kubernetes/quick-start-gke-dm/
 ---
 
 By default Istio injects an `initContainer`, `istio-init`, in pods deployed in the mesh.  The `istio-init`

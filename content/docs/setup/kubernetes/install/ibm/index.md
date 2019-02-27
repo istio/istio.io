@@ -3,6 +3,9 @@ title: Quick Start with IBM Cloud
 description: How to quickly setup Istio using IBM Cloud Public or IBM Cloud Private.
 weight: 70
 keywords: [kubernetes,ibm,icp]
+aliases:
+    - /docs/setup/kubernetes/quick-start-gke-dm/
+    - /docs/setup/kubernetes/quick-start-ibm/
 ---
 
 Follow these instructions to install and run Istio in IBM Cloud.

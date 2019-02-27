@@ -5,6 +5,7 @@ weight: 45
 keywords: [kubernetes,sidecar,sidecar-injection]
 aliases:
     - /docs/setup/kubernetes/automatic-sidecar-inject.html
+    - /docs/setup/kubernetes/sidecar-injection/
 ---
 
 ## Injection
