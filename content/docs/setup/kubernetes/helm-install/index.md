@@ -101,11 +101,15 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
     56
     {{< /text >}}
 
-1. Render and apply Istio's core components:
+1. Render and apply Istio's core components in demo mode with mTLS enabled:
+
+{{< tip >}}
+This mode is designed to showcase Istio functionality with modest resource requirements. It enables high levels of tracing and access logging so it is not suitable for performance tests. You may use [values.yaml from the istio/tools repo](https://github.com/istio/tools/tree/master/perf/istio) to performance test Istio.
+{{< tip >}}
 
     {{< text bash >}}
 
-    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl apply -f -
+    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system  --values $HOME/istio-fetch/istio/values-istio-demo-common.yaml --values $HOME/istio-fetch/istio/values-istio-demo-auth.yaml | kubectl apply -f -
 
     {{< /text >}}
 
@@ -166,11 +170,15 @@ to manage the lifecycle of Istio.
     56
     {{< /text >}}
 
-1. Install the `istio` chart:
+1. Install the `istio` chart in demo mode with mTLS enabled:
+
+{{< tip >}}
+This mode is designed to showcase Istio functionality with modest resource requirements. It enables high levels of tracing and access logging so it is not suitable for performance tests. You may use [values.yaml from the istio/tools repo](https://github.com/istio/tools/tree/master/perf/istio) to performance test Istio.
+{{< tip >}}
 
     {{< text bash >}}
 
-    $ helm install istio --name istio --namespace istio-system
+    $ helm install istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/values-istio-demo-common.yaml@ --values @@install/kubernetes/helm/istio/values-istio-demo-auth.yaml
 
     {{< /text >}}
 
