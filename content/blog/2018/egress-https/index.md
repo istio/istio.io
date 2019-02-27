@@ -93,7 +93,7 @@ So what might have gone wrong? Ah... The answer is that I forgot to tell you to 
 an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
 ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable
 such traffic, you must define a
-[mesh-external service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
+[mesh-external service entry](/docs/reference/config/networking/v1alpha3/service-entry/).
 
 ### Enable HTTPS access to a Google Books web service
 

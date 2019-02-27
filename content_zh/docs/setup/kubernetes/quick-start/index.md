@@ -5,7 +5,9 @@ weight: 5
 keywords: [kubernetes]
 ---
 
-{{< tip_icon >}} Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
+{{< tip >}}
+Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试：{{< supported_kubernetes_versions >}}。
+{{< /tip >}}
 
 依照本文说明，在 Kubernetes 集群中安装和配置 Istio。
 
@@ -66,11 +68,11 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ### 选项 3：使用 Helm 渲染 Kubernetes 清单文件并使用 `kubectl` 进行部署
 
-根据相关章节：[通过 Helm 的 `helm template` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-的-helm-template-安装-istio)，并跟随其中内容完成安装。
+根据相关章节：[通过 Helm 的 `helm template` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#方案-1-使用-helm-template-进行安装)，并跟随其中内容完成安装。
 
 ### 选项 4：使用 Helm 和 Tiller 来管理 Istio 部署
 
-阅读相关章节：[通过 Helm 和 Tiller 的 `helm install` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#选项2-通过-helm-和-tiller-的-helm-install-安装-istio)，并跟随其中内容完成安装。
+阅读相关章节：[通过 Helm 和 Tiller 的 `helm install` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装)，并跟随其中内容完成安装。
 
 ## 确认部署结果
 
@@ -79,20 +81,21 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                                               AGE
-    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,9093/TCP                                                     7m
+    istio-citadel              ClusterIP      10.47.247.12    <none>            8060/TCP,10514/TCP                                                     7m
     istio-egressgateway        ClusterIP      10.47.243.117   <none>            80/TCP,443/TCP                                                        7m
     istio-galley               ClusterIP      10.47.254.90    <none>            443/TCP                                                               7m
     istio-ingress              LoadBalancer   10.47.244.111   35.194.55.10      80:32000/TCP,443:30814/TCP                                            7m
     istio-ingressgateway       LoadBalancer   10.47.241.20    130.211.167.230   80:31380/TCP,443:31390/TCP,31400:31400/TCP                            7m
-    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,9093/TCP   7m
-    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,9093/TCP                                           7m
+    istio-pilot                ClusterIP      10.47.250.56    <none>            15003/TCP,15005/TCP,15007/TCP,15010/TCP,15011/TCP,8080/TCP,10514/TCP   7m
+    istio-policy               ClusterIP      10.47.245.228   <none>            9091/TCP,15004/TCP,10514/TCP                                           7m
     istio-sidecar-injector     ClusterIP      10.47.245.22    <none>            443/TCP                                                               7m
-    istio-statsd-prom-bridge   ClusterIP      10.47.252.184   <none>            9102/TCP,9125/UDP                                                     7m
-    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,9093/TCP,42422/TCP                                 7m
+    istio-telemetry            ClusterIP      10.47.250.107   <none>            9091/TCP,15004/TCP,10514/TCP,42422/TCP                                 7m
     prometheus                 ClusterIP      10.47.253.148   <none>            9090/TCP                                                              7m
     {{< /text >}}
 
-    > 如果该集群在不支持外部负载均衡器的环境中运行（例如 minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将会显示为 `<pending>` 状态。这种情况下，只能通过服务的 NodePort，或者使用 port-forwarding 方式来访问服务。
+    {{< tip >}}
+    如果该集群在不支持外部负载均衡器的环境中运行（例如 minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将会显示为 `<pending>` 状态。这种情况下，只能通过服务的 NodePort，或者使用 port-forwarding 方式来访问服务。
+    {{< /tip >}}
 
 1. 确保所有相应的 Kubernetes pod 都已被部署且所有的容器都已启动并正在运行：`istio-pilot-*`、`istio-ingressgateway-*`、`istio-egressgateway-*`、`istio-policy-*`、`istio-telemetry-*`、`istio-citadel-*`、`prometheus-*`、`istio-galley-*` 以及 `istio-sidecar-injector-*`（可选）。
 
@@ -106,7 +109,6 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     istio-ingressgateway-7754ff47dc-qkrch      1/1       Running       0          1m
     istio-policy-74df458f5b-jrz9q              2/2       Running       0          1m
     istio-sidecar-injector-645c89bc64-v5n4l    1/1       Running       0          1m
-    istio-statsd-prom-bridge-949999c4c-xjz25   1/1       Running       0          1m
     istio-telemetry-676f9b55b-k9nkl            2/2       Running       0          1m
     prometheus-86cb6dd77c-hwvqd                1/1       Running       0          1m
     {{< /text >}}
@@ -115,7 +117,9 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 上面步骤完成之后，就可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/) 这样的示例应用了。
 
-> 注意：已经不再支持 HTTP/1.0，所以应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量。
+{{< warning >}}
+已经不再支持 HTTP/1.0，所以应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量。
+{{< /warning >}}
 
 如果您启动了 [Istio-sidecar-injector](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，就可以使用 `kubectl apply` 直接部署应用。
 
@@ -148,7 +152,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
     $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* 如果是使用 Helm 安装的 Istio，可以依照[文档中的卸载](/zh/docs/setup/kubernetes/helm-install/#卸载)步骤完成删除。
+* 如果是使用 Helm 安装的 Istio，可以依照[使用 Helm 进行安装](/zh/docs/setup/kubernetes/helm-install/)一文中介绍的步骤完成删除。
 
 * 另外如有有需要，也可以删除 CRD：
 

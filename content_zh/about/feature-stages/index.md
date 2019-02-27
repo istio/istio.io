@@ -13,7 +13,7 @@ icon: feature-status
 |-------------------|-------------------|-------------------|-------------------
 |   **目的**         | 可以演示，端到端可用，但有一些局限性    | 可用于生产，不再是个玩具了       | 可靠，生产可用
 |   **API**         | 不保证向后兼容   | API 是版本化的         | 可靠，生产可用。 API 是版本化的，具有自动版本转换以实现向后兼容性
-|  **性能**         | 未量化和保证     | 未量化和保证          | 对性能（延迟/规模）进行量化、记录，并保证不会退化
+|   **性能**         | 未量化和保证     | 未量化和保证          | 对性能（延迟/规模）进行量化、记录，并保证不会退化
 |   **废弃策略**        | 无     | 弱 - 3 个月         | 严格可靠。更改前将提前 1 年通知
 
 ## Istio 功能
@@ -57,7 +57,7 @@ icon: feature-status
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
 | [插入外部 CA 密钥和证书](/zh/docs/tasks/security/plugin-ca-cert/)| Stable
 | [服务间的双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)         | Stable
-| [Kubernetes：服务凭证分发](/zh/docs/concepts/security/#双向-TLS-认证)   | Stable
+| [Kubernetes：服务凭证分发](/zh/docs/concepts/security/#双向-tls-认证)   | Stable
 | [VM：服务凭证分发](/zh/docs/concepts/security/#pki)         | Beta
 | [双向 TLS 的迁移](/zh/docs/tasks/security/mtls-migration)    | Beta
 | [认证策略](/zh/docs/concepts/security/#认证策略)  | Alpha
@@ -82,6 +82,6 @@ icon: feature-status
 | [自定义 Mixer 构建模型](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
 | [进程外 Mixer 适配器（ gRPC Adapters ）](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Alpha
 
-> {{< idea_icon >}}
->
-> 如果您希望未来的版本中具有某些功能，请加入[社区](/zh/about/community/)与我们联系！
+{{< idea >}}
+如果您希望未来的版本中具有某些功能，请加入[社区](/zh/about/community/)与我们联系！
+{{< /idea >}}

@@ -59,15 +59,15 @@ title: Istio
 </script>
 
 <main class="landing">
-    <div class="banner">
+    <div id="banner">
         {{< inline_image "landing/istio-logo.svg" >}}
-        <div class="hero-text">
-            <h1 class="hero-label">Istio</h1>
-            <h1 class="hero-lead">Connect, secure, control, and observe services.
+        <div id="hero-text">
+            <h1 id="hero-label">Istio</h1>
+            <h1 id="hero-lead">Connect, secure, control, and observe services.
         </div>
     </div>
 
-    <div class="panels">
+    <div id="panels">
         <div id="panel1" class="panel">
             <a href="/docs/concepts/traffic-management/">
                 <div class="panel-img-top">

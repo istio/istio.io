@@ -30,11 +30,10 @@ To install and configure Istio in a Kubernetes cluster, follow these instruction
 
 ## Installation steps
 
-1. Install Istio's [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-via `kubectl apply`, and wait a few seconds for the CRDs to be committed in Kubernetes API server:
+1. Install all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs) via `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
 1. To install Istio's core components you can choose any of the following four
@@ -70,7 +69,7 @@ In this option, all services, as servers, can accept both plain text and
 mutual TLS traffic. However, all services, as clients, will send plain
 text traffic.
 Visit [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic)
-for how to configure clients behavior.
+for how to configure client behavior. To enforce mutual TLS authentication for both clients and servers, choose [Option 2](#option-2-install-istio-with-default-mutual-tls-authentication) instead.
 
 ### Option 2: Install Istio with default mutual TLS authentication
 
@@ -115,9 +114,9 @@ Follow our instructions on how to
     {{< /tip >}}
 
 1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
-    `istio-engressgateway-*`, `istio-galley-*`, `istio-ingress-*`, `istio-ingressgateway-*`,
-    `istio-pilot-*`, `istio-policy-*`, `istio-statsd-prom-bridge-*`, `istio-telemetry-*`,
-    `prometheus-*`, and, optionally, `istio-sidecar-injector-*`, have a `STATUS` of `Running`:
+    `istio-egressgateway-*`, `istio-galley-*`, `istio-ingressgateway-*`, `istio-pilot-*`,
+    `istio-policy-*`, `istio-telemetry-*`, `prometheus-*`, and, optionally, `istio-ingress-*`,
+    `istio-sidecar-injector-*`, have a `STATUS` of `Running`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -173,10 +172,10 @@ non-existent resources because they may have been deleted hierarchically.
     $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* If you installed Istio with Helm, follow the [uninstall Istio with Helm](/docs/setup/kubernetes/helm-install/#uninstall) steps.
+* If you installed Istio with Helm, follow the uninstall steps in [Istio Installation with Helm](/docs/setup/kubernetes/helm-install).
 
 * If desired, delete the CRDs:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}

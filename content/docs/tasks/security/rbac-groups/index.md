@@ -33,7 +33,7 @@ name of the namespace, creates the namespace, and starts the two services.
 Before running the following command, you need to enter the directory
 containing the Istio installation files.
 
-1.  Set the value of the `NS` environmental variable to `rbac-listclaim-test-ns`:
+1.  Set the value of the `NS` environmental variable to `rbac-groups-test-ns`:
 
     {{< text bash >}}
     $ export NS=rbac-groups-test-ns

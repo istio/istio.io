@@ -5,9 +5,9 @@ weight: 25
 keywords: [traffic-management,traffic-shifting]
 ---
 
-> 该任务使用新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。旧版本的 API 已被弃用，并将在下一个 Istio 版本中删除。 如果您需要使用旧版本，请点击[此处](https://archive.istio.io/v0.7/docs/tasks/traffic-management/)的文档。
+本任务将演示如何逐步将流量从一个版本的微服务迁移到另一个版本。例如，您可以将流量从旧版本迁移到新版本。
 
-本任务将演示如何逐步将流量从一个版本的微服务迁移到另一个版本。 例如，您可以将流量从旧版本迁移到新版本。
+一个常见的用例是将流量从一个版本的微服务逐渐迁移到另一个版本。在 Istio 中，您可以通过配置一系列规则来实现此目标，这些规则将一定百分比的流量路由到一个或另一个服务。在此任务中，您将 50％ 的流量发送到 `reviews:v1`，另外 50％ 的流量发送到 `reviews:v3`。然后将 100％ 的流量发送到 `reviews:v3` 来完成迁移。
 
 ## 开始之前
 
@@ -69,7 +69,9 @@ keywords: [traffic-management,traffic-shifting]
 
 1.  刷新浏览器中的 `/productpage` 页面，大约有 50% 的几率会看到页面中出带红色星级的评价内容。这是因为 `v3` 版本的 `reviews` 访问了带星级评级的 `ratings` 服务，但 `v1` 版本却没有。
 
-    > 在目前的 Envoy sidecar 实现中，可能需要刷新 `/productpage` 很多次--可能 15 次或更多--才能看到流量分发的效果。您可以通过修改规则将 90% 的流量路由到 v3，这样能看到更多带红色星级的评价。
+  {{< tip >}}
+  在目前的 Envoy sidecar 实现中，可能需要刷新 `/productpage` 很多次--可能 15 次或更多--才能看到流量分发的效果。您可以通过修改规则将 90% 的流量路由到 v3，这样能看到更多带红色星级的评价。
+  {{< /tip >}}
 
 1. 如果您认为 `reviews:v3` 微服务已经稳定，你可以通过应用此 virtual service 将 100% 的流量路由到 `reviews:v3`：
 

@@ -153,7 +153,7 @@ of injected sidecar when it was.
 
 Run `kubectl describe -n namespace deployment name` on the failing
 pod's deployment. Failure to invoke the injection webhook will
-typically will be captured in the event log.
+typically be captured in the event log.
 
 ### x509 certificate related errors
 

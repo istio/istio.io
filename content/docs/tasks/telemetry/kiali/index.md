@@ -21,6 +21,12 @@ The following instructions assume you have installed Helm and use it to install 
 To install Kiali without using Helm, follow the [Kiali installation instructions](https://www.kiali.io/gettingstarted/).
 {{< /idea >}}
 
+### Create a secret
+
+{{< idea >}}
+If you plan on installing Kiali using the `istio-demo.yaml` or `istio-demo-auth.yaml` file as described in the [Istio Quick Start Installation Steps](/docs/setup/kubernetes/quick-start/#installation-steps) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
+{{< /idea >}}
+
 Create a secret in your Istio namespace with the credentials that you use to
 authenticate to Kiali.
 
@@ -29,6 +35,13 @@ First, define the credentials you want to use as the Kiali username and passphra
 {{< text bash >}}
 $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
+{{< /text >}}
+
+If you are using the Z Shell, `zsh`, use the following to define the credentials:
+
+{{< text bash >}}
+$ KIALI_USERNAME=$(read '?Kiali Username: ' uval && echo -n $uval | base64)
+$ KIALI_PASSPHRASE=$(read -s "?Kiali Passphrase: " pval && echo -n $pval | base64)
 {{< /text >}}
 
 To create a secret, run the following commands:
@@ -54,6 +67,8 @@ data:
 EOF
 {{< /text >}}
 
+### Install Via Helm
+
 Once you create the Kiali secret, follow
 [the Helm install instructions](/docs/setup/kubernetes/helm-install/) to install Kiali via Helm.
 You must use the `--set kiali.enabled=true` option when you run the `helm` command, for example:
@@ -72,8 +87,8 @@ integrates with them, you must pass additional arguments to the
 {{< text bash >}}
 $ helm template \
     --set kiali.enabled=true \
-    --set "kiali.dashboard.jaegerURL=http://$(kubectl get svc tracing --namespace istio-system -o jsonpath='{.spec.clusterIP}'):80" \
-    --set "kiali.dashboard.grafanaURL=http://$(kubectl get svc grafana --namespace istio-system -o jsonpath='{.spec.clusterIP}'):3000" \
+    --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
+    --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
     install/kubernetes/helm/istio \
     --name istio --namespace istio-system > $HOME/istio.yaml
 $ kubectl apply -f $HOME/istio.yaml
@@ -115,7 +130,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
     {{< /text >}}
 
-1.  Visit <http://localhost:20001/kiali> in your web browser.
+1.  Visit <http://localhost:20001/kiali/console> in your web browser.
 
 1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
@@ -191,5 +206,5 @@ If you are not planning any follow-up tasks, remove the Bookinfo sample applicat
 1. To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
 
 {{< text bash >}}
-$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules --selector=app=kiali -n istio-system
+$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules,customresourcedefinitions --selector=app=kiali -n istio-system
 {{< /text >}}

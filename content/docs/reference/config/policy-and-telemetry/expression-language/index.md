@@ -29,6 +29,10 @@ CEXL supports the following functions.
 |`&&` |Logical AND | `(request.size == 200) && (request.auth.principal == "admin")`
 |`[ ]` |Map Access | `request.headers["x-request-id"]`
 |`+` |Add | `request.host + request.path`
+|`>` |Greater Than | `response.code > 200`
+|`>=` |Greater Than or Equal to | `request.size >= 100`
+|`<` |Less Than | `response.code < 500`
+|`<=` |Less Than or Equal to | `request.size <= 100`
 |<code>&#124;</code> |First non empty | `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
 |`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
 |`email` | Convert a textual e-mail into the `EMAIL_ADDRESS` type | `email("awesome@istio.io")` | Use the `email` function to create an `EMAIL_ADDRESS` literal.
@@ -42,6 +46,7 @@ CEXL supports the following functions.
 |`emptyStringMap` | Create an empty string map | `request.headers` <code>&#124;</code> `emptyStringMap()`| Use `emptyStringMap` to create an empty string map for default value of `request.headers`.
 |`conditional` | Simulate ternary operator | `conditional((context.reporter.kind` <code>&#124;</code> `"inbound") == "outbound", "client", "server")` | Returns `"client"` if report kind is `outbound` otherwise returns `"server"`.
 |`toLower` | Convert a string to lowercase letters | `toLower("User-Agent")` | Returns `"user-agent"`.
+|`size` | Length of a string | `size("admin")` | Returns 5
 
 ## Type checking
 

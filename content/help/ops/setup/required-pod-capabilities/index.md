@@ -18,14 +18,14 @@ To check which capabilities are allowed for the service account of your pods, ru
 following command:
 
 {{< text bash >}}
-$ for psp in $(kubectl get psp); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp $psp -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+$ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
 {{< /text >}}
 
 For example, to check which capabilities are allowed for the `default` service account in the `default` namespace,
 run the following command:
 
 {{< text bash >}}
-$ for psp in $(kubectl get psp); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp $psp -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+$ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
 {{< /text >}}
 
 If you see `NET_ADMIN` or `*` in the list of capabilities of one of the allowed policies for your service account,

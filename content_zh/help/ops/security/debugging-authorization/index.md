@@ -7,8 +7,9 @@ keywords: [debug,security,authorization,RBAC]
 
 这篇文章展示了如何调试 Istio 的授权。
 
-> {{< idea_icon >}}
+{{< idea >}}
 按照[报告错误](/zh/about/bugs)的说明，在您的电子邮件中包含集群状态存档会非常有用。
+{{< /idea >}}
 
 ## 确保授权正常启用
 
@@ -53,7 +54,9 @@ Pilot 将授权策略转换并且分发给代理。下面的步骤可以帮你�
 
 1. 通过下面的命令来打印 Pilot 的日志，并且搜索 `rbac`：
 
-    > 注意: 你可以需要先删除然后重新下发你的授权策略，这样debug日志才能正常被生成。
+    {{< tip >}}
+    你可以需要先删除然后重新下发你的授权策略，这样debug日志才能正常被生成。
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl logs $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
@@ -90,7 +93,9 @@ Pilot 将授权策略转换并且分发给代理。下面的步骤可以帮你�
 
 Pilot 将授权策略分发给代理。下面的步骤能帮助你确认这一步是正常工作的：
 
-> 注意：这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo)，如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
+{{< tip >}}
+这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo)，如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
+{{< /tip >}}
 
 1. 运行下面的命令来获取 `productpage` 服务的代理配置文件拷贝:
 
@@ -155,7 +160,9 @@ Pilot 将授权策略分发给代理。下面的步骤能帮助你确认这一�
 
 代理是最终执行授权策略的部分。下面的步骤可以帮助你确定代理是正常工作的。
 
-> 注意：这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo)，如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
+{{< tip >}}
+这里的应用都假设你在使用 [Bookinfo 程序](/zh/docs/examples/bookinfo)，如果不是的话，你需要将`-l app=productpage` 替换为你的真实pod。
+{{< /tip >}}
 
 1. 通过一下命令打开授权 debug 日志：
 

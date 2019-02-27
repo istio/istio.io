@@ -2,9 +2,13 @@
 
 {{ .Scratch.Set "skipSeeAlso" true }}
 
-{{ partial "primary-top.html" . }}
+{{ partial "primary_top.html" . }}
 
 <p>{{ .Description }}</p>
+
+{{ if .Params.content_above }}
+{{ .Content }}
+{{ end }}
 
 <div class="section-index">
     {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
@@ -23,7 +27,7 @@
             {{ if eq .Parent $parent }}
                 <div class="entry">
                     <h5>
-                        <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page_icon">
+                        <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page-icon">
                                 {{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}</a>
                     </h5>
                     <p>{{ .Description }}</p>
@@ -33,8 +37,10 @@
     {{ end }}
 </div>
 
+{{ if not .Params.content_above }}
 {{ .Content }}
+{{ end }}
 
-{{ partial "primary-bottom.html" . }}
+{{ partial "primary_bottom.html" . }}
 
 {{ end }}

@@ -1,6 +1,6 @@
 ---
 title: Istio 1.1
-weight: 88
+publishdate: 2019-03-01
 icon: notes
 ---
 

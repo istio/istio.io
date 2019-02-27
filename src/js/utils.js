@@ -1,11 +1,5 @@
 "use strict";
 
-// Scroll the document to the top
-function scrollToTop() {
-    document.body.scrollTop = 0;            // for Safari
-    document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE and Opera
-}
-
 const escapeChars = {
     '¢': 'cent',
     '£': 'pound',
@@ -47,4 +41,43 @@ function printText(text) {
     printWin.focus();
     printWin.print();
     printWin.close();
+}
+
+// Navigate to the given URL if possible. If the page doesn't exist then navigate to the
+// root of the target site instead.
+function navigateToUrlOrRoot(url) {
+    const request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 404) {
+            const u = new URL(url);
+            u.pathname = '';
+            url = u.toString();
+        }
+
+        // go!
+        window.location.href = url;
+    };
+
+    request.send();
+}
+
+function onDOMLoaded(cb) {
+    listen(document, "DOMContentLoaded", cb);
+}
+
+function getById(id) {
+    return document.getElementById(id);
+}
+
+function query(o, s) {
+    return o.querySelector(s);
+}
+
+function queryAll(o, s) {
+    return o.querySelectorAll(s);
+}
+
+function listen(o, e, f) {
+    o.addEventListener(e, f);
 }

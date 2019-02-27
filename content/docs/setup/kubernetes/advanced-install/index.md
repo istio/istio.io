@@ -45,8 +45,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
   --set galley.enabled=false \
   --set sidecarInjectorWebhook.enabled=false \
   --set mixer.enabled=false \
-  --set prometheus.enabled=false \
-  --set global.proxy.envoyStatsd.enabled=false
+  --set prometheus.enabled=false
 {{< /text >}}
 
 Ensure the `istio-pilot-*` and `istio-citadel-*` Kubernetes pods are deployed and their containers are up and running:

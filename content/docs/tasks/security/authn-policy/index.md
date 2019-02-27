@@ -15,7 +15,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio.yaml` as described in
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in
 [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using
 [Helm](/docs/setup/kubernetes/helm-install/)).
 
@@ -62,7 +62,7 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-You should also verify that there are no existing authentication policies in the system, which you can do as follows:
+You should also verify that there is a default mesh authentication policy in the system, which you can do as follows:
 
 {{< text bash >}}
 $ kubectl get policies.authentication.istio.io --all-namespaces
@@ -71,7 +71,8 @@ No resources found.
 
 {{< text bash >}}
 $ kubectl get meshpolicies.authentication.istio.io
-No resources found.
+NAME      AGE
+default   3m
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
@@ -563,11 +564,24 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 {{< /text >}}
 
 To observe other aspects of JWT validation, use the script [`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) to
-generate new tokens to test with different issuer, audiences, expiry date, etc. For example, the command below creates a token that
+generate new tokens to test with different issuer, audiences, expiry date, etc. The script can be downloaded from the Istio repository:
+
+{{< text bash >}}
+$ wget {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
+$ chmod +x gen-jwt.py
+{{< /text >}}
+
+You also need the `key.pem` file:
+
+{{< text bash >}}
+$ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
+{{< /text >}}
+
+For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
 
 {{< text bash >}}
-$ TOKEN=$(@security/tools/jwt/samples/gen-jwt.py@ @security/tools/jwt/samples/key.pem@ --expire 5)
+$ TOKEN=$(./gen-jwt.py ./key.pem --expire 5)
 $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
 200
 200

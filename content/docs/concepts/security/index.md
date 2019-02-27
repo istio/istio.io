@@ -130,8 +130,8 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. Citadel validates the credentials carried with the CSR, and signs the CSR to generate the certificate.
 
-1. The node agent sends both, the certificate received from Citadel and the
-   private key, to Envoy.
+1. The node agent sends both the certificate received from Citadel and the
+   private key to Envoy.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
@@ -148,11 +148,11 @@ The flow goes as follows:
 
 1. Envoy sends a certificate and key request via Envoy secret discovery service (SDS) API.
 
-1. Upon receiving the SDS request, node agent creates the private key and CSR, and sends the CSR with its credentials to Citadel for signing.
+1. Upon receiving the SDS request, the node agent creates the private key and CSR before sending the CSR with its credentials to Citadel for signing.
 
-1. Citadel validates the credentials carried in the CSR, and signs the CSR to generate the certificate.
+1. Citadel validates the credentials carried in the CSR and signs the CSR to generate the certificate.
 
-1. The node agent sends the certificate received from Citadel and the private key to Envoy, via the Envoy SDS API.
+1. The node agent sends the certificate received from Citadel and the private key to Envoy via the Envoy SDS API.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
@@ -327,7 +327,7 @@ work. As you'll remember from the [Architecture section](/docs/concepts/security
 authentication policies apply to requests that a service **receives**. To
 specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
-[TLS settings reference docs](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings).
+[TLS settings reference docs](/docs/reference/config/networking/v1alpha3/destination-rule/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
 `.yaml` files. You deploy policies using `kubectl`.
 
