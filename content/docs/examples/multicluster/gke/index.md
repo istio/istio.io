@@ -38,20 +38,20 @@ In addition to the prerequisites for installing Istio the following setup is req
     $ zone="us-east1-b"
     $ cluster="cluster-1"
     $ gcloud container clusters create $cluster --zone $zone --username "admin" \
-      --cluster-version "1.9.6-gke.1" --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
+      --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
       --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only",\
-      "https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
-      "https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
-      "https://www.googleapis.com/auth/trace.append" \
-      --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
+"https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
+"https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
+"https://www.googleapis.com/auth/trace.append" \
+    --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
     $ cluster="cluster-2"
     $ gcloud container clusters create $cluster --zone $zone --username "admin" \
-      --cluster-version "1.9.6-gke.1" --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
+      --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
       --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only",\
-      "https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
-      "https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
-      "https://www.googleapis.com/auth/trace.append" \
-      --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
+"https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
+"https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
+"https://www.googleapis.com/auth/trace.append" \
+    --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
     {{< /text >}}
 
 1.  Wait for clusters to transition to the `RUNNING` state by polling their statuses via the following command:
