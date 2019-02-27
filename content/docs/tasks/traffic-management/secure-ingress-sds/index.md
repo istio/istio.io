@@ -1,9 +1,8 @@
 ---
-title: Securing Gateways with HTTPS Using Secret Discovery Service (SDS)
-description: Describes how to configure Istio to expose a service outside of the 
-service mesh, over TLS or Mutual TLS, using secret discovery service
+title: Securing Gateways with HTTPS Using Secret Discovery Service
+description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS, using secret discovery service.
 weight: 32
-keywords: [traffic-management,ingress,SDS]
+keywords: [traffic-management,ingress,sds]
 ---
 
 The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task

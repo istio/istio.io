@@ -1,7 +1,6 @@
 ---
 title: Securing Gateways with HTTPS Using File Mount Based Approach
-description: Describes how to configure Istio to expose a service outside of the
-service mesh, over TLS or Mutual TLS, using file mount based approach
+description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS, using file mount based approach.
 weight: 31
 keywords: [traffic-management,ingress]
 ---
