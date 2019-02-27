@@ -1,14 +1,4 @@
----
-title: Egress Gateway with TLS Origination
-description: Describes how to configure an Egress Gateway to perform TLS origination to external services.
-weight: 40
-keywords: [traffic-management,egress]
----
-
-The [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination) example
-shows how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination) for traffic to an external service.
-The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example shows how to configure
-Istio to direct egress traffic through a dedicated _egress gateway_ service.
+ervice.
 This example combines the previous two by describing how to configure an egress gateway to perform
 TLS origination for traffic to external services.
 
@@ -17,7 +7,7 @@ TLS origination for traffic to external services.
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
     {{< tip >}}
-    If you used Helm with default values to install Istio, then the egress gateway is disabled by default. Please enable it and reinstall Istio before continuing.
+    If you used Helm with default values to install Istio, then the egress gateway is disabled by default. Please [enable](/docs/reference/config/installation-options/#gateways-options) it and [reinstall](/docs/setup/kubernetes/helm-install/) Istio before continuing.
     {{< /tip >}}
 
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
