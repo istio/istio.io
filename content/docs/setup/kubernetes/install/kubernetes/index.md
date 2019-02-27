@@ -1,6 +1,6 @@
 ---
-title: Quick Start with Kubernetes
-description: Instructions to setup the Istio service mesh in a Kubernetes cluster.
+title: Install Istio on a Kubernetes Cluster
+description: Instructions to install the Istio service mesh in a Kubernetes cluster.
 weight: 55
 keywords: [kubernetes]
 aliases:
@@ -11,7 +11,10 @@ aliases:
 Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
 {{< /tip >}}
 
-To install and configure Istio in a Kubernetes cluster, follow these instructions:
+Follow this path to install and configure an Istio mesh in a Kubernetes cluster
+for evaluation.
+
+To install Istio for production follow the [Helm Installation guide](./install/helm/index.md).
 
 ## Prerequisites
 

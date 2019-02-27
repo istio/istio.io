@@ -1,6 +1,6 @@
 ---
-title: Quick Start with IBM Cloud
-description: How to quickly setup Istio using IBM Cloud Public or IBM Cloud Private.
+title: Install Istio using the IBM Cloud
+description: Instructions to install Istio using IBM Cloud Public or IBM Cloud Private.
 weight: 70
 keywords: [kubernetes,ibm,icp]
 aliases:
@@ -8,8 +8,11 @@ aliases:
     - /docs/setup/kubernetes/quick-start-ibm/
 ---
 
-Follow these instructions to install and run Istio in IBM Cloud.
-You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on) in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#ibm-cloud-public), or install Istio in [IBM Cloud Private](#ibm-cloud-private).
+Follow this path to install and configure an Istio mesh in IBM Cloud.
+
+You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on)
+in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#ibm-cloud-public),
+or install Istio in [IBM Cloud Private](#ibm-cloud-private).
 
 ## Managed Istio add-on
 

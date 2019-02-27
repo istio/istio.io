@@ -1,6 +1,6 @@
 ---
 title: Install with Helm
-description: Install Istio with the included Helm chart.
+description: Instructions to install Istio using a Helm chart.
 weight: 20
 keywords: [kubernetes,helm]
 aliases:
@@ -10,10 +10,11 @@ aliases:
 icon: helm
 ---
 
-Quick start instructions for the setup and configuration of Istio using Helm.
-This is the recommended install method for installing Istio to your
-production environment as it offers rich customization to the Istio control
-plane and the sidecars for the Istio data plane.
+Follow this path to install and configure an Istio mesh using Helm.
+
+**This path is recommended for production environments.** This path offers rich
+customization of the Istio control plane and of the sidecars for the Istio data
+plane.
 
 ## Prerequisites
 

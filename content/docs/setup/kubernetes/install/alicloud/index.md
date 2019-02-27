@@ -1,13 +1,13 @@
 ---
-title: Quick Start with Alibaba Cloud Kubernetes Container Service
-description: How to quickly setup Istio using Alibaba Cloud Kubernetes Container Service.
+title: Install Istio on the Alibaba Cloud Kubernetes Container Service
+description: Instructions to install Istio using the Alibaba Cloud Kubernetes Container Service.
 weight: 60
 keywords: [kubernetes,alibabacloud,aliyun]
 aliases:
         - /docs/setup/kubernetes/quick-start-alicloud-ack/
 ---
 
-Follow these instructions to install and run Istio in the
+Follow this path to install and configure an Istio mesh in the
 [Alibaba Cloud Kubernetes Container Service](https://www.alibabacloud.com/product/kubernetes)
 using the `Application Catalog` module.
 

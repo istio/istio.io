@@ -1,6 +1,6 @@
 ---
 title: Minimal Istio Installation
-description: Install minimal Istio using Helm.
+description: Instructions to perform the minimal install of Istio using Helm.
 weight: 30
 keywords: [kubernetes,helm, minimal]
 aliases:
@@ -8,7 +8,9 @@ aliases:
 icon: helm
 ---
 
-Quick start instructions for the minimal setup and configuration of Istio using Helm.
+Follow this path to perform the minimal install and configuration of an Istio
+mesh using Helm.
+
 This minimal install provides traffic management features of Istio.
 
 ## Prerequisites
