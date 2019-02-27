@@ -40,7 +40,8 @@ will prevent any possibility for a malicious application to access the forbidden
   demonstrates how to allow applications to send HTTP requests to external servers that require HTTPS, while directing
   traffic through egress gateway.
 * The [Collecting Metrics and Logs](/docs/tasks/telemetry/metrics-logs/) task describes how to configure metrics and
-  logs for services in a mesh. The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/)
+  logs for services in a mesh.
+* The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/using-istio-dashboard/)
   describes the Istio Dashboard to monitor mesh traffic.
 * The [Basic Access Control](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to control access to
   in-mesh services.
