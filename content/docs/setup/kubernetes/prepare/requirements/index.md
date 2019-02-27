@@ -60,7 +60,7 @@ cluster must satisfy the following requirements:
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, visit [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
 
-* _**Check required ports**_:
+* _**Check required ports**_: The following table lists the default ports used by Istio components. Make sure the ports are available before installing Istio components. You can override any port numbers marked with a * during the install. Ensure any custom ports used are also available.
 
     | Component | Port | NodePort | Description |
     |----|----|----|----|
@@ -123,6 +123,3 @@ cluster must satisfy the following requirements:
     | Tracing | 16686 |   | Tracing - Jaeger |
     | | | | |
     | Zipkin | 9411 |   | Zipkin collector |
-
-Any port numbers marked with * are overridable, so you will need to ensure any
-custom ports you provide are also open.
