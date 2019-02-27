@@ -67,7 +67,7 @@ on **each** Kubernetes cluster.
     * Follow the [Helm Installation Steps](/docs/setup/kubernetes/helm-install/#installation-steps) to install Istio. You must pass in the flag `--values install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml` to helm to use the correct multicluster settings. For example, using the Helm Install option:
 
         {{< text bash >}}
-        helm install istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml
+        $ helm install istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml
         {{< /text >}}
 
 ## Setup DNS
