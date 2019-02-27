@@ -47,7 +47,7 @@ replaces the functionality provided by the `istio-init` container.
     1.  Refer to the [Hosted Kubernetes Usage](#hosted-kubernetes-usage) section for any non-default
         settings required.
 
-1.  Add the `--set istio_cni.enabled=true` setting to the [Istio Installation with Helm procedure](/docs/setup/kubernetes/helm-install/) to include the installation of the Istio CNI plugin. For example:
+1.  Add the `--set istio_cni.enabled=true` setting to the [Istio Installation with Helm procedure](/docs/setup/kubernetes/install/helm/) to include the installation of the Istio CNI plugin. For example:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -114,12 +114,12 @@ of many common Kubernetes environments.
 
 The use of the Istio CNI plugin requires Kubernetes pods to be deployed with a sidecar injection method
 that uses the `istio-sidecar-injector` configmap created from the Helm installation with the
-`istio_cni.enabled=true`.  Refer to [Istio sidecar injection](/docs/setup/kubernetes/sidecar-injection/)
+`istio_cni.enabled=true`.  Refer to [Istio sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
 for details about Istio sidecar injection methods.
 
 The following sidecar injection methods are supported for use with the Istio CNI plugin:
 
-1.  [Automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+1.  [Automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 1.  Manual sidecar injection with the `istio-sidecar-injector` configmap
     1.  `istioctl kube-inject` using the configmap directly:
 

@@ -52,8 +52,8 @@ the appropriate snapshot.  For example, if you want to run with snapshot 6, use 
 
 1. Choose one of the following two **mutually exclusive** options described below.
 
-    - To use Kubernetes manifests to deploy Istio, follow the instructions for [option 1](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
-    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
+    - To use Kubernetes manifests to deploy Istio, follow the instructions for [option 1](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
+    - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
 
     {{< tip >}}
     To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.

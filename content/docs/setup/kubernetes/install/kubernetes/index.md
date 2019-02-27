@@ -44,7 +44,7 @@ To install Istio for production follow the [Helm Installation guide](./install/h
 1. To install Istio's core components you can choose any of the following four
 **mutually exclusive** options described below. However, for a production setup of Istio,
 we recommend installing with the
-[Helm Chart](/docs/setup/kubernetes/helm-install/), to use all the
+[Helm Chart](/docs/setup/kubernetes/install/helm/), to use all the
 configuration options. This permits customization of Istio to operator specific requirements.
 
 ### Option 1: Install Istio with mutual TLS enabled and set to use permissive mode between sidecars
@@ -91,12 +91,12 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 ### Option 3: Render Kubernetes manifest with Helm and deploy with `kubectl`
 
 Follow our setup instructions to
-[render the Kubernetes manifest with Helm and deploy with `kubectl`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template).
+[render the Kubernetes manifest with Helm and deploy with `kubectl`](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
 
 ### Option 4: Use Helm and Tiller to manage the Istio deployment
 
 Follow our instructions on how to
-[use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
+[use Helm and Tiller to manage the Istio deployment](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 ## Verifying the installation
 
@@ -138,7 +138,7 @@ traffic; HTTP/1.0 is not supported.
 {{< /warning >}}
 
 If you started the
-[Istio-sidecar-injector](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection),
+[Istio-sidecar-injector](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection),
 you can deploy the application directly using `kubectl apply`.
 
 The Istio-Sidecar-injector will automatically inject Envoy containers into your

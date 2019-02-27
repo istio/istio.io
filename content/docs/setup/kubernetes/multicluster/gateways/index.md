@@ -26,7 +26,7 @@ Cross-cluster communication occurs over Istio Gateways of the respective cluster
 
 * Two or more Kubernetes clusters with **1.10 or newer**.
 
-* Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/helm-install/)
+* Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/install/helm/)
 on **each** Kubernetes cluster.
 
 * The IP address of the `istio-ingressgateway` service in each cluster must
@@ -51,6 +51,22 @@ on **each** Kubernetes cluster.
     you would likely use a different CA certificate for each cluster, all signed
     by a common root CA.
     {{< /tip >}}
+
+1. Generate a multicluster-gateways Istio configuration file using `helm`:
+
+    {{< warning >}}
+    If you're not sure if your `helm` dependencies are up to date, update them using the
+    command shown in [Helm installation steps](/docs/setup/kubernetes/install/helm/#installation-steps)
+    before running the following command.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+        -f @install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
+    {{< /text >}}
+
+    For further details and customization options, refer to the
+    [Installation with Helm](/docs/setup/kubernetes/install/helm/) instructions.
 
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
    configuration in all of them.

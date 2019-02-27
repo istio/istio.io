@@ -23,7 +23,7 @@ control plane and form a mesh network across multiple clusters.
 
 * Two or more clusters running **Kubernetes version 1.9 or newer**.
 
-* The ability to deploy the [Istio control plane](/docs/setup/kubernetes/quick-start/)
+* The ability to deploy the [Istio control plane](/docs/setup/kubernetes/install/kubernetes/)
   on **one** of the clusters.
 
 * A RFC1918 network, VPN, or an alternative more advanced network technique
@@ -43,7 +43,7 @@ manifests and Helm charts provided within the Istio repository.
 
 ## Deploy the local control plane
 
-Install the [Istio control plane](/docs/setup/kubernetes/quick-start/#installation-steps)
+Install the [Istio control plane](/docs/setup/kubernetes/install/kubernetes/#installation-steps)
 on **one** Kubernetes cluster.
 
 ## Install the Istio remote

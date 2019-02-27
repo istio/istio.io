@@ -12,7 +12,7 @@ an Istio mesh deployed on Kubernetes.
 
 ## Prerequisites
 
-* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/kubernetes/quick-start/).
+* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/kubernetes/install/kubernetes/).
 
 * Mesh expansion machines must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that
@@ -23,7 +23,7 @@ is not required to have access to the cluster IP addresses assigned by Kubernete
 include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
 server, or configuring the IPs in any other DNS server accessible from the VM.
 
-* If you haven't already enabled mesh expansion [at install time with Helm](/docs/setup/kubernetes/helm-install/), you have
+* If you haven't already enabled mesh expansion [at install time with Helm](/docs/setup/kubernetes/install/helm/), you have
 installed the [Helm client](https://docs.helm.sh/using_helm/). You'll need it to enable mesh expansion for the cluster.
 
 ## Installation steps

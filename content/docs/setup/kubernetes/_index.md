@@ -18,10 +18,10 @@ Istio offers multiple installation paths depending on your Kubernetes platform.
 
 However, the basic flow is the same regardless of platform:
 
-1. [Review the pod requirements](./additional-setup/requirements/index.md)
-1. [Prepare your platform for Istio](./platform/_index.md)
-1. [Download the latest Istio release](./download-release/index.md)
-1. [Install Istio on your platform](./helm/index.md)
+1. [Review the pod requirements](/docs/setup/kubernetes/additional-setup/requirements/)
+1. [Prepare your platform for Istio](/docs/setup/kubernetes/platform-setup/)
+1. [Download the latest Istio release](/docs/setup/kubernetes/download-release/)
+1. [Install Istio on your platform](/docs/setup/kubernetes/install/)
 
 Whether or not you intend to use Istio on production, is critical when deciding
 which installation to perform.
@@ -30,34 +30,31 @@ which installation to perform.
 
 To quickly test Istio's features, you can:
 
-- Install Istio [on Kubernetes without Helm](./install/kubernetes/index.md)
-- Perform Istio's [minimal installation](./install/minimal/index.md)
+- Install Istio [on Kubernetes without Helm](/docs/setup/kubernetes/install/kubernetes/)
+- Perform Istio's [minimal installation](/docs/setup/kubernetes/install/minimal/)
 
 ## Installing Istio for production
 
 We recommend you install Istio for production using the
-[Helm Installation guide](./install/helm/index.md)
+[Helm Installation guide](/docs/setup/kubernetes/install/helm/)
 
 If you run Kubernetes on a supported platform, you can follow the instructions
 specific to your Kubernetes platform:
 
-- [Alibaba Cloud Kubernetes Container Service](./install/alibaba/index.md)
-- [Container Network Interface](./install/cni/index.md)
-- [Google Kubernetes Engine](./install/gke/index.md)
-- [IBM Cloud](./install/ibm/index.md)
+- [Alibaba Cloud Kubernetes Container Service](/docs/setup/kubernetes/install/alicloud/)
+- [Container Network Interface](/docs/setup/kubernetes/install/cni/)
+- [Google Kubernetes Engine](/docs/setup/kubernetes/install/gke/)
+- [IBM Cloud](/docs/setup/kubernetes/install/ibm/)
 
 If you want to perform a multicluster setup, visit our
-[Multicluster installation documents](./multicluster/_index.md)
+[Multicluster installation documents](/docs/setup/kubernetes/multicluster/)
 
 ## Additional setup resources
 
 Depending on your use case and platform, you might require additional setup.
 
 To expand your existing mesh with additional containers or VMs, follow our
-[Mesh Expansion guide](./additional-setup/mesh-expansion/index.md).
-
-To perform a piecemeal installation of Istio, follow the instructions on
-[Customizing the Istio Installation guide](./additional-setup/customize/index.md).
+[Mesh Expansion guide](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
 
 To learn more about sidecar injection, visit our
-[Installing the Sidecar guide](./additional-setup/sidecars/index.md)
+[Installing the Sidecar guide](/docs/setup/kubernetes/additional-setup/sidecars/)

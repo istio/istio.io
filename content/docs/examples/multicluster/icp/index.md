@@ -144,7 +144,7 @@ This example uses `cluster-1` as the local Istio control plane and `cluster-2` a
 
 ## Deploy the Bookinfo example across clusters
 
-The following example enables [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
+The following example enables [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
 
 1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote:
 

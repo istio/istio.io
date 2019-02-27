@@ -16,8 +16,8 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in
-[installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using
-[Helm](/docs/setup/kubernetes/helm-install/)).
+[installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using
+[Helm](/docs/setup/kubernetes/install/helm/)).
 
 ### Setup
 
@@ -234,7 +234,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-If you install Istio with the [default mutual TLS option](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication),
+If you install Istio with the [default mutual TLS option](/docs/setup/kubernetes/install/kubernetes/#option-2-install-istio-with-default-mutual-tls-authentication),
 this rule, together with the global authentication policy and destination rule above will be injected to the system during installation process.
 {{< /tip >}}
 

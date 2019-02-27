@@ -15,7 +15,7 @@ This minimal install provides traffic management features of Istio.
 
 ## Prerequisites
 
-Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) described in the Quick Start guide.
+Refer to the [prerequisites](/docs/setup/kubernetes/install/kubernetes/#prerequisites) described in the Quick Start guide.
 
 ## Installation steps
 

@@ -1,7 +1,7 @@
 ---
 title: Upgrading Istio
 description: Demonstrates how to upgrade the Istio control plane and data plane independently.
-weight: 37
+weight: 5
 aliases:
         -/docs/setup/kubernetes/upgrading-istio/
 keywords: [kubernetes,upgrading]
@@ -26,7 +26,7 @@ Sidecar injector.
 
 #### Helm upgrade
 
-If you installed Istio with [Helm](/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
+If you installed Istio with [Helm](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
 
 1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
 

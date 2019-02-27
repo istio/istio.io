@@ -15,13 +15,13 @@ TODO announcement
 ## Security
 
 - Deprecated `RbacConfig` replacing it with `ClusterRbacConfig` to implement the correct cluster scope.
-  Refer to our guide on [Migrating the `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrading-istio#migrating-the-rbacconfig-to-clusterrbacconfig)
+  Refer to our guide on [Migrating the `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/#migrating-the-rbacconfig-to-clusterrbacconfig)
   for migration instructions.
 
 ## `istioctl`
 
 - Deprecated `istioctl create`, `istioctl replace`, `istioctl get`, and `istioctl delete`. Use `kubectl` instead (see <https://kubernetes.io/docs/tasks/tools/install-kubectl>). The next release (1.2) removes the deprecated commands.
-- Deprecated `istioctl gen-deploy`. Use a [`helm template`](/docs/setup/kubernetes/helm-install/#option-1-install-with-helm-via-helm-template) instead. The next release (1.2) removes this command.
+- Deprecated `istioctl gen-deploy`. Use a [`helm template`](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) instead. The next release (1.2) removes this command.
 
 - Added [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate) for offline validation of Istio Kubernetes resources. The intent is to replace the existing use of the deprecated `istioctl create` command.
 

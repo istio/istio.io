@@ -83,14 +83,14 @@ admissionregistration.k8s.io/v1alpha1
 admissionregistration.k8s.io/v1beta1
 {{< /text >}}
 
-See [Kubernetes quick start](/docs/setup/kubernetes/quick-start/) for instructions on installing Kubernetes version >= 1.9.
+See [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) for instructions on installing Kubernetes version >= 1.9.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 #### Disabling or updating the webhook
 
 The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
-use [Helm](/docs/setup/kubernetes/helm-install/) to generate an updated `istio.yaml`
+use [Helm](/docs/setup/kubernetes/install/helm/) to generate an updated `istio.yaml`
 with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
 
 {{< text bash >}}

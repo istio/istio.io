@@ -57,6 +57,6 @@ istio-citadel-b48446f79-wd4tk            1/1       Running   0          1m
 istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 {{< /text >}}
 
-With this minimal set you can install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/). You will need to [manually inject the sidecar](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection).
+With this minimal set you can install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/). You will need to [manually inject the sidecar](/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection).
 
 [Installation Options](/docs/reference/config/installation-options/) has the full list of options allowing you to tailor the Istio installation to your needs. Before you override the default value with `--set` in `helm install`, please check the configurations for the option in `install/kubernetes/helm/istio/values.yaml` and uncomment the commented context if needed.
