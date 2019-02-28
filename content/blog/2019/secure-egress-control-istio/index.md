@@ -213,7 +213,7 @@ following goals:
 1. Application A will try to access `*.ibm.com` unmonitored
 1. Application A will try to access `mongo1.composedb.com`
 
-Note that the application A is allowed to access `*.ibm.com`, so the attacker is able to access it. There is no way
+Note that application A is allowed to access `*.ibm.com`, so the attacker is able to access it. There is no way
 to prevent such access since there is no way to distinguish, at least initially, between the original and the
 compromised versions of the application A. However, you want to monitor any access to external services to be able to
 detect suspicious traffic, for example by applying anomaly detection tools on logs of the egress traffic.
