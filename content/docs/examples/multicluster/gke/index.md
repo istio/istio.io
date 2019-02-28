@@ -135,8 +135,9 @@ $ kubectl get pods -n istio-system
 1.  Generate remote cluster manifest:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
-      --name istio-remote \
+    $ helm template install/kubernetes/helm/istio \
+      --namespace istio-system --name istio-remote \
+      --values install/kubernetes/helm/istio/values-istio-remote.yaml \
       --set global.remotePilotAddress=${PILOT_POD_IP} \
       --set global.remotePolicyAddress=${POLICY_POD_IP} \
       --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > $HOME/istio-remote.yaml
