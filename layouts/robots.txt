@@ -1,8 +1,3 @@
 User-agent: *
-{{ if .Site.Data.args.preliminary }}
-Disallow: /index.html
-Disallow: /zh/index.html
-{{ else }}
 Disallow:
-{{ end }}
 Sitemap: {{ .Site.BaseURL }}/sitemap.xml
