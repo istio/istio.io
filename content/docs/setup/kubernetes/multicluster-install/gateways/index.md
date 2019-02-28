@@ -50,22 +50,6 @@ on **each** Kubernetes cluster.
     by a common root CA.
     {{< /tip >}}
 
-1. Generate a multicluster-gateways Istio configuration file using `helm`:
-
-    {{< warning >}}
-    If you're not sure if your `helm` dependencies are up to date, update them using the
-    command shown in [Helm installation steps](/docs/setup/kubernetes/helm-install/#installation-steps)
-    before running the following command.
-    {{< /warning >}}
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
-    {{< /text >}}
-
-    For further details and customization options, refer to the
-    [Installation with Helm](/docs/setup/kubernetes/helm-install/) instructions.
-
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
    configuration in all of them.
 
@@ -80,16 +64,10 @@ on **each** Kubernetes cluster.
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-    * Install Istio's CRDs and wait a few seconds for them to be committed to the Kubernetes API server:
+    * Follow the [Helm Installation Steps](/docs/setup/kubernetes/helm-install/#installation-steps) to install Istio. You must pass in the flag `--values install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml` to helm to use the correct multicluster settings. For example, using the Helm Install option:
 
         {{< text bash >}}
-        $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
-        {{< /text >}}
-
-    * Deploy the Istio control plane:
-
-        {{< text bash >}}
-        $ kubectl apply -f $HOME/istio.yaml
+        $ helm install istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml
         {{< /text >}}
 
 ## Setup DNS
