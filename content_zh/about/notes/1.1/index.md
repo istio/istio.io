@@ -1,6 +1,6 @@
 ---
 title: Istio 1.1
-weight: 89
+publishdate: 2018-03-01
 icon: notes
 ---
 
@@ -20,7 +20,7 @@ TBD
 ## `istioctl`
 
 - 弃用 `istioctl create`，`istioctl replace`， `istioctl get` 和 `istioctl delete`。使用 `kubectl` 代替（参考<https://kubernetes.io/docs/tasks/tools/install-kubectl>）。下个版本（1.2）将删除这些弃用的命令。
-- 弃用 `istioctl gen-deploy`。使用 [`helm template`](/zh/docs/setup/kubernetes/helm-install/#选项1-通过-helm-的-helm-template-安装-istio) 代替。下个版本（1.2）将删除这些弃用的命令。
+- 弃用 `istioctl gen-deploy`。使用 [`helm template`](/zh/docs/setup/kubernetes/helm-install/#方案-1-使用-helm-template-进行安装) 代替。下个版本（1.2）将删除这些弃用的命令。
 
 - 为 Istio Kubernetes 资源的离线校验增加 [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate)。其目的是代替已经弃用的 `istioctl create` 命令。
 

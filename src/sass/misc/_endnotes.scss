@@ -1,0 +1,15 @@
+#endnotes-container {
+    display: none;
+
+    &.show {
+        @media print {
+            display: block;
+        }
+    }
+}
+
+@media screen {
+    .endnote-ref {
+        display: none;
+    }
+}

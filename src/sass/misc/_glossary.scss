@@ -10,14 +10,30 @@
     }
 
     .entries {
+        .letter {
+            @media screen {
+                &:target::before {
+                    height: calc(#{$headerHeight} - 1rem);
+                    margin-top: calc(0rem - calc(#{$headerHeight} - 1rem));
+                }
+            }
+        }
+
         h4 {
             font-size: $font-size--m;
             font-weight: $glossaryHeaderWeight;
             border-bottom: 1px solid;
             color: $glossaryHeaderColor;
             border-color: $glossaryHeaderColor;
-            margin-top: 2.2rem;
-            margin-bottom: .15rem;
+            background-color: $backgroundColor;
+            padding-top: 2.2rem;
+            padding-bottom: .15rem;
+            position: -webkit-sticky;
+            position: sticky;
+            top: calc(#{$headerHeight} - 1rem);
+            margin-top: 0;
+            margin-bottom: 0;
+            z-index: $glossary-letter-z;
         }
 
         dl {

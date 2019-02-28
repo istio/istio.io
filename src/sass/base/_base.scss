@@ -1,9 +1,25 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 @media screen {
+    // ensure that deep-linking in a doc positions the target correctly relative
+    // to the page header. Without this, the target ends up under the page header.
     :target::before {
         content: "";
         display: block;
         height: $headerHeight;
         margin-top: -$headerHeight;
+    }
+
+    // This is here to undo the effect of the above for table rows. Otherwise,
+    // table rows with ids don't render properly when used for deep-linking.
+    //
+    // Unfortunately, although this fixes the bad rendering, it does mean that deep-linking to a
+    // table row will position the row right underneath the page header. To deal with that case,
+    // we have a hack in JavaScript to force-scroll the row into view.
+    tr[id]:before {
+        content: normal;
     }
 
     html {
@@ -19,6 +35,10 @@
         color: $textColor;
         background-color: $backgroundColor;
     }
+}
+
+body {
+    line-height: 1.5;
 }
 
 a {
@@ -46,6 +66,10 @@ a.active {
     font-weight: $linkWeight;
 }
 
+a.dropdown-item {
+    cursor: pointer;
+}
+
 table, th, td, tr {
     padding: .5em;
 }
@@ -53,6 +77,8 @@ table, th, td, tr {
 table {
     margin-left: .5em;
     margin-right: .5em;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 table p:first-of-type {
@@ -65,7 +91,7 @@ table p:last-of-type {
 
 th {
     color: $textBrandColor;
-    background-color: $secondBrandColor;
+    background-color: $mainBrandColor;
     font-weight: $tableHeaderWeight;
 
     code {
@@ -78,30 +104,25 @@ tr.oneof>td {
     border-top: 1px dashed $dividerBarColor;
 }
 
-table {
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
 th, td {
     border-left: 1px solid $boxBorderColor;
     border-top: 1px solid $boxBorderColor;
 }
 
 tr:first-child th:first-child {
-    border-radius: 4px 0 0 0;
+    border-radius: $border-radius 0 0 0;
 }
 
 tr:first-child td:first-child {
-    border-radius: 4px 0 0 0;
+    border-radius: $border-radius 0 0 0;
 }
 
 tr:first-child th:last-child {
-    border-radius: 0 4px 0 0;
+    border-radius: 0 $border-radius 0 0;
 }
 
 tr:first-child td:last-child {
-    border-radius: 0 4px 0 0;
+    border-radius: 0 $border-radius 0 0;
 }
 
 tr:last-child td {
@@ -109,11 +130,11 @@ tr:last-child td {
 }
 
 tr:last-child td:first-child {
-    border-radius: 0 0 0 4px;
+    border-radius: 0 0 0 $border-radius;
 }
 
 tr:last-child td:last-child {
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 $border-radius 0;
 }
 
 tr th:last-child {
@@ -147,18 +168,19 @@ pre {
 
     max-height: 31em;
     border: 1px solid $preBlockBorderColor;
-    border-radius: 4px;
+    border-radius: $border-radius;
     box-shadow: 3px 3px 8px $preBlockShadowColor;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 87.5%;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
     word-break: normal;
     word-wrap: normal;
-    line-height: 1.5;
     tab-size: 4;
     hyphens: none;
     background: $preBlockBackgroundColor;
+    overflow: auto;
 
     code {
         display: block;
@@ -220,27 +242,27 @@ div.toolbar {
         border: 0;
         position: absolute;
         top: 3px;
-        z-index: 5;
+        z-index: $toolbar-button-z;
         transition: opacity .4s ease-in-out;
         opacity: 0;
-    }
 
-    button.toolbar-show {
-        transition: opacity 1.1s ease-in-out;
-        opacity: 1;
-    }
+        &.toolbar-show {
+            transition: opacity 1.1s ease-in-out;
+            opacity: 1;
+        }
 
-    button.copy {
-        right: 2.2rem;
-        width: 3rem;
-    }
+        &.copy {
+            right: 2.2rem;
+            width: 3rem;
+        }
 
-    button.download {
-        right: 5.5rem;
-    }
+        &.download {
+            right: 5.5rem;
+        }
 
-    button.print {
-        right: 7.4rem;
+        &.print {
+            right: 7.25rem;
+        }
     }
 
     svg {
@@ -253,9 +275,8 @@ div.toolbar {
 }
 
 p {
-    font-size: $font-size--xs;
+    font-size: $font-size--primary;
     font-weight: $textWeight;
-    line-height: 1.5;
     margin: .75em 0;
 
     @media (min-width: $bp-md) {
@@ -264,9 +285,8 @@ p {
 }
 
 li, dt, dd {
-    font-size: $font-size--xs;
+    font-size: $font-size--primary;
     font-weight: $textWeight;
-    line-height: 1.5;
     margin: .25em;
 }
 
@@ -288,6 +308,7 @@ ol {
 
 h1, h2, h3, h4, h5, h6 {
     border: 0;
+    line-height: 1.2;
 }
 
 h1 {
@@ -397,7 +418,7 @@ blockquote {
     padding-left: 1em;
     padding-right: 1em;
     background-color: $blockQuoteBackgroundColor;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: $border-radius;
 }
 
 .spacer {
@@ -410,53 +431,6 @@ blockquote {
 
 .deprecated {
     background: $deprecatedBackgroundColor;
-}
-
-.card {
-    background-color: $backgroundColor;
-    border-color: $dividerBarColor;
-}
-
-.card-header {
-    border-bottom-color: $dividerBarColor;
-}
-
-#scroll-to-top-container {
-    @media print {
-        display: none;
-    }
-
-    // don't display the scroll-to-top button if the TOC is being displayed
-    @media (min-width: $bp-xl) {
-        display: none;
-    }
-}
-
-#scroll-to-top {
-    display: none;
-    position: fixed;
-    top: $headerHeight;
-    right: 10px;
-    z-index: 99;
-    outline: none;
-    background-color: rgba($backgroundColor, .7);
-    color: $floatingButtonColor;
-    cursor: pointer;
-    padding: 3px 5px;
-    border-radius: 10px;
-    font-size: 1rem;
-    border: 0;
-    box-shadow: 0 0 2px 2px $floatingButtonColor;
-
-    &:hover {
-        color: $textBrandHighlightColor;
-    }
-
-    svg {
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: middle;
-    }
 }
 
 @media print {
@@ -484,7 +458,7 @@ blockquote {
     vertical-align: middle;
 }
 
-.large_icon {
+.large-icon {
     width: 1.4em;
     height: 1.4em;
     display: inline;
@@ -493,8 +467,23 @@ blockquote {
     vertical-align: middle;
 }
 
-.page_icon {
+.page-icon {
     margin-right: .3em;
+}
+
+.title-icon {
+    margin-right: .3em;
+
+    .icon {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+.title-area {
+    display: flex;
+    margin-bottom: 2.5rem;
+    align-items: center;
 }
 
 .flipped {
@@ -510,7 +499,7 @@ blockquote {
 
 .byline {
     margin-top: .15rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     padding: 0;
     text-transform: uppercase;
     font-size: 75%;

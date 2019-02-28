@@ -6,7 +6,9 @@ weight: 10
 
 来自 [Kubernetes 准入控制机制](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)：
 
-> 准入 Webhook 是 HTTP 方式的回调，接收准入请求并对其进行相关操作。可定义两种类型的准入 Webhook，Validating 准入 Webhook 和 Mutating 准入 Webhook。 使用 Validating Webhook，可以通过自定义的准入策略来拒绝请求；使用 Mutating Webhook，可以通过自定义默认值来修改请求。
+{{< tip >}}
+准入 Webhook 是 HTTP 方式的回调，接收准入请求并对其进行相关操作。可定义两种类型的准入 Webhook，Validating 准入 Webhook 和 Mutating 准入 Webhook。 使用 Validating Webhook，可以通过自定义的准入策略来拒绝请求；使用 Mutating Webhook，可以通过自定义默认值来修改请求。
+{{< /tip >}}
 
 Istio 使用 `ValidatingAdmissionWebhooks` 验证 Istio 配置，使用 `MutatingAdmissionWebhooks` 自动将 Sidecar 代理注入至用户 Pod。
 

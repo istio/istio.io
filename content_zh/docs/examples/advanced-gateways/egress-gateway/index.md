@@ -5,7 +5,7 @@ weight: 43
 keywords: [traffic-management,egress]
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。这里提醒一下：默认情况下，启用 Istio 的应用程序无法访问集群外的 URL。要启用此类访问，必须定义外部服务的 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)，或者配置[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了如何从网格内的应用程序访问外部（Kubernetes 集群外部）HTTP 和 HTTPS 服务。这里提醒一下：默认情况下，启用 Istio 的应用程序无法访问集群外的 URL。要启用此类访问，必须定义外部服务的 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry)，或者配置[直接访问外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)。
 
 [Egress 流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/) 任务演示了如何允许应用程序将 HTTP 请求发送到需要 HTTPS 的外部服务器。
 
@@ -672,14 +672,14 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 另外要注意的是，实际上 Istio 本身无法安全地强制将所有 Egress 流量流经 Egress gateway ，Istio 仅通过其 Sidecar 代理启用此类流量。攻击者只要绕过 Sidecar 代理，就可以不经 Egress gateway 直接与网格外面的服务进行通信，从而避免了 Istio 的控制和监控。集群管理员或云供应商必须确保所有外发流量都从 Egress gateway 途径发起。需要用 Istio 之外的机制来满足这一需求，例如以下几种做法：
 
 * 使用防火墙拒绝所有来自 Egress gateway 以外的流量。
-* [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从 Egress gateway 发起的 Egress 流量（[#下一节](#应用-Kubernetes-网络策略) 中举出了这样的例子）。
+* [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从 Egress gateway 发起的 Egress 流量（[#下一节](#应用-kubernetes-网络策略)中举出了这样的例子）。
 * 管理员或者云供应商还可以对网络进行限制，让运行应用的节点只能通过 Gateway 来访问外部网络。要完成这一限制，可以只给 Gateway Pod 分配公网 IP，或者可以配置 NAT 设备，丢弃来自 Egress gateway 以外 Pod 的流量。
 
 ## 应用 Kubernetes 网络策略
 
 本节中会创建 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)，阻止绕过 Egress gateway 的外发流量。要完成这一示例，首先创建一个 `test-egress` 命名空间，并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用。
 
-1. 重复执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#通过-Egress-gateway-进行-HTTPS-流量透传)一节的内容。
+1. 重复执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#通过-egress-gateway-进行-https-流量透传)一节的内容。
 
 1. 创建 `test-egress` 命名空间：
 
@@ -810,7 +810,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl delete namespace test-egress
     {{< /text >}}
 
-1. 执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#通过-Egress-gateway-进行-HTTPS-流量透传)一节中的[清理工作](#清除-HTTPS-流量的-Egress-gateway)。
+1. 执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#通过-egress-gateway-进行-https-流量透传)一节中的[清理工作](#清除-https-流量的-egress-gateway)。
 
 ## 故障排除
 

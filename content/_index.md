@@ -1,6 +1,7 @@
 ---
 title: Istio
 ---
+<!-- these script blocks are only for the primary English home page -->
 <script type="application/ld+json">
     {
         "@context": "http://schema.org",
@@ -25,49 +26,17 @@ title: Istio
         }
     }
 </script>
-<script type="application/ld+json">
-    {
-      "@context": "http://schema.org/",
-      "@type": "Product",
-      "name": "Istio",
-      "image": [
-          "https://istio.io/img/logo.png"
-       ],
-      "description": "Istio lets you connect, secure, control, and observe services."
-    }
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('panel1').style.opacity = "1";
-
-        window.setTimeout(function() {
-            document.getElementById('panel2').style.opacity = "1";
-        }, 375);
-
-        window.setTimeout(function() {
-            document.getElementById('panel3').style.opacity = "1";
-        }, 750);
-
-        window.setTimeout(function() {
-            document.getElementById('panel4').style.opacity = "1";
-        }, 1125);
-
-        window.setTimeout(function() {
-            document.getElementById('buttons').style.opacity = "1";
-        }, 1500);
-    });
-</script>
 
 <main class="landing">
-    <div class="banner">
+    <div id="banner">
         {{< inline_image "landing/istio-logo.svg" >}}
-        <div class="hero-text">
-            <h1 class="hero-label">Istio</h1>
-            <h1 class="hero-lead">Connect, secure, control, and observe services.
+        <div id="hero-text">
+            <h1 id="hero-label">Istio</h1>
+            <h1 id="hero-lead">Connect, secure, control, and observe services.
         </div>
     </div>
 
-    <div class="panels">
+    <div id="panels">
         <div id="panel1" class="panel">
             <a href="/docs/concepts/traffic-management/">
                 <div class="panel-img-top">

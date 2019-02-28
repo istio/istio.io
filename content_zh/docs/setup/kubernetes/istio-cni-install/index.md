@@ -21,7 +21,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ## 安装 {#installation}
 
 1. 获取 Kubernetes 环境 CNI 插件 `--cni-bin-dir` 以及 `--cni-conf-dir` 的设置。
-    * [托管 Kubernetes 用法](#hosted-kubernetes-usage)一节中的介绍了非缺省配置的介绍。
+    * [托管 Kubernetes 用法](#hosted-Kubernetes-usage)一节中的介绍了非缺省配置的介绍。
 
 1. 在[使用 Helm 安装 Istio](/zh/docs/setup/kubernetes/helm-install/)的过程中，加入  `--set istio_cni.enabled=true` 的设置，来启用 Istio CNI 插件的安装。例如：
 
@@ -30,7 +30,9 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
       --set istio_cni.enabled=true > $HOME/istio.yaml
     {{< /text >}}
 
-    > 可以在 [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml) 中获取 `istio-cni` 的完整参数
+    {{< tip >}}
+    可以在 [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml) 中获取 `istio-cni` 的完整参数。
+    {{< /tip >}}
 
 ### 用例：排除特定的 Kubernetes 命名空间 {#example-excluding-specific-Kubernetes-namespaces}
 
@@ -141,4 +143,6 @@ Istio CNI 插件作为一个链式 CNI 插件存在。也就是说它的配置�
 [CNI 规范参考](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists)中介绍了这方面的更多细节。
 当 Pod 被创建或删除时，容器运行时会按照列表顺序调用每个插件。Istio CNI 插件只会把应用 Pod 的流量重定向到 Sidecar 中（在 Pod 的网络命名空间中使用 `iptables` 完成）。
 
-{{< warning_icon >}} 这种操作对设置 Pod 网络的基本 CNI 插件**应该**是没有影响的，但是并没有针对所有 CNI 进行验证。
+{{< warning >}}
+这种操作对设置 Pod 网络的基本 CNI 插件**应该**是没有影响的，但是并没有针对所有 CNI 进行验证。
+{{< /warning >}}

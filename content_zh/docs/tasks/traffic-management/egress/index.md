@@ -7,7 +7,7 @@ keywords: [traffic-management,egress]
 
 缺省情况下，Istio 服务网格内的 Pod，由于其 iptables 将所有外发流量都透明的转发给了 Sidecar，所以这些集群内的服务无法访问集群之外的 URL，而只能处理集群内部的目标。
 
-本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
+本文的任务描述了如何将外部服务暴露给 Istio 集群中的客户端。你将会学到如何通过定义 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry) 来调用外部服务；或者简单的对 Istio 进行配置，要求其直接放行对特定 IP 范围的访问。
 
 ## 开始之前
 
@@ -195,6 +195,10 @@ $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参�
 注意这里应该使用和之前部署 Istio 的时候同样的 [Helm 命令](/zh/docs/setup/kubernetes/helm-install)，尤其是 `--namespace` 参数。在安装 Istio 原有命令的基础之上，加入 `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml` 即可。
 
 [和前面一样](/zh/docs/tasks/traffic-management/egress/#开始之前)，重新部署 `sleep` 应用。
+
+{{< warning >}}
+确保已删除之前部署的 `ServiceEntry` 和 `VirtualService`。
+{{< /warning >}}
 
 ### 确定 `global.proxy.includeIPRanges` 的值
 

@@ -1,0 +1,89 @@
+body {
+    --backgroundColor: #ffffff;
+
+    --textColor: #535f61;
+    --textCodeColor: #d14;
+    --disabledTextColor: #{lighten(#535f61, 50%)};
+
+    --linkColor: #469Bdd;
+    --linkHoverColor: #1d67a0;
+    --linkDisabledColor: #CCCCCC;
+    --linkActiveColor: #b05464;
+
+    --h1Color: #{$near-black};
+    --h2Color: #{$near-black};
+    --h3Color: #{$dark-gray};
+    --h4Color: #{$dark-gray};
+    --h5Color: #{$dark-gray};
+    --h6Color: #{$dark-gray};
+    --h2UnderlineColor: var(--mainBrandColor);
+
+    --buttonActiveColor: #b05464;
+    --dividerBarColor: rgba(0, 0, 0, .1);
+    --glossaryHeaderColor: #{$medium-gray};
+    --blockQuoteBackgroundColor: #{$light-gray};
+    --tipCalloutBackgroundColor: #f2fff2;
+    --ideaCalloutBackgroundColor: lightyellow;
+    --warningCalloutBackgroundColor: #ffeeee;
+    --deprecatedBackgroundColor: silver;
+    --boxBorderColor: var(--secondBrandColor);
+
+    --preBlockShadowColor: #a7a7a7;
+    --preBlockBorderColor: #f2f2f2;
+    --preBlockBackgroundColor: var(--backgroundColor);
+    --preBlockCommandOutputTextColor: var(--textColor);
+    --preBlockCommandOutputBackgroundColor: #{$light-gray};
+
+    --dropdownBorderColor: #{$black};
+    --dropdownCheck: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='black' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+    --dropdownHoverCheck: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='white' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+
+    --popoverBorderColor: #777777;
+    --popoverShadowColor: #777777;
+    --popoverHeaderBackgroundColor: #{$light-gray};
+    --popoverHeaderTextColor: var(--textColor);
+    --popoverBackgroundColor: var(--backgroundColor);
+    --popoverTextColor: var(--textColor);
+
+    --headerLightShadowColor: rgba(0, 0, 0, .14);
+    --headerDarkShadowColor: rgba(0, 0, 0, .28);
+
+    --figureBackgroundColor: var(--backgroundColor);
+    --figureCaptionColor: var(--textColor);
+
+    --heroLogoColor: var(--mainBrandColor);
+    --landingPanelBackgroundColor: #{$light-gray};
+    --landingPanelBorderColor: #dddddd;
+    --landingPanelTextColor: var(--textColor);
+    --landingPanelShadowColor: #a7a7a7;
+    --landingPanelShadowHoverColor: #a7a7ee;
+
+    --floatingButtonColor: rgba(0, 0, 0, .4);
+    --floatingButtonHoverColor: var(--textBrandHighlightColor);
+
+    --companyLogoBackgroundColor: var(--backgroundColor);
+    --companyLogoTaglineColor: var(--textColor);
+
+    --textWeight: 400;
+    --linkWeight: 400;
+    --h1Weight: 400;
+    --h2Weight: 400;
+    --h3Weight: 500;
+    --h4Weight: 500;
+    --h5Weight: 500;
+    --h6Weight: 500;
+    --tableHeaderWeight: 400;
+    --boldTextWeight: 700;
+    --heroLeadWeight: 300;
+    --blogAttributeWeight: 600;
+    --sectionIndexLinkWeight: 400;
+    --buttonWeight: 400;
+    --tocLinkWeight: 400;
+    --sidebarLinkWeight: 400;
+    --sidebarCurrentPageWeight: 500;
+    --glossaryHeaderWeight: 300;
+    --glossaryWordWeight: 500;
+    --figureCaptionWeight: 400;
+    --textCodeWeight: 400;
+    --faqQuestionWeight: 400;
+}
