@@ -125,7 +125,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     EOF
     {{< /text >}}
 
-    This `Gateway` configures the 443 port to pass incoming traffic through to the target service specified in a
+    This `Gateway` configures 443 port to pass incoming traffic through to the target service specified in a
     request's SNI header, for SNI values of the _local_ top-level domain
     (i.e., the [Kubernetes DNS domain](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)).
     Mutual TLS connections will be used all the way from the source to the destination sidecar.
