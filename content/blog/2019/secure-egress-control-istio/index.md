@@ -298,14 +298,17 @@ external services, and decide whether you can afford the performance overhead fo
 required level of security versus your performance requirements, and also compare with the performance overhead of
 alternative solutions.
 
-Let me provide our take on the performance overhead of Istio egress traffic control. First, we are working to reduce
-performance overhead of Istio, so I hope the overhead of egress traffic control in Istio will be reduced in the future.
-Possible optimizations are to extend Envoy to handle wildcard domains so there will be no need for the
-third proxy; or to use mutual TLS for authentication only without encrypting the TLS traffic (since it is already
-encrypted). Second, note that the latency of access to external services could be already high, so adding the overhead
+Let me provide our take on the performance overhead of Istio egress traffic control.
+The latency of access to external services could be already high, so adding the overhead
 of two or three proxies inside the cluster could be not very significant.
 After all, in the microservice architecture you can have chains of dozens of calls between microservices, so adding an
 additional hop with two proxies, the egress gateway, should not have a large impact.
+
+Moreover, we are working to reduce
+performance overhead of Istio, so I hope the overhead of egress traffic control in Istio will be reduced in the future.
+Possible optimizations are to extend Envoy to handle wildcard domains so there will be no need for the
+third proxy; or to use mutual TLS for authentication only without encrypting the TLS traffic (since it is already
+encrypted).
 
 ## Summary
 
