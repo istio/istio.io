@@ -59,8 +59,8 @@ All the requirements are satisfied by Istio 1.1.
 1. **Monitor** SNI and the source workload of every egress access
 1. Define and enforce **policies per cluster**, e.g.:
 
-   * all the applications in the cluster may access `service1.foo.com` (a specific host)
-   * all the applications in the cluster may access any host of the form `*.bar.com` (a wildcarded domain)
+   * all applications in the cluster may access `service1.foo.com` (a specific host)
+   * all applications in the cluster may access any host of the form `*.bar.com` (a wildcarded domain)
 
      All unspecified access must be blocked.
 
