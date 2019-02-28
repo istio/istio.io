@@ -44,7 +44,7 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase
 |-------------------|-------------------
 | [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/docs/examples/telemetry/) | Stable
+| [Local Logging (STDIO)](/docs/tasks/telemetry/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
