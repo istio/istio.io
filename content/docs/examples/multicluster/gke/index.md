@@ -67,31 +67,23 @@ In addition to the prerequisites for installing Istio the following setup is req
     $ gcloud container clusters get-credentials cluster-2 --zone $zone
     {{< /text >}}
 
-1.  Validate `kubectl` access to each cluster:
+1.  Validate `kubectl` access to each cluster and create a `cluster-admin` cluster role binding tied to the Kubernetes credentials associated with your GCP user.
 
-    1.  Check cluster-1
+    1.  For cluster-1:
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
         $ kubectl get pods --all-namespaces
+        $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
         {{< /text >}}
 
-    1.  Check cluster-2:
+    1.  For cluster-2:
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
         $ kubectl get pods --all-namespaces
+        $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
         {{< /text >}}
-
-1.  Create a `cluster-admin` cluster role binding tied to the Kubernetes credentials associated with your GCP user.
-    _Note:_ replace `mygcp@gmail.com` with the email tied to your Google Cloud account:
-
-    {{< text bash >}}
-    $ KUBE_USER="mygcp@gmail.com"
-    $ kubectl create clusterrolebinding gke-cluster-admin-binding \
-      --clusterrole=cluster-admin \
-      --user="${KUBE_USER}"
-    {{< /text >}}
 
 ## Create a Google Cloud firewall rule
 
