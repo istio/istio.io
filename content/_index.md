@@ -26,19 +26,6 @@ title: Istio
         }
     }
 </script>
-<script type="application/ld+json">
-    {
-        "@context": "http://schema.org/",
-        "@type": "Product",
-        "name": "Istio",
-        "image": [
-            "https://istio.io/img/logo.png"
-        ],
-        "description": "Istio lets you connect, secure, control, and observe services.",
-        "brand": "Istio",
-        "sku": "Full"
-    }
-</script>
 
 <main class="landing">
     <div id="banner">
