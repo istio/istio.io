@@ -133,7 +133,7 @@ We call such an egress traffic control system _transparent_.
 In this blog post I show that Istio can function as an example of an egress traffic control system that satisfies all
 of these requirements, in particular it is transparent, DNS-aware, and Kubernetes-aware.
 
-## Existing solutions for egress traffic control
+## Legacy solutions for egress traffic control
 
 The most natural solution for egress traffic control is
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/). Using
