@@ -378,5 +378,5 @@ $ kubectl delete --context=$CTX_CLUSTER1 -f istio-auth.yaml
 $ kubectl delete --context=$CTX_CLUSTER1 ns istio-system
 $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete --context=$CTX_CLUSTER1 -f $i; done
 $ kubectl delete --context=$CTX_CLUSTER1 ns sample
-$ rm istio-auth.yaml
+$ rm istio-auth.yaml n2-k8s-config
 {{< /text >}}
