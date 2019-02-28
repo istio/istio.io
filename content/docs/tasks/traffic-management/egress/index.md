@@ -60,12 +60,11 @@ from within your Istio cluster. This task shows you how to access an external HT
       "User-Agent": "curl/7.60.0",
       ...
       "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
-      "X-Istio-Attributes": ...
       }
     }
     {{< /text >}}
 
-    Note the headers added by the Istio sidecar proxy: `X-Envoy-Decorator-Operation` and `X-Istio-Attributes`.
+    Note the headers added by the Istio sidecar proxy: `X-Envoy-Decorator-Operation`.
 
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
