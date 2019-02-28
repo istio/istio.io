@@ -9,7 +9,7 @@ keywords: [security,authorization]
 
 ## 开始之前
 
-* 阅读[授权](/zh/docs/concepts/security/#授权和鉴权)概念并阅读有关如何配置 [Istio 授权的指南](/zh/docs/tasks/security/role-based-access-control)。
+* 阅读[授权](/zh/docs/concepts/security/#授权和鉴权)概念并阅读有关如何配置 [Istio 授权的指南](/zh/docs/tasks/security/authz-http)。
 
 * 阅读 Istio 身份[验证策略](/zh/docs/concepts/security/#认证策略)和相关的[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证)概念。
 
