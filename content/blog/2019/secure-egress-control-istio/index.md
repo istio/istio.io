@@ -187,7 +187,7 @@ performs TLS origination, for TLS traffic you can
 [monitor SNI and the service account](/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/) of the
 source pod, and define policies based on them.
 
-The following diagram shows Istio Security Architecture, augmented with L3 Firewalls (part of the
+The following diagram shows Istio's security architecture, augmented with L3 Firewalls (part of the
 [additional security mechanisms](/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations)
 provided outside of Istio by the cluster/cloud provider).
 The L3 Firewalls can have a trivial configuration that would allow incoming traffic into Istio ingress gateway pods only and
