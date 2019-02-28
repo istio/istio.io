@@ -21,7 +21,7 @@ IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平�
 
 1. 创建一个新的 `lite` 或付费 Kubernetes 集群：
 
-    Lite 集群:
+    `lite` 集群:
 
     {{< text bash >}}
     $ ibmcloud cs cluster-create --name <cluster-name>
