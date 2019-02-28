@@ -178,24 +178,43 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system
     {{< /text >}}
 
-1. Update the gateway address in the mesh network configuration:
+1.  Determine the ingress IP and port for `cluster2`.
 
-    * Determine the gateway address for `cluster2`:
-
-        {{< text bash >}}
-        $ kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
-        169.61.102.93
-        {{< /text >}}
-
-    * Edit the istio config map:
+    1.   Set the current context of `kubectl` to `CTX_CLUSTER2`
 
         {{< text bash >}}
-        $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
+        $ export ORIGINAL_CONTEXT=$(kubectl config current-context)
+        $ kubectl config use-context $CTX_CLUSTER2
         {{< /text >}}
 
-    * Change the gateway address of `network2` from `0.0.0.0` to the `cluster2` gateway address, save, and quit.
+    1.   Follow the instructions in
+        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports),
+        to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
 
-      Once saved, Pilot will automatically read the updated network configuration.
+    1.  Restore the previous `kubectl` context:
+
+        {{< text bash >}}
+        $ kubectl config use-context $ORIGINAL_CONTEXT
+        $ unset ORIGINAL_CONTEXT
+        {{< /text >}}
+
+    1.  Print the values of `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
+
+        {{< text bash >}}
+        $ echo ingress host = $INGRESS_HOST
+        $ echo ingress port = $SECURE_INGRESS_PORT
+        {{< /text >}}
+
+1.  Update the gateway address in the mesh network configuration. Edit the istio config map:
+
+    {{< text bash >}}
+    $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
+    {{< /text >}}
+
+    Change the gateway's address and port of `network2` from `0.0.0.0` to the `cluster2` ingress host and port,
+    respectively, then save and quit.
+
+    Once saved, Pilot will automatically read the updated network configuration.
 
 1. Prepare environment variables for building the `n2-k8s-config` file for the service account `istio-multi`:
 
