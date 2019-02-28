@@ -51,7 +51,7 @@ Let me now turn to the requirements for egress traffic control we collected.
 
 ## Requirements for egress traffic control
 
-We collected requirements for egress traffic control from several customers, and combined them with
+My colleagues at IBM and I collected requirements for egress traffic control from several customers, and combined them with
 [egress traffic control requirements from Kubernetes Network Special Interest Group](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg).
 All the requirements are satisfied by Istio 1.1.
 
