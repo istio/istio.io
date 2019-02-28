@@ -22,7 +22,7 @@ Let's start with attacks that involve egress traffic.
 
 ## The attacks
 
-Any IT organization must operate under assumption that it will be attacked one day, if it is not attacked already, and
+Any IT organization must operate under the assumption that it will be attacked one day, if it is not attacked already, and
 part of its infrastructure is already compromised or will be compromised in the future.
 Once attackers are able to penetrate an application in a cluster, they can proceed to attack external services:
 legacy systems, external web services and databases. The attackers may want to steal the data of the application and to
