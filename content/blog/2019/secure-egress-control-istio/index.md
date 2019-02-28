@@ -173,7 +173,7 @@ like Kubernetes Network Policies or an L3 firewall that will enforce that traffi
 allowed for the egress gateway only. See
 [an example for Kubernetes Network Policies configuration](/docs/examples/advanced-gateways/egress-gateway/#apply-kubernetes-network-policies).
 
-You must also increase the security measures applied to Istio control plane and the
+You must also increase the security measures applied to the Istio control plane and the
 egress gateway by running them on nodes separate from the application nodes, in a separate namespace, monitoring them
 more thoroughly, etc. After all, if the attackers are able to attack Istio Mixer or the egress gateway, they could
 violate any policy.
