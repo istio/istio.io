@@ -1,6 +1,7 @@
 User-agent: *
 {{ if .Site.Data.args.preliminary }}
-Disallow: /
+Disallow: /index.html
+Disallow: /zh/index.html
 {{ else }}
 Disallow:
 {{ end }}
