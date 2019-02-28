@@ -45,7 +45,7 @@ egress traffic must be monitored and security policies must be enforced. You wan
 services to be able to detect the attacks, possibly offline, even if you fail to prevent them in real time.
 You want to specify policies to limit access similar to the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
-need to access external services should be allowed to access the external services they need.
+need external services should be allowed to access the external services they need.
 
 Let me now turn to the requirements for egress traffic control we collected.
 
