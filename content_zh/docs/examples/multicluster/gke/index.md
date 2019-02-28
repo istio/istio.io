@@ -5,7 +5,7 @@ weight: 65
 keywords: [kubernetes,multicluster]
 ---
 
-本文示例演示了如何使用 Istio 多集群功能，借助[基于 VPN 的多集群设置](/zh/docs/setup/kubernetes/multicluster-install/vpn/)将两个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群连接起来。
+本例中展示了如何在两个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群的基础上，配置一个[单一控制平面](/zh/docs/concepts/multicluster-deployments#单一控制平面拓扑)的多集群网格。
 
 ## 开始之前
 
@@ -114,7 +114,7 @@ $ gcloud compute firewall-rules create istio-multicluster-test-pods \
 
 ## 安装 Istio 控制平面
 
-接下来生成一个 Istio 安装文件、安装、并在 `default` 命名空间中启用 Sidecar 的自动注入：
+接下来生成一个 Istio 安装文件、安装，并在 `default` 命名空间中启用 Sidecar 的自动注入：
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
@@ -182,7 +182,7 @@ $ kubectl label namespace default istio-injection=enabled
 
     **注意**：在很多系统中都可以使用 `openssl enc -d -base64 -A` 来替代 `base64 --decode`。
 
-1. 在工作目录中为 Service account 创建一个 `kubeconfig` 文件：
+1. 在工作目录中为 Service account `istio-multi` 创建一个 `kubeconfig` 文件：
 
     {{< text bash >}}
     $ cat <<EOF > ${KUBECFG_FILE}
@@ -211,7 +211,7 @@ $ kubectl label namespace default istio-injection=enabled
 
 ## 配置 Istio 控制平面，以发现远程集群
 
-为每个远程集群创建 secret 并用标签进行标记：
+为每个远程集群创建 Secret 并用标签进行标记：
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
