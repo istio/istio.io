@@ -75,7 +75,7 @@ All the requirements are satisfied by Istio 1.1.
 from sending fake information to the monitoring system, and from breaking the egress policies.
 1. Preferably: perform traffic control **transparently** to the applications
 
-Let me explain each of the requirements. The requirement 1 states that only TLS traffic to the external services must be
+Let me explain each of the requirements. The first requirement states that only TLS traffic to the external services must be
 supported. The requirement is based on the observation that all the traffic that leaves the cluster usually must be
 encrypted.
 This means that either the applications will perform TLS origination or Istio must perform TLS origination
@@ -83,7 +83,7 @@ for them. Note that in the case an application performs TLS origination, the Ist
 only the encrypted one, so the proxies see the TLS protocol only. For the proxies it does not matter if the original
 protocol is HTTP or MongoDB, all the Istio proxies can see is TLS traffic.
 
-The requirement 2 states that SNI and the source of the traffic must be monitored. Monitoring is the first step to
+The second requirement states that SNI and the source of the traffic must be monitored. Monitoring is the first step to
 prevent attacks. Even if attackers would be able to access external services from the cluster, if the access is
 monitored, there is a chance to discover the suspicious traffic and take a corrective action.
 
@@ -94,7 +94,7 @@ other source identifier. We call this property of an egress control system _bein
 understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware, it can monitor
 only the IP address as the identifier of the source.
 
-The requirement 3 states that Istio operators must be able to define policies for egress traffic per whole cluster. The
+The third requirement states that Istio operators must be able to define policies for egress traffic per whole cluster. The
 policies state which external services may be accessed by any pod in the cluster. The external services can be
 identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
 service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified may be
@@ -116,17 +116,17 @@ Using IP addresses is not convenient and often is not feasible, since IP address
 all the IP addresses of a service are not even known, for example in the case of
 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
 
-The requirement 4 extends the requirement 3, by adding the source of the egress traffic to the policies: the policies
-can specify which source can access which external service. The source must be identified as in the requirement 2, for
+The fourth requirement extends the thrid requirement, by adding the source of the egress traffic to the policies: the policies
+can specify which source can access which external service. The source must be identified as in the second requirement, for
 example, by a label of the source pod or by service account of the pod. It means that policy enforcement must also be
 _Kubernetes-aware_. If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
 the IP of the pod, which is not convenient, especially since the pods can come and go and their IPs are not static.
 
-The requirement 5 states that even if the cluster is compromised and the attackers controls some of the pods, they
+The fifth requirement states that even if the cluster is compromised and the attackers controls some of the pods, they
 must not be able to cheat the monitoring or to violate policies of the egress control system. We say that such a
 system provides _secure_ egress traffic control.
 
-The requirement 6 states that the traffic control should be provided without changing the application containers, in
+The sixth requirement states that the traffic control should be provided without changing the application containers, in
 particular without changing the code of the applications and without changing the environment of the containers.
 We call such an egress traffic control system _transparent_.
 
@@ -141,12 +141,12 @@ The most natural solution for egress traffic control is
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/). Using
 Kubernetes Network Policies, cluster operators can specify which external services can be accessed by which pods. The
 pods may be identified by pod labels, namespace labels, or by IP ranges. The external services can be specified by IP
-ranges: Kubernetes Network Policies are not DNS-aware. The requirement 1 is satisfied since any TCP traffic can be
+ranges: Kubernetes Network Policies are not DNS-aware. The first requirement is satisfied since any TCP traffic can be
 controlled by Kubernetes Network Policies. The requirements 3 and 4 are satisfied partially: the policies can be
 specified per cluster or per pod, however the external services cannot be identified by domain names.
-The requirement 5 is satisfied if the attackers are not able to break from a malicious container into the Kubernetes
+The fifth requirement is satisfied if the attackers are not able to break from a malicious container into the Kubernetes
 node and to interfere with the implementation of the Kubernetes Network Policies inside the node.
-The requirement 6 is satisfied as well: there is no need to change the code or the
+The sixth requirement is satisfied as well: there is no need to change the code or the
 container environment. We can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic
 control, which is not DNS-aware.
 
@@ -155,8 +155,9 @@ approach, applications are configured to direct the traffic to the proxy and to 
 [SOCKS](https://en.wikipedia.org/wiki/SOCKS).
 Since the applications must be configured, this solution is not transparent. Moreover, egress proxies are not
 Kubernetes-aware, since neither pod labels nor pod service account are known to the egress proxy. Such egress proxies
-cannot fulfill the requirement 4, that is they cannot enforce policies by source if the source is specified by a
-Kubernetes artifact. The egress proxies can fulfill the requirements 1, 2, 3 and 5, but not the requirement 4 and 6.
+cannot fulfill the fourth requirement, that is they cannot enforce policies by source if the source is specified by a
+Kubernetes artifact. The egress proxies can fulfill the first, second, third and fifth requirements,
+but not the fourth and the six requirements.
 They are DNS-aware, but not transparent and not Kubernetes-aware.
 
 Let me explain Istio egress traffic control next.
