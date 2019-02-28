@@ -233,7 +233,7 @@ control will prevent each kind of attack. The attackers may try to:
 1. Since the previous attacks are prevented, the attackers have no other option but to direct the traffic through the
    egress gateway. The traffic will be monitored by the egress gateway, so the goal of the attackers to access
    external services unmonitored cannot be achieved. The attackers may want to try to achieve their second goal, that is
-   to access `mongo1.composedb.com`. To achieve it, they may try to **impersonate** as the application B since the
+   to access `mongo1.composedb.com`. To achieve it, they may try to **impersonate** as application B since
    application B is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong
    identity support](/docs/concepts/security/#istio-identity).
 
