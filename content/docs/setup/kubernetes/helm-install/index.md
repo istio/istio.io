@@ -24,7 +24,7 @@ plane and the sidecars for the Istio data plane.
 
 1. Istio by default uses `LoadBalancer` service object types.  Some platforms do not support `LoadBalancer`
    service objects.  For platforms lacking `LoadBalancer` support, install Istio with `NodePort` support
-   instead with the flags `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort`
+   instead with the flags `--set gateways.istio-ingressgateway.type=NodePort`
    appended to the end of the Helm instructions in the installation steps below.
 
 ## Installation steps
