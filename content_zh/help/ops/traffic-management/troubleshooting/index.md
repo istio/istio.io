@@ -8,25 +8,24 @@ weight: 30
 
 ## 请求被 Envoy 拒绝
 
-可能会因各种原因拒绝请求。理解请求被拒绝的最佳方式是
-通过检查 Envoy 的访问日志。默认情况下，访问日志输出到容器的标准输出。
+要了解拒绝请求的原因，最佳方式是检查 Envoy 的访问日志。默认情况下，访问日志输出到容器的标准输出。
 运行以下命令以查看日志：
 
 {{< text bash >}}
 $ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
-在默认访问日志格式中，Envoy响应标志和混音器策略状态位于响应代码之后，
+在默认访问日志格式中，Envoy响应标志和 Mixer 策略状态位于响应代码之后，
 如果您使用的是自定义日志格式，请确保包含`％RESPONSE_FLAGS％`和`％DYNAMIC_METADATA（istio.mixer：status）％`。
 
 详细的响应标志请参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-response-flags)
 
 常见的响应标志是：
 
-- `NR`: 没有配置路由， 检查你的 `DestinationRule` 或 `VirtualService`.
-- `UO`: 上游溢出，熔断， 在 `DestinationRule` 中检查你的熔断器配置.
-- `UF`: 无法连接到上游， 如果你正在使用Istio身份验证，请检查a
-[双向 TLS 配置冲突](#设置目标规则后出现-503-错误).
+- `NR`: 没有配置路由， 检查你的 `DestinationRule` 或 `VirtualService`。
+- `UO`: 上游溢出，熔断， 在 `DestinationRule` 中检查你的熔断器配置。
+- `UF`: 无法连接到上游， 如果你正在使用Istio身份验证，请检查
+[双向 TLS 配置冲突](#设置目标规则后出现-503-错误)。
 
 如果响应标志为 `UAEX` 且 Mixer 策略状态不是 `-`，则 Mixer 拒绝请求。
 
