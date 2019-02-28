@@ -40,7 +40,7 @@ traffic control in the following section.
 
 ## The solution: egress traffic control
 
-To prevent the attacks that involve egress traffic, all the
+To prevent attacks that involve egress traffic, all the
 egress traffic must be monitored and security policies must be enforced. You want to monitor every access to external
 services to be able to detect the attacks, possibly offline, even if you fail to prevent them in real time.
 You want to specify policies to limit access similar to the
