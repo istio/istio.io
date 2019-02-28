@@ -19,7 +19,6 @@ Refer to the [Kubernetes Installation prerequisites](/docs/setup/kubernetes/quic
     
 ## Installation steps
 
-
 Choose one of the following two **mutually exclusive** options described below.
 - To deploy Istio without using Tiller, follow the instructions for [option #1](#option-1).		
 - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option #2](#option-2).
