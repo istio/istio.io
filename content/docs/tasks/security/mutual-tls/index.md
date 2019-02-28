@@ -69,22 +69,25 @@ Please check [Istio identity](/docs/concepts/security/#istio-identity) for more 
 
 ## Verify mutual TLS configuration
 
-You can use the `istioctl` tool to check the effective mutual TLS settings. To identify the authentication policy and destination rules used for the
-`httpbin.default.svc.cluster.local` configuration and the mode employed, use the following command:
+Use the `istioctl` tool to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
+You can also provide the destination service to filter the status to that service only.
+
+The following commands identify the authentication policy for the `httpbin.default.svc.cluster.local` service and identify the destination rules for the service as seen from the same pod of the `sleep` app:
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 {{< /text >}}
 
 In the following example output you can see that:
 
 * Mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port 8000.
 * Istio uses the mesh-wide `default` authentication policy.
-* Istio has the `default` destination rule in the `default` namespace.
+* Istio has the `default` destination rule in the `istio-system` namespace.
 
 {{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/default
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/istio-system
 {{< /text >}}
 
 The output shows:
@@ -102,11 +105,12 @@ The output shows:
 To illustrate the case when there are conflicts, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -f -
+$ cat <<EOF | istioctl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "bad-rule"
+  namespace: "default"
 spec:
   host: "httpbin.default.svc.cluster.local"
   trafficPolicy:
@@ -118,7 +122,7 @@ EOF
 Run the same `istioctl` command as above, you now see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ i authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/            bad-rule/default
 {{< /text >}}
