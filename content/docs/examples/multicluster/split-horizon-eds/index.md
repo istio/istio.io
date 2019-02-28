@@ -101,7 +101,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
     {{< /text >}}
 
-1. Create the Gateway to access remote service(s):
+1. Create an ingress gateway to access service(s) in `cluster2`:
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -f - <<EOF
