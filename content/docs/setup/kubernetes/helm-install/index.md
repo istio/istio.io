@@ -109,6 +109,31 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 
     {{< /text >}}
 
+    {{< warning >}}
+    Do not manually delete Custom Resource Definitions from the generated yaml. Doing so will cause precondition
+    checks on various components to fail and will stop Istio from starting up correctly.
+    <p> If you *absolutely have to* delete CRDs, then update Galley deployment settings to explicitly indicate the kinds of deleted CRDs:
+
+{{< text bash >}}
+
+$ kubectl -n istio-system edit deployment istio-galley
+
+{{< /text >}}
+
+{{< text yaml >}}
+
+    containers:
+    - command:
+        - /usr/local/bin/galley
+        - server
+        # ...
+        - --excludedResourceKinds
+        - noop                    # exclude CRD w/ kind: noop
+
+{{< /text >}}
+
+    {{< /warning >}}
+
 1. Uninstall steps:
 
     {{< text bash >}}
