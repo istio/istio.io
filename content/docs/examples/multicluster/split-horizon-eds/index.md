@@ -367,6 +367,8 @@ Cleanup the `cluster2` cluster:
 $ kubectl delete --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
 $ kubectl delete --context=$CTX_CLUSTER2 ns istio-system
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
+$ unset CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT
+$ rm istio-remote-auth.yaml
 {{< /text >}}
 
 Cleanup the `cluster1` cluster:
@@ -376,4 +378,5 @@ $ kubectl delete --context=$CTX_CLUSTER1 -f istio-auth.yaml
 $ kubectl delete --context=$CTX_CLUSTER1 ns istio-system
 $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete --context=$CTX_CLUSTER1 -f $i; done
 $ kubectl delete --context=$CTX_CLUSTER1 ns sample
+$ rm istio-auth.yaml
 {{< /text >}}
