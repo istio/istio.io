@@ -7,11 +7,10 @@ aliases:
 keywords: [traffic-management,egress]
 ---
 
-By default, Istio-enabled services are unable to access URLs outside of the cluster because the pod uses
-iptables to transparently redirect all outbound traffic to the sidecar proxy,
-which only handles intra-cluster destinations.
+By default, Istio-enabled services are able to access URLs outside of the cluster.  If you choose to tighten up the outbound access control to services running outside of the cluster, you can configure `global.outboundTrafficPolicy.mode` to `REGISTRY_ONLY`.  In this `REGISTRY_ONLY` mode, Istio configures the pod to use iptables to transparently redirect all outbound traffic to the sidecar proxy, which only handles intra-cluster destinations.
+
 This task describes how to configure Istio to expose external services to Istio-enabled clients
-in three different ways:
+in three different ways, when `REGISTRY_ONLY` mode is enabled:
 
 1. Configure a [service entry](/docs/reference/config/networking/v1alpha3/service-entry/).
 1. Bypass the Envoy proxy for a specific range of IPs.
