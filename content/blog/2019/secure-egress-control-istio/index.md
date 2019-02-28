@@ -91,8 +91,8 @@ Note that in the case of TLS originated by an application, the Istio sidecar pro
 TLS handshake that includes SNI.
 The source of the traffic could be identified by a label of the source pod, by a service account of the pod or by some
 other source identifier. We call this property of an egress control system _being Kubernetes-aware_: the system must
-understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware, it can monitor
-only the IP address as the identifier of the source.
+understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware, it can only monitor
+the IP address as the identifier of the source.
 
 The third requirement states that Istio operators must be able to define policies for egress traffic per whole cluster. The
 policies state which external services may be accessed by any pod in the cluster. The external services can be
