@@ -30,7 +30,7 @@ function closeActiveOverlay() {
     }
 }
 
-onDOMLoaded(() => {
+function handleOverlays() {
     // Attach a popper to the given anchor
     function attachPopper(anchor, element) {
         if (popper !== null) {
@@ -93,7 +93,9 @@ onDOMLoaded(() => {
             attachPopper(term, div);
         });
     });
-});
 
-listen(window, click, closeActiveOverlay);
-listen(window, "resize", closeActiveOverlay);
+    listen(window, click, closeActiveOverlay);
+    listen(window, "resize", closeActiveOverlay);
+}
+
+handleOverlays();
