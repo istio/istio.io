@@ -207,7 +207,7 @@ Consider the following security policy with regard to egress traffic:
 1. Application B is allowed to access `mongo1.composedb.com`
 1. All egress traffic must be monitored
 
-Now consider a scenario in which the application A (one of the pods) is compromised. Suppose the attackers have the
+Now consider a scenario in which one of application A's pods is compromised. Suppose the attackers have the
 following goals:
 
 1. Application A will try to access `*.ibm.com` unmonitored
