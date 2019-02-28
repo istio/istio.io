@@ -55,7 +55,7 @@ spec:
 
 <p>The example below declares a Sidecar resource in the prod-us1 namespace
 that accepts inbound HTTP traffic on port 9080 and forwards
-it to the attached workload listening on a unix domain socket. In the
+it to the attached workload listening on a Unix domain socket. In the
 egress direction, in addition to the istio-system namespace, the sidecar
 proxies only HTTP traffic bound for port 9080 for services in the
 prod-us1 namespace.</p>
@@ -142,7 +142,7 @@ listener on the sidecar proxy attached to a workload.</p>
 <td><code>port</code></td>
 <td><code><a href="/docs/reference/config/networking/v1alpha3/gateway.html#Port">Port</a></code></td>
 <td>
-<p>The port associated with the listener. If using unix domain socket,
+<p>The port associated with the listener. If using Unix domain socket,
 use 0 as the port number, with a valid protocol. The port if
 specified, will be used as the default destination port associated
 with the imported hosts. If the port is omitted, Istio will infer the
@@ -158,10 +158,10 @@ port.</p>
 <td><code>bind</code></td>
 <td><code>string</code></td>
 <td>
-<p>The ip or the unix domain socket to which the listener should be bound
-to. Port MUST be specified if bind is not empty. Format: x.x.x.x or
-unix:///path/to/uds or unix://@foobar (Linux abstract namespace). If
-omitted, Istio will autoconfigure the defaults based on imported
+<p>The ip or the Unix domain socket to which the listener should be bound
+to. Port MUST be specified if bind is not empty. Format: <code>x.x.x.x</code> or
+<code>unix:///path/to/uds</code> or <code>unix://@foobar</code> (Linux abstract namespace). If
+omitted, Istio will automatically configure the defaults based on imported
 services, the workload to which this configuration is applied to and
 the captureMode. If captureMode is NONE, bind will default to
 127.0.0.1.</p>
@@ -174,7 +174,7 @@ the captureMode. If captureMode is NONE, bind will default to
 <td>
 <p>When the bind address is an IP, the captureMode option dictates
 how traffic to the listener is expected to be captured (or not).
-captureMode must be DEFAULT or NONE for unix domain socket binds.</p>
+captureMode must be DEFAULT or NONE for Unix domain socket binds.</p>
 
 </td>
 </tr>
@@ -186,7 +186,7 @@ captureMode must be DEFAULT or NONE for unix domain socket binds.</p>
 in namespace/dnsName format.  Publicly scoped services and
 VirtualServices from remote namespaces corresponding to the specified
 hosts will be imported. The service in a namespace can be a service in
-the service registry (e.g., a kubernetes or cloud foundry service) or
+the service registry (e.g., a Kubernetes or cloud foundry service) or
 a service specified via ServiceEntry configuration. In addition, any
 publicly scoped DestinationRule associated with the imported services
 will also be imported.</p>
@@ -225,7 +225,7 @@ traffic listener on the sidecar proxy attached to a workload.</p>
 <td><code><a href="/docs/reference/config/networking/v1alpha3/gateway.html#Port">Port</a></code></td>
 <td>
 <p>REQUIRED. The port associated with the listener. If using
-unix domain socket, use 0 as the port number, with a valid
+Unix domain socket, use 0 as the port number, with a valid
 protocol.</p>
 
 </td>
@@ -234,9 +234,9 @@ protocol.</p>
 <td><code>bind</code></td>
 <td><code>string</code></td>
 <td>
-<p>The ip or the unix domain socket to which the listener should be bound
-to. Format: x.x.x.x or unix:///path/to/uds or unix://@foobar (Linux
-abstract namespace). If omitted, Istio will autoconfigure the defaults
+<p>The ip or the Unix domain socket to which the listener should be bound
+to. Format: <code>x.x.x.x</code> or <code>unix:///path/to/uds</code> or <code>unix://@foobar</code> (Linux
+abstract namespace). If omitted, Istio will automatically configure the defaults
 based on imported services and the workload to which this
 configuration is applied to.</p>
 
@@ -248,7 +248,7 @@ configuration is applied to.</p>
 <td>
 <p>When the bind address is an IP, the captureMode option dictates
 how traffic to the listener is expected to be captured (or not).
-captureMode must be DEFAULT or NONE for unix domain socket binds.</p>
+captureMode must be DEFAULT or NONE for Unix domain socket binds.</p>
 
 </td>
 </tr>
@@ -256,10 +256,10 @@ captureMode must be DEFAULT or NONE for unix domain socket binds.</p>
 <td><code>defaultEndpoint</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED: The loopback IP endpoint or unix domain socket to which
+<p>REQUIRED: The loopback IP endpoint or Unix domain socket to which
 traffic should be forwarded to. This configuration can be used to
 redirect traffic arriving at the bind point on the sidecar to a port
-or unix domain socket where the application workload is listening for
+or Unix domain socket where the application workload is listening for
 connections. Format should be 127.0.0.1:PORT or unix:///path/to/socket</p>
 
 </td>
@@ -295,7 +295,7 @@ namespace.</p>
 <td>
 <p>Ingress specifies the configuration of the sidecar for processing
 inbound traffic to the attached workload. If omitted, Istio will
-autoconfigure the sidecar based on the information about the workload
+automatically configure the sidecar based on the information about the workload
 obtained from the orchestration platform (e.g., exposed ports, services,
 etc.).</p>
 
@@ -307,7 +307,7 @@ etc.).</p>
 <td>
 <p>Egress specifies the configuration of the sidecar for processing
 outbound traffic from the attached workload to other services in the
-mesh. If omitted, Istio will autoconfigure the sidecar to be able to
+mesh. If omitted, Istio will automatically configure the sidecar to be able to
 reach every service in the mesh that is visible to this namespace.</p>
 
 </td>

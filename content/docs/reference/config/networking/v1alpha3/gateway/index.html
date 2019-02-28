@@ -294,7 +294,7 @@ spec:
 <td><code><a href="#Port">Port</a></code></td>
 <td>
 <p>REQUIRED: The Port on which the proxy should listen for incoming
-connections. If using unix domain socket, use 0 as the port number,
+connections. If using Unix domain socket, use 0 as the port number,
 with a valid protocol and port name, along with the bind parameter.</p>
 
 </td>
@@ -334,9 +334,9 @@ https, and the TLS modes to use.</p>
 <td><code>defaultEndpoint</code></td>
 <td><code>string</code></td>
 <td>
-<p>The loopback IP endpoint or unix domain socket to which traffic should
-be forwarded to by default. Format should be 127.0.0.1:PORT or
-unix:///path/to/socket or unix://@foobar (Linux abstract namespace).</p>
+<p>The loopback IP endpoint or Unix domain socket to which traffic should
+be forwarded to by default. Format should be <code>127.0.0.1:PORT</code> or
+<code>unix:///path/to/socket</code> or <code>unix://@foobar</code> (Linux abstract namespace).</p>
 
 </td>
 </tr>
