@@ -11,7 +11,7 @@ This minimal install provides traffic management features of Istio.
 
 ## Prerequisites
 
-Refer to the [prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) described in the Quick Start guide.  The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
+Refer to the [Kubernetes Installation prerequisites](/docs/setup/kubernetes/quick-start/#prerequisites) for more information.  The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
 
     {{< tip >}}
     To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
