@@ -14,7 +14,7 @@ certificates in Istio.
 
 ## Install Istio with SDS enabled
 
-1.  Install Istio with SDS enabled using [Helm](/docs/setup/kubernetes/helm-install/#prerequisites)
+1.  Install Istio with SDS enabled using [Helm](/docs/setup/kubernetes/install/helm/#prerequisites)
 and Node Agent sending certificate signing
 requests to a testing Vault CA:
 

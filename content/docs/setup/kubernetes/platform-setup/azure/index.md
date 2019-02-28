@@ -3,6 +3,8 @@ title: Azure
 description: Instructions to setup an Azure cluster for Istio.
 weight: 9
 skip_seealso: true
+aliases:
+        - /docs/setup/kubernetes/platform-setup/azure
 keywords: [platform-setup,azure]
 ---
 

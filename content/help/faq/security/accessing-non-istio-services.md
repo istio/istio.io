@@ -23,7 +23,7 @@ EOF
 
 {{< tip >}}
 This destination rule is already added to the system as part of the
-[Istio installation with default mutual TLS](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication).
+[Istio installation with default mutual TLS](/docs/setup/kubernetes/install/kubernetes/#option-2-install-istio-with-default-mutual-tls-authentication).
 {{< /tip >}}
 
 Similarly, you can add destination rules for other non-Istio services. For more examples, see [task](/docs/tasks/security/authn-policy/#request-from-istio-services-to-non-istio-services).

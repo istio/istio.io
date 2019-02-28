@@ -1,6 +1,7 @@
 ---
-title: Setup
-description: How to deploy Istio in various environments (e.g., Kubernetes, Consul).
+title: Setup and Upgrade
+description: How to deploy and upgrade Istio in various environments, for example Kubernetes and Consul.
 weight: 15
+type: section-index
 icon: setup
 ---

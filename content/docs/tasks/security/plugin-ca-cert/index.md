@@ -14,13 +14,13 @@ operator-specified root certificate. This task demonstrates an example to plug c
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-[quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
+[quick start](/docs/setup/kubernetes/install/kubernetes/) with global mutual TLS enabled:
 
-  Install from the [demo yaml file](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication).
+  Install from the [demo yaml file](/docs/setup/kubernetes/install/kubernetes/#option-2-install-istio-with-default-mutual-tls-authentication).
 
   _**OR**_
 
-  Using [Helm](/docs/setup/kubernetes/helm-install/) with mutual TLS enabled.
+  Using [Helm](/docs/setup/kubernetes/install/helm/) with mutual TLS enabled.
 
 {{< tip >}}
 Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
