@@ -19,7 +19,6 @@ Refer to the [Kubernetes Installation prerequisites](/docs/setup/kubernetes/quic
     
 ## Installation steps
 
-The following commands have relative references in the Istio directory. You must execute the commands in Istio's root directory.
 
 Choose one of the following two **mutually exclusive** options described below.
 - To deploy Istio without using Tiller, follow the instructions for [option #1](#option-1).		
