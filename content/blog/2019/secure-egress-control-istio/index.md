@@ -196,7 +196,7 @@ policy enforcement and reporting in the same way as the sidecar proxies in the a
 
 {{< image width="80%" link="./SecurityArchitectureWithL3Firewalls.svg" caption="Istio Security Architecture with Egress Gateway and L3 Firewall" >}}
 
-Now let's examine possible attacks and let me show you how the secure egress control in Istio prevents them.
+Now let's examine possible attacks and let me show you how secure egress control in Istio prevents them.
 
 ### Possible attacks and their prevention
 
