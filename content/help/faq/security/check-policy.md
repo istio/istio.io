@@ -6,9 +6,11 @@ weight: 11
 The `istioctl` tool provides an option for this purpose. You can do:
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ istioctl authn tls-check $CLIENT_POD httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/default
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/istio-system
 {{< /text >}}
+
+Where `$CLIENT_POD` is the ID of one of the client service's pods.
 
 Refer to [Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration) for more information.
