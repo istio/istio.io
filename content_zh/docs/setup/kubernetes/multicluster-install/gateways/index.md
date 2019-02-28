@@ -12,7 +12,10 @@ keywords: [kubernetes,multicluster,federation,gateway]
 为了实现跨集群部署单一 Istio 服务网格，需要在所有集群中复制共享的 service 和 namespace，并使用公共的 root CA。
 跨集群通信发生在相应集群的 Istio Gateway 上。
 
-{{< image width="80%" link="./multicluster-with-gateways.svg" caption="Istio 网格使用 Istio Gateway 跨越多个 Kubernetes 集群访问远程 pod" >}}
+{{< image width="80%"
+    link="/docs/setup/kubernetes/multicluster/gateways/multicluster-with-gateways.svg"
+    caption="Istio 网格使用 Istio Gateway 跨越多个 Kubernetes 集群访问远程 pod"
+    >}}
 
 ## 先决条件
 
