@@ -205,7 +205,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         $ echo ingress port = $SECURE_INGRESS_PORT
         {{< /text >}}
 
-1.  Update the gateway address in the mesh network configuration. Edit the istio config map:
+1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
 
     {{< text bash >}}
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
