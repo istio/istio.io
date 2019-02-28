@@ -115,17 +115,20 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         istio: ingressgateway
       servers:
       - port:
-          number: 15443
+          number: 443
           name: tls
           protocol: TLS
         tls:
           mode: AUTO_PASSTHROUGH
         hosts:
-        - "*"
+        - "*.local"
     EOF
     {{< /text >}}
 
-    This `Gateway` configures a dedicated port (15443) to pass incoming traffic through to the target service specified in a request's SNI header. Mutual TLS connections will be used all the way from the source to the destination sidecar.
+    This `Gateway` configures the 443 port to pass incoming traffic through to the target service specified in a
+    request's SNI header, for SNI values of the _local_ top-level domain
+    (the [Kubernetes DNS domain](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)).
+    Mutual TLS connections will be used all the way from the source to the destination sidecar.
 
     Although applied to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
     same Pilot.
