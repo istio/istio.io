@@ -1,6 +1,45 @@
 ---
 title: Istio
 ---
+<!-- these script blocks are only for the primary English home page -->
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "https://istio.io",
+        "logo": "https://istio.io/img/logo.png",
+        "sameAs": [
+            "https://twitter.com/IstioMesh",
+            "https://discuss.istio.io/"
+        ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://istio.io/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://istio.io/search.html?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org/",
+        "@type": "Product",
+        "name": "Istio",
+        "image": [
+            "https://istio.io/img/logo.png"
+        ],
+        "description": "Istio lets you connect, secure, control, and observe services.",
+        "brand": "Istio",
+        "sku": "Full"
+    }
+</script>
+
 <main class="landing">
     <div id="banner">
         {{< inline_image "landing/istio-logo.svg" >}}
