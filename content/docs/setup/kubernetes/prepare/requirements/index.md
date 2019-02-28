@@ -60,66 +60,46 @@ cluster must satisfy the following requirements:
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, visit [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
 
-* _**Check required ports**_: The following table lists the default ports used by Istio components. Make sure the ports are available before installing Istio components.
+* _**Service Ports and Protocols**_: Ensure that your service's ports and protocols are available and don't conflict with the [Istio used ports and protocols](#istio-used-ports) for the Istio components be used.
 
-    | Component | Port | NodePort | Description |
-    |----|----|----|----|
-    | Citadel | 8060 |   | The port number for Citadel GRPC server |
-    | | | | |
-    | Core DNS | 53 |   | DNS - TCP/UDP Protocols |
-    | Core DNS | 8053 |   | DNS plugin |
-    | Core DNS | 9153 |   | DNS |
-    | | | | |
-    | Egress gateway | 80 |   |   |
-    | Egress gateway | 443 |   |   |
-    | Egress gateway | 15090 |   | Proxy |
-    | Egress gateway | 15443 |   | This is the port where SNI routing happens |
-    | | | | |
-    | Galley | 443 |   | Validation port |
-    | Galley | 9091 |   | Mesh control Plane - Running mixer |
-    | Galley | 9094 |   | Port to use for exposing profiling (no longer used?) |
-    | Galley | 15014 |   | Monitoring |
-    | | | | |
-    | Grafana | 3000 |   | Grafana |
-    | Grafana | 15031 |   | Grafana |
-    | | | | |
-    | Envoy | 15000 |   | Envoy admin port (commands/diagnostics) |
-    | | | | |
-    | Ingress gateway | 80 | 31380 |   |
-    | Ingress gateway | 443 | 31390 |   |
-    | Ingress gateway | 15029 |   | Kiali |
-    | Ingress gateway | 15030 |   | Prometheus |
-    | Ingress gateway | 15031 |   | Grafana |
-    | Ingress gateway | 15032 |   | Tracing |
-    | Ingress gateway | 15090 |   | Proxy |
-    | Ingress gateway | 15443 |   | This is the port where SNI routing happens |
-    | Ingress gateway | 31400 | 31400 | Sample port|
-    | | | | |
-    | Mixer | 9091 |   | Policy/Telemetry |
-    | Mixer | 15004 |   | Policy/Telemetry - `mTLS`|
-    | Mixer | 15014 |   | Policy/Telemetry monitoring port |
-    | Mixer | 15090 |   | Proxy |
-    | Mixer | 42422 |   | Telemetry - Prometheus |
-    | | | | |
-    | Pilot | 8080 |   | Pilot service - Discovery - legacy |
-    | Pilot | 15003 |   | Pilot service - Proxy - http - Discovery - old |
-    | Pilot | 15004 |   | Pilot service - Mixer |
-    | Pilot | 15005 |   | Pilot service - Proxy - https - Discovery |
-    | Pilot | 15007 |   | Pilot service - Proxy - http - Discovery |
-    | Pilot | 15010 |   | Pilot service - XDS pilot - discovery |
-    | Pilot | 15011 |   | Pilot service - `mTLS` - Proxy - discovery |
-    | Pilot | 15012 |   | Pilot service - `mTLS` - Proxy - Discovery service grpc address, with https discovery (still used?) |
-    | Pilot | 15014 |   | Pilot service - Monitoring |
-    | | | | |
-    | Prometheus | 9090 |   | Prometheus |
-    | | | | |
-    | Service Graph | 8088 |   | Service Graph |
-    | | | | |
-    | Sidecar injector | 443 |   | Sidecar injector |
-    | | | | |
-    | Tracing | 80 |   | Tracing - Jaeger |
-    | Tracing | 9411 |   | Tracing - Other |
-    | Tracing | 15032 |   | Tracing - Jaeger |
-    | Tracing | 16686 |   | Tracing - Jaeger |
-    | | | | |
-    | Zipkin | 9411 |   | Zipkin collector |
+## Istio Used Ports
+
+The following ports and protocols are used by Istio.
+
+If Istio is using HTTP on a port, a service may also use HTTP, but not TCP on that port. This is because HTTP routing is dependent on a number of factors such as Hostname, headers or path which removes the conflict.
+
+If Istio is using TCP, another service may not use HTTP on that port. The service may potentially use TCP on that port, marked with a `?` in the table, by using SNI headers or IP address blocks. For example, see [Consuming External TCP Services](/blog/2018/egress-tcp/).
+
+| Port | Protocol | Service can use HTTP? | Service can use TCP? | Used by | Description |
+|----|----|----|----|----|----|
+| 53 | TCP | No | `?` | Core DNS  | DNS - TCP/UDP Protocols |
+| 80 | HTTP | Yes | No |  Egress gateway, Ingress Gateway, Tracing (Jaeger) |
+| 443 | TCP | No | `?` |  Egress gateway, Galley (validation), Ingress Gateway, Sidecar Injector |
+| 3000 | HTTP | Yes | No |  Grafana  |  Grafana |
+| 8053 | TCP | No | `?` |  Core DNS  |  DNS plugin |
+| 8060 | HTTP | Yes | No |  Citadel  |  The port number for Citadel GRPC server |
+| 8080 | HTTP | Yes | No |  Pilot  |  Pilot service - Discovery - legacy |
+| 8088 | HTTP | Yes | No |  Service Graph  |  Service Graph |
+| 9090 | HTTP | Yes | No |  Prometheus  |  Prometheus |
+| 9091 | HTTP | Yes | No |  Mixer |  Policy/Telemetry |
+| 9093 | HTTP | Yes | No |  Citadel  | |
+| 9153 | TCP | No | `?` |  Core DNS  |  DNS |
+| 9411 | HTTP | Yes | No |  Tracing, Zipkin | |
+| 9901 | HTTP | Yes | No |  Galley | |
+| 14267 | TCP | No | `?` |  Tracing  |  Tracing - Jaeger |
+| 14268 | TCP | No | `?` |  Tracing  |  Tracing - Jaeger |
+| 15000 | TCP | No | `?` |  Envoy  |  Envoy admin port (commands/diagnostics) |
+| 15001 | TCP | No | `?` |  Envoy  |  Envoy |
+| 15004 | HTTP | Yes | `?` |  Mixer, Pilot |  Policy/Telemetry - `mTLS` |
+| 15010 | HTTP | Yes | No |  Pilot  |  Pilot service - XDS pilot - discovery |
+| 15011 | TCP | No | `?` |  Pilot  |  Pilot service - `mTLS` - Proxy - discovery |
+| 15014 | HTTP | Yes | No |  Citadel, Galley, Mixer, Pilot  |  Control plane monitoring |
+| 15029 | TCP | No | `?` |  Ingress gateway , Kiali |  Kiali |
+| 15030 | TCP | No | `?` |  Ingress gateway, Prometheus |  Prometheus |
+| 15031 | TCP | No | `?` |  Grafana, Ingress Gateway  |  Grafana |
+| 15032 | TCP | No | `?` |  Ingress gateway, Tracing  |  Tracing |
+| 15090 | HTTP | Yes | No |  Egress gateway, Ingress Gateway, Mixer  |  Proxy |
+| 15443 | TCP | No | `?` |  Egress gateway, Ingress Gateway  |  This is the port where SNI routing happens |
+| 16686 | TCP | No | ? |  Tracing  |  Tracing - Jaeger |
+| 20001 | HTTP | Yes | No |  Kiali | |
+| 42422 | TCP | No | ? |  Mixer  |  Telemetry - Prometheus |
