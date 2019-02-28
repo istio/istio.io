@@ -76,7 +76,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     --set global.meshExpansion.enabled=true \
     --set global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config \
     --set global.meshNetworks.network2.gateways[0].address=0.0.0.0 \
-    --set global.meshNetworks.network2.gateways[0].port=15443 \
+    --set global.meshNetworks.network2.gateways[0].port=443 \
     install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
