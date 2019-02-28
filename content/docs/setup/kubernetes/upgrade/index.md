@@ -1,5 +1,5 @@
 ---
-title: Upgrading Istio
+title: Upgrading
 description: Demonstrates how to upgrade the Istio control plane and data plane independently.
 weight: 5
 aliases:
