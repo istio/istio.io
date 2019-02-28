@@ -14,7 +14,7 @@ Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< 
 Follow this path to install and configure an Istio mesh in a Kubernetes cluster
 for evaluation.
 
-To install Istio for production follow the [Helm Installation guide](./install/helm/index.md).
+To install Istio for production follow the [Helm Installation guide](/docs/setup/kubernetes/install/helm/).
 
 ## Prerequisites
 

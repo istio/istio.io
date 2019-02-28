@@ -7,5 +7,5 @@ aliases:
     - /docs/tasks/installing-istio.html
     - /docs/setup/install-kubernetes.html
 icon: kubernetes
-keywords: [sidecar injection, mesh expansion, pod requirements, piecemeal install]
+keywords: [sidecar-injection, mesh-expansion, pod-requirements, piecemeal-install]
 ---
