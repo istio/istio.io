@@ -471,6 +471,21 @@ blockquote {
     margin-right: .3em;
 }
 
+.title-icon {
+    margin-right: .3em;
+
+    .icon {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+.title-area {
+    display: flex;
+    margin-bottom: 2.5rem;
+    align-items: center;
+}
+
 .flipped {
     transform: scaleX(-1);
 }
@@ -484,7 +499,7 @@ blockquote {
 
 .byline {
     margin-top: .15rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     padding: 0;
     text-transform: uppercase;
     font-size: 75%;

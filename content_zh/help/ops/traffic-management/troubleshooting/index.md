@@ -6,6 +6,37 @@ weight: 30
 
 本节将介绍一些常用的工具和技能，用于解决流量管理方面的问题。
 
+## 请求被 Envoy 拒绝
+
+要了解拒绝请求的原因，最佳方式是检查 Envoy 的访问日志。默认情况下，访问日志输出到容器的标准输出。
+运行以下命令以查看日志：
+
+{{< text bash >}}
+$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
+{{< /text >}}
+
+在默认访问日志格式中，Envoy响应标志和 Mixer 策略状态位于响应代码之后，
+如果您使用的是自定义日志格式，请确保包含`％RESPONSE_FLAGS％`和`％DYNAMIC_METADATA（istio.mixer：status）％`。
+
+详细的响应标志请参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-response-flags)
+
+常见的响应标志是：
+
+- `NR`: 没有配置路由， 检查你的 `DestinationRule` 或 `VirtualService`。
+- `UO`: 上游溢出，熔断， 在 `DestinationRule` 中检查你的熔断器配置。
+- `UF`: 无法连接到上游， 如果你正在使用Istio身份验证，请检查
+[双向 TLS 配置冲突](#设置目标规则后出现-503-错误)。
+
+如果响应标志为 `UAEX` 且 Mixer 策略状态不是 `-`，则 Mixer 拒绝请求。
+
+通用 Mixer 策略状态为：
+
+- `UNAVAILABLE`: Envoy 无法连接到 Mixer，策略配置为关闭失败。
+- `UNAUTHENTICATED`: Mixer 身份验证拒绝该请求。
+- `PERMISSION_DENIED`: Mixer 授权拒绝该请求。
+- `RESOURCE_EXHAUSTED`: Mixer 配额拒绝该请求。
+- `INTERNAL`: 由于 Mixer 内部错误，请求被拒绝。
+
 ## 路由规则好像没有生效
 
 在当前版本的 Envoy Sidecar 实现中，可能要 100 个请求才能观察到有权重版本的路由分发过程。
@@ -26,7 +57,7 @@ trafficPolicy:
     mode: ISTIO_MUTUAL
 {{< /text >}}
 
-这一模式的缺省值是 `DISABLED`，会导致客户端 Sidecar 使用明文 HTTP 请求，而不是 TLS 加密请求；而服务端却又要求接收加密请求，因此就产生了冲突。
+这一模式的缺省值是 `DISABLE`，会导致客户端 Sidecar 使用明文 HTTP 请求，而不是 TLS 加密请求；而服务端却又要求接收加密请求，因此就产生了冲突。
 
 可以执行 `istioctl authn tls-check` 命令来检查这一问题，查看该命令的返回内容中的 `STATUS` 字段是否为 `CONFLICT`，例如：
 

@@ -64,7 +64,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< warning >}}
     If you're not sure if your `helm` dependencies are up to date, update them using the
-    command shown in [Helm installation steps](/docs/setup/kubernetes/helm-install/#installation-steps)
+    command shown in [Helm installation steps](/docs/setup/kubernetes/install/helm/#installation-steps)
     before running the following command.
     {{< /warning >}}
 

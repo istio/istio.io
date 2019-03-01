@@ -1,7 +1,7 @@
 "use strict";
 
 // Attach the event handlers to support the search box and hamburger
-onDOMLoaded(() => {
+function handleHeader() {
     const searchForm = 'search-form';
     const headerLinks = 'header-links';
     const searchTextbox = 'search-textbox';
@@ -63,4 +63,6 @@ onDOMLoaded(() => {
         getById(headerLinks).classList.remove(openHamburger);
         getById(searchForm).classList.remove(openHamburger);
     });
-});
+}
+
+handleHeader();

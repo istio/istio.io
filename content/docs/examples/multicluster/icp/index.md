@@ -137,14 +137,14 @@ across all nodes in the two IBM Cloud Private Clusters.
 
 ## Install Istio for multicluster
 
-[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/multicluster-install/vpn/) to install and configure
+[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/multicluster/vpn/) to install and configure
 local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
 
 This example uses `cluster-1` as the local Istio control plane and `cluster-2` as the Istio remote.
 
 ## Deploy the Bookinfo example across clusters
 
-The following example enables [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
+The following example enables [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
 
 1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote:
 

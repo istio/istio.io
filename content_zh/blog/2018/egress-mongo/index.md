@@ -83,7 +83,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 ### Bookinfo 应用程序的初始设置
 
-为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/docs/setup/kubernetes/quick-start/#installation-steps) 的 Kubernetes 集群。然后部署
+为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/docs/setup/kubernetes/install/kubernetes/#installation-steps) 的 Kubernetes 集群。然后部署
 [Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/)并[应用默认 destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)。
 
 此应用程序从 `ratings` 微服务获取书籍评级（1 到 5 的数字）。评级以星标形式显示每条评论。`ratings` 微服务有几个版本。在下一小节中，请部署使用 [MongoDB](https://www.mongodb.com)
