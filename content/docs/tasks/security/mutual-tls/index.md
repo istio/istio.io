@@ -138,7 +138,7 @@ command terminated with exit code 56
 Before you continue, remove the bad destination rule to make mutual TLS work again with the following command:
 
 {{< text bash >}}
-$ kubectl delete --ignore-not-found=true bad-rule
+$ kubectl delete destinationrule --ignore-not-found=true bad-rule
 {{< /text >}}
 
 ## Verify requests
