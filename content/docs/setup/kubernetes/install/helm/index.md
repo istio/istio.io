@@ -126,12 +126,11 @@ $ kubectl -n istio-system edit deployment istio-galley
 
     {{< tip >}}
     To try the `bookinfo` demo, use the Helm values customized for the `bookinfo` application:
+    {{< /tip >}}
 
     {{< text bash >}}
     $ helm template $HOME/istio-fetch/istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system | kubectl apply -f -
     {{< /text >}}
-
-    {{< /tip >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
 
