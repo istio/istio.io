@@ -9,7 +9,7 @@ The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
 describes how to configure an ingress gateway to expose the HTTP endpoint of a
 service to external traffic. This task shows how to do it but using
 HTTPS access to the service with either simple or mutual TLS. The private key,
-server certificate and root certificate (required by mutual TLS) are configured
+server certificate, and the root certificate required by mutual TLS are configured
 using a file mount based approach.
 
 ## Before you begin
