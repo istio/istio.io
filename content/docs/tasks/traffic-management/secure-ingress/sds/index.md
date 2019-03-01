@@ -50,7 +50,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     {{< /text >}}
 
 1.  Generate the certificates for `httpbin.example.com`. Replace `password` with
-any value you like in the following command:
+any value in the following command:
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com password
