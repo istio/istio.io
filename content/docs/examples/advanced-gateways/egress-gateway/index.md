@@ -657,7 +657,7 @@ external service.
 
 ## Enable Egress Gateway
 
-1.  Check if egress gateway is enabled
+1.  Check if egress gateway is enabled:
 
     {{< text bash >}}
     $ kubectl get deployment,service istio-egressgateway -n istio-system
