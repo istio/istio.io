@@ -1,6 +1,6 @@
 "use strict";
 
-onDOMLoaded(() => {
+function handleLinks() {
 
     function attachLink(node) {
         const anchor = document.createElement("a");
@@ -100,4 +100,6 @@ onDOMLoaded(() => {
     attachLinksToDefinedTerms();
     makeOutsideLinksOpenInTabs();
     createEndnotes();
-});
+}
+
+handleLinks();

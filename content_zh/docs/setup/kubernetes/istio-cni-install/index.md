@@ -7,7 +7,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 
 缺省情况下，Istio 会在网格中部署的 Pod 上注入一个初始化容器——`istio-init`。这个初始化容器会将 Pod 网络的流量劫持到 Istio Sidecar 上。这需要用户或者向网格中部署 Pod 的 Service Account 具有部署 [`NET_ADMIN` 容器](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)的授权。对 Istio 用户的这种授权需要，对于某些组织的安全政策来说，可能是无法接受的。Istio CNI（[容器网络接口](https://github.com/containernetworking/cni#cni---the-container-network-interface)）插件能够代替 `istio-init` 容器完成同样的网络功能，而且无需 Istio 用户额外申请 Kubernetes RBAC 授权。
 
-[Istio CNI 插件](https://github.com/istio/cni)会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格中的 Pod 流量转发设置工作，用户向网格中进行 Pod 部署时，不再有对 [`NET_ADMIN` 功能的需求](/docs/setup/kubernetes/spec-requirements/)。
+[Istio CNI 插件](https://github.com/istio/cni)会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格中的 Pod 流量转发设置工作，用户向网格中进行 Pod 部署时，不再有对 [`NET_ADMIN` 功能的需求](/zh/docs/setup/kubernetes/spec-requirements/)。
 
 ## 前提条件 {#prerequisites}
 

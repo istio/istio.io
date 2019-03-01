@@ -24,7 +24,7 @@ This task describes how to configure Istio to expose a service outside of the se
 *   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample,
     which will be used as the destination service to be exposed externally.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), deploy the `httpbin` service:
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `httpbin` service:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@

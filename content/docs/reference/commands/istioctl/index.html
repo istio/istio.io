@@ -945,7 +945,7 @@ istioctl verify-install -f istio-demo.yaml
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p></p>
-<p>kube-inject manually injects envoy sidecar into kubernetes
+<p>kube-inject manually injects the Envoy sidecar into Kubernetes
 workloads. Unsupported resources are left unmodified so it is safe to
 run kube-inject over a single file that contains multiple Service,
 ConfigMap, Deployment, etc. definitions for a complex application. Its
@@ -1112,7 +1112,7 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
 kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 
 # Create a persistent version of the deployment with Envoy sidecar
-# injected configuration from kubernetes configmap &#39;istio-inject&#39;
+# injected configuration from Kubernetes configmap &#39;istio-inject&#39;
 istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-inject
 
 </code></pre>

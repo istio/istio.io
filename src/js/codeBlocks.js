@@ -1,8 +1,7 @@
 "use strict";
 
 // All the voodoo needed to support our fancy code blocks
-onDOMLoaded(() => {
-
+function handleCodeBlocks() {
     // Add a toolbar to all PRE blocks
     function attachToolbar(pre) {
         const copyButton = document.createElement('button');
@@ -12,6 +11,12 @@ onDOMLoaded(() => {
         copyButton.setAttribute("aria-label", buttonCopy);
         listen(copyButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
         listen(copyButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
+        listen(copyButton, click, e => {
+            const div = e.currentTarget.parentElement;
+            const text = getToolbarDivText(div);
+            copyToClipboard(text);
+            return true;
+        });
 
         const downloadButton = document.createElement('button');
         downloadButton.title = buttonDownload;
@@ -230,12 +235,6 @@ onDOMLoaded(() => {
         applySyntaxColoring(pre);
         loadExternal(pre);
     });
+}
 
-    const clipboard = new ClipboardJS('button.copy', {
-        text: trigger => {
-            return getToolbarDivText(trigger.parentElement);
-        }
-    });
-
-    clipboard.on('error', () => alert("Sorry, but copying is not supported by your browser"));
-});
+handleCodeBlocks();
