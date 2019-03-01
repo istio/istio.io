@@ -25,7 +25,7 @@ server, or configuring the IPs in any other DNS server accessible from the VM.
 installed the [Helm client](https://docs.helm.sh/using_helm/). You'll need it to enable mesh expansion for the cluster.
 
 {{< tip >}}
-The following instructions assume that the expansion VM is running on GCE and use Google platform-specific command for some of the steps.
+The following instructions assume that the expansion VM is running on GCE and use Google platform-specific commands for some of the steps.
 {{< /tip >}}
 
 ## Installation steps
