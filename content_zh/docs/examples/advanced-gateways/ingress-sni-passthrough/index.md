@@ -2,7 +2,7 @@
 title: 没有 TLS 的 Ingress gateway
 description: 介绍如何为入口网关配置 SNI 直通。
 weight: 10
-keywords: [traffic-management,ingress, https]
+keywords: [traffic-management,ingress,https]
 ---
 
 [使用 HTTPS 保护网关](/zh/docs/tasks/traffic-management/secure-ingress/)任务描述了如何配置 HTTPS

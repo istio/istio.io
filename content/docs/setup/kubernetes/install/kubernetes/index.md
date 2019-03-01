@@ -24,14 +24,14 @@ To install Istio for production follow the [Helm Installation guide](/docs/setup
   * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
   * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
   * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
-  * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
+  * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker/)
   * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
   * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
   * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
   * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
   * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/platform-setup/oci/)
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements/).
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements//).
 
 ## Installation steps
 
@@ -177,7 +177,7 @@ non-existent resources because they may have been deleted hierarchically.
     $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* If you installed Istio with Helm, follow the uninstall steps in [Istio Installation with Helm](/docs/setup/kubernetes/helm-install).
+* If you installed Istio with Helm, follow the uninstall steps in [Istio Installation with Helm](/docs/setup/kubernetes/install/helm).
 
 * If desired, delete the CRDs:
 

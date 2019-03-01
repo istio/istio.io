@@ -2,7 +2,7 @@
 title: Ingress Gateway without TLS Termination
 description: Describes how to configure SNI passthrough for an ingress gateway.
 weight: 10
-keywords: [traffic-management,ingress, https]
+keywords: [traffic-management,ingress,https]
 ---
 
 The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/) task describes how to configure HTTPS

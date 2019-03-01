@@ -32,7 +32,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/setup/kubernetes/mesh-expansion/).
+* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
 
 ## Running MySQL on the VM
 
