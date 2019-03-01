@@ -1,18 +1,24 @@
 ---
-title: Securing Gateways with HTTPS
-description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS.
+title: Securing Gateways with HTTPS With a File Mount-Based Approach
+description: Expose a service outside of the service mesh over TLS or mTLS.
 weight: 31
-keywords: [traffic-management,ingress]
+keywords: [traffic-management,ingress,file-mount-credentials]
 ---
 
-The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task describes how to configure an ingress
-gateway to expose an HTTP endpoint of a service to external traffic.
-This task shows you how to do the same, but using HTTPS access to the service with either simple or mutual TLS.
+The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
+describes how to configure an ingress gateway to expose the HTTP endpoint of a
+service to external traffic. This task shows how to do it but using
+HTTPS access to the service with either simple or mutual TLS. The private key,
+server certificate, and the root certificate required by mutual TLS are configured
+using a file mount based approach.
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports) sections of the
-[Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed, and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
+1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin)
+and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)
+sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing
+those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
+and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
 
@@ -63,13 +69,16 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ popd
     {{< /text >}}
 
-## Configure a TLS ingress gateway
+## Configure a TLS ingress gateway with a file mount-based approach
 
-In this section you configure an ingress gateway with port 443 to handle HTTPS traffic. You first create a secret
-with a certificate and a private key. Then you create a `Gateway` definition that contains a `server` on port 443.
+In this section you configure an ingress gateway with port 443 to handle HTTPS
+traffic. You first create a secret with a certificate and a private key. The
+secret is mounted to a file on the `/etc/istio/ingressgateway-certs` path. You can then
+create a gateway definition that configures a server on port 443.
 
-1. Create a Kubernetes `Secret` to hold the server's certificate and private key. Use `kubectl` to create the secret
-`istio-ingressgateway-certs` in namespace `istio-system` . The Istio gateway will load the secret automatically.
+1. Create a Kubernetes secret to hold the server's certificate and private key.
+   Use `kubectl` to create the secret `istio-ingressgateway-certs` in namespace
+   `istio-system` . The Istio gateway will load the secret automatically.
 
     {{< warning >}}
     The secret **must** be named `istio-ingressgateway-certs` in the `istio-system` namespace to align with the
@@ -288,7 +297,7 @@ server with another secret, before you can use it to handle a second host.
 
 ### Generate client and server certificates and keys for `bookinfo.com`
 
-Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/#generate-client-and-server-certificates-and-keys),
+Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/mount/#generate-client-and-server-certificates-and-keys),
 only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 
 1.  Change directory to the cloned repository:
@@ -468,15 +477,17 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 
 ## Troubleshooting
 
-1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables. Make sure
-they have valid values, according to the output of the following commands:
+*   Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment
+    variables. Make sure they have valid values, according to the output of the
+    following commands:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     {{< /text >}}
 
-1.  Verify that the key and the certificate are successfully loaded in the `istio-ingressgateway` pod:
+*   Verify that the key and the certificate are successfully loaded in the
+    `istio-ingressgateway` pod:
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
@@ -484,21 +495,22 @@ they have valid values, according to the output of the following commands:
 
     `tls.crt` and `tls.key` should exist in the directory contents.
 
-1.  If you created the `istio-ingressgateway-certs` secret, but the key and the certificate are not loaded, delete the
-    ingress gateway pod and force it to reload them.
+*   If you created the `istio-ingressgateway-certs` secret, but the key and the
+    certificate are not loaded, delete the ingress gateway pod and force the
+    ingress gateway pod to restart and reload key and certificate.
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  Verify that the _Subject_ is correct in the certificate of the ingress gateway:
+*   Verify that the `Subject` is correct in the certificate of the ingress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'Subject:'
         Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
     {{< /text >}}
 
-1.  Verify that the proxy of the ingress gateway is aware of the certificates:
+*   Verify that the proxy of the ingress gateway is aware of the certificates:
 
     {{< text bash >}}
     $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -- curl  127.0.0.1:15000/certs
@@ -508,20 +520,20 @@ they have valid values, according to the output of the following commands:
     }
     {{< /text >}}
 
-1.  Check the log of `istio-ingressgateway` for error messages:
+*   Check the log of `istio-ingressgateway` for error messages:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library, as
-    described in the [Before you begin](#before-you-begin) section.
+*   For macOS users, verify that you use `curl` compiled with the [LibreSSL](http://www.libressl.org)
+    library, as described in the [Before you begin](#before-you-begin) section.
 
 ### Troubleshooting for mutual TLS
 
 In addition to the steps in the previous section, perform the following:
 
-1.  Verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
+*   Verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-ca-certs
@@ -529,14 +541,15 @@ In addition to the steps in the previous section, perform the following:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
-1.  If you created the `istio-ingressgateway-ca-certs` secret, but the CA certificate is not loaded, delete the ingress
-    gateway pod and force it to reload the certificate:
+*   If you created the `istio-ingressgateway-ca-certs` secret, but the CA
+    certificate is not loaded, delete the ingress gateway pod and force it to
+    reload the certificate:
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  Verify that the _Subject_ is correct in the CA certificate of the ingress gateway:
+*   Verify that the `Subject` is correct in the CA certificate of the ingress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem | openssl x509 -text -noout | grep 'Subject:'
