@@ -67,7 +67,12 @@ To install Istio with mutual TLS enabled and set to use permissive mode
 between sidecars:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo.yaml
+$ helm template install/kubernetes/helm/istio --name istio \
+  --namespace istio-system > $HOME/istio.yaml
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
 In this option, all services, as servers, can accept both plain text and
@@ -85,7 +90,12 @@ To Install Istio and enforce [mutual TLS authentication](/docs/concepts/security
 between sidecars by default:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+  --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true > $HOME/istio-auth.yaml
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl apply -f $HOME/istio-auth.yaml
 {{< /text >}}
 
 ### Option 3: Render Kubernetes manifest with Helm and deploy with `kubectl`
