@@ -303,20 +303,30 @@ with a valid protocol and port name, along with the bind parameter.</p>
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED. A list of hosts exposed by this gateway. At least one
-host is required. While typically applicable to
-HTTP services, it can also be used for TCP services using TLS with
-SNI. May contain a wildcard prefix for the bottom-level component of
-a domain name. For example <code>*.foo.com</code> matches <code>bar.foo.com</code>
-and <code>*.com</code> matches <code>bar.foo.com</code>, <code>example.com</code>, and so on.</p>
+<p>REQUIRED. One or more hosts exposed by this gateway.
+While typically applicable to
+HTTP services, it can also be used for TCP services using TLS with SNI.
+A host is specified as a <code>dnsName</code> with an optional <code>namespace/</code> prefix.
+The <code>dnsName</code> should be specified using FQDN format, opionally including
+a wildcard character in the left-most component (e.g., <code>prod/*.example.com</code>).
+Set the <code>dnsName</code> to <code>*</code> to select all <code>VirtualService</code> hosts from the
+specified namespace (e.g.,<code>prod/*</code>). If no <code>namespace/</code> is specified,
+the <code>VirtualService</code> hosts will be selected from any available namespace.
+Any associated <code>DestinationRule</code> in the same namespace will also be used.</p>
 
-<p><strong>Note</strong>: A <code>VirtualService</code> that is bound to a gateway must have one
-or more hosts that match the hosts specified in a server. The match
+<p>A <code>VirtualService</code> must be bound to the gateway and must have one or
+more hosts that match the hosts specified in a server. The match
 could be an exact match or a suffix match with the server&rsquo;s hosts. For
-example, if the server&rsquo;s hosts specifies &ldquo;*.example.com&rdquo;,
-VirtualServices with hosts dev.example.com, prod.example.com will
-match. However, VirtualServices with hosts example.com or
-newexample.com will not match.</p>
+example, if the server&rsquo;s hosts specifies <code>*.example.com</code>, a
+<code>VirtualService</code> with hosts <code>dev.example.com</code> or <code>prod.example.com</code> will
+match. However, a <code>VirtualService</code> with host <code>example.com</code> or
+<code>newexample.com</code> will not match.</p>
+
+<p>NOTE: Only virtual services exported to the gateway&rsquo;s namespace
+(e.g., <code>exportTo</code> value of <code>*</code>) can be referenced.
+Private configurations (e.g., <code>exportTo</code> set to <code>.</code>) will not be
+available. Refer to the <code>exportTo</code> setting in <code>VirtualService</code>,
+<code>DestinationRule</code>, and <code>ServiceEntry</code> configurations for details.</p>
 
 </td>
 </tr>

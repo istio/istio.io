@@ -182,24 +182,25 @@ captureMode must be DEFAULT or NONE for Unix domain socket binds.</p>
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED: One or more services/virtualServices exposed by the listener
-in namespace/dnsName format.  Publicly scoped services and
-VirtualServices from remote namespaces corresponding to the specified
-hosts will be imported. The service in a namespace can be a service in
-the service registry (e.g., a Kubernetes or cloud foundry service) or
-a service specified via ServiceEntry configuration. In addition, any
-publicly scoped DestinationRule associated with the imported services
-will also be imported.</p>
+<p>REQUIRED: One or more service hosts exposed by the listener
+in <code>namespace/dnsName</code> format. Services in the specified namespace
+matching <code>dnsName</code> will be exposed.
+The corresponding service can be a service in the service registry
+(e.g., a Kubernetes or cloud foundry service) or a service specified
+using a <code>ServiceEntry</code> or <code>VirtualService</code> configuration. Any
+associated <code>DestinationRule</code> in the same namespace will also be used.</p>
 
-<p>Set the namespace to * to import a particular service from any
-available namespace (e.g., &ldquo;*/foo.example.com&rdquo;). Set the dnsName field
-to * to import all services from the specified namespace (e.g.,
-&ldquo;prod/*&rdquo;). The services should be specified using FQDN format.</p>
+<p>The <code>dnsName</code> should be specified using FQDN format, opionally including
+a wildcard character in the left-most component (e.g., <code>prod/*.example.com</code>).
+Set the <code>dnsName</code> to <code>*</code> to select all services from the specified namespace
+(e.g.,<code>prod/*</code>). The <code>namespace</code> can also be set to <code>*</code> to select a particular
+service from any available namespace (e.g., &ldquo;*/foo.example.com&rdquo;).</p>
 
-<p>NOTE: Only exported services and configuration artifacts from a
-namespace can be imported. Private services/configuration will not be
-imported. Refer to the scope setting associated with VirtualService,
-DestinationRule, ServiceEntry, etc. for details.</p>
+<p>NOTE: Only services and configuration artifacts exported to the sidecar&rsquo;s
+namespace (e.g., <code>exportTo</code> value of <code>*</code>) can be referenced.
+Private configurations (e.g., <code>exportTo</code> set to <code>.</code>) will
+not be available. Refer to the <code>exportTo</code> setting in <code>VirtualService</code>,
+<code>DestinationRule</code>, and <code>ServiceEntry</code> configurations for details.</p>
 
 </td>
 </tr>
