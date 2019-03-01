@@ -28,7 +28,6 @@ The following table lists the currently supported keys for the `constraints` fie
 | `destination.ip` | Destination workload instance IP address, supports single IP or CIDR | YES | `destination.ip` |  `["10.1.2.3", "10.2.0.0/16"]` |
 | `destination.port` | The recipient port on the server IP address, must be in the range [0, 65535] | YES | `destination.port` | `["80", "443"]` |
 | `destination.labels` | A map of key-value pairs attached to the server instance | YES | `destination.labels[version]` | `["v1", "v2"]` |
-| `destination.name` | Destination workload instance name | YES | `destination.name` | `["productpage*", "*-test"]` |
 | `destination.namespace` | Destination workload instance namespace | YES | `destination.namespace` | `["default"]` |
 | `destination.user` | The identity of the destination workload | YES | `destination.user` | `["bookinfo-productpage"]` |
 | `experimental.envoy.filters.*` | Experimental metadata matching for filters, values wrapped in `[]` are matched as a list | YES | `experimental.envoy.filters.network.mysql_proxy[db.table]` | `["[update]"]` |
