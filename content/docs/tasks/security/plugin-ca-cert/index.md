@@ -159,23 +159,23 @@ the root certificate is in `/root/ca/certs/ca.cert.pem`, the root key is in `/ro
 the intermediate certificate is in `/root/ca/intermediate/certs/intermediate.cert.pem` and the intermediate key
 is in `/root/ca/intermediate/private/intermediate.key.pem`.
 
-  {{< text bash >}}
-  $ mkdir ca-bundle
-  $ cp /root/ca/certs/ca.cert.pem ca-bundle/root-cert.pem
-  $ cp /root/ca/intermediate/certs/intermediate.cert.pem ca-bundle/ca-cert.pem
-  $ cp /root/ca/intermediate/private/intermediate.key.pem ca-bundle/ca-key.pem
-  $ cp ca-bundle/ca-cert.pem ca-bundle/cert-chain.pem
-  $ tar cvf ca-bundle.tar ca-bundle
-  {{< /text >}}
+{{< text bash >}}
+$ mkdir ca-bundle
+$ cp /root/ca/certs/ca.cert.pem ca-bundle/root-cert.pem
+$ cp /root/ca/intermediate/certs/intermediate.cert.pem ca-bundle/ca-cert.pem
+$ cp /root/ca/intermediate/private/intermediate.key.pem ca-bundle/ca-key.pem
+$ cp ca-bundle/ca-cert.pem ca-bundle/cert-chain.pem
+$ tar cvf ca-bundle.tar ca-bundle
+{{< /text >}}
 
 Use a portable data storage device to copy `ca-bundle.tar` to the machine configured to manage to the Istio cluster.
 On the machine, create the secret `cacerts`:
 
-  {{< text bash >}}
-  $ tar xvf ca-bundle.tar
-  $ kubectl create secret generic cacerts -n istio-system --from-file=ca-bundle/ca-cert.pem \
-      --from-file=ca-bundle/ca-key.pem --from-file=ca-bundle/root-cert.pem --from-file=ca-bundle/cert-chain.pem
-  {{< /text >}}
+{{< text bash >}}
+$ tar xvf ca-bundle.tar
+$ kubectl create secret generic cacerts -n istio-system --from-file=ca-bundle/ca-cert.pem \
+    --from-file=ca-bundle/ca-key.pem --from-file=ca-bundle/root-cert.pem --from-file=ca-bundle/cert-chain.pem
+{{< /text >}}
 
 And then follow the
 [section above](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) from Step 2.
