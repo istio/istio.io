@@ -1,6 +1,6 @@
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).  Configure Istio to restrict all outbound traffic. 
 
 *   To have test source for sending requests, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
