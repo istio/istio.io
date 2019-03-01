@@ -129,13 +129,13 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< text bash >}}
     $ export GCE_NAME="your-gce-instance"
-    $ gcloud compute scp --project=${MY_PROJECT} --zone={MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
+    $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
     {{< /text >}}
 
 1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
-    $ gcloud compute ssh "${GCE_NAME}"
+    $ gcloud compute ssh --project=${MY_PROJECT} --zone={MY_ZONE} "${GCE_NAME}"
     $ curl -L https://storage.googleapis.com/istio-release/releases/1.1.0-rc.0/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
@@ -203,7 +203,7 @@ The following example shows accessing a service running in the Kubernetes cluste
 
     {{< text bash >}}
 $ echo "10.55.246.247 productpage.default.svc.cluster.local" | sudo tee -a /etc/hosts
-$ curl productpage.default.svc.cluster.local:9080
+$ curl -v productpage.default.svc.cluster.local:9080
 < HTTP/1.1 200 OK
 < content-type: text/html; charset=utf-8
 < content-length: 1836
