@@ -592,7 +592,7 @@ ingress gateway by checking logs.
     $ rm -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
-1. Shutdown the httpbin and helloworld-v1 service:
+1. Shutdown the `httpbin` and `helloworld-v1` services:
 
     {{< text bash >}}
     $ kubectl delete service --ignore-not-found=true helloworld-v1
