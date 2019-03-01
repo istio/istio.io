@@ -2,7 +2,7 @@
 title: Debugging Authorization
 description: Demonstrates how to debug authorization.
 weight: 5
-keywords: [debug,security,authorization,RBAC]
+keywords: [debug,security,authorization,rbac]
 ---
 
 This page demonstrates how to debug Istio authorization.

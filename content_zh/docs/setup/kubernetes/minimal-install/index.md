@@ -2,7 +2,7 @@
 title: Istio 最小化安装
 description: 使用 Helm 最小化安装 Istio 。
 weight: 31
-keywords: [kubernetes,helm, minimal]
+keywords: [kubernetes,helm]
 icon: helm
 ---
 
