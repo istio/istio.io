@@ -7,7 +7,7 @@ keywords: [traffic-management,ingress,sds]
 
 The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
 describes how to configure an ingress gateway to expose an HTTP endpoint of a
-service to external traffic. This task shows you how to do the same, but using
+service to external traffic. This task shows how to do it but using
 HTTPS access to the service with either simple or mutual TLS. The private key,
 server certificate and root certificate which is required in mutual TLS are
 configured using Secret Discovery Service (SDS).
