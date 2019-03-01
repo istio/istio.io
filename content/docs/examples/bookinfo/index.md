@@ -89,13 +89,17 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     over time instead of deploying all versions simultaneously.
     {{< /tip >}}
 
-    *Note: If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
+    {{< tip >}}
+    If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
     (/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the `istioctl kube-inject` command
-     to modify the `bookinfo.yaml` file before deploying your apoplication,
-     as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject):*
+    to modify the `bookinfo.yaml` file before deploying your apoplication,
+    as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject):
+    {{< /tip >}}
 
     {{< text bash >}}
+
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
+
     {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
