@@ -541,7 +541,7 @@ In addition to the steps in the previous section, perform the following:
 
     `ca-chain.cert.pem` should exist in the directory contents.
 
-*   If you created the `istio-ingressgateway-ca-certs` secret, but the CA 
+*   If you created the `istio-ingressgateway-ca-certs` secret, but the CA
     certificate is not loaded, delete the ingress gateway pod and force it to
     reload the certificate:
 

@@ -536,10 +536,10 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
     -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
     {{< /text >}}
 
-*   If using MacOS, verify you are using `curl` compiled with the [LibreSSL](http://www.libressl.org)
+*   If using macOS, verify you are using `curl` compiled with the [LibreSSL](http://www.libressl.org)
     library, as described in the [Before you begin](#before-you-begin) section.
 
-*   Verify that the secrets are successfully created in the `istio-system` 
+*   Verify that the secrets are successfully created in the `istio-system`
     namespace:
 
     {{< text bash >}}
@@ -563,7 +563,7 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
     ingress gateway, that the resource's name is `httpbin-credential`, and that the ingress gateway
     obtained the key/certificate pair. If using mutual TLS, the log should show
     key/certificate was sent to the ingress gateway,
-    that the gateway agent received the SDS request with the `httpbin-credential-cacert` 
+    that the gateway agent received the SDS request with the `httpbin-credential-cacert`
     resource name,   and that the ingress gateway obtained the root certificate.
 
 ## Cleanup
