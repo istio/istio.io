@@ -2,7 +2,7 @@
 title: Securing Gateways with HTTPS Using Secret Discovery Service
 description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS, using secret discovery service.
 weight: 32
-keywords: [traffic-management,ingress,sds]
+keywords: [traffic-management,ingress,sds-credentials]
 ---
 
 The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
@@ -520,28 +520,27 @@ and your private key with the `--key` flag to `curl`.
 
 ## Troubleshooting
 
-1.  Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT`
-environment variables. Make sure they have valid values, according to the output
- of the following commands:
+*   Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment
+    variables. Make sure they have valid values, according to the output of the
+    following commands:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     {{< /text >}}
 
-1.  Check the log of the `istio-ingressgateway` controller for error messages:
+*   Check the log of the `istio-ingressgateway` controller for error messages:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
     -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
     {{< /text >}}
 
-1.  If using MacOS, verify you are using `curl` compiled with the
-[LibreSSL](http://www.libressl.org) library, as described in the
-[Before you begin](#before-you-begin) section.
+*   If using MacOS, verify you are using `curl` compiled with the [LibreSSL](http://www.libressl.org)
+    library, as described in the [Before you begin](#before-you-begin) section.
 
-1.  Verify that the secrets are successfully created in the `istio-system`
-namespace:
+*   Verify that the secrets are successfully created in the `istio-system` 
+    namespace:
 
     {{< text bash >}}
     $ kubectl -n istio-system get secrets
@@ -550,8 +549,8 @@ namespace:
     `httpbin-credential` and `helloworld-credential` should show in the secrets
     list.
 
-1.  Check the logs to verify that the ingress gateway agent has pushed the key/certificate pair to the
-ingress gateway.
+*   Check the logs to verify that the ingress gateway agent has pushed the
+    key/certificate pair to the ingress gateway.
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
@@ -564,8 +563,8 @@ ingress gateway.
     ingress gateway, that the resource's name is `httpbin-credential`, and that the ingress gateway
     obtained the key/certificate pair. If using mutual TLS, the log should show
     key/certificate was sent to the ingress gateway,
-    that the gateway agent received the SDS request with the `httpbin-credential-cacert` resource name
-, and that the ingress gateway obtained the root certificate.
+    that the gateway agent received the SDS request with the `httpbin-credential-cacert` 
+    resource name,   and that the ingress gateway obtained the root certificate.
 
 ## Cleanup
 
