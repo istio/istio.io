@@ -7,7 +7,7 @@ keywords: [platform-setup,ibm,iks]
 
 按照以下说明为 Istio 准备 IBM Cloud 集群。
 
-您可以在 IBM Cloud Public 中使用[Managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on)、使用 Helm 在 [IBM Cloud Public](#ibm-cloud-public) 中安装 Istio ，或在 [IBM-Cloud-Private](#ibm-cloud-private) 中安装 Istio。
+您可以在 IBM Cloud Public 中使用 [Managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on)、使用 Helm 在 [IBM Cloud Public](#ibm-cloud-public) 中安装 Istio ，或在 [IBM-Cloud-Private](#ibm-cloud-private) 中安装 Istio。
 
 ## Managed Istio add-on
 
