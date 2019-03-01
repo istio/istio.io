@@ -8,23 +8,35 @@ keywords: [security,certificates]
 This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
 
 By default, Citadel generates self-signed root certificate and key, and uses them to sign the workload certificates.
-Citadel can also use the operator-specified certificate and key to sign workload certificates, with
+However, some organizations may already have a PKI (Public Key Infrastructure)
+and require the Istio cluster to use an intermediate signing certificate.
+Also, generating and keeping the root key offline is a more secure practice adopted in many organizations.
+Citadel supports loading the operator-specified certificate and key to sign workload certificates, with the
 operator-specified root certificate. This task demonstrates an example to plug certificates and key into Citadel.
 
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-[quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
+  [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
 
-  Install from the [demo yaml file](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication).
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+    {{< /text >}}
 
-  _**OR**_
+    _**OR**_
 
-  Using [Helm](/docs/setup/kubernetes/helm-install/) with mutual TLS enabled.
+    Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
 
 {{< tip >}}
-Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+You can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
+all/selected services in a namespace (repeated for all namespaces to get global setting).
+See [authentication policy task](/docs/tasks/security/authn-policy/) for details.
 {{< /tip >}}
+
+In this task, we will demonstrate how to plug in the existing certificate and key, using the sample certificate and key
+given in the Istio package. Then we will verify the new certificates are used in the cluster.
+Finally, we will show how to generate root and intermediate keys and certificates offline, and them plug into the
+cluster.
 
 ## Plugging in the existing certificate and key
 
@@ -132,6 +144,41 @@ This requires you have `openssl` installed on your machine.
     $ openssl verify -CAfile <(cat @samples/certs/ca-cert.pem@ @samples/certs/root-cert.pem@) /tmp/pod-cert-chain-workload.pem
     /tmp/pod-cert-chain-workload.pem: OK
     {{< /text >}}
+
+## (Optional) Generating root and intermediate keys and certificates offline
+
+This section gives you instructions on how to generate the keys and certificates offline and apply to
+the Istio cluster.
+
+On an offline machine with good security (restricted access), follow the `Create the root pair` and the
+`Create the intermediate pair` sections in this [guide](https://jamielinux.com/docs/openssl-certificate-authority/)
+to create the keys and certs for your root and intemediate CA.
+
+After the certificates and keys are created,
+the root certificate is in `/root/ca/certs/ca.cert.pem`, the root key is in `/root/ca/private/ca.key.pem`,
+the intermediate certificate is in `/root/ca/intermediate/certs/intermediate.cert.pem` and the intermediate key
+is in `/root/ca/intermediate/private/intermediate.key.pem`.
+
+  {{< text bash >}}
+  $ mkdir ca-bundle
+  $ cp /root/ca/certs/ca.cert.pem ca-bundle/root-cert.pem
+  $ cp /root/ca/intermediate/certs/intermediate.cert.pem ca-bundle/ca-cert.pem
+  $ cp /root/ca/intermediate/private/intermediate.key.pem ca-bundle/ca-key.pem
+  $ cp ca-bundle/ca-cert.pem ca-bundle/cert-chain.pem
+  $ tar cvf ca-bundle.tar ca-bundle
+  {{< /text >}}
+
+Use a portable data storage device to copy `ca-bundle.tar` to the machine configured to manage to the Istio cluster.
+On the machine, create the secret `cacerts`:
+
+  {{< text bash >}}
+  $ tar xvf ca-bundle.tar
+  $ kubectl create secret generic cacerts -n istio-system --from-file=ca-bundle/ca-cert.pem \
+      --from-file=ca-bundle/ca-key.pem --from-file=ca-bundle/root-cert.pem --from-file=ca-bundle/cert-chain.pem
+  {{< /text >}}
+
+And then follow the
+[section above](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) from Step 2.
 
 ## Cleanup
 
