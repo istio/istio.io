@@ -69,7 +69,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ popd
     {{< /text >}}
 
-## Configure a TLS ingress gateway using file mount based approach
+## Configure a TLS ingress gateway with a file mount-based approach
 
 In this section you configure an ingress gateway with port 443 to handle HTTPS
 traffic. You first create a secret with a certificate and a private key. The
