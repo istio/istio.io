@@ -526,7 +526,7 @@ gateway:
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-1.  For macOS users, verify that you use _curl_ compiled with the
+1.  For macOS users, verify that you use `curl` compiled with the
 [LibreSSL](http://www.libressl.org) library, as described in the
 [Before you begin](#before-you-begin) section.
 
