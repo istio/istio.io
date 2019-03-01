@@ -4,7 +4,6 @@ description: Install an Istio mesh across multiple Kubernetes clusters with dire
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
-    - /docs/setup/kubernetes/multicluster-install/
     - /docs/setup/kubernetes/multicluster-install/vpn/
 ---
 

@@ -7,7 +7,8 @@ aliases:
     - /docs/tasks/installing-istio.html
     - /docs/setup/install-kubernetes.html
 icon: kubernetes
-keywords: [kubernetes, install, quick-start, setup, installation]
+keywords: [kubernetes,install,quick-start,setup,installation]
+content_above: true
 ---
 
 {{< tip >}}
