@@ -89,12 +89,12 @@ gateway.
 secret, that secret is captured by the gateway agent and sent to ingress gateway
  as key/certificate or root certificate.
 
-* The gateway agent is able to watch multiple key/certificate pairs. You only
+* The gateway agent can watch multiple key/certificate pairs. You only
 need to create secrets for multiple hosts and update the gateway definitions.
 
 1.  Enable SDS at ingress gateway and deploy the ingress gateway agent.
-    This feature is disabled by default, you need to enable the feature flag
-    [`istio-ingressgateway.sds.enabled`]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml) in helm,
+    Since this feature is disabled by default, you need to enable the
+    [`istio-ingressgateway.sds.enabled` flag]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml) in helm,
     and then generate the `istio-ingressgateway.yaml` file:
 
     {{< text bash >}}
@@ -106,7 +106,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     $ kubectl apply -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
-1.  Set the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT`
+1.  Set the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
 
     {{< text bash >}}
     $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system \
@@ -117,7 +117,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
 
 ### Configure a TLS ingress gateway for a single host
 
-1.  Start the `httpbin` sample
+1.  Start the `httpbin` sample:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -155,7 +155,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     EOF
     {{< /text >}}
 
-1.  Create a secret for ingress gateway
+1.  Create a secret for the ingress gateway:
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret generic httpbin-credential \
@@ -163,9 +163,9 @@ need to create secrets for multiple hosts and update the gateway definitions.
     --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
-1.  Define a Gateway with a server section for port 443, and specify
-`credentialName` to be `httpbin-credential`, which should be the same as the
-secret name. TLS mode should be specified as SIMPLE.
+1.  Define a gateway with a `servers:` section for port 443, and specify values for
+`credentialName` to be `httpbin-credential`. The values are the same as the
+secret's name. The TLS mode should have the value of `SIMPLE`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -189,8 +189,8 @@ secret name. TLS mode should be specified as SIMPLE.
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the Gateway. Define the same
-`VirtualService`.
+1.  Configure the gateway's ingress traffic routes. Define the corresponding
+virtual service.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -217,7 +217,7 @@ secret name. TLS mode should be specified as SIMPLE.
     EOF
     {{< /text >}}
 
-1.  Access the `httpbin` service with HTTPS by sending an https request
+1.  Send an HTTPS request to access the `httpbin` service through HTTPS:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -247,7 +247,7 @@ credentials at ingress gateway by deleting the secret and creating a new one.
     --from-file=cert=httpbin.new.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
-1.  Access the `httpbin` service using _curl_
+1.  Access the `httpbin` service using `curl`
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -268,7 +268,7 @@ credentials at ingress gateway by deleting the secret and creating a new one.
         `"""`
     {{< /text >}}
 
-1.  Accessing `httpbin` with previous cert chain will now fail
+1. If you try to access `httpbin` with the previous certificate chain, the attempt now fails.
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -285,9 +285,9 @@ credentials at ingress gateway by deleting the secret and creating a new one.
 
 ### Configure a TLS ingress gateway for multiple hosts
 
-In this section you will configure an ingress gateway for multiple hosts,
-`httpbin.example.com` and `helloworld-v1.example.com`. The ingress gateway will
-retrieve unique credentials corresponding to specific `credentialName`.
+You can configure an ingress gateway for multiple hosts,
+`httpbin.example.com` and `helloworld-v1.example.com`, for example. The ingress gateway
+retrieves unique credentials corresponding to a specific `credentialName`.
 
 1.  Start the `helloworld-v1` sample
 
@@ -329,8 +329,8 @@ retrieve unique credentials corresponding to specific `credentialName`.
     EOF
     {{< /text >}}
 
-1.  Create a secret for the ingress gateway. Assuming you've already created
-the `httpbin-credential` secret, now create the `helloworld-credential` secret.
+1.  Create a secret for the ingress gateway. If you created
+the `httpbin-credential` secret already, you can now create the `helloworld-credential` secret.
 
     {{< text bash >}}
     $ pushd mtls-go-example
@@ -343,9 +343,9 @@ the `httpbin-credential` secret, now create the `helloworld-credential` secret.
     --from-file=cert=helloworld-v1.example.com/3_application/certs/helloworld-v1.example.com.cert.pem
     {{< /text >}}
 
-1.  Define a Gateway with two server sections for port 443, and specify
-`credentialName` to be `httpbin-credential` and `helloworld-credential`
-respectively. TLS mode should be specified as SIMPLE. `serverCertificate` and
+1.  Define a gateway with two server sections for port 443. Set the value of
+`credentialName` on each port to `httpbin-credential` and `helloworld-credential`
+respectively. Set TLS mode to `SIMPLE`. `serverCertificate` and
 `privateKey` should not be empty.
 
     {{< text bash >}}
@@ -379,8 +379,8 @@ respectively. TLS mode should be specified as SIMPLE. `serverCertificate` and
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the Gateway. Define the same
-`VirtualService`
+1.  Configure the gateway's traffic routes. Define the corresponding
+virtual service.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -405,7 +405,7 @@ respectively. TLS mode should be specified as SIMPLE. `serverCertificate` and
     EOF
     {{< /text >}}
 
-1. Send an HTTPS request to `helloworld-v1.example.com`
+1. Send an HTTPS request to `helloworld-v1.example.com`:
 
     {{< text bash >}}
     $ curl -v -HHost:helloworld-v1.example.com \
@@ -415,7 +415,7 @@ respectively. TLS mode should be specified as SIMPLE. `serverCertificate` and
     HTTP/2 200
     {{< /text >}}
 
-1. Send HTTPS request to `httpbin.example.com` still returns teapot
+1. Send an HTTPS request to `httpbin.example.com` and still get a teapot in return:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -435,10 +435,10 @@ respectively. TLS mode should be specified as SIMPLE. `serverCertificate` and
 
 ### Configure a mutual TLS ingress gateway
 
-In this section you will extend your gateway's definition to support
-[mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication). We can change
-the credentials at ingress gateway by deleting the secret and creating a new one.
-This time we need to pass the CA certificate that the server will use to verify
+You can extend your gateway's definition to support
+[mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication). Change
+the credentials of the ingress gateway by deleting its secret and creating a new one.
+The server uses the CA certificate to verify
 its clients, and we must use the name `cacert` to hold the CA certificate.
 
     {{< text bash >}}
@@ -449,7 +449,7 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
     --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
-1. Redefine Gateway and change the TLS mode to MUTUAL.
+1. Change the gateway's definition to set the TLS mode to `MUTUAL`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -473,7 +473,7 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
     EOF
     {{< /text >}}
 
-1. Sending an HTTPS request using the prior approach now fails
+1. Attempt to send an HTTPS request using the prior approach and see how it fails:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -495,9 +495,9 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
     * error:14094410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure
     {{< /text >}}
 
-1. Resend the previous request by passing a client certificate and private key
-to _curl_. This time pass your client certificate (additional --cert option)
-and your private key (the --key option) to _curl_.
+1. Pass a client certificate and private key to `curl` and resend the request.
+Pass your client's certificate with the `--cert` flag
+and your private key with the `--key` flag to `curl`.
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -529,14 +529,14 @@ environment variables. Make sure they have valid values, according to the output
     $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     {{< /text >}}
 
-1.  Check the log of `istio-ingressgateway` controller for error messages:
+1.  Check the log of the `istio-ingressgateway` controller for error messages:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
     -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
     {{< /text >}}
 
-1.  For macOS users, verify that you use _curl_ compiled with the
+1.  If using MacOS, verify you are using `curl` compiled with the
 [LibreSSL](http://www.libressl.org) library, as described in the
 [Before you begin](#before-you-begin) section.
 
@@ -550,27 +550,26 @@ namespace:
     `httpbin-credential` and `helloworld-credential` should show in the secrets
     list.
 
-1.  Verify that the ingress gateway agent has pushed key/certificate to the
-ingress gateway by checking logs.
+1.  Check the logs to verify that the ingress gateway agent has pushed the key/certificate pair to the
+ingress gateway.
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
     -n istio-system -o jsonpath='{.items[0].metadata.name}') -c ingress-sds
     {{< /text >}}
 
-    It should show that secret `httpbin-credential` is added. If using mutual
-    TLS, then secret `httpbin-credential-cacert` is added as well.
-    It should also show that the gateway agent receives SDS request from the
-    ingress gateway and the resource name is `httpbin-credential`, and pushes
-    key/certificate to the ingress gateway. If using mutual TLS, then it should
-    key/certificate to the ingress gateway. If using mutual TLS, then it should
-    show that the gateway agent receives SDS request with resource name
-    `httpbin-credential-cacert`, and pushes root certificate to the ingress
-    gateway.
+    The log should show that the `httpbin-credential` secret was added. If using mutual
+    TLS, then the `httpbin-credential-cacert` secret should also appear.
+    Verify the log shows that the gateway agent receives SDS requests from the
+    ingress gateway, that the resource's name is `httpbin-credential`, and that the ingress gateway
+    obtained the key/certificate pair. If using mutual TLS, the log should show
+    key/certificate was sent to the ingress gateway,
+    that the gateway agent received the SDS request with the `httpbin-credential-cacert` resource name
+, and that the ingress gateway obtained the root certificate.
 
 ## Cleanup
 
-1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
+1.  Delete the gateway configuration, the virtual service definition, and the secrets:
 
     {{< text bash >}}
     $ kubectl delete gateway mygateway
@@ -586,7 +585,7 @@ ingress gateway by checking logs.
     $ rm -rf httpbin.example.com helloworld-v1.example.com mtls-go-example
     {{< /text >}}
 
-1.  Remove the file you used for redeployment of `istio-ingressgateway`:
+1.  Remove the file you used for redeployment of the ingress gateway.
 
     {{< text bash >}}
     $ rm -f $HOME/istio-ingressgateway.yaml
