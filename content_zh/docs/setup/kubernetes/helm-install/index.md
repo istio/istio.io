@@ -12,14 +12,14 @@ icon: helm
 ## 先决条件
 
 1. [下载 Istio 的发布版本](/zh/docs/setup/kubernetes/download-release/)。
-1. [Kubernetes 平台设置](/zh/docs/setup/kubernetes/platform-setup/)
 
-* [Minikube](/zh/docs/setup/kubernetes/platform-setup/minikube/)
-* [Google 容器引擎 (GKE)](/zh/docs/setup/kubernetes/platform-setup/gke/)
-* [IBM 云 Kubernetes 服务 (IKS)](/zh/docs/setup/kubernetes/platform-setup/ibm/)
-* [OpenShift Origin](/zh/docs/setup/kubernetes/platform-setup/openshift/)
-* [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/platform-setup/aws/)
-* [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
+1. [Kubernetes 平台设置](/zh/docs/setup/kubernetes/platform-setup/):
+  * [Minikube](/zh/docs/setup/kubernetes/platform-setup/minikube/)
+  * [Google 容器引擎 (GKE)](/zh/docs/setup/kubernetes/platform-setup/gke/)
+  * [IBM 云 Kubernetes 服务 (IKS)](/zh/docs/setup/kubernetes/platform-setup/ibm/)
+  * [OpenShift Origin](/zh/docs/setup/kubernetes/platform-setup/openshift/)
+  * [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/platform-setup/aws/)
+  * [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
 
 1. 在 Pods 和服务上检查对 [Pods 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
 
@@ -79,6 +79,13 @@ icon: helm
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
     {{< /text >}}
+
+    如果您想开启 [全局双向 TLS](/zh/docs/concepts/security/#mutual-tls-authentication), 将 `global.mtls.enabled` 设置为 `true`:
+
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set global.mtls.enabled=true
+    {{< /text >}}
+
 
 ## 卸载
 
