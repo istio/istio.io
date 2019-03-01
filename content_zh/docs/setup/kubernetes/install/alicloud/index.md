@@ -62,9 +62,9 @@ $ helm init --service-account tiller
 
 参数选项卡公开每个服务选项。
 
-{{< tip >}} 
+{{< tip >}}
 在继续运行之前，请等待 Istio 完全部署。部署可能需要几分钟。
-{{< /tip >}} 
+{{< /tip >}}
 
 ## 卸载
 
