@@ -29,7 +29,7 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
     If the previous command outputs a version of LibreSSL  as shown, your `curl` command
     should work correctly with the instructions in this task. Otherwise, try
-    another installation of _curl_, for example on a Linux machine.
+    a different implementation of `curl`, for example on a Linux machine.
 
 ## Generate client and server certificates and keys
 
