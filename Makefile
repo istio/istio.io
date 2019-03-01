@@ -16,7 +16,7 @@ build:
 	$(docker) scripts/build_site.sh
 
 gen:
-	$(docker) scripts/gen_site.sh ""
+	$(docker) scripts/gen_site.sh "" -minify -no_aliases
 
 lint:
 	$(docker) scripts/lint_site.sh
@@ -25,4 +25,4 @@ serve:
 	docker run -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site -p 1313:1313 $(img) hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 
 netlify:
-	scripts/gen_site.sh "$(baseurl)"
+	scripts/gen_site.sh "$(baseurl)" -minify -aliases

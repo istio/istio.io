@@ -340,11 +340,11 @@ you cannot use this approach for services using those ports.
 {{< /warning >}}
 
 1.  To allow access to all the external services, install or update Istio by using
-[Helm](https://preliminary.istio.io/docs/setup/kubernetes/helm-install/) while setting the value of
+[Helm](/docs/setup/kubernetes/install/helm/) while setting the value of
 `global.outboundTrafficPolicy.mode` to `ALLOW_ANY`: `--set global.outboundTrafficPolicy.mode=ALLOW_ANY`.
 
     Alternatively, if you followed the instructions in
-    [Quick Start with Kubernetes](https://preliminary.istio.io/docs/setup/kubernetes/quick-start/#installation-steps)
+    [Quick Start with Kubernetes](/docs/setup/kubernetes/install/kubernetes/#installation-steps)
     and used `install/kubernetes/istio-demo.yaml` or `install/kubernetes/istio-demo-auth.yaml` files to install Istio,
     just edit the files. Look for the following YAML part:
 

@@ -70,7 +70,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
 1.  Bring up the application containers:
 
-    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection),
+    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
         use the following command
 
         {{< text bash >}}
@@ -81,7 +81,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
         file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     *   If you are using a cluster with
-        [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+        [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
         enabled, label the `default` namespace with `istio-injection=enabled`
 
         {{< text bash >}}

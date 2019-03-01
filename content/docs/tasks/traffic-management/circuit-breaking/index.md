@@ -21,7 +21,7 @@ configuration by intentionally "tripping" the circuit breaker.
 
 *   Add the [httpbin]({{< github_tree >}}/samples/httpbin) sample to the mesh:
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), run this command:
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), run this command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
