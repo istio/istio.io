@@ -1,7 +1,7 @@
 ---
 title: 网格扩展
 description: 部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。
-weight: 60
+weight: 95
 keywords: [kubernetes,vms]
 ---
 
@@ -9,7 +9,7 @@ keywords: [kubernetes,vms]
 
 ## 先决条件
 
-* 根据[安装指南](/zh/docs/setup/kubernetes/quick-start/)的步骤在 Kubernetes 上部署 Istio。
+* 根据[安装指南](/zh/docs/setup/kubernetes/install/kubernetes/)的步骤在 Kubernetes 上部署 Istio。
 * 待接入服务器必须能够通过 IP 接入网格中的服务端点。通常这需要 VPN 或者 VPC 的支持，或者容器网络为服务端点提供直接路由（非 NAT 或者防火墙屏蔽）。该服务器无需访问 Kubernetes 指派的集群 IP 地址。
 * Istio 控制平面服务（Pilot、Mixer、Citadel）以及 Kubernetes 的 DNS 服务器必须能够从虚拟机进行访问，通常会使用[内部负载均衡器](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)（也可以使用 `NodePort`）来满足这一要求，在虚拟机上运行 Istio 组件，或者使用自定义网络配置，相关的高级配置另有文档描述。
 
@@ -26,14 +26,18 @@ keywords: [kubernetes,vms]
 * 为 Kube DNS、Pilot、Mixer 以及 Citadel 设置内部负载均衡器。这个步骤跟云提供商有关，所以你可能需要编辑注解。如果用于演示目的，或者云供应商没有提供负载均衡支持，可以采用[基于 Keepalived 的 ILB](https://github.com/gyliu513/work/tree/master/k8s/charts/keepalived)。
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/mesh-expansion.yaml@
+    $ cd install/kubernetes/helm/istio
+    $ helm upgrade --set global.meshExpansion=true istio-system .
+    $ cd -
     {{< /text >}}
 
-* 生成 Istio 的 `cluster.env` 配置，用来在虚拟机上进行配置。这个文件包含了将要拦截的集群 IP 范围。
+    * 生成 Istio 的 `cluster.env` 配置，用来在虚拟机上进行配置。这个文件包含了将要拦截的集群 IP 范围。
 
     {{< text bash >}}
-    $ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
-    $ @install/tools/setupMeshEx.sh@ generateClusterEnv MY_CLUSTER_NAME
+    $ cd install/kubernetes/helm/istio
+    $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
+    $ kubectl apply -f istio.yaml
+    $ cd -
     {{< /text >}}
 
     生成文件的示例：

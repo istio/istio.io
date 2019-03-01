@@ -15,7 +15,7 @@ keywords: [traffic-management,egress]
 
 *   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
 
-    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，运行：
+    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@

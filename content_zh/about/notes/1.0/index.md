@@ -66,7 +66,7 @@ icon: notes
 
 ## 1.0 的已知问题
 
-- 亚马逊的 EKS 服务尚未实现自动 sidecar 注入。通过使用 [Helm 参数](/zh/docs/setup/kubernetes/helm-install) `--set galley.enabled=false` [手动注入](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar) sidecar 并关闭 galley，可以在亚马逊的 EKS 中使用 Istio。
+- 亚马逊的 EKS 服务尚未实现自动 sidecar 注入。通过使用 [Helm 参数](/zh/docs/setup/kubernetes/helm-install) `--set galley.enabled=false` [手动注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar) sidecar 并关闭 galley，可以在亚马逊的 EKS 中使用 Istio。
 
 - 在[多集群部署](/zh/docs/setup/kubernetes/multicluster-install)中，mixer-telemetry 和 mixer-policy 组件不会连接到任何远程集群的 Kubernetes API 端点。这将导致遥测保真度受损，因为与远程集群上的工作负载相关联的一些元数据不完整。
 

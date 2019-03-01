@@ -304,7 +304,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ## 卸载
 
-除了按照[基于 VPN 的多集群卸载](/zh/docs/setup/kubernetes/multicluster-install/vpn/)操作之外，还应该执行以下步骤：
+除了按照[基于 VPN 的多集群卸载](/zh/docs/setup/kubernetes/multicluster/vpn/)操作之外，还应该执行以下步骤：
 
 1. 删除 Google Cloud 防火墙规则：
 

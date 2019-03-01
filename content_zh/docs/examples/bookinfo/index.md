@@ -58,7 +58,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 1. 启动应用容器：
 
-    * 如果集群用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)，使用如下命令：
+    * 如果集群用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)，使用如下命令：
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
@@ -66,7 +66,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
         [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`。
 
-    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
+    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
 
         {{< text bash >}}
         $ kubectl label namespace default istio-injection=enabled

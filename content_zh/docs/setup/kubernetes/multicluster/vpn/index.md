@@ -20,7 +20,7 @@ aliases:
 
 * 两个以上运行 **Kubernetes 1.9 或更高版本**的集群。
 
-*  能够在其中**一个**集群上部署 [Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/)的能力。
+*  能够在其中**一个**集群上部署 [Istio 控制平面](/zh/docs/setup/kubernetes/install/kubernetes/)的能力。
 
 * RFC1918 网络、VPN或是满足以下可选条件的更高级的网络技术：
 
@@ -36,7 +36,7 @@ aliases:
 
 ## 部署本地控制平面
 
-在**一个** Kubernetes 集群中安装 [Istio 控制平面](/zh/docs/setup/kubernetes/quick-start/#安装步骤)。
+在**一个** Kubernetes 集群中安装 [Istio 控制平面](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)。
 
 ## 安装 Istio 远程组件
 

@@ -23,7 +23,7 @@ attribution: The Istio Team
 - 现在可以[增量上线](/zh/docs/tasks/security/mtls-migration)双向 TLS，而无需更新服务的所有客户端。这是一项关键功能，可以解除在现有生产上部署采用 Istio 的障碍。
 - Mixer 现在支持[开发进程外适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)。这将成为在即将发布的版本中扩展 Mixer 的默认方式，这将使构建适配器更加简单。
 - 现在，Envoy 在本地完全评估了控制服务访问的[授权策略](/zh/docs/concepts/security/#认证策略)，从而提高了它们的性能和可靠性。
-- [Helm chart 安装](/zh/docs/setup/kubernetes/helm-install/) 现在是推荐的安装方法，提供丰富的自定义选项，以便根据您的需求配置 Istio。
+- [Helm chart 安装](/zh/docs/setup/kubernetes/install/helm/) 现在是推荐的安装方法，提供丰富的自定义选项，以便根据您的需求配置 Istio。
 - 我们在性能方面投入了大量精力，包括连续回归测试、大规模环境模拟和目标修复。我们对结果非常满意，并将在未来几周内详细分享。
 
 ## 下一步
