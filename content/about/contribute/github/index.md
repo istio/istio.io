@@ -9,7 +9,7 @@ aliases:
     - /about/contribute/creating-a-pull-request
     - /about/contribute/editing
     - /about/contribute/staging-your-changes
-keywords: [contribute, community, GitHub, PR]
+keywords: [contribute,community,github,pr]
 ---
 
 We're excited that you're interested in contributing to improve and expand

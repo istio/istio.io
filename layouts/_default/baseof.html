@@ -126,8 +126,7 @@
             const buttonDownload = '{{ i18n "button_download" }}';
         </script>
 
-        <!-- libraries we pull in -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
+        <!-- libraries we unconditionally pull in -->
         <script src="https://www.google.com/cse/brand?form=search-form" defer></script>
 
         <!-- our own stuff -->
@@ -136,6 +135,11 @@
         {{ partial "header.html" . }}
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
+
+        <!-- libraries we conditionally pull in -->
+        {{ if .Scratch.Get "needPopper" }}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
+        {{ end }}
 
         <div id="scroll-to-top-container">
             <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>

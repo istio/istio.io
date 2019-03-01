@@ -149,7 +149,7 @@ Now you are ready to deploy a version of the Bookinfo application that will use 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 This application uses the `ratings` microservice to fetch
@@ -348,7 +348,7 @@ becomes addressable by a local cluster domain name, for example by `mysqldb.vm.s
 entry to access this service; however, the service must be registered with Istio. To enable such integration, Istio
 components (_Envoy proxy_, _node-agent_, `_istio-agent_`) must be installed on the machine and the Istio control plane
 (_Pilot_, _Mixer_, _Citadel_) must be accessible from it. See the
-[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/) instructions for more details.
+[Istio Mesh Expansion](/docs/setup/kubernetes/additional-setup/mesh-expansion/) instructions for more details.
 
 In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is
 no requirement to integrate the machine with Istio. The Istio control plane does not have to be accessible from the

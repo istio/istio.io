@@ -22,11 +22,11 @@ keywords: [kubernetes,gke,google]
 
 `projectNumber-compute@developer.gserviceaccount.com`，缺省情况下，它只包含 `Editor` 角色。对角色进行编辑，在“角色”下拉框中查找 `Kubernetes Engine` 分组，选择角色 `Kubernetes Engine Admin`。
 
-{{< image link="./dm_gcp_iam.png" caption="GKE-IAM Service" >}}
+{{< image link="/docs/setup/kubernetes/install/gke/dm_gcp_iam.png" caption="GKE-IAM Service" >}}
 
 加入 `Kubernetes Engine Admin` 角色：
 
-{{< image width="70%" link="./dm_gcp_iam_role.png" caption="GKE-IAM Role" >}}
+{{< image width="70%" link="/docs/setup/kubernetes/install/gke/dm_gcp_iam_role.png" caption="GKE-IAM Role" >}}
 
 ## 在 GKE 上设置 Istio
 

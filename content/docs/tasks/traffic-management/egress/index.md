@@ -224,7 +224,7 @@ like this:
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
-Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
+Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/install/helm),
 in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio, add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
 
 Redeploy the `sleep` application as described in the [Before you begin](#before-you-begin) section.
@@ -327,7 +327,7 @@ Istio has an [installation option](/docs/reference/config/installation-options/)
 `global.outboundTrafficPolicy.mode` to `REGISTRY_ONLY`: `--set global.outboundTrafficPolicy.mode=REGISTRY_ONLY`.
 
     Alternatively, if you followed the instructions in
-    [Quick Start with Kubernetes](https://preliminary.istio.io/docs/setup/kubernetes/quick-start/#installation-steps)
+    [Quick Start with Kubernetes](/docs/setup/kubernetes/install/kubernetes/#installation-steps)
     and used `install/kubernetes/istio-demo.yaml` or `install/kubernetes/istio-demo-auth.yaml` files to install Istio,
     just edit the files. Look for the following YAML part:
 
