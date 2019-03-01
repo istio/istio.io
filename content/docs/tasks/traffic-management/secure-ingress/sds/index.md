@@ -56,7 +56,7 @@ any value in the following command:
     $ ./generate.sh httpbin.example.com password
     {{< /text >}}
 
-    When prompted, select `y` for all the questions. The command will generate
+    When prompted, answer `y` to all the questions. The command generates
     four directories: `1_root`, `2_intermediate`, `3_application`, and
     `4_client` containing the client and server certificates you use in the
     procedures below.
