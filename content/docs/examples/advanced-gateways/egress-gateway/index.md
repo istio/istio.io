@@ -29,7 +29,11 @@ on them cannot access the Internet. Defining an egress gateway, directing all th
 allocating public IPs to the egress gateway nodes allows the application nodes to access external services in a
 controlled way.
 
-{{< boilerplate before-you-begin-egress-gateway >}}
+{{< boilerplate before-you-begin-egress >}}
+
+{{< warning >}}
+If the egress gateway is not enabled, [enable the egress gateway](/docs/examples/advanced-gateways/egress-gateway/index.md#enable-egress-gateway).
+{{< /warning >}}
 
 ## Egress gateway for HTTP traffic
 
