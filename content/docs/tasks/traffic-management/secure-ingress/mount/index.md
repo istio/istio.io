@@ -1,5 +1,5 @@
 ---
-title: Securing Gateways with HTTPS Using File Mount Based Approach
+title: Securing Gateways with HTTPS With a File Mount-Based Approach
 description: Expose a service outside of the service mesh over TLS or mTLS.
 weight: 31
 keywords: [traffic-management,ingress,mount]
