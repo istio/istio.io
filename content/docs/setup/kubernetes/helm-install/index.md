@@ -106,10 +106,6 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
     {{< /text >}}
     {{< /tip >}}
 
-    {{< text bash >}}
-    $ helm template $HOME/istio-fetch/istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system | kubectl apply -f -
-    {{< /text >}}
-
 ### Option 2: Install with Helm and Tiller via `helm install`
 
 This option allows Helm and
@@ -150,10 +146,12 @@ to manage the lifecycle of Istio.
     {{< /text >}}
 
     * To try the `bookinfo` demo, use Helm values customized for the `bookinfo` application:
-
+    
+    {{< tip >}}
     {{< text bash >}}
     $ helm install istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system
     {{< /text >}}
+    {{< /tip >}}
 
 ## Uninstall
 
