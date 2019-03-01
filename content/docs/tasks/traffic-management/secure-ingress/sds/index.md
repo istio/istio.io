@@ -85,7 +85,7 @@ You can configure a TLS ingress gateway to fetch credentials
 key/certificate pairs and its root certificate. You do not have to restart the ingress
 gateway.
 
-* The secret volume mount is no longer needed. Once you create a `kubernetes`
+* No secret volume mount is needed. Once you create a `kubernetes`
 secret, that secret is captured by the gateway agent and sent to ingress gateway
  as key/certificate or root certificate.
 
