@@ -81,7 +81,7 @@ You can configure a TLS ingress gateway to fetch credentials
  credentials created in the same namespace as the ingress gateway. Enabling SDS
  at ingress gateway brings the following benefits.
 
-* The ingress gateway is able to dynamically add/delete/update ingress gateway
+* The ingress gateway can dynamically add, delete, or update its
 key/certificate and root certificate. You do not have to restart the ingress
 gateway.
 
