@@ -66,7 +66,7 @@ To start the application, follow the instructions corresponding to your Istio ru
 If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
 {{< /tip >}}
 
-1.  Change directory to the root of the Istio installation directory.
+1.  Change directory to the root of the Istio installation.
 
 1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
     Label the namespace that will host the application with `istio-injection=enabled`:
