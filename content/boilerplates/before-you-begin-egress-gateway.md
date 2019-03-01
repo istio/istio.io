@@ -3,7 +3,7 @@
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).  
 
-*   If the egress gateway is not enabled, [enable the egress gateway](/docs/examples/advanced-gateways/egress-gateway#enable_egress_gateway).
+*   If the egress gateway is not enabled, [enable the egress gateway](/docs/examples/advanced-gateways/egress-gateway/index.md#enable-egress-gateway).
 
 *   To have test source for sending requests, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
