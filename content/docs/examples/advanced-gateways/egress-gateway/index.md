@@ -655,7 +655,7 @@ external service.
 
 1.  Follow the steps in the [Cleanup HTTPS gateway](#cleanup-https-gateway) section.
 
-### Enable Egress Gateway
+## Enable Egress Gateway
 
 1.  Check if egress gateway is enabled
 
