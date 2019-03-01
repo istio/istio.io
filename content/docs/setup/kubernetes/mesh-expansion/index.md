@@ -73,7 +73,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="default"
-    {{< /text>}}
+    {{< /text >}}
 
 1. Find the IP address of the Istio ingress gateway, as this is how the mesh expansion machines will access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy).
 
