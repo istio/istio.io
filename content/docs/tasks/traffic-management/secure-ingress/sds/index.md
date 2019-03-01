@@ -82,7 +82,7 @@ You can configure a TLS ingress gateway to fetch credentials
  at ingress gateway brings the following benefits.
 
 * The ingress gateway can dynamically add, delete, or update its
-key/certificate and root certificate. You do not have to restart the ingress
+key/certificate pairs and its root certificate. You do not have to restart the ingress
 gateway.
 
 * The secret volume mount is no longer needed. Once you create a `kubernetes`
