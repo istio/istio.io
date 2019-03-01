@@ -75,7 +75,7 @@ any value in the following command:
 
 ## Configure a TLS ingress gateway using SDS
 
-In this section you will configure a TLS ingress gateway that fetches credentials
+You can configure a TLS ingress gateway to fetch credentials
  from the ingress gateway agent via secret discovery service (SDS). The ingress
  gateway agent is running in the same pod as the ingress gateway, and watches
  credentials created in the same namespace as the ingress gateway. Enabling SDS
