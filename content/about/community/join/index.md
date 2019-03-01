@@ -14,6 +14,10 @@ Head for the [Istio discussion board](https://discuss.istio.io) to participate i
 and get help troubleshooting problems.
 {{< /community_item >}}
 
+{{< community_item logo="./slack.svg" alt="Slack" >}}
+Hangout on [Istio's Slack](https://slack.istio.io) to interact with the community in real-time.
+{{< /community_item >}}
+
 {{< community_item logo="./twitter.svg" alt="Twitter" >}}
 Follow us on [Twitter](https://twitter.com/IstioMesh) to get the latest news.
 {{< /community_item >}}
