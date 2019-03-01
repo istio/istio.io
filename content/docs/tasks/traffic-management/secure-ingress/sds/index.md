@@ -20,7 +20,7 @@ sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
 and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
-1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
+1.  For macOS users, verify that you use `curl` compiled with the [LibreSSL](http://www.libressl.org) library:
 
     {{< text bash >}}
     $ curl --version | grep LibreSSL
