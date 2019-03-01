@@ -13,7 +13,7 @@ icon: /img/helm.svg
 
 1. [下载 Istio 的发布版本](/zh/docs/setup/kubernetes/download-release/)。
 
-1. [在 Kubernetes 平台设置](/zh/docs/setup/kubernetes/platform-setup/):
+1. [Kubernetes 平台设置](/zh/docs/setup/kubernetes/platform-setup/):
   * [Minikube](/zh/docs/setup/kubernetes/platform-setup/minikube/)
   * [Google Container Engine (GKE)](/zh/docs/setup/kubernetes/platform-setup/gke/)
   * [IBM Cloud Kubernetes Service (IKS)](/zh/docs/setup/kubernetes/platform-setup/ibm/)
