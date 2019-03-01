@@ -58,7 +58,7 @@ any value in the following command:
 
     When prompted, answer `y` to all the questions. The command generates
     four directories: `1_root`, `2_intermediate`, `3_application`, and
-    `4_client` containing the client and server certificates you use in the
+    `4_client` containing the client and server certificates to use in the
     procedures below.
 
 1.  Move the certificates into a directory named `httpbin.example.com`:
