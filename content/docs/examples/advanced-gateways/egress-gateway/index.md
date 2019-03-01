@@ -655,6 +655,18 @@ external service.
 
 1.  Follow the steps in the [Cleanup HTTPS gateway](#cleanup-https-gateway) section.
 
+### Enable Egress Gateway
+
+1.  Check if egress gateway is enabled
+
+    {{< text bash >}}
+    $ kubectl get deployment,service istio-egressgateway -n istio-system
+    {{< /text >}}
+
+1.  To enable the egress gateway, install or update Istio by using
+[Helm](/docs/setup/kubernetes/install/helm/) while setting the value of `gateways.istio-egressgateway.enabled` 
+to `true`: `--set gateways.istio-egressgateway.enabled=true`.
+
 ## Troubleshooting
 
 1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
