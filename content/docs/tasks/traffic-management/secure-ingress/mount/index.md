@@ -76,8 +76,9 @@ traffic. You first create a secret with a certificate and a private key. The
 secret is mounted to a file on the `/etc/istio/ingressgateway-certs` path. Then you
 create a `Gateway` definition that contains a `server` on port 443.
 
-1. Create a Kubernetes `Secret` to hold the server's certificate and private key. Use `kubectl` to create the secret
-`istio-ingressgateway-certs` in namespace `istio-system` . The Istio gateway will load the secret automatically.
+1. Create a Kubernetes `Secret` to hold the server's certificate and private key.
+   Use `kubectl` to create the secret `istio-ingressgateway-certs` in namespace
+   `istio-system` . The Istio gateway will load the secret automatically.
 
     {{< warning >}}
     The secret **must** be named `istio-ingressgateway-certs` in the `istio-system` namespace to align with the

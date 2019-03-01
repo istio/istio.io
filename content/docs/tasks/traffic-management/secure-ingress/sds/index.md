@@ -50,7 +50,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     {{< /text >}}
 
 1.  Generate the certificates for `httpbin.example.com`. Replace `password` with
-any value in the following command:
+    any value in the following command:
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com password
@@ -164,8 +164,8 @@ need to create secrets for multiple hosts and update the gateway definitions.
     {{< /text >}}
 
 1.  Define a gateway with a `servers:` section for port 443, and specify values for
-`credentialName` to be `httpbin-credential`. The values are the same as the
-secret's name. The TLS mode should have the value of `SIMPLE`.
+    `credentialName` to be `httpbin-credential`. The values are the same as the
+    secret's name. The TLS mode should have the value of `SIMPLE`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -190,7 +190,7 @@ secret's name. The TLS mode should have the value of `SIMPLE`.
     {{< /text >}}
 
 1.  Configure the gateway's ingress traffic routes. Define the corresponding
-virtual service.
+    virtual service.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -229,8 +229,8 @@ virtual service.
     The `httpbin` service will return the
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
-1.  Replace the credentials for the ingress gateway. You can change the
-credentials at ingress gateway by deleting the secret and creating a new one.
+1.  Delete the gateway's secret and create a new one to change the ingress
+    gateway's credentials.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -329,8 +329,8 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     EOF
     {{< /text >}}
 
-1.  Create a secret for the ingress gateway. If you created
-the `httpbin-credential` secret already, you can now create the `helloworld-credential` secret.
+1.  Create a secret for the ingress gateway. If you created the `httpbin-credential`
+    secret already, you can now create the `helloworld-credential` secret.
 
     {{< text bash >}}
     $ pushd mtls-go-example
@@ -344,9 +344,9 @@ the `httpbin-credential` secret already, you can now create the `helloworld-cred
     {{< /text >}}
 
 1.  Define a gateway with two server sections for port 443. Set the value of
-`credentialName` on each port to `httpbin-credential` and `helloworld-credential`
-respectively. Set TLS mode to `SIMPLE`. `serverCertificate` and
-`privateKey` should not be empty.
+    `credentialName` on each port to `httpbin-credential` and `helloworld-credential`
+    respectively. Set TLS mode to `SIMPLE`. `serverCertificate` and
+    `privateKey` should not be empty.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -380,7 +380,7 @@ respectively. Set TLS mode to `SIMPLE`. `serverCertificate` and
     {{< /text >}}
 
 1.  Configure the gateway's traffic routes. Define the corresponding
-virtual service.
+    virtual service.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -496,8 +496,8 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
     {{< /text >}}
 
 1. Pass a client certificate and private key to `curl` and resend the request.
-Pass your client's certificate with the `--cert` flag
-and your private key with the `--key` flag to `curl`.
+   Pass your client's certificate with the `--cert` flag and your private key
+   with the `--key` flag to `curl`.
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
