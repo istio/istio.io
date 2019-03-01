@@ -5,7 +5,7 @@ weight: 31
 keywords: [traffic-management,ingress,mount]
 ---
 
-The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task
+The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
 describes how to configure an ingress gateway to expose an HTTP endpoint of a
 service to external traffic. This task shows you how to do the same, but using
 HTTPS access to the service with either simple or mutual TLS. The private key,
