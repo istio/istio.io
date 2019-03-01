@@ -73,10 +73,10 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
 
 In this section you configure an ingress gateway with port 443 to handle HTTPS
 traffic. You first create a secret with a certificate and a private key. The
-secret is mounted to a file on the `/etc/istio/ingressgateway-certs` path. Then you
-create a `Gateway` definition that contains a `server` on port 443.
+secret is mounted to a file on the `/etc/istio/ingressgateway-certs` path. You can then
+create a gateway definition that configures a server on port 443.
 
-1. Create a Kubernetes `Secret` to hold the server's certificate and private key.
+1. Create a Kubernetes secret to hold the server's certificate and private key.
    Use `kubectl` to create the secret `istio-ingressgateway-certs` in namespace
    `istio-system` . The Istio gateway will load the secret automatically.
 
@@ -503,7 +503,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-*   Verify that the _Subject_ is correct in the certificate of the ingress gateway:
+*   Verify that the `Subject` is correct in the certificate of the ingress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'Subject:'
@@ -549,7 +549,7 @@ In addition to the steps in the previous section, perform the following:
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-*   Verify that the _Subject_ is correct in the CA certificate of the ingress gateway:
+*   Verify that the `Subject` is correct in the CA certificate of the ingress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem | openssl x509 -text -noout | grep 'Subject:'
