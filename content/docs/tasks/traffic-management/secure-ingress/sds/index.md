@@ -43,7 +43,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ git clone https://github.com/nicholasjackson/mtls-go-example
     {{< /text >}}
 
-1.  Change directory to the cloned repository:
+1.  Go to the cloned repository:
 
     {{< text bash >}}
     $ pushd mtls-go-example
