@@ -15,7 +15,7 @@ TBD
 ## 安全
 
 - 弃用的 `RbacConfig` 被 `ClusterRbacConfig` 代替，以正确实现针对集群范围。
-  参考我们的指南 [迁移 `RbacConfig` 到 `ClusterRbacConfig`](/zh/docs/setup/kubernetes/upgrading-istio/#迁移-rbacconfig-到-clusterrbacconfig) 中的迁移说明。
+  参考我们的指南 [迁移 `RbacConfig` 到 `ClusterRbacConfig`](/zh/docs/setup/kubernetes/upgrade/#迁移-rbacconfig-到-clusterrbacconfig) 中的迁移说明。
 
 ## `istioctl`
 
