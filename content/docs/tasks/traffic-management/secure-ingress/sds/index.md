@@ -27,7 +27,7 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
     {{< /text >}}
 
-    If a version of _LibreSSL_ is printed as in the output above, your _curl_
+    If the previous command outputs a version of LibreSSL  as shown, your `curl` command
     should work correctly with the instructions in this task. Otherwise, try
     another installation of _curl_, for example on a Linux machine.
 
