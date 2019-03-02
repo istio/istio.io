@@ -13,7 +13,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 * 理解[访问控制](/zh/docs/concepts/security/#授权和鉴权)概念。
 
-* 按照[快速开始](/zh/docs/setup/kubernetes/quick-start/)的步骤，在 Kubernetes 上安装了 Istio 并**启用认证功能**，本教程依赖双向 TLS 功能，在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中介绍了启用双向 TLS 的方法。
+* 按照[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)的步骤，在 Kubernetes 上安装了 Istio 并**启用认证功能**，本教程依赖双向 TLS 功能，在[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中介绍了启用双向 TLS 的方法。
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 

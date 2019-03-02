@@ -13,7 +13,7 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 * 具有对[授权](/zh/docs/concepts/security/#授权和鉴权)概念的了解。
 
-* 在 Istio 中遵循[快速入门](/zh/docs/setup/kubernetes/quick-start/)的步骤 **启用了认证功能**，这个教程对双向 TLS 有依赖，因此要在[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中启用双向 TLS 认证。
+* 在 Istio 中遵循[快速入门](/zh/docs/setup/kubernetes/install/kubernetes/)的步骤 **启用了认证功能**，这个教程对双向 TLS 有依赖，因此要在[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中启用双向 TLS 认证。
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 

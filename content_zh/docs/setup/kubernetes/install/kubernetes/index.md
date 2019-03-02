@@ -1,7 +1,7 @@
 ---
 title: 在 Kubernetes 中快速开始
 description: 在 Kubernetes 集群中快速安装 Istio 服务网格的说明。
-weight: 5
+weight: 55
 keywords: [kubernetes]
 ---
 
@@ -26,7 +26,7 @@ Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试�
     * [阿里云](/zh/docs/setup/kubernetes/platform-setup/alicloud/)
     * [Docker For Desktop](/zh/docs/setup/kubernetes/platform-setup/docker-for-desktop/)
 
-1. 复查 [Istio 对 Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
+1. 复查 [Istio 对 Pod 和服务的要求](/zh/docs/setup/kubernetes/additional-setup/requirements/)。
 
 ## 安装步骤
 
@@ -36,7 +36,7 @@ Istio {{< istio_version >}} 已经在这些 Kubernetes 版本上进行过测试�
     $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
     {{< /text >}}
 
-1. Istio 核心组件有几种**互斥**的安装方式供用户选择，下面会分别讲述。针对生产环境的需求，为了能够控制所有配置选项，我们建议使用 [Helm Chart](/zh/docs/setup/kubernetes/helm-install/) 方式进行安装。这种方式让运维人员能够根据特定需求对 Istio 进行定制。
+1. Istio 核心组件有几种**互斥**的安装方式供用户选择，下面会分别讲述。针对生产环境的需求，为了能够控制所有配置选项，我们建议使用 [Helm Chart](/zh/docs/setup/kubernetes/install/helm/) 方式进行安装。这种方式让运维人员能够根据特定需求对 Istio 进行定制。
 
 ### 选项 1：安装 Istio 而不启用 Sidecar 之间的双向 TLS 验证
 
@@ -68,11 +68,11 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ### 选项 3：使用 Helm 渲染 Kubernetes 清单文件并使用 `kubectl` 进行部署
 
-根据相关章节：[通过 Helm 的 `helm template` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#方案-1-使用-helm-template-进行安装)，并跟随其中内容完成安装。
+根据相关章节：[通过 Helm 的 `helm template` 安装 Istio](/zh/docs/setup/kubernetes/install/helm/#方案-1-使用-helm-template-进行安装)，并跟随其中内容完成安装。
 
 ### 选项 4：使用 Helm 和 Tiller 来管理 Istio 部署
 
-阅读相关章节：[通过 Helm 和 Tiller 的 `helm install` 安装 Istio](/zh/docs/setup/kubernetes/helm-install/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装)，并跟随其中内容完成安装。
+阅读相关章节：[通过 Helm 和 Tiller 的 `helm install` 安装 Istio](/zh/docs/setup/kubernetes/install/helm/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装)，并跟随其中内容完成安装。
 
 ## 确认部署结果
 
@@ -121,7 +121,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 已经不再支持 HTTP/1.0，所以应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议来传递 HTTP 流量。
 {{< /warning >}}
 
-如果您启动了 [Istio-sidecar-injector](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，就可以使用 `kubectl apply` 直接部署应用。
+如果您启动了 [Istio-sidecar-injector](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，就可以使用 `kubectl apply` 直接部署应用。
 
 如果运行 Pod 的 namespace 被标记为 `istio-injection=enabled` 的话，Istio-sidecar-injector 会向应用程序的 Pod 中自动注入 Envoy 容器：
 
@@ -152,7 +152,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
     $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* 如果是使用 Helm 安装的 Istio，可以依照[使用 Helm 进行安装](/zh/docs/setup/kubernetes/helm-install/)一文中介绍的步骤完成删除。
+* 如果是使用 Helm 安装的 Istio，可以依照[使用 Helm 进行安装](/zh/docs/setup/kubernetes/install/helm/)一文中介绍的步骤完成删除。
 
 * 另外如有有需要，也可以删除 CRD：
 

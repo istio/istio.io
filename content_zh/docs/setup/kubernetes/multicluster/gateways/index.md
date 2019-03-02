@@ -21,7 +21,7 @@ keywords: [kubernetes,multicluster,federation,gateway]
 
 * 两个或以上安装 **1.10 或更新**版本的 Kubernetes 集群。
 
-* 在**每个** Kubernetes 集群上授权[使用 Helm 部署 Istio 控制平面](/zh/docs/setup/kubernetes/helm-install/)。
+* 在**每个** Kubernetes 集群上授权[使用 Helm 部署 Istio 控制平面](/zh/docs/setup/kubernetes/install/helm/)。
 
 * 一个 **Root CA**。跨集群通信需要在 service 之间使用 mutual TLS 连接。为了启用跨集群 mutual TLS 通信，每个集群的 Citadel
  都将被配置使用共享 root CA 生成的中间 CA 凭证。出于演示目的，我们将使用 `samples/certs` 目录下的简单 root CA
@@ -52,7 +52,7 @@ keywords: [kubernetes,multicluster,federation,gateway]
     $ kubectl apply -f $HOME/istio.yaml
     {{< /text >}}
 
-更多细节和自定义选项请参考[使用 Helm 安装](/zh/docs/setup/kubernetes/helm-install/)的说明。
+更多细节和自定义选项请参考[使用 Helm 安装](/zh/docs/setup/kubernetes/install/helm/)的说明。
 
 ## 配置 DNS
 

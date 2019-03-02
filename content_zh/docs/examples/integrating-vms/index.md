@@ -22,11 +22,11 @@ keywords: [vms]
 
 ## 开始之前
 
-* 依照[安装指南](/zh/docs/setup/kubernetes/quick-start/)部署 Istio。
+* 依照[安装指南](/zh/docs/setup/kubernetes/install/kubernetes/)部署 Istio。
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用（在 `bookinfo` 命名空间）。
 
-* 创建一个虚拟机，命名为 `vm1`，和 Istio 集群处于同一项目之中，并且将其[加入集群](/zh/docs/setup/kubernetes/mesh-expansion/)。
+* 创建一个虚拟机，命名为 `vm1`，和 Istio 集群处于同一项目之中，并且将其[加入集群](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/)。
 
 ## 在虚拟机上运行 MySQL
 

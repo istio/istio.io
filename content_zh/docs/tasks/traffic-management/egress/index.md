@@ -15,7 +15,7 @@ keywords: [traffic-management,egress]
 
 *   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，我们将会使用这一应用来完成对外部服务的调用过程。
 
-    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，运行：
+    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -192,7 +192,7 @@ keywords: [traffic-management,egress]
 $ helm template install/kubernetes/helm/istio <安装 Istio 时所使用的参数> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
-注意这里应该使用和之前部署 Istio 的时候同样的 [Helm 命令](/zh/docs/setup/kubernetes/helm-install)，尤其是 `--namespace` 参数。在安装 Istio 原有命令的基础之上，加入 `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml` 即可。
+注意这里应该使用和之前部署 Istio 的时候同样的 [Helm 命令](/zh/docs/setup/kubernetes/install/helm)，尤其是 `--namespace` 参数。在安装 Istio 原有命令的基础之上，加入 `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml` 即可。
 
 [和前面一样](/zh/docs/tasks/traffic-management/egress/#开始之前)，重新部署 `sleep` 应用。
 
