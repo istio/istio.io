@@ -12,7 +12,7 @@ icon: notes
 
 - **Istio 的渐进式部署（预览）**：现在可以仅安装需要的 Istio 组件，也就是用渐进的方式来采用 Istio（例如仅安装 Pilot+Ingress 这样的最小化组合）。`istioctl` 客户端工具可以生成自定义 Istio 部署的信息。
 
-- **Sidecar 的自动注入**：[Mutating webhook](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#api-machinery) 是 Kubernetes 1.9 中的新功能，Istio 借助这一功能提供了自动的 Pod 级别的 Sidecar 注入能力。自动注入需要 Kubernetes 1.9 或者更高版本。Alpha 版本中使用的 Initializer 已经过时并不再使用。[参考资料](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)
+- **Sidecar 的自动注入**：[Mutating webhook](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#api-machinery) 是 Kubernetes 1.9 中的新功能，Istio 借助这一功能提供了自动的 Pod 级别的 Sidecar 注入能力。自动注入需要 Kubernetes 1.9 或者更高版本。Alpha 版本中使用的 Initializer 已经过时并不再使用。[参考资料](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)
 
 - **通信规则的修改**：根据用户反馈，我们对 Istio 的通信管理（路由规则、目标规则等）做出了显著改进。未来几周中我们会持续对这方面的功能进行打磨，欢迎反馈。
 

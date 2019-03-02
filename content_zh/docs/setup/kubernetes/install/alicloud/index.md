@@ -1,7 +1,7 @@
 ---
 title: 使用阿里云 Kubernetes 容器服务快速启动
 description: 如何使用阿里云 Kubernetes 容器服务快速安装 Istio。
-weight: 21
+weight: 60
 keywords: [kubernetes,alibabacloud,aliyun]
 ---
 
@@ -62,7 +62,9 @@ $ helm init --service-account tiller
 
 参数选项卡公开每个服务选项。
 
-{{< idea_icon >}} 在继续运行之前，请等待 Istio 完全部署。部署可能需要几分钟。
+{{< tip >}}
+在继续运行之前，请等待 Istio 完全部署。部署可能需要几分钟。
+{{< /tip >}}
 
 ## 卸载
 

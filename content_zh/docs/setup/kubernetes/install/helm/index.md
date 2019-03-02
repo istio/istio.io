@@ -1,7 +1,7 @@
 ---
 title: 使用 Helm 进行安装
 description: 使用内含的 Helm chart 安装 Istio。
-weight: 30
+weight: 20
 keywords: [kubernetes,helm]
 icon: helm
 ---
@@ -11,7 +11,7 @@ icon: helm
 ## 先决条件
 
 1. 完成必要的 [Kubernetes 平台设置](/zh/docs/setup/kubernetes/platform-setup/)
-1. 检查对 [Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements/)。
+1. 检查对 [Pod 和服务的要求](/zh/docs/setup/kubernetes/additional-setup/requirements/)。
 1. [安装高于 2.10 版本的 Helm 客户端](https://docs.helm.sh/using_helm)。
 1. 默认情况下，Istio 使用 `LoadBalancer` 服务类型，而有些平台是不支持 `LoadBalancer` 服务的。对于缺少 `LoadBalancer` 支持的平台，执行下面的安装步骤时，可以在 Helm 命令中加入 `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort` 选项，使用 `NodePort` 来替代 `LoadBalancer` 服务类型。
 

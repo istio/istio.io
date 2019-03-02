@@ -9,7 +9,7 @@ keywords: [policies,quotas]
 
 ## 开始之前
 
-1. 按照[安装指南](/zh/docs/setup/kubernetes/quick-start/)在 Kubernetes 集群上设置 Istio。
+1. 按照[安装指南](/zh/docs/setup/kubernetes/install/kubernetes/)在 Kubernetes 集群上设置 Istio。
 
 1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 

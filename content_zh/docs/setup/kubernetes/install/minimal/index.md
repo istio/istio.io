@@ -1,7 +1,7 @@
 ---
 title: Istio 最小化安装
 description: 使用 Helm 最小化安装 Istio 。
-weight: 31
+weight: 30
 keywords: [kubernetes,helm]
 icon: helm
 ---
@@ -10,7 +10,7 @@ icon: helm
 
 ## 前置条件
 
-请参考快速入门指南中描述的[前置条件](/zh/docs/setup/kubernetes/quick-start/#前置条件)。
+请参考快速入门指南中描述的[前置条件](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)。
 
 ## 安装步骤
 

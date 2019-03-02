@@ -13,7 +13,7 @@ keywords: [security,authorization]
 
 * 阅读 Istio 身份[验证策略](/zh/docs/concepts/security/#认证策略)和相关的[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证)概念。
 
-* 创建一个安装了 Istio 并启用了双向 TLS 的 Kubernetes 集群。要满足此先决条件，您可以按照 Kubernetes [安装说明](/zh/docs/setup/kubernetes/quick-start/#安装步骤)进行操作。
+* 创建一个安装了 Istio 并启用了双向 TLS 的 Kubernetes 集群。要满足此先决条件，您可以按照 Kubernetes [安装说明](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)进行操作。
 
 ## 设置所需的命名空间和服务
 
