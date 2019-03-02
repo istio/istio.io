@@ -92,6 +92,7 @@ icon: /img/helm.svg
 
 * 对于选项 2，使用 Helm 进行卸载：
 
+
     {{< text bash >}}
     $ helm delete --purge istio
     {{< /text >}}
