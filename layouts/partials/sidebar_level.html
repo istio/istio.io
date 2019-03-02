@@ -3,33 +3,24 @@
 {{ $current := .current }}
 {{ $collapse := .collapse }}
 
-<ul {{ if not $collapse }}class="show"{{ end }}>
+<ul{{ if not $collapse }} class="show"{{ end }}>
     {{ range $pages }}
         {{ if eq .Parent $parent }}
-            {{ if not .IsPage }}
-                <li class="sublist">
+            <li>
+                {{ if not .IsPage }}
                     {{ $collapse := not (.IsAncestor $current) }}
 
-                    <label class='tree-toggle'>
-                        {{- if $collapse -}}
-                            <i class="chevron show">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron">{{- partial "icon.html" "down-chevron" -}}</i>
-                        {{- else -}}
-                            <i class="chevron">{{- partial "icon.html" "right-chevron" -}}</i><i class="chevron show">{{- partial "icon.html" "down-chevron" -}}</i>
-                        {{- end -}}
-                        <a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
-                    </label>
+                    <button{{ if not $collapse }} class="show"{{ end }}></button><a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
 
                     {{ partial "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}
-                </li>
-            {{ else }}
-                <li>
+                {{ else }}
                     {{ if eq $current.Permalink .Permalink }}
                         <span class="current" title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
                         <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
                     {{ end }}
-                </li>
-             {{ end }}
+                {{ end }}
+            </li>
         {{ end }}
     {{ end }}
 </ul>

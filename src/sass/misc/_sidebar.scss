@@ -33,6 +33,12 @@
         top: $headerHeight;
     }
 
+    padding-top: .1rem;
+
+    @media (min-width: $bp-md) {
+        padding-top: 1rem;
+    }
+
     .directory {
         @supports ((position:-webkit-sticky) or (position:sticky)) {
             max-height: calc(100vh - 9rem);
@@ -53,10 +59,8 @@
 
         ul {
             list-style: none;
-            padding: 0 0 0 .75em;
-            margin-bottom: 0;
-            margin-left: 0;
-            margin-right: .3em;
+            padding: 0;
+            margin: 0;
             display: none;
 
             &.show {
@@ -65,10 +69,10 @@
         }
 
         li {
-            display: inline-block;
-            padding: 2px 0 1px 1.4em;
-            width: 100%;
+            margin: .7em 0 .7em 1.3rem;
+            padding: 0;
             font-size: 85%;
+            position: relative;
 
             .current {
                 color: $linkActiveColor;
@@ -76,8 +80,29 @@
             }
         }
 
-        li.sublist {
-            padding-left: 0;
+        button {
+            cursor: pointer;
+            border: 0;
+            background: $sidebarRightChevron no-repeat;
+            width: 1rem;
+            height: 1rem;
+            left: -1.3rem;
+            position: absolute;
+
+            &.show {
+                background: $sidebarDownChevron no-repeat;
+            }
+
+            &:focus {
+                outline: 0;
+            }
+        }
+
+        button:hover {
+            background: $sidebarRightChevronHover no-repeat;
+            &.show {
+                background: $sidebarDownChevronHover no-repeat;
+            }
         }
 
         .card {
@@ -121,67 +146,21 @@
             .body {
                 flex: 1 1 auto;
                 overflow: hidden;
-                padding: 0;
+                padding: 0 1em;
                 max-height: 0;
                 transform: scaleY(0) scaleX(0);
                 transition: max-height .6s ease-out, padding, transform .6s;
 
                 &.show {
-                    padding: .5em .1em;
+                    padding: .5em 1em;
                     transform: scaleY(1) scaleX(1);
-
-                    @media (min-width: $bp-lg) {
-                        .body {
-                            padding-left: 1.25rem;
-                            padding-right: 0.5rem;
-
-                            ul {
-                                padding-left: 1em;
-                            }
-                        }
-                    }
-
-                    .body > ul {
-                        padding-left: 0;
-                    }
                 }
 
                 &.default {
-                    padding: .5em .1em;
+                    padding: .5em 1em;
                     transform: scaleY(1) scaleX(1);
                     max-height: unset;
-
-                    @media (min-width: $bp-lg) {
-                        .body {
-                            padding-left: 1.25rem;
-                            padding-right: 0.5rem;
-
-                            ul {
-                                padding-left: 1em;
-                            }
-                        }
-                    }
-
-                    .body > ul {
-                        padding-left: 0;
-                    }
                 }
-            }
-        }
-    }
-
-    .tree-toggle {
-        cursor: pointer;
-        margin-bottom: 0;
-
-        .chevron {
-            svg {
-                margin-right: 0.3em;
-            }
-
-            display: none;
-            &.show {
-                display: inline;
             }
         }
     }
