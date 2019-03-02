@@ -1,7 +1,6 @@
 "use strict";
 
-onDOMLoaded(() => {
-
+function handleTabs() {
     queryAll(document, ".tabset").forEach(tabset => {
         queryAll(tabset, ".tab-strip").forEach(strip => {
             const cookieName = strip.dataset.cookieName;
@@ -39,4 +38,6 @@ onDOMLoaded(() => {
             });
         });
     });
-});
+}
+
+handleTabs();

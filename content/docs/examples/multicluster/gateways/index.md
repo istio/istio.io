@@ -16,7 +16,7 @@ running in a second cluster.
 ## Before you begin
 
 * Set up a multicluster environment with two Istio clusters by following the
-    [multiple control planes with gateways](/docs/setup/kubernetes/multicluster-install/gateways/) instructions.
+    [multiple control planes with gateways](/docs/setup/kubernetes/multicluster/gateways/) instructions.
 
 * The `kubectl` command is used to access both clusters with the `--context` flag.
     Use the following command to list your contexts:

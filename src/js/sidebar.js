@@ -1,7 +1,7 @@
 "use strict";
 
 // Attach the event handlers to support the sidebar
-onDOMLoaded(() => {
+function handleSidebar() {
     const sidebar = getById('sidebar');
     if (sidebar == null) {
         return;
@@ -59,4 +59,6 @@ onDOMLoaded(() => {
             query(e.currentTarget, 'svg.icon').classList.toggle('flipped');
         });
     }
-});
+}
+
+handleSidebar();

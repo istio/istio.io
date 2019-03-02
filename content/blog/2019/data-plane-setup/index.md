@@ -5,7 +5,7 @@ publishdate: 2019-01-31
 subtitle:
 attribution: Manish Chugtu
 twitter: chugtum
-keywords: [kubernetes, istio, sidecar injection, admission controller, mutating webhook, control plane, traffic management]
+keywords: [kubernetes,sidecar-injection, traffic-management]
 
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.

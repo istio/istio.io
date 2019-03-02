@@ -1,6 +1,7 @@
 ---
 title: Istio
 ---
+<!-- these script blocks are only for the primary English home page -->
 <script type="application/ld+json">
     {
         "@context": "http://schema.org",
@@ -24,38 +25,6 @@ title: Istio
             "query-input": "required name=search_term_string"
         }
     }
-</script>
-<script type="application/ld+json">
-    {
-      "@context": "http://schema.org/",
-      "@type": "Product",
-      "name": "Istio",
-      "image": [
-          "https://istio.io/img/logo.png"
-       ],
-      "description": "Istio lets you connect, secure, control, and observe services."
-    }
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('panel1').style.opacity = "1";
-
-        window.setTimeout(function() {
-            document.getElementById('panel2').style.opacity = "1";
-        }, 375);
-
-        window.setTimeout(function() {
-            document.getElementById('panel3').style.opacity = "1";
-        }, 750);
-
-        window.setTimeout(function() {
-            document.getElementById('panel4').style.opacity = "1";
-        }, 1125);
-
-        window.setTimeout(function() {
-            document.getElementById('buttons').style.opacity = "1";
-        }, 1500);
-    });
 </script>
 
 <main class="landing">
@@ -136,7 +105,7 @@ title: Istio
     </div>
 
     <div id="buttons">
-        <a title="Install Istio on Kubernetes today." class="btn" href="/docs/setup/kubernetes/quick-start">GET STARTED</a>
+        <a title="Install Istio on Kubernetes today." class="btn" href="/docs/setup/kubernetes/">GET STARTED</a>
         <a title="Dive deeper to understand what Istio is and how it works." class="btn" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
         <a title="Download the latest release." class="btn" href="{{< istio_release_url >}}">DOWNLOAD {{< istio_release_name >}}</a>
     </div>

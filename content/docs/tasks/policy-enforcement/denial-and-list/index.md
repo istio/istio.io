@@ -2,7 +2,7 @@
 title: Denials and White/Black Listing
 description: Shows how to control access to a service using simple denials or white/black listing.
 weight: 20
-keywords: [policies, denial, whitelist, blacklist]
+keywords: [policies,denial,whitelist,blacklist]
 aliases:
     - /docs/tasks/basic-access-control.html
     - /docs/tasks/security/basic-access-control/index.html

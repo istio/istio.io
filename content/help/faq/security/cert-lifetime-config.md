@@ -41,7 +41,7 @@ For the workloads running on VMs and bare metal hosts, the lifetime of their Ist
 `max-workload-cert-ttl` of Citadel.
 
 To customize this configuration, the argument for the node agent service should be modified.
-After [setting up the machines](/docs/setup/kubernetes/mesh-expansion/#setting-up-the-machines) for Istio
+After [setting up the machines](/docs/setup/kubernetes/additional-setup/mesh-expansion/#setting-up-the-machines) for Istio
 mesh expansion, modify the file `/lib/systemd/system/istio-auth-node-agent.service` on the VMs or bare metal hosts:
 
 {{< text plain >}}
