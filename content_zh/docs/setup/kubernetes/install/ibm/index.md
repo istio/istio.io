@@ -1,7 +1,7 @@
 ---
 title: IBM Cloud 快速入门
 description: 如何使用 IBM 公有云或 IBM 私有云快速安装 Istio。
-weight: 21
+weight: 70
 keywords: [kubernetes,ibm,icp]
 ---
 

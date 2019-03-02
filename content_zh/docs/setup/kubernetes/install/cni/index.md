@@ -7,7 +7,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 
 缺省情况下，Istio 会在网格中部署的 Pod 上注入一个初始化容器——`istio-init`。这个初始化容器会将 Pod 网络的流量劫持到 Istio Sidecar 上。这需要用户或者向网格中部署 Pod 的 Service Account 具有部署 [`NET_ADMIN` 容器](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)的授权。对 Istio 用户的这种授权需要，对于某些组织的安全政策来说，可能是无法接受的。Istio CNI（[容器网络接口](https://github.com/containernetworking/cni#cni---the-container-network-interface)）插件能够代替 `istio-init` 容器完成同样的网络功能，而且无需 Istio 用户额外申请 Kubernetes RBAC 授权。
 
-[Istio CNI 插件](https://github.com/istio/cni)会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格中的 Pod 流量转发设置工作，用户向网格中进行 Pod 部署时，不再有对 [`NET_ADMIN` 功能的需求](/zh/docs/setup/kubernetes/spec-requirements/)。
+[Istio CNI 插件](https://github.com/istio/cni)会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格中的 Pod 流量转发设置工作，用户向网格中进行 Pod 部署时，不再有对 [`NET_ADMIN` 功能的需求](/zh/docs/setup/kubernetes/additional-setup/requirements/)。
 
 ## 前提条件 {#prerequisites}
 
@@ -23,7 +23,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 1. 获取 Kubernetes 环境 CNI 插件 `--cni-bin-dir` 以及 `--cni-conf-dir` 的设置。
     * [托管 Kubernetes 用法](#hosted-Kubernetes-usage)一节中的介绍了非缺省配置的介绍。
 
-1. 在[使用 Helm 安装 Istio](/zh/docs/setup/kubernetes/helm-install/)的过程中，加入  `--set istio_cni.enabled=true` 的设置，来启用 Istio CNI 插件的安装。例如：
+1. 在[使用 Helm 安装 Istio](/zh/docs/setup/kubernetes/install/helm/)的过程中，加入  `--set istio_cni.enabled=true` 的设置，来启用 Istio CNI 插件的安装。例如：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -81,11 +81,11 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 
 ## Sidecar 注入的兼容性 {#sidecar-injection-compatibility}
 
-在 Helm 安装过程中需要用 `istio_cni.enabled=true` 生成 `istio-sidecar-injector` Configmap，使用这一配置对 Kubernetes Pod 进行 Istio 注入才能够使用 Istio 的 CNI 插件。可参看 [Istio Sidecar 注入文档](/zh/docs/setup/kubernetes/sidecar-injection/)，获取更多 Sidecar 注入方面的详细内容。
+在 Helm 安装过程中需要用 `istio_cni.enabled=true` 生成 `istio-sidecar-injector` Configmap，使用这一配置对 Kubernetes Pod 进行 Istio 注入才能够使用 Istio 的 CNI 插件。可参看 [Istio Sidecar 注入文档](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/)，获取更多 Sidecar 注入方面的详细内容。
 
 下列注入方式都是可以支持 Istio CNI 插件的：
 
-1. [自动注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)。
+1. [自动注入 Sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)。
 1. 使用 `istio-sidecar-injector` Configmap 进行手工注入。
     * 执行 `istioctl kube-inject`，直接使用 Configmap：
 

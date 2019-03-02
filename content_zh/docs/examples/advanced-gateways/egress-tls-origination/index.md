@@ -20,7 +20,7 @@ weight: 42
 
 *   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将作为外部调用的测试源。
 
-    如果您已启用[自动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入), 请按如下命令部署 `sleep` 应用程序:
+    如果您已启用[自动注入 sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入), 请按如下命令部署 `sleep` 应用程序:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@

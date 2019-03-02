@@ -27,7 +27,7 @@ Istio 控制平面组件包括：Citadel、Ingress 网关、Egress 网关、Pilo
 
 #### 用 Helm 升级
 
-如果你用 [Helm](/zh/docs/setup/kubernetes/helm-install/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装) 安装了 Istio，那么首选升级方式是让 Helm 负责升级：
+如果你用 [Helm](/zh/docs/setup/kubernetes/install/helm/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装) 安装了 Istio，那么首选升级方式是让 Helm 负责升级：
 
 {{< text bash >}}
 $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
@@ -111,7 +111,7 @@ $ kubectl apply -f <(istioctl kube-inject \
 
 或者
 
-- 使用将 `docker.io/istio/proxyv2:0.8.0` 作为代理镜像的 `injectConfigFile`。如果没有 `injectConfigFile`，您可以 [生成一个](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)。如果需要在多个 deployment 定义中添加 `sidecar.istio.io/proxyImage` annotation，推荐使用 `injectConfigFile`。
+- 使用将 `docker.io/istio/proxyv2:0.8.0` 作为代理镜像的 `injectConfigFile`。如果没有 `injectConfigFile`，您可以 [生成一个](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)。如果需要在多个 deployment 定义中添加 `sidecar.istio.io/proxyImage` annotation，推荐使用 `injectConfigFile`。
 
     {{< text bash >}}
     $ kubectl replace -f <(istioctl kube-inject --injectConfigFile inject-config.yaml -f $ORIGINAL_DEPLOYMENT_YAML)

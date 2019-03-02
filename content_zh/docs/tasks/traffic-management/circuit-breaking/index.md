@@ -17,7 +17,7 @@ keywords: [traffic-management,circuit-breaking]
 
 * 启动 [httpbin]({{< github_tree >}}/samples/httpbin) 示例应用，这个应用将会作为本任务的后端服务。
 
-    如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，只需运行：
+    如果启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，只需运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@

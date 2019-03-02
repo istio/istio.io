@@ -347,7 +347,7 @@ spec:
 
 如果路由规则对 [Bookinfo](/zh/docs/examples/bookinfo/) 示例正常运行，但类似的版本路由规则对自己的应用程序没有生效，则可能需要更改 Kubernetes 服务。
 
-Kubernetes 服务必须遵守某些限制才能利用 Istio 的 L7 路由功能。有关详细信息，请参阅 [Pod 和服务的要求](/zh/docs/setup/kubernetes/spec-requirements)。
+Kubernetes 服务必须遵守某些限制才能利用 Istio 的 L7 路由功能。有关详细信息，请参阅 [Pod 和服务的要求](/zh/docs/setup/kubernetes/additional-setup/requirements)。
 
 ## Envoy 无法连接到 HTTP/1.0 服务
 

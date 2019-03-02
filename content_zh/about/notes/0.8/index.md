@@ -10,7 +10,7 @@ icon: notes
 
 ## 网络
 
-- **重构网络管理模型**：[新的流量管理 API](/zh/blog/2018/v1alpha3-routing/) 业已就绪。新的模型覆盖了更多真实世界的部署[用例](/zh/docs/tasks/traffic-management/)，更加易于理解和使用。如果要从早期部署中进行升级，这里提供了[升级指南](/zh/docs/setup/kubernetes/upgrading-istio/)，并且在 `istioctl` 中加入了转换工具，帮助用户对旧版本配置进行升级。
+- **重构网络管理模型**：[新的流量管理 API](/zh/blog/2018/v1alpha3-routing/) 业已就绪。新的模型覆盖了更多真实世界的部署[用例](/zh/docs/tasks/traffic-management/)，更加易于理解和使用。如果要从早期部署中进行升级，这里提供了[升级指南](/zh/docs/setup/kubernetes/upgrade/)，并且在 `istioctl` 中加入了转换工具，帮助用户对旧版本配置进行升级。
 
 - **Envoy 配置传播**：新版本中，Pilot 缺省使用 Envoy 的 [ADS API](https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md) 进行配置传播。这种新方法提高了稳定性、降低了生效延迟，应该也解决了之前的方法造成的 404 错误。
 

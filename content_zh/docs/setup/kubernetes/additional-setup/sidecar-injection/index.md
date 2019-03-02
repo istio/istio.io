@@ -1,7 +1,7 @@
 ---
 title: 注入 Istio sidecar
 description: 介绍两种将 Istio sidecar 注入应用 Pod 的方法：使用 Sidecar 注入 Webhook 自动完成，或使用 istioctl 客户端工具手工完成。
-weight: 30
+weight: 45
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
@@ -65,13 +65,13 @@ admissionregistration.k8s.io/v1alpha1
 admissionregistration.k8s.io/v1beta1
 {{< /text >}}
 
-在 [Kubernetes 快速开始](/zh/docs/setup/kubernetes/quick-start/) 中介绍了 Kubernetes 1.9 以上版本的安装。
+在 [Kubernetes 快速开始](/zh/docs/setup/kubernetes/install/kubernetes/) 中介绍了 Kubernetes 1.9 以上版本的安装。
 
 注意，跟手工注入不同的是，自动注入过程是发生在 Pod 级别的。因此是不会看到 Deployment 本身发生什么变化的。但是可以使用 `kubectl describe` 来观察单独的 Pod，在其中能看到注入 Sidecar 的相关信息。
 
 #### Webhook 的禁用或升级
 
-缺省情况下，用于 Sidecar 注入的 Webhook 是启用的。如果想要禁用它，可以用 [Helm](/zh/docs/setup/kubernetes/helm-install/)，将 `sidecarInjectorWebhook.enabled` 参数设为 `false`，生成一个 `istio.yaml` 进行更新。也就是：
+缺省情况下，用于 Sidecar 注入的 Webhook 是启用的。如果想要禁用它，可以用 [Helm](/zh/docs/setup/kubernetes/install/helm/)，将 `sidecarInjectorWebhook.enabled` 参数设为 `false`，生成一个 `istio.yaml` 进行更新。也就是：
 
 {{< text bash >}}
 $ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
