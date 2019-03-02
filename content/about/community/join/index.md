@@ -15,7 +15,7 @@ and get help troubleshooting problems.
 {{< /community_item >}}
 
 {{< community_item logo="./slack.svg" alt="Slack" >}}
-Hangout on [Istio's Slack](https://slack.istio.io) to interact with the community in real-time.
+Hangout on [Istio's Slack](https://slack.istio.com) to interact with the community in real-time.
 {{< /community_item >}}
 
 {{< community_item logo="./twitter.svg" alt="Twitter" >}}
