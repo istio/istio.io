@@ -1,5 +1,10 @@
 .toc {
     order: 0;
+    padding-top: .1rem;
+
+    @media (min-width: $bp-md) {
+        padding-top: 1rem;
+    }
 
     @supports ((position:-webkit-sticky) or (position:sticky)) {
         position: -webkit-sticky;

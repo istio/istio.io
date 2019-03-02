@@ -8,21 +8,18 @@ function handleSidebar() {
     }
 
     // toggle subtree in sidebar
-    queryAll(sidebar, '.tree-toggle').forEach(o => {
-        listen(o, click, () => {
-            queryAll(o, 'i.chevron').forEach(chevron => {
-                chevron.classList.toggle('show');
-            });
+    queryAll(sidebar, 'button').forEach(o => {
+        listen(o, click, e => {
+            let el = e.currentTarget;
+            el.classList.toggle("show");
+            el.nextElementSibling.nextElementSibling.classList.toggle("show");
 
-            o.nextElementSibling.classList.toggle("show");
-
-            let e = o.parentElement;
-            while (!e.classList.contains('body')) {
-                e = e.parentElement;
-            }
+            do {
+                el = el.parentElement;
+            } while (!el.classList.contains('body'));
 
             // adjust the body's max height to the total size of the body's content
-            e.style.maxHeight = e.scrollHeight + "px";
+            el.style.maxHeight = el.scrollHeight + "px";
         });
     });
 
