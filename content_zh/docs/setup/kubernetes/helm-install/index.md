@@ -25,8 +25,7 @@ icon: /img/helm.svg
 
 1. [安装 Helm 客户端](https://docs.helm.sh/using_helm/).
 
-1. 默认情况下，Istio 使用 `LoadBalancer` 服务类型，但是有些平台不支持 `LoadBalancer` 服务类型。
-   对于这些不支持 `LoadBalancer` 的平台，在安装 Istio 需要在 Helm 命令结尾处中加入 `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort`选项，使用 `NodePort` 以代替 `LoadBalancer`。
+1. 默认情况下，Istio 使用 `LoadBalancer` 服务类型，但是有些平台不支持 `LoadBalancer` 服务类型。对于这些不支持 `LoadBalancer` 的平台，在安装 Istio 需要在 Helm 命令结尾处中加入 `--set gateways.istio-ingressgateway.type=NodePort --set gateways.istio-egressgateway.type=NodePort`选项，使用 `NodePort` 以代替 `LoadBalancer`。
 
 ## 安装步骤
 
@@ -91,7 +90,6 @@ icon: /img/helm.svg
     {{< /text >}}
 
 * 对于选项 2，使用 Helm 进行卸载：
-
 
     {{< text bash >}}
     $ helm delete --purge istio
