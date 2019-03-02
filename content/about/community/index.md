@@ -24,6 +24,12 @@ There are quite a few ways to get plugged in:
       </td>
     </tr>
     <tr>
+      <td class="logo">{{< inline_image "community/slack.svg" >}}</td>
+      <td class="desc">
+        Hangout on <a href="https://istio.slack.com">Istio's Slack</a> to interact with the community in real-time.
+      </td>
+    </tr>
+    <tr>
       <td class="logo">{{< inline_image "community/twitter.svg" >}}</td>
       <td class="desc">
         Follow us on <a href="https://twitter.com/IstioMesh">Twitter</a> to get the latest news.
