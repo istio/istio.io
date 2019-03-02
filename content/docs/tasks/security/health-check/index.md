@@ -31,7 +31,6 @@ To complete this task, you can install Istio using one of the following paths:
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-    _**OR**_
 
  * Use [Helm](/docs/setup/kubernetes/install/helm/) to setup Istio and set the `global.mtls.enabled` flag to `true`.
 
