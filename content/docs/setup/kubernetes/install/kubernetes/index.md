@@ -64,7 +64,7 @@ Choose this option for:
 * `StatefulSets`
 
 To install Istio with mutual TLS enabled and set to use permissive mode
-between sidecars:
+between sidecars run the following commands:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio \
@@ -87,7 +87,7 @@ Use this option only on a fresh Kubernetes cluster where newly deployed
 workloads are guaranteed to have Istio sidecars installed.
 
 To Install Istio and enforce [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication)
-between sidecars by default:
+between sidecars by default run the following commands:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
