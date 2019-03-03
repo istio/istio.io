@@ -7,7 +7,7 @@ other = "关注我们的 Twitter 来获取最新信息"
 [stackoverflow_desc]
 other = "Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答"
 
-[for_users]
+[for_everyone]
 other = "对于用户"
 
 [for_developers]
