@@ -4,7 +4,7 @@ description: Instructions to setup a Google Kubernetes Engine cluster for Istio.
 weight: 15
 skip_seealso: true
 aliases:
-        -/docs/setup/kubernetes/platform-setup/gke
+    - /docs/setup/kubernetes/platform-setup/gke
 keywords: [platform-setup,kubernetes,gke,google]
 ---
 
