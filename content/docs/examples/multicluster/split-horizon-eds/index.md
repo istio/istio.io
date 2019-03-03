@@ -211,7 +211,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
     {{< /text >}}
 
-    Change the gateway's address and port of `network2` from `0.0.0.0` to the `cluster2` ingress host and port,
+    Update the gateway's address and port of `network2` to reflect the `cluster2` ingress host and port,
     respectively, then save and quit.
 
     Once saved, Pilot will automatically read the updated network configuration.
