@@ -3,5 +3,5 @@ set -e
 
 svgo --version
 
-npx svgo -f content
-npx svgo -f content_zh
+npx svgo -r -f content
+npx svgo -r -f content_zh
