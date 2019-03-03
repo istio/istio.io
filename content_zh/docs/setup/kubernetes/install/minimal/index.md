@@ -2,11 +2,13 @@
 title: Istio 最小化安装
 description: 使用 Helm 最小化安装 Istio 。
 weight: 30
-keywords: [kubernetes,helm]
+keywords: [kubernetes,helm, minimal]
 icon: helm
 ---
 
-使用 Helm 最小化安装和配置 Istio 的快速入门指南。此最小安装提供了 Istio 的流量管理功能。
+按照此路径使用 Helm 执行最小安装和配置 Istio 网格。
+
+此最小安装提供了 Istio 的流量管理功能。
 
 ## 前置条件
 
@@ -14,46 +16,39 @@ icon: helm
 
 ## 安装步骤
 
-1. 如果你的 Helm 版本低于 2.10.0，通过 `kubectl apply` 安装 Istio 的 [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，稍等片刻 CRD 会被提交到 `kube-apiserver`：
+您有两个互斥的选项来安装 Istio：
+- 要使用Kubernetes清单来部署Istio，请按照[选项＃1](#option-1)的说明进行操作。
+- 要使用 [Helm's Tiller pod](https://helm.sh/) 管理您的 Istio 版本，请按照[选项＃2](#option-2) 的说明进行操作。
 
+### 选项 1：通过 Helm 命令 `helm template` 安装{#option-1}
+
+1. 通过 `kubectl apply` 安装所有 Istio 的[自定义资源定义或简称 CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，然后等待在 Kube api-server 中提交 CRD 几秒钟：
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
-1. 从以下**互斥**的两个选项中选择一个并执行。
-
-### 选项 1：通过 Helm 命令 `helm template` 安装
-
-1. 将 Istio 的核心组件添加到 Kubernetes 的描述文件，并命名为 `istio-minimal.yaml`：
+1. 将 Istio 的核心组件渲染为名为 `istio-minimal.yaml` 的 Kubernetes 清单：
 
     {{< text bash >}}
+    $ cat @install/kubernetes/namespace.yaml@ > $HOME/istio-minimal.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-      --set security.enabled=false \
-      --set ingress.enabled=false \
-      --set gateways.istio-ingressgateway.enabled=false \
-      --set gateways.istio-egressgateway.enabled=false \
-      --set galley.enabled=false \
-      --set sidecarInjectorWebhook.enabled=false \
-      --set mixer.enabled=false \
-      --set prometheus.enabled=false \
-      --set pilot.sidecar=false > $HOME/istio-minimal.yaml
+      --values install/kubernetes/helm/istio/values-istio-minimal.yaml >> $HOME/istio-minimal.yaml
     {{< /text >}}
 
-1. 通过描述文件安装 Pilot 组件：
+1. 通过清单安装 Pilot 组件：
 
     {{< text bash >}}
-    $ kubectl create namespace istio-system
     $ kubectl apply -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
-### 选项 2：通过 `helm install` 命令安装 Helm 和 Tiller
+### 选项 2：通过 `helm install` 命令安装 Helm 和 Tiller{#option-2}
 
 本选项允许 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 管理 Istio 的生命周期。
 
 1. 如果还没有为 Tiller 安装 service account，请安装一个：
 
     {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
     {{< /text >}}
 
 1. 使用已安装的 service account 将 Tiller 安装到你的集群：
@@ -62,19 +57,24 @@ icon: helm
     $ helm init --service-account tiller
     {{< /text >}}
 
-1. 安装 Istio：
+1. 安装 `istio-init` 图表来引导所有 Istio 的 CRD：
+
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+    {{< /text >}}
+
+1. 使用以下命令验证所有 `56` 个 Istio CRD 是否已提交到 Kubernetes api-server：
+
+    {{< text bash >}}
+    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+    56
+    {{< /text >}}
+
+1. 安装 `istio` 图表：
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio --name istio-minimal --namespace istio-system \
-      --set security.enabled=false \
-      --set ingress.enabled=false \
-      --set gateways.istio-ingressgateway.enabled=false \
-      --set gateways.istio-egressgateway.enabled=false \
-      --set galley.enabled=false \
-      --set sidecarInjectorWebhook.enabled=false \
-      --set mixer.enabled=false \
-      --set prometheus.enabled=false \
-      --set pilot.sidecar=false
+      --values install/kubernetes/helm/istio/values-istio-minimal.yaml
     {{< /text >}}
 
 1. 确保已经部署 `istio-pilot-*` Kubernetes pod，并且容器已经正常运行：
@@ -103,16 +103,15 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
     {{< text bash >}}
     $ helm delete --purge istio-minimal
+    $ helm delete --purge istio-init
     {{< /text >}}
 
-    如果 Helm 版本低于 2.10.0，在部署新版本的 Istio chart 之前，你需要手动清理额外的 job 资源：
+* 如果需要，请运行以下命令以删除所有 CRD：
+
+    {{< warning >}}
+    删除 CRD 会删除您对 Istio 所做的任何配置更改。
+    {{< /warning >}}
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete job --all
-    {{< /text >}}
-
-* 如果需要，删除 CRD：
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio/templates/crds.yaml
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
     {{< /text >}}
