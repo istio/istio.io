@@ -23,8 +23,10 @@ header {
             width: unset;
         }
 
-        &.open-hamburger {
-            display: none;
+        @media (max-width: $bp-xs-max) {
+            &.open-hamburger {
+                display: none;
+            }
         }
 
         .logo {
@@ -107,6 +109,10 @@ header {
 
     div.menu {
         display: inline-block;
+        margin-left: .3rem;
+        @media (min-width: $bp-sm) {
+            margin-left: .58rem;
+        }
     }
 
     svg.icon {
@@ -135,12 +141,14 @@ header {
     #header-links {
         display: none;
 
-        &.open-hamburger {
-            display: block;
-            text-align: center;
-            margin-top: 1em;
-            padding-left: 1em;
-            padding-right: 2.5em;
+        @media (max-width: $bp-xs-max) {
+            &.open-hamburger {
+                display: block;
+                text-align: center;
+                margin-top: 1em;
+                padding-left: 1em;
+                padding-right: 2.5em;
+            }
         }
 
         @media (min-width: $bp-sm) {
@@ -169,8 +177,10 @@ header {
     #search-form {
         display: none;
 
-        &.open-hamburger {
-            display: flex;
+        @media (max-width: $bp-xs-max) {
+            &.open-hamburger {
+                display: flex;
+            }
         }
 
         @media (min-width: $bp-sm) {
