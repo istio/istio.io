@@ -46,7 +46,7 @@ keywords: [kubernetes,vms]
 
     {{< tip >}}
     使用 Helm 更新配置时，您可以在命令行上设置选项，如我们的示例中所示，或者添加
-    它到一个 `.yaml` 配置文件，并通过 `--values` 的命令应用这些配置 ，这是管理具有多个配置选项时的推荐做法。您
+    它到一个 `.yaml` 配置文件，并通过 `--values` 的命令应用这些配置，这是管理具有多个配置选项时的推荐做法。您
     可以在你的 Istio 安装目录 `install/kubernetes/helm/istio` 中看到一些示例值文件并找出
     有关在[Helm 文档](https://docs.helm.sh/using_helm/#using-helm)中自定义 Helm 图表的更多信息。
     {{< /tip >}}
