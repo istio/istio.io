@@ -1,4 +1,4 @@
-#sidebar-toggler, #scroll-to-top, #edit-this-page, #report-site-bugs {
+#sidebar-toggler, #scroll-to-top, #switch-lang, #edit-this-page, #report-site-bugs {
     z-index: $floating-button-z;
     outline: none;
     background-color: rgba($backgroundColor, .7);
@@ -57,15 +57,14 @@
     }
 }
 
-#edit-this-page-container {
+#switch-lang-container, #edit-this-page-container, #report-site-bugs-container {
     @media print {
         display: none;
     }
 
-    #edit-this-page {
+    #switch-lang, #edit-this-page, #report-site-bugs {
         display: block;
         position: fixed;
-        bottom: calc(4rem + #{$footerHeight});
         right: 1rem;
         background-color: bisque;
 
@@ -80,16 +79,20 @@
     }
 }
 
-#report-site-bugs-container {
-    @media print {
-        display: none;
+#switch-lang-container {
+    #switch-lang {
+        bottom: calc(6rem + #{$footerHeight});
     }
+}
 
+#edit-this-page-container {
+    #edit-this-page {
+        bottom: calc(3.5rem + #{$footerHeight});
+    }
+}
+
+#report-site-bugs-container {
     #report-site-bugs {
-        display: block;
-        position: fixed;
         bottom: calc(1rem + #{$footerHeight});
-        right: 1rem;
-        background-color: bisque;
     }
 }

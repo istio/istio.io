@@ -148,6 +148,13 @@
         </div>
 
         {{ if .Site.Data.args.preliminary }}
+            <div id="switch-lang-container">
+                {{ $home := .Site.GetPage "home" }}
+                <a id="switch-lang" class="not-for-endnotes" aria-hidden="true" title='{{ i18n "switch_lang"}}'>
+                    {{ partial "icon.html" "switch-lang" }}
+                </a>
+            </div>
+
             {{ if .Page.Params.source_repo }}
                 <div id="edit-this-page-container">
                     {{ $msg := i18n "generated_file" }}
