@@ -218,8 +218,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     1.  Print the values of `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
 
         {{< text bash >}}
-        $ echo ingress host = $INGRESS_HOST
-        $ echo ingress port = $SECURE_INGRESS_PORT
+        $ echo The ingress gateway of cluster2: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
         {{< /text >}}
 
 1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
