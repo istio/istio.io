@@ -4,7 +4,7 @@ description: Istio CNI 插件的安装和使用，该插件让运维人员可以
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
- 
+
 按照此路径使用 Istio 容器网络接口（[CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface)）插件安装，配置和使用 Istio 网格。
 
 缺省情况下，Istio 会在网格中部署的 Pod 上注入一个初始化容器——`istio-init`。这个初始化容器会将 Pod 网络的流量劫持到 Istio Sidecar 上。这需要用户或者向网格中部署 Pod 的 Service Account 具有部署 [`NET_ADMIN` 容器](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)的授权。对 Istio 用户的这种授权需要，对于某些组织的安全政策来说，可能是无法接受的。Istio CNI（[容器网络接口](https://github.com/containernetworking/cni#cni---the-container-network-interface)）插件能够代替 `istio-init` 容器完成同样的网络功能，而且无需 Istio 用户额外申请 Kubernetes RBAC 授权。
@@ -147,5 +147,5 @@ Istio CNI 插件作为一个链式 CNI 插件存在。也就是说它的配置�
 当 Pod 被创建或删除时，容器运行时会按照列表顺序调用每个插件。Istio CNI 插件只会把应用 Pod 的流量重定向到 Sidecar 中（在 Pod 的网络命名空间中使用 `iptables` 完成）。
 
 {{< warning >}}
-这种操作对设置 Pod 网络的基本 CNI 插件 _应该_ 是没有影响的，但是并没有针对所有 CNI 进行验证。
+这种操作对设置 Pod 网络的基本 CNI 插件**应该**是没有影响的，但是并没有针对所有 CNI 进行验证。
 {{< /warning >}}
