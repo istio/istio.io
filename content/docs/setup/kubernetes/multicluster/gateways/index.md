@@ -58,7 +58,7 @@ on **each** Kubernetes cluster.
     * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
         {{< text bash >}}
-        $ kubectl create namespace istio-system
+        $ kubectl create namespace istio-system --dry-run -o yaml | kubectl apply -f -
         $ kubectl create secret generic cacerts -n istio-system \
             --from-file=@samples/certs/ca-cert.pem@ \
             --from-file=@samples/certs/ca-key.pem@ \
