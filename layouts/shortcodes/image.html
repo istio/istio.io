@@ -69,11 +69,21 @@ omit this value and it will be computed automatically.
     {{- end -}}
 
     {{- $file := readFile $path -}}
-    {{- $viewBox := index (findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
-    {{- $viewBox := index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
-    {{- $sizes := split $viewBox " " -}}
-    {{- $w := sub (float (index $sizes 2)) (float (index $sizes 0)) -}}
-    {{- $h := sub (float (index $sizes 3)) (float (index $sizes 1)) -}}
+    {{- $w := 0.0 }}
+    {{- $h := 0.0 }}
+    {{- $viewBox := findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1 -}}
+    {{- if $viewBox }}
+        {{- $viewBox = index $viewBox 0 -}}
+        {{- $viewBox = index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
+        {{- $sizes := split $viewBox " " -}}
+        {{- $w = sub (float (index $sizes 2)) (float (index $sizes 0)) -}}
+        {{- $h = sub (float (index $sizes 3)) (float (index $sizes 1)) -}}
+    {{- else -}}
+        {{- $w = index (findRE "width( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
+        {{- $w = float (index (findRE "[0123456789\\.]+" $w 1) 0) -}}
+        {{- $h = index (findRE "height( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
+        {{- $h = float (index (findRE "[0123456789\\.]+" $h 1) 0) -}}
+    {{- end -}}
     {{- $ratio = mul (div $h $w) 100 -}}
 {{- else -}}
     {{- if not $ratio -}}
