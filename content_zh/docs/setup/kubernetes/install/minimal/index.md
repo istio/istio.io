@@ -20,7 +20,7 @@ icon: helm
 - 要使用Kubernetes清单来部署Istio，请按照[选项＃1](#option-1)的说明进行操作。
 - 要使用 [Helm's Tiller pod](https://helm.sh/) 管理您的 Istio 版本，请按照[选项＃2](#option-2) 的说明进行操作。
 
-### 选项 1：通过 Helm 命令 `helm template` 安装{#option-1}
+### 选项 1：通过 Helm 命令 `helm template` 安装{#`option`-1}
 
 1. 通过 `kubectl apply` 安装所有 Istio 的[自定义资源定义或简称 CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，然后在 Kube api-server 中提交 CRD 后等待几秒钟：
 
@@ -42,7 +42,7 @@ icon: helm
     $ kubectl apply -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
-### 选项 2：通过 `helm install` 命令安装 Helm 和 Tiller{#option-2}
+### 选项 2：通过 `helm install` 命令安装 Helm 和 Tiller{#`option`-2}
 
 本选项允许 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 管理 Istio 的生命周期。
 
