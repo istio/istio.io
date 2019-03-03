@@ -32,7 +32,7 @@ spec:
 
 对于运行于物理机或者虚拟机上的工作负载来说，他们的 Istio 证书有效期是由每个 Node agent 的 `workload-cert-ttl` 决定的。其缺省值同样也是 90 天，这个值也不允许超出 Citadel 的 `max-workload-cert-ttl` 选项的值。
 
-要定制这一配置，要在完成[设置虚拟机](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/#设置虚拟机)步骤之后，对 Node agent 服务（`/lib/systemd/system/istio-auth-node-agent.service`）的参数进行修改。
+要定制这一配置，要在完成[设置虚拟机](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/#setting-up-the-machines)步骤之后，对 Node agent 服务（`/lib/systemd/system/istio-auth-node-agent.service`）的参数进行修改。
 
 {{< text plain >}}
 ...
