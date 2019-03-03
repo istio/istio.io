@@ -81,18 +81,18 @@
 
 #switch-lang-container {
     #switch-lang {
-        bottom: calc(6rem + #{$footerHeight});
+        bottom: calc(1rem + #{$footerHeight});
     }
 }
 
 #edit-this-page-container {
     #edit-this-page {
-        bottom: calc(3.5rem + #{$footerHeight});
+        bottom: calc(6rem + #{$footerHeight});
     }
 }
 
 #report-site-bugs-container {
     #report-site-bugs {
-        bottom: calc(1rem + #{$footerHeight});
+        bottom: calc(3.5rem + #{$footerHeight});
     }
 }
