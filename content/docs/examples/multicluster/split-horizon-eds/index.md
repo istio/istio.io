@@ -367,7 +367,7 @@ Cleanup the `cluster2` cluster:
 $ kubectl delete --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
 $ kubectl delete --context=$CTX_CLUSTER2 ns istio-system
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
-$ unset CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT
+$ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT
 $ rm istio-remote-auth.yaml
 {{< /text >}}
 
