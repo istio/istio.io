@@ -95,7 +95,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl create --context=$CTX_CLUSTER1 -f istio-auth.yaml
     {{< /text >}}
 
-    Wait for Istio pods on `cluster1` to come up by checking their status:
+    Wait for the Istio pods on `cluster1` to become ready:
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
