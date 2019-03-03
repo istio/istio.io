@@ -7,7 +7,7 @@ other = "Follow us on Twitter to get the latest news"
 [stackoverflow_desc]
 other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
 
-[for_users]
+[for_everyone]
 other = "for everyone"
 
 [for_developers]
