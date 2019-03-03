@@ -273,13 +273,22 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
 ### Start watching cluster 2
 
-Execute the following commands to add and label the secret of the `cluster2` Kubernetes. After executing these commands Istio Pilot on `cluster1`
-will begin watching `cluster2` for services and instances, just as it does for `cluster1`.
+1.  Execute the following commands to add and label the secret of the `cluster2` Kubernetes.
+    After executing these commands Istio Pilot on `cluster1` will begin watching `cluster2` for services and instances,
+    just as it does for `cluster1`.
 
-{{< text bash >}}
-$ kubectl create --context=$CTX_CLUSTER1 secret generic n2-k8s-secret --from-file n2-k8s-config -n istio-system
-$ kubectl label --context=$CTX_CLUSTER1 secret n2-k8s-secret istio/multiCluster=true -n istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl create --context=$CTX_CLUSTER1 secret generic n2-k8s-secret --from-file n2-k8s-config -n istio-system
+    $ kubectl label --context=$CTX_CLUSTER1 secret n2-k8s-secret istio/multiCluster=true -n istio-system
+    {{< /text >}}
+
+1.  Wait for `istio-ingressgateway` to become ready:
+
+    {{< text bash >}}
+    $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio=ingressgateway
+    NAME                                    READY     STATUS    RESTARTS   AGE
+    istio-ingressgateway-5c667f4f84-bscff   1/1       Running   0          16m
+    {{< /text >}}
 
 Now that you have your `cluster1` and `cluster2` clusters set up, you can deploy an example service.
 
