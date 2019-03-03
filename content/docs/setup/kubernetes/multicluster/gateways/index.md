@@ -66,7 +66,7 @@ on **each** Kubernetes cluster.
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-    * Follow the [Helm Installation Steps](/docs/setup/kubernetes/install/helm/#installation-steps) to install Istio. You must pass in the flag `--values $HOME/istio-fetch/istio/values-istio-multicluster-gateways.yaml` to helm to use the correct multicluster settings. For example, if you use [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template), run the step 6 as follows:
+    * Follow the [Helm Installation Steps](/docs/setup/kubernetes/install/helm/#installation-steps) to install Istio. You must pass in the flag `--values $HOME/istio-fetch/istio/values-istio-multicluster-gateways.yaml` to helm to use the correct multicluster settings. For example, if you [use helm template to install Istio](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template), run the step 6 as follows:
 
         {{< text bash >}}
         $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system --values $HOME/istio-fetch/istio/values-istio-multicluster-gateways.yaml | kubectl apply -f -
