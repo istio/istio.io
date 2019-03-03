@@ -21,7 +21,7 @@ keywords: [kubernetes,vms]
 
 安装过程包含服务网格的扩展准备、扩展安装以及虚拟机的配置过程。
 
-### 扩展准备工作：设置 `Kubernetes`{#preparation-the-kubernetes-cluster-for-expansion}
+### 扩展准备工作：设置 Kubernetes{#preparing-the-Kubernetes-cluster-for-expansion}
 
 将非 Kubernetes 服务添加到 Istio 网格的第一步是安装配置 Istio，并生成允许网格扩展 VM 连接到网格的配置文件。要准备集群以进行网格扩展，请在具有集群管理员权限的计算机上运行以下命令：
 
@@ -52,6 +52,7 @@ keywords: [kubernetes,vms]
     {{< /tip >}}
 
 1.  找到 Istio ingress 网关的 IP 地址，因为网格扩展机器将访问 [Citadel](/zh/docs/concepts/security/) 和 [Pilot](/zh/docs/concepts/traffic-management/#Pilot-和-Envoy)。
+
     {{< text bash >}}
     $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GWIP
@@ -107,7 +108,7 @@ keywords: [kubernetes,vms]
 
 1.  将您在上一节中创建的 `cluster.env` 和 `*.pem` 文件复制到 VM。
 
-1.  添加 Istio 网关的 IP 地址（我们在[上一节](#preparation-the-kubernetes-cluster-for-expansion)中找到了）
+1.  添加 Istio 网关的 IP 地址（我们在[上一节](#preparing-the-kubernetes-cluster-for-expansion)中找到了）
     到 `/etc/hosts` 或者
     DNS 服务器。在我们的示例中，我们将使用 `/etc/hosts`，因为它是使事情正常工作的最简单方法。以下是
     使用 Istio 网关地址更新 `/etc/hosts` 文件的示例：
