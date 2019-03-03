@@ -5,25 +5,29 @@ weight: 95
 keywords: [kubernetes,vms]
 ---
 
-部署在 Kubernetes 之中的 Istio 服务网格，将虚拟机和物理机集成进入到服务网格的方法。
+本指南提供了将 VM 和裸机主机集成到 Kubernetes 上部署的 Istio 网格中的说明。
 
-## 先决条件
+## 先决条件{#prerequisites}
 
-* 根据[安装指南](/zh/docs/setup/kubernetes/install/kubernetes/)的步骤在 Kubernetes 上部署 Istio。
+* 已经在 Kubernetes 上建立了 Istio。如果还没有这样做，可以在[安装指南](/zh/docs/setup/kubernetes/install/kubernetes/)中找到方法。
+
 * 待接入服务器必须能够通过 IP 接入网格中的服务端点。通常这需要 VPN 或者 VPC 的支持，或者容器网络为服务端点提供直接路由（非 NAT 或者防火墙屏蔽）。该服务器无需访问 Kubernetes 指派的集群 IP 地址。
+
 * Istio 控制平面服务（Pilot、Mixer、Citadel）以及 Kubernetes 的 DNS 服务器必须能够从虚拟机进行访问，通常会使用[内部负载均衡器](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)（也可以使用 `NodePort`）来满足这一要求，在虚拟机上运行 Istio 组件，或者使用自定义网络配置，相关的高级配置另有文档描述。
 
-## 安装步骤
+* 如果您[在使用 Helm 安装时](/zh/docs/setup/kubernetes/install/helm/)尚未启用网格扩展。您需要 [Helm 客户端](https://docs.helm.sh/using_helm/)来为集群启用网格扩展。
+
+## 安装步骤{#installation-steps}
 
 安装过程包含服务网格的扩展准备、扩展安装以及虚拟机的配置过程。
 
-在发布包中有一个示例脚本：[`install/tools/setupMeshEx.sh`]({{< github_file >}}/install/tools/setupMeshEx.sh)，这个脚本用来协助 Kubernetes 中的设置，请查阅这个脚本，注意脚本的内容以及所需的环境变量（例如 `GCP_OPTS`）。
+### 扩展准备工作：设置 Kubernetes{#preparing-the-Kubernetes-cluster-for-expansion}
 
-还有一个示例脚本是用来协助进行虚拟机配置的，这个脚本同样包含在发布包中：[`install/tools/setupIstioVM.sh`]({{< github_file >}}/install/tools/setupIstioVM.sh)。可以根据本地环境和 DNS 需求对这个脚本进行定制。
+将非 Kubernetes 服务添加到 Istio 网格的第一步是安装配置 Istio，并生成允许网格扩展 VM 连接到网格的配置文件。要准备集群以进行网格扩展，请在具有集群管理员权限的计算机上运行以下命令：
 
-### 扩展准备工作：设置 Kubernetes
+1.  确保为集群启用了网格扩展。如果在安装时没有使用 Helm 指定 `--set global.meshExpansion=true`，则有两个选项可用于启用网格扩展，具体取决于您最初在集群上安装 Istio 的方式：
 
-* 为 Kube DNS、Pilot、Mixer 以及 Citadel 设置内部负载均衡器。这个步骤跟云提供商有关，所以你可能需要编辑注解。如果用于演示目的，或者云供应商没有提供负载均衡支持，可以采用[基于 Keepalived 的 ILB](https://github.com/gyliu513/work/tree/master/k8s/charts/keepalived)。
+    *   如果您使用 Helm 和 Tiller 安装了 Istio，请使用新选项运行 `helm upgrade`：
 
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
@@ -31,7 +35,7 @@ keywords: [kubernetes,vms]
     $ cd -
     {{< /text >}}
 
-    * 生成 Istio 的 `cluster.env` 配置，用来在虚拟机上进行配置。这个文件包含了将要拦截的集群 IP 范围。
+    *   如果您没有使用 Helm 和 Tiller 安装 Istio，请使用 `helm template` 通过该选项更新您的配置并使用 `kubectl` 重新应用配置：
 
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
@@ -40,199 +44,204 @@ keywords: [kubernetes,vms]
     $ cd -
     {{< /text >}}
 
-    生成文件的示例：
+    {{< tip >}}
+    使用 Helm 更新配置时，您可以在命令行上设置选项，如我们的示例中所示，或者添加
+    它到一个 `.yaml` 配置文件，并通过 `--values` 的命令应用这些配置，这是管理具有多个配置选项时的推荐做法。您
+    可以在你的 Istio 安装目录 `install/kubernetes/helm/istio` 中看到一些示例值文件并找出
+    有关在[Helm 文档](https://docs.helm.sh/using_helm/#using-helm)中自定义 Helm 图表的更多信息。
+    {{< /tip >}}
+
+1.  找到 Istio ingress 网关的 IP 地址，因为网格扩展机器将访问 [Citadel](/zh/docs/concepts/security/) 和 [Pilot](/zh/docs/concepts/traffic-management/#Pilot-和-Envoy)。
+
+    {{< text bash >}}
+    $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ echo $GWIP
+    35.232.112.158
+    {{< /text >}}
+
+1.  生成 `cluster.env` 配置以在 VM 中部署。此文件包含 Kubernetes 集群 IP 地址范围
+    通过 envoy 拦截和重定向。将 Kubernetes 安装为 `servicesIpv4Cidr` 时指定 CIDR 范围。
+    使用适当的值替换以下示例命令中的 `$MY_ZONE` 和 `$MY_PROJECT` 以获取 CIDR
+    安装后：
+
+    {{< text bash >}}
+    $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
+    $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
+    {{< /text >}}
+
+1.  检查生成的 `cluster.env` 文件的内容。它应该类似于以下示例：
 
     {{< text bash >}}
     $ cat cluster.env
-    ISTIO_SERVICE_CIDR=10.63.240.0/20
+    ISTIO_CP_AUTH=MUTUAL_TLS
+    ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
 
-* 为虚拟机生成 DNS 配置文件。这一步骤让虚拟机上的应用能够解析集群的服务名称，然后被 Sidecar 劫持和转发。
+1.  （可选）如果 VM 仅调用网格中的服务，则可以跳过此步骤。否则，添加 VM 公开的端口
+    使用以下命令到 `cluster.env` 文件。如有必要，您可以稍后更改端口。
 
     {{< text bash >}}
-    $ @install/tools/setupMeshEx.sh@ generateDnsmasq
+    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
 
-    生成文件的示例：
+1.  提取要在 VM 上使用的服务帐户的初始密钥。
 
     {{< text bash >}}
-    $ cat kubedns
-    server=/svc.cluster.local/10.150.0.7
-    address=/istio-mixer/10.150.0.8
-    address=/istio-pilot/10.150.0.6
-    address=/istio-citadel/10.150.0.9
-    address=/istio-mixer.istio-system/10.150.0.8
-    address=/istio-pilot.istio-system/10.150.0.6
-    address=/istio-citadel.istio-system/10.150.0.9
+    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+        -o jsonpath='{.data.root-cert\.pem}' |base64 --decode > root-cert.pem
+    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+        -o jsonpath='{.data.key\.pem}' |base64 --decode > key.pem
+    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
+          -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
     {{< /text >}}
 
-### 设置虚拟机
+### 设置虚拟机{#setting-up-the-machines}
 
-作为例子，可以使用下面的脚本来完成拷贝和安装：
+接下来，在要添加到网格的每台计算机上运行以下命令：
 
-{{< text bash >}}
-$ export GCP_OPTS="--zone MY_ZONE --project MY_PROJECT"
-$ export SERVICE_NAMESPACE=vm
-{{< /text >}}
-
-如果是在 GCE 虚拟机上，可以运行：
-
-{{< text bash >}}
-$ @install/tools/setupMeshEx.sh@ gceMachineSetup VM_NAME
-{{< /text >}}
-
-否则运行：
-
-{{< text bash >}}
-$ @install/tools/setupMeshEx.sh@ machineSetup VM_NAME
-{{< /text >}}
-
-这里 GCE 提供了更好的用户体验，这是因为 Node Agent 始终可以依赖 GCE metadata instance 文档来进行 Citadel 认证。其他的服务器，例如自部署的服务器或虚拟机，必须创建一个密钥/证书的组合来作为凭据，这种凭据通常是有寿命限制的。当证书过期，就只能重新运行一次了。
-
-等价的手工操作：
-
------- 这里开始手工设置 ------
-
-* 为每个加入集群的服务器拷贝配置文件以及 Istio 的 Debian 文件，分别保存为 `/etc/dnsmasq.d/kubedns` 以及 `/var/lib/istio/envoy/cluster.env`。
-
-* 配置和校验 DNS 设置，需要安装 `dnsmasq`，并把这 DNS 服务设置加入 `/etc/resolv.conf` 或者通过 DHCP 脚本进行传播。要检查配置情况，只需检查虚拟机是否能够解析名称并连接到 Pilot 上，例如：
-
-    在虚拟机/外部主机:
+1.  使用 Envoy sidecar 安装 Debian 软件包：
 
     {{< text bash >}}
-    $ host istio-pilot.istio-system
-    {{< /text >}}
-
-    示例响应信息：
-
-    {{< text plain >}}
-    $ istio-pilot.istio-system has address 10.150.0.6
-    {{< /text >}}
-
-    检查是否可以解析集群 IP，实际地址可能会随不同的部署情况而不同。
-
-    {{< text bash >}}
-    $ host istio-pilot.istio-system.svc.cluster.local.
-    {{< /text >}}
-
-    示例响应信息：
-
-    {{< text plain >}}
-    istio-pilot.istio-system.svc.cluster.local has address 10.63.247.248
-    {{< /text >}}
-
-    用类似的方法检查 `istio-ingress`：
-
-    {{< text bash >}}
-    $ host istio-ingress.istio-system.svc.cluster.local.
-    {{< /text >}}
-
-    示例响应信息：
-
-    {{< text plain >}}
-    istio-ingress.istio-system.svc.cluster.local has address 10.63.243.30
-    {{< /text >}}
-
-* 检查虚拟机到 Pilot 或者端点的连接来验证连通性
-
-    {{< text bash json >}}
-    $ curl 'http://istio-pilot.istio-system:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-    {
-      "hosts": [
-       {
-        "ip_address": "10.60.1.4",
-        "port": 8080
-       }
-      ]
-    }
-    {{< /text >}}
-
-    在虚拟机上使用上面的地址。会直接连接到运行中的 istio-pilot pod 上。
-
-    {{< text bash >}}
-    $ curl 'http://10.60.1.4:8080/v1/registration/istio-pilot.istio-system.svc.cluster.local|http-discovery'
-    {{< /text >}}
-
-* 解开 Istio 的 Secret 对象，并复制到服务器上。包含 Citadel 的 Istio，即使没有启用自动的 双向 TLS 认证，也会生成 Istio secret（每个 Service account 都会生成 Secret，命名为 `istio.<serviceaccount>`）。这里建议进行这个操作，这样以后启用 双向 TLS 或者未来升级到缺省启用 双向 TLS 的版本会更加方便。
-
-    `ACCOUNT` 缺省就是 `default`，或者 `SERVICE_ACCOUNT` 环境变量。
-    `NAMESPACE` 缺省为当前命名空间，或者 `SERVICE_NAMESPACE` 环境变量（这一步骤通过 machineSetup 完成）在 Mac 上可使用 `brew install base64` 或者 `set BASE64_DECODE="/usr/bin/base64 -D"`。
-
-    {{< text bash >}}
-    $ @install/tools/setupMeshEx.sh@ machineCerts ACCOUNT NAMESPACE
-    {{< /text >}}
-
-    生成的几个文件 (`key.pem`, `root-cert.pem`, `cert-chain.pem`) 必须复制到每台服务器的 `/etc/certs`，让 `istio-proxy` 访问。
-
-* 安装 Istio Debian 文件，启动 `istio` 以及 `istio-auth-node-agent` 服务。从 [GitHub 发布页面](https://github.com/istio/istio/releases) 可以得到 Debian 文件，或者：
-
-    {{< text bash >}}
-    $ source istio.VERSION # 定义 URL 和版本变量
-    $ curl -L ${PILOT_DEBIAN_URL}/istio-sidecar.deb > istio-sidecar.deb
+    $ curl -L https://storage.googleapis.com/istio-release/releases/1.0.0/deb/istio-sidecar.deb > istio-sidecar.deb
     $ dpkg -i istio-sidecar.deb
-    $ systemctl start istio
-    $ systemctl start istio-auth-node-agent
     {{< /text >}}
 
------- 手工配置结束 ------
+1.  将您在上一节中创建的 `cluster.env` 和 `*.pem` 文件复制到 VM。
 
-配置完成后，服务器就可以访问在 Kubernetes 集群上运行的服务，以及网格扩展之后包含的其他虚拟机。
+1.  添加 Istio 网关的 IP 地址（我们在[上一节](#preparing-the-kubernetes-cluster-for-expansion)中找到了）
+    到 `/etc/hosts` 或者
+    DNS 服务器。在我们的示例中，我们将使用 `/etc/hosts`，因为它是使事情正常工作的最简单方法。以下是
+    使用 Istio 网关地址更新 `/etc/hosts` 文件的示例：
 
-{{< text bash >}}
+    {{< text bash >}}
+    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
+    {{< /text >}}
+
+1.  在 `/etc/certs/` 下安装 `root-cert.pem`、`key.pem` 和 `cert-chain.pem`。
+
+    {{< text bash >}}
+    $ sudo mkdir /etc/certs
+    $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
+    {{< /text >}}
+
+1.  在 `/var/lib/istio/envoy/` 下安装 `cluster.env`。
+
+    {{< text bash >}}
+    $ sudo cp cluster.env /var/lib/istio/envoy
+    {{< /text >}}
+
+1.  将 `/etc/certs/` 和 `/var/lib/istio/envoy/` 中的文件的所有权转移给 Istio 代理。
+
+    {{< text bash >}}
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
+    {{< /text >}}
+
+1.  验证节点代理是否有效：
+
+    {{< text bash >}}
+    $ sudo node_agent
+    ....
+    CSR 成功获得批准。将在 1079h59m59.84568493s 续订证书
+    {{< /text >}}
+
+1.  使用 `systemctl` 启动 Istio。
+
+    {{< text bash >}}
+    $ sudo systemctl start istio-auth-node-agent
+    $ sudo systemctl start istio
+    {{< /text >}}
+
+设置完成后，计算机可以访问 Kubernetes 集群中运行的服务
+或在其他网格扩展机器上。
+
+以下示例显示使用网格扩展 VM 访问 Kubernetes 集群中运行的服务
+`/etc/hosts/`，在这种情况下使用 [Bookinfo 示例](/zh/docs/examples/bookinfo/)中的服务。
+
+1.  首先，在集群管理员机器上获取服务的虚拟 IP 地址（`clusterIP`）：
+
+    {{< text bash >}}
+$ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
+10.55.246.247
+    {{< /text >}}
+
+1.  然后在网格扩展机器上，将服务名称和地址添加到其 `etc/hosts` 文件中。然后你可以连接到
+    来自 VM 的集群服务，如下例所示：
+
+    {{< text bash >}}
+$ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
 $ curl productpage.bookinfo.svc.cluster.local:9080
 ... html content ...
-{{< /text >}}
-
-检查运行的进程：
-
-{{< text bash >}}
-$ ps aux |grep istio
-root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
-root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
-istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
-istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
-{{< /text >}}
-
-Istio 认证使用的 Node Agent 健康运行：
-
-{{< text bash >}}
-$ sudo systemctl status istio-auth-node-agent
-● istio-auth-node-agent.service - istio-auth-node-agent: The Istio auth node agent
-   Loaded: loaded (/lib/systemd/system/istio-auth-node-agent.service; disabled; vendor preset: enabled)
-   Active: active (running) since Fri 2017-10-13 21:32:29 UTC; 9s ago
-     Docs: https://istio.io/
- Main PID: 6941 (node_agent)
-    Tasks: 5
-   Memory: 5.9M
-      CPU: 92ms
-   CGroup: /system.slice/istio-auth-node-agent.service
-           └─6941 /usr/local/istio/bin/node_agent --logtostderr
-
-Oct 13 21:32:29 demo-vm-1 systemd[1]: Started istio-auth-node-agent: The Istio auth node agent.
-Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.469314    6941 main.go:66] Starting Node Agent
-Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.469365    6941 nodeagent.go:96] Node Agent starts successfully.
-Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.483324    6941 nodeagent.go:112] Sending CSR (retrial #0) ...
-Oct 13 21:32:29 demo-vm-1 node_agent[6941]: I1013 21:32:29.862575    6941 nodeagent.go:128] CSR is approved successfully. Will renew cert in 29m59.137732603s
-{{< /text >}}
-
-## 在网格扩展服务器上运行服务
-
-* 配置 Sidecar 来拦截端口，这一配置存在于 `/var/lib/istio/envoy/sidecar.env`，使用 `ISTIO_INBOUND_PORTS` 环境变量。
-
-    示例 (在运行服务的虚拟机上):
-
-    {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=3306,8080" > /var/lib/istio/envoy/sidecar.env
-    $ systemctl restart istio
     {{< /text >}}
 
-* 手工配置一个没有选择器的服务和端点，用来承载没有对应 Kubernetes Pod 的服务。
+## 在网格扩展机器上运行服务{#running-services-on-a-mesh-expansion-machine}
 
-    例如在一个有权限的服务器上修改 Kubernetes 服务：
+通过配置 [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 可以将 VM 服务添加到网格中。
+您可以手动向 Istio 的网格模型添加其他服务，以便其他服务可以找到并引导流量到它们。每个
+`ServiceEntry` 配置包含暴露特定服务的所有 VM 的 IP 地址，端口和标签（如果适用），
+如下例所示。
+
+{{< text bash yaml >}}
+$ kubectl -n test apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: vm1
+spec:
+   hosts:
+   - vm1.test.svc.cluster.local
+   ports:
+   - number: 80
+     name: http
+     protocol: HTTP
+   resolution: STATIC
+   endpoints:
+    - address: 10.128.0.17
+      ports:
+        http: 8080
+      labels:
+        app: vm1
+        version: 1
+EOF
+{{< /text >}}
+
+## 故障排除{#troubleshooting}
+
+以下是常见网格扩展问题的一些基本故障排除步骤。
+
+*    在从 VM 发出请求到集群时，请确保不以 `root` 或 `istio-proxy` 用户身份运行请求。默认情况下，Istio 将两个用户排除在拦截之外。
+
+*    验证计算机是否可以访问集群中运行的所有工作负载的 IP。例如：
 
     {{< text bash >}}
-    $ istioctl -n onprem register mysql 1.2.3.4 3306
-    $ istioctl -n onprem register svc1 1.2.3.4 http:7000
+    $ kubectl get endpoints -n bookinfo productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
+    10.52.39.13
     {{< /text >}}
 
-经过这个步骤，Kubernetes Pod 和其他网格扩展包含的服务器就可以访问运行于这一服务器上的服务了。
+    {{< text bash >}}
+    $ curl 10.52.39.13:9080
+    html output
+    {{< /text >}}
+
+*    检查节点代理和 sidecar 的状态：
+
+    {{< text bash >}}
+    $ sudo systemctl status istio-auth-node-agent
+    $ sudo systemctl status istio
+    {{< /text >}}
+
+*    检查进程是否正在运行。以下是您在 VM 上看到的进程示例，如果您运行 `ps`，过滤为 `istio`：
+
+    {{< text bash >}}
+    $ ps aux | grep istio
+    root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
+    root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
+    istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
+    istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
+    {{< /text >}}
+
+*    检查 Envoy 访问和错误日​​志：
+
+    {{< text bash >}}
+    $ tail /var/log/istio/istio.log
+    $ tail /var/log/istio/istio.err.log
+    {{< /text >}}
