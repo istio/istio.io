@@ -61,7 +61,6 @@ run 3 linters as a precommit requirement:
 You can run these linters locally using:
 
 ```bash
-$ make build
 $ make gen
 $ make lint
 ```
@@ -79,6 +78,22 @@ And you can set any value to an environment variable named "INTERNAL_ONLY", then
 ```bash
 $ make INTERNAL_ONLY=True lint
 ```
+
+## Optimizing
+
+You can run an SVG optimization tool over all SVG content in the site with:
+
+```bash
+$ make opt
+```
+
+This will go through all SVG files and rewrite them in place. You can then
+commit the resulting changes to the repo. The optimized images should look
+identical but can be considerably smaller than the original, thus saving
+load time for site visitors.
+
+Note that this repo is registered with the ImgBot GitHub app, which
+ensures we have optimal PNG images in our repo.
 
 ## Site infrastructure
 
