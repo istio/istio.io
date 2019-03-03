@@ -4,7 +4,7 @@ description: Instructions to install the Istio service mesh in a Kubernetes clus
 weight: 55
 keywords: [kubernetes]
 aliases:
-        - /docs/setup/kubernetes/quick-start/
+    - /docs/setup/kubernetes/quick-start/
 ---
 
 {{< tip >}}

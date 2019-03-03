@@ -4,7 +4,6 @@ description: Instructions to install Istio using IBM Cloud Public or IBM Cloud P
 weight: 70
 keywords: [kubernetes,ibm,icp]
 aliases:
-    - /docs/setup/kubernetes/quick-start-gke-dm/
     - /docs/setup/kubernetes/quick-start-ibm/
 ---
 
