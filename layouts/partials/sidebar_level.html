@@ -3,7 +3,16 @@
 {{ $current := .current }}
 {{ $collapse := .collapse }}
 
-<ul{{ if not $collapse }} class="show"{{ end }}>
+{{ $leafSection := true }}
+{{ range $pages }}
+    {{ if eq .Parent $parent }}
+            {{ if not .IsPage }}
+                {{ $leafSection = false }}
+            {{ end }}
+    {{ end }}
+{{ end }}
+
+<ul class="{{ if not $collapse }}show{{ end }}{{ if $leafSection }} leaf-section{{ end }}">
     {{ range $pages }}
         {{ if eq .Parent $parent }}
             <li>
