@@ -7,7 +7,7 @@ keywords: [kubernetes,vms]
 
 本指南提供了将 VM 和裸机主机集成到 Kubernetes 上部署的 Istio 网格中的说明。
 
-## 先决条件{#Prerequisites}
+## 先决条件{#prerequisites}
 
 * 已经在 Kubernetes 上建立了 Istio。如果还没有这样做，可以在[安装指南](/zh/docs/setup/kubernetes/install/kubernetes/)中找到方法。
 
@@ -17,11 +17,11 @@ keywords: [kubernetes,vms]
 
 * 如果您[在使用 Helm 安装时](/zh/docs/setup/kubernetes/install/helm/)尚未启用网格扩展。您需要 [Helm 客户端](https://docs.helm.sh/using_helm/)来为集群启用网格扩展。
 
-## 安装步骤{#Installation-steps}
+## 安装步骤{#installation-steps}
 
 安装过程包含服务网格的扩展准备、扩展安装以及虚拟机的配置过程。
 
-### 扩展准备工作：设置 Kubernetes{#preparation-the-kubernetes-cluster-for-expansion}
+### 扩展准备工作：设置 `Kubernetes`{#preparation-the-kubernetes-cluster-for-expansion}
 
 将非 Kubernetes 服务添加到 Istio 网格的第一步是安装配置 Istio，并生成允许网格扩展 VM 连接到网格的配置文件。要准备集群以进行网格扩展，请在具有集群管理员权限的计算机上运行以下命令：
 
@@ -51,7 +51,7 @@ keywords: [kubernetes,vms]
     有关在[Helm 文档](https://docs.helm.sh/using_helm/#using-helm)中自定义 Helm 图表的更多信息。
     {{< /tip >}}
 
-1.  找到 Istio ingress 网关的 IP 地址，因为网格扩展机器将访问 [Citadel](/zh/docs/concepts/security/) 和 [Pilot](/zh/docs/concepts/traffic-management/#pilot-and-envoy)。
+1.  找到 Istio ingress 网关的 IP 地址，因为网格扩展机器将访问 [Citadel](/zh/docs/concepts/security/) 和 [Pilot](/zh/docs/concepts/traffic-management/#Pilot-和-Envoy)。
     {{< text bash >}}
     $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GWIP
@@ -94,7 +94,7 @@ keywords: [kubernetes,vms]
           -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
     {{< /text >}}
 
-### 设置虚拟机{#Setting-up-the-machines}
+### 设置虚拟机{#setting-up-the-machines}
 
 接下来，在要添加到网格的每台计算机上运行以下命令：
 
@@ -172,9 +172,9 @@ $ curl productpage.bookinfo.svc.cluster.local:9080
 ... html content ...
     {{< /text >}}
 
-## 在网格扩展机器上运行服务{#Running-services-on-a-mesh-expansion-machine}
+## 在网格扩展机器上运行服务{#running-services-on-a-mesh-expansion-machine}
 
-通过配置 [`ServiceEntry`](/zh/docs/reference/config/networking/v1alpha3/service-entry/) 可以将 VM 服务添加到网格中。
+通过配置 [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 可以将 VM 服务添加到网格中。
 您可以手动向 Istio 的网格模型添加其他服务，以便其他服务可以找到并引导流量到它们。每个
 `ServiceEntry` 配置包含暴露特定服务的所有 VM 的 IP 地址，端口和标签（如果适用），
 如下例所示。
@@ -203,7 +203,7 @@ spec:
 EOF
 {{< /text >}}
 
-## 故障排除{#Troubleshooting}
+## 故障排除{#troubleshooting}
 
 以下是常见网格扩展问题的一些基本故障排除步骤。
 
