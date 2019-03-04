@@ -1,5 +1,5 @@
 ---
-title: How can I join Istio Slack workspace?
+title: How can I join the Istio Slack workspace?
 weight: 180
 ---
 
