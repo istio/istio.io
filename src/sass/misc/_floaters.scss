@@ -58,8 +58,10 @@
 }
 
 #switch-lang-container, #edit-this-page-container, #report-site-bugs-container {
-    @media print {
-        display: none;
+    display: none;
+
+    @media screen {
+        display: block;
     }
 
     #switch-lang, #edit-this-page, #report-site-bugs {
@@ -81,18 +83,27 @@
 
 #switch-lang-container {
     #switch-lang {
-        bottom: calc(6rem + #{$footerHeight});
+        bottom: 1rem;
+        @media (min-width: $bp-sm) {
+            bottom: calc(1rem + #{$footerHeight});
+        }
     }
 }
 
 #edit-this-page-container {
     #edit-this-page {
-        bottom: calc(3.5rem + #{$footerHeight});
+        bottom: 6rem;
+        @media (min-width: $bp-sm) {
+            bottom: calc(6rem + #{$footerHeight});
+        }
     }
 }
 
 #report-site-bugs-container {
     #report-site-bugs {
-        bottom: calc(1rem + #{$footerHeight});
+        bottom: 3.5rem;
+        @media (min-width: $bp-sm) {
+            bottom: calc(3.5rem + #{$footerHeight});
+        }
     }
 }

@@ -1,5 +1,6 @@
 ---
 title: Istio
+description: Connect, secure, control, and observe services.
 ---
 <!-- these script blocks are only for the primary English home page -->
 <script type="application/ld+json">

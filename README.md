@@ -14,106 +14,16 @@ file to learn about the overall Istio project and how to get in touch with us. T
 contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
-* [Editing and testing content](#editing-and-testing-content)
-* [Linting](#linting)
-* [Site infrastructure](#site-infrastructure)
+* [Editing and building](#editing-and-building)
 * [Versions and releases](#versions-and-releases)
   * [How versioning works](#how-versioning-works)
   * [Publishing content immediately](#publishing-content-immediately)
   * [Creating a version](#creating-a-version)
 
-## Editing and testing content
+## Editing and building
 
-We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally, we use a docker
-image that contains Hugo. To build and serve the site, simply go to the root of the tree and do:
-
-```bash
-$ make serve
-```
-
-This will build the site and start a web server hosting the site. You can then connect to the web server
-at `http://localhost:1313`.
-
-To make and serve the site from a remote server, override `ISTIO_SERVE_DOMAIN` as follows with the IP address
-or DNS Domain of the server as follows:
-
-```bash
-$ export ISTIO_SERVE_DOMAIN=192.168.7.105
-$ make serve
-```
-This will build the site and start a web server hosting the site. You can then connect to the web server
-at `http://192.168.7.105:1313`.
-
-All normal content for the site is located in the `content` directory, as well as in sibling translated
-directories such as content_zh.
-
-## Linting
-
-We use linters to ensure some base quality to the site's content. We currently
-run 3 linters as a precommit requirement:
-
-* HTML proofing, which ensures all your links are valid along with other checks.
-
-* Spell checking.
-
-* Style checking, which makes sure your markdown files comply with our common style rules.
-
-You can run these linters locally using:
-
-```bash
-$ make gen
-$ make lint
-```
-
-If you get spelling errors, you have three choices to address each:
-
-* It's a real typo, so fix your markdown.
-
-* It's a command/field/symbol name, so stick some `backticks` around it.
-
-* It's really valid, so go add the word to the `.spelling` file at the root of the repo.
-
-And you can set any value to an environment variable named "INTERNAL_ONLY", then the linter will not check external links. It looks like that:
-
-```bash
-$ make INTERNAL_ONLY=True lint
-```
-
-## Optimizing
-
-You can run an SVG optimization tool over all SVG content in the site with:
-
-```bash
-$ make opt
-```
-
-This will go through all SVG files and rewrite them in place. You can then
-commit the resulting changes to the repo. The optimized images should look
-identical but can be considerably smaller than the original, thus saving
-load time for site visitors.
-
-Note that this repo is registered with the ImgBot GitHub app, which
-ensures we have optimal PNG images in our repo.
-
-## Site infrastructure
-
-Here's how things work:
-
-* Primary site content is in the `content` directory. This is mostly
-markdown files which Hugo processes into HTML.
-
-* Additional site content is in the `static` directory. These are files that
-Hugo directly copies to the site without any processing.
-
-* The `src` directory contains the source material for certain files from the
-`static` directory. You use
-
-    ```bash
-    $ make build
-    ```
-
-    to build the material from the `src` directory and refresh what's in the `generated`
-    directory.
+To learn how to edit and build this repo's content, please refer to
+[Creating and Editing Pages](https://preliminary.istio.io/about/contribute/creating-and-editing-pages/).
 
 ## Versions and releases
 
