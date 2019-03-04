@@ -2,6 +2,8 @@
 {{ $parent := .parent }}
 {{ $current := .current }}
 {{ $collapse := .collapse }}
+{{ $top := .top }}
+{{ $labelledby := .labelledby }}
 
 {{ $leafSection := true }}
 {{ range $pages }}
@@ -12,24 +14,26 @@
     {{ end }}
 {{ end }}
 
-<ul class="{{ if not $collapse }}show{{ end }}{{ if $leafSection }} leaf-section{{ end }}">
+<ul role="{{ if $top }}tree{{ else }}group{{ end }}" aria-expanded="{{ if $collapse }}false{{ else }}true{{ end }}"{{ if $leafSection }} class="leaf-section"{{ end }} {{ if $labelledby}}aria-labelledby="{{ $labelledby }}"{{ end }}>
     {{ range $pages }}
         {{ if eq .Parent $parent }}
-            <li>
-                {{ if not .IsPage }}
+            {{ if not .IsPage }}
+                <li role="treeitem" aria-label="{{ .LinkTitle}}">
                     {{ $collapse := not (.IsAncestor $current) }}
 
-                    <button{{ if not $collapse }} class="show"{{ end }}></button><a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
+                    <button{{ if not $collapse }} class="show"{{ end }} aria-hidden="true"></button><a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
 
-                    {{ partial "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse) }}
-                {{ else }}
+                    {{ partial "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
+                </li>
+            {{ else }}
+                <li role="none">
                     {{ if eq $current.Permalink .Permalink }}
-                        <span class="current" title="{{ .Description }}">{{ .LinkTitle }}</span>
+                        <span role="treeitem" class="current" title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
-                        <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                        <a role="treeitem" title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
                     {{ end }}
-                {{ end }}
-            </li>
+                </li>
+            {{ end }}
         {{ end }}
     {{ end }}
 </ul>

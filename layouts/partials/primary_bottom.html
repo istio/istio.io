@@ -4,22 +4,24 @@
             {{ if .Scratch.Get "seeAlso" }}
                 {{ $related := .Site.RegularPages.Related . | first 6 }}
                 {{ with $related }}
-                    <h2 id="see-also">{{ i18n "see_also" }}</h2>
+                    <nav id="see-also">
+                        <h2>{{ i18n "see_also" }}</h2>
 
-                    <div class="see-also">
-                        {{ range . }}
-                            <div class="entry">
-                                <p class="link"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
-                                <p class="desc">{{ .Description }}</p>
-                            </div>
-                        {{ end }}
-                    </div>
+                        <div class="see-also">
+                            {{ range . }}
+                                <div class="entry">
+                                    <p class="link"><a class="not-for-endnotes" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
+                                    <p class="desc">{{ .Description }}</p>
+                                </div>
+                            {{ end }}
+                        </div>
+                    </nav>
                 {{ end }}
             {{ end }}
-        </main>
+        </article>
 
         {{ if or .NextInSection .PrevInSection }}
-            <div class="pagenav">
+            <nav class="pagenav">
                 <div class="left">
                     {{ if .NextInSection }}
                         <p>
@@ -34,7 +36,7 @@
                         </p>
                     {{ end }}
                 </div>
-            </div>
+            </nav>
         {{ end }}
 
         <div id="endnotes-container" aria-hidden="true">
@@ -52,4 +54,4 @@
             </nav>
         </div>
     {{ end }}
-</div>
+</main>

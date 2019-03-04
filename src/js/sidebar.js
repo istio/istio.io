@@ -10,10 +10,16 @@ function handleSidebar() {
     // toggle subtree in sidebar
     queryAll(sidebar, 'button').forEach(o => {
         listen(o, click, e => {
-            let el = e.currentTarget;
-            el.classList.toggle("show");
-            el.nextElementSibling.nextElementSibling.classList.toggle("show");
+            let button = e.currentTarget;
+            button.classList.toggle("show");
+            const ul = button.nextElementSibling.nextElementSibling;
+            if (ul.getAttribute("aria-expanded") === "true") {
+                ul.setAttribute("aria-expanded", "false");
+            } else {
+                ul.setAttribute("aria-expanded", "true");
+            }
 
+            let el = ul;
             do {
                 el = el.parentElement;
             } while (!el.classList.contains('body'));

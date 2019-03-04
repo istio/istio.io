@@ -58,8 +58,10 @@
 }
 
 #switch-lang-container, #edit-this-page-container, #report-site-bugs-container {
-    @media print {
-        display: none;
+    display: none;
+
+    @media screen {
+        display: block;
     }
 
     #switch-lang, #edit-this-page, #report-site-bugs {
