@@ -8,7 +8,9 @@ keywords: [security,mutual-tls,https]
 这个任务展示了 Istio 双向 TLS 是如何与 HTTPS 服务一起工作的。它包括:
 
 * 在没有 Istio sidecar 的情况下部署 HTTPS 服务
+
 * 关闭 Istio 双向 TLS 认证情况下部署 HTTPS 服务
+
 * 部署一个启动双向 TLS 的 HTTPS 服务。对于每个部署，请连接到此服务并验证其是否有效。
 
 当 Istio sidecar 使用 HTTPS 服务部署时，代理将自动从 L7 降至 L4（无论是否启用了双向 TLS），这就意味着它不会终止原来的 HTTPS 通信。这就是为什么 Istio 可以在 HTTPS 服务上工作。
@@ -39,7 +41,7 @@ configmap "nginxconfigmap" created
 本节将创建一个基于 nginx 的 HTTPS 服务。
 
 {{< text bash >}}
-$ kubectl apply -f samples/https/nginx-app.yaml
+$ kubectl apply -f @samples/https/nginx-app.yaml@
 service "my-nginx" created
 replicationcontroller "my-nginx" created
 {{< /text >}}
@@ -47,7 +49,7 @@ replicationcontroller "my-nginx" created
 然后，创建另一个 pod 来调用这个服务。
 
 {{< text bash >}}
-$ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
 {{< /text >}}
 
 获取 pods
@@ -90,13 +92,13 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 删除这个 HTTPS 服务
 
 {{< text bash >}}
-$ kubectl delete -f samples/https/nginx-app.yaml
+$ kubectl delete -f @samples/https/nginx-app.yaml@
 {{< /text >}}
 
 用一个 sidecar 来部署它
 
 {{< text bash >}}
-$ kubectl apply -f <(bin/istioctl kube-inject -f samples/https/nginx-app.yaml)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 {{< /text >}}
 
 确保这个 pod 已经启动并运行
@@ -111,7 +113,7 @@ sleep-847544bbfc-d27jg            2/2       Running   0          18h
 运行
 
 {{< text bash >}}
-$ kubectl exec sleep-847544bbfc-d27jg -c sleep -- curl https://my-nginx -k
+$ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://my-nginx -k
 ...
 <h1>Welcome to nginx!</h1>
 ...
@@ -174,10 +176,10 @@ prometheus-86cb6dd77c-ntw88                1/1       Running     0          23h
 然后重新部署 HTTPS 服务和 sleep 服务
 
 {{< text bash >}}
-$ kubectl delete -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml)
-$ kubectl apply -f <(bin/istioctl kube-inject -f samples/sleep/sleep.yaml)
-$ kubectl delete -f <(bin/istioctl kube-inject -f samples/https/nginx-app.yaml)
-$ kubectl apply -f <(bin/istioctl kube-inject -f samples/https/nginx-app.yaml)
+$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 {{< /text >}}
 
 确保 pod 已启动并正在运行
@@ -213,9 +215,8 @@ command terminated with exit code 35
 ## 清除
 
 {{< text bash >}}
-$ kubectl delete -f samples/sleep/sleep.yaml
-$ kubectl delete -f samples/https/nginx-app.yaml
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/https/nginx-app.yaml@
 $ kubectl delete configmap nginxconfigmap
 $ kubectl delete secret nginxsecret
 {{< /text >}}
-
