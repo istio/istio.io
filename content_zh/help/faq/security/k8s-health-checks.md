@@ -10,7 +10,9 @@ weight: 50
 
 您可以使用单独的端口进行健康检查，并只在常规服务端口上启用双向 TLS。请参阅 [Istio 服务的健康检查](/help/ops/setup/app-health-check/)了解更多信息。
 
-另一种解决方法是对健康检查使用 [liveness 命令](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)，例如，可以在服务 Pod 中安装 `curl` 并在 Pod 内对自身执行 `curl` 操作。
+由于存在新功能的风险，我们默认情况下不会启用上述功能。未来的推出计划将在 [GitHub 问题](https://github.com/istio/istio/issues/10357)上进行跟踪。
+
+为了降低风险，另一种解决方法是对健康检查使用 [liveness 命令](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)，例如，可以在服务 Pod 中安装 `curl` 并在 Pod 内对自身执行 `curl` 操作。
 
 一个 readiness 探针的例子：
 
