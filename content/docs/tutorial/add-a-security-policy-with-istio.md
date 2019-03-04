@@ -161,8 +161,8 @@ In this section you apply Istio
 [Role-based Access Control (RBAC)](https://preliminary.istio.io/docs/concepts/security/#authorization).
 
 1.   Secure access control in Istio is based on
-     [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
-     as the identities of the pods. Add Kubernetes Service Accounts to _productpage_ and _reviews_.
+     [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/), which serve as as the [identities](https://en.wikipedia.org/wiki/Digital_identity) of the pods.
+     Add Kubernetes Service Accounts to _productpage_ and _reviews_.
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml
