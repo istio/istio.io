@@ -37,7 +37,7 @@ To verify that your microservices behave well under failures, first you inject a
     {{< /text >}}
 
     According to the log messages above, a call to _ratings_ returned `500` while _reviews_ managed to handle the error
-    and returned `200`. You did get _cascading failire_, a failing microservice or a network error did not cause the
+    and returned `200`. You didn't get _cascading failire_, a failing microservice or a network error did not cause the
     whole chain of calls to fail. The application continued to function, but with reduced functionality, just not
     presenting ratings stars. You experience _graceful degradation_ which is good.
 
