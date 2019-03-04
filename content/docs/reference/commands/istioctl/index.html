@@ -551,9 +551,9 @@ calculated over a time interval of 1 minute.
 </p>
 <pre class="language-bash"><code>istioctl experimental metrics &lt;workload name&gt;...
 </code></pre>
-<p>
-m
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental m &lt;workload name&gt;...
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1118,9 +1118,6 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </code></pre>
 <h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
 <p>A group of commands used to retrieve information about proxy configuration from the Envoy config dump</p>
-<p>
-pc
-<p>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1213,9 +1210,9 @@ pc
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-b
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config b &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1309,9 +1306,10 @@ b
 <p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config cluster &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-clustersc
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1431,9 +1429,10 @@ clustersc
 <p>Retrieve information about endpoint configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-endpointsep
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config endpoints &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1558,9 +1557,10 @@ endpointsep
 <p>Retrieve information about listener configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config listener &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-listenersl
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1675,9 +1675,10 @@ listenersl
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config route &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-routesr
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config routes &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1784,9 +1785,9 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <p></p>
 <pre class="language-bash"><code>istioctl proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
-<p>
-ps
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl ps [&lt;pod-name[.namespace]&gt;] [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
