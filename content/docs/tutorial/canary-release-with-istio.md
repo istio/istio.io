@@ -44,8 +44,8 @@ a new version and enable traffic to it for a tester with login name `jason`.
     deployment "reviews-v3" created
     {{< /text >}}
 
-1.  Check the pods of `reviews`. Note that you have three pods each of the different version, and each of them has two
-    containers (an Istio sidecar was injected automatically in the `reviews v3`).
+1.  Check the pods of `reviews`. Note that you have one pod for each of the different versions,
+    and each of the pods has two containers (an Istio sidecar was injected automatically in the `reviews v3`).
 
     {{< text bash >}}
     $ kubectl get pods -l app=reviews
