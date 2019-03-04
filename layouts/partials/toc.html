@@ -21,8 +21,8 @@
 
     {{ if or (gt $len 0) ($page.Scratch.Get "seeAlso") }}
         {{ $page.Scratch.Set "needTOC" true }}
-        <nav id="TableOfContents">
-            <ul>
+        <nav id="TableOfContents" aria-label="Table of Contents">
+            <ul role="tree">
                 {{ $page.Scratch.Set "level" 50 }}
                 {{ range $h := $headers }}
                     {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
@@ -33,16 +33,17 @@
                     {{ if gt $level $current }}
                         {{ $delta := sub $level $current }}
                         {{ range $index, $num := (seq $delta) }}
-                            <ul>
+                            <ul role="group">
                         {{ end }}
                     {{ else if lt $level $current }}
                         {{ $delta := sub $current $level }}
                         {{ range $index, $num := (seq $delta) }}
                             </ul>
+                            </li>
                         {{ end }}
                     {{ end }}
 
-                    <li><a href="#{{ $id }}">{{ $title | safeHTML }}</a></li>
+                    <li role="none" aria-label="{{ $title | safeHTML }}"><a role="treeitem" href="#{{ $id }}">{{ $title | safeHTML }}</a>
 
                     {{ $page.Scratch.Set "level" $level }}
                 {{ end }}
@@ -50,6 +51,7 @@
                 {{ $delta := sub ($page.Scratch.Get "level") 50 }}
                 {{ range $index, $num := (seq $delta) }}
                     </ul>
+                    </li>
                 {{ end }}
 
                 {{ if $page.Scratch.Get "seeAlso" }}

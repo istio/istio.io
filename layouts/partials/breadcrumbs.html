@@ -4,20 +4,23 @@
     {{ if $page }}
         {{ $.Scratch.Add "urls" (slice $page.Permalink) }}
         {{ $.Scratch.Add "titles" (slice $page.LinkTitle) }}
+        {{ $.Scratch.Add "descriptions" (slice $page.Description) }}
         {{ $page = $page.Parent }}
     {{ end }}
 {{ end }}
 
-{{ $len := len ($.Scratch.Get "titles") }}
-{{ range $index, $element := $.Scratch.Get "titles" }}
-    {{ $i := sub (sub $len $index) 1 }}
-    {{ $title := index ($.Scratch.Get "titles") $i }}
-    {{ $url := index ($.Scratch.Get "urls") $i }}
+<ol>
+    {{ $len := len ($.Scratch.Get "titles") }}
+    {{ range $index, $element := $.Scratch.Get "titles" }}
+        {{ $i := sub (sub $len $index) 1 }}
+        {{ $title := index ($.Scratch.Get "titles") $i }}
+        {{ $description := index ($.Scratch.Get "descriptions") $i }}
+        {{ $url := index ($.Scratch.Get "urls") $i }}
 
-    {{ if ne $i 0 }}
-        <a href="{{- $url -}}">{{- $title -}}</a>
-        <span>/</span>
-    {{ else }}
-        {{ $title }}
+        {{ if ne $i 0 }}
+            <li><a href="{{- $url -}}" title="{{- $description -}}">{{- $title -}}</a></li>
+        {{ else }}
+            <li>{{- $title -}}</li>
+        {{ end }}
     {{ end }}
-{{ end }}
+</ol>

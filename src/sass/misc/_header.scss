@@ -9,6 +9,10 @@ header {
     left: 0;
     z-index: $header-z;
 
+    @media print {
+        display: none;
+    }
+
     #brand {
         display: inline-block;
         font-size: 1.25rem;
