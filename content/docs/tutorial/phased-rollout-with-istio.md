@@ -75,8 +75,8 @@ then to 20% and so on.
     perform request 20 : black
     {{< /text >}}
 
-    In the cases _reviews v2_ is called, the `(standard output)` string is printed. Note that the percentage of
-    requests sent to _reviews v2_ is approximately 10%.
+    The color of the review stars is printed for each request, _black_ for _v2_ and _red_ for _v3_.
+    Note that the percentage of requests sent to _reviews v3_ is approximately 10%.
 
 1.  Check the distribution of the requests in your log database,
     at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
@@ -114,7 +114,7 @@ then to 20% and so on.
     sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v2"}) + sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v3"})
     {{< /text >}}
 
-1.  Increase the rollout of _reviews v2_, this time to 20%:
+1.  Increase the rollout of _reviews v3_, this time to 20%:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -138,11 +138,11 @@ then to 20% and so on.
     EOF
     {{< /text >}}
 
-1.  Send multiple requests again and see that the number of requests sent to _reviews v2_ was increased.
+1.  Send multiple requests again and see that the number of requests sent to _reviews v3_ was increased.
 
-1.  **Exercise**: direct 70% of the traffic to _reviews v2_.
+1.  **Exercise**: direct 70% of the traffic to _reviews v3_.
 
-1.  Finally, direct all the traffic to _reviews v2_.
+1.  Finally, direct all the traffic to _reviews v3_.
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-reviews-v3.yaml
