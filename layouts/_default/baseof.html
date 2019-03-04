@@ -141,11 +141,13 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
         {{ end }}
 
-        <div id="scroll-to-top-container">
-            <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>
-                {{ partial "icon.html" "top" }}
-            </button>
-        </div>
+        <nav>
+            <div id="scroll-to-top-container">
+                <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>
+                    {{ partial "icon.html" "top" }}
+                </button>
+            </div>
+        </nav>
 
         {{ if .Site.Data.args.preliminary }}
             <div id="switch-lang-container">
