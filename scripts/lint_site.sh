@@ -40,7 +40,7 @@ check_content() {
     find ${TMP} -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
 
     # elide {#*}
-    find ${TMP} -type f -name \*.md -exec sed -E -i "s/\{\#.*\}/ANCHOR/g" {} ";"
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/\{\#.*\}$/ ANCHOR/g" {} ";"
 
 
     # switch to the temp dir
