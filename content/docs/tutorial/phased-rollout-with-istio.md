@@ -91,7 +91,7 @@ then to 20% and so on.
 
     {{< image width="80%"
         link="images/prometheus-reviews-graph.png"
-        caption="Prometheus Query UI, distribution of calls to reviews v1 and reviews v2"
+        caption="Prometheus Query UI, distribution of calls to reviews v2 and reviews v3"
         >}}
 
 1.  Execute the following queries:
