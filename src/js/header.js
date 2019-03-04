@@ -57,12 +57,6 @@ function handleHeader() {
         getById(searchForm).classList.toggle(openHamburger);
         getById(searchTextbox).focus();
     });
-
-    listen(window, "resize", () => {
-        getById('brand').classList.remove(openHamburger);
-        getById(headerLinks).classList.remove(openHamburger);
-        getById(searchForm).classList.remove(openHamburger);
-    });
 }
 
 handleHeader();
