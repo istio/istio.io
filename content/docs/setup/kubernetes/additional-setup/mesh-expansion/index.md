@@ -23,8 +23,7 @@ is not required to have access to the cluster IP addresses assigned by Kubernete
 include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
 server, or configuring the IPs in any other DNS server accessible from the VM.
 
-* If you haven't already enabled mesh expansion [at install time with Helm](/docs/setup/kubernetes/install/helm/), you have
-installed the [Helm client](https://docs.helm.sh/using_helm/). You'll need it to enable mesh expansion for the cluster.
+* Mesh expansion has to be enabled by Helm. You need to install the [Helm client](https://docs.helm.sh/using_helm/).
 
 {{< tip >}}
 The following instructions assume that the expansion VM is running on GCE and use Google platform-specific commands for some of the steps.
