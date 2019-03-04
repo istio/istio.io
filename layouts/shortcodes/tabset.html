@@ -6,13 +6,13 @@
 	{{- /* We don't use the inner content, but Hugo will complain if we don't reference it. */}}
 {{- end -}}
 
-<div class="tabset" id="{{ $tab_set_id }}">
+<div id="{{ $tab_set_id }}" role="tablist">
 	<div class="tab-strip" data-cookie-name="{{ $cookie_name }}">
 		{{- range $i, $e := $tabs -}}
 			{{- $id := printf "%s-%d" $tab_set_id $i -}}
-			<a class="not-for-endnotes{{ if eq $i 0 }} active{{ end }}" data-cookie-value="{{ .cookie_value }}"
-				data-tab="{{ $id }}"><span>{{ trim .name " " }}</span>
-			</a>
+			<button {{ if eq $i 0 }}class="active"{{ end }} data-cookie-value="{{ .cookie_value }}"
+				data-tab="{{ $id }}-panel" id="{{ $id }}-tab" role="tab"><span>{{ trim .name " " }}</span>
+			</button>
 		{{- end -}}
 	</div>
 
@@ -20,7 +20,7 @@
 		{{- range $i, $e := $tabs -}}
 			{{- $id := printf "%s-%d" $tab_set_id $i -}}
 
-			<div {{ if eq $i 0 }}class="active"{{ end }} id="{{ $id }}">
+			<div {{ if eq $i 0 }}class="active"{{ end }} id="{{ $id }}-panel" role="tabpanel" aria-labelledby="{{ $id }}-tab">
 				{{- with .content -}}
 					{{- . -}}
 				{{- end -}}

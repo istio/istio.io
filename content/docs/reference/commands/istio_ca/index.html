@@ -64,8 +64,8 @@ number_of_entries: 4
 <td>Specifies path to kubeconfig file. This must be specified when not running inside a Kubernetes pod.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--listened-namespace &lt;string&gt;</code></td>
-<td>Select a namespace for the CA to listen to. If unspecified, Citadel tries to use the ${NAMESPACE} environment variable. If neither is set, Citadel listens to all namespaces.  (default ``)</td>
+<td><code>--listened-namespaces &lt;string&gt;</code></td>
+<td>Select the namespaces for the Citadel to listen to, separated by comma. If unspecified, Citadel tries to use the ${NAMESPACE} environment variable. If neither is set, Citadel listens to all namespaces.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--liveness-probe-interval &lt;duration&gt;</code></td>

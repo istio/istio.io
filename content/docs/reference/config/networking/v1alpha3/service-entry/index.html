@@ -119,7 +119,7 @@ spec:
 <p>The following example demonstrates the use of a dedicated egress gateway
 through which all external service traffic is forwarded.
 The &lsquo;exportTo&rsquo; field allows for control over the visibility of a service
-declaration to other namespaces in the mesh. By default a service is exported
+declaration to other namespaces in the mesh. By default, a service is exported
 to all namespaces. The following example restricts the visibility to the
 current namespace, represented by &ldquo;.&rdquo;, so that it cannot be used by other
 namespaces.</p>
@@ -177,7 +177,7 @@ spec:
   hosts:
   - httpbin.com
   exportTo:
-  - *
+  - &quot;*&quot;
   gateways:
   - mesh
   - istio-egressgateway
@@ -353,7 +353,7 @@ addresses are not supported in this field.</p>
 <td><code><a href="/docs/reference/config/networking/v1alpha3/gateway.html#Port">Port[]</a></code></td>
 <td>
 <p>REQUIRED. The ports associated with the external service. If the
-Endpoints are unix domain socket addresses, there must be exactly one
+Endpoints are Unix domain socket addresses, there must be exactly one
 port.</p>
 
 </td>
@@ -391,7 +391,7 @@ said port will be allowed (i.e. 0.0.0.0:<port>).</p>
 <td><code>string[]</code></td>
 <td>
 <p>A list of namespaces to which this service is exported. Exporting a service
-allows it to used by sidecars, gateways and virtual services defined in
+allows it to be used by sidecars, gateways and virtual services defined in
 other namespaces. This feature provides a mechanism for service owners
 and mesh administrators to control the visibility of services across
 namespace boundaries.</p>
@@ -400,12 +400,15 @@ namespace boundaries.</p>
 namespaces by default.</p>
 
 <p>The value &ldquo;.&rdquo; is reserved and defines an export to the same namespace that
-the service is declared in, similarly the value &ldquo;*&rdquo; is reserved and
+the service is declared in. Similarly the value &ldquo;*&rdquo; is reserved and
 defines an export to all namespaces.</p>
 
-<p>For a Kubernetes Service the equivalent effect can be achieved by setting
+<p>For a Kubernetes Service, the equivalent effect can be achieved by setting
 the annotation &ldquo;networking.istio.io/exportTo&rdquo; to a comma-separated list
 of namespace names.</p>
+
+<p>NOTE: in the current release, the <code>exportTo</code> value is restricted to
+&ldquo;.&rdquo; or &ldquo;*&rdquo; (i.e., the current namespace or all namespaces).</p>
 
 </td>
 </tr>
@@ -445,7 +448,7 @@ the mesh service.</p>
 <p>REQUIRED: Address associated with the network endpoint without the
 port.  Domain names can be used if and only if the resolution is set
 to DNS, and must be fully-qualified without wildcards. Use the form
-unix:///absolute/path/to/socket for unix domain socket endpoints.</p>
+unix:///absolute/path/to/socket for Unix domain socket endpoints.</p>
 
 </td>
 </tr>

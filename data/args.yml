@@ -28,7 +28,7 @@ supported_kubernetes_versions: ["1.11", "1.12", "1.13"]
 
 ####### Static values
 
-# we use different sesrch engines for each incarnation of the site
+# we use different search engines for each incarnation of the site
 main_search_engine_id: "013699703217164175118:veyyqmfmpj4"
 preliminary_search_engine_id: "013699703217164175118:dmevwrvc6os"
 archive_search_engine_id: "013699703217164175118:iwwf17ikgf4"

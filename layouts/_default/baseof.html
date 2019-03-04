@@ -80,15 +80,6 @@
         </script>
         <!-- End Google Analytics -->
 
-        <script>
-            const branchName = "{{ .Site.Data.args.source_branch_name }}";
-            const docTitle = "{{ .Title }}";
-            const iconFile = "{{ .Site.BaseURL}}/img/icons.svg";
-            const buttonCopy = '{{ i18n "button_copy" }}';
-            const buttonPrint = '{{ i18n "button_print" }}';
-            const buttonDownload = '{{ i18n "button_download" }}';
-        </script>
-
         <!-- RSS -->
         <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
 
@@ -110,7 +101,7 @@
         <meta name="application-name" content="Istio">
 
         <!-- style sheets -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,300,700,300italic,400italic,500italic,700italic|Chivo:400,500,300,700,300italic,400italic,500italic,700italic">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,700,300italic,400italic,500italic,700italic|Chivo:500,300,700,300italic,400italic,500italic,700italic">
         <link rel="stylesheet" href="/css/all.css">
     </head>
 
@@ -122,19 +113,50 @@
     {{ end }}
 
     <body class="language-unknown {{ $site_mode}}">
-        <script src="/js/styleSwitcher.min.js"></script>
+        <!-- set the color theme as soon as possible -->
+        <script src="/js/themes_init.min.js"></script>
+
+        <!-- inject some build-time constants into JavaScript-land -->
+        <script>
+            const branchName = "{{ .Site.Data.args.source_branch_name }}";
+            const docTitle = "{{ .Title }}";
+            const iconFile = "{{ .Site.BaseURL}}/img/icons.svg";
+            const buttonCopy = '{{ i18n "button_copy" }}';
+            const buttonPrint = '{{ i18n "button_print" }}';
+            const buttonDownload = '{{ i18n "button_download" }}';
+        </script>
+
+        <!-- libraries we unconditionally pull in -->
+        <script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+
+        <!-- our own stuff -->
+        <script src="/js/all.min.js" data-manual defer></script>
 
         {{ partial "header.html" . }}
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
 
-        <div id="scroll-to-top-container">
-            <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>
-                {{ partial "icon.html" "top" }}
-            </button>
-        </div>
+        <!-- libraries we conditionally pull in -->
+        {{ if .Scratch.Get "needPopper" }}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
+        {{ end }}
+
+        <nav>
+            <div id="scroll-to-top-container">
+                <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>
+                    {{ partial "icon.html" "top" }}
+                </button>
+            </div>
+        </nav>
 
         {{ if .Site.Data.args.preliminary }}
+            <div id="switch-lang-container">
+                {{ $home := .Site.GetPage "home" }}
+                <a id="switch-lang" class="not-for-endnotes" aria-hidden="true" title='{{ i18n "switch_lang"}}'>
+                    {{ partial "icon.html" "switch-lang" }}
+                </a>
+            </div>
+
             {{ if .Page.Params.source_repo }}
                 <div id="edit-this-page-container">
                     {{ $msg := i18n "generated_file" }}
@@ -158,12 +180,5 @@
                 </a>
             </div>
         {{ end }}
-
-        <!-- libraries we pull in -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://www.google.com/cse/brand?form=search-form"></script>
-
-        <!-- our own scripts -->
-        <script src="/js/all.min.js" data-manual></script>
     </body>
 </html>
