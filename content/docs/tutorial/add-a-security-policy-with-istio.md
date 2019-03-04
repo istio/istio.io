@@ -55,7 +55,7 @@ In this module you add access policies to enforce the access requirements above.
 
         {{< text bash >}}
         $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":5,"Reviewer2":4}'
-        {"id":0,"ratings":{"Reviewer1":1,"Reviewer2":1}}
+        {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
         {{< /text >}}
 
 ## Kubernetes Network Policies
