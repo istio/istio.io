@@ -94,8 +94,8 @@ then to 20% and so on.
         caption="Prometheus Query UI, distribution of calls to reviews v2 and reviews v3"
         >}}
 
-    Note that you can see multiple metric instances related to the same destination workload, it could
-    happen when you have multiple `istio-telemetry` pods. To get the correct numbers of the calls to
+    Note that you might see multiple metric instances related to the same destination workload, it could
+    happen if you have multiple `istio-telemetry` pods. To get the correct numbers of the calls to
     _v2_ and _v3_, sum the calls in the next step.
 
 1.  Execute the following queries:
