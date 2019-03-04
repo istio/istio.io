@@ -372,28 +372,29 @@ h6 {
     font-weight: $h6Weight;
 }
 
-.header-link {
+.self-link {
     position: relative;
     left: 0.5em;
     top: -.1em;
     opacity: 0;
     font-size: 0.6em;
+    display: none;
 }
 
-h2:hover .header-link,
-h3:hover .header-link,
-h4:hover .header-link,
-h5:hover .header-link,
-h6:hover .header-link,
-dt:hover .header-link {
+@media screen {
+    .self-link {
+        display: unset;
+    }
+}
+
+h2:hover .self-link,
+h3:hover .self-link,
+h4:hover .self-link,
+h5:hover .self-link,
+h6:hover .self-link,
+dt:hover .self-link {
     transition: opacity .4s ease-in-out;
     opacity: 1;
-}
-
-@media print {
-    .header-link {
-        display: none;
-    }
 }
 
 em {

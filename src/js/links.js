@@ -2,9 +2,9 @@
 
 function handleLinks() {
 
-    function attachLink(node) {
+    function attachSelfLink(node) {
         const anchor = document.createElement("a");
-        anchor.className = "header-link";
+        anchor.className = "self-link";
         anchor.href = "#" + node.id;
         anchor.setAttribute("aria-hidden", "true");
         anchor.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#links'/></svg>";
@@ -17,7 +17,7 @@ function handleLinks() {
         for (let level = 2; level <= 6; level++) {
             queryAll(document, "h" + level.toString()).forEach(hdr => {
                 if (hdr.id !== "") {
-                    attachLink(hdr);
+                    attachSelfLink(hdr);
                 }
             });
         }
@@ -27,7 +27,7 @@ function handleLinks() {
     function attachLinksToDefinedTerms() {
         queryAll(document, 'dt').forEach(dt => {
             if (dt.id !== "") {
-                attachLink(dt);
+                attachSelfLink(dt);
             }
         });
     }
@@ -49,11 +49,11 @@ function handleLinks() {
             return;
         }
 
-        // look for anchors in the main section of the doc only (skip headers, footers, tocs, nav bars, etc)
-        const main = document.getElementsByTagName("main")[0];
+        // look for anchors in the main section of the main article only (skip headers, footers, tocs, nav bars, etc)
+        const article = document.getElementsByTagName("article")[0];
         const map = new Map(null);
         let numLinks = 0;
-        queryAll(main, 'a').forEach(link => {
+        queryAll(article, 'a').forEach(link => {
             if (link.pathname === location.pathname) {
                 // skip links pointing to the current page
                 return;

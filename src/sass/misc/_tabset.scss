@@ -1,12 +1,9 @@
-.tabset {
-    border: none;
+[role=tablist] {
     margin: 0 0 0 4px;
     padding: 0;
 
     .tab-strip {
-        margin-bottom: -2px;
-
-        a {
+        button {
             display: inline-block;
             margin: 0 3px;
             border: 1px solid $mainBrandColor;
@@ -16,19 +13,18 @@
             padding: 0 1rem;
             transform: skewX(-30deg);
             transform-origin: left bottom;
-            text-decoration: none;
             cursor: pointer;
+            outline: 0;
+            font: inherit;
 
             span {
-                display: block;
                 transform: skewX(10deg);
-                font-size: 80%;
                 color: $textColor;
+                font-size: 80%;
             }
 
             &:hover {
                 background-color: $textBrandHighlightColor;
-                text-decoration: none;
             }
 
             &.active {

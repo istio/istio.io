@@ -63,7 +63,7 @@
             margin: 0;
             display: none;
 
-            &.show {
+            &[aria-expanded=true] {
                 display: block;
             }
         }
