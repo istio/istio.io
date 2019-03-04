@@ -45,7 +45,7 @@ will prevent any possibility for a malicious application to access the forbidden
   describes the Istio Dashboard to monitor mesh traffic.
 * The [Basic Access Control](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to control access to
   in-mesh services.
-* The [Secure Access Control](/docs/tasks/security/secure-access-control/) task shows how to configure
+* The [Denials and White/Black Listing](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to configure
   access policies using black or white list checkers.
 
 As opposed to the telemetry and security tasks above, this blog post describes Istio's monitoring and access policies
@@ -258,8 +258,10 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
      to [edition.cnn.com/sport](https://edition.cnn.com/sport) and
      [edition.cnn.com/health](https://edition.cnn.com/health) returned _200 OK_, as expected.
 
-    > You may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
+    {{< tip >}}
+    You may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
     gateway.
+    {{< /tip >}}
 
 1.  Query the Mixer log and see that the information about the requests appears again in the log:
 
@@ -285,7 +287,7 @@ of allowed/forbidden URL paths, respectively.
 [Policy Rules](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
 specified in a [rich expression language](/docs/reference/config/policy-and-telemetry/expression-language/), which
 includes AND and OR logical operators. The rules can be reused for both logging and policy checks. More advanced users
-may want to apply [Istio Role-Based Access Control](/docs/concepts/security/rbac/).
+may want to apply [Istio Role-Based Access Control](/docs/concepts/security/#authorization).
 
 An additional aspect is integration with remote access policy systems. If the organization in our use case operates some
 [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, you may want to configure
@@ -344,8 +346,10 @@ previously:
     200
     {{< /text >}}
 
-> You may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
+{{< tip >}}
+You may need to wait several seconds for the update of the `VirtualService` to propagate to the egress
 gateway.
+{{< /tip >}}
 
 ### Access control by Mixer policy checks
 

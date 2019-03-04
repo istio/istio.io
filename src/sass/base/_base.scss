@@ -153,127 +153,6 @@ thead+tbody tr:first-child td:last-child {
     border-radius: 0;
 }
 
-code {
-    color: $textCodeColor;
-    font-size: 80%;
-    font-weight: $textCodeWeight;
-    word-break: normal;
-}
-
-pre {
-    margin: 1em 0 1em 1em;
-    @media (min-width: $bp-md) {
-        margin: 1em;
-    }
-
-    max-height: 31em;
-    border: 1px solid $preBlockBorderColor;
-    border-radius: $border-radius;
-    box-shadow: 3px 3px 8px $preBlockShadowColor;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    font-size: 87.5%;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    tab-size: 4;
-    hyphens: none;
-    background: $preBlockBackgroundColor;
-    overflow: auto;
-
-    code {
-        display: block;
-        padding: .5em;
-        color: $textColor;
-        font-size: 80%;
-        font-weight: $textCodeWeight;
-        word-break: normal;
-    }
-
-    code.command-output {
-        padding: 0;
-
-        .command {
-            padding: 1.5em 1em;
-            @media (min-width: $bp-md) {
-                padding: .5em .5em 0 .5em;
-            }
-        }
-
-        .output {
-            color: $preBlockCommandOutputTextColor;
-            background-color: $preBlockCommandOutputBackgroundColor;
-            font-style: italic;
-            padding: 1em;
-            float: left;
-            clear: left;
-            min-width: 100%;
-            @media (min-width: $bp-md) {
-                padding: 0 .5em .5em .5em;
-            }
-        }
-
-        // if the output div is empty, we need extra padding
-        div:only-of-type {
-            padding: 1.5em 1em;
-            @media (min-width: $bp-md) {
-                padding: .5em;
-            }
-        }
-    }
-
-    @media print {
-        max-height: unset;
-    }
-}
-
-div.toolbar {
-    position: relative;
-
-    button {
-        font-size: .8em;
-        padding: 0 .5em;
-        border-radius: .3em;
-        background-color: $secondBrandColor;
-        cursor: pointer;
-        color: $textBrandColor;
-        text-decoration: none;
-        border: 0;
-        position: absolute;
-        top: 3px;
-        z-index: $toolbar-button-z;
-        transition: opacity .4s ease-in-out;
-        opacity: 0;
-
-        &.toolbar-show {
-            transition: opacity 1.1s ease-in-out;
-            opacity: 1;
-        }
-
-        &.copy {
-            right: 2.2rem;
-            width: 3rem;
-        }
-
-        &.download {
-            right: 5.5rem;
-        }
-
-        &.print {
-            right: 7.25rem;
-        }
-    }
-
-    svg {
-        width: .8em;
-        height: .8em;
-        display: inline;
-        fill: $textBrandColor;
-        stroke: $textBrandColor;
-    }
-}
-
 p {
     font-size: $font-size--primary;
     font-weight: $textWeight;
@@ -426,6 +305,10 @@ blockquote {
     background: $deprecatedBackgroundColor;
 }
 
+div.aliases::before {
+    content: 'Alternate forms:';
+}
+
 @media print {
     h1, h2, h3 {
         color: #000;
@@ -437,7 +320,7 @@ blockquote {
         max-width: 100% !important;
     }
 
-    pre, blockquote, img {
+    blockquote, img {
         page-break-inside: avoid;
     }
 }
