@@ -3,6 +3,6 @@ title: How can I join Istio Slack workspace?
 weight: 180
 ---
 
-Istio Slack is restricted to Istio Developers. See the [Community Roles](https://github.com/istio/community/blob/master/ROLES.md#member)
-guide, specifically the **Member** role. In this page you can find instructions on how to apply for Istio membership.
-If your membership request has been approved, you will be invited to join the Istio Slack workspace.
+We're working on a formal procedure to join the [Istio Slack workspace](https://istio.slack.com). For the time being, to join the workspace you need to be
+invited by someone that's already a member. If you don't know anyone, try asking in [this forum](https://discuss.istio.io/c/contributors) and someone
+will send you an invitation.
