@@ -57,8 +57,6 @@ serve user requests.
     reviews-v1-56f6855586-lxc49       1/1       Running   0          7h
     reviews-v1-56f6855586-qh84k       1/1       Running   0          7h
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
-    sleep-88ddbcfdd-flvp6             1/1       Running   0          7h
-    sleep-88ddbcfdd-zpn8m             1/1       Running   0          11h
     {{< /text >}}
 
 1.  Note that Kubernetes replaced the original pods of _productpage_ with the Istio-enabled pods, transparently and
