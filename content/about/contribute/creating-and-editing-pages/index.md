@@ -9,7 +9,7 @@ aliases:
 keywords: [contribute]
 ---
 
-This page shows how to create and maintain Istio documentation topics.
+This page shows how to create, test, and maintain Istio documentation topics.
 
 ## Before you begin
 
@@ -640,4 +640,62 @@ aliases:
     - /faq2
     - /faq3
 ---
+{{< /text >}}
+
+## Building and testing the site
+
+Once you've edited some content files, you'll want to build the site in order to test
+your changes. We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally, we use a Docker
+image that contains Hugo. To build and serve the site, simply go to the root of the tree and do:
+
+{{< text bash >}}
+$ make serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://localhost:1313`.
+
+To make and serve the site from a remote server, override `ISTIO_SERVE_DOMAIN` as follows with the IP address
+or DNS Domain of the server as follows:
+
+{{< text bash >}}
+$ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://192.168.7.105:1313`.
+
+All English content for the site is located in the `content` directory, as well as in sibling translated
+directories such as `content_zh`.
+
+### Linting
+
+We use linters to ensure some base quality to the site's content. These linters must run without
+complaining before you can submit your changes into the repository. The linters check:
+
+- HTML proofing, which ensures all your links are valid along with other checks.
+
+- Spell checking.
+
+- Style checking, which makes sure your markdown files comply with our common style rules.
+
+You can run these linters locally using:
+
+{{< text bash >}}
+$ make lint
+{{< /text >}}
+
+If you get spelling errors, you have three choices to address each:
+
+- It's a real typo, so fix your markdown.
+
+- It's a command/field/symbol name, so stick some `backticks` around it.
+
+- It's really valid, so go add the word to the `.spelling` file which is at the root of the repo.
+
+If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
+`INTERNAL_ONLY` to prevent the linter from checking external links:
+
+{{< text bash >}}
+$ make INTERNAL_ONLY=True lint
 {{< /text >}}
