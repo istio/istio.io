@@ -325,6 +325,8 @@ OpenSSL
 openssl
 OS-level
 Ostrowski
+option-1
+option-2
 p50
 p99
 PaaS
@@ -534,7 +536,3 @@ gcse
 MB
 CPU
 CPUs
-
- - minimal.md
-#option-1
-#option-2
