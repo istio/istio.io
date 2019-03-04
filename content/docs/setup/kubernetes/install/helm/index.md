@@ -197,7 +197,7 @@ to manage the lifecycle of Istio.
 
     {{< text bash >}}
 
-    $ helm install istio --name istio --namespace istio-system
+    $ helm install istio.io/istio --name istio --namespace istio-system
 
     {{< /text >}}
 
