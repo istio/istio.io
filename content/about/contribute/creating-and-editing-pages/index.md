@@ -235,13 +235,17 @@ produces a link to `https://raw.githubusercontent.com/istio/istio*`
     {{< /text >}}
 
 The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence `{{</* source_branch_name */>}}`
 to get the name of the currently targeted branch.
 
 ## Version information
 
 You can obtain the current Istio version described by the web site using either of `{{</* istio_version */>}}` or
 `{{</* istio_full_version */>}}` which render as {{< istio_version >}} and {{< istio_full_version >}} respectively.
+
+`{{</* source_branch_name */>}}` gets expanded to the name of the branch of the istio/istio GitHub repository that the
+web site is targeting. This renders as {{< source_branch_name >}}. 
+ 
 
 ## Embedding preformatted blocks
 
