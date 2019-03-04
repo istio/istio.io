@@ -1,5 +1,5 @@
 ---
-title: 基于组的授权和列表类型声明的授权
+title: 基于组和列表类型声明的授权
 description: 有关如何在 Istio 中配置基于组的授权和配置列表类型声明的授权的教程。
 weight: 10
 keywords: [security,authorization]
