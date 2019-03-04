@@ -11,7 +11,7 @@ keywords: [platform-setup,ibm,iks]
 
 ## Managed Istio add-on
 
-IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平面组件的自动更新和生命周期管理，以及与平台日志记录和监视工具的集成。只需单击一下，您就可以获得所有 Istio 核心组件、其他跟踪、监控和可视化，以及 Bookinfo 示例应用程序的启动和运行。IBM Cloud Kubernetes 服务上的 Istio 作为托管附加组件提供，因此IBM Cloud 会自动保持所有 Istio 组件的最新状态。
+IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平面组件的自动更新和生命周期管理，以及与平台日志记录和监视工具的集成。只需单击一下，您就可以获得所有 Istio 核心组件、其他跟踪、监控和可视化，以及 Bookinfo 示例应用程序的启动和运行。IBM Cloud Kubernetes 服务上的 Istio 作为托管附加组件提供，因此 IBM Cloud 会自动保持所有 Istio 组件的最新状态。
 
 要在 IBM Cloud Public 中安装托管的 Istio 附加组件，请参阅 [IBM Cloud Kubernetes 服务文档](https://cloud.ibm.com/docs/containers/cs_istio.html)。
 
