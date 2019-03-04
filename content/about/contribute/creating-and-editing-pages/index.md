@@ -238,6 +238,11 @@ The above annotations yield links to the appropriate branch in GitHub, relative 
 documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
 to get the name of the currently targeted branch.
 
+## Version information
+
+You can obtain the current Istio version described by the web site using either of `{{</* istio_version */>}}` or
+`{{</* istio_full_version */>}}` which render as {{< istio_version >}} and {{< istio_full_version >}} respectively.
+
 ## Embedding preformatted blocks
 
 You can embed blocks of preformatted content using the `text` sequence:
