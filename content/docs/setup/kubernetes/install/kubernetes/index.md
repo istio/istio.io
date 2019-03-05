@@ -1,6 +1,6 @@
 ---
-title: Install Istio on a Kubernetes Cluster
-description: Instructions to install the Istio service mesh in a Kubernetes cluster.
+title: Quick Install Istio on a Kubernetes Cluster
+description: Instructions to quick install the Istio service mesh in a Kubernetes cluster.
 weight: 55
 keywords: [kubernetes]
 aliases:
@@ -47,7 +47,7 @@ we recommend installing with the
 [Helm Chart](/docs/setup/kubernetes/install/helm/), to use all the
 configuration options. This permits customization of Istio to operator specific requirements.
 
-### Option 1: Install Istio with mutual TLS enabled and set to use permissive mode between sidecars
+### Option 1: Install Istio with permissive mode between sidecars
 
 Visit our
 [mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)
@@ -63,8 +63,7 @@ Choose this option for:
 * Headless services, or
 * `StatefulSets`
 
-To install Istio with mutual TLS enabled and set to use permissive mode
-between sidecars:
+To install Istio with permissive mode between sidecars:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
