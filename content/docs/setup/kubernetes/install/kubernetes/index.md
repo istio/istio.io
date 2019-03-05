@@ -150,7 +150,7 @@ traffic; HTTP/1.0 is not supported.
 {{< /warning >}}
 
 When you deploy your application using `kubectl apply`,
-the [Istio-sidecar-injector](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+the [Istio sidecar injector](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 will automatically inject Envoy containers into your
 application pods if they are started in namespaces labeled with `istio-injection=enabled`:
 
