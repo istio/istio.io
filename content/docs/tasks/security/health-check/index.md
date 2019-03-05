@@ -5,67 +5,46 @@ weight: 70
 keywords: [security,health-check]
 ---
 
-This task shows how to enable Kubernetes health checking for Citadel. Note this is an Alpha feature.
+You can enable Citadel's health checking feature
+to detect the failures of the Citadel CSR (Certificate Signing Request) service.
+Citadel periodically sends CSRs to its CSR service and verifies the response.
 
-Since Istio 0.6, Citadel has a health checking feature that can be optionally enabled.
-By default, the normal Istio deployment process does not enable this feature.
-Currently, the health checking feature is able to detect the failures of Citadel CSR signing service,
-by periodically sending CSRs to the API. More health checking features are coming shortly.
-
-Citadel contains a _prober client_ module that periodically checks Citadel's status (currently only the health
-status of the gRPC server).
-If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_
-(the file is always empty). Otherwise, it does nothing. Citadel relies on a
+The _prober client_ module in Citadel periodically checks the health status of Citadel's CSR gRPC server.
+If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_.
+Otherwise, it does nothing. Citadel relies on a
 [Kubernetes liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
 with command line to check the _modification time_ of the _health status file_ on the pod.
-If the file is not updated for a period, the probe will be triggered and Kubelet will restart the Citadel container.
+If the file is not updated for a period, Kubelet will restart the Citadel container.
 
 Note: because Citadel health checking currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using the
-[Istio Mesh Expansion](/docs/setup/kubernetes/additional-setup/mesh-expansion/) (which requires the CSR service API).
+[SDS](/docs/tasks/security/auth-sds/) or [Mesh Expansion](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
 
 ## Before you begin
 
-* Set up Istio by following the instructions in the
-  [quick start](/docs/setup/kubernetes/install/kubernetes/) with global mutual TLS enabled:
+To complete this task, you can install Istio using one of the following paths:
+
+* To setup Istio without using Helm, follow the instructions in the
+  [Kubernetes installation guide](/docs/setup/kubernetes/install/kubernetes/). Remember to enable global mutual TLS with:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-    _**OR**_
-
-    Using [Helm](/docs/setup/kubernetes/install/helm/) with `global.mtls.enabled` to `true`.
+* Use [Helm](/docs/setup/kubernetes/install/helm/) to setup Istio and set the `global.mtls.enabled` flag to `true`.
 
 {{< tip >}}
-Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
+all or only selected services in a namespace. You must repeat the policy for all namespaces to configure the setting globally.
+See the [authentication policy task](/docs/tasks/security/authn-policy/) for details.
 {{< /tip >}}
 
 ## Deploying Citadel with health checking
 
-Deploy Citadel with health checking enabled.
+To enable health checking, redeploy Citadel using the configuration in `istio-citadel-with-health-check.yaml`:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
-{{< /text >}}
-
-Deploy the `istio-citadel` service so that the CSR service can be found by the health checker.
-
-{{< text bash >}}
-$ kubectl create -f - <<EOF
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-citadel
-  namespace: istio-system
-  labels:
-    istio: citadel
-spec:
-  ports:
-    - port: 8060
-  selector:
-    istio: citadel
-EOF
 {{< /text >}}
 
 ## Verifying the health checker is working
@@ -73,27 +52,21 @@ EOF
 Citadel will log the health checking results. Run the following in command line:
 
 {{< text bash >}}
-$ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{print $1}'` -n istio-system
+$ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{print $1}'` -n istio-system | grep "CSR signing service"
 {{< /text >}}
 
 You will see the output similar to:
 
 {{< text plain >}}
-...
-2018-02-27T04:29:56.128081Z     info    CSR successfully signed.
-...
-2018-02-27T04:30:11.081791Z     info    CSR successfully signed.
-...
-2018-02-27T04:30:25.485315Z     info    CSR successfully signed.
-...
+... CSR signing service is healthy (logged every 100 times).
 {{< /text >}}
 
 The log above indicates the periodic health checking is working.
-Observe that the health checking interval is about 15 seconds, which is the default health checking interval.
+The default health checking interval is 15 seconds and is logged once every 100 checks.
 
 ## (Optional) Configuring the health checking
 
-Optionally, adjust the health checking configuration to meet your own needs. Open the file
+This section talks about how to modify the health checking configuration. Open the file
 `install/kubernetes/istio-citadel-with-health-check.yaml`, and locate the following lines.
 
 {{< text plain >}}
@@ -113,13 +86,16 @@ livenessProbe:
 ...
 {{< /text >}}
 
-The `liveness-probe-path` and `probe-path` are the path to the health status file, configured at Citadel and the
-prober;
-the `liveness-probe-interval` is the interval to update the health status file, if Citadel is healthy;
-the `probe-check-interval` is the interval for Citadel health checking.
+The paths to the health status files are `liveness-probe-path` and `probe-path`.
+You should update the paths in Citadel and in the `livenessProbe` at the same time.
+If Citadel is healthy, the value of the `liveness-probe-interval` entry determines the interval used to update the
+health status file.
+The Citadel health checking controller uses the value of the `probe-check-interval` entry to determine the interval to
+call the Citadel CSR service.
 The `interval` is the maximum time elapsed since the last update of the health status file, for the prober to consider
 Citadel as healthy.
-`initialDelaySeconds` and `periodSeconds` are the initial delay and the probe running period.
+The values in the `initialDelaySeconds` and `periodSeconds`entries determine the initial delay and the interval between
+each activation of the `livenessProbe`.
 
 Prolonging `probe-check-interval` will reduce the health checking overhead, but there will be a greater lagging for the
 prober to get notified on the unhealthy status.
