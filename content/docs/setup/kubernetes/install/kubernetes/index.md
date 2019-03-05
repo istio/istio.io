@@ -55,7 +55,7 @@ This permits customization of Istio to operator specific requirements.
 {{< tabset cookie-name="profile" >}}
 
 {{% tab name="permissive mTLS" cookie-value="permissive" %}}
-In this variant, all services accept both plain text and
+When using the mTLS permissive mode, all services accept both plain text and
 mutual TLS traffic. Clients send plain text traffic unless configured for
 [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic).
 Visit our [mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)
