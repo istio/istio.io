@@ -11,7 +11,7 @@ Istio 提供了两个非常有价值的命令，用于协助对流量管理方�
 
 要试用下面的命令，首先要满足下列两个条件中的一个：
 
-* 一个部署了 Istio 和 Bookinfo 的 Kubernetes 集群（例如使用[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中所写的 `istio.yaml` 完成 Istio 的安装，并完成 [Bookinfo 应用部署](/zh/docs/examples/bookinfo/#如果在-kubernetes-中运行)）。
+* 一个部署了 Istio 和 Bookinfo 的 Kubernetes 集群（例如使用[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中所写的 `istio.yaml` 完成 Istio 的安装，并完成 [Bookinfo 应用部署](/zh/docs/examples/bookinfo/#如果在-kubernetes-中运行)）。
 
 或者
 

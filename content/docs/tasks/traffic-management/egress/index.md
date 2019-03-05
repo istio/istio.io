@@ -13,7 +13,7 @@ which only handles intra-cluster destinations.
 This task describes how to configure Istio to expose external services to Istio-enabled clients
 in three different ways:
 
-1. Configure a [service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
+1. Configure a [service entry](/docs/reference/config/networking/v1alpha3/service-entry/).
 1. Bypass the Envoy proxy for a specific range of IPs.
 1. Configure the Envoy proxy to pass requests through to external services on ports that are not configured inside the mesh.
 
@@ -60,12 +60,11 @@ from within your Istio cluster. This task shows you how to access an external HT
       "User-Agent": "curl/7.60.0",
       ...
       "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
-      "X-Istio-Attributes": ...
       }
     }
     {{< /text >}}
 
-    Note the headers added by the Istio sidecar proxy: `X-Envoy-Decorator-Operation` and `X-Istio-Attributes`.
+    Note the headers added by the Istio sidecar proxy: `X-Envoy-Decorator-Operation`.
 
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
@@ -226,7 +225,7 @@ like this:
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
-Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/helm-install),
+Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/install/helm),
 in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio, add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
 
 Redeploy the `sleep` application as described in the [Before you begin](#before-you-begin) section.
@@ -341,11 +340,11 @@ you cannot use this approach for services using those ports.
 {{< /warning >}}
 
 1.  To allow access to all the external services, install or update Istio by using
-[Helm](https://preliminary.istio.io/docs/setup/kubernetes/helm-install/) while setting the value of
+[Helm](/docs/setup/kubernetes/install/helm/) while setting the value of
 `global.outboundTrafficPolicy.mode` to `ALLOW_ANY`: `--set global.outboundTrafficPolicy.mode=ALLOW_ANY`.
 
     Alternatively, if you followed the instructions in
-    [Quick Start with Kubernetes](https://preliminary.istio.io/docs/setup/kubernetes/quick-start/#installation-steps)
+    [Quick Start with Kubernetes](/docs/setup/kubernetes/install/kubernetes/#installation-steps)
     and used `install/kubernetes/istio-demo.yaml` or `install/kubernetes/istio-demo-auth.yaml` files to install Istio,
     just edit the files. Look for the following YAML part:
 

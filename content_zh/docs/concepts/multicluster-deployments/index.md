@@ -11,7 +11,7 @@ Istio 是一个[服务网格](/zh/docs/concepts/what-is-istio/#什么是服务�
 Istio 支持将一个应用程序的服务以多种拓扑分布，而不仅仅是分布在单一集群，例如：
 
 * 集群内部的服务可以使用 [service entry](/zh/docs/concepts/traffic-management/#service-entry) 访问独立的外部服务，或访问其余松散耦合服务网格（或者说是*网格联邦*）公开的服务。
-* 您可以[扩展服务网格](/zh/docs/setup/kubernetes/mesh-expansion/)以包含运行在虚拟机或裸金属主机上的服务。
+* 您可以[扩展服务网格](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/)以包含运行在虚拟机或裸金属主机上的服务。
 * 您可以将多个集群中的服务组合成一个单一复合服务网格，也即*多集群网格*。
 
 ## 多集群服务网格
@@ -39,7 +39,7 @@ Istio 支持将一个应用程序的服务以多种拓扑分布，而不仅仅�
 
 要在集群中实现单个 Istio 服务网格，您需要配置一个公共根 CA 并复制所有集群中共享的 service 和 namespace。跨集群通信发生在各个集群的 Istio 网关上。所有集群都共享策略实施和安全性的控制。
 
-在这个配置中，每个集群中的工作负载都可以像平常一样使用 Kubernetes DNS 后缀们访问其他本地 service，例如`foo.ns1.svc.cluster.local`。为了给远程集群中的 service 提供DNS解析，Istio 包含了 一个 CoreDNS 服务器，此服务器被配置为可以处理 `<name>。<namespace> .global` 形式的 service 名称。例如，从任何集群到 `foo.ns1.global` 的调用将解析到任意集群 namespace `ns1` 中运行的 `foo` service。要进行这种多集群配置，请访问我们提供的[带网关指令的多控制平面](/zh/docs/setup/kubernetes/multicluster-install/gateways/)页面。
+在这个配置中，每个集群中的工作负载都可以像平常一样使用 Kubernetes DNS 后缀们访问其他本地 service，例如`foo.ns1.svc.cluster.local`。为了给远程集群中的 service 提供DNS解析，Istio 包含了 一个 CoreDNS 服务器，此服务器被配置为可以处理 `<name>。<namespace> .global` 形式的 service 名称。例如，从任何集群到 `foo.ns1.global` 的调用将解析到任意集群 namespace `ns1` 中运行的 `foo` service。要进行这种多集群配置，请访问我们提供的[带网关指令的多控制平面](/zh/docs/setup/kubernetes/multicluster/gateways/)页面。
 
 ### 单一控制平面拓扑
 
@@ -50,7 +50,7 @@ Istio 支持将一个应用程序的服务以多种拓扑分布，而不仅仅�
     caption="Istio 网格跨越多个 Kubernetes 集群，通过 VPN 直接访问远程 pod"
     >}}
 
-在此配置中，Istio 控制平面部署在其中一个集群上，而所有其他集群上运行一个更简单的远程 Istio 配置，以将它们连接到单个 Istio 控制平面，该平面将所有 Envoy 作为单个网格进行管理。各个集群上的 IP 地址不得重叠，且需注意远程集群上的 service 的 DNS 解析不是自动的。用户需要在每个参与集群上复制 service。您可以在我们提供的[使用 VPN 指令的单一控制平面](/zh/docs/setup/kubernetes/multicluster-install/vpn/)中找到设置这种多集群拓扑的详细步骤。
+在此配置中，Istio 控制平面部署在其中一个集群上，而所有其他集群上运行一个更简单的远程 Istio 配置，以将它们连接到单个 Istio 控制平面，该平面将所有 Envoy 作为单个网格进行管理。各个集群上的 IP 地址不得重叠，且需注意远程集群上的 service 的 DNS 解析不是自动的。用户需要在每个参与集群上复制 service。您可以在我们提供的[使用 VPN 指令的单一控制平面](/zh/docs/setup/kubernetes/multicluster/vpn/)中找到设置这种多集群拓扑的详细步骤。
 
 如果设置具有全局 pod-to-pod 连接的环境很困难或不可能，您仍然可以使用 Istio 网关并和启用 Istio Pilot 的位置感知服务路由功能（也即`水平分割 EDS（Endpoint Discovery Service，终端发现服务）`）来配置单个控制平面拓扑。此方法仍需要从所有集群到 Kubernetes API server 的连接，例如在一个托管的 Kubernetes 平台上，其 API server 运行的网络可以被所有租户集群访问。如果无法做到这一点，那么多控制平面拓扑可能是更好的选择
 

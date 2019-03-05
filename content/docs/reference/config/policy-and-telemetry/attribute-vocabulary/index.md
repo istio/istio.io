@@ -46,6 +46,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.service.uid`       | string | Unique identifier of the destination service. | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name`      | string | Destination service name. | `istio-telemetry` |
 | `destination.service.namespace` | string | Destination service namespace. | `istio-system` |
+| `origin.ip` | ip_address | IP address of the proxy client, e.g. origin for the ingress proxies. | `127.0.0.1` |
 | `request.headers` | map[string, string] | HTTP request headers with lowercase keys. For gRPC, its metadata will be here. | |
 | `request.id` | string | An ID for the request with statistically low probability of collision. | |
 | `request.path` | string | The HTTP URL path including query string | |
@@ -91,7 +92,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `request.auth.presenter` | string | The authorized presenter of the credential. This value should reflect the optional Authorized Presenter (`azp`) claim within a JWT or the OAuth2 client id. | 123456789012.my-svc.com |
 | `request.auth.claims` | map[string, string] | all raw string claims from the `origin` JWT | `iss`: `issuer@foo.com`, `sub`: `sub@foo.com`, `aud`: `aud1` |
 | `request.api_key` | string | The API key used for the request. | abcde12345 |
-| `check.error_code` | int64 | The error [code](https://github.com/google/protobuf/blob/master/src/google/protobuf/stubs/status.h#L44) for Mixer Check call. | 5 |
+| `check.error_code` | int64 | The error [code](https://github.com/google/protobuf/blob/master/src/google/protobuf/stubs/status.h) for Mixer Check call. | 5 |
 | `check.error_message` | string | The error message for Mixer Check call. | Could not find the resource |
 | `check.cache_hit` | boolean | Indicates whether Mixer check call hits local cache. | |
 | `quota.cache_hit` | boolean | Indicates whether Mixer quota call hits local cache. | |

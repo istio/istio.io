@@ -16,7 +16,7 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
 ## 验证动态准入 Webhook 前置条件
 
-请参阅 Kubernetes 快速入门中的[前置条件章节](/zh/docs/setup/kubernetes/quick-start/#前置条件)。如果群集配置错误，Webhook 将无法正常工作。如集群配置后，动态 Webhook 和依赖的相关功能无法正常工作，可以通过以下步骤进行检查。
+请参阅 Kubernetes 快速入门中的[前置条件章节](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)。如果群集配置错误，Webhook 将无法正常工作。如集群配置后，动态 Webhook 和依赖的相关功能无法正常工作，可以通过以下步骤进行检查。
 
 1. 验证 `kubectl` 是否是[最新版本](https://kubernetes.io/docs/tasks/tools/install-kubectl/)（>= 1.10），并且 Kubernetes 服务器版本 >= 1.9。
 
@@ -33,6 +33,6 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
     admissionregistration.Kubernetes.io/v1beta1
     {{< /text >}}
 
-1. 验证 `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook` 在`kube-apiserver --enable-admission-plugins` 配置中是否被启用。通过[特定提供者](/zh/docs/setup/kubernetes/quick-start/#前置条件)提供的步骤来检查此标志。
+1. 验证 `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook` 在`kube-apiserver --enable-admission-plugins` 配置中是否被启用。通过[特定提供者](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)提供的步骤来检查此标志。
 
 1. 验证 Kubernetes api-server 与 Webhook 所在 Pod 的网络连通是否正常。例如不正确的 `http_proxy` 设置可能会使  api-server 操作无法正常完成（有关详细信息，请参阅[这里](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)和[这里](https://github.com/kubernetes/kubeadm/issues/666)的相关问题)。

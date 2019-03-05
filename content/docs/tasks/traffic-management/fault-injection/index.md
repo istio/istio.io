@@ -14,7 +14,8 @@ This task shows you how to inject faults to test the resiliency of your applicat
 * Set up Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application including the
+  [default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 * Review the fault injection discussion in the
 [Traffic Management](/docs/concepts/traffic-management) concepts doc.

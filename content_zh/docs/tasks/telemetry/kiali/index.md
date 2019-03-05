@@ -41,7 +41,7 @@ data:
 EOF
 {{< /text >}}
 
-创建了 Kiali Secret 之后，根据 [Helm 安装简介](/zh/docs/setup/kubernetes/helm-install/) 使用 Helm 来安装 Kiali。在运行 `helm` 命令的时候必须使用 `--set kiali.enabled=true` 选项，例如：
+创建了 Kiali Secret 之后，根据 [Helm 安装简介](/zh/docs/setup/kubernetes/install/helm/) 使用 Helm 来安装 Kiali。在运行 `helm` 命令的时候必须使用 `--set kiali.enabled=true` 选项，例如：
 
 {{< text bash >}}
 $ helm template --set kiali.enabled=true install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
