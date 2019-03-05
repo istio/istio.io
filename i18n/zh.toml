@@ -174,3 +174,6 @@ other = "这是一个自动生成的文件，要修改其中的内容，请修�
 
 [switch_lang]
 other = "切换到英文版"
+
+[advisory]
+other = "The Chinese content may be lagging the English docs"
