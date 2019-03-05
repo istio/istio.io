@@ -91,7 +91,7 @@ check_content() {
 }
 
 check_content content --en-us
-check_content content_zh --zh-cn
+check_content content_zh --en-us
 
 grep -nr -e "“" ./content
 if [[ "$?" == "0" ]]
