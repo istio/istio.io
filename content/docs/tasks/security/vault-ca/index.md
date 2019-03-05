@@ -27,7 +27,7 @@ requests to a testing Vault CA:
         --name=istio \
         --namespace=istio-system \
         --set global.proxy.excludeIPRanges="35.233.249.249/32" \
-        --values install/kubernetes/helm/istio/values-istio-example-sds-vault.yaml \
+        --values install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml \
         install/kubernetes/helm/istio >> istio-auth.yaml
     $ kubectl create -f istio-auth.yaml
     {{< /text >}}
@@ -38,7 +38,7 @@ address `35.233.249.249`. The configuration
 the testing Vault server, so that Envoy will not intercept the traffic from
 Node Agent to Vault.
 
-The yaml file [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/values-istio-example-sds-vault.yaml)
+The yaml file [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml)
 contains the configuration that enables SDS (secret discovery service) in Istio.
 The Vault CA related configuration is set as environmental variables:
 
