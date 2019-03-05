@@ -235,7 +235,7 @@ EOF
 
 {{< tip >}}
 This rule, along with the global authentication policy and destination rule, above,
-will automatically be injected into the system when Istio is installed with mutual TLS enabled.
+is automatically injected into the system when you install Istio with mutual TLS enabled.
 {{< /tip >}}
 
 Re-run the testing command above to confirm that it returns 200 after the rule is added:
