@@ -13,7 +13,7 @@ service.
 ## Before you begin
 
 1. Setup Istio in a Kubernetes cluster by following the instructions in the
-   [Installation Guide](/docs/setup/kubernetes/quick-start/).
+   [Installation Guide](/docs/setup/kubernetes/install/kubernetes/).
 
 1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 

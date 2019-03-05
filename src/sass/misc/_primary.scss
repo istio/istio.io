@@ -20,6 +20,11 @@
     padding-left: .5rem;
     padding-right: .5rem;
 
+    @media print {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     @media screen AND (min-width: $bp-md) {
         grid-template-columns: [sidebar] 20% [article] calc(80% - 1rem);
         padding-left: 1rem;
@@ -37,6 +42,12 @@
     &.notoc {
         @media screen AND (min-width: $bp-xl) {
             grid-template-columns: [sidebar] 16% [article] calc(84% - 1rem);
+        }
+    }
+
+    #see-also {
+        @media print {
+            display: none;
         }
     }
 }

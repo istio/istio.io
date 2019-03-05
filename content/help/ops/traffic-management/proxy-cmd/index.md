@@ -14,7 +14,7 @@ to inspect Envoy configuration and diagnose the issue.
 If you want to try the commands described below, you can either:
 
 * Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
-[installation steps](/docs/setup/kubernetes/quick-start/#installation-steps) and
+[installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps) and
 [Bookinfo installation steps](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
 
 OR

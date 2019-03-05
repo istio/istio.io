@@ -2,9 +2,9 @@
 {{ $needTOC := .Scratch.Get "needTOC" }}
 
 {{ if and $needTOC (ne .Params.force_inline_toc true) }}
-    <div class="primary">
+    <main class="primary">
 {{ else }}
-    <div class="primary notoc">
+    <main class="primary notoc">
 {{ end }}
 
     <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
@@ -19,83 +19,90 @@
 
     <div class="article-container">
         {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
-            <label id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
+            <button id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
                 {{ partial "icon.html" "pull" }}
-            </label>
+            </button>
         {{ end }}
 
-        <div class="pagenav">
-            <p>{{- partial "breadcrumbs.html" . -}}</p>
-        </div>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            {{- partial "breadcrumbs.html" . -}}
+        </nav>
 
-        <main aria-labelledby="title">
-            <h1 id="title">
+        <article aria-labelledby="title">
+            <div class="title-area">
                 {{- if .Params.icon -}}
-                    <i class="page-icon">
-                        {{- partial "icon.html" .Params.icon -}}
-                    </i>
+                    <div>
+                        <i class="title-icon">
+                            {{- partial "icon.html" .Params.icon -}}
+                        </i>
+                    </div>
                 {{- end -}}
-                {{- .Title -}}
-            </h1>
 
-            {{ if .Params.subtitle }}
-                {{ if (strings.HasSuffix .Params.subtitle ".") }}
-                    {{ errorf "Subtitles should not end in a period: '%s" .Params.subtitle }}
-                {{ else }}
-                    <p class="subtitle">{{ .Params.subtitle }}</p>
-                {{ end }}
-            {{ end }}
+                <div>
+                    <h1 id="title">
+                        {{- .Title -}}
+                    </h1>
 
-            {{ if not .Params.skip_byline }}
-                {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
-                    <p class="byline">
-                        {{- $needBar := false -}}
-                        {{- if .Params.attribution -}}
-                            <span>{{- i18n "page_attribution" -}}</span>
-                            <span class="attribution">{{- .Params.attribution -}}</span>
+                    {{ if .Params.subtitle }}
+                        {{ if (strings.HasSuffix .Params.subtitle ".") }}
+                            {{ errorf "Subtitles should not end in a period: '%s" .Params.subtitle }}
+                        {{ else }}
+                            <p class="subtitle">{{ .Params.subtitle }}</p>
+                        {{ end }}
+                    {{ end }}
 
-                            {{- if .Params.twitter -}}
-                                (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
-                            {{- end -}}
+                    {{ if not .Params.skip_byline }}
+                        {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                            <p class="byline">
+                                {{- $needBar := false -}}
+                                {{- if .Params.attribution -}}
+                                    <span>{{- i18n "page_attribution" -}}</span>
+                                    <span class="attribution">{{- .Params.attribution -}}</span>
 
-                            {{- $needBar = true -}}
-                        {{- end -}}
+                                    {{- if .Params.twitter -}}
+                                        (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
+                                    {{- end -}}
 
-                        {{- if ne .PublishDate.Year 0001 -}}
-                            {{- if $needBar -}}
-                                <span> | </span>
-                            {{- end -}}
-
-                            <span>
-                                {{- partial "icon.html" "calendar" -}}
-                                <span>&nbsp;</span>
-                                {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
-
-                                {{- if .Params.last_update -}}
-                                    <span>&nbsp;</span>
-                                    {{- $date := time .Params.last_update -}}
-                                    {{- $date = $date.Format (i18n "page_publish_date_format") -}}
-                                    {{- printf (i18n "page_last_update_format") $date -}}
+                                    {{- $needBar = true -}}
                                 {{- end -}}
-                            </span>
 
-                            {{- $needBar = true }}
-                        {{- end -}}
+                                {{- if ne .PublishDate.Year 0001 -}}
+                                    {{- if $needBar -}}
+                                        <span> | </span>
+                                    {{- end -}}
 
-                        {{- if gt .Page.ReadingTime 1 -}}
-                            {{- if $needBar -}}
-                                <span> | </span>
-                            {{- end -}}
+                                    <span>
+                                        {{- partial "icon.html" "calendar" -}}
+                                        <span>&nbsp;</span>
+                                        {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
 
-                            <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
-                                {{- partial "icon.html" "clock" -}}
-                                <span>&nbsp;</span>
-                                {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
-                            </span>
-                        {{- end -}}
-                    </p>
-                {{ end }}
-            {{ end }}
+                                        {{- if .Params.last_update -}}
+                                            <span>&nbsp;</span>
+                                            {{- $date := time .Params.last_update -}}
+                                            {{- $date = $date.Format (i18n "page_publish_date_format") -}}
+                                            {{- printf (i18n "page_last_update_format") $date -}}
+                                        {{- end -}}
+                                    </span>
+
+                                    {{- $needBar = true }}
+                                {{- end -}}
+
+                                {{- if gt .Page.ReadingTime 1 -}}
+                                    {{- if $needBar -}}
+                                        <span> | </span>
+                                    {{- end -}}
+
+                                    <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
+                                        {{- partial "icon.html" "clock" -}}
+                                        <span>&nbsp;</span>
+                                        {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
+                                    </span>
+                                {{- end -}}
+                            </p>
+                        {{ end }}
+                    {{ end }}
+                </div>
+            </div>
 
             {{ if $needTOC }}
                 <nav class="toc-inlined{{ if .Params.force_inline_toc }} toc-forced{{ end }}">

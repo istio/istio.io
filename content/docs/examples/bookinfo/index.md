@@ -75,7 +75,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
-1.  Deploy your application using `kubectl` as usual:
+1.  Deploy your application using the `kubectl` command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
