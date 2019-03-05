@@ -41,7 +41,7 @@ To quickly test Istio's features, you can:
 ## Installing Istio for production
 
 We recommend you install Istio for production using the
-[Helm Installation guide](/docs/setup/kubernetes/install/helm/)
+[Helm Installation guide](/docs/setup/kubernetes/install/helm/).
 
 If you run Kubernetes on a supported platform, you can follow the instructions
 specific to your Kubernetes platform:
