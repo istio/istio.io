@@ -35,7 +35,12 @@ controlled way.
 {{< warning >}}
 If the egress gateway is not enabled, run the following command to enable it:
 {{< text bash >}}
-$ helm template $HOME/istio-fetch/istio --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
+$ helm template $HOME/istio-fetch/istio --name istio-egressgateway --namespace istio-system \
+    -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml \
+    -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml \
+    -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml \
+    --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false \
+    --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
 {{< /text >}}
 {{< /warning >}}
 {{< /warning >}}
