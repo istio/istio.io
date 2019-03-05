@@ -50,7 +50,7 @@ This permits customization of Istio to operator specific requirements.
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
-1. Install one of the following variants of the `demo profile`:
+1. Install one of the following variants of the **demo profile**:
 
 {{< tabset cookie-name="profile" >}}
 
