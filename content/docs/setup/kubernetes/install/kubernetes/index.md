@@ -118,7 +118,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     If your cluster is running in an environment that does not
     support an external load balancer (e.g., minikube), the
     `EXTERNAL-IP` of `istio-ingressgateway` will
-    say `<pending>`. You will need to access it using the service's
+    `<pending>`. To access the gateway, use the service's
     `NodePort`, or use port-forwarding instead.
     {{< /tip >}}
 
