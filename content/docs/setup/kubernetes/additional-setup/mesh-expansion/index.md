@@ -294,9 +294,15 @@ which creates a Kubernetes `selector-less` service.
     </body>
     {{< /text >}}
 
+**Congratulations!**
+You successfully configured a service running in a pod within the cluster to
+send traffic to a service running on a VM outside of the cluster and tested that
+the configuration worked.
+
 ## Cleanup
 
-Run the following commands to remove the expansion VM from the mesh.
+Run the following commands to remove the expansion VM from the mesh's abstract
+model.
 
 {{< text bash >}}
 $ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP}
