@@ -164,13 +164,13 @@ other = "模版"
 other = "订阅"
 
 [see_also]
-other = "See also"
+other = "相关内容"
 
 [links]
-other = "Links"
+other = "链接"
 
 [generated_file]
-other = "This is an auto-generated file, please edit the source in the %s repo."
+other = "这是一个自动生成的文件，要修改其中的内容，请修改 %s 仓库中的源码。"
 
 [switch_lang]
-other = "Switch to English"
+other = "切换到英文版"
