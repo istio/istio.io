@@ -96,11 +96,11 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 
     {{< /text >}}
 
-1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    56
+    58
     {{< /text >}}
 
 1. Render and apply Istio's core components:
@@ -186,11 +186,11 @@ to manage the lifecycle of Istio.
 
     {{< /text >}}
 
-1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    56
+    58
     {{< /text >}}
 
 1. Install the `istio` chart:
