@@ -68,7 +68,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
 1.  Change directory to the root of the Istio installation.
 
-1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
+1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
     Label the namespace that will host the application with `istio-injection=enabled`:
 
     {{< text bash >}}
@@ -91,7 +91,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
     {{< tip >}}
     If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
-    (/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection), use the `istioctl kube-inject` command
+    (/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection), use the `istioctl kube-inject` command
     to modify the `bookinfo.yaml` file before deploying your apoplication,
     as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject):
     {{< /tip >}}
