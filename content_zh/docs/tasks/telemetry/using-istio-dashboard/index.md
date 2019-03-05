@@ -81,7 +81,7 @@ keywords: [telemetry,visualization]
 
     这里给出了指定服务的详细指标，还有该服务的客户端工作负载（正在调用这一服务的工作负载）以及服务端工作负载（提供服务的工作负载）。
 
-1. 可视化的工作负载 Dashboards。
+1. 可视化的工作负载 Dashboard。
 
     从 Grafana Dashboard 左侧的导航菜单中打开 Istio 工作负载 Dashboard，或者用浏览器打开 [http://localhost:3000/dashboard/db/istio-workload-dashboard](http://localhost:3000/dashboard/db/istio-workload-dashboard)。
 
