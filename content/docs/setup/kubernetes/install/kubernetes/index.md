@@ -1,6 +1,6 @@
 ---
-title: Install Istio on a Kubernetes Cluster
-description: Instructions to install the Istio service mesh in a Kubernetes cluster.
+title: Quick Start Evaluation Install
+description: Instructions to install and configure an Istio mesh in a Kubernetes cluster for evaluation.
 weight: 55
 keywords: [kubernetes]
 aliases:
