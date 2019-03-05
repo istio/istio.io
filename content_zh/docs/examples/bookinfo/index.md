@@ -84,12 +84,6 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     在实际部署中，微服务版本的启动过程需要持续一段时间，并不是同时完成的。
     {{< /tip >}}
 
-1. 给应用定义 Ingress gateway：
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
-    {{< /text >}}
-
 1. 确认所有的服务和 Pod 都已经正确的定义和启动：
 
     {{< text bash >}}
@@ -113,6 +107,13 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
     reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
+    {{< /text >}}
+
+1.  要确认 Bookinfo 应用程序正在运行，请通过某个 pod 中的 `curl` 命令向其发送请求，例如来自 `ratings`：
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
     {{< /text >}}
 
 #### 确定 Ingress 的 IP 和端口
@@ -179,9 +180,8 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 可以用 `curl` 命令来确认 Bookinfo 应用的运行情况：
 
 {{< text bash >}}
-$ curl -I http://${GATEWAY_URL}/productpage
-HTTP/1.1 200 OK
-...
+$ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+<title>Simple Bookstore App</title>
 {{< /text >}}
 
 还可以用浏览器打开网址 `http://$GATEWAY_URL/productpage`，来浏览应用的 Web 页面。如果刷新几次应用的页面，就会看到 `productpage` 页面中会随机展示 `reviews` 服务的不同版本的效果（红色、黑色的星形或者没有显示）。`reviews` 服务出现这种情况是因为我们还没有使用 Istio 来控制版本的路由。
@@ -231,9 +231,10 @@ $ kubectl get destinationrules -o yaml
 1. 确认应用已经关停
 
     {{< text bash >}}
-    $ istioctl get gateway           #-- 此处应该已经没有 Gateway
-    $ istioctl get virtualservices   #-- 此处应该已经没有 VirtualService
-    $ kubectl get pods               #-- Bookinfo 的所有 Pod 应该都已经被删除
+    $ kubectl get virtualservices   #-- there should be no virtual services
+    $ kubectl get destinationrules  #-- there should be no destination rules
+    $ kubectl get gateway           #-- there should be no gateway
+    $ kubectl get pods               #-- the Bookinfo pods should be deleted
     {{< /text >}}
 
 ### 在 Docker 环境中完成删除
@@ -249,6 +250,6 @@ $ kubectl get destinationrules -o yaml
 1. 确认应用已经关停
 
     {{< text bash >}}
-    $ istioctl get virtualservices   #-- 此处应该已经没有 VirtualService
+    $ kubectl get virtualservices   #-- 此处应该已经没有 VirtualService
     $ docker ps -a                   #-- Bookinfo 的所有容器应该都已经被删除
     {{< /text >}}
