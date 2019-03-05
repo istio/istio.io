@@ -8,7 +8,7 @@ aliases:
 ---
 
 Follow these instructions to quickly get started evaluating Istio in a Kubernetes cluster on any platform.
-These instructions install a precofigured Istio `demo profile` using basic Kubernetes commands,
+These instructions install a preconfigured Istio `demo profile` using basic Kubernetes commands,
 without needing to download or install [helm](https://github.com/helm/helm).
 
 {{< tip >}}
@@ -24,15 +24,15 @@ This permits customization of Istio to operator specific requirements.
 
 1. [Kubernetes platform setup](/docs/setup/kubernetes/platform-setup/):
 
-  * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
-  * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
-  * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
-  * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker/)
-  * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
-  * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
-  * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
-  * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
-  * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/platform-setup/oci/)
+    * [Alibaba Cloud](/docs/setup/kubernetes/platform-setup/alicloud/)
+    * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/platform-setup/aws/)
+    * [Azure](/docs/setup/kubernetes/platform-setup/azure/)
+    * [Docker For Desktop](/docs/setup/kubernetes/platform-setup/docker/)
+    * [Google Container Engine (GKE)](/docs/setup/kubernetes/platform-setup/gke/)
+    * [IBM Cloud](/docs/setup/kubernetes/platform-setup/ibm/)
+    * [Minikube](/docs/setup/kubernetes/platform-setup/minikube/)
+    * [OpenShift Origin](/docs/setup/kubernetes/platform-setup/openshift/)
+    * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/platform-setup/oci/)
 
     {{< tip >}}
     Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
@@ -76,6 +76,7 @@ Run the following command to install this variant:
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
+
 {{% /tab %}}
 
 {{% tab name="strict mTLS" cookie-value="strict" %}}
@@ -90,6 +91,7 @@ Run the following command to install this variant:
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
+
 {{% /tab %}}
 
 {{< /tabset >}}
@@ -172,21 +174,24 @@ The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
 all resources hierarchically under it. It is safe to ignore errors for
 non-existent resources because they may have been deleted hierarchically.
 
-
 * Uninstall the `demo profile` corresponding to the variant you installed:
 
 {{< tabset cookie-name="profile" >}}
 
 {{% tab name="permissive mTLS" cookie-value="permissive" %}}
+
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
+
 {{% /tab %}}
 
 {{% tab name="strict mTLS" cookie-value="strict" %}}
+
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
+
 {{% /tab %}}
 
 {{< /tabset >}}
