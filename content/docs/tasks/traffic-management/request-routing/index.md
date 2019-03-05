@@ -206,7 +206,7 @@ to the request by the `productpage` service.
 
 Note that Kubernetes services, like the Bookinfo ones used in this task, must
 adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements) for details.
+Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/) for details.
 
 In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
 will follow the same basic pattern you learned here to configure route rules to

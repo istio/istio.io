@@ -114,7 +114,7 @@
 
     <body class="language-unknown {{ $site_mode}}">
         <!-- set the color theme as soon as possible -->
-        <script src="/js/styleSwitcher.min.js"></script>
+        <script src="/js/themes_init.min.js"></script>
 
         <!-- inject some build-time constants into JavaScript-land -->
         <script>
@@ -126,8 +126,7 @@
             const buttonDownload = '{{ i18n "button_download" }}';
         </script>
 
-        <!-- libraries we pull in -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
+        <!-- libraries we unconditionally pull in -->
         <script src="https://www.google.com/cse/brand?form=search-form" defer></script>
 
         <!-- our own stuff -->
@@ -137,13 +136,27 @@
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
 
-        <div id="scroll-to-top-container">
-            <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>
-                {{ partial "icon.html" "top" }}
-            </button>
-        </div>
+        <!-- libraries we conditionally pull in -->
+        {{ if .Scratch.Get "needPopper" }}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
+        {{ end }}
+
+        <nav>
+            <div id="scroll-to-top-container">
+                <button id="scroll-to-top" aria-hidden="true" title='{{ i18n "button_top"}}'>
+                    {{ partial "icon.html" "top" }}
+                </button>
+            </div>
+        </nav>
 
         {{ if .Site.Data.args.preliminary }}
+            <div id="switch-lang-container">
+                {{ $home := .Site.GetPage "home" }}
+                <a id="switch-lang" class="not-for-endnotes" aria-hidden="true" title='{{ i18n "switch_lang"}}'>
+                    {{ partial "icon.html" "switch-lang" }}
+                </a>
+            </div>
+
             {{ if .Page.Params.source_repo }}
                 <div id="edit-this-page-container">
                     {{ $msg := i18n "generated_file" }}

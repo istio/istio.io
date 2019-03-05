@@ -21,7 +21,7 @@ information on customized Istio deployments.
 [mutating webhook feature](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#api-machinery) to provide automatic
 pod-level proxy injection. Automatic injection requires Kubernetes 1.9 or beyond and
 therefore doesn't work on older versions. The alpha initializer mechanism is no longer supported.
-[Learn more](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+[Learn more](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 
 - **Revised Traffic Rules**. Based on user feedback, we have made significant changes to Istio's traffic management
 (routing rules, destination rules, etc.). We would love your continuing feedback while we polish this in the coming weeks.

@@ -11,7 +11,7 @@ keywords: [security,certificates]
 
 ## 开始之前
 
-* 根据 [quick start](/zh/docs/setup/kubernetes/quick-start/) 内容，安装 Istio 并启用双向 TLS：
+* 根据 [quick start](/zh/docs/setup/kubernetes/install/kubernetes/) 内容，安装 Istio 并启用双向 TLS：
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
@@ -19,7 +19,7 @@ keywords: [security,certificates]
 
     _**或者**_
 
-    使用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 并设置 `global.mtls.enabled` 为 `true`.
+    使用 [Helm](/zh/docs/setup/kubernetes/install/helm/) 并设置 `global.mtls.enabled` 为 `true`.
 
 {{< tip >}}
 从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
