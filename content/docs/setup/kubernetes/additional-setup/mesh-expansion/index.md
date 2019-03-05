@@ -236,7 +236,6 @@ additional services to Istio's model of the mesh so that other services can find
 `ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
 particular service, as in the following example.
 
-
     {{< text bash yaml >}}
     $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -288,7 +287,7 @@ which creates a Kubernetes `selector-less` service.
     <title>Directory listing for /</title>
     <body>
     <h2>Directory listing for /</h2>
-    <hr>   
+    <hr>
     <ul>                                                                
     <li><a href=".bashrc">.bashrc</a>
     <li><a href=".ssh/">.ssh/</a>
