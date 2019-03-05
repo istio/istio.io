@@ -209,31 +209,3 @@ to manage the lifecycle of Istio.
     $ helm delete --purge istio-init
 
     {{< /text >}}
-
-## Deleting CRDs and Istio Configuration
-
-{{< tip >}}
-Istio, by design, expects Istio's Custom Resources contained within CRDs to leak into the
-Kubernetes environment. CRDs contain the runtime configuration set by the operator.
-Because of this, we consider it better for operators to explicitly delete the runtime
-configuration data rather than unexpectedly lose it.
-{{< /tip >}}
-
-{{< warning >}}
-Deleting CRDs permanently deletes any configuration changes that you have made to Istio.
-{{< /warning >}}
-
-{{< tip >}}
-The `istio-init` chart contains all raw CRDs in the `istio-init/ifiles` directory.  After fetching this
-chart, you can simply delete the CRDs using `kubectl`.
-{{< /tip >}}
-
-1. To permanently delete Istio's CRDs and all Istio configuration:
-
-    {{< text bash >}}
-
-    $ mkdir -p $HOME/istio-fetch
-    $ helm fetch istio.io/istio-init --untar --untardir $HOME/istio-fetch
-    $ kubectl delete -f $HOME/istio-fetch/istio-init/files
-
-    {{< /text >}}
