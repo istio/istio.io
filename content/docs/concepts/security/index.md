@@ -100,7 +100,7 @@ Istio provides a more comprehensive security solution, including authentication,
 
 ## PKI
 
-The Istio PKI is built on top of Istio Citadel and securely provisions strong workload identities to every workload.
+The Istio PKI is built on top of Istio Citadel and securely provisions strong identities to every workload.
 Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
 The PKI also automates the key & certificate rotation at scale.
 
@@ -122,7 +122,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
    which defines what service account or accounts can run a certain service.
    Pilot then passes the secure naming information to the sidecar Envoy.
 
-### on-premises machines scenario
+### On-premises machines scenario
 
 1. Citadel creates a gRPC service to take [Certificate Signing Requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 
@@ -135,7 +135,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
-### Node Agent in Kubernetes
+### Node agent in Kubernetes
 
 Istio provides the option of using node agent in Kubernetes for certificate and key provisioning, as shown in the figure below.
 Note that the identity provisioning flow for on-premises machines will be similar in the near future, we only describe the Kubernetes scenario here.
@@ -165,7 +165,7 @@ In this section, we provide a few deployment guidelines and discuss a real-world
 If there are multiple service operators (a.k.a. [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering))
 deploying different services in a medium- or large-size cluster, we recommend creating a separate
 [Kubernetes namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/) for each SRE team to isolate their access.
- For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
+For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
 that both teams cannot access each other's services.
 
 {{< warning >}}
@@ -310,7 +310,7 @@ the request. For mutual TLS, Istio provides a [destination rule](/docs/concepts/
 The operator can use the destination rule to instruct client proxies to make
 initial connections using TLS with the certificates expected on the server
 side. You can find out more about how mutual TLS works in Istio in
-[PKI and identity section](/docs/concepts/security/mutual-tls/).
+[Mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication).
 
 {{< image width="60%" link="./authn.svg" caption="Authentication Architecture" >}}
 

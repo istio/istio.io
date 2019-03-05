@@ -17,7 +17,7 @@ keywords: [traffic-management,ingress]
 
 *   启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
 
-    如果您已启用[自动注入 Sidecar](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请执行
+    如果您已启用[自动注入 Sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，请执行
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
