@@ -8,7 +8,7 @@ aliases:
 ---
 
 Follow these instructions to quickly get started evaluating Istio in a Kubernetes cluster on any platform.
-These instructions install a preconfigured Istio `demo profile` using basic Kubernetes commands,
+This path installs a preconfigured Istio **demo profile** using basic Kubernetes commands
 without needing to download or install [Helm](https://github.com/helm/helm).
 
 {{< tip >}}
