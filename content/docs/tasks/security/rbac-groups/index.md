@@ -1,5 +1,5 @@
 ---
-title: Groups-Based Authorization and Authorization for List-Typed Claims
+title: Authorization for groups and list claims
 description: Tutorial on how to configure the groups-base authorization and configure the authorization of list-typed claims in Istio.
 weight: 10
 keywords: [security,authorization]
@@ -12,7 +12,7 @@ authorization and the authorization of list-typed claims in Istio.
 
 * Read the [authorization](/docs/concepts/security/#authorization) concept
 and go through the guide on how to
-[configure Istio authorization](/docs/tasks/security/role-based-access-control).
+[configure Istio authorization](/docs/tasks/security/authz-http).
 
 * Read the Istio
 [authentication policy](/docs/concepts/security/#authentication-policies)
@@ -22,7 +22,7 @@ concepts.
 
 * Create a Kubernetes cluster with Istio installed and mutual TLS enabled.
 To fulfill this prerequisite you can follow the Kubernetes
-[installation instructions](/docs/setup/kubernetes/quick-start/#installation-steps).
+[installation instructions](/docs/setup/kubernetes/install/kubernetes/#installation-steps).
 
 ## Setup the required namespace and services
 
@@ -33,7 +33,7 @@ name of the namespace, creates the namespace, and starts the two services.
 Before running the following command, you need to enter the directory
 containing the Istio installation files.
 
-1.  Set the value of the `NS` environmental variable to `rbac-listclaim-test-ns`:
+1.  Set the value of the `NS` environmental variable to `rbac-groups-test-ns`:
 
     {{< text bash >}}
     $ export NS=rbac-groups-test-ns

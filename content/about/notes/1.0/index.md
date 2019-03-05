@@ -1,6 +1,6 @@
 ---
 title: Istio 1.0
-weight: 92
+publishdate: 2018-07-31
 icon: notes
 ---
 
@@ -15,7 +15,7 @@ relative to 0.8 as most of the effort for this release went into fixing bugs and
 ## Networking
 
 - **SNI Routing using Virtual Services**. Newly introduced `TLS` sections in
-[`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) can be used to route TLS traffic
+[`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) can be used to route TLS traffic
 based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with
 virtual service TLS routes. TLS/HTTPS ports without an accompanying virtual service will be treated as opaque TCP.
 
@@ -90,11 +90,11 @@ be configured using [authentication policies](/docs/concepts/security/#authentic
 ## Known issues with 1.0
 
 - Amazon's EKS service does not implement automatic sidecar injection.  Istio can be used in Amazon's
-  EKS by using [manual injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection) for
-  sidecars and turning off galley using the [Helm parameter](/docs/setup/kubernetes/helm-install)
+  EKS by using [manual injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection) for
+  sidecars and turning off galley using the [Helm parameter](/docs/setup/kubernetes/install/helm)
   `--set galley.enabled=false`.
 
-- In a [multicluster deployment](/docs/setup/kubernetes/multicluster-install) the mixer-telemetry
+- In a [multicluster deployment](/docs/setup/kubernetes/multicluster) the mixer-telemetry
   and mixer-policy components do not connect to the Kubernetes API endpoints of any of the remote
   clusters.  This results in a loss of telemetry fidelity as some of the metadata associated
   with workloads on remote clusters is incomplete.

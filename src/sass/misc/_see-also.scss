@@ -1,0 +1,27 @@
+.see-also {
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: [entry] 1fr;
+    grid-gap: 1em;
+
+    @media (min-width: $bp-sm) {
+        grid-template-columns: [entry] 1fr [entry] 1fr;
+    }
+
+    @media (min-width: $bp-xl) {
+        grid-template-columns: [entry] 1fr [entry] 1fr [entry] 1fr;
+    }
+
+    .entry {
+        padding: 0;
+
+        .link {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        .desc {
+            margin-top: 0;
+        }
+    }
+}

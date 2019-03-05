@@ -2,7 +2,7 @@
 title: Denials and White/Black Listing
 description: Shows how to control access to a service using simple denials or white/black listing.
 weight: 20
-keywords: [policies, denial, whitelist, blacklist]
+keywords: [policies,denial,whitelist,blacklist]
 aliases:
     - /docs/tasks/basic-access-control.html
     - /docs/tasks/security/basic-access-control/index.html
@@ -32,8 +32,10 @@ This task shows how to control access to a service using simple denials, attribu
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
-    > If you are using a namespace other than `default`,
-    > use `kubectl -n namespace ...` to specify the namespace.
+    {{< tip >}}
+    If you are using a namespace other than `default`,
+    use `kubectl -n namespace ...` to specify the namespace.
+    {{< /tip >}}
 
 ## Simple _denials_
 

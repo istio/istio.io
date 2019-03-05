@@ -21,7 +21,7 @@ configuration by intentionally "tripping" the circuit breaker.
 
 *   Add the [httpbin]({{< github_tree >}}/samples/httpbin) sample to the mesh:
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), run this command:
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), run this command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
@@ -37,10 +37,12 @@ configuration by intentionally "tripping" the circuit breaker.
 
 ## Configuring the circuit breaker
 
-1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to apply circuit breaking settings
+1.  Create a [destination rule](/docs/reference/config/networking/v1alpha3/destination-rule/) to apply circuit breaking settings
 when calling the `httpbin` service:
 
-    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
+    {{< warning >}}
+    If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

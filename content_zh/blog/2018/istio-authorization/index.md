@@ -4,7 +4,6 @@ description: 描述 Istio 的授权功能以及如何在各种用例中使用它
 publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
-weight: 87
 keywords: [authorization,Role Based Access Control,security]
 ---
 
@@ -63,7 +62,7 @@ keywords: [authorization,Role Based Access Control,security]
 
 ## 示例
 
-[授权任务](/zh/docs/tasks/security/role-based-access-control/)向您展示如何操作使用 Istio 的授权功能来控制命名空间级别
+[授权任务](/zh/docs/tasks/security/authz-http/)向您展示如何操作使用 Istio 的授权功能来控制命名空间级别
 和服务级别访问 [Bookinfo 应用](/zh/docs/examples/bookinfo/)。在本节中，您将看到有关如何实现的更多示例使用 Istio 授权进行
 微分割。
 
@@ -127,7 +126,7 @@ spec:
 #### 使用经过身份验证的客户端身份
 
 假设你想把这个 `book-reader` 角色授予你的 `bookstore-frontend` 服务。如果您已启用
-您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-TLS-认证),您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
+您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证),您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"

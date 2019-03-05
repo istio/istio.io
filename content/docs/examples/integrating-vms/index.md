@@ -11,9 +11,11 @@ This example deploys the Bookinfo services across Kubernetes and a set of
 Virtual Machines, and illustrates how to use Istio service mesh to control
 this infrastructure as a single mesh.
 
-> This example is still under development and only tested on Google Cloud Platform.
+{{< warning >}}
+This example is still under development and only tested on Google Cloud Platform.
 On IBM Cloud or other platforms where overlay network of Pods is isolated from VM network,
 VMs cannot initiate any direct communication to Kubernetes Pods even when using Istio.
+{{< /warning >}}
 
 ## Overview
 
@@ -26,11 +28,11 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/kubernetes/quick-start/).
+  [Installation guide](/docs/setup/kubernetes/install/kubernetes/).
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/setup/kubernetes/mesh-expansion/).
+* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
 
 ## Running MySQL on the VM
 

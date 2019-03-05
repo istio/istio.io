@@ -2,7 +2,7 @@
 title: Jaeger
 description: Learn how to configure the proxies to send tracing requests to Jaeger.
 weight: 10
-keywords: [telemetry,tracing,jaeger,span,port forwarding]
+keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 ---
 
 To learn how Istio handles tracing, visit this task's [overview](../overview/).

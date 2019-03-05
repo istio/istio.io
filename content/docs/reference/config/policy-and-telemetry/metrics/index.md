@@ -31,6 +31,12 @@ We will describe metrics first and then the labels for each metric.
 *   **Tcp Byte Received**: This is a `COUNTER` which measures the size of total
     bytes received during request in case of a TCP connection.
 
+*   **Tcp Connections Opened**: This is a `COUNTER` incremented for every opened
+    tcp connection.
+
+*   **Tcp Connections Closed**: This is a `COUNTER` incremented for every closed
+    tcp connection.
+
 ## Labels
 
 *   **Reporter**: This identifies the reporter of the request. It is set to `destination`
@@ -150,4 +156,12 @@ We will describe metrics first and then the labels for each metric.
 
     {{< text yaml >}}
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
+    {{< /text >}}
+
+*   **Response Flags**: Additional details about the response or connection from proxy.
+    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)
+    for more detail.
+
+    {{< text yaml >}}
+    response_flags: context.proxy_error_code | "-"
     {{< /text >}}

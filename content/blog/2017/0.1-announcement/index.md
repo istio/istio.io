@@ -4,7 +4,6 @@ description: Istio 0.1 announcement.
 publishdate: 2017-05-24
 subtitle: A robust service mesh for microservices
 attribution: The Istio Team
-weight: 100
 aliases:
     - /blog/istio-service-mesh-for-microservices.html
     - /blog/0.1-announcement.html

@@ -62,7 +62,9 @@ the example application throughout this task.
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    > `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+    {{< tip >}}
+    `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+    {{< /tip >}}
 
     Refresh the page a few times (or send the command a few times) to generate a
     small amount of traffic.
@@ -116,11 +118,11 @@ The Istio Dashboard consists of three main sections:
 
 1. Individual Services View. This section provides metrics about requests and
    responses for each individual service within the mesh (HTTP/gRPC and TCP).
-   Also, give metrics about client and service workloads for this service.
+   This also provides metrics about client and service workloads for this service.
 
 1. Individual Workloads View: This section provides metrics about requests and
-   responses for each individual workloads within the mesh (HTTP/gRPC and TCP).
-   Also, give metrics about inbound workloads and outbound services for this workload.
+   responses for each individual workload within the mesh (HTTP/gRPC and TCP).
+   This also provides metrics about inbound workloads and outbound services for this workload.
 
 For more on how to create, configure, and edit dashboards, please see the
 [Grafana documentation](https://docs.grafana.org/).

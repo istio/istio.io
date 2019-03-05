@@ -4,7 +4,6 @@ subtitle: 生产就绪的服务网格
 description: Istio 1.0 已生产就绪。
 publishdate: 2018-07-31
 attribution: The Istio Team
-weight: 85
 ---
 
 今天，我们很高兴地宣布 [Istio 1.0](/zh/about/notes/1.0)。这距离最初的 0.1 版本发布以来已经过了一年多时间了。从 0.1 起，Istio 就在蓬勃发展的社区、贡献者和用户的帮助下迅速发展。现在已经有许多公司成功将 Istio 应用于生产，并通过 Istio 提供的洞察力和控制力获得了真正的价值。我们帮助大型企业和快速发展的创业公司，如 [eBay](https://www.ebay.com/)、[Auto Trader UK](https://www.autotrader.co.uk/)、[Descartes Labs](http://www.descarteslabs.com/)、[HP FitStation](https://www.fitstation.com/)、[Namely](https://www.namely.com/)、[JUSPAY](https://juspay.in)、[PubNub](https://www.pubnub.com/) 和 [Trulia](https://www.trulia.com/) 使用 Istio 从头开始连接、管理和保护他们的服务。将此版本作为 1.0 发布是对我们构建了一组核心功能的认可，用户们可以依赖这些功能进行生产。
@@ -19,12 +18,12 @@ weight: 85
 
 自 0.8 发布以来，我们添加了一些重要的新功能，更重要的是将许多现有的功能标记为 Beta 表明它们可以用于生产。这在[发行说明](/zh/about/notes/1.0/)中有更详细的介绍，但值得一提是：
 
-- 现在可以将多个 Kubernetes 集群[添加到单个网格中](/zh/docs/setup/kubernetes/multicluster-install)，并启用跨集群通信和一致的策略实施。多集群支持现在是 Beta。
+- 现在可以将多个 Kubernetes 集群[添加到单个网格中](/zh/docs/setup/kubernetes/multicluster)，并启用跨集群通信和一致的策略实施。多集群支持现在是 Beta。
 - 通过网格实现对流量的细粒度控制的网络 API 现在是 Beta。使用网关显式建模 ingress 和 egress 问题，允许运维人员[控制网络拓扑](/zh/blog/2018/v1alpha3-routing/)并满足边缘的访问安全要求。
 - 现在可以[增量上线](/zh/docs/tasks/security/mtls-migration)双向 TLS，而无需更新服务的所有客户端。这是一项关键功能，可以解除在现有生产上部署采用 Istio 的障碍。
 - Mixer 现在支持[开发进程外适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)。这将成为在即将发布的版本中扩展 Mixer 的默认方式，这将使构建适配器更加简单。
 - 现在，Envoy 在本地完全评估了控制服务访问的[授权策略](/zh/docs/concepts/security/#认证策略)，从而提高了它们的性能和可靠性。
-- [Helm chart 安装](/zh/docs/setup/kubernetes/helm-install/) 现在是推荐的安装方法，提供丰富的自定义选项，以便根据您的需求配置 Istio。
+- [Helm chart 安装](/zh/docs/setup/kubernetes/install/helm/) 现在是推荐的安装方法，提供丰富的自定义选项，以便根据您的需求配置 Istio。
 - 我们在性能方面投入了大量精力，包括连续回归测试、大规模环境模拟和目标修复。我们对结果非常满意，并将在未来几周内详细分享。
 
 ## 下一步

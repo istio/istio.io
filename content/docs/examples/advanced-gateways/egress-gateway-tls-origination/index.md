@@ -19,7 +19,7 @@ TLS origination for traffic to external services.
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -60,11 +60,11 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       - edition.cnn.com
       ports:
       - number: 80
-        name: http-port
+        name: http
         protocol: HTTP
       - number: 443
-        name: http-port-for-tls-origination
-        protocol: HTTP
+        name: https
+        protocol: HTTPS
       resolution: DNS
     EOF
     {{< /text >}}
@@ -86,8 +86,14 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and a destination rule for
     sidecar requests that will be directed to the egress gateway.
 
-    Choose the instructions corresponding to whether or not you have
-    [mutual TLS authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    Choose the instructions corresponding to whether or not you want to enable
+    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+
+    {{< idea >}}
+    You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.
+    In addition, mutual TLS will allow the egress gateway to monitor the identity of the source pods and enable Mixer
+    policy enforcement based on that identity.
+    {{< /idea >}}
 
     {{< tabset cookie-name="mtls" >}}
 
@@ -104,7 +110,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
         istio: egressgateway
       servers:
       - port:
-          number: 443
+          number: 80
           name: https
           protocol: HTTPS
         hosts:
@@ -128,7 +134,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
             simple: ROUND_ROBIN
           portLevelSettings:
           - port:
-              number: 443
+              number: 80
             tls:
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
@@ -150,7 +156,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
         istio: egressgateway
       servers:
       - port:
-          number: 443
+          number: 80
           name: http-port-for-tls-origination
           protocol: HTTP
         hosts:
@@ -196,12 +202,12 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
             host: istio-egressgateway.istio-system.svc.cluster.local
             subset: cnn
             port:
-              number: 443
+              number: 80
           weight: 100
       - match:
         - gateways:
           - istio-egressgateway
-          port: 443
+          port: 80
         route:
         - destination:
             host: edition.cnn.com
@@ -321,7 +327,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
-    [enabled](/docs/setup/kubernetes/sidecar-injection/#deploying-an-app) on it.
+    [enabled](/docs/setup/kubernetes/additional-setup/sidecar-injection/#deploying-an-app) on it.
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external
@@ -622,7 +628,7 @@ to hold the configuration of the NGINX server:
     you used for generating your `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
+    $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
     --set gateways.istio-egressgateway.secretVolumes[0].name=egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].secretName=istio-egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].mountPath=/etc/istio/egressgateway-certs \

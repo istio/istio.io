@@ -5,7 +5,9 @@ weight: 30
 keywords: [consul]
 ---
 
-> 在 Nomad 上安装还没有被测试过
+{{< warning >}}
+在 Nomad 上安装还没有被测试过。
+{{< /warning >}}
 
 在非 Kubernetes 环境中使用 Istio 包含几个关键任务：
 
@@ -82,4 +84,6 @@ Istio Pilot 、Mixer 和 Citadel 的 Debian 包可以通过 Istio 的发行版�
 
 为了能够通过 Istio sidecars 透明地路由应用的网络流量，部分 sidecar 的安装需要设置适当的 IP Table 规则。这种转发规则的 IP Table 脚本可以在[这里]({{< github_file >}}/tools/deb/istio-iptables.sh)找到。
 
-> 该脚本必须在启动应用和 sidecar 之前执行。
+{{< warning >}}
+该脚本必须在启动应用和 sidecar 之前执行。
+{{< /warning >}}

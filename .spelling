@@ -79,7 +79,6 @@ backend
 backends
 base64
 BigQuery
-bind-productpager-viewer
 bitpipe
 BluePerf
 BluePerf
@@ -91,6 +90,7 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+Callouts
 camelCase
 canaried
 canarying
@@ -267,6 +267,8 @@ learnings
 LibreSSL
 lifecycle
 LightStep
+linter
+linters
 liveness
 logInfo
 loopback
@@ -401,6 +403,7 @@ runtimes
 sa
 sayin
 schemas
+SDKs
 secretName
 Secura
 selinux
@@ -408,6 +411,7 @@ serverless
 serviceaccount
 ServiceGraph
 servicegraph-example
+ServiceMesher
 sha256
 sharded
 Sharding

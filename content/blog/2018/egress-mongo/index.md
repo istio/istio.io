@@ -4,7 +4,6 @@ description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-11-16
 subtitle: Istio Egress Control Options for MongoDB traffic
 attribution: Vadim Eisenberg
-weight: 79
 keywords: [traffic-management,egress,tcp,mongo]
 ---
 
@@ -93,7 +92,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 This application uses the `ratings` microservice to fetch book ratings, a number between 1 and 5. The ratings are
@@ -122,7 +121,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService). These virtual services are
+    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
@@ -165,7 +164,7 @@ stable or known in advance.
 
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be
 [controlled as TLS traffic](#egress-control-for-tls), or the traffic can be routed
-[directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
+[directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services), bypassing the Istio sidecar
 proxies.
 
 Get the IP address of your MongoDB database instance. As an option, you can use the

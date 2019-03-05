@@ -22,12 +22,12 @@ If the file is not updated for a period, the probe will be triggered and Kubelet
 
 Note: because Citadel health checking currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using the
-[Istio Mesh Expansion](/docs/setup/kubernetes/mesh-expansion/) (which requires the CSR service API).
+[Istio Mesh Expansion](/docs/setup/kubernetes/additional-setup/mesh-expansion/) (which requires the CSR service API).
 
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
+  [quick start](/docs/setup/kubernetes/install/kubernetes/) with global mutual TLS enabled:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
@@ -35,9 +35,11 @@ this feature is not needed if the production setup is not using the
 
     _**OR**_
 
-    Using [Helm](/docs/setup/kubernetes/helm-install/) with `global.mtls.enabled` to `true`.
+    Using [Helm](/docs/setup/kubernetes/install/helm/) with `global.mtls.enabled` to `true`.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+{{< tip >}}
+Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+{{< /tip >}}
 
 ## Deploying Citadel with health checking
 

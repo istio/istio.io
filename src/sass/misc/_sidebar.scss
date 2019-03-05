@@ -1,0 +1,171 @@
+@media screen {
+    .sidebar-offcanvas {
+        @media (max-width: $bp-md - 1) {
+            position: absolute;
+            width: 80%;
+            transition: all .4s ease;
+            left: -$bp-md;
+            top: $headerHeight;
+        }
+
+        @media (min-width: $bp-md) {
+            position: unset;
+            width: auto;
+        }
+    }
+
+    .sidebar-offcanvas.active {
+        left: 1rem;
+    }
+}
+
+#sidebar {
+    order: 0;
+    font-size: 85%;
+
+    @media (min-width: $bp-xl) {
+        font-size: 100%;
+    }
+
+    @supports ((position:-webkit-sticky) or (position:sticky)) {
+        position: -webkit-sticky;
+        position: sticky;
+        top: $headerHeight;
+    }
+
+    padding-top: .1rem;
+
+    @media (min-width: $bp-md) {
+        padding-top: 1rem;
+    }
+
+    .directory {
+        @supports ((position:-webkit-sticky) or (position:sticky)) {
+            max-height: calc(100vh - 9rem);
+        }
+
+        @media (min-width: $bp-md) {
+            @supports ((position:-webkit-sticky) or (position:sticky)) {
+                max-height: calc(100vh - 9rem);
+                overflow-y: auto;
+            }
+
+            display: block !important;
+        }
+
+        a {
+            font-weight: $sidebarLinkWeight;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+
+            &[aria-expanded=true] {
+                display: block;
+            }
+        }
+
+        li {
+            margin: .7em 0 .7em 1.3rem;
+            padding: 0;
+            font-size: 85%;
+            position: relative;
+
+            .current {
+                color: $linkActiveColor;
+                font-weight: $sidebarCurrentPageWeight;
+            }
+        }
+
+        .body > ul.leaf-section > li {
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            border: 0;
+            background: $sidebarRightChevron no-repeat;
+            width: 1rem;
+            height: 1rem;
+            left: -1.3rem;
+            position: absolute;
+
+            &.show {
+                background: $sidebarDownChevron no-repeat;
+            }
+
+            &:focus {
+                outline: 0;
+            }
+        }
+
+        button:hover {
+            background: $sidebarRightChevronHover no-repeat;
+            &.show {
+                background: $sidebarDownChevronHover no-repeat;
+            }
+        }
+
+        .card {
+            background-color: $backgroundColor;
+            margin-top: .1rem;
+            margin-bottom: .1rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-clip: border-box;
+            border: 1px solid $dividerBarColor;
+            border-radius: $border-radius;
+
+            .header {
+                margin-bottom: 0;
+                background-color: rgba(0, 0, 0, .03);
+                border-bottom: 1px solid $dividerBarColor;
+                padding: .75em 1.25em;
+                cursor: pointer;
+                color: $linkColor;
+
+                &:hover {
+                    color: $linkHoverColor;
+                }
+
+                div {
+                    padding: .75em 1.25em;
+                }
+
+                svg {
+                    margin-right: 0.3em;
+                }
+
+                a {
+                    text-decoration: none;
+                }
+            }
+
+            .body {
+                flex: 1 1 auto;
+                overflow: hidden;
+                padding: 0 1em;
+                max-height: 0;
+                transform: scaleY(0) scaleX(0);
+                transition: max-height .6s ease-out, padding, transform .6s;
+
+                &.show {
+                    padding: .5em 1em;
+                    transform: scaleY(1) scaleX(1);
+                }
+
+                &.default {
+                    padding: .5em 1em;
+                    transform: scaleY(1) scaleX(1);
+                    max-height: unset;
+                }
+            }
+        }
+    }
+}

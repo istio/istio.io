@@ -4,13 +4,14 @@ description: Using Istio to create autoscaled canary deployments.
 publishdate: 2017-06-14
 last_update: 2018-05-16
 attribution: Frank Budinsky
-weight: 98
 keywords: [traffic-management,canary]
 aliases:
     - /blog/canary-deployments-using-istio.html
 ---
 
-> This post was updated on May 16, 2018 to use the latest version of the traffic management model.
+{{< tip >}}
+This post was updated on May 16, 2018 to use the latest version of the traffic management model.
+{{< /tip >}}
 
 One of the benefits of the [Istio](/) project is that it provides the control needed to deploy canary services. The idea behind
 canary deployment (or rollout) is to introduce a new version of a service by first testing it using a small percentage of user

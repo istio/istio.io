@@ -4,7 +4,6 @@ subtitle: The production ready service mesh
 description: Istio is ready for production use with its 1.0 release.
 publishdate: 2018-07-31
 attribution: The Istio Team
-weight: 85
 ---
 
 Today, we’re excited to announce [Istio 1.0](/about/notes/1.0). It’s been a little over a year since our initial 0.1 release. Since then, Istio has evolved significantly with the help of a thriving and growing community of contributors and users. We’ve now reached the point where many companies have successfully adopted Istio in production and have gotten real value from the insight and control it provides over their deployments. We’ve helped large enterprises and fast-moving startups like [eBay](https://www.ebay.com/), [Auto Trader UK](https://www.autotrader.co.uk/), [Descartes Labs](http://www.descarteslabs.com/), [HP FitStation](https://www.fitstation.com/), [JUSPAY](https://juspay.in), [Namely](https://www.namely.com/), [PubNub](https://www.pubnub.com/) and [Trulia](https://www.trulia.com/) use Istio to connect, manage and secure their services from the ground up. Shipping this release as 1.0 is recognition that we’ve built a core set of functionality that our users can rely on for production use.
@@ -22,7 +21,7 @@ and [Styra](https://styra.com/) built extensions to our policy enforcement and n
 
 Since the 0.8 release we’ve added some important new features and more importantly marked many of our existing features as Beta signaling that they’re ready for production use. This is captured in more detail in the [release notes](/about/notes/1.0/)  but it’s worth calling out some highlights
 
-* Multiple Kubernetes clusters can now be [added to a single mesh](/docs/setup/kubernetes/multicluster-install) and enabling cross-cluster communication and consistent policy enforcement. Multi-cluster support is now Beta.
+* Multiple Kubernetes clusters can now be [added to a single mesh](/docs/setup/kubernetes/multicluster/) and enabling cross-cluster communication and consistent policy enforcement. Multi-cluster support is now Beta.
 
 * Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
 
@@ -33,7 +32,7 @@ Since the 0.8 release we’ve added some important new features and more importa
 * [Authorization policies](/docs/concepts/security/#authorization) which control access to services are now entirely evaluated locally in Envoy increasing
 their performance and reliability.
 
-* [Helm chart installation](/docs/setup/kubernetes/helm-install/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
+* [Helm chart installation](/docs/setup/kubernetes/install/helm/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
 
 * We’ve put a lot of effort into performance including continuous regression testing, large scale environment simulation and targeted fixes. We’re very happy with the results and will share more on this in detail in the coming weeks.
 

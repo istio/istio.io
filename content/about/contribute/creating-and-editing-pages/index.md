@@ -9,7 +9,7 @@ aliases:
 keywords: [contribute]
 ---
 
-This page shows how to create and maintain Istio documentation topics.
+This page shows how to create, test, and maintain Istio documentation topics.
 
 ## Before you begin
 
@@ -125,9 +125,11 @@ The available front matter fields are:
 |`draft`            | When true, prevents the page from showing up in any navigation area
 |`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
 |`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
+|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated content
 
 There are a few more front matter fields available specifically for blog posts:
 
@@ -166,7 +168,7 @@ value is calculated automatically for any local image content, but must be calcu
 manually when referencing external image content.
 In that case, `ratio` should be set to (image height / image width) * 100.
 
-## Adding icons & emojis
+## Adding icons
 
 You can embed some common icons in your content using:
 
@@ -175,13 +177,10 @@ You can embed some common icons in your content using:
 {{</* idea_icon */>}}
 {{</* checkmark_icon */>}}
 {{</* cancel_icon */>}}
-{{</* info_icon */>}}
+{{</* tip_icon */>}}
 {{< /text >}}
 
-which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< info_icon >}}.
-
-In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
-which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
+which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
 
 ## Linking to other pages
 
@@ -215,29 +214,37 @@ current hierarchy:
 There are a few ways to reference files from GitHub:
 
 - **{{</* github_file */>}}** is how you reference individual files in GitHub such as yaml files. This
-produces a link to `https://raw.githubusercontent.com/istio/istio/...`
+produces a link to `https://raw.githubusercontent.com/istio/istio*`
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
 - **{{</* github_tree */>}}** is how you reference a directory tree in GitHub. This produces a link to
-`https://github.com/istio/istio/tree/...`
+`https://github.com/istio/istio/tree*`
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
 - **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
-`https://github.com/istio/istio/blob/...`
+`https://github.com/istio/istio/blob*`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
 The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence `{{</* source_branch_name */>}}`
 to get the name of the currently targeted branch.
+
+## Version information
+
+You can obtain the current Istio version described by the web site using either of `{{</* istio_version */>}}` or
+`{{</* istio_full_version */>}}` which render as {{< istio_version >}} and {{< istio_full_version >}} respectively.
+
+`{{</* source_branch_name */>}}` gets expanded to the name of the branch of the `istio/istio` GitHub repository that the
+web site is targeting. This renders as {{< source_branch_name >}}.
 
 ## Embedding preformatted blocks
 
@@ -460,6 +467,71 @@ will use when the user chooses to download the file. For example:
 If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
 attribute instead.
 
+## Glossary terms
+
+When first introducing a specialized Istio term in a page, it is desirable to annotate the terms as being in the glossary. This
+will produce special rendering inviting the user to click on the term in order to get a pop-up with the definition.
+
+{{< text markdown >}}
+Mixer uses {{</*gloss*/>}}adapters{{</*/gloss*/>}} to interface to backends.
+{{< /text >}}
+
+which looks like:
+
+Mixer uses {{<gloss>}}adapters{{</gloss>}} to interface to backends.
+
+If the term displayed on the page doesn't exactly match the entry in the glossary, you can specify a substitution:
+
+{{< text markdown >}}
+Mixer uses an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
+{{< /text >}}
+
+which looks like:
+
+Mixer uses an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
+
+So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
+
+## Callouts
+
+You can bring special attention to blocks of content by highlighting warnings, ideas, tips, and quotes:
+
+{{< text markdown >}}
+{{</* warning */>}}
+This is an important warning
+{{</* /warning */>}}
+
+{{</* idea */>}}
+This is a great idea
+{{</* /idea */>}}
+
+{{</* tip */>}}
+This is a useful tip from an expert
+{{</* /tip */>}}
+
+{{</* quote */>}}
+This is a quote from somewhere
+{{</* /quote */>}}
+{{< /text >}}
+
+which looks like:
+
+{{< warning >}}
+This is an important warning
+{{< /warning >}}
+
+{{< idea >}}
+This is a great idea
+{{< /idea >}}
+
+{{< tip >}}
+This is a useful tip from an expert
+{{< /tip >}}
+
+{{< quote >}}
+This is a quote from somewhere
+{{< /quote >}}
+
 ## Embedding boilerplate text
 
 You can embed common boilerplate text into any markdown output using the `boilerplate` sequence:
@@ -576,4 +648,62 @@ aliases:
     - /faq2
     - /faq3
 ---
+{{< /text >}}
+
+## Building and testing the site
+
+Once you've edited some content files, you'll want to build the site in order to test
+your changes. We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally, we use a Docker
+image that contains Hugo. To build and serve the site, simply go to the root of the tree and do:
+
+{{< text bash >}}
+$ make serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://localhost:1313`.
+
+To make and serve the site from a remote server, override `ISTIO_SERVE_DOMAIN` as follows with the IP address
+or DNS Domain of the server as follows:
+
+{{< text bash >}}
+$ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://192.168.7.105:1313`.
+
+All English content for the site is located in the `content` directory, as well as in sibling translated
+directories such as `content_zh`.
+
+### Linting
+
+We use linters to ensure some base quality to the site's content. These linters must run without
+complaining before you can submit your changes into the repository. The linters check:
+
+- HTML proofing, which ensures all your links are valid along with other checks.
+
+- Spell checking.
+
+- Style checking, which makes sure your markdown files comply with our common style rules.
+
+You can run these linters locally using:
+
+{{< text bash >}}
+$ make lint
+{{< /text >}}
+
+If you get spelling errors, you have three choices to address each:
+
+- It's a real typo, so fix your markdown.
+
+- It's a command/field/symbol name, so stick some `backticks` around it.
+
+- It's really valid, so go add the word to the `.spelling` file which is at the root of the repo.
+
+If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
+`INTERNAL_ONLY` to prevent the linter from checking external links:
+
+{{< text bash >}}
+$ make INTERNAL_ONLY=True lint
 {{< /text >}}

@@ -9,7 +9,7 @@ aliases:
     - /about/contribute/creating-a-pull-request
     - /about/contribute/editing
     - /about/contribute/staging-your-changes
-keywords: [contribute, community, GitHub, PR]
+keywords: [contribute,community,github,pr]
 ---
 
 We're excited that you're interested in contributing to improve and expand
@@ -52,7 +52,7 @@ To add content you must create a fork of the repository and a PR from
 your fork to the docs main repository. The following steps describe the
 process:
 
-<a class="btn btn-istio"
+<a class="btn"
 href="https://github.com/istio/istio.io/">Browse this site's source
 code</a>
 
@@ -95,8 +95,10 @@ content in detail, follow these steps:
 1.  Publish your review to share your comments and suggestions with us and the
     PR owner. Request changes as the review warrants.
 
-    {{< warning_icon >}} If you do not publish your review, the PR owner and
+    {{< warning >}}
+    If you don't publish your review, the PR owner and
     the community cannot see your comments.
+    {{< /warning >}}
 
 1.  Once you publish your review, leave a comment with the text:
     `/hold cancel`. That command unblocks the PR from being merged.

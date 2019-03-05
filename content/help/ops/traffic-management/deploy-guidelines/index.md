@@ -64,7 +64,7 @@ curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to myhost2.com:
 You can confirm that this has happened by checking Pilot's logs for a message similar to the following:
 
 {{< text bash >}}
-$ kubectl logs -n istio-system -l istio=pilot -c discovery | grep "non unique port"
+$ kubectl logs -n istio-system $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -c discovery | grep "non unique port"
 2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
 {{< /text >}}
 

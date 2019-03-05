@@ -9,7 +9,7 @@ keywords: [policies,quotas]
 
 ## 开始之前
 
-1. 按照[安装指南](/zh/docs/setup/kubernetes/quick-start/)在 Kubernetes 集群上设置 Istio。
+1. 按照[安装指南](/zh/docs/setup/kubernetes/install/kubernetes/)在 Kubernetes 集群上设置 Istio。
 
 1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
@@ -60,9 +60,9 @@ keywords: [policies,quotas]
       name: handler
       namespace: istio-system
     spec:
+      redisServiceUrl: <redis_server_url>
+      connectionPoolSize: 10
       quotas:
-        redisServiceUrl: <redis_server_url>
-        connectionPoolSize: 10
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -159,6 +159,7 @@ keywords: [policies,quotas]
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
+        overrides:
         - dimensions:
             destination: reviews
           maxAmount: 1

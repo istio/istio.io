@@ -4,7 +4,6 @@ description: 使用 Kubernetes 命名空间和 RBAC 为 Istio 构建软性多租
 publishdate: 2018-04-19
 subtitle: 使用多个 Istio 控制平面和 RBAC 提供多租户支持
 attribution: John Joyce 和 Rich Curran
-weight: 90
 keywords: [tenancy]
 ---
 
@@ -18,7 +17,9 @@ keywords: [tenancy]
 
 本文最后会对 Istio 未来的多租户模型进行一些描述。
 
-> 注意：这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在[文档](/zh/docs/)中具体阐述。
+{{< tip >}}
+这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在[文档](/zh/docs/)中具体阐述。
+{{< /tip >}}
 
 ## 部署
 
@@ -52,7 +53,7 @@ istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 {{< /text >}}
 
-如果需要 Istio [Sidecar 注入组件](/zh/docs/setup/kubernetes/sidecar-injection/)以及[遥测组件](/zh/docs/tasks/telemetry/)，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。
+如果需要 Istio [Sidecar 注入组件](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/)以及[遥测组件](/zh/docs/tasks/telemetry/)，也需要根据租户的命名空间定义，修改所需的 Yaml 文件。
 
 需要由集群管理员、而不是租户自己的管理员来加载这两组 Yaml 文件。另外，要把租户管理员的操作权限限制在各自的命名空间内，还需要额外的 RBAC 配置。
 

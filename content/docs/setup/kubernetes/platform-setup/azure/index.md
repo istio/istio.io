@@ -3,6 +3,8 @@ title: Azure
 description: Instructions to setup an Azure cluster for Istio.
 weight: 9
 skip_seealso: true
+aliases:
+    - /docs/setup/kubernetes/platform-setup/azure
 keywords: [platform-setup,azure]
 ---
 
@@ -77,11 +79,13 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
       --api-model istio.json
     {{< /text >}}
 
-    > After a few minutes, you can find your cluster on your Azure subscription
-    > in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
-    > the value `myclustername`, a valid resource group with a unique cluster
-    > ID is `mycluster-5adfba82`. The `acs-engine` generates your `kubeconfig`
-    > file in the `_output` folder.
+    {{< tip >}}
+    After a few minutes, you can find your cluster on your Azure subscription
+    in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
+    the value `myclustername`, a valid resource group with a unique cluster
+    ID is `mycluster-5adfba82`. The `acs-engine` generates your `kubeconfig`
+    file in the `_output` folder.
+    {{< /tip >}}
 
 1. Use the `<dns_prefix>-<id>` cluster ID, to copy your `kubeconfig` to your
    machine from the `_output` folder:

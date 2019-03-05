@@ -1,0 +1,35 @@
+.partner-component {
+    display: block;
+    margin: 1em 0 1em 2em;
+
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: $blockQuoteBackgroundColor;
+    border-radius: $border-radius;
+
+    table td:first-of-type {
+        color: $textBrandColor;
+        background-color: $mainBrandColor;
+        font-weight: $tableHeaderWeight;
+    }
+
+    table td:last-of-type {
+        background-color: $backgroundColor;
+    }
+
+    table tr:last-of-type td {
+        border-bottom-color: $boxBorderColor;
+    }
+
+    table.with_logo td:first-of-type {
+        opacity: .9;
+    }
+
+    table.with_logo td:last-of-type {
+        opacity: .9;
+    }
+}

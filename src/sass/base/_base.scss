@@ -1,0 +1,386 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+@media screen {
+    // ensure that deep-linking in a doc positions the target correctly relative
+    // to the page header. Without this, the target ends up under the page header.
+    :target::before {
+        content: "";
+        display: block;
+        height: $headerHeight;
+        margin-top: -$headerHeight;
+    }
+
+    // This is here to undo the effect of the above for table rows. Otherwise,
+    // table rows with ids don't render properly when used for deep-linking.
+    //
+    // Unfortunately, although this fixes the bad rendering, it does mean that deep-linking to a
+    // table row will position the row right underneath the page header. To deal with that case,
+    // we have a hack in JavaScript to force-scroll the row into view.
+    tr[id]:before {
+        content: normal;
+    }
+
+    html {
+        overflow-y: scroll;
+        position: relative;
+        min-height: 100%;
+    }
+
+    body {
+        margin-top: $headerHeight;
+        margin-bottom: calc(#{$footerHeight} + 3rem);
+        font-family: "Work Sans", sans-serif;
+        color: $textColor;
+        background-color: $backgroundColor;
+    }
+}
+
+body {
+    line-height: 1.5;
+}
+
+a {
+    color: $linkColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+    font-family: "Chivo", sans-serif;
+}
+
+a:hover, a:focus {
+    color: $linkHoverColor;
+    text-decoration: underline;
+    font-weight: $linkWeight;
+}
+
+a.disabled {
+    color: $linkDisabledColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+}
+
+a.active {
+    color: $linkActiveColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+}
+
+a.dropdown-item {
+    cursor: pointer;
+}
+
+table, th, td, tr {
+    padding: .5em;
+}
+
+table {
+    margin-left: .5em;
+    margin-right: .5em;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+table p:first-of-type {
+    margin-top: 0
+}
+
+table p:last-of-type {
+    margin-bottom: 0
+}
+
+th {
+    color: $textBrandColor;
+    background-color: $mainBrandColor;
+    font-weight: $tableHeaderWeight;
+
+    code {
+        color: $textBrandColor;
+    }
+}
+
+tr.oneof>td {
+    border-bottom: 1px dashed $dividerBarColor;
+    border-top: 1px dashed $dividerBarColor;
+}
+
+th, td {
+    border-left: 1px solid $boxBorderColor;
+    border-top: 1px solid $boxBorderColor;
+}
+
+tr:first-child th:first-child {
+    border-radius: $border-radius 0 0 0;
+}
+
+tr:first-child td:first-child {
+    border-radius: $border-radius 0 0 0;
+}
+
+tr:first-child th:last-child {
+    border-radius: 0 $border-radius 0 0;
+}
+
+tr:first-child td:last-child {
+    border-radius: 0 $border-radius 0 0;
+}
+
+tr:last-child td {
+    border-bottom: 1px solid $boxBorderColor;
+}
+
+tr:last-child td:first-child {
+    border-radius: 0 0 0 $border-radius;
+}
+
+tr:last-child td:last-child {
+    border-radius: 0 0 $border-radius 0;
+}
+
+tr th:last-child {
+    border-right: 1px solid $boxBorderColor;
+}
+
+tr td:last-child {
+    border-right: 1px solid $boxBorderColor;
+}
+
+thead+tbody tr:first-child td:first-child {
+    border-radius: 0;
+}
+
+thead+tbody tr:first-child td:last-child {
+    border-radius: 0;
+}
+
+p {
+    font-size: $font-size--primary;
+    font-weight: $textWeight;
+    margin: .75em 0;
+
+    @media (min-width: $bp-md) {
+        margin: 1.5em 0;
+    }
+}
+
+li, dt, dd {
+    font-size: $font-size--primary;
+    font-weight: $textWeight;
+    margin: .25em;
+}
+
+ol, ul, dl {
+    list-style: initial;
+    font-size: $font-size--primary;
+    font-weight: $textWeight;
+    margin: 0 0 0 1.5em;
+    padding: 0;
+}
+
+li p, dt p, dd p {
+    margin: .4em 0;
+}
+
+ol {
+    list-style: decimal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    border: 0;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: $font-size--xxl;
+    color: $h1Color;
+    font-weight: $h1Weight;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: $font-size--xl;
+    color: $h2Color;
+    font-weight: $h2Weight;
+    margin-top: 3rem;
+    margin-bottom: 1.8rem;
+
+    &:before {
+        display: block;
+        content: ' ';
+        width: 5rem;
+        border-bottom: 2px solid $mainBrandColor;
+        margin-bottom: 1.1rem;
+        visibility: visible;
+    }
+}
+
+h3 {
+    font-size: $font-size--l;
+    color: $h3Color;
+    font-weight: $h3Weight;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+h4 {
+    font-size: $font-size--l;
+    color: $h4Color;
+    font-weight: $h4Weight;
+    margin: 30px 0 20px;
+
+    // Text immediately following h4 should have same level of indention
+    + p {
+        margin: 5px 0;
+
+        @media (min-width: $bp-md) {
+            margin: 10px 0;
+        }
+    }
+}
+
+h5 {
+    font-size: $font-size--s;
+    color: $h5Color;
+    font-weight: $h5Weight;
+}
+
+h6 {
+    font-size: .9rem;
+    color: $h6Color;
+    font-weight: $h6Weight;
+}
+
+.self-link {
+    position: relative;
+    left: 0.5em;
+    top: -.1em;
+    opacity: 0;
+    font-size: 0.6em;
+    display: none;
+}
+
+@media screen {
+    .self-link {
+        display: unset;
+    }
+}
+
+h2:hover .self-link,
+h3:hover .self-link,
+h4:hover .self-link,
+h5:hover .self-link,
+h6:hover .self-link,
+dt:hover .self-link {
+    transition: opacity .4s ease-in-out;
+    opacity: 1;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: $boldTextWeight;
+}
+
+img {
+    width: 100%;
+}
+
+blockquote {
+    display: block;
+    margin: 1em 0 1em 2em;
+    @media (min-width: $bp-md) {
+        margin: 1em 3em;
+    }
+
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: $blockQuoteBackgroundColor;
+    border-radius: $border-radius;
+}
+
+.deprecated {
+    background: $deprecatedBackgroundColor;
+}
+
+div.aliases::before {
+    content: 'Alternate forms:';
+}
+
+@media print {
+    h1, h2, h3 {
+        color: #000;
+        background: none;
+        page-break-after: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    blockquote, img {
+        page-break-inside: avoid;
+    }
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
+.large-icon {
+    width: 1.4em;
+    height: 1.4em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
+.page-icon {
+    margin-right: .3em;
+}
+
+.title-icon {
+    margin-right: .3em;
+
+    .icon {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+.title-area {
+    display: flex;
+    margin-bottom: 2.5rem;
+    align-items: center;
+}
+
+.flipped {
+    transform: scaleX(-1);
+}
+
+.subtitle {
+    margin-top: .15rem;
+    margin-bottom: 0;
+    padding: 0 0 0 0;
+    font-size: 125%;
+}
+
+.byline {
+    margin-top: .15rem;
+    margin-bottom: 0;
+    padding: 0;
+    text-transform: uppercase;
+    font-size: 75%;
+}
+
+.attribution {
+    font-weight: $blogAttributeWeight;
+}

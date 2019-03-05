@@ -100,7 +100,7 @@ Istio provides a more comprehensive security solution, including authentication,
 
 ## PKI
 
-The Istio PKI is built on top of Istio Citadel and securely provisions strong workload identities to every workload.
+The Istio PKI is built on top of Istio Citadel and securely provisions strong identities to every workload.
 Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
 The PKI also automates the key & certificate rotation at scale.
 
@@ -122,7 +122,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
    which defines what service account or accounts can run a certain service.
    Pilot then passes the secure naming information to the sidecar Envoy.
 
-### on-premises machines scenario
+### On-premises machines scenario
 
 1. Citadel creates a gRPC service to take [Certificate Signing Requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 
@@ -130,12 +130,12 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. Citadel validates the credentials carried with the CSR, and signs the CSR to generate the certificate.
 
-1. The node agent sends both, the certificate received from Citadel and the
-   private key, to Envoy.
+1. The node agent sends both the certificate received from Citadel and the
+   private key to Envoy.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
-### Node Agent in Kubernetes
+### Node agent in Kubernetes
 
 Istio provides the option of using node agent in Kubernetes for certificate and key provisioning, as shown in the figure below.
 Note that the identity provisioning flow for on-premises machines will be similar in the near future, we only describe the Kubernetes scenario here.
@@ -148,11 +148,11 @@ The flow goes as follows:
 
 1. Envoy sends a certificate and key request via Envoy secret discovery service (SDS) API.
 
-1. Upon receiving the SDS request, node agent creates the private key and CSR, and sends the CSR with its credentials to Citadel for signing.
+1. Upon receiving the SDS request, the node agent creates the private key and CSR before sending the CSR with its credentials to Citadel for signing.
 
-1. Citadel validates the credentials carried in the CSR, and signs the CSR to generate the certificate.
+1. Citadel validates the credentials carried in the CSR and signs the CSR to generate the certificate.
 
-1. The node agent sends the certificate received from Citadel and the private key to Envoy, via the Envoy SDS API.
+1. The node agent sends the certificate received from Citadel and the private key to Envoy via the Envoy SDS API.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
@@ -165,12 +165,14 @@ In this section, we provide a few deployment guidelines and discuss a real-world
 If there are multiple service operators (a.k.a. [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering))
 deploying different services in a medium- or large-size cluster, we recommend creating a separate
 [Kubernetes namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/) for each SRE team to isolate their access.
- For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
+For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
 that both teams cannot access each other's services.
 
-> {{< warning_icon >}} If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
+{{< warning >}}
+If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
 We **strongly** recommend running Citadel in a dedicated namespace (for example, `istio-citadel-ns`), to restrict access to
 the cluster to only administrators.
+{{< /warning >}}
 
 ### Example
 
@@ -308,7 +310,7 @@ the request. For mutual TLS, Istio provides a [destination rule](/docs/concepts/
 The operator can use the destination rule to instruct client proxies to make
 initial connections using TLS with the certificates expected on the server
 side. You can find out more about how mutual TLS works in Istio in
-[PKI and identity section](/docs/concepts/security/mutual-tls/).
+[Mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication).
 
 {{< image width="60%" link="./authn.svg" caption="Authentication Architecture" >}}
 
@@ -325,7 +327,7 @@ work. As you'll remember from the [Architecture section](/docs/concepts/security
 authentication policies apply to requests that a service **receives**. To
 specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
-[TLS settings reference docs](/docs/reference/config/istio.networking.v1alpha3/#TLSSettings).
+[TLS settings reference docs](/docs/reference/config/networking/v1alpha3/destination-rule/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
 `.yaml` files. You deploy policies using `kubectl`.
 

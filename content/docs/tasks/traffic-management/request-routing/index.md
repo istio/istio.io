@@ -36,7 +36,9 @@ will apply a rule to route traffic based on the value of an HTTP request header.
 To route to one version only, you apply virtual services that set the default version for the microservices.
 In this case, the virtual services will route all traffic to `v1` of each microservice.
 
-> If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+{{< warning >}}
+If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+{{< /warning >}}
 
 1.  Run the following command to apply the virtual services:
 
@@ -204,7 +206,7 @@ to the request by the `productpage` service.
 
 Note that Kubernetes services, like the Bookinfo ones used in this task, must
 adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements) for details.
+Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/) for details.
 
 In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
 will follow the same basic pattern you learned here to configure route rules to

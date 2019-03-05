@@ -1,4 +1,4 @@
-{{- /* Inserts a text file into the HTML. See https://preliminary.istio.io/about/contribute/writing-a-new-topic/#embedding-preformatted-blocks for details */ -}}
+{{- /* Inserts a text file into the HTML. See https://preliminary.istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks for details */ -}}
 {{- $name := split (.Get "file") "/" | last 1 -}}
 {{- $downloadas := index $name 0 -}}
 {{- if .Get "downloadas" -}}

@@ -108,7 +108,7 @@ spec:
 
 `Destination` 用于定义在网络中可寻址的服务，请求或连接在经过路由规则的处理之后，就会被发送给 `Destination`。`destination.host` 应该明确指向服务注册表中的一个服务。Istio 的服务注册表除包含平台服务注册表中的所有服务（例如 Kubernetes 服务、Consul 服务）之外，还包含了 [`ServiceEntry`](#serviceentry) 资源所定义的服务。
 
-> Kubernetes 用户注意：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。**为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**
+_Kubernetes 用户注意_ ：当使用服务的短名称时（例如使用 `reviews`，而不是 `reviews.default.svc.cluster.local`），Istio 会根据规则所在的命名空间来处理这一名称，而非服务所在的命名空间。假设 “default” 命名空间的一条规则中包含了一个 `reviews` 的 `host` 引用，就会被视为 `reviews.default.svc.cluster.local`，而不会考虑 `reviews` 服务所在的命名空间。**为了避免可能的错误配置，建议使用 FQDN 来进行服务引用。**
 
 下面的 Kubernetes 实例，缺省把所有的流量路由到 `reviews` 服务中具有标签 `version: v1`（也就是 `v1` 子集）的 Pod 中，另外还有一部分会路由到 `v2` 子集之中。
 
@@ -250,7 +250,7 @@ spec:
         simple: ROUND_ROBIN
 {{< /text >}}
 
-> 注意：只有在流量被显式的发送给某一子集的时候，指派给该子集的策略才会生效。
+**注意**：只有在流量被显式的发送给某一子集的时候，指派给该子集的策略才会生效。
 
 流量策略还可以根据端口来进行定义。接下来的规则，要求所有使用 `80` 端口的流量使用 `LEAST_CONN` 方式的负载均衡；而使用 `9080` 端口的流量则使用 `ROUND_ROBIN` 方式。
 
@@ -462,7 +462,7 @@ metadata:
   name: my-gateway
 spec:
   selector:
-    app: my-gatweway-controller
+    app: my-gateway-controller
   servers:
   - port:
       number: 80
@@ -773,9 +773,7 @@ spec:
 
 ## `L4MatchAttributes`
 
-四层连接匹配的属性。
-
-> 注意：四层连接的匹配属性支持尚未完成。
+四层连接匹配的属性。注意：四层连接的匹配属性支持尚未完成。
 
 |字段|类型|描述|
 |---|---|---|
@@ -1247,9 +1245,9 @@ spec:
 |`hosts`|`string[]`|必要字段。绑定到 `ServiceEntry` 上的主机名。可以是一个带有通配符前缀的 DNS 名称。如果服务不是 HTTP 协议的，例如 `mongo`、TCP 以及 HTTPS 中，`hosts` 中的 DNS 名称会被忽略，这种情况下会使用 `endpoints` 中的 `address` 以及 `port` 来甄别调用目标。|
 |`addresss`|`string[]`|服务相关的虚拟 IP。可以是 CIDR 前缀。对 HTTP 服务来说，这一字段会被忽略，而会使用 HTTP 的 `HOST/Authority` Header。而对于非 HTTP 服务，例如 `mongo`、TCP 以及 HTTPS 中，这些主机会被忽略。如果指定了一个或者多个 IP 地址，对于在列表范围内的 IP 的访问会被判定为属于这一服务。如果地址字段为空，服务的鉴别就只能靠目标端口了。在这种情况下，被访问服务的端口一定不能和其他网格内的服务进行共享。换句话说，这里的 Sidecar 会简单的做为 TCP 代理，将特定端口的访问转发到指定目标端点的 IP、主机上去。就无法支持 Unix socket 了。|
 |`ports`|[`Port[]`](#port)|必要字段。和外部服务关联的端口。如果 `endpoints` 是 Unix socket 地址，这里必须只有一个端口。|
-|`location`|[`ServiceEntry.Location`](#serviceentry-Location)|用于指定该服务的位置，属于网格内部还是外部。|
-|`resolution`|[`ServiceEntry.Resolution`](#serviceentry-Resolution)|必要字段。主机的服务发现模式。在没有附带 IP 地址的情况下，为 TCP 端口设置解析模式为 NONE 时必须小心。在这种情况下，对任何 IP 的指定端口的流量都是允许的（例如 `0.0.0.0:`）。|
-|`endpoints`|[`ServiceEntry.Endpoint[]`](#serviceentry-Endpoint)|一个或者多个关联到这一服务的 `endpoint`。|
+|`location`|[`ServiceEntry.Location`](#serviceentry-location)|用于指定该服务的位置，属于网格内部还是外部。|
+|`resolution`|[`ServiceEntry.Resolution`](#serviceentry-resolution)|必要字段。主机的服务发现模式。在没有附带 IP 地址的情况下，为 TCP 端口设置解析模式为 NONE 时必须小心。在这种情况下，对任何 IP 的指定端口的流量都是允许的（例如 `0.0.0.0:`）。|
+|`endpoints`|[`ServiceEntry.Endpoint[]`](#serviceentry-endpoint)|一个或者多个关联到这一服务的 `endpoint`。|
 
 ## `ServiceEntry.Endpoint`
 
@@ -1314,7 +1312,7 @@ spec:
 
 {{< /text >}}
 
-> 注意：在路由规则显式引用一个 `Subset` 的时候，该 `Subset` 定义的策略才会生效。
+**注意**：在路由规则显式引用一个 `Subset` 的时候，该 `Subset` 定义的策略才会生效。
 
 |字段|类型|描述|
 |---|---|---|

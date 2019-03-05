@@ -4,7 +4,6 @@ description: 描述了一个基于 Istio 的 Bookinfo 示例的简单场景。
 publishdate: 2018-11-16
 subtitle: MongoDB 流量的 Istio Egress 控制选项
 attribution: Vadim Eisenberg
-weight: 79
 keywords: [traffic-management,egress,tcp,mongo]
 ---
 
@@ -84,7 +83,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 ### Bookinfo 应用程序的初始设置
 
-为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/docs/setup/kubernetes/quick-start/#installation-steps) 的 Kubernetes 集群。然后部署
+为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/docs/setup/kubernetes/install/kubernetes/#installation-steps) 的 Kubernetes 集群。然后部署
 [Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/)并[应用默认 destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)。
 
 此应用程序从 `ratings` 微服务获取书籍评级（1 到 5 的数字）。评级以星标形式显示每条评论。`ratings` 微服务有几个版本。在下一小节中，请部署使用 [MongoDB](https://www.mongodb.com)
@@ -108,7 +107,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 1. 将所有到 `reviews` service 的流量路由到它的 `v3` 版本，以确保 `reviews` service 总是调用 `ratings` service。此外，将所有到 `ratings` service
    的流量路由到使用外部数据库的 `ratings v2版本`。
 
-   通过添加两个 [virtual service](/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 来为以上两个 service 指定路由。这些 virtual service
+   通过添加两个 [virtual service](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 来为以上两个 service 指定路由。这些 virtual service
    在 Istio 发布包中有指定。
    ***重要：*** 请确保在运行以下命令之前[应用了默认的 destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)。
 
@@ -138,7 +137,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 由于 [MongoDB 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)运行在 TCP 之上，您可以像控制到[其余 TCP 服务](/blog/2018/egress-tcp/)的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 [CIDR](https://tools.ietf.org/html/rfc2317) 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。
 
-在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/docs/tasks/traffic-management/egress/#calling-external-services-directly)路由流量。
+在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)路由流量。
 
 获取 MongoDB 数据库实例的 IP 地址。一种选择是使用 [host](https://linux.die.net/man/1/host) 命令。
 

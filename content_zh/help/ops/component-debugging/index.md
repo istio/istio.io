@@ -52,7 +52,7 @@ $ istioctl proxy-config route <pod-name> [flags]
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-点击[配置问题诊断](/zh/help/ops/traffic-management/observing/)查看更多相关信息。
+点击[配置问题诊断](/zh/help/ops/traffic-management/proxy-cmd/)查看更多相关信息。
 
 ## 使用 GDB
 

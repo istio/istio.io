@@ -99,7 +99,7 @@ keywords: [keyword1,keyword2,...]
 {{</* info_icon */>}}
 {{< /text >}}
 
-这段代码会显示 {{< warning_icon >}} 、 {{< idea_icon >}}、 {{< checkmark_icon >}}、 {{< cancel_icon >}} 和 {{< info_icon >}}。
+这段代码会显示 {{< warning_icon >}} 、 {{< idea_icon >}}、 {{< checkmark_icon >}}、 {{< cancel_icon >}} 和 {{< tip_icon >}}。
 
 另外还可以用这种代码在内容中加入 `emoji` ： `:``sailboat``:` ，这样会显示帆船的 `emoji` ， 就像这样 `:sailboat:`。
 
@@ -131,19 +131,19 @@ keywords: [keyword1,keyword2,...]
 
 有几种引用 GitHub 文件的方法：
 
-- **{{</* github_file */>}}** 可以用来引用单独的 GitHub 文件，例如 yaml，会生成类似 `https://raw.githubusercontent.com/istio/istio/...` 的链接：
+- **{{</* github_file */>}}** 可以用来引用单独的 GitHub 文件，例如 yaml，会生成类似 `https://raw.githubusercontent.com/istio/istio*` 的链接：
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
-- **{{</* github_tree */>}}** 用于引用 GitHub 中的目录树，会转换成如下链接：`https://github.com/istio/istio/tree/...`
+- **{{</* github_tree */>}}** 用于引用 GitHub 中的目录树，会转换成如下链接：`https://github.com/istio/istio/tree*`
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
-- **{{</* github_blob */>}}** 用来引用 GitHub 资源，生成如下链接：`https://github.com/istio/istio/blob/...`
+- **{{</* github_blob */>}}** 用来引用 GitHub 资源，生成如下链接：`https://github.com/istio/istio/blob*`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)

@@ -1,0 +1,252 @@
+header {
+    background-image: linear-gradient(to right, $mainBrandColor, $secondBrandColor);
+    box-shadow: 0 0 2px 2px $headerLightShadowColor, 0 2px 4px 2px $headerDarkShadowColor;
+    padding-top: .2em;
+    padding-bottom: .2em;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: $header-z;
+
+    @media print {
+        display: none;
+    }
+
+    #brand {
+        display: inline-block;
+        font-size: 1.25rem;
+        padding-top: .3125rem;
+        padding-bottom: .3125rem;
+        margin-right: 1rem;
+        line-height: inherit;
+        white-space: nowrap;
+        width: 100%;
+
+        @media (min-width: $bp-sm) {
+            width: unset;
+        }
+
+        @media (max-width: $bp-xs-max) {
+            &.open-hamburger {
+                display: none;
+            }
+        }
+
+        .logo {
+            width: 2em;
+            height: 2em;
+            top: 3px;
+            left: 0.8em;
+            position: fixed;
+            fill: $textBrandColor;
+            transition-duration: 0.8s;
+            transition-property: transform;
+            transform-origin: 50% 50%;
+
+            circle {
+                fill: $mainBrandColor;
+                stroke: $textBrandColor;
+            }
+
+            @media (min-width: $bp-md) {
+                width: 3em;
+                height: 3em;
+            }
+
+            &:hover {
+                transform: rotate(360deg);
+            }
+        }
+
+        .name {
+            color: $textBrandColor;
+            font-weight: 400;
+            vertical-align: bottom;
+            line-height: 1.1em;
+            display: inline-block;
+            padding-top: .35rem;
+            text-align: center;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+
+            @media (min-width: $bp-sm) {
+                text-align: left;
+                margin-left: 3.0em;
+                margin-right: 1rem;
+                width: unset;
+            }
+
+            @media (min-width: $bp-md) {
+                margin-left: 4.2em;
+            }
+        }
+    }
+
+    a {
+        font-weight: 500;
+        color: $textBrandColor;
+        font-size: 1.1em;
+        margin-left: .3rem;
+        margin-right: .3rem;
+
+        @media (min-width: $bp-sm) {
+            font-size: .9em;
+            margin-left: .58rem;
+            margin-right: .58rem;
+        }
+
+        &:hover {
+            text-decoration: none;
+            color: $textBrandHighlightColor;
+        }
+
+        &.active {
+            border-bottom: solid 3px $textBrandColor;
+            border-radius: 2px;
+            color: $textBrandColor;
+            font-weight: 500;
+            cursor: default;
+        }
+    }
+
+    div.menu {
+        display: inline-block;
+        margin-left: .3rem;
+        @media (min-width: $bp-sm) {
+            margin-left: .58rem;
+        }
+    }
+
+    svg.icon {
+        stroke: $textBrandColor;
+        fill: $textBrandColor;
+        width: 1.1em;
+        height: 1.1em;
+
+        &:hover {
+            fill: $textBrandHighlightColor;
+            stroke: $textBrandHighlightColor;
+        }
+    }
+
+    #hamburger {
+        display: inline-block;
+        position: absolute;
+        top: .8rem;
+        right: 1.3rem;
+
+        @media (min-width: $bp-sm) {
+            display: none;
+        }
+    }
+
+    #header-links {
+        display: none;
+
+        @media (max-width: $bp-xs-max) {
+            &.open-hamburger {
+                display: block;
+                text-align: center;
+                margin-top: 1em;
+                padding-left: 1em;
+                padding-right: 2.5em;
+            }
+        }
+
+        @media (min-width: $bp-sm) {
+            display: inline-block;
+            position: absolute;
+        }
+
+        top: .6rem;
+        right: 1.1rem;
+        transition: right 0.5s;
+
+        &.show-search {
+            right: -700px;
+            transition: right 0.5s;
+        }
+    }
+
+    #search-show {
+        display: none;
+
+        @media (min-width: $bp-sm) {
+            display: inline-block;
+        }
+    }
+
+    #search-form {
+        display: none;
+
+        @media (max-width: $bp-xs-max) {
+            &.open-hamburger {
+                display: flex;
+            }
+        }
+
+        @media (min-width: $bp-sm) {
+            display: flex;
+            position: absolute;
+        }
+
+        top: 0;
+        right: -700px;
+        transition: right 0.5s;
+
+        &.show-search {
+            right: 1rem;
+            transition: right 0.5s;
+        }
+
+        button:focus {
+            outline: 0;
+        }
+    }
+
+    #search-textbox {
+        display: block;
+        height: calc(2.25rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        outline-offset: -2px;
+        margin: 12px 1rem 5px 1rem;
+        width: 100%;
+        text-align: center;
+
+        @media (min-width: $bp-sm) {
+            margin: 4px 0 5px 0;
+            width: 22rem;
+            text-align: unset;
+        }
+
+        &:focus {
+            outline: 0;
+        }
+    }
+
+    #search-close {
+        display: none;
+
+        @media (min-width: $bp-sm) {
+            display: block;
+        }
+
+        background-color: rgba(0, 0, 0, 0);
+        color: $textBrandColor;
+        border-width: 0;
+        cursor: pointer;
+        font-size: inherit;
+        line-height: inherit;
+
+        &:hover {
+            color: $textBrandHighlightColor;
+        }
+    }
+}

@@ -5,8 +5,7 @@ publishdate: 2018-11-21
 subtitle:
 attribution: Sandeep Parikh
 twitter: crcsmnky
-weight: 78
-keywords: [traffic-management, gateway]
+keywords: [traffic-management,gateway]
 ---
 
 Traffic management is one of the critical benefits provided by Istio. At the heart of Istio’s traffic management is the ability to decouple traffic flow and infrastructure scaling. This lets you control your traffic in ways that aren’t possible without a service mesh like Istio.
@@ -45,7 +44,7 @@ Fortunately, a standard Istio deployment already includes a [Gateway](/docs/conc
 
 ## In action: traffic routing with Istio
 
-A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/platform-setup/) instructions, and then install Istio using [Helm](/docs/setup/kubernetes/minimal-install/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
+A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/platform-setup/) instructions, and then install Istio using [Helm](/docs/setup/kubernetes/install/minimal/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
 
 First, setup and configure [GKE](/docs/setup/kubernetes/platform-setup/gke/):
 
@@ -57,7 +56,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-Next, [install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/minimal-install/) -- only traffic management components:
+Next, [install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/install/minimal/) -- only traffic management components:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \
@@ -68,7 +67,6 @@ $ helm template install/kubernetes/helm/istio \
   --set sidecarInjectorWebhook.enabled=false \
   --set mixer.enabled=false \
   --set prometheus.enabled=false \
-  --set global.proxy.envoyStatsd.enabled=false \
   --set pilot.sidecar=false > istio-minimal.yaml
 {{< /text >}}
 

@@ -5,13 +5,13 @@ publishdate: 2018-01-31
 last_update: 2018-08-09
 subtitle: Mesh-external service entries for egress HTTPS traffic
 attribution: Vadim Eisenberg
-weight: 93
 keywords: [traffic-management,egress,https]
 ---
 
-> This blog post was updated on August 09, 2018. It reflects the functionality of Istio 1.0 and uses the new
-[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow the docs
-[here](https://archive.istio.io/v0.7/blog/2018/egress-https.html).
+{{< tip >}}
+This blog post was updated on August 09, 2018. It reflects the functionality of Istio 1.0 and uses the new
+[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow these [docs](https://archive.istio.io/v0.7/blog/2018/egress-https.html).
+{{< /tip >}}
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the
 microservices-based applications use functionality provided by legacy systems that reside outside the mesh. You may want
@@ -25,7 +25,7 @@ HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then I deploy
 [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
 book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
 details without consulting any external service.
@@ -93,7 +93,7 @@ So what might have gone wrong? Ah... The answer is that I forgot to tell you to 
 an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
 ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable
 such traffic, you must define a
-[mesh-external service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
+[mesh-external service entry](/docs/reference/config/networking/v1alpha3/service-entry/).
 
 ### Enable HTTPS access to a Google Books web service
 
