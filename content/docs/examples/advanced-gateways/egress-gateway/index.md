@@ -32,7 +32,12 @@ controlled way.
 {{< boilerplate before-you-begin-egress >}}
 
 {{< warning >}}
-If the egress gateway is not enabled, [enable the egress gateway](/docs/examples/advanced-gateways/egress-gateway/index.md#enable-egress-gateway).
+{{< warning >}}
+If the egress gateway is not enabled, run the following command to enable it:
+{{< text bash >}}
+$ helm template $HOME/istio-fetch/istio --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
+{{< /text >}}
+{{< /warning >}}
 {{< /warning >}}
 
 ## Egress gateway for HTTP traffic
@@ -658,18 +663,6 @@ external service.
     {{< /text >}}
 
 1.  Follow the steps in the [Cleanup HTTPS gateway](#cleanup-https-gateway) section.
-
-## Enable Egress Gateway
-
-1.  Check if egress gateway is enabled:
-
-    {{< text bash >}}
-    $ kubectl get deployment,service istio-egressgateway -n istio-system
-    {{< /text >}}
-
-1.  To enable the egress gateway, install or update Istio by using
-[Helm](/docs/setup/kubernetes/install/helm/) while setting the value of `gateways.istio-egressgateway.enabled` 
-to `true`: `--set gateways.istio-egressgateway.enabled=true`.
 
 ## Troubleshooting
 
