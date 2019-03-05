@@ -1,0 +1,109 @@
+#sidebar-toggler, #scroll-to-top, #switch-lang, #edit-this-page, #report-site-bugs {
+    z-index: $floating-button-z;
+    outline: none;
+    background-color: rgba($backgroundColor, .7);
+    cursor: pointer;
+    padding: 3px 5px;
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 0;
+    box-shadow: 0 0 2px 2px $floatingButtonColor;
+
+    @media print {
+        display: none;
+    }
+
+    svg {
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+        fill: $floatingButtonColor;
+
+        &:hover {
+            fill: $floatingButtonHoverColor;
+        }
+    }
+}
+
+#sidebar-toggler {
+    position: absolute;
+    top: $headerHeight;
+    right: 10px;
+
+    @media (min-width: $bp-md) {
+        display: none;
+    }
+}
+
+#scroll-to-top-container {
+    @media print {
+        display: none;
+    }
+
+    // don't display the scroll-to-top button if the TOC is being displayed
+    @media (min-width: $bp-xl) {
+        display: none;
+    }
+
+    #scroll-to-top {
+        display: none;
+        position: fixed;
+        top: $headerHeight;
+        right: 10px;
+
+        &.show {
+            display: block;
+        }
+    }
+}
+
+#switch-lang-container, #edit-this-page-container, #report-site-bugs-container {
+    display: none;
+
+    @media screen {
+        display: block;
+    }
+
+    #switch-lang, #edit-this-page, #report-site-bugs {
+        display: block;
+        position: fixed;
+        right: 1rem;
+        background-color: bisque;
+
+        &.disabled {
+            background-color: lightgrey;
+            cursor: default;
+
+            svg:hover {
+                fill: $floatingButtonColor;
+            }
+        }
+    }
+}
+
+#switch-lang-container {
+    #switch-lang {
+        bottom: 1rem;
+        @media (min-width: $bp-sm) {
+            bottom: calc(1rem + #{$footerHeight});
+        }
+    }
+}
+
+#edit-this-page-container {
+    #edit-this-page {
+        bottom: 6rem;
+        @media (min-width: $bp-sm) {
+            bottom: calc(6rem + #{$footerHeight});
+        }
+    }
+}
+
+#report-site-bugs-container {
+    #report-site-bugs {
+        bottom: 3.5rem;
+        @media (min-width: $bp-sm) {
+            bottom: calc(3.5rem + #{$footerHeight});
+        }
+    }
+}

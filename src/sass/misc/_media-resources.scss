@@ -38,7 +38,7 @@
 
         .panel {
             display: table;
-            border-radius: 4px;
+            border-radius: $border-radius;
             border: 1px solid $mainBrandColor;
             min-height: $panel-height;
             width: 100%;
@@ -48,8 +48,8 @@
                 position: relative;
                 display: table-cell;
                 width: $title-size;
-                border-top-left-radius: 4px;
-                border-bottom-left-radius: 4px;
+                border-top-left-radius: $border-radius;
+                border-bottom-left-radius: $border-radius;
                 background-color: $mainBrandColor;
                 min-height: 100%;
 

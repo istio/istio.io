@@ -92,7 +92,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 This application uses the `ratings` microservice to fetch book ratings, a number between 1 and 5. The ratings are
@@ -121,7 +121,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService). These virtual services are
+    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the

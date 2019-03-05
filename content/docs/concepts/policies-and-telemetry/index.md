@@ -44,7 +44,7 @@ At a high level, Mixer provides:
 Beyond these purely functional aspects, Mixer also has [reliability and scalability](#reliability-and-latency) benefits as outlined below.
 
 Policy enforcement and telemetry collection are entirely driven from configuration.
-It's possible to [completely disable these features](/docs/setup/kubernetes/minimal-install/)
+It's possible to [completely disable these features](/docs/setup/kubernetes/install/minimal/)
 and avoid the need to run the Mixer component in an Istio deployment.
 
 ## Adapters

@@ -25,7 +25,7 @@ HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then I deploy
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then I deploy
 [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
 book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
 details without consulting any external service.
@@ -93,7 +93,7 @@ So what might have gone wrong? Ah... The answer is that I forgot to tell you to 
 an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
 ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable
 such traffic, you must define a
-[mesh-external service entry](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry).
+[mesh-external service entry](/docs/reference/config/networking/v1alpha3/service-entry/).
 
 ### Enable HTTPS access to a Google Books web service
 

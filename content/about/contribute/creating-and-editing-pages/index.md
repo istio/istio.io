@@ -9,7 +9,7 @@ aliases:
 keywords: [contribute]
 ---
 
-This page shows how to create and maintain Istio documentation topics.
+This page shows how to create, test, and maintain Istio documentation topics.
 
 ## Before you begin
 
@@ -129,6 +129,7 @@ The available front matter fields are:
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
+|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated content
 
 There are a few more front matter fields available specifically for blog posts:
 
@@ -167,7 +168,7 @@ value is calculated automatically for any local image content, but must be calcu
 manually when referencing external image content.
 In that case, `ratio` should be set to (image height / image width) * 100.
 
-## Adding icons & emojis
+## Adding icons
 
 You can embed some common icons in your content using:
 
@@ -180,9 +181,6 @@ You can embed some common icons in your content using:
 {{< /text >}}
 
 which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
-
-In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
-which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
 
 ## Linking to other pages
 
@@ -237,8 +235,16 @@ produces a link to `https://raw.githubusercontent.com/istio/istio*`
     {{< /text >}}
 
 The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence `{{</* source_branch_name */>}}`
 to get the name of the currently targeted branch.
+
+## Version information
+
+You can obtain the current Istio version described by the web site using either of `{{</* istio_version */>}}` or
+`{{</* istio_full_version */>}}` which render as {{< istio_version >}} and {{< istio_full_version >}} respectively.
+
+`{{</* source_branch_name */>}}` gets expanded to the name of the branch of the `istio/istio` GitHub repository that the
+web site is targeting. This renders as {{< source_branch_name >}}.
 
 ## Embedding preformatted blocks
 
@@ -477,12 +483,12 @@ Mixer uses {{<gloss>}}adapters{{</gloss>}} to interface to backends.
 If the term displayed on the page doesn't exactly match the entry in the glossary, you can specify a substitution:
 
 {{< text markdown >}}
-Mixer use an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
+Mixer uses an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
 {{< /text >}}
 
 which looks like:
 
-Mixer use an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
+Mixer uses an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
 
 So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
 
@@ -642,4 +648,62 @@ aliases:
     - /faq2
     - /faq3
 ---
+{{< /text >}}
+
+## Building and testing the site
+
+Once you've edited some content files, you'll want to build the site in order to test
+your changes. We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally, we use a Docker
+image that contains Hugo. To build and serve the site, simply go to the root of the tree and do:
+
+{{< text bash >}}
+$ make serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://localhost:1313`.
+
+To make and serve the site from a remote server, override `ISTIO_SERVE_DOMAIN` as follows with the IP address
+or DNS Domain of the server as follows:
+
+{{< text bash >}}
+$ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://192.168.7.105:1313`.
+
+All English content for the site is located in the `content` directory, as well as in sibling translated
+directories such as `content_zh`.
+
+### Linting
+
+We use linters to ensure some base quality to the site's content. These linters must run without
+complaining before you can submit your changes into the repository. The linters check:
+
+- HTML proofing, which ensures all your links are valid along with other checks.
+
+- Spell checking.
+
+- Style checking, which makes sure your markdown files comply with our common style rules.
+
+You can run these linters locally using:
+
+{{< text bash >}}
+$ make lint
+{{< /text >}}
+
+If you get spelling errors, you have three choices to address each:
+
+- It's a real typo, so fix your markdown.
+
+- It's a command/field/symbol name, so stick some `backticks` around it.
+
+- It's really valid, so go add the word to the `.spelling` file which is at the root of the repo.
+
+If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
+`INTERNAL_ONLY` to prevent the linter from checking external links:
+
+{{< text bash >}}
+$ make INTERNAL_ONLY=True lint
 {{< /text >}}

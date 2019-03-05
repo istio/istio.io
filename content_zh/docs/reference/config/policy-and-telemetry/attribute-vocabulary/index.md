@@ -83,7 +83,7 @@ weight: 10
 | `request.auth.presenter` | string | 授权证书的出示人。此值应反映 JWT 或 OAuth2 客户端 ID 中的可选授权演示者（`azp`）声明。 | 123456789012.my-svc.com |
 | `request.auth.claims` | map[string, string] | 原始 JWT 中所有的的字符串声明。 | `iss`: `issuer@foo.com`, `sub`: `sub@foo.com`, `aud`: `aud1` |
 | `request.api_key` | string | 用于请求的 API key 。 | abcde12345 |
-| `check.error_code` | int64 | Mixer Check 调用的[错误码](https://github.com/google/protobuf/blob/master/src/google/protobuf/stubs/status.h#L44) 。 | 5 |
+| `check.error_code` | int64 | Mixer Check 调用的[错误码](https://github.com/google/protobuf/blob/master/src/google/protobuf/stubs/status.h) 。 | 5 |
 | `check.error_message` | string | Mixer Check 调用的错误消息。 | Could not find the resource |
 | `check.cache_hit` | boolean | 标示 Mixer check 调用是否命中本地缓存。 | |
 | `quota.cache_hit` | boolean | 标示 Mixer 限额调用是否命中本地缓存。 | |

@@ -13,7 +13,9 @@ keywords: [telemetry,visualization]
 
 ## 开始之前
 
-> {{< idea_icon >}} 下面的介绍假设已经安装了 Helm，并使用 Helm 来安装 Kiali。
+{{< idea >}}
+下面的介绍假设已经安装了 Helm，并使用 Helm 来安装 Kiali。
+{{< /idea >}}
 
 [Kiali 安装指南](https://www.kiali.io/gettingstarted/)中还介绍了不借助 Helm 安装 Kiali 的方法。
 
@@ -39,14 +41,15 @@ data:
 EOF
 {{< /text >}}
 
-创建了 Kiali Secret 之后，根据 [Helm 安装简介](/zh/docs/setup/kubernetes/helm-install/) 使用 Helm 来安装 Kiali。在运行 `helm` 命令的时候必须使用 `--set kiali.enabled=true` 选项，例如：
+创建了 Kiali Secret 之后，根据 [Helm 安装简介](/zh/docs/setup/kubernetes/install/helm/) 使用 Helm 来安装 Kiali。在运行 `helm` 命令的时候必须使用 `--set kiali.enabled=true` 选项，例如：
 
 {{< text bash >}}
 $ helm template --set kiali.enabled=true install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 
-> {{< idea_icon >}} 本文并未涉及 Jaeger 和 Grafana。如果已经在集群中部署了这两个组件，并且希望能够集成到 Kiali 之中，就必须在 `helm` 命令中增加参数：
+{{< idea >}}
+本文并未涉及 Jaeger 和 Grafana。如果已经在集群中部署了这两个组件，并且希望能够集成到 Kiali 之中，就必须在 `helm` 命令中增加参数：
 
 {{< text bash >}}
 $ helm template \
@@ -57,6 +60,8 @@ $ helm template \
     --name istio --namespace istio-system > $HOME/istio.yaml
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
+
+{{< /idea >}}
 
 完成 Istio 和 Kiali 之后，就可以部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用了。
 

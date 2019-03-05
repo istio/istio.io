@@ -56,7 +56,9 @@ keywords: [telemetry,visualization]
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-    > `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
+    {{< tip >}}
+    `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
+    {{< /tip >}}
 
     刷新页面几次（或发送命令几次）以产生少量流量。
 

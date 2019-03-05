@@ -8,7 +8,7 @@ weight: 20
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, i.e., outside of the
 service mesh, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that task,
 by default Istio-enabled applications are unable to access URLs outside of the cluster. To enable external access,
-a [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) for the external service must be
+a [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) for the external service must be
 defined, or alternatively, [direct access to external services](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)
 must be configured.
 
@@ -32,7 +32,7 @@ is that Istio can produce better telemetry and provide more routing control for 
 
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -191,7 +191,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
     As you can see, the `VirtualService` redirects HTTP requests on port 80 to port 443 where the corresponding
     `DestinationRule` then performs the TLS origination.
-    Notice that unlike the `ServiceEntry` in the previous section, this time the protocol on port 433 is HTTP, instead of HTTPS.
+    Notice that unlike the `ServiceEntry` in the previous section, this time the protocol on port 443 is HTTP, instead of HTTPS.
     This is because clients will only send HTTP requests and Istio will upgrade the connection to HTTPS.
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:

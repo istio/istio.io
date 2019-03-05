@@ -9,7 +9,7 @@
     .panel {
         display: inline-block;
         border: 1px solid $boxBorderColor;
-        border-radius: 4px;
+        border-radius: $border-radius;
         width: 100%;
         margin-bottom: 2rem;
 

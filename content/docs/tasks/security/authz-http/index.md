@@ -18,7 +18,7 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the instructions in the [Kubernetes quick start](/docs/setup/kubernetes/quick-start/) to
+* Follow the instructions in the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to
 install Istio **with mutual TLS enabled**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
@@ -33,29 +33,6 @@ account `bookinfo-productpage` for `productpage` and service account `bookinfo-r
 {{< tip >}}
 If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
 {{< /tip >}}
-
-* There is a major update to RBAC in Istio 1.0. Please make sure to remove any existing RBAC configuration before continuing.
-
-    * Run the following commands to disable the old RBAC functionality, these are no longer needed in Istio 1.0:
-
-    {{< text bash >}}
-    $ kubectl delete authorization requestcontext -n istio-system
-    $ kubectl delete rbac handler -n istio-system
-    $ kubectl delete rule rbaccheck -n istio-system
-    {{< /text >}}
-
-    * Run the following commands to remove any existing RBAC policies:
-
-    {{< tip >}}
-    You could keep existing policies but you will need to make some changes to the `constraints` and `properties` field
-in the policy, see [constraints and properties](/docs/reference/config/authorization/constraints-and-properties/)
-for the list of supported keys in `constraints` and `properties`.
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ kubectl delete servicerole --all
-    $ kubectl delete servicerolebinding --all
-    {{< /text >}}
 
 * Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
 
@@ -198,14 +175,14 @@ The policy does the following:
         methods: ["GET"]
     {{< /text >}}
 
-*   Creates a `ServiceRoleBinding` `bind-productpager-viewer` which assigns the `productpage-viewer` role to all
+*   Creates a `ServiceRoleBinding` `bind-productpage-viewer` which assigns the `productpage-viewer` role to all
 users and services.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
     kind: ServiceRoleBinding
     metadata:
-      name: bind-productpager-viewer
+      name: bind-productpage-viewer
       namespace: default
     spec:
       subjects:
@@ -293,7 +270,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 
 The policy does the following:
 
-*   Creates a `ServiceRole` `ratings-viewer\` which allows access to the `ratings` service.
+*   Creates a `ServiceRole` `ratings-viewer` which allows access to the `ratings` service.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"

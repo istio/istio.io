@@ -19,7 +19,7 @@ TLS origination for traffic to external services.
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -327,7 +327,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
-    [enabled](/docs/setup/kubernetes/sidecar-injection/#deploying-an-app) on it.
+    [enabled](/docs/setup/kubernetes/additional-setup/sidecar-injection/#deploying-an-app) on it.
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external
@@ -628,7 +628,7 @@ to hold the configuration of the NGINX server:
     you used for generating your `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
+    $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
     --set gateways.istio-egressgateway.secretVolumes[0].name=egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].secretName=istio-egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].mountPath=/etc/istio/egressgateway-certs \

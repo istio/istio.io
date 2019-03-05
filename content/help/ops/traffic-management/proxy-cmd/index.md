@@ -14,7 +14,7 @@ to inspect Envoy configuration and diagnose the issue.
 If you want to try the commands described below, you can either:
 
 * Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
-[installation steps](/docs/setup/kubernetes/quick-start/#installation-steps) and
+[installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps) and
 [Bookinfo installation steps](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)).
 
 OR
@@ -283,7 +283,7 @@ one route that matches on everything. This route tells Envoy to send the request
 1. To see the endpoints currently available for this cluster use the `proxy-config` endpoints command.
 
     {{< text bash json >}}
-    $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster outbound|9080||reviews.default.svc.cluster.local
+    $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
     ENDPOINT             STATUS      CLUSTER
     172.17.0.17:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
     172.17.0.18:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local

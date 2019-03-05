@@ -8,8 +8,15 @@
         </div>
 
         <div class="channel">
+            <span>slack</span>
+            <a title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
+                {{ partial "icon.html" "slack" }}
+            </a>
+        </div>
+
+        <div class="channel">
             <span>twitter</span>
-            <a title='{{ i18n "twitter_desc" }}' href="https://twitter.cqom/IstioMesh" aria-label="Twitter">
+            <a title='{{ i18n "twitter_desc" }}' href="https://twitter.com/IstioMesh" aria-label="Twitter">
                 {{ partial "icon.html" "twitter" }}
             </a>
         </div>
@@ -22,7 +29,7 @@
         </div>
 
         <div class="tag">
-            {{ i18n "for_users" }}
+            {{ i18n "for_everyone" }}
         </div>
     </div>
 
@@ -63,13 +70,6 @@
             <span>working groups</span>
             <a title='{{ i18n "working_group_desc" }}' href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
                 {{ partial "icon.html" "working-groups" }}
-            </a>
-        </div>
-
-        <div class="channel">
-            <span>slack</span>
-            <a title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
-                {{ partial "icon.html" "slack" }}
             </a>
         </div>
 

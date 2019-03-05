@@ -80,7 +80,6 @@ backend
 backends
 base64
 BigQuery
-bind-productpager-viewer
 bitpipe
 BluePerf
 BluePerf
@@ -268,6 +267,8 @@ learnings
 LibreSSL
 lifecycle
 LightStep
+linter
+linters
 liveness
 logInfo
 loopback
@@ -404,6 +405,7 @@ runtimes
 sa
 sayin
 schemas
+SDKs
 secretName
 Secura
 selinux

@@ -7,7 +7,10 @@ attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
 ---
 
-> 此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能
+{{< tip >}}
+此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能。
+{{< /tip >}}
+
 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果您需要使用旧版本，请按照文档进行操作
 [使用外部 Web 服务归档版](https://archive.istio.io/v0.7/blog/2018/egress-https.html)。
 
@@ -23,7 +26,7 @@ keywords: [traffic-management,egress,https]
 
 ## 初始设定
 
-为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/zh/docs/setup/kubernetes/quick-start/#安装步骤) 的
+为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤) 的
  Kubernetes 集群, 然后我部署 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/),
  此应用程序使用 _details_ 微服务来获取书籍详细信息，例如页数和发布者, 原始 _details_ 微服务提供书籍
  详细信息，无需咨询任何外部服务。
