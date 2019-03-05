@@ -96,14 +96,20 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ## Verifying the installation
 
-1.  To ensure the following Kubernetes services are deployed: `istio-citadel`,
-    `istio-engressgateway`, `istio-galley`, `istio-ingress`, `istio-ingressgateway`,
-    `istio-pilot`, `istio-policy`, `istio-statsd-prom-bridge`, `istio-telemetry`,
-    `prometheus`, and `istio-sidecar-injector`.
-     Verify they all have an appropriate `CLUSTER-IP`:
+1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP`:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
+    NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                                                      AGE
+    istio-citadel            ClusterIP      172.21.113.238   <none>          8060/TCP,15014/TCP                                                                                                           8d
+    istio-egressgateway      ClusterIP      172.21.32.42     <none>          80/TCP,443/TCP,15443/TCP                                                                                                     8d
+    istio-galley             ClusterIP      172.21.137.255   <none>          443/TCP,15014/TCP,9901/TCP                                                                                                   8d
+    istio-ingressgateway     LoadBalancer   172.21.229.108   158.85.108.37   80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:31324/TCP,15030:31752/TCP,15031:30314/TCP,15032:30953/TCP,15443:30550/TCP   8d
+    istio-pilot              ClusterIP      172.21.100.28    <none>          15010/TCP,15011/TCP,8080/TCP,15014/TCP                                                                                       8d
+    istio-policy             ClusterIP      172.21.83.199    <none>          9091/TCP,15004/TCP,15014/TCP                                                                                                 8d
+    istio-sidecar-injector   ClusterIP      172.21.198.98    <none>          443/TCP                                                                                                                      8d
+    istio-telemetry          ClusterIP      172.21.84.130    <none>          9091/TCP,15004/TCP,15014/TCP,42422/TCP                                                                                       8d
+    prometheus               ClusterIP      172.21.140.237   <none>          9090/TCP                                                                                                                     8d
     {{< /text >}}
 
     {{< tip >}}
@@ -114,13 +120,21 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     `NodePort`, or use port-forwarding instead.
     {{< /tip >}}
 
-1.  Ensure the corresponding Kubernetes pods are deployed and all containers: `istio-citadel-*`,
-    `istio-egressgateway-*`, `istio-galley-*`, `istio-ingressgateway-*`, `istio-pilot-*`,
-    `istio-policy-*`, `istio-telemetry-*`, `prometheus-*`, and
-    `istio-sidecar-injector-*`, have a `STATUS` of `Running`:
+1.  Ensure corresponding Kubernetes pods are deployed and have a `STATUS` of `Running`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
+    NAME                                      READY     STATUS      RESTARTS   AGE
+    istio-citadel-5c4f467b9c-m8lhb            1/1       Running     0          8d
+    istio-cleanup-secrets-1.1.0-rc.0-msbk7    0/1       Completed   0          8d
+    istio-egressgateway-fbfb4865d-rv2f4       1/1       Running     0          8d
+    istio-galley-7799878d-hnphl               1/1       Running     0          8d
+    istio-ingressgateway-7cf9598b9c-s797z     1/1       Running     0          8d
+    istio-pilot-698687d96d-76j5m              2/2       Running     0          8d
+    istio-policy-55758d8898-sd7b8             2/2       Running     3          8d
+    istio-sidecar-injector-5948ffdfc8-wz69v   1/1       Running     0          8d
+    istio-telemetry-67d8545b68-wgkmg          2/2       Running     3          8d
+    prometheus-c8d8657bf-gwsc7                1/1       Running     0          8d
     {{< /text >}}
 
 ## Deploy your application
