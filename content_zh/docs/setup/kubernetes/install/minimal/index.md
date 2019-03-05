@@ -22,6 +22,8 @@ icon: helm
 
 1. 从以下**互斥**的两个选项中选择一个并执行。
 
+### 选项 0：拼写检查 {#option-0}
+
 ### 选项 1：通过 Helm 命令 `helm template` 安装
 
 1. 将 Istio 的核心组件添加到 Kubernetes 的描述文件，并命名为 `istio-minimal.yaml`：
