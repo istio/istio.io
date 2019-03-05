@@ -18,12 +18,12 @@ attribution: The Istio Team
 
 自 0.8 发布以来，我们添加了一些重要的新功能，更重要的是将许多现有的功能标记为 Beta 表明它们可以用于生产。这在[发行说明](/zh/about/notes/1.0/)中有更详细的介绍，但值得一提是：
 
-- 现在可以将多个 Kubernetes 集群[添加到单个网格中](/zh/docs/setup/kubernetes/multicluster-install)，并启用跨集群通信和一致的策略实施。多集群支持现在是 Beta。
+- 现在可以将多个 Kubernetes 集群[添加到单个网格中](/zh/docs/setup/kubernetes/multicluster)，并启用跨集群通信和一致的策略实施。多集群支持现在是 Beta。
 - 通过网格实现对流量的细粒度控制的网络 API 现在是 Beta。使用网关显式建模 ingress 和 egress 问题，允许运维人员[控制网络拓扑](/zh/blog/2018/v1alpha3-routing/)并满足边缘的访问安全要求。
 - 现在可以[增量上线](/zh/docs/tasks/security/mtls-migration)双向 TLS，而无需更新服务的所有客户端。这是一项关键功能，可以解除在现有生产上部署采用 Istio 的障碍。
 - Mixer 现在支持[开发进程外适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)。这将成为在即将发布的版本中扩展 Mixer 的默认方式，这将使构建适配器更加简单。
 - 现在，Envoy 在本地完全评估了控制服务访问的[授权策略](/zh/docs/concepts/security/#认证策略)，从而提高了它们的性能和可靠性。
-- [Helm chart 安装](/zh/docs/setup/kubernetes/helm-install/) 现在是推荐的安装方法，提供丰富的自定义选项，以便根据您的需求配置 Istio。
+- [Helm chart 安装](/zh/docs/setup/kubernetes/install/helm/) 现在是推荐的安装方法，提供丰富的自定义选项，以便根据您的需求配置 Istio。
 - 我们在性能方面投入了大量精力，包括连续回归测试、大规模环境模拟和目标修复。我们对结果非常满意，并将在未来几周内详细分享。
 
 ## 下一步

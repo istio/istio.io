@@ -7,7 +7,7 @@ If you already have installed Istio with tracing enabled, you can disable it as 
 
 {{< text plain >}}
 # Fill <istio namespace> with the namespace of your istio mesh.Ex: istio-system
-TRACING_POD=`kubectl get po -n <istio namespace> | grep istio-tracing | awk ‘{print $1}`
+TRACING_POD=`kubectl get po -n <istio namespace> | grep istio-tracing | awk '{print $1}'`
 $ kubectl delete pod $TRACING_POD -n <istio namespace>
 $ kubectl delete services tracing zipkin   -n <istio namespace>
 # Remove reference of zipkin url from mixer deployment

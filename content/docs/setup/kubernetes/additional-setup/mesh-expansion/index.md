@@ -4,7 +4,7 @@ description: Instructions for integrating VMs and bare metal hosts into an Istio
 weight: 95
 keywords: [kubernetes,vms]
 aliases:
-        - /docs/setup/kubernetes/additional-setup/mesh-expansion/
+    - /docs/setup/kubernetes/additional-setup/mesh-expansion/
 ---
 
 This guide provides instructions for integrating VMs and bare metal hosts into

@@ -44,7 +44,7 @@ Pod 包含一个 sidecar 代理，该代理作为 Istio 网格的一部分，负
 
 ## 实践：Istio 流量路由
 
-一种实践的简单方法是首先按照[平台设置](/zh/docs/setup/kubernetes/platform-setup/)说明设置 Kubernetes 环境，然后使用 [Helm](/zh/docs/setup/kubernetes/minimal-install/) 安装仅包含流量管理组件（ingress gateway、egress gateway、Pilot）的 Istio。下面的示例使用 [Google Kubernetes Engine](https://cloud.google.com/gke)。
+一种实践的简单方法是首先按照[平台设置](/zh/docs/setup/kubernetes/platform-setup/)说明设置 Kubernetes 环境，然后使用 [Helm](/zh/docs/setup/kubernetes/install/minimal/) 安装仅包含流量管理组件（ingress gateway、egress gateway、Pilot）的 Istio。下面的示例使用 [Google Kubernetes Engine](https://cloud.google.com/gke)。
 
 首先，**安装并配置 [GKE](/zh/docs/setup/kubernetes/platform-setup/gke/)**：
 
@@ -56,7 +56,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-然后，**[安装 Helm](https://docs.helm.sh/using_helm/#installing-helm) 并[生成 Istio 最小配置安装](/zh/docs/setup/kubernetes/minimal-install/)** -- 只有流量管理组件：
+然后，**[安装 Helm](https://docs.helm.sh/using_helm/#installing-helm) 并[生成 Istio 最小配置安装](/zh/docs/setup/kubernetes/install/minimal/)** -- 只有流量管理组件：
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \

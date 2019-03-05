@@ -13,7 +13,7 @@ keywords: [security,authentication,migration]
 
 * 理解 Istio [认证策略](/zh/docs/concepts/security/#认证策略)以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)概念。
 
-* 已成功在 Kubernetes 集群中部署 Istio，并且没有启用双向 TLS 支持（也就是使用[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中所说的 `install/kubernetes/istio-demo.yaml` 进行部署，或者在 [Helm 安装](/zh/docs/setup/kubernetes/helm-install/)时设置 `global.mtls.enabled` 的值为 false）。
+* 已成功在 Kubernetes 集群中部署 Istio，并且没有启用双向 TLS 支持（也就是使用[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中所说的 `install/kubernetes/istio-demo.yaml` 进行部署，或者在 [Helm 安装](/zh/docs/setup/kubernetes/install/helm/)时设置 `global.mtls.enabled` 的值为 false）。
 
 * 为了演示目的，创建三个命名空间，分别是 `foo`、`bar` 以及 `legacy`，然后在 `foo`、`bar` 中分别部署注入 Istio sidecar 的 [httpbin]({{< github_tree >}}/samples/httpbin) 以及 [sleep]({{< github_tree >}}/samples/sleep) 应用，最后在 `legacy` 命名空间中运行未经注入的 sleep 应用。
 

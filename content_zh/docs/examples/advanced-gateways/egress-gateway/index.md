@@ -25,7 +25,7 @@ Istio 0.8 引入了 [Ingress 和 Egress gateway](/zh/docs/reference/config/istio
 
 * 启动 [sleep]({{<github_tree>}}/samples/sleep) 应用，它将被用作外部调用的测试源。
 
-    如果已经启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请执行此操作
+    如果已经启用了 [Sidecar 的自动注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，请执行此操作
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@

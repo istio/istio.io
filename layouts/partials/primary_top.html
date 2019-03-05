@@ -2,9 +2,9 @@
 {{ $needTOC := .Scratch.Get "needTOC" }}
 
 {{ if and $needTOC (ne .Params.force_inline_toc true) }}
-    <div class="primary">
+    <main class="primary">
 {{ else }}
-    <div class="primary notoc">
+    <main class="primary notoc">
 {{ end }}
 
     <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
@@ -19,16 +19,16 @@
 
     <div class="article-container">
         {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
-            <label id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
+            <button id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
                 {{ partial "icon.html" "pull" }}
-            </label>
+            </button>
         {{ end }}
 
-        <div class="pagenav">
-            <p>{{- partial "breadcrumbs.html" . -}}</p>
-        </div>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            {{- partial "breadcrumbs.html" . -}}
+        </nav>
 
-        <main aria-labelledby="title">
+        <article aria-labelledby="title">
             <div class="title-area">
                 {{- if .Params.icon -}}
                     <div>

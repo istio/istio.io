@@ -31,6 +31,7 @@ RUN npm install -g \
     sass \
     markdown-spellcheck \
     svgstore-cli \
+    svgo \
     @babel/cli \
     @babel/core
 RUN npm install babel-preset-minify --save-dev

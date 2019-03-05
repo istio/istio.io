@@ -2,12 +2,16 @@ version: 2
 jobs:
   build:
     docker:
-      - image: gcr.io/istio-testing/website-builder:2019-02-13
+      - image: gcr.io/istio-testing/website-builder:2019-03-03
 
     working_directory: ~/site
 
     steps:
       - checkout
+
+      - run:
+          name: Building Site
+          command: scripts/build_site.sh
 
       - run:
           name: Generating Site

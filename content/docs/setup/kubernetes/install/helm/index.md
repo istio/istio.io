@@ -111,11 +111,11 @@ $ kubectl -n istio-system edit deployment istio-galley
 
     {{< /warning >}}
 
-1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    56
+    58
     {{< /text >}}
 
 1. Render and apply Istio's core components. For a production environment use the recommended Helm values or customize as needed:
@@ -156,27 +156,26 @@ to manage the lifecycle of Istio.
     $ helm install istio.io/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify that all `56` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    56
+    58
     {{< /text >}}
 
 1. Install the `istio` chart. For a production environment use the recommended Helm values or customize as needed:
 
     {{< text bash >}}
-    $ helm install istio --name istio --namespace istio-system
+    $ helm install istio.io/istio --name istio --namespace istio-system
     {{< /text >}}
 
     {{< tip >}}
     To try the `bookinfo` demo, use Helm values customized for the `bookinfo` application:
+    {{< /tip >}}
 
     {{< text bash >}}
     $ helm install istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system
     {{< /text >}}
-
-    {{< /tip >}}
 
 ## Uninstall
 
@@ -207,7 +206,7 @@ Deleting CRDs permanently deletes any configuration changes that you have made t
 {{< /warning >}}
 
 {{< tip >}}
-The `istio-init` chart contains all raw CRDs in the `istio-init/ifiles` directory.  After fetching this
+The `istio-init` chart contains all raw CRDs in the `istio-init/files` directory.  After fetching this
 chart, you can simply delete the CRDs using `kubectl`.
 {{< /tip >}}
 
