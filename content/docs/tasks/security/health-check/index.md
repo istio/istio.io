@@ -86,7 +86,7 @@ livenessProbe:
 ...
 {{< /text >}}
 
-The paths to the health satus files are `liveness-probe-path` and `probe-path`.
+The paths to the health status files are `liveness-probe-path` and `probe-path`.
 You should update the paths in Citadel and in the `livenessProbe` at the same time.
 If Citadel is healthy, the value of the `liveness-probe-interval` entry determines the interval used to update the
 health status file.
