@@ -174,7 +174,7 @@ The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
 all resources hierarchically under it. It is safe to ignore errors for
 non-existent resources because they may have been deleted hierarchically.
 
-* Uninstall the `demo profile` corresponding to the variant you installed:
+* Uninstall the `demo profile` corresponding to the mTLS mode you enabled:
 
 {{< tabset cookie-name="profile" >}}
 
