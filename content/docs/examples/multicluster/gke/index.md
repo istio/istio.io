@@ -110,7 +110,8 @@ the `default` namespace:
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio_master.yaml
+$ cat install/kubernetes/helm/istio-init/files/crd-* > $HOME/istio_master.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system >> $HOME/istio_master.yaml
 $ kubectl create ns istio-system
 $ kubectl apply -f $HOME/istio_master.yaml
 $ kubectl label namespace default istio-injection=enabled
