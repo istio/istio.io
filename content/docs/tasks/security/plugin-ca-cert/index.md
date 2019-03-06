@@ -12,7 +12,12 @@ However, some organizations may already have a PKI (Public Key Infrastructure)
 and require the Istio cluster to use an intermediate signing certificate.
 Also, generating and keeping the root key offline is a more secure practice adopted in many organizations.
 Citadel supports loading the operator-specified certificate and key to sign workload certificates, with the
-operator-specified root certificate. This task demonstrates an example to plug certificates and key into Citadel.
+operator-specified root certificate.
+
+In this task, we will demonstrate how to plug in the existing certificate and key, using the sample certificate and key
+given in the Istio package. Then we will verify the new certificates are used in the cluster.
+Finally, we will show how to generate root and intermediate keys and certificates offline, and plug them into the
+cluster.
 
 ## Before you begin
 
@@ -29,11 +34,6 @@ You can use [authentication policy](/docs/concepts/security/#authentication-poli
 all/selected services in a namespace (repeated for all namespaces to get global setting).
 See [authentication policy task](/docs/tasks/security/authn-policy/) for details.
 {{< /tip >}}
-
-In this task, we will demonstrate how to plug in the existing certificate and key, using the sample certificate and key
-given in the Istio package. Then we will verify the new certificates are used in the cluster.
-Finally, we will show how to generate root and intermediate keys and certificates offline, and them plug into the
-cluster.
 
 ## Plugging in the existing certificate and key
 
@@ -149,32 +149,33 @@ the Istio cluster.
 
 On an offline machine with good security (restricted access), follow the `Create the root pair` and the
 `Create the intermediate pair` sections in this [guide](https://jamielinux.com/docs/openssl-certificate-authority/)
-to create the keys and certs for your root and intemediate CA.
+to create the keys and certificates for your root and intemediate CA.
 
 After the certificates and keys are created,
-the root certificate is in `/root/ca/certs/ca.cert.pem`, the root key is in `/root/ca/private/ca.key.pem`,
+the root certificate is in `/root/ca/certs/ca.cert.pem`,
 the intermediate certificate is in `/root/ca/intermediate/certs/intermediate.cert.pem` and the intermediate key
-is in `/root/ca/intermediate/private/intermediate.key.pem`.
+is in `/root/ca/intermediate/private/intermediate.key.pem`. We need to bundle them and copy them into the machine
+to manage the cluster.
 
 {{< text bash >}}
-$ mkdir ca-bundle
-$ cp /root/ca/certs/ca.cert.pem ca-bundle/root-cert.pem
-$ cp /root/ca/intermediate/certs/intermediate.cert.pem ca-bundle/ca-cert.pem
-$ cp /root/ca/intermediate/private/intermediate.key.pem ca-bundle/ca-key.pem
-$ cp ca-bundle/ca-cert.pem ca-bundle/cert-chain.pem
-$ tar cvf ca-bundle.tar ca-bundle
+$ mkdir ca-keycerts
+$ cp /root/ca/certs/ca.cert.pem ca-keycerts/root-cert.pem
+$ cp /root/ca/intermediate/certs/intermediate.cert.pem ca-keycerts/ca-cert.pem
+$ cp /root/ca/intermediate/private/intermediate.key.pem ca-keycerts/ca-key.pem
+$ cp ca-keycerts/ca-cert.pem ca-keycerts/cert-chain.pem
+$ tar cvf ca-keycerts.tar ca-keycerts
 {{< /text >}}
 
-Use a portable data storage device to copy `ca-bundle.tar` to the machine configured to manage to the Istio cluster.
+Use a portable data storage device to copy `ca-keycerts.tar` to the machine configured to manage to the Istio cluster.
 On the machine, create the secret `cacerts`:
 
 {{< text bash >}}
-$ tar xvf ca-bundle.tar
-$ kubectl create secret generic cacerts -n istio-system --from-file=ca-bundle/ca-cert.pem \
-    --from-file=ca-bundle/ca-key.pem --from-file=ca-bundle/root-cert.pem --from-file=ca-bundle/cert-chain.pem
+$ tar xvf ca-keycerts.tar
+$ kubectl create secret generic cacerts -n istio-system --from-file=ca-keycerts/ca-cert.pem \
+    --from-file=ca-keycerts/ca-key.pem --from-file=ca-keycerts/root-cert.pem --from-file=ca-keycerts/cert-chain.pem
 {{< /text >}}
 
-And then follow the
+After that, follow the
 [section above](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) from Step 2.
 
 ## Cleanup
