@@ -18,7 +18,7 @@ icon: helm
 
 您可以使用两种互斥的选项来安装Istio：
 - 如要使用 Kubernetes 清单文件来安装 Istio，请按照[选项 #1](#option-1) 的说明进行操作。
-- 如要使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发布，请按照 [选项 #2](#option-2) 的说明进行操作.
+- 如要使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发布，请按照 [选项 #2](#option-2) 的说明进行操作。
 
 ### 选项 1：通过 Helm 命令 `helm template` 安装 {#option-1}
 
@@ -90,13 +90,13 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
 
 ## 卸载
 
-* 对于选项 1，使用 `kubectl` 卸载：
+- 对于选项 1，使用 `kubectl` 卸载：
 
     {{< text bash >}}
     $ kubectl delete -f $HOME/istio-minimal.yaml
     {{< /text >}}
 
-* 对于选项 2，使用 Helm 卸载：
+- 对于选项 2，使用 Helm 卸载：
 
     {{< warning >}}
     Uninstalling this chart does not delete Istio's registered CRDs. Istio, by design, expects
@@ -110,7 +110,7 @@ istio-pilot-58c65f74bc-2f5xn             1/1       Running   0          1m
     $ helm delete --purge istio-init
     {{< /text >}}
 
-* 如果需要，请运行下列命令删除所有 CRD：
+- 如果需要，请运行下列命令删除所有 CRD：
 
     {{< warning >}}
     Deleting CRDs deletes any configuration changes that you have made to Istio.
