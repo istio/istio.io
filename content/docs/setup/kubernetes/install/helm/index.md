@@ -111,7 +111,7 @@ $ kubectl -n istio-system edit deployment istio-galley
 
     {{< /warning >}}
 
-1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
+1. Verify all `58` Istio CRDs were committed to the Kubernetes API-server using the following command:
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
