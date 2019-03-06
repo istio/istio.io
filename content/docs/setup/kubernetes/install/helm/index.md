@@ -185,7 +185,7 @@ to manage the lifecycle of Istio.
     $ kubectl delete namespace istio-system
     {{< /text >}}
 
-1. If you installed using Option 2 and `Tiller`, uninstall with these commands:
+1. If you installed  Istio using `Tiller`, uninstall with these commands:
 
     {{< text bash >}}
     $ helm delete --purge istio
