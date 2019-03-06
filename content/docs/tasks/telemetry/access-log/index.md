@@ -59,14 +59,14 @@ Save the configuration map and exit the editing mode.
     * Connection #0 to host httpbin left intact
     {{< /text >}}
 
-1.  Check the log of `sleep`:
+1.  Check `sleep`'s log:
 
     {{< text bash >}}
     $ kubectl logs -l app=sleep -c istio-proxy
     [2019-03-06T09:31:27.354Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 11 10 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "172.30.146.73:80" outbound|8000||httpbin.default.svc.cluster.local - 172.21.13.94:8000 172.30.146.82:60290 -
     {{< /text >}}
 
-1.  Check the log of `httpbin`:
+1.  Check `httpbin`'s log:
 
     {{< text bash >}}
     $ kubectl logs -l app=httpbin -c istio-proxy
