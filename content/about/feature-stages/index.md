@@ -81,7 +81,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
 | [Helm](/docs/setup/kubernetes/install/helm/) | Beta
-| [Multicluster Mesh over VPN](/docs/setup/kubernetes/multicluster/) | Alpha
+| [Multicluster Mesh over VPN](/docs/setup/kubernetes/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
 | Basic Configuration Resource Validation | Alpha

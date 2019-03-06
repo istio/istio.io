@@ -94,7 +94,7 @@ be configured using [authentication policies](/docs/concepts/security/#authentic
   sidecars and turning off galley using the [Helm parameter](/docs/setup/kubernetes/install/helm)
   `--set galley.enabled=false`.
 
-- In a [multicluster deployment](/docs/setup/kubernetes/multicluster) the mixer-telemetry
+- In a [multicluster deployment](/docs/setup/kubernetes/install/multicluster) the mixer-telemetry
   and mixer-policy components do not connect to the Kubernetes API endpoints of any of the remote
   clusters.  This results in a loss of telemetry fidelity as some of the metadata associated
   with workloads on remote clusters is incomplete.
