@@ -339,7 +339,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     used for generating your `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio/ --name istio-ingressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
+    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
     --set gateways.istio-ingressgateway.secretVolumes[0].name=ingressgateway-certs \
     --set gateways.istio-ingressgateway.secretVolumes[0].secretName=istio-ingressgateway-certs \
     --set gateways.istio-ingressgateway.secretVolumes[0].mountPath=/etc/istio/ingressgateway-certs \
