@@ -12,21 +12,21 @@ keywords: [traffic-management,traffic-shifting]
 ## 开始之前
 
 * 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
+
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
+
 * 查看 [流量管理](/zh/docs/concepts/traffic-management) 概念文档。
 
-## 关于这个任务
-
-一个常见的用例是将流量从一个版本的微服务逐渐迁移到另一个版本。 在 Istio 中，您可以通过配置一系列规则来实现此目标，
-这些规则将一定百分比的流量路由到一个或另一个服务。 在此任务中，您将先分别向 `reviews:v1` 和 `reviews:v3` 各发送 50% 流量。
-然后，您将通过向 `reviews:v3` 发送 100% 的流量来完成迁移。
-
 ## 应用基于权重的路由
+
+{{< warning >}}
+如果尚未应用目标规则，请按照[应用默认目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)中的说明进行操作。
+{{< /warning >}}
 
 1.  首先，运行此命令将所有流量路由到 `v1` 版本的各个微服务。
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1.  在浏览器中打开 Bookinfo 站点。 URL 为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是 ingress 的外部 IP 地址，
@@ -38,7 +38,7 @@ keywords: [traffic-management,traffic-shifting]
 1.  使用下面的命令把 50% 的流量从 `reviews:v1` 转移到 `reviews:v3`：
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
     {{< /text >}}
 
     等待几秒钟以让新的规则传播到代理中生效。
@@ -46,7 +46,7 @@ keywords: [traffic-management,traffic-shifting]
 1.  确认规则已被替换:
 
     {{< text bash yaml >}}
-    $ istioctl get virtualservice reviews -o yaml
+    $ kubectl get virtualservice reviews -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -76,7 +76,7 @@ keywords: [traffic-management,traffic-shifting]
 1. 如果您认为 `reviews:v3` 微服务已经稳定，你可以通过应用此 virtual service 将 100% 的流量路由到 `reviews:v3`：
 
     {{< text bash >}}
-    $ istioctl replace -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
     {{< /text >}}
 
     现在，当您刷新 `/productpage` 时，您将始终看到带有红色星级评分的书评。
@@ -94,7 +94,7 @@ keywords: [traffic-management,traffic-shifting]
 1. 删除应用程序路由规则。
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的说明关闭应用程序。
