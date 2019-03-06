@@ -11,6 +11,7 @@ Envoy proxies print access information to their standard output.
 The standard output of Envoy's containers can then be printed by the `kubectl logs` command.
 
 {{< boilerplate before-you-begin-egress >}}
+
 {{< boilerplate start-httpbin-service >}}
 
 ## Enable Envoy's access logging
