@@ -64,12 +64,12 @@ $ istioctl kube-inject \
 $ kubectl apply -f sleep-injected.yaml
 {{< /text >}}
 
-Verify that the sidecar has been injected into the deployment.
+Verify that the sidecar has been injected into the sleep pod with `2/2` under the READY column.
 
 {{< text bash >}}
-$ kubectl get deployment sleep -o wide
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS          IMAGES                             SELECTOR
-sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
+$$ kubectl get pod  -l app=sleep
+NAME                     READY   STATUS    RESTARTS   AGE
+sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 {{< /text >}}
 
 ### Automatic sidecar injection

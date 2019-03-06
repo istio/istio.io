@@ -1,9 +1,7 @@
 Create a namespace for the Istio control plane components:
 
 {{< text bash >}}
-
 $ kubectl create namespace istio-system
-
 {{< /text >}}
 
 {{< warning >}}
