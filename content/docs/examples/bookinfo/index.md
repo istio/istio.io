@@ -81,7 +81,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
-    The above command launches all four microservices as illustrated in the above diagram.
+    The command launches all four services shown in the `bookinfo` application architecture diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
 
     {{< tip >}}
