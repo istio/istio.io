@@ -23,8 +23,9 @@ cluster must satisfy the following requirements:
   Use a `containerPort` in the container spec for each port.  Any unlisted ports will bypass the Istio
   Proxy.
 
-* _**Service association**:_ If a pod belongs to multiple
-  [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
+* _**Service association**:_ A pod must belong to at least one [Kubernetes service](https://kubernetes.io/docs/concepts/services-networking/service/),
+  even if it does NOT expose any port.
+  If a pod belongs to multiple [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
   the services cannot use the same port number for different protocols, for instance HTTP and TCP.
 
 * _**Deployments with app and version labels**:_ It is recommended that pods deployed using
