@@ -4,7 +4,7 @@ description: Describe Istio's authorization feature and how to use it in various
 publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
-keywords: [authorization,Role Based Access Control,security]
+keywords: [authorization,rbac,security]
 ---
 
 Micro-segmentation is a security technique that creates secure zones in cloud deployments and allows organizations to

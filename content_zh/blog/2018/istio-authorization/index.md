@@ -62,7 +62,7 @@ keywords: [authorization,Role Based Access Control,security]
 
 ## 示例
 
-[授权任务](/zh/docs/tasks/security/role-based-access-control/)向您展示如何操作使用 Istio 的授权功能来控制命名空间级别
+[授权任务](/zh/docs/tasks/security/authz-http/)向您展示如何操作使用 Istio 的授权功能来控制命名空间级别
 和服务级别访问 [Bookinfo 应用](/zh/docs/examples/bookinfo/)。在本节中，您将看到有关如何实现的更多示例使用 Istio 授权进行
 微分割。
 

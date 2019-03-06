@@ -7,8 +7,8 @@ other = "Follow us on Twitter to get the latest news"
 [stackoverflow_desc]
 other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
 
-[for_users]
-other = "for users"
+[for_everyone]
+other = "for everyone"
 
 [for_developers]
 other = "for developers"
@@ -23,7 +23,7 @@ other = "Access our team drive if you'd like to take a look at the Istio technic
 other = "If you'd like to contribute to the Istio project, consider participating in our working groups"
 
 [slack_desc]
-other = "Interactively discuss development issues with the Istio community on Slack (Developers only, see FAQ)"
+other = "Interactively discuss issues with the Istio community on Slack"
 
 [report_site_bugs]
 other = "Report Site Bugs"
@@ -171,3 +171,9 @@ other = "Links"
 
 [generated_file]
 other = "This is an auto-generated file, please edit the source in the %s repo."
+
+[switch_lang]
+other = "Switch to Chinese"
+
+[advisory]
+other = "-"

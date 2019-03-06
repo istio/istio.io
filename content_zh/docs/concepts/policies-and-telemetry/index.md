@@ -25,7 +25,7 @@ Mixer 是负责提供策略控制和遥测收集的 Istio 组件：
 
 除了这些纯粹的功能方面，Mixer 还具有如下所述的[可靠性和可扩展性](#可靠性和延迟)方面的优势。
 
-策略执行和遥测收集完全由配置驱动。可以[完全禁用这些功能](/zh/docs/setup/kubernetes/minimal-install/)，并免除在 Istio 部署中运行 Mixer 组件的必要性。
+策略执行和遥测收集完全由配置驱动。可以[完全禁用这些功能](/zh/docs/setup/kubernetes/install/minimal/)，并免除在 Istio 部署中运行 Mixer 组件的必要性。
 
 ## 适配器
 

@@ -77,7 +77,7 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 
 Istio 默认捕获所有请求的追踪信息。例如，当使用上面的 Bookinfo 示例应用程序时，每次访问 `/productpage` 时，都会看到相应的追踪仪表板。此采样率适用于测试或低流量网格。对于高流量网格，您可以以两种方式之一来降低追踪采样百分比：
 
-* 在安装网格时，使用 `pilot.traceSampling` Helm 选项来设置追踪采样百分比。请查看 [Helm 安装](/zh/docs/setup/kubernetes/helm-install/)文档获取配置选项的详细信息。
+* 在安装网格时，使用 `pilot.traceSampling` Helm 选项来设置追踪采样百分比。请查看 [Helm 安装](/zh/docs/setup/kubernetes/install/helm/)文档获取配置选项的详细信息。
 * 在一个运行中的网格中，编辑 `istio-pilot` deployment，通过下列步骤改变环境变量：
 
     1. 运行以下命令打来文本编辑器并加载 deployment 配置文件：

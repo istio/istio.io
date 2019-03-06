@@ -11,11 +11,11 @@ keywords: [security,health-check]
 
 Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状态（目前只是 gRPC 服务器的健康情况）。如果 Citadel 是健康的，检测器客户端会更新健康状态文件（文件内容始终为空）的更新时间。否则就什么都不做。Citadel 依赖 [Kubernetes 的健康和就绪检测](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)功能，会周期性的使用命令行检查健康状态文件的更新时间。如果这个文件有一段时间不更新了，Citadel 容器就会被 Kubelet 的重新启动。
 
-注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [Istio Mesh Expansion](/zh/docs/setup/kubernetes/mesh-expansion/) （这个特性需要 CSR 服务接口的支持）就没有必要使用这个功能了。
+注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [Istio Mesh Expansion](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/) （这个特性需要 CSR 服务接口的支持）就没有必要使用这个功能了。
 
 ## 开始之前
 
-* 根据[快速开始](/zh/docs/setup/kubernetes/quick-start/)的指引部署 Istio 并启用全局双向 TLS 支持。
+* 根据[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)的指引部署 Istio 并启用全局双向 TLS 支持。
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
@@ -23,7 +23,7 @@ Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状
 
     _**或者**_
 
-    用 [Helm](/zh/docs/setup/kubernetes/helm-install/) 进行部署，设置 `global.mtls.enabled` 为 `true`。
+    用 [Helm](/zh/docs/setup/kubernetes/install/helm/) 进行部署，设置 `global.mtls.enabled` 为 `true`。
 
 {{< tip >}}
 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)为命名空间内的部分或者全部服务配置双向 TLS 支持（在所有命名空间重复一遍就算是全局配置了）。请参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
