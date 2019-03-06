@@ -74,7 +74,6 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
     $ helm fetch istio.io/istio --untar --untardir $HOME/istio-fetch
     {{< /text >}}
 
-<<<<<<< HEAD
 1. {{< boilerplate create-istio-system-namespace >}}
 
 1. Install all the Istio's [Custom Resource Definitions or CRDs for short](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) via `kubectl apply`, and wait a few seconds for the CRDs to be committed to the Kubernetes API server:
