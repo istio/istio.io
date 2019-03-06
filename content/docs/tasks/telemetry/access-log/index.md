@@ -23,7 +23,7 @@ $ kubectl edit cm istio -n istio-system
 {{< /text >}}
 
 Set the value of `global.proxy.accessLogFile` to "/dev/stdout".
-Mind escaping quotation marks with backward slashes (`\"`).
+Be sure to escape quotation marks with backward slashes (`\"`).
 
 You may also want to change the
 [format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) of the access log.
@@ -85,7 +85,7 @@ Note that the messages corresponding to the request appear in logs of the Istio 
     {{< /text >}}
 
 1.  Edit the `istio` configuration map and set `global.proxy.accessLogFile` to `""`.
-    Mind escaping quotation marks with backward slashes (`\"`).
+    Be sure to escape quotation marks with backward slashes (`\"`).
 
     {{< text bash >}}
     $ kubectl edit cm istio -n istio-system
