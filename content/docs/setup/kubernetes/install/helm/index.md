@@ -84,7 +84,7 @@ Choose this option if your cluster doesn't have [Tiller](https://github.com/kube
 
     {{< text bash >}}
 
-    $ kubectl create namespace istio-system --dry-run -o yaml | kubectl apply -f -
+    $ kubectl create namespace istio-system
 
     {{< /text >}}
 
