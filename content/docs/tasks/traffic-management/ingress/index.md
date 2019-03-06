@@ -266,6 +266,31 @@ available for edge services.
 In the preceding steps, you created a service inside the service mesh
 and exposed an HTTP endpoint of the service to external traffic.
 
+## Troubleshooting
+
+1.  Inspect the values of the `INGRESS_HOST` and `INGRESS_PORT` environment variables. Make sure
+they have valid values, according to the output of the following commands:
+
+    {{< text bash >}}
+    $ kubectl get svc -n istio-system
+    $ echo INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT
+    {{< /text >}}
+
+1.  Check that you have no other Istio ingress gateways defined on the same port:
+
+    {{< text bash >}}
+    $ kubectl get gateway --all-namespaces
+    {{< /text >}}
+
+1.  Check that you have no Kubernetes Ingress resources defined on the same IP and port:
+
+    {{< text bash >}}
+    $ kubectl get ingress --all-namespaces
+    {{< /text >}}
+
+1.  If you have an external load balancer and it does not work for you, try to access the gateway using the service's
+    [node port](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
+
 ## Cleanup
 
 Delete the `Gateway` and `VirtualService` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
