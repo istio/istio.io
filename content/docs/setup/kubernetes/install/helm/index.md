@@ -179,7 +179,7 @@ to manage the lifecycle of Istio.
 
 ## Uninstall
 
-1. If you installed using Option 1 with `helm template`, uninstall with this command:
+1. If you installed Istio with the `helm template`, uninstall with this command:
 
     {{< text bash >}}
     $ kubectl delete namespace istio-system
