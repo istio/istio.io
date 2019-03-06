@@ -16,10 +16,6 @@ TLS origination for traffic to external services.
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-    {{< tip >}}
-    If you used Helm with default values to install Istio, then the egress gateway is disabled by default. Please [enable](/docs/reference/config/installation-options/#gateways-options) it and [reinstall](/docs/setup/kubernetes/install/helm) Istio before continuing.
-    {{< /tip >}}
-
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
