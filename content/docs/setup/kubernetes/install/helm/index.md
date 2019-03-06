@@ -210,7 +210,7 @@ The `istio-init` chart contains all raw CRDs in the `istio-init/files` directory
 chart, you can simply delete the CRDs using `kubectl`.
 {{< /tip >}}
 
-1. To permanently delete Istio's CRDs and all Istio configuration:
+1. To permanently delete Istio's CRDs and the entire Istio configuration, run:
 
     {{< text bash >}}
 
