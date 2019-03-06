@@ -5,7 +5,7 @@ weight: 30
 keywords: [traffic-management,egress]
 ---
 
-{{<warning>}}This test does not work in Minikube{{</warning>}}
+{{<warning>}}This does not work in Minikube{{</warning>}}
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
