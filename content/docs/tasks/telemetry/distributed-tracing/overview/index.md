@@ -26,29 +26,34 @@ To do this, an application needs to collect and propagate the following headers 
 * `x-b3-flags`
 * `x-ot-span-context`
 
-If you look in the sample services, you can see that the `productpage` service (Python) extracts the required headers from an HTTP request:
+If you look at the sample Python `productpage` service, for example,
+you see that the application extracts the required headers from an HTTP request
+using [OpenTracing](https://opentracing.io/) libraries:
 
 {{< text python >}}
 def getForwardHeaders(request):
     headers = {}
 
-    if 'user' in session:
-        headers['end-user'] = session['user']
+    # x-b3-*** headers can be populated using the opentracing span
+    span = get_current_span()
+    carrier = {}
+    tracer.inject(
+        span_context=span.context,
+        format=Format.HTTP_HEADERS,
+        carrier=carrier)
 
-    incoming_headers = [ 'x-request-id',
-                         'x-b3-traceid',
-                         'x-b3-spanid',
-                         'x-b3-parentspanid',
-                         'x-b3-sampled',
-                         'x-b3-flags',
-                         'x-ot-span-context'
-    ]
+    headers.update(carrier)
+
+    # ...
+
+    incoming_headers = ['x-request-id']
+
+    # ...
 
     for ihdr in incoming_headers:
         val = request.headers.get(ihdr)
         if val is not None:
             headers[ihdr] = val
-            #print "incoming: "+ihdr+":"+val
 
     return headers
 {{< /text >}}
@@ -67,8 +72,6 @@ public Response bookReviewsById(@PathParam("productId") int productId,
                             @HeaderParam("x-b3-sampled") String xsampled,
                             @HeaderParam("x-b3-flags") String xflags,
                             @HeaderParam("x-ot-span-context") String xotspan) {
-  int starsReviewer1 = -1;
-  int starsReviewer2 = -1;
 
   if (ratings_enabled) {
     JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
