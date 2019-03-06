@@ -26,8 +26,7 @@ Set the value of `global.proxy.accessLogFile` to "/dev/stdout".
 Be sure to escape quotation marks with backward slashes (`\"`).
 
 You may also want to customize the
-[format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) of the access log.
-To do it, edit `global.proxy.accessLogFormat`.
+[format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) of the access log by editing `global.proxy.accessLogFormat`.
 
 Save the configuration map and exit the editing mode.
 
