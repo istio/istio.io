@@ -39,7 +39,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
 cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1.  Ensure that mesh expansion is enabled for the cluster. If you didn't use 
+1.  Ensure that mesh expansion is enabled for the cluster. If you didn't use
     the `--set global.meshExpansion.enabled=true` flag when installing Helm,
     you can use one of the following two options depending on how you originally installed
     Istio on the cluster:
@@ -71,7 +71,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
     {{< /tip >}}
 
-1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE` environment variable to store the namespace. The value of this variable must match the namespace you use in the configuration files later on. 
+1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE` environment variable to store the namespace. The value of this variable must match the namespace you use in the configuration files later on.
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="default"
@@ -230,10 +230,10 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ echo ${GCE_IP}
     {{< /text >}}
 
-1. Configure a service entry to enable service discovery for the VM. You can add VM services to the mesh using a 
+1. Configure a service entry to enable service discovery for the VM. You can add VM services to the mesh using a
     [service entry](/docs/reference/config/networking/v1alpha3/service-entry/). Service entries let you manually add
     additional services to Pilot's abstract model of the mesh. Once VM services are part of the mesh's abstract model,  
-    other services can find and direct traffic to them. Each service entry configuration contains the IP addresses, ports, 
+    other services can find and direct traffic to them. Each service entry configuration contains the IP addresses, ports,
     and appropriate labelsof all VMs exposing a particular service, for example:
 [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/). A `ServiceEntry` lets you manually add
 additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
@@ -264,8 +264,8 @@ particular service, as in the following example.
     EOF
     {{< /text >}}
 
-1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the the domain names of VM services. To 
-    integrate the mapping with you own DNS system, use `istioctl register` and creates a Kubernetes `selector-less` 
+1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the the domain names of VM services. To
+    integrate the mapping with you own DNS system, use `istioctl register` and creates a Kubernetes `selector-less`
     service, for example:
 You can integrate with your own DNS system. For illustration purpose, we use `istioctl register`
 which creates a Kubernetes `selector-less` service.
@@ -302,9 +302,9 @@ which creates a Kubernetes `selector-less` service.
 
 **Congratulations!**
 
-You successfully configured a service running in a pod within the mesh to send 
-traffic to an external service running on a VM outside of the mesh and 
-tested that the configuration worked. 
+You successfully configured a service running in a pod within the mesh to send
+traffic to an external service running on a VM outside of the mesh and
+tested that the configuration worked.
 
 **Congratulations!**
 You successfully configured a service running in a pod within the cluster to
