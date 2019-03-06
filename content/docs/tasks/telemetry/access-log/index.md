@@ -15,7 +15,7 @@ The standard output of Envoy's containers can then be printed by the `kubectl lo
 
 ## Enable Envoy's access logging
 
-Edit the `istio` config map:
+Edit the `istio` configuration map:
 
 {{< text bash >}}
 $ kubectl edit cm istio -n istio-system
@@ -28,7 +28,7 @@ You may also want to change the
 [format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) of the access log.
 To do it, edit `global.proxy.accessLogFormat`.
 
-Save the config map and exit the editing mode.
+Save the configuration map and exit the editing mode.
 
 ## Test the access log
 
@@ -83,7 +83,7 @@ Note that the messages corresponding to the request appear in logs of the Istio 
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-1.  Edit the `istio` config map and set `global.proxy.accessLogFile` to `""`.
+1.  Edit the `istio` configuration map and set `global.proxy.accessLogFile` to `""`.
     Mind escaping quotation marks with backward slashes (`\"`).
 
     {{< text bash >}}
