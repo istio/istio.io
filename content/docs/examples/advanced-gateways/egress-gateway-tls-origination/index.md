@@ -40,6 +40,8 @@ TLS origination for traffic to external services.
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
+*   [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+
 ## Perform TLS origination with an egress gateway
 
 This section describes how to perform the same TLS origination as in the

@@ -19,21 +19,9 @@ configuration by intentionally "tripping" the circuit breaker.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Add the [httpbin]({{< github_tree >}}/samples/httpbin) sample to the mesh:
+{{< boilerplate start-httpbin-service >}}
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), run this command:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    {{< /text >}}
-
-    otherwise, manually inject the sidecar before deploying the `httpbin` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    {{< /text >}}
-
-    The `httpbin` application serves as the backend service for this task.
+The `httpbin` application serves as the backend service for this task.
 
 ## Configuring the circuit breaker
 

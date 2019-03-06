@@ -1,7 +1,7 @@
 "use strict";
 
 function handleTabs() {
-    queryAll(document, ".tabset").forEach(tabset => {
+    queryAll(document, "[role=tablist]").forEach(tabset => {
         queryAll(tabset, ".tab-strip").forEach(strip => {
             const cookieName = strip.dataset.cookieName;
 
@@ -22,17 +22,17 @@ function handleTabs() {
             }
 
             // attach the event handlers to support tab sets
-            queryAll(strip, "a").forEach(anchor => {
-                listen(anchor, click, () => {
-                    queryAll(strip, "a").forEach(anchor2 => {
-                        anchor2.classList.remove(active);
-                        getById(anchor2.dataset.tab).classList.remove(active);
+            queryAll(strip, "button").forEach(button => {
+                listen(button, click, () => {
+                    queryAll(strip, "button").forEach(button2 => {
+                        button2.classList.remove(active);
+                        getById(button2.dataset.tab).classList.remove(active);
                     });
 
-                    anchor.classList.add(active);
-                    getById(anchor.dataset.tab).classList.add(active);
+                    button.classList.add(active);
+                    getById(button.dataset.tab).classList.add(active);
                     if (cookieName !== null) {
-                        createCookie(cookieName, anchor.dataset.cookieValue);
+                        createCookie(cookieName, button.dataset.cookieValue);
                     }
                 });
             });

@@ -341,7 +341,6 @@ You can update the `quota rule` by adding a match condition based on the `cookie
 
 {{< text yaml >}}
 $ kubectl -n istio-system edit rules quota
-
 apiVersion: config.istio.io/v1alpha2
 kind: rule
 metadata:

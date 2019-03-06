@@ -58,7 +58,7 @@ $ galley server [选项]
 |`--readinessProbeInterval <duration>`|就绪检测文件的更新间隔。（缺省值 `0s`）|
 |`--readinessProbePath <string>`|就绪检测文件的路径。（缺省值 `''`）|
 
-## galley validator
+## `galley validator`
 
 运行一个 https 服务器，用来进行 Istio 的配置验证。用 Kubernetes 验证 Webhook 进行 Pilot 和 Mixer 配置的验证。
 

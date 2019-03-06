@@ -3,7 +3,7 @@ title: Gateway Connectivity
 description: Install an Istio mesh across multiple Kubernetes clusters using Istio Gateway to reach remote pods.
 weight: 2
 aliases:
-        - /docs/setup/kubernetes/multicluster-install/gateways/
+    - /docs/setup/kubernetes/multicluster-install/gateways/
 keywords: [kubernetes,multicluster,federation,gateway]
 ---
 
@@ -62,7 +62,7 @@ on **each** Kubernetes cluster.
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
+        -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
     {{< /text >}}
 
     For further details and customization options, refer to the

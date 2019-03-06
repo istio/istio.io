@@ -5,7 +5,7 @@ weight: 70
 keywords: [kubernetes,multicluster]
 ---
 
-此示例演示了如何在[基于 VPN 的多集群安装指导](/zh/docs/setup/kubernetes/multicluster-install/vpn/) 的帮助下使用 Istio 的多集群功能连接两个
+此示例演示了如何在[基于 VPN 的多集群安装指导](/zh/docs/setup/kubernetes/multicluster/vpn/) 的帮助下使用 Istio 的多集群功能连接两个
 [IBM Cloud Private](https://www.ibm.com/cloud/private) 集群。
 
 ## 创建 IBM Cloud Private 集群
@@ -122,13 +122,13 @@ IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。
 
 ## 为多集群安装 Istio
 
-[跟随基于 VPN 的多集群安装步骤](/zh/docs/setup/kubernetes/multicluster-install/vpn/) 来在 `cluster-1` 和 `cluster-2` 集群上分别安装并配置本地 Istio 控制平面和远程 Istio。
+[跟随基于 VPN 的多集群安装步骤](/zh/docs/setup/kubernetes/multicluster/vpn/) 来在 `cluster-1` 和 `cluster-2` 集群上分别安装并配置本地 Istio 控制平面和远程 Istio。
 
 此示例使用 `cluster-1` 作为本地 Istio 控制平面，`cluster-2` 作为远程 Istio。
 
 ## 跨集群部署 Bookinfo 示例
 
-__注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入).
+__注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入).
 
 1.  安装 `bookinfo` 在第一个集群 `cluster-1` 上。移除此集群上的 `reviews-v3` deployment 以便将其部署在 `cluster-2` 上：
 

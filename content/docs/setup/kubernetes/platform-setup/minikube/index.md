@@ -4,7 +4,7 @@ description: Instructions to setup Minikube for use with Istio.
 weight: 21
 skip_seealso: true
 aliases:
-        -/docs/setup/kubernetes/platform-setup/minikube/
+    - /docs/setup/kubernetes/platform-setup/minikube/
 keywords: [platform-setup,kubernetes,minikube]
 ---
 

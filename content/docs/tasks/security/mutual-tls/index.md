@@ -127,12 +127,11 @@ HOST:PORT                                  STATUS       SERVER     CLIENT     AU
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/            bad-rule/default
 {{< /text >}}
 
-You can also confirm that requests from `sleep` to `httpbin` are now failed:
+You can also confirm that requests from `sleep` to `httpbin` are now failing:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
-000
-command terminated with exit code 56
+503
 {{< /text >}}
 
 Before you continue, remove the bad destination rule to make mutual TLS work again with the following command:

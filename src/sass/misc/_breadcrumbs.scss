@@ -1,0 +1,29 @@
+.breadcrumbs {
+    text-transform: uppercase;
+    margin: 1.1em 0;
+
+    @media print {
+        display: none;
+    }
+
+    ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        display: inline;
+        font-size: 80%;
+        margin: 0;
+    }
+
+    li + li::before {
+        display: inline-block;
+        margin: 0 0.55em;
+        transform: rotate(15deg);
+        border-right: 0.1em solid currentColor;
+        height: 0.8em;
+        content: '';
+    }
+}

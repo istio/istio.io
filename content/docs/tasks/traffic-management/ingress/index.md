@@ -21,20 +21,7 @@ This task describes how to configure Istio to expose a service outside of the se
 
 *   Make sure your current directory is the `istio` directory.
 
-*   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample,
-    which will be used as the destination service to be exposed externally.
-
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `httpbin` service:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    {{< /text >}}
-
-    Otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    {{< /text >}}
+{{< boilerplate start-httpbin-service >}}
 
 *   Determine the ingress IP and ports as described in the following subsection.
 
@@ -278,6 +265,31 @@ available for edge services.
 
 In the preceding steps, you created a service inside the service mesh
 and exposed an HTTP endpoint of the service to external traffic.
+
+## Troubleshooting
+
+1.  Inspect the values of the `INGRESS_HOST` and `INGRESS_PORT` environment variables. Make sure
+they have valid values, according to the output of the following commands:
+
+    {{< text bash >}}
+    $ kubectl get svc -n istio-system
+    $ echo INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT
+    {{< /text >}}
+
+1.  Check that you have no other Istio ingress gateways defined on the same port:
+
+    {{< text bash >}}
+    $ kubectl get gateway --all-namespaces
+    {{< /text >}}
+
+1.  Check that you have no Kubernetes Ingress resources defined on the same IP and port:
+
+    {{< text bash >}}
+    $ kubectl get ingress --all-namespaces
+    {{< /text >}}
+
+1.  If you have an external load balancer and it does not work for you, try to access the gateway using the service's
+    [node port](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
 
 ## Cleanup
 

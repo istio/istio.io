@@ -12,8 +12,8 @@ keywords: [security,authentication]
 * 理解 Istio [认证策略](/zh/docs/concepts/security/#认证策略)和相关的
 [双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)概念。
 
-* 拥有一个安装好 Istio 的 Kubernetes 集群，并且禁用全局双向 TLS（可使用[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)中提供的示例配置
- `install/kubernetes/istio.yaml`，或者使用 [Helm](/zh/docs/setup/kubernetes/helm-install/)
+* 拥有一个安装好 Istio 的 Kubernetes 集群，并且禁用全局双向 TLS（可使用[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中提供的示例配置
+ `install/kubernetes/istio.yaml`，或者使用 [Helm](/zh/docs/setup/kubernetes/install/helm/)
  设置 `global.mtls.enabled` 为 false）。
 
 ### 安装
@@ -218,7 +218,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-如果使用[默认双向 TLS 选项](/zh/docs/setup/kubernetes/quick-start/#安装步骤)安装 Istio，此规则与上述全局身份验证策略和目标规则一起将在安装过程中注入系统。
+如果使用[默认双向 TLS 选项](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio，此规则与上述全局身份验证策略和目标规则一起将在安装过程中注入系统。
 {{< /tip >}}
 
 重新运行上面的测试命令，确认在添加规则后能够成功返回 200：

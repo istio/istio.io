@@ -10,7 +10,7 @@ keywords: [kubernetes,multicluster]
 
 ## 开始之前 {#before-you-begin}
 
-* 根据[使用网关连接多控制平面](/zh/docs/setup/kubernetes/multicluster-install/gateways/)的介绍，建立两个 Istio 网格组成的集群环境。
+* 根据[使用网关连接多控制平面](/zh/docs/setup/kubernetes/multicluster/gateways/)的介绍，建立两个 Istio 网格组成的集群环境。
 
 * 用 `kubectl` 的 `--context` 参数来访问两个不同的集群。用下面的命令列出配置文件中的 `context`（上下文）：
 

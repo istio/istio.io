@@ -49,7 +49,7 @@ keywords: [流量管理,egress]
 
 ## 部署 NGINX 服务器
 
-1.  创建一个命名空间来表示 Istio 网格之外的服务，即 `mesh-external`。请注意，由于自动注入 sidecar 没有[启用](/zh/docs/setup/kubernetes/sidecar-injection/#应用部署)，因此 sidecar 代理不会自动注入此命名空间中的 pod。
+1.  创建一个命名空间来表示 Istio 网格之外的服务，即 `mesh-external`。请注意，由于自动注入 sidecar 没有[启用](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#应用部署)，因此 sidecar 代理不会自动注入此命名空间中的 pod。
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external
