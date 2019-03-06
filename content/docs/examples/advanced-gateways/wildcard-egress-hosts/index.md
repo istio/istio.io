@@ -21,6 +21,8 @@ without the need to specify every language's site separately.
 
 {{< boilerplate before-you-begin-egress >}}
 
+*   [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+
 ## Configure direct traffic to a wildcard host
 
 The first, and simplest, way to access a set of hosts within a common domain is by configuring
