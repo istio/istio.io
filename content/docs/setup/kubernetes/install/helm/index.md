@@ -1,7 +1,7 @@
 ---
 title: Customizable Install with Helm
 description: Instructions to install Istio using a Helm chart.
-weight: 10
+weight: 20
 keywords: [kubernetes,helm]
 aliases:
     - /docs/setup/kubernetes/helm.html
@@ -25,7 +25,7 @@ The following built-in configuration profiles are currently available:
     that you can more easily enable additional features if you wish to explore more advanced tasks.
 
 1. **default**: enables components according to the default [Installation Options](/docs/reference/config/installation-options/)
-    (recommened for production deployments).
+    (recommend for production deployments).
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the
 `helm template` or `helm install` command in the instructions, below.

@@ -166,7 +166,7 @@ The host used in the service entry should be of the form `<name>.<namespace>.glo
 where name and namespace correspond to the service's name and namespace respectively.
 
 To confirm that your multicluster configuration is working, we suggest you proceed to our
-simple [multicluster using gateways](/docs/examples/install/multicluster/gateways/)
+simple [multicluster using gateways](/docs/examples/multicluster/gateways/)
 example to test your setup.
 
 ## Uninstalling
