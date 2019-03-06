@@ -300,6 +300,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     is including the remote's `reviews-v3` instance in the load balancing of reviews versions:
 
     {{< text bash >}}
+    $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
     $ kubectl get svc istio-ingressgateway -n istio-system
     {{< /text >}}
 
