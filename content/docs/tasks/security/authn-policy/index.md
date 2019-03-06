@@ -105,6 +105,9 @@ spec:
 EOF
 {{< /text >}}
 
+> The mesh authentication policy uses the same [API]((/docs/reference/config/istio.authentication.v1alpha1/)
+ as regular authentication policy, except it is defined in the cluster-scoped CRD, `MeshPolicy`.
+
 This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind:
  `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply to all services in the mesh).
 
