@@ -51,7 +51,7 @@ specific to your Kubernetes platform:
 - [IBM Cloud](/docs/setup/kubernetes/install/platform/ibm/)
 
 If you want your installation to use Istio's Container Network Interface
-(CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/install/cni/).
+(CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
 
 If you want to perform a multicluster setup, visit our
 [Multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).

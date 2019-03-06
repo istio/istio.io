@@ -5,6 +5,7 @@ weight: 30
 type: section-index
 aliases:
     - /docs/setup/kubernetes/multicluster-install/
+    - /docs/setup/kubernetes/multicluster/
 keywords: [kubernetes,multicluster]
 ---
 Refer to the [multicluster service mesh](/docs/concepts/multicluster-deployments/) concept documentation
