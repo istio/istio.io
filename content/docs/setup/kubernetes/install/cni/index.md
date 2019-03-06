@@ -3,8 +3,6 @@ title: Install Istio with the Istio CNI plugin
 description: Instructions to install and use Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
-aliases:
-    - /docs/setup/kubernetes/quick-start-gke-dm/
 ---
 
 Follow this path to install, configure, and use an Istio mesh using the Istio Container Network Interface
@@ -23,7 +21,7 @@ networking functionality but without requiring Istio users to enable elevated
 Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/kubernetes/spec-requirements/)
+setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/kubernetes/additional-setup/requirements//)
 for users deploying pods into the Istio mesh.  The [Istio CNI plugin](https://github.com/istio/cni)
 replaces the functionality provided by the `istio-init` container.
 

@@ -16,16 +16,13 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 ## Before you begin
 
-* Set up Istio by following the instructions in the
-  [quick start](/docs/setup/kubernetes/install/kubernetes/) with global mutual TLS enabled:
+To complete this task, you can install Istio using **one of** the following paths:
 
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}
+* To setup Istio without using Helm, follow the instructions in the
+  [installation guide](/docs/setup/kubernetes/install/kubernetes/).
+  Install Istio with the **strict mTLS mode** enabled.
 
-    _**OR**_
-
-    Using [Helm](/docs/setup/kubernetes/install/helm/) with `global.mtls.enabled` to `true`.
+* Use [Helm](/docs/setup/kubernetes/install/helm/) to setup Istio and set the `global.mtls.enabled` flag to `true`.
 
 {{< tip >}}
 You can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for

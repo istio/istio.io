@@ -38,7 +38,7 @@ Mixer 会生成指标来监控它自身行为。第一步是检查这些指标�
 
     如果你没有看到带有 `grpc_method="Report"` 的 `grpc_server_handled_total` 的任何数据，则 Envoy 就没有调用 Mixer 来报告遥测数据。
 
-1. 在这种情况下，确保已经将服务正确地集成到服务网格中。您可以使用[自动或手动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/) 来完成这个目标。
+1. 在这种情况下，确保已经将服务正确地集成到服务网格中。您可以使用[自动或手动注入 sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/) 来完成这个目标。
 
 ## 验证 Mixer 规则是否存在
 

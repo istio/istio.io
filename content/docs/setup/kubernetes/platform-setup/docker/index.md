@@ -4,7 +4,7 @@ description: Instructions to setup Docker For Desktop for use with Istio.
 weight: 12
 skip_seealso: true
 aliases:
-        - /docs/setup/kubernetes/platform-setup/docker-for-desktop/
+    - /docs/setup/kubernetes/platform-setup/docker-for-desktop/
 keywords: [platform-setup,kubernetes,docker-for-desktop]
 ---
 

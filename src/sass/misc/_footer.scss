@@ -9,7 +9,7 @@ footer {
     padding: 1rem 4px 1.5rem;
     text-align: center;
     display: grid;
-    grid-template-columns: [user-links] 35% [info] 65% [dev-links] 0%;
+    grid-template-columns: [user-links] 45% [info] 55% [dev-links] 0%;
     grid-template-rows: 100%;
 
     @media print {
@@ -34,14 +34,16 @@ footer {
 
         .copyright {
             padding: 0;
-            margin: 0;
+            margin-top: 8px;
             color: $textBrandColorLight;
             line-height: 1.6em;
-            font-size: 0.7em;
+            font-size: 0.5em;
             text-align: right!important;
 
             @media (min-width: $bp-lg) {
                 text-align: center!important;
+                font-size: 0.7em;
+                margin: 0;
             }
 
             a {
@@ -68,6 +70,7 @@ footer {
     .channel {
         position: relative;
         display: inline-flex;
+        margin-top: 8px;
         padding: 4px 0;
         border-width: 2px;
         border-color: rgba(0, 0, 0, 0);
@@ -75,13 +78,17 @@ footer {
         border-radius: 2px;
         color: $textBrandColor;
 
+        @media (min-width: $bp-sm) {
+            margin: 0 .5rem;
+        }
+
         a {
             text-decoration: none;
         }
 
         svg {
-            width: 30px;
-            height: 30px;
+            width: 27px;
+            height: 27px;
             fill: $textBrandColor;
             stroke: $mainBrandColor;
 

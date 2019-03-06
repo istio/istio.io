@@ -20,7 +20,7 @@ egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipe
 
 * 启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将被用作外部请求的测试源。
 
-  如果您启用了[自动 sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请运行
+  如果您启用了[自动 sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，请运行
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@

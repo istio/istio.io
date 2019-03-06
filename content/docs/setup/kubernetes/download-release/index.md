@@ -3,7 +3,7 @@ title: Downloading the Release
 description: Instructions to download the Istio release.
 weight: 1
 aliases:
-        - /docs/setup/kubernetes/download-release/
+    - /docs/setup/kubernetes/download-release/
 keywords: [kubernetes]
 ---
 

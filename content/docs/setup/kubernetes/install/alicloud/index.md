@@ -4,7 +4,7 @@ description: Instructions to install Istio using the Alibaba Cloud Kubernetes Co
 weight: 60
 keywords: [kubernetes,alibabacloud,aliyun]
 aliases:
-        - /docs/setup/kubernetes/quick-start-alicloud-ack/
+    - /docs/setup/kubernetes/quick-start-alicloud-ack/
 ---
 
 Follow this path to install and configure an Istio mesh in the
