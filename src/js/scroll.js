@@ -4,9 +4,10 @@
 let scrollToTopButton;
 let tocLinks;
 let tocHeadings;
+let pageHeader;
 
 function handleScroll() {
-    function handlePageScroll() {
+    function dealWithScroll() {
         // Based on the scroll position, make the "scroll to top" button visible or not
         function controlScrollToTopButton() {
             if (scrollToTopButton) {
@@ -32,17 +33,24 @@ function handleScroll() {
                         continue;
                     }
 
-                    const cbr = heading.getBoundingClientRect();
+                    // get the bounding rectangle of the heading's text area (ignores borders, margins, etc)
+                    const range = document.createRange();
+                    range.setStart(heading, 0);
+                    range.setEnd(heading, 1);
+                    const cbr = range.getBoundingClientRect();
 
                     if (cbr.width || cbr.height) {
-                        if ((cbr.top >= 0) && (cbr.top < window.innerHeight)) {
-                            // heading is on the screen
-                            if (cbr.top < closestHeadingBelowTopPos) {
-                                closestHeadingBelowTop = i;
-                                closestHeadingBelowTopPos = cbr.top;
+                        if ((cbr.top >= pageHeaderHeight) && (cbr.top < window.innerHeight)) {
+                            // heading top is on the screen
+                            if (cbr.top + cbr.height - 1 < window.innerHeight) {
+                                // heading bottom is on the screen
+                                if (cbr.top + cbr.height - 1 < closestHeadingBelowTopPos) {
+                                    closestHeadingBelowTop = i;
+                                    closestHeadingBelowTopPos = cbr.top;
+                                }
                             }
-                        } else if (cbr.top < 0) {
-                            // heading is above the screen
+                        } else if (cbr.top < pageHeaderHeight) {
+                            // heading is above the visible portion of the page
                             if (cbr.top > closestHeadingAboveTopPos) {
                                 closestHeadingAboveTop = i;
                                 closestHeadingAboveTopPos = cbr.top;
@@ -61,6 +69,8 @@ function handleScroll() {
             }
         }
 
+        const pageHeaderHeight = pageHeader.getBoundingClientRect().height;
+
         controlScrollToTopButton();
         controlTOCActivation();
 
@@ -72,7 +82,7 @@ function handleScroll() {
         // the user will be left with the row under the page header.
         const target = query(document, ":target");
         if (target && target.tagName === 'TR' && !target.dataset.scrolled) {
-            document.documentElement.scrollTop -= 55;   // where 55 is the approximate header height
+            document.documentElement.scrollTop -= pageHeaderHeight;
             target.dataset.scrolled = 'true';
         }
     }
@@ -96,11 +106,13 @@ function handleScroll() {
         }
     }
 
+    pageHeader = document.getElementsByTagName("header")[0];
+
     // make sure things look right if we load a page to a specific anchor position
-    handlePageScroll();
+    dealWithScroll();
 
     // what we do when the user scrolls the page
-    listen(window, "scroll", handlePageScroll);
+    listen(window, "scroll", dealWithScroll);
 }
 
 handleScroll();
