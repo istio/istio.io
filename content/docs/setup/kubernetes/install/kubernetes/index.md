@@ -69,7 +69,7 @@ Choose this variant for:
 * Applications that use
   [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
 * Headless services, or
-* `StatefulSets`
+* StatefulSets
 
 Run the following command to install this variant:
 
