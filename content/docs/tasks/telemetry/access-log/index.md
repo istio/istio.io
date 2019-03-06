@@ -1,5 +1,5 @@
 ---
-title: Envoy's Access Logging
+title: Getting Envoy's Access Logs
 description: This task shows you how to configure Envoy proxies to print access log to their standard output.
 weight: 9
 keywords: [telemetry]
