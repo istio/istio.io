@@ -28,7 +28,7 @@ Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密
 
 - **零信任网络** : 在不受信任的网络上构建安全解决方案
 
-访问我们的[Mutual TLS Migration docs](/zh/docs/tasks/security/mtls-migration/)，开始在部署的服务中使用Istio安全功能。
+请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/mtls-migration/)相关文章，开始在部署的服务中使用 Istio 安全功能。
 请访问我们的[安全任务](/zh/docs/tasks/security/)，有关使用安全功能的详细说明。
 
 如图所示，Istio 的 Citadel 用加载 Secret 卷的方式在 Kubernetes 容器中完成证书和密钥的分发。如果服务运行在虚拟机或物理机上，则会使用运行在本地的 Node agent，它负责在本地生成私钥和 CSR（证书签发申请），把 CSR 发送给 Citadel 进行签署，并把生成的证书和私钥分发给 Envoy。
@@ -53,7 +53,7 @@ Istio 中的安全性涉及多个组件：
 
 身份是任何安全基础架构的基本概念。在服务到服务通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。
 在客户端，根据[安全命名](/zh/docs/concepts/security/#安全命名)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
-在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略) 确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
+在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
 
 在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。
 这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。
@@ -81,8 +81,7 @@ Istio 和 SPIFFE 共享相同的身份文件：[SVID](https://github.com/spiffe/
 例如，在 Kubernetes 中，X.509 证书的 URI 字段格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`。
 这使 Istio 服务能够建立和接受与其他 SPIFFE 兼容系统的连接。
 
-Istio 安全性和 [SPIRE](https://spiffe.io/spire/)，它是 SPIFFE 的实现，在 PKI 实现细节上有所不同。
-Istio 提供更全面的安全解决方案，包括身份验证、授权和审计。
+Istio 安全性和 [SPIRE](https://spiffe.io/spire/)，它是 SPIFFE 的实现，在 PKI 实现细节上有所不同。Istio 提供更全面的安全解决方案，包括身份验证、授权和审计。
 
 ## PKI
 
@@ -185,7 +184,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 同时接受纯文本流量和双向 TLS 流量。这个功能极大的提升了双向 TLS 的入门体验。
 
-在运维人员希望将服务移植到启用了双向 TLS 的 istio 上时，许多非 Istio 客户端和非 Istio 服务端通信时会产生问题。通常情况下，运维人员无法同时为所有客户端安装 Istio sidecar，甚至没有这样做的权限。即使在服务端上安装了 Istio sidecar，运维人员也无法在不中断现有连接的情况下启用双向 TLS。
+在运维人员希望将服务移植到启用了双向 TLS 的 Istio 上时，许多非 Istio 客户端和非 Istio 服务端通信时会产生问题。通常情况下，运维人员无法同时为所有客户端安装 Istio sidecar，甚至没有这样做的权限。即使在服务端上安装了 Istio sidecar，运维人员也无法在不中断现有连接的情况下启用双向 TLS。
 
 启用宽容模式后，服务同时接受纯文本和双向 TLS 流量。这个模式为入门提供了极大的灵活性。服务中安装的 Istio sidecar 立即接受双向 TLS 流量而不会打断现有的纯文本流量。因此，运维人员可以逐步安装和配置客户端 Istio sidecars 发送双向 TLS 流量。一旦客户端配置完成，运维人员便可以将服务端配置为仅 TLS 模式。更多信息请访问[双向 TLS 迁移向导](/zh/docs/tasks/security/mtls-migration)。
 
@@ -203,7 +202,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
-{{< image width="60%" link="/docs/concepts/security/authn.svg" caption="认证架构" >}}
+{{< image width="60%" link="/docs/concepts/security/auth.svg" caption="认证架构" >}}
 
 Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#授权和鉴权)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
 
@@ -620,9 +619,9 @@ spec:
 
 授权宽容模式允许您在将授权策略提交到生产环境部署之前对其进行验证。
 
-您可以在全局授权配置和单个独立策略中启用授权宽容模式。如果在全局授权配置中设置，所有策略都将切换至授权宽容模式，不管其本身的模式。如果您设置全局授权模式为 `ENFORCED`，单个策略设置的强制模式将起作用。如果您没有设置任何模式，全局授权配置和单个策略都将默认被设置为 `ENFORCED`。
+您可以在全局授权配置和单个独立策略中启用授权宽容模式。如果在全局授权配置中设置，所有策略都将切换至授权宽容模式，不管其本身的模式。如果您设置全局授权模式为 ENFORCED，单个策略设置的强制模式将起作用。如果您没有设置任何模式，全局授权配置和单个策略都将默认被设置为 ENFORCED。
 
-要全局启用宽容模式，请将全局 Istio RBAC 授权配置中的 `enforcement_mode:` 设置为 `PERMISSIVE`，如下面的示例所示。
+要全局启用宽容模式，请将全局 Istio RBAC 授权配置中的 enforcement_mode: 设置为 PERMISSIVE，如下面的示例所示。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
