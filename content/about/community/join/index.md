@@ -10,7 +10,7 @@ to join us and get involved!
 There are quite a few ways to get plugged in:
 
 {{< community_item logo="./discourse.svg" alt="Discourse" >}}
-Head for the [Istio discussion board](https://discuss.istio.io) to ask questions, 
+Head for the [Istio discussion board](https://discuss.istio.io) to ask questions,
 participate in discussions, and get help troubleshooting problems. You can use your GitHub ID (or Google, Twitter or Yahoo) to log in!
 {{< /community_item >}}
 
@@ -32,7 +32,7 @@ Follow us on [Twitter](https://twitter.com/IstioMesh) to get the latest news.
 {{< /community_item >}}
 
 {{< community_item logo="./slack.svg" alt="Slack" >}}
-If you're contributing code to Istio (or thinking about contributing!), you can join us on the 
+If you're contributing code to Istio (or thinking about contributing!), you can join us on th 
 [Istio's Slack](https://slack.istio.com).
 Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
 to join.
