@@ -108,7 +108,7 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 * 设置[水平自动扩展（Horizontal Pod Autoscaling）](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
-* 拆分 mixer 中检查和报告的 pod。
+* 拆分 Mixer 中检查和报告的 Pod。
 
 * 高可用性（HA）。
 
@@ -120,7 +120,7 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 * 开启访问日志（默认开启）时，为 Sidecar 每分配 1 个 vCPU 能够负担 1000 qps 的访问峰值，没有开启则 0.5 vCPU 即可负担同样峰值，节点上的 `fluentd` 由于需要捕获和上传日志，是主要的性能消耗者。
 
-* 假设 Mixer 检查的典型缓存命中率达到（>80％）：每 1000 qps 需要给 Mixer pod 分配 1 个 vCPU。
+* 假设 Mixer 检查的典型缓存命中率达到（>80%）：每 1000 qps 需要给 Mixer Pod 分配 0.5 个 vCPU。
 
 * 截至 0.7.1 版本，服务之间的（涉及 2 个代理：Mixer 的遥测和检查）延迟消耗/开销约为 [10 毫秒](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json)，我们希望将其降低到个位数毫秒级别。
 
