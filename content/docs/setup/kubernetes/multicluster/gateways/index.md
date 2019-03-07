@@ -62,7 +62,7 @@ on **each** Kubernetes cluster.
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
+        -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
     {{< /text >}}
 
     For further details and customization options, refer to the

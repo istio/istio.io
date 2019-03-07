@@ -31,6 +31,29 @@ controlled way.
 
 {{< boilerplate before-you-begin-egress >}}
 
+## Deploy Istio egress gateway
+
+1.  Check if the Istio egress gateway is deployed:
+
+    {{< text bash >}}
+    $ kubectl get pod -l istio=egressgateway -n istio-system
+    {{< /text >}}
+
+    If no pods are returned, deploy the Istio egress gateway by performing the next step.
+
+1.  Use `helm template` (or `helm install` with the corresponding flags).
+    The following command uses Helm templates from the `$HOME/istio-fetch` directory, created when you
+    [installed Istio with Helm](/docs/setup/kubernetes/install/helm/).
+
+    {{< text bash >}}
+    $ helm template $HOME/istio-fetch/istio --name istio-egressgateway --namespace istio-system \
+        -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml \
+        -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml \
+        -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml \
+        --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false \
+        --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
+    {{< /text >}}
+
 ## Egress gateway for HTTP traffic
 
 First create a `ServiceEntry` to allow direct traffic to an external service.
