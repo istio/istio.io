@@ -259,7 +259,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     EOF
     {{< /text >}}
 
-1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the the domain names of VM services. To
+1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the domain names of VM services. To
     integrate the mapping with you own DNS system, use `istioctl register` and creates a Kubernetes `selector-less`
     service, for example:
 
