@@ -333,14 +333,15 @@ peers:
 
 - 对于 JWT 身份验证迁移：在更改策略之前，请求应包含新的 JWT。一旦服务器端完全切换到新策略，旧 JWT（如果有的话）可以被删除。需要更改客户端应用程序才能使这些更改生效。
 
-## 授权和鉴权
+## 授权
 
-Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Istio Mesh 中的服务提供命名空间级别、服务级别和方法级别的访问控制。它的特点是：
+Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Istio 网格中的服务提供命名空间级别、服务级别和方法级别的访问控制。它的特点是：
 
 - **基于角色的语义**，简单易用。
 - **服务间和最终用户对服务的授权**。
 - **通过自定义属性支持的灵活性**，例如条件、角色和角色绑定。
 - **高性能**，因为 Istio 授权是在 Envoy 本地强制执行的。
+- **高兼容性**，原生支持 HTTP、HTTPS 和 HTTP2，以及任意普通 TCP 协议。
 
 ### 授权架构
 
@@ -351,43 +352,6 @@ Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Ist
 Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获取更新的授权策略。 Pilot 将 Istio 授权策略分发给与服务实例位于同一位置的 Envoy 代理。
 
 每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果 `ALLOW` 或 `DENY`。
-
-### 授权许可模式
-
-授权许可模式允许用户在生产环境中应用授权策略之前进行验证。
-
-可以在全局授权配置和个别策略上设置授权许可模式。在全局授权配置上设置许可模式时，所有策略都将处于许可模式，而忽略其自身模式。另外，如果全局授权配置设置为 `ENFORCED`，则在单个策略上设置的强制模式将生效。如果未指定，则默认情况下，全局授权配置和各个策略都处于 `ENFORCED` 模式。
-
-以下示例，在全局配置级别上设置了 Istio 授权许可模式。
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-  enforcement_mode: PERMISSIVE
-{{< /text >}}
-
-以下示例，在策略级别上设置了 Istio 授权许可模式。
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-details-reviews
-  namespace: default
-spec:
-  subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-  roleRef:
-    kind: ServiceRole
-    name: "details-reviews-viewer"
-  mode: PERMISSIVE
-{{< /text >}}
 
 ### 启用授权
 
@@ -400,7 +364,7 @@ spec:
 - **`ON_WITH_INCLUSION`**：仅对`包含`字段中指定的服务和命名空间启用 Istio 授权。
 - **`ON_WITH_EXCLUSION`**：除了`排除`字段中指定的服务和命名空间外，网格中的所有服务都启用了 Istio 授权。
 
- 在以下示例中，为 `default` 命名空间启用了 Istio 授权。
+在以下示例中，为 `default` 命名空间启用了 Istio 授权。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
