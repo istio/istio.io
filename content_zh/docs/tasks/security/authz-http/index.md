@@ -5,11 +5,11 @@ weight: 10
 keywords: [security,access-control,rbac,authorization]
 ---
 
-Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP 设置访问控制的各个环节。在[认证概念](/zh/docs/concepts/security/)中一文中提供了 Istio 安全方面的入门教程。
+Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP 设置访问控制的各个环节。在[认证概念](/zh/docs/concepts/security/)一文中提供了 Istio 安全方面的入门教程。
 
 ## 开始之前
 
-任务中的活动做出如下假设：
+本任务中涉及的活动，需要具备以下条件：
 
 * 理解[访问控制](/zh/docs/concepts/security/#授权和鉴权)概念。
 
@@ -30,27 +30,6 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 {{< tip >}}
 如果你的 Bookinfo 使用的不是 `default` 命名空间，可以使用 `kubectl -n namespace ...` 来指定命名空间。
 {{< /tip >}}
-
-* 在 Istio 1.0 中对 RBAC 进行了一次重要升级，因此请确认在继续之前已经移除了所有现存的 RBAC 配置。
-
-    * 运行下列命令来禁止现存的 RBAC 功能，在 Istio 1.0 之后不再需要这些配置：
-
-    {{< text bash >}}
-    $ kubectl delete authorization requestcontext -n istio-system
-    $ kubectl delete rbac handler -n istio-system
-    $ kubectl delete rule rbaccheck -n istio-system
-    {{< /text >}}
-
-    * 运行命令删除现存 RBAC 策略：
-
-    {{< tip >}}
-    要保存现有策略就必须对其中的 `constraints` 和 `properties` 字段进行修改。可以阅读[属性和约束](/zh/docs/reference/config/authorization/constraints-and-properties/)中的内容，来了解这两个字段的支持范围。
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ kubectl delete servicerole --all
-    $ kubectl delete servicerolebinding --all
-    {{< /text >}}
 
 * 用浏览器打开 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`）应该会看到：
 
