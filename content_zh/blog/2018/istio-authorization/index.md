@@ -4,7 +4,7 @@ description: 描述 Istio 的授权功能以及如何在各种用例中使用它
 publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
-keywords: [authorization,Role Based Access Control,security]
+keywords: [authorization,rbac,security]
 ---
 
  Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域，并允许组织使用将工作负载彼此隔离并单独保护它们。
