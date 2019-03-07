@@ -3,7 +3,7 @@
     cursor: pointer;
 
     .menu-content {
-        display: none;
+        display: block;
         position: absolute;
         min-width: 160px;
         z-index: $overlay-z;
@@ -14,6 +14,8 @@
         margin-top: .125rem;
         right: 0;
         text-align: left;
+        top: -600px;
+        transition: top .5s;
 
         a {
             display: block;
@@ -54,10 +56,6 @@
             }
         }
 
-        i {
-            color: $textColor;
-        }
-
         h6 {
             padding: .5rem 1.5rem;
             margin-bottom: 0;
@@ -76,7 +74,8 @@
 
     &.show {
         .menu-content {
-            display: block;
+            top: 1.5rem;
+            transition: top .5s;
         }
     }
 }
