@@ -121,7 +121,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ## 部署应用
 
-现在就可以部署你自己的应用，或者从 Istio 的发布包中找一个示例应用（例如 [BookInfo](/zh/docs/examples/bookinfo/)）进行部署了。
+现在就可以部署你自己的应用，或者从 Istio 的发布包中找一个示例应用（例如 [Bookinfo](/zh/docs/examples/bookinfo/)）进行部署了。
 
 {{< warning >}}
 这里只支持 HTTP/1.1 或者 HTTP/2.0 协议，不支持 HTTP/1.0。
