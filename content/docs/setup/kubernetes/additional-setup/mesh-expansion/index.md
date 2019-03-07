@@ -234,10 +234,6 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     additional services to Pilot's abstract model of the mesh. Once VM services are part of the mesh's abstract model,
     other services can find and direct traffic to them. Each service entry configuration contains the IP addresses, ports,
     and appropriate labels of all VMs exposing a particular service, for example:
-[`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/). A `ServiceEntry` lets you manually add
-additional services to Istio's model of the mesh so that other services can find and direct traffic to them. Each
-`ServiceEntry` configuration contains the IP addresses, ports, and labels (where appropriate) of all VMs exposing a
-particular service, as in the following example.
 
     {{< text bash yaml >}}
     $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
@@ -266,8 +262,6 @@ particular service, as in the following example.
 1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the the domain names of VM services. To
     integrate the mapping with you own DNS system, use `istioctl register` and creates a Kubernetes `selector-less`
     service, for example:
-You can integrate with your own DNS system. For illustration purpose, we use `istioctl register`
-which creates a Kubernetes `selector-less` service.
 
     {{< text bash >}}
     $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP} 8080
