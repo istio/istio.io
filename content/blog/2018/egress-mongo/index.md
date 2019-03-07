@@ -233,6 +233,8 @@ In this section you handle the case when you need to direct the traffic through 
 connections from the MongoDB client to the egress gateway, by matching the IP of the MongoDB host (a CIDR block of
   length 32). The egress gateway forwards the traffic to the MongoDB host, by its hostname.
 
+1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+
 1.  Create a `ServiceEntry` for the MongoDB service, this time with `resolution` `DNS`. Specifying the resolution as
     `DNS` instructs the egress gateway to perform a DNS query to get the IP address of the MongoDB host. Note that the
     IP of the MongoDB host used by the MongoDB client (the `ratings` service) is not known to the egress gateway.
@@ -555,6 +557,8 @@ connections from the MongoDB client to the egress gateway, by matching the SNI o
 The egress gateway forwards the traffic to the MongoDB host. Note that the sidecar proxy rewrites the destination port
 to be 443. The egress gateway accepts the MongoDB traffic on the port 443, matches the MongoDB host by SNI, and rewrites
  the port again to be the port of the MongoDB server.
+
+1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
 
 1.  Create a `ServiceEntry` for the MongoDB service:
 

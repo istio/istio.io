@@ -114,8 +114,10 @@ header {
     div.menu {
         display: inline-block;
         margin-left: .3rem;
+        margin-right: .3rem;
         @media (min-width: $bp-sm) {
             margin-left: .58rem;
+            margin-right: .58rem;
         }
     }
 

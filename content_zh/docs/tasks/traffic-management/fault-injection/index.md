@@ -11,7 +11,7 @@ keywords: [traffic-management,fault-injection]
 
 * 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio 。
 
-* 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/) 。
+* 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)，并应用[缺省目标规则](/zh/docs/examples/bookinfo#应用缺省目标规则)。
 
 * 在[流量管理](/zh/docs/concepts/traffic-management) 概念文档中查看有关故障注入的讨论。
 
