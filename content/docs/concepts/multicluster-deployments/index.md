@@ -76,7 +76,7 @@ that can be configured to handle service names of the form `<name>.<namespace>.g
 For example, calls from any cluster to `foo.ns1.global` will resolve to the `foo` service in
 namespace `ns1` of any cluster where it is running.
 To set up this kind of multicluster configuration, visit our
-[multiple control planes with gateways instructions](/docs/setup/kubernetes/multicluster/gateways/).
+[multiple control planes with gateways instructions](/docs/setup/kubernetes/install/multicluster/gateways/).
 
 ### Single control plane topology
 
@@ -100,7 +100,7 @@ that manages all of the Envoy's as a single mesh. The IP addresses on the variou
 overlap and note that DNS resolution for services on remote clusters is not automatic.
 Users need to replicate the services on every participating cluster.
 You can find detailed steps to set up this kind of multicluster topology
-in our [single control plane with VPN instructions](/docs/setup/kubernetes/multicluster/vpn/).
+in our [single control plane with VPN instructions](/docs/setup/kubernetes/install/multicluster/vpn/).
 
 #### Single control plane without VPN connectivity
 

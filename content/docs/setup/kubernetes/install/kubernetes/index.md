@@ -1,7 +1,7 @@
 ---
 title: Quick Start Evaluation Install
 description: Instructions to install and configure an Istio mesh in a Kubernetes cluster for evaluation.
-weight: 55
+weight: 10
 keywords: [kubernetes]
 aliases:
     - /docs/setup/kubernetes/quick-start/
@@ -50,7 +50,7 @@ This permits customization of Istio to operator specific requirements.
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
-1. Install one of the following variants of the **demo profile**:
+1. Install one of the following variants of the `demo profile`:
 
 {{< tabset cookie-name="profile" >}}
 
@@ -117,7 +117,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< tip >}}
     If your cluster is running in an environment that does not
     support an external load balancer (e.g., minikube), the
-    `EXTERNAL-IP` of `istio-ingressgateway` will
+    `EXTERNAL-IP` of `istio-ingressgateway` will say
     `<pending>`. To access the gateway, use the service's
     `NodePort`, or use port-forwarding instead.
     {{< /tip >}}
