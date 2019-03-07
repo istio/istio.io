@@ -2,7 +2,7 @@
 title: 调试授权
 description: 展示授权功能的调试过程。
 weight: 5
-keywords: [debug,security,authorization,RBAC]
+keywords: [debug,security,authorization,rbac]
 ---
 
 这篇文章展示了调试 Istio 授权功能的过程。
