@@ -11,7 +11,7 @@ There are quite a few ways to get plugged in:
 
 {{< community_item logo="./discourse.svg" alt="Discourse" >}}
 Head for the [Istio discussion board](https://discuss.istio.io) to ask questions, 
-participate in discussions, and get help troubleshooting problems. You can use your github ID to login!
+participate in discussions, and get help troubleshooting problems. You can use your GitHub ID to login!
 {{< /community_item >}}
 
 {{< community_item logo="./stackoverflow.svg" alt="Stack Overflow" >}}
