@@ -140,27 +140,27 @@ keywords: [kubernetes,ibm,icp]
 - 点击搜索框右侧的 `Filter` 并选中 `ibm-charts` 复选框。
 - 点击左侧导航窗格的 `Operations`。
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-catalog-1.png" caption="IBM 私有云 - Istio 目录" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-catalog-1.png" caption="IBM 私有云 - Istio 目录" >}}
 
 - 点击右侧面板中的 `ibm-istio`。
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-catalog-2.png" caption="IBM 私有云 - Istio 目录" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-catalog-2.png" caption="IBM 私有云 - Istio 目录" >}}
 
 - （可选的）使用 `CHART VERSION` 的下拉功能修改 Istio 版本。
 - 点击 `Configure` 按钮。
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-installation-1.png" caption="IBM 私有云 - 安装 Istio" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-installation-1.png" caption="IBM 私有云 - 安装 Istio" >}}
 
 - 输入 Helm 部署实例的名称（例如：`istio-1.0.3`），并选择 `istio-system` 作为目标 namespace。
 - 同意许可条款。
 - （可选的）点击 `All parameters` 自定义安装参数。
 - 点击 `Install` 按钮。
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-installation-2.png" caption="IBM 私有云 - 安装 Istio" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-installation-2.png" caption="IBM 私有云 - 安装 Istio" >}}
 
 安装完成后，你可以在 **Helm Releases** 页通过搜索实例名找到它。
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-release.png" caption="IBM 私有云 - 安装 Istio" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-release.png" caption="IBM 私有云 - 安装 Istio" >}}
 
 ### 升级或回滚
 
@@ -170,9 +170,9 @@ keywords: [kubernetes,ibm,icp]
 - 通过实例名找到已安装的 Istio。
 - 点击 `Action` 然后选择 `upgrade` 或 `rollback`。
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-upgrade-1.png" caption="IBM 私有云 - Istio 升级或回滚" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-upgrade-1.png" caption="IBM 私有云 - Istio 升级或回滚" >}}
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-upgrade-2.png" caption="IBM 私有云 - Istio 升级或回滚" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-upgrade-2.png" caption="IBM 私有云 - Istio 升级或回滚" >}}
 
 ### 卸载
 
@@ -182,4 +182,4 @@ keywords: [kubernetes,ibm,icp]
 - 通过实例名找到已安装的 Istio。
 - 点击 `Action` 并选择 `delete`。
 
-{{< image link="/docs/setup/kubernetes/install/ibm/istio-deletion.png" caption="IBM 私有云 - 卸载 Istio" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/ibm/istio-deletion.png" caption="IBM 私有云 - 卸载 Istio" >}}
