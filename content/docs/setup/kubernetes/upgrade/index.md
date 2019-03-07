@@ -26,7 +26,8 @@ Sidecar injector.
 
 #### Helm upgrade
 
-If you installed Istio with [Helm](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) the preferred upgrade option is to let Helm take care of the upgrade:
+If you installed Istio using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
+the preferred upgrade option is to let Helm take care of the upgrade:
 
 1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
 
@@ -48,7 +49,10 @@ If you installed Istio with [Helm](/docs/setup/kubernetes/install/helm/#option-2
 
 #### Kubernetes rolling update
 
-You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components. This is suitable for cases when Istio hasn't been installed using Helm.
+You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components.
+This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
+including configurations generated using
+[helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
 
 1. Use `kubectl apply` to upgrade all the Istio's CRDs.  Wait a few seconds for the Kubernetes API server to receive the upgraded CRDs:
 
