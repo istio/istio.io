@@ -13,6 +13,10 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
 前往 [Istio discussion board](https://discuss.istio.io) 参与讨论获取帮助。
 {{< /community_item >}}
 
+{{< community_item logo="/about/community/join/slack.svg" alt="Slack" >}}
+通过 [Istio Slack](https://slack.istio.com) 与社区实时互动。
+{{< /community_item >}}
+
 {{< community_item logo="/about/community/join/twitter.svg" alt="Twitter" >}}
 关注我们的 [Twitter](https://twitter.com/IstioMesh) 获取最新消息。
 {{< /community_item >}}
