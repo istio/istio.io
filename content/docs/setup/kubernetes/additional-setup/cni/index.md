@@ -47,10 +47,11 @@ replaces the functionality provided by the `istio-init` container.
     1.  Refer to the [Hosted Kubernetes Usage](#hosted-kubernetes-usage) section for any non-default
         settings required.
 
-1.  Update Helm's local package cache per the instructions in the [Istio Installation with Helm procedure](/docs/setup/kubernetes/install/helm/).
+1.  Update Helm's local package cache with the instructions found in the [Istio Installation with Helm procedure](/docs/setup/kubernetes/install/helm/). 
+    To install using the `helm template`, fetch the `istio-cni` template in addition
+    to the other Istio templates you fetched when following [option 1 of the Istio Helm installation procedure](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
 
-    1.  If installing via `helm template` fetch the `istio-cni` template in addition to the other Istio
-        templates fetched per the [Istio Helm installation procedure](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template)
+
 
         {{< text bash >}}
         $ helm fetch istio.io/istio-cni --untar --untardir $HOME/istio-fetch
@@ -64,13 +65,13 @@ replaces the functionality provided by the `istio-init` container.
 
 1.  Install Istio CNI.
 
-    1.  Option 1.  Render and apply the Istio CNI Helm template.
+    - Option 1.  Render and apply the Istio CNI Helm template.
 
         {{< text bash >}}
         $ helm template $HOME/istio-fetch/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
         {{< /text >}}
 
-    1.  Option 2.  Install via Helm and Tiller via `helm install`.
+    - Option 2.  Install via Helm and Tiller via `helm install`.
 
         {{< text bash >}}
         $ helm install istio.io/istio-cni --name=istio-cni --namespace=istio-system
@@ -151,9 +152,9 @@ of many common Kubernetes environments.
     *  Note for existing clusters this redeploys the nodes.
 
 1.  Install Istio CNI via Helm including this option
-    `--set cniBinDir=/home/kubernetes/bin`
+    `--set cniBinDir=/home/kubernetes/bin`. For example, the following `helm install`
+    command sets the `cniBinDir` value for GKE setups:
 
-    1.  For example, the following `helm install` command sets the `cniBinDir` value for GKE setups:
 
         {{< text bash >}}
         $ helm install istio.io/istio-cni --name=istio-cni --namespace=istio-system --set cniBinDir=/home/kubernetes/bin
