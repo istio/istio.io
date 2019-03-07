@@ -6,10 +6,12 @@ weight: 11
  `istioctl` 工具为此提供了一个选项，你可以像下面那样做：
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ istioctl authn tls-check $CLIENT_POD httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/default
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/istio-system
 {{< /text >}}
+
+其中 `$CLIENT_POD` 是作为客户端服务运行的 Pods 中任意一个的 ID。
 
 更多详细信息，请参见[检查双向 TLS 配置](/zh/docs/tasks/security/mutual-tls/#检查-istio-双向-tls-认证的配置)。
 
