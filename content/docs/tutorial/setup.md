@@ -70,13 +70,6 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
             backend:
               serviceName: prometheus
               servicePort: 9090
-      - host: my-istio-servicegraph.io
-        http:
-          paths:
-          - path: /
-            backend:
-              serviceName: servicegraph
-              servicePort: 8088
       - host: my-kiali.io
         http:
           paths:
