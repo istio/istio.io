@@ -32,8 +32,8 @@ Follow us on [Twitter](https://twitter.com/IstioMesh) to get the latest news.
 {{< /community_item >}}
 
 {{< community_item logo="./slack.svg" alt="Slack" >}}
-If you're contributing code to Istio (or thinking about contributing!), you can join us on th 
-[Istio's Slack](https://slack.istio.com).
+If you're contributing code to Istio (or thinking about contributing!), you can join us on 
+[Istio's Slack](https://slack.istio.com) channel.
 Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
 to join.
 {{< /community_item >}}
