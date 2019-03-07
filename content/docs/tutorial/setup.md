@@ -77,6 +77,13 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
             backend:
               serviceName: servicegraph
               servicePort: 8088
+      - host: my-kiali.io
+        http:
+          paths:
+          - path: /
+            backend:
+              serviceName: kiali
+              servicePort: 20001
     EOF
     {{< /text >}}
 

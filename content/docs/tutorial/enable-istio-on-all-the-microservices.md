@@ -60,5 +60,17 @@ microservices in one stroke.
         caption="Istio Service Dashboard"
         >}}
 
+1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console. Access
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console).
+    (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
+    [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
+
+    Click on your namespace and inspect the health status of your services (called _applications_ in Kiali's lingo)
+    Click on the Graph tab and select your namespace in the _Namespace_ drop down menu in the top level corner.
+
+    Access your application's homepage several times for several seconds and see the graph of your application
+    displayed.
+
+
 Now, once you enabled Istio on your whole application, you can explore the Istio functionality in its full potential.
 You will do it in the following modules.
