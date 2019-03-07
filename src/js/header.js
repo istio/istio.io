@@ -23,9 +23,10 @@ function handleHeader() {
     }
 
     // Hide the search box when the user hits the ESC key
-    listen(document.body, "keyup", e => {
+    listen(document.body, keyup, e => {
         if (e.which === 27) {
             showNavBarLinks();
+            closeActiveOverlay();
         }
     });
 

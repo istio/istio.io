@@ -35,6 +35,11 @@
 
     <div class="info">
         <p class="copyright" role="contentinfo">
+            {{ $advisory := (i18n "advisory") }}
+            {{ if ne $advisory "-" }}
+                {{ printf "%s" $advisory }}<br>
+            {{ end }}
+
             {{ if .Site.Data.args.archive }}
                 {{ i18n "footer_istio_archive" }}
             {{ else if .Site.Data.args.preliminary }}
@@ -42,6 +47,7 @@
             {{ else }}
                 {{ i18n "footer_istio" }}
             {{ end }}
+
             {{ .Site.Data.args.version }}<br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
             {{ if .Site.Data.args.archive }}
                 {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}

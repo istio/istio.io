@@ -43,7 +43,13 @@ keywords: [kubernetes,multicluster,federation,gateway]
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+<<<<<<< HEAD
         -f @install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
+=======
+        -f install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml > $HOME/istio.yaml
+    $ kubectl create namespace istio-system
+    $ kubectl apply -f $HOME/istio.yaml
+>>>>>>> master
     {{< /text >}}
 
     要了解更多细节以及参数定制方法，请阅读：[用 Helm 进行安装](/zh/docs/setup/kubernetes/install/helm)。
