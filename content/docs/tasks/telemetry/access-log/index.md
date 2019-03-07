@@ -76,16 +76,18 @@ Note that the messages corresponding to the request appear in logs of the Istio 
 
 ## Cleanup
 
-1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) and [httpbin]({{<github_tree>}}/samples/httpbin) services:
+Shutdown the [sleep]({{<github_tree>}}/samples/sleep) and [httpbin]({{<github_tree>}}/samples/httpbin) services:
 
-    {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
-    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/httpbin/httpbin.yaml@
+{{< /text >}}
 
-1.  Edit the `istio` configuration map and set `global.proxy.accessLogFile` to `""`.
-    Be sure to escape quotation marks with backward slashes (`\"`).
+### Disable Envoy's access logging
 
-    {{< text bash >}}
-    $ kubectl edit cm istio -n istio-system
-    {{< /text >}}
+Edit the `istio` configuration map and set `global.proxy.accessLogFile` to `""`.
+Be sure to escape quotation marks with backward slashes (`\"`).
+
+{{< text bash >}}
+$ kubectl edit cm istio -n istio-system
+{{< /text >}}
