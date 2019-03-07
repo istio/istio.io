@@ -85,7 +85,7 @@ Since these two clusters are in isolated network environments we need to set up 
 
 ## Install Istio for multicluster
 
-[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/multicluster/vpn/) to install and configure
+[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/install/multicluster/vpn/) to install and configure
 the local Istio control plane and Istio remote on IBM Cloud Private and IBM Cloud Kubernetes Service.
 
 This example uses IBM Cloud Private as the Istio local control plane and IBM Cloud Kubernetes Service as the Istio remote.

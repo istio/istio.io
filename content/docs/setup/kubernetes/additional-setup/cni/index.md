@@ -2,6 +2,8 @@
 title: Install Istio with the Istio CNI plugin
 description: Instructions to install and use Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
 weight: 70
+aliases:
+    - /docs/setup/kubernetes/install/cni
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
 
