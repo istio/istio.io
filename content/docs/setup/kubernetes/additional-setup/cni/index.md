@@ -103,8 +103,8 @@ The following example configures the Istio CNI plugin to ignore pods in the name
 
     {{< text bash >}}
     $ helm template $HOME/istio-fetch/istio-cni --name=istio-cni --namespace=istio-system \
-    --set istio-cni.logLevel=info \
-    --set istio-cni.excludeNamespaces={"istio-system,foo_ns,bar_ns"} > $HOME/istio-cni.yaml
+    --set logLevel=info \
+    --set excludeNamespaces={"istio-system,foo_ns,bar_ns"} > $HOME/istio-cni.yaml
     $ kubectl apply -f $HOME/istio-cni.yaml
     {{< /text >}}
 
@@ -150,8 +150,14 @@ of many common Kubernetes environments.
     enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster.
     *  Note for existing clusters this redeploys the nodes.
 
-1.  Install Istio CNI via Helm including these options
+1.  Install Istio CNI via Helm including this option
     `--set cniBinDir=/home/kubernetes/bin`
+
+    1.  For example, the following `helm install` command sets the `cniBinDir` value for GKE setups:
+
+        {{< text bash >}}
+        $ helm install istio.io/istio-cni --name=istio-cni --namespace=istio-system --set cniBinDir=/home/kubernetes/bin
+        {{< /text >}}
 
 ## Sidecar injection compatibility
 
