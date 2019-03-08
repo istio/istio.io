@@ -66,41 +66,40 @@ To start the application, follow the instructions corresponding to your Istio ru
 If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
 {{< /tip >}}
 
-1. Change directory to the root of the Istio installation directory.
+1.  Change directory to the root of the Istio installation.
 
-1.  Bring up the application containers:
+1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+    Label the namespace that will host the application with `istio-injection=enabled`:
 
-    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
-        use the following command
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection=enabled
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
-        {{< /text >}}
+1.  Deploy your application using the `kubectl` command:
 
-        The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-        file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    {{< /text >}}
 
-    *   If you are using a cluster with
-        [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-        enabled, label the `default` namespace with `istio-injection=enabled`
-
-        {{< text bash >}}
-        $ kubectl label namespace default istio-injection=enabled
-        {{< /text >}}
-
-        Then simply deploy the services using `kubectl`
-
-        {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-        {{< /text >}}
-
-    Either of the above commands launches all four microservices as illustrated in the above diagram.
+    The command launches all four services shown in the `bookinfo` application architecture diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
 
     {{< tip >}}
     In a realistic deployment, new versions of a microservice are deployed
     over time instead of deploying all versions simultaneously.
     {{< /tip >}}
+
+    If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
+    (/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
+    use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
+    file before deploying your application. For more information please
+    visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
+
+    {{< text bash >}}
+
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
+
+    {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
 
