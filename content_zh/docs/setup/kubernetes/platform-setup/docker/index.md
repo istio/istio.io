@@ -1,7 +1,7 @@
 ---
-title: 桌面版 docker
-description:  使用桌面版 docker 安装 Istio 的说明。
-weight: 15
+title: 桌面版 Docker
+description:  使用桌面版 Docker 安装 Istio 的说明。
+weight: 12
 skip_seealso: true
 keywords: [platform-setup,kubernetes,docker-for-desktop]
 ---
@@ -10,5 +10,5 @@ keywords: [platform-setup,kubernetes,docker-for-desktop]
 
 {{< image width="60%"  link="/docs/setup/kubernetes/platform-setup/docker/dockerprefs.png" caption="Docker 首选项"  >}}
 
-或者，您可以通过传递 helm 参数 `--set pilot.resources.requests.memory="512Mi"` 来减少 Pilot 的内存大小。否则 Pilot 可能因资源不足而无法启动。
+也可以通过传递 Helm 参数 `--set pilot.resources.requests.memory="512Mi"` 来减少 Pilot 的内存请求。否则 Pilot 可能因资源不足而无法启动。
 有关详细信息，请看[安装选项](/zh/docs/reference/config/installation-options)。

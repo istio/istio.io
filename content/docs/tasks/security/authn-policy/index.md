@@ -105,6 +105,11 @@ spec:
 EOF
 {{< /text >}}
 
+{{< tip >}}
+The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/istio.authentication.v1alpha1/)
+ it is defined in the cluster-scoped `MeshPolicy` CRD.
+ {{< /tip >}}
+
 This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind:
  `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply to all services in the mesh).
 
@@ -234,8 +239,8 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-If you install Istio with the [default mutual TLS option](/docs/setup/kubernetes/install/kubernetes/#option-2-install-istio-with-default-mutual-tls-authentication),
-this rule, together with the global authentication policy and destination rule above will be injected to the system during installation process.
+This rule, along with the global authentication policy and destination rule, above,
+is automatically injected into the system when you install Istio with mutual TLS enabled.
 {{< /tip >}}
 
 Re-run the testing command above to confirm that it returns 200 after the rule is added:

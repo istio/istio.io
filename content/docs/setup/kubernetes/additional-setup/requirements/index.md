@@ -23,8 +23,9 @@ cluster must satisfy the following requirements:
   Use a `containerPort` in the container spec for each port.  Any unlisted ports will bypass the Istio
   Proxy.
 
-* _**Service association**:_ If a pod belongs to multiple
-  [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
+* _**Service association**:_ A pod must belong to at least one [Kubernetes service](https://kubernetes.io/docs/concepts/services-networking/service/),
+  even if it does NOT expose any port.
+  If a pod belongs to multiple [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
   the services cannot use the same port number for different protocols, for instance HTTP and TCP.
 
 * _**Deployments with app and version labels**:_ It is recommended that pods deployed using
@@ -38,5 +39,5 @@ cluster must satisfy the following requirements:
 
 * _**Application UIDs**_: Do **not** run applications as a user with the user ID (UID) value of **1337**.
 
-* _**`NET_ADMIN` capability**:_ If pod security policies are enforced in your cluster and unless you use the [Istio CNI Plugin](/docs/setup/kubernetes/install/cni/), your pods must have the `NET_ADMIN` capability allowed.
+* _**`NET_ADMIN` capability**:_ If pod security policies are enforced in your cluster and unless you use the [Istio CNI Plugin](/docs/setup/kubernetes/additional-setup/cni/), your pods must have the `NET_ADMIN` capability allowed.
 See [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).

@@ -16,7 +16,7 @@ running in a second cluster.
 ## Before you begin
 
 * Set up a multicluster environment with two Istio clusters by following the
-    [multiple control planes with gateways](/docs/setup/kubernetes/multicluster/gateways/) instructions.
+    [multiple control planes with gateways](/docs/setup/kubernetes/install/multicluster/gateways/) instructions.
 
 {{< boilerplate kubectl-multicluster-contexts >}}
 

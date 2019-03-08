@@ -174,3 +174,6 @@ other = "这是一个自动生成的文件，要修改其中的内容，请修�
 
 [switch_lang]
 other = "切换到英文版"
+
+[advisory]
+other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中"

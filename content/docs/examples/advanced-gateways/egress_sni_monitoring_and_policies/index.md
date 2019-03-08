@@ -11,6 +11,8 @@ example extends that example to show how to configure SNI monitoring and apply p
 
 {{< boilerplate before-you-begin-egress >}}
 
+*   [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+
 *  Configure traffic to `*.wikipedia.org` by following
    [the steps](/docs/examples/advanced-gateways/wildcard-egress-hosts#wildcard-configuration-for-arbitrary-domains) in
    [Configure Egress Traffic using Wildcard Hosts](/docs/examples/advanced-gateways/wildcard-egress-hosts/) example,

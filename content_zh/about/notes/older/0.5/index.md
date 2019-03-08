@@ -20,7 +20,7 @@ icon: notes
 
 - **Open Policy Agent**：Mixer 实现了一个实现了 [open policy agent](https://www.openpolicyagent.org) 授权模型的适配器，其中实现了有弹性的粒度合理的访问控制机制。[参考资料](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA)
 
-- **Istio RBAC**：Mixer 有了一套基于角色的访问控制适配器。[参考资料](/zh/docs/concepts/security/#授权和鉴权)
+- **Istio RBAC**：Mixer 有了一套基于角色的访问控制适配器。[参考资料](/zh/docs/concepts/security/#授权)
 
 - **`Fluentd`**：Mixer 新增了使用 [Fluentd](https://www.fluentd.org) 进行日志收集的功能。
 
@@ -32,7 +32,7 @@ icon: notes
 
 - **PKCS8**：在 Istio PKI 中加入了 PKCS8 密钥支持。
 
-- **Istio RBAC**：Istio RBAC 为 Istio 服务网格中的服务提供了访问控制能力。[参考资料](/zh/docs/concepts/security/#授权和鉴权).
+- **Istio RBAC**：Istio RBAC 为 Istio 服务网格中的服务提供了访问控制能力。[参考资料](/zh/docs/concepts/security/#授权).
 
 ## 其它
 

@@ -162,7 +162,7 @@
                     {{ $msg := i18n "generated_file" }}
                     {{ $title := printf $msg .Page.Params.source_repo }}
 
-                    <a id="edit-this-page" class="disabled not-for-endnotes" aria-hidden="true" title='{{ $title }}'>
+                    <a id="edit-this-page" class="disabled" aria-hidden="true" title='{{ $title }}'>
                         {{ partial "icon.html" "pencil" }}
                     </a>
                 </div>
