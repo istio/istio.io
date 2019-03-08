@@ -194,6 +194,32 @@ Services can actively shed load by responding with an HTTP 503 to a health
 check. In such an event, the service instance will be immediately removed
 from the caller's load balancing pool.
 
+## Locality Load Balancing
+
+{{< tip >}}
+This feature is currently experimental and can be enabled by setting the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
+{{< /tip >}}
+
+A locality is a triplet of region, zone and sub-zone defining a geographic location within your mesh, typically a datacenter. Istio uses this information to prioritize load balancing pools in order to control where (geographically) requests are sent.
+
+Currently, locality is automatically populated by the service discovery platform. In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region) on the node it is deployed. Sub-zone is not a concept that exists in Kubernetes and as a result is not configured.
+
+### Locality Prioritized Load Balancing
+
+The default behavior of Locality Load Balancing is Locality Prioritized Load Balancing. In this mode, Istio will tell Envoy to prioritize traffic to endpoints that most closely match the locality of the Envoy forwarding the request. When all endpoints are healthly, this means that requests will remain within the same locality. When endpoints become unhealthy, traffic will spillover to endpoints in the next prioritized locality and so on until all localities are receiving traffic. Details of the exact percentages can be found [in the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels).
+
+A typical prioritization for an Envoy with a locality of `us-west/zone2` would be as follows:
+
+- Priority 0: `us-west/zone2`.
+- Priority 1: `us-west/zone1`, `us-west/zone3`.
+- Priority 2: `us-east/zone1`, `us-east/zone/2`, `eu-west/zone1`.
+
+Prioritization is hierarchical, in that it matches for sub-zone, zone and region in that order; endpoints in the same zone but different regions are not considered local to one another.
+
+#### Overriding Locality Failover
+
+In some cases users may need to constrain traffic failover so that failing over to any endpoint globally when there are not enough healthy endpoints in the same region does not apply. This is useful when failing over traffic across regions would not improve service health or may need to be restricted for other reasons like regulatory controls. This can be achieved by configuring the mesh `LocalityLoadBalancerSetting.Failover` configuration detailed [here](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting-Failover).
+
 ## Handling failures
 
 Envoy provides a set of out-of-the-box _opt-in_ failure recovery features
