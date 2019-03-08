@@ -5,13 +5,13 @@ weight: 40
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
-本任务涵盖了在服务网格中为 TCP 服务设置 Istio RBAC 所需的可能活动。可以阅读[安全概念文档](/zh/docs/concepts/security/#授权和鉴权)中的相关内容。
+本任务涵盖了在服务网格中为 TCP 服务设置 Istio RBAC 所需的可能活动。可以阅读[安全概念文档](/zh/docs/concepts/security/#授权)中的相关内容。
 
 ## 开始之前
 
 本文任务假设：
 
-* 阅读 [Istio 中的授权和鉴权](/zh/docs/concepts/security/#授权和鉴权)。
+* 阅读 [Istio 中的授权和鉴权](/zh/docs/concepts/security/#授权)。
 * 按照[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)一文的指导，在 Kubernetes 中安装**启用了认证功能**的 Istio。
 * 执行[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)时启用双向 TLS 认证
 
