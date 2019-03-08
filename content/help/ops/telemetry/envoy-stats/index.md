@@ -19,7 +19,7 @@ $ kubectl exec -it $POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats'
 See [the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats) for an explanation of the data recorded.
 
 By default, Istio configures Envoy to record minimal statistics.  The default collection
-keys are `cluster_manager`, `listener_manager`, `http_mixer_filter`, `tcp_mixer_filter`, `server`, and `cluster.xds-grpc`.  To see the Envoy settings for collection use  
+keys are `cluster_manager`, `listener_manager`, `http_mixer_filter`, `tcp_mixer_filter`, `server`, and `cluster.xds-grpc`.  To see the Envoy settings for collection use
 `istioctl proxy-config bootstrap` following [these instructions](https://istio.io/help/ops/traffic-management/proxy-cmd/).
 Consult the `statsMatcher` JSON element.
 
