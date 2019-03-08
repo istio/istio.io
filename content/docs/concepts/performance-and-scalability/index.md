@@ -121,7 +121,7 @@ This enables us to catch regression early and track improvements over time.
 
 * High availability (HA).
 
-* See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Istio-Performance-oriented-setup-FAQ)
+* See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Performance-Oriented-Setup-FAQ)
 
 * And the [Performance and Scalability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#performance-and-scalability) work.
 
