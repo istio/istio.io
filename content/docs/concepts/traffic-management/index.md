@@ -200,19 +200,19 @@ from the caller's load balancing pool.
 This feature is currently experimental and can be enabled by setting the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
 {{< /tip >}}
 
-A locality is a triplet of region, zone and sub-zone defining a geographic location within your mesh, typically a datacenter. Istio uses this information to prioritize load balancing pools in order to control where (geographically) requests are sent.
+A locality is a triplet of region, zone and sub-zone defining a geographic location within your mesh, typically a data center. Istio uses this information to prioritize load balancing pools in order to control where (geographically) requests are sent.
 
 Currently, locality is automatically populated by the service discovery platform. In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region) on the node it is deployed. Sub-zone is not a concept that exists in Kubernetes and as a result is not configured.
 
 ### Locality Prioritized Load Balancing
 
-The default behavior of Locality Load Balancing is Locality Prioritized Load Balancing. In this mode, Istio will tell Envoy to prioritize traffic to endpoints that most closely match the locality of the Envoy forwarding the request. When all endpoints are healthly, this means that requests will remain within the same locality. When endpoints become unhealthy, traffic will spillover to endpoints in the next prioritized locality and so on until all localities are receiving traffic. Details of the exact percentages can be found [in the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels).
+The default behavior of Locality Load Balancing is Locality Prioritized Load Balancing. In this mode, Istio will tell Envoy to prioritize traffic to endpoints that most closely match the locality of the Envoy forwarding the request. When all endpoints are healthy, this means that requests will remain within the same locality. When endpoints become unhealthy, traffic will spillover to endpoints in the next prioritized locality and so on until all localities are receiving traffic. Details of the exact percentages can be found [in the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels).
 
 A typical prioritization for an Envoy with a locality of `us-west/zone2` would be as follows:
 
-- Priority 0: `us-west/zone2`.
-- Priority 1: `us-west/zone1`, `us-west/zone3`.
-- Priority 2: `us-east/zone1`, `us-east/zone/2`, `eu-west/zone1`.
+- Priority 0: `us-west/zone2`
+- Priority 1: `us-west/zone1`, `us-west/zone3`
+- Priority 2: `us-east/zone1`, `us-east/zone/2`, `eu-west/zone1`
 
 Prioritization is hierarchical, in that it matches for sub-zone, zone and region in that order; endpoints in the same zone but different regions are not considered local to one another.
 
@@ -357,15 +357,15 @@ etc.
 There are four traffic management configuration resources in Istio:
 `VirtualService`, `DestinationRule`, `ServiceEntry`, and `Gateway`:
 
-* A [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/)
+- A [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 
-* A [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
+- A [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred.
 
-* A [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) is commonly used to enable requests to services outside of an Istio service mesh.
+- A [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) is commonly used to enable requests to services outside of an Istio service mesh.
 
-* A [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/)
+- A [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/)
 configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the mesh to enable ingress traffic for an application.
 
 For example, you can implement a simple rule to send 100% of incoming traffic for a *reviews* service to version "v1" by using a `VirtualService` configuration as follows:
