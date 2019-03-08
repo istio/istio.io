@@ -63,7 +63,7 @@ icon: feature-status
 | [认证策略](/zh/docs/concepts/security/#认证策略)  | Alpha
 | [最终用户（JWT）认证](/zh/docs/concepts/security/#认证)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [RBAC)](/zh/docs/concepts/security/#授权和鉴权)   | Alpha
+| [RBAC)](/zh/docs/concepts/security/#授权)   | Alpha
 
 ### 核心
 

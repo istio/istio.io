@@ -28,7 +28,7 @@ Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密
 
 - **零信任网络** : 在不受信任的网络上构建安全解决方案
 
-访问我们的[Mutual TLS Migration docs](/zh/docs/tasks/security/mtls-migration/)，开始在部署的服务中使用Istio安全功能。
+请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/mtls-migration/)相关文章，开始在部署的服务中使用 Istio 安全功能。
 请访问我们的[安全任务](/zh/docs/tasks/security/)，有关使用安全功能的详细说明。
 
 如图所示，Istio 的 Citadel 用加载 Secret 卷的方式在 Kubernetes 容器中完成证书和密钥的分发。如果服务运行在虚拟机或物理机上，则会使用运行在本地的 Node agent，它负责在本地生成私钥和 CSR（证书签发申请），把 CSR 发送给 Citadel 进行签署，并把生成的证书和私钥分发给 Envoy。
@@ -53,7 +53,7 @@ Istio 中的安全性涉及多个组件：
 
 身份是任何安全基础架构的基本概念。在服务到服务通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。
 在客户端，根据[安全命名](/zh/docs/concepts/security/#安全命名)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
-在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略) 确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
+在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
 
 在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。
 这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。
@@ -81,8 +81,7 @@ Istio 和 SPIFFE 共享相同的身份文件：[SVID](https://github.com/spiffe/
 例如，在 Kubernetes 中，X.509 证书的 URI 字段格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`。
 这使 Istio 服务能够建立和接受与其他 SPIFFE 兼容系统的连接。
 
-Istio 安全性和 [SPIRE](https://spiffe.io/spire/)，它是 SPIFFE 的实现，在 PKI 实现细节上有所不同。
-Istio 提供更全面的安全解决方案，包括身份验证、授权和审计。
+Istio 安全性和 [SPIRE](https://spiffe.io/spire/)，它是 SPIFFE 的实现，在 PKI 实现细节上有所不同。Istio 提供更全面的安全解决方案，包括身份验证、授权和审计。
 
 ## PKI
 
@@ -115,9 +114,9 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 1. 上述 CSR 过程会定期重复进行证书和密钥轮换。
 
-### 代理程序代理节点（开发中）
+### Kubernetes 中的代理节点
 
-在不久的将来，Istio 将在 Kubernetes 中使用节点代理进行证书和密钥分配，如下图所示。请注意，本地计算机的标识提供流程是相同的，因此我们仅描述 Kubernetes 方案。
+Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配的选项，如下图所示。请注意，本地计算机的标识提供流程是相同的，因此我们仅描述 Kubernetes 方案。
 
 {{< image width="80%" link="/docs/concepts/security/node_agent.svg" caption="PKI 与 Kubernetes 中的节点代理" >}}
 
@@ -169,7 +168,7 @@ Istio 提供两种类型的身份验证：
 
 - **来源身份认证**，也称为**最终用户身份验证**：验证作为最终用户或设备发出请求的原始客户端。Istio 通过 JSON Web Token（JWT）验证和 [`Auth0`](https://auth0.com/)、[`Firebase Auth`](https://firebase.google.com/docs/auth/) 、[`Google Auth`](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
 
-在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在许可模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
+在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在宽容模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
 ### 双向 TLS 认证
 
@@ -180,6 +179,14 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
 
 1. 授权后，服务器端 Envoy 通过本地 TCP 连接将流量转发到服务器服务。
+
+#### 宽容模式
+
+Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 同时接受纯文本流量和双向 TLS 流量。这个功能极大的提升了双向 TLS 的入门体验。
+
+在运维人员希望将服务移植到启用了双向 TLS 的 Istio 上时，许多非 Istio 客户端和非 Istio 服务端通信时会产生问题。通常情况下，运维人员无法同时为所有客户端安装 Istio sidecar，甚至没有这样做的权限。即使在服务端上安装了 Istio sidecar，运维人员也无法在不中断现有连接的情况下启用双向 TLS。
+
+启用宽容模式后，服务同时接受纯文本和双向 TLS 流量。这个模式为入门提供了极大的灵活性。服务中安装的 Istio sidecar 立即接受双向 TLS 流量而不会打断现有的纯文本流量。因此，运维人员可以逐步安装和配置客户端 Istio sidecars 发送双向 TLS 流量。一旦客户端配置完成，运维人员便可以将服务端配置为仅 TLS 模式。更多信息请访问[双向 TLS 迁移向导](/zh/docs/tasks/security/mtls-migration)。
 
 #### 安全命名
 
@@ -193,15 +200,15 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 `Istio Config Store`。 Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [PKI 和身份部分](/zh/docs/concepts/security/#双向-tls-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
-{{< image width="60%" link="/docs/concepts/security/authn.svg" caption="认证架构" >}}
+{{< image width="60%" link="/docs/concepts/security/auth.svg" caption="认证架构" >}}
 
-Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#授权和鉴权)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
+Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#授权)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
 
 ### 认证策略
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/istio.networking.v1alpha3/#tlssettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/networking/v1alpha3/destination-rule/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
 下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
 
@@ -326,14 +333,15 @@ peers:
 
 - 对于 JWT 身份验证迁移：在更改策略之前，请求应包含新的 JWT。一旦服务器端完全切换到新策略，旧 JWT（如果有的话）可以被删除。需要更改客户端应用程序才能使这些更改生效。
 
-## 授权和鉴权
+## 授权
 
-Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Istio Mesh 中的服务提供命名空间级别、服务级别和方法级别的访问控制。它的特点是：
+Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Istio 网格中的服务提供命名空间级别、服务级别和方法级别的访问控制。它的特点是：
 
 - **基于角色的语义**，简单易用。
 - **服务间和最终用户对服务的授权**。
 - **通过自定义属性支持的灵活性**，例如条件、角色和角色绑定。
 - **高性能**，因为 Istio 授权是在 Envoy 本地强制执行的。
+- **高兼容性**，原生支持 HTTP、HTTPS 和 HTTP2，以及任意普通 TCP 协议。
 
 ### 授权架构
 
@@ -344,43 +352,6 @@ Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Ist
 Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获取更新的授权策略。 Pilot 将 Istio 授权策略分发给与服务实例位于同一位置的 Envoy 代理。
 
 每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果 `ALLOW` 或 `DENY`。
-
-### 授权许可模式
-
-授权许可模式允许用户在生产环境中应用授权策略之前进行验证。
-
-可以在全局授权配置和个别策略上设置授权许可模式。在全局授权配置上设置许可模式时，所有策略都将处于许可模式，而忽略其自身模式。另外，如果全局授权配置设置为 `ENFORCED`，则在单个策略上设置的强制模式将生效。如果未指定，则默认情况下，全局授权配置和各个策略都处于 `ENFORCED` 模式。
-
-以下示例，在全局配置级别上设置了 Istio 授权许可模式。
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: RbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-  enforcement_mode: PERMISSIVE
-{{< /text >}}
-
-以下示例，在策略级别上设置了 Istio 授权许可模式。
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-details-reviews
-  namespace: default
-spec:
-  subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-  roleRef:
-    kind: ServiceRole
-    name: "details-reviews-viewer"
-  mode: PERMISSIVE
-{{< /text >}}
 
 ### 启用授权
 
@@ -393,7 +364,7 @@ spec:
 - **`ON_WITH_INCLUSION`**：仅对`包含`字段中指定的服务和命名空间启用 Istio 授权。
 - **`ON_WITH_EXCLUSION`**：除了`排除`字段中指定的服务和命名空间外，网格中的所有服务都启用了 Istio 授权。
 
- 在以下示例中，为 `default` 命名空间启用了 Istio 授权。
+在以下示例中，为 `default` 命名空间启用了 Istio 授权。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -562,6 +533,87 @@ spec:
     roleRef:
     kind: ServiceRole
     name: "products-viewer"
+{{< /text >}}
+
+### 在普通 TCP 协议上使用 Istio 认证
+
+[Service role](#servicerole) 和 [Service role binding](#servicerolebinding) 中的例子展示了在使用 HTTP 协议的 service 上使用 Istio 认证的典型方法。在那些例子中，service role 和 service role binding 里的所有字段都可以支持。
+
+Istio 授权支持使用任何普通 TCP 协议的 service，例如 MongoDB。在这种情况下，您可以像配置 HTTP 服务一样配置 service role 和 service role binding。不同之处在于某些字段，约束和属性仅适用于 HTTP 服务。这些字段包括：
+
+- service role 配置对象中的 `paths` 和 `methods` 字段。
+- service role binding 配置对象中的 `group` 字段。
+
+支持的约束和属性在[约束和属性页面](
+/zh/docs/reference/config/authorization/constraints-and-properties/)中列出。
+
+如果您在 TCP service 中使用了任意 HTTP 独有的字段，Istio 将会完全忽略 service role 或 service role binding 自定义资源，以及里面设置的策略。
+
+假设您有一个 MongoDB service 在 27017 端口上监听，下面的示例配置了一个 service role 和一个 service role binding，仅允许 Istio 网格中的 `bookinfo-ratings-v2 访问 MongoDB service。
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: mongodb-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["mongodb.default.svc.cluster.local"]
+    constraints:
+    - key: "destination.port"
+      values: ["27017"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-mongodb-viewer
+  namespace: default
+spec:
+  subjects:
+  - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
+  roleRef:
+    kind: ServiceRole
+    name: "mongodb-viewer"
+{{< /text >}}
+
+### 授权宽容模式
+
+授权宽容模式（authorization permissive mode）是 Istio 1.1 发布版中的实验特性。其接口可能在未来的发布中发生变化。
+
+授权宽容模式允许您在将授权策略提交到生产环境部署之前对其进行验证。
+
+您可以在全局授权配置和单个独立策略中启用授权宽容模式。如果在全局授权配置中设置，所有策略都将切换至授权宽容模式，不管其本身的模式。如果您设置全局授权模式为 ENFORCED，单个策略设置的强制模式将起作用。如果您没有设置任何模式，全局授权配置和单个策略都将默认被设置为 ENFORCED。
+
+要全局启用宽容模式，请将全局 Istio RBAC 授权配置中的 enforcement_mode: 设置为 PERMISSIVE，如下面的示例所示。
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ClusterRbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["default"]
+  enforcement_mode: PERMISSIVE
+{{< /text >}}
+
+如要为特定策略启用宽容模式，请将策略配置文件中的 `mode:` 设置为 `PERMISSIVE`，如下面的示例所示。
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-details-reviews
+  namespace: default
+spec:
+  subjects:
+    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
+  roleRef:
+    kind: ServiceRole
+    name: "details-reviews-viewer"
+  mode: PERMISSIVE
 {{< /text >}}
 
 ### 使用其他授权机制
