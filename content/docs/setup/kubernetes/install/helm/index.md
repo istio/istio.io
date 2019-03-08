@@ -10,9 +10,9 @@ aliases:
 icon: helm
 ---
 
-Follow this path to install and configure an Istio mesh for in-depth evaluation or production use.
+Follow this flow to install and configure an Istio mesh for in-depth evaluation or production use.
 
-These instructions use [Helm](https://github.com/helm/helm) charts that provide rich
+This installation flow uses [Helm](https://github.com/helm/helm) charts that provide rich
 customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can start with one of Istio's built-in configuration profiles and then further customize
 the configuration for your specific needs.
@@ -159,7 +159,7 @@ $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | 
 
 {{< text bash >}}
 $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -
+    --values $HOME/istio-fetch/istio/values-istio-demo.yaml | kubectl apply -f -
 {{< /text >}}
 
 {{% /tab %}}
@@ -168,7 +168,7 @@ $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
 
 {{< text bash >}}
 $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
-      --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl apply -f -
+      --values $HOME/istio-fetch/istio/values-istio-minimal.yaml | kubectl apply -f -
 {{< /text >}}
 
 {{% /tab %}}
@@ -228,7 +228,7 @@ $ helm install istio.io/istio --name istio --namespace istio-system
 
 {{< text bash >}}
 $ helm install istio.io/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml
+    --values $HOME/istio-fetch/istio/values-istio-demo.yaml
 {{< /text >}}
 
 {{% /tab %}}
@@ -237,7 +237,7 @@ $ helm install istio.io/istio --name istio --namespace istio-system \
 
 {{< text bash >}}
 $ helm install istio.io/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-minimal.yaml
+    --values $HOME/istio-fetch/istio/values-istio-minimal.yaml
 {{< /text >}}
 
 {{% /tab %}}

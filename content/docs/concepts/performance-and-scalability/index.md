@@ -121,7 +121,7 @@ This enables us to catch regression early and track improvements over time.
 
 * High availability (HA).
 
-* See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Istio-Performance-oriented-setup-FAQ)
+* See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Performance-Oriented-Setup-FAQ)
 
 * And the [Performance and Scalability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#performance-and-scalability) work.
 
@@ -137,6 +137,6 @@ Current recommendations (when using all Istio features):
 
 We plan on providing more granular guidance for customers adopting Istio "A la carte".
 
-We have an ongoing goal to reduce both the CPU overhead and latency of adding Istio to your application. Please note however that if you application is
+We have an ongoing goal to reduce both the CPU overhead and latency of adding Istio to your application. Please note however that if your application is
 handling its own telemetry, policy, security, network routing, a/b testing, etc... all that code and cost can be removed and that should offset most if
 not all of the Istio overhead.

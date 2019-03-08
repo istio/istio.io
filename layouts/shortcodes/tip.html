@@ -3,7 +3,7 @@
         <svg class="large-icon"><use xlink:href="/img/icons.svg#callout-tip"/></svg>
     </div>
     <div class="content">
-        {{ $trimmed := trim .Inner " \n" }}
-        {{ markdownify $trimmed }}
+        {{- $trimmed := trim .Inner " \n" -}}
+        {{- $trimmed | safeHTML -}}
     </div>
 </aside>

@@ -1,6 +1,6 @@
 ---
-title: Installation Paths
-description: Choose the path that best suits your needs and platform.
+title: Installation Flows
+description: Choose the flows that best suit your needs and platform.
 weight: 3
 icon: setup
 ---

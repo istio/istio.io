@@ -4,7 +4,7 @@ description: 通过直连远程 pods 实现多 Kubernetes 集群安装 Istio 网
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
-    - /zh/docs/setup/kubernetes/multicluster
+    - /zh/docs/setup/kubernetes/install/multicluster
 ---
 
 这是一个关于当每个集群中的 pod 可以直连访问其他集群中的 pod 时，可以跨多个集群安装 Istio 网格的说明。
