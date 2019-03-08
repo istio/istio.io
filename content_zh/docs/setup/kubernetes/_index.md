@@ -41,8 +41,8 @@ Istio 提供多种安装路径，具体取决于您的 Kubernetes 平台。
 特定于您的 Kubernetes 平台：
 
 - [Alibaba Cloud Kubernetes Container Service](/zh/docs/setup/kubernetes/install/platform/alicloud/)
-- [Google Kubernetes Engine](/zh/docs/setup/kubernetes/platform/install/gke/)
-- [IBM Cloud](/zh/docs/setup/kubernetes/platform/install/ibm/)
+- [Google Kubernetes Engine](/zh/docs/setup/kubernetes/install/platform/gke/)
+- [IBM Cloud](/zh/docs/setup/kubernetes/install/platform/ibm/)
 
 如果要通过容器网络接口安装和使用 Istio
 （CNI），访问我们的 [CNI 指南](/zh/docs/setup/kubernetes/additional-setup/cni/)。
