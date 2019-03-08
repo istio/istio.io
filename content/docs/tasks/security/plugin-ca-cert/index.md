@@ -149,7 +149,7 @@ the Istio cluster.
 
 On an offline machine with good security (restricted access), follow the `Create the root pair` and the
 `Create the intermediate pair` sections in this [guide](https://jamielinux.com/docs/openssl-certificate-authority/)
-to create the keys and certificates for your root and intemediate CA.
+to create the keys and certificates for your root and intermediate CA.
 
 After the certificates and keys are created,
 the root certificate is in `/root/ca/certs/ca.cert.pem`,
