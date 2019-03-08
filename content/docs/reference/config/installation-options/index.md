@@ -230,24 +230,6 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `grafana.dashboardProviders.dashboardproviders.providers.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-## `ingress` options
-
-| Key | Default Value | Description |
-| --- | --- | --- |
-| `ingress.enabled` | `false` |  |
-| `ingress.replicaCount` | `1` |  |
-| `ingress.autoscaleMin` | `1` |  |
-| `ingress.autoscaleMax` | `5` |  |
-| `ingress.nodeSelector` | `{}` |  |
-| `ingress.podDisruptionBudget` | `{}` |  |
-| `ingress.service.annotations` | `{}` |  |
-| `ingress.service.loadBalancerIP` | `""` |  |
-| `ingress.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
-| `ingress.service.ports.name` | `http` |  |
-| `ingress.service.ports.nodePort` | `32000` |  |
-| `ingress.service.ports.name` | `https` |  |
-| `ingress.service.selector.istio` | `ingress` |  |
-
 ## `istio_cni` options
 
 | Key | Default Value | Description |
