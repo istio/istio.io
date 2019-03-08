@@ -25,7 +25,7 @@ keywords: [traffic-management,routing]
 
 1. [故障注入](/zh/docs/tasks/traffic-management/fault-injection/)任务会使用 Istio 测试 Bookinfo 应用的弹性，具体方式就是在 `reviews:v2` 和 `ratings` 之间进行延迟注入。接下来以测试用户的角度观察后续行为，我们会注意到 `reviews` 服务的 `v2` 版本有一个 Bug。注意所有其他用户都不会感知到正在进行的测试过程。
 
-1. [流量迁移](/zh/docs/tasks/traffic-management/traffic-shifting/)，最后，会使用 Istio 将所有用户的流量转移到 `reviews` 的 `v3` 版本之中，以此来规避 `v2` 版本中 Bug 造成的影响。
+1. [流量迁移](/zh/docs/tasks/traffic-management/traffic-shifting/)，最后，会使用 Istio 将所有用户的流量从 `reviews` 的 `v2` 版本转移到 `v3` 版本之中，以此来规避 `v2` 版本中 Bug 造成的影响。
 
 ## 清理
 
