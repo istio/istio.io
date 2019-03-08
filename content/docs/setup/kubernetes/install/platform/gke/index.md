@@ -8,7 +8,7 @@ aliases:
     - /docs/setup/kubernetes/quick-start/
 ---
 
-Follow this path to install and configure an Istio mesh Istio in the
+Follow this flow to install and configure an Istio mesh Istio in the
 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE)
 using [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview).
 
