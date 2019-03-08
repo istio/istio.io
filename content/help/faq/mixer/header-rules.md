@@ -10,7 +10,7 @@ are declared in an [attribute
 manifest](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), and rules have
 no dangling references to handlers and instances.
 
-The attribute values are typically canonicalized before evaluating rules on
+The attribute values are typically normalized before evaluating rules on
 them. For example, HTTP headers have lowercase keys in `request.headers` and
 `response.headers` attributes. An expression
 `request.headers["X-Forwarded-Proto"] == "http"` does not match any request
