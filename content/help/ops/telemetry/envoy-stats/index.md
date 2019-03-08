@@ -27,7 +27,7 @@ Configure Envoy to record statistics for inbound or outbound traffic by adding t
 `sidecar.istio.io/statsInclusionPrefixes` annotation to the pod template in a Kubernetes `Deployment`.
 Add `cluster.outbound` for gather data about outbound traffic activity and circuit breaking.
 To gather data on inbound traffic, add `listener`.  A sample annotation including `cluster.outbound`
-can be seen in _samples/httpbin/sample-client/fortio-deploy.yaml_.
+can be seen in `samples/httpbin/sample-client/fortio-deploy.yaml`.
 
 You can cause Envoy to gather less data than usual by overriding the defaults.  Use
 `sidecar.istio.io/statsInclusionPrefixes: cluster_manager,listener_manager` for the least possible statistics
