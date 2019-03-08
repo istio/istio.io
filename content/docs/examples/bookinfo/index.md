@@ -90,9 +90,9 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     {{< /tip >}}
 
     If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
-    (/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection), 
-    use the `istioctl kube-inject` command to modify the `bookinfo.yaml` 
-    file before deploying your application. For more information please 
+    (/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
+    use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
+    file before deploying your application. For more information please
     visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     {{< text bash >}}
