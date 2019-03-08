@@ -1,8 +1,7 @@
 ---
 title: Google Kubernetes Engine
 description: 对 Google Kubernetes Engine（GKE）集群进行配置以便安装运行 Istio。
-weight: 9
-skip_toc: true
+weight: 15
 skip_seealso: true
 keywords: [platform-setup,kubernetes,gke,google]
 ---
@@ -13,10 +12,15 @@ keywords: [platform-setup,kubernetes,gke,google]
 
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
-      --num-nodes 4
+      --cluster-version latest \
+      --num-nodes 4 \
       --zone <zone> \
       --project <project-id>
     {{< /text >}}
+
+    {{< warning >}}
+    如果要使用 Istio 的 CNI 功能，需要在前面的命令中加入 `--enable-network-policy` 参数，以启用 GKE 的 [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) 支持，。
+    {{< /warning >}}
 
 1. 为 `kubectl` 获取认证凭据：
 
