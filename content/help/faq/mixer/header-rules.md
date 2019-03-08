@@ -5,9 +5,9 @@ weight: 50
 
 Mixer rules must be valid to be applied at runtime. That means the match
 conditions are well-defined expressions in the
-[language](/docs/reference/config/mixer/expression-language), the attributes
+[language](/docs/reference/config/mixer/expression-language/), the attributes
 are declared in an [attribute
-manifest](/docs/reference/config/mixer/attribute-vocabulary), and rules have no
+manifest](/docs/reference/config/mixer/attribute-vocabulary/), and rules have no
 dangling references to handlers and instances.
 
 The attribute values are typically canonicalized before evaluating rules on
