@@ -228,7 +228,7 @@ $ helm install istio.io/istio --name istio --namespace istio-system
 
 {{< text bash >}}
 $ helm install istio.io/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml
+    --values $HOME/istio-fetch/istio/values-istio-demo.yaml
 {{< /text >}}
 
 {{% /tab %}}
@@ -237,7 +237,7 @@ $ helm install istio.io/istio --name istio --namespace istio-system \
 
 {{< text bash >}}
 $ helm install istio.io/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-minimal.yaml
+    --values $HOME/istio-fetch/istio/values-istio-minimal.yaml
 {{< /text >}}
 
 {{% /tab %}}
