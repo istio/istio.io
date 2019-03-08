@@ -37,13 +37,14 @@ Some ports, for example port 80, have HTTP services inside Istio by default. Bec
 you cannot use this approach for services using those ports.
 {{< /warning >}}
 
-1. To demonstrate this approach you need to ensure that your istio installation is configured
+1. To demonstrate this approach you need to ensure that your Istio installation is configured
     with the `global.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
-    diabled it using the `--set global.outboundTrafficPolicy.mode=REGISTRY_ONLY` flag when you
+    disabled it using the `--set global.outboundTrafficPolicy.mode=REGISTRY_ONLY` flag when you
     installed Istio using helm, it is enabled by default.
 
     {{< tip >}}
-    If you have explicitly configured `REGITRY_ONLY` mode, you can run the following command change it:
+    If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
+
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
