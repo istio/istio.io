@@ -7,11 +7,11 @@ aliases:
     - /docs/setup/kubernetes/quick-start-alicloud-ack/
 ---
 
-Follow this path to install and configure an Istio mesh in the
+Follow this flow to install and configure an Istio mesh in the
 [Alibaba Cloud Kubernetes Container Service](https://www.alibabacloud.com/product/kubernetes)
 using the `Application Catalog` module.
 
-This guide installs the current release version of Istio and deploys the
+This flow installs the current release version of Istio and deploys the
 [Bookinfo](/docs/examples/bookinfo/) sample application.
 
 ## Prerequisites
