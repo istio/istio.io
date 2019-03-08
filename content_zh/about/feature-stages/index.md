@@ -74,7 +74,7 @@ icon: feature-status
 | [属性表达语言](/zh/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer 适配器认证模型](/zh/blog/2017/adapter-model/)        | Stable
 | [Helm](/zh/docs/setup/kubernetes/install/helm/) | Beta
-| [多集群安装](/zh/docs/setup/kubernetes/multicluster/) | Alpha
+| [多集群安装](/zh/docs/setup/kubernetes/install/multicluster/) | Alpha
 | [Kubernetes：Istio 控制平面升级](/zh/docs/setup/kubernetes/) | Beta
 | [Consul 集成](/zh/docs/setup/consul/quick-start/) | Alpha
 | 基本配置资源校验  | Alpha
