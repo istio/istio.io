@@ -82,8 +82,8 @@ replaces the functionality provided by the `istio-init` container.
 1.  Add the `--set istio_cni.enabled=true` setting to the [Istio Installation with Helm procedure](/docs/setup/kubernetes/install/helm/) to include the installation of the Istio CNI plugin. For example:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-      --set istio_cni.enabled=true > $HOME/istio.yaml
+    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
+      --set istio_cni.enabled=true | kubectl apply -f -
     {{< /text >}}
 
 ### Example: excluding specific Kubernetes namespaces
