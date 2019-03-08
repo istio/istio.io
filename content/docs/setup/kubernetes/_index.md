@@ -36,7 +36,7 @@ which installation to perform.
 To quickly test Istio's features, you can:
 
 - Install Istio [on Kubernetes without Helm](/docs/setup/kubernetes/install/kubernetes/)
-- Perform Istio's [minimal installation](/docs/setup/kubernetes/install/minimal/)
+- Configure Istio's **minimal** profile using the [helm installation guide](/docs/setup/kubernetes/install/helm/)
 
 ## Installing Istio for production
 
@@ -46,15 +46,15 @@ We recommend you install Istio for production using the
 If you run Kubernetes on a supported platform, you can follow the instructions
 specific to your Kubernetes platform:
 
-- [Alibaba Cloud Kubernetes Container Service](/docs/setup/kubernetes/install/alicloud/)
-- [Google Kubernetes Engine](/docs/setup/kubernetes/install/gke/)
-- [IBM Cloud](/docs/setup/kubernetes/install/ibm/)
+- [Alibaba Cloud Kubernetes Container Service](/docs/setup/kubernetes/install/platform/alicloud/)
+- [Google Kubernetes Engine](/docs/setup/kubernetes/install/platform/gke/)
+- [IBM Cloud](/docs/setup/kubernetes/install/platform/ibm/)
 
-If you want to install and use Istio through a Container Network Interface
-(CNI), visit our [CNI guide](/docs/setup/kubernetes/install/cni/).
+If you want your installation to use Istio's Container Network Interface
+(CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
 
 If you want to perform a multicluster setup, visit our
-[Multicluster installation documents](/docs/setup/kubernetes/multicluster/).
+[Multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
 
 ## Adding services to your mesh
 

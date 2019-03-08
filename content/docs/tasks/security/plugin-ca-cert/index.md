@@ -16,7 +16,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
 * Set up Istio by following the instructions in the
 [quick start](/docs/setup/kubernetes/install/kubernetes/) with global mutual TLS enabled:
 
-  Install from the [demo yaml file](/docs/setup/kubernetes/install/kubernetes/#option-2-install-istio-with-default-mutual-tls-authentication).
+  Follow the [installation instructions](/docs/setup/kubernetes/install/kubernetes/#installation-steps) install Istio with the **strict mTLS mode** enabled.
 
   _**OR**_
 

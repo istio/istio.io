@@ -8,9 +8,9 @@
         </div>
 
         <div class="channel">
-            <span>slack</span>
-            <a title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
-                {{ partial "icon.html" "slack" }}
+            <span>stack overflow</span>
+            <a title='{{ i18n "stackoverflow_desc" }}' href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
+                {{ partial "icon.html" "stackoverflow" }}
             </a>
         </div>
 
@@ -21,13 +21,6 @@
             </a>
         </div>
 
-        <div class="channel">
-            <span>stack overflow</span>
-            <a title='{{ i18n "stackoverflow_desc" }}' href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
-                {{ partial "icon.html" "stackoverflow" }}
-            </a>
-        </div>
-
         <div class="tag">
             {{ i18n "for_everyone" }}
         </div>
@@ -35,6 +28,11 @@
 
     <div class="info">
         <p class="copyright" role="contentinfo">
+            {{ $advisory := (i18n "advisory") }}
+            {{ if ne $advisory "-" }}
+                {{ printf "%s" $advisory }}<br>
+            {{ end }}
+
             {{ if .Site.Data.args.archive }}
                 {{ i18n "footer_istio_archive" }}
             {{ else if .Site.Data.args.preliminary }}
@@ -42,6 +40,7 @@
             {{ else }}
                 {{ i18n "footer_istio" }}
             {{ end }}
+
             {{ .Site.Data.args.version }}<br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
             {{ if .Site.Data.args.archive }}
                 {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
@@ -56,6 +55,13 @@
             <span>github</span>
             <a title='{{ i18n "github_desc" }}' href="https://github.com/istio/community" aria-label="GitHub">
                 {{ partial "icon.html" "github" }}
+            </a>
+        </div>
+
+        <div class="channel">
+            <span>slack</span>
+            <a title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
+                {{ partial "icon.html" "slack" }}
             </a>
         </div>
 

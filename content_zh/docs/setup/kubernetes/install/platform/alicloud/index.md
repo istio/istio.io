@@ -39,7 +39,7 @@ $ helm init --service-account tiller
 - 在左侧的导航栏中点击 **应用程序目录** 。
 - 在右侧的导航栏总选择 **ack-istio** 。
 
-{{< image link="/docs/setup/kubernetes/install/alicloud/app-catalog-istio-1.0.0.png" caption="Istio" >}}
+{{< image link="/docs/setup/kubernetes/install/platform/alicloud/app-catalog-istio-1.0.0.png" caption="Istio" >}}
 
 ### 使用参数自定义安装
 
