@@ -10,9 +10,9 @@ aliases:
 icon: helm
 ---
 
-Follow this path to install and configure an Istio mesh for in-depth evaluation or production use.
+Follow this flow to install and configure an Istio mesh for in-depth evaluation or production use.
 
-These instructions use [Helm](https://github.com/helm/helm) charts that provide rich
+This installation flow uses [Helm](https://github.com/helm/helm) charts that provide rich
 customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can start with one of Istio's built-in configuration profiles and then further customize
 the configuration for your specific needs.

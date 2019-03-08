@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/quick-start-ibm/
 ---
 
-Follow this path to install and configure an Istio mesh in IBM Cloud.
+Follow this flow to install and configure an Istio mesh in IBM Cloud.
 
 You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on)
 in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#ibm-cloud-public),

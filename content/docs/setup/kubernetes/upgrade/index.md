@@ -1,18 +1,21 @@
 ---
 title: Upgrading
-description: Demonstrates how to upgrade the Istio control plane and data plane independently.
+description: Upgrade the Istio control plane and data plane independently.
 weight: 5
 aliases:
     - /docs/setup/kubernetes/upgrading-istio/
 keywords: [kubernetes,upgrading]
 ---
 
-This page describes how to upgrade an existing Istio deployment (including both control plane and sidecar proxy) to a new release of Istio.
-The upgrade process may install new binaries and may change configuration and API schemas. The upgrade process
-may result in service downtime. To minimize downtime, please ensure your Istio control plane components and your applications
-are highly available with multiple replicas.
+Follow this flow to upgrade an existing Istio deployment, including both the
+control plane and the sidecar proxies, to a new release of Istio. The upgrade
+process may install new binaries and may change configuration and API schemas.
+The upgrade process may result in service downtime. To minimize downtime,
+please ensure your Istio control plane components and your applications are
+highly available with multiple replicas.
 
-In the following steps, we assume that the Istio components are installed and upgraded in the `istio-system` namespace.
+This flow assumes that the Istio components are installed and upgraded in the
+`istio-system` namespace.
 
 ## Upgrade steps
 

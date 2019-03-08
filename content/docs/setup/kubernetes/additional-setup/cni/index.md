@@ -1,13 +1,13 @@
 ---
 title: Install Istio with the Istio CNI plugin
-description: Instructions to install and use Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
+description: Install and use Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
 weight: 70
 aliases:
     - /docs/setup/kubernetes/install/cni
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
 
-Follow this path to install, configure, and use an Istio mesh using the Istio Container Network Interface
+Follow this flow to install, configure, and use an Istio mesh using the Istio Container Network Interface
 ([CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface))
 plugin.
 
