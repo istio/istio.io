@@ -17,9 +17,8 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | --- | --- | --- |
 | `certmanager.enabled` | `false` |  |
 | `certmanager.hub` | `quay.io/jetstack` |  |
-| `certmanager.tag` | `v0.5.0` |  |
+| `certmanager.tag` | `v0.6.2` |  |
 | `certmanager.resources` | `{}` |  |
-| `certmanager.nodeSelector` | `{}` |  |
 
 ## `galley` options
 
@@ -28,7 +27,6 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `galley.enabled` | `true` |  |
 | `galley.replicaCount` | `1` |  |
 | `galley.image` | `galley` |  |
-| `galley.nodeSelector` | `{}` |  |
 
 ## `gateways` options
 
@@ -40,12 +38,11 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` |  |
 | `gateways.istio-ingressgateway.labels.app` | `istio-ingressgateway` |  |
 | `gateways.istio-ingressgateway.labels.istio` | `ingressgateway` |  |
-| `gateways.istio-ingressgateway.replicaCount` | `1` |  |
+| `gateways.istio-ingressgateway.autoscaleEnabled` | `true` |  |
 | `gateways.istio-ingressgateway.autoscaleMin` | `1` |  |
 | `gateways.istio-ingressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 | `gateways.istio-ingressgateway.cpu.targetAverageUtilization` | `80` |  |
-| `gateways.istio-ingressgateway.podDisruptionBudget` | `{}` |  |
 | `gateways.istio-ingressgateway.loadBalancerIP` | `""` |  |
 | `gateways.istio-ingressgateway.loadBalancerSourceRanges` | `[]` |  |
 | `gateways.istio-ingressgateway.externalIPs` | `[]` |  |
@@ -69,8 +66,12 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.ports.name` | `https-tracing` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `15443` |  |
 | `gateways.istio-ingressgateway.ports.name` | `tls` |  |
+| `gateways.istio-ingressgateway.ports.targetPort` | `15020` |  |
+| `gateways.istio-ingressgateway.ports.name` | `status-port` |  |
 | `gateways.istio-ingressgateway.meshExpansionPorts.targetPort` | `15011` |  |
 | `gateways.istio-ingressgateway.meshExpansionPorts.name` | `tcp-pilot-grpc-tls` |  |
+| `gateways.istio-ingressgateway.meshExpansionPorts.targetPort` | `15004` |  |
+| `gateways.istio-ingressgateway.meshExpansionPorts.name` | `tcp-mixer-grpc-tls` |  |
 | `gateways.istio-ingressgateway.meshExpansionPorts.targetPort` | `8060` |  |
 | `gateways.istio-ingressgateway.meshExpansionPorts.name` | `tcp-citadel-grpc-tls` |  |
 | `gateways.istio-ingressgateway.meshExpansionPorts.targetPort` | `853` |  |
@@ -84,11 +85,10 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-egressgateway.enabled` | `false` |  |
 | `gateways.istio-egressgateway.labels.app` | `istio-egressgateway` |  |
 | `gateways.istio-egressgateway.labels.istio` | `egressgateway` |  |
-| `gateways.istio-egressgateway.replicaCount` | `1` |  |
+| `gateways.istio-egressgateway.autoscaleEnabled` | `true` |  |
 | `gateways.istio-egressgateway.autoscaleMin` | `1` |  |
 | `gateways.istio-egressgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-egressgateway.cpu.targetAverageUtilization` | `80` |  |
-| `gateways.istio-egressgateway.podDisruptionBudget` | `{}` |  |
 | `gateways.istio-egressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-egressgateway.podAnnotations` | `{}` |  |
 | `gateways.istio-egressgateway.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` |  |
@@ -105,11 +105,10 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ilbgateway.enabled` | `false` |  |
 | `gateways.istio-ilbgateway.labels.app` | `istio-ilbgateway` |  |
 | `gateways.istio-ilbgateway.labels.istio` | `ilbgateway` |  |
-| `gateways.istio-ilbgateway.replicaCount` | `1` |  |
+| `gateways.istio-ilbgateway.autoscaleEnabled` | `true` |  |
 | `gateways.istio-ilbgateway.autoscaleMin` | `1` |  |
 | `gateways.istio-ilbgateway.autoscaleMax` | `5` |  |
 | `gateways.istio-ilbgateway.cpu.targetAverageUtilization` | `80` |  |
-| `gateways.istio-ilbgateway.podDisruptionBudget` | `{}` |  |
 | `gateways.istio-ilbgateway.resources.requests.cpu` | `800m` |  |
 | `gateways.istio-ilbgateway.resources.requests.memory` | `512Mi` |  |
 | `gateways.istio-ilbgateway.loadBalancerIP` | `""` |  |
@@ -132,19 +131,22 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `global.hub` | `gcr.io/istio-release` |  |
-| `global.tag` | `master-latest-daily` |  |
-| `global.monitoringPort` | `9093` |  |
+| `global.tag` | `release-1.1-latest-daily` |  |
+| `global.monitoringPort` | `15014` |  |
 | `global.k8sIngress.enabled` | `false` |  |
-| `global.k8sIngress.gatewayName` | `ingress` |  |
+| `global.k8sIngress.gatewayName` | `ingressgateway` |  |
 | `global.k8sIngress.enableHttps` | `false` |  |
 | `global.proxy.image` | `proxyv2` |  |
 | `global.proxy.clusterDomain` | `"cluster.local"` |  |
-| `global.proxy.resources.requests.cpu` | `10m` |  |
-| `global.proxy.resources.requests.memory` | `30Mi` |  |
-| `global.proxy.concurrency` | `0` |  |
-| `global.proxy.accessLogFile` | `"/dev/stdout"` |  |
+| `global.proxy.resources.requests.cpu` | `100m` |  |
+| `global.proxy.resources.requests.memory` | `128Mi` |  |
+| `global.proxy.resources.limits.cpu` | `2000m` |  |
+| `global.proxy.resources.limits.memory` | `128Mi` |  |
+| `global.proxy.concurrency` | `2` |  |
+| `global.proxy.accessLogFile` | `""` |  |
 | `global.proxy.accessLogFormat` | `""` |  |
 | `global.proxy.accessLogEncoding` | `TEXT` |  |
+| `global.proxy.dnsRefreshRate` | `5s` |  |
 | `global.proxy.privileged` | `false` |  |
 | `global.proxy.enableCoreDump` | `false` |  |
 | `global.proxy.statusPort` | `15020` |  |
@@ -153,14 +155,21 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `global.proxy.readinessFailureThreshold` | `30` |  |
 | `global.proxy.includeIPRanges` | `"*"` |  |
 | `global.proxy.excludeIPRanges` | `""` |  |
+| `global.proxy.kubevirtInterfaces` | `""` |  |
 | `global.proxy.includeInboundPorts` | `"*"` |  |
 | `global.proxy.excludeInboundPorts` | `""` |  |
 | `global.proxy.autoInject` | `enabled` |  |
+| `global.proxy.envoyStatsd.enabled` | `false` |  |
+| `global.proxy.envoyStatsd.host` | `# example: statsd-svc.istio-system` |  |
+| `global.proxy.envoyStatsd.port` | `# example: 9125` |  |
+| `global.proxy.envoyMetricsService.enabled` | `false` |  |
+| `global.proxy.envoyMetricsService.host` | `# example: metrics-service.istio-system` |  |
+| `global.proxy.envoyMetricsService.port` | `# example: 15000` |  |
 | `global.proxy.tracer` | `"zipkin"` |  |
 | `global.proxy_init.image` | `proxy_init` |  |
 | `global.imagePullPolicy` | `IfNotPresent` |  |
 | `global.controlPlaneSecurityEnabled` | `false` |  |
-| `global.disablePolicyChecks` | `false` |  |
+| `global.disablePolicyChecks` | `true` |  |
 | `global.policyCheckFailOpen` | `false` |  |
 | `global.enableTracing` | `true` |  |
 | `global.tracer.lightstep.address` | `""                # example: lightstep-satellite:443` |  |
@@ -179,16 +188,16 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `global.meshExpansion.useILB` | `false` |  |
 | `global.multiCluster.enabled` | `false` |  |
 | `global.defaultResources.requests.cpu` | `10m` |  |
-| `global.defaultResources.requests.memory` | `30Mi` |  |
-| `global.defaultPodDisruptionBudget.minAvailable` | `1` |  |
+| `global.defaultPodDisruptionBudget.enabled` | `true` |  |
 | `global.priorityClassName` | `""` |  |
 | `global.useMCP` | `true` |  |
 | `global.trustDomain` | `""` |  |
-| `global.outboundTrafficPolicy.mode` | `REGISTRY_ONLY` |  |
+| `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
 | `global.sds.enabled` | `false` |  |
 | `global.sds.udsPath` | `""` |  |
 | `global.sds.useTrustworthyJwt` | `false` |  |
 | `global.sds.useNormalJwt` | `false` |  |
+| `global.meshNetworks` | `{}` |  |
 | `global.enableHelmTest` | `false` |  |
 
 ## `grafana` options
@@ -214,7 +223,6 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `grafana.service.name` | `http` |  |
 | `grafana.service.type` | `ClusterIP` |  |
 | `grafana.service.externalPort` | `3000` |  |
-| `grafana.gateway.enabled` | `false` |  |
 | `grafana.datasources.datasources.apiVersion` | `1` |  |
 | `grafana.datasources.datasources.datasources.type` | `prometheus` |  |
 | `grafana.datasources.datasources.datasources.orgId` | `1` |  |
@@ -253,12 +261,11 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `kiali.enabled` | `false` |  |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `docker.io/kiali` |  |
-| `kiali.tag` | `v0.12` |  |
+| `kiali.tag` | `v0.14` |  |
 | `kiali.contextPath` | `/kiali` |  |
 | `kiali.nodeSelector` | `{}` |  |
 | `kiali.ingress.enabled` | `false` |  |
 | `kiali.ingress.hosts` | `kiali.local` |  |
-| `kiali.gateway.enabled` | `false` |  |
 | `kiali.dashboard.secretName` | `kiali` |  |
 | `kiali.dashboard.usernameKey` | `username` |  |
 | `kiali.dashboard.passphraseKey` | `passphrase` |  |
@@ -269,27 +276,33 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 | Key | Default Value | Description |
 | --- | --- | --- |
+| `mixer.enabled` | `true` |  |
 | `mixer.image` | `mixer` |  |
-| `mixer.env.GODEBUG` | `gctrace=2` |  |
-| `mixer.policy.enabled` | `true` |  |
+| `mixer.env.GODEBUG` | `gctrace=1` |  |
+| `mixer.env.GOMAXPROCS` | `"6"` |  |
+| `mixer.policy.enabled` | `false` |  |
 | `mixer.policy.replicaCount` | `1` |  |
 | `mixer.policy.autoscaleEnabled` | `true` |  |
 | `mixer.policy.autoscaleMin` | `1` |  |
 | `mixer.policy.autoscaleMax` | `5` |  |
 | `mixer.policy.cpu.targetAverageUtilization` | `80` |  |
-| `mixer.policy.podDisruptionBudget` | `{}` |  |
 | `mixer.telemetry.enabled` | `true` |  |
 | `mixer.telemetry.replicaCount` | `1` |  |
 | `mixer.telemetry.autoscaleEnabled` | `true` |  |
 | `mixer.telemetry.autoscaleMin` | `1` |  |
 | `mixer.telemetry.autoscaleMax` | `5` |  |
 | `mixer.telemetry.cpu.targetAverageUtilization` | `80` |  |
-| `mixer.telemetry.podDisruptionBudget` | `{}` |  |
 | `mixer.telemetry.sessionAffinityEnabled` | `false` |  |
+| `mixer.telemetry.loadshedding.mode` | `enforce` |  |
+| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` |  |
+| `mixer.telemetry.resources.requests.cpu` | `1000m` |  |
+| `mixer.telemetry.resources.requests.memory` | `1G` |  |
+| `mixer.telemetry.resources.limits.cpu` | `4800m` |  |
+| `mixer.telemetry.resources.limits.memory` | `4G` |  |
 | `mixer.podAnnotations` | `{}` |  |
 | `mixer.nodeSelector` | `{}` |  |
 | `mixer.adapters.kubernetesenv.enabled` | `true` |  |
-| `mixer.adapters.stdio.enabled` | `true` |  |
+| `mixer.adapters.stdio.enabled` | `false` |  |
 | `mixer.adapters.stdio.outputAsJson` | `true` |  |
 | `mixer.adapters.prometheus.enabled` | `true` |  |
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
@@ -311,19 +324,19 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `pilot.enabled` | `true` |  |
-| `pilot.replicaCount` | `1` |  |
+| `pilot.autoscaleEnabled` | `true` |  |
 | `pilot.autoscaleMin` | `1` |  |
 | `pilot.autoscaleMax` | `5` |  |
 | `pilot.image` | `pilot` |  |
 | `pilot.sidecar` | `true` |  |
-| `pilot.traceSampling` | `100.0` |  |
+| `pilot.traceSampling` | `1.0` |  |
 | `pilot.resources.requests.cpu` | `500m` |  |
 | `pilot.resources.requests.memory` | `2048Mi` |  |
-| `pilot.podDisruptionBudget` | `{}` |  |
 | `pilot.env.PILOT_PUSH_THROTTLE_COUNT` | `100` |  |
-| `pilot.env.GODEBUG` | `gctrace=2` |  |
+| `pilot.env.GODEBUG` | `gctrace=1` |  |
 | `pilot.cpu.targetAverageUtilization` | `80` |  |
 | `pilot.nodeSelector` | `{}` |  |
+| `pilot.keepaliveMaxServerConnectionAge` | `30m` |  |
 
 ## `prometheus` options
 
@@ -342,7 +355,6 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `prometheus.service.annotations` | `{}` |  |
 | `prometheus.service.nodePort.enabled` | `false` |  |
 | `prometheus.service.nodePort.port` | `32090` |  |
-| `prometheus.gateway.enabled` | `false` |  |
 | `prometheus.security.enabled` | `true` |  |
 
 ## `security` options
@@ -353,7 +365,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `security.replicaCount` | `1` |  |
 | `security.image` | `citadel` |  |
 | `security.selfSigned` | `true # indicate if self-signed CA is used.` |  |
-| `security.trustDomain` | `cluster.local # indicate the domain used in SPIFFE identity URL` |  |
+| `security.createMeshPolicy` | `true` |  |
 | `security.nodeSelector` | `{}` |  |
 
 ## `servicegraph` options
@@ -381,6 +393,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `sidecarInjectorWebhook.image` | `sidecar_injector` |  |
 | `sidecarInjectorWebhook.enableNamespacesByDefault` | `false` |  |
 | `sidecarInjectorWebhook.nodeSelector` | `{}` |  |
+| `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` |  |
 
 ## `tracing` options
 
@@ -408,15 +421,5 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `tracing.service.type` | `ClusterIP` |  |
 | `tracing.service.externalPort` | `9411` |  |
 | `tracing.ingress.enabled` | `false` |  |
-| `tracing.gateway.enabled` | `false` |  |
-| `tracing.gateway.name` | `ingressgateway` |  |
 
 <!-- AUTO-GENERATED-END -->
-
-
-
-
-
-
-
-
