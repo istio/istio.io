@@ -7,8 +7,8 @@ aliases:
     - /docs/setup/kubernetes/quick-start/
 ---
 
-Follow this path to quickly evaluate Istio in a Kubernetes cluster on any platform.
-This path installs a preconfigured Istio **demo profile** using basic Kubernetes commands
+Follow this flow to quickly evaluate Istio in a Kubernetes cluster on any platform.
+This flow installs a preconfigured Istio **demo profile** using basic Kubernetes commands
 without needing to download or install [Helm](https://github.com/helm/helm).
 
 {{< tip >}}
