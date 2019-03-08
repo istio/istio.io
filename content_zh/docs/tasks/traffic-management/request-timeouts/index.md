@@ -11,7 +11,7 @@ keywords: [traffic-management,timeouts]
 
 * 跟随[安装指南](/zh/docs/setup)设置 Istio。
 
-* 部署的示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)包含[默认的 destination 规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
+* 部署的示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)包含[应用缺省目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
 
 * 使用下面的命令初始化应用的版本路由：
 
