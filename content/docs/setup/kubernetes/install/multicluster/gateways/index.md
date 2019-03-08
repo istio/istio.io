@@ -8,7 +8,7 @@ keywords: [kubernetes,multicluster,federation,gateway]
 ---
 
 Follow this flow to install an Istio [multicluster service mesh](/docs/concepts/multicluster-deployments/)
-where the Kubernetes cluster services and the applications in each cluster 
+where the Kubernetes cluster services and the applications in each cluster
 are limited to remote communication using gateway IPs.
 
 Instead of using a central Istio control plane to manage the mesh,

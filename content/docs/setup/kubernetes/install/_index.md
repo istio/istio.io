@@ -1,6 +1,6 @@
 ---
 title: Installation Flows
-description: Choose the flows that best suits your needs and platform.
+description: Choose the flows that best suit your needs and platform.
 weight: 3
 icon: setup
 ---
