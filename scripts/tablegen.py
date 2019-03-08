@@ -30,8 +30,8 @@ from __builtin__ import file
 # comments are needed in order to decode the commented helm
 # values.yaml file
 #
-YAML_CONFIG_DIR = "istio/install/kubernetes/helm/subcharts"
 ISTIO_CONFIG_DIR = "istio/install/kubernetes/helm/istio"
+YAML_CONFIG_DIR = ISTIO_CONFIG_DIR + "/charts"
 VALUES_YAML = "values.yaml"
 ISTIO_IO_DIR = os.path.abspath(__file__ + "/../../")
 CONFIG_INDEX_DIR = "content/docs/reference/config/installation-options/index.md"
