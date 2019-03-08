@@ -39,5 +39,5 @@ cluster must satisfy the following requirements:
 
 * _**Application UIDs**_: Do **not** run applications as a user with the user ID (UID) value of **1337**.
 
-* _**`NET_ADMIN` capability**:_ If pod security policies are enforced in your cluster and unless you use the [Istio CNI Plugin](/docs/setup/kubernetes/install/cni/), your pods must have the `NET_ADMIN` capability allowed.
+* _**`NET_ADMIN` capability**:_ If pod security policies are enforced in your cluster and unless you use the [Istio CNI Plugin](/docs/setup/kubernetes/additional-setup/cni/), your pods must have the `NET_ADMIN` capability allowed.
 See [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).

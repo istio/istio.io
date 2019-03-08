@@ -137,6 +137,6 @@ Current recommendations (when using all Istio features):
 
 We plan on providing more granular guidance for customers adopting Istio "A la carte".
 
-We have an ongoing goal to reduce both the CPU overhead and latency of adding Istio to your application. Please note however that if you application is
+We have an ongoing goal to reduce both the CPU overhead and latency of adding Istio to your application. Please note however that if your application is
 handling its own telemetry, policy, security, network routing, a/b testing, etc... all that code and cost can be removed and that should offset most if
 not all of the Istio overhead.

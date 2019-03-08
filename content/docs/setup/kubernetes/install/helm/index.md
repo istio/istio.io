@@ -1,5 +1,5 @@
 ---
-title: Install with Helm
+title: Customizable Install with Helm
 description: Instructions to install Istio using a Helm chart.
 weight: 20
 keywords: [kubernetes,helm]
@@ -10,11 +10,27 @@ aliases:
 icon: helm
 ---
 
-Follow this path to install and configure an Istio mesh using Helm.
+Follow this path to install and configure an Istio mesh for in-depth evaluation or production use.
 
-**This path is recommended for production environments.** This path offers rich
-customization of the Istio control plane and of the sidecars for the Istio data
-plane.
+These instructions use [Helm](https://github.com/helm/helm) charts that provide rich
+customization of the Istio control plane and of the sidecars for the Istio data plane.
+You can start with one of Istio's built-in configuration profiles and then further customize
+the configuration for your specific needs.
+The following built-in configuration profiles are currently available:
+
+1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
+
+1. **demo**: configuration suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
+    This is the same configuration that is installed with the [Quick Start](/docs/setup/kubernetes/install/kubernetes/) instructions, only using helm has the advantage
+    that you can more easily enable additional features if you wish to explore more advanced tasks.
+
+1. **default**: enables components according to the default [Installation Options](/docs/reference/config/installation-options/)
+    (recommend for production deployments).
+
+To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the
+`helm template` or `helm install` command in the instructions, below.
+The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported
+installation key and value pairs.
 
 ## Prerequisites
 
@@ -28,6 +44,13 @@ plane.
    service objects.  For platforms lacking `LoadBalancer` support, install Istio with `NodePort` support
    instead with the flags `--set gateways.istio-ingressgateway.type=NodePort`
    appended to the end of the Helm instructions in the installation steps below.
+
+{{< tip >}}
+These instructions assume the `istio-init` container will be used to setup `iptables` to redirect network traffic
+to/from Envoy sidecars. If you plan to customize the configuration to use `--set istio_cni.enabled=true`, you also
+need to ensure that a CNI plugin is enabled. Refer to [CNI Setup](/docs/setup/kubernetes/additional-setup/cni/)
+for details.
+{{< /tip >}}
 
 ## Installation steps
 
@@ -52,10 +75,6 @@ the appropriate snapshot.  For example, if you want to run with snapshot 6, use 
 
     - To deploy Istio without using Tiller, follow the instructions for [option 1](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
     - To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
-
-    {{< tip >}}
-    To customize Istio and install addons, use the `--set <key>=<value>` option in the helm template or install command. [Installation Options](/docs/reference/config/installation-options/) references supported installation key and value pairs.
-    {{< /tip >}}
 
 ### Option 1: Install with Helm via `helm template`
 
@@ -118,19 +137,43 @@ $ kubectl -n istio-system edit deployment istio-galley
     58
     {{< /text >}}
 
-1. Render and apply Istio's core components. For a production environment use the recommended Helm values or customize as needed:
-
-    {{< text bash >}}
-    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl apply -f -
-    {{< /text >}}
+1. Render and apply Istio's core components corresponding to your chosen profile.
+    The **default** profile is recommended for production deployments:
 
     {{< tip >}}
-    To try the `bookinfo` demo, use the Helm values customized for the `bookinfo` application:
+    You can further customize the configuration by adding `--set <key>=<value>`
+    [Installation Options](/docs/reference/config/installation-options/) to the commands.
     {{< /tip >}}
 
-    {{< text bash >}}
-    $ helm template $HOME/istio-fetch/istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system | kubectl apply -f -
-    {{< /text >}}
+{{< tabset cookie-name="helm_profile" >}}
+
+{{% tab name="default" cookie-value="default" %}}
+
+{{< text bash >}}
+$ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl apply -f -
+{{< /text >}}
+
+{{% /tab %}}
+
+{{% tab name="demo" cookie-value="demo" %}}
+
+{{< text bash >}}
+$ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -
+{{< /text >}}
+
+{{% /tab %}}
+
+{{% tab name="minimal" cookie-value="minimal" %}}
+
+{{< text bash >}}
+$ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
+      --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl apply -f -
+{{< /text >}}
+
+{{% /tab %}}
+
+{{< /tabset >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
 
@@ -163,19 +206,43 @@ to manage the lifecycle of Istio.
     58
     {{< /text >}}
 
-1. Install the `istio` chart. For a production environment use the recommended Helm values or customize as needed:
-
-    {{< text bash >}}
-    $ helm install istio.io/istio --name istio --namespace istio-system
-    {{< /text >}}
+1. Install the `istio` chart corresponding to your chosen profile.
+    The **default** profile is recommended for production deployments:
 
     {{< tip >}}
-    To try the `bookinfo` demo, use Helm values customized for the `bookinfo` application:
+    You can further customize the configuration by adding `--set <key>=<value>`
+    [Installation Options](/docs/reference/config/installation-options/) to the commands.
     {{< /tip >}}
 
-    {{< text bash >}}
-    $ helm install istio --name istio --values install/kubernetes/helm/istio/values-istio-demo.yaml --namespace istio-system
-    {{< /text >}}
+{{< tabset cookie-name="helm_profile" >}}
+
+{{% tab name="default" cookie-value="default" %}}
+
+{{< text bash >}}
+$ helm install istio.io/istio --name istio --namespace istio-system
+{{< /text >}}
+
+{{% /tab %}}
+
+{{% tab name="demo" cookie-value="demo" %}}
+
+{{< text bash >}}
+$ helm install istio.io/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml
+{{< /text >}}
+
+{{% /tab %}}
+
+{{% tab name="minimal" cookie-value="minimal" %}}
+
+{{< text bash >}}
+$ helm install istio.io/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-minimal.yaml
+{{< /text >}}
+
+{{% /tab %}}
+
+{{< /tabset >}}
 
 ## Uninstall
 

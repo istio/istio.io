@@ -12,6 +12,9 @@ weight: 60
 
 1. 确保你的 `ServiceRoleBinding` 和相关的 `ServiceRole` 对象在同一个命名空间（检查 `metadata/namespace` 这一行）。
 
+1. 请您不要为 TCP 服务的 `ServiceRole` 和 `ServiceRoleBinding` 设置那些仅适用于 HTTP 服务的属性字段。
+否则，Istio 会自动忽略这些配置，就好像它们不存在一样。
+
 1. 在 Kubernetes 环境，确保所有在一个 `ServiceRole` 对象下的服务都在和 `ServiceRole` 在同一个命名空间。例如，如果 `ServiceRole` 对象中的服务是 `a.default.svc.cluster.local`，`ServiceRole` 必须在 `default` 命名空间（`metadata/namespace` 这一行应该是 `default`）。对于非 Kubernetes 的环境，一个网格的所有 `ServiceRoles` 和 `ServiceRoleBindings` 都应该在相同的命名空间下。
 
 1. 根据[调试授权文档](/zh/help/ops/security/debugging-authorization/)找到确切的原因。

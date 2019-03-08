@@ -5,13 +5,13 @@ weight: 40
 keywords: [安全,访问控制,rbac,鉴权]
 ---
 
-在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/zh/docs/concepts/security/#授权和鉴权)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。
+在服务网格中为服务进行授权控制（基于角色的访问控制）时，会涉及到本例中包含的一系列操作。在[授权](/zh/docs/concepts/security/#授权)一节中讲述了更多这方面的内容，并且还有一个基本的 Istio 安全方面的教程。
 
 ## 准备任务
 
 本文活动开始之前，我们有如下假设：
 
-* 具有对[授权](/zh/docs/concepts/security/#授权和鉴权)概念的了解。
+* 具有对[授权](/zh/docs/concepts/security/#授权)概念的了解。
 
 * 在 Istio 中遵循[快速入门](/zh/docs/setup/kubernetes/install/kubernetes/)的步骤 **启用了认证功能**，这个教程对双向 TLS 有依赖，因此要在[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中启用双向 TLS 认证。
 

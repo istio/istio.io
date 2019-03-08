@@ -68,7 +68,7 @@ keywords: [consul]
 
 ## 部署应用
 
-你现在可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/) 中提供的示例应用。
+你现在可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/#如果在-docker-和-consul-环境中运行) 中提供的示例应用。
 
 {{< tip >}}
 由于在 Docker 中没有 pods 的概念，因此 Istio sidecar 需要和应用运行在同一个容器中。
