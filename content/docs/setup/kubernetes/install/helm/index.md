@@ -159,7 +159,7 @@ $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | 
 
 {{< text bash >}}
 $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -
+    --values $HOME/istio-fetch/istio/values-istio-demo.yaml | kubectl apply -f -
 {{< /text >}}
 
 {{% /tab %}}
@@ -168,7 +168,7 @@ $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
 
 {{< text bash >}}
 $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
-      --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl apply -f -
+      --values $HOME/istio-fetch/istio/values-istio-minimal.yaml | kubectl apply -f -
 {{< /text >}}
 
 {{% /tab %}}
