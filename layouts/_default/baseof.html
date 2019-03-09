@@ -152,7 +152,7 @@
         {{ if .Site.Data.args.preliminary }}
             <div id="switch-lang-container">
                 {{ $home := .Site.GetPage "home" }}
-                <a id="switch-lang" class="not-for-endnotes" aria-hidden="true" title='{{ i18n "switch_lang"}}'>
+                <a id="switch-lang" data-skipendnotes="true" aria-hidden="true" title='{{ i18n "switch_lang"}}'>
                     {{ partial "icon.html" "switch-lang" }}
                 </a>
             </div>
@@ -162,20 +162,20 @@
                     {{ $msg := i18n "generated_file" }}
                     {{ $title := printf $msg .Page.Params.source_repo }}
 
-                    <a id="edit-this-page" class="disabled" aria-hidden="true" title='{{ $title }}'>
+                    <a tabindex="-1" id="edit-this-page" class="disabled" aria-hidden="true" title='{{ $title }}'>
                         {{ partial "icon.html" "pencil" }}
                     </a>
                 </div>
             {{ else }}
                 <div id="edit-this-page-container">
-                    <a id="edit-this-page" class="not-for-endnotes" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}" aria-hidden="true" title='{{ i18n "edit_on_github"}}'>
+                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}" aria-hidden="true" title='{{ i18n "edit_on_github"}}'>
                         {{ partial "icon.html" "pencil" }}
                     </a>
                 </div>
             {{ end }}
 
             <div id="report-site-bugs-container">
-                <a id="report-site-bugs" class="not-for-endnotes" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
+                <a tabindex="-1" id="report-site-bugs" data-skipendnotes="true" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
                     {{ partial "icon.html" "bugs" }}
                 </a>
             </div>
