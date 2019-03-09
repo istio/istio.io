@@ -56,7 +56,7 @@
 
                 {{ if $page.Scratch.Get "seeAlso" }}
                     {{ with $related }}
-                        <li><a href="#see-also">{{ i18n "see_also" }}</a></li>
+                        <li role="none"><a role="treeitem" href="#see-also">{{ i18n "see_also" }}</a></li>
                     {{ end }}
                 {{ end }}
             </ul>
