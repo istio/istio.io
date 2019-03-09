@@ -93,7 +93,7 @@ etc.). Platform-specific adapters are responsible for populating the
 internal model representation with various fields from the metadata found
 in the platform.
 
-Istio introduces the concept of a _service version_, which is a finer-grained
+Istio introduces the concept of a _service version_, which is a fine-grained
 way to subdivide service instances by versions (`v1`, `v2`) or environment
 (`staging`, `prod`). These variants are not necessarily different API
 versions: they could be iterative changes to the same service, deployed in
@@ -133,7 +133,7 @@ Istio does not provide a DNS. Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (`kube-dns`,
 `mesos-dns`, etc.).
 
-### Ingress and egress
+### Ingress and Egress
 
 Istio assumes that all traffic entering and leaving the service mesh
 transits through Envoy proxies. By deploying an Envoy proxy in front of
@@ -150,7 +150,7 @@ the connections to these services.
     caption="Request Flow"
     >}}
 
-## Discovery and load balancing
+## Discovery and Load Balancing
 
 Istio load balances traffic across instances of a service in a service mesh.
 
@@ -194,7 +194,7 @@ Services can actively shed load by responding with an HTTP 503 to a health
 check. In such an event, the service instance will be immediately removed
 from the caller's load balancing pool.
 
-## Handling failures
+## Handling Failures
 
 Envoy provides a set of out-of-the-box _opt-in_ failure recovery features
 that can be taken advantage of by the services in an application. Features
