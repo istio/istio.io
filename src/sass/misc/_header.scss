@@ -84,12 +84,17 @@ header {
         }
     }
 
-    a {
+    a, button {
+        background-color: transparent;
+        border: 0;
         font-weight: 500;
         color: $textBrandColor;
         font-size: 1.1em;
         margin-left: .3rem;
         margin-right: .3rem;
+        stroke: $textBrandColor;
+        fill: $textBrandColor;
+        padding: 0;
 
         @media (min-width: $bp-sm) {
             font-size: .9em;
@@ -97,40 +102,34 @@ header {
             margin-right: .58rem;
         }
 
-        &:hover {
-            text-decoration: none;
-            color: $textBrandHighlightColor;
+        svg.icon {
+            fill: $textBrandColor;
+            stroke: $textBrandColor;
         }
 
-        &.active {
-            border-bottom: solid 3px $textBrandColor;
-            border-radius: 2px;
-            color: $textBrandColor;
-            font-weight: 500;
-            cursor: default;
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:hover, &:focus {
+            text-decoration: none;
+            color: $textBrandHighlightColor;
+            outline: 0;
+
+            svg.icon {
+                fill: $textBrandHighlightColor;
+                stroke: $textBrandHighlightColor;
+            }
         }
     }
 
     div.menu {
         display: inline-block;
-        margin-left: .3rem;
-        margin-right: .3rem;
-        @media (min-width: $bp-sm) {
-            margin-left: .58rem;
-            margin-right: .58rem;
-        }
     }
 
     svg.icon {
-        stroke: $textBrandColor;
-        fill: $textBrandColor;
         width: 1.1em;
         height: 1.1em;
-
-        &:hover {
-            fill: $textBrandHighlightColor;
-            stroke: $textBrandHighlightColor;
-        }
     }
 
     #hamburger {
@@ -169,6 +168,24 @@ header {
         &.show-search {
             right: -700px;
             transition: right 0.5s;
+        }
+
+        span {
+            border-bottom: solid 3px $textBrandColor;
+            border-radius: 2px;
+            color: $textBrandColor;
+            cursor: default;
+            font-weight: $linkWeight;
+            font-family: "Chivo", sans-serif;
+            font-size: 1.1em;
+            margin-left: .3rem;
+            margin-right: .3rem;
+
+            @media (min-width: $bp-sm) {
+                font-size: .9em;
+                margin-left: .58rem;
+                margin-right: .58rem;
+            }
         }
     }
 

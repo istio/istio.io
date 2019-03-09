@@ -23,7 +23,7 @@
                 font-size: 80%;
             }
 
-            &:hover {
+            &:hover, &:focus {
                 background-color: $textBrandHighlightColor;
             }
 

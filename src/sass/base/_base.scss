@@ -52,6 +52,7 @@ a:hover, a:focus {
     color: $linkHoverColor;
     text-decoration: underline;
     font-weight: $linkWeight;
+    outline: 0;
 }
 
 a.disabled {
