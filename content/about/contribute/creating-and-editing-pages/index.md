@@ -117,6 +117,7 @@ The available front matter fields are:
 |Field              | Description
 |-------------------|------------
 |`title`            | The short title of the page
+|`linktitle`        | An alternate, typically shorter, title for the page which is used in the side bar to reference the page
 |`subtitle`         | An optional subtitle which gets displayed below the main title
 |`description`      | A one-line description of what the page is about
 |`icon`             | An optional path to an image file which gets displayed next to the main title

@@ -1,5 +1,6 @@
 ---
 title: Install Istio on the Alibaba Cloud Kubernetes Container Service
+linktitle: Alibaba Cloud
 description: Instructions to install Istio using the Alibaba Cloud Kubernetes Container Service.
 weight: 60
 keywords: [kubernetes,alibabacloud,aliyun]

@@ -1,7 +1,7 @@
 ---
 title: Upgrading
 description: Upgrade the Istio control plane and data plane independently.
-weight: 5
+weight: 25
 aliases:
     - /docs/setup/kubernetes/upgrading-istio/
 keywords: [kubernetes,upgrading]
