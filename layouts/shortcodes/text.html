@@ -59,7 +59,7 @@
     {{- $target := trim $link "@" -}}
     {{- if gt (len $target) 0 -}}
         {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
-        <a hidden style="display:none" href="{{- $href -}}">Hello</a>
+        <a hidden data-skipendnotes="true" style="display:none" href="{{- $href -}}">Hello</a>
     {{- end -}}
 {{- end -}}
 

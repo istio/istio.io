@@ -8,15 +8,15 @@ function handleSidebar() {
     }
 
     // toggle subtree in sidebar
-    queryAll(sidebar, 'button').forEach(o => {
+    queryAll(sidebar, button).forEach(o => {
         listen(o, click, e => {
             let button = e.currentTarget;
             button.classList.toggle("show");
             const ul = button.nextElementSibling.nextElementSibling;
-            if (ul.getAttribute("aria-expanded") === "true") {
-                ul.setAttribute("aria-expanded", "false");
+            if (ul.getAttribute(ariaExpanded) === "true") {
+                ul.setAttribute(ariaExpanded, "false");
             } else {
-                ul.setAttribute("aria-expanded", "true");
+                ul.setAttribute(ariaExpanded, "true");
             }
 
             let el = ul;
@@ -31,18 +31,20 @@ function handleSidebar() {
 
     // expand/collapse cards
     queryAll(sidebar, '.header').forEach(header => {
-        listen(header, click, () => {
-            const body = header.nextElementSibling;
+        if (header.classList.contains("dynamic")) {
+            listen(header, click, () => {
+                const body = header.nextElementSibling;
 
-            body.classList.toggle('show');
-            if (body.classList.contains('show')) {
-                // set this as the limit for expansion
-                body.style.maxHeight = body.scrollHeight + "px";
-            } else {
-                // if was expanded, reset this
-                body.style.maxHeight = null;
-            }
-        });
+                body.classList.toggle('show');
+                if (body.classList.contains('show')) {
+                    // set this as the limit for expansion
+                    body.style.maxHeight = body.scrollHeight + "px";
+                } else {
+                    // if was expanded, reset this
+                    body.style.maxHeight = null;
+                }
+            });
+        }
     });
 
     // force expand the default cards

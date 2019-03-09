@@ -50,8 +50,8 @@ footer {
                 color: $textBrandColorLight;
                 text-decoration: underline;
 
-                &:hover {
-                    color: $textBrandColorLight;
+                &:hover, &:focus {
+                    color: $textBrandColor;
                 }
             }
         }
@@ -71,7 +71,7 @@ footer {
         position: relative;
         display: inline-flex;
         margin-top: 8px;
-        padding: 4px 0;
+        padding: 6px 6px;
         border-width: 2px;
         border-color: rgba(0, 0, 0, 0);
         border-style: solid;
@@ -79,7 +79,7 @@ footer {
         color: $textBrandColor;
 
         @media (min-width: $bp-sm) {
-            margin: 0 .5rem;
+            margin: 0 .2rem;
         }
 
         a {
@@ -104,17 +104,18 @@ footer {
             color: $textBrandColor;
             text-align: center;
             position: absolute;
-            width: 200px;
+            width: 212px;
             left: -82px;
             top: -23px;
             font-size: 75%;
         }
 
-        &:hover {
+        &:hover, &:focus {
             border-color: white;
             border-radius: 25px;
             box-shadow: 0 0 2px 2px $textBrandColor;
             transition: border-radius 1s, border-color 1s ease;
+            outline: 0;
 
             span {
                 opacity: 1;

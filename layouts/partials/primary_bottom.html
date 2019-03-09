@@ -10,7 +10,7 @@
                         <div class="see-also">
                             {{ range . }}
                                 <div class="entry">
-                                    <p class="link"><a class="not-for-endnotes" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
+                                    <p class="link"><a data-skipendnotes="true" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
                                     <p class="desc">{{ .Description }}</p>
                                 </div>
                             {{ end }}
@@ -24,16 +24,12 @@
             <nav class="pagenav">
                 <div class="left">
                     {{ if .NextInSection }}
-                        <p>
-                            <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}">{{- partial "icon.html" "left-arrow" -}}{{- .NextInSection.LinkTitle -}}</a>
-                        </p>
+                        <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}">{{- partial "icon.html" "left-arrow" -}}{{- .NextInSection.LinkTitle -}}</a>
                     {{ end }}
                 </div>
                 <div class="right">
                     {{ if .PrevInSection }}
-                        <p>
-                            <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}">{{- .PrevInSection.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
-                        </p>
+                        <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}">{{- .PrevInSection.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
                     {{ end }}
                 </div>
             </nav>
