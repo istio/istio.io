@@ -347,5 +347,5 @@ The output above clearly shows that all the incoming traffic to port 80, which i
 This brings us to the end of this post. I hope it helped to de-mystify how Istio manages to inject the sidecar proxies into an existing deployment and how Istio routes the traffic to the proxy.
 
 {{< idea >}}
-Update: In place of `istio-init`, there now seems to be an option of using the new CNI, which removes the need for the init container and associated privileges. This [`istio-cni`] (<https://github.com/istio/cni>) plugin sets up the pods' networking to fulfill this requirement in place of the current Istio injected pod `istio-init` approach.
+Update: In place of `istio-init`, there now seems to be an option of using the new CNI, which removes the need for the init container and associated privileges. This [`istio-cni`](https://github.com/istio/cni) plugin sets up the pods' networking to fulfill this requirement in place of the current Istio injected pod `istio-init` approach.
 {{< /idea >}}
