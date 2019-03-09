@@ -1,8 +1,12 @@
 "use strict";
 
+let syntaxColoring = true;
+
 // All the voodoo needed to support our fancy code blocks
 function handleCodeBlocks() {
     const toolbarShow = 'toolbar-show';
+    const syntaxColoringCookie = 'syntax-coloring';
+    const syntaxColoringItem = 'syntax-coloring-item';
 
     // Add a toolbar to all PRE blocks
     function attachToolbar(pre) {
@@ -142,7 +146,11 @@ function handleCodeBlocks() {
 
                 if (line.startsWith("$ ")) {
                     if (tmp !== "") {
-                        cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                        if (syntaxColoring) {
+                            cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                        } else {
+                            cmd += "$ " + tmp + "\n";
+                        }
                     }
 
                     tmp = line.slice(2);
@@ -171,7 +179,11 @@ function handleCodeBlocks() {
             }
 
             if (tmp !== "") {
-                cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                if (syntaxColoring) {
+                    cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                } else {
+                    cmd += "$ " + tmp + "\n";
+                }
             }
 
             if (cmd !== "") {
@@ -194,7 +206,9 @@ function handleCodeBlocks() {
                     let prefix = "language-command-output-as-";
                     if (cl.startsWith(prefix)) {
                         let lang = cl.substr(prefix.length);
-                        output = Prism.highlight(output, Prism.languages[lang], lang);
+                        if (syntaxColoring) {
+                            output = Prism.highlight(output, Prism.languages[lang], lang);
+                        }
                     } else {
                         output = escapeHTML(output);
                     }
@@ -206,12 +220,16 @@ function handleCodeBlocks() {
                 code.classList.remove(cl);
                 code.classList.add("command-output");
             } else {
-                // someone probably forgot to start a block with $, so let's just treat the whole thing as being a `bash` block
-                Prism.highlightElement(code, false);
+                if (syntaxColoring) {
+                    // someone probably forgot to start a block with $, so let's just treat the whole thing as being a `bash` block
+                    Prism.highlightElement(code, false);
+                }
             }
         } else {
-            // this isn't one of our special code blocks, so handle normally
-            Prism.highlightElement(code, false);
+            if (syntaxColoring) {
+                // this isn't one of our special code blocks, so handle normally
+                Prism.highlightElement(code, false);
+            }
         }
     }
 
@@ -223,7 +241,9 @@ function handleCodeBlocks() {
                 .then(response => response.text())
                 .then(data => {
                     elem.firstChild.textContent = data;
-                    Prism.highlightElement(elem.firstChild, false);
+                    if (syntaxColoring) {
+                        Prism.highlightElement(elem.firstChild, false);
+                    }
                 });
         }
 
@@ -231,6 +251,31 @@ function handleCodeBlocks() {
             fetchFile(pre, pre.dataset.src);
         }
     }
+
+    function handleSyntaxColoring() {
+        const cookieValue = readCookie(syntaxColoringCookie);
+        if (cookieValue === 'true') {
+            syntaxColoring = true;
+        } else if (cookieValue === 'false') {
+            syntaxColoring = false;
+        }
+
+        let item = document.getElementById(syntaxColoringItem);
+        if (item) {
+            if (syntaxColoring) {
+                item.classList.add(active);
+            } else {
+                item.classList.remove(active);
+            }
+        }
+
+        listen(getById(syntaxColoringItem), click, () => {
+            createCookie(syntaxColoringCookie, !syntaxColoring);
+            location.reload();
+        });
+    }
+
+    handleSyntaxColoring();
 
     queryAll(document, 'pre').forEach(pre => {
         attachToolbar(pre);

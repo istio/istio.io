@@ -177,3 +177,6 @@ other = "Switch to Chinese"
 
 [advisory]
 other = "-"
+
+[syntax_coloring]
+other = "Color Examples"
