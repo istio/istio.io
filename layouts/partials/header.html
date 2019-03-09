@@ -24,31 +24,47 @@
 
         <div id="header-links">
             {{ with (.Site.GetPage "section" "docs") }}
-                <a{{ if eq $section "docs" }} class="active"{{ end }} title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                {{ if eq $section "docs" }}
+                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                {{ else }}
+                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                {{ end }}
             {{ end }}
             {{ with $latest_post }}
-                <a{{ if eq $section "blog" }} class="active"{{ end }} title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                {{ if eq $section "blog" }}
+                    <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
+                {{ else }}
+                    <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                {{ end }}
             {{ end }}
             {{ with (.Site.GetPage "section" "help") }}
-                <a{{ if eq $section "help" }} class="active"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                {{ if eq $section "help" }}
+                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                {{ else }}
+                    <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                {{ end }}
             {{ end }}
             {{ with (.Site.GetPage "section" "about") }}
-                <a{{ if eq $section "about" }} class="active"{{ end }} title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                {{ if eq $section "about" }}
+                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                {{ else }}
+                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                {{ end }}
             {{ end }}
 
             <div class="menu" id="gearDropdown" style="white-space: nowrap">
-                <a class="menu-trigger" title='{{ i18n "options_menu" }}' aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+                <button class="menu-trigger" title='{{ i18n "options_menu" }}' aria-label="Tools" aria-haspopup="true" aria-expanded="false">
                     {{ partial "icon.html" "gear" }}
-                </a>
+                </button>
 
                 <div class="menu-content" aria-labelledby="gearDropdown">
-                    <a lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
-                    <a lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
+                    <a tabindex="0" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
+                    <a tabindex="0" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
 
                     <div></div>
 
-                    <a class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
-                    <a id="dark-theme-item">{{ i18n "dark_theme" }}</a>
+                    <a tabindex="0" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
+                    <a tabindex="0" id="dark-theme-item">{{ i18n "dark_theme" }}</a>
 
                     {{ if not .Site.Data.args.archive }}
                         <div></div>
@@ -72,20 +88,20 @@
                     {{ $current := index .Site.Data.releases 1 }}
 
                     {{ if .Site.Data.args.archive }}
-                        <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
-                        <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                        <a tabindex="0" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                        <a tabindex="0" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
                         <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else if .Site.Data.args.preliminary }}
-                        <a onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
+                        <a tabindex="0" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
                         <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else }}
-                        <a onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
+                        <a tabindex="0" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
                         <a href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ end }}
                 </div>
             </div>
 
-            <a id="search-show" href='' title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</a>
+            <button tabindex="0" id="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
         </div>
 
         <form id="search-form" name="cse" role="search">

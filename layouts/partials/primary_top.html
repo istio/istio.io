@@ -19,23 +19,21 @@
 
     <div class="article-container">
         {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
-            <button id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
+            <button tabindex="-1" id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
                 {{ partial "icon.html" "pull" }}
             </button>
         {{ end }}
 
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <nav aria-label="Breadcrumb">
             {{- partial "breadcrumbs.html" . -}}
         </nav>
 
         <article aria-labelledby="title">
             <div class="title-area">
                 {{- if .Params.icon -}}
-                    <div>
-                        <i class="title-icon">
-                            {{- partial "icon.html" .Params.icon -}}
-                        </i>
-                    </div>
+                    <i class="title-icon">
+                        {{- partial "icon.html" .Params.icon -}}
+                    </i>
                 {{- end -}}
 
                 <div>
@@ -105,11 +103,11 @@
             </div>
 
             {{ if $needTOC }}
-                <nav class="toc-inlined{{ if .Params.force_inline_toc }} toc-forced{{ end }}">
+                <div class="toc-inlined{{ if .Params.force_inline_toc }} toc-forced{{ end }}">
                     <hr/>
                     <div class="directory" role="directory">
                         {{ replace $toc "TableOfContents" "InlinedTableOfContents" | safeHTML }}
                     </div>
                     <hr/>
-                </nav>
+                </div>
             {{ end }}

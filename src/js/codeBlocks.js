@@ -2,15 +2,17 @@
 
 // All the voodoo needed to support our fancy code blocks
 function handleCodeBlocks() {
+    const toolbarShow = 'toolbar-show';
+
     // Add a toolbar to all PRE blocks
     function attachToolbar(pre) {
-        const copyButton = document.createElement('button');
+        const copyButton = document.createElement(button);
         copyButton.title = buttonCopy;
         copyButton.className = "copy";
         copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
-        copyButton.setAttribute("aria-label", buttonCopy);
-        listen(copyButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
-        listen(copyButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
+        copyButton.setAttribute(ariaLabel, buttonCopy);
+        listen(copyButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
+        listen(copyButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
         listen(copyButton, click, e => {
             const div = e.currentTarget.parentElement;
             const text = getToolbarDivText(div);
@@ -18,17 +20,17 @@ function handleCodeBlocks() {
             return true;
         });
 
-        const downloadButton = document.createElement('button');
+        const downloadButton = document.createElement(button);
         downloadButton.title = buttonDownload;
         downloadButton.className = "download";
         downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
-        downloadButton.setAttribute("aria-label", buttonDownload);
-        listen(downloadButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
-        listen(downloadButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
+        downloadButton.setAttribute(ariaLabel, buttonDownload);
+        listen(downloadButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
+        listen(downloadButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
 
         listen(downloadButton, click, e => {
             const div = e.currentTarget.parentElement;
-            const codes = div.getElementsByTagName("CODE");
+            const codes = div.getElementsByTagName("code");
             if ((codes !== null) && (codes.length > 0)) {
                 const code = codes[0];
                 const text = getToolbarDivText(div);
@@ -57,13 +59,13 @@ function handleCodeBlocks() {
             return true;
         });
 
-        const printButton = document.createElement('button');
+        const printButton = document.createElement(button);
         printButton.title = buttonPrint;
         printButton.className = "print";
         printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
-        printButton.setAttribute("aria-label", buttonPrint);
-        listen(printButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
-        listen(printButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
+        printButton.setAttribute(ariaLabel, buttonPrint);
+        listen(printButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
+        listen(printButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
 
         listen(printButton, click, e => {
             const div = e.currentTarget.parentElement;
@@ -73,7 +75,7 @@ function handleCodeBlocks() {
         });
 
         // wrap the PRE block in a DIV so we have a place to attach the toolbar buttons
-        const div = document.createElement("DIV");
+        const div = document.createElement("div");
         div.className = "toolbar";
         pre.parentElement.insertBefore(div, pre);
         div.appendChild(pre);
@@ -82,15 +84,15 @@ function handleCodeBlocks() {
         div.appendChild(copyButton);
 
         listen(pre, mouseenter, e => {
-            e.currentTarget.nextSibling.classList.add("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.classList.add("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add("toolbar-show");
+            e.currentTarget.nextSibling.classList.add(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.classList.add(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add(toolbarShow);
         });
 
         listen(pre, mouseleave, e => {
-            e.currentTarget.nextSibling.classList.remove("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.classList.remove("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove("toolbar-show");
+            e.currentTarget.nextSibling.classList.remove(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.classList.remove(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove(toolbarShow);
         });
     }
 

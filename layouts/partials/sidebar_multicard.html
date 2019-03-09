@@ -10,7 +10,7 @@
 
                 {{ $id := printf "header%d" $count }}
                 <div class="card" role="tabpanel" aria-labelledby="{{ $id }}">
-                    <div class="header" role="tab" id="{{ $id }}" title="{{ $page.Description }}">
+                    <div class="header dynamic" role="tab" id="{{ $id }}" title="{{ $page.Description }}">
                         {{- if $page.Params.icon -}}
                             {{- partial "icon.html" .Params.icon -}}
                         {{- end -}}
