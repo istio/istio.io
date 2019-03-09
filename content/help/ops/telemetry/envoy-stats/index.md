@@ -38,7 +38,7 @@ the `stats_matcher` JSON element.
 To Configure Envoy to record statistics for inbound or outbound traffic, add the
 `sidecar.istio.io/statsInclusionPrefixes` annotation to the pod template in the Kubernetes `Deployment`.
 Add the `cluster.outbound` prefix to gather data about outbound traffic activity and circuit breaking.
-To gather data on inbound traffic, add the `listener` prefix.  The sample 
+To gather data on inbound traffic, add the `listener` prefix.  The sample
 [fortio-deploy.yaml]({{< github_file>}}/samples/httpbin/sample-client/fortio-deploy.yaml)
 shows use of `sidecar.istio.io/statsInclusionPrefixes` with the `cluster.outbound` prefix.
 
