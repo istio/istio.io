@@ -197,28 +197,47 @@ from the caller's load balancing pool.
 ## Locality Load Balancing
 
 {{< warning >}}
-This feature is currently experimental and can be enabled by setting the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
-{{< /tip >}}
+This feature is currently experimental. To enabled it, set the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
+{{< /warning >}}
 
 A locality is a triplet of region, zone and sub-zone defining a geographic location within your mesh, typically a data center. Istio uses this information to prioritize load balancing pools in order to control where (geographically) requests are sent.
 
-Currently, locality is automatically populated by the service discovery platform. In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region) on the node it is deployed. Sub-zone is not a concept that exists in Kubernetes and as a result is not configured.
+Currently, the service discovery platform populates the locality automatically.
+In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region)
+on the node it is deployed. The sub-zone concept doesn't exist in Kubernetes. 
+As a result, you don't need to configure the sub-zone.
 
-### Locality Prioritized Load Balancing
+### Locality-Prioritized Load Balancing
 
-The default behavior of Locality Load Balancing is Locality Prioritized Load Balancing. In this mode, Istio will tell Envoy to prioritize traffic to endpoints that most closely match the locality of the Envoy forwarding the request. When all endpoints are healthy, this means that requests will remain within the same locality. When endpoints become unhealthy, traffic will spillover to endpoints in the next prioritized locality and so on until all localities are receiving traffic. Details of the exact percentages can be found [in the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels).
+_Locality-prioritized load balancing_ is the default behavior for _locality load balancing_ .
+In this mode, Istio tells Envoy to prioritize traffic to the services most closely matching
+the locality of the Envoy sending the request. When all service are healthy, the requests
+remains within the same locality. When services become unhealthy, traffic spills over to
+the services in the next prioritized locality. This behavior continues until all localities are
+receiving traffic. You can find the exact percentages [in the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels).
 
-A typical prioritization for an Envoy with a locality of `us-west/zone2` would be as follows:
+A typical prioritization for an Envoy with a locality of `us-west/zone2` is as follows:
 
 - Priority 0: `us-west/zone2`
 - Priority 1: `us-west/zone1`, `us-west/zone3`
 - Priority 2: `us-east/zone1`, `us-east/zone/2`, `eu-west/zone1`
 
-Prioritization is hierarchical, in that it matches for sub-zone, zone and region in that order; endpoints in the same zone but different regions are not considered local to one another.
+The hierarchy of prioritization matches in the following order:
 
-#### Overriding Locality Failover
+ 1. Sub-zone
+ 1. Zone
+ 1. Region
+ 
+Services in the same zone but different regions are not considered local to one another.
 
-In some cases users may need to constrain traffic failover so that failing over to any endpoint globally when there are not enough healthy endpoints in the same region does not apply. This is useful when failing over traffic across regions would not improve service health or may need to be restricted for other reasons like regulatory controls. This can be achieved by configuring the mesh `LocalityLoadBalancerSetting.Failover` configuration detailed [here](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting-Failover).
+#### Overriding the Locality Fail-over
+
+Sometimes, you need to constrain the traffic fail-over to avoid sending traffic to
+a service across the globe when there are not enough healthy endpoints in the
+same region. This behavior is useful when sending fail-over traffic across regions
+would not improve service health or many other reasons including regulatory controls.
+To constrain traffic to a region, use the mesh `LocalityLoadBalancerSetting.Failover`
+configuration detailed in the [Locality load balancing reference guide](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting-Failover).
 
 ## Handling failures
 
