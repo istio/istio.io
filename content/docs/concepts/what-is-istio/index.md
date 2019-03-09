@@ -197,7 +197,7 @@ to control who can access your services.
 
 ### Galley
 
-Galley is Istio' configuration validation, ingestion, processing and
+Galley is Istio's configuration validation, ingestion, processing and
 distribution component. It is responsible for insulating
 the rest of the Istio components from the details of obtaining user
 configuration from the underlying platform (e.g. Kubernetes).
