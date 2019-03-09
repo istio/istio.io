@@ -177,3 +177,6 @@ other = "切换到英文版"
 
 [advisory]
 other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中"
+
+[syntax_coloring]
+other = "Color Examples"

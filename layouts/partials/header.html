@@ -52,8 +52,8 @@
                 {{ end }}
             {{ end }}
 
-            <div class="menu" id="gearDropdown" style="white-space: nowrap">
-                <button class="menu-trigger" title='{{ i18n "options_menu" }}' aria-label="Tools" aria-haspopup="true" aria-expanded="false">
+            <div class="menu">
+                <button id="gearDropdown" class="menu-trigger" title='{{ i18n "options_menu" }}' aria-label="Options and Settings" aria-haspopup="true" aria-expanded="false">
                     {{ partial "icon.html" "gear" }}
                 </button>
 
@@ -65,6 +65,10 @@
 
                     <a tabindex="0" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
                     <a tabindex="0" id="dark-theme-item">{{ i18n "dark_theme" }}</a>
+
+                    <div></div>
+
+                    <a tabindex="0" id="syntax-coloring-item">{{ i18n "syntax_coloring" }}</a>
 
                     {{ if not .Site.Data.args.archive }}
                         <div></div>
