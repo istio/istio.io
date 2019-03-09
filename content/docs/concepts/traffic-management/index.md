@@ -196,7 +196,7 @@ from the caller's load balancing pool.
 
 ## Locality Load Balancing
 
-{{< tip >}}
+{{< warning >}}
 This feature is currently experimental and can be enabled by setting the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
 {{< /tip >}}
 
