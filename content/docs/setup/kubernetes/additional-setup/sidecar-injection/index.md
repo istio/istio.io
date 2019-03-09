@@ -234,45 +234,6 @@ type SidecarTemplateData struct {
 are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditional
 define injected containers and volumes with this data.
 
-For example, the following template snippet from `install/kubernetes/istio-sidecar-injector-configmap-release.yaml`
-
-{{< text plain >}}
-containers:
-- name: istio-proxy
-  image: istio.io/proxy:0.5.0
-  args:
-  - proxy
-  - sidecar
-  - --configPath
-  - {{ .ProxyConfig.ConfigPath }}
-  - --binaryPath
-  - {{ .ProxyConfig.BinaryPath }}
-  - --serviceCluster
-  {{ if ne "" (index .ObjectMeta.Labels "app") -}}
-  - {{ index .ObjectMeta.Labels "app" }}
-  {{ else -}}
-  - "istio-proxy"
-  {{ end -}}
-{{< /text >}}
-
-expands to
-
-{{< text yaml >}}
-containers:
-- name: istio-proxy
-  image: istio.io/proxy:0.5.0
-  args:
-  - proxy
-  - sidecar
-  - --configPath
-  - /etc/istio/proxy
-  - --binaryPath
-  - /usr/local/bin/envoy
-  - --serviceCluster
-  - sleep
-{{< /text >}}
-
-when applied over a pod defined by the pod template spec in [`samples/sleep/sleep.yaml`]({{< github_tree >}}/samples/sleep/sleep.yaml)
 
 #### More control: adding exceptions
 
