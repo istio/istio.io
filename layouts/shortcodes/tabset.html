@@ -10,7 +10,7 @@
 	<div class="tab-strip" data-cookie-name="{{ $cookie_name }}">
 		{{- range $i, $e := $tabs -}}
 			{{- $id := printf "%s-%d" $tab_set_id $i -}}
-			<button {{ if eq $i 0 }}class="active"{{ end }} data-cookie-value="{{ .cookie_value }}"
+			<button tabindex="-1" {{ if eq $i 0 }}class="active"{{ end }} data-cookie-value="{{ .cookie_value }}"
 				data-tab="{{ $id }}-panel" id="{{ $id }}-tab" role="tab"><span>{{ trim .name " " }}</span>
 			</button>
 		{{- end -}}

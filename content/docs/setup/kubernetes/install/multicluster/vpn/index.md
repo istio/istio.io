@@ -55,50 +55,6 @@ cluster. You can install the component in one of two ways:
 {{< tabset cookie-name="install-istio-remote" >}}
 
 {{% tab name="Helm+kubectl" cookie-value="Helm+kubectl" %}}
-[Use Helm and `kubectl` to install and manage the remote cluster](#helm-k)
-{{% /tab %}}
-{{% tab name="Helm+Tiller" cookie-value="Helm+Tiller" %}}
-[Use Helm and Tiller to install and manage the remote cluster](#tiller)
-{{% /tab %}}
-{{< /tabset >}}
-
-### Set environment variables {#environment-var}
-
-Wait for the Istio control plane to finish initializing before following the
-steps in this section.
-
-You must run these operations on the Istio control plane cluster to capture the
-Istio control plane service endpoints, for example, the Pilot and Policy Pod IP
-endpoints.
-
-If you use Helm with Tiller on each remote, you must copy the environment
-variables to each node before using Helm to connect the remote
-cluster to the Istio control plane.
-
-Set the environment variables with the following commands:
-
-{{< text bash >}}
-$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
-$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
-$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
-{{< /text >}}
-
-Next, you must connect the remote cluster to the local cluster. Proceed to your preferred option:
-
-* Via [`kubectl` with Helm](#helm-k)
-
-* Via [Helm plus Tiller](#tiller)
-
-Normally, automatic sidecar injection on the remote clusters is enabled. To
-perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
-
-### Install and manage the remote cluster
-
-{{< tabset cookie-name="install-istio-remote" >}}
-
-{{% tab name="Helm+kubectl" cookie-value="Helm+kubectl" %}}
-
-#### With Helm and `kubectl` {#helm-k}
 
 1.  Use the following `helm template` command on the remote cluster to specify
     the Istio control plane service endpoints:
@@ -148,8 +104,6 @@ perform a manual sidecar injection refer to the [manual sidecar example](#manual
 
 {{% tab name="Helm+Tiller" cookie-value="Helm+Tiller" %}}
 
-#### With Helm and Tiller {#tiller}
-
 1. If you haven't installed a service account for Helm, install one with the
    following command:
 
@@ -177,6 +131,30 @@ perform a manual sidecar injection refer to the [manual sidecar example](#manual
 {{% /tab %}}
 
 {{< /tabset >}}
+
+### Set environment variables {#environment-var}
+
+Wait for the Istio control plane to finish initializing before following the
+steps in this section.
+
+You must run these operations on the Istio control plane cluster to capture the
+Istio control plane service endpoints, for example, the Pilot and Policy Pod IP
+endpoints.
+
+If you use Helm with Tiller on each remote, you must copy the environment
+variables to each node before using Helm to connect the remote
+cluster to the Istio control plane.
+
+Set the environment variables with the following commands:
+
+{{< text bash >}}
+$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
+$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
+$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
+{{< /text >}}
+
+Normally, automatic sidecar injection on the remote clusters is enabled. To
+perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
 
 ### Helm chart configuration parameters
 
@@ -281,9 +259,9 @@ values set and the file created for the remote cluster's secret from the
 If you created the environment variables file for the remote cluster's
 secret, source the file with the following command:
 
-    {{< text bash >}}
-    $ source remote_cluster_env_vars
-    {{< /text >}}
+{{< text bash >}}
+$ source remote_cluster_env_vars
+{{< /text >}}
 
 You can install Istio in a different namespace. This procedure uses the
 `istio-system` namespace.
@@ -313,11 +291,9 @@ filename simply by changing the filename to conform with the format.
 You must uninstall remote clusters using the same method you used to install
 them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
 
-{{< tabset cookie-name="uninstall-istio-remote" >}}
+{{< tabset cookie-name="install-istio-remote" >}}
 
-{{% tab name="kubectl" cookie-value="kubectl" %}}
-
-### With `kubectl`
+{{% tab name="kubectl" cookie-value="Helm+kubectl" %}}
 
 To uninstall the cluster, you must remove the configuration made with the
 `istio-remote` .YAML file. To uninstall the cluster run the following command:
@@ -328,9 +304,7 @@ $ kubectl delete -f $HOME/istio-remote.yaml
 
 {{% /tab %}}
 
-{{% tab name="Tiller" cookie-value="Tiller" %}}
-
-### With Tiller
+{{% tab name="Tiller" cookie-value="Helm+Tiller" %}}
 
 To uninstall the cluster, you must remove the configuration made with the
 `istio-remote` .YAML file. To uninstall the cluster run the following command:
@@ -450,6 +424,7 @@ A simple solution to the pod restart issue is to use load balancers for the
 Istio services. Then, you can use the load balancers' IPs as the Istio
 services' endpoint IPs to configure the remote clusters. You may need load
 balancer IPs for these Istio services:
+
 * `istio-pilot`
 * `istio-telemetry`
 * `istio-policy`
