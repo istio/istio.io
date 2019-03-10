@@ -42,15 +42,12 @@ you cannot use this approach for services using those ports.
     disabled it using the `--set global.outboundTrafficPolicy.mode=REGISTRY_ONLY` flag when you
     installed Istio using helm, it is enabled by default.
 
-    {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
     {{< /text >}}
-
-    {{< /tip >}}
 
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD`:
 
