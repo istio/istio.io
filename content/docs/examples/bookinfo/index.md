@@ -217,7 +217,7 @@ version routing.
 ## Apply default destination rules
 
 Before you can use Istio to control the Bookinfo version routing, you need to define the available
-versions, called *subsets*, in destination rules.
+versions, called *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 Run the following command to create default destination rules for the Bookinfo services:
 
