@@ -83,7 +83,7 @@ header {
             }
         }
 
-        &:focus {
+        &:hover, &:focus {
             span {
                 color: $textBrandHighlightColor;
             }
