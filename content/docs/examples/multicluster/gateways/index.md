@@ -222,7 +222,7 @@ Execute the following commands to clean up the example services.
 * Cleanup `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/httpbin/sleep.yaml@
+    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/sleep/sleep.yaml@
     $ kubectl delete --context=$CTX_CLUSTER1 -n foo serviceentry httpbin-bar
     $ kubectl delete --context=$CTX_CLUSTER1 ns foo
     {{< /text >}}
@@ -231,5 +231,5 @@ Execute the following commands to clean up the example services.
 
     {{< text bash >}}
     $ kubectl delete --context=$CTX_CLUSTER2 -n bar -f @samples/httpbin/httpbin.yaml@
-    $ kubectl delete --context=$CTX_CLUSTER1 ns bar
+    $ kubectl delete --context=$CTX_CLUSTER2 ns bar
     {{< /text >}}
