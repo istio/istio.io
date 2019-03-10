@@ -21,45 +21,43 @@
 
     {{ if or (gt $len 0) ($page.Scratch.Get "seeAlso") }}
         {{ $page.Scratch.Set "needTOC" true }}
-        <nav id="TableOfContents" aria-label="Table of Contents">
-            <ul role="tree">
-                {{ $page.Scratch.Set "level" 50 }}
-                {{ range $h := $headers }}
-                    {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
-                    {{ $id := replaceRE "<h[23456].*?id=\"(.*?)\".*?>.*?</h[23456]>" "$1" $h }}
-                    {{ $title := replaceRE "<h[23456].*?>(.*?)</h[23456]>" "$1" $h }}
-                    {{ $current := $page.Scratch.Get "level" | int }}
+        <ol>
+            {{ $page.Scratch.Set "level" 50 }}
+            {{ range $h := $headers }}
+                {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
+                {{ $id := replaceRE "<h[23456].*?id=\"(.*?)\".*?>.*?</h[23456]>" "$1" $h }}
+                {{ $title := replaceRE "<h[23456].*?>(.*?)</h[23456]>" "$1" $h }}
+                {{ $current := $page.Scratch.Get "level" | int }}
 
-                    {{ if gt $level $current }}
-                        {{ $delta := sub $level $current }}
-                        {{ range $index, $num := (seq $delta) }}
-                            <ul role="group">
-                        {{ end }}
-                    {{ else if lt $level $current }}
-                        {{ $delta := sub $current $level }}
-                        {{ range $index, $num := (seq $delta) }}
-                            </ul>
-                            </li>
-                        {{ end }}
+                {{ if gt $level $current }}
+                    {{ $delta := sub $level $current }}
+                    {{ range $index, $num := (seq $delta) }}
+                        <ol>
                     {{ end }}
-
-                    <li role="none" aria-label="{{ $title | safeHTML }}"><a role="treeitem" href="#{{ $id }}">{{ $title | safeHTML }}</a>
-
-                    {{ $page.Scratch.Set "level" $level }}
-                {{ end }}
-
-                {{ $delta := sub ($page.Scratch.Get "level") 50 }}
-                {{ range $index, $num := (seq $delta) }}
-                    </ul>
-                    </li>
-                {{ end }}
-
-                {{ if $page.Scratch.Get "seeAlso" }}
-                    {{ with $related }}
-                        <li role="none"><a role="treeitem" href="#see-also">{{ i18n "see_also" }}</a></li>
+                {{ else if lt $level $current }}
+                    {{ $delta := sub $current $level }}
+                    {{ range $index, $num := (seq $delta) }}
+                        </ol>
+                        </li>
                     {{ end }}
                 {{ end }}
-            </ul>
-        </nav>
+
+                <li role="none" aria-label="{{ $title | safeHTML }}"><a href="#{{ $id }}">{{ $title | safeHTML }}</a>
+
+                {{ $page.Scratch.Set "level" $level }}
+            {{ end }}
+
+            {{ $delta := sub ($page.Scratch.Get "level") 50 }}
+            {{ range $index, $num := (seq $delta) }}
+                </ol>
+                </li>
+            {{ end }}
+
+            {{ if $page.Scratch.Get "seeAlso" }}
+                {{ with $related }}
+                    <li><a href="#see-also">{{ i18n "see_also" }}</a></li>
+                {{ end }}
+            {{ end }}
+        </ol>
     {{ end }}
 {{ end }}

@@ -13,11 +13,7 @@ function handleSidebar() {
             let button = e.currentTarget;
             button.classList.toggle("show");
             const ul = button.nextElementSibling.nextElementSibling;
-            if (ul.getAttribute(ariaExpanded) === "true") {
-                ul.setAttribute(ariaExpanded, "false");
-            } else {
-                ul.setAttribute(ariaExpanded, "true");
-            }
+            toggleAttribute(ul, ariaExpanded);
 
             let el = ul;
             do {
