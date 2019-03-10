@@ -1,9 +1,9 @@
 <aside class="callout quote">
     <div class="type">
-        <svg class="large-icon"><use xlink:href="/img/icons.svg#callout-quote"/></svg>
+        {{ partial "large_icon.html" "callout-quote" }}
     </div>
     <div class="content">
         {{- $trimmed := trim .Inner " \n" -}}
-        {{- $trimmed | safeHTML -}}
+        {{- $trimmed | markdownify -}}
     </div>
 </aside>
