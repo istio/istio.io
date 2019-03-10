@@ -24,7 +24,9 @@
             }
 
             &:hover, &:focus {
-                background-color: $textBrandHighlightColor;
+                span {
+                    color: $linkActiveColor;
+                }
             }
 
             &.active {
