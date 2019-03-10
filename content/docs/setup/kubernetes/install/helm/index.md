@@ -246,7 +246,7 @@ $ helm install istio.io/istio --name istio --namespace istio-system \
 
 ## Uninstall
 
-1. If you installed Istio with the `helm template`, uninstall with this command:
+1. If you installed Istio with the `helm template`, uninstall with these commands:
 
 {{< tabset cookie-name="helm_profile" >}}
 
