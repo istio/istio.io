@@ -200,11 +200,19 @@ from the caller's load balancing pool.
 This feature is currently experimental. To enabled it, set the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
 {{< /warning >}}
 
-A locality is a triplet of region, zone and sub-zone defining a geographic location within your mesh, typically a data center. Istio uses this information to prioritize load balancing pools in order to control where (geographically) requests are sent.
+A locality defines a geographic location within your mesh using the following triplet:
+
+- Region
+- Zone
+- Sub-zone
+
+The geographic location typically represents a data center. Istio uses
+this information to prioritize load balancing pools to control
+the geographic location where requests are sent.
 
 Currently, the service discovery platform populates the locality automatically.
 In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region)
-on the node it is deployed. The sub-zone concept doesn't exist in Kubernetes. 
+on the node it is deployed. The sub-zone concept doesn't exist in Kubernetes.
 As a result, you don't need to configure the sub-zone.
 
 ### Locality-Prioritized Load Balancing
@@ -224,10 +232,10 @@ A typical prioritization for an Envoy with a locality of `us-west/zone2` is as f
 
 The hierarchy of prioritization matches in the following order:
 
- 1. Sub-zone
- 1. Zone
- 1. Region
- 
+1. Sub-zone
+1. Zone
+1. Region
+
 Services in the same zone but different regions are not considered local to one another.
 
 #### Overriding the Locality Fail-over
