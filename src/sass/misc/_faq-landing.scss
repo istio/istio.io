@@ -22,6 +22,12 @@
 
         .body {
             padding: 1.25rem;
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
         }
     }
 }
