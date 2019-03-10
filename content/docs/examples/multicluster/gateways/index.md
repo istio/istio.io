@@ -132,7 +132,7 @@ running in a second cluster.
 1. Verify that `httpbin` is accessible from the `sleep` service.
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_CLUSTER1 $SLEEP_POD -n foo -c sleep -- curl httpbin.bar.global:8000/headers
+    $ kubectl exec --context=$CTX_CLUSTER1 $SLEEP_POD -n foo -c sleep -- curl -I httpbin.bar.global:8000/headers
     {{< /text >}}
 
 ## Send remote cluster traffic using egress gateway
