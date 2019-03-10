@@ -103,11 +103,11 @@
             </div>
 
             {{ if $needTOC }}
-                <div class="toc-inlined{{ if .Params.force_inline_toc }} toc-forced{{ end }}">
-                    <hr/>
-                    <div class="directory" role="directory">
-                        {{ replace $toc "TableOfContents" "InlinedTableOfContents" | safeHTML }}
+                <nav class="toc-inlined{{ if .Params.force_inline_toc }} toc-forced{{ end }}" aria-label="Table of Contents">
+                    <div>
+                        <hr/>
+                        {{ $toc | safeHTML }}
+                        <hr/>
                     </div>
-                    <hr/>
-                </div>
+                </nav>
             {{ end }}

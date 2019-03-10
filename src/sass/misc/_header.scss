@@ -82,6 +82,12 @@ header {
                 margin-left: 4.2em;
             }
         }
+
+        &:focus {
+            span {
+                color: $textBrandHighlightColor;
+            }
+        }
     }
 
     a, button {
