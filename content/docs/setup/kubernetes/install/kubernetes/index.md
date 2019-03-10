@@ -66,10 +66,6 @@ Choose this variant for:
 * Clusters with existing applications,
 * Applications where services with an Istio sidecar need to be able to
   communicate with other non-Istio Kubernetes services,
-* Applications that use
-  [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/),
-* Headless services, or
-* `StatefulSets`
 
 Run the following command to install this variant:
 
