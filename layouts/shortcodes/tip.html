@@ -4,6 +4,6 @@
     </div>
     <div class="content">
         {{- $trimmed := trim .Inner " \n" -}}
-        {{- $trimmed | safeHTML -}}
+        {{- $trimmed | markdownify | safeHTML -}}
     </div>
 </aside>
