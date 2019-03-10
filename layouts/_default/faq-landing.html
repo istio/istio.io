@@ -12,14 +12,16 @@
                     {{ .LinkTitle }}
                 </div>
 
-                <div class="body">
-                    {{ $questions := .Resources.ByType "page" }}
-                    {{ $sorted_questions := sort $questions ".Params.weight" }}
-                    {{ $url := .Permalink }}
-                    {{ range $q := $sorted_questions }}
-                        <a href="{{ $url }}#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a><br/>
-                    {{ end }}
-                </div>
+                <nav class="body">
+                    <ul aria-label="{{ .LinkTitle }}">
+                        {{ $questions := .Resources.ByType "page" }}
+                        {{ $sorted_questions := sort $questions ".Params.weight" }}
+                        {{ $url := .Permalink }}
+                        {{ range $q := $sorted_questions }}
+                            <li role="none"><a href="{{ $url }}#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a></li>
+                        {{ end }}
+                    </ul>
+                </nav>
             </div>
         </div>
     {{ end }}

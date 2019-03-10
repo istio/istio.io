@@ -43,9 +43,9 @@
 
     {{ if and $needTOC (not .Params.force_inline_toc) }}
         <div class="toc-container">
-            <nav class="toc">
-                <div id="toc" class="directory" role="directory">
-                    {{ $toc }}
+            <nav class="toc" aria-label="Table of Contents">
+                <div id="toc">
+                    {{ $toc | safeHTML }}
                 </div>
             </nav>
         </div>

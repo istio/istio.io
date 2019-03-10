@@ -1,5 +1,20 @@
 "use strict";
 
+const keyCodes = Object.freeze({
+    'TAB': 9,
+    'RETURN': 13,
+    'ESC': 27,
+    'SPACE': 32,
+    'PAGEUP': 33,
+    'PAGEDOWN': 34,
+    'END': 35,
+    'HOME': 36,
+    'LEFT': 37,
+    'UP': 38,
+    'RIGHT': 39,
+    'DOWN': 40
+});
+
 const escapeChars = {
     '¢': 'cent',
     '£': 'pound',
@@ -97,14 +112,22 @@ function getById(id) {
     return document.getElementById(id);
 }
 
-function query(o, s) {
-    return o.querySelector(s);
+function query(el, s) {
+    return el.querySelector(s);
 }
 
-function queryAll(o, s) {
-    return o.querySelectorAll(s);
+function queryAll(el, s) {
+    return el.querySelectorAll(s);
 }
 
 function listen(o, e, f) {
     o.addEventListener(e, f);
+}
+
+function toggleAttribute(el, name) {
+    if (el.getAttribute(name) === "true") {
+        el.setAttribute(name, "false");
+    } else {
+        el.setAttribute(name, "true");
+    }
 }
