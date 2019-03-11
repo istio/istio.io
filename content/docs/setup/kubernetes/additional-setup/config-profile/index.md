@@ -6,7 +6,7 @@ keywords: [profiles]
 ---
 
 This page describes the built-in configuration profiles that can be used when
-[installing Istio using helm](/docs/setup/kubernetes/install/kubernetes/).
+[installing Istio using helm](/docs/setup/kubernetes/install/helm/).
 The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can start with one of Istio’s built-in configuration profiles and then further customize the configuration for
 your specific needs. The following built-in configuration profiles are currently available:
@@ -26,29 +26,28 @@ your specific needs. The following built-in configuration profiles are currently
 
 The components marked as **X** are installed within each profile:
 
-| Component | default | demo | minimal | remote | sds |
+| | default | demo | minimal | remote | sds |
 | --- | :---: | :---: | :---: | :---: | :---: |
 |Profile filename | `values.yaml` | `values-istio-demo.yaml` | `values-istio-minimal.yaml` | `values-istio-remote.yaml` | `values-istio-sds-auth.yaml` |
-| `istio-citadel` | X | X |   | X | X |
-| Gateway |   |   |   |   |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` |   | X |   |   | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X |   |  | X |
-| `istio-galley` | X | X |   |  | X |
-| `istio-pilot` | X | X | X |   | X |
-| Mixer |   |   |   |   |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-policy` | X | X |   |   | X |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-telemetry` | X | X |   |   | X |
-| `istio-sidecar-injector` | X | X |   | X | X |
-| `istio-nodeagent` |   |   |   |   | X |
-| Add on |   |   |   |   |   |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`prometheus` | X | X |   |   | X |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`grafana` |   | X |   |   |   |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` |   | X |   |   |   |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`kiali` |   | X |   |   |   |
-|   |   |   |   |   |   |
-| The authentication version, adding `-auth` adds |   |   |   |   |   |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Control Plane Security |   | X |   |   |   |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTLS |   | X |   |   | X |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SDS |   |   |   |   | X |
+| Core components | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-citadel` | X | X | | X | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | X | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-galley` | X | X | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-nodeagent` | | | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-pilot` | X | X | X | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-policy` | X | X | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-sidecar-injector` | X | X | | X | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-telemetry` | X | X | | | X |
+| Add-ons | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`grafana` | | X | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` | | X | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`kiali` | | X | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`prometheus` | X | X | | | X |
+| | | | | | |
+| The authentication version, adding `-auth`, adds | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Control Plane Security | | X | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strict mTLS | | X | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SDS | | | | | X |
 
-To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the`helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
+To further customize Istio and install add-ons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
