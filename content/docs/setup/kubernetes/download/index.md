@@ -1,5 +1,6 @@
 ---
 title: Downloading the Release
+linktitle: Download
 description: Download the Istio release and prepare for installation.
 weight: 15
 aliases:

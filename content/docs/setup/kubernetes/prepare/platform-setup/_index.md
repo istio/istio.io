@@ -1,8 +1,7 @@
 ---
-title: Platform Setup
+title: Platform-specific Setup
 description: How to prepare various Kubernetes platforms before installing Istio.
 weight: 10
-type: section-index
 keywords: [platform-setup]
 ---
 
