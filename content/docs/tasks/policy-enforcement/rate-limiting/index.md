@@ -52,10 +52,10 @@ so the configuration to enable rate limiting on both adapters is the same.
         * `QuotaSpecBinding` conditionally associates `QuotaSpec` with one or more services.
     * Mixer Side
         * `quota instance` defines how quota is dimensioned by Mixer.
-        * `memquota adapter` defines memquota adapter configuration.
-        * `quota rule` defines when quota instance is dispatched to the memquota adapter.
+        * `memquota adapter` defines `memquota` adapter configuration.
+        * `quota rule` defines when quota instance is dispatched to the `memquota` adapter.
 
-    Run the following command to enable rate limits using memquota:
+    Run the following command to enable rate limits using `memquota`:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@

@@ -31,7 +31,7 @@ keywords: [policies,quotas]
 
 在此任务中，您将 Istio 配置为根据 IP 地址将流量限制到访问 `productpage` 的用户。您将使用 `X-Forwarded-For` 请求 http header 作为客户端 IP 地址。您还将使用免除登录用户的条件速率限制。
 
-为方便起见，您可以配置 [memquota](/zh/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，你需要 [`Redis`](http://redis.io/) ，然后配置 [`redisquota`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持 [quota template](/zh/docs/reference/config/policy-and-telemetry/templates/quota/)，因此，在两个适配器上启用速率限制的配置是相同的。
+为方便起见，您可以配置 [`memquota`](/zh/docs/reference/config/policy-and-telemetry/adapters/memquota/) 适配器启用速率限制。但是，在生产系统上，你需要 [`Redis`](http://redis.io/) ，然后配置 [`redisquota`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/) 适配器。 `memquota` 和 `redisquota` 适配器都支持 [quota template](/zh/docs/reference/config/policy-and-telemetry/templates/quota/)，因此，在两个适配器上启用速率限制的配置是相同的。
 
 1. 速率限制配置分为两部分。
     * 客户端
@@ -39,10 +39,10 @@ keywords: [policies,quotas]
         * `QuotaSpecBinding` 有条件地将 `QuotaSpec` 与一个或多个服务相关联。
     * Mixer 端
         * `quota instance` 定义了 Mixer 如何确定配额的大小。
-        * `memquota adapter` 定义了 memquota 适配器配置。
-        * `quota rule` 定义何时将配额实例分派给 memquota 适配器。
+        * `memquota adapter` 定义了 `memquota` 适配器配置。
+        * `quota rule` 定义何时将配额实例分派给 `memquota` 适配器。
 
-    运行以下命令以使用 memquota 启用速率限制：
+    运行以下命令以使用 `memquota` 启用速率限制：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
@@ -338,7 +338,7 @@ spec:
 
 `memquota` 适配器使用一个为亚秒级分辨率的滑动窗口来实现速率限制。
 
-适配器配置中的 `maxAmount` 设置了关联到 Quota 实例中的所有计数器的缺省限制。如果所有 `overrides` 条目都无法匹配到一个请求，就只能使用 `maxAmount` 限制了。Memquota 会选择适合请求的第一条 `override`。`override` 条目无需定义所有 quota dimension， 例如例子中的 `0.2 qps` 条目在 4 条 quota dimensions 中只选用了三条。
+适配器配置中的 `maxAmount` 设置了关联到 Quota 实例中的所有计数器的缺省限制。如果所有 `overrides` 条目都无法匹配到一个请求，就只能使用 `maxAmount` 限制了。`memquota` 会选择适合请求的第一条 `override`。`override` 条目无需定义所有 quota dimension， 例如例子中的 `0.2 qps` 条目在 4 条 quota dimensions 中只选用了三条。
 
 如果要把上面的策略应用到某个命名空间而非整个 Istio 网格，可以把所有 `istio-system` 替换成为给定的命名空间。
 

@@ -32,7 +32,7 @@ $ sidecar-injector [选项]
 | `--port <int>`                     | Webhook 端口（默认为 `443`）                                 |
 | `--tlsCertFile <string>`           | HTTPS x509 证书文件（默认为 `/etc/istio/certs/cert-chain.pem`） |
 | `--tlsKeyFile <string>`            | 和 `--tlsCertFile` 匹配的 x509 私钥文件（默认为 `/etc/istio/certs/key.pem`） |
-| `--webhookConfigName <string>`     | Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`） |
+| `--webhookConfigName <string>`     | Kubernetes `mutatingwebhookconfiguration` 资源名（默认为 `istio-sidecar-injector`） |
 | `--webhookName <string>`           | webhook 配置中 webhook 项名（默认为 `sidecar-injector.istio.io`） |
 
 ## sidecar-injector probe
@@ -65,7 +65,7 @@ $ sidecar-injector probe [选项]
 | `--probe-path <string>`            | 检查可用性的文件路径（默认为 `''`）                          |
 | `--tlsCertFile <string>`           | HTTPS x509 证书文件（默认为 `/etc/istio/certs/cert-chain.pem`） |
 | `--tlsKeyFile <string>`            | 和 `--tlsCertFile` 匹配的 x509 私钥文件（默认为 `/etc/istio/certs/key.pem`） |
-| `--webhookConfigName <string>`     | Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`） |
+| `--webhookConfigName <string>`     | Kubernetes `mutatingwebhookconfiguration` 资源名（默认为 `istio-sidecar-injector`） |
 | `--webhookName <string>`           | webhook 配置中 webhook 项名（默认为 `sidecar-injector.istio.io`） |
 
 ## sidecar-injector version
@@ -97,5 +97,5 @@ $ sidecar-injector version [选项]
 | `--short`                          | `-s` | 显示版本信息的短格式                                         |
 | `--tlsCertFile <string>`           |      | HTTPS x509 证书文件（默认为 `/etc/istio/certs/cert-chain.pem`） |
 | `--tlsKeyFile <string>`            |      | 和 `--tlsCertFile` 匹配的 x509 私钥文件（默认为 `/etc/istio/certs/key.pem`） |
-| `--webhookConfigName <string>`     |      | Kubernetes mutatingwebhookconfiguration 资源名（默认为 `istio-sidecar-injector`） |
+| `--webhookConfigName <string>`     |      | Kubernetes `mutatingwebhookconfiguration` 资源名（默认为 `istio-sidecar-injector`） |
 | `--webhookName <string>`           |      | webhook 配置中，webhook 项的名字（默认为 `sidecar-injector.istio.io`） |
