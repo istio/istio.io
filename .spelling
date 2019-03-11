@@ -81,7 +81,6 @@ base64
 BigQuery
 bitpipe
 BluePerf
-BluePerf
 boilerplates
 Bookinfo
 boolean
@@ -206,7 +205,6 @@ HTTP2
 http2
 httpbin
 httpbin.org
-httpReqTimeout
 https
 hyperkube
 Hystrix
@@ -276,9 +274,7 @@ macOS
 Mandar
 Manolache
 memcached
-memcached
 memcached-2's
-memquota
 MeshPolicy
 Mesos
 mesos-dns
@@ -293,14 +289,11 @@ misconfigured
 misordered
 MongoDB
 mongodb
-MSG_PEEK
 Multicloud
 multicloud
 Multicluster
 multicluster
-mutatingwebhookconfiguration
 mutual-tls
-mTLS
 myapp
 MySQL
 mysql
@@ -425,7 +418,8 @@ SLOs
 Snell-Feikema
 SNI
 SolarWinds
-spiffe
+SPIFFE
+SPIFFE-compliant
 SREs
 Stackdriver
 Statsd

@@ -117,7 +117,7 @@ running in a second cluster.
 
     The configurations above will result in all traffic in `cluster1` for
     `httpbin.bar.global` on *any port* to be routed to the endpoint
-    `<IPofCluster2IngressGateway>:15443` over an mTLS connection.
+    `<IPofCluster2IngressGateway>:15443` over a mutual TLS connection.
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the multicluster Istio installation step

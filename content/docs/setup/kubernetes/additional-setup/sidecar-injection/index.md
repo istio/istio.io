@@ -169,7 +169,7 @@ with `kubectl edit mutatingwebhookconfiguration
 istio-sidecar-injector`.
 
 {{< warning >}}
-The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
+The sidecar injector pod(s) should be restarted after modifying the `mutatingwebhookconfiguration`.
 {{< /warning >}}
 
 The `istio-sidecar-injector` ConfigMap in the `istio-system` namespace has the default

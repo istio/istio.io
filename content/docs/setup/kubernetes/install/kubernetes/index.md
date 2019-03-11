@@ -55,7 +55,7 @@ This permits customization of Istio to operator specific requirements.
 {{< tabset cookie-name="profile" >}}
 
 {{% tab name="permissive mTLS" cookie-value="permissive" %}}
-When using the mTLS permissive mode, all services accept both plain text and
+When using the permissive mutual TLS mode, all services accept both plain text and
 mutual TLS traffic. Clients send plain text traffic unless configured for
 [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic).
 Visit our [mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)
@@ -188,7 +188,7 @@ The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
 all resources hierarchically under it. It is safe to ignore errors for
 non-existent resources because they may have been deleted hierarchically.
 
-* Uninstall the `demo profile` corresponding to the mTLS mode you enabled:
+* Uninstall the `demo profile` corresponding to the mutual TLS mode you enabled:
 
 {{< tabset cookie-name="profile" >}}
 
