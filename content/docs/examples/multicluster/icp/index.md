@@ -55,7 +55,7 @@ in the cluster. You need two steps:
 1.  Add IP routers from `cluster-2` to `cluster-1`.
 
 {{< warning >}}
-This works if all the nodes among the multiple IBM Cloud Private clusters are located in the same subnet, However, it isn't able to add BGP routers directly for the nodes that are located in different subnets, because the IP addresses cannot be reached in just a hop. In that case, the solution is setting up a VPN for pod communication across clusters, please refer to this article for more details: https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3
+This works if all the nodes among the multiple IBM Cloud Private clusters are located in the same subnet, However, it isn't able to add BGP routers directly for the nodes that are located in different subnets, because the IP addresses cannot be reached in just a hop. In that case, the solution is setting up a VPN for pod communication across clusters, please refer to [this article](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3) for more details.
 {{< /warning >}}
 
 You can check how to add IP routers from `cluster-1` to `cluster-2` to validate pod to pod communication
