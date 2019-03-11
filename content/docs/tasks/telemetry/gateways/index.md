@@ -10,12 +10,12 @@ a cluster.
 
 ## Configuring remote access
 
-Access to the telemetry addons can be configured in a number of different ways. This task will cover
+Remote access to the telemetry addons can be configured in a number of different ways. This task covers
 two basic access methods: secure (via HTTPS) and insecure (via HTTP). The secure method is *strongly
 recommended* for any production or sensitive environment. Insecure access is simpler to set up, but
 will not protect any credentials or data transmitted outside of your cluster.
 
-### Option 1: Secure Access (HTTPS)
+### Option 1: Secure access (HTTPS)
 
 A server certificate is required for secure access. Follow these steps to install and configure
 server certificates for a domain that you control.
@@ -25,8 +25,8 @@ It is possible to use self-signed certificates instead, but that is not covered 
 provides general details on using self-signed certificates to access in-cluster services.
 
 {{< warning >}}
-This task is concerned *solely* with securing the transport layer for access. When exposing the telemetry
-services externally, the services should be installed and configured to require authentication.
+This task is concerned *solely* with securing the transport layer for access. The services should be installed and
+configured to require authentication when exposing the telemetry services externally.
 {{< /warning >}}
 
 1. [Install Istio](/docs/setup/) in your cluster with `cert-manager` enabled and `istio-ingressgateway` configured to use
@@ -359,7 +359,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     * Grafana: `https://$TELEMETRY_DOMAIN:15031/`
     * Tracing: `https://$TELEMETRY_DOMAIN:15032/`
 
-### Option 2: Insecure Access (HTTP)
+### Option 2: Insecure access (HTTP)
 
 1. [Install Istio](/docs/setup/) in your cluster with your desired telemetry addons.
 
