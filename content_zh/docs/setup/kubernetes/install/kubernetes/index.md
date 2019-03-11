@@ -44,9 +44,9 @@ keywords: [kubernetes]
 
 {{< tabset cookie-name="profile" >}}
 
-{{% tab name="宽容模式的 mTLS" cookie-value="permissive" %}}
+{{% tab name="宽容模式的 mutual TLS" cookie-value="permissive" %}}
 
-如果使用 mTLS 的宽容模式，所有的服务会同时允许明文和双向 TLS 的流量。在没有明确[配置客户端进行双向 TLS 通信](/zh/docs/tasks/security/mtls-migration/#配置客户端进行双向-tls-通信)的情况下，客户端会发送明文流量。可以进一步阅读了解[双向 TLS 中的宽容模式](/docs/concepts/security/#permissive-mode)的相关内容。
+如果使用 mutual TLS 的宽容模式，所有的服务会同时允许明文和双向 TLS 的流量。在没有明确[配置客户端进行双向 TLS 通信](/zh/docs/tasks/security/mtls-migration/#配置客户端进行双向-tls-通信)的情况下，客户端会发送明文流量。可以进一步阅读了解[双向 TLS 中的宽容模式](/docs/concepts/security/#permissive-mode)的相关内容。
 
 这种方式的适用场景：
 
@@ -64,7 +64,7 @@ $ kubectl apply -f install/kubernetes/istio-demo.yaml
 
 {{% /tab %}}
 
-{{% tab name="严格模式的 mTLS" cookie-value="strict" %}}
+{{% tab name="严格模式的 mutual TLS" cookie-value="strict" %}}
 这种方案会在所有的客户端和服务器之间使用
 [双向 TLS](/zh/docs/concepts/security/#双向-tls-认证)。
 
@@ -146,11 +146,11 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 
 删除 RBAC 权限、`istio-system` 命名空间及其所有资源。因为有些资源会被级联删除，因此会出现一些无法找到资源的提示，可以忽略。
 
-* 根据启用的 mTLS 模式进行删除：
+* 根据启用的 mutual TLS 模式进行删除：
 
 {{< tabset cookie-name="profile" >}}
 
-{{% tab name="宽容模式的 mTLS" cookie-value="permissive" %}}
+{{% tab name="宽容模式的 mutual TLS" cookie-value="permissive" %}}
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
@@ -158,7 +158,7 @@ $ kubectl delete -f install/kubernetes/istio-demo.yaml
 
 {{% /tab %}}
 
-{{% tab name="严格模式的 mTLS" cookie-value="strict" %}}
+{{% tab name="严格模式的 mutual TLS" cookie-value="strict" %}}
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
