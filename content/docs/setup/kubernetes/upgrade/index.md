@@ -1,5 +1,5 @@
 ---
-title: Upgrading
+title: Upgrade
 description: Upgrade the Istio control plane and data plane independently.
 weight: 25
 aliases:
@@ -19,7 +19,7 @@ This flow assumes that the Istio components are installed and upgraded in the
 
 ## Upgrade steps
 
-[Download the new Istio release](/docs/setup/kubernetes/download-release/)
+[Download the new Istio release](/docs/setup/kubernetes/download/)
 and change directory to the new release directory.
 
 ### Control plane upgrade
@@ -225,7 +225,7 @@ the object to be namespace-scoped in some cases. The `ClusterRbacConfig` follows
 specification as the `RbacConfig` but with the correct cluster scope implementation.
 
 To automate the migration, we developed the `convert_RbacConfig_to_ClusterRbacConfig.sh` script.
-The script is included in the [Istio installation package](/docs/setup/kubernetes/download-release).
+The script is included in the [Istio installation package](/docs/setup/kubernetes/download).
 
 Download and run the script with the following command:
 

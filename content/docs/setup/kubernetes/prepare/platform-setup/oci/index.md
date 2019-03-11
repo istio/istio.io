@@ -4,7 +4,7 @@ description: Instructions to setup an OKE cluster for Istio.
 weight: 27
 skip_seealso: true
 aliases:
-    - /docs/setup/kubernetes/platform-setup/oci/
+    - /docs/setup/kubernetes/prepare/platform-setup/oci/
 keywords: [platform-setup,kubernetes,oke,oci,oracle]
 ---
 
