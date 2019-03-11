@@ -15,7 +15,7 @@ microservice.
 * Setup Istio by following the instructions in the
 [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application, make sure you have the [default destination rules applied](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 * Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc. Before attempting this task, you should be familiar with important terms such as *destination rule*, *virtual service*, and *subset*.
 

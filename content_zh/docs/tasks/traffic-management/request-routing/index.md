@@ -11,7 +11,7 @@ keywords: [traffic-management,routing]
 
 * 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
-* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序，必须保证事先[部署默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)。
 
 * 查看[流量管理](/zh/docs/concepts/traffic-management)的概念文档。在尝试此任务之前，您应该熟悉一些重要的术语，例如 *destination rule* 、*virtual service* 和 *subset* 。
 
