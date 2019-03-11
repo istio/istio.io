@@ -304,7 +304,6 @@ natively
 netmask
 networking.istio.io
 nginx
-NodePort
 nodePorts
 non-sandboxed
 ns

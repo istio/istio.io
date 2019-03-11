@@ -60,46 +60,22 @@ cluster must satisfy the following requirements:
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, visit [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
 
-* _**Service Ports and Protocols**_: Ensure that your service's ports and protocols are available and don't conflict with the [Istio used ports and protocols](#istio-used-ports) for the Istio components be used.
+## Ports used by Istio
 
-## Istio Used Ports
+The following ports and protocols are used by Istio. Ensure that there are no TCP headless services using a TCP port used by one of Istio's services.
 
-The following ports and protocols are used by Istio.
-
-If Istio is using HTTP on a port, a service may also use HTTP, but not TCP on that port. This is because HTTP routing is dependent on a number of factors such as Hostname, headers or path which removes the conflict.
-
-If Istio is using TCP, another service may not use HTTP on that port. The service may potentially use TCP on that port, marked with a `?` in the table, by using SNI headers or IP address blocks. For example, see [Consuming External TCP Services](/blog/2018/egress-tcp/).
-
-| Port | Protocol | Service can use HTTP? | Service can use TCP? | Used by | Description |
-|----|----|----|----|----|----|
-| 53 | TCP | No | `?` | Core DNS  | DNS - TCP/UDP Protocols |
-| 80 | HTTP | Yes | No |  Egress gateway, Ingress Gateway, Tracing (Jaeger) |
-| 443 | TCP | No | `?` |  Egress gateway, Galley (validation), Ingress Gateway, Sidecar Injector |
-| 3000 | HTTP | Yes | No |  Grafana  |  Grafana |
-| 8053 | TCP | No | `?` |  Core DNS  |  DNS plugin |
-| 8060 | HTTP | Yes | No |  Citadel  |  The port number for Citadel GRPC server |
-| 8080 | HTTP | Yes | No |  Pilot  |  Pilot service - Discovery - legacy |
-| 8088 | HTTP | Yes | No |  Service Graph  |  Service Graph |
-| 9090 | HTTP | Yes | No |  Prometheus  |  Prometheus |
-| 9091 | HTTP | Yes | No |  Mixer |  Policy/Telemetry |
-| 9093 | HTTP | Yes | No |  Citadel  | |
-| 9153 | TCP | No | `?` |  Core DNS  |  DNS |
-| 9411 | HTTP | Yes | No |  Tracing, Zipkin | |
-| 9901 | HTTP | Yes | No |  Galley | |
-| 14267 | TCP | No | `?` |  Tracing  |  Tracing - Jaeger |
-| 14268 | TCP | No | `?` |  Tracing  |  Tracing - Jaeger |
-| 15000 | TCP | No | `?` |  Envoy  |  Envoy admin port (commands/diagnostics) |
-| 15001 | TCP | No | `?` |  Envoy  |  Envoy |
-| 15004 | HTTP | Yes | `?` |  Mixer, Pilot |  Policy/Telemetry - `mTLS` |
-| 15010 | HTTP | Yes | No |  Pilot  |  Pilot service - XDS pilot - discovery |
-| 15011 | TCP | No | `?` |  Pilot  |  Pilot service - `mTLS` - Proxy - discovery |
-| 15014 | HTTP | Yes | No |  Citadel, Galley, Mixer, Pilot  |  Control plane monitoring |
-| 15029 | TCP | No | `?` |  Ingress gateway , Kiali |  Kiali |
-| 15030 | TCP | No | `?` |  Ingress gateway, Prometheus |  Prometheus |
-| 15031 | TCP | No | `?` |  Grafana, Ingress Gateway  |  Grafana |
-| 15032 | TCP | No | `?` |  Ingress gateway, Tracing  |  Tracing |
-| 15090 | HTTP | Yes | No |  Egress gateway, Ingress Gateway, Mixer  |  Proxy |
-| 15443 | TCP | No | `?` |  Egress gateway, Ingress Gateway  |  This is the port where SNI routing happens |
-| 16686 | TCP | No | ? |  Tracing  |  Tracing - Jaeger |
-| 20001 | HTTP | Yes | No |  Kiali | |
-| 42422 | TCP | No | ? |  Mixer  |  Telemetry - Prometheus |
+| Port | Protocol | Used by | Description |
+|----|----|----|----|
+| 8060 | HTTP | Citadel | GRPC server |
+| 9090 | HTTP |  Prometheus | Prometheus |
+| 9091 | HTTP | Mixer | Policy/Telemetry |
+| 9093 | HTTP | Citadel | |
+| 15000 | TCP | Envoy | Envoy admin port (commands/diagnostics) |
+| 15001 | TCP | Envoy | Envoy |
+| 15004 | HTTP | Mixer, Pilot | Policy/Telemetry - `mTLS` |
+| 15010 | HTTP | Pilot | Pilot service - XDS pilot - discovery |
+| 15011 | TCP | Pilot | Pilot service - `mTLS` - Proxy - discovery |
+| 15014 | HTTP | Citadel, Mixer, Pilot | Control plane monitoring |
+| 15030 | TCP | Prometheus | Prometheus |
+| 15090 | HTTP | Mixer | Proxy |
+| 42422 | TCP | Mixer | Telemetry - Prometheus |
