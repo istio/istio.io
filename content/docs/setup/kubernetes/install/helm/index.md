@@ -34,9 +34,9 @@ installation key and value pairs.
 
 ## Prerequisites
 
-1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/requirements/) on Pods and Services.
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/) on Pods and Services.
 
 1. [Install a Helm client with a version higher than 2.10](https://github.com/helm/helm/blob/master/docs/install.md).
 

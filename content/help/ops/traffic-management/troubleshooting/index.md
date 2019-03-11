@@ -49,7 +49,7 @@ but similar version routing rules have no effect on your own application, it may
 your Kubernetes services need to be changed slightly.
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/requirements/)
+Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/)
 for details.
 
 Another potential issue is that the route rules may simply be slow to take effect.

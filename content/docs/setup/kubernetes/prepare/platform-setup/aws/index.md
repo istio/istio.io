@@ -4,7 +4,7 @@ description: Instructions to setup an AWS cluster with Kops cluster for Istio.
 weight: 6
 skip_seealso: true
 aliases:
-    - /docs/setup/kubernetes/platform-setup/aws
+    - /docs/setup/kubernetes/prepare/platform-setup/aws
 keywords: [platform-setup,aws]
 ---
 

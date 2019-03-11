@@ -2,7 +2,6 @@
 title: Kubernetes
 description: Instructions for installing the Istio control plane on Kubernetes and adding virtual machines into the mesh.
 weight: 10
-type: section-index
 aliases:
     - /docs/tasks/installing-istio.html
     - /docs/setup/install-kubernetes.html
@@ -20,9 +19,9 @@ Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< 
 Istio offers multiple installation flows depending on your Kubernetes platform.
 However, the basic flow is the same regardless of platform:
 
-1. [Review the pod requirements](/docs/setup/kubernetes/requirements/)
-1. [Prepare your platform for Istio](/docs/setup/kubernetes/platform-setup/)
-1. [Download the Istio release](/docs/setup/kubernetes/download-release/)
+1. [Review the pod requirements](/docs/setup/kubernetes/prepare/requirements/)
+1. [Prepare your platform for Istio](/docs/setup/kubernetes/prepare/platform-setup/)
+1. [Download the Istio release](/docs/setup/kubernetes/download/)
 1. [Install Istio on your platform](/docs/setup/kubernetes/)
 
 Whether or not you intend to use Istio in production is an important consideration when
