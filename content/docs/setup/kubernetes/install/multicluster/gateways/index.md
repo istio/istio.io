@@ -62,8 +62,9 @@ on **each** Kubernetes cluster.
     {{< /warning >}}
 
     {{< text bash >}}
+    $ cat install/kubernetes/helm/istio-init/files/crd-* > $HOME/istio.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
+        -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ >> $HOME/istio.yaml
     {{< /text >}}
 
     For further details and customization options, refer to the
@@ -75,6 +76,7 @@ on **each** Kubernetes cluster.
     * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
         {{< text bash >}}
+        $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
         $ kubectl create namespace istio-system
         $ kubectl create secret generic cacerts -n istio-system \
             --from-file=@samples/certs/ca-cert.pem@ \
@@ -83,10 +85,10 @@ on **each** Kubernetes cluster.
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-    * Follow the [Helm Installation Steps](/docs/setup/kubernetes/install/helm/#installation-steps) to install Istio. You must pass in the flag `--values install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml` to helm to use the correct multicluster settings. For example, using the Helm Install option:
+    * Use the Istio installation yaml file generated in a previous step to install Istio:
 
         {{< text bash >}}
-        $ helm install istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml
+        $ kubectl apply -f $HOME/istio.yaml
         {{< /text >}}
 
 ## Setup DNS
