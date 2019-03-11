@@ -2,7 +2,7 @@
 title: Installation Configuration Profiles
 description: Describes the built-in Istio installation configuration profiles.
 weight: 35
-keywords: [profiles]
+keywords: [profiles,install,helm]
 ---
 
 This page describes the built-in configuration profiles that can be used when
@@ -39,7 +39,7 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-policy` | X | X | | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-sidecar-injector` | X | X | | X | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-telemetry` | X | X | | | X |
-| Add-ons | | | | | |
+| Addons | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`grafana` | | X | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` | | X | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`kiali` | | X | | | |
@@ -50,4 +50,4 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strict mTLS | | X | | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SDS | | | | | X |
 
-To further customize Istio and install add-ons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
+To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
