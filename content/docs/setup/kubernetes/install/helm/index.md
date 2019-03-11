@@ -246,11 +246,40 @@ $ helm install istio.io/istio --name istio --namespace istio-system \
 
 ## Uninstall
 
-1. If you installed Istio with the `helm template`, uninstall with this command:
+1. If you installed Istio with the `helm template`, uninstall with these commands:
 
-    {{< text bash >}}
-    $ kubectl delete namespace istio-system
-    {{< /text >}}
+{{< tabset cookie-name="helm_profile" >}}
+
+{{% tab name="default" cookie-value="default" %}}
+
+{{< text bash >}}
+$ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl delete -f -
+$ kubectl delete namespace istio-system
+{{< /text >}}
+
+{{% /tab %}}
+
+{{% tab name="demo" cookie-value="demo" %}}
+
+{{< text bash >}}
+$ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
+    --values $HOME/istio-fetch/istio/values-istio-demo.yaml | kubectl delete -f -
+$ kubectl delete namespace istio-system
+{{< /text >}}
+
+{{% /tab %}}
+
+{{% tab name="minimal" cookie-value="minimal" %}}
+
+{{< text bash >}}
+$ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system \
+      --values $HOME/istio-fetch/istio/values-istio-minimal.yaml | kubectl delete -f -
+$ kubectl delete namespace istio-system
+{{< /text >}}
+
+{{% /tab %}}
+
+{{< /tabset >}}
 
 1. If you installed  Istio using `Tiller`, uninstall with these commands:
 
