@@ -14,23 +14,8 @@ Follow this flow to install and configure an Istio mesh for in-depth evaluation 
 
 This installation flow uses [Helm](https://github.com/helm/helm) charts that provide rich
 customization of the Istio control plane and of the sidecars for the Istio data plane.
-You can start with one of Istio's built-in configuration profiles and then further customize
-the configuration for your specific needs.
-The following built-in configuration profiles are currently available:
-
-1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
-
-1. **demo**: configuration suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
-    This is the same configuration that is installed with the [Quick Start](/docs/setup/kubernetes/install/kubernetes/) instructions, only using helm has the advantage
-    that you can more easily enable additional features if you wish to explore more advanced tasks.
-
-1. **default**: enables components according to the default [Installation Options](/docs/reference/config/installation-options/)
-    (recommend for production deployments).
-
-To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the
-`helm template` or `helm install` command in the instructions, below.
-The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported
-installation key and value pairs.
+You can start with one of Istio's built-in [configuration profiles](/docs/setup/kubernetes/additional-setup/config-profiles/)
+and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
