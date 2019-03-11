@@ -12,13 +12,13 @@ weight: 40
 要检查一个 Pod 所属 Service Account 被许可使用的功能列表，可以使用如下命令：
 
 {{< text bash >}}
-$ for psp in $(kubectl get psp); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp $psp -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+$ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
 {{< /text >}}
 
 例如我们想要看看 `default` 命名空间中 `default` Service Account 的许可功能列表：
 
 {{< text bash >}}
-$ for psp in $(kubectl get psp); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp $psp -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+$ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
 {{< /text >}}
 
 如果在许可策略的许可功能列表中看到了 `NET_ADMIN` 或者 `*`，就表明使用该 Service Account 身份运行的 Pod 具备运行 Istio 初始化容器的权限；否则必须进行[赋权](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies)。
