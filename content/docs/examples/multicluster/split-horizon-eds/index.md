@@ -55,14 +55,15 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ helm template --name=istio --namespace=istio-system \
-    --set global.mtls.enabled=true \
-    --set security.selfSigned=false \
-    --set global.controlPlaneSecurityEnabled=true \
-    --set global.meshExpansion.enabled=true \
-    --set global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config \
-    --set global.meshNetworks.network2.gateways[0].address=0.0.0.0 \
-    --set global.meshNetworks.network2.gateways[0].port=443 \
-    install/kubernetes/helm/istio > istio-auth.yaml
+      --set global.mtls.enabled=true \
+      --set security.selfSigned=false \
+      --set global.controlPlaneSecurityEnabled=true \
+      --set global.proxy.accessLogFile="/dev/stdout" \
+      --set global.meshExpansion.enabled=true \
+      --set global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config \
+      --set global.meshNetworks.network2.gateways[0].address=0.0.0.0 \
+      --set global.meshNetworks.network2.gateways[0].port=443 \
+      install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
     {{< warning >}}
@@ -146,19 +147,19 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ helm template --name istio-remote --namespace=istio-system \
-    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
-    --set global.mtls.enabled=true \
-    --set gateways.enabled=true \
-    --set security.selfSigned=false \
-    --set global.controlPlaneSecurityEnabled=true \
-    --set global.createRemoteSvcEndpoints=true \
-    --set global.remotePilotCreateSvcEndpoint=true \
-    --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
-    --set global.remotePolicyAddress=${LOCAL_GW_ADDR} \
-    --set global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
-    --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-    --set global.network="network2" \
-    install/kubernetes/helm/istio > istio-remote-auth.yaml
+      --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+      --set global.mtls.enabled=true \
+      --set gateways.enabled=true \
+      --set security.selfSigned=false \
+      --set global.controlPlaneSecurityEnabled=true \
+      --set global.createRemoteSvcEndpoints=true \
+      --set global.remotePilotCreateSvcEndpoint=true \
+      --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
+      --set global.remotePolicyAddress=${LOCAL_GW_ADDR} \
+      --set global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
+      --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
+      --set global.network="network2" \
+      install/kubernetes/helm/istio > istio-remote-auth.yaml
     {{< /text >}}
 
 1. Deploy Istio to `cluster2`:
