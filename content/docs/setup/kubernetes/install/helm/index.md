@@ -14,7 +14,7 @@ Follow this flow to install and configure an Istio mesh for in-depth evaluation 
 
 This installation flow uses [Helm](https://github.com/helm/helm) charts that provide rich
 customization of the Istio control plane and of the sidecars for the Istio data plane.
-You can start with one of Istio's built-in [configuration profiles](/docs/setup/kubernetes/additional-setup/config-profile/)
+You can start with one of Istio's built-in [configuration profiles](/docs/setup/kubernetes/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
 ## Prerequisites
