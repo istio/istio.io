@@ -110,6 +110,10 @@ number_of_entries: 5
 <td>The time in seconds that Envoy will drain connections during a hot restart  (default `45s`)</td>
 </tr>
 <tr>
+<td><code>--envoyMetricsServiceAddress &lt;string&gt;</code></td>
+<td>Host and Port of an Envoy Metrics Service API implementation (e.g. metrics-service:15000)  (default ``)</td>
+</tr>
+<tr>
 <td><code>--id &lt;string&gt;</code></td>
 <td>Proxy unique ID. If not provided uses ${POD_NAME}.${POD_NAMESPACE} from environment variables  (default ``)</td>
 </tr>
