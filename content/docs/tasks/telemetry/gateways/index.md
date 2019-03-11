@@ -25,7 +25,7 @@ You may use self-signed certificates instead. Visit our
 for general information on using self-signed certificates to access in-cluster services.
 
 {{< warning >}}
-This option covers securing the transport layer for access *only*. You should configure the telemetry
+This option covers securing the transport layer *only*. You should also configure the telemetry
 addons to require authentication when exposing them externally.
 {{< /warning >}}
 
