@@ -1,11 +1,15 @@
 ---
-title: Configuration Profiles
-description: Describe the provided configuration profiles.
+title: Installation Configuration Profiles
+description: Describes the built-in Istio installation configuration profiles.
 weight: 35
 keywords: [profiles]
 ---
 
-This page describes the provided helm configuration profiles. The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane. You can start with one of Istio’s built-in configuration profiles and then further customize the configuration for your specific needs. The following built-in configuration profiles are currently available:
+This page describes the built-in configuration profiles that can be used when
+[installing Istio using helm](/docs/setup/kubernetes/install/kubernetes/).
+The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
+You can start with one of Istio’s built-in configuration profiles and then further customize the configuration for
+your specific needs. The following built-in configuration profiles are currently available:
 
 1. **default**: enables components according to the default [Installation Options](/docs/reference/config/installation-options/)
     (recommend for production deployments).
@@ -28,8 +32,8 @@ The components marked as **X** are installed within each profile:
 | `istio-citadel` | X | X |   | X | X |
 | Gateway |   |   |   |   |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` |   | X |   |   | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X |   | X | X |
-| `istio-galley` | X | X |   | X | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X |   |  | X |
+| `istio-galley` | X | X |   |  | X |
 | `istio-pilot` | X | X | X |   | X |
 | Mixer |   |   |   |   |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-policy` | X | X |   |   | X |
@@ -47,4 +51,4 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTLS |   | X |   |   | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SDS |   |   |   |   | X |
 
-To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the`helm template` or `helm install` command in the instructions, below. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
+To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the`helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
