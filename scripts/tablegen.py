@@ -19,9 +19,9 @@ import linecache
 import string
 import sys
 import os
+import re
 
 from ruamel.yaml import YAML
-from __builtin__ import file
 
 #
 # Reads a documented Helm values.yaml file and produces a
@@ -78,10 +78,10 @@ def decode_helm_yaml(s):
     # This name will be passed in to the the function process_helm_yaml
     #
     subchart_dir = os.path.join(ISTIO_IO_DIR, YAML_CONFIG_DIR)
-    for file in os.listdir(subchart_dir):
-        values_yaml_dir = os.path.join(subchart_dir, file)
+    for cfile in os.listdir(subchart_dir):
+        values_yaml_dir = os.path.join(subchart_dir, cfile)
         values_yaml_file = os.path.join(values_yaml_dir, VALUES_YAML)
-        process_helm_yaml(values_yaml_file, file)
+        process_helm_yaml(values_yaml_file, cfile)
 
     #
     # Process configuration options in values.yaml under istio/install/kubernetes/helm/istio.
@@ -102,8 +102,6 @@ def process_helm_yaml(values_yaml, option):
         whitespaces = 0
         flag = 0
         lineNum = 0
-        lastLineNum = 0
-        valueList = []
         newConfigList = []
 
         context = linecache.getlines(values_yaml)
@@ -168,7 +166,7 @@ def process_helm_yaml(values_yaml, option):
             # 'global' has been processed and entered into the dictionary 'prdict' is still processed
             # because it is in the newConfigList. If a configuration option was processed from
             # the values.yaml under the subcharts directory, it will not be in the newConfigList.
-	    # subcharts directory), then go ahead and process the parameters for this option.
+            # subcharts directory), then go ahead and process the parameters for this option.
             # 
             if option == '' and prdict.get(storekey) != None and (storekey in newConfigList):
                 pass
@@ -206,6 +204,7 @@ def process_helm_yaml(values_yaml, option):
                     ValueStr = (' ').join(ValueList)
                     if ValueStr:
                         desc = ''
+                        ValueStr = sanitizeValueStr(ValueStr)
                         prdict[storekey].append("| `%s` | `%s` | %s |" % (newkey, ValueStr, desc))
                     desc = ''
 
@@ -215,6 +214,23 @@ def process_helm_yaml(values_yaml, option):
             lineNum += 1
         return ret_val
 
+def sanitizeValueStr(value):
+    # We can include more special characters later if they need to
+    # be escaped. For now just including the 'pipe' symbol appearing
+    # in the value of a configuration option.
+    # e.g: | `global.tracer.lightstep.secure` | `true     # example: true\|false` |  |
+    # 
+    # Without escaping the 'pipe' character, it was interpreting it as the end/start
+    # of table column. Using the example above, without escaping the pipe symbol, it 
+    # was interpreting it as:
+    # | `global.tracer.lightstep.secure` | `true   # example: true |false` |  |
+    #
+    regex = re.compile("\|")
+    if value != None and regex.search(value) != None:
+        value = value.replace("|", "\|");
+    return value
+        
+    
 with open(os.path.join(ISTIO_IO_DIR, CONFIG_INDEX_DIR), 'r') as f:
     endReached = False
 
