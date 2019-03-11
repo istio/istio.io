@@ -1,17 +1,17 @@
 ---
-title: Remotely Accessing Telemetry Add-ons
-description: This task shows you how to configure external access to the set of Istio telemetry add-ons.
+title: Remotely Accessing Telemetry Addons
+description: This task shows you how to configure external access to the set of Istio telemetry addons.
 weight: 99
-keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,add-ons]
+keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 ---
 
-This task shows how to configure Istio to expose and access the telemetry add-ons outside of
+This task shows how to configure Istio to expose and access the telemetry addons outside of
 a cluster.
 
-## Configuring Remote Access
+## Configuring remote access
 
-Access to the telemetry add-ons can be configured in a number of different ways. This task will cover
-two basic access methods: secure (via https) and insecure (via http). The secure method is *strongly
+Access to the telemetry addons can be configured in a number of different ways. This task will cover
+two basic access methods: secure (via HTTPS) and insecure (via HTTP). The secure method is *strongly
 recommended* for any production or sensitive environment. Insecure access is simpler to set up, but
 will not protect any credentials or data transmitted outside of your cluster.
 
@@ -40,7 +40,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     * `--set certmanager.enabled=true`
     * `--set certmanager.email=mailbox@donotuseexample.com`
 
-    Install the telemetry add-ons using the following helm install options:
+    Install the telemetry addons using the following helm install options:
 
     * Grafana: `--set grafana.enabled=true`
     * Kiali: `--set kiali.enabled=true`
@@ -106,9 +106,9 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     telemetry-gw-cert:Ready=True
     {{< /text >}}
 
-1. Apply networking configuration for the telemetry add-ons.
+1. Apply networking configuration for the telemetry addons.
 
-   1. Apply the Grafana configuration.
+    1. Apply the Grafana configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -169,14 +169,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "grafana" configured
         {{< /text >}}
 
-   1. Apply the Kiali configuration.
+    1. Apply the Kiali configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
         apiVersion: networking.istio.io/v1alpha3
         kind: Gateway
         metadata:
-          name: kilai-gateway
+          name: kiali-gateway
           namespace: istio-system
         spec:
           selector:
@@ -230,7 +230,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "kiali" configured
         {{< /text >}}
 
-   1. Apply the Prometheus configuration.
+    1. Apply the Prometheus configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -291,7 +291,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "prometheus" configured
         {{< /text >}}
 
-   1. Apply the tracing configuration.
+    1. Apply the tracing configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -352,27 +352,27 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "tracing" configured
         {{< /text >}}
 
-1. Visit the telemetry add-ons via your browser.
+1. Visit the telemetry addons via your browser.
 
-   * Kiali: `https://$TELEMERY_DOMAIN:15029/`
-   * Prometheus: `https://$TELEMERY_DOMAIN:15030/`
-   * Grafana: `https://$TELEMERY_DOMAIN:15031/`
-   * Tracing: `https://$TELEMERY_DOMAIN:15032/`
+    * Kiali: `https://$TELEMETRY_DOMAIN:15029/`
+    * Prometheus: `https://$TELEMETRY_DOMAIN:15030/`
+    * Grafana: `https://$TELEMETRY_DOMAIN:15031/`
+    * Tracing: `https://$TELEMETRY_DOMAIN:15032/`
 
 ### Option 2: Insecure Access (HTTP)
 
-1. [Install Istio](/docs/setup/) in your cluster with your desired telemetry add-ons.
+1. [Install Istio](/docs/setup/) in your cluster with your desired telemetry addons.
 
-    Install the telemetry add-ons using the following helm install options:
+    Install the telemetry addons using the following helm install options:
 
     * Grafana: `--set grafana.enabled=true`
     * Kiali: `--set kiali.enabled=true`
     * Prometheus: `--set prometheus.enabled=true`
     * Tracing: `--set tracing.enabled=true`
 
-1. Apply networking configuration for the telemetry add-ons.
+1. Apply networking configuration for the telemetry addons.
 
-   1. Apply the Grafana configuration.
+    1. Apply the Grafana configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -428,14 +428,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "grafana" configured
         {{< /text >}}
 
-   1. Apply the Kiali configuration.
+    1. Apply the Kiali configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
         apiVersion: networking.istio.io/v1alpha3
         kind: Gateway
         metadata:
-          name: kilai-gateway
+          name: kiali-gateway
           namespace: istio-system
         spec:
           selector:
@@ -484,7 +484,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "kiali" configured
         {{< /text >}}
 
-   1. Apply the Prometheus configuration.
+    1. Apply the Prometheus configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -540,7 +540,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "prometheus" configured
         {{< /text >}}
 
-   1. Apply the tracing configuration.
+    1. Apply the tracing configuration.
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -596,12 +596,12 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "tracing" configured
         {{< /text >}}
 
-1. Visit the telemetry add-ons via your browser.
+1. Visit the telemetry addons via your browser.
 
-   * Kiali: `http://<IP ADDRESS OF CLUSTER INGRESS>:15029/`
-   * Prometheus: `http://<IP ADDRESS OF CLUSTER INGRESS>:15030/`
-   * Grafana: `http://<IP ADDRESS OF CLUSTER INGRESS>:15031/`
-   * Tracing: `http://<IP ADDRESS OF CLUSTER INGRESS>:15032/`
+    * Kiali: `http://<IP ADDRESS OF CLUSTER INGRESS>:15029/`
+    * Prometheus: `http://<IP ADDRESS OF CLUSTER INGRESS>:15030/`
+    * Grafana: `http://<IP ADDRESS OF CLUSTER INGRESS>:15031/`
+    * Tracing: `http://<IP ADDRESS OF CLUSTER INGRESS>:15032/`
 
 ## Cleanup
 
