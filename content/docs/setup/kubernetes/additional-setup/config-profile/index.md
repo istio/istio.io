@@ -26,18 +26,20 @@ The components marked as **X** are installed within each profile:
 | --- | :---: | :---: | :---: | :---: | :---: |
 |Profile filename | `values.yaml` | `values-istio-demo.yaml` | `values-istio-minimal.yaml` | `values-istio-remote.yaml` | `values-istio-sds-auth.yaml` |
 | `istio-citadel` | X | X |   | X | X |
-| Gateways |   |   |   |   |  |
+| Gateway |   |   |   |   |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` |   | X |   |   | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | X | X |   | X | X |
 | `istio-galley` | X | X |   | X | X |
 | `istio-pilot` | X | X | X |   | X |
+| Mixer |   |   |   |   |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-policy` | X | X |   |   | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-telemetry` | X | X |   |   | X |
 | `istio-sidecar-injector` | X | X |   | X | X |
-| `istio-telemetry` | X | X |   |   | X |
 | `istio-nodeagent` |   |   |   |   | X |
 | Add on |   |   |   |   |   |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`prometheus` | X | X |   |   | X |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` |   | X |   |   |   |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`grafana` |   | X |   |   |   |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` |   | X |   |   |   |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`kiali` |   | X |   |   |   |
 |   |   |   |   |   |   |
 | The authentication version, adding `-auth` adds |   |   |   |   |   |
