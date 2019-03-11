@@ -620,6 +620,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     {{< text bash >}}
     $ kubectl -n istio-system delete virtualservice grafana-vs kiali-vs prometheus-vs tracing-vs
     virtualservice.networking.istio.io "grafana-vs" deleted
+    virtualservice.networking.istio.io "kiali-vs" deleted
     virtualservice.networking.istio.io "prometheus-vs" deleted
     virtualservice.networking.istio.io "tracing-vs" deleted
     {{< /text >}}
