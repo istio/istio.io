@@ -25,8 +25,8 @@ It is possible to use self-signed certificates instead, but that is not covered 
 provides general details on using self-signed certificates to access in-cluster services.
 
 {{< warning >}}
-This task is concerned *solely* with securing the transport layer for access. The services should be installed and
-configured to require authentication when exposing the telemetry services externally.
+This task is concerned *solely* with securing the transport layer for access. You should configure the telemetry 
+addons to require authentication when exposing them externally.
 {{< /warning >}}
 
 1. [Install Istio](/docs/setup/) in your cluster with `cert-manager` enabled and `istio-ingressgateway` configured to use
