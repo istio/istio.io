@@ -16,6 +16,27 @@ endpoints). These services could be external to the mesh (e.g., web
 APIs) or mesh-internal services that are not part of the platform&rsquo;s
 service registry (e.g., a set of VMs talking to services in Kubernetes).</p>
 
+<p>The following example declares a few external APIs accessed by internal
+applications over HTTPS. The sidecar inspects the SNI value in the
+ClientHello message to route to the appropriate external service.</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-svc-https
+spec:
+  hosts:
+  - api.dropboxapi.com
+  - www.googleapis.com
+  - api.facebook.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 443
+    name: https
+    protocol: TLS
+  resolution: DNS
+</code></pre>
+
 <p>The following configuration adds a set of MongoDB instances running on
 unmanaged VMs to Istio&rsquo;s registry, so that these services can be treated
 as any other service in the mesh. The associated DestinationRule is used
@@ -58,26 +79,23 @@ spec:
 </code></pre>
 
 <p>The following example uses a combination of service entry and TLS
-routing in virtual service to demonstrate the use of SNI routing to
-forward unterminated TLS traffic from the application to external
-services via the sidecar. The sidecar inspects the SNI value in the
-ClientHello message to route to the appropriate external service.</p>
+routing in a virtual service to steer traffic based on the SNI value to
+an internal egress firewall.</p>
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: external-svc-https
+  name: external-svc-redirect
 spec:
   hosts:
-  - api.dropboxapi.com
-  - www.googleapis.com
-  - api.facebook.com
+  - wikipedia.org
+  - &quot;*.wikipedia.org&quot;
   location: MESH_EXTERNAL
   ports:
   - number: 443
     name: https
     protocol: TLS
-  resolution: DNS
+  resolution: NONE
 </code></pre>
 
 <p>And the associated VirtualService to route based on the SNI value.</p>
@@ -88,33 +106,21 @@ metadata:
   name: tls-routing
 spec:
   hosts:
-  - api.dropboxapi.com
-  - www.googleapis.com
-  - api.facebook.com
+  - wikipedia.org
+  - &quot;*.wikipedia.org&quot;
   tls:
   - match:
-    - port: 443
-      sniHosts:
-      - api.dropboxapi.com
+    - sniHosts:
+      - wikipedia.org
+      - &quot;*.wikipedia.org&quot;
     route:
     - destination:
-        host: api.dropboxapi.com
-  - match:
-    - port: 443
-      sniHosts:
-      - www.googleapis.com
-    route:
-    - destination:
-        host: www.googleapis.com
-  - match:
-    - port: 443
-      sniHosts:
-      - api.facebook.com
-    route:
-    - destination:
-        host: api.facebook.com
-
+        host: internal-egress-firewall.ns1.svc.cluster.local
 </code></pre>
+
+<p>The virtual service with TLS match serves to override the default SNI
+match. In the absence of a virtual service, traffic will be forwarded to
+the wikipedia domains.</p>
 
 <p>The following example demonstrates the use of a dedicated egress gateway
 through which all external service traffic is forwarded.
@@ -319,11 +325,14 @@ spec:
 <td><code>string[]</code></td>
 <td>
 <p>REQUIRED. The hosts associated with the ServiceEntry. Could be a DNS
-name with wildcard prefix (external services only). DNS names in hosts
-will be ignored if the application accesses the service over non-HTTP
-protocols such as mongo/opaque TCP/HTTPS. In such scenarios, the
-IP addresses specified in the Addresses field or the port will be used
-to uniquely identify the destination.</p>
+name with wildcard prefix (external services only). For HTTP traffic
+the HTTP Host/Authority header will be matched against the hosts field.
+For HTTPs or TLS traffic containing Server Name Indication (SNI), the SNI value
+will be matched against the hosts field. For all other protocols
+the hosts will be ignored, and the port and addresses fields
+will be used if present. Note that when resolution is set to type DNS
+and no endpoints are specified, the host field will be used as the DNS name
+of the endpoint to route traffic to.</p>
 
 </td>
 </tr>
@@ -332,10 +341,9 @@ to uniquely identify the destination.</p>
 <td><code>string[]</code></td>
 <td>
 <p>The virtual IP addresses associated with the service. Could be CIDR
-prefix. For HTTP services, the addresses field will be ignored and
+prefix. For HTTP traffic the addresses field will be ignored and
 the destination will be identified based on the HTTP Host/Authority
-header. For non-HTTP protocols such as mongo/opaque TCP/HTTPS,
-the hosts will be ignored. If one or more IP addresses are specified,
+header. If one or more IP addresses are specified,
 the incoming traffic will be identified as belonging to this service
 if the destination IP matches the IP/CIDRs specified in the addresses
 field. If the Addresses field is empty, traffic will be identified
