@@ -22,7 +22,7 @@ However, the basic flow is the same regardless of platform:
 1. [Review the pod requirements](/docs/setup/kubernetes/prepare/requirements/)
 1. [Prepare your platform for Istio](/docs/setup/kubernetes/prepare/platform-setup/)
 1. [Download the Istio release](/docs/setup/kubernetes/download/)
-1. [Install Istio on your platform](/docs/setup/kubernetes/)
+1. [Install Istio on your platform](/docs/setup/kubernetes/install)
 
 Whether or not you intend to use Istio in production is an important consideration when
 deciding which installation flow to follow.
@@ -32,7 +32,7 @@ deciding which installation flow to follow.
 To quickly test Istio's features, you can:
 
 - Install Istio [on Kubernetes without Helm](/docs/setup/kubernetes/install/kubernetes/)
-- Configure Istio's **minimal** profile using the [helm installation guide](/docs/setup/kubernetes/install/helm/)
+- Configure Istio's **minimal** or **demo** profile using the [helm installation guide](/docs/setup/kubernetes/install/helm/)
 
 ## Installing Istio for production
 
