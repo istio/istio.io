@@ -1,6 +1,6 @@
 ---
-title: Requirements for Pods and Services
-description:  Describes the requirements for Kubernetes pods and services to run Istio.
+title: Pods and Services
+description:  Prepare your Kubernetes pods and services to run in an Istio-enabled cluster.
 weight: 5
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
