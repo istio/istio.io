@@ -174,7 +174,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `global.enableTracing` | `true` |  |
 | `global.tracer.lightstep.address` | `""                # example: lightstep-satellite:443` |  |
 | `global.tracer.lightstep.accessToken` | `""            # example: abcdefg1234567` |  |
-| `global.tracer.lightstep.secure` | `true               # example: true|false` |  |
+| `global.tracer.lightstep.secure` | `true               # example: true\|false` |  |
 | `global.tracer.lightstep.cacertPath` | `""             # example: /etc/lightstep/cacert.pem` |  |
 | `global.tracer.zipkin.address` | `""` |  |
 | `global.mtls.enabled` | `false` |  |
