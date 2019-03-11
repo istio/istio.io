@@ -29,10 +29,10 @@ This option covers securing the transport layer *only*. You should also configur
 addons to require authentication when exposing them externally.
 {{< /warning >}}
 
-1. [Install Istio](/docs/setup/) in your cluster with `cert-manager` enabled and `istio-ingressgateway` configured to use
+1. [Install Istio](/docs/setup/kubernetes) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
 the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/secret#config-secret-discovery-service).
 
-    Use the following helm install options:
+    To install Istio accordingly, use the following Helm installation options:
 
     * `--set gateways.enabled=true`
     * `--set gateways.istio-ingressgateway.enabled=true`
@@ -49,7 +49,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 1. Configure the DNS records for your domain.
 
-    1. Get the External IP Address of the `istio-ingressgateway`.
+    1. Get the external IP address of the `istio-ingressgateway`.
 
         {{< text bash >}}
         $ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
@@ -62,7 +62,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         $ TELEMETRY_DOMAIN=<your.desired.domain>
         {{< /text >}}
 
-    1. Point your desired domain at that External IP Address via your domain provider.
+    1. Point your desired domain at that external IP address via your domain provider.
+
+        The mechanism for achieving this step varies by provider. Here are a few example documentation links:
+
+        * Bluehost: [DNS Management Add Edit or Delete DNS Entries](https://my.bluehost.com/hosting/help/559)
+        * GoDaddy: [Add an A record](https://www.godaddy.com/help/add-an-a-record-19238)
+        * Google Domains: [Resource Records](https://support.google.com/domains/answer/3290350?hl=en)
+        * Name.com: [Adding an A record](https://www.name.com/support/articles/115004893508-Adding-an-A-record)
 
     1. Verify that the DNS records are correct.
 
