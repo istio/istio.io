@@ -150,17 +150,18 @@ This example uses `cluster-1` as the local Istio control plane and `cluster-2` a
 
 The following example enables [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
 
-1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote:
+1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote cluster `cluster-2`:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Create the `reviews-v3.yaml` manifest for deployment on the remote:
+1.  Deploy the `reviews-v3` deployment and corresponding services on the remote cluster `cluster-2`:
 
-    {{< text yaml plain "reviews-v3.yaml" >}}
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
     ---
     ##################################################################################################
     # Ratings service
@@ -196,17 +197,20 @@ The following example enables [automatic sidecar injection](/docs/setup/kubernet
     kind: Deployment
     metadata:
       name: reviews-v3
+      labels:
+        app: reviews
+        version: v3
     spec:
       replicas: 1
       template:
         metadata:
-          labels:
-            app: reviews
-            version: v3
+        labels:
+          app: reviews
+          version: v3
         spec:
           containers:
           - name: reviews
-            image: istio/examples-bookinfo-reviews-v3:1.5.0
+            image: istio/examples-bookinfo-reviews-v3:1.10.1
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080
@@ -217,12 +221,6 @@ The following example enables [automatic sidecar injection](/docs/setup/kubernet
     `reviews-v3` pod will determine the proper `ratings` endpoint after the DNS lookup is resolved to a
     service address.  This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
     in a federated Kubernetes environment.
-
-1.  Install the `reviews-v3` deployment on the remote `cluster-2`.
-
-    {{< text bash >}}
-    $ kubectl apply -f $HOME/reviews-v3.yaml
-    {{< /text >}}
 
 1.  [Determine the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
     for `istio-ingressgateway`'s `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway.
