@@ -119,7 +119,7 @@ so the configuration to enable rate limiting on both adapters is the same.
       namespace: istio-system
     spec:
       # quota only applies if you are not logged in.
-      # match: match(request.headers["cookie"], "user=*") == false
+      # match: match(request.headers["cookie"], "session=*") == false
       actions:
       - handler: handler.redisquota
         instances:
@@ -334,7 +334,7 @@ so the configuration to enable rate limiting on both adapters is the same.
 
 In the above example we have effectively rate limited `productpage` at `2 rps` per client IP.
 Consider a scenario where you would like to exempt clients from this rate limit if a user is logged in.
-In the `bookinfo` example, we use cookie `user=<username>` to denote a logged in user.
+In the `bookinfo` example, we use cookie `session=<sessionid>` to denote a logged in user.
 In a realistic scenario you may use a `jwt` token for this purpose.
 
 You can update the `quota rule` by adding a match condition based on the `cookie`.
@@ -347,14 +347,14 @@ metadata:
   name: quota
   namespace: istio-system
 spec:
-  match: match(request.headers["cookie"], "user=*") == false
+  match: match(request.headers["cookie"], "session=*") == false
   actions:
   - handler: handler.memquota
     instances:
     - requestcount.quota
 {{< /text >}}
 
-`memquota` or `redisquota` adapter is now dispatched only if `user=<username>` cookie is absent from the request.
+`memquota` or `redisquota` adapter is now dispatched only if `session=<sessionid>` cookie is absent from the request.
 This ensures that a logged in user is not subject to this quota.
 
 1.  Verify that rate limit does not apply to a logged in user.

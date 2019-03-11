@@ -106,7 +106,7 @@ keywords: [policies,quotas]
       namespace: istio-system
     spec:
       # quota only applies if you are not logged in.
-      # match: match(request.headers["cookie"], "user=*") == false
+      # match: match(request.headers["cookie"], "session=*") == false
       actions:
       - handler: handler.redisquota
         instances:
@@ -310,14 +310,14 @@ metadata:
   name: quota
   namespace: istio-system
 spec:
-  match: match(request.headers["cookie"], "user=*") == false
+  match: match(request.headers["cookie"], "session=*") == false
   actions:
   - handler: handler.memquota
     instances:
     - requestcount.quota
 {{< /text >}}
 
-只有当请求中没有 `user = <username>` cookie 时，才会调度 `memquota` 或 `redisquota` 适配器。
+只有当请求中没有 `session = <sessionid>` cookie 时，才会调度 `memquota` 或 `redisquota` 适配器。
 这可确保登录用户不受此配额的约束。
 
 1. 验证速率限制不适用于登录用户。
