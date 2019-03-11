@@ -20,12 +20,12 @@ will not protect any credentials or data transmitted outside of your cluster.
 A server certificate is required for secure access. Follow these steps to install and configure
 server certificates for a domain that you control.
 
-It is possible to use self-signed certificates instead, but that is not covered by this task.
-[Securing Gateways with HTTPS Using Secret Discovery Service](/docs/tasks/traffic-management/secure-ingress/sds/)
-provides general details on using self-signed certificates to access in-cluster services.
+You may use self-signed certificates instead. Visit our
+[Securing Gateways with HTTPS Using Secret Discovery Service task](/docs/tasks/traffic-management/secure-ingress/sds/)
+for general information on using self-signed certificates to access in-cluster services.
 
 {{< warning >}}
-This task is concerned *solely* with securing the transport layer for access. You should configure the telemetry 
+This option covers securing the transport layer for access *only*. You should configure the telemetry
 addons to require authentication when exposing them externally.
 {{< /warning >}}
 
@@ -40,7 +40,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     * `--set certmanager.enabled=true`
     * `--set certmanager.email=mailbox@donotuseexample.com`
 
-    Install the telemetry addons using the following helm install options:
+    To additionally install the telemetry addons, use the following Helm installation options:
 
     * Grafana: `--set grafana.enabled=true`
     * Kiali: `--set kiali.enabled=true`
@@ -108,7 +108,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 1. Apply networking configuration for the telemetry addons.
 
-    1. Apply the Grafana configuration.
+    1. Apply the following configuration to expose Grafana:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -169,7 +169,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "grafana" configured
         {{< /text >}}
 
-    1. Apply the Kiali configuration.
+    1. Apply the following configuration to expose Kiali:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -230,7 +230,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "kiali" configured
         {{< /text >}}
 
-    1. Apply the Prometheus configuration.
+    1. Apply the following configuration to expose Prometheus:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -291,7 +291,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "prometheus" configured
         {{< /text >}}
 
-    1. Apply the tracing configuration.
+    1. Apply the following configuration to expose the tracing service:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -363,7 +363,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 1. [Install Istio](/docs/setup/) in your cluster with your desired telemetry addons.
 
-    Install the telemetry addons using the following helm install options:
+    To additionally install the telemetry addons, use the following Helm installation options:
 
     * Grafana: `--set grafana.enabled=true`
     * Kiali: `--set kiali.enabled=true`
@@ -372,7 +372,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 1. Apply networking configuration for the telemetry addons.
 
-    1. Apply the Grafana configuration.
+    1. Apply the following configuration to expose Grafana:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -428,7 +428,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "grafana" configured
         {{< /text >}}
 
-    1. Apply the Kiali configuration.
+    1. Apply the following configuration to expose Kiali:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -484,7 +484,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "kiali" configured
         {{< /text >}}
 
-    1. Apply the Prometheus configuration.
+    1. Apply the following configuration to expose Prometheus:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -540,7 +540,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "prometheus" configured
         {{< /text >}}
 
-    1. Apply the tracing configuration.
+    1. Apply the following configuration to expose the tracing service:
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
