@@ -1,5 +1,6 @@
 ---
 title: Install Istio on the Google Kubernetes Engine
+linktitle: Google Kubernetes Engine
 description: Instructions to install Istio using the Google Kubernetes Engine (GKE).
 weight: 65
 keywords: [kubernetes,gke,google]

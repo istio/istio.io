@@ -1,9 +1,7 @@
 ---
 title: Requirements for Pods and Services
 description:  Describes the requirements for Kubernetes pods and services to run Istio.
-weight: 50
-aliases:
-    - /docs/setup/kubernetes/additional-setup/requirements//
+weight: 5
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 

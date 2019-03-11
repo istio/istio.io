@@ -1,5 +1,6 @@
 ---
 title: Install Istio using the IBM Cloud
+linktitle: IBM Cloud
 description: Instructions to install Istio using IBM Cloud Public or IBM Cloud Private.
 weight: 70
 keywords: [kubernetes,ibm,icp]
