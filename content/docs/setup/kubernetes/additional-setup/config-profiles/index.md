@@ -47,7 +47,7 @@ The components marked as **X** are installed within each profile:
 | | | | | | |
 | The authentication version, adding `-auth`, adds | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Control Plane Security | | X | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strict mTLS | | X | | | X |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strict Mutual TLS | | X | | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SDS | | | | | X |
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
