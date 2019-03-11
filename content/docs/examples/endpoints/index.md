@@ -21,7 +21,7 @@ You may test the service using the following command:
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/gke).
+To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/prepare/platform-setup/gke).
 
 ## HTTP Endpoints service
 
@@ -111,7 +111,7 @@ This solution uses Istio proxy for TCP bypassing. The traffic is secured through
     {{< /text >}}
 
 1.  Update the mesh service deployment. See further readings on port naming rules in
-[Requirements for Pods and Services](/docs/setup/kubernetes/requirements/).
+[Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
 
 1.  You can verify access to the Endpoints service through secure Ingress:
 
