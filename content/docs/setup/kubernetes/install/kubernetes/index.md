@@ -38,7 +38,7 @@ This permits customization of Istio to operator specific requirements.
     Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
     {{< /tip >}}
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements//).
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/requirements/).
 
 ## Installation steps
 
