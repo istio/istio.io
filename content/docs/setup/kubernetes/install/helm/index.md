@@ -167,9 +167,9 @@ This option allows Helm and
 to manage the lifecycle of Istio.
 
 {{< warning >}}
-Plese be aware the instructions for using Helm with Tiller do not use secure defaults.  Please
+Please be aware the instructions for using Helm with Tiller do not use secure defaults.  Please
 reference the [Helm Security Guidelines](https://helm.sh/docs/using_helm/#securing-your-helm-installation)
-for further steps to secure a Tiller-based instllation.
+for further steps to secure a Tiller-based installation.
 {{< /warning >}}
 
 1. If a service account has not already been installed for Tiller, install one:
