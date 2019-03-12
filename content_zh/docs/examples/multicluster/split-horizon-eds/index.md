@@ -5,7 +5,7 @@ weight: 85
 keywords: [kubernetes,multicluster]
 ---
 
-这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，Endpoint 发现服务）`特性（在 Istio 1.1 中引入），通过 ingress gateway 将服务请求路由到 remote 集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
+这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，Endpoint 发现服务）`特性（在 Istio 1.1 中介绍），通过 ingress gateway 将服务请求路由到 remote 集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
 
 按照此示例中的说明，您将设置一个两集群网格，如下图所示：
 
@@ -13,89 +13,107 @@ keywords: [kubernetes,multicluster]
   link="/docs/examples/multicluster/split-horizon-eds/diagram.svg"
   caption="单个 Istio 控制平面配置水平分割 EDS，跨越多个 Kubernetes 集群" >}}
 
- `local` 集群将运行 Istio Pilot 和其它 Istio 控制平面组件，而 `remote` 集群仅运行 Istio Citadel、Sidecar Injector 和 Ingress gateway。不需要 VPN 连接，不同集群中的工作负载之间也无需直接网络访问。
+ 原始集群 `cluster1` 将运行完整的 Istio 控制平面组件，而 `cluster2` 集群仅运行 Istio Citadel、Sidecar Injector 和 Ingress gateway。不需要 VPN 连接，不同集群中的工作负载之间也无需直接网络访问。
 
 ## 开始之前
 
 除了安装 Istio 的先决条件之外，此示例还需要以下条件：
 
-* 两个 Kubernetes 集群（称之为 `local` 和 `remote`）。
+* 两个 Kubernetes 集群（称之为 `cluster1` 和 `cluster2`）。
 
     {{< warning >}}
-    为了运行此配置，要求必须可以从 `local` 集群访问 `remote` 集群的 Kubernetes API server。
+    为了运行此配置，要求必须可以从 `cluster1` 集群访问 `cluster2` 集群的 Kubernetes API server。
     {{< /warning >}}
 
-* `kubectl` 命令使用 `--context` 参数，同时访问 `local` 和 `remote` 集群。请使用下列命令列出您的 context：
-
-    {{< text bash >}}
-    $ kubectl config get-contexts
-    CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
-              cluster1   cluster1   user@foo.com   default
-              cluster2   cluster2   user@foo.com   default
-    {{< /text >}}
-
-* 使用配置的 context 名称导出以下环境变量:
-
-    {{< text bash >}}
-    $ export CTX_LOCAL=<KUBECONFIG_LOCAL_CONTEXT_NAME>
-    $ export CTX_REMOTE=<KUBECONFIG_REMOTE_CONTEXT_NAME>
-    {{< /text >}}
+{{< boilerplate kubectl-multicluster-contexts >}}
 
 ## 多集群设置示例
 
-在此示例中，您将安装对控制平面和应用程序 pod 都启用了双向 TLS 的 Istio。为了共享根 CA，您将使用同一个来自 Istio 示例目录的证书，在 `local` 和 `remote` 集群上创建一个相同的 `cacerts` secret。
+在此示例中，您将安装对控制平面和应用程序 pod 都启用了双向 TLS 的 Istio。为了共享根 CA，您将使用同一个来自 Istio 示例目录的证书，在 `cluster1` 和 `cluster2` 集群上创建一个相同的 `cacerts` secret。
 
-下面的说明还设置了 `remote` 集群，包含一个无 selector 的 service 和具有 `local` Istio ingress gateway 地址的 `istio-pilot.istio-system` endpoint。这将用于通过 ingress gateway 安全地访问 `local` pilot，而无需双向 TLS 终止。
+下面的说明还设置了 `cluster2` 集群，包含一个无 selector 的 service 和具有 `cluster1` Istio ingress gateway 地址的 `istio-pilot.istio-system` endpoint。这将用于通过 ingress gateway 安全地访问 `cluster1` pilot，而无需双向 TLS 终止。
 
-### 配置 local 集群
+### 配置 cluster1 集群
 
-1. 定义网格网络：
+1. 使用 Helm 创建 Istio `cluster1` 的部署 YAML：
 
-    默认情况下 Istio 的 `global.meshNetworks` 值为空，但是您需要对其进行修改以为 `remote` 集群上的 endpoint 定义一个新的网络。修改 `install/kubernetes/helm/istio/values.yaml` 并添加一个 `network2` 定义：
-
-    {{< text yaml >}}
-    meshNetworks:
-      network2:
-        endpoints:
-        - fromRegistry: remote_kubecfg
-        gateways:
-        - address: 0.0.0.0
-          port: 443
-    {{< /text >}}
-
-    请注意，gateway address 被设置为 `0.0.0.0`。这是一个临时占位符，稍后将被更新为 `remote` 集群 gateway 的公共 IP 地址，此 gateway 将在下一小节中部署。
-
-1. 使用 Helm 创建 Istio `local` deployment YAML：
+   {{< warning >}}
+    如果不确定 `helm` 的依赖项是否为最新版本, 在运行下列命令前，请先根据 [Helm 安装步骤](/docs/setup/kubernetes/install/helm/#installation-steps) 更新依赖项.
+    {{< /warning >}}
 
     {{< text bash >}}
-    $ helm template --namespace=istio-system \
-    --values install/kubernetes/helm/istio/values.yaml \
+    $ helm template --name=istio --namespace=istio-system \
     --set global.mtls.enabled=true \
-    --set global.enableTracing=false \
     --set security.selfSigned=false \
-    --set mixer.telemetry.enabled=false \
-    --set mixer.policy.enabled=false \
-    --set global.useMCP=false \
     --set global.controlPlaneSecurityEnabled=true \
-    --set gateways.istio-egressgateway.enabled=false \
     --set global.meshExpansion.enabled=true \
+    --set global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config \
+    --set global.meshNetworks.network2.gateways[0].address=0.0.0.0 \
+    --set global.meshNetworks.network2.gateways[0].port=443 \
     install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
-1. 部署 Istio 到 `local` 集群：
+    {{< warning >}}
+    注意，网关地址设置为了 `0.0.0.0`.这个值将在下面章节中使用 `cluster2` 部署后的网关的真实 IP 值替换
+    {{< /warning >}}
 
-    {{< text bash >}}
-    $ kubectl create --context=$CTX_LOCAL ns istio-system
-    $ kubectl create --context=$CTX_LOCAL secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply --context=$CTX_LOCAL -f $i; done
-    $ kubectl create --context=$CTX_LOCAL -f istio-auth.yaml
+1. 部署 Istio 到 `cluster1` 集群：
+
+   {{< text bash >}}
+    $ kubectl create --context=$CTX_CLUSTER1 ns istio-system
+    $ kubectl create --context=$CTX_CLUSTER1 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply --context=$CTX_CLUSTER1 -f $i; done
+    $ kubectl create --context=$CTX_CLUSTER1 -f istio-auth.yaml
     {{< /text >}}
 
-    通过检查 `local` pod 的状态等待其被拉起：
+    等待 `cluster1` Istio pods 准备完毕:
 
     {{< text bash >}}
-    $ kubectl get pods --context=$CTX_LOCAL -n istio-system
+    $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
+    NAME                                      READY     STATUS    RESTARTS   AGE
+    istio-citadel-5b9d878756-bwnxx            1/1       Running   0          2m
+    istio-galley-6f7594c9f4-7s9db             1/1       Running   0          2m
+    istio-ingressgateway-c6f9544b-hf7cm       1/1       Running   0          2m
+    istio-pilot-55f7f6fd57-5tb22              2/2       Running   0          2m
+    istio-policy-cd65dc85-4xwlw               2/2       Running   3          2m
+    istio-sidecar-injector-846f649c7b-w2kgp   1/1       Running   0          2m
+    istio-telemetry-67ffd9489-zncv7           2/2       Running   2          2m
+    prometheus-89bc5668c-mz4hl                1/1       Running   0          2m
     {{< /text >}}
+
+1. 在 `cluster2` 中创建访问服务的入口网关:
+
+    {{< text bash >}}
+    $ kubectl create --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: cluster-aware-gateway
+      namespace: istio-system
+    spec:
+      selector:
+        istio: ingressgateway
+      servers:
+      - port:
+          number: 443
+          name: tls
+          protocol: TLS
+        tls:
+          mode: AUTO_PASSTHROUGH
+        hosts:
+        - "*.local"
+    EOF
+    {{< /text >}}
+
+    此 `Gateway` 配置 443 端口，以便将传入的流量传递到目标服务并指定 SNI 请求头，
+
+    This `Gateway` configures 443 port to pass incoming traffic through to the target service specified in a
+    request's SNI header, for SNI values of the _local_ top-level domain
+    (i.e., the [Kubernetes DNS domain](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)).
+    Mutual TLS connections will be used all the way from the source to the destination sidecar.
+
+    Although applied to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
+    same Pilot.
 
 ### 设置 remote 集群
 
