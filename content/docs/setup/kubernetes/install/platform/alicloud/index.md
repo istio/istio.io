@@ -29,6 +29,8 @@ Kubernetes cluster quickly and easily in the `Container Service console`.
 $ kubectl create namespace istio-system
 {{< /text >}}
 
+{{< boilerplate helm-security-warning >}}
+
 - You installed a service account for Tiller. To install one if you haven't,
 run the following command:
 
