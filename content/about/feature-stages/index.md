@@ -17,7 +17,7 @@ https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9
 
 This page lists the relative maturity and support
 level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
-within the project, not to the project as a whole. Here is a high level description of what these labels means
+within the project, not to the project as a whole. Here is a high level description of what these labels mean.
 
 ## Feature phase definitions
 
