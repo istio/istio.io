@@ -14,7 +14,7 @@ weight: 42
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-在 GKE 中安装 Istio，参考[在 Google Kubernetes Engine 中快速开始](/zh/docs/setup/kubernetes/platform-setup/gke)。
+在 GKE 中安装 Istio，参考[在 Google Kubernetes Engine 中快速开始](/zh/docs/setup/kubernetes/prepare/platform-setup/gke)。
 
 ## HTTP Endpoints 服务
 
