@@ -166,11 +166,7 @@ This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
 to manage the lifecycle of Istio.
 
-{{< warning >}}
-Please be aware the instructions for using Helm with Tiller do not use secure defaults.  Please
-reference the [Helm Security Guidelines](https://helm.sh/docs/using_helm/#securing-your-helm-installation)
-for further steps to secure a Tiller-based installation.
-{{< /warning >}}
+{{< boilerplate helm-security-warning >}}
 
 1. If a service account has not already been installed for Tiller, install one:
 
