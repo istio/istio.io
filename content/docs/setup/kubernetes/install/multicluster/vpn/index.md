@@ -104,6 +104,8 @@ cluster. You can install the component in one of two ways:
 
 {{% tab name="Helm+Tiller" cookie-value="Helm+Tiller" %}}
 
+{{< boilerplate helm-security-warning >}}
+
 1. If you haven't installed a service account for Helm, install one with the
    following command:
 
