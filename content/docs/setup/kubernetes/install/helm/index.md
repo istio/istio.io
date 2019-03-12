@@ -199,10 +199,30 @@ This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
 to manage the lifecycle of Istio.
 
-1. If a service account has not already been installed for Tiller, install one:
+1. Make sure you have a service account with the `cluster-admin` role defined for Tiller.
+   If not already defined, create one using following command:
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
+    $ kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: tiller
+      namespace: kube-system
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: tiller
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+    - kind: ServiceAccount
+      name: tiller
+      namespace: kube-system
+    EOF
     {{< /text >}}
 
 1. Install Tiller on your cluster with the service account:

@@ -29,7 +29,7 @@ your specific needs. The following built-in configuration profiles are currently
 1. **remote**: used for configuring remote clusters of a
     multicluster mesh with a [single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology).
 
-1. **sds**: similar to the **default** profile, but also enable Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
+1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
     This profile comes only with authentication enabled.
 
 The components marked as **X** are installed within each profile:
