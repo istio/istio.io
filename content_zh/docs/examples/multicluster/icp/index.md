@@ -133,8 +133,8 @@ __注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kuberne
 1.  安装 `bookinfo` 在第一个集群 `cluster-1` 上。移除此集群上的 `reviews-v3` deployment 以便将其部署在 `cluster-2` 上：
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 

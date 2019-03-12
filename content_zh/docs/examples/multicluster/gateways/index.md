@@ -196,7 +196,7 @@ EOF
 * 清理 `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/httpbin/sleep.yaml@
+    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/httpbin/httpbin.yaml@
     $ kubectl delete --context=$CTX_CLUSTER1 -n foo serviceentry httpbin-bar
     $ kubectl delete --context=$CTX_CLUSTER1 ns foo
     {{< /text >}}
@@ -205,5 +205,5 @@ EOF
 
     {{< text bash >}}
     $ kubectl delete --context=$CTX_CLUSTER2 -n bar -f @samples/httpbin/httpbin.yaml@
-    $ kubectl delete --context=$CTX_CLUSTER1 ns bar
+    $ kubectl delete --context=$CTX_CLUSTER2 ns bar
     {{< /text >}}

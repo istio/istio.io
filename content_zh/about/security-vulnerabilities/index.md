@@ -59,7 +59,7 @@ Istio 安全团队在三个工作日内确认并分析每个漏洞报告。
 
     - [Istio博客](/zh/blog)
     - discuss.istio.io 上的[公告](https://discuss.istio.io/c/announcements)类别
-    - [Istio Twitter 反馈](https://twitter.cqom/IstioMesh)
+    - [Istio Twitter 反馈](https://twitter.com/IstioMesh)
     - [Slack 上的 #announcement 频道](https://istio.slack.com/messages/CFXS256EQ/)
 
 该公告应该尽可能具有可执行性，包括用户在升级到固定版本之前可以采取的临时解决方案。这些公告的建议时间是周一至周四的 16:00（UTC）。这意味着该公告将在太平洋早晨，欧洲傍晚和亚洲傍晚发出。

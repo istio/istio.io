@@ -74,7 +74,7 @@ branches.
 
     - The [Istio blog](/blog)
     - The [Announcements](https://discuss.istio.io/c/announcements) category on discuss.istio.io
-    - The [Istio Twitter feed](https://twitter.cqom/IstioMesh)
+    - The [Istio Twitter feed](https://twitter.com/IstioMesh)
     - The [#announcement channel on Slack](https://istio.slack.com/messages/CFXS256EQ/)
 
 As much as possible this announcement should be actionable, and include any mitigating steps users can take prior to
