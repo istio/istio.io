@@ -55,7 +55,7 @@ in the cluster. You need two steps:
 1.  Add IP routers from `cluster-2` to `cluster-1`.
 
 {{< warning >}}
-This works if all the nodes among the multiple IBM Cloud Private clusters are located in the same subnet, However, it isn't able to add BGP routers directly for the nodes that are located in different subnets, because the IP addresses cannot be reached in just a hop. In that case, the solution is setting up a VPN for pod communication across clusters, please refer to [this article](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3) for more details.
+This approach works if all the nodes within the multiple IBM Cloud Private clusters are located in the same subnet. It is unable to add BGP routers directly for nodes located in different subnets because the IP addresses must be reachable with a single hop. Alternatively, you can use a VPN for pod communication across clusters. Refer to [this article](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3) for more details.
 {{< /warning >}}
 
 You can check how to add IP routers from `cluster-1` to `cluster-2` to validate pod to pod communication
@@ -150,7 +150,7 @@ This example uses `cluster-1` as the local Istio control plane and `cluster-2` a
 
 The following example enables [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
 
-1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote cluster `cluster-2`:
+1.  Install `bookinfo` on the first cluster `cluster-1`. Remove the `reviews-v3` deployment which will be deployed on cluster `cluster-2` in the following step:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -158,7 +158,7 @@ The following example enables [automatic sidecar injection](/docs/setup/kubernet
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Deploy the `reviews-v3` deployment and corresponding services on the remote cluster `cluster-2`:
+1.  Deploy the `reviews-v3` service along with any corresponding services on the remote `cluster-2` cluster:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
