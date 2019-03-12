@@ -59,7 +59,7 @@ running in a second cluster.
     (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
     {{< /tip >}}
 
-1. Create a service entry for the `httpbin` service in `cluster1`.
+1. Create a service entry for the `httpbin` service in `cluster2`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
     a service entry for it. The host name of the service entry should be of the form
@@ -107,7 +107,7 @@ running in a second cluster.
       - 127.255.0.2
       endpoints:
       # This is the routable address of the ingress gateway in cluster2 that
-      # sits in front of sleep.bar service. Traffic from the sidecar will be
+      # sits in front of sleep.foo service. Traffic from the sidecar will be
       # routed to this address.
       - address: ${CLUSTER2_GW_ADDR}
         ports:
