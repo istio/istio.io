@@ -63,7 +63,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
 
-
 ### Security and Policy Enforcement
 
 | Feature           | Phase
