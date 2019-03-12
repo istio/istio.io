@@ -18,10 +18,10 @@ Istio 提供多种安装路径，具体取决于您的 Kubernetes 平台。
 但是，无论平台如何，基本流程都是相同的：
 
 1. [查看 pod 要求](/zh/docs/setup/kubernetes/additional-setup/requirements/)
-1. [准备您的 Istio 平台](/zh/docs/setup/kubernetes/platform-setup/)
+1. [准备您的 Istio 平台](/zh/docs/setup/kubernetes/prepare/platform-setup/)
 1. [在您的平台上安装 Istio](/zh/docs/setup/kubernetes/)
 
-某些平台还需要您手动[下载最新的Istio版本](/zh/docs/setup/kubernetes/download-release/)。
+某些平台还需要您手动[下载最新的Istio版本](/zh/docs/setup/kubernetes/download/)。
 
 在决定时，您是否打算在生产中使用 Istio 是至关重要的
 要执行哪个安装。
