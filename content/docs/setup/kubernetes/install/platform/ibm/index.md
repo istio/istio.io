@@ -75,7 +75,7 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
     {{< /tip >}}
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml
+    $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/values-istio-demo.yaml@
     {{< /text >}}
 
 1. Ensure the pods for the 9 Istio services and the pod for Prometheus are all fully deployed:

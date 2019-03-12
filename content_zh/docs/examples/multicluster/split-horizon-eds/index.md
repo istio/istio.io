@@ -69,7 +69,7 @@ keywords: [kubernetes,multicluster]
 
     {{< text bash >}}
     $ helm template --namespace=istio-system \
-    --values install/kubernetes/helm/istio/values.yaml \
+    --values @install/kubernetes/helm/istio/values.yaml@ \
     --set global.mtls.enabled=true \
     --set global.enableTracing=false \
     --set security.selfSigned=false \
@@ -351,7 +351,7 @@ $ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio
 1. 部署 `sleep` service：
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
+    $ kubectl create --context=$CTX_LOCAL -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
 1. 多次请求 `helloworld.sample` service：
@@ -406,6 +406,6 @@ $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
 $ kubectl delete --context=$CTX_LOCAL ns istio-system
 $ helm delete --purge --kube-context=$CTX_LOCAL istio-init
 $ kubectl delete --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
-$ kubectl delete --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
+$ kubectl delete --context=$CTX_LOCAL -f @samples/sleep/sleep.yaml@ -n sample
 $ kubectl delete --context=$CTX_LOCAL ns sample
 {{< /text >}}

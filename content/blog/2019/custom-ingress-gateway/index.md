@@ -68,7 +68,7 @@ The creation of custom ingress gateway could be used in order to have different 
                 key: secret-access-key
     {{< /text >}}
 
-1. If you use the `route53` [provider](https://cert-manager.readthedocs.io/en/latest/reference/issuers/acme/dns01.html#amazon-route53), you must provide a secret to perform DNS ACME Validation. To create the secret, apply the following configuration file:
+1. If you use the `route53` [provider](https://cert-manager.readthedocs.io/en/latest/tasks/acme/configuring-dns01/route53.html), you must provide a secret to perform DNS ACME Validation. To create the secret, apply the following configuration file:
 
     {{< text yaml >}}
     apiVersion: v1

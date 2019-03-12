@@ -97,7 +97,6 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 
 综合基准测试（基于 fortio）和方针应用（BluePerf）都是每晚发布管道（nightly release pipeline）的一部分，您可以在此看到结果：
 
-* [https://fortio-daily.istio.io/](https://fortio-daily.istio.io/)
 * [https://ibmcloud-perf.istio.io/regpatrol/](https://ibmcloud-perf.istio.io/regpatrol/)
 
 这使我们能够及早发现回归并追踪一段时间内的改进。
@@ -113,8 +112,6 @@ Acmeair 基准测试应用程序可以在这里找到：[IBM's BluePerf](https:/
 * 高可用性（HA）。
 
 * 另请参阅 [Istio 面向性能的常见问题解答](https://github.com/istio/istio/wiki/Istio-Performance-oriented-setup-FAQ)
-
-* 以及[性能和可伸缩性工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#performance-and-scalability)的工作。
 
 当前建议（使用所有 Istio 功能时）：
 

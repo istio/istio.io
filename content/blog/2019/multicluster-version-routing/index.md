@@ -259,7 +259,7 @@ Just like any application, we'll use an Istio gateway to access the `bookinfo` a
 * Create the `bookinfo` gateway in `cluster1`:
 
     {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
 * Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)

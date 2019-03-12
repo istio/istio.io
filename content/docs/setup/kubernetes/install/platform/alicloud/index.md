@@ -33,7 +33,7 @@ $ kubectl create namespace istio-system
 run the following command:
 
 {{< text bash >}}
-$ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+$ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
 {{< /text >}}
 
 - You installed Tiller on your cluster. To install Tiller with the service

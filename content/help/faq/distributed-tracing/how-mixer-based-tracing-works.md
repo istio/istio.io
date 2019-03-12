@@ -16,4 +16,4 @@ Mixer:
 - generates trace spans for each request based on *operator-supplied* configuration
 - sends the generated trace spans to the *operator-designated* tracing backends
 
-The [Stackdriver tracing integration](https://cloud.google.com/istio/docs/istio-on-gke/installing#enabling_tracing) with Istio is one example of a tracing integration via Mixer.
+The [Stackdriver tracing integration](https://cloud.google.com/istio/docs/istio-on-gke/installing#disabling_tracing_and_logging) with Istio is one example of a tracing integration via Mixer.

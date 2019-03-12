@@ -270,7 +270,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/sleep/sleep.yaml
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
     $ kubectl get po
     NAME                             READY     STATUS    RESTARTS   AGE
     productpage-v1-8fcdcb496-xgkwg   2/2       Running   0          1d

@@ -372,7 +372,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 1.  Deploy the [Bookinfo sample application](/docs/examples/bookinfo/), without a gateway:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
 1.  Define a gateway for `bookinfo.com`:

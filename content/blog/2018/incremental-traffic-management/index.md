@@ -80,7 +80,7 @@ $ kubectl apply -f istio-minimal.yaml
 Next, deploy the Bookinfo sample without the Istio sidecar containers:
 
 {{< text bash >}}
-$ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
 {{< /text >}}
 
 Now, configure a new Gateway that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
@@ -147,7 +147,7 @@ EOF
 Finally, deploy a pod that you can use for testing with `curl` (and without the Istio sidecar container):
 
 {{< text bash >}}
-$ kubectl apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
 ## Testing your deployment
