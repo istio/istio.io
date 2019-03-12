@@ -13,18 +13,18 @@ keywords: [kubernetes]
 
 ## 前置条件
 
-1. [下载 Istio 发布包](/zh/docs/setup/kubernetes/download-release/)。
+1. [下载 Istio 发布包](/zh/docs/setup/kubernetes/download/)。
 
-1. [各平台下 Kubernetes 集群的配置](/zh/docs/setup/kubernetes/platform-setup/):
+1. [各平台下 Kubernetes 集群的配置](/zh/docs/setup/kubernetes/prepare/platform-setup/):
 
-    * [Minikube](/zh/docs/setup/kubernetes/platform-setup/minikube/)
-    * [Google Container Engine (GKE)](/zh/docs/setup/kubernetes/platform-setup/gke/)
-    * [IBM Cloud](/zh/docs/setup/kubernetes/platform-setup/ibm/)
-    * [OpenShift Origin](/zh/docs/setup/kubernetes/platform-setup/openshift/)
-    * [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/platform-setup/aws/)
-    * [Azure](/zh/docs/setup/kubernetes/platform-setup/azure/)
-    * [阿里云](/zh/docs/setup/kubernetes/platform-setup/alicloud/)
-    * [Docker For Desktop](/zh/docs/setup/kubernetes/platform-setup/docker/)
+    * [Minikube](/zh/docs/setup/kubernetes/prepare/platform-setup/minikube/)
+    * [Google Container Engine (GKE)](/zh/docs/setup/kubernetes/prepare/platform-setup/gke/)
+    * [IBM Cloud](/zh/docs/setup/kubernetes/prepare/platform-setup/ibm/)
+    * [OpenShift Origin](/zh/docs/setup/kubernetes/prepare/platform-setup/openshift/)
+    * [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/prepare/platform-setup/aws/)
+    * [Azure](/zh/docs/setup/kubernetes/prepare/platform-setup/azure/)
+    * [阿里云](/zh/docs/setup/kubernetes/prepare/platform-setup/alicloud/)
+    * [Docker For Desktop](/zh/docs/setup/kubernetes/prepare/platform-setup/docker/)
 
     {{< tip >}}
     Istio {{< istio_version >}} 已经在下列 Kubernetes 版本上完成测试：{{< supported_kubernetes_versions >}}。
