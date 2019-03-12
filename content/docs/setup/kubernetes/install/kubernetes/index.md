@@ -63,9 +63,9 @@ for more information.
 
 Choose this variant for:
 
-* Clusters with existing applications,
+* Clusters with existing applications, or
 * Applications where services with an Istio sidecar need to be able to
-  communicate with other non-Istio Kubernetes services,
+  communicate with other non-Istio Kubernetes services
 
 Run the following command to install this variant:
 
