@@ -8,8 +8,9 @@ aliases:
 ---
 
 Follow this flow to quickly evaluate Istio in a Kubernetes cluster on any platform.
-This flow installs a preconfigured Istio **demo** profile using basic Kubernetes commands
-without needing to download or install [Helm](https://github.com/helm/helm).
+This flow installs Istio's built-in **demo**
+[configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
+using basic Kubernetes commands without needing to download or install [Helm](https://github.com/helm/helm).
 
 {{< tip >}}
 To install Istio for production use, we recommend using the

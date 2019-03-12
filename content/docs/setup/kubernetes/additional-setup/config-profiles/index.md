@@ -14,21 +14,29 @@ your specific needs. The following built-in configuration profiles are currently
 1. **default**: enables components according to the default [Installation Options](/docs/reference/config/installation-options/)
     (recommend for production deployments).
 
-1. **demo**: configuration suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
+1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
+    It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
     This is the same configuration that is installed with the [Quick Start](/docs/setup/kubernetes/install/kubernetes/) instructions, only using helm has the advantage
-    that you can more easily enable additional features if you wish to explore more advanced tasks. This profile comes in two flavors, either with or without authentication enabled.
+    that you can more easily enable additional features if you later wish to explore more advanced tasks.
+    This profile comes in two variants, either with or without authentication enabled.
+
+    {{< warning >}}
+    This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
+    {{< /warning >}}
 
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
-1. **remote**: creates a service account with minimal access for use by Istio Pilot discovery used in [configuring a multicluster mesh](/docs/examples/multicluster/split-horizon-eds/).
+1. **remote**: used for configuring remote clusters of a
+    multicluster mesh with a [single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology).
 
-1. **sds**:  used to enable [SDS (secret discovery service) for Istio](/docs/tasks/security/auth-sds). This profile comes only with authentication enabled.
+1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
+    This profile comes only with authentication enabled.
 
 The components marked as **X** are installed within each profile:
 
 | | default | demo | minimal | remote | sds |
 | --- | :---: | :---: | :---: | :---: | :---: |
-|Profile filename | `values.yaml` | `values-istio-demo.yaml` | `values-istio-minimal.yaml` | `values-istio-remote.yaml` | `values-istio-sds-auth.yaml` |
+| Profile filename | `values.yaml` | `values-istio-demo.yaml` | `values-istio-minimal.yaml` | `values-istio-remote.yaml` | `values-istio-sds-auth.yaml` |
 | Core components | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-citadel` | X | X | | X | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | X | | | |
@@ -44,10 +52,14 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` | | X | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`kiali` | | X | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`prometheus` | X | X | | | X |
-| | | | | | |
-| The authentication version, adding `-auth`, adds | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Control Plane Security | | X | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strict Mutual TLS | | X | | | X |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SDS | | | | | X |
+
+Some profiles have an authentication variant, with `-auth` appended to the name, which adds the following
+security features to the profile:
+
+| | default | demo | minimal | remote | sds |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| Control Plane Security | | X | | | |
+| Strict Mutual TLS | | X | | | X |
+| SDS | | | | | X |
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
