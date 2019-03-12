@@ -199,6 +199,8 @@ This option allows Helm and
 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)
 to manage the lifecycle of Istio.
 
+{{< boilerplate helm-security-warning >}}
+
 1. Make sure you have a service account with the `cluster-admin` role defined for Tiller.
    If not already defined, create one using following command:
 
