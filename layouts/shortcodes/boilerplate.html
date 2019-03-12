@@ -1,4 +1,4 @@
-{{/* This will try to find a resource in the "boilerplates"  top-level content directory */}}
+{{- /* This will try to find a resource in the "boilerplates"  top-level content directory */ -}}
 {{- $name := .Get 0 -}}
 {{- $position := .Position }}
 {{- if $name -}}
@@ -13,13 +13,13 @@
 			{{- $path := path.Join $.Page.Dir $name -}}
 			{{- $page := $.Page.Site.GetPage "page" $path -}}
 			{{- with $page }}
-				{{ .Content }}
+				{{- .Content | safeHTML -}}
 			{{- else -}}
-				{{ errorf "Could not find %s (%s)" $pattern $position }}
+				{{- errorf "Could not find %s (%s)" $pattern $position -}}
 			{{- end -}}
 		{{- end -}}
 	{{- else -}}
-		{{ errorf "'boilerplates' direcory was not found (%s)" $position }}
+		{{- errorf "'boilerplates' direcory was not found (%s)" $position -}}
 	{{- end -}}
 {{- else -}}
 	{{- errorf "Missing name in boilerplate (%s)" $position -}}
