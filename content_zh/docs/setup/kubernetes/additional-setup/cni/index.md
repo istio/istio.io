@@ -77,7 +77,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 
 #### GKE 配置 {#google-Kubernetes-engine-setup}
 
-1. 参考[为 Istio 准备 GKE 集群](/zh/docs/setup/kubernetes/platform-setup/gke/)的内容，并启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)。
+1. 参考[为 Istio 准备 GKE 集群](/zh/docs/setup/kubernetes/prepare/platform-setup/gke/)的内容，并启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)。
     * 注意：如果是现存集群，这一操作会重新部署 Node。
 
 1. 在 Helm 中使用如下参数安装 Istio `--set istio_cni.enabled=true --set istio-cni.cniBinDir=/home/kubernetes/bin`
