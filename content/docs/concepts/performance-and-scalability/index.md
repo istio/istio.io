@@ -106,7 +106,6 @@ The Acmeair benchmark application can be found here: [IBM's BluePerf](https://gi
 Both the synthetic benchmarks (fortio based) and the realistic application (BluePerf)
 are part of the nightly release pipeline and you can see the results on:
 
-* [https://fortio-daily.istio.io/](https://fortio-daily.istio.io/)
 * [https://ibmcloud-perf.istio.io/regpatrol/](https://ibmcloud-perf.istio.io/regpatrol/)
 
 This enables us to catch regression early and track improvements over time.
@@ -122,8 +121,6 @@ This enables us to catch regression early and track improvements over time.
 * High availability (HA).
 
 * See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Performance-Oriented-Setup-FAQ)
-
-* And the [Performance and Scalability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#performance-and-scalability) work.
 
 Current recommendations (when using all Istio features):
 

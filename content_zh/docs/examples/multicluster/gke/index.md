@@ -225,8 +225,8 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 

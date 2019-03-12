@@ -94,7 +94,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
 
 1.  Enable SDS at ingress gateway and deploy the ingress gateway agent.
     Since this feature is disabled by default, you need to enable the
-    [`istio-ingressgateway.sds.enabled` flag]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml) in helm,
+    [`istio-ingressgateway.sds.enabled` flag]({{<github_blob>}}/install/kubernetes/helm/istio/charts/gateways/values.yaml) in helm,
     and then generate the `istio-ingressgateway.yaml` file:
 
     {{< text bash >}}

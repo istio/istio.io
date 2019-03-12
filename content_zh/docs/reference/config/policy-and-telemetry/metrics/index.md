@@ -4,7 +4,7 @@ description: 通过 Mixer 从 Istio 导出的默认监控指标。
 weight: 50
 ---
 
-此页面展示使用初始配置时，Istio 收集的监控指标（metrics）的详细信息。您可以随时通过更改配置来添加和删除指标。您可以在[这个文件]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)的 "kind: metric” 小节中找到它们。它使用了 [metric 模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)来定义指标。
+此页面展示使用初始配置时，Istio 收集的监控指标（metrics）的详细信息。您可以随时通过更改配置来添加和删除指标。您可以在[这个文件]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)的 "kind: metric” 小节中找到它们。它使用了 [metric 模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)来定义指标。
 
 我们将首先描述监控指标，然后描述每个指标的标签。
 

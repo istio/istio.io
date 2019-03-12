@@ -178,7 +178,7 @@ $ istioctl experimental convert-ingress [选项]
 典型用例：
 
 {{< text bash >}}
-$ istioctl experimental convert-ingress -f samples/bookinfo/platform/kube/bookinfo-ingress.yaml
+$ istioctl experimental convert-ingress -f @samples/bookinfo/platform/kube/bookinfo-ingress.yaml@
 {{< /text >}}
 
 ## `istioctl experimental metrics`

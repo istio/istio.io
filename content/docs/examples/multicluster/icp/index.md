@@ -149,8 +149,8 @@ The following example enables [automatic sidecar injection](/docs/setup/kubernet
 1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 

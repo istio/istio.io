@@ -24,7 +24,7 @@ $ kubectl create namespace istio-system
 - 您为 Tiller 安装了一个服务帐户。如果没有安装，运行如下命令：
 
 {{< text bash >}}
-$ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+$ kubectl create -f @install/kubernetes/helm/helm-service-account.yaml@
 {{< /text >}}
 
 - 使用服务安装 Tiller 。如果没有，请运行运行一下命令：
