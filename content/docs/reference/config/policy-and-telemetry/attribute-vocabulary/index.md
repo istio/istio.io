@@ -99,26 +99,4 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 
 ## Operate timestamp attributes
 
-When operating with timestamp attributes, you can use `timestamp` function defined in [CEXL](/docs/reference/config/policy-and-telemetry/expression-language/) to construct expression, which converts a textual timestamp in RFC 3339 format into the `TIMESTAMP` type. Here are several example expressions: `request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp(2020-02-29T00:00:00-08:00)`. When using [mixc](/docs/reference/commands/mixc/) to make calls into mixer, timestamp attributes should also be passed as texture timestamp in RFC 3339 format.
-
-## Deprecated attributes
-
-The following attributes have been renamed. We strongly encourage to use the replacement attributes, as the original names will be removed in subsequent releases:
-
-| Name | Replacement |
-|------|-------------|
-|`source.user`          |`source.principal`|
-|`destination.user`     |`destination.principal`|
-|`destination.service`  |`destination.service.host`|
-
-Attributes `source.name` and `destination.name` have been re-purposed to refer
-to the corresponding source and destination workload instance names instead of
-the service names.
-
-The following attributes have been deprecated and will be removed in subsequent releases:
-
-| Name | Type | Description | Kubernetes Example |
-|------|------|-------------|--------------------|
-| `source.service` | string | The fully qualified name of the service that the client belongs to. | `redis-master.my-namespace.svc.cluster.local` |
-| `source.domain` | string | The domain suffix part of the source service, excluding the name and the namespace. | `svc.cluster.local` |
-| `destination.domain`            | string | The domain suffix part of the destination service, excluding the name and the namespace. | `svc.cluster.local` |
+When operating with timestamp attributes, you can use `timestamp` function defined in [CEXL](/docs/reference/config/policy-and-telemetry/expression-language/) to construct expression, which converts a textual timestamp in RFC 3339 format into the `TIMESTAMP` type. Here are several example expressions: `request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp(2020-02-29T00:00:00-08:00)`. When using [`mixc`](/docs/reference/commands/mixc/) to make calls into mixer, timestamp attributes should also be passed as texture timestamp in RFC 3339 format.
