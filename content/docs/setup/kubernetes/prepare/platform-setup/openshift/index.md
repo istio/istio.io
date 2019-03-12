@@ -39,3 +39,31 @@ constraints as part of sidecar injection:
 {{< text bash >}}
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
+    
+## Automatic Injection
+Webhook and certificate signing requests support must be enabled for auto injection to work. To do so, you must modify the master configuration file for the cluster. 
+
+On the master node in the directory containing the master configuration file (likely /etc/origin/master/master-config.yaml), create a file named master-config.patch with the following contents:
+
+{{< text yaml >}}
+admissionConfig:
+  pluginConfig:
+    MutatingAdmissionWebhook:
+      configuration:
+        apiVersion: apiserver.config.k8s.io/v1alpha1
+        kubeConfigFile: /dev/null
+        kind: WebhookAdmission
+    ValidatingAdmissionWebhook:
+      configuration:
+        apiVersion: apiserver.config.k8s.io/v1alpha1
+        kubeConfigFile: /dev/null
+        kind: WebhookAdmission
+{{< /text >}}
+In the same directory, execute:
+
+{{< text bash >}}
+$ cp -p master-config.yaml master-config.yaml.prepatch
+$ oc ex config patch master-config.yaml.prepatch -p "$(cat master-config.patch)" > master-config.yaml
+$ master-restart api
+$ master-restart controllers
+{{< /text >}}
