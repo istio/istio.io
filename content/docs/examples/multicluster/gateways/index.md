@@ -107,7 +107,7 @@ running in a second cluster.
       - 127.255.0.2
       endpoints:
       # This is the routable address of the ingress gateway in cluster2 that
-      # sits in front of sleep.bar service. Traffic from the sidecar will be
+      # sits in front of sleep.foo service. Traffic from the sidecar will be
       # routed to this address.
       - address: ${CLUSTER2_GW_ADDR}
         ports:
