@@ -138,7 +138,7 @@ $ kubectl get pods -n istio-system
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio \
       --namespace istio-system --name istio-remote \
-      --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+      --values @install/kubernetes/helm/istio/values-istio-remote.yaml@ \
       --set global.remotePilotAddress=${PILOT_POD_IP} \
       --set global.remotePolicyAddress=${POLICY_POD_IP} \
       --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > $HOME/istio-remote.yaml
@@ -224,8 +224,8 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 

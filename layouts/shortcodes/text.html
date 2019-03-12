@@ -52,14 +52,14 @@
     {{- end -}}
 {{- end -}}
 
-{{- /* include a link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
+{{- /* include a dummy link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
 {{- $branch := .Site.Data.args.source_branch_name -}}
 {{- $links := findRE "@(.*?)@" $text -}}
 {{- range $link := $links -}}
     {{- $target := trim $link "@" -}}
     {{- if gt (len $target) 0 -}}
         {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
-        <a hidden data-skipendnotes="true" style="display:none" href="{{- $href -}}">Hello</a>
+        <a data-skipendnotes="true" style="display:none" href="{{- $href -}}">Hello</a>
     {{- end -}}
 {{- end -}}
 

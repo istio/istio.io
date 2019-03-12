@@ -330,7 +330,7 @@ keywords: [traffic-management,ingress]
 1.  在没有网关的情况下部署 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)：
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
 1.  使用 `bookinfo.com` 的主机重新部署 `Gateway` ：

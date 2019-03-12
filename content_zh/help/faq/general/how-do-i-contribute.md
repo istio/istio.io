@@ -8,4 +8,4 @@ weight: 70
 Istio 的代码存储库托管在 [GitHub](https://github.com/istio) 上。请参阅我们的[贡献指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md)以了解如何对项目做出贡献。
 
 除了代码之外，还有其他方式可以为 Istio [社区](/zh/about/community/) 做出贡献，包括我们的[论坛](https://discuss.istio.io)、
-[Slack](https://slack.istio.com)、以及 [Stack Overflow](https://stackoverflow.com/questions/tagged/istio)。
+[Slack](https://istio.slack.com)、以及 [Stack Overflow](https://stackoverflow.com/questions/tagged/istio)。

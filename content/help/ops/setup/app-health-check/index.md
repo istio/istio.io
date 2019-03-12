@@ -152,7 +152,7 @@ Please be aware of the risk.
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --set global.mtls.enabled=true --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
-    -f install/kubernetes/helm/istio/values.yaml > $HOME/istio.yaml
+    -f @install/kubernetes/helm/istio/values.yaml@ > $HOME/istio.yaml
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 

@@ -147,7 +147,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ helm template --name istio-remote --namespace=istio-system \
-      --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+      --values @install/kubernetes/helm/istio/values-istio-remote.yaml@ \
       --set global.mtls.enabled=true \
       --set gateways.enabled=true \
       --set security.selfSigned=false \
@@ -298,8 +298,8 @@ The difference between the two instances is the version of their `helloworld` im
 1. Deploy `helloworld v2`:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER2 -f samples/helloworld/helloworld.yaml -l app=helloworld -n sample
-    $ kubectl create --context=$CTX_CLUSTER2 -f samples/helloworld/helloworld.yaml -l version=v2 -n sample
+    $ kubectl create --context=$CTX_CLUSTER2 -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample
+    $ kubectl create --context=$CTX_CLUSTER2 -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample
     {{< /text >}}
 
 1. Confirm `helloworld v2` is running:
@@ -322,8 +322,8 @@ The difference between the two instances is the version of their `helloworld` im
 1. Deploy `helloworld v1`:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER1 -f samples/helloworld/helloworld.yaml -l app=helloworld -n sample
-    $ kubectl create --context=$CTX_CLUSTER1 -f samples/helloworld/helloworld.yaml -l version=v1 -n sample
+    $ kubectl create --context=$CTX_CLUSTER1 -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample
+    $ kubectl create --context=$CTX_CLUSTER1 -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample
     {{< /text >}}
 
 1. Confirm `helloworld v1` is running:
@@ -341,7 +341,7 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 1. Deploy the `sleep` service:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER1 -f samples/sleep/sleep.yaml -n sample
+    $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
 1. Call the `helloworld.sample` service several times:

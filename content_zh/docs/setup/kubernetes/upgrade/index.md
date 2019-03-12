@@ -18,7 +18,7 @@ keywords: [kubernetes,upgrading]
 通过 `kubectl apply` ，等待几秒钟，让 CRD 在 `kube-apiserver` 中提交：
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@
+$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
 {{< /text >}}
 
 ### 控制平面升级

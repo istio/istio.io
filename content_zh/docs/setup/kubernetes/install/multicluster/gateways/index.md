@@ -43,7 +43,7 @@ keywords: [kubernetes,multicluster,federation,gateway]
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
+        -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
     {{< /text >}}
 
     要了解更多细节以及参数定制方法，请阅读：[用 Helm 进行安装](/zh/docs/setup/kubernetes/install/helm)。
@@ -61,10 +61,10 @@ keywords: [kubernetes,multicluster,federation,gateway]
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-    * 依照 [Helm 安装步骤](/zh/docs/setup/kubernetes/install/helm/#安装步骤)中的介绍完成 Istio 的安装。必须使用参数 `--values install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml`，来启用正确的多集群设置。例如：
+    * 依照 [Helm 安装步骤](/zh/docs/setup/kubernetes/install/helm/#安装步骤)中的介绍完成 Istio 的安装。必须使用参数 `--values install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml`，来启用正确的多集群设置。例如：
 
         {{< text bash >}}
-        $ helm install istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-multicluster-gateways.yaml
+        $ helm install istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@
         {{< /text >}}
 
 ## 配置 DNS

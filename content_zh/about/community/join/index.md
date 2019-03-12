@@ -14,7 +14,7 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
 {{< /community_item >}}
 
 {{< community_item logo="/about/community/join/slack.svg" alt="Slack" >}}
-通过 [Istio Slack](https://slack.istio.com) 与社区实时互动。
+通过 [Istio Slack](https://istio.slack.com) 与社区实时互动。
 {{< /community_item >}}
 
 {{< community_item logo="/about/community/join/twitter.svg" alt="Twitter" >}}
