@@ -25,7 +25,6 @@ This permits customization of Istio to operator specific requirements.
 1. [Kubernetes platform setup](/docs/setup/kubernetes/prepare/platform-setup/):
 
     * [Alibaba Cloud](/docs/setup/kubernetes/prepare/platform-setup/alicloud/)
-    * [Amazon Web Services (AWS) with Kops](/docs/setup/kubernetes/prepare/platform-setup/aws/)
     * [Azure](/docs/setup/kubernetes/prepare/platform-setup/azure/)
     * [Docker For Desktop](/docs/setup/kubernetes/prepare/platform-setup/docker/)
     * [Google Container Engine (GKE)](/docs/setup/kubernetes/prepare/platform-setup/gke/)
