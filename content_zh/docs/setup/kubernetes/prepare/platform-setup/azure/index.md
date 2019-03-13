@@ -1,7 +1,7 @@
 ---
 title: Azure
 description: 对 Azure 集群进行配置以便安装运行 Istio。
-weight: 6
+weight: 9
 skip_seealso: true
 keywords: [platform-setup,azure]
 ---

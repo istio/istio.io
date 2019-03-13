@@ -1,7 +1,7 @@
 ---
 title: 在 Kubernetes 中快速开始
 description: 在 Kubernetes 集群中快速安装 Istio 服务网格的说明。
-weight: 55
+weight: 10
 keywords: [kubernetes]
 ---
 
