@@ -22,7 +22,7 @@ Istio makes it easy to create a network of deployed services with rich routing,
 ## Data plane performance
 
 Istio consists of components that run on the data plane and components that
- program the data plane, ie control plane. Data plane and control plane have
+ program the data plane, i.e. control plane. Data plane and control plane have
  distinct performance concerns.
 
 ### Latency
@@ -39,13 +39,12 @@ Istio proxy collects raw telemetry data after the response is sent back to the
  average and tail latencies. The actual tail latency depends on the traffic pattern.
 
 Inside the mesh, a request traverses the client side proxy and then the server
- side proxy. Two proxies on the data path add about 10ms to the p99 latency at 1k rps.
-
+ side proxy. Two proxies on the data path add about `10ms` to the p99 latency at `1k rps`.
 
 ### CPU and memory
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
- and memory. As of istio 1.1, the istio-proxy consumes about 0.5 vCPU per 1000
+ and memory. As of Istio 1.1, the `istio-proxy` consumes about 0.5 vCPU per 1000
  requests per second.
 
 Memory consumption of the proxy depends on the total configuration state held by it.
@@ -56,23 +55,22 @@ Memory consumption of the proxy depends on the total configuration state held by
 The proxy does not normally buffer data passing through it, therefore memory
  consumption is not affected by the request rate.
 
-Dataplane performance depends on many factors.
+Data plane performance depends on many factors.
 
- * Number of client connections
- * Target request rate
- * Request size and Response size
- * Enabling mTLS
- * Number of proxy worker threads
- * Protocol
- * Host cores
+* Number of client connections
+* Target request rate
+* Request size and Response size
+* Enabling `mTLS`
+* Number of proxy worker threads
+* Protocol
+* Host cores
 
 Latency, throughput and proxy CPU are measured as a function of the above parameters.
-
 
 ## Control plane performance
 
 Pilot configures sidecar proxies based on user authored configuration and the current
- state of the system. In a kubernetes environment services, deployments, and endpoints
+ state of the system. In a Kubernetes environment services, deployments, and endpoints
  are the ambient configuration and state. Istio configuration like `gateway` and
  `virtual service` is the user authored portion of the configuration.
  Pilot processes the combined configuration and state to produce configuration for the proxies.
@@ -81,13 +79,13 @@ Control plane supports thousands of services, spread across thousands of pods wi
  similar number of user authored virtual services and other configuration.
  CPU and memory requirements for Pilot scale with the amount of configuration and state.
  The CPU consumption also scales with the rate of change of deployments and the
- rate of change of configuration. 
+ rate of change of configuration.
 
 Lastly, the number of proxies connecting to a pilot affect the pilot CPU,
- however this part is inherently horizontally scalable. 
+ however this part is inherently horizontally scalable.
 
 When [namespace isolation](/docs/reference/config/networking/v1alpha3/sidecar/) is enabled,
- a single pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5GB of memory.
+ a single pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
  You may increase the number of pilots to reduce the amount of time it takes for configuration
  to reach all the proxies.
 
@@ -96,21 +94,23 @@ When [namespace isolation](/docs/reference/config/networking/v1alpha3/sidecar/) 
 **Mesh Traffic:** The total traffic in the mesh; includes ingress, egress, and all traffic going
  into and out of every pod.
 
-### Dataplane latency
+### Data plane latency
 
-The default configuration of Istio 1.1 adds 10ms to the p99 latency over the baseline.
-The results were obtained by [istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark) for http1.1 protocol,
-1k payload at 1k rps using 16 client connections.
+The default configuration of Istio 1.1 adds `10ms` to the p99 latency over the baseline.
+The results were obtained by [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
+ for `http/1.1` protocol, `1kB` payload at `1k rps` using 16 client connections.
 
 {{< image width="90%" ratio="75%"
     link="latency.svg?sanitize=true"
+    alt="P99 latency vs client connections"
+    caption="P99 latency vs client connections"
 >}}
 
-### Dataplane resources
+### Data plane resources
 
-Istio proxy uses 0.5 vCPU per 1000 rps and istio-telemetry uses 0.5 vCPU per 1000 mesh rps.
+Istio proxy uses 0.5 vCPU per 1000 rps and `istio-telemetry` uses 0.5 vCPU per 1000 mesh rps.
 
-### Controlplane
+### Control plane
 
-Istio pilot consumes 1vCPU and 1.5 GB of memory while supporting 1000 services and 2000 sidecars.
+Istio pilot consumes 1 vCPU and 1.5 GB of memory while supporting 1000 services and 2000 sidecars.
 
