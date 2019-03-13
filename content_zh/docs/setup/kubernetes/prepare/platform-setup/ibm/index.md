@@ -1,7 +1,8 @@
 ---
 title: IBM Cloud Kubernetes Service
 description: 对 IBM Cloud Kubernetes Service（IKS）集群进行配置以便安装运行 Istio。
-weight: 12
+weight: 18
+skip_seealso: true
 keywords: [platform-setup,ibm,iks]
 ---
 
