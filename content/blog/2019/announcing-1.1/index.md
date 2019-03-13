@@ -57,11 +57,10 @@ GitHub credentials and join us!
 
 We are grateful to everyone who has worked hard on Istio over the last few
 months -- patching 1.0, adding features 1.1, and, lately, doing tons of
-testing on 1.1. Thanks especially to those companies who worked with us
+testing on 1.1. Thanks especially to those companies and users
+who worked with us
 installing and upgrading to the early builds and helping us catch problems
 before the release.
 
 So: now’s the time! Grab 1.1, check out the updated documentation, install
 it and...happy meshing!
-
-We're pleased to announce the availability of Istio 1.0.6. Please check out the [release notes](/about/notes/1.0.6/) to learn more and download this update.
