@@ -53,7 +53,7 @@ Proxies in the same zone but different regions are not considered local to one a
 ### Overriding the Locality Fail-over
 
 Sometimes, you need to constrain the traffic fail-over to avoid sending traffic to
-a endpoints across the globe when there are not enough healthy endpoints in the
+endpoints across the globe when there are not enough healthy endpoints in the
 same region. This behavior is useful when sending fail-over traffic across regions
 would not improve service health or many other reasons including regulatory controls.
 To constrain traffic to a region, use the mesh `LocalityLoadBalancerSetting.Failover`
