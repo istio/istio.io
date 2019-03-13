@@ -35,6 +35,7 @@ omit this value and it will be computed automatically.
 {{- $caption := .Get "caption" -}}
 {{- $title := or (.Get "title") (.Get "caption") -}}
 {{- $alt := or (.Get "alt") (.Get "title") (.Get "caption") -}}
+{{- $lang := (.Site.GetPage "home").Lang }}
 
 {{- with $caption -}}
     {{- if (strings.HasSuffix . ".") -}}
@@ -46,7 +47,7 @@ omit this value and it will be computed automatically.
     {{- $width = "100%" -}}
 {{- end -}}
 
-{{- /* Turn relative values for $link into absolute URLs */ -}}
+{{- /* Turn relative values for $link into absolute paths */ -}}
 
 {{- $prefix := slicestr $link 0 1 -}}
 {{- if (ne $prefix "/") -}}

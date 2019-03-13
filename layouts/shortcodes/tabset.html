@@ -2,29 +2,29 @@
 {{- $tab_set_id := default (printf "tabset-%s-%d" (.Page.RelPermalink) (.Page.Scratch.Get "tabset-counter") ) | anchorize -}}
 {{- $tabs := .Scratch.Get "tabs" -}}
 {{- $cookie_name := trim (.Get "cookie-name") " " -}}
+
 {{- if .Inner -}}
-	{{- /* We don't use the inner content, but Hugo will complain if we don't reference it. */}}
+    {{- /* We don't use the inner content, but Hugo needs this reference as a trigger to indicate this shortcode has a content area. */}}
 {{- end -}}
 
 <div id="{{ $tab_set_id }}" role="tablist">
-	<div class="tab-strip" data-cookie-name="{{ $cookie_name }}">
-		{{- range $i, $e := $tabs -}}
-			{{- $id := printf "%s-%d" $tab_set_id $i -}}
-			<button tabindex="-1" {{ if eq $i 0 }}class="active"{{ end }} data-cookie-value="{{ .cookie_value }}"
-				data-tab="{{ $id }}-panel" id="{{ $id }}-tab" role="tab"><span>{{ trim .name " " }}</span>
-			</button>
-		{{- end -}}
-	</div>
+    <div class="tab-strip" data-cookie-name="{{ $cookie_name }}">
+        {{- range $i, $e := $tabs -}}
+            {{- $id := printf "%s-%d" $tab_set_id $i -}}
+            <button tabindex="-1" {{ if eq $i 0 }}class="active"{{ end }} data-cookie-value="{{ .cookie_value }}"
+                data-tab="{{ $id }}-panel" id="{{ $id }}-tab" role="tab"><span>{{ trim .name " " }}</span>
+            </button>
+        {{- end -}}
+    </div>
 
-	<div class="tab-content">
-		{{- range $i, $e := $tabs -}}
-			{{- $id := printf "%s-%d" $tab_set_id $i -}}
+    <div class="tab-content">
+        {{- range $i, $e := $tabs -}}
+            {{- $id := printf "%s-%d" $tab_set_id $i -}}
 
-			<div {{ if eq $i 0 }}class="active"{{ end }} id="{{ $id }}-panel" role="tabpanel" aria-labelledby="{{ $id }}-tab">
-				{{- with .content -}}
-					{{- . -}}
-				{{- end -}}
-			</div>
-		{{- end -}}
-	</div>
+            <div{{ if eq $i 0 }} class="active"{{ end }} id="{{ $id }}-panel" role="tabpanel" aria-labelledby="{{ $id }}-tab">
+                {{- $text := partial "strip_indent.html" .content -}}
+                {{- $text | markdownify -}}
+            </div>
+        {{- end -}}
+    </div>
 </div>
