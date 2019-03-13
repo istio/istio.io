@@ -12,30 +12,9 @@
 {{- $syntax := "" -}}
 {{- $text := "" -}}
 {{- $output := "" -}}
-{{- $line0 := "" -}}
 
 {{- if .Get 0 -}}
-    {{- $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" -}}
-
-    {{- $line0 = index $lines 0 -}}
-    {{- $indent := 0 -}}
-    {{- if hasPrefix $line0 "                " -}}{{- $indent = 16 -}}
-    {{- else if hasPrefix $line0 "            " -}}{{- $indent = 12 -}}
-    {{- else if hasPrefix $line0 "        " -}}{{- $indent = 8 -}}
-    {{- else if hasPrefix $line0 "    " -}}{{- $indent = 4 -}}
-    {{- end -}}
-
-    {{- $text = "" -}}
-    {{- range $line := $lines -}}
-        {{- if gt (len $line) $indent -}}
-            {{- $l := substr $line $indent -}}
-            {{- $text = printf "%s\n%s" $text $l -}}
-        {{- else -}}
-            {{- $text = printf "%s\n%s" $text $line -}}
-        {{- end -}}
-    {{- end -}}
-
-    {{- $text = trim $text "\n" -}}
+    {{- $text = partial "strip_indent.html" .Inner -}}
     {{- $syntax = .Get 0 -}}
     {{- $output = .Get 1 -}}
 {{- else -}}
@@ -70,8 +49,11 @@
     {{- end -}}
 {{- end -}}
 
+{{- $result := "" -}}
 {{- if $downloadas -}}
-<pre><code class='language-{{- $syntax -}}' data-expand='{{ $expand_links }}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
+    {{- $result = printf "<pre><code class='language-%s' data-expand='%s' data-downloadas='%s'>%s</code></pre>" $syntax $expand_links $downloadas (htmlEscape $text) -}}
 {{- else -}}
-<pre><code class='language-{{- $syntax -}}' data-expand='{{ $expand_links }}'>{{- $text -}}</code></pre>
+    {{- $result = printf "<pre><code class='language-%s' data-expand='%s'>%s</code></pre>" $syntax $expand_links (htmlEscape $text) -}}
 {{- end -}}
+
+{{ $result | safeHTML }}

@@ -6,6 +6,7 @@ aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
     - /docs/reference/contribute/writing-a-new-topic.html
     - /about/contribute/writing-a-new-topic.html
+    - /create
 keywords: [contribute]
 ---
 

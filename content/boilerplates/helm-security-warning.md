@@ -1,4 +1,5 @@
-&nbsp;
+---
+---
 {{< warning >}}
 The instructions for using Helm with Tiller do not use secure defaults.  See
 the [Helm Security Guidelines](https://helm.sh/docs/using_helm/#securing-your-helm-installation)
