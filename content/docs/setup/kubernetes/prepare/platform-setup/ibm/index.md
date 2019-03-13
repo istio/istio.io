@@ -22,7 +22,7 @@ To install the managed Istio add-on in IBM Cloud Public, see the [IBM Cloud Kube
 
 1. [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
 
-1. Create a billable Kubernetes cluster. Replace `<cluster-name>` with the name of the cluster you want to use in the following instructions.
+1. Create a standard Kubernetes cluster. Replace `<cluster-name>` with the name of the cluster you want to use in the following instructions.
 
     {{< tip >}}
     To see available zones, run `ibmcloud ks zones`. Zones are isolated from each other, which ensures no shared single point of failure. IBM Cloud Kubernetes Service [Regions and zones](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones) describes regions, zones, and how to specify the region and zone for your new cluster.
