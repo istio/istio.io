@@ -1,3 +1,5 @@
+---
+---
 *   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample.
 
     If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `httpbin` service:
