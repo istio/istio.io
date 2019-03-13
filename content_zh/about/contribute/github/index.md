@@ -35,9 +35,9 @@ keywords: [contribute,community,github,pr]
 href="https://github.com/istio/istio.io/">Browse this site's source
 code</a>
 
-1. 点击上面的按钮，浏览 Github 仓库。
+1. 点击上面的按钮，浏览 GitHub 仓库。
 
-1. 点击右上角的 **Fork** 按钮，在自己的 Github 账号下复制一个文档版本库的副本。
+1. 点击右上角的 **Fork** 按钮，在自己的 GitHub 账号下复制一个文档版本库的副本。
 
 1. 在本地克隆这个新副本，进行编辑。
 
