@@ -40,7 +40,7 @@ A typical prioritization for an Envoy with a locality of `us-west/zone2` is as f
 
 - Priority 0: `us-west/zone2`
 - Priority 1: `us-west/zone1`, `us-west/zone3`
-- Priority 2: `us-east/zone1`, `us-east/zone/2`, `eu-west/zone1`
+- Priority 2: `us-east/zone1`, `us-east/zone2`, `eu-west/zone1`
 
 The hierarchy of prioritization matches in the following order:
 
