@@ -258,17 +258,19 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `kiali.enabled` | `false` |  |
+| `kiali.enabled` | `false	# Note that if using the demo or demo-auth yaml when installing via Helm, this default will be `true`.` |  |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `docker.io/kiali` |  |
 | `kiali.tag` | `v0.14` |  |
-| `kiali.contextPath` | `/kiali` |  |
+| `kiali.contextPath` | `/kiali	# The root context path to access the Kiali UI.` |  |
 | `kiali.nodeSelector` | `{}` |  |
 | `kiali.ingress.enabled` | `false` |  |
 | `kiali.ingress.hosts` | `kiali.local` |  |
-| `kiali.dashboard.secretName` | `kiali` |  |
-| `kiali.dashboard.usernameKey` | `username` |  |
-| `kiali.dashboard.passphraseKey` | `passphrase` |  |
+| `kiali.dashboard.secretName` | `kiali	# You must create a secret with this name - one is not provided out-of-box.` |  |
+| `kiali.dashboard.usernameKey` | `username	# This is the key name within the secret whose value is the actual username.` |  |
+| `kiali.dashboard.passphraseKey` | `passphrase	# This is the key name within the secret whose value is the actual passphrase.` |  |
+| `kiali.dashboard.grafanaURL` | `# If you have Grafana installed and it is accessible to client browsers, then set this to its external URL. Kiali will redirect users to this URL when Grafana metrics are to be shown.` |  |
+| `kiali.dashboard.jaegerURL` | `# If you have Jaeger installed and it is accessible to client browsers, then set this property to its external URL. Kiali will redirect users to this URL when Jaeger tracing is to be shown.` |  |
 | `kiali.prometheusAddr` | `http://prometheus:9090` |  |
 | `kiali.createDemoSecret` | `false` |  |
 
