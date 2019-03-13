@@ -24,7 +24,7 @@ We’ve done a lot of work to make both the data plane and the control plane
 more efficient. In our 1.1 performance testing, we’re now seeing a sidecar
 that typically takes half of a vCPU to process 1000 rps. A single Pilot
 instance is capable of handling 1000 services (and 2000 total pods) while
-consuming 1.5 vCPU and 2GB of RAM. The sidecar adds `10ms` at the 50th
+consuming 1.5 vCPU and 2GB of RAM. The sidecar adds `5ms` at the 50th
 percentile and `10ms` at 99th percentile (enforcing policy will add latency).
 
 We’ve done work around namespace isolation as well. This lets you use
