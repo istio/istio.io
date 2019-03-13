@@ -3,7 +3,6 @@ title: Announcing Istio 1.1
 description: Istio 1.1 release announcement.
 publishdate: 2019-03-14
 attribution: The Istio Team
-weight: 77
 ---
 We are pleased to announce the release of Istio 1.1.
 
@@ -41,11 +40,13 @@ from each Kubernetes cluster. We are also supporting additional multicluster
 topologies including single control plane and multiple synchronized control
 planes without requiring a flat network.
 
-There is lots more -- see release notes here.
+There is lots more -- see the
+[release notes](/about/notes/1.1/) for complete details.
 
 There is more going on in the project as well. We know that Istio has a lot of
 moving parts and can be a lot to take on. To help address that, we recently
-formed a Usability Working group (feel free to join). There is also a lot
+formed a [Usability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings)
+(feel free to join). There is also a lot
 happening in the [Community
 Meeting](https://github.com/istio/community#community-meeting)
 (Thursdays at `11 a.m.`) and in the
@@ -56,7 +57,7 @@ And if you haven’t yet joined the conversation at
 GitHub credentials and join us!
 
 We are grateful to everyone who has worked hard on Istio over the last few
-months -- patching 1.0, adding features 1.1, and, lately, doing tons of
+months -- patching 1.0, adding features to 1.1, and, lately, doing tons of
 testing on 1.1. Thanks especially to those companies and users
 who worked with us
 installing and upgrading to the early builds and helping us catch problems
