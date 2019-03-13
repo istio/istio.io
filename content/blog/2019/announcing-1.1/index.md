@@ -25,8 +25,8 @@ We’ve done a lot of work to make both the data plane and the control plane
 more efficient. In our 1.1 performance testing, we’re now seeing a sidecar
 that typically takes half of a vCPU to process 1000 rps. A single Pilot
 instance is capable of handling 1000 services (and 2000 total pods) while
-consuming 1.5 vCPU and 2GB of RAM. The sidecar adds 5ms at the 50th
-percentile and 10ms at 99th percentile (enforcing policy will add latency).
+consuming 1.5 vCPU and 2GB of RAM. The sidecar adds `10ms` at the 50th
+percentile and `10ms` at 99th percentile (enforcing policy will add latency).
 
 We’ve done work around namespace isolation as well. This lets you use
 Kubernetes namespaces to enforce boundaries of control, and ensures that your
@@ -48,12 +48,12 @@ moving parts and can be a lot to take on. To help address that, we recently
 formed a Usability Working group (feel free to join). There is also a lot
 happening in the [Community
 Meeting](https://github.com/istio/community#community-meeting)
-(Thursdays at 11am PT) and in the
+(Thursdays at `11 a.m.`) and in the
 [Working
 Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
 And if you haven’t yet joined the conversation at
 [discuss.istio.io](https://discuss.istio.io), head over, log in with your
-Github credentials and join us!
+GitHub credentials and join us!
 
 We are grateful to everyone who has worked hard on Istio over the last few
 months -- patching 1.0, adding features 1.1, and, lately, doing tons of
