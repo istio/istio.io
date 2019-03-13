@@ -1,7 +1,7 @@
 ---
 title: Oracle Cloud Infrastructure
 description: 为 Istio 对 OKE 集群环境进行配置。
-weight: 9
+weight: 27
 skip_seealso: true
 keywords: [platform-setup,kubernetes,oke,oci,oracle]
 ---
