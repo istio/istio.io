@@ -22,7 +22,7 @@ set the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot
 
 Currently, the service discovery platform populates the locality automatically.
 In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region)
-on the node it is deployed. If you are using hosted Kubernetes service your cloud provider
+on the node it is deployed. If you are using a hosted Kubernetes service your cloud provider
 should configure this for you. If you are running your own Kubernetes cluster you will need
 to add these labels to your nodes. The sub-zone concept doesn't exist in Kubernetes.
 As a result, this field does not need to be configured.
@@ -30,10 +30,10 @@ As a result, this field does not need to be configured.
 ## Locality-Prioritized Load Balancing
 
 _Locality-prioritized load balancing_ is the default behavior for _locality load balancing_ .
-In this mode, Istio tells Envoy to prioritize traffic to the services most closely matching
-the locality of the Envoy sending the request. When all service are healthy, the requests
-remains within the same locality. When services become unhealthy, traffic spills over to
-the services in the next prioritized locality. This behavior continues until all localities are
+In this mode, Istio tells Envoy to prioritize traffic to the workload instances most closely matching
+the locality of the Envoy sending the request. When all instances are healthy, the requests
+remains within the same locality. When instances become unhealthy, traffic spills over to
+instances in the next prioritized locality. This behavior continues until all localities are
 receiving traffic. You can find the exact percentages in the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels).
 
 A typical prioritization for an Envoy with a locality of `us-west/zone2` is as follows:
@@ -48,12 +48,12 @@ The hierarchy of prioritization matches in the following order:
 2. Zone
 3. Sub-zone
 
-Proxies in the same zone but different regions are not considered local to one another. 
+Proxies in the same zone but different regions are not considered local to one another.
 
 ### Overriding the Locality Fail-over
 
 Sometimes, you need to constrain the traffic fail-over to avoid sending traffic to
-a service across the globe when there are not enough healthy endpoints in the
+a endpoints across the globe when there are not enough healthy endpoints in the
 same region. This behavior is useful when sending fail-over traffic across regions
 would not improve service health or many other reasons including regulatory controls.
 To constrain traffic to a region, use the mesh `LocalityLoadBalancerSetting.Failover`
