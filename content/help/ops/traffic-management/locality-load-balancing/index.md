@@ -45,8 +45,8 @@ A typical prioritization for an Envoy with a locality of `us-west/zone2` is as f
 The hierarchy of prioritization matches in the following order:
 
 1. Region
-2. Zone
-3. Sub-zone
+1. Zone
+1. Sub-zone
 
 Proxies in the same zone but different regions are not considered local to one another.
 
