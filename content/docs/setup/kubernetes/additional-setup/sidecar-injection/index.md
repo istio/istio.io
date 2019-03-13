@@ -212,10 +212,12 @@ struct containing the list of containers and volumes to inject into the pod.
 
 {{< text go >}}
 type SidecarInjectionSpec struct {
-      InitContainers   []v1.Container `yaml:"initContainers"`
-      Containers       []v1.Container `yaml:"containers"`
-      Volumes          []v1.Volume    `yaml:"volumes"`
-      ImagePullSecrets []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
+      RewriteAppHTTPProbe bool                          `yaml:"rewriteAppHTTPProbe"`
+      InitContainers      []corev1.Container            `yaml:"initContainers"`
+      Containers          []corev1.Container            `yaml:"containers"`
+      Volumes             []corev1.Volume               `yaml:"volumes"`
+      DNSConfig           *corev1.PodDNSConfig          `yaml:"dnsConfig"`
+      ImagePullSecrets    []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
 }
 {{< /text >}}
 
@@ -223,18 +225,19 @@ The template is applied to the following data structure at runtime.
 
 {{< text go >}}
 type SidecarTemplateData struct {
-    ObjectMeta  *metav1.ObjectMeta
-    Spec        *v1.PodSpec
-    ProxyConfig *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
-    MeshConfig  *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig
+    DeploymentMeta *metav1.ObjectMeta
+    ObjectMeta     *metav1.ObjectMeta
+    Spec           *corev1.PodSpec
+    ProxyConfig    *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
+    MeshConfig     *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig
 }
 {{< /text >}}
 
 `ObjectMeta` and `Spec` are from the pod. `ProxyConfig` and `MeshConfig`
-are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditional
+are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditionally
 define injected containers and volumes with this data.
 
-For example, the following template snippet from `install/kubernetes/istio-sidecar-injector-configmap-release.yaml`
+For example, the following template
 
 {{< text plain >}}
 containers:
