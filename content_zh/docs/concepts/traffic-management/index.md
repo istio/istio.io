@@ -37,7 +37,7 @@ Pilot 负责管理通过 Istio 服务网格发布的 Envoy 实例的生命周期
 
 Pilot 公开了用于服务发现 、负载均衡池和路由表的动态更新的 API。
 
-运维人员可以通过 [Pilot 的 Rules API](/zh/docs/reference/config/istio.networking.v1alpha3/) 指定高级流量管理规则。这些规则被翻译成低级配置，并通过 discovery API 分发到 Envoy 实例。
+运维人员可以通过 [Pilot 的 Rules API](/zh/docs/reference/config/networking/) 指定高级流量管理规则。这些规则被翻译成低级配置，并通过 discovery API 分发到 Envoy 实例。
 
 ## 请求路由
 
@@ -113,7 +113,7 @@ Envoy 提供了一套开箱即用，**可选的**的故障恢复功能，对应�
 
 ### 微调
 
-Istio 的流量管理规则允许运维人员为每个服务/版本设置故障恢复的全局默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖[超时](/zh/docs/reference/config/istio.networking.v1alpha3/#httproute)和[重试](/zh/docs/reference/config/istio.networking.v1alpha3/#httpretry)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
+Istio 的流量管理规则允许运维人员为每个服务/版本设置故障恢复的全局默认值。然而，服务的消费者也可以通过特殊的 HTTP 头提供的请求级别值覆盖[超时](/zh//docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute-timeout)和[重试](/zh/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute-retries)的默认值。在 Envoy 代理的实现中，对应的 Header 分别是 `x-envoy-upstream-rq-timeout-ms` 和 `x-envoy-max-retries`。
 
 ### FAQ
 
@@ -143,13 +143,13 @@ Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用
 
 Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry` 以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
 
-* [`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
+* [`VirtualService`](/zh/docs/reference/config/networking/v1alpha3/virtual-service/) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
 
-* [`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#destinationrule) 是 `VirtualService` 路由生效后，配置应用与请求的策略集。
+* [`DestinationRule`](/zh/docs/reference/config/networking/v1alpha3/destination-rule/) 是 `VirtualService` 路由生效后，配置应用与请求的策略集。
 
-* [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry) 是通常用于在 Istio 服务网格之外启用对服务的请求。
+* [`ServiceEntry`](/zh/docs/reference/config/networking/v1alpha3/service-entry/) 是通常用于在 Istio 服务网格之外启用对服务的请求。
 
-* [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
+* [`Gateway`](/zh/docs/reference/config/networking/v1alpha3/gateway/) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
 
 例如，将 `reviews` 服务接收到的流量 100% 地发送到 `v1` 版本，这一需求可以用下面的规则来实现：
 
@@ -195,11 +195,11 @@ spec:
 
 可以使用 `kubectl` 命令配置规则。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
-以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/istio.networking.v1alpha3/)。
+以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/networking/)。
 
 ## Virtual Service
 
-[`VirtualService`](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice) 定义了控制在 Istio 服务网格中如何路由服务请求的规则。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的地、HTTP 路径和 Header 以及各个服务版本的权重等。
+[`VirtualService`](/zh/docs/reference/config/networking/v1alpha3/virtual-service/) 定义了控制在 Istio 服务网格中如何路由服务请求的规则。例如一个 Virtual Service 可以把请求路由到不同版本，甚至是可以路由到一个完全不同于请求要求的服务上去。路由可以用很多条件进行判断，例如请求的源和目的地、HTTP 路径和 Header 以及各个服务版本的权重等。
 
 ### 规则的目标描述
 
@@ -523,7 +523,7 @@ spec:
 
 ## 目标规则
 
-在请求被 `VirtualService` 路由之后，[`DestinationRule`](/zh/docs/reference/config/istio.networking.v1alpha3/#destinationrule) 配置的一系列策略就生效了。这些策略由服务属主编写，包含断路器、负载均衡以及 TLS 等的配置内容。
+在请求被 `VirtualService` 路由之后，[`DestinationRule`](/zh/docs/reference/config/networking/v1alpha3/destination-rule/) 配置的一系列策略就生效了。这些策略由服务属主编写，包含断路器、负载均衡以及 TLS 等的配置内容。
 
 `DestinationRule` 还定义了对应目标主机的可路由 `subset`（例如有命名的版本）。`VirtualService` 在向特定服务版本发送请求时会用到这些子集。
 
@@ -648,7 +648,7 @@ spec:
 
 ### Service Entry
 
-Istio 内部会维护一个服务注册表，可以用 [`ServiceEntry`](/zh/docs/reference/config/istio.networking.v1alpha3/#serviceentry) 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 `ServiceEntry` 可以用来允许外部对 `*.foo.com` 域名上的服务主机的调用。
+Istio 内部会维护一个服务注册表，可以用 [`ServiceEntry`](/zh/docs/reference/config/networking/v1alpha3/service-entry/) 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 `ServiceEntry` 可以用来允许外部对 `*.foo.com` 域名上的服务主机的调用。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -694,7 +694,7 @@ spec:
 
 ### Gateway
 
-[Gateway](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway) 为 HTTP/TCP 流量配置了一个负载均衡，多数情况下在网格边缘进行操作，用于启用一个服务的入口（ingress）流量。
+[Gateway](/zh/docs/reference/config/networking/v1alpha3/gateway/) 为 HTTP/TCP 流量配置了一个负载均衡，多数情况下在网格边缘进行操作，用于启用一个服务的入口（ingress）流量。
 
 和 Kubernetes Ingress 不同，Istio `Gateway` 只配置四层到六层的功能（例如开放端口或者 TLS 配置）。绑定一个 `VirtualService` 到 `Gateway` 上，用户就可以使用标准的 Istio 规则来控制进入的 HTTP 和 TCP 流量。
 
@@ -741,4 +741,4 @@ spec:
 
 在 [Ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中有完整的 Ingress Gateway 例子。
 
-虽然主要用于管理入口（Ingress）流量，`Gateway` 还可以用在纯粹的内部服务之间或者出口（Egress）场景下使用。不管处于什么位置，所有的网关都可以以同样的方式进行配置和控制。[Gateway 参考](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway) 中包含更多细节描述。
+虽然主要用于管理入口（Ingress）流量，`Gateway` 还可以用在纯粹的内部服务之间或者出口（Egress）场景下使用。不管处于什么位置，所有的网关都可以以同样的方式进行配置和控制。[Gateway 参考](/zh/docs/reference/config/networking/v1alpha3/gateway/) 中包含更多细节描述。
