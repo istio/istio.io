@@ -36,7 +36,7 @@ and then further customize the configuration for your specific needs.
 {{< tip >}}
 These instructions assume the `istio-init` container will be used to setup `iptables` to redirect network traffic
 to/from Envoy sidecars. If you plan to customize the configuration to use `--set istio_cni.enabled=true`, you also
-need to ensure that a CNI plugin is installed. Refer to [CNI Setup](/docs/setup/kubernetes/additional-setup/cni/)
+need to ensure that a CNI plugin is deployed. Refer to [CNI Setup](/docs/setup/kubernetes/additional-setup/cni/)
 for details.
 {{< /tip >}}
 
@@ -47,7 +47,7 @@ Change directory to the root of the release and then
 choose one of the following two **mutually exclusive** options:
 
 1. To deploy Istio without using Tiller, follow the instructions for [option 1](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
-2. To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
+1. To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 {{< tip >}}
 Istio, by default, uses `LoadBalancer` service object types. Some platforms do not support `LoadBalancer`
