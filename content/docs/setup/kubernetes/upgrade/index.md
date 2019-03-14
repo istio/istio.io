@@ -38,7 +38,7 @@ Istio installation from `0.8` to `1.0`, you will need to follow a
 [special one-time upgrade procedure](#special-one-time-upgrade-procedure-for-early-adopters).
 This is because of various Tiller bugs in the `0.8` and `1.0` release timeframes.
 Simply upgrading to `1.1` using the normal procedure, below, will result in CRD corruption and
-will leave your Istio installation in an inoperable state.
+all prior Istio configuration could be lost.
 {{< /warning >}}
 
 1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
@@ -284,7 +284,7 @@ If you have previously used Helm with Tiller to upgrade an
 Istio installation from `0.8` to `1.0`, you will need to use the following instructions
 to upgrade from Istio `1.0` to `1.1`. This is because of various Tiller bugs in the `0.8` and `1.0`
 release timeframes. If you simply use `helm upgrade` at this point, it will result in CRD corruption and
-will leave your Istio installation in an inoperable state.
+all prior Istio configuration could be lost.
 
 To upgrade, you will need to download the release images for Istio `0.8.0`, `1.0.6`, and `1.1.0`, and then
 run the following commands:
