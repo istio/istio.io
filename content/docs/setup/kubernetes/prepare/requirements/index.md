@@ -59,3 +59,23 @@ cluster must satisfy the following requirements:
   pods must allow the `NET_ADMIN` capability. If you use the [Istio CNI Plugin](/docs/setup/kubernetes/additional-setup/cni/),
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, visit [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
+
+## Ports used by Istio
+
+The following ports and protocols are used by Istio. Ensure that there are no TCP headless services using a TCP port used by one of Istio's services.
+
+| Port | Protocol | Used by | Description |
+|----|----|----|----|
+| 8060 | HTTP | Citadel | GRPC server |
+| 9090 | HTTP |  Prometheus | Prometheus |
+| 9091 | HTTP | Mixer | Policy/Telemetry |
+| 9093 | HTTP | Citadel | |
+| 15000 | TCP | Envoy | Envoy admin port (commands/diagnostics) |
+| 15001 | TCP | Envoy | Envoy |
+| 15004 | HTTP | Mixer, Pilot | Policy/Telemetry - `mTLS` |
+| 15010 | HTTP | Pilot | Pilot service - XDS pilot - discovery |
+| 15011 | TCP | Pilot | Pilot service - `mTLS` - Proxy - discovery |
+| 15014 | HTTP | Citadel, Mixer, Pilot | Control plane monitoring |
+| 15030 | TCP | Prometheus | Prometheus |
+| 15090 | HTTP | Mixer | Proxy |
+| 42422 | TCP | Mixer | Telemetry - Prometheus |
