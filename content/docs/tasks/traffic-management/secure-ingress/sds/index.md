@@ -31,10 +31,10 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     should work correctly with the instructions in this task. Otherwise, try
     a different implementation of `curl`, for example on a Linux machine.
 
-## Migration from file mount-based approach
+## (Optional) Migration from file mount-based approach
 
 If you have configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/secure-ingress/mount),
-and you want to migrate your ingress gateway to use SDS approach. There are no
+and you want to migrate your ingress gateway to use the SDS approach. There are no
 extra steps required for the migration. You can start from the steps below.
 
 ## Generate client and server certificates and keys
