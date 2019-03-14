@@ -20,27 +20,27 @@ To install the managed Istio add-on in IBM Cloud Public, see the [IBM Cloud Kube
 
 ## IBM Cloud Public
 
-Replace `<cluster-name>` with the name of the cluster you want to use in the following instructions.
+1. [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
 
-1. Create a new lite or paid Kubernetes cluster.
+1. Create a standard Kubernetes cluster. Replace `<cluster-name>` with the name of the cluster you want to use in the following instructions.
 
-    Lite cluster:
+    {{< tip >}}
+    To see available zones, run `ibmcloud ks zones`. Zones are isolated from each other, which ensures no shared single point of failure. IBM Cloud Kubernetes Service [Regions and zones](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones) describes regions, zones, and how to specify the region and zone for your new cluster.
+    {{< /tip >}}
+
+    {{< tip >}}
+    The command below does not contain the `--private-vlan value` and `--public-vlan value` options. To see available VLANs, run `ibmcloud ks vlan-ls --zone <zone-name>`. If you do not have a private and public VLAN yet, they will be automatically created for you. If you already have VLANs, they need to be specified using the `--private-vlan value` and `--public-vlan value` options.
+    {{< /tip >}}
 
     {{< text bash >}}
-    $ ibmcloud cs cluster-create --name <cluster-name>
-    {{< /text >}}
-
-    Paid cluster:
-
-    {{< text bash >}}
-    $ ibmcloud cs cluster-create --location <location> --machine-type u2c.2x4 \
+    $ ibmcloud ks cluster-create --zone <zone-name> --machine-type b2c.4x16 \
       --name <cluster-name>
     {{< /text >}}
 
 1. Retrieve your credentials for `kubectl`.
 
     {{< text bash >}}
-    $(ibmcloud cs cluster-config <cluster-name> --export)
+    $(ibmcloud ks cluster-config <cluster-name> --export)
     {{< /text >}}
 
 ## IBM Cloud Private

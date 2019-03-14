@@ -72,8 +72,7 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
 1. Install the Helm chart to your cluster:
 
     {{< tip >}}
-    The Istio `demo` profile (`install/kubernetes/helm/istio/values-istio-demo.yaml`) is specified in the following command to support the IBM Cloud Kubernetes Service free cluster, which only contains a single worker providing fewer resources than needed.
-    If using a paid cluster of sufficient size, you can remove the `--values` parameter which will use the default Istio configuration values instead.
+    The Istio `demo` profile (`install/kubernetes/helm/istio/values-istio-demo.yaml`) is specified in the following command to support smaller machine-typed IBM Cloud Kubernetes Service clusters. If using a cluster of sufficient size, you can remove the `--values` parameter which will use the default Istio configuration values instead. See Istio's built-in [configuration profiles](/docs/setup/kubernetes/additional-setup/config-profiles/) for a description of the available profiles.
     {{< /tip >}}
 
     {{< text bash >}}
