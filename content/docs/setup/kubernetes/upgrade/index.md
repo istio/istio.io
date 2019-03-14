@@ -32,6 +32,15 @@ Sidecar injector.
 If you installed Istio using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
 the preferred upgrade option is to let Helm take care of the upgrade:
 
+{{< warning >}}
+**Special warning for Istio early adopters**: If you have previously used Helm with Tiller to upgrade an
+Istio installation from `0.8` to `1.0`, you will need to follow a
+[special one-time upgrade procedure](#special-one-time-upgrade-procedure-for-early-adopters).
+This is because of various Tiller bugs in the `0.8` and `1.0` release timeframes.
+Simply upgrading to `1.1` using the normal procedure, below, will result in CRD corruption and
+will leave your Istio installation in an inoperable state.
+{{< /warning >}}
+
 1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
 
     {{< text bash >}}
@@ -268,3 +277,67 @@ The script automates the following operations:
 
 1. The script deletes the previous RBAC configuration custom resource after applying the cluster RBAC
    configuration successfully.
+
+## Special one-time upgrade procedure for early adopters
+
+If you have previously used Helm with Tiller to upgrade an
+Istio installation from `0.8` to `1.0`, you will need to use the following instructions
+to upgrade from Istio `1.0` to `1.1`. This is because of various Tiller bugs in the `0.8` and `1.0`
+release timeframes. If you simply use `helm upgrade` at this point, it will result in CRD corruption and
+will leave your Istio installation in an inoperable state.
+
+To upgrade, you will need to download the release images for Istio `0.8.0`, `1.0.6`, and `1.1.0`, and then
+run the following commands:
+
+```
+cd istio-0.8.0
+kubectl create -f install/kubernetes/helm/helm-service-account.yaml
+helm init --service-account tiller
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set mixer.enabled=false
+kubectl apply -f - <<EOF
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRole
+metadata:
+  name: service-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["*"]
+    methods: ["GET"]
+    constraints:
+    - key: "app"
+      values: ["productpage", "details", "reviews", "ratings"]
+EOF
+kubectl get servicerole
+
+cd istio-1.0.6
+kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml -n istio-system
+kubectl get servicerole
+helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+kubectl get servicerole
+
+cd istio-1.1.0
+helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
+kubectl get servicerole
+kubectl get pods -n istio-system
+helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+kubectl get servicerole
+```
+
+Run the above procedure slowly, without deviation, and ensure that every `kubectl get servicerole` has
+retained the `service-viewer` service role, before proceeding:
+
+```
+apiVersion: "config.istio.io/v1alpha2"
+kind: ServiceRole
+metadata:
+  name: service-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["*"]
+    methods: ["GET"]
+    constraints:
+    - key: "app"
+      values: ["productpage", "details", "reviews", "ratings"]
+```
