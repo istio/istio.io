@@ -11,7 +11,9 @@
 
 <div class="call-to-action">
     <div id="buttons">
-        {{ if not .Site.Data.args.preliminary }}
+        {{ if .Site.Data.args.preliminary }}
+            <span class="btn">{{ printf (i18n "announcement_download") $version }}</span>
+        {{ else }}
             <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "announcement_download") $version }}</a>
         {{ end }}
         <a class="btn" href="/about/notes/{{ $version }}/">{{ printf (i18n "announcement_relnotes") $version }}</a>
