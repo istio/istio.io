@@ -17,7 +17,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     $ curl --version | grep LibreSSL
     curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
     {{< /text >}}
-  
+
     如果上面的命令输出了一段 LibreSSL 的版本信息，就说明你的 `curl` 命令可以完成本任务的内容。否则就要想办法换一个不同的 `curl` 了，例如可以换用一台运行 Linux 的工作站。
 
 ## 为服务器和客户端生成证书 {#generate-client-and-server-certificates-and-keys}
@@ -88,7 +88,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
-### 为单一主机配置 TLS Ingress 网关 {#configure-a-tls-ingress-gateway-for-a-single-host}
+### 为单一主机配置 TLS Ingress 网关 {#configure-a-TLS-ingress-gateway-for-a-single-host}
 
 1. 启动 `httpbin` 样例：
 
@@ -251,7 +251,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     * SSL certificate problem: unable to get local issuer certificate
     {{< /text >}}
 
-### 为 TLS Ingress 网关配置多个主机名 {#configure-a-tls-ingress-gateway-for-multiple-hosts}
+### 为 TLS Ingress 网关配置多个主机名 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
 可以把多个主机名配置到同一个 Ingress 网关上，例如 `httpbin.example.com` 和 `helloworld-v1.example.com`。Ingress 网关会为每个 `credentialName` 获取一个唯一的凭据。
 
@@ -394,7 +394,7 @@ keywords: [traffic-management,ingress,sds-credentials]
             `"""`
     {{< /text >}}
 
-### 配置双向 TLS Ingress 网关 {#configure-a-mutual-tls-ingress-gateway}
+### 配置双向 TLS Ingress 网关 {#configure-a-mutual-TLS-ingress-gateway}
 
 可以对网关的定义进行扩展，加入[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 的支持。要修改 Ingress 网关的凭据，就要删除并重建对应的 `Secret`。服务器会使用 CA 证书对客户端进行校验，因此需要使用 `cacert` 字段来保存 CA 证书：
 
