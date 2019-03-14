@@ -40,7 +40,7 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
 
 {{< boilerplate helm-security-warning >}}
 
-1. Install the [Helm CLI](https://docs.helm.sh/using_helm/).
+1. Install the [Helm CLI](https://helm.sh/docs/using_helm/).
 
 1. If a service account has not already been installed for Tiller, install one:
 
