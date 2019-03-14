@@ -91,7 +91,8 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
-| [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
+| [Mixer In-Process Adapter Authoring Model](/blog/2017/adapter-model/)        | Deprecated
+| Mixer Out-of-Process Adapter Authoring Model | Beta
 | [Helm](/docs/setup/kubernetes/install/helm/) | Beta
 | [Multicluster Mesh over VPN](/docs/setup/kubernetes/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
