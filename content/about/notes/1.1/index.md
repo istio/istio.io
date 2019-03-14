@@ -115,7 +115,8 @@ a richer visualization experience. See the [Kiali task](/docs/tasks/telemetry/ki
 - **Control Headers and Routing**. Added the option to create adapters to influence
 an incoming request's headers and routing.
 
-- **Out of Process Adapters**. The out-of-process adapter functionality is now ready for production use.
+- **Out of Process Adapters**. The out-of-process adapter functionality is now ready for production use. As a result, the in-process
+adapter model is being deprecated in this release. All new adapter development should use the out-of-process model moving forward.
 
 - **Tracing Improvements**. There have been many improvements in our overall tracing story:
 
