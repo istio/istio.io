@@ -1,6 +1,6 @@
 ---
 title: Performance and Scalability
-description: Introduces Performance and Scalability for Istio components.
+description: Introduces performance and scalability for Istio.
 weight: 50
 aliases:
     - /docs/performance-and-scalability/overview
@@ -21,9 +21,10 @@ Istio makes it easy to create a network of deployed services with rich routing,
 
 ## Data plane performance
 
-Istio consists of components that run on the data plane and components that
- program the data plane, i.e. control plane. Data plane and control plane have
- distinct performance concerns.
+Istio consists of data plane components (proxy, mixer for headers only) that handle
+ data flowing thru the system and control plane components (pilot, galley, citadel)
+ that configure the data plane. Data plane and control plane have distinct
+ performance concerns.
 
 ### Latency
 
@@ -31,15 +32,16 @@ Istio injects a sidecar proxy on the data path therefore latency is an important
  consideration. Istio adds an auth and mixer filter to the proxy. Every
  additional filter adds to the path length inside the proxy and affects latency.
 
-Istio proxy collects raw telemetry data after the response is sent back to the
+Istio proxy collects raw telemetry data after a response is sent back to the
  client. Time spent collecting raw telemetry for a request does not contribute
  to the total time taken to complete that request. However, since the worker
- thread is busy doing this work, it will not start work on the next request
+ is busy doing this work, it will not start work on the next request
  immediately. This adds to the queue wait time of the next request affecting
  average and tail latencies. The actual tail latency depends on the traffic pattern.
 
-Inside the mesh, a request traverses the client side proxy and then the server
- side proxy. Two proxies on the data path add about `10ms` to the p99 latency at `1k rps`.
+Inside the mesh, a request traverses the client-side proxy and then the server-side
+ proxy. Two proxies on the data path add about `10ms` to the p99 latency at `1k rps`.
+ The server-side proxy alone adds `6ms` to the p99 latency.
 
 ### CPU and memory
 
@@ -112,5 +114,5 @@ Istio proxy uses 0.5 vCPU per 1000 rps and `istio-telemetry` uses 0.5 vCPU per 1
 
 ### Control plane
 
-Istio pilot consumes 1 vCPU and 1.5 GB of memory while supporting 1000 services and 2000 sidecars.
+Istio pilot needs 1 vCPU and 1.5 GB of memory to support 1000 services and 2000 sidecars.
 
