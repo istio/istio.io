@@ -19,7 +19,7 @@ services from all other namespaces.
     extract the latest release automatically:
 
     {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | sh -
+    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
     {{< /text >}}
 
 1.  Move to the Istio package directory. For example, if the package is
