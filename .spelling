@@ -206,6 +206,7 @@ http2
 httpbin
 httpbin.org
 https
+Huawei
 hyperkube
 Hystrix
 i.e.
@@ -331,6 +332,8 @@ parenthesization
 passthrough
 peek
 pem
+PKI
+PKIs
 platform-specific
 pluggability
 pluggable
@@ -365,6 +368,7 @@ RawVM
 rbac
 re-applied
 re-patch
+RedHat
 reachability
 rearchitect
 recomposition
@@ -394,6 +398,7 @@ RPCs
 runtime
 runtimes
 sa
+Salesforce
 sayin
 schemas
 SDKs
@@ -497,6 +502,7 @@ VM-based
 VMs
 VMware
 VPN
+VPNs
 WBoilerplates
 WeaveWorks
 webhook

@@ -36,7 +36,19 @@
 <div class="call-to-action">
     <div id="buttons">
         {{ if .Site.Data.args.preliminary }}
-            {{ if ne $type_of_note "prelim" }}
+            {{ if eq $type_of_note "prelim" }}
+                <span class="btn">{{ printf (i18n "relnote_download") $dir_name }}</span>
+
+                {{ if eq $type_of_note "archive" }}
+                    <span class="btn">{{ printf (i18n "relnote_docs") $dir_name }}</span>
+                {{ else }}
+                    <span class="btn">{{ printf (i18n "relnote_docs") $dir_name }}</span>
+                {{ end }}
+
+                {{ if $patch }}
+                    <span class="btn">{{ printf (i18n "relnote_changes") $dir_name }}</span>
+                {{ end }}
+            {{ else }}
                 <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $dir_name }}</a>
 
                 {{ if eq $type_of_note "archive" }}
