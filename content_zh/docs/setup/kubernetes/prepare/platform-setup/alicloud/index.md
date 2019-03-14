@@ -16,11 +16,11 @@ keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 
 ## 步骤
 
-1. 登陆“容器服务控制台”，点击左边导航栏中 **Kubernetes** 下的 **集群** 进入到 **Cluster 列表** 页面。
+1. 登陆“容器服务控制台”，点击左边导航栏中 **Kubernetes** 下的 **集群** 进入到 **集群列表** 页面。
 
 1. 点击右上角的 **创建 Kubernetes 集群** 按钮。
 
-1.输入集群名称。集群名称可以是长度为 1–63 个字符，可以包含数字、中文字符、英文字母和 (-) 。
+1. 输入集群名称。集群名称可以是长度为 1–63 个字符，可以包含数字、中文字符、英文字母和 (-) 。
 
 1. 选择集群所在到 **地区** 和 **区域**。
 
@@ -34,6 +34,6 @@ keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 
 1. 配置登录模式，配置 POD 网络 CIDR 和服务 CIDR 。
 
-下面的图像是显示了完成前面所有步骤的GUI:
+下图显示了完成前面所有步骤的界面:
 
 {{< image link="/docs/setup/kubernetes/prepare/platform-setup/alicloud/csconsole.png" caption="Console" >}}

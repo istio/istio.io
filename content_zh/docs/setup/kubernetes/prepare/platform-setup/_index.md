@@ -1,7 +1,7 @@
 ---
 title: 平台搭建
 description: 在安装 Istio 前，如何准备各种 Kubernetes 平台。
-weight: 2
+weight: 10
 keywords: [platform-setup]
 ---
 

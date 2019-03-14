@@ -180,3 +180,9 @@ other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微�
 
 [syntax_coloring]
 other = "Color Examples"
+
+[announcement_download]
+other = "Download %s"
+
+[announcement_relnotes]
+other = "^s Release Notes"
