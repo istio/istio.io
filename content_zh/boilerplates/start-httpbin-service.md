@@ -1,3 +1,5 @@
+---
+---
 *   启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样例程序。
 
     如果您启用了 [sidecar 自动注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入), 通过以下命令部署 `httpbin` 服务：

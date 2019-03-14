@@ -1,3 +1,5 @@
+---
+---
 ## Before you begin
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
