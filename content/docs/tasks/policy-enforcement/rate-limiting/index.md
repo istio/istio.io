@@ -15,6 +15,11 @@ service.
 1. Setup Istio in a Kubernetes cluster by following the instructions in the
    [Installation Guide](/docs/setup/kubernetes/install/kubernetes/).
 
+    {{< warning >}}
+    Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
+    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    {{< /warning >}}
+
 1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
     The Bookinfo sample deploys 3 versions of the `reviews` service:
