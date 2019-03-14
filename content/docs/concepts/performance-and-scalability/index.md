@@ -14,7 +14,7 @@ keywords: [performance,scalability,scale,benchmarks]
 ---
 
 Istio makes it easy to create a network of deployed services with rich routing,
- load balancing, service-to-service authentication, monitoring, and more. It
+ load balancing, service-to-service authentication, monitoring, and more - all
  does so without any changes to the application code. Istio strives to provide
  these benefits with minimal resource overhead. Istio also aims to support very
  large meshes with high request rates while adding minimal latency.
