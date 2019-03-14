@@ -39,11 +39,16 @@ constraints as part of sidecar injection:
 {{< text bash >}}
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
-    
-## Automatic Injection
-Webhook and certificate signing requests support must be enabled for auto injection to work. To do so, you must modify the master configuration file for the cluster. 
 
-On the master node in the directory containing the master configuration file (likely /etc/origin/master/master-config.yaml), create a file named master-config.patch with the following contents:
+## Automatic Injection
+
+Webhook and certificate signing requests support must be enabled for [automatic injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection) to work. Modify the master configuration file on the master node for the cluster as follows.
+
+{{< tip >}}
+By default, the master configuration file can be found in /etc/origin/master/master-config.yaml.
+{{< /tip >}}
+
+In the same directory as the master configuration file, create a file named master-config.patch with the following contents:
 
 {{< text yaml >}}
 admissionConfig:
@@ -59,6 +64,7 @@ admissionConfig:
         kubeConfigFile: /dev/null
         kind: WebhookAdmission
 {{< /text >}}
+
 In the same directory, execute:
 
 {{< text bash >}}
