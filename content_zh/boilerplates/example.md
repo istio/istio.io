@@ -1,3 +1,5 @@
+---
+---
 这是一些样板 *markdown* 文本。
 
 {{< text plain >}}
