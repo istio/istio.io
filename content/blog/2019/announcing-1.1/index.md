@@ -4,7 +4,10 @@ description: Istio 1.1 release announcement.
 publishdate: 2019-03-14
 attribution: The Istio Team
 ---
-We are pleased to announce the release of Istio 1.1.
+
+We are pleased to announce the release of Istio 1.1!
+
+{{< announcement_links "1.1" "1.1.0" >}}
 
 Since we released 1.0 back in July, we’ve done a lot of work to help people
 get into production. Not surprisingly, we had to do some patch releases (6 so

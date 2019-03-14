@@ -4,6 +4,11 @@
     {{- $downloadas = .Get 2 -}}
 {{- end -}}
 
+{{- $expand_links := "true" -}}
+{{- if .Get 3 -}}
+    {{- $expand_links = .Get 3 -}}
+{{- end -}}
+
 {{- $syntax := "" -}}
 {{- $text := "" -}}
 {{- $output := "" -}}
@@ -52,19 +57,21 @@
     {{- end -}}
 {{- end -}}
 
-{{- /* include a dummy link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
-{{- $branch := .Site.Data.args.source_branch_name -}}
-{{- $links := findRE "@(.*?)@" $text -}}
-{{- range $link := $links -}}
-    {{- $target := trim $link "@" -}}
-    {{- if gt (len $target) 0 -}}
-        {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
-        <a data-skipendnotes="true" style="display:none" href="{{- $href -}}">Hello</a>
+{{- if eq $expand_links "true" -}}
+    {{- /* include a dummy link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
+    {{- $branch := .Site.Data.args.source_branch_name -}}
+    {{- $links := findRE "@(.*?)@" $text -}}
+    {{- range $link := $links -}}
+        {{- $target := trim $link "@" -}}
+        {{- if gt (len $target) 0 -}}
+            {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
+            <a data-skipendnotes="true" style="display:none" href="{{- $href -}}">Hello</a>
+        {{- end -}}
     {{- end -}}
 {{- end -}}
 
 {{- if $downloadas -}}
-<pre><code class='language-{{- $syntax -}}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
+<pre><code class='language-{{- $syntax -}}' data-expand='{{ $expand_links }}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
 {{- else -}}
-<pre><code class='language-{{- $syntax -}}'>{{- $text -}}</code></pre>
+<pre><code class='language-{{- $syntax -}}' data-expand='{{ $expand_links }}'>{{- $text -}}</code></pre>
 {{- end -}}
