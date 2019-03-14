@@ -14,7 +14,7 @@ keywords: [traffic-management,ingress,https]
 
 ## 生成客户端和服务器证书和密钥
 
-以与[使用HTTPS保护网关](/zh/docs/tasks/traffic-management/secure-ingress/#生成客户端与服务器的证书和密钥)任务相同的方式生成证书和密钥。
+以与[使用 HTTPS 保护网关](/zh/docs/tasks/traffic-management/secure-ingress/sds/#generate-client-and-server-certificates-and-keys)任务相同的方式生成证书和密钥。
 
 1.  克隆 <https://github.com/nicholasjackson/mtls-go-example> 存储库：
 

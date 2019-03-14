@@ -68,7 +68,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 
 1. 在 Ingress 网关上启用 SDS，并部署 Ingress 网关代理。
 
-    这个功能缺省是禁用的，因此需要在 Helm 中打开 [`istio-ingressgateway.sds.enabled` 开关]({{<github_blob>}}/zh/install/kubernetes/helm/istio/charts/gateways/values.yaml)，然后生成 `istio-ingressgateway.yaml` 文件：
+    这个功能缺省是禁用的，因此需要在 Helm 中打开 [`istio-ingressgateway.sds.enabled` 开关]({{<github_blob>}}/install/kubernetes/helm/istio/charts/gateways/values.yaml)，然后生成 `istio-ingressgateway.yaml` 文件：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio/ --name istio \
