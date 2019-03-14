@@ -1,0 +1,19 @@
+{{ $version := .Get 0 }}
+{{ $full_version := .Get 1 }}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.setTimeout(function() {
+            document.getElementById('buttons').style.opacity = "1";
+        }, 250);
+    });
+</script>
+
+<div class="call-to-action">
+    <div id="buttons">
+        {{ if not .Site.Data.args.preliminary }}
+            <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "announcement_download") $version }}</a>
+        {{ end }}
+        <a class="btn" href="/about/notes/{{ $version }}/">{{ printf (i18n "announcement_relnotes") $version }}</a>
+    </div>
+</div>
