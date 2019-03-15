@@ -1,11 +1,9 @@
-
 <aside class="callout idea">
-<div class="type">
-    {{ partial "large_icon.html" "callout-idea" }}
-</div>
-<div class="content">
-    {{- $text := partial "strip_indent.html" .Inner -}}
-    {{- $text | markdownify -}}
-</div>
+    <div class="type">
+        {{ partial "large_icon.html" "callout-idea" }}
+    </div>
+    <div class="content">
+        {{- $trimmed := trim .Inner " \n" -}}
+        {{- $trimmed | markdownify -}}
+    </div>
 </aside>
-

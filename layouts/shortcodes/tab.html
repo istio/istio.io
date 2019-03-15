@@ -1,10 +1,12 @@
 {{- if .Parent -}}
-    {{- $name := trim (.Get "name") " " -}}
-    {{- $cookie_value := trim (.Get "cookie-value") " " -}}
-    {{- if not (.Parent.Scratch.Get "tabs") -}}
-        {{- .Parent.Scratch.Set "tabs" slice -}}
-    {{- end -}}
-    {{- $.Parent.Scratch.Add "tabs" (dict "name" $name "cookie_value" $cookie_value "content" .Inner ) -}}
+	{{- $name := trim (.Get "name") " " -}}
+	{{- $cookie_value := trim (.Get "cookie-value") " " -}}
+	{{- if not (.Parent.Scratch.Get "tabs") -}}
+		{{- .Parent.Scratch.Set "tabs" slice -}}
+	{{- end -}}
+	{{- with .Inner -}}
+		{{- $.Parent.Scratch.Add "tabs" (dict "name" $name "cookie_value" $cookie_value "content" . ) -}}
+	{{- end -}}
 {{- else -}}
-    {{- errorf "Missing surrounding tabset for tab (%s)" .Position -}}
+	{{- errorf "Missing surrounding tabset for tab (%s)" .Position -}}
 {{- end -}}
