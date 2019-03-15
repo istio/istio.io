@@ -423,7 +423,7 @@ The SNI proxy will forward the traffic to port `443`.
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mTLS enabled" cookie-value="enabled" >}}
 
 {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -538,9 +538,9 @@ The SNI proxy will forward the traffic to port `443`.
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mTLS disabled" cookie-value="disabled" >}}
 
 {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -609,7 +609,7 @@ The SNI proxy will forward the traffic to port `443`.
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 

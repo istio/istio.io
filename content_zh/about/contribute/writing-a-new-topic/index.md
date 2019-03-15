@@ -356,17 +356,17 @@ I如果未指定 `downloadas` 属性，则下载名称取自 `url` 属性。
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
-{{%/* tab name="One" cookie-value="one" */%}}
+{{</* tab name="One" cookie-value="one" */>}}
 ONE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Two" cookie-value="two" */%}}
+{{</* tab name="Two" cookie-value="two" */>}}
 TWO
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Three" cookie-value="three" */%}}
+{{</* tab name="Three" cookie-value="three" */>}}
 THREE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
 {{</* /tabset */>}}
 {{< /text >}}
@@ -375,17 +375,17 @@ which produces the following output:
 
 {{< tabset cookie-name="platform" >}}
 
-{{% tab name="One" cookie-value="one" %}}
+{{< tab name="One" cookie-value="one" >}}
 ONE
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Two" cookie-value="two" %}}
+{{< tab name="Two" cookie-value="two" >}}
 TWO
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Three" cookie-value="three" %}}
+{{< tab name="Three" cookie-value="three" >}}
 THREE
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 

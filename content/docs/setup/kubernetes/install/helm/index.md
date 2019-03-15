@@ -93,58 +93,58 @@ deployed and you don't want to install it.
 
 {{< tabset cookie-name="helm_profile" >}}
 
-{{% tab name="default" cookie-value="default" %}}
+{{< tab name="default" cookie-value="default" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="demo" cookie-value="demo" %}}
+{{< tab name="demo" cookie-value="demo" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="demo-auth" cookie-value="demo-auth" %}}
+{{< tab name="demo-auth" cookie-value="demo-auth" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml | kubectl apply -f -
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="minimal" cookie-value="minimal" %}}
+{{< tab name="minimal" cookie-value="minimal" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl apply -f -
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="remote" cookie-value="remote" %}}
+{{< tab name="remote" cookie-value="remote" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-remote.yaml | kubectl apply -f -
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="sds" cookie-value="sds" %}}
+{{< tab name="sds" cookie-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml | kubectl apply -f -
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 
@@ -193,58 +193,58 @@ to manage the lifecycle of Istio.
 
 {{< tabset cookie-name="helm_profile" >}}
 
-{{% tab name="default" cookie-value="default" %}}
+{{< tab name="default" cookie-value="default" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="demo" cookie-value="demo" %}}
+{{< tab name="demo" cookie-value="demo" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="demo-auth" cookie-value="demo-auth" %}}
+{{< tab name="demo-auth" cookie-value="demo-auth" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="minimal" cookie-value="minimal" %}}
+{{< tab name="minimal" cookie-value="minimal" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-minimal.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="remote" cookie-value="remote" %}}
+{{< tab name="remote" cookie-value="remote" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-remote.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="sds" cookie-value="sds" %}}
+{{< tab name="sds" cookie-value="sds" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 
@@ -270,16 +270,16 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< tabset cookie-name="helm_profile" >}}
 
-{{% tab name="default" cookie-value="default" %}}
+{{< tab name="default" cookie-value="default" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl delete -f -
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="demo" cookie-value="demo" %}}
+{{< tab name="demo" cookie-value="demo" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -287,9 +287,9 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="demo-auth" cookie-value="demo-auth" %}}
+{{< tab name="demo-auth" cookie-value="demo-auth" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -297,9 +297,9 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="minimal" cookie-value="minimal" %}}
+{{< tab name="minimal" cookie-value="minimal" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -307,9 +307,9 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="remote" cookie-value="remote" %}}
+{{< tab name="remote" cookie-value="remote" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -317,9 +317,9 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="sds" cookie-value="sds" %}}
+{{< tab name="sds" cookie-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -327,7 +327,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 

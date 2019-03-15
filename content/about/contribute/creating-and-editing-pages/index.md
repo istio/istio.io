@@ -558,17 +558,17 @@ format in a different tab. To insert tabbed content, you use a combination of `t
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
-{{%/* tab name="One" cookie-value="one" */%}}
+{{</* tab name="One" cookie-value="one" */>}}
 ONE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Two" cookie-value="two" */%}}
+{{</* tab name="Two" cookie-value="two" */>}}
 TWO
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Three" cookie-value="three" */%}}
+{{</* tab name="Three" cookie-value="three" */>}}
 THREE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
 {{</* /tabset */>}}
 {{< /text >}}
@@ -577,17 +577,17 @@ which produces the following output:
 
 {{< tabset cookie-name="platform" >}}
 
-{{% tab name="One" cookie-value="one" %}}
+{{< tab name="One" cookie-value="one" >}}
 ONE
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Two" cookie-value="two" %}}
+{{< tab name="Two" cookie-value="two" >}}
 TWO
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Three" cookie-value="three" %}}
+{{< tab name="Three" cookie-value="three" >}}
 THREE
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 

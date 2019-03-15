@@ -517,17 +517,17 @@ Mixer 使用 {{<gloss 适配器>}}adapter{{</gloss>}} 来连接后端。
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
-{{%/* tab name="一" cookie-value="one" */%}}
+{{</* tab name="一" cookie-value="one" */>}}
 一
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="二" cookie-value="two" */%}}
+{{</* tab name="二" cookie-value="two" */>}}
 二
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="三" cookie-value="three" */%}}
+{{</* tab name="三" cookie-value="three" */>}}
 三
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
 {{</* /tabset */>}}
 {{< /text >}}
@@ -536,17 +536,17 @@ Mixer 使用 {{<gloss 适配器>}}adapter{{</gloss>}} 来连接后端。
 
 {{< tabset cookie-name="platform" >}}
 
-{{% tab name="一" cookie-value="one" %}}
+{{< tab name="一" cookie-value="one" >}}
 一
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="二" cookie-value="two" %}}
+{{< tab name="二" cookie-value="two" >}}
 二
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="三" cookie-value="three" %}}
+{{< tab name="三" cookie-value="three" >}}
 三
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 

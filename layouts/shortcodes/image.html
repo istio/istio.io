@@ -46,7 +46,7 @@ omit this value and it will be computed automatically.
     {{- $width = "100%" -}}
 {{- end -}}
 
-{{- /* Turn relative values for $link into absolute URLs */ -}}
+{{- /* Turn relative values for $link into absolute paths */ -}}
 
 {{- $prefix := slicestr $link 0 1 -}}
 {{- if (ne $prefix "/") -}}
