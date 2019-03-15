@@ -12,8 +12,6 @@ With Istio, you gain monitoring and logging of the traffic between microservices
 You saw the Istio Dashboard already, you can use it for monitoring your microservices in real time.
 In this module you will see how you can inspect and query logs related to the traffic between your microservices.
 
-1.  Access your application's webpage several times.
-
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
     You will need it to recognize your microservices in the logs:
 
