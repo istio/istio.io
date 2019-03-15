@@ -19,10 +19,19 @@ without any changes to the application code. Istio strives to provide
 these benefits with minimal resource overhead and aims to support very
 large meshes with high request rates while adding minimal latency.
 
-The Istio data plane components, the Envoy proxies and Mixer for headers only, handle
-data flowing through the system. The Istio control plane components, Pilot, Galley and Citadel,
-configure the data plane. The data plane and control plane have distinct
-performance concerns.
+The Istio data plane components, the Envoy proxies, handle data flowing through
+the system. The Istio control plane components, Pilot, Galley and Citadel, configure
+the data plane. The data plane and control plane have distinct performance concerns.
+
+## Performance summary for {{< istio_release_name >}}
+
+In the [Istio load tests](https://github.com/istio/tools/tree/master/perf/load) with 1000 services,
+2000 sidecars at `70k` mesh-wide requests per second (`rps`), we get the following numbers.
+
+- The proxy uses 0.6 vCPU per `1k rps` and `50MB` memory.
+- `istio-telemetry` service uses 0.6 vCPU per `1k` mesh-wide rps.
+- Pilot uses 1 vCPU and `1.5 GB` of memory.
+- The proxy adds `10ms` to the P99 latency.
 
 ## Data plane performance
 
@@ -35,7 +44,7 @@ Data plane performance depends on many factors, for example:
 - Number of proxy worker threads
 - Protocol
 - CPU cores
-- Number and types of proxy filters, specifically mixer-filter.
+- Number and types of proxy filters, specifically Mixer filter.
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
@@ -110,14 +119,5 @@ for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `server-sidecar` Only server sidecar is present.
 - `both-sidecars` Client and server sidecars are present. This is a default case inside the mesh.
-- `nomixer-both` Same as **both-sidecars** without the mixer filter.
-- `nomixer-server` Same as **server-sidecar** without the mixer filter.
-
-### Data plane resources
-
-The proxy uses 0.6 vCPU per 1000 rps and the `istio-telemetry` service uses 0.6 vCPU per 1000 mesh-wide rps in
-[long running tests](https://snapshot.raintank.io/dashboard/snapshot/RHEV5y3Wf8x9ax6MIin4tBAo0WGFIQS6)
-
-### Control plane resources
-
-Pilot uses 1 vCPU and 1.5 GB of memory to support 1000 services and 2000 sidecars.
+- `nomixer-both` Same as **both-sidecars** without the Mixer filter.
+- `nomixer-server` Same as **server-sidecar** without the Mixer filter.
