@@ -92,15 +92,6 @@ See [Istio Vault CA Integration](/docs/tasks/security/vault-ca) for more informa
 - TBD: How about adding [11667](https://github.com/istio/istio/issues/11667) as well? As this is also a significant feature for security which can enable end user to set
 different CA and Certs for different namespaces.
 
-## Multicluster
-
-- **Non-Routable L3 Networks**. Enabled using a single Istio control plane in multicluster environments with non-routable
-L3 networks.
-TBD: LINK
-
-- **Multiple Control Planes**. Added support for multiple Istio control planes in support of multicluster environments.
-TBD: LINK
-
 ## Policies and telemetry
 
 - **Policy Checks Off By Default**. Changed policy checks to be turned off by default which improves performance for most customer scenarios.
@@ -139,7 +130,7 @@ adapter model is being deprecated in this release. All new adapter development s
 
 - **Galley**. Added [Galley](/docs/concepts/what-is-istio/#galley) as the primary configuration ingestion and distribution mechanism within Istio. It provides
 a robust model to validate, transform, and distribute configuration state to Istio components insulating the Istio components
-from Kubernetes details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp) to interact with components. TBD: LINK TO MCP
+from Kubernetes details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp) to interact with components.
 
 - **Monitoring Port**. Changed Galley's default monitoring port from 9093 to 15014.
 
@@ -155,4 +146,4 @@ Istio installation given a specified installation YAML file.
 Deprecated the `istioctl gen-deploy` command too. Use a [`helm template`](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) instead.
 These commands will be removed in the 1.2 release.
 
-- **Short Commands**. Included short commands in `kubectl` for gateways, virtual services, destination rules and service entries. TBD: ADD LINK
+- **Short Commands**. Included short commands in `kubectl` for gateways, virtual services, destination rules and service entries.
