@@ -36,48 +36,6 @@ then to 20% and so on.
     EOF
     {{< /text >}}
 
-1.  Call reviews 20 times and see that _reviews v3_ is called, part of the times.
-
-    Get a shell to the testing pod:
-
-    {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep sh
-    {{< /text >}}
-
-    Run the following command in the shell of the testing pod:
-
-    {{< text bash >}}
-    $ for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do echo -n "perform request $i : "; curl -s http://reviews:9080/reviews/0 | sed -n 's/^.*color": "\(.*\)".*/\1\n/p'; done
-    {{< /text >}}
-
-    you will see output similar to:
-
-    {{< text plain >}}
-    perform request 1 : black
-    perform request 2 : black
-    perform request 3 : black
-    perform request 4 : red
-    perform request 5 : black
-    perform request 6 : black
-    perform request 7 : black
-    perform request 8 : black
-    perform request 9 : black
-    perform request 10 : black
-    perform request 11 : red
-    perform request 12 : black
-    perform request 13 : black
-    perform request 14 : black
-    perform request 15 : black
-    perform request 16 : black
-    perform request 17 : red
-    perform request 18 : black
-    perform request 19 : black
-    perform request 20 : black
-    {{< /text >}}
-
-    The color of the review stars is printed for each request, _black_ for _v2_ and _red_ for _v3_.
-    Note that the percentage of requests sent to _reviews v3_ is approximately 10%.
-
 1.  Check the distribution of the requests in your log database,
     at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
 
@@ -118,6 +76,33 @@ then to 20% and so on.
     sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v2"}) + sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v3"})
     {{< /text >}}
 
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    You will see the rate of the traffic entering _reviews_ split roughly 90:10 between _reviews_ _v2_ and _v3_.
+
+    {{< image width="80%"
+        link="images/kiali-phased-rollout.png"
+        caption="Kiali Graph Tab with traffic splitting 90:10 between reviews v2 and v3"
+        >}}
+
+1.  Observe the _reviews_ virtual service in your Kiali console, the _Istio Config_ tab.
+
+    {{< image width="80%"
+        link="images/kiali-phased-rollout-virtual-service.png"
+        caption="Kiali, the reviews virtual service"
+        >}}
+
+1.  Note that you can edit the virtual service in Kiali. Go to the `YAML` tab and change the weight of _reviews v2_ to
+    80 without changing the weight of _reviews v3_.
+    Try to save and see that you get an error in the top right corner. The error is that the sum of the weights to
+    _reviews_ is not equal to 100: 80 to _v2_ and 10 to _v3_. Istio validates the configuration items you submit. Good.
+
+    {{< image width="80%"
+        link="images/kiali-edit-virtual-service-error.png"
+        caption="Kiali, editing the reviews virtual service with error"
+        >}}
+
 1.  Increase the rollout of _reviews v3_, this time to 20%:
 
     {{< text bash >}}
@@ -142,9 +127,11 @@ then to 20% and so on.
     EOF
     {{< /text >}}
 
-1.  Send multiple requests again and see that the number of requests sent to _reviews v3_ was increased.
+1.  Edit the virtual service in Kiali, this time setting the weights correctly, 80:20.
 
-1.  **Exercise**: direct 70% of the traffic to _reviews v3_.
+1.  Observe the traffic rates and verify that they are roughly 80:20, as expected.
+
+1.  Direct 70% of the traffic to _reviews v3_.
 
 1.  Finally, direct all the traffic to _reviews v3_.
 
