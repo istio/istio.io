@@ -23,7 +23,7 @@ The Istio data plane components, the Envoy proxies, handle data flowing through
 the system. The Istio control plane components, Pilot, Galley and Citadel, configure
 the data plane. The data plane and control plane have distinct performance concerns.
 
-## Performance summary for {{< istio_release_name >}}
+## Performance summary for Istio release {{< istio_release_name >}}
 
 In the [Istio load tests](https://github.com/istio/tools/tree/master/perf/load) with 1000 services,
 2000 sidecars at `70k` mesh-wide requests per second (`rps`), we get the following numbers.
