@@ -1,0 +1,22 @@
+{{- $input := . -}}
+{{- $lines := split (strings.TrimRight " " (trim $input "\n")) "\n" -}}
+
+{{- $line0 := index $lines 0 -}}
+{{- $prefix := "" -}}
+{{- if hasPrefix $line0 "                " -}}{{- $prefix = "                " -}}
+{{- else if hasPrefix $line0 "            " -}}{{- $prefix = "            " -}}
+{{- else if hasPrefix $line0 "        " -}}{{- $prefix = "        " -}}
+{{- else if hasPrefix $line0 "    " -}}{{- $prefix = "    " -}}
+{{- end -}}
+
+{{- $text := "" -}}
+{{- range $line := $lines -}}
+    {{- if hasPrefix $line $prefix -}}
+        {{- $l := substr $line (len $prefix) -}}
+        {{- $text = printf "%s\n%s" $text $l -}}
+    {{- else -}}
+        {{- $text = printf "%s\n%s" $text $line -}}
+    {{- end -}}
+{{- end -}}
+
+{{- trim $text "\n" | safeHTML -}}
