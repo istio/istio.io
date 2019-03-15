@@ -122,7 +122,7 @@ adapter model is being deprecated in this release. All new adapter development s
 
     - Trace ids are now 128 bit wide.
 
-    - Added support for sending trace data to [LightStep](https://preliminary.istio.io/docs/tasks/telemetry/distributed-tracing/lightstep/)
+    - Added support for sending trace data to [LightStep](/docs/tasks/telemetry/distributed-tracing/lightstep/)
 
     - Added the option to disable tracing for Mixer-backed services entirely.
 
