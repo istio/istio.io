@@ -22,7 +22,7 @@ This task demonstrates how to use a policy adapter to manipulate request headers
 * Customize the [virtual service](/docs/reference/config/networking/v1alpha3/virtual-service/)
   configuration for the `httpbin` service containing two route rules that allow traffic for paths `/headers` and
   `/status`:
-  
+
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -47,7 +47,8 @@ This task demonstrates how to use a policy adapter to manipulate request headers
             host: httpbin
     EOF
     {{< /text >}}
-  
+
+
 ## Output-producing check adapters
 
 In this task, we are using a sample policy adapter `keyval`. In addition to
@@ -240,5 +241,5 @@ $ kubectl delete service keyval -n istio-system
 $ kubectl delete deployment keyval -n istio-system
 {{< /text >}}
 
-Complete the clean-up instructions in [ingress task](/docs/tasks/traffic-management/ingress/). 
+Complete the clean-up instructions in [ingress task](/docs/tasks/traffic-management/ingress/).
 
