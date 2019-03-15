@@ -23,61 +23,16 @@ The Istio data plane components, the Envoy proxies, handle data flowing through
 the system. The Istio control plane components, Pilot, Galley and Citadel, configure
 the data plane. The data plane and control plane have distinct performance concerns.
 
-## Performance summary for Istio release {{< istio_release_name >}}
+## Performance summary for Istio {{< istio_release_name >}}
 
-In the [Istio load tests](https://github.com/istio/tools/tree/master/perf/load) with 1000 services,
-2000 sidecars at `70k` mesh-wide requests per second (`rps`), we get the following numbers.
+The [Istio load tests](https://github.com/istio/tools/tree/master/perf/load) mesh consists
+of **1000** services and **2000** sidecars with `70k` mesh-wide requests per second (`rps`).
+After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
-- The proxy uses 0.6 vCPU per `1k rps` and `50MB` memory.
-- `istio-telemetry` service uses 0.6 vCPU per `1k` mesh-wide rps.
-- Pilot uses 1 vCPU and `1.5 GB` of memory.
-- The proxy adds `10ms` to the P99 latency.
-
-## Data plane performance
-
-Data plane performance depends on many factors, for example:
-
-- Number of client connections
-- Target request rate
-- Request size and Response size
-- Enabling `mTLS`
-- Number of proxy worker threads
-- Protocol
-- CPU cores
-- Number and types of proxy filters, specifically Mixer filter.
-
-The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
-
-### Latency
-
-Since Istio injects a sidecar proxy on the data path, latency is an important
-consideration. Istio adds an authentication and a Mixer filter to the proxy. Every
-additional filter adds to the path length inside the proxy and affects latency.
-
-The Envoy proxy collects raw telemetry data after a response is sent to the
-client. The time spent collecting raw telemetry for a request does not contribute
-to the total time taken to complete that request. However, since the worker
-is busy handling the request, the worker won't start handling the next request
-immediately. This process adds to the queue wait time of the next request and affects
-average and tail latencies. The actual tail latency depends on the traffic pattern.
-
-Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. This two proxies on the data path add about `10ms` to the 99th percentile latency at `1k rps`.
-The server-side proxy alone adds `6ms` to the 99th percentile latency.
-
-### CPU and memory
-
-Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. As of Istio 1.1, a proxy consumes about 0.6 vCPU per 1000
-requests per second (`rps`).
-
-The memory consumption of the proxy depends on the total configuration state the proxy holds.
-A large number of listeners, clusters, and routes can increase memory usage.
-Istio 1.1 introduced namespace isolation to limit the scope of the configuration sent
-to a proxy. In a large namespace, the proxy consumes approximately 50 MB of memory.
-
-Since the proxy normally doesn't buffer the data passing through,
-request rate doesn't affect the memory consumption.
+- The Envoy proxy uses **0.6 vCPU** and **50 MB memory** per `1k rps` going through the proxy .
+- The `istio-telemetry` service uses **0.6 vCPU** per `1k` **mesh-wide** `rps`.
+- Pilot uses **1 vCPU** and `1.5 GB` of memory.
+- The Envoy proxy adds `10 ms` to the 99th percentile latency.
 
 ## Control plane performance
 
@@ -104,7 +59,53 @@ a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and
 You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
 to reach all proxies.
 
-### Data plane latency
+## Data plane performance
+
+Data plane performance depends on many factors, for example:
+
+- Number of client connections
+- Target request rate
+- Request size and Response size
+- Enabling `mTLS`
+- Number of proxy worker threads
+- Protocol
+- CPU cores
+- Number and types of proxy filters, specifically Mixer filter.
+
+The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
+
+### CPU and memory
+
+Since the sidecar proxy performs additional work on the data path, it consumes CPU
+and memory. As of Istio 1.1, a proxy consumes about 0.6 vCPU per 1000
+requests per second (`rps`).
+
+The memory consumption of the proxy depends on the total configuration state the proxy holds.
+A large number of listeners, clusters, and routes can increase memory usage.
+Istio 1.1 introduced namespace isolation to limit the scope of the configuration sent
+to a proxy. In a large namespace, the proxy consumes approximately 50 MB of memory.
+
+Since the proxy normally doesn't buffer the data passing through,
+request rate doesn't affect the memory consumption.
+
+### Latency
+
+Since Istio injects a sidecar proxy on the data path, latency is an important
+consideration. Istio adds an authentication and a Mixer filter to the proxy. Every
+additional filter adds to the path length inside the proxy and affects latency.
+
+The Envoy proxy collects raw telemetry data after a response is sent to the
+client. The time spent collecting raw telemetry for a request does not contribute
+to the total time taken to complete that request. However, since the worker
+is busy handling the request, the worker won't start handling the next request
+immediately. This process adds to the queue wait time of the next request and affects
+average and tail latencies. The actual tail latency depends on the traffic pattern.
+
+Inside the mesh, a request traverses the client-side proxy and then the server-side
+proxy. This two proxies on the data path add about `10ms` to the 99th percentile latency at `1k rps`.
+The server-side proxy alone adds `6ms` to the 99th percentile latency.
+
+### Latency for Istio {{< istio_release_name >}}
 
 The default configuration of Istio 1.1 adds `10 ms` to the 99th percentile latency of the data plane over the baseline.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
