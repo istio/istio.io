@@ -139,6 +139,8 @@ then to 20% and so on.
     $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-reviews-v3.yaml
     {{< /text >}}
 
+1.  Observe in the Kiali console, the graph of your namespace, how the traffic switches from _v2_ to _v3_.
+
 1.  Let's check that no more requests were sent to _reviews v2_:
 
     {{< text bash >}}
