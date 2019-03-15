@@ -168,16 +168,12 @@ injected sidecar. To change how namespaces are selected for injection, you can
 edit the `MutatingWebhookConfiguration` with the following command:
 
 {{< text bash >}}
-
 $ kubectl edit mutatingwebhookconfiguration istio-sidecar-injector
-
 {{< /text >}}
 
 {{< warning >}}
-
 You should restart the sidecar injector pod(s) after modifying
 the `MutatingWebhookConfiguration`.
-
 {{< /warning >}}
 
 For example, you can modify the `MutatingWebhookConfiguration` to always inject
