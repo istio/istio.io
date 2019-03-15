@@ -122,7 +122,7 @@ instance key is not present in the lookup table.
 
    The output should be the request headers as they are received by the _httpbin_ service.
 
-1. Create a rule for the demo adapter:
+2. Create a rule for the demo adapter:
 
     {{< text yaml >}}
     $ kubectl apply -f - <<EOF
@@ -142,7 +142,7 @@ instance key is not present in the lookup table.
     EOF
     {{< /text >}}
 
-1. Issue a new request to the ingress gateway with the header `key` set to value `jason`:
+3. Issue a new request to the ingress gateway with the header `key` set to value `jason`:
 
     {{< text bash >}}
     $ curl -Huser:jason http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -163,7 +163,7 @@ instance key is not present in the lookup table.
    rule application of the adapter. The expression `x.output.value` in the rule
    evaluates to the populated `value` field returned by the `keyval` adapter.
 
-1. Modify the rule to rewrite the URI path to a different virtual service route
+4. Modify the rule to rewrite the URI path to a different virtual service route
    if the check succeeds:
 
     {{< text yaml >}}
@@ -184,7 +184,7 @@ instance key is not present in the lookup table.
     EOF
     {{< /text >}}
 
-1. Repeat the request to the ingress gateway:
+5. Repeat the request to the ingress gateway:
 
     {{< text bash >}}
     $ curl -Huser:jason -I http://$INGRESS_HOST:$INGRESS_PORT/headers
