@@ -51,16 +51,16 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/docs/tasks/telemetry/) | Stable
+| [Prometheus Integration](/docs/tasks/telemetry/metrics/querying-metrics/) | Stable
+| [Local Logging (STDIO)](/docs/tasks/telemetry/logs/collecting-logs/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
-| [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Stable
-| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Stable
+| [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
+| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Beta
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Beta
-| [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Beta
+| [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
 
 ### Security and Policy Enforcement

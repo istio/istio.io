@@ -116,7 +116,7 @@ as the example application throughout this task.
     {{< /text >}}
 
     For more on querying Prometheus for metric values, see the
-    [Querying Istio Metrics](/docs/tasks/telemetry/querying-metrics/) task.
+    [Querying Istio Metrics](/docs/tasks/telemetry/metrics/querying-metrics/) task.
 
 ## Understanding the metrics configuration
 
