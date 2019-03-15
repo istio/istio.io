@@ -93,7 +93,7 @@ keywords: [keyword1,keyword2,...]
 {{< /text >}}
 
 在新的 markdown 文件的开头复制上面的内容并更新信息字段。
-可用的前端问题字段是：
+可用的字段是：
 
 |字段              | 描述
 |-------------------|------------
@@ -101,7 +101,7 @@ keywords: [keyword1,keyword2,...]
 |`linktitle`        | 页面的另一个（通常是较短的）标题，在侧栏中用于引用页面
 |`subtitle`         | 一个可选的副标题，显示在主标题下方
 |`description`      | 关于页面内容的单行描述
-|`icon`             | 图像文件的可选路径，显示在主标题旁边
+|`icon`             | 图片文件的可选路径，显示在主标题旁边
 |`weight`           | 一个整数，用于确定此页面相对于同一目录中其他页面的排序顺序
 |`keywords`         | 描述页面的一组关键字，用于创建“请参阅”链接的Web
 |`draft`            | 如果为true，则阻止页面显示在任何导航区域中
@@ -122,17 +122,17 @@ keywords: [keyword1,keyword2,...]
 |`attribution`  | 帖子作者的名称（可选）
 |`twitter`      | 帖子作者的 Twitter 账号（可选）
 
-## 添加图像{#adding-images}
+## 添加图片{#adding-images}
 
-将图像文件放在与 markdown 文件相同的目录中。首选的图像格式是 SVG。
-在 markdown 内，使用以下格式添加图像：
+将图片文件放在与 markdown 文件相同的目录中。首选的图片格式是 SVG。
+在 markdown 内，使用以下格式添加图片：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
     link="./myfile.svg"
-    alt="无法加载图像时显示的备用文本"
-    title="将鼠标悬停在图像上时显示的工具提示"
-    caption="图像下方显示的标题"
+    alt="无法加载图片时显示的备用文本"
+    title="将鼠标悬停在图片上时显示的工具提示"
+    caption="图片下方显示的标题"
     */>}}
 {{< /text >}}
 
@@ -141,11 +141,11 @@ keywords: [keyword1,keyword2,...]
 如果没有提供 `title` 值，它将默认与 `caption` 相同。如果没有提供 `alt` 值，它就会
 默认为 `title` 或者如果 `title` 没有定义，则为 `caption`。
 
-`width` 表示图像相对于周围的文字使用的空间百分比。如果未指定该值，则默认为 100％。
+`width` 表示图片相对于周围的文字使用的空间百分比。如果未指定该值，则默认为 100％。
 
-`ratio` 表示图像高度与图像宽度的比率。这个
-对于任何本地图像内容自动计算值，但引用外部图像内容时必须手动计算。
-在这种情况下，`ratio` 应设置为（图像高度/图像宽度）* 100。
+`ratio` 表示图片高度与图片宽度的比率。这个
+对于任何本地图片内容自动计算值，但引用外部图片内容时必须手动计算。
+在这种情况下，`ratio` 应设置为（图片高度/图片宽度）* 100。
 
 ## 添加图标{#adding-icons}
 
@@ -159,7 +159,8 @@ keywords: [keyword1,keyword2,...]
 {{</* tip_icon */>}}
 {{< /text >}}
 
-看起来像{{< warning_icon >}}、{{< idea_icon >}}、{{< checkmark_icon >}}、{{< cancel_icon >}}和{{< tip_icon >}}。
+效果如下:
+{{< warning_icon >}}、{{< idea_icon >}}、{{< checkmark_icon >}}、{{< cancel_icon >}}和{{< tip_icon >}}。
 
 ## 链接到其他页面{#linking-to-other-pages}
 
@@ -180,8 +181,7 @@ keywords: [keyword1,keyword2,...]
     [看这里](./adir/anotherfile.html)
     {{< /text >}}
 
-1. **绝对链接**. 您使用以 `/` 开头的绝对链接来引用当前层级之外的内容
-：
+1. **绝对链接**. 您使用以 `/` 开头的绝对链接来引用当前层级之外的内容：
 
     {{< text markdown >}}
     [看这里](/docs/adir/afile/)
@@ -191,30 +191,26 @@ keywords: [keyword1,keyword2,...]
 
 有几种方法可以从 GitHub 引用文件：
 
-- **{{</* github_file */>}}** 是如何在 GitHub 中引用单个文件的，例如 yaml 文件。这个
-生成一个指向 `https://raw.githubusercontent.com/istio/istio*` 的链接
+- **{{</* github_file */>}}** 是 Istio 在 GitHub 中单个文件引用，例如 yaml 文件。这将生成一个指向 `https://raw.githubusercontent.com/istio/istio*` 的链接
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
-- **{{</* github_tree */>}}** 引用 Istio 在 GitHub 中的目录树。这会产生一个链接
-`https://github.com/istio/istio/tree*`
+- **{{</* github_tree */>}}** 是 Istio 在 GitHub 中的目录树引用。这将产生一个链接 `https://github.com/istio/istio/tree*`
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
-- **{{</* github_blob */>}}** 引用 Istio 在 GitHub 源中的引用文件。这会产生一个链接
-`https://github.com/istio/istio/blob*`
+- **{{</* github_blob */>}}** 是 Istio 在 GitHub 中的源文件引用。这将产生一个链接 `https://github.com/istio/istio/blob*`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-上面的注释产生了到 GitHub 中相应分支的链接，相对于该分支
-文档目前正在定位。如果需要手动构造 URL，可以使用 `{{</* source_branch_name */>}}`
-获取当前目标分支的名称。
+上面的注释将产生到 GitHub 中相应分支的链接，相对于该分支
+文档目前正在定位。如果需要手动构造 URL，可以使用 `{{</* source_branch_name */>}}` 获取当前目标分支的名称。
 
 ## 版本信息{#version-information}
 
@@ -236,7 +232,7 @@ func HelloWorld() {
 {{</* /text */>}}
 {{< /text >}}
 
-以上产生了这种输出：
+输出效果如下：
 
 {{< text plain >}}
 func HelloWorld() {
@@ -254,7 +250,7 @@ func HelloWorld() {
 {{</* /text */>}}
 {{< /text >}}
 
-其呈现为：
+效果如下：
 
 {{< text go >}}
 func HelloWorld() {
@@ -262,12 +258,11 @@ func HelloWorld() {
 }
 {{< /text >}}
 
-你可以使用`plain`、`markdown`、`yaml`、`json`、`java`、`javascript`、`c`、`cpp`、`csharp`、`go`、`html`、`protobuf` 、
-`perl`、`docker` 和 `bash`。
+你可以使用 `plain`、`markdown`、`yaml`、`json`、`java`、`javascript`、`c`、`cpp`、`csharp`、`go`、`html`、`protobuf` 、`perl`、`docker` 和 `bash`。
 
 ### 命令和命令输出{#commands-and-command-output}
 
-显示一个或多个 bash 命令行时，使用 $ 启动每个命令行：
+显示一个或多个 bash 命令行时，每个命令行用 $ 开头：
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -348,8 +343,7 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
 {{< /text >}}
 
-您可以指定一个可选的第三个值来控制浏览器的名称
-将在用户选择下载文件时使用。例如：
+您可以指定一个可选的第三个值来控制浏览器在用户选择下载文件时的名称。例如：
 
 {{< text markdown >}}
 {{</* text go plain "hello.go" */>}}
@@ -359,13 +353,11 @@ func HelloWorld() {
 {{</* /text */>}}
 {{< /text >}}
 
-如果未指定第三个值，则会根据以下内容自动派生下载名称
-当前页面的名称。
+如果未指定第三个值，则会根据当前页面的名称自动生成下载名称。
 
 ### 链接到 GitHub 文件{#links-to-github-files}
 
-如果你的代码块引用了 Istio 的 GitHub 存储库中的文件，你可以用一对来包围文件的相对路径名
-@符号。这些表明路径应该呈现为当前分支中文件的链接。例如：
+如果你的代码块引用了 Istio 的 GitHub 存储库中的文件，你可以用一对 `@` 符号来包围文件的相对路径名。这些表明路径应该呈现为当前分支中的文件链接。例如：
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -401,8 +393,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 
 如果您未指定代码段名称，则会插入整个文件。
 
-您可以指定可选的`downloadas`属性来控制浏览器的名称
-将在用户选择下载文件时使用。例如：
+您可以指定可选的 `downloadas` 属性来控制浏览器的名称将在用户选择下载文件时使用。例如：
 
 {{< text markdown >}}
 {{</* text_file file="examples/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
@@ -448,19 +439,19 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 Mixer 使用 {{</*gloss*/>}}适配器{{</*/gloss*/>}} 来连接后端。
 {{< /text >}}
 
-看起来像：
+效果如下：
 
 Mixer 使用 {{<gloss>}}适配器{{</gloss>}} 来连接后端。
 
 如果页面上显示的术语与术语表中的条目不完全匹配，则可以指定替换：
 
 {{< text markdown >}}
-Mixer 使用 {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} 来连接后端。
+Mixer 使用 {{</*gloss 适配器*/>}}adapter{{</*/gloss*/>}} 来连接后端。
 {{< /text >}}
 
-看起来像：
+效果如下：
 
-Mixer 使用 {{<gloss adapters>}}adapter{{</gloss>}} 来连接后端。
+Mixer 使用 {{<gloss 适配器>}}adapter{{</gloss>}} 来连接后端。
 
 因此即使词汇表条目是 *adapters*，也可以在文本中使用 *adapter* 的单数形式。
 
@@ -542,7 +533,7 @@ Mixer 使用 {{<gloss adapters>}}adapter{{</gloss>}} 来连接后端。
 {{</* /tabset */>}}
 {{< /text >}}
 
-产生以下输出：
+产生如下效果：
 
 {{< tabset cookie-name="platform" >}}
 
@@ -624,30 +615,28 @@ aliases:
 ## 构建和测试网站{#building-and-testing-the-site}
 
 编辑完一些内容文件后，您需要构建网站才能进行测试
-你的改变。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。要在本地构建和测试站点，我们使用 Docker
-包含 hugo 的镜像。要构建和提供站点，只需转到根目录，然后执行以下操作：
+你的变更。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。要在本地构建和测试站点，我们使用包含 hugo 的 Docker 镜像。如果要构建和运行站点，只需到根目录执行以下操作：
 
 {{< text bash >}}
 $ make serve
 {{< /text >}}
 
-这将构建站点并启动托管站点的 Web 服务器。然后，您可以在 `http://localhost:1313` 访问 Web 服务器。
+这将构建站点并启动站点的 Web 服务器。然后，您可以用 `http://localhost:1313` 访问 Web 服务器。
 
-要从远程服务器创建和提供站点，请使用 IP 地址覆盖 `ISTIO_SERVE_DOMAIN`，如下所示
+要从远程服务器创建和运行站点，请使用 IP 地址覆盖 `ISTIO_SERVE_DOMAIN`，如下所示
 或服务器的 DNS 域如下：
 
 {{< text bash >}}
 $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 {{< /text >}}
 
-这将构建站点并启动托管站点的 Web 服务器。然后，您可以在 `http://192.168.7.105:1313` 访问到 Web 服务器。
+这将构建站点并启动站点的 Web 服务器。然后，您可以用 `http://192.168.7.105:1313` 访问到 Web 服务器。
 
-该网站的所有英文内容都位于 `content` 目录中，以及翻译目录中，
-诸如 `content_zh` 之类的目录。
+该网站的所有英文内容都位于 `content` 目录中，所有中文内容在 `content_zh` 目录，其他翻译的内容可能会在其他的 `content_xxx` 目录中，暂时官方只有英文和中文两种内容。
 
 ### Linting
 
-我们使用 linters 来确保网站内容的基本质量。在将更改提交到存储库之前，这些链接必须在没有报错的情况下运行。linters 检查：
+我们使用 linters 来确保网站内容的基本质量。在将更改提交到存储库之前，这些链接必须在没有报错的情况下运行linters 检查：
 
 - HTML 校对，确保您的所有链接与其他检查有效。
 
@@ -661,7 +650,7 @@ $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 $ make lint
 {{< /text >}}
 
-如果您遇到拼写错误，您有三种选择来解决每个问题：
+如果您遇到拼写错误，您有三种选择来解决问题：
 
 - 这是一个真正的错字，修复你的 markdown。
 
