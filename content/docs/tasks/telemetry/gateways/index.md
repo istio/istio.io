@@ -108,7 +108,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 1. Wait until the server certificate is ready.
 
-    {{< text bash >}}
+    {{< text bash "" "" false >}}
     $ JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}{end}{end}' && kubectl -n istio-system get certificates -o jsonpath="$JSONPATH"
     telemetry-gw-cert:Ready=True
     {{< /text >}}

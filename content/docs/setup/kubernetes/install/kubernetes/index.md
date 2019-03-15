@@ -23,20 +23,7 @@ This permits customization of Istio to operator specific requirements.
 
 1. [Download the Istio release](/docs/setup/kubernetes/download/).
 
-1. [Kubernetes platform setup](/docs/setup/kubernetes/prepare/platform-setup/):
-
-    * [Alibaba Cloud](/docs/setup/kubernetes/prepare/platform-setup/alicloud/)
-    * [Azure](/docs/setup/kubernetes/prepare/platform-setup/azure/)
-    * [Docker For Desktop](/docs/setup/kubernetes/prepare/platform-setup/docker/)
-    * [Google Container Engine (GKE)](/docs/setup/kubernetes/prepare/platform-setup/gke/)
-    * [IBM Cloud](/docs/setup/kubernetes/prepare/platform-setup/ibm/)
-    * [Minikube](/docs/setup/kubernetes/prepare/platform-setup/minikube/)
-    * [OpenShift Origin](/docs/setup/kubernetes/prepare/platform-setup/openshift/)
-    * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/prepare/platform-setup/oci/)
-
-    {{< tip >}}
-    Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
-    {{< /tip >}}
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
 

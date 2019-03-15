@@ -19,7 +19,7 @@ Quick Start instructions to install and configure Istio networking in a Docker C
     run the following command to download and extract the latest release automatically:
 
     {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | sh -
+    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
     {{< /text >}}
 
 1.  Extract the installation file and change the directory to the file location. The

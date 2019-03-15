@@ -194,6 +194,20 @@ Services can actively shed load by responding with an HTTP 503 to a health
 check. In such an event, the service instance will be immediately removed
 from the caller's load balancing pool.
 
+### Locality Load Balancing
+
+A locality defines a geographic location within your mesh using the following triplet:
+
+- Region
+- Zone
+- Sub-zone
+
+The geographic location typically represents a data center. Istio uses
+this information to prioritize load balancing pools to control
+the geographic location where requests are proxied.
+
+For more information and instructions on how to enable this feature see the [operations guide](/help/ops/traffic-management/locality-load-balancing/).
+
 ## Handling failures
 
 Envoy provides a set of out-of-the-box _opt-in_ failure recovery features
@@ -331,15 +345,15 @@ etc.
 There are four traffic management configuration resources in Istio:
 `VirtualService`, `DestinationRule`, `ServiceEntry`, and `Gateway`:
 
-* A [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/)
+- A [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 
-* A [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
+- A [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred.
 
-* A [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) is commonly used to enable requests to services outside of an Istio service mesh.
+- A [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) is commonly used to enable requests to services outside of an Istio service mesh.
 
-* A [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/)
+- A [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/)
 configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the mesh to enable ingress traffic for an application.
 
 For example, you can implement a simple rule to send 100% of incoming traffic for a *reviews* service to version "v1" by using a `VirtualService` configuration as follows:

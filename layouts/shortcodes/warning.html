@@ -1,9 +1,11 @@
+
 <aside class="callout warning">
-    <div class="type">
-        {{ partial "large_icon.html" "callout-warning" }}
-    </div>
-    <div class="content">
-        {{- $trimmed := trim .Inner " \n" -}}
-        {{- $trimmed | markdownify -}}
-    </div>
+<div class="type">
+{{ partial "large_icon.html" "callout-warning" }}
+</div>
+<div class="content">
+{{- $text := partial "strip_indent.html" .Inner -}}
+{{- $text | markdownify -}}
+</div>
 </aside>
+

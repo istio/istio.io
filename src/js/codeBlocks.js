@@ -149,7 +149,7 @@ function handleCodeBlocks() {
                         if (syntaxColoring) {
                             cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
                         } else {
-                            cmd += "$ " + tmp + "\n";
+                            cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
                         }
                     }
 
@@ -182,12 +182,14 @@ function handleCodeBlocks() {
                 if (syntaxColoring) {
                     cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
                 } else {
-                    cmd += "$ " + tmp + "\n";
+                    cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
                 }
             }
 
             if (cmd !== "") {
-                cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
+                if (code.dataset.expand === "true") {
+                    cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
+                }
 
                 let html = "<div class='command'>" + cmd + "</div>";
 

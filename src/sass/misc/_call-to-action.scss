@@ -1,0 +1,40 @@
+.call-to-action {
+    text-align: center;
+
+    @media print {
+        display: none;
+    }
+
+    #buttons {
+        opacity: 0;
+        transition: opacity .25s ease-in;
+    }
+
+    .btn {
+        margin: 1rem 1rem;
+        width: 13rem;
+
+        @media (min-width: $bp-md) {
+            margin: 1rem 5rem;
+        }
+    }
+
+    span.btn {
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: $secondBrandColor;
+            color: $textBrandColor;
+        }
+
+        &:active {
+            background-color: $secondBrandColor;
+            color: $textBrandColor;
+        }
+
+        &:focus {
+            background-color: $secondBrandColor;
+            color: $textBrandColor;
+        }
+    }
+}
