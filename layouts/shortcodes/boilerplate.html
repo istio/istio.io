@@ -1,26 +1,21 @@
 {{- /* This will try to find a resource in the "boilerplates"  top-level content directory */ -}}
 {{- $name := .Get 0 -}}
 {{- $position := .Position }}
+
 {{- if $name -}}
-	{{- $bundle := $.Site.GetPage "page" "boilerplates" -}}
-	{{- with $bundle -}}
-		{{- $pattern := printf "%s*" $name -}}
-		{{- $resource := $bundle.Resources.GetMatch $pattern -}}
-		{{- with $resource -}}
-			{{- .Content | safeHTML -}}
-		{{- else -}}
-			{{/* It is not a resource in the top-level boilerplates directory. Try to find the page relative to the current page instead. */}}
-			{{- $path := path.Join $.Page.Dir $name -}}
-			{{- $page := $.Page.Site.GetPage "page" $path -}}
-			{{- with $page }}
-				{{- .Content | safeHTML -}}
-			{{- else -}}
-				{{- errorf "Could not find %s (%s)" $pattern $position -}}
-			{{- end -}}
-		{{- end -}}
-	{{- else -}}
-		{{- errorf "'boilerplates' direcory was not found (%s)" $position -}}
-	{{- end -}}
+    {{ $name := printf "%s.md" $name }}
+    {{- $bundle := .Page.GetPage "/boilerplates" -}}
+    {{- with $bundle -}}
+        {{- $pattern := printf "%s*" $name -}}
+        {{- $resource := $bundle.Resources.GetMatch $pattern -}}
+        {{- with $resource -}}
+            {{- .Content | markdownify -}}
+        {{- else -}}
+            {{- errorf "Could not find boilerplate '%s' (%s)" $name $position -}}
+        {{- end -}}
+    {{- else -}}
+        {{- errorf "'boilerplates' directory was not found (%s)" $position -}}
+    {{- end -}}
 {{- else -}}
-	{{- errorf "Missing name in boilerplate (%s)" $position -}}
+    {{- errorf "Missing name in boilerplate (%s)" $position -}}
 {{- end -}}
