@@ -18,50 +18,8 @@ TODO: Need to have an explicit section on everything that's being deprecated.
 
 ## Upgrades
 
-- **New `istio-init` Helm Chart**. Istio’s CRDs have been placed into their own Helm chart `istio-init`.
-  This preserves custom resource data when using `helm install`, facilitates the upgrade process,
-  and enables the Istio project to evolve beyond a Helm-based installation.
-- **Improved upgrade approach**.  The [upgrade procedure](/docs/setup/kubernetes/upgrade/) provides
-  the proper procedure for upgrading from Istio 1.0.6 to Istio 1.1.0.  If upgrading, please follow instructions
-  **carefully and precisely**.  If using Istio's built-in certmanager implementation, you must use the
-  `--set certmanager=true` flag when installing both istio-init and istio charts with either
-  `template` or `tiller` installation modes.
-- **Improved Multicluster Integration**. The 1.0 `istio-remote` chart used for
-  [multicluster VPN](/docs/setup/kubernetes/install/multicluster/vpn/) and
-  [multicluster split horizon](/docs/examples/multicluster/split-horizon-eds/) remote cluster installation
-  has been consolidated into the Istio chart.  This simplies the operator experience. To generate a 1.0
-  equivalent `istio-remote` chart, use the flag `--set global.istioRemote=true`.
-- **Reduced load balancer requirements for addons**.  Addons are no longer exposed via separate load balancers.
-  Instead addons are exposed via the ingressgateway.  To expose an addon via the ingressgateway,
-  please use the [Addon Gateway documentation](/docs/tasks/telemetry/gateways/).
-  -**More flexibility with statsd collector**.  The built-in Istio statsd collector has been removed.
-  Istio retains the capability of integrating with your own statsd collector for improved flexibility with existing
-  Kubernetes deployments.
-- **Secure addon credentials**.  Grafana, Prometheus, Kiali, and Jaeger passwords and username are now stored in
-  [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) instead of command line configuration
-  options, `values.yaml`, or configmaps for improved security and compliance.
-- **Jaeger Introduction**. Jaeger replaces zipkin as the default tracing system.
-- **Installation Profiles**. Several installation profiles have been added to simplify the installation
-  process.  To use this feature, read the Helm Installation Instructions(link) and select a profile from
-  the document tabs.  This feature enables a better user experience by simplifying the installation process
-  for severeal well-known patterns.
-- **Impoved proxy performance**.  The Envoy proxy access log defaults have been changed such that no access
-  logging occurs by default.  Access logging can be re-enabled by using the installation flag
-  `--set global.proxy.accessLogFile=”/dev/stdout”`.  This change significantly improves performance.
-  Integrated packages Certmanager, Grafana, Jaeger, Kiali, and Prometheus have been revised to their latest
-  versions improving performance, reliability, and features.
-- **Multicluster DNS Discovery**.  The [CoreDNS component](https://coredns.io/) has been added to Istio to enable
-  [multicluster gateway](/docs/setup/kubernetes/install/multicluster/gateways/) and
-  [split-horizon](/docs/examples/multicluster/split-horizon-eds/) DNS discovery.  This change enables
-  applications to use Istio’s CoreDNS proxy to resolve remote cluster service names in multiple Kubernetes
-  clusters transparently.
-- **Envoy resource limits**.  Resource limits have been added to Envoy to improve performance and reliability.
-- **Envoy lightstep integration**.  Envoy lightstep has been integrated into the installation.
-- **Better scalability**.  Horizontal auto-scaling maximums for all components have been increased
-  from one to five.  This change enables better performance in clusters with more services with minimal impact
-  in clusters with less services.
-- **Better usability defaults**.  Egress gateway is disabled by default.  Mixer is disabled by default.
-  Outbound traffic policy is set to `ALLOW_ANY`. Traffic to unknown ports will be forwarded as-is.
+- We recommend a manual upgrade of control plane and data plane to 1.1.  Please reference
+  [upgrades]((/docs/setup/kubernetes/upgrade/) to upgrade your Istio control and data plane.
 
 ## Traffic management
 
