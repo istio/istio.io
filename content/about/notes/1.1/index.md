@@ -32,7 +32,7 @@ TBD: need full content & links
 
 - **New `Sidecar` Resource**. Added support to limit the set of services visible to sidecar proxies in a given namespace using the `Sidecar` resource.
 This limit reduces the amount of configuration computed and transmitted to the proxy. On large clusters, we recommend adding
-a sidecar object per namespace. TBD LINK: how to add a sidecar per namespace?
+a sidecar object per namespace.
 
 - **Restrict Visibility of Networking Resources**. Added the new `exportTo` field to all networking resources.
 The field currently takes only the following values:
@@ -56,6 +56,12 @@ to create global namespaces. Locality-aware routing is enabled by default in the
 [Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details on how
 to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
 
+- **Behavioral changes**.
+    - Outbound traffic policy is set to ALLOW_ANY by default. As a result, traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched with one of the services in the system and forwarded accordingly.
+    - Destination rule resolution order has been set. For a given sidecar, when routing to a particular service, destination rules for the target service in the same namespace as the sidecar will first be considered, followed by destination rules in the service’s namespace, and finally followed by destination rules in config root namespace if defined or any other namespace.
+    - We recommend storing gateway resources in the same namespace as the gateway workload. E.g., istio-system in case of istio-ingressgateway. When referring to gateway resources in virtual services, use the namespace/name format instead of using name.namespace.svc.cluster.local.
+
+ 
 ## Security
 
 - **Readiness and Liveness Probes**. Added support for Kubernetes' HTTP [readiness and liveness probes when mutual TLS is enabled](/help/faq/security/#k8s-health-checks).
