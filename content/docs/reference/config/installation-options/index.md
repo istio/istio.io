@@ -34,8 +34,8 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | --- | --- | --- |
 | `gateways.enabled` | `true` |  |
 | `gateways.istio-ingressgateway.enabled` | `true` |  |
-| `gateways.istio-ingressgateway.sds.enabled` | `false` |  |
-| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` |  |
+| `gateways.istio-ingressgateway.sds.enabled` | `false` | `If true, ingress gateway fetches credentials from SDS server to handle TLS connections.` |
+| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` | `SDS server that watches kubernetes secrets and provisions credentials to ingress gateway.This server runs in the same pod as ingress gateway.` |
 | `gateways.istio-ingressgateway.labels.app` | `istio-ingressgateway` |  |
 | `gateways.istio-ingressgateway.labels.istio` | `ingressgateway` |  |
 | `gateways.istio-ingressgateway.autoscaleEnabled` | `true` |  |
@@ -48,7 +48,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.externalIPs` | `[]` |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-ingressgateway.podAnnotations` | `{}` |  |
-| `gateways.istio-ingressgateway.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
+| `gateways.istio-ingressgateway.type` | `LoadBalancer` | `change to NodePort, ClusterIP or LoadBalancer if need be` |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
 | `gateways.istio-ingressgateway.ports.name` | `http2` |  |
 | `gateways.istio-ingressgateway.ports.nodePort` | `31380` |  |
@@ -80,7 +80,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-ingressgateway.secretVolumes.mountPath` | `/etc/istio/ingressgateway-certs` |  |
 | `gateways.istio-ingressgateway.secretVolumes.secretName` | `istio-ingressgateway-ca-certs` |  |
 | `gateways.istio-ingressgateway.secretVolumes.mountPath` | `/etc/istio/ingressgateway-ca-certs` |  |
-| `gateways.istio-ingressgateway.env.ISTIO_META_ROUTER_MODE` | `"sni-dnat"` |  |
+| `gateways.istio-ingressgateway.env.ISTIO_META_ROUTER_MODE` | `"sni-dnat"` | `A gateway with this mode ensures that pilot generates an additionalset of clusters for internal services but without Istio mTLS, toenable cross cluster routing.` |
 | `gateways.istio-ingressgateway.nodeSelector` | `{}` |  |
 | `gateways.istio-egressgateway.enabled` | `false` |  |
 | `gateways.istio-egressgateway.labels.app` | `istio-egressgateway` |  |
@@ -91,7 +91,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `gateways.istio-egressgateway.cpu.targetAverageUtilization` | `80` |  |
 | `gateways.istio-egressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-egressgateway.podAnnotations` | `{}` |  |
-| `gateways.istio-egressgateway.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` |  |
+| `gateways.istio-egressgateway.type` | `ClusterIP` | `change to NodePort or LoadBalancer if need be` |
 | `gateways.istio-egressgateway.ports.name` | `http2` |  |
 | `gateways.istio-egressgateway.ports.name` | `https` |  |
 | `gateways.istio-egressgateway.ports.targetPort` | `15443` |  |
@@ -130,75 +130,75 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `global.hub` | `gcr.io/istio-release` |  |
-| `global.tag` | `release-1.1-latest-daily` |  |
-| `global.monitoringPort` | `15014` |  |
+| `global.hub` | `gcr.io/istio-release` | `Default hub for Istio images.Releases are published to docker hub under 'istio' project.Daily builds from prow are on gcr.io, and nightly builds from circle on docker.io/istionightly` |
+| `global.tag` | `release-1.1-latest-daily` | `Default tag for Istio images.` |
+| `global.monitoringPort` | `15014` | `monitoring port used by mixer, pilot, galley` |
 | `global.k8sIngress.enabled` | `false` |  |
-| `global.k8sIngress.gatewayName` | `ingressgateway` |  |
-| `global.k8sIngress.enableHttps` | `false` |  |
+| `global.k8sIngress.gatewayName` | `ingressgateway` | `Gateway used for k8s Ingress resources. By default it isusing 'istio:ingressgateway' that will be installed by setting'gateways.enabled' and 'gateways.istio-ingressgateway.enabled'flags to true.` |
+| `global.k8sIngress.enableHttps` | `false` | `enableHttps will add port 443 on the ingress.It REQUIRES that the certificates are installed  in theexpected secrets - enabling this option without certificateswill result in LDS rejection and the ingress will not work.` |
 | `global.proxy.image` | `proxyv2` |  |
-| `global.proxy.clusterDomain` | `"cluster.local"` |  |
+| `global.proxy.clusterDomain` | `"cluster.local"` | `cluster domain. Default value is "cluster.local".` |
 | `global.proxy.resources.requests.cpu` | `100m` |  |
 | `global.proxy.resources.requests.memory` | `128Mi` |  |
 | `global.proxy.resources.limits.cpu` | `2000m` |  |
 | `global.proxy.resources.limits.memory` | `128Mi` |  |
-| `global.proxy.concurrency` | `2` |  |
+| `global.proxy.concurrency` | `2` | `Controls number of Proxy worker threads.If set to 0 (default), then start worker thread for each CPU thread/core.` |
 | `global.proxy.accessLogFile` | `""` |  |
-| `global.proxy.accessLogFormat` | `""` |  |
-| `global.proxy.accessLogEncoding` | `TEXT` |  |
-| `global.proxy.dnsRefreshRate` | `5s` |  |
-| `global.proxy.privileged` | `false` |  |
-| `global.proxy.enableCoreDump` | `false` |  |
-| `global.proxy.statusPort` | `15020` |  |
-| `global.proxy.readinessInitialDelaySeconds` | `1` |  |
-| `global.proxy.readinessPeriodSeconds` | `2` |  |
-| `global.proxy.readinessFailureThreshold` | `30` |  |
+| `global.proxy.accessLogFormat` | `""` | `Configure how and what fields are displayed in sidecar access log. Setting toempty string will result in default log format` |
+| `global.proxy.accessLogEncoding` | `TEXT` | `Configure the access log for sidecar to JSON or TEXT.` |
+| `global.proxy.dnsRefreshRate` | `5s` | `Configure the DNS refresh rate for Envoy cluster of type STRICT_DNS5 seconds is the default refresh rate used by Envoy` |
+| `global.proxy.privileged` | `false` | `If set to true, istio-proxy container will have privileged securityContext` |
+| `global.proxy.enableCoreDump` | `false` | `If set, newly injected sidecars will have core dumps enabled.` |
+| `global.proxy.statusPort` | `15020` | `Default port for Pilot agent health checks. A value of 0 will disable health checking.` |
+| `global.proxy.readinessInitialDelaySeconds` | `1` | `The initial delay for readiness probes in seconds.` |
+| `global.proxy.readinessPeriodSeconds` | `2` | `The period between readiness probes.` |
+| `global.proxy.readinessFailureThreshold` | `30` | `The number of successive failed probes before indicating readiness failure.` |
 | `global.proxy.includeIPRanges` | `"*"` |  |
 | `global.proxy.excludeIPRanges` | `""` |  |
-| `global.proxy.kubevirtInterfaces` | `""` |  |
+| `global.proxy.kubevirtInterfaces` | `""` | `pod internal interfaces` |
 | `global.proxy.includeInboundPorts` | `"*"` |  |
 | `global.proxy.excludeInboundPorts` | `""` |  |
-| `global.proxy.autoInject` | `enabled` |  |
-| `global.proxy.envoyStatsd.enabled` | `false` |  |
-| `global.proxy.envoyStatsd.host` | `# example: statsd-svc.istio-system` |  |
-| `global.proxy.envoyStatsd.port` | `# example: 9125` |  |
+| `global.proxy.autoInject` | `enabled` | `This controls the 'policy' in the sidecar injector.` |
+| `global.proxy.envoyStatsd.enabled` | `false` | `If enabled is set to true, host and port must also be provided. Istio no longer provides a statsd collector.` |
+| `global.proxy.envoyStatsd.host` | `` | `example: statsd-svc.istio-system` |
+| `global.proxy.envoyStatsd.port` | `` | `example: 9125` |
 | `global.proxy.envoyMetricsService.enabled` | `false` |  |
-| `global.proxy.envoyMetricsService.host` | `# example: metrics-service.istio-system` |  |
-| `global.proxy.envoyMetricsService.port` | `# example: 15000` |  |
-| `global.proxy.tracer` | `"zipkin"` |  |
-| `global.proxy_init.image` | `proxy_init` |  |
+| `global.proxy.envoyMetricsService.host` | `` | `example: metrics-service.istio-system` |
+| `global.proxy.envoyMetricsService.port` | `` | `example: 15000` |
+| `global.proxy.tracer` | `"zipkin"` | `Specify which tracer to use. One of: lightstep, zipkin` |
+| `global.proxy_init.image` | `proxy_init` | `Base name for the proxy_init container, used to configure iptables.` |
 | `global.imagePullPolicy` | `IfNotPresent` |  |
-| `global.controlPlaneSecurityEnabled` | `false` |  |
-| `global.disablePolicyChecks` | `true` |  |
-| `global.policyCheckFailOpen` | `false` |  |
-| `global.enableTracing` | `true` |  |
-| `global.tracer.lightstep.address` | `""                # example: lightstep-satellite:443` |  |
-| `global.tracer.lightstep.accessToken` | `""            # example: abcdefg1234567` |  |
-| `global.tracer.lightstep.secure` | `true               # example: true\|false` |  |
-| `global.tracer.lightstep.cacertPath` | `""             # example: /etc/lightstep/cacert.pem` |  |
+| `global.controlPlaneSecurityEnabled` | `false` | `controlPlaneMtls enabled. Will result in delays starting the pods while secrets arepropagated, not recommended for tests.` |
+| `global.disablePolicyChecks` | `true` | `disablePolicyChecks disables mixer policy checks.if mixer.policy.enabled==true then disablePolicyChecks has affect.Will set the value with same name in istio config map - pilot needs to be restarted to take effect.` |
+| `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen allows traffic in cases when the mixer policy service cannot be reached.Default is false which means the traffic is denied when the client is unable to connect to Mixer.` |
+| `global.enableTracing` | `true` | `EnableTracing sets the value with same name in istio config map, requires pilot restart to take effect.` |
+| `global.tracer.lightstep.address` | `""` | `example: lightstep-satellite:443` |
+| `global.tracer.lightstep.accessToken` | `""` | `example: abcdefg1234567` |
+| `global.tracer.lightstep.secure` | `true` | `example: true\|false` |
+| `global.tracer.lightstep.cacertPath` | `""` | `example: /etc/lightstep/cacert.pem` |
 | `global.tracer.zipkin.address` | `""` |  |
-| `global.mtls.enabled` | `false` |  |
+| `global.mtls.enabled` | `false` | `Default setting for service-to-service mtls. Can be set explicitly usingdestination rules or service annotations.` |
 | `global.arch.amd64` | `2` |  |
 | `global.arch.s390x` | `2` |  |
 | `global.arch.ppc64le` | `2` |  |
-| `global.oneNamespace` | `false` |  |
-| `global.defaultNodeSelector` | `{}` |  |
-| `global.configValidation` | `true` |  |
+| `global.oneNamespace` | `false` | `Whether to restrict the applications namespace the controller manages;If not set, controller watches all namespaces` |
+| `global.defaultNodeSelector` | `{}` | `Default node selector to be applied to all deployments so that all pods can beconstrained to run a particular nodes. Each component can overwrite these defaultvalues by adding its node selector block in the relevant section below and settingthe desired values.` |
+| `global.configValidation` | `true` | `Whether to perform server-side validation of configuration.` |
 | `global.meshExpansion.enabled` | `false` |  |
-| `global.meshExpansion.useILB` | `false` |  |
-| `global.multiCluster.enabled` | `false` |  |
+| `global.meshExpansion.useILB` | `false` | `If set to true, the pilot and citadel mtls and the plain text pilot portswill be exposed on an internal gateway` |
+| `global.multiCluster.enabled` | `false` | `Set to true to connect two kubernetes clusters via their respectiveingressgateway services when pods in each cluster cannot directlytalk to one another. All clusters should be using Istio mTLS and musthave a shared root CA for this model to work.` |
 | `global.defaultResources.requests.cpu` | `10m` |  |
 | `global.defaultPodDisruptionBudget.enabled` | `true` |  |
 | `global.priorityClassName` | `""` |  |
-| `global.useMCP` | `true` |  |
+| `global.useMCP` | `true` | `Use the Mesh Control Protocol (MCP) for configuring Mixer andPilot. Requires galley (--set galley.enabled=true).` |
 | `global.trustDomain` | `""` |  |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
-| `global.sds.enabled` | `false` |  |
+| `global.sds.enabled` | `false` | `SDS enabled. IF set to true, mTLS certificates for the sidecars will bedistributed through the SecretDiscoveryService instead of using K8S secrets to mount the certificates.` |
 | `global.sds.udsPath` | `""` |  |
 | `global.sds.useTrustworthyJwt` | `false` |  |
 | `global.sds.useNormalJwt` | `false` |  |
 | `global.meshNetworks` | `{}` |  |
-| `global.enableHelmTest` | `false` |  |
+| `global.enableHelmTest` | `false` | `Specifies whether helm test is enabled or not.This field is set to false by default, so 'helm template ...'will ignore the helm test yaml files when generating the template` |
 
 ## `grafana` options
 
@@ -209,7 +209,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `grafana.image.repository` | `grafana/grafana` |  |
 | `grafana.image.tag` | `5.4.0` |  |
 | `grafana.ingress.enabled` | `false` |  |
-| `grafana.ingress.hosts` | `grafana.local` |  |
+| `grafana.ingress.hosts` | `grafana.local` | `Used to create an Ingress record.` |
 | `grafana.persist` | `false` |  |
 | `grafana.storageClassName` | `""` |  |
 | `grafana.accessMode` | `ReadWriteMany` |  |
@@ -251,26 +251,28 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `istiocoredns.enabled` | `false` |  |
 | `istiocoredns.replicaCount` | `1` |  |
 | `istiocoredns.coreDNSImage` | `coredns/coredns:1.1.2` |  |
-| `istiocoredns.coreDNSPluginImage` | `istio/coredns-plugin:0.1-istio-1.1` |  |
+| `istiocoredns.coreDNSPluginImage` | `istio/coredns-plugin:0.2-istio-1.1` |  |
 | `istiocoredns.nodeSelector` | `{}` |  |
 
 ## `kiali` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `kiali.enabled` | `false` |  |
+| `kiali.enabled` | `false` | `Note that if using the demo or demo-auth yaml when installing via Helm, this default will be true.` |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `docker.io/kiali` |  |
 | `kiali.tag` | `v0.14` |  |
-| `kiali.contextPath` | `/kiali` |  |
+| `kiali.contextPath` | `/kiali` | `The root context path to access the Kiali UI.` |
 | `kiali.nodeSelector` | `{}` |  |
 | `kiali.ingress.enabled` | `false` |  |
-| `kiali.ingress.hosts` | `kiali.local` |  |
-| `kiali.dashboard.secretName` | `kiali` |  |
-| `kiali.dashboard.usernameKey` | `username` |  |
-| `kiali.dashboard.passphraseKey` | `passphrase` |  |
+| `kiali.ingress.hosts` | `kiali.local` | `Used to create an Ingress record.` |
+| `kiali.dashboard.secretName` | `kiali` | `You must create a secret with this name - one is not provided out-of-box.` |
+| `kiali.dashboard.usernameKey` | `username` | `This is the key name within the secret whose value is the actual username.` |
+| `kiali.dashboard.passphraseKey` | `passphrase` | `This is the key name within the secret whose value is the actual passphrase.` |
+| `kiali.dashboard.grafanaURL` | `` | `If you have Grafana installed and it is accessible to client browsers, then set this to its external URL. Kiali will redirect users to this URL when Grafana metrics are to be shown.` |
+| `kiali.dashboard.jaegerURL` | `` | `If you have Jaeger installed and it is accessible to client browsers, then set this property to its external URL. Kiali will redirect users to this URL when Jaeger tracing is to be shown.` |
 | `kiali.prometheusAddr` | `http://prometheus:9090` |  |
-| `kiali.createDemoSecret` | `false` |  |
+| `kiali.createDemoSecret` | `false` | `When true, a secret will be created with a default username and password. Useful for demos.` |
 
 ## `mixer` options
 
@@ -279,8 +281,8 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `mixer.enabled` | `true` |  |
 | `mixer.image` | `mixer` |  |
 | `mixer.env.GODEBUG` | `gctrace=1` |  |
-| `mixer.env.GOMAXPROCS` | `"6"` |  |
-| `mixer.policy.enabled` | `false` |  |
+| `mixer.env.GOMAXPROCS` | `"6"` | `max procs should be ceil(cpu limit + 1)` |
+| `mixer.policy.enabled` | `false` | `if policy is enabled, global.disablePolicyChecks has affect.` |
 | `mixer.policy.replicaCount` | `1` |  |
 | `mixer.policy.autoscaleEnabled` | `true` |  |
 | `mixer.policy.autoscaleMin` | `1` |  |
@@ -293,11 +295,11 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `mixer.telemetry.autoscaleMax` | `5` |  |
 | `mixer.telemetry.cpu.targetAverageUtilization` | `80` |  |
 | `mixer.telemetry.sessionAffinityEnabled` | `false` |  |
-| `mixer.telemetry.loadshedding.mode` | `enforce` |  |
-| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` |  |
+| `mixer.telemetry.loadshedding.mode` | `enforce` | `disabled, logonly or enforce` |
+| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `based on measurements 100ms p50 translates to p99 of under 1s. This is ok for telemetry which is inherently async.` |
 | `mixer.telemetry.resources.requests.cpu` | `1000m` |  |
 | `mixer.telemetry.resources.requests.memory` | `1G` |  |
-| `mixer.telemetry.resources.limits.cpu` | `4800m` |  |
+| `mixer.telemetry.resources.limits.cpu` | `4800m` | `It is best to do horizontal scaling of mixer using moderate cpu allocation.We have experimentally found that these values work well.` |
 | `mixer.telemetry.resources.limits.memory` | `4G` |  |
 | `mixer.podAnnotations` | `{}` |  |
 | `mixer.nodeSelector` | `{}` |  |
@@ -306,7 +308,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `mixer.adapters.stdio.outputAsJson` | `true` |  |
 | `mixer.adapters.prometheus.enabled` | `true` |  |
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
-| `mixer.adapters.useAdapterCRDs` | `true` |  |
+| `mixer.adapters.useAdapterCRDs` | `true` | `Setting this to false sets the useAdapterCRDs mixer startup argument to false` |
 
 ## `nodeagent` options
 
@@ -314,9 +316,9 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | --- | --- | --- |
 | `nodeagent.enabled` | `false` |  |
 | `nodeagent.image` | `node-agent-k8s` |  |
-| `nodeagent.env.CA_PROVIDER` | `""` |  |
-| `nodeagent.env.CA_ADDR` | `""` |  |
-| `nodeagent.env.Plugins` | `""` |  |
+| `nodeagent.env.CA_PROVIDER` | `""` | `name of authentication provider.` |
+| `nodeagent.env.CA_ADDR` | `""` | `CA endpoint.` |
+| `nodeagent.env.Plugins` | `""` | `names of authentication provider's plugins.` |
 | `nodeagent.nodeSelector` | `{}` |  |
 
 ## `pilot` options
@@ -332,11 +334,11 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `pilot.traceSampling` | `1.0` |  |
 | `pilot.resources.requests.cpu` | `500m` |  |
 | `pilot.resources.requests.memory` | `2048Mi` |  |
-| `pilot.env.PILOT_PUSH_THROTTLE_COUNT` | `100` |  |
+| `pilot.env.PILOT_PUSH_THROTTLE` | `100` |  |
 | `pilot.env.GODEBUG` | `gctrace=1` |  |
 | `pilot.cpu.targetAverageUtilization` | `80` |  |
 | `pilot.nodeSelector` | `{}` |  |
-| `pilot.keepaliveMaxServerConnectionAge` | `30m` |  |
+| `pilot.keepaliveMaxServerConnectionAge` | `30m` | `The following is used to limit how long a sidecar can be connectedto a pilot. It balances out load across pilot instances at the cost ofincreasing system churn.` |
 
 ## `prometheus` options
 
@@ -348,10 +350,10 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `prometheus.tag` | `v2.3.1` |  |
 | `prometheus.retention` | `6h` |  |
 | `prometheus.nodeSelector` | `{}` |  |
-| `prometheus.scrapeInterval` | `15s` |  |
+| `prometheus.scrapeInterval` | `15s` | `Controls the frequency of prometheus scraping` |
 | `prometheus.contextPath` | `/prometheus` |  |
 | `prometheus.ingress.enabled` | `false` |  |
-| `prometheus.ingress.hosts` | `prometheus.local` |  |
+| `prometheus.ingress.hosts` | `prometheus.local` | `Used to create an Ingress record.` |
 | `prometheus.service.annotations` | `{}` |  |
 | `prometheus.service.nodePort.enabled` | `false` |  |
 | `prometheus.service.nodePort.port` | `32090` |  |
@@ -364,7 +366,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `security.enabled` | `true` |  |
 | `security.replicaCount` | `1` |  |
 | `security.image` | `citadel` |  |
-| `security.selfSigned` | `true # indicate if self-signed CA is used.` |  |
+| `security.selfSigned` | `true` | `indicate if self-signed CA is used.` |
 | `security.createMeshPolicy` | `true` |  |
 | `security.nodeSelector` | `{}` |  |
 
@@ -381,7 +383,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `servicegraph.service.type` | `ClusterIP` |  |
 | `servicegraph.service.externalPort` | `8088` |  |
 | `servicegraph.ingress.enabled` | `false` |  |
-| `servicegraph.ingress.hosts` | `servicegraph.local` |  |
+| `servicegraph.ingress.hosts` | `servicegraph.local` | `Used to create an Ingress record.` |
 | `servicegraph.prometheusAddr` | `http://prometheus:9090` |  |
 
 ## `sidecarInjectorWebhook` options
@@ -393,7 +395,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `sidecarInjectorWebhook.image` | `sidecar_injector` |  |
 | `sidecarInjectorWebhook.enableNamespacesByDefault` | `false` |  |
 | `sidecarInjectorWebhook.nodeSelector` | `{}` |  |
-| `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` |  |
+| `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | `If true, webhook or istioctl injector will rewrite PodSpec for livenesshealth check to redirect request to sidecar. This makes liveness check workeven when mTLS is enabled.` |
 
 ## `tracing` options
 
