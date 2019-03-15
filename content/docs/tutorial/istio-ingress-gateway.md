@@ -123,8 +123,8 @@ control already at the ingress point, even before the traffic arrives to your mi
     $ kubectl delete ingress bookinfo
     {{< /text >}}
 
-1.  Check your graph at Kiali console. Soon you will see the Istio Ingress Gateway as a single source of traffic for
-    your application.
+1.  Check your graph at the Kiali console. After several seconds you will see the Istio Ingress Gateway as a single source
+    of traffic for your application.
 
     {{< image width="80%"
         link="images/kiali-ingress-gateway-only.png"
