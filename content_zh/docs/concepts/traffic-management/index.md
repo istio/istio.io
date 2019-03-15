@@ -141,7 +141,7 @@ Istio 能在不杀死 Pod 的情况下，将特定协议的故障注入到网络
 
 Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用部署内多个服务之间的四层通信。运维人员可以使用这个模型来配置服务级别的属性，这些属性可以是断路器、超时、重试，以及一些普通的持续发布任务，例如金丝雀发布、A/B 测试、使用百分比对流量进行控制，从而完成应用的逐步发布等。
 
-Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry` 以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/docs/reference/config/istio.networking.v1alpha3/)中可以获得更多这方面的信息。
+Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry` 以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/docs/reference/config/networking/)中可以获得更多这方面的信息。
 
 * [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
 
