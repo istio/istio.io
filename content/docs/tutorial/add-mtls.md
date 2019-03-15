@@ -71,5 +71,15 @@ microservices in your namespace.
         caption="Istio Service Dashboard"
         >}}
 
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    In the _Display_ drop-down menu mark the _Security_ checkbox to see locks that mark mTLS on the graph's edges.
+
+    {{< image width="80%"
+        link="images/kiali-mtls.png"
+        caption="Kiali Graph Tab with mutual TLS"
+        >}}
+
 Note that you made all the traffic between the pods in your cluster encrypted, transparently to your microservice, that
 is you changed neither code nor configuration of your microservices.
