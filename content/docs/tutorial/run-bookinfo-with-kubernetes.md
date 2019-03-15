@@ -138,3 +138,15 @@ configure the steps below successfully, you will be able to access the applicati
     {{< text java >}}
     private final static String ratings_service = "http://ratings:9080/ratings";
     {{< /text >}}
+
+1.  Set an infinite loop in a separate terminal window to send traffic to your application. It will simulate the
+    constant user traffic in the real world:
+
+    {{< text bash >}}
+    $ while :; do curl -s $MYHOST/productpage | grep -o "<title>.*</title>"; sleep 1; done
+    <title>Simple Bookstore App</title>
+    <title>Simple Bookstore App</title>
+    <title>Simple Bookstore App</title>
+    <title>Simple Bookstore App</title>
+    ...
+    {{< /text >}}
