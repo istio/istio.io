@@ -355,7 +355,7 @@ func HelloWorld() {
 
 如果未指定第三个值，则会根据当前页面的名称自动生成下载名称。
 
-### 链接到 GitHub 文件{#links-to-github-files}
+### 链接到 GitHub 文件
 
 如果你的代码块引用了 Istio 的 GitHub 存储库中的文件，你可以用一对 `@` 符号来包围文件的相对路径名。这些表明路径应该呈现为当前分支中的文件链接。例如：
 
@@ -455,7 +455,7 @@ Mixer 使用 {{<gloss 适配器>}}adapter{{</gloss>}} 来连接后端。
 
 因此即使词汇表条目是 *adapters*，也可以在文本中使用 *adapter* 的单数形式。
 
-## 标注{#callouts}
+## 标注
 
 您可以通过突出显示警告，想法，提示和引号来特别关注内容块：
 
@@ -615,7 +615,7 @@ aliases:
 ## 构建和测试网站{#building-and-testing-the-site}
 
 编辑完一些内容文件后，您需要构建网站才能进行测试
-你的变更。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。要在本地构建和测试站点，我们使用包含 hugo 的 Docker 镜像。如果要构建和运行站点，只需到根目录执行以下操作：
+你的变更。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。要在本地构建和测试站点，我们使用包含 `hugo` 的 Docker 镜像。如果要构建和运行站点，只需到根目录执行以下操作：
 
 {{< text bash >}}
 $ make serve
