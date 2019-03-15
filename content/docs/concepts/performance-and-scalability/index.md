@@ -14,28 +14,27 @@ keywords: [performance,scalability,scale,benchmarks]
 ---
 
 Istio makes it easy to create a network of deployed services with rich routing,
- load balancing, service-to-service authentication, monitoring, and more - all
+load balancing, service-to-service authentication, monitoring, and more - all
 without any changes to the application code. Istio strives to provide
 these benefits with minimal resource overhead and aims to support very
- large meshes with high request rates while adding minimal latency.
-
+large meshes with high request rates while adding minimal latency.
 
 The Istio data plane components, the Envoy proxies and Mixer for headers only, handle
 data flowing through the system. The Istio control plane components, Pilot, Galley and Citadel,
 configure the data plane. The data plane and control plane have distinct
- performance concerns.
+performance concerns.
 
 ## Data plane performance
 
 Data plane performance depends on many factors, for example:
 
-* Number of client connections
-* Target request rate
-* Request size and Response size
-* Enabling `mTLS`
-* Number of proxy worker threads
-* Protocol
-* Host cores
+- Number of client connections
+- Target request rate
+- Request size and Response size
+- Enabling `mTLS`
+- Number of proxy worker threads
+- Protocol
+- CPU cores
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
@@ -43,14 +42,14 @@ The latency, throughput, and the proxies' CPU and memory consumption are measure
 
 Since Istio injects a sidecar proxy on the data path, latency is an important
 consideration. Istio adds an authentication and a Mixer filter to the proxy. Every
- additional filter adds to the path length inside the proxy and affects latency.
+additional filter adds to the path length inside the proxy and affects latency.
 
 The Envoy proxy collects raw telemetry data after a response is sent to the
 client. The time spent collecting raw telemetry for a request does not contribute
-to the total time taken to complete that request. However, since the client
-is busy handling the request, the client won't start handling the next request
+to the total time taken to complete that request. However, since the worker
+is busy handling the request, the worker won't start handling the next request
 immediately. This process adds to the queue wait time of the next request and affects
- average and tail latencies. The actual tail latency depends on the traffic pattern.
+average and tail latencies. The actual tail latency depends on the traffic pattern.
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
 proxy. This two proxies on the data path add about `10ms` to the 99th percentile latency at `1k rps`.
@@ -60,26 +59,24 @@ The server-side proxy alone adds `6ms` to the 99th percentile latency.
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
 and memory. As of Istio 1.1, a proxy consumes about 0.5 vCPU per 1000
- requests per second (`rps`).
+requests per second (`rps`).
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
- A large number of listeners, clusters, and routes can increase memory usage.
+A large number of listeners, clusters, and routes can increase memory usage.
 Istio 1.1 introduced namespace isolation to limit the scope of the configuration sent
 to a proxy. In a large namespace, the proxy consumes approximately 50 MB of memory.
 
 Since the proxy normally doesn't buffer the data passing through,
 request rate doesn't affect the memory consumption.
 
-
-
-
 ## Control plane performance
 
 Pilot configures sidecar proxies based on user authored configuration files and the current
 state of the system. In a Kubernetes environment, Custom Resource Definitions (CRDs) and deployments
 constitute the configuration and state of the system. The Istio configuration objects like gateways and virtual
-services, provide the user-authored configuration. 
-To produce the configuration for the proxies, Pilot processes the combined configuration and system state from the Kubernetes environment and the user-authored configuration.
+services, provide the user-authored configuration.
+To produce the configuration for the proxies, Pilot processes the combined configuration and system state
+from the Kubernetes environment and the user-authored configuration.
 
 The control plane supports thousands of services, spread across thousands of pods with a
 similar number of user authored virtual services and other configuration objects.
@@ -90,30 +87,30 @@ The CPU consumption scales with the following factors:
 - The rate of configuration changes.
 - The number of proxies connecting to Pilot.
 
-
- however this part is inherently horizontally scalable.
+however this part is inherently horizontally scalable.
 
 When [namespace isolation](/docs/reference/config/networking/v1alpha3/sidecar/) is enabled,
- a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
- You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
- to reach all proxies.
-
-## Release 1.1 performance summary
-
-**Mesh Traffic:** The total traffic in the mesh; includes ingress, egress, and all traffic going
- into and out of every pod.
+a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
+You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
+to reach all proxies.
 
 ### Data plane latency
 
 The default configuration of Istio 1.1 adds `10 ms` to the 99th percentile latency of the data plane over the baseline.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
- for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client connections.
+for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client connections.
 
 {{< image width="90%" ratio="75%"
     link="latency.svg?sanitize=true"
     alt="P99 latency vs client connections"
     caption="P99 latency vs client connections"
 >}}
+
+- `baseline` Client pod directly calls the server pod, no sidecars are present.
+- `server-sidecar` Only server sidecar is present.
+- `both-sidecars` Client and server sidecars are present. This is a default case inside the mesh.
+- `nomixer-both` Same as **both-sidecars** without the mixer filter.
+- `nomixer-server` Same as **server-sidecar** without the mixer filter.
 
 ### Data plane resources
 
