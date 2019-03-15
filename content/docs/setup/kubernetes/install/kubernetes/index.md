@@ -41,7 +41,7 @@ This permits customization of Istio to operator specific requirements.
 
 {{< tabset cookie-name="profile" >}}
 
-{{% tab name="permissive mTLS" cookie-value="permissive" %}}
+{{< tab name="permissive mTLS" cookie-value="permissive" >}}
 When using the permissive mutual TLS mode, all services accept both plain text and
 mutual TLS traffic. Clients send plain text traffic unless configured for
 [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic).
@@ -60,9 +60,9 @@ Run the following command to install this variant:
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="strict mTLS" cookie-value="strict" %}}
+{{< tab name="strict mTLS" cookie-value="strict" >}}
 This variant will enforce
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between all clients and servers.
 
@@ -75,7 +75,7 @@ Run the following command to install this variant:
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 
@@ -175,21 +175,21 @@ non-existent resources because they may have been deleted hierarchically.
 
 {{< tabset cookie-name="profile" >}}
 
-{{% tab name="permissive mTLS" cookie-value="permissive" %}}
+{{< tab name="permissive mTLS" cookie-value="permissive" >}}
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="strict mTLS" cookie-value="strict" %}}
+{{< tab name="strict mTLS" cookie-value="strict" >}}
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 

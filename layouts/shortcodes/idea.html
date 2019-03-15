@@ -3,7 +3,7 @@
         {{ partial "large_icon.html" "callout-idea" }}
     </div>
     <div class="content">
-        {{- $trimmed := trim .Inner " \n" -}}
-        {{- $trimmed | markdownify -}}
+        {{- $text := partial "strip_indent.html"  (dict "content" .Inner "pos" .Position) -}}
+        {{- $text | markdownify -}}
     </div>
 </aside>

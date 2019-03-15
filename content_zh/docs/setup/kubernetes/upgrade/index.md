@@ -244,7 +244,7 @@ spec:
 下载并运行如下命令：
 
 {{< text bash >}}
-$ curl -L {{% github_file %}}git/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+$ curl -L {{< github_file >}}git/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
 {{< /text >}}
 
 这个脚本自动化下如下操作：
