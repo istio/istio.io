@@ -11,8 +11,7 @@ traffic destined to _reviews_ to _reviews v3_ and verify that your new version p
 
 1.  Add a virtual service to route traffic to _reviews v2_, while shadowing traffic to _reviews 2_
     (using the
-      [HTTP route _mirror_ attribute](http://localhost:1313/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute)
-    ):
+      [HTTP route _mirror_ attribute](http://localhost:1313/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute)):
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -51,3 +50,15 @@ traffic destined to _reviews_ to _reviews v3_ and verify that your new version p
 
     It means that your _reviews v3_ received the shadow traffic and did not crash. In real life you may also want to
     compare the data returned by invocation of a production version and a mirrored version.
+
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    This time you will see that _reviews v3_ does not receive the traffic from _productpage_, since it receives only
+    shadow traffic. As a response to the shadow traffic, _reviews v3_ generates traffic to _ratings_, which is shown in
+    the graph.
+
+    {{< image width="80%"
+        link="images/kiali-traffic-shadowing.png"
+        caption="Kiali Graph Tab with traffic shadowing to reviews v3"
+        >}}
