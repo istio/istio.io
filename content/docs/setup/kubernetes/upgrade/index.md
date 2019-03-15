@@ -230,7 +230,7 @@ The script is included in the [Istio installation package](/docs/setup/kubernete
 Download and run the script with the following command:
 
 {{< text bash >}}
-$ curl -L {{% github_file %}}/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+$ curl -L {{< github_file >}}/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
 {{< /text >}}
 
 The script automates the following operations:

@@ -60,6 +60,13 @@ check_content() {
         FAILED=1
     fi
 
+    grep -nr -e "(https://preliminary.istio.io" .
+    if [[ "$?" == "0" ]]
+    then
+        echo "Ensure markdown content doesn't contain references to preliminary.istio.io"
+        FAILED=1
+    fi
+
     grep -nr -e "https://github.com/istio/istio/blob/" .
     if [[ "$?" == "0" ]]
     then
