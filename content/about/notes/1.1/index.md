@@ -38,7 +38,7 @@ TODO: Need to have an explicit section on everything that's being deprecated.
   Istio retains the capability of integrating with your own statsd collector for improved flexibility with existing
   Kubernetes deployments.
 - **Secure addon credentials**.  Grafana, Prometheus, Kiali, and Jaeger passwords and username are now stored in
-  Kubernetes secrets(https://kubernetes.io/docs/concepts/configuration/secret/) instead of command line configuration
+  [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) instead of command line configuration
   options, `values.yaml`, or configmaps for improved security and compliance.
 - **Jaeger Introduction**. Jaeger replaces zipkin as the default tracing system.
 - **Installation Profiles**. Several installation profiles have been added to simplify the installation
