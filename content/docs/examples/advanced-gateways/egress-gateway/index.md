@@ -5,7 +5,9 @@ weight: 30
 keywords: [traffic-management,egress]
 ---
 
-{{<warning>}}This example does not work in Minikube.{{</warning>}}
+{{<warning>}}
+This example does not work in Minikube.
+{{</warning>}}
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
@@ -110,7 +112,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mTLS enabled" cookie-value="enabled" >}}
 
 {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -154,9 +156,9 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mTLS disabled" cookie-value="disabled" >}}
 
 {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -186,7 +188,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 
@@ -318,7 +320,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mTLS enabled" cookie-value="enabled" >}}
 
 {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -397,9 +399,9 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mTLS disabled" cookie-value="disabled" >}}
 
 {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -467,7 +469,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 

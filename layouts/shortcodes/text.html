@@ -12,34 +12,14 @@
 {{- $syntax := "" -}}
 {{- $text := "" -}}
 {{- $output := "" -}}
-{{- $line0 := "" -}}
 
 {{- if .Get 0 -}}
-    {{- $lines := split (strings.TrimRight " " (trim .Inner "\n")) "\n" -}}
-
-    {{- $line0 = index $lines 0 -}}
-    {{- $indent := 0 -}}
-    {{- if hasPrefix $line0 "                " -}}{{- $indent = 16 -}}
-    {{- else if hasPrefix $line0 "            " -}}{{- $indent = 12 -}}
-    {{- else if hasPrefix $line0 "        " -}}{{- $indent = 8 -}}
-    {{- else if hasPrefix $line0 "    " -}}{{- $indent = 4 -}}
-    {{- end -}}
-
-    {{- $text = "" -}}
-    {{- range $line := $lines -}}
-        {{- if gt (len $line) $indent -}}
-            {{- $l := substr $line $indent -}}
-            {{- $text = printf "%s\n%s" $text $l -}}
-        {{- else -}}
-            {{- $text = printf "%s\n%s" $text $line -}}
-        {{- end -}}
-    {{- end -}}
-
-    {{- $text = trim $text "\n" -}}
+    {{- $text = partial "strip_indent.html" (dict "content" .Inner "pos" .Page.Position) -}}
     {{- $syntax = .Get 0 -}}
     {{- $output = .Get 1 -}}
 {{- else -}}
     {{- errorf "Text block does not specify a syntax (%s)" .Position -}}
+    {{- $syntax = "plain" -}}
 {{- end -}}
 
 {{- if (hasPrefix $text " ") -}}
@@ -57,6 +37,13 @@
     {{- end -}}
 {{- end -}}
 
+{{- $result := "" -}}
+{{- if $downloadas -}}
+    {{- $result = printf "<pre><code class='language-%s' data-expand='%s' data-downloadas='%s'>%s</code></pre>" $syntax $expand_links $downloadas (htmlEscape $text) -}}
+{{- else -}}
+    {{- $result = printf "<pre><code class='language-%s' data-expand='%s'>%s</code></pre>" $syntax $expand_links (htmlEscape $text) -}}
+{{- end -}}
+
 {{- if eq $expand_links "true" -}}
     {{- /* include a dummy link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
     {{- $branch := .Site.Data.args.source_branch_name -}}
@@ -64,14 +51,9 @@
     {{- range $link := $links -}}
         {{- $target := trim $link "@" -}}
         {{- if gt (len $target) 0 -}}
-            {{- $href := printf "https://raw.githubusercontent.com/istio/istio/%s/%s" $branch $target -}}
-            <a data-skipendnotes="true" style="display:none" href="{{- $href -}}">Hello</a>
+            {{- $result = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/istio/%s/%s'>Zip</a>%s" $branch $target $result -}}
         {{- end -}}
     {{- end -}}
 {{- end -}}
 
-{{- if $downloadas -}}
-<pre><code class='language-{{- $syntax -}}' data-expand='{{ $expand_links }}' data-downloadas='{{- $downloadas -}}'>{{- $text -}}</code></pre>
-{{- else -}}
-<pre><code class='language-{{- $syntax -}}' data-expand='{{ $expand_links }}'>{{- $text -}}</code></pre>
-{{- end -}}
+{{- $result | safeHTML -}}

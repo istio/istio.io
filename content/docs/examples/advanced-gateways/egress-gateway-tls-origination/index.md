@@ -99,9 +99,9 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mTLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -141,13 +141,13 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mTLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -173,9 +173,9 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       subsets:
       - name: cnn
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 
