@@ -29,7 +29,7 @@ as the example application throughout this task.
 
     Save the following as `new_metrics.yaml`:
 
-    {{< text yaml >}}
+    {{< text yaml plain "new_metrics.yaml" >}}
     # Configuration for metric instances
     apiVersion: "config.istio.io/v1alpha2"
     kind: metric
@@ -183,7 +183,7 @@ rule, and because the rule is in the configured default configuration namespace
 
 ## Cleanup
 
-*   Remove the new telemetry configuration:
+*   Remove the new metrics configuration:
 
     {{< text bash >}}
     $ kubectl delete -f new_metrics.yaml

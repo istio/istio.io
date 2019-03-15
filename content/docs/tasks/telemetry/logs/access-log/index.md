@@ -4,7 +4,7 @@ description: This task shows you how to configure Envoy proxies to print access 
 weight: 10
 keywords: [telemetry]
 aliases:
-- /docs/tasks/telemetry/access-log
+    - /docs/tasks/telemetry/access-log
 ---
 
 The simplest kind of Istio logging is

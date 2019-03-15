@@ -1,10 +1,10 @@
 ---
 title: Collecting Metrics for TCP services
 description: This task shows you how to configure Istio to collect metrics for TCP services.
-weight: 25
+weight: 20
 keywords: [telemetry,metrics,tcp]
 aliases:
-- /docs/tasks/telemetry/tcp-metrics
+    - /docs/tasks/telemetry/tcp-metrics
 ---
 
 This task shows how to configure Istio to automatically gather telemetry for TCP

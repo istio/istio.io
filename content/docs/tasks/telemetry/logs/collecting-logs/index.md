@@ -26,7 +26,7 @@ as the example application throughout this task.
 
     Save the following as `new_logs.yaml`:
 
-    {{< text yaml >}}
+    {{< text yaml plain "new_logs.yaml" >}}
     # Configuration for logentry instances
     apiVersion: "config.istio.io/v1alpha2"
     kind: logentry
@@ -89,10 +89,10 @@ as the example application throughout this task.
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Verify that the logs stream has been created and is being populated for
+1.  Verify that the log stream has been created and is being populated for
     requests.
 
-    In a Kubernetes environment, search through the logs for the `istio-telemetry``` pods as
+    In a Kubernetes environment, search through the logs for the `istio-telemetry` pods as
     follows:
 
     {{< text bash json >}}
