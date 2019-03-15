@@ -77,7 +77,7 @@ any change. If there is any critical issue with the new control plane, you can r
 If you installed Istio using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
 the preferred upgrade option is to let Helm take care of the upgrade:
 
-1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
+1. Upgrade the `istio-init` chart to update all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs).
 
     {{< text bash >}}
     $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
