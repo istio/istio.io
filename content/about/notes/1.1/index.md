@@ -18,15 +18,8 @@ TODO: Need to have an explicit section on everything that's being deprecated.
 
 ## Upgrades
 
-- **Helm Changes**.
-TBD: need full content & links
-
-- things to watch out for/configure before you upgrade - from all subsystems below. For example, outbound traffic is allowed by default for unknown ports, what else?
-TBD: need full content & links
-
-    - Egress gateway is disabled by default
-    - Mixer policy is off by default
-    - Outbound traffic policy is set to `ALLOW_ANY`. Traffic to unknown ports will be forwarded as-is.
+- We recommend a manual upgrade of control plane and data plane to 1.1.  Please reference
+  [upgrades]((/docs/setup/kubernetes/upgrade/) to upgrade your Istio control and data plane.
 
 ## Traffic management
 
