@@ -2,7 +2,7 @@
 title: Logging with Istio
 overview: Collecting and querying logs.
 
-weight: 71
+weight: 72
 
 ---
 
