@@ -609,6 +609,11 @@ End-user authentication can be enabled or disabled based on request path. This i
 disable authentication for some paths, for example, the path used for health check or status report.
 You can also specify different JWT requirements on different paths.
 
+{{< warning >}}
+The end-user authentication with per-path requirements is an experimental feature in Istio 1.1 and
+is **NOT** recommended for production use.
+{{< /warning >}}
+
 #### Disable End-user authentication for specific paths
 
 Modify the `jwt-example` policy to disable End-user authentication for path `/user-agent`:
