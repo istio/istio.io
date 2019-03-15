@@ -2,6 +2,8 @@
 title: Pods and Services
 description:  Prepare your Kubernetes pods and services to run in an Istio-enabled cluster.
 weight: 5
+aliases:
+    - /docs/setup/kubernetes/spec-requirements/
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
