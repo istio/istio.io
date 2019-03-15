@@ -1112,7 +1112,7 @@ metadata:
 spec:
   egress:
   - hosts:
-    - "bookinfo/*"
+    - "./*"
 {{< /text >}}
 
 Limiting sidecar reachability this way can be used to significantly reduce memory
