@@ -48,7 +48,6 @@ This task demonstrates how to use a policy adapter to manipulate request headers
     EOF
     {{< /text >}}
 
-
 ## Output-producing check adapters
 
 In this task, we are using a sample policy adapter `keyval`. In addition to
