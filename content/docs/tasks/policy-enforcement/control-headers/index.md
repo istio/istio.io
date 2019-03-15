@@ -23,7 +23,7 @@ This task demonstrates how to use a policy adapter to manipulate request headers
   configuration for the `httpbin` service containing two route rules that allow traffic for paths `/headers` and
   `/status`:
 
-    {{< text bash >}}
+    {{< text yaml >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
