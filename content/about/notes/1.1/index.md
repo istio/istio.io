@@ -32,7 +32,7 @@ TBD: need full content & links
 
 - **New `Sidecar` Resource**. Added support to limit the set of services visible to sidecar proxies in a given namespace using the `Sidecar` resource.
 This limit reduces the amount of configuration computed and transmitted to the proxy. On large clusters, we recommend adding
-a sidecar object per namespace. TBD LINK: how to add a sidecar per namespace?
+a sidecar resource per namespace.
 
 - **Restrict Visibility of Networking Resources**. Added the new `exportTo` field to all networking resources.
 The field currently takes only the following values:
@@ -55,6 +55,10 @@ to create global namespaces. Locality-aware routing is enabled by default in the
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio ingress. Refer to the
 [Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details on how
 to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
+
+- **Behavioral changes**.
+    - Outbound traffic policy is set to `ALLOW_ANY` by default. As a result, traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched with one of the services in the system and forwarded accordingly.
+    - Destination rule resolution order has been set. For a given sidecar, when routing to a particular service, destination rules for the target service in the same namespace as the source sidecar will first be considered, followed by destination rules in the target service’s namespace, and finally followed by destination rules in `configRootNamespace` if defined or any other namespace if `configRootNamespace` is not defined.
 
 ## Security
 
@@ -86,15 +90,6 @@ See [Istio Vault CA Integration](/docs/tasks/security/vault-ca) for more informa
 
 - TBD: How about adding [11667](https://github.com/istio/istio/issues/11667) as well? As this is also a significant feature for security which can enable end user to set
 different CA and Certs for different namespaces.
-
-## Multicluster
-
-- **Non-Routable L3 Networks**. Enabled using a single Istio control plane in multicluster environments with non-routable
-L3 networks.
-TBD: LINK
-
-- **Multiple Control Planes**. Added support for multiple Istio control planes in support of multicluster environments.
-TBD: LINK
 
 ## Policies and telemetry
 
@@ -134,7 +129,7 @@ adapter model is being deprecated in this release. All new adapter development s
 
 - **Galley**. Added [Galley](/docs/concepts/what-is-istio/#galley) as the primary configuration ingestion and distribution mechanism within Istio. It provides
 a robust model to validate, transform, and distribute configuration state to Istio components insulating the Istio components
-from Kubernetes details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp) to interact with components. TBD: LINK TO MCP
+from Kubernetes details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp) to interact with components.
 
 - **Monitoring Port**. Changed Galley's default monitoring port from 9093 to 15014.
 
@@ -150,4 +145,4 @@ Istio installation given a specified installation YAML file.
 Deprecated the `istioctl gen-deploy` command too. Use a [`helm template`](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) instead.
 These commands will be removed in the 1.2 release.
 
-- **Short Commands**. Included short commands in `kubectl` for gateways, virtual services, destination rules and service entries. TBD: ADD LINK
+- **Short Commands**. Included short commands in `kubectl` for gateways, virtual services, destination rules and service entries.
