@@ -107,7 +107,7 @@ JWT authentication for `httpbin`.
 
 1.  Set the `TOKEN` environmental variable to contain a valid sample JWT.
 
-    {{< text bash>}}
+    {{< text bash >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s)
     {{< /text >}}
 
