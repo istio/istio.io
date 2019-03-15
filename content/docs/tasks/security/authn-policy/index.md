@@ -610,7 +610,7 @@ disable authentication for some paths, for example, the path used for health che
 You can also specify different JWT requirements on different paths.
 
 {{< warning >}}
-The End-user authentication with per-path requirements is an experimental feature in version 1.1 and
+The end-user authentication with per-path requirements is an experimental feature in Istio 1.1 and
 is **NOT** recommended for production use.
 {{< /warning >}}
 
