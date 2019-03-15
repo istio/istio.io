@@ -66,7 +66,7 @@ microservices in one stroke.
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
     Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
-    In the _Display_ drop-down menu mark the _Traffic Animation_ checkbox to see the cool traffic animation.
+    In the _Display_ drop-down menu mark the _Traffic Animation_ checkbox to see some cool traffic animation.
 
     Access your application's homepage several times for several seconds and see the graph of your application
     displayed.
