@@ -20,7 +20,7 @@ and mutual TLS traffic.
 You can configure Istio services to send mutual
 TLS traffic to that service while connections from legacy services will not
 lose communication. Moreover, you can use the
-[Grafana dashboard](/docs/tasks/telemetry/using-istio-dashboard/) to check which services are
+[Grafana dashboard](/docs/tasks/telemetry/metrics/using-istio-dashboard/) to check which services are
 still sending plain text traffic to the service in "PERMISSIVE" mode and choose to lock
 down once the migration is done.
 
@@ -104,7 +104,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 
 You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
 [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/).
-After verifying it works by checking [Grafana to monitor](/docs/tasks/telemetry/using-istio-dashboard/),
+After verifying it works by checking [Grafana to monitor](/docs/tasks/telemetry/metrics/using-istio-dashboard/),
 then increase the rollout scope and finally apply to all Istio client services.
 
 ## Lock down to mutual TLS (optional)
