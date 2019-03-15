@@ -29,7 +29,7 @@ Sidecar injector.  Choose one of the following two **mutually exclusive** option
 
 {{< tabset cookie-name="controlplaneupdate" >}}
 {{% tab name="Kubernetes rolling update" cookie-value="k8supdate" %}}
-You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components.
+You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
 including configurations generated using
 [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
