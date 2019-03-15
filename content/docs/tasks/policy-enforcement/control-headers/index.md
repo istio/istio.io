@@ -48,7 +48,7 @@ This task demonstrates how to use a policy adapter to manipulate request headers
     EOF
     {{< /text >}}
 
-## Output-producing check adapters
+## Output-producing adapters
 
 In this task, we are using a sample policy adapter `keyval`. In addition to
 a policy check result, this adapter returns an output with a single field
@@ -62,7 +62,7 @@ instance key is not present in the lookup table.
     $ kubectl run keyval --image=gcr.io/istio-testing/keyval:release-1.1 --namespace istio-system --port 9070 --expose
     {{< /text >}}
 
-1. Enable `keyval` out-of-process adapter in Mixer by deploying its template and configuration descriptors:
+1. Enable the `keyval` adapter by deploying its template and configuration descriptors:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/policy/keyval-template.yaml@
@@ -88,7 +88,7 @@ instance key is not present in the lookup table.
     EOF
     {{< /text >}}
 
-1. Create an instance for the handler with `user` request header as a lookup key:
+1. Create an instance for the handler with the `user` request header as a lookup key:
 
     {{< text yaml >}}
     $ kubectl apply -f - <<EOF
@@ -106,7 +106,7 @@ instance key is not present in the lookup table.
 
 ## Request header operations
 
-1. Ensure that _httpbin_ service is accessible through the ingress gateway:
+1. Ensure the _httpbin_ service is accessible through the ingress gateway:
 
     {{< text bash >}}
     $ curl http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -120,7 +120,7 @@ instance key is not present in the lookup table.
     }
     {{< /text >}}
 
-   The output should be the request headers as they are received by _httpbin_ service.
+   The output should be the request headers as they are received by the _httpbin_ service.
 
 1. Create a rule for the demo adapter:
 
@@ -159,9 +159,9 @@ instance key is not present in the lookup table.
     }
     {{< /text >}}
 
-   Note the presence of `user-group` header with the value derived from the
+   Note the presence of the `user-group` header with the value derived from the
    rule application of the adapter. The expression `x.output.value` in the rule
-   evaluates to the populated `value` field returned by `keyval` adapter.
+   evaluates to the populated `value` field returned by the `keyval` adapter.
 
 1. Modify the rule to rewrite the URI path to a different virtual service route
    if the check succeeds:
@@ -200,33 +200,6 @@ instance key is not present in the lookup table.
    The modified request is not checked again by the policy engine within the
    same proxy. Therefore, we recommend to use this feature in gateways, so
    that the server-side policy checks take effect.
-
-## Custom error response
-
-The adapter developers can also specify the client-facing error response if the policy
-check fails. Issue a request to the gateway with a non-existing user key:
-
-{{< text bash >}}
-$ curl -Huser:bill http://$INGRESS_HOST:$INGRESS_PORT/headers
-<error_detail>key "bill" not found</error_detail>
-{{< /text >}}
-
-The demo adapter uses a [custom error
-detail](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#DirectHttpResponse) to
-provide this error message:
-
-{{< text go >}}
-&HandleKeyvalResponse{
-  Result: &v1beta1.CheckResult{
-    Status: rpc.Status{
-      Code: int32(rpc.NOT_FOUND),
-      Details: []*types.Any{status.PackErrorDetail(&policy.DirectHttpResponse{
-        Body: fmt.Sprintf("<error_detail>key %q not found</error_detail>", key),
-      })},
-    },
-  },
-}
-{{< /text >}}
 
 ## Cleanup
 
