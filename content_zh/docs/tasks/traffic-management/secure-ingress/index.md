@@ -221,7 +221,6 @@ keywords: [traffic-management,ingress]
 1.  同样的使用 HTTPS 方式访问 `httpbin` 服务：
 
     {{< text bash >}}
-
     $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}

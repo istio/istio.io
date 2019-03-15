@@ -254,7 +254,6 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 1.  Access the `httpbin` service by HTTPS as in the previous section:
 
     {{< text bash >}}
-
     $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
