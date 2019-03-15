@@ -289,3 +289,7 @@ subnet.
 * If you are not planning to explore any follow-on tasks, refer to the
   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
+
+## Test coverage
+
+<iframe src="https://testgrid.k8s.io/istio-release#e2e-mixer-no_auth&include-filter-by-regex=Denials&embed-without-column-labels=" height="125" width="100%"></iframe>
