@@ -445,12 +445,12 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 将生成特殊渲染，邀请用户单击该术语以获得带有该定义的弹出窗口。
 
 {{< text markdown >}}
-Mixer 使用 {{</*gloss*/>}}adapters{{</*/gloss*/>}} 来连接后端。
+Mixer 使用 {{</*gloss*/>}}适配器{{</*/gloss*/>}} 来连接后端。
 {{< /text >}}
 
 看起来像：
 
-Mixer 使用 {{<gloss>}}adapters{{</gloss>}} 来连接后端。
+Mixer 使用 {{<gloss>}}适配器{{</gloss>}} 来连接后端。
 
 如果页面上显示的术语与术语表中的条目不完全匹配，则可以指定替换：
 
