@@ -109,7 +109,7 @@ instance key is not present in the lookup table.
 1. Ensure that _httpbin_ service is accessible through the ingress gateway:
 
     {{< text bash >}}
-    $ curl http://$INGRESS_HOST:$INGRESS_PORT/status/200
+    $ curl http://$INGRESS_HOST:$INGRESS_PORT/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -197,11 +197,9 @@ instance key is not present in the lookup table.
    of the policy adapter. The modified request may use a different route and
    destination and is subject to the traffic management configuration.
 
-    {{< warning >}}
-    The modified request is not checked again by the policy engine within the
-    same proxy. Therefore, we recommend to use this feature in gateways, so
-    that the server-side policy checks take effect.
-    {{< /warning >}}
+   The modified request is not checked again by the policy engine within the
+   same proxy. Therefore, we recommend to use this feature in gateways, so
+   that the server-side policy checks take effect.
 
 ## Custom error response
 
@@ -214,7 +212,7 @@ $ curl -Huser:bill http://$INGRESS_HOST:$INGRESS_PORT/headers
 {{< /text >}}
 
 The demo adapter uses a [custom error
-detail](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) to
+detail](/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/#DirectHttpResponse) to
 provide this error message:
 
 {{< text go >}}
