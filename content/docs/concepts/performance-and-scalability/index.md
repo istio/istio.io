@@ -35,6 +35,7 @@ Data plane performance depends on many factors, for example:
 - Number of proxy worker threads
 - Protocol
 - CPU cores
+- Number and types of proxy filters, specifically mixer-filter.
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
@@ -58,7 +59,7 @@ The server-side proxy alone adds `6ms` to the 99th percentile latency.
 ### CPU and memory
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. As of Istio 1.1, a proxy consumes about 0.5 vCPU per 1000
+and memory. As of Istio 1.1, a proxy consumes about 0.6 vCPU per 1000
 requests per second (`rps`).
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
@@ -98,7 +99,7 @@ to reach all proxies.
 
 The default configuration of Istio 1.1 adds `10 ms` to the 99th percentile latency of the data plane over the baseline.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
-for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client connections.
+for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client connections, 2 proxy workers and `mTLS` enabled.
 
 {{< image width="90%" ratio="75%"
     link="latency.svg?sanitize=true"
@@ -114,9 +115,9 @@ for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client
 
 ### Data plane resources
 
-The proxy uses 0.5 vCPU per 1000 rps and the `istio-telemetry` service uses 0.5 vCPU per 1000 mesh-wide rps.
+The proxy uses 0.6 vCPU per 1000 rps and the `istio-telemetry` service uses 0.6 vCPU per 1000 mesh-wide rps in
+[long running tests](https://snapshot.raintank.io/dashboard/snapshot/RHEV5y3Wf8x9ax6MIin4tBAo0WGFIQS6)
 
-### Control plane
+### Control plane resources
 
 Pilot uses 1 vCPU and 1.5 GB of memory to support 1000 services and 2000 sidecars.
-
