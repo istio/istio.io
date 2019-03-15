@@ -30,3 +30,13 @@ to split the traffic destined to _reviews_ equally between the _v2_ and _v3_ ver
     {{< /text >}}
 
 1.  Access application's webpage and verify that now the red stars are displayed roughly every other access.
+
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    You will see the rate of the traffic entering _reviews_ split roughly 50:50 between _reviews_ _v2_ and _v3_.
+
+    {{< image width="80%"
+        link="images/kiali-ab-testing.png"
+        caption="Kiali Graph Tab with traffic splitting 50:50 between reviews v2 and v3"
+        >}}
