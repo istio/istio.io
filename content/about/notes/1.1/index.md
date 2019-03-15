@@ -57,11 +57,10 @@ to create global namespaces. Locality-aware routing is enabled by default in the
 to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
 
 - **Behavioral changes**.
-    - Outbound traffic policy is set to ALLOW_ANY by default. As a result, traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched with one of the services in the system and forwarded accordingly.
-    - Destination rule resolution order has been set. For a given sidecar, when routing to a particular service, destination rules for the target service in the same namespace as the sidecar will first be considered, followed by destination rules in the service’s namespace, and finally followed by destination rules in config root namespace if defined or any other namespace.
-    - We recommend storing gateway resources in the same namespace as the gateway workload. E.g., istio-system in case of istio-ingressgateway. When referring to gateway resources in virtual services, use the namespace/name format instead of using name.namespace.svc.cluster.local.
+    - Outbound traffic policy is set to `ALLOW_ANY` by default. As a result, traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched with one of the services in the system and forwarded accordingly.
+    - Destination rule resolution order has been set. For a given sidecar, when routing to a particular service, destination rules for the target service in the same namespace as the sidecar will first be considered, followed by destination rules in the service’s namespace, and finally followed by destination rules in `configRootNamespace` if defined or any other namespace.
+    - We recommend storing gateway resources in the same namespace as the gateway workload. E.g., `istio-system` in case of `istio-ingressgateway`. When referring to gateway resources in virtual services, use the `namespace/name` format instead of the `name.namespace.svc.cluster.local` format.
 
- 
 ## Security
 
 - **Readiness and Liveness Probes**. Added support for Kubernetes' HTTP [readiness and liveness probes when mutual TLS is enabled](/help/faq/security/#k8s-health-checks).
