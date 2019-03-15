@@ -90,6 +90,19 @@ a new version and enable traffic to it for a tester with login name `jason`.
     tool. This way you verify that your new version of the _reviews_ microservice works correctly with all other
     microservices in production. You test the whole application, end-to-end, with the new version.
 
+1.  Access your application's page several times, signed in as `jason`.
+
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    This time you will see the traffic to _reviews_ is split between _v2_ and _v3_. Notice the icon that designates the
+    _reviews_ virtual service on the box that designates the _reviews_ microservice.
+
+    {{< image width="80%"
+        link="images/kiali-reviews-v3.png"
+        caption="Kiali Graph Tab with reviews v3"
+        >}}
+
 1.  Sign out. Now all the ratings appear with black stars which means that your old versions are used.
 
 1.  You can query your virtual services:
@@ -99,3 +112,18 @@ a new version and enable traffic to it for a tester with login name `jason`.
     NAME      AGE
     reviews   22m
     {{< /text >}}
+
+1.  You can also see your virtual services and other Istio configuration items in the _`Istio Config`_ tab of your Kiali
+    console.
+
+    {{< image width="80%"
+        link="images/kiali-istio-config.png"
+        caption="Kiali Istio Config tab"
+        >}}
+
+1.  Click on the _reviews_ virtual service to see its visual representation.
+
+    {{< image width="80%"
+        link="images/kiali-reviews-virtual-service.png"
+        caption="Kiali Reviews Virtual Service"
+        >}}
