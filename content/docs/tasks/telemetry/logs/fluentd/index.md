@@ -4,7 +4,7 @@ description: This task shows you how to configure Istio to log to a Fluentd daem
 weight: 90
 keywords: [telemetry,logging]
 aliases:
-    - /docs/tasks/telemetry/fluentd
+    - /docs/tasks/telemetry/fluentd/
 ---
 
 This task shows how to configure Istio to create custom log entries
