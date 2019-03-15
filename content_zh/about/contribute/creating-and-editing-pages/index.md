@@ -80,7 +80,7 @@ keywords: [contribute]
 ## 设置文章的元数据信息{#updating-front-matter}
 
 每个文档文件都需要从头开始写[元数据信息](https://gohugo.io/content-management/front-matter/)。
-元数据信息是介于两个 YAML 块之间的信息（通过三个-好来分割与文章的具体信息）。
+元数据信息是介于两个 YAML 块之间的信息（通过三个`-`来分割与文章的具体信息）。
 下面就是你需要写的元数据信息：
 
 {{< text yaml >}}
@@ -113,7 +113,7 @@ keywords: [keyword1,keyword2,...]
 |`simple_list`      | 将此设置为 true 可强制生成的节页面使用简单的列表布局而不是画廊布局
 |`content_above`    | 将此属性设置为 true 可强制将节索引的内容部分呈现在自动生成的内容上方
 
-还有一些专门针对博客文章的前端问题：
+还有一些专门针对博客文章的字段：
 
 |字段          | 描述
 |---------------|------------
@@ -191,7 +191,7 @@ keywords: [keyword1,keyword2,...]
 
 有几种方法可以从 GitHub 引用文件：
 
-- **{{</* github_file */>}}** 是 Istio 在 GitHub 中单个文件引用，例如 yaml 文件。这将生成一个指向 `https://raw.githubusercontent.com/istio/istio*` 的链接
+- **{{</* github_file */>}}** 是 Istio 在 GitHub 中的单个文件引用，例如 yaml 文件。这将生成一个指向 `https://raw.githubusercontent.com/istio/istio*` 的链接
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
@@ -209,8 +209,7 @@ keywords: [keyword1,keyword2,...]
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-上面的注释将产生到 GitHub 中相应分支的链接，相对于该分支
-文档目前正在定位。如果需要手动构造 URL，可以使用 `{{</* source_branch_name */>}}` 获取当前目标分支的名称。
+上面的注释将产生到 GitHub 中相应分支的链接，相对于该分支文档目前正在定位。如果需要手动构造 URL，可以使用 `{{</* source_branch_name */>}}` 获取当前目标分支的名称。
 
 ## 版本信息{#version-information}
 
@@ -240,7 +239,7 @@ func HelloWorld() {
 }
 {{< /text >}}
 
-您必须在预格式化的块中指明内容的语法。上面该代码块被标记为 `plain` 表示不应该对块应用语法高亮。代码块样式都一样，但现在使用 Go 语言语法进行注释：
+您需要预格式化的块中指明内容的语法。上面的代码块被标记为 `plain` 表示不会对块应用语法高亮。代码块样式都一样，但现在使用 Go 语言语法进行注释：
 
 {{< text markdown >}}
 {{</* text go */>}}
@@ -436,12 +435,12 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 将生成特殊渲染，邀请用户单击该术语以获得带有该定义的弹出窗口。
 
 {{< text markdown >}}
-Mixer 使用 {{</*gloss*/>}}适配器{{</*/gloss*/>}} 来连接后端。
+Mixer 使用{{</*gloss*/>}}适配器{{</*/gloss*/>}}来连接后端。
 {{< /text >}}
 
 效果如下：
 
-Mixer 使用 {{<gloss>}}适配器{{</gloss>}} 来连接后端。
+Mixer 使用{{<gloss>}}适配器{{</gloss>}}来连接后端。
 
 如果页面上显示的术语与术语表中的条目不完全匹配，则可以指定替换：
 
@@ -518,15 +517,15 @@ Mixer 使用 {{<gloss 适配器>}}adapter{{</gloss>}} 来连接后端。
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
-{{%/* tab name="One" cookie-value="one" */%}}
+{{%/* tab name="一" cookie-value="one" */%}}
 一
 {{%/* /tab */%}}
 
-{{%/* tab name="Two" cookie-value="two" */%}}
+{{%/* tab name="二" cookie-value="two" */%}}
 二
 {{%/* /tab */%}}
 
-{{%/* tab name="Three" cookie-value="three" */%}}
+{{%/* tab name="三" cookie-value="three" */%}}
 三
 {{%/* /tab */%}}
 
@@ -537,15 +536,15 @@ Mixer 使用 {{<gloss 适配器>}}adapter{{</gloss>}} 来连接后端。
 
 {{< tabset cookie-name="platform" >}}
 
-{{% tab name="One" cookie-value="one" %}}
+{{% tab name="一" cookie-value="one" %}}
 一
 {{% /tab %}}
 
-{{% tab name="Two" cookie-value="two" %}}
+{{% tab name="二" cookie-value="two" %}}
 二
 {{% /tab %}}
 
-{{% tab name="Three" cookie-value="three" %}}
+{{% tab name="三" cookie-value="three" %}}
 三
 {{% /tab %}}
 
@@ -614,8 +613,7 @@ aliases:
 
 ## 构建和测试网站{#building-and-testing-the-site}
 
-编辑完一些内容文件后，您需要构建网站才能进行测试
-你的变更。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。要在本地构建和测试站点，我们使用包含 `hugo` 的 Docker 镜像。如果要构建和运行站点，只需到根目录执行以下操作：
+编辑完一些内容文件后，您需要构建网站才能进行测试你的变更。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。要在本地构建和测试站点，我们使用包含 `hugo` 的 Docker 镜像。如果要构建和运行站点，只需到根目录执行以下操作：
 
 {{< text bash >}}
 $ make serve
