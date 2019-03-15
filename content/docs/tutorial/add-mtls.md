@@ -38,15 +38,6 @@ microservices in your namespace.
     apiVersion: authentication.istio.io/v1alpha1
     kind: Policy
     metadata:
-      name: disable-mtls-for-productpage
-    spec:
-      targets:
-      - name: productpage
-      peers:
-    ---
-    apiVersion: authentication.istio.io/v1alpha1
-    kind: Policy
-    metadata:
       name: default
     spec:
       peers:
