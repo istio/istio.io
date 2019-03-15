@@ -43,6 +43,10 @@ To install the managed Istio add-on in IBM Cloud Public, see the [IBM Cloud Kube
     $(ibmcloud ks cluster-config <cluster-name> --export)
     {{< /text >}}
 
+{{< warning >}}
+Make sure to use the `kubectl` CLI version that matches the Kubernetes version of your cluster.
+{{< /warning >}}
+
 ## IBM Cloud Private
 
 [Configure `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/manage_cluster/cfc_cli.html)
