@@ -1,0 +1,55 @@
+---
+title: Cloud service management comes of age with Istio v1.1 performance update
+description: An overview of Istio 1.1 performance.
+publishdate: 2019-03-18
+subtitle: An overview of Istio 1.1 performance improvements
+attribution: Surya V Duggirala (IBM), Mandar Jog (Google), Jose Nativio (IBM)
+keywords: [Kubernetes, Istio, Docker, Container, performance, service mesh]
+weight: 101
+---
+
+Hyper-scale, microservice-based cloud environments have been exciting to build but challenging to manage. Along came Kubernetes (container orchestration) in 2014, followed by Istio (container service management) in 2017. Both open-source projects enable developers to scale container-based applications without spending too much time on administration tasks. 
+
+Now, new enhancements in Istio v1.1 deliver scale-up with improved application performance and service management efficiency.
+Simulations using our sample commercial airline reservation application show the following improvements, compared to Istio v1.0.
+
+**Application performance:**
+
+* up to 30% reduction in application average latency
+* up to 40% faster service startup times in a large mesh
+
+**Service management efficiency:**
+
+* up to 90% reduction in Pilot CPU usage in a large mesh
+* up to 50% reduction in Pilot memory usage in a large mesh
+
+With Istio v1.1, organizations can be more confident in their ability to scale applications with consistency and control -- even in hyper-scale cloud environments. 
+Congratulations to the Istio experts around the world who contributed to this release. We could not be more pleased with these results.
+ 
+##### Istio v1.1 performance enhancements
+As members of the Istio Performance and Scalability workgroup, we have done extensive performance evaluations. We introduced many performance design features for Istio v1.1, in collaboration with other Istio contributors.
+Some of the most visible performance enhancements in version 1.1 include:
+
+* Significant reduction in default collection of Envoy-generated statistics
+* Added load-shedding functionality to Mixer workloads
+* Improved the protocol between Envoy and Mixer
+* Namespace isolation, to reduce operational overhead
+* Configurable concurrent worker threads, which can improve overall throughput
+* Configurable filters that limit telemetry data
+* Removal of synchronization bottlenecks
+ 
+Regression Patrol Framework drives continuous improvement in Istio performance and quality. Behind the scenes, the Regression Patrol Framework helps Istio developers to identify and fix code issues. Daily builds are checked using a customer centric benchmark, [Blueperf](https://github.com/blueperf/). The results are published to the [Istio community web portal](https://ibmcloud-perf.istio.io/regpatrol/). Various application configurations are evaluated to help provide insights on Istio component performance.
+ 
+##### Summary
+Istio v1.1 was designed for performance and scalability. The Istio Performance and Scalability workgroup measured significant performance improvements over version 1.0.
+Version 1.1 introduces new features and optimization to help harden the service mesh for enterprise microservice workloads. The [Istio v1.1 Performance and Tuning Guide](https://istio.io/docs/concepts/performance-and-scalability/) documents performance simulations, provides sizing and capacity planning guidance, and includes best practices for tuning custom use cases.
+ 
+##### Learn more
+- [Istio Performance and Scalability](https://istio.io/docs/concepts/performance-and-scalability/) section on Istio.io
+- [Istio Service Mesh Performance (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), by Surya Duggirala, Laurent Demailly and Fawad Khaliq at KubeCon Europe 2018
+- [Istio Performance and Scalability discussion forum](https://discuss.istio.io/c/performance-and-scalability)
+
+**Disclaimer**
+
+The performance data contained herein was obtained in a controlled, isolated environment.  Actual results that may be obtained in other operating environments may vary significantly.  There is no guarantee that the same or similar results will be obtained elsewhere.
+Views expressed in this blog are our own, and do not necessarily represent those of our employers.
