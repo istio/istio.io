@@ -1,8 +1,10 @@
 ---
 title: Collecting Metrics for TCP services
 description: This task shows you how to configure Istio to collect metrics for TCP services.
-weight: 25
+weight: 20
 keywords: [telemetry,metrics,tcp]
+aliases:
+    - /docs/tasks/telemetry/tcp-metrics
 ---
 
 This task shows how to configure Istio to automatically gather telemetry for TCP
@@ -14,7 +16,7 @@ as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup/) in your cluster and deploy an
+* [Install Istio](/docs/setup/kubernetes) in your cluster and deploy an
 application.
 
 * This task assumes that the Bookinfo sample will be deployed in the `default`
@@ -208,7 +210,7 @@ automatically generate and report a new metric for all traffic to a TCP service
 within the mesh.
 
 Similar to the [Collecting Metrics and
-Logs](/docs/tasks/telemetry/metrics-logs/) Task, the new
+Logs](/docs/tasks/telemetry/metrics/collecting-metrics/) Task, the new
 configuration consisted of _instances_, a _handler_, and a _rule_. Please see
 that Task for a complete description of the components of metric collection.
 
