@@ -81,7 +81,7 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP`:
+1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
