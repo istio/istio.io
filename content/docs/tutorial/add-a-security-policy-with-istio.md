@@ -322,6 +322,13 @@ In this section you apply Istio
 
     The unauthorized access is denied as expected.
 
+    1.  Note that `GET` access is allowed for `sleep`:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X GET ratings:9080/ratings/0
+    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
+    {{< /text >}}
+
 In this module you used Kubernetes Network Policies and Istio RBAC rules to enforce access control requirements for your
 application. Note that Istio RBAC provides more flexibility than Kubernetes Network Policies since it allows to specify
 HTTP parameters of the access, in your case which HTTP method which microservice is allowed to apply on which
