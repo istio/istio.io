@@ -122,3 +122,11 @@ for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client
 - `both-sidecars` Client and server sidecars are present. This is a default case inside the mesh.
 - `nomixer-both` Same as **both-sidecars** without the Mixer filter.
 - `nomixer-server` Same as **server-sidecar** without the Mixer filter.
+
+### Benchmarking tools
+
+Istio uses the following tools for benchmarking
+
+- [`fortio.org`](https://fortio.org/) - a constant throughput load testing tool.
+- [`blueperf`](https://github.com/blueperf/) - a realistic cloud native application.
+- [`isotope`](https://github.com/istio/tools/tree/master/isotope) - a synthetic application with configurable topology.
