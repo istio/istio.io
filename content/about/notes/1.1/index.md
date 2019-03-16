@@ -13,13 +13,10 @@ These release notes describe what's different between Istio 1.0.6 and Istio 1.1.
 
 {{< relnote_links >}}
 
-TODO: Need to include anything mentioned as explicit necessary upgrade steps in `/docs/setup/kubernetes/upgrade`
-TODO: Need to have an explicit section on everything that's being deprecated.
-
 ## Upgrades
 
-- We recommend a manual upgrade of control plane and data plane to 1.1.  Please reference
-  [upgrades]((/docs/setup/kubernetes/upgrade/) to upgrade your Istio control and data plane.
+- We recommend a manual upgrade of the control plane and data plane to 1.1. See
+[upgrades](/docs/setup/kubernetes/upgrade/) for more information.
 
 ## Traffic management
 
@@ -27,12 +24,8 @@ TODO: Need to have an explicit section on everything that's being deprecated.
 This limit reduces the amount of configuration computed and transmitted to the proxy. On large clusters, we recommend adding
 a sidecar resource per namespace.
 
-- **Restrict Visibility of Networking Resources**. Added the new `exportTo` field to all networking resources.
-The field currently takes only the following values:
-
-    - `.` Indicates the same namespace as the resource: makes the network resources visible only within their own namespace.
-
-    - `*` Indicates all namespaces and is the default value: makes the network resources visible within all namespaces.
+- **Restrict Visibility of Networking Resources**. Added the new `exportTo` field to all networking resources
+which lets you control the visibility of individual resources to specific namespaces.
 
 - **Updates to `ServiceEntry` Resources**. Added support to specify the locality of a service
 and the associated SAN to use with mutual TLS. Service entries with HTTPS ports no
@@ -43,15 +36,11 @@ longer need an additional virtual service to enable SNI-based routing.
 - **Refined Multicluster Routing**. Simplified the multicluster setup and enabled additional deployment modes. You can now connect multiple
 clusters simply using their ingress gateways without needing pod-level VPNs, deploy control planes in each cluster for high-availability cases, and
 span a namespace across several clusters
-to create global namespaces. Locality-aware routing is enabled by default in the HA control plane solution.
+to create global namespaces. Locality-aware routing is enabled by default in the high-availability control plane solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio ingress. Refer to the
 [Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details on how
 to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
-
-- **Behavioral changes**.
-    - Outbound traffic policy is set to `ALLOW_ANY` by default. As a result, traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched with one of the services in the system and forwarded accordingly.
-    - Destination rule resolution order has been set. For a given sidecar, when routing to a particular service, destination rules for the target service in the same namespace as the source sidecar will first be considered, followed by destination rules in the target service’s namespace, and finally followed by destination rules in `configRootNamespace` if defined or any other namespace if `configRootNamespace` is not defined.
 
 ## Security
 
@@ -76,9 +65,6 @@ See [Authorization for groups and list claims](/docs/tasks/security/rbac-groups/
 See [Istio Vault CA Integration](/docs/tasks/security/vault-ca) for more information.
 
 - **Customized (non `cluster.local`) Trust Domains**. Supports organization- or cluster-specific trust domains in the identities.
-
-- TBD: How about adding [11667](https://github.com/istio/istio/issues/11667) as well? As this is also a significant feature for security which can enable end user to set
-different CA and Certs for different namespaces.
 
 ## Policies and telemetry
 
