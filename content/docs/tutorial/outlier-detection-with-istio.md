@@ -1,6 +1,6 @@
 ---
 title: Outlier detection with Istio
-overview: Pause sending requests to a faulty microservice.
+overview: Mitigate faults related to intermittent failures by Istio.
 
 weight: 130
 
