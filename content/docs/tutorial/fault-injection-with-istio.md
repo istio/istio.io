@@ -6,13 +6,14 @@ weight: 110
 
 ---
 
-In this module you will perform _fault injection_ on your application. you know that in real life your microservices will
-fail, you cannot prevent all possible failures.
+In this module you will perform _fault injection_ on your application. you know that in real life your microservices
+will fail, you cannot prevent all possible failures.
 What you can do is to verify that your microservices react to failures in a best possible way.
 You definitely want to prevent _cascading failures_: a situation when a failure in one microservice causes chain of
 failures in other microservices.
 
-To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your microservices react to the faults you injected.
+To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from
+one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your microservices react to the faults you injected.
 
 1.  Configure a virtual service to inject a fault on requests to _ratings_, for your test user `jason`:
 
@@ -40,6 +41,18 @@ To verify that your microservices behave well under failures, first you inject a
     and returned `200`. You didn't get _cascading failire_, a failing microservice or a network error did not cause the
     whole chain of calls to fail. The application continued to function, but with reduced functionality, just not
     presenting ratings stars. You experience _graceful degradation_ which is good.
+
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    Note that the _reviews_ microservice became orange and the edges to _ratings_ became orange as well. Note the
+    red portion of the stacked bar chart on the right, it designates the proportion of `5xx` errors. Notice the
+    percentage of errors in the `HTTP Traffic` section on the right.
+
+    {{< image width="80%"
+        link="images/kiali-fault-injection.png"
+        caption="Kiali Graph Tab with fault injection"
+        >}}
 
 1.  Sign out, sign in as some other user, and see that other users are not effected by the fault.
 
@@ -74,6 +87,17 @@ To verify that your microservices behave well under failures, first you inject a
     [2019-02-17T03:55:50.384Z] "GET /reviews/0 HTTP/1.1" 500 - 0 3965 2824 2824 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "8acc1b91-e238-9ec3-ab04-32317110c27d" "reviews:9080" "172.30.146.72:9080" outbound|9080|v3|reviews.tutorial.svc.cluster.local - 172.21.5.201:9080 172.30.109.78:48222 -
     [2019-02-17T03:55:47.367Z] "GET /productpage HTTP/1.1" 200 - 0 4209 5843 5843 "10.127.220.66" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "8acc1b91-e238-9ec3-ab04-32317110c27d" "tutorial.bookinfo.com" "127.0.0.1:9080" inbound|9080|http|productpage.tutorial.svc.cluster.local - 172.30.109.78:9080 10.127.220.66:0 -
     {{< /text >}}
+
+1.  Check your Kiali console,
+        [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    This time the situation is more serious. The _reviews_ microservice turned red, the _productpage_ microservice
+    turned orange, and the percentage of the errors in the _HTTP Traffic_ section on the right increased.
+
+    {{< image width="80%"
+        link="images/kiali-delay-injection.png"
+        caption="Kiali Graph Tab with delay injection"
+    >}}
 
 1.  Access the Istio dashboard at
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard), _Istio Service Dashboard_, the _reviews_ service.
