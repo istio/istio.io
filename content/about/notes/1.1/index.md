@@ -70,10 +70,6 @@ See [Authorization for TCP Services](/docs/tasks/security/authz-tcp) for more in
 - **Authorization for End-User Groups**. Allows authorization based on `groups` claim or any list-typed claims in JWT.
 See [Authorization for groups and list claims](/docs/tasks/security/rbac-groups/) for more information.
 
-- **End-User Authentication with Per-Path Requirements**. Allows you to enable or disable JWT authentication based on the request path.
-See [End-user authentication with per-path requirements](/docs/tasks/security/authn-policy/#end-user-authentication-with-per-path-requirements) for
-more information.
-
 - **External Certificate Management on Ingress Gateway Controller**. Dynamically loads and rotates external certificates.
 
 - **Vault PKI Integration**. Provides stronger security with Vault-protected signing keys and facilitates integration with existing Vault PKIs.
