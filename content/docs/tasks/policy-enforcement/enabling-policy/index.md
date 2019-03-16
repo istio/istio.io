@@ -28,16 +28,11 @@ which enables policy checks by default.
 
 1. Edit the `istio` configmap to enable policy checks.
 
+    Execute the following command from the root Istio directory:
+
     {{< text bash >}}
-    $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | sed -e "s/disablePolicyChecks: true/disablePolicyChecks: false/" > /tmp/mesh.yaml
-    $ kubectl -n istio-system create cm istio -o yaml --dry-run --from-file=mesh=/tmp/mesh.yaml | kubectl replace -f -
+    $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.disablePolicyChecks=false | kubectl -n istio-system replace -f -
     configmap "istio" replaced
-    {{< /text >}}
-
-1. Delete the temporary file created to patch the `istio` configmap.
-
-    {{< text bash >}}
-    $ rm /tmp/mesh.yaml
     {{< /text >}}
 
 1. Validate that policy enforcement is now enabled.
