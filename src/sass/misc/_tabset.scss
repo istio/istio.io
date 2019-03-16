@@ -1,4 +1,4 @@
-[role=tablist] {
+.tabset {
     padding: 0;
 
     margin: 1em 0 1em 1em;
@@ -35,7 +35,7 @@
                 }
             }
 
-            &.active {
+            &[aria-selected=true] {
                 background-color: $tabsetSelectedTabBackgroundColor;
                 cursor: default;
                 box-shadow: none;
@@ -59,14 +59,6 @@
 
         p:last-of-type {
             margin-bottom: 0
-        }
-
-        > div {
-            display: none;
-
-            &.active {
-                display: block;
-            }
         }
     }
 }
