@@ -28,7 +28,7 @@ The Istio control plane components include: Citadel, Ingress gateway, Egress gat
 Sidecar injector.  Choose one of the following two **mutually exclusive** options to update the control plane:
 
 {{< tabset cookie-name="controlplaneupdate" >}}
-{{< tab name="Kubernetes rolling update" cookie-value="k8supdate" %}}
+{{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
 You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
 including configurations generated using
@@ -73,7 +73,7 @@ your Istio control plane should be updated to the new version. Your existing app
 any change. If there is any critical issue with the new control plane, you can rollback the changes by applying the yaml files from the old version.
 {{< /tab >}}
 
-{{< tab name="Helm upgrade" cookie-value="helmupgrade" %}}
+{{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
 If you installed Istio using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
 the preferred upgrade option is to let Helm take care of the upgrade:
 
