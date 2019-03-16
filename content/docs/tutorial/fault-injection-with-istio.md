@@ -163,3 +163,9 @@ one microservice to another. Next, you introduce a delay on a path between two m
 
     You can see that now there were no errors and the whole call chain took 2.3 s. It took 2 s for _reviews_ to return
     a response, as you set by fault injection in the previous step.
+
+1.  Clean the fault injection:
+
+    {{< text bash >}}
+    $ kubectl delete virtualservice ratings
+    {{< /text >}}
