@@ -76,10 +76,6 @@ function handleMenu() {
             }
         }
 
-        function isPrintableCharacter(str) {
-            return str.length === 1 && str.match(/\S/);
-        }
-
         listen(trigger, click, e => {
             toggleOverlay(menu);
             toggleAttribute(e.currentTarget, ariaExpanded);
