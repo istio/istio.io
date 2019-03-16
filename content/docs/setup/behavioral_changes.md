@@ -22,7 +22,7 @@ icon: setup
 
 ### Changes without upgrade impact
 
-- Several installation profiles have been added to simplify the installation process.  To use this feature, read the [Helm Installation Instructions](/docs/setup/kubernetes/helm-install/) and select a profile from the document tabs.  This feature enables a better user experience by simplifying the installation process for several well-known patterns.
+- Several installation profiles have been added to simplify the installation process.  To use this feature, read the [Helm Installation Instructions](/docs/setup/kubernetes/install/helm/) and select a profile from the document tabs.  This feature enables a better user experience by simplifying the installation process for several well-known patterns.
 - The envoy proxy access log defaults have been changed such that no access logging occurs by default.  Access logging can be re-enabled by using the installation flag `--set global.proxy.accessLogFile=”/dev/stdout”`.  Enabling access logs significantly decreases performance.
 - The integrated packages Certmanager, Grafana, Jaeger, Kiali, and Prometheus have been revised to their latest versions improving performance, reliability, and features.
 - The [CoreDNS component](https://coredns.io/) has been added to Istio to enable [multicluster gateway](/docs/setup/kubernetes/install/multicluster/gateways/) and [split-horizon](/docs/examples/multicluster/split-horizon-eds/) DNS discovery.  This change enables applications to use Istio’s CoreDNS proxy to resolve remote cluster service names in multiple Kubernetes clusters transparently.
