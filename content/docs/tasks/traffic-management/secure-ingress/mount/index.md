@@ -94,6 +94,12 @@ create a gateway definition that configures a server on port 443.
     private key. You may want to deploy the ingress gateway in a separate namespace and create the secret there, so that
     only the ingress gateway pod will be able to mount it.
 
+    Verify that `tls.crt` and `tls.key` have been mounted in the ingress gateway pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
+    {{< /text >}}
+
 1.  Define a `Gateway` with a `server` section for port 443.
 
     {{< warning >}}
