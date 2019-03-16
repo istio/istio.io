@@ -25,7 +25,7 @@ keywords: [policies]
 
     如果启用了策略检查，则不需要进一步的操作。
 
-2. 编辑 `istio` configmap 以启用策略检查。
+1. 编辑 `istio` configmap 以启用策略检查。
 
     {{< text bash >}}
     $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | sed -e "s/disablePolicyChecks: true/disablePolicyChecks: false/" > /tmp/mesh.yaml
@@ -33,13 +33,13 @@ keywords: [policies]
     configmap "istio" replaced
     {{< /text >}}
 
-3. 删除为修补 `istio` configmap 而创建的临时文件。
+1. 删除为修补 `istio` configmap 而创建的临时文件。
 
     {{< text bash >}}
     $ rm /tmp/mesh.yaml
     {{< /text >}}
 
-4. 验证现在是否已经成功启用了策略检查。
+1. 验证现在是否已经成功启用了策略检查。
 
     {{< text bash >}}
     $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | grep disablePolicyChecks
