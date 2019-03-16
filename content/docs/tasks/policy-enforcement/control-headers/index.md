@@ -1,6 +1,6 @@
 ---
 title: Control Headers and Routing
-description: Shows how to modify headers using policy adapters.
+description: Shows how to modify request headers and routing using policy adapters.
 weight: 20
 keywords: [policies,routing]
 ---
