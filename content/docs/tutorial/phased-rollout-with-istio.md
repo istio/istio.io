@@ -103,30 +103,6 @@ then to 20% and so on.
         caption="Kiali, editing the reviews virtual service with error"
         >}}
 
-1.  Increase the rollout of _reviews v3_, this time to 20%:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-        - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v2
-          weight: 80
-        - destination:
-            host: reviews
-            subset: v3
-          weight: 20
-    EOF
-    {{< /text >}}
-
 1.  Edit the virtual service in Kiali, this time setting the weights correctly, 80:20.
 
 1.  Observe the traffic rates and verify that they are roughly 80:20, as expected.
