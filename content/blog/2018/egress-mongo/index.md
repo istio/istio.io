@@ -595,7 +595,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{< tab name="mTLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -676,7 +676,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
     {{< /tab >}}
 
-    {{< tab name="mTLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

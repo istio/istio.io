@@ -99,7 +99,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{< tab name="mTLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -145,7 +145,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     {{< /tab >}}
 
-    {{< tab name="mTLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
