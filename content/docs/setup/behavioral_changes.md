@@ -30,8 +30,6 @@ icon: setup
 - Envoy lightstep has been integrated into the installation.
 - Horizontal auto-scaling maximums for all components have been increased from one to five.  This enables better performance in clusters with more services with minimal impact in clusters with less services.
 
-Additional installation commentary can be found in: [https://github.com/istio/istio.io/pull/3704](https://github.com/istio/istio.io/pull/3704).
-
 ## Networking Changes
 
 ### Outbound traffic policy now defaults to ALLOW_ANY 
