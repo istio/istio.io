@@ -94,7 +94,7 @@ the preferred upgrade option is to let Helm take care of the upgrade:
     {{< text bash >}}
     $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
     {{< /text >}}
-    
+
 {{< /tab >}}
 {{< /tabset >}}
 
