@@ -24,13 +24,22 @@ Edit the `istio` configuration map:
 $ kubectl edit cm istio -n istio-system
 {{< /text >}}
 
-Set the value of `global.proxy.accessLogFile` to "/dev/stdout".
-Be sure to escape quotation marks with backward slashes (`\"`).
+Set the value of `accessLogFile` to `"/dev/stdout"`.
+
+You can choose between JSON and text by setting `accessLogEncoding` to `JSON` or `TEXT`.
 
 You may also want to customize the
-[format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) of the access log by editing `global.proxy.accessLogFormat`.
+[format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) of the access log by editing `accessLogFormat`.
 
 Save the configuration map and exit the editing mode.
+
+{{< tip >}}
+All three of these parameters may also be configured via [helm values](/docs/reference/config/installation-options/):
+{{< /tip >}}
+
+* `global.proxy.accessLogFile`
+* `global.proxy.accessLogEncoding`
+* `global.proxy.accessLogFormat`
 
 ## Test the access log
 
@@ -87,8 +96,7 @@ $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 
 ### Disable Envoy's access logging
 
-Edit the `istio` configuration map and set `global.proxy.accessLogFile` to `""`.
-Be sure to escape quotation marks with backward slashes (`\"`).
+Edit the `istio` configuration map and set `accessLogFile` to `""`.
 
 {{< text bash >}}
 $ kubectl edit cm istio -n istio-system
