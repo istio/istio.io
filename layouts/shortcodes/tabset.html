@@ -7,19 +7,19 @@
     {{- /* We don't use the inner content, but Hugo needs this reference as a trigger to indicate this shortcode has a content area. */ -}}
 {{- end -}}
 
-<div id="{{ $tab_set_id }}" role="tablist">
+<div id="{{ $tab_set_id }}" role="tablist" class="tabset">
     <div class="tab-strip" data-cookie-name="{{ $cookie_name }}">
         {{- range $i, $e := $tabs -}}
             {{- $id := printf "%s-%d" $tab_set_id $i -}}
-            <button tabindex="-1" {{ if eq $i 0 }}class="active"{{ end }} data-cookie-value="{{ .cookie_value }}"
-                data-tab="{{ $id }}-panel" id="{{ $id }}-tab" role="tab"><span>{{ trim .name " " }}</span>
+            <button {{ if eq $i 0 }}aria-selected="true"{{ else }}tabindex="-1"{{ end }} data-cookie-value="{{ .cookie_value }}"
+                aria-controls="{{ $id }}-panel" id="{{ $id }}-tab" role="tab"><span>{{ trim .name " " }}</span>
             </button>
         {{- end -}}
     </div>
     <div class="tab-content">
         {{- range $i, $e := $tabs -}}
             {{- $id := printf "%s-%d" $tab_set_id $i -}}
-            <div{{ if eq $i 0 }} class="active"{{ end }} id="{{ $id }}-panel" role="tabpanel" aria-labelledby="{{ $id }}-tab">
+            <div{{ if ne $i 0 }} hidden{{ end }} id="{{ $id }}-panel" role="tabpanel" tabindex="0" aria-labelledby="{{ $id }}-tab">
                 {{- $text := partial "strip_indent.html" (dict "content" .content "pos" .Position) -}}
                 {{- $text := $text | markdownify }}
                 {{- $text | safeHTML -}}
