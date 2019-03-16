@@ -423,9 +423,9 @@ The SNI proxy will forward the traffic to port `443`.
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{< tab name="mTLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -536,13 +536,13 @@ The SNI proxy will forward the traffic to port `443`.
         filterType: NETWORK
         filterConfig: {}
     EOF
-{{< /text >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="mTLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -607,7 +607,7 @@ The SNI proxy will forward the traffic to port `443`.
              number: 8443
          weight: 100
     EOF
-{{< /text >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
