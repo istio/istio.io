@@ -58,18 +58,36 @@ The optional egress gateway is disabled by default.  It is enabled in the demo p
 
 ## Policy & Telemetry Changes
 
-### Policy & Quota checks are now disabled by default
+### Policy and quota checks are now disabled by default
 
 Istio-policy is disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles.  This change is only for Istio-policy not for istio-telemetry.
 
 In order to re-enable policy checking, run helm template with `--set global.disablePolicyChecks=false` and re-apply the configuration.
 
-## Security Changes - TODO duderino reformat this section
+## Security Changes
 
-- Envoy is able to get key/cert via SecretDiscoveryService (SDS) API instead of secret volume mount. It is an opt-in feature and the tutorial can be found [here](https://preliminary.istio.io/docs/tasks/security/auth-sds/). To upgrade from the secret volume mount to the SDS scheme, the users can upgrade the control plane with the “SDS” feature enabled. **Caveat**: the transition will take impact to all workloads at the same time. We do not suggest doing this upgrade on clusters running in production.
-- You can configure a TLS or mutual TLS ingress gateway to fetch credentials from the ingress gateway agent via secret discovery service (SDS). This is an opt-in feature. To upgrade an existing ingress gateway controller, follow the task [here](https://preliminary.istio.io/docs/tasks/traffic-management/secure-ingress/sds/).
-- Citadel agent can integrate with Vault as PKI. This empowers users to plug their Vault CAs into Istio (i.e., bring your own CA). This is opt-in feature and the tutorial can be found [here](https://preliminary.istio.io/docs/tasks/security/vault-ca/).
-- Istio supports customizable organization or cluster specific trust domains in the identities. By default, the trust domain is “cluster.local” and it can be configured.
-- Replaced the RbacConfig resource with the ClusterRbacConfig resource to implement the correct cluster scope. See [Migrating RbacConfig to ClusterRbacConfig](https://preliminary.istio.io/docs/setup/kubernetes/upgrade/#migrating-from-rbacconfig-to-clusterrbacconfig) for migration instructions.
-- Authorization now enforces on TCP services in addition to HTTP and gRPC services. The tutorial can be found [here](https://preliminary.istio.io/docs/tasks/security/authz-tcp/). 
-- You can now authorize based on `groups` claim or any list typed claims in JWT. The tutorial can be found [here](https://preliminary.istio.io/docs/tasks/security/rbac-groups/). 
+### RBAC Configuration has been modified to correctly implement cluster scoping
+
+The RbacConfig resource has been replaced with the ClusterRbacConfig resource.   Refer to the [Migrating RbacConfig to ClusterRbacConfig](https://preliminary.istio.io/docs/setup/kubernetes/upgrade/#migrating-from-rbacconfig-to-clusterrbacconfig) documentation for migration instructions.
+
+### Retrieve TLS key pairs via SecretDiscoveryService (SDS) Alpha
+
+Envoy can now optionally retrieve X509 private key and certificate pairs via Envoy's new SecretDiscoveryService (SDS) API instead of a secret volume mount.    Refer to the [SDS Tutorial](https://preliminary.istio.io/docs/tasks/security/auth-sds/) for more details and note well that this *alpha* feature does not support non-disruptive upgrades of production clusters.
+
+You can also optionally configure a TLS or mutual TLS ingress gateway to fetch X509 certificate and key pairs using SDS.   Refer to the [SDS for Ingress Gateways Tutorial](https://preliminary.istio.io/docs/tasks/traffic-management/secure-ingress/sds/) for more details.
+
+### Citadel agents now supports Vault Certificate Authorities
+
+Istio users can now optionally "Bring their own CA" by integrating Vault CAs into Istio.  Refer to the [Vault CA Integration](https://preliminary.istio.io/docs/tasks/security/vault-ca/) documentation for more more details.
+
+### Configurable organization and cluster-specific trust domains
+
+The trust domain defaults to “cluster.local”.  Refer to (**TODO LINK**) for more details.
+
+### RBAC Authorization for TCP
+
+Limited layer 4 authorization policies can now be applied to TCP traffic.   Refer to the [Authorization for TCP Services](https://preliminary.istio.io/docs/tasks/security/authz-tcp/) for more details.
+
+### Group and list-based authorization for JWT authentication
+
+You can now authorize based on `groups` claim or any list typed claims in JWT.  Refer to the [Authorization for groups and list claims](https://preliminary.istio.io/docs/tasks/security/rbac-groups/) reference for more details.
