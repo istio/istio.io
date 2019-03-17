@@ -48,13 +48,13 @@ longer need an additional virtual service to enable SNI-based routing.
 
 - **Locality-Aware Routing**. Added full support for routing to services in the same locality before picking services in other localities.
 
-- **Refined Multicluster Routing**. Simplified the multicluster setup and enabled additional deployment modes. You can now 
-connect multiple clusters simply using their ingress gateways without needing pod-level VPNs, deploy control planes in each 
+- **Refined Multicluster Routing**. Simplified the multicluster setup and enabled additional deployment modes. You can now
+connect multiple clusters simply using their ingress gateways without needing pod-level VPNs, deploy control planes in each
 cluster for high-availability cases, and span a namespace across several clusters
 to create global namespaces. Locality-aware routing is enabled by default in the high-availability control plane solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio ingress. Refer to the
-[Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details 
+[Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details
 on how to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
 
 - **Performance and Scalability Improvements**. The performance and scalability of Istio and Envoy have been highly tuned.
