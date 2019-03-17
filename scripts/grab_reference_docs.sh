@@ -152,7 +152,4 @@ do
     locate_file ${f}
 done
 
-# Copy all the example files over into the examples directory
-# cp $WORK_DIR/istio/Makefile examples/Makefile
-
 rm -fr ${WORK_DIR}
