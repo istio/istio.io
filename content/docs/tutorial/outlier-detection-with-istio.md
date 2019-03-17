@@ -8,7 +8,7 @@ weight: 130
 
 In the case a microservice starts to fail multiple times, it is beneficial to stop sending
 requests to the failing microservice for some period of time, since it will probably fail to handle them anyway.
-You do not want to flood the failing microservice with requests since it will not able to handle them.
+You do not want to flood the failing microservice with requests since it will not be able to handle them.
 You want to give the faulty microservice time to recuperate, and then to start sending the requests to it again.
 
 1.  Deploy the version of _ratings_ which becomes unavailable for 60 seconds from time to time:
