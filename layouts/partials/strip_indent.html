@@ -28,12 +28,7 @@
         {{- else if eq $index (sub $numLines 1) -}}
             {{- /* skip the last line since it just contains the junk to the left of the shortcode */ -}}
         {{- else -}}
-            {{- if hasPrefix $line $prefix -}}
-                {{- $l := substr $line (len $prefix) -}}
-                {{- $text = printf "%s%s\n" $text $l -}}
-            {{- else -}}
-                {{- $text = printf "%s%s\n" $text $line -}}
-            {{- end -}}
+            {{- $text = printf "%s%s\n" $text (strings.TrimPrefix $prefix $line) -}}
         {{- end -}}
     {{- end -}}
 

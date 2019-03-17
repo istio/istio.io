@@ -7,3 +7,6 @@ const keydown = 'keydown';
 const button = 'button';
 const ariaLabel = 'aria-label';
 const ariaExpanded = 'aria-expanded';
+const ariaSelected = 'aria-selected';
+const ariaControls = 'aria-controls';
+const tabIndex = 'tabindex';

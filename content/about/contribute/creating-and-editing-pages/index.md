@@ -288,10 +288,10 @@ func HelloWorld() {
 }
 {{< /text >}}
 
-You can use `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
+Supported syntax are `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
 `perl`, `docker`, and `bash`.
 
-### Commands and command output
+### Command-lines
 
 When showing one or more bash command-lines, you start each command-line with a $:
 
@@ -374,24 +374,86 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
 {{< /text >}}
 
-You can specify an optional third value which controls the name that the browser
-will use when the user chooses to download the file. For example:
+### Expanded form
+
+To use the more advanced features for preformatted content which are described in the following sections, you must use the
+extended form of the `text` sequence rather than the simplified form shown so far. The expanded form uses normal HTML attributes:
 
 {{< text markdown >}}
-{{</* text go plain "hello.go" */>}}
+{{</* text syntax="bash" outputis="json" */>}}
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
+{"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
+{{</* /text */>}}
+{{< /text >}}
+
+The available attributes are:
+
+| Attribute    | Description
+|--------------|------------
+|`file`        | The path of a file to show in the preformatted block.
+|`url`         | The URL of a document to show in the preformatted block.
+|`syntax`      | The syntax of the preformatted block.
+|`outputis`    | When the syntax is `bash`, this specifies the command output's syntax.
+|`downloadas`  | The default file name used when the user [downloads the preformatted block](#download-name).
+|`expandlinks` | Whether or not to expand [GitHub file references](#links-to-github-files) in the preformatted block.
+|`snippet`     | The name of the [snippet](#snippets) of content to extract from the preformatted block.
+
+### Inline vs. imported content
+
+So far, you've seen examples of inline preformatted content but it's also possible to import content, either
+from a file in the documentation repository or from an arbitrary URL on the Internet. For this, you use the
+`text_import` sequence.
+
+You can use `text_import` with the `file` attribute to reference a file within the documentation repository:
+
+{{< text markdown >}}
+{{</* text_import file="test/snippet_example.txt" syntax="plain" */>}}
+{{< /text >}}
+
+which renders as:
+
+{{< text_import file="test/snippet_example.txt" syntax="plain" >}}
+
+You can dynamically pull in content from the Internet in a similar way, but using the `url` attribute instead of the
+`file` attribute. Here's the same file, but retrieved from a URL dynamically rather than being baked into the
+HTML statically:
+
+{{< text markdown >}}
+{{</* text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" */>}}
+{{< /text >}}
+
+which produces the following result:
+
+{{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" >}}
+
+If the file is from a different origin site, CORS should be enabled on that site. Note that the
+GitHub raw content site (`raw.githubusercontent.com`) may be used here.
+
+### Download name
+
+You can control the name that the browser
+uses when the user chooses to download the preformatted content by using the `downloadas` attribute. For example:
+
+{{< text markdown >}}
+{{</* text syntax="go" downloadas="hello.go" */>}}
 func HelloWorld() {
   fmt.Println("Hello World")
 }
 {{</* /text */>}}
 {{< /text >}}
 
-If you don't specify a third value, then the download name is derived automatically based on the
-name of the current page.
+If you don't specify a download name, then it is derived automatically based on the
+title of the current page for inline content, or from the name of the file or URL for imported
+content.
 
 ### Links to GitHub files
 
-If your code block references a file from Istio's GitHub repository, you can surround the relative path name of the file with a pair
-of @ symbols. These indicate the path should be rendered as a link to the file from the current branch. For example:
+If your preformatted content references a file from Istio's GitHub repository, you can surround the relative path name of the file with a pair
+of @ symbols. These indicate that the path should be rendered as a link to the file from the current branch in GitHub. For example:
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -399,75 +461,39 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
-This will be rendered as:
+Which renders as:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
-### Files and snippets
-
-It is often useful to display a file or a portion of a file. You can annotate a text file to create named snippets within the file by
-using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
-
-{{< text_file file="test/snippet_example.txt" syntax="plain" >}}
-
-and in your markdown file, you can then reference a particular snippet with:
+If your preformatted content happens to use @ symbols for something else, you can turn off link expansion using the
+`expandlinks` attribute:
 
 {{< text markdown >}}
-{{</* text_file file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
+{{</* text syntax="bash" expandlinks="false" */>}}
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+{{</* /text */>}}
 {{< /text >}}
 
-where `file` specifies the relative path of the text file within the documentation repo, `syntax` specifies
-the syntax to use for syntax coloring (use `plain` for generic text), and `snippet` specifies the name of the
-snippet.
+### Snippets
 
-The above snippet produces this output:
+When using imported content, you can control which parts of the content to render using _named snippets_, which represent portions
+of a file. You declare snippets in a file using the `$snippets` annotation with a paired `$endsnippet` annotation. The content
+between the two annotations represents the snippet.
+For example, you could have a text file that looks like this:
 
-{{< text_file file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
+{{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
-If you don't specify a snippet name, then the whole file will be inserted instead.
-
-You can specify an optional `downloadas` attribute to control the name that the browser
-will use when the user chooses to download the file. For example:
+and in your markdown file, you can then reference a particular snippet with the `snippet` attribute such as:
 
 {{< text markdown >}}
-{{</* text_file file="test/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
+{{</* text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
 {{< /text >}}
 
-If you don't specify the `downloadas` attribute, then the download name is taken from the `file`
-attribute instead.
+which renders as:
 
-A common thing to do is to copy an example script or yaml file from GitHub into the documentation
-repository and then use snippets within the file to produce examples in the documentation. To pull
-in annotated files from GitHub, add the needed entries at the end of the
-script `scripts/grab_reference_docs.sh` in the documentation repository.
-
-### Dynamic content
-
-You can dynamically pull in an external file and display its content as a preformatted block. This is handy to display a
-configuration file or a test file. To do so, you use a statement such as:
-
-{{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
-{{< /text >}}
-
-which produces the following result:
-
-{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
-
-If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (`raw.githubusercontent.com`) may be used here.
-
-You can specify an optional `downloadas` attribute to control the name that the browser
-will use when the user chooses to download the file. For example:
-
-{{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
-{{< /text >}}
-
-If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
-attribute instead.
+{{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
 ## Glossary terms
 
