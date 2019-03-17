@@ -16,7 +16,22 @@ These release notes describe what's different between Istio 1.0.6 and Istio 1.1.
 ## Upgrades
 
 - We recommend a manual upgrade of the control plane and data plane to 1.1. See
-[upgrades](/docs/setup/kubernetes/upgrade/) for more information.
+  [upgrades](/docs/setup/kubernetes/upgrade/) for more information.
+
+## Installation
+
+- **CRD Install Separated from Istio Install**.  Istio’s CRDs have been placed into their own Helm chart `istio-init`.
+  By placing CRDs in their own Helm chart, data continuity of custom resource content is preserved during the upgrade
+  process and further enables Istio to evolve beyond a Helm-based installation.
+
+- **Installation Configuration Profiles**. Several installation configuration profiles have been added to
+  simplify the installation process using well-known and well-tested patterns. Learn more about the better
+  user experience afforded by the [installation profile feature](/docs/setup/kubernetes/additional-setup/config-profiles/).
+
+- **Improved Multicluster Integration**. The 1.0 `istio-remote` chart previously used for
+  [multicluster VPN](/docs/setup/kubernetes/install/multicluster/vpn/) and
+  [multicluster split horizon](/docs/examples/multicluster/split-horizon-eds/) remote cluster installation
+  has been consolidated into the Istio Helm chart simplifying the operational experience.
 
 ## Traffic management
 
@@ -33,14 +48,20 @@ longer need an additional virtual service to enable SNI-based routing.
 
 - **Locality-Aware Routing**. Added full support for routing to services in the same locality before picking services in other localities.
 
-- **Refined Multicluster Routing**. Simplified the multicluster setup and enabled additional deployment modes. You can now connect multiple
-clusters simply using their ingress gateways without needing pod-level VPNs, deploy control planes in each cluster for high-availability cases, and
-span a namespace across several clusters
+- **Refined Multicluster Routing**. Simplified the multicluster setup and enabled additional deployment modes. You can now
+connect multiple clusters simply using their ingress gateways without needing pod-level VPNs, deploy control planes in each
+cluster for high-availability cases, and span a namespace across several clusters
 to create global namespaces. Locality-aware routing is enabled by default in the high-availability control plane solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio ingress. Refer to the
-[Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details on how
-to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
+[Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details
+on how to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
+
+- **Performance and Scalability Improvements**. The performance and scalability of Istio and Envoy have been highly tuned.
+  Read more about [Performance & Scalability](/docs/concepts/performance-and-scalability/) enhancements.
+
+- **Access Logging Off by Default**. The access logs for all Envoy sidecars have been disabled by default to improve
+  performance.
 
 ## Security
 
@@ -100,6 +121,16 @@ adapter model is being deprecated in this release. All new adapter development s
     - Added policy decision-aware tracing.
 
 - **Default TCP Metrics**. Added default metrics for tracking TCP connections.
+
+- **Reduced Load Balancer Requirements for Addons**. Addons are no longer exposed via separate load balancers.
+  Instead addons are exposed via the Istio gateway. To expose addons externally using either HTTP or HTTPS protocols,
+  please use the [Addon Gateway documentation](/docs/tasks/telemetry/gateways/).
+
+- **Secure Addon Credentials**. Grafana, Kiali, and Jaeger passwords and username are now stored in
+  [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) for improved security and compliance.
+
+- **More Flexibility with `statsd` Collector**.  The built-in `statsd` collector has been removed.
+  Istio now supports bring your own `statsd` for improved flexibility with existing Kubernetes deployments.
 
 ## Configuration management
 
