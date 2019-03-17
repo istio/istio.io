@@ -4,7 +4,7 @@ description: An overview of Istio 1.1 performance.
 publishdate: 2019-03-18
 subtitle: An overview of Istio 1.1 performance improvements
 attribution: Surya V Duggirala (IBM), Mandar Jog (Google), Jose Nativio (IBM)
-keywords: [kubernetes,docker,container,performance,mesh]
+keywords: [performance,scalability,scale,benchmarks]
 ---
 
 Hyper-scale, microservice-based cloud environments have been exciting to build but challenging to manage. Along came Kubernetes (container orchestration) in 2014, followed by Istio (container service management) in 2017. Both open-source projects enable developers to scale container-based applications without spending too much time on administration tasks.
@@ -48,13 +48,12 @@ Another tool that is used to evaluate the performance of Istio’s builds is [Fo
 ## Summary
 
 Istio 1.1 was designed for performance and scalability. The Istio Performance and Scalability workgroup measured significant performance improvements over 1.0.
-Istio 1.1 introduces new features and optimizations to help harden the service mesh for enterprise microservice workloads. The [Istio 1.1 Performance and Tuning Guide](/help/ops/perf/) documents performance simulations, provides sizing and capacity planning guidance, and includes best practices for tuning custom use cases.
+Istio 1.1 introduces new features and optimizations to help harden the service mesh for enterprise microservice workloads. The Istio 1.1 Performance and Tuning Guide documents performance simulations, provides sizing and capacity planning guidance, and includes best practices for tuning custom use cases.
 
 ## Useful links
 
-- [Istio Performance and Scalability](/docs/concepts/performance-and-scalability/) section on Istio.io
-- [Istio Service Mesh Performance (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), by Surya Duggirala, Laurent Demailly and Fawad Khaliq at Kubecon Europe 2018
-- [Istio Performance and Scalability discussion forum](https://discuss.istio.io/c/performance-and-scalability)
+* [Istio Service Mesh Performance (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), by Surya Duggirala, Laurent Demailly and Fawad Khaliq at Kubecon Europe 2018
+* [Istio Performance and Scalability discussion forum](https://discuss.istio.io/c/performance-and-scalability)
 
 ## Disclaimer
 
