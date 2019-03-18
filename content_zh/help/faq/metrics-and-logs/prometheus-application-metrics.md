@@ -15,6 +15,6 @@ weight: 90
 
 一点说明：
 
-- 如果在 Citadel Pod 能够生成必要证书并分发给 Podmetheus 之前启动了 Prometheus Pod，为了能够在双向 TLS 环境下抓取应用指标，必须重启 Prometheus Pod。
+- 如果在 Citadel Pod 能够生成必要证书并分发给 Prometheus 之前启动了 Prometheus Pod，为了能够在双向 TLS 环境下抓取应用指标，必须重启 Prometheus Pod。
 
 - 如果你的应用在一个单独的端口上开放 Prometheus 指标接口，这个端口需要加入 Service 和 Deployment 清单之中。
