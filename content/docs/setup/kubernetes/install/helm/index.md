@@ -75,12 +75,7 @@ deployed and you don't want to install it.
     $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
-1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
-
-    {{< text bash >}}
-    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
-    {{< /text >}}
+1. {{< boilerplate verify-crds >}}
 
 1. Select a [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
     and then render and apply Istio's core components corresponding to your chosen profile.
@@ -166,12 +161,7 @@ to manage the lifecycle of Istio.
     $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
-
-    {{< text bash >}}
-    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
-    {{< /text >}}
+1. {{< boilerplate verify-crds >}}
 
 1. Select a [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
     and then install the `istio` chart corresponding to your chosen profile.
