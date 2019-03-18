@@ -1,7 +1,7 @@
 ---
 title: Announcing Istio 1.1
 description: Istio 1.1 release announcement.
-publishdate: 2019-03-14
+publishdate: 2019-03-18
 attribution: The Istio Team
 ---
 
