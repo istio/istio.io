@@ -7,14 +7,14 @@ function handleTabs() {
             queryAll(tabset, ".tab-strip").forEach(strip => {
                 if (strip.dataset.cookieName === cookieName) {
                     queryAll(strip, "[role=tab]").forEach(tab => {
-                        const panel = getById(tab.getAttribute("aria-controls"));
+                        const panel = getById(tab.getAttribute(ariaControls));
                         if (tab.dataset.cookieValue === cookieValue) {
-                            tab.setAttribute("aria-selected", "true");
-                            tab.setAttribute("tabindex", "-1");
+                            tab.setAttribute(ariaSelected, "true");
+                            tab.setAttribute(tabIndex, "-1");
                             panel.removeAttribute("hidden");
                         } else {
-                            tab.removeAttribute("aria-selected");
-                            tab.setAttribute("tabindex", "-1");
+                            tab.removeAttribute(ariaSelected);
+                            tab.setAttribute(tabIndex, "-1");
                             panel.setAttribute("hidden", "");
                         }
                     });
@@ -39,15 +39,15 @@ function handleTabs() {
 
         function activateTab(tab) {
             deactivateAllTabs();
-            tab.removeAttribute('tabindex');
-            tab.setAttribute('aria-selected', 'true');
-            getById(tab.getAttribute('aria-controls')).removeAttribute('hidden');
+            tab.removeAttribute(tabIndex);
+            tab.setAttribute(ariaSelected, 'true');
+            getById(tab.getAttribute(ariaControls)).removeAttribute('hidden');
         }
 
         function deactivateAllTabs() {
             tabs.forEach(tab => {
-                tab.setAttribute('tabindex', '-1');
-                tab.setAttribute('aria-selected', 'false');
+                tab.setAttribute(tabIndex, '-1');
+                tab.setAttribute(ariaSelected, 'false');
             });
 
             panels.forEach(panel => {

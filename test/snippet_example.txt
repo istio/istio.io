@@ -1,11 +1,16 @@
 BEFORE
 
 # $snippet SNIP1
-This is snippet 1
+This is chunk 1
+on two lines
 # $endsnippet
 
 # $snippet SNIP2
-This is snippet 2
+This is chunk 2
+# $endsnippet
+
+# $snippet SNIP1
+This is chunk 3
 # $endsnippet
 
 AFTER
