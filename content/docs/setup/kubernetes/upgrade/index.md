@@ -17,6 +17,16 @@ highly available with multiple replicas.
 This flow assumes that the Istio components are installed and upgraded in the
 `istio-system` namespace.
 
+{{< tip >}}
+1. We have increased the control plane and envoy sidecar’s required cpu and memory.  It is critical to ensure your cluster have enough resource before proceeding the update.
+1. If you use istio’s cert manager before, set `--set certmanager=true` flag when installing both istio-init and istio charts.
+1. If you use Istio statsd collector, Istio 1.1 no longer provides a statsd collector.  You can configure `global.envoyStatsd.enabled=true` to point to your own statsd collect.
+1. If you use kubernetes’ ingress support, configure `global.k8sIngress.enabled=true`.
+1. If you have the single control plane multicluster setup, Istio remote chart has been replaced by the istio-remote helm profile.
+
+Refer to the XX for the complete list of Helm API changes.
+{{< /tip >}}
+
 ## Upgrade steps
 
 [Download the new Istio release](/docs/setup/kubernetes/download/)
