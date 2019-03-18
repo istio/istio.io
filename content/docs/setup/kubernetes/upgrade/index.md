@@ -25,34 +25,11 @@ and change directory to the new release directory.
 ### Control plane upgrade
 
 The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Galley, Policy, Telemetry and
-Sidecar injector.
+Sidecar injector.  Choose one of the following two **mutually exclusive** options to update the control plane:
 
-#### Helm upgrade
-
-If you installed Istio using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
-the preferred upgrade option is to let Helm take care of the upgrade:
-
-1. To keep updated all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs), you must upgrade the `istio-init` chart. If the chart doesn't exist you must install the new release.
-
-    {{< text bash >}}
-    $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
-    {{< /text >}}
-
-1. Check that all the CRD creation jobs completed successfully to verify that the Kubernetes API server received all the CRDs:
-
-    {{< text bash >}}
-    $ kubectl get job --namespace istio-system | grep istio-init-crd
-    {{< /text >}}
-
-1. Upgrade the `istio` chart:
-
-    {{< text bash >}}
-    $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
-    {{< /text >}}
-
-#### Kubernetes rolling update
-
-You can also use Kubernetes’ rolling update mechanism to upgrade the control plane components.
+{{< tabset cookie-name="controlplaneupdate" >}}
+{{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
+You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
 including configurations generated using
 [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
@@ -94,6 +71,32 @@ including configurations generated using
 The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
 your Istio control plane should be updated to the new version. Your existing application should continue to work without
 any change. If there is any critical issue with the new control plane, you can rollback the changes by applying the yaml files from the old version.
+{{< /tab >}}
+
+{{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
+If you installed Istio using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
+the preferred upgrade option is to let Helm take care of the upgrade:
+
+1. Upgrade the `istio-init` chart to update all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs).
+
+    {{< text bash >}}
+    $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
+    {{< /text >}}
+
+1. Check that all the CRD creation jobs completed successfully to verify that the Kubernetes API server received all the CRDs:
+
+    {{< text bash >}}
+    $ kubectl get job --namespace istio-system | grep istio-init-crd
+    {{< /text >}}
+
+1. Upgrade the `istio` chart:
+
+    {{< text bash >}}
+    $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+    {{< /text >}}
+
+{{< /tab >}}
+{{< /tabset >}}
 
 ### Sidecar upgrade
 
