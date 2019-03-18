@@ -18,12 +18,12 @@ These release notes describe what's different between Istio 1.0.6 and Istio 1.1.
 
 ## Upgrades
 
-- We recommend a manual upgrade of the control plane and data plane to 1.1. See
-  the [upgrades documents](/docs/setup/kubernetes/upgrade/) for more
-  information.
+We recommend a manual upgrade of the control plane and data plane to 1.1. See
+the [upgrades documents](/docs/setup/kubernetes/upgrade/) for more
+information.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/docs/setup/upgrade-notice) for a
+Be sure to check out the [upgrade notice](/docs/setup/kubernetes/upgrade/notice) for a
 concise list of things you should know before upgrading your deployment to
 Istio 1.1.
 {{< /warning >}}
@@ -95,7 +95,7 @@ Istio 1.1.
 
 - **Cluster RBAC Configuration**. Replaced the `RbacConfig` resource with the
   `ClusterRbacConfig` resource to implement the correct cluster scope. See
-  [Migrating `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/#migrating-from-rbacconfig-to-clusterrbacconfig).
+  [Migrating `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig).
   for migration instructions.
 
 - **Identity Provisioning Through SDS**. Added SDS support to provide stronger
