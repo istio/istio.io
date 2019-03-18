@@ -1,5 +1,5 @@
 ---
-title: 使用 SDS为 Gateway 提供 HTTPS 加密支持
+title: 使用 SDS 为 Gateway 提供 HTTPS 加密支持
 description: 如何配置 Istio，借助 SDS（Secret 发现服务），使用 TLS 或双向 TLS 将服务开放到网格之外。
 weight: 32
 keywords: [traffic-management,ingress,sds-credentials]
