@@ -3,7 +3,7 @@ title: How can I use Kubernetes liveness and readiness for pod health checks whe
 weight: 50
 ---
 
-If mutual TLS is enabled, http and tcp health checks from the kubelet will not work since the kubelet does not have Istio-issued certificates.
+If mutual TLS is enabled, HTTP and TCP health checks from the kubelet will not work without modification, since the kubelet does not have Istio-issued certificates.
 
 As of the Istio 1.1 release, we have several options to solve this issue.
 
