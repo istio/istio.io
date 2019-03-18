@@ -111,6 +111,9 @@ The default configuration of Istio 1.1 adds `10 ms` to the 99th percentile laten
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
 for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client connections, 2 proxy workers and `mTLS` enabled.
 
+In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `MixerV2`.
+This will decrease the amount data flowing through the system, which will in turn reduce the CPU usage and latency.
+
 {{< image width="90%" ratio="75%"
     link="latency.svg?sanitize=true"
     alt="P99 latency vs client connections"
@@ -120,8 +123,8 @@ for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `server-sidecar` Only server sidecar is present.
 - `both-sidecars` Client and server sidecars are present. This is a default case inside the mesh.
-- `nomixer-both` Same as **both-sidecars** without the Mixer filter.
-- `nomixer-server` Same as **server-sidecar** without the Mixer filter.
+- `nomixer-both` Same as **both-sidecars** without Mixer. `MixerV2` latency profile will be similar.
+- `nomixer-server` Same as **server-sidecar** without Mixer. `MixerV2` latency profile will be similar.
 
 ### Benchmarking tools
 
