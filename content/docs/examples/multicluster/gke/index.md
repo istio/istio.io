@@ -231,7 +231,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 1.  Create the `reviews-v3.yaml` manifest for deployment on the remote:
 
-    {{< text yaml plain "reviews-v3.yaml" >}}
+    {{< text syntax="yaml" downloadas="reviews-v3.yaml" >}}
     ---
     ##################################################################################################
     # Ratings service

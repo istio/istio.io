@@ -1,0 +1,104 @@
+{{- /* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks for details */ -}}
+{{- $syntax := .Get "syntax" | default (.Get 0) -}}
+{{- $file := .Get "file" -}}
+{{- $url := .Get "url" -}}
+{{- $output_is := .Get "outputis" | default (.Get 1) -}}
+{{- $download_as := .Get "downloadas" -}}
+{{- $snippet := .Get "snippet" -}}
+
+{{- $expand_links := "true" -}}
+{{- if or $url $file }}
+    {{- $expand_links = "false" -}}
+{{- end }}
+
+{{- if .Get "expandlinks" -}}
+    {{- $expand_links = .Get "expandlinks" }}
+{{- end -}}
+
+{{- if not $syntax -}}
+    {{- errorf "Text block does not specify a syntax (%s)" .Position -}}
+    {{- $syntax = "plain" -}}
+{{- end -}}
+
+{{- $text := "" -}}
+{{- $inner := trim .Inner " \n" -}}
+
+{{- if $url -}}
+    {{- if $inner -}}
+        {{- errorf "Can't combine inner content with a url attribute (%s)" .Position -}}
+    {{- end -}}
+    {{- if not $download_as -}}
+        {{- $tmp := split $url "/" | last 1 -}}
+        {{- $download_as = index $tmp 0 -}}
+    {{- end -}}
+{{- else -}}
+    {{- if $file -}}
+        {{- $text = readFile $file -}}
+        {{- if or $url $inner -}}
+            {{- errorf "Can't combine url or inner content with a file attribute (%s)" .Position -}}
+        {{- end -}}
+        {{- if not $download_as -}}
+            {{- $tmp := split $file "/" | last 1 -}}
+            {{- $download_as = index $tmp 0 -}}
+        {{- end -}}
+    {{- else -}}
+        {{- if $snippet -}}
+            {{- errorf "Snippets only work for imported text blocks (%s)" .Position -}}
+        {{- end -}}
+        {{- $text = partial "strip_indent.html" (dict "content" .Inner "pos" .Position) -}}
+    {{- end -}}
+
+    {{- if (hasPrefix $text " ") -}}
+        {{- errorf "Text blocks need to not be indented, or indented by a multiple of 4 spaces (%s)" .Page.Position -}}
+    {{- end -}}
+
+    {{- if eq $syntax "bash" -}}
+        {{- if not (hasPrefix $text "$") -}}
+            {{- errorf "Text block specifies a bash syntax, but the first line of the block does not start with $ (%s)" .Position -}}
+        {{- end -}}
+    {{- else -}}
+        {{- if $output_is -}}
+            {{- errorf "Only text blocks with a bash syntax can use the outputis attribute (%s)" .Position -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- if $snippet -}}
+        {{- $pattern := printf "(?msU)(.*\\$snippet %s.*$\\n)(.*)(?-s)(\\n^.*\\$endsnippet.*$)(?s-U)(.*)" $snippet -}}
+        {{- $text = replaceRE $pattern "$2" $text -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $attrs := printf "data-expandlinks='%s' " $expand_links -}}
+{{- if $download_as -}}
+    {{- $attrs = printf "%sdata-downloadas='%s' " $attrs $download_as -}}
+{{- end -}}
+{{- if $url -}}
+    {{- $attrs = printf "%sdata-src='%s' " $attrs $url -}}
+    {{- if $snippet -}}
+        {{- $attrs = printf "%sdata-snippet='%s' " $attrs $snippet -}}
+    {{- end -}}
+{{- end -}}
+{{- if $output_is -}}
+    {{- $attrs = printf "%sdata-outputis='%s' " $attrs $output_is -}}
+{{- end -}}
+
+{{- $result := printf "<pre><code class='language-%s' %s>%s</code></pre>" $syntax $attrs (htmlEscape $text) -}}
+
+{{- if $url -}}
+    {{- /* expose the URL to the link checker */ -}}
+    {{- $result = printf "<a data-skipendnotes='true' style='display:none' href='%s'>Zip</a>%s" $url $result -}}
+{{- else -}}
+    {{- if eq $expand_links "true" -}}
+        {{- /* include a dummy link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
+        {{- $branch := .Site.Data.args.source_branch_name -}}
+        {{- $links := findRE "@(.*?)@" $text -}}
+        {{- range $link := $links -}}
+            {{- $target := trim $link "@" -}}
+            {{- if gt (len $target) 0 -}}
+                {{- $result = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/istio/%s/%s'>Zip</a>%s" $branch $target $result -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $result | safeHTML -}}

@@ -140,7 +140,7 @@ __注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kuberne
 
 1.  创建 `reviews-v3.yaml` manifest 以便部署在 `cluster-2` 上：
 
-    {{< text yaml plain "reviews-v3.yaml" >}}
+    {{< text syntax="yaml" downloadas="reviews-v3.yaml" >}}
     ---
     ##################################################################################################
     # Ratings service
