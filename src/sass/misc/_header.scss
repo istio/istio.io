@@ -147,6 +147,11 @@ header {
         @media (min-width: $bp-sm) {
             display: none;
         }
+
+        svg.icon {
+            fill: $textBrandColor;
+            stroke: $textBrandColor;
+        }
     }
 
     #header-links {

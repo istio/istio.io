@@ -1,3 +1,5 @@
+---
+---
 * The `kubectl` command is used to access both the `cluster1` and `cluster2` clusters with the `--context` flag.
   Use the following command to list your contexts:
 

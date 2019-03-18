@@ -3,6 +3,8 @@ title: Visualizing Metrics with Grafana
 description: This task shows you how to setup and use the Istio Dashboard to monitor mesh traffic.
 weight: 40
 keywords: [telemetry,visualization]
+aliases:
+    - /docs/tasks/telemetry/using-istio-dashboard/
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh

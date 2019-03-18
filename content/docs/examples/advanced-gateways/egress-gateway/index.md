@@ -5,7 +5,9 @@ weight: 30
 keywords: [traffic-management,egress]
 ---
 
-{{<warning>}}This example does not work in Minikube.{{</warning>}}
+{{<warning>}}
+This example does not work in Minikube.
+{{</warning>}}
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
@@ -110,9 +112,9 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -152,13 +154,13 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -186,7 +188,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 
@@ -318,9 +320,9 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -395,13 +397,13 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
               number: 443
           weight: 100
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -467,7 +469,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 

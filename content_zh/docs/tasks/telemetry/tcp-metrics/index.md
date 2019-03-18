@@ -186,7 +186,7 @@ _instances_ 中属性集的可选范围不同，是 TCP 服务的指标收集过
 
 TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是由服务端的 Envoy 代理生成的。它们在连接建立时发给 Mixer，在连接的存活期间周期性的进行发送（周期性报告），最后在连接关闭时再次发送（最终报告）。周期性报告的缺省间隔时间为 10 秒钟，最小取值为 1 秒。另外上下文属性让策略有了区分 `http` 和 `tcp` 协议的能力。
 
-{{< image link="/docs/tasks/telemetry/tcp-metrics/istio-tcp-attribute-flow.svg"
+{{< image link="/docs/tasks/telemetry/metrics/tcp-metrics/istio-tcp-attribute-flow.svg"
     alt="Istio 服务网格中的 TCP 服务属性生成流程"
     caption="TCP 属性流程"
     >}}

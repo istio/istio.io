@@ -39,18 +39,19 @@ function handleCodeBlocks() {
                 const code = codes[0];
                 const text = getToolbarDivText(div);
                 let downloadas = code.dataset.downloadas;
-                if (downloadas === null || downloadas === "") {
+                if (downloadas === undefined || downloadas === null || downloadas === "") {
                     let lang = "";
                     for (let j = 0; j < code.classList.length; j++) {
                         if (code.classList.item(j).startsWith("language-")) {
                             lang = code.classList.item(j).substr(9);
                             break;
+                        } else if (code.classList.item(j).startsWith("command-")) {
+                            lang = "bash";
+                            break;
                         }
                     }
 
-                    if (lang.startsWith("command")) {
-                        lang = "bash";
-                    } else if (lang === "markdown") {
+                    if (lang === "markdown") {
                         lang = "md";
                     } else if (lang === "") {
                         lang = "txt";

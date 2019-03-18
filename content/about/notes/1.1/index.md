@@ -13,33 +13,34 @@ These release notes describe what's different between Istio 1.0.6 and Istio 1.1.
 
 {{< relnote_links >}}
 
-TODO: Need to include anything mentioned as explicit necessary upgrade steps in `/docs/setup/kubernetes/upgrade`
-TODO: Need to have an explicit section on everything that's being deprecated.
-
 ## Upgrades
 
-- **Helm Changes**.
-TBD: need full content & links
+- We recommend a manual upgrade of the control plane and data plane to 1.1. See
+  [upgrades](/docs/setup/kubernetes/upgrade/) for more information.
 
-- things to watch out for/configure before you upgrade - from all subsystems below. For example, outbound traffic is allowed by default for unknown ports, what else?
-TBD: need full content & links
+## Installation
 
-    - Egress gateway is disabled by default
-    - Mixer policy is off by default
-    - Outbound traffic policy is set to `ALLOW_ANY`. Traffic to unknown ports will be forwarded as-is.
+- **CRD Install Separated from Istio Install**.  Istio’s CRDs have been placed into their own Helm chart `istio-init`.
+  By placing CRDs in their own Helm chart, data continuity of custom resource content is preserved during the upgrade
+  process and further enables Istio to evolve beyond a Helm-based installation.
+
+- **Installation Configuration Profiles**. Several installation configuration profiles have been added to
+  simplify the installation process using well-known and well-tested patterns. Learn more about the better
+  user experience afforded by the [installation profile feature](/docs/setup/kubernetes/additional-setup/config-profiles/).
+
+- **Improved Multicluster Integration**. The 1.0 `istio-remote` chart previously used for
+  [multicluster VPN](/docs/setup/kubernetes/install/multicluster/vpn/) and
+  [multicluster split horizon](/docs/examples/multicluster/split-horizon-eds/) remote cluster installation
+  has been consolidated into the Istio Helm chart simplifying the operational experience.
 
 ## Traffic management
 
 - **New `Sidecar` Resource**. Added support to limit the set of services visible to sidecar proxies in a given namespace using the `Sidecar` resource.
 This limit reduces the amount of configuration computed and transmitted to the proxy. On large clusters, we recommend adding
-a sidecar object per namespace. TBD LINK: how to add a sidecar per namespace?
+a sidecar resource per namespace.
 
-- **Restrict Visibility of Networking Resources**. Added the new `exportTo` field to all networking resources.
-The field currently takes only the following values:
-
-    - `.` Indicates the same namespace as the resource: makes the network resources visible only within their own namespace.
-
-    - `*` Indicates all namespaces and is the default value: makes the network resources visible within all namespaces.
+- **Restrict Visibility of Networking Resources**. Added the new `exportTo` field to all networking resources
+which lets you control the visibility of individual resources to specific namespaces.
 
 - **Updates to `ServiceEntry` Resources**. Added support to specify the locality of a service
 and the associated SAN to use with mutual TLS. Service entries with HTTPS ports no
@@ -47,14 +48,20 @@ longer need an additional virtual service to enable SNI-based routing.
 
 - **Locality-Aware Routing**. Added full support for routing to services in the same locality before picking services in other localities.
 
-- **Refined Multicluster Routing**. Simplified the multicluster setup and enabled additional deployment modes. You can now connect multiple
-clusters simply using their ingress gateways without needing pod-level VPNs, deploy control planes in each cluster for high-availability cases, and
-span a namespace across several clusters
-to create global namespaces. Locality-aware routing is enabled by default in the HA control plane solution.
+- **Refined Multicluster Routing**. Simplified the multicluster setup and enabled additional deployment modes. You can now
+connect multiple clusters simply using their ingress gateways without needing pod-level VPNs, deploy control planes in each
+cluster for high-availability cases, and span a namespace across several clusters
+to create global namespaces. Locality-aware routing is enabled by default in the high-availability control plane solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio ingress. Refer to the
-[Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details on how
-to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
+[Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) example for more details
+on how to use Kubernetes Ingress resources with [gateways](/docs/concepts/traffic-management/#gateways).
+
+- **Performance and Scalability Improvements**. The performance and scalability of Istio and Envoy have been highly tuned.
+  Read more about [Performance & Scalability](/docs/concepts/performance-and-scalability/) enhancements.
+
+- **Access Logging Off by Default**. The access logs for all Envoy sidecars have been disabled by default to improve
+  performance.
 
 ## Security
 
@@ -73,10 +80,6 @@ See [Authorization for TCP Services](/docs/tasks/security/authz-tcp) for more in
 - **Authorization for End-User Groups**. Allows authorization based on `groups` claim or any list-typed claims in JWT.
 See [Authorization for groups and list claims](/docs/tasks/security/rbac-groups/) for more information.
 
-- **End-User Authentication with Per-Path Requirements**. Allows you to enable or disable JWT authentication based on the request path.
-See [End-user authentication with per-path requirements](/docs/tasks/security/authn-policy/#end-user-authentication-with-per-path-requirements) for
-more information.
-
 - **External Certificate Management on Ingress Gateway Controller**. Dynamically loads and rotates external certificates.
 
 - **Vault PKI Integration**. Provides stronger security with Vault-protected signing keys and facilitates integration with existing Vault PKIs.
@@ -84,22 +87,10 @@ See [Istio Vault CA Integration](/docs/tasks/security/vault-ca) for more informa
 
 - **Customized (non `cluster.local`) Trust Domains**. Supports organization- or cluster-specific trust domains in the identities.
 
-- TBD: How about adding [11667](https://github.com/istio/istio/issues/11667) as well? As this is also a significant feature for security which can enable end user to set
-different CA and Certs for different namespaces.
-
-## Multicluster
-
-- **Non-Routable L3 Networks**. Enabled using a single Istio control plane in multicluster environments with non-routable
-L3 networks.
-TBD: LINK
-
-- **Multiple Control Planes**. Added support for multiple Istio control planes in support of multicluster environments.
-TBD: LINK
-
 ## Policies and telemetry
 
 - **Policy Checks Off By Default**. Changed policy checks to be turned off by default which improves performance for most customer scenarios.
-TBD: LINK
+[Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) details how to turn on Istio policy checks, if needed.
 
 - **Kiali**. Replaced the [Service Graph addon](https://github.com/istio/istio/issues/9066) with [Kiali](https://www.kiali.io) to provide
 a richer visualization experience. See the [Kiali task](/docs/tasks/telemetry/kiali/) for more details.
@@ -113,16 +104,17 @@ a richer visualization experience. See the [Kiali task](/docs/tasks/telemetry/ki
     - Improved the protocol between Envoy and Mixer.
 
 - **Control Headers and Routing**. Added the option to create adapters to influence
-an incoming request's headers and routing.
+an incoming request's headers and routing. See [Control Headers and Routing](/docs/tasks/policy-enforcement/control-headers) task
+for more information.
 
-- **Out of Process Adapters**. The out-of-process adapter functionality is now ready for production
-TBD: LINK
+- **Out of Process Adapters**. The out-of-process adapter functionality is now ready for production use. As a result, the in-process
+adapter model is being deprecated in this release. All new adapter development should use the out-of-process model moving forward.
 
 - **Tracing Improvements**. There have been many improvements in our overall tracing story:
 
     - Trace ids are now 128 bit wide.
 
-    - Added support for sending trace data to [LightStep](https://preliminary.istio.io/docs/tasks/telemetry/distributed-tracing/lightstep/)
+    - Added support for sending trace data to [LightStep](/docs/tasks/telemetry/distributed-tracing/lightstep/)
 
     - Added the option to disable tracing for Mixer-backed services entirely.
 
@@ -130,11 +122,21 @@ TBD: LINK
 
 - **Default TCP Metrics**. Added default metrics for tracking TCP connections.
 
+- **Reduced Load Balancer Requirements for Addons**. Addons are no longer exposed via separate load balancers.
+  Instead addons are exposed via the Istio gateway. To expose addons externally using either HTTP or HTTPS protocols,
+  please use the [Addon Gateway documentation](/docs/tasks/telemetry/gateways/).
+
+- **Secure Addon Credentials**. Grafana, Kiali, and Jaeger passwords and username are now stored in
+  [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) for improved security and compliance.
+
+- **More Flexibility with `statsd` Collector**.  The built-in `statsd` collector has been removed.
+  Istio now supports bring your own `statsd` for improved flexibility with existing Kubernetes deployments.
+
 ## Configuration management
 
 - **Galley**. Added [Galley](/docs/concepts/what-is-istio/#galley) as the primary configuration ingestion and distribution mechanism within Istio. It provides
 a robust model to validate, transform, and distribute configuration state to Istio components insulating the Istio components
-from Kubernetes details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp) to interact with components. TBD: LINK TO MCP
+from Kubernetes details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp) to interact with components.
 
 - **Monitoring Port**. Changed Galley's default monitoring port from 9093 to 15014.
 
@@ -150,4 +152,4 @@ Istio installation given a specified installation YAML file.
 Deprecated the `istioctl gen-deploy` command too. Use a [`helm template`](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) instead.
 These commands will be removed in the 1.2 release.
 
-- **Short Commands**. Included short commands in `kubectl` for gateways, virtual services, destination rules and service entries. TBD: ADD LINK
+- **Short Commands**. Included short commands in `kubectl` for gateways, virtual services, destination rules and service entries.

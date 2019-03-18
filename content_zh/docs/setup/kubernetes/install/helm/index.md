@@ -26,9 +26,7 @@ icon: helm
 1. 用 Helm 每日构建版本的地址来更新 Helm 的本地包缓存。
 
     {{< text bash >}}
-
     $ helm repo add istio.io "https://gcsweb.istio.io/gcs/istio-prerelease/daily-build/release-1.1-latest-daily/charts/"
-
     {{< /text >}}
 
 1. 在下面的两个**互斥方案**中选择一个完成部署。
@@ -48,34 +46,26 @@ icon: helm
 1. 创建一个 Istio 的工作目录，用于下载 Chart：
 
     {{< text bash >}}
-
     $ mkdir -p $HOME/istio-fetch
-
     {{< /text >}}
 
 1. 下载安装过程所需的 Helm 模板：
 
     {{< text bash >}}
-
     $ helm fetch istio.io/istio-init --untar --untardir $HOME/istio-fetch
     $ helm fetch istio.io/istio --untar --untardir $HOME/istio-fetch
-
     {{< /text >}}
 
 1. 为 Istio 组件创建命名空间 `istio-system`：
 
     {{< text bash >}}
-
     $ kubectl create namespace istio-system
-
     {{< /text >}}
 
 1. 使用 `kubectl apply` 安装所有的 Istio [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，命令执行之后，会隔一段时间才能被 Kubernetes API Server 收到：
 
     {{< text bash >}}
-
     $ helm template $HOME/istio-fetch/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-
     {{< /text >}}
 
 1. 用下面的命令，来确认 Istio 的 `58` 个 CRD 都已经成功的提交给 Kubernetes API Server：
@@ -88,17 +78,13 @@ icon: helm
 1. 渲染和提交 Istio 的核心组件：
 
     {{< text bash >}}
-
     $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system | kubectl apply -f -
-
     {{< /text >}}
 
 1. 删除步骤：
 
     {{< text bash >}}
-
     $ kubectl delete namespace istio-system
-
     {{< /text >}}
 
 1. 如果需要，可以用下列命令删除所有的 CRD：
@@ -108,9 +94,7 @@ icon: helm
     {{< /warning >}}
 
     {{< text bash >}}
-
     $ kubectl delete -f $HOME/istio-fetch/istio-init/files
-
     {{< /text >}}
 
 ### 方案 2：在 Helm 和 Tiller 的环境中使用 `helm install` 命令进行安装
@@ -120,25 +104,19 @@ icon: helm
 1. 如果没有为 Tiller 创建 Service account，就创建一个：
 
     {{< text bash >}}
-
     $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
-
     {{< /text >}}
 
 1. 使用 Service account 在集群上安装 Tiller：
 
     {{< text bash >}}
-
     $ helm init --service-account tiller
-
     {{< /text >}}
 
 1. 安装 `istio-init` chart，来启动 Istio CRD 的安装过程：
 
     {{< text bash >}}
-
     $ helm install istio.io/istio-init --name istio-init --namespace istio-system
-
     {{< /text >}}
 
 1. 用下面的命令，来确认 Istio 的 `58` 个 CRD 都已经成功的提交给 Kubernetes API Server：
@@ -151,18 +129,14 @@ icon: helm
 1. 安装 `istio` Chart：
 
     {{< text bash >}}
-
     $ helm install istio --name istio --namespace istio-system
-
     {{< /text >}}
 
 1. 删除步骤：
 
     {{< text bash >}}
-
     $ helm delete --purge istio
     $ helm delete --purge istio-init
-
     {{< /text >}}
 
 ## 删除 CRD 和 Istio 配置
@@ -182,9 +156,7 @@ CRD 的删除，意味着删掉所有的用户配置。
 1. 要永久删除 Istio 的 CRD 以及所有 Istio 配置：
 
     {{< text bash >}}
-
     $ mkdir -p $HOME/istio-fetch
     $ helm fetch istio.io/istio-init --untar --untardir $HOME/istio-fetch
     $ kubectl delete -f $HOME/istio-fetch/istio-init/files
-
     {{< /text >}}

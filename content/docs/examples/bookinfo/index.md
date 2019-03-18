@@ -96,9 +96,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     {{< text bash >}}
-
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
-
     {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
@@ -245,8 +243,7 @@ $ kubectl get destinationrules -o yaml
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc.
 To proceed, refer to one or more of the [Istio Examples](/docs/examples),
-depending on your interest. [Intelligent Routing](/docs/examples/intelligent-routing/)
-is a good place to start for beginners.
+depending on your interest.
 
 ## Cleanup
 

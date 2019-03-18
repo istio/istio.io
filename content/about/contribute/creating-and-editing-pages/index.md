@@ -6,6 +6,7 @@ aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
     - /docs/reference/contribute/writing-a-new-topic.html
     - /about/contribute/writing-a-new-topic.html
+    - /create
 keywords: [contribute]
 ---
 
@@ -409,12 +410,12 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 It is often useful to display a file or a portion of a file. You can annotate a text file to create named snippets within the file by
 using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
 
-{{< text_file file="examples/snippet_example.txt" syntax="plain" >}}
+{{< text_file file="test/snippet_example.txt" syntax="plain" >}}
 
 and in your markdown file, you can then reference a particular snippet with:
 
 {{< text markdown >}}
-{{</* text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
+{{</* text_file file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
 {{< /text >}}
 
 where `file` specifies the relative path of the text file within the documentation repo, `syntax` specifies
@@ -423,7 +424,7 @@ snippet.
 
 The above snippet produces this output:
 
-{{< text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
+{{< text_file file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
 If you don't specify a snippet name, then the whole file will be inserted instead.
 
@@ -431,7 +432,7 @@ You can specify an optional `downloadas` attribute to control the name that the 
 will use when the user chooses to download the file. For example:
 
 {{< text markdown >}}
-{{</* text_file file="examples/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
+{{</* text_file file="test/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
 {{< /text >}}
 
 If you don't specify the `downloadas` attribute, then the download name is taken from the `file`
@@ -557,17 +558,17 @@ format in a different tab. To insert tabbed content, you use a combination of `t
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
-{{%/* tab name="One" cookie-value="one" */%}}
+{{</* tab name="One" cookie-value="one" */>}}
 ONE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Two" cookie-value="two" */%}}
+{{</* tab name="Two" cookie-value="two" */>}}
 TWO
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Three" cookie-value="three" */%}}
+{{</* tab name="Three" cookie-value="three" */>}}
 THREE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
 {{</* /tabset */>}}
 {{< /text >}}
@@ -576,17 +577,17 @@ which produces the following output:
 
 {{< tabset cookie-name="platform" >}}
 
-{{% tab name="One" cookie-value="one" %}}
+{{< tab name="One" cookie-value="one" >}}
 ONE
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Two" cookie-value="two" %}}
+{{< tab name="Two" cookie-value="two" >}}
 TWO
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Three" cookie-value="three" %}}
+{{< tab name="Three" cookie-value="three" >}}
 THREE
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 

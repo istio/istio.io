@@ -31,6 +31,13 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     should work correctly with the instructions in this task. Otherwise, try
     a different implementation of `curl`, for example on a Linux machine.
 
+{{< tip >}}
+
+If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/secure-ingress/mount),
+and you want to migrate your ingress gateway to use the SDS approach. There are no
+extra steps required.
+{{< /tip >}}
+
 ## Generate client and server certificates and keys
 
 For this task you can use your favorite tool to generate certificates and keys.

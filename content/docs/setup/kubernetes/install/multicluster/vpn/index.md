@@ -54,7 +54,7 @@ cluster. You can install the component in one of two ways:
 
 {{< tabset cookie-name="install-istio-remote" >}}
 
-{{% tab name="Helm+kubectl" cookie-value="Helm+kubectl" %}}
+{{< tab name="Helm+kubectl" cookie-value="Helm+kubectl" >}}
 
 1.  Use the following `helm template` command on the remote cluster to specify
     the Istio control plane service endpoints:
@@ -100,9 +100,9 @@ cluster. You can install the component in one of two ways:
     Repeat for all Kubernetes namespaces that need to setup automatic sidecar
     injection.
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Helm+Tiller" cookie-value="Helm+Tiller" %}}
+{{< tab name="Helm+Tiller" cookie-value="Helm+Tiller" >}}
 
 {{< boilerplate helm-security-warning >}}
 
@@ -130,7 +130,7 @@ cluster. You can install the component in one of two ways:
     --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP}
     {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 
@@ -295,7 +295,7 @@ them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
 
 {{< tabset cookie-name="install-istio-remote" >}}
 
-{{% tab name="kubectl" cookie-value="Helm+kubectl" %}}
+{{< tab name="kubectl" cookie-value="Helm+kubectl" >}}
 
 To uninstall the cluster, you must remove the configuration made with the
 `istio-remote` .YAML file. To uninstall the cluster run the following command:
@@ -304,9 +304,9 @@ To uninstall the cluster, you must remove the configuration made with the
 $ kubectl delete -f $HOME/istio-remote.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Tiller" cookie-value="Helm+Tiller" %}}
+{{< tab name="Tiller" cookie-value="Helm+Tiller" >}}
 
 To uninstall the cluster, you must remove the configuration made with the
 `istio-remote` .YAML file. To uninstall the cluster run the following command:
@@ -315,7 +315,7 @@ To uninstall the cluster, you must remove the configuration made with the
 $ helm delete --purge istio-remote
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 
