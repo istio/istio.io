@@ -53,6 +53,7 @@ admissionregistration.k8s.io
 AES-NI
 AKS
 Alibaba
+ALLOW_ANY
 alt
 analytics
 ANDed
@@ -103,6 +104,7 @@ CIOs
 Circonus
 cli
 CloudWatch
+ClusterRbacConfig
 CNI
 cnn.com
 colocated
@@ -238,8 +240,12 @@ istio.io
 istio.io.
 Istiofied
 IstioMesh
+istio-ingressgateway
 istio-mixer
 istio-policy
+istio-remote
+istio-system
+istio-telemetry
 jason
 Jog
 json
@@ -304,6 +310,7 @@ myapp
 MySQL
 mysql
 mysqldb
+name.namespace.svc.cluster.local
 namespace
 namespaces
 natively
@@ -371,6 +378,7 @@ Rajagopalan
 ratelimit-handler
 RawVM
 rbac
+RbacConfig
 re-applied
 re-patch
 RedHat
