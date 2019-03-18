@@ -315,6 +315,6 @@ The `istio-init` chart contains all raw CRDs in the `istio-init/files` directory
 You can simply delete the CRDs using `kubectl`.
 To permanently delete Istio's CRDs and the entire Istio configuration, run:
 
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/helm/istio-init/files
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete -f install/kubernetes/helm/istio-init/files
+{{< /text >}}
