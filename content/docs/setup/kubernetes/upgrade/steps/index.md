@@ -1,9 +1,7 @@
 ---
-title: Upgrade
+title: Upgrade Steps
 description: Upgrade the Istio control plane and data plane independently.
 weight: 25
-aliases:
-    - /docs/setup/kubernetes/upgrading-istio/
 keywords: [kubernetes,upgrading]
 ---
 
@@ -18,7 +16,7 @@ This flow assumes that the Istio components are installed and upgraded in the
 `istio-system` namespace.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/docs/setup/upgrade-notice) for a concise list of things you should know before
+Be sure to check out the [upgrade notice](/docs/setup/kubernetes/upgrade/notice) for a concise list of things you should know before
 upgrading your deployment to Istio 1.1.
 {{< /warning >}}
 
