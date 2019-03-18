@@ -49,15 +49,24 @@ Istio 1.1.
 
 ## Traffic management
 
-- **New `Sidecar` Resource**. Added support to limit the set of services
-  visible to sidecar proxies in a given namespace using the `Sidecar` resource.
-  This limit reduces the amount of configuration computed and transmitted to
-  the proxy. On large clusters, we recommend adding a sidecar resource per
-  namespace.
+- **New [`Sidecar`](/docs/concepts/traffic-management/#sidecars) Resource**. Enables more fine-grained
+  control over the behavior of the sidecar proxies attached to workloads within a namespace. In 
+  particular adds support to limit the set of services a sidecar will send traffic to. This  
+  reduces the amount of configuration computed and transmitted to
+  the proxy, improving startup time, resource consumption and control-plane scalability. 
+  For large deployments, we recommend adding a sidecar resource per namespace.
 
-- **Restrict Visibility of Networking Resources**. Added the new `exportTo`
-  field to all networking resources which lets you control the visibility of
-  individual resources to specific namespaces.
+- **Restrict Visibility of Networking Resources**. Added the new `exportTo` feature which allows
+  service owners to control which namespaces can send traffic to their services. This feature is 
+  added to `ServiceEntry`, `VirtualService` and is also supported on a Kubernetes Service via the
+  `networking.istio.io/exportTo` annotation. 
+  
+- **Namespace-Scoped Service References**. When referring to a service we use DNS-style name matching
+  in our configuration model. This can be ambiguous when more than one namespace defines services 
+  with colliding names. To resolve ambiguity it is now possible to explicitly scope these references 
+  by namespace using a syntax of the form **`[{namespace-name}]/{hostname-match}`**. In addition to 
+  eliminating ambiguity this feature in conjunction with the visibility restrictions and the new `Sidecar` 
+  resource enables strong isolation of behavior across namespace boundaries. 
 
 - **Updates to `ServiceEntry` Resources**. Added support to specify the
   locality of a service and the associated SAN to use with mutual TLS. Service
@@ -65,7 +74,8 @@ Istio 1.1.
   enable SNI-based routing.
 
 - **Locality-Aware Routing**. Added full support for routing to services in the
-  same locality before picking services in other localities.
+  same locality before picking services in other localities. 
+  See [Locality Loadbalancer Settings](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting)
 
 - **Refined Multicluster Routing**. Simplified the multicluster setup and
   enabled additional deployment modes. You can now connect multiple clusters
