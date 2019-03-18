@@ -56,8 +56,8 @@ Istio 1.1.
   the proxy, improving startup time, resource consumption and control-plane scalability. 
   For large deployments, we recommend adding a sidecar resource per namespace.
 
-- **Restrict Visibility of Networking Resources**. Added the new `exportTo` feature which allows
-  service owners to control which namespaces can send traffic to their services. This feature is 
+- **Restrict Visibility of Services**. Added the new `exportTo` feature which allows
+  service owners to control which namespaces can reference their services. This feature is 
   added to `ServiceEntry`, `VirtualService` and is also supported on a Kubernetes Service via the
   `networking.istio.io/exportTo` annotation. 
   
