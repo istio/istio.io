@@ -11,7 +11,7 @@ You can use probe rewrite to rewrites the liveness/readiness probe such that the
 
 1. Istio supports the [`PERMISSIVE` mode](/docs/tasks/security/mtls-migration) for Istio services so they can accept both HTTP and mutual TLS traffic when this mode is turned on. Please keep in mind that mutual TLS is not enforced since others can communicate with the service with HTTP traffic.
 
-Another workaround is to use a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
+1.  Using a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
 for health checks, e.g., one can install `curl` in the service pod and
 `curl` itself within the pod.
 
