@@ -18,6 +18,11 @@ These release notes describe what's different between Istio 1.0.6 and Istio 1.1.
 - We recommend a manual upgrade of the control plane and data plane to 1.1. See
   [upgrades](/docs/setup/kubernetes/upgrade/) for more information.
 
+{{< warning >}}
+Be sure to check out the [upgrade notice](/docs/setup/upgrade-notice) for a concise list of things you should know before
+upgrading your deployment to Istio 1.1.
+{{< /warning >}}
+
 ## Installation
 
 - **CRD Install Separated from Istio Install**.  Istio’s CRDs have been placed into their own Helm chart `istio-init`.
