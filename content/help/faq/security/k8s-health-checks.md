@@ -5,7 +5,7 @@ weight: 50
 
 If mutual TLS is enabled, http and tcp health checks from the kubelet will not work since the kubelet does not have Istio-issued certificates.
 
-As of the Istio 1.1 release, we have several options to solve this issue. 
+As of the Istio 1.1 release, we have several options to solve this issue.
 
 You can use probe rewrite to rewrites the liveness/readiness probe such that the probe request will redirected to application directly. And you can also use a separate port for health checks and enable mutual TLS only on the regular service port. Please refer to [Health Checking of Istio Services](/help/ops/setup/app-health-check/#mutual-tls-is-enabled) for more information.
 
