@@ -44,9 +44,9 @@ Fortunately, a standard Istio deployment already includes a [Gateway](/docs/conc
 
 ## In action: traffic routing with Istio
 
-A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/platform-setup/) instructions, and then install Istio using [Helm](/docs/setup/kubernetes/install/minimal/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
+A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/prepare/platform-setup/) instructions, and then install the **minimal** Istio profile using [Helm](/docs/setup/kubernetes/install/helm/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
 
-First, setup and configure [GKE](/docs/setup/kubernetes/platform-setup/gke/):
+First, setup and configure [GKE](/docs/setup/kubernetes/prepare/platform-setup/gke/):
 
 {{< text bash >}}
 $ gcloud container clusters create istio-inc --zone us-central1-f
@@ -56,7 +56,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-Next, [install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/install/minimal/) -- only traffic management components:
+Next, [install Helm](https://docs.helm.sh/using_helm/#installing-helm) and [generate a minimal Istio install](/docs/setup/kubernetes/install/helm/) -- only traffic management components:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \
@@ -80,7 +80,7 @@ $ kubectl apply -f istio-minimal.yaml
 Next, deploy the Bookinfo sample without the Istio sidecar containers:
 
 {{< text bash >}}
-$ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
 {{< /text >}}
 
 Now, configure a new Gateway that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
@@ -147,7 +147,7 @@ EOF
 Finally, deploy a pod that you can use for testing with `curl` (and without the Istio sidecar container):
 
 {{< text bash >}}
-$ kubectl apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
 ## Testing your deployment

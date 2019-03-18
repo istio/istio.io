@@ -40,7 +40,7 @@ icon: notes
 
 ## 安全
 
-- **授权**。我们重新实现了[授权功能](/zh/docs/concepts/security/#授权和鉴权)。现在可以在不需要 Mixer 和 Mixer 适配器的情况下实现 RPC 级授权策略。
+- **授权**。我们重新实现了[授权功能](/zh/docs/concepts/security/#授权)。现在可以在不需要 Mixer 和 Mixer 适配器的情况下实现 RPC 级授权策略。
 
 - **改进的双向 TLS 认证控制**。现在，在服务之间[控制双向 TLS 身份验证](/zh/docs/concepts/security/#认证)变得更加容易。我们提供 “PERMISSIVE” 模式，以便您可以逐步为您的服务启用双向 TLS。我们删除了服务注解，并采用了[一种独特的方法来启用双向 TLS](/zh/docs/tasks/security/authn-policy/)，以及客户端[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。
 
@@ -68,6 +68,6 @@ icon: notes
 
 - 亚马逊的 EKS 服务尚未实现自动 sidecar 注入。通过使用 [Helm 参数](/zh/docs/setup/kubernetes/install/helm) `--set galley.enabled=false` [手动注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar) sidecar 并关闭 galley，可以在亚马逊的 EKS 中使用 Istio。
 
-- 在[多集群部署](/zh/docs/setup/kubernetes/multicluster)中，mixer-telemetry 和 mixer-policy 组件不会连接到任何远程集群的 Kubernetes API 端点。这将导致遥测保真度受损，因为与远程集群上的工作负载相关联的一些元数据不完整。
+- 在[多集群部署](/zh/docs/setup/kubernetes/install/multicluster)中，mixer-telemetry 和 mixer-policy 组件不会连接到任何远程集群的 Kubernetes API 端点。这将导致遥测保真度受损，因为与远程集群上的工作负载相关联的一些元数据不完整。
 
 - 当前有 Kubernetes 清单文件可用于独立启用 Citadel 或执行 Citadel 运行状况检查。这些模型还没有通过 Helm 实现。有关详细信息，请参见 [Issue 6922](https://github.com/istio/istio/issues/6922)。

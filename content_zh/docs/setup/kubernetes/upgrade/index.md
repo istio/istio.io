@@ -1,7 +1,9 @@
 ---
 title: 升级 Istio
 description: 演示如何独立升级 Istio 控制平面和数据平面。
-weight: 70
+weight: 25
+aliases:
+    - /docs/setup/kubernetes/upgrading-istio/
 keywords: [kubernetes,upgrading]
 ---
 
@@ -12,13 +14,13 @@ keywords: [kubernetes,upgrading]
 
 ## 升级步骤
 
-1. [下载新的 Istio 版本](/zh/docs/setup/kubernetes/download-release/)并将目录更改为新版本目录。
+1. [下载新的 Istio 版本](/zh/docs/setup/kubernetes/download/)并将目录更改为新版本目录。
 
 1. 升级 Istio 的[自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 通过 `kubectl apply` ，等待几秒钟，让 CRD 在 `kube-apiserver` 中提交：
 
 {{< text bash >}}
-$ kubectl apply -f @install/kubernetes/helm/istio/templates/crds.yaml@
+$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
 {{< /text >}}
 
 ### 控制平面升级
@@ -237,12 +239,12 @@ spec:
 `RbacConfig` 因为 [bug](https://github.com/istio/istio/issues/8825) 已经被废弃。如果你正在使用 `RbacConfig`，必须迁移到 `ClusterRbacConfig`。
 这个 bug 在某些情况下会将这个对象的范围降低到 namespace 级别。`ClusterRbacConfig` 的声明跟 `RbacConfig` 完全一样，但是以正确的集群级别范围实现。
 
-为了自动化迁移，我们开发了脚本`convert_RbacConfig_to_ClusterRbacConfig.sh`. 这个脚本在 [Istio 的安装包](/zh/docs/setup/kubernetes/download-release)中。
+为了自动化迁移，我们开发了脚本`convert_RbacConfig_to_ClusterRbacConfig.sh`. 这个脚本在 [Istio 的安装包](/zh/docs/setup/kubernetes/download)中。
 
 下载并运行如下命令：
 
 {{< text bash >}}
-$ curl -L {{% github_file %}}git/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+$ curl -L {{< github_file >}}git/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
 {{< /text >}}
 
 这个脚本自动化下如下操作：

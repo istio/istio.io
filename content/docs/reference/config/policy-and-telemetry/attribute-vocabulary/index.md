@@ -97,24 +97,13 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `check.cache_hit` | boolean | Indicates whether Mixer check call hits local cache. | |
 | `quota.cache_hit` | boolean | Indicates whether Mixer quota call hits local cache. | |
 
-## Deprecated attributes
+## Timestamp and duration attributes format
 
-The following attributes have been renamed. We strongly encourage to use the replacement attributes, as the original names will be removed in subsequent releases:
+Timestamp attributes are represented in the RFC 3339 format. When operating with timestamp attributes, you can use the `timestamp` function defined in [CEXL](/docs/reference/config/policy-and-telemetry/expression-language/) to convert a textual timestamp in RFC 3339 format into the `TIMESTAMP` type, for example: `request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`.
 
-| Name | Replacement |
-|------|-------------|
-|`source.user`          |`source.principal`|
-|`destination.user`     |`destination.principal`|
-|`destination.service`  |`destination.service.host`|
+Duration attributes represent an amount of time, expressed as a series of decimal numbers with an optional fractional part denoted with a period, and a unit value. The possible unit values are `ns` for nanoseconds, `us` (or `µs`) for microseconds, `ms` for milliseconds, `s` for seconds, `m` for minutes, `h` for hours. For example:
 
-Attributes `source.name` and `destination.name` have been re-purposed to refer
-to the corresponding source and destination workload instance names instead of
-the service names.
-
-The following attributes have been deprecated and will be removed in subsequent releases:
-
-| Name | Type | Description | Kubernetes Example |
-|------|------|-------------|--------------------|
-| `source.service` | string | The fully qualified name of the service that the client belongs to. | `redis-master.my-namespace.svc.cluster.local` |
-| `source.domain` | string | The domain suffix part of the source service, excluding the name and the namespace. | `svc.cluster.local` |
-| `destination.domain`            | string | The domain suffix part of the destination service, excluding the name and the namespace. | `svc.cluster.local` |
+* `1ms` represents 1 millisecond
+* `2.3s` represents 2.3 seconds
+* `4m` represents 4 minutes
+* `5h10m` represents 5 hours and 10 minutes

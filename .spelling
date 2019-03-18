@@ -81,7 +81,6 @@ base64
 BigQuery
 bitpipe
 BluePerf
-BluePerf
 boilerplates
 Bookinfo
 boolean
@@ -130,6 +129,7 @@ Datawire
 debian
 decapsulated
 Delayering
+Demailly
 deployment
 dev
 Devirtualization
@@ -138,6 +138,7 @@ discuss.istio.io
 distro
 docker-compose's
 docker.io
+Duggirala
 e.g.
 eBPF
 edition.cnn.com
@@ -153,9 +154,11 @@ ExecAction
 Exfiltrating
 ExternalName
 facto
+failover
 failovers
 faq
 faq.md
+Fawad
 fcm.googleapis.com
 FDs
 filename
@@ -206,8 +209,8 @@ HTTP2
 http2
 httpbin
 httpbin.org
-httpReqTimeout
 https
+Huawei
 hyperkube
 Hystrix
 i.e.
@@ -236,7 +239,7 @@ istio.io.
 Istiofied
 IstioMesh
 istio-mixer
-istio-policy
+istio-system
 jason
 Jog
 json
@@ -247,6 +250,7 @@ JWTs
 Keepalived
 key.pem
 Keycloak
+Khaliq
 Kiali
 Kibana
 Knative
@@ -276,9 +280,7 @@ macOS
 Mandar
 Manolache
 memcached
-memcached
 memcached-2's
-memquota
 MeshPolicy
 Mesos
 mesos-dns
@@ -293,14 +295,11 @@ misconfigured
 misordered
 MongoDB
 mongodb
-MSG_PEEK
 Multicloud
 multicloud
 Multicluster
 multicluster
-mutatingwebhookconfiguration
 mutual-tls
-mTLS
 myapp
 MySQL
 mysql
@@ -338,6 +337,8 @@ parenthesization
 passthrough
 peek
 pem
+PKI
+PKIs
 platform-specific
 pluggability
 pluggable
@@ -372,6 +373,7 @@ RawVM
 rbac
 re-applied
 re-patch
+RedHat
 reachability
 rearchitect
 recomposition
@@ -401,9 +403,11 @@ RPCs
 runtime
 runtimes
 sa
+Salesforce
 sayin
 schemas
 SDKs
+sds
 secretName
 Secura
 selinux
@@ -425,7 +429,8 @@ SLOs
 Snell-Feikema
 SNI
 SolarWinds
-spiffe
+SPIFFE
+SPIFFE-compliant
 SREs
 Stackdriver
 Statsd
@@ -502,6 +507,7 @@ VM-based
 VMs
 VMware
 VPN
+VPNs
 WBoilerplates
 WeaveWorks
 webhook
@@ -518,6 +524,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+workgroup
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509

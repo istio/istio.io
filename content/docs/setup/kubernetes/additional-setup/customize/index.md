@@ -1,12 +1,12 @@
 ---
 title: Advanced Install Options
-description: Instructions for customizing the Istio installation.
+description: Customize the Istio installation.
 weight: 35
 keywords: [kubernetes]
 draft: true
 ---
 
-This section provides options for piecemeal installation of Istio
+This page provides options for piecemeal installation of Istio
 components.
 
 ## Ingress controller only

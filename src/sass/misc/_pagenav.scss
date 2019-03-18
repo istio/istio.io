@@ -1,6 +1,9 @@
 .pagenav {
     display: flex;
     width: 100%;
+    text-transform: uppercase;
+    font-size: 80%;
+    margin: 1.5rem 0;
 
     @media print {
         display: none;
@@ -15,21 +18,20 @@
         text-align: right;
     }
 
-    p {
-        text-transform: uppercase;
-        font-size: 80%;
-    }
-
     svg {
         fill: $linkColor;
         stroke: $linkColor;
 
-        &:hover {
+        &:hover, &focus {
             fill: $linkHoverColor;
             stroke: $linkHoverColor;
         }
 
         margin-left: .5em;
         margin-right: .5em;
+    }
+
+    a:focus {
+        outline: 0;
     }
 }

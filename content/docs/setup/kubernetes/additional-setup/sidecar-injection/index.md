@@ -1,6 +1,6 @@
 ---
 title: Installing the Sidecar
-description: Instructions for installing the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
+description: Install the Istio sidecar in application pods automatically using the sidecar injector webhook or manually using istioctl CLI.
 weight: 45
 keywords: [kubernetes,sidecar,sidecar-injection]
 aliases:
@@ -160,20 +160,27 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-[admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
-configures when the webhook is invoked by Kubernetes. The default
-supplied with Istio selects pods in namespaces with label
-`istio-injection=enabled`.  The set of namespaces in which injection
-is applied can be changed by editing the `MutatingWebhookConfiguration`
-with `kubectl edit mutatingwebhookconfiguration
-istio-sidecar-injector`.
+When Kubernetes invokes the webhook, the [admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+configuration is applied. The default configuration injects the sidecar into
+pods in any namespace with the `istio-injection=enabled label`. The
+`istio-sidecar-injector` configuration map specifies the configuration for the
+injected sidecar. To change how namespaces are selected for injection, you can
+edit the `MutatingWebhookConfiguration` with the following command:
+
+{{< text bash >}}
+$ kubectl edit mutatingwebhookconfiguration istio-sidecar-injector
+{{< /text >}}
 
 {{< warning >}}
-The sidecar injector pod(s) should be restarted after modifying the mutatingwebhookconfiguration.
+You should restart the sidecar injector pod(s) after modifying
+the `MutatingWebhookConfiguration`.
 {{< /warning >}}
 
-The `istio-sidecar-injector` ConfigMap in the `istio-system` namespace has the default
-injection policy and sidecar injection template.
+For example, you can modify the `MutatingWebhookConfiguration` to always inject
+the sidecar into every namespace, unless a label is set. Editing this
+configuration is an advanced operation. Refer to the Kubernetes documentation
+for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+for more information.
 
 ##### _**policy**_
 
@@ -212,10 +219,12 @@ struct containing the list of containers and volumes to inject into the pod.
 
 {{< text go >}}
 type SidecarInjectionSpec struct {
-      InitContainers   []v1.Container `yaml:"initContainers"`
-      Containers       []v1.Container `yaml:"containers"`
-      Volumes          []v1.Volume    `yaml:"volumes"`
-      ImagePullSecrets []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
+      RewriteAppHTTPProbe bool                          `yaml:"rewriteAppHTTPProbe"`
+      InitContainers      []corev1.Container            `yaml:"initContainers"`
+      Containers          []corev1.Container            `yaml:"containers"`
+      Volumes             []corev1.Volume               `yaml:"volumes"`
+      DNSConfig           *corev1.PodDNSConfig          `yaml:"dnsConfig"`
+      ImagePullSecrets    []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
 }
 {{< /text >}}
 
@@ -223,18 +232,19 @@ The template is applied to the following data structure at runtime.
 
 {{< text go >}}
 type SidecarTemplateData struct {
-    ObjectMeta  *metav1.ObjectMeta
-    Spec        *v1.PodSpec
-    ProxyConfig *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
-    MeshConfig  *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig
+    DeploymentMeta *metav1.ObjectMeta
+    ObjectMeta     *metav1.ObjectMeta
+    Spec           *corev1.PodSpec
+    ProxyConfig    *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
+    MeshConfig     *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig
 }
 {{< /text >}}
 
 `ObjectMeta` and `Spec` are from the pod. `ProxyConfig` and `MeshConfig`
-are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditional
+are from the `istio` ConfigMap in the `istio-system` namespace. Templates can conditionally
 define injected containers and volumes with this data.
 
-For example, the following template snippet from `install/kubernetes/istio-sidecar-injector-configmap-release.yaml`
+For example, the following template
 
 {{< text plain >}}
 containers:

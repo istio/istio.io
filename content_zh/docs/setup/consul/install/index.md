@@ -21,7 +21,7 @@ Istio 控制平面有四个主要的服务：Pilot、Mixer、Citadel 和 API ser
 
 ### API Server
 
-Istio 的 API server （基于 Kubernetes 的 API server）提供了配置管理和角色访问控制等关键功能。Istio API server 需要 [etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd) 做持久化存储。 请参阅 [API server 的配置](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler)。
+Istio 的 API server （基于 Kubernetes 的 API server）提供了配置管理和角色访问控制等关键功能。Istio API server 需要 [etcd cluster](https://v1-12.docs.kubernetes.io/docs/setup/scratch/#etcd) 做持久化存储。 请参阅 [API server 的配置](https://v1-12.docs.kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler)。
 
 #### 本地安装
 

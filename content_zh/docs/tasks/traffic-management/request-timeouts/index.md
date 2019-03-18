@@ -11,12 +11,12 @@ keywords: [traffic-management,timeouts]
 
 * 跟随[安装指南](/zh/docs/setup)设置 Istio。
 
-* 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/) 。
+* 部署的示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)包含[应用缺省目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
 
 * 使用下面的命令初始化应用的版本路由：
 
     {{< text bash >}}
-    $ istioctl create -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 ## 请求超时
@@ -85,7 +85,7 @@ keywords: [traffic-management,timeouts]
         - destination:
             host: reviews
             subset: v2
-        timeout: 1s
+        timeout: 0.5s
     EOF
     {{< /text >}}
 
@@ -112,7 +112,7 @@ keywords: [traffic-management,timeouts]
 * 移除应用的路由规则：
 
     {{< text bash >}}
-    $ istioctl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
 * 如果不准备继续探索后续任务，根据 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)内容来关停示例应用。

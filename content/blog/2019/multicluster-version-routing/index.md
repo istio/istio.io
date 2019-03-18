@@ -36,7 +36,7 @@ running in one cluster, versions `v2` and `v3` running in a second cluster.
 To start, you'll need two Kubernetes clusters, both running a slightly customized configuration of Istio.
 
 * Set up a multicluster environment with two Istio clusters by following the
-    [multiple control planes with gateways](/docs/setup/kubernetes/multicluster/gateways/) instructions.
+    [multiple control planes with gateways](/docs/setup/kubernetes/install/multicluster/gateways/) instructions.
 
 * The `kubectl` command is used to access both clusters with the `--context` flag.
     Use the following command to list your contexts:
@@ -259,7 +259,7 @@ Just like any application, we'll use an Istio gateway to access the `bookinfo` a
 * Create the `bookinfo` gateway in `cluster1`:
 
     {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
 * Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
@@ -270,7 +270,7 @@ is running on `cluster1` and we have not yet configured access to `cluster2`.
 
 ## Create a service entry and destination rule on `cluster1` for the remote reviews service
 
-As described in the [setup instructions](/docs/setup/kubernetes/multicluster/gateways/#setup-dns),
+As described in the [setup instructions](/docs/setup/kubernetes/install/multicluster/gateways/#setup-dns),
 remote services are accessed with a `.global` DNS name. In our case, it's `reviews.default.global`,
 so we need to create a service entry and destination rule for that host.
 The service entry will use the `cluster2` gateway as the endpoint address to access the service.

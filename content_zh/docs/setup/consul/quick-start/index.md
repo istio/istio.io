@@ -17,7 +17,7 @@ keywords: [consul]
 1.  在 [Istio release](https://github.com/istio/istio/releases) 页面下载与你操作系统相对应的安装文件。如果你使用了 macOS 或者 Linux 系统，你还可以运行以下命令自动下载并解压最新版本的安装文件。
 
     {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | sh -
+    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
     {{< /text >}}
 
 1.  解压下载好的文件并切换到文件所在的目录。安装文件目录中包含以下内容：
@@ -68,7 +68,7 @@ keywords: [consul]
 
 ## 部署应用
 
-你现在可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/) 中提供的示例应用。
+你现在可以部署自己的应用或者 [Bookinfo](/zh/docs/examples/bookinfo/#如果在-docker-和-consul-环境中运行) 中提供的示例应用。
 
 {{< tip >}}
 由于在 Docker 中没有 pods 的概念，因此 Istio sidecar 需要和应用运行在同一个容器中。

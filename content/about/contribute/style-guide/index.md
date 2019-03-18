@@ -123,7 +123,7 @@ Related Terms:
 |----------------|------
 | load balancing | `load-balancing`
 | multicluster   | `multi-cluster`
-| add-on         | `addon`
+| addon          | `add-on`
 | service mesh   | `Service Mesh`
 | sidecar        | `side-car`, `Sidecar`
 | Kubernetes     | `kubernetes`, `k8s`

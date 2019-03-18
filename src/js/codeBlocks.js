@@ -1,16 +1,22 @@
 "use strict";
 
+let syntaxColoring = true;
+
 // All the voodoo needed to support our fancy code blocks
 function handleCodeBlocks() {
+    const toolbarShow = 'toolbar-show';
+    const syntaxColoringCookie = 'syntax-coloring';
+    const syntaxColoringItem = 'syntax-coloring-item';
+
     // Add a toolbar to all PRE blocks
     function attachToolbar(pre) {
-        const copyButton = document.createElement('button');
+        const copyButton = document.createElement(button);
         copyButton.title = buttonCopy;
         copyButton.className = "copy";
         copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
-        copyButton.setAttribute("aria-label", buttonCopy);
-        listen(copyButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
-        listen(copyButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
+        copyButton.setAttribute(ariaLabel, buttonCopy);
+        listen(copyButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
+        listen(copyButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
         listen(copyButton, click, e => {
             const div = e.currentTarget.parentElement;
             const text = getToolbarDivText(div);
@@ -18,33 +24,34 @@ function handleCodeBlocks() {
             return true;
         });
 
-        const downloadButton = document.createElement('button');
+        const downloadButton = document.createElement(button);
         downloadButton.title = buttonDownload;
         downloadButton.className = "download";
         downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
-        downloadButton.setAttribute("aria-label", buttonDownload);
-        listen(downloadButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
-        listen(downloadButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
+        downloadButton.setAttribute(ariaLabel, buttonDownload);
+        listen(downloadButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
+        listen(downloadButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
 
         listen(downloadButton, click, e => {
             const div = e.currentTarget.parentElement;
-            const codes = div.getElementsByTagName("CODE");
+            const codes = div.getElementsByTagName("code");
             if ((codes !== null) && (codes.length > 0)) {
                 const code = codes[0];
                 const text = getToolbarDivText(div);
                 let downloadas = code.dataset.downloadas;
-                if (downloadas === null || downloadas === "") {
+                if (downloadas === undefined || downloadas === null || downloadas === "") {
                     let lang = "";
                     for (let j = 0; j < code.classList.length; j++) {
                         if (code.classList.item(j).startsWith("language-")) {
                             lang = code.classList.item(j).substr(9);
                             break;
+                        } else if (code.classList.item(j).startsWith("command-")) {
+                            lang = "bash";
+                            break;
                         }
                     }
 
-                    if (lang.startsWith("command")) {
-                        lang = "bash";
-                    } else if (lang === "markdown") {
+                    if (lang === "markdown") {
                         lang = "md";
                     } else if (lang === "") {
                         lang = "txt";
@@ -57,13 +64,13 @@ function handleCodeBlocks() {
             return true;
         });
 
-        const printButton = document.createElement('button');
+        const printButton = document.createElement(button);
         printButton.title = buttonPrint;
         printButton.className = "print";
         printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
-        printButton.setAttribute("aria-label", buttonPrint);
-        listen(printButton, mouseenter, e => e.currentTarget.classList.add("toolbar-show"));
-        listen(printButton, mouseleave, e => e.currentTarget.classList.remove("toolbar-show"));
+        printButton.setAttribute(ariaLabel, buttonPrint);
+        listen(printButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
+        listen(printButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
 
         listen(printButton, click, e => {
             const div = e.currentTarget.parentElement;
@@ -73,7 +80,7 @@ function handleCodeBlocks() {
         });
 
         // wrap the PRE block in a DIV so we have a place to attach the toolbar buttons
-        const div = document.createElement("DIV");
+        const div = document.createElement("div");
         div.className = "toolbar";
         pre.parentElement.insertBefore(div, pre);
         div.appendChild(pre);
@@ -82,15 +89,15 @@ function handleCodeBlocks() {
         div.appendChild(copyButton);
 
         listen(pre, mouseenter, e => {
-            e.currentTarget.nextSibling.classList.add("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.classList.add("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add("toolbar-show");
+            e.currentTarget.nextSibling.classList.add(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.classList.add(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add(toolbarShow);
         });
 
         listen(pre, mouseleave, e => {
-            e.currentTarget.nextSibling.classList.remove("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.classList.remove("toolbar-show");
-            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove("toolbar-show");
+            e.currentTarget.nextSibling.classList.remove(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.classList.remove(toolbarShow);
+            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove(toolbarShow);
         });
     }
 
@@ -122,7 +129,7 @@ function handleCodeBlocks() {
 
         let cl = "";
         for (let j = 0; j < code.classList.length; j++) {
-            if (code.classList.item(j).startsWith("language-command")) {
+            if (code.classList.item(j).startsWith("language-bash")) {
                 cl = code.classList.item(j);
                 break;
             }
@@ -140,7 +147,11 @@ function handleCodeBlocks() {
 
                 if (line.startsWith("$ ")) {
                     if (tmp !== "") {
-                        cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                        if (syntaxColoring) {
+                            cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                        } else {
+                            cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
+                        }
                     }
 
                     tmp = line.slice(2);
@@ -169,11 +180,17 @@ function handleCodeBlocks() {
             }
 
             if (tmp !== "") {
-                cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                if (syntaxColoring) {
+                    cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                } else {
+                    cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
+                }
             }
 
             if (cmd !== "") {
-                cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
+                if (code.dataset.expandlinks === "true") {
+                    cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
+                }
 
                 let html = "<div class='command'>" + cmd + "</div>";
 
@@ -189,12 +206,10 @@ function handleCodeBlocks() {
 
                 if (output !== "") {
                     // apply formatting to the output?
-                    let prefix = "language-command-output-as-";
-                    if (cl.startsWith(prefix)) {
-                        let lang = cl.substr(prefix.length);
-                        output = Prism.highlight(output, Prism.languages[lang], lang);
-                    } else {
-                        output = escapeHTML(output);
+                    if (code.dataset.outputis) {
+                        if (syntaxColoring) {
+                            output = Prism.highlight(output, Prism.languages[code.dataset.outputis], code.dataset.outputis);
+                        }
                     }
 
                     html += "<div class='output'>" + output + "</div>";
@@ -204,31 +219,85 @@ function handleCodeBlocks() {
                 code.classList.remove(cl);
                 code.classList.add("command-output");
             } else {
-                // someone probably forgot to start a block with $, so let's just treat the whole thing as being a `bash` block
-                Prism.highlightElement(code, false);
+                if (syntaxColoring) {
+                    // someone probably forgot to start a block with $, so let's just treat the whole thing as being a `bash` block
+                    Prism.highlightElement(code, false);
+                }
             }
         } else {
-            // this isn't one of our special code blocks, so handle normally
-            Prism.highlightElement(code, false);
+            if (syntaxColoring) {
+                // this isn't one of our special code blocks, so handle normally
+                Prism.highlightElement(code, false);
+            }
         }
     }
 
     // Load the content of any externally-hosted PRE block
     function loadExternal(pre) {
+        const code = pre.firstChild;
 
         function fetchFile(elem, url) {
             fetch(url)
-                .then(response => response.text())
+                .then(response => {
+                    if (response.status !== 200) {
+                        return "Unable to access " + url + ": " + response.statusText;
+                    }
+
+                    return response.text()
+                })
+                .catch(e => {
+                    return "Unable to access " + url + ": " + e;
+                })
                 .then(data => {
-                    elem.firstChild.textContent = data;
-                    Prism.highlightElement(elem.firstChild, false);
+                    if (code.dataset.snippet) {
+                        const pattern = "\\n.*?\\$snippet " + code.dataset.snippet + "\\n(.+?)\\n.*?\\$endsnippet";
+                        const regex = new RegExp(pattern, 'gms');
+
+                        let buf = "";
+                        let match = regex.exec(data);
+                        while (match != null) {
+                            buf = buf + match[1];
+                            match = regex.exec(data);
+                        }
+                        data = buf;
+                    }
+
+                    code.textContent = data;
+                    if (syntaxColoring) {
+                        Prism.highlightElement(code, false);
+                    }
                 });
         }
 
-        if (pre.hasAttribute("data-src")) {
-            fetchFile(pre, pre.dataset.src);
+        if (code.dataset.src) {
+            fetchFile(code, code.dataset.src);
         }
     }
+
+    function handleSyntaxColoring() {
+        const cookieValue = readCookie(syntaxColoringCookie);
+        if (cookieValue === 'true') {
+            syntaxColoring = true;
+        } else if (cookieValue === 'false') {
+            syntaxColoring = false;
+        }
+
+        let item = document.getElementById(syntaxColoringItem);
+        if (item) {
+            if (syntaxColoring) {
+                item.classList.add(active);
+            } else {
+                item.classList.remove(active);
+            }
+        }
+
+        listen(getById(syntaxColoringItem), click, () => {
+            createCookie(syntaxColoringCookie, !syntaxColoring);
+            location.reload();
+        });
+    }
+
+    handleSyntaxColoring();
 
     queryAll(document, 'pre').forEach(pre => {
         attachToolbar(pre);

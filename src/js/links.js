@@ -69,7 +69,7 @@ function handleLinks() {
                 return;
             }
 
-            if (link.classList.contains("not-for-endnotes")) {
+            if (link.dataset.skipendnotes === "true") {
                 // skip links that don't want to be included
                 return;
             }

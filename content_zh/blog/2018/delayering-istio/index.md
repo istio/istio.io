@@ -19,7 +19,7 @@ Sidecar proxy 模式成就了很多奇迹。Sidecar 身处微服务的数据路�
 
 ## 优化层还是删除层
 
-在我看来，在对某些东西进行优化之前，应该先行考虑的是这个方面的需求是否可以取消。我最初的操作系统级虚拟化[工作目标](http://beyondcontainers.com/blog/a-brief-history-of-containers)，就是[移除虚拟机](http://beyondcontainers.com/blog/a-brief-history-of-containers)，用 Linux 容器直接在主机操作系统上运行应用，从而免除中间层的困扰。很长一段时间里，业界都在努力的对虚拟机进行优化，这是一场错误的战斗，真正应该做的是删除附加层。
+在我看来，在对某些东西进行优化之前，应该先行考虑的是这个方面的需求是否可以取消。我最初的操作系统级虚拟化[工作目标](https://apporbit.com/a-brief-history-of-containers-from-reality-to-hype/)，就是[移除虚拟机](https://apporbit.com/a-brief-history-of-containers-from-reality-to-hype/)，用 Linux 容器直接在主机操作系统上运行应用，从而免除中间层的困扰。很长一段时间里，业界都在努力的对虚拟机进行优化，这是一场错误的战斗，真正应该做的是删除附加层。
 
 在微服务以及网络的连接方面，历史再次重演。网络已经经历了物理服务器十年前所经历的变化。新引进层和结构正被深入集成到了协议栈甚至是晶片之中，却没有人认真考虑替代的可能。也许移除这些附加层才是更好的办法。
 

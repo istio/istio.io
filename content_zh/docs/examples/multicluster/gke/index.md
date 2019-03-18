@@ -225,14 +225,14 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
 1. 为远端集群创建 `reviews-v3.yaml` 文件，准备部署：
 
-    {{< text yaml plain "reviews-v3.yaml" >}}
+    {{< text syntax="yaml" downloadas="reviews-v3.yaml" >}}
     ---
     ##################################################################################################
     # Ratings service
@@ -304,7 +304,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
 ## 卸载
 
-除了按照[基于 VPN 的多集群卸载](/zh/docs/setup/kubernetes/multicluster/vpn/)操作之外，还应该执行以下步骤：
+除了按照[基于 VPN 的多集群卸载](/zh/docs/setup/kubernetes/install/multicluster/vpn/)操作之外，还应该执行以下步骤：
 
 1. 删除 Google Cloud 防火墙规则：
 

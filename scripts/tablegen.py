@@ -19,9 +19,9 @@ import linecache
 import string
 import sys
 import os
+import re
 
-from ruamel.yaml import YAML
-from __builtin__ import file
+from ruamel import yaml
 
 #
 # Reads a documented Helm values.yaml file and produces a
@@ -30,8 +30,8 @@ from __builtin__ import file
 # comments are needed in order to decode the commented helm
 # values.yaml file
 #
-YAML_CONFIG_DIR = "istio/install/kubernetes/helm/subcharts"
 ISTIO_CONFIG_DIR = "istio/install/kubernetes/helm/istio"
+YAML_CONFIG_DIR = ISTIO_CONFIG_DIR + "/charts"
 VALUES_YAML = "values.yaml"
 ISTIO_IO_DIR = os.path.abspath(__file__ + "/../../")
 CONFIG_INDEX_DIR = "content/docs/reference/config/installation-options/index.md"
@@ -78,10 +78,10 @@ def decode_helm_yaml(s):
     # This name will be passed in to the the function process_helm_yaml
     #
     subchart_dir = os.path.join(ISTIO_IO_DIR, YAML_CONFIG_DIR)
-    for file in os.listdir(subchart_dir):
-        values_yaml_dir = os.path.join(subchart_dir, file)
+    for cfile in os.listdir(subchart_dir):
+        values_yaml_dir = os.path.join(subchart_dir, cfile)
         values_yaml_file = os.path.join(values_yaml_dir, VALUES_YAML)
-        process_helm_yaml(values_yaml_file, file)
+        process_helm_yaml(values_yaml_file, cfile)
 
     #
     # Process configuration options in values.yaml under istio/install/kubernetes/helm/istio.
@@ -102,14 +102,18 @@ def process_helm_yaml(values_yaml, option):
         whitespaces = 0
         flag = 0
         lineNum = 0
-        lastLineNum = 0
-        valueList = []
         newConfigList = []
+        loaded = None
 
         context = linecache.getlines(values_yaml)
         totalNum = len(context)
         lastLineNum = 0
         key = option
+        
+        count = 0
+        with open(values_yaml, 'r') as f_v:
+            d_v = f_v.read()
+            loaded = yaml.round_trip_load(d_v)
 
         for lineNum in range(0, totalNum):
             if  context[lineNum].strip().startswith('- '):
@@ -168,7 +172,7 @@ def process_helm_yaml(values_yaml, option):
             # 'global' has been processed and entered into the dictionary 'prdict' is still processed
             # because it is in the newConfigList. If a configuration option was processed from
             # the values.yaml under the subcharts directory, it will not be in the newConfigList.
-	    # subcharts directory), then go ahead and process the parameters for this option.
+            # subcharts directory), then go ahead and process the parameters for this option.
             # 
             if option == '' and prdict.get(storekey) != None and (storekey in newConfigList):
                 pass
@@ -203,18 +207,108 @@ def process_helm_yaml(values_yaml, option):
 
                     newkey = newkey.lstrip('.')
 
+                    # Filling Description Fields            
+                    if ( "." in newkey):
+                        plist = newkey.split('.')
+                        da = None
+                        for item in plist:
+                            desc = ''
+                            # If this is the same as the configuration option name, then 
+                            # continue to the next key in the list
+                            if item.rstrip() == option.rstrip():
+                                continue
+                            if da is None:
+                                if loaded.ca.items:
+                                    if item in loaded.ca.items:
+                                        desc = processComments(loaded.ca.items[item])
+                                da = loaded[item]
+                            elif isinstance(da, dict):
+                                if item in da.keys()[0]:
+                                    commentTokens = da.ca.comment
+                                    if commentTokens is not None:
+                                        desc = processComments(commentTokens)
+                                    
+                                if da.ca.items:
+                                    if item in da.ca.items:
+                                        desc = desc + processComments(da.ca.items[item])
+                                    da = da[item]
+                                else:
+                                    if item in da.keys():
+                                        da = da.get(item)
+                                    else:
+                                        da = da.values()[0]
+                                    
                     ValueStr = (' ').join(ValueList)
                     if ValueStr:
-                        desc = ''
-                        prdict[storekey].append("| `%s` | `%s` | %s |" % (newkey, ValueStr, desc))
+                        if (desc in ValueStr):
+                            ValueStr= ValueStr.replace("#"+desc, "")
+                            desc = desc.replace('`','')
+                        desc = sanitizeValueStr(desc)
+                        if desc.strip():
+                            desc = '`' + desc.strip() + '`'
+                        prdict[storekey].append("| `%s` | `%s` | %s |" % (newkey, ValueStr.rstrip(), desc))
                     desc = ''
 
                     key = newkey
                     newkey = ''
-
+                    
             lineNum += 1
         return ret_val
 
+def processComments(comments):
+    description = ''
+    for c in comments:
+        if c is None:
+            pass
+        elif isinstance(c, list):
+            for comment in c:
+                if (comment is None):
+                    pass
+                else:
+                    # We want to avoid including commented out key: value pairs in the values.yaml as
+                    # part of the description/comments. For example: 
+                    #    # minAvailable: 1
+                    #    # maxUnavailable: 1
+                    #    # - secretName: grafana-tls
+                    #    sessionAffinityEnabled: false
+                    # We do not want the commented out key-value pairs (minAvailable,maxUnavailable, secretName)
+                    # to be included as part of the description for 'sessionAffinityEnabled'
+                    # 
+                    pattern = re.compile("#\s[-\s]*[\S]+:(?:\s(?!\S+:)\S+)*" )
+                    groups = pattern.match(comment.value)
+                    if groups:
+                        description=''
+                        break
+                    if comment.value.endswith('\n\n'):
+                        description=''
+                    else:
+                        if comment.value.rstrip() == '#':
+                            continue
+                        else:
+                            description = description + comment.value.replace('`','').replace('\n', ' ').replace("#",'').strip()
+        elif isinstance(c, yaml.Token):
+            description = description + c.value.rstrip().replace("#",'')
+    
+    return description
+
+
+def sanitizeValueStr(value):
+    # We can include more special characters later if they need to
+    # be escaped. For now just including the 'pipe' symbol appearing
+    # in the value of a configuration option.
+    # e.g: | `global.tracer.lightstep.secure` | `true     # example: true\|false` |  |
+    # 
+    # Without escaping the 'pipe' character, it was interpreting it as the end/start
+    # of table column. Using the example above, without escaping the pipe symbol, it 
+    # was interpreting it as:
+    # | `global.tracer.lightstep.secure` | `true   # example: true |false` |  |
+    #
+    regex = re.compile("\|")
+    if value != None and regex.search(value) != None:
+        value = value.replace("|", "\|");
+    return value
+        
+    
 with open(os.path.join(ISTIO_IO_DIR, CONFIG_INDEX_DIR), 'r') as f:
     endReached = False
 
@@ -225,9 +319,9 @@ with open(os.path.join(ISTIO_IO_DIR, CONFIG_INDEX_DIR), 'r') as f:
             break
 
     # transform values.yaml into a encoded string dictionary
-    yaml = YAML()
-    yaml.explicit_start = True
-    yaml.dump('', sys.stdout, transform=decode_helm_yaml)
+    pyaml = yaml.YAML()
+    pyaml.explicit_start = True
+    pyaml.dump('', sys.stdout, transform=decode_helm_yaml)
 
     # Order the encoded string dictionary
     od = collections.OrderedDict(sorted(prdict.items(), key=lambda t: t[0]))

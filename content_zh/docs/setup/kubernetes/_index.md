@@ -18,10 +18,10 @@ Istio 提供多种安装路径，具体取决于您的 Kubernetes 平台。
 但是，无论平台如何，基本流程都是相同的：
 
 1. [查看 pod 要求](/zh/docs/setup/kubernetes/additional-setup/requirements/)
-1. [准备您的 Istio 平台](/zh/docs/setup/kubernetes/platform-setup/)
+1. [准备您的 Istio 平台](/zh/docs/setup/kubernetes/prepare/platform-setup/)
 1. [在您的平台上安装 Istio](/zh/docs/setup/kubernetes/)
 
-某些平台还需要您手动[下载最新的Istio版本](/zh/docs/setup/kubernetes/download-release/)。
+某些平台还需要您手动[下载最新的Istio版本](/zh/docs/setup/kubernetes/download/)。
 
 在决定时，您是否打算在生产中使用 Istio 是至关重要的
 要执行哪个安装。
@@ -31,7 +31,7 @@ Istio 提供多种安装路径，具体取决于您的 Kubernetes 平台。
 要快速测试 Istio 的功能，您可以：
 
 - 在[没有 Helm 的情况下在 Kubernetes](/zh/docs/setup/kubernetes/install/kubernetes/) 上安装 Istio
-- 执行 Istio 的[最小安装](/zh/docs/setup/kubernetes/install/minimal/)
+- 执行 Istio 的[最小安装](/zh/docs/setup/kubernetes/install/helm/)
 
 ## 安装 Istio 用于生产
 
@@ -40,14 +40,14 @@ Istio 提供多种安装路径，具体取决于您的 Kubernetes 平台。
 如果在支持的平台上运行 Kubernetes，则可以按照说明进行操作
 特定于您的 Kubernetes 平台：
 
-- [Alibaba Cloud Kubernetes Container Service](/zh/docs/setup/kubernetes/install/alicloud/)
-- [Google Kubernetes Engine](/zh/docs/setup/kubernetes/install/gke/)
-- [IBM Cloud](/zh/docs/setup/kubernetes/install/ibm/)
+- [Alibaba Cloud Kubernetes Container Service](/zh/docs/setup/kubernetes/install/platform/alicloud/)
+- [Google Kubernetes Engine](/zh/docs/setup/kubernetes/install/platform/gke/)
+- [IBM Cloud](/zh/docs/setup/kubernetes/install/platform/ibm/)
 
 如果要通过容器网络接口安装和使用 Istio
-（CNI），访问我们的 [CNI 指南](/zh/docs/setup/kubernetes/install/cni/)。
+（CNI），访问我们的 [CNI 指南](/zh/docs/setup/kubernetes/additional-setup/cni/)。
 
-如果要执行多集群设置，请访问我们的 [Multicluster 安装文档](/zh/docs/setup/kubernetes/multicluster/)。
+如果要执行多集群设置，请访问我们的 [Multicluster 安装文档](/zh/docs/setup/kubernetes/install/multicluster/)。
 
 ## 向网格添加服务
 
