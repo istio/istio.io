@@ -7,9 +7,11 @@ If mutual TLS is enabled, HTTP and TCP health checks from the kubelet will not w
 
 As of the Istio 1.1 release, we have several options to solve this issue.
 
-You can use probe rewrite to rewrites the liveness/readiness probe such that the probe request will redirected to application directly. And you can also use a separate port for health checks and enable mutual TLS only on the regular service port. Please refer to [Health Checking of Istio Services](/help/ops/setup/app-health-check/#mutual-tls-is-enabled) for more information.
+1.  Using probe rewrite to rewrites the liveness/readiness probe such that the probe request will redirected to application directly. Please refer to [Probe Rewrite](/help/ops/setup/app-health-check/#probe-rewrite) for more information.
 
-1. Istio supports the [`PERMISSIVE` mode](/docs/tasks/security/mtls-migration) for Istio services so they can accept both HTTP and mutual TLS traffic when this mode is turned on. Please keep in mind that mutual TLS is not enforced since others can communicate with the service with HTTP traffic.
+1.  Using a separate port for health checks and enable mutual TLS only on the regular service port. Please refer to [Health Checking of Istio Services](/help/ops/setup/app-health-check/#separate-port) for more information.
+
+1.  Using the [`PERMISSIVE` mode](/docs/tasks/security/mtls-migration) for Istio services so they can accept both HTTP and mutual TLS traffic when this mode is turned on. Please keep in mind that mutual TLS is not enforced since others can communicate with the service with HTTP traffic.
 
 1.  Using a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
 for health checks, e.g., one can install `curl` in the service pod and
