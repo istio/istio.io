@@ -111,12 +111,7 @@ $ kubectl -n istio-system edit deployment istio-galley
 
     {{< /warning >}}
 
-1. Verify all `58` Istio CRDs were committed to the Kubernetes API-server using the following command:
-
-    {{< text bash >}}
-    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
-    {{< /text >}}
+1. {{< boilerplate verify-crds >}}
 
 1. Render and apply Istio's core components. For a production environment use the recommended Helm values or customize as needed:
 
@@ -156,12 +151,7 @@ to manage the lifecycle of Istio.
     $ helm install istio.io/istio-init --name istio-init --namespace istio-system
     {{< /text >}}
 
-1. Verify that all `58` Istio CRDs were committed to the Kubernetes api-server using the following command:
-
-    {{< text bash >}}
-    $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    58
-    {{< /text >}}
+1. {{< boilerplate verify-crds >}}
 
 1. Install the `istio` chart. For a production environment use the recommended Helm values or customize as needed:
 
