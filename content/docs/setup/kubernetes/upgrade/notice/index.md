@@ -33,4 +33,4 @@ For an overview of new features introduced with Istio 1.1, please refer to the [
 
 ## Security
 
-- RBAC configuration has been modified to implement cluster scoping.  The `RbacConfig` resource has been replaced with the `ClusterRbacConfig` resource. Refer to [Migrating `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/#migrating-from-rbacconfig-to-clusterrbacconfig) for migration instructions.
+- RBAC configuration has been modified to implement cluster scoping.  The `RbacConfig` resource has been replaced with the `ClusterRbacConfig` resource. Refer to [Migrating `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig) for migration instructions.
