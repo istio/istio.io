@@ -17,6 +17,11 @@ highly available with multiple replicas.
 This flow assumes that the Istio components are installed and upgraded in the
 `istio-system` namespace.
 
+{{< warning >}}
+Be sure to check out the [upgrade notice](/docs/setup/upgrade-notice) for a concise list of things you should know before
+upgrading your deployment to Istio 1.1.
+{{< /warning >}}
+
 ## Upgrade steps
 
 [Download the new Istio release](/docs/setup/kubernetes/download/)
