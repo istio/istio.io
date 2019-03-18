@@ -1,6 +1,6 @@
 ---
 title: Performance and Scalability
-description: Introduces Performance and Scalability methodology, results and best practices for Istio components.
+description: Introduces performance and scalability for Istio.
 weight: 50
 aliases:
     - /docs/performance-and-scalability/overview
@@ -13,127 +13,120 @@ aliases:
 keywords: [performance,scalability,scale,benchmarks]
 ---
 
-We follow a four-pronged approach to Istio performance characterization, tracking and improvements:
+Istio makes it easy to create a network of deployed services with rich routing,
+load balancing, service-to-service authentication, monitoring, and more - all
+without any changes to the application code. Istio strives to provide
+these benefits with minimal resource overhead and aims to support very
+large meshes with high request rates while adding minimal latency.
 
-* Code level micro-benchmarks
+The Istio data plane components, the Envoy proxies, handle data flowing through
+the system. The Istio control plane components, Pilot, Galley and Citadel, configure
+the data plane. The data plane and control plane have distinct performance concerns.
 
-* Synthetic end-to-end benchmarks across various scenarios
+## Performance summary for Istio {{< istio_release_name >}}
 
-* Realistic complex app end-to-end benchmarks across various settings
+The [Istio load tests](https://github.com/istio/tools/tree/master/perf/load) mesh consists
+of **1000** services and **2000** sidecars with `70k` mesh-wide requests per second (`rps`).
+After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
-* Automation to ensure performance doesn't regress
+- The Envoy proxy uses **0.6 vCPU** and **50 MB memory** per `1k rps` going through the proxy .
+- The `istio-telemetry` service uses **0.6 vCPU** per `1k` **mesh-wide** `rps`.
+- Pilot uses **1 vCPU** and `1.5 GB` of memory.
+- The Envoy proxy adds `10 ms` to the 99th percentile latency.
 
-## Micro benchmarks
+## Control plane performance
 
-We use Go’s native tools to write targeted micro-benchmarks in performance sensitive areas. Our main goal with this approach is to provide easy-to-use micro-benchmarks that developers can use to perform quick before/after performance comparisons for their changes.
+Pilot configures sidecar proxies based on user authored configuration files and the current
+state of the system. In a Kubernetes environment, Custom Resource Definitions (CRDs) and deployments
+constitute the configuration and state of the system. The Istio configuration objects like gateways and virtual
+services, provide the user-authored configuration.
+To produce the configuration for the proxies, Pilot processes the combined configuration and system state
+from the Kubernetes environment and the user-authored configuration.
 
-See the [sample micro-benchmark]({{< github_file >}}/mixer/test/perf/singlecheck_test.go) for Mixer that measures the performance of attribute processing code.
+The control plane supports thousands of services, spread across thousands of pods with a
+similar number of user authored virtual services and other configuration objects.
+Pilot's CPU and memory requirements scale with the amount of configurations and possible system states.
+The CPU consumption scales with the following factors:
 
-Developers can also utilize a golden-files approach to capture the state of their benchmark results in the source tree for keeping track and  referencing purposes. GitHub has this [baseline file]({{< github_file >}}/mixer/test/perf/bench.baseline).
+- The rate of deployment changes.
+- The rate of configuration changes.
+- The number of proxies connecting to Pilot.
 
-Due to the nature of this testing type, there is a high-variance in latency numbers across machines. It is recommended that micro-benchmark numbers captured in this way are compared only against the previous runs on the same machine.
+however this part is inherently horizontally scalable.
 
-The [`perfcheck.sh` script]({{< github_file >}}/bin/perfcheck.sh) can be used to quickly run benchmarks in a sub-folder and compare its results against the co-located baseline files.
+When [namespace isolation](/docs/reference/config/networking/v1alpha3/sidecar/) is enabled,
+a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
+You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
+to reach all proxies.
 
-## Testing scenarios
+## Data plane performance
 
-{{< image width="80%" ratio="75%"
-    link="https://raw.githubusercontent.com/istio/istio/master/tools/perf_setup.svg?sanitize=true"
-    caption="Performance scenarios"
-    >}}
+Data plane performance depends on many factors, for example:
 
-The synthetic benchmark scenarios and the source code of the tests are described
-on [GitHub]({{< github_blob >}}/tools#istio-load-testing-user-guide)
+- Number of client connections
+- Target request rate
+- Request size and Response size
+- Enabling `mTLS`
+- Number of proxy worker threads
+- Protocol
+- CPU cores
+- Number and types of proxy filters, specifically Mixer filter.
 
-<!-- add blueperf and more details -->
+The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
-## Synthetic end to end benchmarks
+### CPU and memory
 
-We use [Fortio](https://fortio.org/) as Istio's synthetic end to end load testing tool. Fortio runs at a specified query per second (qps) and records an histogram of execution time and calculates percentiles (e.g. p99 i.e. the response time such as 99% of the requests take less than that number (in seconds, SI unit)). It can run for a set duration, for a fixed number of calls, or until interrupted (at a constant target QPS, or max speed/load per connection/thread).
+Since the sidecar proxy performs additional work on the data path, it consumes CPU
+and memory. As of Istio 1.1, a proxy consumes about 0.6 vCPU per 1000
+requests per second (`rps`).
 
-Fortio is a fast, small, reusable, embeddable go library as well as a command line tool and server process, the server includes a simple web UI and graphical representation of the results (both a single latency graph and a multiple results comparative min, max, average and percentiles graphs).
+The memory consumption of the proxy depends on the total configuration state the proxy holds.
+A large number of listeners, clusters, and routes can increase memory usage.
+Istio 1.1 introduced namespace isolation to limit the scope of the configuration sent
+to a proxy. In a large namespace, the proxy consumes approximately 50 MB of memory.
 
-Fortio is also 100% open-source and with no external dependencies beside go and gRPC so you can reproduce all our results easily and add your own variants or scenarios you are interested in exploring.
+Since the proxy normally doesn't buffer the data passing through,
+request rate doesn't affect the memory consumption.
 
-Here is an example of scenario (one out of the 8 scenarios we run for every build) result graphing the latency distribution for `istio-0.7.1` at 400 Query-Per-Second (qps) between 2 services inside the mesh (with mutual TLS, Mixer policy checks and telemetry collection):
+### Latency
 
-<iframe src="https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json&xMax=105&yLog=true" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
+Since Istio injects a sidecar proxy on the data path, latency is an important
+consideration. Istio adds an authentication and a Mixer filter to the proxy. Every
+additional filter adds to the path length inside the proxy and affects latency.
 
-Comparing 0.6.0 and 0.7.1 histograms/response time distribution for the same scenario, clearly showing 0.7 improvements:
+The Envoy proxy collects raw telemetry data after a response is sent to the
+client. The time spent collecting raw telemetry for a request does not contribute
+to the total time taken to complete that request. However, since the worker
+is busy handling the request, the worker won't start handling the next request
+immediately. This process adds to the queue wait time of the next request and affects
+average and tail latencies. The actual tail latency depends on the traffic pattern.
 
-<iframe src="https://fortio.istio.io/?xMin=2&xMax=110&xLog=true&sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06&sel=qps_400-s1_to_s2-0.6.0-2018-04-05-22-33" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
+Inside the mesh, a request traverses the client-side proxy and then the server-side
+proxy. This two proxies on the data path add about `10ms` to the 99th percentile latency at `1k rps`.
+The server-side proxy alone adds `6ms` to the 99th percentile latency.
 
-And tracking the progress across all the tested releases for that scenario:
+### Latency for Istio {{< istio_release_name >}}
 
-<iframe src="https://fortio.istio.io/?s=qps_400-s1_to_s2" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
+The default configuration of Istio 1.1 adds `10 ms` to the 99th percentile latency of the data plane over the baseline.
+We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
+for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client connections, 2 proxy workers and `mTLS` enabled.
 
-You can learn more about [Fortio](https://github.com/fortio/fortio/blob/master/README.md#fortio) on GitHub and see results on [https://fortio.istio.io](https://fortio.istio.io).
+{{< image width="90%" ratio="75%"
+    link="latency.svg?sanitize=true"
+    alt="P99 latency vs client connections"
+    caption="P99 latency vs client connections"
+>}}
 
-## Realistic application benchmark
+- `baseline` Client pod directly calls the server pod, no sidecars are present.
+- `server-sidecar` Only server sidecar is present.
+- `both-sidecars` Client and server sidecars are present. This is a default case inside the mesh.
+- `nomixer-both` Same as **both-sidecars** without the Mixer filter.
+- `nomixer-server` Same as **server-sidecar** without the Mixer filter.
 
-Acmeair (a.k.a, BluePerf) is a customer-like microservices application implemented in Java. This application runs on WebSphere Liberty and simulates the operations of a fictitious airline.
+### Benchmarking tools
 
-Acmeair is composed by the following microservices:
+Istio uses the following tools for benchmarking
 
-* **Flight Service** retrieves flight route data. It is called by the Booking service to check miles for the rewards operations (Acmeair customer fidelity program).
-
-* **Customer Service** stores, updates, and retrieves customer data. It is invoked by the Auth service for login and by the Booking service for the rewards operations.
-
-* **Booking Service** stores, updates, and retrieves booking data.
-
-* **Auth Service** generates JWT if the user/password is valid.
-
-* **Main Service** primarily consists of the presentation layer (web pages) that interact with the other services. This allows the user to interact directly with the application via browser, but it is not exercised during the load test.
-
-The diagram below represents the different pods/containers of the application in the Kubernetes/Istio environment:
-
-{{< image ratio="80%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image004.png"
-    alt="Acmeair microservices overview"
-    >}}
-
-The following table shows the transactions that are driven by the script during the regression test and the approximate distribution of the requests:
-
-{{< image ratio="20%"
-    link="https://ibmcloud-perf.istio.io/regpatrol/istio_regpatrol_readme_files/image006.png"
-    alt="Acmeair request types and distribution"
-    >}}
-
-The Acmeair benchmark application can be found here: [IBM's BluePerf](https://github.com/blueperf).
-
-## Automation
-
-Both the synthetic benchmarks (fortio based) and the realistic application (BluePerf)
-are part of the nightly release pipeline and you can see the results on:
-
-* [https://ibmcloud-perf.istio.io/regpatrol/](https://ibmcloud-perf.istio.io/regpatrol/)
-
-This enables us to catch regression early and track improvements over time.
-
-## Scalability and sizing guide
-
-* Setup multiple replicas of the control plane components.
-
-* Setup [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
-
-* Split Mixer check and report pods.
-
-* High availability (HA).
-
-* See also [Istio's Performance oriented FAQ](https://github.com/istio/istio/wiki/Performance-Oriented-Setup-FAQ)
-
-Current recommendations (when using all Istio features):
-
-* 1 vCPU per peak thousand requests per second for the sidecar(s) with access logging (which is on by default) and 0.5 without, `fluentd` on the node is a big contributor to that cost as it captures and uploads logs.
-
-* Assuming typical cache hit ratio (>80%) for Mixer checks: 0.5 vCPU per peak thousand requests per second for the mixer pods.
-
-* Latency cost/overhead is approximately [10 millisecond](https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json) for service-to-service (2 proxies involved, mixer telemetry and checks) as of 0.7.1, we expect to bring this down to a low single digit ms.
-
-* Mutual TLS costs are negligible on AES-NI capable hardware in terms of both CPU and latency.
-
-We plan on providing more granular guidance for customers adopting Istio "A la carte".
-
-We have an ongoing goal to reduce both the CPU overhead and latency of adding Istio to your application. Please note however that if your application is
-handling its own telemetry, policy, security, network routing, a/b testing, etc... all that code and cost can be removed and that should offset most if
-not all of the Istio overhead.
+- [`fortio.org`](https://fortio.org/) - a constant throughput load testing tool.
+- [`blueperf`](https://github.com/blueperf/) - a realistic cloud native application.
+- [`isotope`](https://github.com/istio/tools/tree/master/isotope) - a synthetic application with configurable topology.
