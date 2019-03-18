@@ -54,7 +54,8 @@ Istio 1.1.
   particular adds support to limit the set of services a sidecar will send traffic to. This  
   reduces the amount of configuration computed and transmitted to
   the proxy, improving startup time, resource consumption and control-plane scalability. 
-  For large deployments, we recommend adding a sidecar resource per namespace.
+  For large deployments, we recommend adding a sidecar resource per namespace. Controls are also
+  provided for ports, protocols and traffic capture for advanced use-cases.
 
 - **Restrict Visibility of Services**. Added the new `exportTo` feature which allows
   service owners to control which namespaces can reference their services. This feature is 
