@@ -72,18 +72,18 @@ Istio provides two additional built-in configuration profiles that are used excl
 1. **multicluster-gateways**: used for configuring all of the clusters of a
     multicluster mesh with a [multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
 
-The `remote` profile is configured using the values file `values-istio-remove.yaml`. This profile installs only two
-Istio components:
+The **remote** profile is configured using the values file `values-istio-remote.yaml`. This profile installs only two
+Istio core components:
 
-1. `istio-citadel` core component
+1. `istio-citadel`
 
-1. `istio-sidecar-injector` core component
+1. `istio-sidecar-injector`
 
-The `multicluster-gateways` profile is configured using the values file `values-istio-multicluster-gateways.yaml`.
-This profile installs the same commponents as the Istio `default` configuration profile plus two additional components:
+The **multicluster-gateways** profile is configured using the values file `values-istio-multicluster-gateways.yaml`.
+This profile installs the same components as the Istio **default** configuration profile plus two additional components:
 
-1. `istio-egressgateway` core component
+1. The `istio-egressgateway` core component.
 
-1. `corednsu` addon
+1. The `coredns` addon.
 
 Refer to the [multicluster installation instructions](/docs/setup/kubernetes/install/multicluster/) for more details.
