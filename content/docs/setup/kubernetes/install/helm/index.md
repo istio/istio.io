@@ -128,15 +128,6 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="remote" cookie-value="remote" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-remote.yaml | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="sds" cookie-value="sds" >}}
 
 {{< text bash >}}
@@ -228,15 +219,6 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="remote" cookie-value="remote" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-remote.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="sds" cookie-value="sds" >}}
 
 {{< text bash >}}
@@ -304,16 +286,6 @@ $ kubectl delete namespace istio-system
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl delete -f -
-$ kubectl delete namespace istio-system
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="remote" cookie-value="remote" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-remote.yaml | kubectl delete -f -
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
