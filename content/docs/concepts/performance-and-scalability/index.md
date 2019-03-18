@@ -111,8 +111,8 @@ The default configuration of Istio 1.1 adds `10 ms` to the 99th percentile laten
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
 for the `http/1.1` protocol, with a `1 kB` payload at `1000 rps` using 16 client connections, 2 proxy workers and `mTLS` enabled.
 
-In the upcoming Istio release we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `MixerV2`.
-This decreases the amount data flowing through the system, which in turn reduces the CPU usage and latency.
+In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `MixerV2`.
+This will decrease the amount data flowing through the system, which will in turn reduce the CPU usage and latency.
 
 {{< image width="90%" ratio="75%"
     link="latency.svg?sanitize=true"
