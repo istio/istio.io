@@ -26,7 +26,7 @@ For an overview of new features introduced with Istio 1.1, please refer to the [
 - Outbound traffic policy now defaults to ALLOW_ANY.  Traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched with one of the services in the system and forwarded accordingly
 - During sidecar routing to a service, destination rules for the target service in the same namespace as the sidecar will take precedence, followed by destination rules in the service’s namespace, and finally followed by destination rules in other namespaces if applicable.
 - We recommend storing gateway resources in the same namespace as the gateway workload (e.g., istio-system in case of istio-ingressgateway).  When referring to gateway resources in virtual services, use the namespace/name format instead of using name.namespace.svc.cluster.local
-- The optional egress gateway is now disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles by default.  If you need to control and secure your outbound traffic through the egress gateway, you will need to enable `gateways.istio-egressgateway.enabled=true` manually in any of the non-demo profiles. 
+- The optional egress gateway is now disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles by default.  If you need to control and secure your outbound traffic through the egress gateway, you will need to enable `gateways.istio-egressgateway.enabled=true` manually in any of the non-demo profiles.
 
 ## Policy & Telemetry
 
