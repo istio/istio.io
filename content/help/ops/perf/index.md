@@ -6,19 +6,20 @@ force_inline_toc: true
 ---
 ## Istio Performance Tuning
 
-Istio's goal is to have a performant out of the box configuration.
-However it is difficult to create a configuration that is performant for all use cases.
+Istio's goal is to offer a performance-optimized configuration out of the box.
+However, each use case has different performance criteria. Thus, creating performance-optimized configurations for all use cases is difficult.
 
-The following section documents a few configuration knobs that affect performance.
+The following table shows a few configuration options that affect performance:
 
-| Knob | Default | Symptom | Description |
+| Key | Default Value | Performance Impact | Recommendation |
 | --- | --- | --- | --- |
-| [`Sidecar resource`](/docs/reference/config/networking/v1alpha3/sidecar) | Disabled | High memory usage by sidecars and high CPU by Pilot | Enable namespace isolation to get a significant reduction in sidecar memory usage and pilot CPU usage. |
-| `global.proxy.concurrency` | `2` | Sidecar resource utilization and latency.| This values should be at least equal to the number of CPU core allocated to the proxy. |
-| `pilot.keepaliveMaxServerConnectionAge` | `30m` | Uneven load distribution across Pilot replicas. | Reduce this number if you want quicker balancing of load at the cost of increased system churn. |
+| `global.proxy.concurrency` | `2` | An incorrect value can cause high sidecar resource use and latency. | Set this value to equal to the number of CPU cores allocated to the proxy. |
+| `pilot.keepaliveMaxServerConnectionAge` | `30m` | Uneven load distribution across Pilot replicas for a longer period of time. | Reduce this number if you want quicker balancing of load at the cost of increased connect/disconnect activity. |
 | `pilot.traceSampling` | `1.0` |  Latency and throughput impact due to tracing. | This can be reduced further from the default. If set to 0.0%, use `x-client-trace-id` header to trace specific requests. |
-| `global.disablePolicyChecks` | `true` | Tail latency impact due to policy. | Enable policy checks *only* if you are using rate limiting or another istio-policy feature.|
+| `global.disablePolicyChecks` | `true` | Tail latency impact due to policy. | Enable policy checks *only* if you are using [rate limiting](/docs/tasks/policy-enforcement/rate-limiting/) or another istio-policy feature.|
 | `mixer.telemetry.enabled` | `true` | High CPU usage and additional latency by telemetry | Telemetry is a core part of Istio. However if you are only using the networking API and have other means of getting metrics, `istio-telemetry` can be turned off for a significant reduction in CPU usage.|
+
+Another important configuration option that should be is the considered for tuning is the [`Sidecar resource`](/docs/reference/config/networking/v1alpha3/sidecar), which is disabled by default. In a large mesh, there will be a high memory usage by sidecars and high CPU by Pilot, if the sidecar scope includes the whole mesh. By enabling namespace isolation there should be a significant reduction in sidecar memory usage and pilot CPU usage.
 
 ### Istio default profile vs. functionality
 
@@ -39,18 +40,37 @@ over the previous release of Istio. When namespace isolation is turned on-
 - Pilot configures envoy with information that is relevant to routing within the namespace.
 - Proxy receives less configuration information, therefore the proxy memory usage is lower.
 
-The following table documents the reduction in resource utilization due to namespace isolation.
+The following tables documents the reduction in resource utilization due to namespace isolation for 2 different setups.
 
-| Resource | Isolated | Isolated | Isolated | Not Isolated | Not Isolated |
-| --- | --- | --- | --- | --- | --- |
-| Namespaces (N) | 40 | 50 | 75 | 40 | 50 |
-| Sidecars (N x 40) | 1600 | 2000 | 3000 | 1600 | 2000 |
-| Services (N x 20) | 800 | 1000 | 1500 | 800 | 1000 |
-| Virtual Services (N x 2) | 80 | 100 | 150 | 80 | 100 |
-| Gateways (N) | 40 | 50 | 75 | 40 | 50 |
-| Configuration change rate (N/4 per minute) | 10 per minute | 12 per minute | 18 per minute | 10 per minute | 12 per minute |
-| Pilot replicas | 1  | 1 | 2 | 2 | 3 |
-| Pilot CPU      | 1  | 1 | 1.5 | 5 | 8 |
-| Pilot Memory   | 1.4 GB | 1.4 GB | 1.8 GB | 4 GB | 8 GB |
-| Proxy Memory   | 70 MB  | 80 MB  | 85 MB  | 170 MB | 225 MB |
-| Namespace Isolation | Enabled | Enabled | Enabled | Disabled | Disabled |
+Configuration of each setup:
+
+| Parameter | Setup 1 | Setup 2 |
+| --- | --- | --- |
+| Namespaces (N)| 40 | 50 |
+| Sidecars (N x 40) | 1600 | 2000 |
+| Services (N x 20) | 800 | 1000 |
+| Virtual Services (N x 2) | 80 | 100|
+| Gateways (N) | 40 | 50 |
+| Configuration change rate (N/4 per minute) | 10/min | 12/min |
+
+, and a comparison of resource utilization for each, with and without namespace isolation:
+
+| Resource | Setup 1 || Setup 2 ||
+| --- | --- | --- | --- | --- |
+| Namespace Isolation | Enabled |  Disabled | Enabled | Disabled |
+| Pilot replicas | 1  | 2 | 1 | 3 |
+| Pilot CPU      | 1 vCPU | 5 vCPU | 1 vCPU | 8 vCPU |
+| Pilot Memory   | 1.4 GB | 4 GB | 1.4 GB | 8 GB |
+| Proxy Memory   | 70 MB  | 170 MB | 80 MB  | 225 MB |
+
+### Istio Sizing and Capacity Planning Guidance
+
+Based on all the performance data available, one can have an educated sizing and capacity planning decisions for Istio. The capacity planning effort depends on the kind of application, transaction volume and what features of Istio are enabled among many other factors. It can be looked at from how much total throughput the application has to support at what latency and can also be viewed as how many requests pass through the mesh. The Istio Performance Grafana dashboard is updated to provide this data for any workload using Istio.
+
+The following table summarizes the resources requirements for Istio main components for the default configuration:
+
+| Istio Component | CPU | Memory | Condition |
+| --- | --- | --- | --- |
+| Proxy | 0.6 vCPU | 80 MB | CPU: 1000 mesh requests/sec; Mem: 1000 services, 2000 sidecars |
+| Telemetry | 0.6 vCPU | 200 MB | 1000 mesh requests/sec |
+| Pilot | 1 vCPU | 1500 MB | 1000 services, 2000 sidecars |
