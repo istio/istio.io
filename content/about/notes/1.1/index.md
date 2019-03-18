@@ -62,13 +62,11 @@ Istio 1.1.
   added to `ServiceEntry`, `VirtualService` and is also supported on a Kubernetes Service via the
   `networking.istio.io/exportTo` annotation. 
   
-- **Namespace-Scoped Service References**. When referring to a service (host) we use DNS-style name matching
-  in our configuration model. This can be ambiguous when more than one namespace defines services 
-  with colliding names. To resolve ambiguity it is now possible to explicitly scope these references 
-  by namespace using a syntax of the form **`[{namespace-name}]/{hostname-match}`**. This feature
-  is supported in `Gateway` and in `Sidecar` for egress. In addition to eliminating ambiguity this 
-  feature in conjunction with the visibility restrictions and the new `Sidecar` resource enables 
-  strong isolation of behavior across namespace boundaries. 
+- **Namespace Scoping**. When referring to a `VirtualService` in a Gateway we use DNS-style name matching
+  in our configuration model. This can be ambiguous when more than one namespace defines a virtual service
+  for the same host name. To resolve ambiguity it is now possible to explicitly scope these references 
+  by namespace using a syntax of the form **`[{namespace-name}]/{hostname-match}`** in the `hosts` field. 
+  The equivalent capability is also available in `Sidecar` for egress.  
 
 - **Updates to `ServiceEntry` Resources**. Added support to specify the
   locality of a service and the associated SAN to use with mutual TLS. Service
