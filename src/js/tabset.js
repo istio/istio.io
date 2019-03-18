@@ -127,6 +127,15 @@ function handleTabs() {
                 }
             });
 
+            listen(tab, "click", () => {
+                activateTab(tab);
+
+                if (cookieName) {
+                    createCookie(cookieName, tab.dataset.cookieValue);
+                    updateLikeTabsets(cookieName, tab.dataset.cookieValue);
+                }
+            });
+
             listen(tab, keydown, e => {
                 const ch = e.key;
 
