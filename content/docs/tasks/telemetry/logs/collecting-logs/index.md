@@ -26,7 +26,7 @@ as the example application throughout this task.
 
     Save the following as `new_logs.yaml`:
 
-    {{< text yaml plain "new_logs.yaml" >}}
+    {{< text syntax="yaml" downloadas="new_logs.yaml" >}}
     # Configuration for logentry instances
     apiVersion: "config.istio.io/v1alpha2"
     kind: logentry

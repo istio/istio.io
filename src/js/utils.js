@@ -15,6 +15,7 @@ const keyCodes = Object.freeze({
     'DOWN': 40
 });
 
+/*
 const escapeChars = {
     '¢': 'cent',
     '£': 'pound',
@@ -37,6 +38,7 @@ function escapeHTML(str) {
         return '&' + escapeChars[m] + ';';
     });
 }
+*/
 
 // copy the given text to the system clipboard
 function copyToClipboard(str) {

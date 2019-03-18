@@ -1,0 +1,22 @@
+$ kubectl -n istio-system get configmap istio-galley-configuration -o jsonpath='{.data}'
+map[validatingwebhookconfiguration.yaml:apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: istio-galley
+  namespace: istio-system
+  labels:
+    app: istio-galley
+    chart: galley-1.0.0
+    release: istio
+    heritage: Tiller
+webhooks:
+  - name: pilot.validation.istio.io
+    clientConfig:
+      service:
+        name: istio-galley
+        namespace: istio-system
+        path: "/admitpilot"
+      caBundle: ""
+    rules:
+      - operations:
+      (... snip ...)

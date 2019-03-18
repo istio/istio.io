@@ -29,7 +29,7 @@ as the example application throughout this task.
 
     Save the following as `new_metrics.yaml`:
 
-    {{< text yaml plain "new_metrics.yaml" >}}
+    {{< text syntax="yaml" downloadas="new_metrics.yaml" >}}
     # Configuration for metric instances
     apiVersion: "config.istio.io/v1alpha2"
     kind: metric

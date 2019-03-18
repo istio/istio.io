@@ -375,12 +375,12 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 显示文件或文件的一部分通常很有用。您可以注释文本文件以在文件中创建命名片段
 使用 `$snippet` 和 `$endsnippet` 注释。例如，您可以使用如下所示的文本文件：
 
-{{< text_file file="test/snippet_example.txt" syntax="plain" >}}
+{{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
 然后，在您的 markdown 文件中，您可以使用以下内容引用特定代码段：
 
 {{< text markdown >}}
-{{</* text_file file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
+{{</* text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
 {{< /text >}}
 
 其中 `file` 指定文档仓库中文本文件的相对路径，`syntax` 指定
@@ -388,14 +388,14 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 
 上面的代码片段产生了这个输出：
 
-{{< text_file file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
+{{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
 如果您未指定代码段名称，则会插入整个文件。
 
 您可以指定可选的 `downloadas` 属性来控制浏览器的名称将在用户选择下载文件时使用。例如：
 
 {{< text markdown >}}
-{{</* text_file file="test/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
+{{</* text_import file="test/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
 {{< /text >}}
 
 如果未指定 `downloadas` 属性，则下载名称取自 `file` 属性。
@@ -411,12 +411,12 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 配置文件或测试文件。为此，您使用如下语句：
 
 {{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
+{{</* text_import url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
 {{< /text >}}
 
 产生以下结果：
 
-{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
+{{< text_import url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
 
 如果文件来自不同的源站点，则应在该站点上启用 CORS。请注意
 这里可以使用 GitHub 原始内容站点（`raw.githubusercontent.com`）。
@@ -424,7 +424,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 您可以指定可选的 `downloadas` 属性来控制浏览器在用户选择下载文件时使用的名称。例如：
 
 {{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
+{{</* text_import url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
 {{< /text >}}
 
 如果未指定 `downloadas` 属性，则下载名称取自 `url` 属性。
