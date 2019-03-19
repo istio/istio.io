@@ -2,24 +2,18 @@
 title: How can I use Kubernetes liveness and readiness for pod health checks when mutual TLS is enabled?
 weight: 50
 ---
-If mutual TLS is enabled, http and tcp health checks from the kubelet will
-not work since the kubelet does not have Istio-issued certificates.
 
-As of the Istio 1.0 release, we support the [`PERMISSIVE` mode](/docs/tasks/security/mtls-migration)
-for Istio services so they can accept both http and mutual TLS traffic
-when this mode is turned on. This can solve the health checking issue.
-Please keep in mind that mutual TLS is not enforced since others can
-communicate with the service with http traffic.
+If mutual TLS is enabled, HTTP and TCP health checks from the kubelet will not work without modification, since the kubelet does not have Istio-issued certificates.
 
-You can use a separate port for health checks and enable mutual TLS only
-on the regular service port. Refer to [Health Checking of Istio Services](/help/ops/setup/app-health-check/)
-for more information.
+As of Istio 1.1, we have several options to solve this issue.
 
-Due to the risk of a new feature, we do not turn on above feature by default. The future rollout
-plan is tracked on [GitHub issue](https://github.com/istio/istio/issues/10357).
+1.  Using probe rewrite to rewrite the liveness/readiness probe such that the probe request will be redirected to the workload directly. Please refer to [Probe Rewrite](/help/ops/setup/app-health-check/#probe-rewrite) for more information.
 
-To mitigate the risk, another workaround is to use a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command)
-for health checks, e.g., one can install `curl` in the service pod and
+1.  Using a separate port for health checks and enabling mutual TLS only on the regular service port. Please refer to [Health Checking of Istio Services](/help/ops/setup/app-health-check/#separate-port) for more information.
+
+1.  Using the [`PERMISSIVE` mode](/docs/tasks/security/mtls-migration) for Istio services so they can accept both HTTP and mutual TLS traffic. Please keep in mind that mutual TLS is not enforced since others can communicate with the service with HTTP traffic.
+
+1.  Using a [liveness command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-command) for health checks, e.g., one can install `curl` in the service pod and
 `curl` itself within the pod.
 
 An example of a readiness probe:
