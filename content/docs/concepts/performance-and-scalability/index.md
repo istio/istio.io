@@ -66,7 +66,6 @@ Data plane performance depends on many factors, for example:
 - Number of client connections
 - Target request rate
 - Request size and Response size
-- Enabling mutual TLS
 - Number of proxy worker threads
 - Protocol
 - CPU cores
