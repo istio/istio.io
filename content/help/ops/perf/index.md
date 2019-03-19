@@ -61,7 +61,7 @@ Configuration of each setup:
 | Pilot replicas | 1  | 2 | 1 | 3 |
 | Pilot CPU      | 1 vCPU | 5 vCPU | 1 vCPU | 8 vCPU |
 | Pilot Memory   | 1.4 GB | 4 GB | 1.4 GB | 8 GB |
-| Proxy Memory   | 70 MB  | 170 MB | 80 MB  | 225 MB |
+| Proxy Memory (per instance) | 50 MB  | 170 MB | 50 MB  | 225 MB |
 
 ### Istio Sizing and Capacity Planning Guidance
 
@@ -71,6 +71,8 @@ The following table summarizes the resources requirements for Istio main compone
 
 | Istio Component | CPU | Memory | Condition |
 | --- | --- | --- | --- |
-| Proxy | 0.6 vCPU | 80 MB | CPU: 1000 mesh requests/sec; Mem: 1000 services, 2000 sidecars |
+| Proxy | 0.6 vCPU | 50 MB `*` | CPU: 1000 mesh requests/sec; Mem: 1000 services, 2000 sidecars |
 | Telemetry | 0.6 vCPU | 200 MB | 1000 mesh requests/sec |
 | Pilot | 1 vCPU | 1500 MB | 1000 services, 2000 sidecars |
+
+`*` proxy memory is per instance
