@@ -23,6 +23,9 @@ configurations will be processed sequentially in order of creation time.
 The behavior is undefined if multiple EnvoyFilter configurations conflict
 with each other.</p>
 
+<p>NOTE 3: For filters of <code>filterType: HTTP</code> you must include a <code>listenerMatch</code> section
+with a <code>listenerProtocol: HTTP</code> or the filter have no effect.</p>
+
 <p>The following example for Kubernetes enables Envoy&rsquo;s Lua filter for all
 inbound HTTP calls arriving at service port 8080 of the reviews service pod with
 labels &ldquo;app: reviews&rdquo;.</p>
@@ -61,7 +64,7 @@ spec:
 <td><code>workloadLabels</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>One or more labels that indicate a specific set of pods/VMs whose
+<p>Zero or more labels that indicate a specific set of pods/VMs whose
 proxies should be configured to use these additional filters.  The
 scope of label search is platform dependent. On Kubernetes, for
 example, the scope includes pods running in all reachable
