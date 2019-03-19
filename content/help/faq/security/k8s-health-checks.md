@@ -7,7 +7,7 @@ If mutual TLS is enabled, HTTP and TCP health checks from the kubelet will not w
 
 As of the Istio 1.1 release, we have several options to solve this issue.
 
-1.  Using probe rewrite to rewrites the liveness/readiness probe such that the probe request will redirected to application directly. Please refer to [Probe Rewrite](/help/ops/setup/app-health-check/#probe-rewrite) for more information.
+1.  Using probe rewrite to rewrite the liveness/readiness probe such that the probe request will redirected to application directly. Please refer to [Probe Rewrite](/help/ops/setup/app-health-check/#probe-rewrite) for more information.
 
 1.  Using a separate port for health checks and enable mutual TLS only on the regular service port. Please refer to [Health Checking of Istio Services](/help/ops/setup/app-health-check/#separate-port) for more information.
 
