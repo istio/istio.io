@@ -35,14 +35,14 @@ ranging from 2.7.2 to 2.12.2, we recommend an abundance of caution by
 backing up your custom resource data, before proceeding with the upgrade:
 
 {{< text bash >}}
-$ kubectl get crds | grep istio.io | cut -f1-1 -d "." | \
-    xargs -n1 -i sh -c "kubectl get --all-namespaces -oyaml {}; echo ---" > $HOME/ISTIO_RESTORE_DATA.yaml
+$ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
+    xargs -n1 -i sh -c "kubectl get --all-namespaces -oyaml {}; echo ---" > $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
 {{< /text >}}
 
 Restore if necessary:
 
 {{< text bash >}}
-$ kubectl apply -f $HOME/ISTIO_RESTORE_DATA.yaml
+$ kubectl apply -f $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
 {{< /text >}}
 
 {{< /warning >}}
