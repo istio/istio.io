@@ -49,7 +49,7 @@ Istio 1.1.
 
 ## Traffic management
 
-- **New `Sidecar` Resoruce**. The new [sidecar](/docs/concepts/traffic-management/#sidecars) resource
+- **New `Sidecar` Resource**. The new [sidecar](/docs/concepts/traffic-management/#sidecars) resource
   enables more fine-grained control over the behavior of the sidecar proxies attached to workloads within a namespace.
   In particular it adds support to limit the set of services a sidecar will send traffic to.
   This reduces the amount of configuration computed and transmitted to
