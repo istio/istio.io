@@ -100,7 +100,6 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     jaeger-query             ClusterIP      172.21.26.187    <none>          16686/TCP                                                                                                                 2m
     kiali                    ClusterIP      172.21.155.201   <none>          20001/TCP                                                                                                                 2m
     prometheus               ClusterIP      172.21.63.159    <none>          9090/TCP                                                                                                                  2m
-    servicegraph             ClusterIP      172.21.45.6      <none>          8088/TCP                                                                                                                  2m
     tracing                  ClusterIP      172.21.2.245     <none>          80/TCP                                                                                                                    2m
     zipkin                   ClusterIP      172.21.182.245   <none>          9411/TCP                                                                                                                  2m
     {{< /text >}}
@@ -133,7 +132,6 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     istio-tracing-69b5f778b7-s2zvw                                 1/1     Running     0          1m
     kiali-99f7467dc-6rvwp                                          1/1     Running     0          1m
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
-    servicegraph-85545585fc-f9p62                                  1/1     Running     1          1m
     {{< /text >}}
 
 ## Deploy your application
