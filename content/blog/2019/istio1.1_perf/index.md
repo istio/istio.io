@@ -1,7 +1,7 @@
 ---
 title: Architecting Istio 1.1 for Performance
 description: An overview of Istio 1.1 performance.
-publishdate: 2019-03-18
+publishdate: 2019-03-19
 subtitle: An overview of Istio 1.1 performance improvements
 attribution: Surya V Duggirala (IBM), Mandar Jog (Google), Jose Nativio (IBM)
 keywords: [performance,scalability,scale,benchmarks]
