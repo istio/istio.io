@@ -51,7 +51,7 @@ spec:
 |`http1MaxPendingRequests`|`int32`|针对一个目标的 HTTP 请求的最大排队数量，缺省值为 1024。|
 |`http2MaxRequests`|`int32`|对一个后端的最大请求数，缺省值为 1024。|
 |`maxRequestsPerConnection`|`int32`|对某一后端的请求中，一个连接内能够发出的最大请求数量。如果将这一参数设置为 1 则会禁止 `keep alive` 特性。|
-|`maxRetries`|`int32`|在给定时间内，集群中所有主机可以执行的最大重试次数。|
+|`maxRetries`|`int32`|在给定时间内，集群中所有主机可以执行的最大重试次数。缺省值为 3。|
 
 ## `ConnectionPoolSettings.TCPSettings`
 
