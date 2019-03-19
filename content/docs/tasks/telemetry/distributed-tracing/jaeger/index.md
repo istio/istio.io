@@ -24,10 +24,10 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 1.  To setup access to the tracing dashboard, use port forwarding:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items[0].metadata.name}') 15032:15032 &
+    $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686  &
     {{< /text >}}
 
-    Open your browser to [http://localhost:15032](http://localhost:15032).
+    Open your browser to [http://localhost:16686](http://localhost:16686).
 
 1.  To use a Kubernetes ingress, specify the Helm chart option `--set tracing.ingress.enabled=true`.
 
