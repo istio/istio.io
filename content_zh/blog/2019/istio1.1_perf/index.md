@@ -9,17 +9,17 @@ keywords: [performance,scalability,scale,benchmarks]
 
 构建一个超大规模的基于微服务的云环境一直令人非常兴奋，但却难于管理。自从 2014 年出现 Kubernetes (容器编排引擎)，随后在 2017 年出现 Istio (容器服务管理)，这两个开源项目让开发者无需在管理上耗费太多时间即可扩展基于容器的应用程序。
 
-现在，Istio 1.1 新的增强功能带来了改进的应用性能和服务管理效率。相比于 Istio 1.0， 使用我们的示例商业航班预订程序的模拟显示出了如下改进。
+现在，Istio 1.1 新的增强功能带来了改进的应用性能和服务管理效率。相比于 Istio 1.0，使用我们的示例商业航班预订程序的模拟显示出了如下改进。
 
 我们看到大量的应用程序性能提升:
 
-* 应用程序平均延迟降低30％
-* 在大型网格中服务启动时间快40％
+* 应用程序平均延迟降低 30％
+* 在大型网格中服务启动时间快 40％
 
 同样还有服务管理效率的显著提升:
 
-* 在大型网格中，Pilot 的 CPU 使用率降低了90％
-* 在大型网格中，Pilot 的内存使用率降低了50％
+* 在大型网格中，Pilot 的 CPU 使用率降低了 90％
+* 在大型网格中，Pilot 的内存使用率降低了 50％
 
 使用 Istio 1.1，企业会对一致性和可控的应用程序扩展能力更加自信 —— 即使在超大规模的云环境中也无所畏惧。
 
@@ -50,7 +50,7 @@ Istio 1.1 引入了新特性和功能优化以增强企业微服务工作负载�
 
 ## 有用的链接
 
-* [Istio 服务网格性能 (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 Kubecon Europe 2018
+* [Istio 服务网格性能 (34'30")](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 Kubecon Europe 2018
 * [Istio 性能和可扩展性讨论会议](https://discuss.istio.io/c/performance-and-scalability)
 
 ## 免责声明
