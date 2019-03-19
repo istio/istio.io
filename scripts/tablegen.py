@@ -285,7 +285,7 @@ def processComments(comments):
                         if comment.value.rstrip() == '#':
                             continue
                         else:
-                            description = description + comment.value.replace('`','').replace('\n', ' ').replace("#",'').strip()
+                            description = description + comment.value.replace('`','').replace("#",'').rstrip()
         elif isinstance(c, yaml.Token):
             description = description + c.value.rstrip().replace("#",'')
     
