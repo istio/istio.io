@@ -1,5 +1,5 @@
-&nbsp;
+---
+---
 {{< warning >}}
-基于 Helm Tiller 而不使用默认安全配置的部署说明。
-有关加固基于 Tiller 安装安全性的后续步骤，请参阅 [Helm 安全向导](https://helm.sh/docs/using_helm/#securing-your-helm-installation)。
+在没有使用默认安全选项的情况下，使用 Helm 和 Tiller 的方法。参考 [Helm Security Guidelines](https://helm.sh/docs/using_helm/#securing-your-helm-installation)，获得更多加密使用基于 Tiller 安装的信息。
 {{< /warning >}}
