@@ -42,7 +42,8 @@ $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
 Restore if necessary:
 
 {{< text bash >}}
-$ kubectl apply -f $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
+$ grep -v selfLink /home/sdake/ISTIO_1_0_RESTORE_CRD_DATA.yaml | grep -v resourceVersion | \
+    grep -v creationTimestamp | grep -v uid | grep -v generation | kubectl apply -f -
 {{< /text >}}
 
 {{< /warning >}}
