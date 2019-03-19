@@ -34,7 +34,7 @@ keywords: [telemetry,metrics]
     {{< /text >}}
 
     {{< tip >}}
-    `$GATEWAY_URL` 是[Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
+    `$GATEWAY_URL` 是 [Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
     {{< /tip >}}
 
 1.  打开 Prometheus UI。
@@ -100,4 +100,4 @@ Mixer 中内置了 Prometheus 适配器，这一适配器将生成的指标值�
     $ killall kubectl
     {{< /text >}}
 
--   如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 说明以关闭应用程序。
+-   如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)说明以关闭应用程序。
