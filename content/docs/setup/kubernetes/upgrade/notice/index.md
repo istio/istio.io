@@ -11,13 +11,12 @@ For an overview of new features introduced with Istio 1.1, please refer to the [
 
 ## Installation
 
+- We have increased the control plane and envoy sidecar’s required CPU and memory.  It is critical to ensure your cluster have enough resource before proceeding the update.
 - Istio’s CRDs have been placed into their own Helm chart `istio-init`.  This prevents loss of custom resource data, facilitates the upgrade process, and enables Istio to evolve beyond a Helm-based installation.  The [upgrade documentation](/docs/setup/kubernetes/upgrade/steps/) provides the proper procedures for upgrading from Istio 1.0.6 to Istio 1.1.  Please follow these instructions carefully when upgrading.  If `certmanager` is desired, use the `--set certmanager=true` flag when installing both `istio-init` and Istio charts with either `template` or `tiller` installation modes.
 - The 1.0 `istio-remote` chart used for [multicluster VPN](/docs/setup/kubernetes/install/multicluster/vpn/) and [multicluster split horizon](/docs/examples/multicluster/split-horizon-eds/) remote cluster installation has been consolidated into the Istio chart.  To generate an equivalent `istio-remote` chart, use the `--set global.istioRemote=true` flag.
-- Addons are no longer exposed via separate load balancers.  Instead addons are now exposed via the Ingress Gateway.  To expose an addon via the Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/tasks/telemetry/gateways/) guide.
-- The built-in Istio Statsd collector has been removed. Istio retains the capability of integrating with your own Statsd collector.
-- Grafana, Prometheus, Kiali, and Jaeger passwords and usernames are now stored in [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) instead of command line configuration options, `values.yaml`, or configmaps for improved security and compliance.
-- Jaeger has replaced Zipkin as the default tracing system.
-- The `ingress` series of options for configuring a Kubernetes Ingress have been removed.  Kubernetes Ingress is still functional and can be installed by following the [Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) guide.
+- Addons are no longer exposed via separate load balancers.  Instead addons can now be optionally exposed via the Ingress Gateway.  To expose an addon via the Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/tasks/telemetry/gateways/) guide.
+- The built-in Istio Statsd collector has been removed. Istio retains the capability of integrating with your own Statsd collector, using the `--set global.envoyStatsd.enabled=true` flag.
+- The `ingress` series of options for configuring a Kubernetes Ingress have been removed.  Kubernetes Ingress is still functional and can be enabled using the `--set global.k8sIngress.enabled=true` flag.  Check out the [Securing Kubernetes Ingress with Cert-Manager](/docs/examples/advanced-gateways/ingress-certmgr/) for how to secure your Kubernetes ingress resources.
 
 ## Traffic Management
 
@@ -28,7 +27,7 @@ For an overview of new features introduced with Istio 1.1, please refer to the [
 
 ## Policy & Telemetry
 
-- `istio-policy` is now disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles.  This change is only for `istio-policy` and not for `istio-telemetry`.  In order to re-enable policy checking, run `helm template` with `--set global.disablePolicyChecks=false` and re-apply the configuration.
+- `istio-policy` check is now disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles.  This change is only for `istio-policy` and not for `istio-telemetry`.  In order to re-enable policy checking, run `helm template` with `--set global.disablePolicyChecks=false` and re-apply the configuration.
 - The Service Graph component has now been deprecated in favor of [Kiali](https://www.kiali.io/).
 
 ## Security
