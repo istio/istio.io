@@ -10,7 +10,7 @@
             {{ else if .Site.Data.args.archive }}
                 const cx = '{{ .Site.Data.args.archive_search_engine_id }}';
             {{ else }}
-                const cx = '{{ .Site.Data.args.search_engine_id }}';
+                const cx = '{{ .Site.Data.args.main_search_engine_id }}';
             {{ end }}
                 const gcse = document.createElement('script');
                 gcse.type = 'text/javascript';
