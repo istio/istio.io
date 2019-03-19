@@ -46,12 +46,12 @@ keywords: [performance,scalability,scale,benchmarks]
 ## 概要
 
 Istio 1.1 旨在提高性能和可扩展性。Istio Performance and Scalability （性能和可扩展性）工作组实现了自 1.0 以来显著的性能改进。  
-Istio 1.1 引入了新特性和功能优化以增强企业微服务工作负载的服务网格。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。
+Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工作负载的支撑能力。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。
 
 ## 有用的链接
 
 * [Istio 服务网格性能 (34'30")](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 Kubecon Europe 2018
-* [Istio 性能和可扩展性讨论会议](https://discuss.istio.io/c/performance-and-scalability)
+* [Istio 性能和可扩展性讨论专题](https://discuss.istio.io/c/performance-and-scalability)
 
 ## 免责声明
 
