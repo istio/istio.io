@@ -6,7 +6,7 @@ icon: notes
 
 We're proud to release Istio 1.1!
 
-We have spent the last 8 months making some significant improvements to the
+We've spent the last 8 months making some significant improvements to the
 overall product, with fixes and features from Google, IBM, VMware, Huawei,
 RedHat, Cisco, SAP, Salesforce, Pivotal, SUSE, Datadog and LightStep, to name a
 few. Special thanks to all of our end-users for providing feedback, feature
