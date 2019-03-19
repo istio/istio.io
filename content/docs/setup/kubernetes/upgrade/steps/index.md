@@ -28,7 +28,7 @@ and change directory to the new release directory.
 ### Control plane upgrade
 
 {{< warning >}}
-Helm has significant problems when upgrading CRDs.
+Helm has significant problems when upgrading CRDs using Tiller.
 We believe we have solved these with the introduction of the `istio-init` chart.
 However, because of the wide variety of Helm and Tiller versions used with previous Istio deployments,
 ranging from 2.7.2 to 2.12.2, we recommend an abundance of caution by
@@ -37,12 +37,6 @@ backing up your custom resource data, before proceeding with the upgrade:
 {{< text bash >}}
 $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
     xargs -n1 -i sh -c "kubectl get --all-namespaces -oyaml {}; echo ---" > $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
-{{< /text >}}
-
-Restore if necessary:
-
-{{< text bash >}}
-$ kubectl apply -f $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
 {{< /text >}}
 
 {{< /warning >}}
@@ -98,7 +92,7 @@ any change. If there is any critical issue with the new control plane, you can r
 
 {{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
 If you installed Istio using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
-the preferred upgrade option is to let Helm take care of the upgrade:
+the preferred upgrade option is to let Helm take care of the upgrade.
 
 1. Upgrade the `istio-init` chart to update all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs).
 
