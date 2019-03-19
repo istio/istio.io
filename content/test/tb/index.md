@@ -4,6 +4,15 @@ description: Basic text blocks.
 skip_sitemap: true
 ---
 
+Plain text block with html tag
+
+{{< text plain >}}
+$ kubectl get svc -n istio-system
+NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)
+grafana                  ClusterIP      172.21.211.123   <none>          3000/TCP
+...
+{{< /text >}}
+
 Bash text block with plain output
 
 {{< text bash >}}
@@ -19,6 +28,15 @@ Bash text block with redirection
 $ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
+{{< /text >}}
+
+Bash text block with html tag
+
+{{< text bash >}}
+$ kubectl get svc -n istio-system
+NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)
+grafana                  ClusterIP      172.21.211.123   <none>          3000/TCP
+...
 {{< /text >}}
 
 Bash text block with yaml output and download name

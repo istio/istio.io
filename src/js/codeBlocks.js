@@ -150,7 +150,7 @@ function handleCodeBlocks() {
                         if (syntaxColoring) {
                             cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
                         } else {
-                            cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
+                            cmd += "$ " + tmp + "\n";
                         }
                     }
 
@@ -183,7 +183,7 @@ function handleCodeBlocks() {
                 if (syntaxColoring) {
                     cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
                 } else {
-                    cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
+                    cmd += "$ " + tmp + "\n";
                 }
             }
 
@@ -205,6 +205,8 @@ function handleCodeBlocks() {
                 }
 
                 if (output !== "") {
+                    output = escapeHTML(output);
+
                     // apply formatting to the output?
                     if (code.dataset.outputis) {
                         if (syntaxColoring) {
