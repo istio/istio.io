@@ -16,7 +16,7 @@ build:
 	@$(docker) scripts/build_site.sh
 
 gen: build
-	@$(docker) scripts/gen_site.sh "" -minify -no_aliases
+	@$(docker) scripts/gen_site.sh "" -minify
 
 opt:
 	@$(docker) scripts/opt_site.sh
