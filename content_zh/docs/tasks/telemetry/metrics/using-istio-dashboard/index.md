@@ -117,4 +117,4 @@ Istio 仪表盘由三个主要部分组成：
     $ killall kubectl
     {{< /text >}}
 
-* 如果您不打算探索任何后续任务，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)说明关闭应用程序。
+*   如果您不打算探索任何后续任务，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)说明关闭应用程序。
