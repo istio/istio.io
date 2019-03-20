@@ -185,4 +185,4 @@ other = "Color Examples"
 other = "Download %s"
 
 [announcement_relnotes]
-other = "^s Release Notes"
+other = "%s Release Notes"
