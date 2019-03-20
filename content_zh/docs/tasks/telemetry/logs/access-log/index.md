@@ -1,13 +1,13 @@
 ---
 title: 获取 Envoy 访问日志
-description: 此任务向您展示如何配置 Envoy 代理以将访问日志打印到其标准输出。
+description: 此任务向您展示如何配置 Envoy 代理将访问日志打印到其标准输出。
 weight: 10
 keywords: [telemetry]
 aliases:
     - /docs/tasks/telemetry/access-log
 ---
 
-最简单的 Istio 日志类型是
+Istio 最简单的日志类型是
 [Envoy 的访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log)。
 Envoy 代理打印访问信息到标准输出。
 可以通过 `kubectl logs` 命令来打印 Envoy 容器的标准输出。
@@ -25,9 +25,9 @@ $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templa
 configmap "istio" replaced
 {{< /text >}}
 
-您也可以通过设置 `accessLogEncoding` 来在 JSON 和 TEXT 之间切换。
+您也可以通过设置 `accessLogEncoding` 来在 JSON 和 TEXT 两种格式之间切换。
 
-您也许希望通过 `accessLogFormat` 自定义
+您也许希望通过 `accessLogFormat` 来自定义
 [format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) 访问日志。
 
 {{< tip >}}
