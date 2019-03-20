@@ -273,7 +273,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'www.google.com' | grep '"sourceWorkload":"istio-ingressgateway"'| grep '"connectionEvent":"open"'
     {{< /text >}}
 
-    You should see a line similar to the following:
+1. Search the log for an entry similar to:
 
     {{< text plain >}}
     {"level":"info","time":"2019-01-31T13:40:11.309958Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"rNkfhA==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":225,"reporter":"source","requestedServerName":"www.google.com","sentBytes":0,"sourceApp":"istio-ingressgateway","sourceIp":"Cn/cSw==","sourceName":"istio-ingressgateway-899f57d65-svpnt","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway","sourcePrincipal":"","sourceWorkload":"istio-ingressgateway","totalReceivedBytes":225,"totalSentBytes":0}
