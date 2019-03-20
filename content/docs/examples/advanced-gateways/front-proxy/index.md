@@ -193,6 +193,8 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     EOF
     {{< /text >}}
 
+1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
+
 1.  Follow the instructions in
     [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
     to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
