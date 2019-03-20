@@ -124,9 +124,9 @@ Istio 1.1.
 - **External Certificate Management on Ingress Gateway Controller**.
   Added a controller to dynamically load and rotate external certificates.
 
-- **Vault PKI Integration**. Added Vault PKI integration to provides stronger
-  security with Vault-protected signing keys and facilitates integration with
-  existing Vault PKIs. See [Istio Vault CA Integration](/docs/tasks/security/vault-ca)
+- **Custom PKI Integration**. Added Vault PKI integration with support for
+  Vault-protected signing keys and ability to integrate with existing Vault PKIs.
+  See [Istio Vault CA Integration](/docs/tasks/security/vault-ca)
   for more information.
 
 - **Customized (non `cluster.local`) Trust Domains**. Added support for
