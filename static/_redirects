@@ -1,3 +1,9 @@
+###############################################
+# set server-side redirects in this file      #
+# see https://www.netlify.com/docs/redirects/ #
+# test at https://play.netlify.com/redirects  #
+###############################################
+
 # Redirect golang vanity imports for istio.io
 /istio/* go-get=1 /golang/istio.html 200
 /fortio/* go-get=1 /golang/fortio.html 200
@@ -13,3 +19,6 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 
 # Redirect to translated sites
 /  /zh   302  Language=zh
+
+git# Redirect for the helm charts
+/charts/ https://gcsweb.istio.io/gcs/istio-release/releases/1.1.0/charts/ 301
