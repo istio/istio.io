@@ -46,7 +46,7 @@ icon: feature-status
 | [SolarWinds 集成](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
 | [Zipkin/Jaeger 的分布式追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [服务追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
-| [Fluentd 日志记录](/zh/docs/tasks/telemetry/fluentd/) | Alpha
+| [Fluentd 日志记录](/zh/docs/tasks/telemetry/logs/fluentd/) | Alpha
 | [追踪采样](/zh/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Alpha
 
 ### 安全和策略实施
