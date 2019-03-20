@@ -122,10 +122,10 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     EOF
     {{< /text >}}
 
-1. Create a virtual service for each external service to configure routing to it. Both virtual services include the
-   `proxy` gateway in the `gateways:` section and in the `match:` section for HTTP and HTTPS traffic accordingly.
-   The `route:` section for the traffic coming from the `mesh` gateway shows how the traffic is directed to the
-   `localhost.local` service, effectively blocking the traffic.
+1.  Create a virtual service for each external service to configure routing to it. Both virtual services include the
+    `proxy` gateway in the `gateways:` section and in the `match:` section for HTTP and HTTPS traffic accordingly.
+    The `route:` section for the traffic coming from the `mesh` gateway shows how the traffic is directed to the
+    `localhost.local` service, effectively blocking the traffic.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
