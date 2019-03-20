@@ -235,7 +235,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     [2019-01-31T14:40:18.645Z] "GET /status/418 HTTP/1.1" 418 - 0 135 187 186 "10.127.220.75" "curl/7.54.0" "28255618-6ca5-9d91-9634-c562694a3625" "httpbin.org" "34.232.181.106:80" outbound|80||httpbin.org - 172.30.230.33:80 10.127.220.75:52077 -
     {{< /text >}}
 
-1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  If Istio is deployed in the `istio-system` namespace, print the Mixer log with:
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
