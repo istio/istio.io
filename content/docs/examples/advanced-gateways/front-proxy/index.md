@@ -1,6 +1,6 @@
 ---
-title: Istio as a Front Proxy for External Services
-description: Describes how to configure ingress gateway as a front proxy for external services.
+title: Istio as a Proxy for External Services
+description: Describes how to configure ingress gateway as a proxy for external services.
 weight: 9
 keywords: [traffic-management,ingress,https,http]
 ---
@@ -10,9 +10,11 @@ The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task and t
 how to configure an ingress gateway to expose services inside the mesh to external traffic. The services can be HTTP or
 HTTPS. In the case of HTTPS, the gateway passes the traffic through, without terminating TLS.
 
-This example describes how to use an ingress gateway as a front proxy to services outside of the mesh.
-You enable access to external services through an ingress gateway only, without enabling it for applications inside
-the mesh. The example shows configuring access to an HTTP and an HTTPS external service, namely `httpbin.org` and
+This example describes how to use the same ingress gateway mechanism of Istio to enable access to external services and
+not to applications inside the mesh. This way Istio as a whole can serve just as a proxy server, with the added value of
+observability, traffic management and policy enforcement.
+
+The example shows configuring access to an HTTP and an HTTPS external service, namely `httpbin.org` and
 `www.google.com`.
 
 ## Configure an ingress gateway
@@ -25,7 +27,7 @@ the mesh. The example shows configuring access to an HTTP and an HTTPS external 
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: front-proxy
+      name: proxy
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
@@ -131,12 +133,12 @@ the mesh. The example shows configuring access to an HTTP and an HTTPS external 
       hosts:
       - httpbin.org
       gateways:
-      - front-proxy
+      - proxy
       - mesh
       http:
       - match:
         - gateways:
-          - front-proxy
+          - proxy
           port: 80
           uri:
             prefix: /status
@@ -163,12 +165,12 @@ the mesh. The example shows configuring access to an HTTP and an HTTPS external 
       hosts:
       - www.google.com
       gateways:
-      - front-proxy
+      - proxy
       - mesh
       tls:
       - match:
         - gateways:
-          - front-proxy
+          - proxy
           port: 443
           sni_hosts:
           - www.google.com
@@ -273,8 +275,8 @@ the mesh. The example shows configuring access to an HTTP and an HTTPS external 
 Remove the gateway, the virtual service and the service entries:
 
 {{< text bash >}}
-$ kubectl delete gateway front-proxy
-$ kubectl delete virtualservice front-proxy
+$ kubectl delete gateway proxy
+$ kubectl delete virtualservice proxy
 $ kubectl delete serviceentry google httpbin-ext localhost
 $ kubectl delete destinationrule localhost
 {{< /text >}}
