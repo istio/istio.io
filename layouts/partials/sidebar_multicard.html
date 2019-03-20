@@ -1,5 +1,5 @@
 <nav id="sidebar" aria-label="Section Navigation">
-    <div class="directory" role="tablist">
+    <div class="directory">
         {{ $section := .Site.GetPage "section" .Section }}
 
         {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
@@ -8,16 +8,16 @@
         {{ range $count, $page := $pages }}
             {{ if eq .Parent $section }}
 
-                {{ $id := printf "header%d" $count }}
-                <div class="card" role="tabpanel" aria-labelledby="{{ $id }}">
-                    <div class="header dynamic" role="tab" id="{{ $id }}" title="{{ $page.Description }}">
+                {{ $id := printf "card%d" $count }}
+                <div class="card">
+                    <button class="header dynamic" id="{{ $id }}" title="{{ $page.Description }}" aria-controls="{{ $id }}-body">
                         {{- if $page.Params.icon -}}
                             {{- partial "icon.html" .Params.icon -}}
                         {{- end -}}
                         {{- $page.Title -}}
-                    </div>
+                    </button>
 
-                    <div class="body{{if .IsAncestor $current}} default{{end}}">
+                    <div class="body{{if .IsAncestor $current}} default{{end}}" aria-labelledby="{{ $id }}" role="region" id="{{ $id }}-body">
                         {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $page "current" $current "collapse" false "top" true "labelledby" $id ) }}
                     </div>
                 </div>
