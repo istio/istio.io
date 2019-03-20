@@ -261,7 +261,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'www.google.com'
     {{< /text >}}
 
-    You should see a line similar to the following:
+1. Search the log for an entry similar to:
 
     {{< text plain >}}
     [2019-01-31T13:40:11.076Z] "- - -" 0 - 589 17798 1644 - "-" "-" "-" "-" "172.217.31.132:443" outbound|443||www.google.com 172.30.230.33:54508 172.30.230.33:443 10.127.220.75:49467 www.google.com
