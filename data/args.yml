@@ -1,8 +1,8 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.1"
+version: "1.2"
 
 # The full Istio version identifier the docs describe
-full_version: "1.1.0"
+full_version: "1.2.0"
 
 # The year to display in copyright notices
 copyright_year: 2019
@@ -12,7 +12,7 @@ copyright_year: 2019
 # when preliminary=false and archive=false, we're building for istio.io
 # When preliminary=true, we're building for preliminary.istio.io
 # when archive=true, we're building for archive.istio.io
-preliminary: true
+preliminary: false
 archive: false
 
 # When archive=true above, these values must be filled in
@@ -21,7 +21,7 @@ archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub
 source_branch_name: release-1.1
-doc_branch_name: master
+doc_branch_name: release-1.1
 
 # The list of supported versions described by the docs
 supported_kubernetes_versions: ["1.11", "1.12", "1.13"]

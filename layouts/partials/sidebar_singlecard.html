@@ -1,10 +1,9 @@
 <nav id="sidebar" aria-label="Section Navigation">
-    <div class="directory" role="tablist">
+    <div class="directory">
         {{ $section := .Site.GetPage "section" .Section }}
 
-        {{ $id := "header0" }}
-        <div class="card" role="tabpanel" aria-labelledby="{{ $id }}">
-            <div id="{{ $id }}" class="header" role="tab" title="{{ $section.Description }}">
+        <div class="card">
+            <div id="header0" class="header" title="{{ $section.Description }}">
                 {{- if $section.Params.icon -}}
                     {{- partial "icon.html" $section.Params.icon -}}
                 {{- end -}}
@@ -13,8 +12,8 @@
 
             {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
 
-            <div class="body default" role="tabpanel" aria-labelledby="header0">
-                {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $section "current" . "collapse" false "top" true "labelledby" $id ) }}
+            <div class="body default" aria-labelledby="header0">
+                {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $section "current" . "collapse" false "top" true "labelledby" "header0" ) }}
             </div>
         </div>
     </div>

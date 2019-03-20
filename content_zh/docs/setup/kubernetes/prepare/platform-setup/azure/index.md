@@ -12,7 +12,7 @@ keywords: [platform-setup,azure]
 
 ## AKS
 
-[az 客户端工具](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) 或者 [Azure 门户](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal) 都能被用来创建 AKS 集群。
+可以使用 [az 客户端工具](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) 或者 [Azure 门户](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal) 来创建 AKS 集群。
 
 如果使用 `az` 客户端工具，首先要完成 `az login` 认证过程，或者直接使用 Cloud shell；然后运行下面的命令：
 
