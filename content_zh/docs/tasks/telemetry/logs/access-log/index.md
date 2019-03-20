@@ -8,7 +8,7 @@ aliases:
 ---
 
 最简单的 Istio 日志类型是
-[Envoy's access logging](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log)。
+[Envoy 的访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log)。
 Envoy 代理打印访问信息到标准输出。
 可以通过 `kubectl logs` 命令来打印 Envoy 容器的标准输出。
 
@@ -93,7 +93,7 @@ $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 
 ### 关闭 Envoy 的访问日志
 
-编辑 `istio` 的配置信息然后设置 `accessLogFile` 为 `""。
+编辑 `istio` 的配置信息然后设置 `accessLogFile` 为 `""`。
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml | kubectl replace -f -
