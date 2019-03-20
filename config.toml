@@ -14,6 +14,9 @@ buildFuture = true
 ignoreFiles = [ "OWNERS" ]
 staticDir = ["static", "generated"]
 
+# we use Netlify server-side redirects instead of generated aliases
+disableAliases = true
+
 # MARKDOWN
 ## Configuration for BlackFriday markdown parser: https://github.com/russross/blackfriday
 [blackfriday]
@@ -25,12 +28,21 @@ staticDir = ["static", "generated"]
     extensions = [""]
 
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "REDIR"]
   section = ["HTML"]
+
+[mediaTypes]
+    [mediaTypes."text/netlify"]
+        delimiter = ""
 
 [outputFormats]
     [outputFormats.RSS]
         baseName = "feed"
+    [outputFormats.REDIR]
+        mediatype = "text/netlify"
+        baseName = "_redirects"
+        isPlainText = true
+        notAlternative = true
 
 [related]
     # Only include matches with rank >= threshold. This is a normalized rank between 0 and 100.
