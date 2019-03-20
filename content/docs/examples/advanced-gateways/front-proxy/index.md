@@ -241,7 +241,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
     {{< /text >}}
 
-    You should see a line similar to the following:
+1. Search the log for an entry similar to:
 
     {{< text plain >}}
     {"level":"info","time":"2019-01-31T14:40:18.645864Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"unknown","destinationApp":"","destinationIp":"Iui1ag==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"httpbin.org","destinationWorkload":"unknown","grpcMessage":"","grpcStatus":"","httpAuthority":"httpbin.org","latency":"187.003904ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":327,"referer":"","reporter":"source","requestId":"28255618-6ca5-9d91-9634-c562694a3625","requestSize":0,"requestedServerName":"","responseCode":418,"responseSize":135,"responseTimestamp":"2019-01-31T14:40:18.832770Z","sentBytes":365,"sourceApp":"istio-ingressgateway","sourceIp":"AAAAAAAAAAAAAP//rB7mIQ==","sourceName":"istio-ingressgateway-899f57d65-svpnt","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway","sourcePrincipal":"","sourceWorkload":"istio-ingressgateway","url":"/status/418","userAgent":"curl/7.54.0","xForwardedFor":"10.127.220.75"}
