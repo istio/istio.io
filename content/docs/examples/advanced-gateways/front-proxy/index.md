@@ -19,8 +19,9 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
 
 ## Configure an ingress gateway
 
-1.  Define an ingress gateway with a `servers:` section configuring the `80` and `443` ports. Ensure the `mode:` is set to `PASSTHROUGH` for `tls:` in port `443`.
-    port, which instructs the gateway to pass the ingress traffic AS IS, without terminating TLS.
+1.  Define an ingress gateway with a `servers:` section configuring the `80` and `443` ports.
+    Ensure `mode:` is set to `PASSTHROUGH` for `tls:` in the port `443`, which instructs the gateway to pass the
+    ingress traffic AS IS, without terminating TLS.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
