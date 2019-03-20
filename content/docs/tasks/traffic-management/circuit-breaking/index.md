@@ -19,28 +19,18 @@ configuration by intentionally "tripping" the circuit breaker.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-*   Add the [httpbin]({{< github_tree >}}/samples/httpbin) sample to the mesh:
+{{< boilerplate start-httpbin-service >}}
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), run this command:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    {{< /text >}}
-
-    otherwise, manually inject the sidecar before deploying the `httpbin` application:
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    {{< /text >}}
-
-    The `httpbin` application serves as the backend service for this task.
+The `httpbin` application serves as the backend service for this task.
 
 ## Configuring the circuit breaker
 
-1.  Create a [destination rule](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule) to apply circuit breaking settings
+1.  Create a [destination rule](/docs/reference/config/networking/v1alpha3/destination-rule/) to apply circuit breaking settings
 when calling the `httpbin` service:
 
-    > If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
+    {{< warning >}}
+    If you installed/configured Istio with mutual TLS Authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/help/ops/traffic-management/troubleshooting/#503-errors-after-setting-destination-rule).
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -110,7 +100,7 @@ Pass in `-curl` to indicate that you just want to make one call:
 
     {{< text bash >}}
     $ FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -curl  http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -curl  http://httpbin:8000/get
     HTTP/1.1 200 OK
     server: envoy
     date: Tue, 16 Jan 2018 23:47:00 GMT
@@ -150,7 +140,7 @@ one connection and request concurrently, you should see some failures when the
 (`-n 20`):
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
     Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
     Starting at max qps with 2 thread(s) [gomax 2] for exactly 20 calls (10 per thread + 0)
     23:51:10 W http.go:617> Parsed non ok code 503 (HTTP/1.1 503)
@@ -189,7 +179,7 @@ one connection and request concurrently, you should see some failures when the
 1. Bring the number of concurrent connections up to 3:
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/local/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
     Fortio 0.6.2 running at 0 queries per second, 2->2 procs, for 5s: http://httpbin:8000/get
     Starting at max qps with 3 thread(s) [gomax 2] for exactly 30 calls (10 per thread + 0)
     23:51:51 W http.go:617> Parsed non ok code 503 (HTTP/1.1 503)

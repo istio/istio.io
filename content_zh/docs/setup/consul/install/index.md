@@ -5,7 +5,9 @@ weight: 30
 keywords: [consul]
 ---
 
-> 在 Nomad 上安装还没有被测试过
+{{< warning >}}
+在 Nomad 上安装还没有被测试过。
+{{< /warning >}}
 
 在非 Kubernetes 环境中使用 Istio 包含几个关键任务：
 
@@ -19,7 +21,7 @@ Istio 控制平面有四个主要的服务：Pilot、Mixer、Citadel 和 API ser
 
 ### API Server
 
-Istio 的 API server （基于 Kubernetes 的 API server）提供了配置管理和角色访问控制等关键功能。Istio API server 需要 [etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd) 做持久化存储。 请参阅 [API server 的配置](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler)。
+Istio 的 API server （基于 Kubernetes 的 API server）提供了配置管理和角色访问控制等关键功能。Istio API server 需要 [etcd cluster](https://v1-12.docs.kubernetes.io/docs/setup/scratch/#etcd) 做持久化存储。 请参阅 [API server 的配置](https://v1-12.docs.kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler)。
 
 #### 本地安装
 
@@ -82,4 +84,6 @@ Istio Pilot 、Mixer 和 Citadel 的 Debian 包可以通过 Istio 的发行版�
 
 为了能够通过 Istio sidecars 透明地路由应用的网络流量，部分 sidecar 的安装需要设置适当的 IP Table 规则。这种转发规则的 IP Table 脚本可以在[这里]({{< github_file >}}/tools/deb/istio-iptables.sh)找到。
 
-> 该脚本必须在启动应用和 sidecar 之前执行。
+{{< warning >}}
+该脚本必须在启动应用和 sidecar 之前执行。
+{{< /warning >}}

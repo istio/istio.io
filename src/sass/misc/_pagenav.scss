@@ -1,0 +1,37 @@
+.pagenav {
+    display: flex;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 80%;
+    margin: 1.5rem 0;
+
+    @media print {
+        display: none;
+    }
+
+    .left {
+        width: 50%;
+    }
+
+    .right {
+        width: 50%;
+        text-align: right;
+    }
+
+    svg {
+        fill: $linkColor;
+        stroke: $linkColor;
+
+        &:hover, &focus {
+            fill: $linkHoverColor;
+            stroke: $linkHoverColor;
+        }
+
+        margin-left: .5em;
+        margin-right: .5em;
+    }
+
+    a:focus {
+        outline: 0;
+    }
+}

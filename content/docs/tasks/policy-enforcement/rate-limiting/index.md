@@ -13,7 +13,12 @@ service.
 ## Before you begin
 
 1. Setup Istio in a Kubernetes cluster by following the instructions in the
-   [Installation Guide](/docs/setup/kubernetes/quick-start/).
+   [Installation Guide](/docs/setup/kubernetes/install/kubernetes/).
+
+    {{< warning >}}
+    Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
+    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    {{< /warning >}}
 
 1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
@@ -52,10 +57,10 @@ so the configuration to enable rate limiting on both adapters is the same.
         * `QuotaSpecBinding` conditionally associates `QuotaSpec` with one or more services.
     * Mixer Side
         * `quota instance` defines how quota is dimensioned by Mixer.
-        * `memquota adapter` defines memquota adapter configuration.
-        * `quota rule` defines when quota instance is dispatched to the memquota adapter.
+        * `memquota adapter` defines `memquota` adapter configuration.
+        * `quota rule` defines when quota instance is dispatched to the `memquota` adapter.
 
-    Run the following command to enable rate limits using memquota:
+    Run the following command to enable rate limits using `memquota`:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
@@ -73,9 +78,9 @@ so the configuration to enable rate limiting on both adapters is the same.
       name: handler
       namespace: istio-system
     spec:
+      redisServerUrl: <redis_server_url>
+      connectionPoolSize: 10
       quotas:
-        redisServerUrl: <redis_server_url>
-        connectionPoolSize: 10
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
@@ -119,7 +124,7 @@ so the configuration to enable rate limiting on both adapters is the same.
       namespace: istio-system
     spec:
       # quota only applies if you are not logged in.
-      # match: match(request.headers["cookie"], "user=*") == false
+      # match: match(request.headers["cookie"], "session=*") == false
       actions:
       - handler: handler.redisquota
         instances:
@@ -172,6 +177,7 @@ so the configuration to enable rate limiting on both adapters is the same.
       - name: requestcount.quota.istio-system
         maxAmount: 500
         validDuration: 1s
+        overrides:
         - dimensions:
             destination: reviews
           maxAmount: 1
@@ -333,28 +339,27 @@ so the configuration to enable rate limiting on both adapters is the same.
 
 In the above example we have effectively rate limited `productpage` at `2 rps` per client IP.
 Consider a scenario where you would like to exempt clients from this rate limit if a user is logged in.
-In the `bookinfo` example, we use cookie `user=<username>` to denote a logged in user.
+In the `bookinfo` example, we use cookie `session=<sessionid>` to denote a logged in user.
 In a realistic scenario you may use a `jwt` token for this purpose.
 
 You can update the `quota rule` by adding a match condition based on the `cookie`.
 
 {{< text yaml >}}
 $ kubectl -n istio-system edit rules quota
-
 apiVersion: config.istio.io/v1alpha2
 kind: rule
 metadata:
   name: quota
   namespace: istio-system
 spec:
-  match: match(request.headers["cookie"], "user=*") == false
+  match: match(request.headers["cookie"], "session=*") == false
   actions:
   - handler: handler.memquota
     instances:
     - requestcount.quota
 {{< /text >}}
 
-`memquota` or `redisquota` adapter is now dispatched only if `user=<username>` cookie is absent from the request.
+`memquota` or `redisquota` adapter is now dispatched only if `session=<sessionid>` cookie is absent from the request.
 This ensures that a logged in user is not subject to this quota.
 
 1.  Verify that rate limit does not apply to a logged in user.

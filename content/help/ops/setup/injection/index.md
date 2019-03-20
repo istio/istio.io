@@ -153,7 +153,7 @@ of injected sidecar when it was.
 
 Run `kubectl describe -n namespace deployment name` on the failing
 pod's deployment. Failure to invoke the injection webhook will
-typically will be captured in the event log.
+typically be captured in the event log.
 
 ### x509 certificate related errors
 
@@ -167,7 +167,7 @@ Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: 
 `x509: certificate signed by unknown authority` errors are typically
 caused by an empty `caBundle` in the webhook configuration.
 
-Verify the `caBundle` in the mutatingwebhookconfiguration matches the
+Verify the `caBundle` in the `mutatingwebhookconfiguration` matches the
    root certificate mounted in the `istio-sidecar-injector` pod.
 
 {{< text bash >}}
@@ -217,7 +217,7 @@ istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-sidecar-injector
 NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:9093,10.48.6.108:443   3d
+istio-sidecar-injector   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and status

@@ -17,7 +17,7 @@ keywords: [traffic-management,tcp-traffic-shifting]
 
 1. 第一个步骤是部署 `tcp-echo` 微服务的 `v1` 版本。
 
-    * 如果使用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#手工注入-sidecar)，使用如下命令：
+    * 如果使用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)，使用如下命令：
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
@@ -25,7 +25,7 @@ keywords: [traffic-management,tcp-traffic-shifting]
 
     `istioctl kube-inject` 的作用如[文档](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)所言，是在提交 `tcp-echo-services.yaml` 之前进行修改。
 
-    * 如果使用的是一个启用了 [Sidecar 自动注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)的集群，可以给 `default` 命名空间打上 `istio-injection=enabled` 标签：
+    * 如果使用的是一个启用了 [Sidecar 自动注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)的集群，可以给 `default` 命名空间打上 `istio-injection=enabled` 标签：
 
         {{< text bash >}}
         $ kubectl label namespace default istio-injection=enabled

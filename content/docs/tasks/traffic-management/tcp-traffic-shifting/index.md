@@ -28,7 +28,7 @@ weighted routing feature.
 
 1.  To get started, deploy the `v1` version of the `tcp-echo` microservice.
 
-    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection),
+    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
         use the following command
 
         {{< text bash >}}
@@ -39,7 +39,7 @@ weighted routing feature.
         file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     *   If you are using a cluster with
-        [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+        [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
         enabled, label the `default` namespace with `istio-injection=enabled`
 
         {{< text bash >}}
@@ -85,6 +85,10 @@ the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc
     one Mon Nov 12 23:25:17 UTC 2018
     one Mon Nov 12 23:25:19 UTC 2018
     {{< /text >}}
+
+    {{< warning >}}
+    The `docker` command may require using `sudo` depending on your Docker installation.
+    {{< /warning >}}
 
     You should notice that all the timestamps have a prefix of _one_, which means that all traffic
 was routed to the `v1` version of the `tcp-echo` service.
@@ -143,6 +147,10 @@ was routed to the `v1` version of the `tcp-echo` service.
     one Mon Nov 12 23:39:05 UTC 2018
     one Mon Nov 12 23:39:07 UTC 2018
     {{< /text >}}
+
+    {{< warning >}}
+    The `docker` command may require using `sudo` depending on your Docker installation.
+    {{< /warning >}}
 
     You should now notice that about 20% of the timestamps have a prefix of _two_, which means that
 80% of the TCP traffic was routed to the `v1` version of the `tcp-echo` service, while 20% was

@@ -1,0 +1,37 @@
+<nav id="sidebar" aria-label="Section Navigation">
+    <div class="directory">
+        {{ $section := .Site.GetPage "section" .Section }}
+
+        {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+        {{ $current := . }}
+
+        {{ range $count, $page := $pages }}
+            {{ if eq .Parent $section }}
+
+                {{ $id := printf "card%d" $count }}
+                <div class="card">
+                    <button class="header dynamic" id="{{ $id }}" title="{{ $page.Description }}" aria-controls="{{ $id }}-body">
+                        {{- if $page.Params.icon -}}
+                            {{- partial "icon.html" .Params.icon -}}
+                        {{- end -}}
+                        {{- $page.Title -}}
+                    </button>
+
+                    <div class="body{{if .IsAncestor $current}} default{{end}}" aria-labelledby="{{ $id }}" role="region" id="{{ $id }}-body">
+                        {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $page "current" $current "collapse" false "top" true "labelledby" $id ) }}
+                    </div>
+                </div>
+            {{ end }}
+        {{ end }}
+
+        {{ if not .Site.Data.args.archive }}
+            {{ if strings.HasSuffix $section.Dir "blog/" }}
+                <div id="subscribe" >
+                    <a href="/feed.xml" target="_blank">
+                        {{ partial "large_icon.html" "rss" }}{{ i18n "subscribe" }}
+                    </a>
+                </div>
+            {{ end }}
+        {{ end }}
+    </div>
+</nav>

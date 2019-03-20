@@ -1,0 +1,113 @@
+{{ $toc := partial "toc.html" (dict "page" .) }}
+{{ $needTOC := .Scratch.Get "needTOC" }}
+
+{{ if and $needTOC (ne .Params.force_inline_toc true) }}
+    <main class="primary">
+{{ else }}
+    <main class="primary notoc">
+{{ end }}
+
+    <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
+        {{ $section := .Site.GetPage "section" .Section }}
+        {{ if $section.Params.sidebar_multicard }}
+            {{ partial "sidebar_multicard.html" . }}
+        {{ else if $section.Params.sidebar_none }}
+        {{ else }}
+            {{ partial "sidebar_singlecard.html" . }}
+        {{ end }}
+    </div>
+
+    <div class="article-container">
+        {{ if or $section.Params.sidebar_singlecard $section.Params.sidebar_multicard }}
+            <button tabindex="-1" id="sidebar-toggler" title='{{ i18n "button_sidenav" }}'>
+                {{ partial "icon.html" "pull" }}
+            </button>
+        {{ end }}
+
+        <nav aria-label="Breadcrumb">
+            {{- partial "breadcrumbs.html" . -}}
+        </nav>
+
+        <article aria-labelledby="title">
+            <div class="title-area">
+                {{- if .Params.icon -}}
+                    <i class="title-icon">
+                        {{- partial "icon.html" .Params.icon -}}
+                    </i>
+                {{- end -}}
+
+                <div>
+                    <h1 id="title">
+                        {{- .Title -}}
+                    </h1>
+
+                    {{ if .Params.subtitle }}
+                        {{ if (strings.HasSuffix .Params.subtitle ".") }}
+                            {{ errorf "Subtitles should not end in a period: '%s" .Params.subtitle }}
+                        {{ else }}
+                            <p class="subtitle">{{ .Params.subtitle }}</p>
+                        {{ end }}
+                    {{ end }}
+
+                    {{ if not .Params.skip_byline }}
+                        {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                            <p class="byline">
+                                {{- $needBar := false -}}
+                                {{- if .Params.attribution -}}
+                                    <span>{{- i18n "page_attribution" -}}</span>
+                                    <span class="attribution">{{- .Params.attribution -}}</span>
+
+                                    {{- if .Params.twitter -}}
+                                        (<a href="https://twitter.com/{{- .Params.twitter -}}">@{{- .Params.twitter -}}</a>)
+                                    {{- end -}}
+
+                                    {{- $needBar = true -}}
+                                {{- end -}}
+
+                                {{- if ne .PublishDate.Year 0001 -}}
+                                    {{- if $needBar -}}
+                                        <span> | </span>
+                                    {{- end -}}
+
+                                    <span>
+                                        {{- partial "icon.html" "calendar" -}}
+                                        <span>&nbsp;</span>
+                                        {{- .PublishDate.Format (i18n "page_publish_date_format") -}}
+
+                                        {{- if .Params.last_update -}}
+                                            <span>&nbsp;</span>
+                                            {{- $date := time .Params.last_update -}}
+                                            {{- $date = $date.Format (i18n "page_publish_date_format") -}}
+                                            {{- printf (i18n "page_last_update_format") $date -}}
+                                        {{- end -}}
+                                    </span>
+
+                                    {{- $needBar = true }}
+                                {{- end -}}
+
+                                {{- if gt .Page.ReadingTime 1 -}}
+                                    {{- if $needBar -}}
+                                        <span> | </span>
+                                    {{- end -}}
+
+                                    <span title="{{ printf (i18n "page_word_count") .Page.WordCount }}">
+                                        {{- partial "icon.html" "clock" -}}
+                                        <span>&nbsp;</span>
+                                        {{- printf (i18n "page_reading_time") .Page.ReadingTime -}}
+                                    </span>
+                                {{- end -}}
+                            </p>
+                        {{ end }}
+                    {{ end }}
+                </div>
+            </div>
+
+            {{ if $needTOC }}
+                <nav class="toc-inlined{{ if .Params.force_inline_toc }} toc-forced{{ end }}" aria-label="Table of Contents">
+                    <div>
+                        <hr/>
+                        {{ $toc | safeHTML }}
+                        <hr/>
+                    </div>
+                </nav>
+            {{ end }}

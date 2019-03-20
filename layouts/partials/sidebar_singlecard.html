@@ -1,0 +1,20 @@
+<nav id="sidebar" aria-label="Section Navigation">
+    <div class="directory">
+        {{ $section := .Site.GetPage "section" .Section }}
+
+        <div class="card">
+            <div id="header0" class="header" title="{{ $section.Description }}">
+                {{- if $section.Params.icon -}}
+                    {{- partial "icon.html" $section.Params.icon -}}
+                {{- end -}}
+                {{- $section.Title -}}
+            </div>
+
+            {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+
+            <div class="body default" aria-labelledby="header0">
+                {{ partial "sidebar_level.html" (dict "pages" $pages "parent" $section "current" . "collapse" false "top" true "labelledby" "header0" ) }}
+            </div>
+        </div>
+    </div>
+</nav>

@@ -47,10 +47,10 @@ webhooks:
       name: istio-galley
       namespace: istio-system
       path: /admitpilot
-    failurePolicy: Fail
-    name: pilot.validation.istio.io
-    namespaceSelector: {}
-    rules:
+  failurePolicy: Fail
+  name: pilot.validation.istio.io
+  namespaceSelector: {}
+  rules:
   - apiGroups:
     - config.istio.io
     apiVersions:
@@ -104,10 +104,10 @@ webhooks:
       name: istio-galley
       namespace: istio-system
       path: /admitmixer
-    failurePolicy: Fail
-    name: mixer.validation.istio.io
-    namespaceSelector: {}
-    rules:
+  failurePolicy: Fail
+  name: mixer.validation.istio.io
+  namespaceSelector: {}
+  rules:
   - apiGroups:
     - config.istio.io
     apiVersions:
@@ -169,7 +169,7 @@ webhooks:
       caBundle: ""
     rules:
       - operations:
-        (... snip ...)
+      (... snip ...)
 {{< /text >}}
 
 如果 `istio-galley-configuration` 中的 webhook 数组为空，且是使用的是 `helm template` 或 `helm install` 的方式，请验证 `--set galley.enabled` 和 `--set global.configValidation=true` 选项是否已经设置。如果并使用 helm 的方式，则需要找到生成的 YAML，其中包含填充的 webhook 数组。
@@ -257,7 +257,7 @@ istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-galley
 NAME           ENDPOINTS                          AGE
-istio-galley   10.48.6.108:9093,10.48.6.108:443   3d
+istio-galley   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
 如果 pod 或 endpoint 尚未就绪，请检查 pod 日志和状态，以获取有关 webhook pod 无法启动和提供流量的原因。

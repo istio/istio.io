@@ -1,0 +1,30 @@
+[aria-label=Breadcrumb] {
+    text-transform: uppercase;
+    margin: 1.1em 0;
+
+    @media print {
+        display: none;
+    }
+
+    ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        display: inline;
+        font-size: 80%;
+        margin: 0;
+    }
+
+    li + li::before {
+        display: inline-block;
+        margin: 0 0.55em 0 0.25em;
+        content: '/';
+    }
+
+    a:focus {
+        outline: 0;
+    }
+}

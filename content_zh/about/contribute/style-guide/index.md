@@ -11,7 +11,12 @@ keywords: [contribute]
 
 ### 一致的大写方式
 
-配置类型的名称，不应该拆分为单词，并且要遵循原文的大小写方式，例如 `IstioRoleBinding`，不要改写为 `Istio Role Binding` 或者 `istio role binding`。
+不建议使用大写的方式来表达强调。
+
+在引用代码或配置文件中的名称的时候，应该以 \`\` 包围，不应该拆分为单词，并且要遵循原文的大小写方式，例如 `IstioRoleBinding`，不要改写为 `Istio Role Binding` 或者 `istio role binding`。
+
+如果不是直接引用代码或配置内容，应该使用正常的大写方式，例如 "The Istio role binding configuration takes place
+in a YAML file."
 
 ### 用尖括号标识占位符
 
@@ -60,6 +65,12 @@ keywords: [contribute]
 |在配置文件中设置 `ports` 字段的值。 |在配置文件中设置 "ports" 字段的值。
 |`rule` 字段的值是一个 `Rule` 对象。           | "rule" 字段的值是一个 `Rule` 对象。
 
+### Front-matter 中的 title 字段应该使用标题方式的大写
+
+Front matter 中的 `title:` 应该使用标题格式：除了连词和介词之外，每个单词的首字母都大写。
+
+这一点和将要提到的文章内的多级标题是不一样的。
+
 ### 各级标题中只对头一个单词进行首字母大写
 
 任何级别的标题，只对第一个字母进行首字母大写，除非涉及到缩写和专有名词。
@@ -102,6 +113,7 @@ keywords: [contribute]
 | Kubernetes     | `kubernetes`, `k8s`
 | Bookinfo       | `BookInfo`, `bookinfo`
 | Mixer          | `mixer`
+| delete         | `kill`
 
 ## 最佳实践
 

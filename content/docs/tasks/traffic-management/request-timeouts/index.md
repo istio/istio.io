@@ -14,7 +14,8 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 * Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application including the
+  [default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 *   Initialize the application version routing by running the following command:
 
@@ -24,7 +25,7 @@ This task shows you how to setup request timeouts in Envoy using Istio.
 
 ## Request timeouts
 
-A timeout for http requests can be specified using the *timeout* field of the [route rule](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute).
+A timeout for http requests can be specified using the *timeout* field of the [route rule](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
 By default, the timeout is 15 seconds, but in this task you override the `reviews` service
 timeout to 1 second.
 To see its effect, however, you also introduce an artificial 2 second delay in calls
@@ -101,9 +102,11 @@ to the `ratings` service.
 
     You should now see that it returns in about 1 second, instead of 2, and the reviews are unavailable.
 
-    > The reason that the response takes 1 second, even though the timeout is configured at half a second, is
+    {{< tip >}}
+    The reason that the response takes 1 second, even though the timeout is configured at half a second, is
     because there is a hard-coded retry in the `productpage` service, so it calls the timing out `reviews` service
     twice before returning.
+    {{< /tip >}}
 
 ## Understanding what happened
 

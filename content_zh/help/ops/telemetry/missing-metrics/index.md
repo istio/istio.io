@@ -27,7 +27,7 @@ Mixer 会生成指标来监控它自身行为。第一步是检查这些指标�
 1. 建立与 mixer 自监控 endpoint 的连接以进行 Istio 遥测部署。在 Kubernetes 环境中，执行以下命令：
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward <istio-telemetry pod> 9093 &
+    $ kubectl -n istio-system port-forward <istio-telemetry pod> 10514 &
     {{< /text >}}
 
 1. 查看成功的返回，在 Mixer 的自监控 endpoint 上，搜索 `grpc_server_handled_total`。你应该能看到类似的东西：
@@ -38,7 +38,7 @@ Mixer 会生成指标来监控它自身行为。第一步是检查这些指标�
 
     如果你没有看到带有 `grpc_method="Report"` 的 `grpc_server_handled_total` 的任何数据，则 Envoy 就没有调用 Mixer 来报告遥测数据。
 
-1. 在这种情况下，确保已经将服务正确地集成到服务网格中。您可以使用[自动或手动注入 sidecar](/zh/docs/setup/kubernetes/sidecar-injection/) 来完成这个目标。
+1. 在这种情况下，确保已经将服务正确地集成到服务网格中。您可以使用[自动或手动注入 sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/) 来完成这个目标。
 
 ## 验证 Mixer 规则是否存在
 
@@ -56,7 +56,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 如果输出显示没有名为 `promhttp` 或 `promtcp` 的规则，则缺少将 mixer 指标实例发送到 Prometheus adapter 的 Mixer 配置。你必须提供将 Mixer 指标实例连接到 Prometheus handler 的规则配置。
 
-作为参考，请参阅 [Prometheus 的默认规则]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)。
+作为参考，请参阅 [Prometheus 的默认规则]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
 
 ## 验证 Prometheus handler 配置是否存在
 
@@ -70,7 +70,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 1. 如果输出未显示已配置的 Prometheus handler，则必须重新在 Mixer 配置适当的 handler。
 
-有关参考，请参阅 [Prometheus 的默认 handler 配置]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)。
+有关参考，请参阅 [Prometheus 的默认 handler 配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
 
 ## 验证 Mixer 指标实例配置是否存在
 
@@ -89,7 +89,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 1. 如果输出未显示已配置的 Mixer 指标实例，则必须使用相应的实例配置重新配置 Mixer。
 
-有关参考，请参阅 [Mixer 指标的默认实例配置]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)。
+有关参考，请参阅 [Mixer 指标的默认实例配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
 
 ## 验证没有配置错误
 

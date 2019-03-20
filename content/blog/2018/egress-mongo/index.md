@@ -4,7 +4,6 @@ description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-11-16
 subtitle: Istio Egress Control Options for MongoDB traffic
 attribution: Vadim Eisenberg
-weight: 79
 keywords: [traffic-management,egress,tcp,mongo]
 ---
 
@@ -93,7 +92,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/quick-start/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/) and [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
 This application uses the `ratings` microservice to fetch book ratings, a number between 1 and 5. The ratings are
@@ -122,7 +121,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/istio.networking.v1alpha3/#VirtualService). These virtual services are
+    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
@@ -165,7 +164,7 @@ stable or known in advance.
 
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be
 [controlled as TLS traffic](#egress-control-for-tls), or the traffic can be routed
-[directly](/docs/tasks/traffic-management/egress/#calling-external-services-directly), bypassing the Istio sidecar
+[directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services), bypassing the Istio sidecar
 proxies.
 
 Get the IP address of your MongoDB database instance. As an option, you can use the
@@ -233,6 +232,8 @@ In this section you handle the case when you need to direct the traffic through 
 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TCP
 connections from the MongoDB client to the egress gateway, by matching the IP of the MongoDB host (a CIDR block of
   length 32). The egress gateway forwards the traffic to the MongoDB host, by its hostname.
+
+1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
 
 1.  Create a `ServiceEntry` for the MongoDB service, this time with `resolution` `DNS`. Specifying the resolution as
     `DNS` instructs the egress gateway to perform a DNS query to get the IP address of the MongoDB host. Note that the
@@ -557,6 +558,8 @@ The egress gateway forwards the traffic to the MongoDB host. Note that the sidec
 to be 443. The egress gateway accepts the MongoDB traffic on the port 443, matches the MongoDB host by SNI, and rewrites
  the port again to be the port of the MongoDB server.
 
+1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+
 1.  Create a `ServiceEntry` for the MongoDB service:
 
     {{< text bash >}}
@@ -592,9 +595,9 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -669,13 +672,13 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -739,9 +742,9 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 

@@ -20,9 +20,9 @@ original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 ## Before you begin
 
 Set up Istio by following the instructions in the
-[quick start](/docs/setup/kubernetes/quick-start/).
+[quick start](/docs/setup/kubernetes/install/kubernetes/).
 Note that default mutual TLS authentication should be **disabled** when installing Istio; e.g. option 1 in the
-[quick start](/docs/setup/kubernetes/quick-start/#installation-steps).
+[quick start](/docs/setup/kubernetes/install/kubernetes/#installation-steps).
 
 The demo is also assumed to be running in a namespace where automatic sidecar injection is
 disabled, and Istio sidecars are instead manually injected with `istioctl`.
@@ -140,7 +140,9 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-> This example is borrowed from [Kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
+{{< tip >}}
+This example is borrowed from [Kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
+{{< /tip >}}
 
 ### Create an HTTPS service with Istio sidecar with mutual TLS enabled
 

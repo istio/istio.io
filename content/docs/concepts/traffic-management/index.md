@@ -80,7 +80,7 @@ dynamic updates to load balancing pools
 and routing tables.
 
 You can specify high-level traffic management rules through
-[Pilot's Rule configuration](/docs/reference/config/istio.networking.v1alpha3/). These rules are translated into low-level
+[Pilot's Rule configuration](/docs/reference/config/networking/). These rules are translated into low-level
 configurations and distributed to Envoy instances.
 
 ## Request routing
@@ -194,6 +194,20 @@ Services can actively shed load by responding with an HTTP 503 to a health
 check. In such an event, the service instance will be immediately removed
 from the caller's load balancing pool.
 
+### Locality Load Balancing
+
+A locality defines a geographic location within your mesh using the following triplet:
+
+- Region
+- Zone
+- Sub-zone
+
+The geographic location typically represents a data center. Istio uses
+this information to prioritize load balancing pools to control
+the geographic location where requests are proxied.
+
+For more information and instructions on how to enable this feature see the [operations guide](/help/ops/traffic-management/locality-load-balancing/).
+
 ## Handling failures
 
 Envoy provides a set of out-of-the-box _opt-in_ failure recovery features
@@ -232,8 +246,8 @@ and prevent localized failures from cascading instability to other nodes.
 
 Istio's traffic management rules allow you to set defaults for failure recovery per
 service and version that apply to all callers. However, consumers of a service can also
-override [timeout](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-timeout)
-and [retry](/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute-retries)
+override [timeout](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute-timeout)
+and [retry](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute-retries)
 defaults by providing request-level overrides through special HTTP headers.
 With the Envoy proxy implementation, the headers are `x-envoy-upstream-rq-timeout-ms` and
 `x-envoy-max-retries`, respectively.
@@ -328,19 +342,22 @@ and retries, as well as set up common continuous deployment tasks such as
 canary rollouts, A/B testing, staged rollouts with %-based traffic splits,
 etc.
 
-There are four traffic management configuration resources in Istio:
-`VirtualService`, `DestinationRule`, `ServiceEntry`, and `Gateway`:
+There are five traffic management configuration resources in Istio:
+`VirtualService`, `DestinationRule`, `ServiceEntry`, `Gateway`, and `Sidecar`:
 
-* A [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+- A [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 
-* A [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+- A [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred.
 
-* A [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry) is commonly used to enable requests to services outside of an Istio service mesh.
+- A [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) is commonly used to enable requests to services outside of an Istio service mesh.
 
-* A [`Gateway`](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
-configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the mesh to enable ingress traffic for an application.
+- A [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/)
+configures a load balancer for HTTP/TCP traffic operating at the edge of the mesh, most commonly to enable ingress traffic for an application.
+
+- A [`Sidecar`](/docs/reference/config/networking/v1alpha3/sidecar/)
+configures one or more sidecar proxies attached to application workloads running inside the mesh.
 
 For example, you can implement a simple rule to send 100% of incoming traffic for a *reviews* service to version "v1" by using a `VirtualService` configuration as follows:
 
@@ -393,12 +410,12 @@ Rules can be configured using the `kubectl` command. See the
 task](/docs/tasks/traffic-management/request-routing/) for examples.
 
 The following sections provide a basic overview of the traffic management configuration resources.
-See [networking reference](/docs/reference/config/istio.networking.v1alpha3/)
+See [networking reference](/docs/reference/config/networking/)
 for detailed information.
 
 ### Virtual Services
 
-A [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)
+A [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/)
 defines the rules that control how requests for a service are routed within an Istio service mesh.
 For example, a virtual service could route requests to different versions of a service or to a completely different service than was requested.
 Requests can be routed based on the request source and destination, HTTP paths and
@@ -602,7 +619,7 @@ spec:
   - ratings
   http:
   - match:
-      sourceLabels:
+    - sourceLabels:
         app: reviews
     route:
     ...
@@ -786,7 +803,7 @@ priorities of each rule when there is more than one.
 
 ### Destination rules
 
-A [`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule)
+A [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
 configures the set of policies to be applied to a request after `VirtualService` routing has occurred. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, and other settings.
 
@@ -861,11 +878,13 @@ version) of the destination service that the current request will be routed
 to. Next, the set of policies corresponding to the selected subset, if any,
 are evaluated to determine if they apply.
 
-> One subtlety of the algorithm to keep in mind is that policies
+{{< tip >}}
+One subtlety of the algorithm to keep in mind is that policies
 that are defined for specific subsets will only be applied if
 the corresponding subset is explicitly routed to. For example,
 consider the following configuration as the one and only rule defined for the
 *reviews* service, meaning there are no route rules in the corresponding `VirtualService` definition:
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -939,7 +958,7 @@ start, is generally considered a best practice in Istio.
 
 ### Service entries
 
-A [`ServiceEntry`](/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry)
+A [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/)
 is used to add additional entries into the service registry that Istio maintains internally.
 It is most commonly used to enable requests to services outside of an Istio service mesh.
 For example, the following `ServiceEntry` can be used to allow external calls to services hosted
@@ -1006,9 +1025,9 @@ about accessing external services.
 
 ### Gateways
 
-A [Gateway](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
-configures a load balancer for HTTP/TCP traffic, most commonly operating at the edge of the
-mesh to enable ingress traffic for an application.
+A [Gateway](/docs/reference/config/networking/v1alpha3/gateway/)
+configures a load balancer for HTTP/TCP traffic operating at the edge of the
+mesh, most commonly to enable ingress traffic for an application.
 
 Unlike Kubernetes Ingress, Istio `Gateway` only configures the L4-L6 functions
 (for example, ports to  expose, TLS configuration). Users can then use standard Istio rules
@@ -1064,8 +1083,41 @@ spec:
 See the [ingress task](/docs/tasks/traffic-management/ingress/) for a
 complete ingress gateway example.
 
-Although primarily used to manage ingress traffic, a `Gateway` can also be used to model
-a purely internal or egress proxy. Irrespective of the location, all gateways
+Although most often used to manage ingress traffic, a `Gateway` can also be used to model
+an egress proxy. Irrespective of the location, all gateways
 can be configured and controlled in the same way. See
-[gateway reference](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
+[gateway reference](/docs/reference/config/networking/v1alpha3/gateway/)
 for details.
+
+### Sidecars
+
+By default, Istio configures every sidecar proxy
+to accept traffic on all the ports of its associated workload and to reach
+every workload in the mesh when forwarding traffic.
+A [Sidecar](/docs/reference/config/networking/v1alpha3/sidecar/) configuration
+can be used to fine tune the set of ports and protocols that a proxy will accept
+and to limit the set of services that the proxy can reach.
+
+A `Sidecar` resource can be used to configure one or more sidecar proxies selected using
+workload labels, or to configure all sidecars in a particular namespace. For example,
+the following `Sidecar` configures all services in the `bookinfo` namespace
+to only reach services running in the same namespace:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: default
+  namespace: bookinfo
+spec:
+  egress:
+  - hosts:
+    - "./*"
+{{< /text >}}
+
+Limiting sidecar reachability this way can be used to significantly reduce memory
+usage, which by default can become a major problem for large applications where every sidecar
+is provided with the configuration necessary to reach every other service in the mesh.
+
+A `Sidecar` resource can also be used in many more ways.
+Refer to the [sidecar reference](/docs/reference/config/networking/v1alpha3/sidecar/) for details.

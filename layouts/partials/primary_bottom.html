@@ -1,0 +1,53 @@
+{{ $toc := partial "toc.html" (dict "page" .) }}
+{{ $needTOC := .Scratch.Get "needTOC" }}
+
+            {{ if .Scratch.Get "seeAlso" }}
+                {{ $related := .Site.RegularPages.Related . | first 6 }}
+                {{ with $related }}
+                    <nav id="see-also">
+                        <h2>{{ i18n "see_also" }}</h2>
+
+                        <div class="see-also">
+                            {{ range . }}
+                                <div class="entry">
+                                    <p class="link"><a data-skipendnotes="true" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>
+                                    <p class="desc">{{ .Description }}</p>
+                                </div>
+                            {{ end }}
+                        </div>
+                    </nav>
+                {{ end }}
+            {{ end }}
+        </article>
+
+        {{ if or .NextInSection .PrevInSection }}
+            <nav class="pagenav">
+                <div class="left">
+                    {{ if .NextInSection }}
+                        <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}">{{- partial "icon.html" "left-arrow" -}}{{- .NextInSection.LinkTitle -}}</a>
+                    {{ end }}
+                </div>
+                <div class="right">
+                    {{ if .PrevInSection }}
+                        <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}">{{- .PrevInSection.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
+                    {{ end }}
+                </div>
+            </nav>
+        {{ end }}
+
+        <div id="endnotes-container" aria-hidden="true">
+            <h2>{{ i18n "links" }}</h2>
+            <ol id="endnotes"></ol>
+        </div>
+    </div>
+
+    {{ if and $needTOC (not .Params.force_inline_toc) }}
+        <div class="toc-container">
+            <nav class="toc" aria-label="Table of Contents">
+                <div id="toc">
+                    {{ $toc | safeHTML }}
+                </div>
+            </nav>
+        </div>
+    {{ end }}
+</main>

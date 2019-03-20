@@ -21,12 +21,12 @@ You may test the service using the following command:
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/gke).
+To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/prepare/platform-setup/gke).
 
 ## HTTP Endpoints service
 
 1. Inject the service into the mesh using `--includeIPRanges` by following the
-[instructions](/docs/tasks/traffic-management/egress/#calling-external-services-directly)
+[instructions](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)
 so that Egress is allowed to call external services directly.
 Otherwise, ESP won't be able to access Google cloud service control.
 
@@ -111,7 +111,7 @@ This solution uses Istio proxy for TCP bypassing. The traffic is secured through
     {{< /text >}}
 
 1.  Update the mesh service deployment. See further readings on port naming rules in
-[Requirements for Pods and Services](/docs/setup/kubernetes/spec-requirements).
+[Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
 
 1.  You can verify access to the Endpoints service through secure Ingress:
 

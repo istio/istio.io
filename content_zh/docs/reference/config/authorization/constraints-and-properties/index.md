@@ -8,7 +8,9 @@ weight: 10
 
 具体而言，你可以使用约束在服务角色的访问规则字段中指定额外条件。你可以使用属性在服务角色绑定的主题字段中指定其他条件。Istio支持此页面上列出的HTTP协议的所有密钥，但仅支持普通TCP协议的一些密钥。
 
-> {{< warning_icon >}} 不支持的键和值将会被默默忽略。
+{{< warning >}}
+不支持的键和值将会被默默忽略。
+{{< /warning >}}
 
 了解更多信息，请参阅[授权的概念页面](/zh/docs/concepts/security/#认证)。
 
@@ -24,7 +26,13 @@ weight: 10
 | `destination.name` | 目标工作负载实例名 | 是 | `destination.name` |`["productpage*", "*-test"]` |
 | `destination.namespace` | 目标工作负载实例命名空间 | 是 | `destination.namespace` | `["default"]` |
 | `destination.user` | 目标工作负载实例的标识 | 是 | `destination.user` | `["bookinfo-productpage"]` |
+| `experimental.envoy.filters.*` | 过滤器实验性元数据匹配，在 `[]` 封装值作为匹配列表 | 是 | `experimental.envoy.filters.network.mysql_proxy[db.table]` | `["[update]"]` |
 | `request.headers` | HTTP 请求头, 实际的请求头名称包含在括号中 | 否 | `request.headers[X-Custom-Token]` | `["abc123"]` |
+
+{{< warning >}}
+请注意，类似 `experimental.*` 命名的键值没有保证向后兼容。
+它们可能随时被移除，建议用户自行承担使用风险。
+{{< /warning >}}
 
 ## 支持的属性
 

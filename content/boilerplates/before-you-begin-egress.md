@@ -1,3 +1,5 @@
+---
+---
 ## Before you begin
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
@@ -5,7 +7,7 @@
 *   To have test source for sending requests, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
 
     If you have enabled
-    [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection), do
+    [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@

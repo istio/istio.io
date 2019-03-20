@@ -56,7 +56,7 @@ To retrieve information about endpoint configuration for the Envoy instance in a
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-See [Observing Traffic Management Configuration](/help/ops/traffic-management/observing/) for more advice on interpreting this information.
+See [Debugging Envoy and Pilot](/help/ops/traffic-management/proxy-cmd/) for more advice on interpreting this information.
 
 ## With GDB
 

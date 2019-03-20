@@ -1,4 +1,6 @@
 ---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE https://github.com/istio/istio REPO
+source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
@@ -176,10 +178,10 @@ istioctl authn tls-check
 </code></pre>
 <h2 id="istioctl-authn-tls-check">istioctl authn tls-check</h2>
 <p>
-Requests Pilot to check for what authentication policy and destination rule it uses for each service in
-service registry, and check if TLS settings are compatible between them.
+Check what authentication policies and destination rules pilot uses to config a proxy instance,
+and check if TLS settings are compatible between them.
 </p>
-<pre class="language-bash"><code>istioctl authn tls-check [&lt;service&gt;] [flags]
+<pre class="language-bash"><code>istioctl authn tls-check &lt;pod-name[.namespace]&gt; [&lt;service&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -262,11 +264,12 @@ service registry, and check if TLS settings are compatible between them.
 </table>
 <h3 id="istioctl-authn-tls-check Examples">Examples</h3>
 <pre class="language-bash"><code>
-# Check settings for all known services in the service registry:
-istioctl authn tls-check
+# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default:
+istioctl authn tls-check 656bd7df7c-5zp4s.default
 
-# Check settings for a specific service
-istioctl authn tls-check foo.bar.svc.cluster.local
+# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default, filtered on destintation
+service &#34;bar&#34; :
+istioctl authn tls-check 656bd7df7c-5zp4s.default bar
 
 </code></pre>
 <h2 id="istioctl-deregister">istioctl deregister</h2>
@@ -548,9 +551,9 @@ calculated over a time interval of 1 minute.
 </p>
 <pre class="language-bash"><code>istioctl experimental metrics &lt;workload name&gt;...
 </code></pre>
-<p>
-m
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental m &lt;workload name&gt;...
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -839,7 +842,10 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 </code></pre>
 <h2 id="istioctl-experimental-verify-install">istioctl experimental verify-install</h2>
 <p>
-		verify-install Verifies Istio Installation Status
+		verify-install verifies Istio installation status against the installation file
+		you specified when you installed Istio. It loops through all the installation
+		resources defined in your installation file and reports whether all of them are
+		in ready status. It will report failure when any of them are not ready.
 </p>
 <pre class="language-bash"><code>istioctl experimental verify-install [flags]
 </code></pre>
@@ -858,7 +864,7 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>  (default `[]`)</td>
+<td>Istio YAML installation file.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -939,7 +945,7 @@ istioctl verify-install -f istio-demo.yaml
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p></p>
-<p>kube-inject manually injects envoy sidecar into kubernetes
+<p>kube-inject manually injects the Envoy sidecar into Kubernetes
 workloads. Unsupported resources are left unmodified so it is safe to
 run kube-inject over a single file that contains multiple Service,
 ConfigMap, Deployment, etc. definitions for a complex application. Its
@@ -1106,15 +1112,12 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
 kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 
 # Create a persistent version of the deployment with Envoy sidecar
-# injected configuration from kubernetes configmap &#39;istio-inject&#39;
+# injected configuration from Kubernetes configmap &#39;istio-inject&#39;
 istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-inject
 
 </code></pre>
 <h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
 <p>A group of commands used to retrieve information about proxy configuration from the Envoy config dump</p>
-<p>
-pc
-<p>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1207,9 +1210,9 @@ pc
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-b
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config b &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1303,9 +1306,10 @@ b
 <p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config cluster &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-clustersc
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1425,9 +1429,10 @@ clustersc
 <p>Retrieve information about endpoint configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-endpointsep
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config endpoints &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1552,9 +1557,10 @@ endpointsep
 <p>Retrieve information about listener configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config listener &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-listenersl
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1669,9 +1675,10 @@ listenersl
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config route &lt;pod-name[.namespace]&gt; [flags]
 </code></pre>
-<p>
-routesr
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl proxy-config routes &lt;pod-name[.namespace]&gt; [flags]
+istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>
@@ -1778,9 +1785,9 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <p></p>
 <pre class="language-bash"><code>istioctl proxy-status [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
-<p>
-ps
-<p>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl ps [&lt;pod-name[.namespace]&gt;] [flags]
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <th>Flags</th>

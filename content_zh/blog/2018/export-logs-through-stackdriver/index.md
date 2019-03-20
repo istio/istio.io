@@ -4,7 +4,6 @@ description: 如何通过 Stackdriver 将 Istio 访问日志导出到 BigQuery�
 publishdate: 2018-07-09
 subtitle:
 attribution: Nupur Garg and Douglas Reid
-weight: 87
 ---
 
 这篇文章展示了如何将 Istio 日志指向 [`Stackdriver`](https://cloud.google.com/stackdriver/) 并将这些日志导出到各种配置的接收器，例如 [`BigQuery`](https://cloud.google.com/bigquery/)、[`Google Cloud Storage(GCS)`](https://cloud.google.com/storage/) 或 [`Cloud Pub/Sub`](https://cloud.google.com/pubsub/)。在这篇文章的最后，可以从喜欢的地方（如 BigQuery、GCS 或 Cloud Pub/Sub）对 Istio 数据进行分析。
@@ -36,7 +35,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 1. [`创建 BigQuery 数据集`](https://cloud.google.com/bigquery/docs/datasets)作为日志导出的目标。
 1. 记录数据集的 ID。 这里需要设置 Stackdriver 处理程序。它的格式为 `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
 1. 给[`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：cloud-logs@system.gserviceaccount.com。它具有 IAM 中的 BigQuery Data Editor 的角色。
-1. 如果使用 [`Google Kubernetes Engine`](/zh/docs/setup/kubernetes/platform-setup/gke/)，请确保在集群上启用了 `bigquery` [`Scope`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)。
+1. 如果使用 [`Google Kubernetes Engine`](/zh/docs/setup/kubernetes/prepare/platform-setup/gke/)，请确保在集群上启用了 `bigquery` [`Scope`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)。
 
 #### Google Cloud Storage (GCS)
 
@@ -49,7 +48,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 1. [`创建主题`](https://cloud.google.com/pubsub/docs/admin)，希望导出日志到Google Cloud Pub/Sub 中。
 1. 记录主题的 ID。这里需要配置 Stackdriver。它的形式为`pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`。
 1. 给[`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：`cloud-logs @ system.gserviceaccount.com`。它具有 IAM 中的 Pub/Sub Publisher 角色。
-1. 如果使用 [`Google Kubernetes Engine`](/zh/docs/setup/kubernetes/platform-setup/gke/)，请确保在集群中启动了 `pubsub` [`Scope`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)。
+1. 如果使用 [`Google Kubernetes Engine`](/zh/docs/setup/kubernetes/prepare/platform-setup/gke/)，请确保在集群中启动了 `pubsub` [`Scope`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)。
 
 ### 设置 Stackdriver
 

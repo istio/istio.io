@@ -4,7 +4,6 @@ subtitle: Istio 讨论板
 description: Istio 推出新的讨论板。
 publishdate: 2019-01-10
 attribution: The Istio Team
-weight: 100
 ---
 
 Istio 社区一直致力于为用户寻找与社区成员互动的最佳媒介——提出问题、互帮互助、与项目开发人员互动等。

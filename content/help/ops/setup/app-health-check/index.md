@@ -4,6 +4,7 @@ description: Shows how to do health checking for Istio services.
 weight: 65
 aliases:
   - /docs/tasks/traffic-management/app-health-check/
+  - /help/ops/security/health-checks-and-mtls/
 keywords: [security,health-check]
 ---
 
@@ -22,7 +23,7 @@ This task provides examples for the first two options with Istio mutual TLS enab
 * Understand [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), Istio
 [authentication policy](/docs/concepts/security/#authentication-policies) and [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (meaning use `istio.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install/)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (meaning use `istio.yaml` as described in [installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/install/helm/)).
 
 ## Liveness and readiness probes with command option
 
@@ -151,7 +152,7 @@ Please be aware of the risk.
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --set global.mtls.enabled=true --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
-    -f install/kubernetes/helm/istio/values.yaml > $HOME/istio.yaml
+    -f @install/kubernetes/helm/istio/values.yaml@ > $HOME/istio.yaml
 $ kubectl apply -f $HOME/istio.yaml
 {{< /text >}}
 

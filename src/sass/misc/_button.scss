@@ -1,0 +1,34 @@
+.btn {
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: $border-radius;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    background-color: $secondBrandColor;
+    color: $textBrandColor;
+    font-weight: $buttonWeight;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 3px 3px 8px #a7a7a7;
+
+    &:hover {
+        background-color: $mainBrandColor;
+        color: $textBrandColor;
+        text-decoration: none;
+    }
+
+    &:active {
+        background-color: $buttonActiveColor;
+        color: $textBrandColor;
+    }
+
+    &:focus {
+        color: $textBrandColor;
+    }
+}

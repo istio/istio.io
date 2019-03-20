@@ -28,6 +28,10 @@ complete the migration by sending 100% of traffic to `reviews:v3`.
 
 ## Apply weight-based routing
 
+{{< warning >}}
+If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+{{< /warning >}}
+
 1.  To get started, run this command to route all traffic to the `v1` version of
 each microservice.
 
@@ -78,10 +82,12 @@ the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc
 1.  Refresh the `/productpage` in your browser and you now see *red* colored star ratings approximately 50% of the time. This is because the `v3` version of `reviews` accesses
 the star ratings service, but the `v1` version does not.
 
-    > With the current Envoy sidecar implementation, you may need to refresh the
-`/productpage` many times --perhaps 15 or more--to see the proper distribution.
-You can modify the rules to route 90% of the traffic to `v3` to see red stars
-more often.
+    {{< tip >}}
+    With the current Envoy sidecar implementation, you may need to refresh the
+    `/productpage` many times --perhaps 15 or more--to see the proper distribution.
+    You can modify the rules to route 90% of the traffic to `v3` to see red stars
+    more often.
+    {{< /tip >}}
 
 1.  Assuming you decide that the `reviews:v3` microservice is stable, you can
 route 100% of the traffic to `reviews:v3` by applying this virtual service:

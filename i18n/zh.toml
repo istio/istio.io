@@ -7,7 +7,7 @@ other = "关注我们的 Twitter 来获取最新信息"
 [stackoverflow_desc]
 other = "Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答"
 
-[for_users]
+[for_everyone]
 other = "对于用户"
 
 [for_developers]
@@ -54,6 +54,12 @@ other = "选项和设置"
 
 [search]
 other = "搜索istio.io"
+
+[search_label]
+other = "Search"
+
+[search_cancel]
+other = "Cancel search"
 
 [footer_istio]
 other = "Istio"
@@ -156,3 +162,27 @@ other = "模版"
 
 [subscribe]
 other = "订阅"
+
+[see_also]
+other = "相关内容"
+
+[links]
+other = "链接"
+
+[generated_file]
+other = "这是一个自动生成的文件，要修改其中的内容，请修改 %s 仓库中的源码。"
+
+[switch_lang]
+other = "切换到英文版"
+
+[advisory]
+other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中"
+
+[syntax_coloring]
+other = "Color Examples"
+
+[announcement_download]
+other = "Download %s"
+
+[announcement_relnotes]
+other = "%s Release Notes"

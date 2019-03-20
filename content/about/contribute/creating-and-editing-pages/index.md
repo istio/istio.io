@@ -6,10 +6,11 @@ aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
     - /docs/reference/contribute/writing-a-new-topic.html
     - /about/contribute/writing-a-new-topic.html
+    - /create
 keywords: [contribute]
 ---
 
-This page shows how to create and maintain Istio documentation topics.
+This page shows how to create, test, and maintain Istio documentation topics.
 
 ## Before you begin
 
@@ -117,6 +118,7 @@ The available front matter fields are:
 |Field              | Description
 |-------------------|------------
 |`title`            | The short title of the page
+|`linktitle`        | An alternate, typically shorter, title for the page which is used in the side bar to reference the page
 |`subtitle`         | An optional subtitle which gets displayed below the main title
 |`description`      | A one-line description of what the page is about
 |`icon`             | An optional path to an image file which gets displayed next to the main title
@@ -125,9 +127,11 @@ The available front matter fields are:
 |`draft`            | When true, prevents the page from showing up in any navigation area
 |`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
 |`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
+|`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
+|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated content
 
 There are a few more front matter fields available specifically for blog posts:
 
@@ -166,7 +170,7 @@ value is calculated automatically for any local image content, but must be calcu
 manually when referencing external image content.
 In that case, `ratio` should be set to (image height / image width) * 100.
 
-## Adding icons & emojis
+## Adding icons
 
 You can embed some common icons in your content using:
 
@@ -175,13 +179,10 @@ You can embed some common icons in your content using:
 {{</* idea_icon */>}}
 {{</* checkmark_icon */>}}
 {{</* cancel_icon */>}}
-{{</* info_icon */>}}
+{{</* tip_icon */>}}
 {{< /text >}}
 
-which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< info_icon >}}.
-
-In addition, you can embed an emoji in your content using a sequence such as <code>:</code><code>sailboat</code><code>:</code>
-which looks like :sailboat:. Here's a handy [cheat sheet of the supported emojis](https://www.webpagefx.com/tools/emoji-cheat-sheet/).
+which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
 
 ## Linking to other pages
 
@@ -215,29 +216,37 @@ current hierarchy:
 There are a few ways to reference files from GitHub:
 
 - **{{</* github_file */>}}** is how you reference individual files in GitHub such as yaml files. This
-produces a link to `https://raw.githubusercontent.com/istio/istio/...`
+produces a link to `https://raw.githubusercontent.com/istio/istio*`
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
 - **{{</* github_tree */>}}** is how you reference a directory tree in GitHub. This produces a link to
-`https://github.com/istio/istio/tree/...`
+`https://github.com/istio/istio/tree*`
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
 - **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
-`https://github.com/istio/istio/blob/...`
+`https://github.com/istio/istio/blob*`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
 The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence **{{</* source_branch_name */>}}**
+documentation is currently targeting. If you need to manually construct a URL, you can use the sequence `{{</* source_branch_name */>}}`
 to get the name of the currently targeted branch.
+
+## Version information
+
+You can obtain the current Istio version described by the web site using either of `{{</* istio_version */>}}` or
+`{{</* istio_full_version */>}}` which render as {{< istio_version >}} and {{< istio_full_version >}} respectively.
+
+`{{</* source_branch_name */>}}` gets expanded to the name of the branch of the `istio/istio` GitHub repository that the
+web site is targeting. This renders as {{< source_branch_name >}}.
 
 ## Embedding preformatted blocks
 
@@ -279,10 +288,10 @@ func HelloWorld() {
 }
 {{< /text >}}
 
-You can use `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
+Supported syntax are `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
 `perl`, `docker`, and `bash`.
 
-### Commands and command output
+### Command-lines
 
 When showing one or more bash command-lines, you start each command-line with a $:
 
@@ -365,24 +374,86 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
 {{< /text >}}
 
-You can specify an optional third value which controls the name that the browser
-will use when the user chooses to download the file. For example:
+### Expanded form
+
+To use the more advanced features for preformatted content which are described in the following sections, you must use the
+extended form of the `text` sequence rather than the simplified form shown so far. The expanded form uses normal HTML attributes:
 
 {{< text markdown >}}
-{{</* text go plain "hello.go" */>}}
+{{</* text syntax="bash" outputis="json" */>}}
+$ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
+{"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
+{"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
+{{</* /text */>}}
+{{< /text >}}
+
+The available attributes are:
+
+| Attribute    | Description
+|--------------|------------
+|`file`        | The path of a file to show in the preformatted block.
+|`url`         | The URL of a document to show in the preformatted block.
+|`syntax`      | The syntax of the preformatted block.
+|`outputis`    | When the syntax is `bash`, this specifies the command output's syntax.
+|`downloadas`  | The default file name used when the user [downloads the preformatted block](#download-name).
+|`expandlinks` | Whether or not to expand [GitHub file references](#links-to-github-files) in the preformatted block.
+|`snippet`     | The name of the [snippet](#snippets) of content to extract from the preformatted block.
+
+### Inline vs. imported content
+
+So far, you've seen examples of inline preformatted content but it's also possible to import content, either
+from a file in the documentation repository or from an arbitrary URL on the Internet. For this, you use the
+`text_import` sequence.
+
+You can use `text_import` with the `file` attribute to reference a file within the documentation repository:
+
+{{< text markdown >}}
+{{</* text_import file="test/snippet_example.txt" syntax="plain" */>}}
+{{< /text >}}
+
+which renders as:
+
+{{< text_import file="test/snippet_example.txt" syntax="plain" >}}
+
+You can dynamically pull in content from the Internet in a similar way, but using the `url` attribute instead of the
+`file` attribute. Here's the same file, but retrieved from a URL dynamically rather than being baked into the
+HTML statically:
+
+{{< text markdown >}}
+{{</* text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" */>}}
+{{< /text >}}
+
+which produces the following result:
+
+{{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" >}}
+
+If the file is from a different origin site, CORS should be enabled on that site. Note that the
+GitHub raw content site (`raw.githubusercontent.com`) may be used here.
+
+### Download name
+
+You can control the name that the browser
+uses when the user chooses to download the preformatted content by using the `downloadas` attribute. For example:
+
+{{< text markdown >}}
+{{</* text syntax="go" downloadas="hello.go" */>}}
 func HelloWorld() {
   fmt.Println("Hello World")
 }
 {{</* /text */>}}
 {{< /text >}}
 
-If you don't specify a third value, then the download name is derived automatically based on the
-name of the current page.
+If you don't specify a download name, then it is derived automatically based on the
+title of the current page for inline content, or from the name of the file or URL for imported
+content.
 
 ### Links to GitHub files
 
-If your code block references a file from Istio's GitHub repository, you can surround the relative path name of the file with a pair
-of @ symbols. These indicate the path should be rendered as a link to the file from the current branch. For example:
+If your preformatted content references a file from Istio's GitHub repository, you can surround the relative path name of the file with a pair
+of @ symbols. These indicate that the path should be rendered as a link to the file from the current branch in GitHub. For example:
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -390,75 +461,104 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
-This will be rendered as:
+Which renders as:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
-### Files and snippets
-
-It is often useful to display a file or a portion of a file. You can annotate a text file to create named snippets within the file by
-using the `$snippet` and `$endsnippet` annotations. For example, you could have a text file that looks like this:
-
-{{< text_file file="examples/snippet_example.txt" syntax="plain" >}}
-
-and in your markdown file, you can then reference a particular snippet with:
+If your preformatted content happens to use @ symbols for something else, you can turn off link expansion using the
+`expandlinks` attribute:
 
 {{< text markdown >}}
-{{</* text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
+{{</* text syntax="bash" expandlinks="false" */>}}
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+{{</* /text */>}}
 {{< /text >}}
 
-where `file` specifies the relative path of the text file within the documentation repo, `syntax` specifies
-the syntax to use for syntax coloring (use `plain` for generic text), and `snippet` specifies the name of the
-snippet.
+### Snippets
 
-The above snippet produces this output:
+When using imported content, you can control which parts of the content to render using _named snippets_, which represent portions
+of a file. You declare snippets in a file using the `$snippets` annotation with a paired `$endsnippet` annotation. The content
+between the two annotations represents the snippet.
+For example, you could have a text file that looks like this:
 
-{{< text_file file="examples/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
+{{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
-If you don't specify a snippet name, then the whole file will be inserted instead.
-
-You can specify an optional `downloadas` attribute to control the name that the browser
-will use when the user chooses to download the file. For example:
+and in your markdown file, you can then reference a particular snippet with the `snippet` attribute such as:
 
 {{< text markdown >}}
-{{</* text_file file="examples/snippet_example.txt" syntax="plain" downloadas="foo.txt" */>}}
+{{</* text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
 {{< /text >}}
 
-If you don't specify the `downloadas` attribute, then the download name is taken from the `file`
-attribute instead.
+which renders as:
 
-A common thing to do is to copy an example script or yaml file from GitHub into the documentation
-repository and then use snippets within the file to produce examples in the documentation. To pull
-in annotated files from GitHub, add the needed entries at the end of the
-script `scripts/grab_reference_docs.sh` in the documentation repository.
+{{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
-### Dynamic content
+## Glossary terms
 
-You can dynamically pull in an external file and display its content as a preformatted block. This is handy to display a
-configuration file or a test file. To do so, you use a statement such as:
+When first introducing a specialized Istio term in a page, it is desirable to annotate the terms as being in the glossary. This
+will produce special rendering inviting the user to click on the term in order to get a pop-up with the definition.
 
 {{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" */>}}
+Mixer uses {{</*gloss*/>}}adapters{{</*/gloss*/>}} to interface to backends.
 {{< /text >}}
 
-which produces the following result:
+which looks like:
 
-{{< text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" >}}
+Mixer uses {{<gloss>}}adapters{{</gloss>}} to interface to backends.
 
-If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (`raw.githubusercontent.com`) may be used here.
-
-You can specify an optional `downloadas` attribute to control the name that the browser
-will use when the user chooses to download the file. For example:
+If the term displayed on the page doesn't exactly match the entry in the glossary, you can specify a substitution:
 
 {{< text markdown >}}
-{{</* text_dynamic url="https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/policy/mixer-rule-ratings-ratelimit.yaml" syntax="yaml" downloadas="foo.yaml" */>}}
+Mixer uses an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
 {{< /text >}}
 
-If you don't specify the `downloadas` attribute, then the download name is taken from the `url`
-attribute instead.
+which looks like:
+
+Mixer uses an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
+
+So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
+
+## Callouts
+
+You can bring special attention to blocks of content by highlighting warnings, ideas, tips, and quotes:
+
+{{< text markdown >}}
+{{</* warning */>}}
+This is an important warning
+{{</* /warning */>}}
+
+{{</* idea */>}}
+This is a great idea
+{{</* /idea */>}}
+
+{{</* tip */>}}
+This is a useful tip from an expert
+{{</* /tip */>}}
+
+{{</* quote */>}}
+This is a quote from somewhere
+{{</* /quote */>}}
+{{< /text >}}
+
+which looks like:
+
+{{< warning >}}
+This is an important warning
+{{< /warning >}}
+
+{{< idea >}}
+This is a great idea
+{{< /idea >}}
+
+{{< tip >}}
+This is a useful tip from an expert
+{{< /tip >}}
+
+{{< quote >}}
+This is a quote from somewhere
+{{< /quote >}}
 
 ## Embedding boilerplate text
 
@@ -484,17 +584,17 @@ format in a different tab. To insert tabbed content, you use a combination of `t
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
-{{%/* tab name="One" cookie-value="one" */%}}
+{{</* tab name="One" cookie-value="one" */>}}
 ONE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Two" cookie-value="two" */%}}
+{{</* tab name="Two" cookie-value="two" */>}}
 TWO
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
-{{%/* tab name="Three" cookie-value="three" */%}}
+{{</* tab name="Three" cookie-value="three" */>}}
 THREE
-{{%/* /tab */%}}
+{{</* /tab */>}}
 
 {{</* /tabset */>}}
 {{< /text >}}
@@ -503,17 +603,17 @@ which produces the following output:
 
 {{< tabset cookie-name="platform" >}}
 
-{{% tab name="One" cookie-value="one" %}}
+{{< tab name="One" cookie-value="one" >}}
 ONE
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Two" cookie-value="two" %}}
+{{< tab name="Two" cookie-value="two" >}}
 TWO
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="Three" cookie-value="three" %}}
+{{< tab name="Three" cookie-value="three" >}}
 THREE
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 
@@ -576,4 +676,62 @@ aliases:
     - /faq2
     - /faq3
 ---
+{{< /text >}}
+
+## Building and testing the site
+
+Once you've edited some content files, you'll want to build the site in order to test
+your changes. We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally, we use a Docker
+image that contains Hugo. To build and serve the site, simply go to the root of the tree and do:
+
+{{< text bash >}}
+$ make serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://localhost:1313`.
+
+To make and serve the site from a remote server, override `ISTIO_SERVE_DOMAIN` as follows with the IP address
+or DNS Domain of the server as follows:
+
+{{< text bash >}}
+$ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
+{{< /text >}}
+
+This will build the site and start a web server hosting the site. You can then connect to the web server
+at `http://192.168.7.105:1313`.
+
+All English content for the site is located in the `content` directory, as well as in sibling translated
+directories such as `content_zh`.
+
+### Linting
+
+We use linters to ensure some base quality to the site's content. These linters must run without
+complaining before you can submit your changes into the repository. The linters check:
+
+- HTML proofing, which ensures all your links are valid along with other checks.
+
+- Spell checking.
+
+- Style checking, which makes sure your markdown files comply with our common style rules.
+
+You can run these linters locally using:
+
+{{< text bash >}}
+$ make lint
+{{< /text >}}
+
+If you get spelling errors, you have three choices to address each:
+
+- It's a real typo, so fix your markdown.
+
+- It's a command/field/symbol name, so stick some `backticks` around it.
+
+- It's really valid, so go add the word to the `.spelling` file which is at the root of the repo.
+
+If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
+`INTERNAL_ONLY` to prevent the linter from checking external links:
+
+{{< text bash >}}
+$ make INTERNAL_ONLY=True lint
 {{< /text >}}

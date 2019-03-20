@@ -3,6 +3,5 @@ title: 如何加入 Istio Slack 工作空间？
 weight: 180
 ---
 
-Istio Slack 仅限于 Istio 开发人员。
-参见[社区角色](https://github.com/istio/community/blob/master/ROLES.md#member)指南，特别是 **Member** 角色部分。
-在本页您可以找到如何申请 Istio 会员资格的说明。如果您的会员申请被批准，您将会被邀请加入 Istio Slack 工作空间。
+目前我们提供了一个加入 [Istio Slack workspace](https://istio.slack.com) 的正式流程。当前的流程规定下，首先需要已加入成员的邀请，才能加入 Workspace。可以在[论坛](https://discuss.istio.io/c/contributors)上尝试联系现有成员，以便发起邀请。
+

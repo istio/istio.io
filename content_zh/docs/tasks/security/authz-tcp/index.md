@@ -5,15 +5,15 @@ weight: 40
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
-本任务涵盖了在服务网格中为 TCP 服务设置 Istio RBAC 所需的可能活动。可以阅读[安全概念文档](/zh/docs/concepts/security/#授权和鉴权)中的相关内容。
+本任务涵盖了在服务网格中为 TCP 服务设置 Istio RBAC 所需的可能活动。可以阅读[安全概念文档](/zh/docs/concepts/security/#授权)中的相关内容。
 
 ## 开始之前
 
 本文任务假设：
 
-* 阅读 [Istio 中的授权和鉴权](/zh/docs/concepts/security/#授权和鉴权)。
-* 按照[快速开始](/zh/docs/setup/kubernetes/quick-start/)一文的指导，在 Kubernetes 中安装**启用了认证功能**的 Istio。
-* 执行[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)时启用双向 TLS 认证
+* 阅读 [Istio 中的授权和鉴权](/zh/docs/concepts/security/#授权)。
+* 按照[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)一文的指导，在 Kubernetes 中安装**启用了认证功能**的 Istio。
+* 执行[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)时启用双向 TLS 认证
 
 任务中所执行的命令还假设 Bookinfo 示例应用部署在 `default` 命名空间中。如果使用的是其它命名空间，在命令中需要加入 `-n` 参数。
 
@@ -105,7 +105,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
 
 这是因为 Istio 授权是`默认拒绝`的，也就是说必须显式的进行合适的授权之后才能访问 MongoDB 服务。
 
-> 因为缓存和传播的关系，可能需要一些等待时间。
+{{< tip >}}
+因为缓存和传播的关系，可能需要一些等待时间。
+{{< /tip >}}
 
 ## 执行服务级的访问控制
 
@@ -156,7 +158,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
     * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
     * 页面右下角的 **Book Reviews** 显示了红色星星。
 
-    > 缓存和传播过程可能会造成一定延迟。
+    {{< tip >}}
+    缓存和传播过程可能会造成一定延迟。
+    {{< /tip >}}
 
 1. 要确认 MongoDB 服务职能被 `bookinfo-ratings-v2` 服务账号访问：
 
@@ -172,7 +176,9 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
     * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
     * 页面右下角的 **Book Reviews** 显示了错误信息：**"Ratings service is currently unavailable"**。
 
-    > 缓存和传播过程可能会造成一定延迟。
+    {{< tip >}}
+    缓存和传播过程可能会造成一定延迟。
+    {{< /tip >}}
 
 ## 清理
 

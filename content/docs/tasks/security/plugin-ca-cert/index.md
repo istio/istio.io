@@ -14,15 +14,17 @@ operator-specified root certificate. This task demonstrates an example to plug c
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-[quick start](/docs/setup/kubernetes/quick-start/) with global mutual TLS enabled:
+[quick start](/docs/setup/kubernetes/install/kubernetes/) with global mutual TLS enabled:
 
-  Install from the [demo yaml file](/docs/setup/kubernetes/quick-start/#option-2-install-istio-with-default-mutual-tls-authentication).
+  Follow the [installation instructions](/docs/setup/kubernetes/install/kubernetes/#installation-steps) install Istio with the **strict mutual TLS mode** enabled.
 
   _**OR**_
 
-  Using [Helm](/docs/setup/kubernetes/helm-install/) with mutual TLS enabled.
+  Using [Helm](/docs/setup/kubernetes/install/helm/) with mutual TLS enabled.
 
-> Starting with Istio 0.7, you can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+{{< tip >}}
+You can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
+{{< /tip >}}
 
 ## Plugging in the existing certificate and key
 
@@ -39,6 +41,11 @@ In our example, it contains Citadel's signing certificate, so `cert-chain.pem` i
 Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.pem` file should be empty.
 
 These files are ready to use in the `samples/certs/` directory.
+
+  {{< tip >}}
+  The default Citadel installation sets [command line options](/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `cacert`, root certificate in a file named `root-cert.pem`, Citadel key in `ca-key.pem`, etc.)
+  You must use these specific secret and file names, or reconfigure Citadel when you deploy it.
+  {{< /tip >}}
 
 The following steps enable plugging in the certificates and key into Citadel:
 

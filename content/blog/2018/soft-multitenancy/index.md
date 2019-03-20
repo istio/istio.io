@@ -4,7 +4,6 @@ description: Using Kubernetes namespaces and RBAC to create an Istio soft multi-
 publishdate: 2018-04-19
 subtitle: Using multiple Istio control planes and RBAC to create multi-tenancy
 attribution: John Joyce and Rich Curran
-weight: 90
 keywords: [tenancy]
 ---
 
@@ -31,9 +30,11 @@ actions are not expected, but a clean separation of the tenants is still require
 Potential future Istio multi-tenant deployment models are described at the bottom of this
 blog.
 
->Note: This blog is a high-level description of how to deploy Istio in a
+{{< tip >}}
+This blog is a high-level description of how to deploy Istio in a
 limited multi-tenancy environment. The [docs](/docs/) section will be updated
 when official multi-tenancy support is provided.
+{{< /tip >}}
 
 ## Deployment
 
@@ -74,9 +75,10 @@ istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 {{< /text >}}
 
-The Istio [sidecar](/docs/setup/kubernetes/sidecar-injection/) and
-[addons](/docs/tasks/telemetry/), if required, manifests must also
-be deployed to match the configured `namespace` in use by the tenant's Istio control plane.
+The Istio [sidecar](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
+and [addons](/docs/tasks/telemetry/), if required, manifests must also be
+deployed to match the configured `namespace` in use by the tenant's Istio
+control plane.
 
 The execution of these two yaml files is the responsibility of the cluster
 administrator, not the tenant level administrator. Additional RBAC restrictions will also
@@ -288,7 +290,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 {{< /text >}}
 
 If the [add-on tools](/docs/tasks/telemetry/), example
-[Prometheus](/docs/tasks/telemetry/querying-metrics/), are deployed
+[Prometheus](/docs/tasks/telemetry/metrics/querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.
 
@@ -328,7 +330,7 @@ address the use cases.
 Current Istio capabilities are poorly suited to support the first model as it lacks
 sufficient RBAC capabilities to support cluster versus tenant operations. Additionally,
 having multiple tenants under one mesh is too insecure with the current mesh model and the
-way Istio drives configuration to the envoy proxies.
+way Istio drives configuration to the Envoy proxies.
 
 Regarding the second option, the current Istio paradigm assumes a single mesh per Istio control
 plane. The needed changes to support this model are substantial. They would require

@@ -5,17 +5,21 @@ weight: 70
 keywords: [kubernetes,multicluster]
 ---
 
-This example demonstrates how to setup networking between two
+This example demonstrates how to setup network connectivity between two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
 and then compose them into a multicluster mesh using a
-[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology).
+[single control plane with VPN connectivity](/docs/concepts/multicluster-deployments/#single-control-plane-with-vpn-connectivity)
+topology.
 
 ## Create the IBM Cloud Private Clusters
 
 1.  [Install two IBM Cloud Private clusters](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/installing/installing.html).
-    {{< warning_icon >}} Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
+
+    {{< warning >}}
+    Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
     across the multicluster environment and may not overlap. This can be configured by `network_cidr` and
     `service_cluster_ip_range` in `cluster/config.yaml`.
+    {{< /warning >}}
 
     {{< text plain >}}
     ## Network in IPv4 CIDR format
@@ -49,6 +53,10 @@ in the cluster. You need two steps:
 1.  Add IP routers from `cluster-1` to `cluster-2`.
 
 1.  Add IP routers from `cluster-2` to `cluster-1`.
+
+{{< warning >}}
+This approach works if all the nodes within the multiple IBM Cloud Private clusters are located in the same subnet. It is unable to add BGP routers directly for nodes located in different subnets because the IP addresses must be reachable with a single hop. Alternatively, you can use a VPN for pod communication across clusters. Refer to [this article](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3) for more details.
+{{< /warning >}}
 
 You can check how to add IP routers from `cluster-1` to `cluster-2` to validate pod to pod communication
 across clusters. With Node-to-Node Mesh mode, each node will have IP routers connecting to peer nodes in
@@ -133,26 +141,27 @@ across all nodes in the two IBM Cloud Private Clusters.
 
 ## Install Istio for multicluster
 
-[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/multicluster-install/vpn/) to install and configure
+[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/install/multicluster/vpn/) to install and configure
 local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
 
 This example uses `cluster-1` as the local Istio control plane and `cluster-2` as the Istio remote.
 
 ## Deploy the Bookinfo example across clusters
 
-The following example enables [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection).
+The following example enables [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
 
-1.  Install `bookinfo` on the first cluster `cluster-1`. Remove `reviews-v3` deployment to deploy on remote:
+1.  Install `bookinfo` on the first cluster `cluster-1`. Remove the `reviews-v3` deployment which will be deployed on cluster `cluster-2` in the following step:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Create the `reviews-v3.yaml` manifest for deployment on the remote:
+1.  Deploy the `reviews-v3` service along with any corresponding services on the remote `cluster-2` cluster:
 
-    {{< text yaml plain "reviews-v3.yaml" >}}
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
     ---
     ##################################################################################################
     # Ratings service
@@ -188,17 +197,20 @@ The following example enables [automatic sidecar injection](/docs/setup/kubernet
     kind: Deployment
     metadata:
       name: reviews-v3
+      labels:
+        app: reviews
+        version: v3
     spec:
       replicas: 1
       template:
         metadata:
-          labels:
-            app: reviews
-            version: v3
+        labels:
+          app: reviews
+          version: v3
         spec:
           containers:
           - name: reviews
-            image: istio/examples-bookinfo-reviews-v3:1.5.0
+            image: istio/examples-bookinfo-reviews-v3:1.10.1
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080
@@ -209,12 +221,6 @@ The following example enables [automatic sidecar injection](/docs/setup/kubernet
     `reviews-v3` pod will determine the proper `ratings` endpoint after the DNS lookup is resolved to a
     service address.  This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
     in a federated Kubernetes environment.
-
-1.  Install the `reviews-v3` deployment on the remote `cluster-2`.
-
-    {{< text bash >}}
-    $ kubectl apply -f $HOME/reviews-v3.yaml
-    {{< /text >}}
 
 1.  [Determine the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
     for `istio-ingressgateway`'s `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway.

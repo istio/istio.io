@@ -62,41 +62,42 @@ To start the application, follow the instructions corresponding to your Istio ru
 
 ### If you are running on Kubernetes
 
-> If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+{{< tip >}}
+If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+{{< /tip >}}
 
-1. Change directory to the root of the Istio installation directory.
+1.  Change directory to the root of the Istio installation.
 
-1.  Bring up the application containers:
+1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+    Label the namespace that will host the application with `istio-injection=enabled`:
 
-    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/sidecar-injection/#manual-sidecar-injection),
-        use the following command
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection=enabled
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
-        {{< /text >}}
+1.  Deploy your application using the `kubectl` command:
 
-        The `istioctl kube-inject` command is used to manually modify the `bookinfo.yaml`
-        file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    {{< /text >}}
 
-    *   If you are using a cluster with
-        [automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
-        enabled, label the `default` namespace with `istio-injection=enabled`
-
-        {{< text bash >}}
-        $ kubectl label namespace default istio-injection=enabled
-        {{< /text >}}
-
-        Then simply deploy the services using `kubectl`
-
-        {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-        {{< /text >}}
-
-    Either of the above commands launches all four microservices as illustrated in the above diagram.
+    The command launches all four services shown in the `bookinfo` application architecture diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
 
-    > In a realistic deployment, new versions of a microservice are deployed
+    {{< tip >}}
+    In a realistic deployment, new versions of a microservice are deployed
     over time instead of deploying all versions simultaneously.
+    {{< /tip >}}
+
+    If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
+    (/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
+    use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
+    file before deploying your application. For more information please
+    visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
+    {{< /text >}}
 
 1.  Confirm all services and pods are correctly defined and running:
 
@@ -171,7 +172,6 @@ is used for this purpose.
 
     {{< text bash >}}
     $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
 1.  Confirm that all docker containers are running:
@@ -180,7 +180,9 @@ is used for this purpose.
     $ docker ps -a
     {{< /text >}}
 
-    > If the Istio Pilot container terminates, re-run the command from the previous step.
+    {{< tip >}}
+    If the Istio Pilot container terminates, re-run the command from the previous step.
+    {{< /tip >}}
 
 1.  Set `GATEWAY_URL`:
 
@@ -199,7 +201,7 @@ is used for this purpose.
 To confirm that the Bookinfo application is accessible from outside the cluster, run the following `curl` command:
 
 {{< text bash >}}
-$ curl http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+$ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
@@ -212,7 +214,7 @@ version routing.
 ## Apply default destination rules
 
 Before you can use Istio to control the Bookinfo version routing, you need to define the available
-versions, called *subsets*, in destination rules.
+versions, called *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 Run the following command to create default destination rules for the Bookinfo services:
 
@@ -241,8 +243,7 @@ $ kubectl get destinationrules -o yaml
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc.
 To proceed, refer to one or more of the [Istio Examples](/docs/examples),
-depending on your interest. [Intelligent Routing](/docs/examples/intelligent-routing/)
-is a good place to start for beginners.
+depending on your interest.
 
 ## Cleanup
 

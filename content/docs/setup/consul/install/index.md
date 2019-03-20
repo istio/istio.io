@@ -5,7 +5,9 @@ weight: 30
 keywords: [consul]
 ---
 
-> Setup on Nomad has not been tested.
+{{< warning >}}
+Setup on Nomad has not been tested.
+{{< /warning >}}
 
 Using Istio in a non-Kubernetes environment involves a few key tasks:
 
@@ -23,9 +25,9 @@ the API server.
 Istio's API server (based on Kubernetes' API server) provides key functions
 such as configuration management and Role-Based Access Control. The API
 server requires an
-[etcd cluster](https://kubernetes.io/docs/getting-started-guides/scratch/#etcd)
+[etcd cluster](https://v1-12.docs.kubernetes.io/docs/setup/scratch/#etcd)
 as a persistent store. See the
-[instructions for setting up the API server](https://kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
+[instructions for setting up the API server](https://v1-12.docs.kubernetes.io/docs/getting-started-guides/scratch/#apiserver-controller-manager-and-scheduler).
 
 #### Local install
 
@@ -119,5 +121,7 @@ the Istio sidecars. The IP table script to setup such forwarding can be
 found in the
 [here]({{< github_file >}}/tools/deb/istio-iptables.sh).
 
-> This script must be executed before starting the application or
-> the sidecar process.
+{{< warning >}}
+This script must be executed before starting the application or
+the sidecar process.
+{{< /warning >}}

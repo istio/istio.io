@@ -5,7 +5,7 @@ weight: 50
 ---
 
 This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this
-is the built-in set. They can be found [here]({{< github_file >}}/install/kubernetes/helm/subcharts/mixer/templates/config.yaml)
+is the built-in set. They can be found [here]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)
 under the section with "kind: metric”. It uses [metric
 template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 
@@ -30,6 +30,12 @@ We will describe metrics first and then the labels for each metric.
 
 *   **Tcp Byte Received**: This is a `COUNTER` which measures the size of total
     bytes received during request in case of a TCP connection.
+
+*   **Tcp Connections Opened**: This is a `COUNTER` incremented for every opened
+    tcp connection.
+
+*   **Tcp Connections Closed**: This is a `COUNTER` incremented for every closed
+    tcp connection.
 
 ## Labels
 
@@ -150,4 +156,12 @@ We will describe metrics first and then the labels for each metric.
 
     {{< text yaml >}}
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
+    {{< /text >}}
+
+*   **Response Flags**: Additional details about the response or connection from proxy.
+    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)
+    for more detail.
+
+    {{< text yaml >}}
+    response_flags: context.proxy_error_code | "-"
     {{< /text >}}

@@ -21,7 +21,9 @@ keywords: [kubernetes,multicluster]
 
 * 两个 Kubernetes 集群（称之为 `local` 和 `remote`）。
 
-    > {{< warning_icon >}} 为了运行此配置，要求必须可以从 `local` 集群访问 `remote` 集群的 Kubernetes API server。
+    {{< warning >}}
+    为了运行此配置，要求必须可以从 `local` 集群访问 `remote` 集群的 Kubernetes API server。
+    {{< /warning >}}
 
 * `kubectl` 命令使用 `--context` 参数，同时访问 `local` 和 `remote` 集群。请使用下列命令列出您的 context：
 
@@ -67,7 +69,7 @@ keywords: [kubernetes,multicluster]
 
     {{< text bash >}}
     $ helm template --namespace=istio-system \
-    --values install/kubernetes/helm/istio/values.yaml \
+    --values @install/kubernetes/helm/istio/values.yaml@ \
     --set global.mtls.enabled=true \
     --set global.enableTracing=false \
     --set security.selfSigned=false \
@@ -122,7 +124,6 @@ keywords: [kubernetes,multicluster]
       --set global.createRemoteSvcEndpoints=true \
       --set global.remotePilotCreateSvcEndpoint=true \
       --set global.remotePilotAddress=${LOCAL_GW_ADDR} \
-      --set global.proxy.envoyStatsd.enabled=false \
       --set global.disablePolicyChecks=true \
       --set global.policyCheckFailOpen=true \
       --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
@@ -172,7 +173,9 @@ keywords: [kubernetes,multicluster]
     $ TOKEN=$(kubectl get --context=$CTX_REMOTE secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    > 许多系统上使用 `openssl enc -d -base64 -A` 替代 `base64 --decode`。
+    {{< idea >}}
+    许多系统上使用 `openssl enc -d -base64 -A` 替代 `base64 --decode`。
+    {{< /idea >}}
 
 1. 在工作目录创建 `remote_kubecfg` 文件：
 
@@ -348,7 +351,7 @@ $ kubectl label --context=$CTX_LOCAL secret iks istio/multiCluster=true -n istio
 1. 部署 `sleep` service：
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
+    $ kubectl create --context=$CTX_LOCAL -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
 1. 多次请求 `helloworld.sample` service：
@@ -403,6 +406,6 @@ $ kubectl delete --context=$CTX_LOCAL -f istio-auth.yaml
 $ kubectl delete --context=$CTX_LOCAL ns istio-system
 $ helm delete --purge --kube-context=$CTX_LOCAL istio-init
 $ kubectl delete --context=$CTX_LOCAL -f helloworld-v1.yaml -n sample
-$ kubectl delete --context=$CTX_LOCAL -f samples/sleep/sleep.yaml -n sample
+$ kubectl delete --context=$CTX_LOCAL -f @samples/sleep/sleep.yaml@ -n sample
 $ kubectl delete --context=$CTX_LOCAL ns sample
 {{< /text >}}

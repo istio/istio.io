@@ -9,7 +9,7 @@ keywords: [调试,proxy,状态,配置,pilot,envoy]
 
 ## 开始之前
 
-* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/zh/docs/setup/kubernetes/quick-start/#安装步骤)和 [Bookinfo 安装步骤](/zh/docs/examples/bookinfo/#如果在-kubernetes-中运行)中所述使用 `istio.yaml` 安装)。
+* 部署 Istio 和 Bookinfo 的 Kubernetes 集群（例如，如[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)和 [Bookinfo 安装步骤](/zh/docs/examples/bookinfo/#如果在-kubernetes-中运行)中所述使用 `istio.yaml` 安装)。
 
 或者
 
@@ -103,7 +103,7 @@ BlackHoleCluster                                                                
 details.default.svc.cluster.local                                                9080      -          outbound      EDS
 heapster.kube-system.svc.cluster.local                                           80        -          outbound      EDS
 istio-citadel.istio-system.svc.cluster.local                                     8060      -          outbound      EDS
-istio-citadel.istio-system.svc.cluster.local                                     9093      -          outbound      EDS
+istio-citadel.istio-system.svc.cluster.local                                     10514     -          outbound      EDS
 istio-egressgateway.istio-system.svc.cluster.local                               80        -          outbound      EDS
 ...
 {{< /text >}}
@@ -140,7 +140,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
     0.0.0.0            15010     HTTP   |
     0.0.0.0            15003     HTTP   |
     0.0.0.0            15004     HTTP   |
-    0.0.0.0            9093      HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
+    0.0.0.0            10514     HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
     0.0.0.0            15007     HTTP   |
     0.0.0.0            8080      HTTP   |
     0.0.0.0            9091      HTTP   |

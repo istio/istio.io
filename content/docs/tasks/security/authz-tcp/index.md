@@ -1,7 +1,7 @@
 ---
 title: Authorization for TCP Services
 description: Shows how to set up role-based access control for TCP services.
-weight: 40
+weight: 10
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
@@ -15,10 +15,10 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the instructions in the [quick start](/docs/setup/kubernetes/quick-start/) to install Istio on
+* Follow the instructions in the [quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio on
   Kubernetes **with authentication enabled**.
 
-* Enable mutual TLS authentication when running the [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps).
+* Enable mutual TLS authentication when running the [installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps).
 
 The commands used in this task assume the Bookinfo example application is deployed in the default
 namespace. To specify a namespace other than the default namespace, use the `-n` option in the command.
@@ -128,7 +128,9 @@ Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpa
 This is because Istio authorization is "deny by default", which means that you need to explicitly
 define access control policies to grant access to the MongoDB service.
 
-> There may be some delays due to caching and other propagation overhead.
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ## Enforcing Service-level access control
 
@@ -180,16 +182,31 @@ to access the MongoDB service.
     * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
     * The **Book Reviews** section on the lower right of the page includes red stars.
 
-    > There may be some delays due to caching and other propagation overhead.
+    {{< tip >}}
+    There may be some delays due to caching and other propagation overhead.
+    {{< /tip >}}
 
 1. To confirm the MongoDB service can only be accessed by service account `bookinfo-ratings-v2`:
 
-    Run the following command to re-deploy the `v2` of `ratings` with service account `default`:
+    Run the following command to delete the `ratings` deployment with service account `bookinfo-ratings-v2`:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
     {{< /text >}}
+
+    Run the following command to deploy the `ratings` deployment with service account `default`:
+
+    * To deploy in a cluster **with** automatic sidecar injection enabled:
+
+        {{< text bash >}}
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+        {{< /text >}}
+
+    * To deploy in a cluster **without** automatic sidecar injection enabled:
+
+        {{< text bash >}}
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
+        {{< /text >}}
 
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
 
@@ -197,7 +214,9 @@ to access the MongoDB service.
     * The **Book Reviews** section on the lower right of the page includes an error message **"Ratings
       service is currently unavailable"**.
 
-    > There may be some delays due to caching and other propagation overhead.
+    {{< tip >}}
+    There may be some delays due to caching and other propagation overhead.
+    {{< /tip >}}
 
 ## Cleanup
 

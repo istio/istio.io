@@ -2,7 +2,7 @@
 title: Zipkin
 description: 了解如何配置代理以向 Zipkin 发送追踪请求。
 weight: 10
-keywords: [telemetry,tracing,zipkin,span,port forwarding]
+keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 ---
 
 要了解 Istio 如何处理追踪，请查看这个任务的[概述](../overview/)。

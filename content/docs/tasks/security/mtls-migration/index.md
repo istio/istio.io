@@ -20,15 +20,15 @@ and mutual TLS traffic.
 You can configure Istio services to send mutual
 TLS traffic to that service while connections from legacy services will not
 lose communication. Moreover, you can use the
-[Grafana dashboard](/docs/tasks/telemetry/using-istio-dashboard/) to check which services are
+[Grafana dashboard](/docs/tasks/telemetry/metrics/using-istio-dashboard/) to check which services are
 still sending plain text traffic to the service in "PERMISSIVE" mode and choose to lock
 down once the migration is done.
 
 ## Before you begin
 
-* Understand Istio [authentication policy](/docs/concepts/security/authn-policy/) and related [mutual TLS authentication](/docs/concepts/security/mutual-tls/) concepts.
+* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps](/docs/setup/kubernetes/quick-start/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/helm-install/)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/install/helm/)).
 
 * For demo
     * Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them.
@@ -58,44 +58,19 @@ down once the migration is done.
     sleep.legacy to httpbin.foo: 200
     {{< /text >}}
 
-* Also verify that there are no authentication policy or destination rule in the system
+* Also verify that there are no authentication policies or destination rules (except mixer's) in the system:
 
     {{< text bash >}}
     $ kubectl get policies.authentication.istio.io --all-namespaces
     No resources found.
-    $ kubectl get destinationrule --all-namespaces
-    No resources found.
     {{< /text >}}
 
-## Configure the server to accept both mutual TLS and plain text traffic
-
-In authentication policy, we have a `PERMISSIVE` mode which makes the server accept both mutual TLS and plain text traffic.
-We need to configure the server to this mode.
-
-{{< text bash >}}
-$ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "example-httpbin-permissive"
-  namespace: foo
-spec:
-  targets:
-  - name: httpbin
-  peers:
-  - mtls:
-      mode: PERMISSIVE
-EOF
-{{< /text >}}
-
-Now send traffic to `httpbin.foo` again to ensure all requests can still succeed.
-
-{{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
-200
-200
-200
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get destinationrule --all-namespaces
+    NAMESPACE      NAME              AGE
+    istio-system   istio-policy      25m
+    istio-system   istio-telemetry   25m
+    {{< /text >}}
 
 ## Configure clients to send mutual TLS traffic
 
@@ -128,8 +103,8 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 {{< /text >}}
 
 You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
-[`DestinationRule`](/docs/reference/config/istio.networking.v1alpha3/#DestinationRule).
-After verifying it works by checking [Grafana to monitor](/docs/tasks/telemetry/using-istio-dashboard/),
+[`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/).
+After verifying it works by checking [Grafana to monitor](/docs/tasks/telemetry/metrics/using-istio-dashboard/),
 then increase the rollout scope and finally apply to all Istio client services.
 
 ## Lock down to mutual TLS (optional)

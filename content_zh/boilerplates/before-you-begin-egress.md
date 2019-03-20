@@ -1,3 +1,5 @@
+---
+---
 ## 开始之前
 
 *   按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
@@ -5,7 +7,7 @@
 *   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，以获取发送请求的测试源。
 
     如果您启用了
-    [自动 sidecar 注入](/zh/docs/setup/kubernetes/sidecar-injection/#sidecar-的自动注入)，请执行
+    [自动 sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，请执行
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@

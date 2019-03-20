@@ -14,7 +14,7 @@ weight: 42
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-在 GKE 中安装 Istio，参考[在 Google Kubernetes Engine 中快速开始](/zh/docs/setup/kubernetes/platform-setup/gke)。
+在 GKE 中安装 Istio，参考[在 Google Kubernetes Engine 中快速开始](/zh/docs/setup/kubernetes/prepare/platform-setup/gke)。
 
 ## HTTP Endpoints 服务
 
@@ -97,7 +97,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
       name: tcp
     {{< /text >}}
 
-1. 更新网格服务部署。请参阅 [Pods 和 Services 要求](/zh/docs/setup/kubernetes/spec-requirements)中端口命名的规则。
+1. 更新网格服务部署。请参阅 [Pods 和 Services 要求](/zh/docs/setup/kubernetes/additional-setup/requirements)中端口命名的规则。
 
 1. 你可以通过安全的 Ingress 访问 Endpoints 服务来验证：
 

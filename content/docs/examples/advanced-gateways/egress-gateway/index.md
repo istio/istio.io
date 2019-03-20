@@ -5,13 +5,17 @@ weight: 30
 keywords: [traffic-management,egress]
 ---
 
+{{<warning>}}
+This example does not work in Minikube.
+{{</warning>}}
+
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
 There, the external services are called directly from the client sidecar.
 This example also shows how to configure Istio to call external services, although this time
 indirectly via a dedicated _egress gateway_ service.
 
-Istio uses [ingress and egress gateways](/docs/reference/config/istio.networking.v1alpha3/#Gateway)
+Istio uses [ingress and egress gateways](/docs/reference/config/networking/v1alpha3/gateway/)
 to configure load balancers executing at the edge of a service mesh.
 An ingress gateway allows you to define entry points into the mesh that all incoming traffic flows through.
 Egress gateway is a symmetrical concept; it defines exit points from the mesh. Egress gateways allow
@@ -30,6 +34,29 @@ allocating public IPs to the egress gateway nodes allows the application nodes t
 controlled way.
 
 {{< boilerplate before-you-begin-egress >}}
+
+## Deploy Istio egress gateway
+
+1.  Check if the Istio egress gateway is deployed:
+
+    {{< text bash >}}
+    $ kubectl get pod -l istio=egressgateway -n istio-system
+    {{< /text >}}
+
+    If no pods are returned, deploy the Istio egress gateway by performing the next step.
+
+1.  Use `helm template` (or `helm install` with the corresponding flags).
+    The following command uses Helm templates from the `$HOME/istio-fetch` directory, created when you
+    [installed Istio with Helm](/docs/setup/kubernetes/install/helm/).
+
+    {{< text bash >}}
+    $ helm template $HOME/istio-fetch/istio --name istio-egressgateway --namespace istio-system \
+        -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml \
+        -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml \
+        -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml \
+        --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false \
+        --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
+    {{< /text >}}
 
 ## Egress gateway for HTTP traffic
 
@@ -85,9 +112,9 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -127,13 +154,13 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -161,7 +188,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 
@@ -293,9 +320,9 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -370,13 +397,13 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
               number: 443
           weight: 100
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -442,7 +469,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     EOF
 {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 

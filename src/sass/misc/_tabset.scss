@@ -1,0 +1,64 @@
+.tabset {
+    padding: 0;
+
+    margin: 1em 0 1em 1em;
+    @media (min-width: $bp-md) {
+        margin: 1em;
+    }
+
+    .tab-strip {
+        button {
+            display: inline-block;
+            margin: 0 3px;
+            border: 1px solid $tabsetBorderColor;
+            border-bottom: none;
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+            padding: 0 1rem;
+            transform: skewX(-20deg);
+            transform-origin: left bottom;
+            cursor: pointer;
+            outline: 0;
+            font: inherit;
+            box-shadow: 3px 3px 8px $tabsetShadowColor;
+            background-color: $tabsetUnselectedTabBackgroundColor;
+
+            span {
+                transform: skewX(6deg);
+                color: $tabsetUnselectedTabTextColor;
+                font-size: 80%;
+            }
+
+            &:hover, &:focus {
+                span {
+                    color: $linkActiveColor;
+                }
+            }
+
+            &[aria-selected=true] {
+                background-color: $tabsetSelectedTabBackgroundColor;
+                cursor: default;
+                box-shadow: none;
+
+                span {
+                    color: $tabsetSelectedTabTextColor;
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        border: 1px solid $tabsetBorderColor;
+        border-radius: $border-radius;
+        padding: 1rem 1rem;
+        box-shadow: 3px 3px 8px $tabsetShadowColor;
+
+        p:first-of-type {
+            margin-top: 0
+        }
+
+        p:last-of-type {
+            margin-bottom: 0
+        }
+    }
+}

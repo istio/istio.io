@@ -38,20 +38,20 @@ In addition to the prerequisites for installing Istio the following setup is req
     $ zone="us-east1-b"
     $ cluster="cluster-1"
     $ gcloud container clusters create $cluster --zone $zone --username "admin" \
-      --cluster-version "1.9.6-gke.1" --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
+      --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
       --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only",\
-      "https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
-      "https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
-      "https://www.googleapis.com/auth/trace.append" \
-      --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
+    "https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
+    "https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
+    "https://www.googleapis.com/auth/trace.append" \
+    --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
     $ cluster="cluster-2"
     $ gcloud container clusters create $cluster --zone $zone --username "admin" \
-      --cluster-version "1.9.6-gke.1" --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
+      --machine-type "n1-standard-2" --image-type "COS" --disk-size "100" \
       --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only",\
-      "https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
-      "https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
-      "https://www.googleapis.com/auth/trace.append" \
-      --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
+    "https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring",\
+    "https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly",\
+    "https://www.googleapis.com/auth/trace.append" \
+    --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
     {{< /text >}}
 
 1.  Wait for clusters to transition to the `RUNNING` state by polling their statuses via the following command:
@@ -67,31 +67,23 @@ In addition to the prerequisites for installing Istio the following setup is req
     $ gcloud container clusters get-credentials cluster-2 --zone $zone
     {{< /text >}}
 
-1.  Validate `kubectl` access to each cluster:
+1.  Validate `kubectl` access to each cluster and create a `cluster-admin` cluster role binding tied to the Kubernetes credentials associated with your GCP user.
 
-    1.  Check cluster-1
+    1.  For cluster-1:
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
         $ kubectl get pods --all-namespaces
+        $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
         {{< /text >}}
 
-    1.  Check cluster-2:
+    1.  For cluster-2:
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
         $ kubectl get pods --all-namespaces
+        $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
         {{< /text >}}
-
-1.  Create a `cluster-admin` cluster role binding tied to the Kubernetes credentials associated with your GCP user.
-    _Note:_ replace `mygcp@gmail.com` with the email tied to your Google Cloud account:
-
-    {{< text bash >}}
-    $ KUBE_USER="mygcp@gmail.com"
-    $ kubectl create clusterrolebinding gke-cluster-admin-binding \
-      --clusterrole=cluster-admin \
-      --user="${KUBE_USER}"
-    {{< /text >}}
 
 ## Create a Google Cloud firewall rule
 
@@ -118,7 +110,8 @@ the `default` namespace:
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio_master.yaml
+$ cat install/kubernetes/helm/istio-init/files/crd-* > $HOME/istio_master.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system >> $HOME/istio_master.yaml
 $ kubectl create ns istio-system
 $ kubectl apply -f $HOME/istio_master.yaml
 $ kubectl label namespace default istio-injection=enabled
@@ -137,20 +130,18 @@ $ kubectl get pods -n istio-system
     {{< text bash >}}
     $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
     $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio=mixer -o jsonpath='{.items[0].status.podIP}')
-    $ export STATSD_POD_IP=$(kubectl -n istio-system get pod -l istio=statsd-prom-bridge -o jsonpath='{.items[0].status.podIP}')
     $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
     {{< /text >}}
 
 1.  Generate remote cluster manifest:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
-      --name istio-remote \
+    $ helm template install/kubernetes/helm/istio \
+      --namespace istio-system --name istio-remote \
+      --values @install/kubernetes/helm/istio/values-istio-remote.yaml@ \
       --set global.remotePilotAddress=${PILOT_POD_IP} \
       --set global.remotePolicyAddress=${POLICY_POD_IP} \
-      --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-      --set global.proxy.envoyStatsd.enabled=true \
-      --set global.proxy.envoyStatsd.host=${STATSD_POD_IP} > $HOME/istio-remote.yaml
+      --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > $HOME/istio-remote.yaml
     {{< /text >}}
 
 ## Install remote cluster manifest
@@ -185,7 +176,9 @@ discovery.
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
     {{< /text >}}
 
-    {{< info_icon >}} An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< tip >}}
+    An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    {{< /tip >}}
 
 1.  Create a `kubeconfig` file in the working directory for the service account `istio-multi`:
 
@@ -231,14 +224,14 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
 1.  Create the `reviews-v3.yaml` manifest for deployment on the remote:
 
-    {{< text yaml plain "reviews-v3.yaml" >}}
+    {{< text syntax="yaml" downloadas="reviews-v3.yaml" >}}
     ---
     ##################################################################################################
     # Ratings service
@@ -307,6 +300,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     is including the remote's `reviews-v3` instance in the load balancing of reviews versions:
 
     {{< text bash >}}
+    $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
     $ kubectl get svc istio-ingressgateway -n istio-system
     {{< /text >}}
 
@@ -317,7 +311,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 ## Uninstalling
 
 The following should be done in addition to the uninstall of Istio as described in the
-[VPN-based multicluster uninstall section](/docs/setup/kubernetes/multicluster-install/vpn/):
+[VPN-based multicluster uninstall section](/docs/setup/kubernetes/install/multicluster/vpn/):
 
 1.  Delete the Google Cloud firewall rule:
 
