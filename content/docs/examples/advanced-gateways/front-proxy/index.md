@@ -127,7 +127,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
 1.  Create a virtual service for each external service to configure routing to it. Both virtual services include the
     `proxy` gateway in the `gateways:` section and in the `match:` section for HTTP and HTTPS traffic accordingly.
 
-    Notice the `route:` section for the `mesh` gateway, that gateway that represents the applications inside
+    Notice the `route:` section for the `mesh` gateway, the gateway that represents the applications inside
     the mesh. The `route:` for the `mesh` gateway shows how the traffic is directed to the `localhost.local` service,
     effectively blocking the traffic.
 
@@ -227,7 +227,6 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     {{< /text >}}
 
 1.  If the Istio ingress gateway is deployed in the `istio-system` namespace, print the gateway's log with:
-    the command to print the log is:
 
     {{< text bash >}}
     $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'httpbin.org'
@@ -259,7 +258,6 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     {{< /text >}}
 
 1. If the Istio ingress gateway is deployed in the `istio-system` namespace, print the gateway's log with:
-    the command to print the log is:
 
     {{< text bash >}}
     $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'www.google.com'
