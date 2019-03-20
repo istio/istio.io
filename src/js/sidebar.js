@@ -8,20 +8,22 @@ function handleSidebar() {
     }
 
     // toggle subtree in sidebar
-    queryAll(sidebar, button).forEach(o => {
-        listen(o, click, e => {
-            let button = e.currentTarget;
-            button.classList.toggle("show");
-            const ul = button.nextElementSibling.nextElementSibling;
-            toggleAttribute(ul, ariaExpanded);
+    queryAll(sidebar, '.body').forEach(body => {
+        queryAll(body, button).forEach(o => {
+            listen(o, click, e => {
+                let button = e.currentTarget;
+                button.classList.toggle("show");
+                const ul = button.nextElementSibling.nextElementSibling;
+                toggleAttribute(ul, ariaExpanded);
 
-            let el = ul;
-            do {
-                el = el.parentElement;
-            } while (!el.classList.contains('body'));
+                let el = ul;
+                do {
+                    el = el.parentElement;
+                } while (!el.classList.contains('body'));
 
-            // adjust the body's max height to the total size of the body's content
-            el.style.maxHeight = el.scrollHeight + "px";
+                // adjust the body's max height to the total size of the body's content
+                el.style.maxHeight = el.scrollHeight + "px";
+            });
         });
     });
 
@@ -32,6 +34,8 @@ function handleSidebar() {
                 const body = header.nextElementSibling;
 
                 body.classList.toggle('show');
+                toggleAttribute(header, ariaExpanded);
+
                 if (body.classList.contains('show')) {
                     // set this as the limit for expansion
                     body.style.maxHeight = body.scrollHeight + "px";
@@ -49,6 +53,8 @@ function handleSidebar() {
             body.style.maxHeight = body.scrollHeight + "px";
             body.classList.toggle("default");
             body.classList.toggle("show");
+            const header = body.previousElementSibling;
+            toggleAttribute(header, ariaExpanded);
         }
     });
 
