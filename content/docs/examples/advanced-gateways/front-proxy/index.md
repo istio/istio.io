@@ -83,7 +83,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     EOF
     {{< /text >}}
 
-1.  Configure a service entry and a destination rule for `localhost`. This service entry is used in the next step
+1.  Create a service entry and configure a destination rule for the `localhost` service. You need this service entry in the next step
     as a destination for traffic to the external services from applications inside the mesh, effectively blocking such
     traffic.
 
