@@ -222,7 +222,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
         `"""`
     {{< /text >}}
 
-1.  Check the logs of the `istio-ingressgateway` pods. If the gateway is deployed in the `istio-system` namespace,
+1.  If the Istio ingress gateway is deployed in the `istio-system` namespace, print the gateway's log with:
     the command to print the log is:
 
     {{< text bash >}}
