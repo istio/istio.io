@@ -72,7 +72,7 @@ keywords: [telemetry,visualization]
     这提供了网格的全局视图以及网格中的服务和工作负载。
     您可以通过导航到特定仪表盘获得有关服务和工作负载的更多详细信息，如下所述。
 
-2.  可视化服务仪表盘。
+1.  可视化服务仪表盘。
 
     从 Grafana 仪表盘的左上角导航菜单，您可以导航到 Istio 服务仪表盘或使用浏览器直接访问 [http://localhost:3000/dashboard/db/istio-service-dashboard](http://localhost:3000/dashboard/db/istio-service-dashboard)。
 
@@ -82,7 +82,7 @@ keywords: [telemetry,visualization]
 
     这提供了有关服务的指标的详细信息，进一步地提供了有关该服务的客户端工作负载（调用此服务的工作负载）和服务工作负载（提供此服务的工作负载）的详细信息。
 
-3.  可视化工作负载仪表盘。
+1.  可视化工作负载仪表盘。
 
     从 Grafana 仪表盘的左上角导航菜单，您可以导航到 Istio 工作负载仪表盘或使用浏览器直接访问 [http://localhost:3000/dashboard/db/istio-workload-dashboard](http://localhost:3000/dashboard/db/istio-workload-dashboard)。
 
