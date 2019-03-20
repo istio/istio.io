@@ -631,6 +631,7 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
+    --set gateways.istio-egressgateway.enabled=true \
     --set gateways.istio-egressgateway.secretVolumes[0].name=egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].secretName=istio-egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].mountPath=/etc/istio/egressgateway-certs \
