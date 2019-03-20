@@ -105,6 +105,11 @@ spec:
 EOF
 {{< /text >}}
 
+{{< tip >}}
+The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/istio.authentication.v1alpha1/)
+ it is defined in the cluster-scoped `MeshPolicy` CRD.
+ {{< /tip >}}
+
 This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind:
  `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply to all services in the mesh).
 
@@ -234,8 +239,8 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-If you install Istio with the [default mutual TLS option](/docs/setup/kubernetes/install/kubernetes/#option-2-install-istio-with-default-mutual-tls-authentication),
-this rule, together with the global authentication policy and destination rule above will be injected to the system during installation process.
+This rule, along with the global authentication policy and destination rule, above,
+is automatically injected into the system when you install Istio with mutual TLS enabled.
 {{< /tip >}}
 
 Re-run the testing command above to confirm that it returns 200 after the rule is added:
@@ -557,7 +562,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 
 Attaching the valid token generated above returns success:
 
-{{< text bash>}}
+{{< text bash >}}
 $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
@@ -603,6 +608,11 @@ This is often used to define a JWT policy for all services bound to the gateway,
 End-user authentication can be enabled or disabled based on request path. This is useful if you want to
 disable authentication for some paths, for example, the path used for health check or status report.
 You can also specify different JWT requirements on different paths.
+
+{{< warning >}}
+The end-user authentication with per-path requirements is an experimental feature in Istio 1.1 and
+is **NOT** recommended for production use.
+{{< /warning >}}
 
 #### Disable End-user authentication for specific paths
 

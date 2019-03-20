@@ -20,3 +20,10 @@ Mixer、Pilot 和 Galley 都实现了 ControlZ 功能。这些组件启动时将
 
 当启动组件时，可以通过命令行参数 `--ctrlz_port` 和 `--ctrlz_address` 指定特定的地址和端口来控制 ControlZ 暴露的地址。
 
+要访问已部署组件（例如 Mixer、Galley、Pilot）的 ControlZ 页面，可以用端口转发的方式将 ControlZ 映射到本地，然后用浏览器访问：
+
+{{< text bash >}}
+$ kubectl port-forward -n istio-system <podname> 9876:9876
+{{< /text >}}
+
+这样把对应组件的 ControlZ 页面重定向到 `http://localhost:9876`，就可以进行访问了。

@@ -31,6 +31,13 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     should work correctly with the instructions in this task. Otherwise, try
     a different implementation of `curl`, for example on a Linux machine.
 
+{{< tip >}}
+
+If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/secure-ingress/mount),
+and you want to migrate your ingress gateway to use the SDS approach. There are no
+extra steps required.
+{{< /tip >}}
+
 ## Generate client and server certificates and keys
 
 For this task you can use your favorite tool to generate certificates and keys.
@@ -94,7 +101,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
 
 1.  Enable SDS at ingress gateway and deploy the ingress gateway agent.
     Since this feature is disabled by default, you need to enable the
-    [`istio-ingressgateway.sds.enabled` flag]({{<github_blob>}}/install/kubernetes/helm/subcharts/gateways/values.yaml) in helm,
+    [`istio-ingressgateway.sds.enabled` flag]({{<github_blob>}}/install/kubernetes/helm/istio/charts/gateways/values.yaml) in helm,
     and then generate the `istio-ingressgateway.yaml` file:
 
     {{< text bash >}}
@@ -252,7 +259,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
     --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert httpbin.new.example.com.b/2_intermediate/certs/ca-chain.cert.pem \
+    --cacert httpbin.new.example.com/2_intermediate/certs/ca-chain.cert.pem \
     https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     HTTP/2 418

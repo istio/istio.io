@@ -1,6 +1,6 @@
 ---
 title: Missing Metrics
-description:
+description: Diagnose problems where metrics are not being collected.
 weight: 10
 ---
 

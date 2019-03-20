@@ -167,7 +167,7 @@ Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: 
 `x509: certificate signed by unknown authority` errors are typically
 caused by an empty `caBundle` in the webhook configuration.
 
-Verify the `caBundle` in the mutatingwebhookconfiguration matches the
+Verify the `caBundle` in the `mutatingwebhookconfiguration` matches the
    root certificate mounted in the `istio-sidecar-injector` pod.
 
 {{< text bash >}}

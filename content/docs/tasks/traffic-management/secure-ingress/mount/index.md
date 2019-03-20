@@ -94,6 +94,12 @@ create a gateway definition that configures a server on port 443.
     private key. You may want to deploy the ingress gateway in a separate namespace and create the secret there, so that
     only the ingress gateway pod will be able to mount it.
 
+    Verify that `tls.crt` and `tls.key` have been mounted in the ingress gateway pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
+    {{< /text >}}
+
 1.  Define a `Gateway` with a `server` section for port 443.
 
     {{< warning >}}
@@ -105,7 +111,7 @@ create a gateway definition that configures a server on port 443.
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: mygateway
+      name: httpbin-gateway
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
@@ -135,7 +141,7 @@ create a gateway definition that configures a server on port 443.
       hosts:
       - "httpbin.example.com"
       gateways:
-      - mygateway
+      - httpbin-gateway
       http:
       - match:
         - uri:
@@ -232,7 +238,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: mygateway
+      name: httpbin-gateway
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
@@ -254,7 +260,6 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 1.  Access the `httpbin` service by HTTPS as in the previous section:
 
     {{< text bash >}}
-
     $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
@@ -339,7 +344,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     used for generating your `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio/ --name istio-ingressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
+    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
     --set gateways.istio-ingressgateway.secretVolumes[0].name=ingressgateway-certs \
     --set gateways.istio-ingressgateway.secretVolumes[0].secretName=istio-ingressgateway-certs \
     --set gateways.istio-ingressgateway.secretVolumes[0].mountPath=/etc/istio/ingressgateway-certs \
@@ -372,31 +377,21 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 1.  Deploy the [Bookinfo sample application](/docs/examples/bookinfo/), without a gateway:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
-1.  Redeploy the `Gateway` definition with an additional host for `bookinfo.com`:
+1.  Define a gateway for `bookinfo.com`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: mygateway
+      name: bookinfo-gateway
     spec:
       selector:
         istio: ingressgateway # use istio default ingress gateway
       servers:
-      - port:
-          number: 443
-          name: https-httpbin
-          protocol: HTTPS
-        tls:
-          mode: SIMPLE
-          serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
-          privateKey: /etc/istio/ingressgateway-certs/tls.key
-        hosts:
-        - "httpbin.example.com"
       - port:
           number: 443
           name: https-bookinfo
@@ -423,7 +418,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
       hosts:
       - "bookinfo.com"
       gateways:
-      - mygateway
+      - httpbin-gateway
       http:
       - match:
         - uri:
@@ -561,7 +556,7 @@ In addition to the steps in the previous section, perform the following:
 1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
 
     {{< text bash >}}
-    $ kubectl delete gateway mygateway
+    $ kubectl delete gateway --ignore-not-found=true httpbin-gateway bookinfo-gateway
     $ kubectl delete virtualservice httpbin
     $ kubectl delete --ignore-not-found=true -n istio-system secret istio-ingressgateway-certs istio-ingressgateway-ca-certs
     $ kubectl delete --ignore-not-found=true virtualservice bookinfo

@@ -7,8 +7,6 @@ mdspell --version
 echo -ne "mdl "
 mdl --version
 htmlproofer --version
-DISABLE_EXTERNAL=${INTERNAL_ONLY:-false}
-
 
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
@@ -62,6 +60,13 @@ check_content() {
         FAILED=1
     fi
 
+    grep -nr -e "(https://preliminary.istio.io" .
+    if [[ "$?" == "0" ]]
+    then
+        echo "Ensure markdown content doesn't contain references to preliminary.istio.io"
+        FAILED=1
+    fi
+
     grep -nr -e "https://github.com/istio/istio/blob/" .
     if [[ "$?" == "0" ]]
     then
@@ -91,7 +96,7 @@ check_content() {
 }
 
 check_content content --en-us
-check_content content_zh --zh-cn
+check_content content_zh --en-us
 
 grep -nr -e "“" ./content
 if [[ "$?" == "0" ]]
@@ -118,7 +123,7 @@ do
     fi
 done
 
-htmlproofer ./public --assume-extension --check-html --disable_external ${DISABLE_EXTERNAL} --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
+htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
 if [[ "$?" != "0" ]]
 then
     FAILED=1

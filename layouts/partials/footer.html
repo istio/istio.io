@@ -1,32 +1,19 @@
 <footer>
     <div class="user-links">
-        <div class="channel">
+        <a class="channel" title='{{ i18n "discuss_istio_io_desc" }}' href="https://discuss.istio.io" aria-label="Istio discussion board">
             <span>discuss</span>
-            <a title='{{ i18n "discuss_istio_io_desc" }}' href="https://discuss.istio.io" aria-label="Istio discussion board">
-                {{ partial "icon.html" "discourse" }}
-            </a>
-        </div>
+            {{ partial "icon.html" "discourse" }}
+        </a>
 
-        <div class="channel">
-            <span>slack</span>
-            <a title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
-                {{ partial "icon.html" "slack" }}
-            </a>
-        </div>
-
-        <div class="channel">
-            <span>twitter</span>
-            <a title='{{ i18n "twitter_desc" }}' href="https://twitter.com/IstioMesh" aria-label="Twitter">
-                {{ partial "icon.html" "twitter" }}
-            </a>
-        </div>
-
-        <div class="channel">
+        <a class="channel" title='{{ i18n "stackoverflow_desc" }}' href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
             <span>stack overflow</span>
-            <a title='{{ i18n "stackoverflow_desc" }}' href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
-                {{ partial "icon.html" "stackoverflow" }}
-            </a>
-        </div>
+            {{ partial "icon.html" "stackoverflow" }}
+        </a>
+
+        <a class="channel" title='{{ i18n "twitter_desc" }}' href="https://twitter.com/IstioMesh" aria-label="Twitter">
+            <span>twitter</span>
+            {{ partial "icon.html" "twitter" }}
+        </a>
 
         <div class="tag">
             {{ i18n "for_everyone" }}
@@ -34,7 +21,12 @@
     </div>
 
     <div class="info">
-        <p class="copyright" role="contentinfo">
+        <p class="copyright">
+            {{ $advisory := (i18n "advisory") }}
+            {{ if ne $advisory "-" }}
+                {{ printf "%s" $advisory }}<br>
+            {{ end }}
+
             {{ if .Site.Data.args.archive }}
                 {{ i18n "footer_istio_archive" }}
             {{ else if .Site.Data.args.preliminary }}
@@ -42,6 +34,7 @@
             {{ else }}
                 {{ i18n "footer_istio" }}
             {{ end }}
+
             {{ .Site.Data.args.version }}<br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
             {{ if .Site.Data.args.archive }}
                 {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
@@ -52,26 +45,25 @@
     </div>
 
     <div class="dev-links">
-        <div class="channel">
+        <a class="channel" title='{{ i18n "github_desc" }}' href="https://github.com/istio/community" aria-label="GitHub">
             <span>github</span>
-            <a title='{{ i18n "github_desc" }}' href="https://github.com/istio/community" aria-label="GitHub">
-                {{ partial "icon.html" "github" }}
-            </a>
-        </div>
+            {{ partial "icon.html" "github" }}
+        </a>
 
-        <div class="channel">
+        <a class="channel" title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
+            <span>slack</span>
+            {{ partial "icon.html" "slack" }}
+        </a>
+
+        <a class="channel" title='{{ i18n "team_drive_desc" }}' href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
             <span>drive</span>
-            <a title='{{ i18n "team_drive_desc" }}' href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">
-                {{ partial "icon.html" "drive" }}
-            </a>
-        </div>
+            {{ partial "icon.html" "drive" }}
+        </a>
 
-        <div class="channel">
+        <a class="channel" title='{{ i18n "working_group_desc" }}' href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
             <span>working groups</span>
-            <a title='{{ i18n "working_group_desc" }}' href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md" aria-label="working groups">
-                {{ partial "icon.html" "working-groups" }}
-            </a>
-        </div>
+            {{ partial "icon.html" "working-groups" }}
+        </a>
 
         <div class="tag">
             {{ i18n "for_developers" }}

@@ -55,7 +55,7 @@ This approach has the following benefits:
     $ cat install/kubernetes/namespace.yaml > istio-auth-sds.yaml
     $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth-sds.yaml
     $ helm dep update --skip-refresh install/kubernetes/helm/istio
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml >> istio-auth-sds.yaml
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/values-istio-sds-auth.yaml@ >> istio-auth-sds.yaml
     $ kubectl create -f istio-auth-sds.yaml
     {{< /text >}}
 
@@ -66,11 +66,11 @@ setup test services.
 
 {{< text bash >}}
 $ kubectl create ns foo
-$ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
 $ kubectl create ns bar
-$ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
-$ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n bar
+$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n bar
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
 {{< /text >}}
 
 Verify all mutual TLS requests succeed:

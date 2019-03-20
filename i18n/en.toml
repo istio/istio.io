@@ -174,3 +174,15 @@ other = "This is an auto-generated file, please edit the source in the %s repo."
 
 [switch_lang]
 other = "Switch to Chinese"
+
+[advisory]
+other = "-"
+
+[syntax_coloring]
+other = "Color Examples"
+
+[announcement_download]
+other = "DOWNLOAD %s"
+
+[announcement_relnotes]
+other = "%s RELEASE NOTES"

@@ -10,7 +10,7 @@ keywords: [kubernetes,multicluster]
 
 ## 开始之前 {#before-you-begin}
 
-* 根据[使用网关连接多控制平面](/zh/docs/setup/kubernetes/multicluster/gateways/)的介绍，建立两个 Istio 网格组成的集群环境。
+* 根据[使用网关连接多控制平面](/zh/docs/setup/kubernetes/install/multicluster/gateways/)的介绍，建立两个 Istio 网格组成的集群环境。
 
 * 用 `kubectl` 的 `--context` 参数来访问两个不同的集群。用下面的命令列出配置文件中的 `context`（上下文）：
 
@@ -196,7 +196,7 @@ EOF
 * 清理 `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/httpbin/sleep.yaml@
+    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/httpbin/httpbin.yaml@
     $ kubectl delete --context=$CTX_CLUSTER1 -n foo serviceentry httpbin-bar
     $ kubectl delete --context=$CTX_CLUSTER1 ns foo
     {{< /text >}}
@@ -205,5 +205,5 @@ EOF
 
     {{< text bash >}}
     $ kubectl delete --context=$CTX_CLUSTER2 -n bar -f @samples/httpbin/httpbin.yaml@
-    $ kubectl delete --context=$CTX_CLUSTER1 ns bar
+    $ kubectl delete --context=$CTX_CLUSTER2 ns bar
     {{< /text >}}

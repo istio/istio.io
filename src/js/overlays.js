@@ -4,6 +4,10 @@
 let overlay = null;
 let popper = null;
 
+function isActiveOverlay(element) {
+    return overlay === element;
+}
+
 // show/hide the specific overlay
 function toggleOverlay(element) {
     if (overlay === element) {
@@ -15,6 +19,16 @@ function toggleOverlay(element) {
         element.classList.add('show');
         overlay = element;
     }
+}
+
+// explicitly show the specific overlay
+function showOverlay(element) {
+    if (overlay === element) {
+        return;
+    }
+    closeActiveOverlay();
+    element.classList.add('show');
+    overlay = element;
 }
 
 // explicitly close the active overlay
