@@ -324,7 +324,7 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-2. 在 Kubernetes 环境中，通过以下命令为 Kibana 设置端口转发：
+1. 在 Kubernetes 环境中，通过以下命令为 Kibana 设置端口转发：
 
     {{< text bash >}}
     $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &
@@ -332,13 +332,13 @@ Created config rule/istio-system/newlogtofluentd at revision 22376
 
     保持命令运行。在结束对 Kibana UI 的访问时，使用 Ctrl-C 退出。
 
-3. 导航到 [Kibana UI](http://localhost:5601/) 并点击右上角的 "Set up index patterns"。
+1. 导航到 [Kibana UI](http://localhost:5601/) 并点击右上角的 "Set up index patterns"。
 
-4. 使用 `*` 作为索引模式，并点击 "Next step"。
+1. 使用 `*` 作为索引模式，并点击 "Next step"。
 
-5. 选择 `@timestamp` 作为 Time Filter 字段名称，并点击 "Create index pattern"。
+1. 选择 `@timestamp` 作为 Time Filter 字段名称，并点击 "Create index pattern"。
 
-6. 现在点击左侧目录中的 "Discover"，开始探索生成的日志。
+1. 现在点击左侧目录中的 "Discover"，开始探索生成的日志。
 
 ## 清理
 
