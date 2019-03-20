@@ -513,6 +513,7 @@ spec:
     retries:
       attempts: 3
       perTryTimeout: 2s
+      retryOn: gateway-error,connect-failure,refused-stream
 {{< /text >}}
 
 Note that request timeouts and retries can also be
