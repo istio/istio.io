@@ -49,7 +49,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     EOF
     {{< /text >}}
 
-1.  Create service entries for `httpbin.org` and `www.google.com` to make them accessible from the ingress gateway:
+1.  Create service entries for the `httpbin.org` and `www.google.com` services to make them accessible from the ingress gateway:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
