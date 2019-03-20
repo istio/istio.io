@@ -53,61 +53,8 @@
             display: block !important;
         }
 
-        a {
-            font-weight: $sidebarLinkWeight;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: none;
-
-            &[aria-expanded=true] {
-                display: block;
-            }
-        }
-
-        li {
-            margin: .7em 0 .7em 1.3rem;
-            padding: 0;
-            font-size: 85%;
-            position: relative;
-
-            .current {
-                color: $linkActiveColor;
-                font-weight: $sidebarCurrentPageWeight;
-            }
-        }
-
         .body > ul.leaf-section > li {
             margin-left: 0;
-        }
-
-        button {
-            cursor: pointer;
-            border: 0;
-            background: $sidebarRightChevron no-repeat;
-            width: 1rem;
-            height: 1rem;
-            left: -1.3rem;
-            position: absolute;
-
-            &.show {
-                background: $sidebarDownChevron no-repeat;
-            }
-
-            &:focus {
-                outline: 0;
-            }
-        }
-
-        button:hover, button:focus {
-            outline: 0;
-            background: $sidebarRightChevronHover no-repeat;
-            &.show {
-                background: $sidebarDownChevronHover no-repeat;
-            }
         }
 
         .card {
@@ -126,9 +73,15 @@
             .header {
                 margin-bottom: 0;
                 background-color: rgba(0, 0, 0, .03);
-                border-bottom: 1px solid $dividerBarColor;
+                border: 0;
+                border-bottom: 1px solid rgba(0,0,0,0);
                 padding: .75em 1.25em;
                 color: $textColor;
+                width: 100%;
+                text-align: left;
+                outline: none;
+                font: inherit;
+                transition: border-bottom-color .6s;
 
                 &.dynamic {
                     color: $linkColor;
@@ -139,8 +92,9 @@
                     }
                 }
 
-                div {
-                    padding: .75em 1.25em;
+                &[aria-expanded=true] {
+                    border-bottom-color: $dividerBarColor;
+                    transition: border-bottom-color .6s;
                 }
 
                 svg {
@@ -169,6 +123,60 @@
                     padding: .5em 1em;
                     transform: scaleY(1) scaleX(1);
                     max-height: unset;
+                }
+
+                button {
+                    cursor: pointer;
+                    border: 0;
+                    background: $sidebarRightChevron no-repeat;
+                    width: 1rem;
+                    height: 1rem;
+                    left: -1.3rem;
+                    position: absolute;
+
+                    &.show {
+                        background: $sidebarDownChevron no-repeat;
+                    }
+
+                    &:focus {
+                        outline: 0;
+                    }
+                }
+
+                button:hover, button:focus {
+                    outline: 0;
+                    background: $sidebarRightChevronHover no-repeat;
+
+                    &.show {
+                        background: $sidebarDownChevronHover no-repeat;
+                    }
+                }
+
+                a {
+                    font-weight: $sidebarLinkWeight;
+                }
+
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    display: none;
+
+                    &[aria-expanded=true] {
+                        display: block;
+                    }
+                }
+
+                li {
+                    margin: .7em 0 .7em 1.3rem;
+                    padding: 0;
+                    font-size: 85%;
+                    position: relative;
+
+                    .current {
+                        color: $linkActiveColor;
+                        font-weight: $sidebarCurrentPageWeight;
+                    }
                 }
             }
         }
