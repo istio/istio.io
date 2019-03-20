@@ -8,27 +8,19 @@ keywords: [kubernetes,ibm,icp]
 
 参照以下说明，在 IBM Cloud 上安装和运行 Istio。
 
-你可以选择安装在 [IBM 公有云](#ibm-公有云)或 [IBM 私有云](#ibm-私有云)上.
-
 您可以在 IBM 公有云中使用 [IBM Cloud Kubernetes 服务中托管的 Istio 附加组件](#managed-istio-add-on)
 ，使用 Helm 在 [IBM 公有云](#ibm-公有云)中安装 Istio，
 或者在 [IBM 私有云](#ibm-私有云)中安装 Istio。
 
 ## Managed Istio 附加组件{#managed-istio-add-on}
 
-IBM Cloud Kubernetes Service 上提供了 Istio 的无缝安装，Istio 控制平面组件的自动更新和生命周期管理，以及与平台日志记录和监控工具的集成。只需单击一下，您就可以获得所有 Istio 核心组件，其他跟踪，监控和可视化，以及Bookinfo示例应用程序的启动和运行。 IBM Cloud Kubernetes服务上的Istio作为托管附加组件提供，因此IBM Cloud会自动保持所有Istio组件的最新状态。
+IBM Cloud Kubernetes Service 上提供了 Istio 的无缝安装，Istio 控制平面组件的自动更新和生命周期管理，以及与平台日志记录和监控工具的集成。只需单击一下，您就可以获得所有 Istio 核心组件，其他跟踪，监控和可视化，以及 Bookinfo 示例应用程序的启动和运行。IBM Cloud Kubernetes 服务上的 Istio 作为托管附加组件提供，因此 IBM Cloud 会自动保持所有 Istio 组件的最新状态。
 
 要在 IBM Cloud Public 中安装托管的 Istio 附加组件，请参阅 [IBM Cloud Kubernetes 服务文档](https://cloud.ibm.com/docs/containers?topic=containers-istio)。
 
 ## IBM 公有云
 
-在 [IBM 公有云](https://www.ibm.com/cloud/)中，使用 Helm 和 IBM Cloud Kubernetes Service 安装和运行 Istio。
-
-本指南将安装 Istio 的当前发布版本。
-
-### 前置条件 - IBM 公有云
-
-按照[这些说明](/zh/docs/setup/kubernetes/install/helm/)使用 Helm 在[IBM Cloud Public](https://www.ibm.com/cloud/)中安装和运行当前版本的 Istio 和 IBM Cloud Kubernetes 服务（IKS）。
+在 [IBM 公有云](https://www.ibm.com/cloud/)中，按照[这些说明](/zh/docs/setup/kubernetes/install/helm/)使用 Helm 和 IBM Cloud Kubernetes Service 安装和运行 Istio。
 
 要升级现有 IKS 群集中的 Istio，请按照[升级说明](/zh/docs/setup/kubernetes/upgrade)进行操作。
 
@@ -36,7 +28,7 @@ IBM Cloud Kubernetes Service 上提供了 Istio 的无缝安装，Istio 控制�
 
 使用 `Catalog` 模块在 [IBM 私有云](https://www.ibm.com/cloud/private)安装和运行 Istio。
 
-本指南将安装 Istio 的当前发布版本。
+本指南针对 Istio 的当前版本。
 
 ### 前置条件 - IBM 私有云
 
