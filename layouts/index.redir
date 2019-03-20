@@ -21,4 +21,11 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /  /zh   302  Language=zh
 
 # Redirect for the helm charts
-/charts/ https://gcsweb.istio.io/gcs/istio-release/releases/1.1.0/charts/ 301
+/charts/ https://gcsweb.istio.io/gcs/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301
+
+# Redirects for all aliases
+{{- range $p := .Site.Pages -}}
+{{- range .Aliases }}
+{{ . | printf "%-35s" }}	{{ $p.RelPermalink }}
+{{- end -}}
+{{- end }}
