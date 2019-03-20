@@ -203,7 +203,10 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
     to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
-1.  Access `httbin.org/status/418` through your ingress:
+1.  Access the `httbin.org` service through your ingress IP and port which you stored in the
+    `$INGRESS_HOST` and `$INGRESS_PORT` environment variables, respectively, during the previous step.
+    Access the `/status/418` path of the `httpbin.org` service that returns the HTTP status
+    [418 I'm a teapot](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418).
 
     {{< text bash >}}
     $ curl $INGRESS_HOST:$INGRESS_PORT/status/418 -Hhost:httpbin.org
