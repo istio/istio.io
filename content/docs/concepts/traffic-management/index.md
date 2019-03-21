@@ -495,7 +495,7 @@ spec:
 {{< /text >}}
 
 You can also specify the number of retry attempts for an HTTP request in a virtual service.
-The maximum number of retry attempts, or the number of attempts possible within the default or overridden timeout period, can be set as follows:
+The maximum number of retry attempts, or the number of attempts possible within the default or overridden timeout period, you must select a [reason for the retry](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/router_filter#x-envoy-retry-on), otherwise it will not be performed, can be set as follows:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -513,7 +513,7 @@ spec:
     retries:
       attempts: 3
       perTryTimeout: 2s
-      retryOn: gateway-error,connect-failure,refused-stream
+      retryOn: 5xx,gateway-error,connect-failure,refused-stream
 {{< /text >}}
 
 Note that request timeouts and retries can also be
