@@ -89,7 +89,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
     {{< /text >}}
 
     {{< /warning >}}
