@@ -3,8 +3,6 @@ title: 获取 Envoy 访问日志
 description: 此任务向您展示如何配置 Envoy 代理将访问日志打印到其标准输出。
 weight: 10
 keywords: [telemetry]
-aliases:
-    - /docs/tasks/telemetry/access-log
 ---
 
 Istio 最简单的日志类型是
