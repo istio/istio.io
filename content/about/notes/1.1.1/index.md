@@ -21,7 +21,7 @@ Istio 1.1.1 is the first in a weekly series of patch releases for Istio 1.1.  It
 - Five bug fixes for locality weighted load balancing:
   - Fix bug causing empty endpoints per locality ([Issue 12610](https://github.com/istio/istio/issues/12610))
   - Apply locality weighted load balancing configuration correctly ([Issue 12587](https://github.com/istio/istio/issues/12587))
-  - Locality label istio-locality in Kubernetes should not contain `/`, use `.` ([Issue 12582](https://github.com/istio/istio/issues/12582))
+  - Locality label `istio-locality` in Kubernetes should not contain `/`, use `.` ([Issue 12582](https://github.com/istio/istio/issues/12582))
   - Fix crash in locality load balancing ([Issue 12649](https://github.com/istio/istio/pull/12649))
   - Fix bug in locality load balancing normalization ([Issue 12579](https://github.com/istio/istio/pull/12579))
 - Propagate Envoy Metrics Service configuration ([Issue 12569](https://github.com/istio/istio/issues/12569))
