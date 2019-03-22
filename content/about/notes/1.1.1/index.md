@@ -8,10 +8,10 @@ Istio 1.1.1 is the first in a weekly series of patch releases for Istio 1.1.  It
 
 {{< relnote_links >}}
 
-## Bug Fixes and Minor Enhancements
+## Bug fixes and minor enhancements
 
-- Configure Prometheus to monitor citadel ([Issue 12175](https://github.com/istio/istio/pull/12175))
-- Improve output of `istioctl's` verify install command ([Issue 12174](https://github.com/istio/istio/pull/12174))
+- Configure Prometheus to monitor Citadel ([Issue 12175](https://github.com/istio/istio/pull/12175))
+- Improve output of [`istioctl verify-install`](https://istio.io/docs/reference/commands/istioctl/#istioctl-experimental-verify-install) command ([Issue 12174](https://github.com/istio/istio/pull/12174))
 - Reduce log level for missing service account for SPIFFE URI ([Issue 12108](https://github.com/istio/istio/issues/12108))
 - Fix broken path on the opt-in SDS feature's Unix domain socket ([Issue 12688](https://github.com/istio/istio/pull/12688))
 - Fix Envoy tracing: If parent span is propagated with empty string, it causes the next child span to not be created ([Envoy Issue 6263](https://github.com/envoyproxy/envoy/pull/6263))
