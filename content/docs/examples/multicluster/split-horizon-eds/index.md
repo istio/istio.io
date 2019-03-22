@@ -60,9 +60,9 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set global.controlPlaneSecurityEnabled=true \
       --set global.proxy.accessLogFile="/dev/stdout" \
       --set global.meshExpansion.enabled=true \
-      --set global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config \
-      --set global.meshNetworks.network2.gateways[0].address=0.0.0.0 \
-      --set global.meshNetworks.network2.gateways[0].port=443 \
+      --set 'global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config' \
+      --set 'global.meshNetworks.network2.gateways[0].address=0.0.0.0' \
+      --set 'global.meshNetworks.network2.gateways[0].port=443' \
       install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
@@ -84,7 +84,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     Wait for the Istio pods on `cluster1` to become ready:
 
     {{< text bash >}}
-    $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
+    $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system --field-selector=status.phase!=Succeeded
     NAME                                      READY     STATUS    RESTARTS   AGE
     istio-citadel-5b9d878756-bwnxx            1/1       Running   0          2m
     istio-galley-6f7594c9f4-7s9db             1/1       Running   0          2m
@@ -173,7 +173,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
 
     {{< text bash >}}
-    $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway
+    $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway --field-selector=status.phase!=Succeeded
     NAME                                      READY     STATUS    RESTARTS   AGE
     istio-citadel-958c4b596-kpmj4             1/1       Running   0          40s
     istio-sidecar-injector-77599f75f6-tnj7s   1/1       Running   0          39s
@@ -344,10 +344,17 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
     $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
+1. Wait for the `sleep` service to start:
+
+    {{< text bash >}}
+    $ kubectl get po --context=$CTX_CLUSTER1 -n sample -l app=sleep
+    sleep-754684654f-n6bzf           2/2     Running   0          5s
+    {{< /text >}}
+
 1. Call the `helloworld.sample` service several times:
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
+    $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances on `cluster1` and `cluster2`
@@ -364,7 +371,7 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 You can also verify the IP addresses used to access the endpoints by printing the log of the sleep's `istio-proxy` container.
 
 {{< text bash >}}
-$ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) istio-proxy
+$ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
 [2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
