@@ -25,7 +25,6 @@ keywords: [profiles,install,helm]
 
 下表中标记为 **X** 的功能就是包含在配置文件里面的内容：
 
-
 | | default | demo | minimal | sds |
 | --- | :---: | :---: | :---: | :---: |
 | Profile filename | `values.yaml` | `values-istio-demo.yaml` | `values-istio-minimal.yaml` | `values-istio-sds-auth.yaml` |
