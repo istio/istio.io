@@ -8,7 +8,7 @@ aliases:
     - /about/intro
 ---
 
-Cloud platforms provide a wealth of benefits for the organizations that use them. There’s no denying, however, that adopting the cloud can put strains on DevOps
+Cloud platforms provide a wealth of benefits for the organizations that use them. There’s no denying that. However, adopting the cloud can put strains on DevOps
 teams. Developers must use microservices to architect for portability, meanwhile operators are managing extremely large hybrid and multi-cloud deployments.
 Istio lets you connect, secure, control, and observe services.
 
