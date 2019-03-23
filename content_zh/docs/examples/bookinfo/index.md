@@ -154,7 +154,6 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
     {{< text bash >}}
     $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
 1. 确认所有的容器都在运行：

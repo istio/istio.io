@@ -86,6 +86,10 @@ the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc
     one Mon Nov 12 23:25:19 UTC 2018
     {{< /text >}}
 
+    {{< warning >}}
+    The `docker` command may require using `sudo` depending on your Docker installation.
+    {{< /warning >}}
+
     You should notice that all the timestamps have a prefix of _one_, which means that all traffic
 was routed to the `v1` version of the `tcp-echo` service.
 
@@ -143,6 +147,10 @@ was routed to the `v1` version of the `tcp-echo` service.
     one Mon Nov 12 23:39:05 UTC 2018
     one Mon Nov 12 23:39:07 UTC 2018
     {{< /text >}}
+
+    {{< warning >}}
+    The `docker` command may require using `sudo` depending on your Docker installation.
+    {{< /warning >}}
 
     You should now notice that about 20% of the timestamps have a prefix of _two_, which means that
 80% of the TCP traffic was routed to the `v1` version of the `tcp-echo` service, while 20% was

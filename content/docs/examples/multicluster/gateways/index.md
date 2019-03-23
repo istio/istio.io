@@ -16,7 +16,7 @@ running in a second cluster.
 ## Before you begin
 
 * Set up a multicluster environment with two Istio clusters by following the
-    [multiple control planes with gateways](/docs/setup/kubernetes/multicluster/gateways/) instructions.
+    [multiple control planes with gateways](/docs/setup/kubernetes/install/multicluster/gateways/) instructions.
 
 {{< boilerplate kubectl-multicluster-contexts >}}
 
@@ -59,7 +59,7 @@ running in a second cluster.
     (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
     {{< /tip >}}
 
-1. Create a service entry for the `httpbin` service in `cluster1`.
+1. Create a service entry for the `httpbin` service in `cluster2`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
     a service entry for it. The host name of the service entry should be of the form
@@ -107,7 +107,7 @@ running in a second cluster.
       - 127.255.0.2
       endpoints:
       # This is the routable address of the ingress gateway in cluster2 that
-      # sits in front of sleep.bar service. Traffic from the sidecar will be
+      # sits in front of sleep.foo service. Traffic from the sidecar will be
       # routed to this address.
       - address: ${CLUSTER2_GW_ADDR}
         ports:
@@ -117,7 +117,7 @@ running in a second cluster.
 
     The configurations above will result in all traffic in `cluster1` for
     `httpbin.bar.global` on *any port* to be routed to the endpoint
-    `<IPofCluster2IngressGateway>:15443` over an mTLS connection.
+    `<IPofCluster2IngressGateway>:15443` over a mutual TLS connection.
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the multicluster Istio installation step
@@ -132,7 +132,7 @@ running in a second cluster.
 1. Verify that `httpbin` is accessible from the `sleep` service.
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_CLUSTER1 $SLEEP_POD -n foo -c sleep -- curl httpbin.bar.global:8000/headers
+    $ kubectl exec --context=$CTX_CLUSTER1 $SLEEP_POD -n foo -c sleep -- curl -I httpbin.bar.global:8000/headers
     {{< /text >}}
 
 ## Send remote cluster traffic using egress gateway
@@ -222,7 +222,7 @@ Execute the following commands to clean up the example services.
 * Cleanup `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/httpbin/sleep.yaml@
+    $ kubectl delete --context=$CTX_CLUSTER1 -n foo -f @samples/sleep/sleep.yaml@
     $ kubectl delete --context=$CTX_CLUSTER1 -n foo serviceentry httpbin-bar
     $ kubectl delete --context=$CTX_CLUSTER1 ns foo
     {{< /text >}}
@@ -231,5 +231,5 @@ Execute the following commands to clean up the example services.
 
     {{< text bash >}}
     $ kubectl delete --context=$CTX_CLUSTER2 -n bar -f @samples/httpbin/httpbin.yaml@
-    $ kubectl delete --context=$CTX_CLUSTER1 ns bar
+    $ kubectl delete --context=$CTX_CLUSTER2 ns bar
     {{< /text >}}

@@ -99,9 +99,9 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     {{< tabset cookie-name="mtls" >}}
 
-    {{% tab name="mTLS enabled" cookie-value="enabled" %}}
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -141,13 +141,13 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
-    {{% tab name="mTLS disabled" cookie-value="disabled" %}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-{{< text bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -173,9 +173,9 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       subsets:
       - name: cnn
     EOF
-{{< /text >}}
+    {{< /text >}}
 
-    {{% /tab %}}
+    {{< /tab >}}
 
     {{< /tabset >}}
 
@@ -631,6 +631,7 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
+    --set gateways.istio-egressgateway.enabled=true \
     --set gateways.istio-egressgateway.secretVolumes[0].name=egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].secretName=istio-egressgateway-certs \
     --set gateways.istio-egressgateway.secretVolumes[0].mountPath=/etc/istio/egressgateway-certs \

@@ -21,7 +21,7 @@ $h2UnderlineColor: var(--h2UnderlineColor);
 $buttonActiveColor: var(--buttonActiveColor);
 $dividerBarColor: var(--dividerBarColor);
 $glossaryHeaderColor: var(--glossaryHeaderColor);
-$blockQuoteBackgroundColor: var(--blockQuotaBackgroundColor);
+$blockQuoteBackgroundColor: var(--blockQuoteBackgroundColor);
 $tipCalloutBackgroundColor: var(--tipCalloutBackgroundColor);
 $ideaCalloutBackgroundColor: var(--ideaCalloutBackgroundColor);
 $warningCalloutBackgroundColor: var(--warningCalloutBackgroundColor);
@@ -37,6 +37,13 @@ $preBlockCommandOutputBackgroundColor: var(--preBlockCommandOutputBackgroundColo
 $dropdownBorderColor: var(--dropdownBorderColor);
 $dropdownCheck: var(--dropdownCheck);
 $dropdownCheckHover: var(--dropdownCheckHover);
+
+$tabsetBorderColor: var(--tabsetBorderColor);
+$tabsetShadowColor: var(--tabsetShadowColor);
+$tabsetUnselectedTabTextColor: var(--tabsetUnselectedTabTextColor);
+$tabsetUnselectedTabBackgroundColor: var(--tabsetUnselectedTabBackgroundColor);
+$tabsetSelectedTabTextColor: var(--tabsetSelectedTabTextColor);
+$tabsetSelectedTabBackgroundColor: var(--tabsetSelectedTabBackgroundColor);
 
 $sidebarRightChevron: var(--sidebarRightChevron);
 $sidebarRightChevronHover: var(--sidebarRightChevronHover);

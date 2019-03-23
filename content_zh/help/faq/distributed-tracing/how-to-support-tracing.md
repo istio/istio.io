@@ -21,5 +21,5 @@ Istio 允许报告服务网格中工作负载到工作负载间通信的追踪 s
 
 - `x-ot-span-context`
 
-header 传播可以通过客户端库完成，例如 [Zipkin](https://zipkin.io/pages/existing_instrumentations.html) 或 [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation)。
+header 传播可以通过客户端库完成，例如 [Zipkin](https://zipkin.io/pages/tracers_instrumentation.html) 或 [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation)。
 当然，这也可以手动完成，正如[分布式追踪任务](/zh/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened)中所描述的那样。

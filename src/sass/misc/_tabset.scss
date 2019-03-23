@@ -1,55 +1,64 @@
-[role=tablist] {
-    margin: 0 0 0 4px;
+.tabset {
     padding: 0;
+
+    margin: 1em 0 1em 1em;
+    @media (min-width: $bp-md) {
+        margin: 1em;
+    }
 
     .tab-strip {
         button {
             display: inline-block;
             margin: 0 3px;
-            border: 1px solid $mainBrandColor;
+            border: 1px solid $tabsetBorderColor;
             border-bottom: none;
             border-top-left-radius: $border-radius;
             border-top-right-radius: $border-radius;
             padding: 0 1rem;
-            transform: skewX(-30deg);
+            transform: skewX(-20deg);
             transform-origin: left bottom;
             cursor: pointer;
             outline: 0;
             font: inherit;
+            box-shadow: 3px 3px 8px $tabsetShadowColor;
+            background-color: $tabsetUnselectedTabBackgroundColor;
 
             span {
-                transform: skewX(10deg);
-                color: $textColor;
+                transform: skewX(6deg);
+                color: $tabsetUnselectedTabTextColor;
                 font-size: 80%;
             }
 
-            &:hover {
-                background-color: $textBrandHighlightColor;
+            &:hover, &:focus {
+                span {
+                    color: $linkActiveColor;
+                }
             }
 
-            &.active {
-                background-color: $mainBrandColor;
+            &[aria-selected=true] {
+                background-color: $tabsetSelectedTabBackgroundColor;
                 cursor: default;
+                box-shadow: none;
 
                 span {
-                    color: $textBrandColor;
+                    color: $tabsetSelectedTabTextColor;
                 }
             }
         }
     }
 
     .tab-content {
-        border: 1px solid $mainBrandColor;
+        border: 1px solid $tabsetBorderColor;
         border-radius: $border-radius;
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding: 1rem 1rem;
+        box-shadow: 3px 3px 8px $tabsetShadowColor;
 
-        > div {
-            display: none;
+        p:first-of-type {
+            margin-top: 0
+        }
 
-            &.active {
-                display: block;
-            }
+        p:last-of-type {
+            margin-bottom: 0
         }
     }
 }

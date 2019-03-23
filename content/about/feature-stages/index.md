@@ -10,9 +10,14 @@ aliases:
 icon: feature-status
 ---
 
+<!--
+Note: this contains feature status from
+https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9zrU/edit#gid=0
+-->
+
 This page lists the relative maturity and support
 level of every Istio feature. Please note that the phases (Alpha, Beta, and Stable) are applied to individual features
-within the project, not to the project as a whole. Here is a high level description of what these labels means
+within the project, not to the project as a whole. Here is a high level description of what these labels mean.
 
 ## Feature phase definitions
 
@@ -32,29 +37,31 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase
 |-------------------|-------------------
 | Protocols: HTTP1.1 / HTTP2 / gRPC / TCP | Stable
-| Protocols: Websockets / MongoDB  | Beta
-| Traffic Control: label/content based routing, traffic shifting | Beta
-| Resilience features: timeouts, retries, connection pools, outlier detection | Beta
-| Gateway: Ingress, Egress for all protocols | Beta
-| TLS termination and SNI Support in Gateways | Beta
+| Protocols: Websockets / MongoDB  | Stable
+| Traffic Control: label/content based routing, traffic shifting | Stable
+| Resilience features: timeouts, retries, connection pools, outlier detection | Stable
+| Gateway: Ingress, Egress for all protocols | Stable
+| TLS termination and SNI Support in Gateways | Stable
 | Enabling custom filters in Envoy | Alpha
+| CNI container interface | Alpha
+| Sidecar API | Alpha
+| SNI (multiple certs) at ingress | Alpha
 
 ### Telemetry
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/docs/tasks/telemetry/) | Stable
+| [Prometheus Integration](/docs/tasks/telemetry/metrics/querying-metrics/) | Stable
+| [Local Logging (STDIO)](/docs/tasks/telemetry/logs/collecting-logs/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
-| [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
-| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Beta
-| [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
-| [SolarWinds Integration](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
-| [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Alpha
-| [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Alpha
-| [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Alpha
-| [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Alpha
+| [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
+| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
+| [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
+| [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Beta
+| [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Beta
+| [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
+| [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
 
 ### Security and Policy Enforcement
 
@@ -71,6 +78,11 @@ Below is our list of existing features and their current phases. This informatio
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
+| Per-Path Authentication | Alpha
+| TCP Authorization | Alpha
+| Cert management on Ingress Gateway | Alpha
+| Vault integration | Alpha
+| SDS Integration | Alpha
 
 ### Core
 
@@ -79,16 +91,17 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
-| [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
+| [Mixer In-Process Adapter Authoring Model](/blog/2017/adapter-model/)        | Deprecated
+| Mixer Out-of-Process Adapter Authoring Model | Beta
 | [Helm](/docs/setup/kubernetes/install/helm/) | Beta
-| [Multicluster Mesh over VPN](/docs/setup/kubernetes/multicluster/) | Alpha
+| [Multicluster Mesh over VPN](/docs/setup/kubernetes/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
 | Basic Configuration Resource Validation | Alpha
-| [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Alpha
-| [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
-| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Alpha
-| [Istio CNI plugin](/docs/setup/kubernetes/install/cni/) | Alpha
+| [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Beta
+| [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
+| [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
+| [Istio CNI plugin](/docs/setup/kubernetes/additional-setup/cni/) | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!

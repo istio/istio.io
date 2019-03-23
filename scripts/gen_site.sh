@@ -1,13 +1,7 @@
-#!/usr/bin/env sh
+#! /bin/bash
 set -e
 
 hugo version
-
-if [[ "$3" == "-no_aliases" ]]
-then
-    HUGO_DISABLEALIASES=true
-    export HUGO_DISABLEALIASES
-fi
 
 if [[ "$2" == "-no_minify" ]]
 then

@@ -14,12 +14,12 @@ describes a set of ports that should be exposed, the type of protocol to
 use, SNI configuration for the load balancer, etc.</p>
 
 <p>For example, the following Gateway configuration sets up a proxy to act
-as a load balancer exposing port 80 and 9080 (http), 443 (https), and
-port 2379 (TCP) for ingress.  The gateway will be applied to the proxy
-running on a pod with labels <code>app: my-gateway-controller</code>. While Istio
-will configure the proxy to listen on these ports, it is the
-responsibility of the user to ensure that external traffic to these
-ports are allowed into the mesh.</p>
+as a load balancer exposing port 80 and 9080 (http), 443 (https),
+9443(https) and port 2379 (TCP) for ingress.  The gateway will be
+applied to the proxy running on a pod with labels <code>app:
+my-gateway-controller</code>. While Istio will configure the proxy to listen
+on these ports, it is the responsibility of the user to ensure that
+external traffic to these ports are allowed into the mesh.</p>
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -41,7 +41,7 @@ spec:
       httpsRedirect: true # sends 301 redirect for http requests
   - port:
       number: 443
-      name: https
+      name: https-443
       protocol: HTTPS
     hosts:
     - uk.bookinfo.com
@@ -50,6 +50,15 @@ spec:
       mode: SIMPLE # enables HTTPS on this port
       serverCertificate: /etc/certs/servercert.pem
       privateKey: /etc/certs/privatekey.pem
+  - port:
+      number: 9443
+      name: https-9443
+      protocol: HTTPS
+    hosts:
+    - &quot;bookinfo-namespace/*.bookinfo.com&quot;
+    tls:
+      mode: SIMPLE # enables HTTPS on this port
+      credentialName: bookinfo-secret # fetches certs from Kubernetes secret
   - port:
       number: 9080
       name: http-wildcard
@@ -69,15 +78,15 @@ balancer. A <code>VirtualService</code> can then be bound to a gateway to contro
 the forwarding of traffic arriving at a particular host or gateway port.</p>
 
 <p>For example, the following VirtualService splits traffic for
-&ldquo;https://uk.bookinfo.com/reviews&rdquo;, &ldquo;https://eu.bookinfo.com/reviews&rdquo;,
-&ldquo;http://uk.bookinfo.com:9080/reviews&rdquo;,
-&ldquo;http://eu.bookinfo.com:9080/reviews&rdquo; into two versions (prod and qa) of
+<code>https://uk.bookinfo.com/reviews</code>, <code>https://eu.bookinfo.com/reviews</code>,
+<code>http://uk.bookinfo.com:9080/reviews</code>,
+<code>http://eu.bookinfo.com:9080/reviews</code> into two versions (prod and qa) of
 an internal reviews service on port 9080. In addition, requests
 containing the cookie &ldquo;user: dev-123&rdquo; will be sent to special port 7777
 in the qa version. The same rule is also applicable inside the mesh for
 requests to the &ldquo;reviews.prod.svc.cluster.local&rdquo; service. This rule is
-applicable across ports 443, 9080. Note that &ldquo;http://uk.bookinfo.com&rdquo;
-gets redirected to &ldquo;https://uk.bookinfo.com&rdquo; (i.e. 80 redirects to 443).</p>
+applicable across ports 443, 9080. Note that <code>http://uk.bookinfo.com</code>
+gets redirected to <code>https://uk.bookinfo.com</code> (i.e. 80 redirects to 443).</p>
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -96,19 +105,19 @@ spec:
   - match:
     - headers:
         cookie:
-          user: dev-123
+          exact: &quot;user=dev-123&quot;
     route:
     - destination:
         port:
           number: 7777
         host: reviews.qa.svc.cluster.local
   - match:
-      uri:
+    - uri:
         prefix: /reviews/
     route:
     - destination:
         port:
-          number: 9080 # can be omitted if its the only port for reviews
+          number: 9080 # can be omitted if it's the only port for reviews
         host: reviews.prod.svc.cluster.local
       weight: 80
     - destination:
@@ -140,6 +149,30 @@ spec:
         host: mongo.prod.svc.cluster.local
         port:
           number: 5555
+</code></pre>
+
+<p>It is possible to restrict the set of virtual services that can bind to
+a gateway server using the namespace/hostname syntax in the hosts field.
+For example, the following Gateway allows any virtual service in the ns1
+namespace to bind to it, while restricting only the virtual service with
+foo.bar.com host in the ns2 namespace to bind to it.</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-gateway
+  namespace: some-config-namespace
+spec:
+  selector:
+    app: my-gateway-controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - &quot;ns1/*&quot;
+    - &quot;ns2/foo.bar.com&quot;
 </code></pre>
 
 <h2 id="Gateway">Gateway</h2>
@@ -294,8 +327,7 @@ spec:
 <td><code><a href="#Port">Port</a></code></td>
 <td>
 <p>REQUIRED: The Port on which the proxy should listen for incoming
-connections. If using Unix domain socket, use 0 as the port number,
-with a valid protocol and port name, along with the bind parameter.</p>
+connections.</p>
 
 </td>
 </tr>
@@ -307,7 +339,7 @@ with a valid protocol and port name, along with the bind parameter.</p>
 While typically applicable to
 HTTP services, it can also be used for TCP services using TLS with SNI.
 A host is specified as a <code>dnsName</code> with an optional <code>namespace/</code> prefix.
-The <code>dnsName</code> should be specified using FQDN format, opionally including
+The <code>dnsName</code> should be specified using FQDN format, optionally including
 a wildcard character in the left-most component (e.g., <code>prod/*.example.com</code>).
 Set the <code>dnsName</code> to <code>*</code> to select all <code>VirtualService</code> hosts from the
 specified namespace (e.g.,<code>prod/*</code>). If no <code>namespace/</code> is specified,
@@ -416,18 +448,21 @@ client side certificate.</p>
 <td><code>string</code></td>
 <td>
 <p>The credentialName stands for a unique identifier that can be used
-to identify the serverCertificate and the privateKey. The credentialName
-appended with suffix &ldquo;-cacert&rdquo; is used to identify the CaCertificates
-associated with this server. Gateway workloads capable of fetching
-credentials from a remote credential store will be configured to retrieve
-the serverCertificate and the privateKey using credentialName, instead of
-using the file system paths specified above. If using mutual TLS,
+to identify the serverCertificate and the privateKey. The
+credentialName appended with suffix &ldquo;-cacert&rdquo; is used to identify
+the CaCertificates associated with this server. Gateway workloads
+capable of fetching credentials from a remote credential store such
+as Kubernetes secrets, will be configured to retrieve the
+serverCertificate and the privateKey using credentialName, instead
+of using the file system paths specified above. If using mutual TLS,
 gateway workloads will retrieve the CaCertificates using
-credentialName-cacert. The semantics of the name are platform dependent.
-In Kubernetes, the default Istio supplied credential server expects the
-credentialName to match the name of the Kubernetes secret that holds the
-server certificate, the private key, and the CA certificate
-(if using mutual TLS).</p>
+credentialName-cacert. The semantics of the name are platform
+dependent.  In Kubernetes, the default Istio supplied credential
+server expects the credentialName to match the name of the
+Kubernetes secret that holds the server certificate, the private
+key, and the CA certificate (if using mutual TLS). Set the
+ISTIO<em>META</em>USER_SDS metadata variable in the gateway&rsquo;s proxy to
+enable the dynamic credential fetching feature.</p>
 
 </td>
 </tr>

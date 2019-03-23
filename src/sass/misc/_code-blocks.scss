@@ -2,6 +2,7 @@ code {
     color: $textCodeColor;
     font-size: 80%;
     font-weight: $textCodeWeight;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     word-break: normal;
 }
 
@@ -19,7 +20,6 @@ pre {
     border: 1px solid $preBlockBorderColor;
     border-radius: $border-radius;
     box-shadow: 3px 3px 8px $preBlockShadowColor;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     font-size: 87.5%;
     text-align: left;
     white-space: pre;
@@ -35,9 +35,6 @@ pre {
         display: block;
         padding: .5em;
         color: $textColor;
-        font-size: 80%;
-        font-weight: $textCodeWeight;
-        word-break: normal;
     }
 
     code.command-output {

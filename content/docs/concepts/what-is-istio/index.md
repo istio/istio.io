@@ -24,7 +24,7 @@ it helps to take a more detailed look at Istio’s service mesh.
 
 The term service mesh is used to describe the network of microservices that make up such applications and the interactions between them. As a service mesh grows
  in size and complexity, it can become harder to understand and manage. Its requirements can include discovery, load balancing, failure recovery, metrics, and
- monitoring. A service mesh also often has more complex operational requirements, like A/B testing, canary releases, rate limiting, access control, and
+ monitoring. A service mesh also often has more complex operational requirements, like A/B testing, canary rollouts, rate limiting, access control, and
  end-to-end authentication.
 
 Istio provides behavioral insights and operational control over the service mesh as a whole, offering a complete solution to satisfy the diverse requirements of
@@ -73,7 +73,7 @@ secure pod-to-pod or service-to-service communication at the network and applica
 
 ### Observability
 
-Istio’s robust tracing, monitoring, and logging give you deep insights into your service mesh deployment. Gain a real understanding of how service performance
+Istio’s robust tracing, monitoring, and logging features give you deep insights into your service mesh deployment. Gain a real understanding of how service performance
 impacts things upstream and downstream with Istio’s monitoring features, while its custom dashboards provide visibility into the performance of all your
 services and let you see how that performance is affecting your other processes.
 
@@ -173,7 +173,7 @@ abstracts the Envoy proxy and Istio-managed services from these details.
 
 [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy) provides
 service discovery for the Envoy sidecars, traffic management capabilities
-for intelligent routing (e.g., A/B tests, canary deployments, etc.),
+for intelligent routing (e.g., A/B tests, canary rollouts, etc.),
 and resiliency (timeouts, retries, circuit breakers, etc.).
 
 Pilot converts high level routing rules that control traffic behavior into
@@ -197,7 +197,7 @@ to control who can access your services.
 
 ### Galley
 
-Galley is Istio' configuration validation, ingestion, processing and
+Galley is Istio's configuration validation, ingestion, processing and
 distribution component. It is responsible for insulating
 the rest of the Istio components from the details of obtaining user
 configuration from the underlying platform (e.g. Kubernetes).

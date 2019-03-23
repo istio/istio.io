@@ -5,7 +5,7 @@ weight: 70
 keywords: [kubernetes,multicluster]
 ---
 
-此示例演示了如何在[基于 VPN 的多集群安装指导](/zh/docs/setup/kubernetes/multicluster/vpn/) 的帮助下使用 Istio 的多集群功能连接两个
+此示例演示了如何在[基于 VPN 的多集群安装指导](/zh/docs/setup/kubernetes/install/multicluster/vpn/) 的帮助下使用 Istio 的多集群功能连接两个
 [IBM Cloud Private](https://www.ibm.com/cloud/private) 集群。
 
 ## 创建 IBM Cloud Private 集群
@@ -122,7 +122,7 @@ IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。
 
 ## 为多集群安装 Istio
 
-[跟随基于 VPN 的多集群安装步骤](/zh/docs/setup/kubernetes/multicluster/vpn/) 来在 `cluster-1` 和 `cluster-2` 集群上分别安装并配置本地 Istio 控制平面和远程 Istio。
+[跟随基于 VPN 的多集群安装步骤](/zh/docs/setup/kubernetes/install/multicluster/vpn/) 来在 `cluster-1` 和 `cluster-2` 集群上分别安装并配置本地 Istio 控制平面和远程 Istio。
 
 此示例使用 `cluster-1` 作为本地 Istio 控制平面，`cluster-2` 作为远程 Istio。
 
@@ -133,14 +133,14 @@ __注意__: 以下示例启用了 [自动 sidecar 注入](/zh/docs/setup/kuberne
 1.  安装 `bookinfo` 在第一个集群 `cluster-1` 上。移除此集群上的 `reviews-v3` deployment 以便将其部署在 `cluster-2` 上：
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
 1.  创建 `reviews-v3.yaml` manifest 以便部署在 `cluster-2` 上：
 
-    {{< text yaml plain "reviews-v3.yaml" >}}
+    {{< text syntax="yaml" downloadas="reviews-v3.yaml" >}}
     ---
     ##################################################################################################
     # Ratings service

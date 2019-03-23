@@ -5,7 +5,7 @@ weight: 75
 keywords: [kubernetes,multicluster,hybrid]
 ---
 
-本文示例演示了如何使用 Istio 多集群功能，借助 [基于 VPN 的多集群设置](/zh/docs/setup/kubernetes/multicluster/vpn/)将 [IBM Cloud Private](https://www.ibm.com/cloud/private) 和 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) 两个集群连接起来。
+本文示例演示了如何使用 Istio 多集群功能，借助 [基于 VPN 的多集群设置](/zh/docs/setup/kubernetes/install/multicluster/vpn/)将 [IBM Cloud Private](https://www.ibm.com/cloud/private) 和 [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html) 两个集群连接起来。
 
 ## 设置两个集群
 
@@ -80,7 +80,7 @@ keywords: [kubernetes,multicluster,hybrid]
 
 ## 多集群安装 Istio
 
-按照[基于 VPN 的多集群安装步骤](/zh/docs/setup/kubernetes/multicluster/vpn/)进行安装和配置
+按照[基于 VPN 的多集群安装步骤](/zh/docs/setup/kubernetes/install/multicluster/vpn/)进行安装和配置
 IBM Cloud Private 和 IBM Cloud Kubernetes Service 上的本地 Istio 控制平面和 Istio 远程控制。
 
 此示例使用 IBM Cloud Private 作为 Istio 本地控制平面，使用 IBM Cloud Kubernetes Service 作为 Istio 远程控制平面。

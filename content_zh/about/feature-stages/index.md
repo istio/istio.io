@@ -46,7 +46,7 @@ icon: feature-status
 | [SolarWinds 集成](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
 | [Zipkin/Jaeger 的分布式追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
 | [服务追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha
-| [Fluentd 日志记录](/zh/docs/tasks/telemetry/fluentd/) | Alpha
+| [Fluentd 日志记录](/zh/docs/tasks/telemetry/logs/fluentd/) | Alpha
 | [追踪采样](/zh/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Alpha
 
 ### 安全和策略实施
@@ -63,7 +63,7 @@ icon: feature-status
 | [认证策略](/zh/docs/concepts/security/#认证策略)  | Alpha
 | [最终用户（JWT）认证](/zh/docs/concepts/security/#认证)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [RBAC)](/zh/docs/concepts/security/#授权和鉴权)   | Alpha
+| [RBAC)](/zh/docs/concepts/security/#授权)   | Alpha
 
 ### 核心
 
@@ -74,7 +74,7 @@ icon: feature-status
 | [属性表达语言](/zh/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | [Mixer 适配器认证模型](/zh/blog/2017/adapter-model/)        | Stable
 | [Helm](/zh/docs/setup/kubernetes/install/helm/) | Beta
-| [多集群安装](/zh/docs/setup/kubernetes/multicluster/) | Alpha
+| [多集群安装](/zh/docs/setup/kubernetes/install/multicluster/) | Alpha
 | [Kubernetes：Istio 控制平面升级](/zh/docs/setup/kubernetes/) | Beta
 | [Consul 集成](/zh/docs/setup/consul/quick-start/) | Alpha
 | 基本配置资源校验  | Alpha

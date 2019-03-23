@@ -256,7 +256,7 @@ webhooks:
 
 This is where you can see the webhook `namespaceSelector` label that is matched for sidecar injection with the label `istio-injection: enabled`. In this case, you also see the operations and resources for which this is done when the pods are created. When an `apiserver` receives a request that matches one of the rules, the `apiserver` sends an admission review request to the webhook service as specified in the `clientConfig:`configuration with the `name: istio-sidecar-injector` key-value pair. We should be able to see that this service is running in the `istio-system` namespace.
 
-{{< text bash>}}
+{{< text bash >}}
 $ kubectl get svc --namespace=istio-system | grep sidecar-injector
 istio-sidecar-injector   ClusterIP   10.102.70.184   <none>        443/TCP             24d
 {{< /text >}}
@@ -347,5 +347,5 @@ The output above clearly shows that all the incoming traffic to port 80, which i
 This brings us to the end of this post. I hope it helped to de-mystify how Istio manages to inject the sidecar proxies into an existing deployment and how Istio routes the traffic to the proxy.
 
 {{< idea >}}
-Update: In place of `istio-init`, there now seems to be an option of using the new CNI, which removes the need for the init container and associated privileges. This [`istio-cni`] (<https://github.com/istio/cni>) plugin sets up the pods' networking to fulfill this requirement in place of the current Istio injected pod `istio-init` approach.
+Update: In place of `istio-init`, there now seems to be an option of using the new CNI, which removes the need for the init container and associated privileges. This [`istio-cni`](https://github.com/istio/cni) plugin sets up the pods' networking to fulfill this requirement in place of the current Istio injected pod `istio-init` approach.
 {{< /idea >}}

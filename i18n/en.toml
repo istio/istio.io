@@ -177,3 +177,12 @@ other = "Switch to Chinese"
 
 [advisory]
 other = "-"
+
+[syntax_coloring]
+other = "Color Examples"
+
+[announcement_download]
+other = "DOWNLOAD %s"
+
+[announcement_relnotes]
+other = "%s RELEASE NOTES"
