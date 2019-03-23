@@ -40,7 +40,7 @@ a new version and enable traffic to it for a tester with login name `jason`.
     thanks to the virtual service you defined in the previous step.
 
     {{< text bash >}}
-    $ kubectl apply -l app=reviews,version=v3 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -l app=reviews,version=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     deployment "reviews-v3" created
     {{< /text >}}
 

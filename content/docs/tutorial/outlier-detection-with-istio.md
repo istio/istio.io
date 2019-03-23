@@ -113,6 +113,6 @@ You want to give the faulty microservice time to recuperate, and then to start s
     _ratings v1_:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     $ kubectl delete deployment ratings-v-unavailable
     {{< /text >}}

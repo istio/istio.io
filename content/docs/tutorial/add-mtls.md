@@ -43,7 +43,7 @@ microservices in your namespace.
       peers:
       - mtls: {}
     EOF
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     {{< /text >}}
 
 1.  Access your application's web page and verify that everything continued to work as expected.

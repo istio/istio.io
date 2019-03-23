@@ -165,7 +165,7 @@ In this section you apply Istio
      Add Kubernetes Service Accounts to _productpage_ and _reviews_.
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml
     serviceaccount "bookinfo-productpage" created
     deployment "productpage-v1" configured
     serviceaccount "bookinfo-reviews" created

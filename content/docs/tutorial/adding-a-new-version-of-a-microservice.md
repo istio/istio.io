@@ -15,7 +15,7 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     Run the following command to deploy the _reviews_ microservice version 2, while replacing the label `app=reviews` by `app=reviews_test`:
 
     {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml | sed 's/app: reviews/app: reviews_test/' | kubectl apply -l app=reviews_test,version=v2 -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | sed 's/app: reviews/app: reviews_test/' | kubectl apply -l app=reviews_test,version=v2 -f -
     deployment "reviews-v2" created
     {{< /text >}}
 
@@ -77,7 +77,7 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     To put the new version back:
 
     {{< text bash >}}
-    $ kubectl apply -l app=reviews,version=v2 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -l app=reviews,version=v2 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     deployment "reviews-v2" created
     {{< /text >}}
 

@@ -13,8 +13,8 @@ microservices in one stroke.
 1.  Redeploy the Bookinfo application, Istio-enabled. _productpage_ will not be redeployed since it already has Istio injected, its pods will not be changed.
 
     {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
-    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app=reviews,version=v2 -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app=reviews,version=v2 -f -
     service "details" unchanged
     deployment "details-v1" configured
     service "ratings" unchanged

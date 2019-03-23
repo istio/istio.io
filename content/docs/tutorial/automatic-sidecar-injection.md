@@ -24,8 +24,8 @@ have Istio sidecar injected automatically.
 1.  Test the automatic sidecar injection by redeploying your testing pod:
 
     {{< text bash >}}
-    $ kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+    $ kubectl delete -f {{< github_file >}}/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     serviceaccount "sleep" deleted
     service "sleep" deleted
     deployment "sleep" deleted

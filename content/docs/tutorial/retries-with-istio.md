@@ -142,7 +142,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to _ratings
     _ratings v1_:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     $ kubectl delete virtualservice ratings
     $ kubectl delete deployment ratings-v-faulty
     {{< /text >}}

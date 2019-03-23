@@ -112,7 +112,7 @@ then to 20% and so on.
 1.  Finally, direct all the traffic to _reviews v3_.
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-reviews-v3.yaml
     {{< /text >}}
 
 1.  Observe in the Kiali console, the graph of your namespace, how the traffic switches from _v2_ to _v3_.

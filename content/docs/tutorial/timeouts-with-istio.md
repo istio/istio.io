@@ -154,7 +154,7 @@ user instead of letting the user wait for a long period of time.
     _ratings v1_:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     $ kubectl delete virtualservice ratings
     $ kubectl delete deployment ratings-v-delayed
     {{< /text >}}

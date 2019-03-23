@@ -26,13 +26,13 @@ serve user requests.
     spec:
       peers:
     EOF
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/destination-rule-all.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
 1.  Redeploy the _productpage_ microservice, Istio-enabled:
 
     {{< text bash >}}
-    $ kubectl apply -l app=productpage,version=v1 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml --dry-run -o yaml | istioctl kube-inject -f - | kubectl apply -f -
+    $ kubectl apply -l app=productpage,version=v1 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml --dry-run -o yaml | istioctl kube-inject -f - | kubectl apply -f -
     deployment "productpage-v1" configured
     {{< /text >}}
 

@@ -17,8 +17,8 @@ HTTP GET requests on the path `/ratings/{productID}` and returns the product rat
     {{< text bash >}}
     $ mkdir ratings
     $ cd ratings
-    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/src/ratings/ratings.js -o ratings.js
-    $ curl -s https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/src/ratings/package.json -o package.json
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/ratings.js -o ratings.js
+    $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/package.json -o package.json
     {{< /text >}}
 
     Skim the service's code. Note the "embedded" Web Server and the aspects related to HTTP, such as the headers, the

@@ -19,14 +19,14 @@ to split the traffic destined to _reviews_ equally between the _v2_ and _v3_ ver
 1.  Deploy _reviews v2_:
 
     {{< text bash >}}
-    $ kubectl apply -l app=reviews,version=v2 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -l app=reviews,version=v2 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     deployment "reviews-v2" created
     {{< /text >}}
 
 1.  Configure a virtual service to distribute the traffic 50:50 between _reviews v2_ and _reviews v3_.
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-reviews-v2-v3.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-reviews-v2-v3.yaml
     {{< /text >}}
 
 1.  Access application's webpage and verify that now the red stars are displayed roughly every other access.

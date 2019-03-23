@@ -18,7 +18,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 1.  Configure a virtual service to inject a fault on requests to _ratings_, for your test user `jason`:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml
     {{< /text >}}
 
 1.  Access application's webpage, sign in as `jason` and observe that now an error is displayed instead of the reviews.
@@ -59,13 +59,13 @@ one microservice to another. Next, you introduce a delay on a path between two m
 1.  Remove the virtual service, sign in as `jason` and see that everything works OK.
 
     {{< text bash >}}
-    $ kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml
+    $ kubectl delete -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml
     {{< /text >}}
 
 1.  Check another kind of fault injection. Insert a delay of seven seconds on requests to _ratings_:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml
     {{< /text >}}
 
 1.  Access the application's webpage and sign in as `jason`.
@@ -150,7 +150,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 1.  Set the delay to two seconds and see that the current application can handle it:
 
     {{< text bash >}}
-    $ curl -s https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml | sed 's/7s/2s/g' | kubectl apply -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml | sed 's/7s/2s/g' | kubectl apply -f -
     {{< /text >}}
 
 1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your productpage service, check the

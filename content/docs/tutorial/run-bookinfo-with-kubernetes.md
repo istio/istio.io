@@ -19,7 +19,7 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, you 
 1.  Deploy the application to Kubernetes:
 
     {{< text bash >}}
-    $ kubectl apply -l version!=v2,version!=v3 -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     service "details" created
     deployment "details-v1" created
     service "ratings" created
@@ -58,7 +58,7 @@ the first version of the _reviews_ microservice, _v1_. In the next modules, you 
     requests to your microservices:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
 1.  To confirm that the Bookinfo application is running, send a request to it by a curl command from your testing pod:
