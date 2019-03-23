@@ -119,7 +119,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 
     Note that the call to _`productpage`_ took 5.08 s, and that it took 2.5 s for _reviews_ to return a response.
 
-1.   Examine [_reviews_'s code]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L88) that calls _ratings_:
+1.   Examine [_reviews_'s code]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java) that calls _ratings_:
 
     {{< text java >}}
     String timeout = star_color.equals("black") ? "10000" : "2500";
@@ -134,7 +134,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 
     Go up the call chain and check the delay between _`productpage`_ and _reviews_.
     Examine
-    [_`productpage`_'s code]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L296):
+    [_`productpage`_'s code]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py):
 
     {{< text python >}}
     def getProductReviews(product_id, headers):
