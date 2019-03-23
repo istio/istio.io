@@ -42,7 +42,7 @@ then to 20% and so on.
     Execute the following query:
 
     {{< text plain >}}
-    istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep"}
+    istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}
     {{< /text >}}
 
     Switch to the _Graph_ tab:
@@ -61,19 +61,19 @@ then to 20% and so on.
     1.  Number of requests from _sleep_ to _reviews v2_:
 
     {{< text plain >}}
-    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v2"})
+    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v2"})
     {{< /text >}}
 
     1.  Number of requests from _sleep_ to _reviews v3_:
 
     {{< text plain >}}
-    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v3"})
+    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v3"})
     {{< /text >}}
 
     1.  You can even perform math on the results of queries above:
 
     {{< text plain >}}
-    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v2"}) + sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", source_app="sleep", destination_version="v3"})
+    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v2"}) + sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v3"})
     {{< /text >}}
 
 1.  Check your Kiali console,
