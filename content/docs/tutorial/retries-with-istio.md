@@ -123,7 +123,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to _ratings
           attempts: 5
           perTryTimeout: 0.25s
     EOF
-    {{< /text >}}    
+    {{< /text >}}
 
 1.  Access your application's webpage several times. Now you will receive the _ratings unavailable_ error very seldom if
     at all.

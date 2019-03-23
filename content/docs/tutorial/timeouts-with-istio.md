@@ -127,7 +127,7 @@ user instead of letting the user wait for a long period of time.
             subset: v-delayed
         timeout: 0.8s
     EOF
-    {{< /text >}}    
+    {{< /text >}}
 
 1.  Access your application's webpage several times. Now you do not receive _reviews unavailable_ any more and you
     do not have three seconds delay! Only the _ratings_ is unavailable about two thirds of the times. You managed to
