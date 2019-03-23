@@ -294,6 +294,8 @@ In this section you apply Istio
     EOF
     {{< /text >}}
 
+    To enable Istio RBAC on multiple namespaces, list them in the `namespaces` field, separated by commas.
+
 1.  Access the application's webpage and verify that the application continues to work, which would mean that the
     authorized access is allowed and you configured your policy rules correctly.
 
