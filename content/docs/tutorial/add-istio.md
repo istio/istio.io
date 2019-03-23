@@ -9,7 +9,7 @@ weight: 60
 As you saw in the previous module, Kubernetes does not provide us all the functionality you need to effectively operate
 your microservices. Istio comes to your help.
 
-In this module you enable Istio on a single microservice, _`productpage`_.
+In this module you enable Istio on a single microservice, `productpage`.
 The rest of the application will continue to operate as previously. Note that you can enable Istio gradually,
 microservice by microservice. Also note that Istio is enabled transparently to the microservices, you do not change the
 microservices code. And also note that you enable Istio without disrupting your application, it continues to run and
@@ -29,7 +29,7 @@ serve user requests.
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
-1.  Redeploy the _`productpage`_ microservice, Istio-enabled:
+1.  Redeploy the `productpage` microservice, Istio-enabled:
 
     {{< text bash >}}
     $ kubectl apply -l app=productpage,version=v1 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml --dry-run -o yaml | istioctl kube-inject -f - | kubectl apply -f -
@@ -39,7 +39,7 @@ serve user requests.
 1.  Access the application's webpage and verify that the application continues to work. Note that Istio was added
     **transparently**, the code of the original application did not change.
 
-1.  Check the the _`productpage`_'s pods and see that now each replica has two containers.
+1.  Check the the `productpage`'s pods and see that now each replica has two containers.
     The first container is the microservice itself, the second is the sidecar proxy attached to it:
 
     {{< text bash >}}
@@ -59,14 +59,14 @@ serve user requests.
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-1.  Note that Kubernetes replaced the original pods of _`productpage`_ with the Istio-enabled pods, transparently and
+1.  Note that Kubernetes replaced the original pods of `productpage` with the Istio-enabled pods, transparently and
     incrementally,  performing what is called a
     [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/).
     Kubernetes terminated an old pod only when a new pod started to run, and it transparently switched the traffic to
     the new pods, one by one. (To be more precise, it did not terminate more than one pod before a new pod was started.)
     All this was done to prevent disruption of your application, so it continued to work during the injection of Istio.
 
-1.  Check the logs of the Istio sidecar of _`productpage`_:
+1.  Check the logs of the Istio sidecar of `productpage`:
 
     {{< text bash >}}
     $ kubectl logs -l app=productpage -c istio-proxy | grep GET

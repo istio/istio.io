@@ -5,7 +5,7 @@ weight: 71
 
 ---
 
-Until now you operated the Kubernetes Ingress. Istio started to operate at your front-end microservice, _`productpage`_.
+Until now you operated the Kubernetes Ingress. Istio started to operate at your front-end microservice, `productpage`.
 In this module you configure the traffic to enter through Istio Ingress Gateway, so you will be able to apply Istio
 control already at the ingress point, even before the traffic arrives to your microservices.
 

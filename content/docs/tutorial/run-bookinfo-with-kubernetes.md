@@ -6,10 +6,10 @@ weight: 30
 
 ---
 
-This module shows you an application composed of four microservices: _`productpage`_, _details_, _ratings_ and _reviews_.
+This module shows you an application composed of four microservices: `productpage`, `details`, `ratings` and `reviews`.
 The application is called [Bookinfo](/docs/examples/bookinfo). Consider the application there as the final version, in
-which the _reviews_ microservice has three versions _v1_, _v2_, _v3_. In this module you start with the application with
-the first version of the _reviews_ microservice, _v1_. In the next modules, you will evolve the application.
+which the `reviews` microservice has three versions _v1_, _v2_, _v3_. In this module you start with the application with
+the first version of the `reviews` microservice, _v1_. In the next modules, you will evolve the application.
 
 ## Deploy the application and a testing pod
 
@@ -134,7 +134,7 @@ configure the steps below successfully, you will be able to access the applicati
     $ echo http://$MYHOST/productpage
     {{< /text >}}
 
-1.  Observe how microservices call each other, for example, _reviews_ calls the _ratings_ microservice by the URL `http://ratings:9080/ratings`. See the [code of _reviews_]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
+1.  Observe how microservices call each other, for example, `reviews` calls the `ratings` microservice by the URL `http://ratings:9080/ratings`. See the [code of `reviews`]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
 
     {{< text java >}}
     private final static String ratings_service = "http://ratings:9080/ratings";

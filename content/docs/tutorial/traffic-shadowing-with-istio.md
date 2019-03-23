@@ -7,7 +7,7 @@ weight: 90
 ---
 
 The next step in deploying a new version of a microservice is to perform [traffic shadowing](https://blog.christianposta.com/microservices/advanced-traffic-shadowing-patterns-for-microservices-with-istio-service-mesh/). You will shadow the
-traffic destined to _reviews_ to _reviews v3_ and verify that your new version provides correct results without errors.
+traffic destined to `reviews` to _reviews v3_ and verify that your new version provides correct results without errors.
 
 1.  Add a virtual service to route traffic to _reviews v2_, while shadowing traffic to _reviews 2_
     (using the
@@ -54,8 +54,8 @@ traffic destined to _reviews_ to _reviews v3_ and verify that your new version p
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    This time you will see that _reviews v3_ does not receive the traffic from _`productpage`_, since it receives only
-    shadow traffic. As a response to the shadow traffic, _reviews v3_ generates traffic to _ratings_, which is shown in
+    This time you will see that _reviews v3_ does not receive the traffic from `productpage`, since it receives only
+    shadow traffic. As a response to the shadow traffic, _reviews v3_ generates traffic to `ratings`, which is shown in
     the graph.
 
     {{< image width="80%"

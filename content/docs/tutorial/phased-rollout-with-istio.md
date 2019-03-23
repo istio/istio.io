@@ -79,14 +79,14 @@ then to 20% and so on.
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    You will see the rate of the traffic entering _reviews_ split roughly 90:10 between _reviews_ _v2_ and _v3_.
+    You will see the rate of the traffic entering `reviews` split roughly 90:10 between `reviews` _v2_ and _v3_.
 
     {{< image width="80%"
         link="images/kiali-phased-rollout.png"
         caption="Kiali Graph Tab with traffic splitting 90:10 between reviews v2 and v3"
         >}}
 
-1.  Observe the _reviews_ virtual service in your Kiali console, the _`Istio Config`_ tab.
+1.  Observe the `reviews` virtual service in your Kiali console, the `Istio Config` tab.
 
     {{< image width="80%"
         link="images/kiali-phased-rollout-virtual-service.png"
@@ -96,7 +96,7 @@ then to 20% and so on.
 1.  Note that you can edit the virtual service in Kiali. Go to the `YAML` tab and change the weight of _reviews v2_ to
     80 without changing the weight of _reviews v3_.
     Try to save and see that you get an error in the top right corner. The error is that the sum of the weights to
-    _reviews_ is not equal to 100: 80 to _v2_ and 10 to _v3_. Istio validates the configuration items you submit. Good.
+    `reviews` is not equal to 100: 80 to _v2_ and 10 to _v3_. Istio validates the configuration items you submit. Good.
 
     {{< image width="80%"
         link="images/kiali-edit-virtual-service-error.png"

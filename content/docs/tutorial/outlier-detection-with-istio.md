@@ -11,7 +11,7 @@ requests to the failing microservice for some period of time, since it will prob
 You do not want to flood the failing microservice with requests since it will not be able to handle them.
 You want to give the faulty microservice time to recuperate, and then to start sending the requests to it again.
 
-1.  Deploy the version of _ratings_ which becomes unavailable for 60 seconds from time to time:
+1.  Deploy the version of `ratings` which becomes unavailable for 60 seconds from time to time:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -78,7 +78,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     Switch the fetching interval to `5s`, so you will see what happens more precisely.
     {{< /tip >}}
 
-    Note the two versions of _ratings_, _v1_ and _v-unavailable_, handling the requests successfully.
+    Note the two versions of `ratings`, _v1_ and _v-unavailable_, handling the requests successfully.
 
     {{< image width="80%"
         link="images/kiali-ratings-unavailable.png"
@@ -86,7 +86,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
         >}}
 
 1.  Wait for about a minute. You will notice that _v-unavailable_ starts returning errors. It's box turns red, the
-    box of the whole _ratings_ microservice turns red, the box of the _reviews_ becomes orange.
+    box of the whole `ratings` microservice turns red, the box of the `reviews` becomes orange.
 
     {{< image width="80%"
         link="images/kiali-ratings-unavailable-failing.png"
@@ -109,7 +109,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     and after some time will detected by Istio as failing and Istio will stop sending traffic to it. You may want to
     observe the process for several cycles.
 
-1.  Remove the _unavailable_ version of _ratings_ and recreate the destination rule and the virtual service to route to
+1.  Remove the _unavailable_ version of `ratings` and recreate the destination rule and the virtual service to route to
     _ratings v1_:
 
     {{< text bash >}}

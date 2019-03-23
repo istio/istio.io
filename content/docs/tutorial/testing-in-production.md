@@ -25,19 +25,19 @@ Perform some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-enginee
 your application reacts. After each chaos operation, access the application home page and see if anything was
 changed. Also check the pods' status with `kubectl get pods`.
 
-1.  Terminate the _details_ service in one pod.
+1.  Terminate the `details` service in one pod.
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
     {{< /text >}}
 
-1.  Terminate the _details_ service in all its pods:
+1.  Terminate the `details` service in all its pods:
 
     {{< text bash >}}
     $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating $pod; kubectl exec -it $pod -- pkill ruby; done
     {{< /text >}}
 
-Note that in both cases the application did not crash. The crash in the _details_ microservice did not cause other
+Note that in both cases the application did not crash. The crash in the `details` microservice did not cause other
 microservices to fail. It means you did not have a _cascading failure_ in this situation. On the contrary,
 you had _gradual service degradation_: despite one microservice being crashed, the application still provided useful
 functionality: displayed the reviews and the basic info about the book.

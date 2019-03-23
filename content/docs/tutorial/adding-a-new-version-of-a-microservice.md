@@ -6,13 +6,13 @@ weight: 50
 
 ---
 
-Let's deploy a new version of the _reviews_ microservice, namely _v2_, the one that will return the ratings provided by
+Let's deploy a new version of the `reviews` microservice, namely _v2_, the one that will return the ratings provided by
 reviewers, as a number of stars, with the color of stars. In real life, You would perform lint tests, unit tests,
 integration tests, end-to-end tests and tests in a staging environment, before the deployment.
 
-1.  Deploy the new version of the _reviews_ microservice without the `app=reviews` label. Without that label, the new
-version will not be selected to provide the _reviews_ service. As such, it will not be called by the production code.
-    Run the following command to deploy the _reviews_ microservice version 2, while replacing the label `app=reviews` by `app=reviews_test`:
+1.  Deploy the new version of the `reviews` microservice without the `app=reviews` label. Without that label, the new
+version will not be selected to provide the `reviews` service. As such, it will not be called by the production code.
+    Run the following command to deploy the `reviews` microservice version 2, while replacing the label `app=reviews` by `app=reviews_test`:
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | sed 's/app: reviews/app: reviews_test/' | kubectl apply -l app=reviews_test,version=v2 -f -
@@ -22,9 +22,9 @@ version will not be selected to provide the _reviews_ service. As such, it will 
 1.  Access your application and see that the deployed microservice did not disrupt it. So far so good.
 
 1.  Test the new version of your microservice from inside the cluster. Use the testing container you deployed
-    earlier. Note that your new version hits the production pods of the _ratings_ microservice during the test. Also
+    earlier. Note that your new version hits the production pods of the `ratings` microservice during the test. Also
     note that you have to access your new version of the microservice by its pod IP, since it is not selected for the
-    _reviews_ service.
+    `reviews` service.
 
     1.  Get the IP of the pod:
 
@@ -48,13 +48,13 @@ version will not be selected to provide the _reviews_ service. As such, it will 
         ...
         {{< /text >}}
 
-1.  Now you are rather confident that your new version of _reviews_ will work and you can release it.
+1.  Now you are rather confident that your new version of `reviews` will work and you can release it.
     You will release a single replica of it into production so the real production traffic will arrive to your new
     version. With the current setting, 75% of the traffic will arrive to the old version (three pods of the old
     version) and 25% will arrive to the new version (one pod).
 
     To release _reviews v2_ redeploy the new version with the `app=reviews` label, so it will become addressable by
-    the _reviews_ service.
+    the `reviews` service.
 
     {{< text bash >}}
     $ kubectl label pods -l version=v2 app=reviews --overwrite
@@ -98,7 +98,7 @@ version will not be selected to provide the _reviews_ service. As such, it will 
 
 1.  Accessing the web page of the application will return reviews with black stars only.
 
-You performed the update of _reviews_ pretty well. First, you deployed the new version without directing to it any
+You performed the update of `reviews` pretty well. First, you deployed the new version without directing to it any
 production traffic. You tested it in the production environment, on test traffic.
 You checked that the new version new version provides correct results. You released the new version,
 gradually increasing the production traffic to it. Finally, You decommissioned the old version.

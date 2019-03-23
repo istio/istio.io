@@ -15,7 +15,7 @@ failures in other microservices.
 To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from
 one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your microservices react to the faults you injected.
 
-1.  Configure a virtual service to inject a fault on requests to _ratings_, for your test user `jason`:
+1.  Configure a virtual service to inject a fault on requests to `ratings`, for your test user `jason`:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml
@@ -24,7 +24,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 1.  Access application's webpage, sign in as `jason` and observe that now an error is displayed instead of the reviews.
 
 1.  See that the error appears in the logs of the sidecar proxy of the `reviews` microservice which calls
-    _ratings_:
+    `ratings`:
 
     {{< text bash >}}
     $ kubectl logs -l app=reviews -c istio-proxy
@@ -37,7 +37,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     [2019-02-17T03:25:41.929Z] "GET /reviews/0 HTTP/1.1" 200 - 0 425 18 17 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "2d0740d7-64e7-9c83-ae49-67be45457b1a" "reviews:9080" "127.0.0.1:9080" inbound|9080|http|reviews.tutorial.svc.cluster.local - 172.30.146.72:9080 172.30.109.78:37748 outbound_.9080_.v3_.reviews.tutorial.svc.cluster.local
     {{< /text >}}
 
-    According to the log messages above, a call to _ratings_ returned `500` while _reviews_ managed to handle the error
+    According to the log messages above, a call to `ratings` returned `500` while `reviews` managed to handle the error
     and returned `200`. You didn't get _cascading failire_, a failing microservice or a network error did not cause the
     whole chain of calls to fail. The application continued to function, but with reduced functionality, just not
     presenting ratings stars. You experience _graceful degradation_ which is good.
@@ -45,7 +45,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Note that the _reviews_ microservice became orange and the edges to _ratings_ became orange as well. Note the
+    Note that the `reviews` microservice became orange and the edges to `ratings` became orange as well. Note the
     red portion of the stacked bar chart on the right, it designates the proportion of `5xx` errors. Notice the
     percentage of errors in the `HTTP Traffic` section on the right.
 
@@ -62,7 +62,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     $ kubectl delete -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml
     {{< /text >}}
 
-1.  Check another kind of fault injection. Insert a delay of seven seconds on requests to _ratings_:
+1.  Check another kind of fault injection. Insert a delay of seven seconds on requests to `ratings`:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml
@@ -70,11 +70,11 @@ one microservice to another. Next, you introduce a delay on a path between two m
 
 1.  Access the application's webpage and sign in as `jason`.
     You should see that now the message "Error fetching product reviews!" is displayed.
-    It means that the application cannot handle the delay of seven seconds between _reviews_ and _ratings_.
+    It means that the application cannot handle the delay of seven seconds between `reviews` and `ratings`.
     If you suspect that such delays may happen in production, you should handle the problem now, proactively,
     before it appears in production.
 
-1.  Check the logs of _`productpage`_ and see that the delay from _ratings_ propagated through _reviews_ to _`productpage`_!
+1.  Check the logs of `productpage` and see that the delay from `ratings` propagated through `reviews` to `productpage`!
     That's not good.
 
     {{< text bash >}}
@@ -91,7 +91,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 1.  Check your Kiali console,
         [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    This time the situation is more serious. The _reviews_ microservice turned red, the _`productpage`_ microservice
+    This time the situation is more serious. The `reviews` microservice turned red, the `productpage` microservice
     turned orange, and the percentage of the errors in the _HTTP Traffic_ section on the right increased.
 
     {{< image width="80%"
@@ -100,7 +100,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     >}}
 
 1.  Access the Istio dashboard at
-    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard), _Istio Service Dashboard_, the _reviews_ service.
+    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard), _Istio Service Dashboard_, the `reviews` service.
 
     Notice the response code `500` in _Service Workloads_, _Incoming requests by destination and response code_.
 
@@ -109,7 +109,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
         caption="Istio Service Dashboard"
         >}}
 
-1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your _`productpage`_ service, find the
+1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your `productpage` service, find the
     trace with errors:
 
     {{< image width="80%"
@@ -117,9 +117,9 @@ one microservice to another. Next, you introduce a delay on a path between two m
         caption="Jaeger UI, timeout errors"
         >}}
 
-    Note that the call to _`productpage`_ took 5.08 s, and that it took 2.5 s for _reviews_ to return a response.
+    Note that the call to `productpage` took 5.08 s, and that it took 2.5 s for `reviews` to return a response.
 
-1.   Examine [_reviews_'s code]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java) that calls _ratings_:
+1.   Examine [`reviews`'s code]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java) that calls `ratings`:
 
     {{< text java >}}
     String timeout = star_color.equals("black") ? "10000" : "2500";
@@ -132,9 +132,9 @@ one microservice to another. Next, you introduce a delay on a path between two m
     seconds, exactly the latency you see in the tracing system. In real life you would increase the timeout for the
     version with red stars.
 
-    Go up the call chain and check the delay between _`productpage`_ and _reviews_.
+    Go up the call chain and check the delay between `productpage` and `reviews`.
     Examine
-    [_`productpage`_'s code]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py):
+    [`productpage`'s code]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py):
 
     {{< text python >}}
     def getProductReviews(product_id, headers):
@@ -143,7 +143,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     {{< /text >}}
 
     As you can see, the timeout is too low (three seconds), it cannot accommodate the delays of seven seconds, even if
-    _reviews_ could accommodate it. In real life you would increase this timeout.
+    `reviews` could accommodate it. In real life you would increase this timeout.
     Also note that you can remove the timeouts from the code to make it cleaner, and
     [handle the timeouts by Istio virtual services](/docs/tasks/traffic-management/request-timeouts).
 
@@ -161,7 +161,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
         caption="Jaeger UI, two seconds delay"
         >}}
 
-    You can see that now there were no errors and the whole call chain took 2.3 s. It took 2 s for _reviews_ to return
+    You can see that now there were no errors and the whole call chain took 2.3 s. It took 2 s for `reviews` to return
     a response, as you set by fault injection in the previous step.
 
 1.  Clean the fault injection:

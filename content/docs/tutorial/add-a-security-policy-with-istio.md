@@ -12,38 +12,38 @@ You want to specify policies to limit access similar to the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the microservices
 that need to access other microservices should be allowed to access the microservices they need.
 
-In your case, _ratings_ microservice can be accessed by _reviews_ only. Access from _`productpage`_ and from _details_
+In your case, `ratings` microservice can be accessed by `reviews` only. Access from `productpage` and from `details`
 should be denied.
-_`productpage`_ and _details_ should not be able to access _ratings_, neither accidentally nor intentionally.
+`productpage` and `details` should not be able to access `ratings`, neither accidentally nor intentionally.
 
 In the same way, the following access must be allowed:
 
-* _`productpage`_ can access _reviews_ and _details_
-* _reviews_ can access _ratings_
+* `productpage` can access `reviews` and `details`
+* `reviews` can access `ratings`
 * the testing pod, _sleep_, can access any microservice
-* all the access is read-only, which means that only HTTP GET method can be applied on _ratings_.
+* all the access is read-only, which means that only HTTP GET method can be applied on `ratings`.
 HTTP POST method must be prohibited.
 * all other access must be prohibited
 
 In this module you add access policies to enforce the access requirements above.
 
-1.  Verify that any microservice can access any microservice, including sending POST requests to _ratings_.
+1.  Verify that any microservice can access any microservice, including sending POST requests to `ratings`.
 
-    1.  GET request from _ratings_ to _reviews_
+    1.  GET request from `ratings` to `reviews`
 
         {{< text bash >}}
         $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl reviews:9080/reviews/0
         {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}
         {{< /text >}}
 
-    1.  GET request from _ratings_ to _details_
+    1.  GET request from `ratings` to `details`
 
         {{< text bash >}}
         $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl details:9080/details/0
         {"id":0,"author":"William Shakespeare","year":1595,"type":"paperback","pages":200,"publisher":"PublisherA","language":"English","ISBN-10":"1234567890","ISBN-13":"123-1234567890"}
         {{< /text >}}
 
-    1.  POST request from _sleep_ to _ratings_
+    1.  POST request from _sleep_ to `ratings`
 
         {{< text bash >}}
         $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":1,"Reviewer2":1}'
@@ -119,21 +119,21 @@ In this module you add access policies to enforce the access requirements above.
 
 1.  Check that unauthorized access is denied.
 
-    1.  GET request from _ratings_ to _reviews_
+    1.  GET request from `ratings` to `reviews`
 
         {{< text bash >}}
         $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl reviews:9080/reviews/0
         upstream connect error or disconnect/reset before headers
         {{< /text >}}
 
-    1.  GET request from _ratings_ to _details_
+    1.  GET request from `ratings` to `details`
 
         {{< text bash >}}
         $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl details:9080/details/0
         upstream connect error or disconnect/reset before headers
         {{< /text >}}
 
-    1.  POST request from _sleep_ to _ratings_
+    1.  POST request from _sleep_ to `ratings`
 
         {{< text bash >}}
         $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":1,"Reviewer2":1}'
@@ -162,7 +162,7 @@ In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concept
 1.   Secure access control in Istio is based on
      [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/),
      which serve as as the [identities](https://en.wikipedia.org/wiki/Digital_identity) of the pods.
-     Add Kubernetes Service Accounts to _`productpage`_ and _reviews_.
+     Add Kubernetes Service Accounts to `productpage` and `reviews`.
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml
@@ -182,7 +182,7 @@ In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concept
     tutorial
     {{< /text >}}
 
-1.   Create Istio service roles for read access to _`productpage`_, _reviews_, _ratings_ and _details_.
+1.   Create Istio service roles for read access to `productpage`, `reviews`, `ratings` and `details`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -301,21 +301,21 @@ In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concept
 
 1.  Check that unauthorized access is denied.
 
-    1.  GET request from _ratings_ to _reviews_
+    1.  GET request from `ratings` to `reviews`
 
         {{< text bash >}}
         $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl reviews:9080/reviews/0
         RBAC: access denied
         {{< /text >}}
 
-    1.  GET request from _ratings_ to _details_
+    1.  GET request from `ratings` to `details`
 
         {{< text bash >}}
         $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl details:9080/details/0
         RBAC: access denied
         {{< /text >}}
 
-    1.  POST request from _sleep_ to _ratings_
+    1.  POST request from _sleep_ to `ratings`
 
         {{< text bash >}}
         $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":1,"Reviewer2":1}'

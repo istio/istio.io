@@ -6,12 +6,12 @@ weight: 125
 
 ---
 
-In this module you check another fault mitigation mechanism of Istio. You deploy a faulty _ratings_ microservice, which
+In this module you check another fault mitigation mechanism of Istio. You deploy a faulty `ratings` microservice, which
 misbehaves half the time. With the probability of one half it returns the _503_ error, all other times it succeeds.
 
-To mitigate such a fault, you perform a retry of 3 times on the call to _ratings_.
+To mitigate such a fault, you perform a retry of 3 times on the call to `ratings`.
 
-1.  Deploy the faulty version of _ratings_:
+1.  Deploy the faulty version of `ratings`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -50,7 +50,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to _ratings
     EOF
     {{< /text >}}
 
-1.  Direct the traffic to the faulty _ratings_:
+1.  Direct the traffic to the faulty `ratings`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -86,7 +86,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to _ratings
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Note that now _`productpage`_ turned orange while _reviews_ and _ratings_ turned red. Notice the red edges and the
+    Note that now `productpage` turned orange while `reviews` and `ratings` turned red. Notice the red edges and the
     error rate of the HTTP traffic on the right.
 
     {{< image width="80%"
@@ -95,15 +95,15 @@ To mitigate such a fault, you perform a retry of 3 times on the call to _ratings
         >}}
 
 1.  Access the webpage of your application in a browser several times. Once in a while you will get an error about
-    _reviews_ being unavailable.
+    `reviews` being unavailable.
 
     {{< image width="80%"
         link="images/bookinfo-ratings-unavailable.png"
         caption="Bookinfo application: ratings unavailable"
         >}}
 
-1.  Mitigate the problem with the help of Istio. Define retries on the call from _reviews_ to _ratings_.
-    Let _reviews_ try to call _ratings_ 5 times, with a quarter of a second delay between the calls.
+1.  Mitigate the problem with the help of Istio. Define retries on the call from `reviews` to `ratings`.
+    Let `reviews` try to call `ratings` 5 times, with a quarter of a second delay between the calls.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -138,7 +138,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to _ratings
         caption="Kiali Graph Tab with retry to ratings"
         >}}
 
-1.  Remove the _faulty_ version of _ratings_ and recreate the destination rule and the virtual service to route to
+1.  Remove the _faulty_ version of `ratings` and recreate the destination rule and the virtual service to route to
     _ratings v1_:
 
     {{< text bash >}}

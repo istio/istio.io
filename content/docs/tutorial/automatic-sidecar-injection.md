@@ -42,7 +42,7 @@ have Istio sidecar injected automatically.
     sleep-ccb8594c9-8pmz5   2/2       Running   0          2m
     {{< /text >}}
 
-1.  Resend the request to _ratings_ from your testing pod:
+1.  Resend the request to `ratings` from your testing pod:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl http://ratings:9080/ratings/7
