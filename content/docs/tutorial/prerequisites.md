@@ -12,4 +12,4 @@ weight: 2
 
 * Write access to `/etc/hosts` file
 * Ability to download, install and run command line tools on a local computer
-* Internet Connectivity
+* Internet connectivity
