@@ -54,7 +54,7 @@ traffic destined to _reviews_ to _reviews v3_ and verify that your new version p
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    This time you will see that _reviews v3_ does not receive the traffic from _productpage_, since it receives only
+    This time you will see that _reviews v3_ does not receive the traffic from _`productpage`_, since it receives only
     shadow traffic. As a response to the shadow traffic, _reviews v3_ generates traffic to _ratings_, which is shown in
     the graph.
 

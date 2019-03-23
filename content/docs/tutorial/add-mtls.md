@@ -24,14 +24,14 @@ microservices in your namespace.
     {{< /text >}}
 
 1.  Enable mutual TLS authentication in your namespace. Note, however, that you cannot enable mutual TLS authentication
-    on the incoming traffic into _productpage_, since the incoming traffic arrives from Kubernetes Ingress which is
+    on the incoming traffic into _`productpage`_, since the incoming traffic arrives from Kubernetes Ingress which is
     unaware of the mutual TLS authentication of Istio.
     If you want to enable mutual TLS and other Istio features on the incoming traffic into your frontend microservices,
     you should [configure Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/) (out of scope of this
     tutorial).
 
     So, you disable mutual TLS authentication on the traffic to your frontend microservice,
-    _productpage_, and enable it on the rest of your microservices in your namespace:
+    _`productpage`_, and enable it on the rest of your microservices in your namespace:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

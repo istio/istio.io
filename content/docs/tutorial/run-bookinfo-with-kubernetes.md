@@ -6,7 +6,7 @@ weight: 30
 
 ---
 
-This module shows you an application composed of four microservices: _productpage_, _details_, _ratings_ and _reviews_.
+This module shows you an application composed of four microservices: _`productpage`_, _details_, _ratings_ and _reviews_.
 The application is called [Bookinfo](/docs/examples/bookinfo). Consider the application there as the final version, in
 which the _reviews_ microservice has three versions _v1_, _v2_, _v3_. In this module you start with the application with
 the first version of the _reviews_ microservice, _v1_. In the next modules, you will evolve the application.

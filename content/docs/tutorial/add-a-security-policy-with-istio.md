@@ -12,13 +12,13 @@ You want to specify policies to limit access similar to the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the microservices
 that need to access other microservices should be allowed to access the microservices they need.
 
-In your case, _ratings_ microservice can be accessed by _reviews_ only. Access from _productpage_ and from _details_
+In your case, _ratings_ microservice can be accessed by _reviews_ only. Access from _`productpage`_ and from _details_
 should be denied.
-_productpage_ and _details_ should not be able to access _ratings_, neither accidentally nor intentionally.
+_`productpage`_ and _details_ should not be able to access _ratings_, neither accidentally nor intentionally.
 
 In the same way, the following access must be allowed:
 
-* _productpage_ can access _reviews_ and _details_
+* _`productpage`_ can access _reviews_ and _details_
 * _reviews_ can access _ratings_
 * the testing pod, _sleep_, can access any microservice
 * all the access is read-only, which means that only HTTP GET method can be applied on _ratings_.
@@ -162,7 +162,7 @@ In this section you apply Istio
 
 1.   Secure access control in Istio is based on
      [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/), which serve as as the [identities](https://en.wikipedia.org/wiki/Digital_identity) of the pods.
-     Add Kubernetes Service Accounts to _productpage_ and _reviews_.
+     Add Kubernetes Service Accounts to _`productpage`_ and _reviews_.
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml
@@ -182,7 +182,7 @@ In this section you apply Istio
     tutorial
     {{< /text >}}
 
-1.   Create Istio service roles for read access to _productpage_, _reviews_, _ratings_ and _details_.
+1.   Create Istio service roles for read access to _`productpage`_, _reviews_, _ratings_ and _details_.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

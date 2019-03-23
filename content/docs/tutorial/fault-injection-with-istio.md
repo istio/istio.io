@@ -74,7 +74,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     If you suspect that such delays may happen in production, you should handle the problem now, proactively,
     before it appears in production.
 
-1.  Check the logs of _productpage_ and see that the delay from _ratings_ propagated through _reviews_ to _productpage_!
+1.  Check the logs of _`productpage`_ and see that the delay from _ratings_ propagated through _reviews_ to _`productpage`_!
     That's not good.
 
     {{< text bash >}}
@@ -91,7 +91,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
 1.  Check your Kiali console,
         [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    This time the situation is more serious. The _reviews_ microservice turned red, the _productpage_ microservice
+    This time the situation is more serious. The _reviews_ microservice turned red, the _`productpage`_ microservice
     turned orange, and the percentage of the errors in the _HTTP Traffic_ section on the right increased.
 
     {{< image width="80%"
@@ -109,7 +109,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
         caption="Istio Service Dashboard"
         >}}
 
-1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your _productpage_ service, find the
+1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your _`productpage`_ service, find the
     trace with errors:
 
     {{< image width="80%"
@@ -117,7 +117,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
         caption="Jaeger UI, timeout errors"
         >}}
 
-    Note that the call to _productpage_ took 5.08 s, and that it took 2.5 s for _reviews_ to return a response.
+    Note that the call to _`productpage`_ took 5.08 s, and that it took 2.5 s for _reviews_ to return a response.
 
 1.   Examine [_reviews_'s code]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L88) that calls _ratings_:
 
@@ -132,9 +132,9 @@ one microservice to another. Next, you introduce a delay on a path between two m
     seconds, exactly the latency you see in the tracing system. In real life you would increase the timeout for the
     version with red stars.
 
-    Go up the call chain and check the delay between _productpage_ and _reviews_.
+    Go up the call chain and check the delay between _`productpage`_ and _reviews_.
     Examine
-    [_productpage_'s code]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L296):
+    [_`productpage`_'s code]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L296):
 
     {{< text python >}}
     def getProductReviews(product_id, headers):

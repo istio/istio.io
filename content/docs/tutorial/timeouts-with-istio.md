@@ -89,7 +89,7 @@ user instead of letting the user wait for a long period of time.
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Note that now _productpage_ turned orange while _reviews_ and _ratings_ turned red. Notice the red edges and the
+    Note that now _`productpage`_ turned orange while _reviews_ and _ratings_ turned red. Notice the red edges and the
     error rate of the HTTP traffic on the right.
 
     {{< image width="80%"
@@ -100,7 +100,7 @@ user instead of letting the user wait for a long period of time.
 1.  Approximately half of the times you will get a delay of about 3 seconds and finally an error about
     _ratings_ being unavailable. Note that in this case you both caused a delay for your user and also failed at least
     to display the reviews (without ratings). You have a cascading failure, that is, the fault propagated from _ratings_
-    through _reviews_ to _productpage_. Not good.
+    through _reviews_ to _`productpage`_. Not good.
 
     {{< image width="80%"
         link="images/bookinfo-reviews-unavailable.png"
@@ -109,7 +109,7 @@ user instead of letting the user wait for a long period of time.
 
 1.  Mitigate the problem with the help of Istio. Define a timeout on the call from _reviews_ to _ratings_.
     Let _reviews_ wait for 0.8 seconds and then return the reviews without ratings to the _producpage_. This way
-    _productpage_ will not be delayed and will be able to display at least the reviews correctly (without ratings).
+    _`productpage`_ will not be delayed and will be able to display at least the reviews correctly (without ratings).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -143,7 +143,7 @@ user instead of letting the user wait for a long period of time.
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Note that now _productpage_ turned green and the error rate of the HTTP traffic is reduced.
+    Note that now _`productpage`_ turned green and the error rate of the HTTP traffic is reduced.
 
     {{< image width="80%"
         link="images/kiali-timeout-to-ratings.png"
