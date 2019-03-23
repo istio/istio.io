@@ -110,6 +110,7 @@ configure the steps below successfully, you will be able to access the applicati
     {{< /text >}}
 
 ### Update your /etc/hosts file
+
 1.  Append the output of the following command to `/etc/hosts`. You should have a
     [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use the
     [`sudo`](https://en.wikipedia.org/wiki/Sudo) command for it.
