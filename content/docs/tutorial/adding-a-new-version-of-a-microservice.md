@@ -29,20 +29,20 @@ version will not be selected to provide the _reviews_ service. As such, it will 
     1.  Get the IP of the pod:
 
         {{< text bash >}}
-        $ DETAILS_V2_POD_IP=$(kubectl get pod -l app=reviews_test,version=v2 -o jsonpath='{.items[0].status.podIP}')
+        $ REVIEWS_V2_POD_IP=$(kubectl get pod -l app=reviews_test,version=v2 -o jsonpath='{.items[0].status.podIP}')
         {{< /text >}}
 
     1.  Send a request to the pod and see that it returns the correct result:
 
         {{< text bash >}}
-        $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl $DETAILS_V2_POD_IP:9080/reviews/7
+        $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl $REVIEWS_V2_POD_IP:9080/reviews/7
         {"id": "7","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}}]}
         {{< /text >}}
 
     1.  Perform primitive _load testing_ by sending a request 10 times in a row:
 
         {{< text bash >}}
-        $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10; do curl -o /dev/null -s -w '%{http_code}\n' $DETAILS_V2_POD_IP:9080/reviews/7; done"
+        $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10; do curl -o /dev/null -s -w '%{http_code}\n' $REVIEWS_V2_POD_IP:9080/reviews/7; done"
         200
         200
         ...
