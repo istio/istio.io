@@ -45,6 +45,7 @@ _docs
 _help
 _OK_
 _proxy
+_productpage_
 _V2_
 _v1_
 _v2_
@@ -365,7 +366,6 @@ prefetching
 preformatted
 prepends
 prober
-productpage
 programmatically
 proto
 protobuf
