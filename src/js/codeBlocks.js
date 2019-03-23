@@ -17,6 +17,8 @@ function handleCodeBlocks() {
         copyButton.setAttribute(ariaLabel, buttonCopy);
         listen(copyButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
         listen(copyButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
+        listen(copyButton, "focus", e => e.currentTarget.classList.add(toolbarShow));
+        listen(copyButton, "blur", e => e.currentTarget.classList.remove(toolbarShow));
         listen(copyButton, click, e => {
             const div = e.currentTarget.parentElement;
             const text = getToolbarDivText(div);
@@ -31,6 +33,8 @@ function handleCodeBlocks() {
         downloadButton.setAttribute(ariaLabel, buttonDownload);
         listen(downloadButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
         listen(downloadButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
+        listen(downloadButton, "focus", e => e.currentTarget.classList.add(toolbarShow));
+        listen(downloadButton, "blur", e => e.currentTarget.classList.remove(toolbarShow));
 
         listen(downloadButton, click, e => {
             const div = e.currentTarget.parentElement;
@@ -71,6 +75,8 @@ function handleCodeBlocks() {
         printButton.setAttribute(ariaLabel, buttonPrint);
         listen(printButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
         listen(printButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
+        listen(printButton, "focus", e => e.currentTarget.classList.add(toolbarShow));
+        listen(printButton, "blur", e => e.currentTarget.classList.remove(toolbarShow));
 
         listen(printButton, click, e => {
             const div = e.currentTarget.parentElement;

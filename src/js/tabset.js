@@ -10,7 +10,7 @@ function handleTabs() {
                         const panel = getById(tab.getAttribute(ariaControls));
                         if (tab.dataset.cookieValue === cookieValue) {
                             tab.setAttribute(ariaSelected, "true");
-                            tab.setAttribute(tabIndex, "-1");
+                            tab.removeAttribute(tabIndex);
                             panel.removeAttribute("hidden");
                         } else {
                             tab.removeAttribute(ariaSelected);
@@ -37,6 +37,8 @@ function handleTabs() {
             tabs.push(tab);
         });
 
+        const kbdnav = new KbdNav(tabs);
+
         function activateTab(tab) {
             deactivateAllTabs();
             tab.removeAttribute(tabIndex);
@@ -53,59 +55,6 @@ function handleTabs() {
             panels.forEach(panel => {
                 panel.setAttribute('hidden', '');
             });
-        }
-
-        function focusFirstTab() {
-            tabs[0].focus();
-        }
-
-        function focusLastTab() {
-            tabs[tabs.length - 1].focus();
-        }
-
-        function focusNextTab(current) {
-            const index = tabs.indexOf(current);
-            if (index < tabs.length - 1) {
-                tabs[index+1].focus();
-            } else {
-                tabs[0].focus();
-            }
-        }
-
-        function focusPrevTab(current) {
-            const index = tabs.indexOf(current);
-            if (index > 0) {
-                tabs[index-1].focus();
-            } else {
-                tabs[tabs.length - 1].focus();
-            }
-        }
-
-        function getIndexFirstChars(startIndex, ch) {
-            for (let i = startIndex; i < tabs.length; i++) {
-                const firstChar = tabs[i].textContent.trim().substring(0, 1).toLowerCase();
-                if (ch === firstChar) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        function focusTabByChar(current, ch) {
-            ch = ch.toLowerCase();
-
-            // Check remaining slots in the strip
-            let index = getIndexFirstChars(tabs.indexOf(current) + 1, ch);
-
-            // If not found in remaining slots, check from beginning
-            if (index === -1) {
-                index = getIndexFirstChars(0, ch);
-            }
-
-            // If match was found...
-            if (index > -1) {
-                tabs[index].focus();
-            }
         }
 
         if (cookieName) {
@@ -144,29 +93,32 @@ function handleTabs() {
                 }
                 else if (e.shiftKey) {
                     if (isPrintableCharacter(ch)) {
-                        focusTabByChar(tab, ch);
+                        kbdnav.focusElementByChar(ch);
                     }
                 } else {
                     switch (e.keyCode) {
                         case keyCodes.LEFT:
-                            focusPrevTab(tab);
+                            kbdnav.focusPrevElement();
                             break;
 
                         case keyCodes.RIGHT:
-                            focusNextTab(tab);
+                            kbdnav.focusNextElement();
                             break;
 
                         case keyCodes.HOME:
-                            focusFirstTab();
+                            kbdnav.focusFirstElement();
                             break;
 
                         case keyCodes.END:
-                            focusLastTab();
+                            kbdnav.focusLastElement();
                             break;
+
+                        case keyCodes.TAB:
+                            return;
 
                         default:
                             if (isPrintableCharacter(ch)) {
-                                focusTabByChar(tab, ch);
+                                kbdnav.focusElementByChar(ch);
                             }
                             break;
                     }
