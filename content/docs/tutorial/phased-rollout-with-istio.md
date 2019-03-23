@@ -86,7 +86,7 @@ then to 20% and so on.
         caption="Kiali Graph Tab with traffic splitting 90:10 between reviews v2 and v3"
         >}}
 
-1.  Observe the _reviews_ virtual service in your Kiali console, the _Istio Config_ tab.
+1.  Observe the _reviews_ virtual service in your Kiali console, the _`Istio Config`_ tab.
 
     {{< image width="80%"
         link="images/kiali-phased-rollout-virtual-service.png"
