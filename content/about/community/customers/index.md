@@ -10,6 +10,7 @@ skip_seealso: true
 Tons of people are using Istio. Maybe you should too?
 
 <div class="logo-gallery">
+    {{< company_logo link="https://www.autodesk.com" logo="./autodesk.png" alt="Autodesk" >}}
     {{< company_logo link="https://www.autotrader.co.uk" logo="./autotrader.uk.svg" alt="AutoTrader UK" >}}
     {{< company_logo link="https://www.continental-corporation.com" logo="./continental.svg" alt="Continental" >}}
     {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
