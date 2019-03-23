@@ -96,7 +96,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
 1.  Wait for about half minute for Istio to detect the failing version. (For the sake of the tutorial the outlier
     detection interval was set to 30 seconds, in real life you would use much smaller interval). Once Istio detects
     that _ratings v-unavailable_ starts to consecutively return errors, it will stop directing traffic to it. You will
-    see that the incoming edge into _ratings v-unavailable_ will become grey and all the traffic will flow to
+    see that the incoming edge into _ratings v-unavailable_ will become gray and all the traffic will flow to
     _ratings v1_.
 
     {{< image width="80%"
