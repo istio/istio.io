@@ -52,7 +52,7 @@ traffic destined to `reviews` to _reviews v3_ and verify that your new version p
     compare the data returned by invocation of a production version and a mirrored version.
 
 1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     This time you will see that _reviews v3_ does not receive the traffic from `productpage`, since it receives only
     shadow traffic. As a response to the shadow traffic, _reviews v3_ generates traffic to `ratings`, which is shown in

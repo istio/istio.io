@@ -43,7 +43,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     presenting ratings stars. You experience _graceful degradation_ which is good.
 
 1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     Note that the `reviews` microservice became orange and the edges to `ratings` became orange as well. Note the
     red portion of the stacked bar chart on the right, it designates the proportion of `5xx` errors. Notice the
@@ -89,7 +89,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     {{< /text >}}
 
 1.  Check your Kiali console,
-        [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+        [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     This time the situation is more serious. The `reviews` microservice turned red, the `productpage` microservice
     turned orange, and the percentage of the errors in the _HTTP Traffic_ section on the right increased.
@@ -100,7 +100,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     >}}
 
 1.  Access the Istio dashboard at
-    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard), _Istio Service Dashboard_, the `reviews` service.
+    [`http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard), _Istio Service Dashboard_, the `reviews` service.
 
     Notice the response code `500` in _Service Workloads_, _Incoming requests by destination and response code_.
 
@@ -109,7 +109,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
         caption="Istio Service Dashboard"
         >}}
 
-1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your `productpage` service, find the
+1.  Access Jaeger UI at [`http://my-istio-tracing.io`](http://my-istio-tracing.io), your `productpage` service, find the
     trace with errors:
 
     {{< image width="80%"
@@ -153,7 +153,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     $ curl -s {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml | sed 's/7s/2s/g' | kubectl apply -f -
     {{< /text >}}
 
-1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your productpage service, check the
+1.  Access Jaeger UI at [`http://my-istio-tracing.io`](http://my-istio-tracing.io), your productpage service, check the
     latest trace:
 
     {{< image width="80%"

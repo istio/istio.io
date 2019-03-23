@@ -72,7 +72,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     {{< /text >}}
 
 1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     {{< tip >}}
     Switch the fetching interval to `5s`, so you will see what happens more precisely.
