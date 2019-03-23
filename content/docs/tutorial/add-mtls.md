@@ -74,7 +74,8 @@ microservices in your namespace.
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    In the _Display_ drop-down menu mark the _Security_ checkbox to see locks that mark mTLS on the graph's edges.
+    In the _Display_ drop-down menu mark the _Security_ checkbox to see locks that designate mutual TLS on the graph's
+    edges.
 
     {{< image width="80%"
         link="images/kiali-mtls.png"
