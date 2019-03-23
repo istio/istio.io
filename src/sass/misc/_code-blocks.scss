@@ -16,6 +16,7 @@ pre {
         page-break-inside: avoid;
     }
 
+    min-width: 12em;
     max-height: 31em;
     border: 1px solid $preBlockBorderColor;
     border-radius: $border-radius;

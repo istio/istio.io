@@ -27,21 +27,78 @@ function handleSidebar() {
         });
     });
 
+    const headers = [];
+    queryAll(sidebar, '.header').forEach(header => {
+        headers.push(header);
+    });
+
+    const kbdnav = new KbdNav(headers);
+
+    function toggleHeader(header) {
+        const body = header.nextElementSibling;
+
+        body.classList.toggle('show');
+        toggleAttribute(header, ariaExpanded);
+
+        if (body.classList.contains('show')) {
+            // set this as the limit for expansion
+            body.style.maxHeight = body.scrollHeight + "px";
+        } else {
+            // if was expanded, reset this
+            body.style.maxHeight = null;
+        }
+    }
+
     // expand/collapse cards
     queryAll(sidebar, '.header').forEach(header => {
         if (header.classList.contains("dynamic")) {
             listen(header, click, () => {
-                const body = header.nextElementSibling;
+                toggleHeader(header);
+            });
 
-                body.classList.toggle('show');
-                toggleAttribute(header, ariaExpanded);
+            listen(header, keydown, e => {
+                const ch = e.key;
 
-                if (body.classList.contains('show')) {
-                    // set this as the limit for expansion
-                    body.style.maxHeight = body.scrollHeight + "px";
+                if (e.ctrlKey || e.altKey || e.metaKey) {
+                    // nothing
+                }
+                else if (e.shiftKey) {
+                    if (isPrintableCharacter(ch)) {
+                        kbdnav.focusElementByChar(ch);
+                    }
                 } else {
-                    // if was expanded, reset this
-                    body.style.maxHeight = null;
+                    switch (e.keyCode) {
+                        case keyCodes.UP:
+                            kbdnav.focusPrevElement();
+                            break;
+
+                        case keyCodes.DOWN:
+                            kbdnav.focusNextElement();
+                            break;
+
+                        case keyCodes.HOME:
+                            kbdnav.focusFirstElement();
+                            break;
+
+                        case keyCodes.END:
+                            kbdnav.focusLastElement();
+                            break;
+
+                        case keyCodes.RETURN:
+                            toggleHeader(header);
+                            break;
+
+                        case keyCodes.TAB:
+                            return;
+
+                        default:
+                            if (isPrintableCharacter(ch)) {
+                                kbdnav.focusElementByChar(ch);
+                            }
+                            break;
+                    }
+                    e.preventDefault();
+                    e.cancelBubble = true;
                 }
             });
         }
