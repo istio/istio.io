@@ -60,21 +60,21 @@ then to 20% and so on.
 
     1.  Number of requests from _sleep_ to _reviews v2_:
 
-    {{< text plain >}}
-    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v2"})
-    {{< /text >}}
+        {{< text plain >}}
+        sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v2"})
+        {{< /text >}}
 
     1.  Number of requests from _sleep_ to _reviews v3_:
 
-    {{< text plain >}}
-    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v3"})
-    {{< /text >}}
+        {{< text plain >}}
+        sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v3"})
+        {{< /text >}}
 
     1.  You can even perform math on the results of queries above:
 
-    {{< text plain >}}
-    sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v2"}) + sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v3"})
-    {{< /text >}}
+        {{< text plain >}}
+        sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v2"}) + sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v3"})
+        {{< /text >}}
 
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
