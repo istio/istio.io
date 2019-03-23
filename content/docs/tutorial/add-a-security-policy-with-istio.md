@@ -160,7 +160,8 @@ $ kubectl delete networkpolicy reviews ratings details
 In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concepts/security/#authorization).
 
 1.   Secure access control in Istio is based on
-     [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/), which serve as as the [identities](https://en.wikipedia.org/wiki/Digital_identity) of the pods.
+     [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/),
+     which serve as as the [identities](https://en.wikipedia.org/wiki/Digital_identity) of the pods.
      Add Kubernetes Service Accounts to _`productpage`_ and _reviews_.
 
     {{< text bash >}}
