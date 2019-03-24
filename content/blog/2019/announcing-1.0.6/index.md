@@ -6,3 +6,5 @@ attribution: The Istio Team
 ---
 
 We're pleased to announce the availability of Istio 1.0.6. Please check out the [release notes](/about/notes/1.0.6/) to learn more and download this update.
+
+{{< announcement_links "1.0.6" "1.0.6" >}}
