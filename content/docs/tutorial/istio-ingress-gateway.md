@@ -101,7 +101,7 @@ control already at the ingress point, even before the traffic arrives to your mi
     {{< /text >}}
 
 1.  Check your Kiali console,
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
     (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 

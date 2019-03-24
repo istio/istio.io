@@ -63,7 +63,7 @@ microservices in your namespace.
     the traffic is encrypted by the sidecar.
 
 1.  Access the Istio dashboard at
-    [`http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). Check `ratings` in _Istio Service Dashboard_. Notice that now a lock icon with text `mTLS` appears in
+    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). Check `ratings` in _Istio Service Dashboard_. Notice that now a lock icon with text `mTLS` appears in
     _Service Workload_.
 
     {{< image width="80%"
@@ -72,7 +72,7 @@ microservices in your namespace.
         >}}
 
 1.  Check your Kiali console,
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     In the _Display_ drop-down menu mark the _Security_ checkbox to see locks that designate mutual TLS on the graph's
     edges.

@@ -84,7 +84,7 @@ serve user requests.
     {{< /text >}}
 
 1.  Check the Istio dashboard, access
-    [`http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). (The `my-istio-dashboard.io` URL should be in your /etc/hosts file, you set it
+    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). (The `my-istio-dashboard.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
     In the top left drop-down menu, select _Istio Mesh Dashboard_. Notice the `productpage` service from your namespace,

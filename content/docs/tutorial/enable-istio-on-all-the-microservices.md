@@ -44,7 +44,7 @@ microservices in one stroke.
     {{< /text >}}
 
 1.  Access the Istio dashboard at
-    [`http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
+    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
     In the top left drop-down menu, select _Istio Mesh Dashboard_. Note that now all the services from your namespace
     appear in the list of services.
 
@@ -61,7 +61,7 @@ microservices in one stroke.
         >}}
 
 1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console. Access
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console).
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console).
     (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 

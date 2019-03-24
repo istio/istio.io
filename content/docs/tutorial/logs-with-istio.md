@@ -53,7 +53,7 @@ traffic-related metrics and provides
 
 See below several examples of Prometheus Istio-related queries.
 
-1.  Access Prometheus UI at [`http://my-istio-logs-database.io`](http://my-istio-logs-database.io).
+1.  Access Prometheus UI at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
 (The `my-istio-logs-database.io` URL should be in your /etc/hosts file, you set it
 [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 

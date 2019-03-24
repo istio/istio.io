@@ -93,7 +93,7 @@ a new version and enable traffic to it for a tester with login name `jason`.
 1.  Access your application's page several times, signed in as `jason`.
 
 1.  Check your Kiali console,
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     This time you will see the traffic to `reviews` is split between _v2_ and _v3_. Notice the icon that designates the
     `reviews` virtual service on the box that designates the `reviews` microservice.

@@ -20,7 +20,7 @@ In this module you examine the traces of your application.
 
 1.  Access your application's webpage several times.
 
-1.  Access Jaeger UI at [`http://my-istio-tracing.io`](http://my-istio-tracing.io).
+1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io).
     (The `my-istio-logs-tracing.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 

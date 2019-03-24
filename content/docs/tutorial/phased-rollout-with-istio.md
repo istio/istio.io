@@ -37,7 +37,7 @@ then to 20% and so on.
     {{< /text >}}
 
 1.  Check the distribution of the requests in your log database,
-    at [`http://my-istio-logs-database.io`](http://my-istio-logs-database.io).
+    at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
 
     Execute the following query:
 
@@ -77,7 +77,7 @@ then to 20% and so on.
         {{< /text >}}
 
 1.  Check your Kiali console,
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     You will see the rate of the traffic entering `reviews` split roughly 90:10 between `reviews` _v2_ and _v3_.
 

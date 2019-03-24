@@ -87,7 +87,7 @@ user instead of letting the user wait for a long period of time.
     {{< /text >}}
 
 1.  Check your Kiali console,
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     Note that now `productpage` turned orange while `reviews` and `ratings` turned red. Notice the red edges and the
     error rate of the HTTP traffic on the right.
@@ -141,7 +141,7 @@ user instead of letting the user wait for a long period of time.
         >}}
 
 1.  Check your Kiali console,
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     Note that now `productpage` turned green and the error rate of the HTTP traffic is reduced.
 
