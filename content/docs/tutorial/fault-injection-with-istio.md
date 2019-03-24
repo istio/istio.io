@@ -153,7 +153,7 @@ one microservice to another. Next, you introduce a delay on a path between two m
     $ curl -s {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml | sed 's/7s/2s/g' | kubectl apply -f -
     {{< /text >}}
 
-1.  Access Jaeger UI at [`http://my-istio-tracing.io`](http://my-istio-tracing.io), your productpage service, check the
+1.  Access Jaeger UI at [`http://my-istio-tracing.io`](http://my-istio-tracing.io), your `productpage` service, check the
     latest trace:
 
     {{< image width="80%"
