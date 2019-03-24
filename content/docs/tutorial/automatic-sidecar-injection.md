@@ -7,7 +7,7 @@ weight: 77
 ---
 
 In this module you enable
-[automatic sidecar injection](/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+[automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 of Istio on your current namespace, so you would not need to use `istioctl` command and use the standard
 Kubernetes CLI, `kubectl`. Once you enable automatic sidecar injection on your namespace, any newly deployed pod will
 have Istio sidecar injected automatically.
