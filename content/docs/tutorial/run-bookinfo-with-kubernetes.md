@@ -54,7 +54,7 @@ the first version of the `reviews` microservice, _v1_. In the next modules, you 
     $ kubectl get pods
     {{< /text >}}
 
-1.  Deploy a testing pod, [sleep]({{< github_tree >}}/master/samples/sleep), to use it for sending
+1.  Deploy a testing pod, [sleep]({{< github_tree >}}/samples/sleep), to use it for sending
     requests to your microservices:
 
     {{< text bash >}}

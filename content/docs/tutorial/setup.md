@@ -5,7 +5,7 @@ weight: 3
 
 1.  Install [curl](https://curl.haxx.se/download.html), [Node.js](https://nodejs.org/en/download/), [Docker](https://docs.docker.com/install/)
 and get access to a [Kubernetes](https://kubernetes.io) cluster.
-For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html#container_index).
+For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or [IBM Cloud Container Service](https://www.ibm.com/cloud/container-service).
 
 1.  Create a shell variable to store the name of the namespace you will work with. All the commands in this tutorial
     will use this variable so only the tutorial's namespace will be affected.
@@ -23,7 +23,7 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
 1.  If you do not have Istio installed in your cluster, install it **with strict mutual TLS enabled**, following
     [these instructions](/docs/setup/kubernetes/install/kubernetes/).
 
-1.  [Enable Envoy's access logging](/docs/tasks/telemetry/access-log/#enable-envoy-s-access-logging).
+1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
 
 1.  Download one of the [Istio release archives](https://github.com/istio/istio/releases) and extract
     `istioctl` command line tool from it. The tool is in the `bin` directory of the archive.

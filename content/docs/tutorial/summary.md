@@ -19,18 +19,12 @@ microservices, monitor traffic by a dashboard, examine distributed tracing and s
 ## Next steps to learn Istio
 
 Istio provides many more features, not covered in this tutorial.
-For example, Istio supports various microservices patterns, like
-[timeouts](/docs/tasks/traffic-management/request-timeouts),
-[retries](/docs/reference/config/istio.networking.v1alpha3/#HTTPRetry),
-[rate limitings](/docs/tasks/policy-enforcement/rate-limiting/),
-[circuit breakers](/docs/tasks/traffic-management/circuit-breaking).
-
-Also note that [Istio can run on VMs](/docs/guides/integrating-vms).
+Note that [Istio can run on VMs](/docs/examples/integrating-vms).
 Istio can be integrated with [service registries](/docs/setup/consul) other than Kubernetes.
 Istio can [control the traffic from the outside into the service mesh](/docs/tasks/traffic-management/ingress)
 and [the traffic to external services](/docs/tasks/traffic-management/egress).
 
 And, last but not least, Istio can be used to
-[connect applications in multiple clusters](/docs/setup/kubernetes/multicluster-install/).
+[connect applications in multiple clusters](/docs/concepts/multicluster-deployments/).
 
 See more tasks, examples and blog posts at [istio.io](/).
