@@ -123,7 +123,8 @@ do
     fi
 done
 
-htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
+htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/master/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard/,/http://my-istio-tracing.io/,/http://my-istio-logs-database.io/,/http://my-kiali.io/kiali/console/"
+
 if [[ "$?" != "0" ]]
 then
     FAILED=1
