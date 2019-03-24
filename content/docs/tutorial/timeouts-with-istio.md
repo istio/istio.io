@@ -108,7 +108,7 @@ user instead of letting the user wait for a long period of time.
         >}}
 
 1.  Mitigate the problem with the help of Istio. Define a timeout on the call from `reviews` to `ratings`.
-    Let `reviews` wait for 0.8 seconds and then return the reviews without ratings to the _producpage_. This way
+    Let `reviews` wait for 0.8 seconds and then return the reviews without ratings to `productpage`. This way
     `productpage` will not be delayed and will be able to display at least the reviews correctly (without ratings).
 
     {{< text bash >}}
