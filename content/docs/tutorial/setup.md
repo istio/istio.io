@@ -20,8 +20,8 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
     $ kubectl create namespace $NAMESPACE
     {{< /text >}}
 
-1.  If you do not have Istio installed in your cluster, install it with mutual TLS enabled, following
-    [these instructions](/docs/setup/kubernetes/helm-install/).
+1.  If you do not have Istio installed in your cluster, install it **with strict mutual TLS enabled**, following
+    [these instructions](/docs/setup/kubernetes/install/kubernetes/).
 
 1.  [Enable Envoy's access logging](/docs/tasks/telemetry/access-log/#enable-envoy-s-access-logging).
 
