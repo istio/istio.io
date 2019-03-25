@@ -4,11 +4,7 @@ publishdate: 2019-03-25
 icon: notes
 ---
 
-Istio 1.1.1 is the first in a series of patch releases for Istio 1.1, which we will create at least weekly assuming we have changes to share.
-
-This release includes security vulnerability fixes and improvements to robustness.
-
-This release note describes what's different between Istio 1.1.1 and Istio 1.0.
+This release includes security vulnerability fixes and improvements to robustness.  This release note describes what's different between Istio 1.1.1 and Istio 1.0.
 
 {{< relnote_links >}}
 
