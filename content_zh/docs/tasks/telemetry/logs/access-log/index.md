@@ -25,8 +25,7 @@ configmap "istio" replaced
 
 您也可以通过设置 `accessLogEncoding` 来在 JSON 和 TEXT 两种格式之间切换。
 
-您也许希望通过 `accessLogFormat` 来自定义
-[format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) 访问日志。
+您也许希望通过 `accessLogFormat` 来自定义访问日志[格式](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules)。
 
 {{< tip >}}
 这三个参数也可以通过修改 [helm values](/docs/reference/config/installation-options/) 来进行配置：
