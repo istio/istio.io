@@ -102,7 +102,7 @@ keywords: [security,access-control,rbac,authorization]
 
 1. 查看日志中 `productpage` 服务的相关内容中，是否包含 `responseCode` 为 `200`，且 `permissiveResponseCode` 为 `allowed` 的条目。
 
-1. 使用 kubectl 移除启用宽容模式相关的 YAML 文件所包含的对象。
+1. 使用 `kubectl` 移除启用宽容模式相关的 YAML 文件所包含的对象。
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
@@ -148,7 +148,7 @@ keywords: [security,access-control,rbac,authorization]
 
 1. 查看日志中 `ratings` 和 `reviews` 服务的相关内容中，是否包含 `responseCode` 为 `403`，且 `permissiveResponseCode` 为 `allowed` 的条目。
 
-1. 使用 kubectl 移除启用宽容模式相关的 YAML 文件所包含的对象：
+1. 使用 `kubectl` 移除启用宽容模式相关的 YAML 文件所包含的对象：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy-permissive.yaml@
