@@ -66,7 +66,7 @@ NoIndent:
     FourIndent:
         - EightIndent
     FourIndentAgain:
-        - EightIndentAgain    
+        - EightIndentAgain
 {{< /text >}}
 
 And more _markdown_
