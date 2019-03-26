@@ -350,6 +350,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `prometheus.tag` | `v2.3.1` |  |
 | `prometheus.retention` | `6h` |  |
 | `prometheus.nodeSelector` | `{}` |  |
+| `prometheus.resources` | `{}` |  |
 | `prometheus.scrapeInterval` | `15s` | `Controls the frequency of prometheus scraping` |
 | `prometheus.contextPath` | `/prometheus` |  |
 | `prometheus.ingress.enabled` | `false` |  |
