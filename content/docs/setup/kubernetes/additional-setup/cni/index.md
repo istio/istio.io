@@ -63,7 +63,7 @@ replaces the functionality provided by the `istio-init` container.
 
 1.  Install Istio CNI.
 
-    *  Option 1.  Expand, Render and apply the Istio CNI Helm template.
+    *  Option 1.  Render and apply the Istio CNI Helm template.
 
         {{< text bash >}}
         $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
