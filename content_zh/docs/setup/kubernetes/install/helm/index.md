@@ -6,23 +6,22 @@ keywords: [kubernetes,helm]
 icon: helm
 ---
 
-
 按照此流程安装和配置 Istio 网格，用于深入评估或生产环境使用。
-这种安装方式使用 [Helm](https://github.com/helm/helm) charts 自定义 istio 控制平面和 istio 数据平面的 sidecar。
+这种安装方式使用 [Helm](https://github.com/helm/helm) chart 自定义 Istio 控制平面和 Istio 数据平面的 sidecar 。
 你只需使用 `helm template` 生成配置并使用 `kubectl apply` 安装它，或者你可以选择使用 `helm install` 让 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 来完全管理安装。
 
 通过这些说明，你可以选择 Istio 内置的任何一个[配置文件](/zh/docs/setup/kubernetes/additional-setup/config-profiles/)并根据你特定的需求进行进一步的自定义配置。
 
 ## 先决条件
+
 1. [下载 Istio 发行版](/zh/docs/setup/kubernetes/download/).
 1. 完成必要的 [Kubernetes 平台设置](/zh/docs/setup/kubernetes/prepare/platform-setup/)
 1. 检查对 [Pod 和服务的要求](/zh/docs/setup/kubernetes/additional-setup/requirements/)。
 1. [安装高于 2.10 版本的 Helm 客户端](https://docs.helm.sh/using_helm)。
 
 {{< tip >}}
-这些说明假定你将 `istio-init` 容器用于设置 `iptables` ，并将网络流量重定向到 Envoy sidecars。 
-如果你在自定义配置中使用了 `--set istio_cni.enabled=true` 参数, 你还需要确保你部署了 CNI 插件。
-更多详情，请参阅 [CNI 设置](/zh/docs/setup/kubernetes/additional-setup/cni/)。
+这些说明假定你将 `istio-init` 容器用于设置 `iptables` ，并将网络流量重定向到 Envoy sidecars。
+如果你在自定义配置中使用了 `--set istio_cni.enabled=true` 参数, 你还需要确保你部署了 CNI 插件。更多详情，请参阅 [CNI 设置](/zh/docs/setup/kubernetes/additional-setup/cni/)。
 {{< /tip >}}
 
 ## 安装步骤
@@ -30,18 +29,16 @@ icon: helm
 以下命令使用了包含 Istio 发行版镜像的 Helm charts。
 将目录更改为 Istio 发行版的根目录然后在以下两个**互斥**选项选择一种进行安装：
 
-1. 如果你不使用 Tiller 部署 Istio, 请查看 [方案 1](/zh/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template)。
-1. 如果你使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理你的 Istio 发行版,请查看[方案 2](/zh/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install)。
-
+1. 如果你不使用 Tiller 部署 Istio, 请查看 [方案 1](/zh/docs/setup/kubernetes/install/helm/#方案-1-使用-helm-template-进行安装)。
+1. 如果你使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理你的 Istio 发行版,请查看[方案 2](/zh/docs/setup/kubernetes/install/helm/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装)。
 
 {{< tip >}}
 默认情况下，Istio 使用 `LoadBalancer` 服务类型，而有些平台是不支持 `LoadBalancer` 服务的。对于缺少 `LoadBalancer` 支持的平台，执行下面的安装步骤时，可以在 Helm 命令中加入 `--set gateways.istio-ingressgateway.type=NodePort` 选项，使用 `NodePort` 来替代 `LoadBalancer` 服务类型。
 {{< /tip >}}
 
-### 方案 1：使用 `helm template` 进行安装 {#option-1-install-with-helm-via-helm-template}
+### 方案 1：使用 `helm template` 进行安装
 
 如果你的集群中没有运行 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components)，你也不想安装它。
-
 
 1. 为 Istio 组件创建命名空间 `istio-system`：
 
@@ -120,7 +117,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tabset >}}
 
-### 方案 2：在 Helm 和 Tiller 的环境中使用 `helm install` 命令进行安装 {#option-2-install-with-helm-and-tiller-via-helm-install}
+### 方案 2：在 Helm 和 Tiller 的环境中使用 `helm install` 命令进行安装
 
 这个方案使用 Helm 和 [Tiller](https://github.com/kubernetes/helm/blob/master/docs/architecture.md#components) 来对 Istio 的生命周期进行管理。
 
@@ -158,7 +155,6 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
     你可以添加一个或多个 `--set <key>=<value>` 来进一步自定义 helm 命令的
     [安装选项](/zh/docs/reference/config/installation-options/) 。
     {{< /tip >}}
-
 
 {{< tabset cookie-name="helm_profile" >}}
 
@@ -207,7 +203,6 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 {{< /tab >}}
 
 {{< /tabset >}}
-
 
 ## 确认安装情况
 
@@ -288,17 +283,13 @@ $ kubectl delete namespace istio-system
     $ helm delete --purge istio-init
     {{< /text >}}
 
-
 ## 删除 CRD 和 Istio 配置
 
-
 Istio 的设计中，其自定义资源以 CRD 的形式存在于 Kubernetes 环境之中。CRD 中包含了运维过程中产生的运行时配置。正因如此，我们建议运维人员应该显式的对其进行删除，从而避免意外操作。
-
 
 {{< warning >}}
 CRD 的删除，意味着删掉所有的用户配置。
 {{< /warning >}}
-
 
 `istio-init` Chart 包含了 `istio-init/ifiles` 目录中的所有原始 CRD。下载该 Chart 之后，可以简单的使用 `kubectl` 删除 CRD。要永久删除 Istio 的 CRD 以及所有 Istio 配置,请运行如下命令：
 
