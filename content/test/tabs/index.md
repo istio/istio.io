@@ -58,4 +58,18 @@ And more _markdown_
 
 {{< /tab >}}
 
+{{< tab name="Seven" cookie-value="seven" >}}
+Simple text with _markdown_ in a tab
+
+{{< text plain >}}
+NoIndent:
+    FourIndent:
+        - EightIndent
+    FourIndentAgain:
+        - EightIndentAgain
+{{< /text >}}
+
+And more _markdown_
+{{< /tab >}}
+
 {{< /tabset >}}

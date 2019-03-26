@@ -211,7 +211,7 @@ function handleCodeBlocks() {
                 }
 
                 if (output !== "") {
-                    output = escapeHTML(output);
+//                    output = escapeHTML(output);
 
                     // apply formatting to the output?
                     if (code.dataset.outputis) {
