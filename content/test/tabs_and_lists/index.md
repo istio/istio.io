@@ -71,7 +71,7 @@ skip_sitemap: true
         FourIndent:
             - EightIndent
         FourIndentAgain:
-            - EightIndentAgain    
+            - EightIndentAgain
     {{< /text >}}
 
 1. Second bullet
