@@ -5,20 +5,36 @@
 {{- $numLines := len $lines -}}
 {{- if gt $numLines 1 -}}
 
-    {{- /* look for the first non-empty line and use its indent to determine how much indent to strip */ -}}
-    {{- $prefix := "" -}}
-    {{- $done := false -}}
+    {{- /* look the minimum indent of all lines */ -}}
+    {{- $minIndent := 16 -}}
     {{- range $index, $line := $lines -}}
-        {{- if not $done -}}
-            {{- if gt (len $line) 0 -}}
-                {{- $done = true -}}
-                {{- if hasPrefix $line "                " -}}{{- $prefix = "                " -}}
-                {{- else if hasPrefix $line "            " -}}{{- $prefix = "            " -}}
-                {{- else if hasPrefix $line "        " -}}{{- $prefix = "        " -}}
-                {{- else if hasPrefix $line "    " -}}{{- $prefix = "    " -}}
-                {{- end -}}
+        {{- if eq $index 0 -}}
+            {{- /* skip the first line since it just contains the junk to the right of the shortcode */ -}}
+        {{- else if eq $index (sub $numLines 1) -}}
+            {{- /* skip the last line since it just contains the junk to the left of the shortcode */ -}}
+        {{- else if gt (len $line) 0 -}}
+            {{- $indent := 0 -}}
+            {{- if hasPrefix $line "                " -}}{{- $indent = 16 -}}
+            {{- else if hasPrefix $line "            " -}}{{- $indent = 12 -}}
+            {{- else if hasPrefix $line "        " -}}{{- $indent = 8 -}}
+            {{- else if hasPrefix $line "    " -}}{{- $indent = 4 -}}
+            {{- end -}}
+
+            {{- if lt $indent $minIndent -}}
+                {{ $minIndent = $indent }}
             {{- end -}}
         {{- end -}}
+    {{- end -}}
+
+    {{- $prefix := "" -}}
+    {{- if eq $minIndent 4 -}}
+        {{- $prefix = "    " -}}
+    {{- else if eq $minIndent 8 -}}
+        {{- $prefix = "        " -}}
+    {{- else if eq $minIndent 12 -}}
+        {{- $prefix = "            " -}}
+    {{- else if eq $minIndent 16 -}}
+        {{- $prefix = "                " -}}
     {{- end -}}
 
     {{- $text := "" -}}

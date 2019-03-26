@@ -63,4 +63,18 @@ skip_sitemap: true
 1. Second bullet
 {{< /tab >}}
 
+{{< tab name="Seven" cookie-value="seven" >}}
+1. Simple text with _markdown_ in a list in a tab
+
+    {{< text plain >}}
+    NoIndent:
+        FourIndent:
+            - EightIndent
+        FourIndentAgain:
+            - EightIndentAgain    
+    {{< /text >}}
+
+1. Second bullet
+{{< /tab >}}
+
 {{< /tabset >}}
