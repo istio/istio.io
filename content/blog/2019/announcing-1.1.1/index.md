@@ -5,6 +5,8 @@ publishdate: 2019-03-25
 attribution: The Istio Team
 ---
 
-We're pleased to announce the availability of Istio 1.1.1. Please check out the [release notes](/about/notes/1.1.1/) to learn more and download this update.
+We're pleased to announce the availability of Istio 1.1.1. Please see below for what's changed.
 
-{{< announcement_links "1.1.1" "1.1.1" >}}
+{{< announcement_links "1.1.1" >}}
+
+{{< boilerplate "notes/1.1.1" >}}
