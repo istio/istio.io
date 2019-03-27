@@ -8,6 +8,9 @@ skip_sitemap: true
 
     {{< text plain >}}
     A text block nested in a bullet
+    with a second line
+
+    and a third line
     {{< /text >}}
 
 1. Another bullet
@@ -18,6 +21,9 @@ skip_sitemap: true
 
     {{< text plain >}}
     Another nested text block
+    with a second line
+
+    and a third line
     {{< /text >}}
 
 1. Yet another bullet
@@ -31,6 +37,9 @@ skip_sitemap: true
 
     {{< text plain >}}
     This is a text block in a warning in a bullet
+    with a second line
+
+    and a third line
     {{< /text >}}
 
     {{< /warning >}}
