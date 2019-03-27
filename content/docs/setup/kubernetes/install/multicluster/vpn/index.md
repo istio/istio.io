@@ -410,7 +410,7 @@ section provides a high level overview of these options:
 
 ### Update the DNS entries
 
-Upon any failure or restart of the local Istio control plane, `kube-dns` on the remote clusters can be
+Upon any failure or restart of the local Istio control plane, `kube-dns` on the remote clusters must be
 updated with the correct endpoint mappings for the Istio services.  There
 are a number of ways this can be done. The most obvious is to rerun the Helm
 install in the remote cluster after the Istio services on the control plane
