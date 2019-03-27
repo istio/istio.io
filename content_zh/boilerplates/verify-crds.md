@@ -5,6 +5,6 @@
 {{< /warning >}}
 
 {{< text bash >}}
-$ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+$ kubectl get crds --namespace istio-system | grep 'istio.io\|certmanager.k8s.io' | wc -l
 53
 {{< /text >}}
