@@ -60,9 +60,9 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set global.controlPlaneSecurityEnabled=true \
       --set global.proxy.accessLogFile="/dev/stdout" \
       --set global.meshExpansion.enabled=true \
-      --set 'global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config' \
-      --set 'global.meshNetworks.network2.gateways[0].address=0.0.0.0' \
-      --set 'global.meshNetworks.network2.gateways[0].port=443' \
+      --set 'global.meshNetworks.network2.endpoints[0].fromRegistry'=n2-k8s-config \
+      --set 'global.meshNetworks.network2.gateways[0].address'=0.0.0.0 \
+      --set 'global.meshNetworks.network2.gateways[0].port'=443 \
       install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
@@ -134,7 +134,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ export LOCAL_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-ingressgateway \
-        -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}") && echo ${LOCAL_GW_ADDR}
+        -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}') && echo ${LOCAL_GW_ADDR}
     {{< /text >}}
 
     This command sets the value to the gateway's public IP and displays it.
@@ -224,11 +224,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Prepare environment variables for building the `n2-k8s-config` file for the service account `istio-multi`:
 
     {{< text bash >}}
-    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o "jsonpath={.clusters[].name}")
-    $ SERVER=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
+    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
+    $ SERVER=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
     $ SECRET_NAME=$(kubectl --context=$CTX_CLUSTER2 get sa istio-multi -n istio-system -o jsonpath='{.secrets[].name}')
-    $ CA_DATA=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['ca\.crt']}")
-    $ TOKEN=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['token']}" | base64 --decode)
+    $ CA_DATA=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o jsonpath="{.data['ca\.crt']}")
+    $ TOKEN=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o jsonpath="{.data['token']}" | base64 --decode)
     {{< /text >}}
 
     {{< idea >}}
