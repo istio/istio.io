@@ -211,7 +211,7 @@ function handleCodeBlocks() {
                 }
 
                 if (output !== "") {
-//                    output = escapeHTML(output);
+                    output = escapeHTML(output);
 
                     // apply formatting to the output?
                     if (code.dataset.outputis) {
@@ -264,7 +264,10 @@ function handleCodeBlocks() {
                         let buf = "";
                         let match = regex.exec(data);
                         while (match != null) {
-                            buf = buf + match[1];
+                            if (buf !== "") {
+                                buf += "\n";
+                            }
+                            buf += match[1];
                             match = regex.exec(data);
                         }
                         data = buf;

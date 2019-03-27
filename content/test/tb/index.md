@@ -98,3 +98,57 @@ URL-based text block with snippet extraction
 URL-based text block with redirects
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/command_example.txt" syntax="bash" >}}
+
+{{< text plain >}}
+Reeeeeaaaaaalllllllllly lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllong
+{{< /text >}}
+
+{{< text plain >}}
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+{{< /text >}}
