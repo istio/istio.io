@@ -144,7 +144,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-* Starting from 1.1, only destination rules in client namespace, server namespace and `global` namespace (default is `istio-system`) will be considered for a service, in that order.
+* Starting with Istio 1.1, only destination rules in the client namespace, server namespace and `global` namespace (default is `istio-system`) will be considered for a service, in that order.
 * Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or
 namespace for destination rule.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to
@@ -213,7 +213,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-This destination rule is in the namespace of the server (`httpbin.legacy`), so it will be prefered over the global destination rule defined in `istio-system`
+This destination rule is in the namespace of the server (`httpbin.legacy`), so it will be preferred over the global destination rule defined in `istio-system`
 {{< /tip >}}
 
 ### Request from Istio services to Kubernetes API server
