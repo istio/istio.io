@@ -7,7 +7,7 @@ attribution: The Istio Team
 
 我们很高兴得宣布 Istio 1.1 发布！
 
-{{< announcement_links "1.1" "1.1.0" >}}
+{{< announcement_links "1.1.0" >}}
 
 自从去年 7 月份 1.0 发布以来，为了帮助人们将 Istio 投入生产我们做了很多工作。我们不出所料得发布了很多补丁（到目前为止已经发布了 6 个补丁！），但我们也在努力为产品添加新功能。
 

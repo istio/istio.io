@@ -2,8 +2,10 @@
   url: https://preliminary.istio.io
 - name: "1.1"
   url: https://istio.io
+  latest_patch: 1.1.1
 - name: "1.0"
   url: https://archive.istio.io/v1.0
+  latest_patch: 1.0.6
 - name: "0.8"
   url: https://archive.istio.io/v0.8
 - name: "0.7"
