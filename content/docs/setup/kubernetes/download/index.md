@@ -37,7 +37,7 @@ services from all other namespaces.
       used when manually injecting Envoy as a sidecar proxy.
     * The `istio.VERSION` configuration file
 
-1.  Add the `istioctl` client to your PATH environment variable, on a macOS or
+1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
     Linux system:
 
     {{< text bash >}}
