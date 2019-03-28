@@ -12,6 +12,18 @@ certificates in Istio.
 
 * Create a new Kubernetes cluster to run the example in this tutorial.
 
+## Certificate request flow
+
+At high level, an Istio proxy (i.e., Envoy) requests a certificate from Node Agent
+through SDS. Node Agent sends a CSR (Certificate Signing Request), with the Kubernetes service
+account token of the Istio proxy attached, to Vault CA. Vault CA authenticates and authorizes
+the CSR based on the Kubernetes service account token and returns the signed certificate
+to Node Agent, which returns the signed certificate to the Istio proxy.
+
+You need to configure Vault CA to enable authentication and authorization of Kubernetes service accounts.
+Please refer to [Vault Kubernetes auth method](https://www.vaultproject.io/docs/auth/kubernetes.html)
+for the configuration instructions.
+
 ## Install Istio with SDS enabled
 
 1.  Install Istio with SDS enabled using [Helm](/docs/setup/kubernetes/install/helm/#prerequisites)
@@ -20,7 +32,6 @@ requests to a testing Vault CA:
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
-    $ helm dep update --skip-refresh install/kubernetes/helm/istio
     $ cat install/kubernetes/namespace.yaml > istio-auth.yaml
     $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth.yaml
     $ helm template \
