@@ -36,7 +36,7 @@ icon: feature-status
 
 | 功能           | 阶段
 |-------------------|-------------------
-| [Prometheus 集成](/zh/docs/tasks/telemetry/querying-metrics/) | Stable
+| [Prometheus 集成](/zh/docs/tasks/telemetry/metrics/querying-metrics/) | Stable
 | [本地日志记录（STDIO）](/zh/docs/examples/telemetry/) | Stable
 | [Statsd 集成](/zh/docs/reference/config/policy-and-telemetry/adapters/statsd) | Stable
 | [客户端和服务端的遥测报告](/zh/docs/concepts/policies-and-telemetry/) | Stable

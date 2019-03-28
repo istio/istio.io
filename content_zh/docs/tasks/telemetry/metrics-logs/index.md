@@ -145,7 +145,7 @@ keywords: [telemetry,metrics]
     istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
     {{< /text >}}
 
-    要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/querying-metrics/)任务
+    要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/metrics/querying-metrics/)任务
 
 1. 检查请求过程中生成和处理的日志流。
 
