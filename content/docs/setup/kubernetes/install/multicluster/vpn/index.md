@@ -197,14 +197,14 @@ the remote cluster.
 
     {{< text bash >}}
     $ export WORK_DIR=$(pwd)
-    $ CLUSTER_NAME=$(kubectl config view --minify=true -o "jsonpath={.clusters[].name}")
+    $ CLUSTER_NAME=$(kubectl config view --minify=true -o jsonpath='{.clusters[].name}')
     $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
-    $ SERVER=$(kubectl config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
+    $ SERVER=$(kubectl config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
     $ NAMESPACE=istio-system
     $ SERVICE_ACCOUNT=istio-multi
     $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
-    $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['ca\.crt']}")
-    $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
+    $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['ca\.crt']}")
+    $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['token']}" | base64 --decode)
     {{< /text >}}
 
     {{< tip >}}
