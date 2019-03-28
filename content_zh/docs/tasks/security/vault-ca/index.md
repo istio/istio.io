@@ -11,7 +11,7 @@ keywords: [security,certificate]
 
 * 创建一个新的 Kubernetes 集群以运行本教程中的示例。
 
-## 安装启用 SDS 的 Istio{#install-istio-with-sds-enabled}
+## 安装启用 SDS 的 Istio
 
 1.  使用 [Helm](/docs/setup/kubernetes/install/helm/#prerequisites) 安装 Istio 启用 SDS 和向节点代理发送证书签名请求来测试 Vault CA ：
 
@@ -31,8 +31,8 @@ keywords: [security,certificate]
 
 本教程中使用的测试 Vault 服务器的 IP 地址为 `35.233.249.249`。配置 `global.proxy.excludeIPRanges ="35.233.249.249/32"` 将测试 Vault 服务器的 IP 地址列入白名单，以便 Envoy 不会拦截从 Node Agent 到 Vault 的流量。
 
-这个 yaml 文件 [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml) 
-包含 Istio 中启用 SDS（密钥发现服务）的配置。 
+这个 yaml 文件 [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml)
+包含 Istio 中启用 SDS（密钥发现服务）的配置。
 Vault CA 相关配置设置为环境变量：
 
 {{< text yaml >}}
