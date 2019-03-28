@@ -133,6 +133,43 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ### 启用双向 TLS 策略
 
+启用双向 TLS 后，我们有两个选项来支持 HTTP 探针：重写探针和单独的端口。
+
+#### Probe rewrite
+
+这种方法重写了应用程序 `PodSpec` liveness 探针, 这样探测请求将被发送给 [Pilot 代理](/docs/reference/commands/pilot-agent/). 然后，Pilot 代理将请求重定向到应用程序，并丢掉响应主体，仅返回响应代码。
+
+要使用这种方法, 你安装 Istio 需要 Helm 的 `sidecarInjectorWebhook.rewriteAppHTTPProbe=true` 选项。
+请注意，这是一个全局标志。 **打开它意味着所有 Istio 应用程序部署都将受到影响**。
+请注意风险。
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set global.mtls.enabled=true --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
+    -f install/kubernetes/helm/istio/values.yaml > $HOME/istio.yaml
+$ kubectl apply -f $HOME/istio.yaml
+{{< /text >}}
+
+重新部署 liveness 健康检查应用程序。
+
+上面的 Helm 配置使得 sidecar 注入自动重写 Kubernetes pod YAML,
+这样健康检查可以在双向 TLS 下工作。无需自行更新您的应用程序或 Pod YAML。
+
+{{< text bash >}}
+$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl get pod
+NAME                             READY     STATUS    RESTARTS   AGE
+liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
+{{< /text >}}
+
+默认情况下，此功能目前尚未启用。 我们想[听听您的反馈意见](https://github.com/istio/istio/issues/10357)，我们是否应将其更改为 Istio 安装的默认行为。
+
+#### Separate port
+
 同样，通过添加命名空间范围的身份验证策略和目标规则，为默认命名空间中的服务启用双向 TLS：
 
 1. 要配置身份验证策略，请运行：
