@@ -84,16 +84,18 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     Wait for the Istio pods on `cluster1` to become ready:
 
     {{< text bash >}}
-    $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system --field-selector=status.phase!=Succeeded
-    NAME                                      READY     STATUS    RESTARTS   AGE
-    istio-citadel-5b9d878756-bwnxx            1/1       Running   0          2m
-    istio-galley-6f7594c9f4-7s9db             1/1       Running   0          2m
-    istio-ingressgateway-c6f9544b-hf7cm       1/1       Running   0          2m
-    istio-pilot-55f7f6fd57-5tb22              2/2       Running   0          2m
-    istio-policy-cd65dc85-4xwlw               2/2       Running   3          2m
-    istio-sidecar-injector-846f649c7b-w2kgp   1/1       Running   0          2m
-    istio-telemetry-67ffd9489-zncv7           2/2       Running   2          2m
-    prometheus-89bc5668c-mz4hl                1/1       Running   0          2m
+    $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
+    NAME                                      READY   STATUS      RESTARTS   AGE
+    istio-citadel-9bbf9b4c8-nnmbt             1/1     Running     0          2m8s
+    istio-cleanup-secrets-1.1.0-x9crw         0/1     Completed   0          2m12s
+    istio-galley-868c5fff5d-9ph6l             1/1     Running     0          2m9s
+    istio-ingressgateway-6c756547b-dwc78      1/1     Running     0          2m8s
+    istio-pilot-54fcf8db8-sn9cn               2/2     Running     0          2m8s
+    istio-policy-5fcbd55d8b-xhbpz             2/2     Running     2          2m8s
+    istio-security-post-install-1.1.0-ww5zz   0/1     Completed   0          2m12s
+    istio-sidecar-injector-6dcc9d5c64-7hnnl   1/1     Running     0          2m8s
+    istio-telemetry-57875ffb6d-n2vmf          2/2     Running     3          2m8s
+    prometheus-66c9f5694-8pccr                1/1     Running     0          2m8s
     {{< /text >}}
 
 1. Create an ingress gateway to access service(s) in `cluster2`:
@@ -173,10 +175,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
 
     {{< text bash >}}
-    $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway --field-selector=status.phase!=Succeeded
-    NAME                                      READY     STATUS    RESTARTS   AGE
-    istio-citadel-958c4b596-kpmj4             1/1       Running   0          40s
-    istio-sidecar-injector-77599f75f6-tnj7s   1/1       Running   0          39s
+    $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway
+    NAME                                     READY   STATUS      RESTARTS   AGE
+    istio-citadel-75c8fcbfcf-9njn6           1/1     Running     0          12s
+    istio-cleanup-secrets-1.1.0-vtp62        0/1     Completed   0          14s
+    istio-sidecar-injector-cdb5d4dd5-rhks9   1/1     Running     0          12s
     {{< /text >}}
 
     {{< warning >}}
