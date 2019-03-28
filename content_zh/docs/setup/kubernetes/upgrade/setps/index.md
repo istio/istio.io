@@ -1,9 +1,7 @@
 ---
-title: 升级 Istio
+title: 升级步骤
 description: 演示如何独立升级 Istio 控制平面和数据平面。
 weight: 25
-aliases:
-    - /docs/setup/kubernetes/upgrading-istio/
 keywords: [kubernetes,upgrading]
 ---
 
@@ -12,62 +10,101 @@ keywords: [kubernetes,upgrading]
 
 在下面的步骤中，我们假设 Istio 组件在  `istio-system` namespace 中安装和升级。
 
+{{< warning >}}
+将部署升级到 Istio 1.1 前您一定要先看看[升级通知](/docs/setup/kubernetes/upgrade/notice) 的简明事项列表。
+{{< /warning >}}
+
 ## 升级步骤
 
 1. [下载新的 Istio 版本](/zh/docs/setup/kubernetes/download/)并将目录更改为新版本目录。
 
-1. 升级 Istio 的[自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-通过 `kubectl apply` ，等待几秒钟，让 CRD 在 `kube-apiserver` 中提交：
+### 控制平面升级
+
+{{< warning >}}
+使用 Tiller 升级 CRD 时，Helm 存在严重问题。
+我们相信我们已经通过引入 `istio-init` chart 解决了这些问题。
+但是，由于以前的 Istio 部署中使用的 Helm 和 Tiller 版本种类繁多，
+从 2.7.2 到 2.12.2，我们建议大家谨慎操作
+切忌在继续升级之前一定要备份好自定义资源数据：
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+$ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
+    xargs -n1 -i sh -c "kubectl get --all-namespaces -oyaml {}; echo ---" > $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
 {{< /text >}}
 
-### 控制平面升级
+{{< /warning >}}
 
 Istio 控制平面组件包括：Citadel、Ingress 网关、Egress 网关、Pilot、Policy、Telemetry 和 Sidecar 注入器。我们可以使用 Kubernetes 的滚动更新机制来升级控制平面组件。
 
-#### 用 Helm 升级
+{{< tabset cookie-name="controlplaneupdate" >}}
+{{< tab name="Kubernetes 的滚动更新" cookie-value="k8supdate" >}}
+您可以使用 Kubernetes 的滚动更新机制来升级控制平面组件。
+这适用于使用 `kubectl apply` 部署 Istio 组件的情况，
+包括使用 [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) 生成的配置。
 
-如果你用 [Helm](/zh/docs/setup/kubernetes/install/helm/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令进行安装) 安装了 Istio，那么首选升级方式是让 Helm 负责升级：
+1. 使用 `kubectl apply` 升级 Istio 所有的 CRD。稍微等待几秒钟，让 Kubernetes API 服务器接收升级后的 CRD：
 
-{{< text bash >}}
-$ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    {{< /text >}}
 
-#### Kubernetes 滚动更新
+1. 例如，将 Istio 的核心组件添加到 Kubernetes 的清单文件中。
 
-如果没有使用 Helm 安装 Istio 的话。您还可以使用 Kubernetes 的滚动更新机制来升级控制平面组件。
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio \
+      --namespace istio-system > $HOME/istio.yaml
+    {{< /text >}}
 
-首先，生成 Istio 控制平面需要的 yaml 文件，例如：
+    如果要启用 [全局双向 TLS](/docs/concepts/security/#mutual-tls-authentication)，请将 `global.mtls.enabled` 和 `global.controlPlaneSecurityEnabled` 设置为 `true` 以获取最后一个命令：
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system > install/kubernetes/istio.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+      --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true > $HOME/istio-auth.yaml
+    {{< /text >}}
 
-或者
+    如果使用 1.9 之前的 Kubernetes 版本，则应添加 `--set sidecarInjectorWebhook.enabled=false`。
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio \
-    --namespace istio-system --set global.mtls.enabled=true > install/kubernetes/istio-auth.yaml
-{{< /text >}}
+1. 通过清单升级 Istio 控制平面组件，例如：
 
-如果使用 1.9 之前的 Kubernetes 版本，则应添加 `--set sidecarInjectorWebhook.enabled=false`。
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
 
-接下来，只需直接应用 Istio 控制平面所需的 yaml 文件的新版本，例如，
+    或
 
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f $HOME/istio-auth.yaml
+    {{< /text >}}
 
-或者
+滚动更新过程会将所有部署和配置升级到新版本。完成此过程后，
+您的 Istio 控制平面应该会更新为新版本。您现有的应用程序应该继续工作。
+如果新控制平面存在任何严重问题，您可以通过应用旧版本的 yaml 文件来回滚更改。
+{{< /tab >}}
 
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-auth.yaml
-{{< /text >}}
+{{< tab name="Helm 升级" cookie-value="helmupgrade" >}}
+如果你使用 [Helm 和 Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装了 Istio，
+首选升级选项是让 Helm 负责升级。
 
-滚动更新过程会将所有 deployment 和 configmap 升级到新版本。完成此过程后，您的 Istio 控制面应该会更新为新版本。使用 Envoy v1 和 v1alpha1 路由规则（route rule）的现有应用程序应该可以继续正常工作而无需任何修改。如果新控制平面存在任何关键问题，您都可以通过应用旧版本的 yaml 文件来回滚更改。
+1. 升级 `istio-init` chart 以更新所有 Istio [自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)（CRD）。
+
+    {{< text bash >}}
+    $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
+    {{< /text >}}
+
+1. 检查所有的 CRD 创建 job 是否已成功完成，以验证 Kubernetes API 服务器是否已收到所有 CRD：
+
+    {{< text bash >}}
+    $ kubectl get job --namespace istio-system | grep istio-init-crd
+    {{< /text >}}
+
+1. 升级 `istio` chart：
+
+    {{< text bash >}}
+    $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
+    {{< /text >}}
+
+{{< /tab >}}
+{{< /tabset >}}
 
 ### Sidecar 升级
 
@@ -88,58 +125,6 @@ $ kubectl apply -f <(istioctl kube-inject \
      --injectConfigFile inject-config.yaml \
      --filename $ORIGINAL_DEPLOYMENT_YAML)
 {{< /text >}}
-
-## 迁移到新的网络 API
-
-一旦升级了控制平面和 sidecar，您就可以逐步更新 deployment 以使用新的 Envoy sidecar。你可以通过以下选项之一使用来做到这一点:
-
-- 添加以下内容到您的 deployment 的 pod annotation 中：
-
-    {{< text yaml >}}
-    kind: Deployment
-    ...
-    spec:
-      template:
-        metadata:
-          annotations:
-            sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:0.8.0
-    {{< /text >}}
-
-    然后将您的 deployment 替换为更新的应用 yaml 文件：
-
-    {{< text bash >}}
-    $ kubectl replace -f $UPDATED_DEPLOYMENT_YAML
-    {{< /text >}}
-
-或者
-
-- 使用将 `docker.io/istio/proxyv2:0.8.0` 作为代理镜像的 `injectConfigFile`。如果没有 `injectConfigFile`，您可以 [生成一个](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)。如果需要在多个 deployment 定义中添加 `sidecar.istio.io/proxyImage` annotation，推荐使用 `injectConfigFile`。
-
-    {{< text bash >}}
-    $ kubectl replace -f <(istioctl kube-inject --injectConfigFile inject-config.yaml -f $ORIGINAL_DEPLOYMENT_YAML)
-    {{< /text >}}
-
-接下来，使用 `istioctl experimental convert-networking-config` 来转换现有的 ingress 或路由规则：
-
-1. 如果您的 yaml 文件包含比 ingress 定义（如 deployment 或 service 定义）更多的定义，请将 ingress 定义移出到单独的 yaml 文件中，以供 `istioctl experimental convert-networking-config` 工具处理。
-
-1. 执行以下命令以生成新的网络配置文件，将其中的 FILE* 替换为 ingress 文件或弃用的路由规则文件。
-*提示：请确保使用 `-f` 来为一个或多个 deployment 提供所有文件。*
-
-    {{< text bash >}}
-    $ istioctl experimental convert-networking-configuration-f FILE1.yaml -f FILE2.yaml -f FILE3.yaml > UPDATED_NETWORK_CONFIG.yaml
-    {{< /text >}}
-
-1. 编辑 `UPDATED_NETWORK_CONFIG.yaml` 以更新所有 namespace 引用为您需要的 namespace。`convert-networking-config` 工具有一个已知问题，导致 `istio-system` namespace 的使用不正确。此外，请确保 `hosts` 值的正确性。
-
-1. 部署更新的网络配置文件。
-
-    {{< text bash >}}
-    $ kubectl replace -f UPDATED_NETWORK_CONFIG.yaml
-    {{< /text >}}
-
-当您的所有应用程序都已迁移并经过测试后，您可以重复 Istio 升级过程，删除
- `--set global.proxy.image = proxy` 选项。这会将所有后来注入的 sidecar 的默认代理设置为`docker.io/istio/proxyv2`。
 
 ## 通过 annotation 将身份验证策略迁移为启用 per-service 双向 TLS
 
