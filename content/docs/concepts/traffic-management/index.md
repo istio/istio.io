@@ -354,7 +354,8 @@ configures the set of policies to be applied to a request after `VirtualService`
 - A [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) is commonly used to enable requests to services outside of an Istio service mesh.
 
 - A [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/)
-configures a load balancer for HTTP/TCP traffic operating at the edge of the mesh, most commonly to enable ingress traffic for an application.
+configures a load balancer operating at the edge of the mesh for HTTP/TCP ingress traffic to a mesh application
+or egress traffic to external services.
 
 - A [`Sidecar`](/docs/reference/config/networking/v1alpha3/sidecar/)
 configures one or more sidecar proxies attached to application workloads running inside the mesh.
