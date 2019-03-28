@@ -36,7 +36,6 @@ $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
 
 Istio 控制平面组件包括：Citadel、Ingress 网关、Egress 网关、Pilot、Policy、Telemetry 和 Sidecar 注入器。我们可以使用 Kubernetes 的滚动更新机制来升级控制平面组件。
 
-
 {{< tabset cookie-name="controlplaneupdate" >}}
 {{< tab name="Kubernetes 的滚动更新" cookie-value="k8supdate" >}}
 您可以使用 Kubernetes 的滚动更新机制来升级控制平面组件。
