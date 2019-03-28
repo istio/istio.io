@@ -5,7 +5,7 @@ weight: 10
 keywords: [kubernetes]
 ---
 
-依照本文说明，在各种平台的 Kubernetes 集群上快速安装 Istio。这里无需安装 [Helm](https://github.com/helm/helm)，只使用基本的 Kubernetes 命令，就能设置一个预[配置]((/zh/docs/setup/kubernetes/additional-setup/config-profiles/))的 Istio **demo**。
+依照本文说明，在各种平台的 Kubernetes 集群上快速安装 Istio。这里无需安装 [Helm](https://github.com/helm/helm)，只使用基本的 Kubernetes 命令，就能设置一个预[配置](/zh/docs/setup/kubernetes/additional-setup/config-profiles/)的 Istio **demo**。
 
 {{< tip >}}
 要正式在生产环境上安装 Istio，我们推荐[使用 Helm 进行安装](/zh/docs/setup/kubernetes/install/helm/)，其中包含了大量选项，可以对 Istio 的具体配置进行选择和管理，来满足特定的使用要求。
