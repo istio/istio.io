@@ -1,7 +1,7 @@
 ---
 title: 获取 TCP 服务指标
 description: 本任务展示了如何配置 Istio 进行 TCP 服务的指标收集。
-weight: 25
+weight: 20
 keywords: [telemetry,metrics,tcp]
 ---
 
@@ -31,7 +31,7 @@ keywords: [telemetry,metrics,tcp]
     spec:
       value: connection.sent.bytes | 0 # uses a TCP-specific attribute
       dimensions:
-        source_service: source.service | "unknown"
+        source_service: source.workload.name | "unknown"
         source_version: source.labels["version"] | "unknown"
         destination_version: destination.labels["version"] | "unknown"
       monitoredResourceType: '"UNSPECIFIED"'
@@ -45,7 +45,7 @@ keywords: [telemetry,metrics,tcp]
     spec:
       value: connection.received.bytes | 0 # uses a TCP-specific attribute
       dimensions:
-        source_service: source.service | "unknown"
+        source_service: source.workload.name | "unknown"
         source_version: source.labels["version"] | "unknown"
         destination_version: destination.labels["version"] | "unknown"
       monitoredResourceType: '"UNSPECIFIED"'
@@ -92,7 +92,7 @@ keywords: [telemetry,metrics,tcp]
 1. 应用新配置。
 
     {{< text bash >}}
-    $ istioctl create -f tcp_telemetry.yaml
+    $ kubectl apply -f tcp_telemetry.yaml
     Created config metric/default/mongosentbytes at revision 3852843
     Created config metric/default/mongoreceivedbytes at revision 3852844
     Created config prometheus/default/mongohandler at revision 3852845
@@ -132,22 +132,34 @@ keywords: [telemetry,metrics,tcp]
         deployment "mongodb-v1" configured
         {{< /text >}}
 
+    1.  Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则
+        定义每个版本对应的服务子集，以及每个子集的负载均衡策略。
+
+        {{< text bash >}}
+        $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+        {{< /text >}}
+
+        如果您启用了双向 TLS，请执行以下操作
+
+        {{< text bash >}}
+        $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+        {{< /text >}}
+
+        您可以使用以下命令显示目标规则：
+
+        {{< text bash >}}
+        $ kubectl get destinationrules -o yaml
+        {{< /text >}}
+
+        由于虚拟服务中的子集引用依赖于目标规则，
+        在添加引用这些子集的虚拟服务之前，请等待几秒钟以使目标规则传播。
+
     1. 创建 `ratings` 以及 `reviews` 两个虚拟服务:
 
         {{< text bash >}}
-        $ istioctl create -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
+        $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
         Created config virtual-service/default/reviews at revision 3003
         Created config virtual-service/default/ratings at revision 3004
-        {{< /text >}}
-
-    1. 新增路由规则，将流量发送到 `ratings:v2` 之中：
-
-        {{< text bash >}}
-        $ istioctl create -f @samples/bookinfo/networking/destination-rule-all.yaml@
-        destinationrule.networking.istio.io/productpage created
-        destinationrule.networking.istio.io/reviews created
-        destinationrule.networking.istio.io/ratings created
-        destinationrule.networking.istio.io/details created
         {{< /text >}}
 
 1. 向应用发送流量。
@@ -171,7 +183,7 @@ keywords: [telemetry,metrics,tcp]
     上面的连接会打开 Promethe 界面，并执行了对 `istio_mongo_received_bytes` 指标的查询。**Console** 标签页中包含了大致如下的内容：
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings.default.svc.cluster.local",source_version="v2"}
+    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
     {{< /text >}}
 
 ## 理解 TCP 遥控数据的收集过程
@@ -186,7 +198,7 @@ _instances_ 中属性集的可选范围不同，是 TCP 服务的指标收集过
 
 TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是由服务端的 Envoy 代理生成的。它们在连接建立时发给 Mixer，在连接的存活期间周期性的进行发送（周期性报告），最后在连接关闭时再次发送（最终报告）。周期性报告的缺省间隔时间为 10 秒钟，最小取值为 1 秒。另外上下文属性让策略有了区分 `http` 和 `tcp` 协议的能力。
 
-{{< image link="/docs/tasks/telemetry/metrics/tcp-metrics/istio-tcp-attribute-flow.svg"
+{{< image link="./istio-tcp-attribute-flow.svg"
     alt="Istio 服务网格中的 TCP 服务属性生成流程"
     caption="TCP 属性流程"
     >}}
@@ -196,7 +208,7 @@ TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是�
 * 删除新的遥测配置：
 
     {{< text bash >}}
-    $ istioctl delete -f tcp_telemetry.yaml
+    $ kubectl delete -f tcp_telemetry.yaml
     {{< /text >}}
 
 * 删除端口转发进程：
