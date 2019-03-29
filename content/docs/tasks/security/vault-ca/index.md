@@ -20,10 +20,6 @@ account token of the Istio proxy attached, to Vault CA. Vault CA authenticates a
 the CSR based on the Kubernetes service account token and returns the signed certificate
 to Node Agent, which returns the signed certificate to the Istio proxy.
 
-You need to configure Vault CA to enable authentication and authorization of Kubernetes service accounts.
-Please refer to [Vault Kubernetes auth method](https://www.vaultproject.io/docs/auth/kubernetes.html)
-for the configuration instructions.
-
 ## Install Istio with mutual TLS and SDS enabled
 
 1.  Install Istio with mutual TLS and SDS enabled using [Helm](/docs/setup/kubernetes/install/helm/#prerequisites)
@@ -90,10 +86,8 @@ certificate signing requests to Vault.
     {{< /text >}}
 
 1.  Edit the service account `vault-citadel-sa` to use an example JWT token that has been configured
-on the testing Vault CA for authentication and authorization.
-The reason for this step is that a Vault CA authenticates and authorizes
-Kubernetes service accounts. We have configured a service account `vault-citadel-sa` for
-authentication and authorization on a testing Vault CA and this service account is used here as an example.
+on the testing Vault CA. The reason of this configuration is that a Vault CA requires authentication
+and authorization of Kubernetes service accounts.
 For the information about configuring Vault for Kubernetes authentication and authorization,
 please refer to [Vault Kubernetes auth method](https://www.vaultproject.io/docs/auth/kubernetes.html).
 
