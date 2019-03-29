@@ -174,8 +174,16 @@ number_of_entries: 5
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--mixerIdentity &lt;string&gt;</code></td>
+<td>The identity used as the suffix for mixer&#39;s spiffe SAN. This would only be used by pilot all other proxy would get this value from pilot  (default ``)</td>
+</tr>
+<tr>
 <td><code>--parentShutdownDuration &lt;duration&gt;</code></td>
 <td>The time in seconds that Envoy will wait before shutting down the parent process during a hot restart  (default `1m0s`)</td>
+</tr>
+<tr>
+<td><code>--pilotIdentity &lt;string&gt;</code></td>
+<td>The identity used as the suffix for pilot&#39;s spiffe SAN   (default ``)</td>
 </tr>
 <tr>
 <td><code>--proxyAdminPort &lt;uint16&gt;</code></td>
@@ -204,6 +212,30 @@ number_of_entries: 5
 <tr>
 <td><code>--templateFile &lt;string&gt;</code></td>
 <td>Go template bootstrap config  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tlsClientCertChain &lt;string&gt;</code></td>
+<td>Absolute path to client cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsClientRootCert &lt;string&gt;</code></td>
+<td>Absolute path to client root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsSClientKey &lt;string&gt;</code></td>
+<td>Absolute path to client key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsServerCertChain &lt;string&gt;</code></td>
+<td>Absolute path to server cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsServerKey &lt;string&gt;</code></td>
+<td>Absolute path to server private key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsServerRootCert &lt;string&gt;</code></td>
+<td>Absolute path to server root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
@@ -328,6 +360,158 @@ number_of_entries: 5
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
+</tr>
+</tbody>
+</table>
+<h2 id="envvars">Environment Variables</h2>
+These environment variables affect the behavior of the <code>pilot-agent</code> command.
+<table class="envvars">
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INSTANCE_IP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_BOOTSTRAP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_BOOTSTRAP_OVERRIDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
+<td>Integer</td>
+<td><code>100000</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_KUBE_APP_PROBERS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_AFTER</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_MAX</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_EDS_ISOLATION</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CDS_PRECOMPUTATION</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP10</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_BURST</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_THROTTLE</code></td>
+<td>Integer</td>
+<td><code>10</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_TRACE_SAMPLING</code></td>
+<td>Floating-Point</td>
+<td><code>100</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>POD_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>POD_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>V2_REFRESH</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
