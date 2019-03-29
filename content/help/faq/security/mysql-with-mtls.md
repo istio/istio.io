@@ -5,20 +5,18 @@ weight: 95
 keywords: [mysql,mtls]
 ---
 
-# MySQL Connectivity Troubleshooting
-
 You may find MySQL can't be connected after installing Istio. This is because that `PERMISSIVE` mode,
 default option `istio-demo.yaml` install, does not work with MySQL.
 
 We have two options to solve the problem.
 
-## Disable Mutual TLS
+**Disable Mutual TLS**
 
-Choose this option if you don't want Istio mutual TLS. You achieve this by disable mutual TLS on MySQL
+Choose this option if you don't want Istio mutual TLS. You achieve this by disable mutual TLS on the MySQL
 service explicitly.
 
-```bash
-kubectl apply -f <<EOF
+{{< text syntax="bash" >}}
+$ kubectl apply -f <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -27,14 +25,15 @@ spec:
   targets:
   - name: mysql-service
 EOF
-```
+{{< /text >}}
 
-## Enable Mutual TLS by STRICT mode
+**Enable Mutual TLS in STRICT mode**
 
-If you want mutual TLS protection for MySQL, enable mutual TLS via `DestinationRule` and `AuthenticationPolicy`.
+If you want mutual TLS protection for MySQL, enable mutual TLS using a destination rule and an authentication policy.
 
-```bash
-kubectl apply -f <<EOF
+
+{{< text syntax="bash" >}}
+$ kubectl apply -f <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
@@ -56,5 +55,4 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 EOF
-
-```
+{{< /text >}}
