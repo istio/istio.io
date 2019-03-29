@@ -12,30 +12,26 @@ Follow these instructions to prepare Minikube for Istio installation with suffic
 resources to run Istio and some basic applications.
 
 1. To run Istio locally, install the latest version of
-   [Minikube](https://kubernetes.io/docs/setup/minikube/), version **0.28.1 or
-   later**.
+   [Minikube](https://kubernetes.io/docs/setup/minikube/), version **0.33.1 or
+   later** and a
+   [Minikube Hypervisor Driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
-1. Select a [Minikube VM driver](https://kubernetes.io/docs/setup/minikube/#quickstart)
-   and install it using the driver installation techniques.  Finally export the
-   driver to the environment.  An example using kvm2 driver is:
+    {{< tip >}}
+    Set your Minikube Hypervisor driver.  For example if you installed the KVM hypervisor, set the vm-driver
+    within the Minikube configuration:
 
     {{< text bash >}}
-    $ export MINIKUBE_VM_DIVER=kvm2
+    $ minikube config set vm-driver kvm2 
     {{< /text >}}
-
-    {{< idea >}}
-    You may additionally choose to add the `MINIKUBE_VM_DRIVER` export to your `.profile` shell.  By
-    adding this environment variable to your shell, the variable will not need to be set each time
-    you start minikube.
-    {{< /idea >}}
+ 
+    {{< /text >}}
 
 1. Start Minikube with 8192 `MB` of memory and 4 `CPUs`.  This example uses Kuberenetes
    vesion 1.13.0, however, you may alter the version to Kubernetes versions of Istio that are
    supported:
 
     {{< text bash >}}
-    $ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.13.0 \
-        --vm-driver=$MINIKUBE_VM_DRIVER
+    $ minikube start --memory=8192 --cpus=4 --kubernetes-version=v1.13.0
     {{< /text >}}
 
 1. (Optional) If you want a Load balancer in Minikube, you can use the
@@ -47,5 +43,5 @@ resources to run Istio and some basic applications.
 
     {{< tip >}}
     Running the minikube tunnel feature will block your shell and output diagonstic information.  Be
-    prepared to run this optional command in a different shell.
+    prepared to run this optional command in a different terminal.
     {{< /tip >}}
