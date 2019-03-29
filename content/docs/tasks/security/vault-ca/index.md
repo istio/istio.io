@@ -1,12 +1,12 @@
 ---
 title: Istio Vault CA Integration
-description: Tutorial on how to plug in a Vault CA for issuing certificates in Istio.
+description: Tutorial on Istio Vault CA integration and a demo of Istio `mTLS` using certificates from a Vault CA.
 weight: 10
 keywords: [security,certificate]
 ---
 
-This tutorial walks you through an example to plug in a Vault CA for issuing
-certificates in Istio.
+This tutorial walks you through an example of integrating Istio with a Vault CA to issue certificates
+to Istio workloads and shows a demo of Istio `mTLS` using certificates issued by a Vault CA.
 
 ## Before you begin
 
@@ -24,9 +24,9 @@ You need to configure Vault CA to enable authentication and authorization of Kub
 Please refer to [Vault Kubernetes auth method](https://www.vaultproject.io/docs/auth/kubernetes.html)
 for the configuration instructions.
 
-## Install Istio with SDS enabled
+## Install Istio with `mTLS` and SDS enabled
 
-1.  Install Istio with SDS enabled using [Helm](/docs/setup/kubernetes/install/helm/#prerequisites)
+1.  Install Istio with `mTLS` and SDS enabled using [Helm](/docs/setup/kubernetes/install/helm/#prerequisites)
 and Node Agent sending certificate signing
 requests to a testing Vault CA:
 
@@ -37,6 +37,7 @@ requests to a testing Vault CA:
     $ helm template \
         --name=istio \
         --namespace=istio-system \
+        --set global.mtls.enabled=true \
         --set global.proxy.excludeIPRanges="35.233.249.249/32" \
         --values install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml \
         install/kubernetes/helm/istio >> istio-auth.yaml
@@ -69,53 +70,106 @@ env:
   value: "istio_ca/sign/istio-pki-role"
 {{< /text >}}
 
-## Deploy a testing workload
+## Deploy testing workloads
 
-This section deploys a testing workload `httpbin`. When the sidecar of the
+This section deploys testing workloads `httpbin` and `sleep`. When the sidecar of a
 testing workload requests a certificate through SDS, Node Agent will send
 certificate signing requests to Vault.
 
-1.  Generate the deployment for an example `httpbin` backend:
+1.  Generate the deployment for an example `httpbin` backend and an example `sleep` backend:
 
     {{< text bash >}}
     $ istioctl kube-inject -f @samples/httpbin/httpbin.yaml@ > httpbin-injected.yaml
+    $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ > sleep-injected.yaml
     {{< /text >}}
 
-1.  Deploy the example backend:
+1.  Create a service account `vault-citadel-sa`:
+
+    {{< text bash >}}
+    $ kubectl create serviceaccount vault-citadel-sa
+    {{< /text >}}
+
+1.  Edit the service account `vault-citadel-sa` to use an example JWT token that has been configured
+on the testing Vault CA for authentication and authorization:
+
+    {{< text bash >}}
+    $ export SA_SECRET_NAME=$(kubectl get serviceaccount vault-citadel-sa -o=jsonpath='{.secrets[0].name}')
+    $ kubectl edit secret ${SA_SECRET_NAME}
+
+    # When editing the secret, change the field "token" to: ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklpSjkuZXlKcGMzTWlPaUpyZFdKbGNtNWxkR1Z6TDNObGNuWnBZMlZoWTJOdmRXNTBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5dVlXMWxjM0JoWTJVaU9pSmtaV1poZFd4MElpd2lhM1ZpWlhKdVpYUmxjeTVwYnk5elpYSjJhV05sWVdOamIzVnVkQzl6WldOeVpYUXVibUZ0WlNJNkluWmhkV3gwTFdOcGRHRmtaV3d0YzJFdGRHOXJaVzR0Y21aeFpHb2lMQ0pyZFdKbGNtNWxkR1Z6TG1sdkwzTmxjblpwWTJWaFkyTnZkVzUwTDNObGNuWnBZMlV0WVdOamIzVnVkQzV1WVcxbElqb2lkbUYxYkhRdFkybDBZV1JsYkMxellTSXNJbXQxWW1WeWJtVjBaWE11YVc4dmMyVnlkbWxqWldGalkyOTFiblF2YzJWeWRtbGpaUzFoWTJOdmRXNTBMblZwWkNJNklqSXpPVGs1WXpZMUxUQTRaak10TVRGbE9TMWhZekF6TFRReU1ERXdZVGhoTURBM09TSXNJbk4xWWlJNkluTjVjM1JsYlRwelpYSjJhV05sWVdOamIzVnVkRHBrWldaaGRXeDBPblpoZFd4MExXTnBkR0ZrWld3dGMyRWlmUS5STkgxUWJhcEpLUG1rdFYzdENucGl6N2hvWXB2MVRNNkxYelRoT3RhRHA3TEZwZUFOWmNKMXpWUWR5czNFZG5sa3J5a0dNZXBFanNkTnVUNm5kSGZoOGpSSkFadU5XTlBHcmh4ejRCZVVhT3FaZzN2N0F6SmxNZUZLallfZmlUWVlkMmdCWlp4a3B2MUZ2QVBpaEhZbmcyTmVOMm5LYmlaYnNuWk5VMXFGZHZiZ0NJU2FGcVRmMGRoNzVPemdDWF8xRmg2SE9BN0FOZjdwNTIyUERXX0JSbG4wUlR3VUpvdkNwR2VpTkNHZHVqR2lOTERaeUJjZHRpa1k1cnlfS1hUZHJWQWNUVXZJNmx4d1JiT05OZnVOOGhySURsOTV2SmpoVWxFLU8tX2N4OHFXdFhOZHFKbE1qZTFTc2lQQ0w0dXE3ME9lcEdfSTRhU3pDMm84YUR0bFE=
+    {{< /text >}}
+
+1.  Edit the `httpbin` deployment to use the service account `vault-citadel-sa`.
+Change the following content in `httpbin-injected.yaml` from:
+
+    {{< text yaml >}}
+    spec:
+      containers:
+      - image: docker.io/kennethreitz/httpbin
+        imagePullPolicy: IfNotPresent
+        name: httpbin
+    {{< /text >}}
+
+    To:
+
+    {{< text yaml >}}
+    serviceAccountName: vault-citadel-sa
+    spec:
+      containers:
+      - image: docker.io/kennethreitz/httpbin
+        imagePullPolicy: IfNotPresent
+        name: httpbin
+    {{< /text >}}
+
+1.  Edit the `sleep` deployment to use the service account `vault-citadel-sa`.
+Change the following content in `sleep-injected.yaml` from:
+
+    {{< text yaml >}}
+    serviceAccountName: sleep
+    {{< /text >}}
+
+    To:
+
+    {{< text yaml >}}
+    serviceAccountName: vault-citadel-sa
+    {{< /text >}}
+
+1.  Deploy the example backends:
 
     {{< text bash >}}
     $ kubectl apply -f httpbin-injected.yaml
+    $ kubectl apply -f sleep-injected.yaml
     {{< /text >}}
 
-1.  List Node Agent's pods:
+## Istio `mTLS` with Vault CA integration
+
+This section provides a demo of Istio `mTLS` with Vault CA integration. With the previous steps,
+`mTLS` is enabled for the Istio deployment and the testing workloads `httpbin` and `sleep` receive
+certificates from the testing Vault CA. When sending a curl request from the `sleep` workload
+to the `httpbin` workload, the request goes through a `mTLS` protected channel constructed from
+the certificates issued by the Vault CA.
+
+1.  Send a `curl` request from the `sleep` workload to the `httpbin` workload.
+The request should succeed with a 200 response code since it goes through a `mTLS` protected channel
+constructed from the certificates issued by the Vault CA.
 
     {{< text bash >}}
-    $ kubectl get pod -n istio-system -l app=nodeagent -o jsonpath={.items..metadata.name}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
+    200
     {{< /text >}}
 
-1.  View each Node Agent's logs. The Node Agent residing on
-the same node as the testing workload will contain Vault related logs.
+1.  Send a `curl` request from the `sleep` Envoy sidecar to the `httpbin` workload.
+The request should fail because the `httpbin` requires `mTLS` connection while the request
+from the sidecar does not use `mTLS`.
 
     {{< text bash >}}
-    $ kubectl logs -n istio-system THE-POD-NAME-FROM-PREVIOUS-COMMAND
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
+    000command terminated with exit code 56
     {{< /text >}}
 
-1.  Because in this example, Vault is not configured to accept the Kubernetes JWT
-service account from the `httpbin` workload, you should see that Vault rejects the
-signing requests with the following logs:
-
-    {{< text plain >}}
-    2019-01-16T19:42:19.274291Z     info    SDS gRPC server start, listen "/var/run/sds/uds_path"
-    2019-01-16T19:42:22.015814Z     error   failed to login Vault: Error making API request.
-    URL: PUT https://35.233.249.249:8200/v1/auth/kubernetes/login
-    Code: 500. Errors:
-    * service account name not authorized
-    2019-01-16T19:42:22.016112Z     error   Failed to sign cert for "default": failed to login Vault at https://35.233.249.249:8200: Error making API request.
-    {{< /text >}}
-
-1.  With the above logs generated, you have completed the tutorial in this
-article, which plugs in an external Vault CA and routes the certificate signing
-requests to Vault.
+1.  After finishing the above demo, you have completed the tutorial in this
+document, which integrates Istio with an external Vault CA and demonstrates
+Istio `mTLS` with the certificates issued from the Vault CA.
 
 ## Cleanup
 
