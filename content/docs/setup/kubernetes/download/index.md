@@ -43,3 +43,11 @@ services from all other namespaces.
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
+
+## Helm Chart Release Repositories
+
+To use the Istio release Helm chart repository, add the Istio release repository as follows:
+
+{{< text bash >}}
+$ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
+{{< /text >}}
