@@ -1,6 +1,6 @@
 ---
 title: Istio Vault CA Integration
-description: Tutorial on Istio Vault CA integration and a demo of Istio mutual TLS using certificates from a Vault CA.
+description: Show how to integrate with Vault CA for mutual TLS.
 weight: 10
 keywords: [security,certificate]
 ---
