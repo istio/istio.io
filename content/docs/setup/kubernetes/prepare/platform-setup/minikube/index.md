@@ -21,10 +21,10 @@ resources to run Istio and some basic applications.
     within the Minikube configuration:
 
     {{< text bash >}}
-    $ minikube config set vm-driver kvm2 
+    $ minikube config set vm-driver kvm2
     {{< /text >}}
  
-    {{< /text >}}
+    {{< /tip >}}
 
 1. Start Minikube with 8192 `MB` of memory and 4 `CPUs`.  This example uses Kuberenetes
    vesion 1.13.0, however, you may alter the version to Kubernetes versions of Istio that are
