@@ -91,10 +91,11 @@ certificate signing requests to Vault.
 
 1.  Edit the service account `vault-citadel-sa` to use an example JWT token that has been configured
 on the testing Vault CA for authentication and authorization.
-When integrating your Vault CA with Istio, you need to configure your Vault CA to enable
-authentication and authorization of Kubernetes service accounts.
-Please refer to [Vault Kubernetes auth method](https://www.vaultproject.io/docs/auth/kubernetes.html)
-for the configuration instructions.
+The reason for this step is that a Vault CA authenticates and authorizes
+Kubernetes service accounts. We have configured a service account `vault-citadel-sa` for
+authentication and authorization on a testing Vault CA and this service account is used here as an example.
+For the information about configuring Vault for Kubernetes authentication and authorization,
+please refer to [Vault Kubernetes auth method](https://www.vaultproject.io/docs/auth/kubernetes.html).
 
     {{< text bash >}}
     $ export SA_SECRET_NAME=$(kubectl get serviceaccount vault-citadel-sa -o=jsonpath='{.secrets[0].name}')
@@ -136,7 +137,7 @@ from the sidecar does not use mutual TLS.
     000command terminated with exit code 56
     {{< /text >}}
 
-1.  After finishing the above demo, you have completed the tutorial in this
+1.  After finishing the above demo, you have completed the task in this
 document, which integrates Istio with an external Vault CA and demonstrates
 Istio mutual TLS with the certificates issued from the Vault CA.
 
