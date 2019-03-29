@@ -19,7 +19,7 @@ icon: notes
     - `IngressGateway` 只关注第一个端口 443 网关定义 ([Issue 11509](https://github.com/istio/istio/issues/11509))
     - Istio `IngressGateway` 因为具有相同端口的不同网关（SDS）发生路由失败([Issue 12500](https://github.com/istio/istio/issues/12500))
 - 地点加权负载均衡的五个 Bug 修复：
-    - 修复导致任意地点出现空端点的 Bug ([Issue 12610](https://github.com/istio/istio/issues/12610))
+    - 修复了为每个区域生成空端点的问题 ([Issue 12610](https://github.com/istio/istio/issues/12610))
     - 正确应用地点加权负载均衡配置 ([Issue 12587](https://github.com/istio/istio/issues/12587))
     - Kubernetes 中的地点标签 `istio-locality` 不应该包含 `/`，而应该使用 `.` ([Issue 12582](https://github.com/istio/istio/issues/12582))
     - 修复地点负载均衡崩溃问题 ([Issue 12649](https://github.com/istio/istio/pull/12649))
