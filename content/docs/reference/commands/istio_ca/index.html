@@ -21,7 +21,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--cert-chain &lt;string&gt;</code></td>
-<td>Path to the certificate chain file  (default ``)</td>
+<td>Path to the certificate chain file.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--citadel-storage-namespace &lt;string&gt;</code></td>
@@ -57,7 +57,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--key-size &lt;int&gt;</code></td>
-<td>Size of generated private key  (default `2048`)</td>
+<td>Size of generated private key.  (default `2048`)</td>
 </tr>
 <tr>
 <td><code>--kube-config &lt;string&gt;</code></td>
@@ -113,7 +113,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--max-workload-cert-ttl &lt;duration&gt;</code></td>
-<td>The max TTL of issued workload certificates  (default `2160h0m0s`)</td>
+<td>The max TTL of issued workload certificates.  (default `2160h0m0s`)</td>
 </tr>
 <tr>
 <td><code>--monitoring-port &lt;int&gt;</code></td>
@@ -121,7 +121,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--org &lt;string&gt;</code></td>
-<td>Organization for the cert  (default ``)</td>
+<td>Organization for the certificate.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--probe-check-interval &lt;duration&gt;</code></td>
@@ -133,11 +133,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--requested-ca-cert-ttl &lt;duration&gt;</code></td>
-<td>The requested TTL for the workload  (default `8760h0m0s`)</td>
+<td>The requested TTL for the CA certificate.  (default `8760h0m0s`)</td>
 </tr>
 <tr>
 <td><code>--root-cert &lt;string&gt;</code></td>
-<td>Path to the root certificate file  (default ``)</td>
+<td>Path to the root certificate file.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--self-signed-ca</code></td>
@@ -145,7 +145,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--self-signed-ca-cert-ttl &lt;duration&gt;</code></td>
-<td>The TTL of self-signed CA root certificate  (default `8760h0m0s`)</td>
+<td>The TTL of self-signed CA root certificate.  (default `8760h0m0s`)</td>
 </tr>
 <tr>
 <td><code>--server-only</code></td>
@@ -153,19 +153,19 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--sign-ca-certs</code></td>
-<td>Whether Citadel signs certificates for other CAs </td>
+<td>Whether Citadel signs certificates for other CAs. </td>
 </tr>
 <tr>
 <td><code>--signing-cert &lt;string&gt;</code></td>
-<td>Path to the CA signing certificate file  (default ``)</td>
+<td>Path to the CA signing certificate file.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--signing-key &lt;string&gt;</code></td>
-<td>Path to the CA signing key file  (default ``)</td>
+<td>Path to the CA signing key file.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
-<td>The domain serves to identify the system with spiffe   (default ``)</td>
+<td>The domain serves to identify the system with SPIFFE.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--upstream-ca-address &lt;string&gt;</code></td>
@@ -181,7 +181,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--workload-cert-ttl &lt;duration&gt;</code></td>
-<td>The TTL of issued workload certificates  (default `2160h0m0s`)</td>
+<td>The TTL of issued workload certificates.  (default `2160h0m0s`)</td>
 </tr>
 </tbody>
 </table>
@@ -324,6 +324,122 @@ number_of_entries: 4
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
+</tr>
+</tbody>
+</table>
+<h2 id="envvars">Environment Variables</h2>
+These environment variables affect the behavior of the <code>istio_ca</code> command.
+<table class="envvars">
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
+<td>Integer</td>
+<td><code>100000</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_AFTER</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_MAX</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_EDS_ISOLATION</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CDS_PRECOMPUTATION</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP10</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_BURST</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_THROTTLE</code></td>
+<td>Integer</td>
+<td><code>10</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_TRACE_SAMPLING</code></td>
+<td>Floating-Point</td>
+<td><code>100</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>V2_REFRESH</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
