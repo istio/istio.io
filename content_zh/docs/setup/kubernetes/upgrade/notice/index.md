@@ -1,22 +1,22 @@
 ---
 title: 1.1 升级通知
-description: 在升级到 Istio 1.1 之前，运营商必须了解的重要更改。
+description: 在升级到 Istio 1.1 之前，运维人员必须了解的重要更改。
 weight: 5
 
 ---
 
 此页面描述了从 Istio 1.0 升级到 1.1 时需要注意的事项。在这里，我们详细介绍了我们向后不兼容性的情况。我们还提到了保留向后兼容性但引入了新行为的情况，这对于熟悉 Istio 1.0 的使用和操作的人来说是令人惊讶的。
 
-有关 Istio 1.1 引入的新功能的概述，请参阅 [1.1 发行说明](/about/notes/1.1/)。
+有关 Istio 1.1 引入的新功能的概述，请参阅 [1.1 发行说明](/zh/about/notes/1.1/)。
 
 ## 安装
 
 - 我们增加了控制平面和 Envoy Sidecar 所需的 CPU 和内存。在更新之前，确保群集有足够的资源。
 - Istio 的 CRD 已被放入他们自己的 Helm chart `istio-init` 中。这可以防止丢失自定义资源数据，促进升级过程，使 Istio 能够基于 Helm 的安装形式也可以升级。 [升级文档](/docs/setup/kubernetes/upgrade/steps/) 提供了从 Istio 1.0.6 升级到 Istio 1.1 的正确过程。升级时请仔细遵循这些说明。如果需要 `certmanager`，在使用 `template` 或 `tiller` 安装模式安装`istio-init` 和 Istio chart 时，请使用 `--set certmanager=true` 标志。
-- 用于[多集群 VPN](/docs/setup/kubernetes/install/multicluster/vpn/) 的 1.0 `istio-remote` chart 和 [多集群水平分割](/docs/examples/multicluster/split-horizon-eds/) 远程集群安装已合并到 Istio chart 中。要生成等效的` istio-remote` chart，请使用 `--set global.istioRemote=true` 标志。
-- 插件不再通过单独的负载均衡器暴露。现在可以选择通过 Ingress 网关公开插件。要通过 Ingress Gateway 公开插件，请按照[远程访问遥测插件](/docs/tasks/telemetry/gateways/)指南进行操作。
+- 用于[多集群 VPN](/zh/docs/setup/kubernetes/install/multicluster/vpn/) 的 1.0 `istio-remote` chart 和 [多集群水平分割](/zh/docs/examples/multicluster/split-horizon-eds/) 远程集群安装已合并到 Istio chart 中。要生成等效的 `istio-remote` chart，请使用 `--set global.istioRemote=true` 标志。
+- 插件不再通过单独的负载均衡器暴露。现在可以选择通过 Ingress 网关公开插件。要通过 Ingress Gateway 公开插件，请按照[远程访问遥测插件](/zh/docs/tasks/telemetry/gateways/)指南进行操作。
 - 内置的 Istio Statsd 收集器已被删除。 Istio 使用 `--set global.envoyStatsd.enabled=true` 标志保留与您自己的 Statsd 收集器集成的功能。
-- 用于配置 Kubernetes Ingress 的 `ingress` 系列选项已被删除。 Kubernetes Ingress 仍然可以使用 `--set global.k8sIngress.enabled=true` 标志启用。查看[使用Cert-Manager 保护 Kubernetes Ingress](/docs/examples/advanced-gateways/ingress-certmgr/)，了解如何保护您的 Kubernetes 入口资源。
+- 用于配置 Kubernetes Ingress 的 `ingress` 系列选项已被删除。 Kubernetes Ingress 仍然可以使用 `--set global.k8sIngress.enabled=true` 标志启用。查看[使用 Cert-Manager 保护 Kubernetes Ingress](/zh/docs/examples/advanced-gateways/ingress-certmgr/)，了解如何保护您的 Kubernetes 入口资源。
 
 ## 流量管理
 
