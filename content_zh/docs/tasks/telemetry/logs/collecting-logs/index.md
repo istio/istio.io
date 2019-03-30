@@ -96,7 +96,7 @@ keywords: [telemetry,metrics]
 
 日志配置要求 Mixer 把日志发送给 stdout。它使用了三个部分的配置：**instance** 配置、**handler** 配置以及 **rule** 配置。
 
-配置中的 `kind: logentry` 一节定义了生成日志条目（命名为 `newlog` 的 instance）的格式。这个  instance 配置告知 Mixer 如何根据请求过程中 Envoy 报告的属性生成日志条目。
+配置中的 `kind: logentry` 一节定义了生成日志条目（命名为 `newlog` 的 instance）的格式。这个 instance 配置告知 Mixer 如何根据请求过程中 Envoy 报告的属性生成日志条目。
 
 `severity` 参数用来指定生成的 `logentry` 的日志级别。在本例中使用的是一个常量 `"warning"`。这个值会被映射到支持日志级别数据的 `logentry` handler 中。
 
