@@ -1,13 +1,10 @@
 .call-to-action {
     text-align: center;
+    opacity: 0;
+    transition: opacity .25s ease-in;
 
     @media print {
         display: none;
-    }
-
-    #buttons {
-        opacity: 0;
-        transition: opacity .25s ease-in;
     }
 
     .btn {

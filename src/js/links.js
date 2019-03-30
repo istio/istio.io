@@ -25,7 +25,7 @@ function handleLinks() {
 
     // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
     function attachLinksToDefinedTerms() {
-        queryAll(document, 'dt').forEach(dt => {
+        queryAll(document, "dt").forEach(dt => {
             if (dt.id !== "") {
                 attachSelfLink(dt);
             }
@@ -34,7 +34,7 @@ function handleLinks() {
 
     // Make it so each link outside of the current domain opens up in a different window
     function makeOutsideLinksOpenInTabs() {
-        queryAll(document, 'a').forEach(link => {
+        queryAll(document, "a").forEach(link => {
             if (link.hostname && link.hostname !== location.hostname) {
                 link.setAttribute("target", "_blank");
                 link.setAttribute("rel", "noopener");

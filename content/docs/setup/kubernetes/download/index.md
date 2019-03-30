@@ -37,9 +37,17 @@ services from all other namespaces.
       used when manually injecting Envoy as a sidecar proxy.
     * The `istio.VERSION` configuration file
 
-1.  Add the `istioctl` client to your PATH environment variable, on a macOS or
+1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
     Linux system:
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
+
+## Helm Chart Release Repositories
+
+To use the Istio release Helm chart repository, add the Istio release repository as follows:
+
+{{< text bash >}}
+$ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
+{{< /text >}}

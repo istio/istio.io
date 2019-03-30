@@ -3,7 +3,7 @@
 // Attach the event handlers to support the sidebar
 function handleSidebar() {
     const sidebar = getById('sidebar');
-    if (sidebar == null) {
+    if (sidebar === null) {
         return;
     }
 

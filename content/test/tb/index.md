@@ -99,9 +99,13 @@ URL-based text block with redirects
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/command_example.txt" syntax="bash" >}}
 
+Very wide text block
+
 {{< text plain >}}
 Reeeeeaaaaaalllllllllly lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllong
 {{< /text >}}
+
+Very tall text block
 
 {{< text plain >}}
 Really tall

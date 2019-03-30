@@ -101,7 +101,7 @@ keywords: [telemetry,metrics]
     istio_double_request_count{destination="istio-policy",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="istio-ingressgateway"}   4
     {{< /text >}}
 
-    要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/querying-metrics/)任务
+    要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/metrics/querying-metrics/)任务
 
 ## 理解遥测配置
 

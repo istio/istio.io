@@ -103,6 +103,12 @@ other = "CHANGES IN %s"
 [relnote_docs]
 other = "%s DOCS"
 
+[relnote_update_advice]
+other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
+
+[relnote_update_button]
+other = "LEARN ABOUT ISITO %s"
+
 [page_attribution]
 other = "By "
 

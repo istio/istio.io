@@ -12,7 +12,7 @@ const keyCodes = Object.freeze({
     'LEFT': 37,
     'UP': 38,
     'RIGHT': 39,
-    'DOWN': 40
+    'DOWN': 40,
 });
 
 const escapeChars = {
@@ -26,7 +26,7 @@ const escapeChars = {
     '>': 'gt',
     '"': 'quot',
     '&': 'amp',
-    '\'': '#39'
+    '\'': '#39',
 };
 
 const regex = new RegExp("[¢£¥€©®<>\"&']", 'g');
@@ -46,10 +46,12 @@ function copyToClipboard(str) {
     el.style.position = 'absolute';
     el.style.left = '-9999px';                       // Move outside the screen to make it invisible
     document.body.appendChild(el);                   // Append the <textarea> element to the HTML document
-    const selected =
-        document.getSelection().rangeCount > 0       // Check if there is any content selected previously
-            ? document.getSelection().getRangeAt(0)  // Store selection if found
-            : false;                                 // Mark as false to know no selection existed before
+    let selected;
+    if (document.getSelection().rangeCount > 0) {
+        selected = document.getSelection().getRangeAt(0);
+    } else {
+        selected = false;
+    }                                 // Mark as false to know no selection existed before
     el.select();                                     // Select the <textarea> content
     document.execCommand('copy');                    // Copy - only works as a result of a user action (e.g. click events)
     document.body.removeChild(el);                   // Remove the <textarea> element
@@ -98,14 +100,8 @@ function navigateToUrlOrRoot(url) {
     request.send();
 }
 
-function createCookie(name, value, days) {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toGMTString();
-    }
-    document.cookie = name + "=" + value + expires + "; path=/";
+function createCookie(name, value) {
+    document.cookie = name + "=" + value + "; path=/";
 }
 
 function getById(id) {

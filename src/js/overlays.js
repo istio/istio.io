@@ -4,16 +4,12 @@
 let overlay = null;
 let popper = null;
 
-function isActiveOverlay(element) {
-    return overlay === element;
-}
-
 // show/hide the specific overlay
 function toggleOverlay(element) {
     if (overlay === element) {
         closeActiveOverlay();
     } else {
-        if (overlay != null) {
+        if (overlay !== null) {
             closeActiveOverlay();
         }
         element.classList.add('show');
@@ -62,7 +58,7 @@ function handleOverlays() {
                 },
                 flip: {
                     enabled: true,
-                }
+                },
             },
         });
     }
