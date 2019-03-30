@@ -4,9 +4,9 @@ let syntaxColoring = true;
 
 // All the voodoo needed to support our fancy code blocks
 function handleCodeBlocks() {
-    const toolbarShow = 'toolbar-show';
-    const syntaxColoringCookie = 'syntax-coloring';
-    const syntaxColoringItem = 'syntax-coloring-item';
+    const toolbarShow = "toolbar-show";
+    const syntaxColoringCookie = "syntax-coloring";
+    const syntaxColoringItem = "syntax-coloring-item";
 
     // Add a toolbar to all PRE blocks
     function attachToolbar(pre) {
@@ -118,7 +118,7 @@ function handleCodeBlocks() {
                 }
 
                 if (cmd !== "") {
-                    cmd = cmd + "\n";
+                    cmd += "\n";
                 }
 
                 cmd += lines[i];
@@ -251,7 +251,7 @@ function handleCodeBlocks() {
                         return "Unable to access " + url + ": " + response.statusText;
                     }
 
-                    return response.text()
+                    return response.text();
                 })
                 .catch(e => {
                     return "Unable to access " + url + ": " + e;
@@ -259,11 +259,11 @@ function handleCodeBlocks() {
                 .then(data => {
                     if (code.dataset.snippet) {
                         const pattern = "\\n.*?\\$snippet " + code.dataset.snippet + "\\n(.+?)\\n.*?\\$endsnippet";
-                        const regex = new RegExp(pattern, 'gms');
+                        const regex = new RegExp(pattern, "gms");
 
                         let buf = "";
                         let match = regex.exec(data);
-                        while (match != null) {
+                        while (match !== null) {
                             if (buf !== "") {
                                 buf += "\n";
                             }
@@ -287,9 +287,9 @@ function handleCodeBlocks() {
 
     function handleSyntaxColoring() {
         const cookieValue = readCookie(syntaxColoringCookie);
-        if (cookieValue === 'true') {
+        if (cookieValue === "true") {
             syntaxColoring = true;
-        } else if (cookieValue === 'false') {
+        } else if (cookieValue === "false") {
             syntaxColoring = false;
         }
 
@@ -310,7 +310,7 @@ function handleCodeBlocks() {
 
     handleSyntaxColoring();
 
-    queryAll(document, 'pre').forEach(pre => {
+    queryAll(document, "pre").forEach(pre => {
         attachToolbar(pre);
         applySyntaxColoring(pre);
         loadExternal(pre);
