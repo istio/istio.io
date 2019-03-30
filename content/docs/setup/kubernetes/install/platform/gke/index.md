@@ -48,10 +48,10 @@ Then add the `Kubernetes Engine Admin` role:
 
 Refer to the [Istio on GKE documentation](https://cloud.google.com/istio/docs/istio-on-gke/overview) for instructions on creating a cluster with Istio installed.
 
-Once the cluster is ready, acquire the credentials for this cluster.
+Once the cluster is ready, acquire its credentials:
 
-    {{< text bash >}}
-    $ gcloud container clusters get-credentials <your_cluster> --zone=<your_zone>
-    {{< /text >}}
+{{< text bash >}}
+$ gcloud container clusters get-credentials <your_cluster> --zone=<your_zone>
+{{< /text >}}
 
 You can now try out one of the Istio examples like [Bookinfo](/docs/examples/bookinfo/).

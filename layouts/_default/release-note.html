@@ -40,7 +40,9 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         window.setTimeout(() => {
-            queryAll(document, '.call-to-action').forEach(el => el.style.opacity = "1");
+            queryAll(document, '.call-to-action').forEach(el => {
+                el.style.opacity = "1";
+            });
         }, 250);
     });
 </script>
