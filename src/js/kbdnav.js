@@ -43,9 +43,9 @@ class KbdNav {
 
     focusElementByChar(ch) {
 
-        function getIndexFirstChars(startIndex, ch) {
-            for (let i = startIndex; i < this.elements.length; i++) {
-                const firstChar = this.elements[i].textContent.trim().substring(0, 1).toLowerCase();
+        function getIndexFirstChars(startIndex, ch, elements) {
+            for (let i = startIndex; i < elements.length; i++) {
+                const firstChar = elements[i].textContent.trim().substring(0, 1).toLowerCase();
                 if (ch === firstChar) {
                     return i;
                 }
@@ -58,11 +58,11 @@ class KbdNav {
             if (this.elements[i] === document.activeElement) {
 
                 // Check remaining slots in the strip
-                let index = getIndexFirstChars(i + 1, ch);
+                let index = getIndexFirstChars(i + 1, ch, this.elements);
 
                 // If not found in remaining slots, check from beginning
                 if (index === -1) {
-                    index = getIndexFirstChars(0, ch);
+                    index = getIndexFirstChars(0, ch, this.elements);
                 }
 
                 // If match was found...
