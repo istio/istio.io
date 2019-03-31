@@ -5,7 +5,7 @@ weight: 85
 keywords: [kubernetes,multicluster]
 ---
 
-这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，Endpoint 发现服务）`特性（在 Istio 1.1 中介绍），通过 ingress gateway 将服务请求路由到 remote 集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
+这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，Endpoint 发现服务）`特性（在 Istio 1.1 中介绍），通过 ingress gateway 将服务请求路由到其他集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
 
 按照此示例中的说明，您将设置一个两集群网格，如下图所示：
 
@@ -58,7 +58,7 @@ keywords: [kubernetes,multicluster]
     注意，网关地址设置为了 `0.0.0.0`.这个值将在下面章节中使用 `cluster2` 部署后的网关的真实 IP 值替换
     {{< /warning >}}
 
-1. 部署 Istio `cluster1` 集群：
+1. 部署 Istio 到 `cluster1` 集群：
 
    {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 ns istio-system
