@@ -5,9 +5,9 @@ body {
     --textCodeColor: #d14;
     --disabledTextColor: #{lighten(#535f61, 50%)};
 
-    --linkColor: #306Bcc;
+    --linkColor: #306bcc;
     --linkHoverColor: #1d67a0;
-    --linkDisabledColor: #CCCCCC;
+    --linkDisabledColor: #cccccc;
     --linkActiveColor: #b05464;
 
     --h1Color: #{$near-black};
@@ -40,7 +40,7 @@ body {
 
     --tabsetBorderColor: #f2f2f2;
     --tabsetShadowColor: #a7a7a7;
-    --tabsetUnselectedTabTextColor: #306Bcc;
+    --tabsetUnselectedTabTextColor: #306bcc;
     --tabsetUnselectedTabBackgroundColor: #ffffff;
     --tabsetSelectedTabTextColor: var(--textColor);
     --tabsetSelectedTabBackgroundColor: #eeeeff;

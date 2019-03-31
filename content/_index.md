@@ -107,7 +107,7 @@ description: Connect, secure, control, and observe services.
 <!--
     <div class="ticker-wrap" onclick="go()">
         <div class="ticker">
-          <div class="ticker__item">Upgrade to Istio 1.1.2 Today!</div>
+          <div class="item">Upgrade to Istio 1.1.2 Today!</div>
         </div>
     </div>
 
