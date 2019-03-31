@@ -46,7 +46,7 @@ you cannot use this approach for services using those ports.
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
     {{< /text >}}
 
@@ -80,7 +80,7 @@ disable the passthrough mode used in the previous section:
 1.  Run the following command to change the `global.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
+    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
     {{< /text >}}
 
