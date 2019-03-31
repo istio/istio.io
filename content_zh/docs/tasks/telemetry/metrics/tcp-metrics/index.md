@@ -190,7 +190,7 @@ keywords: [telemetry,metrics,tcp]
 
 这一任务中，我们加入了一段 Istio 配置，对于所有目标为网格内 TCP 服务的流量，Mixer 自动为其生成并报告新的指标。
 
-类似[收集指标和日志任务](/zh/docs/tasks/telemetry/metrics-logs/)中的情况，新的配置由 _instance_ 、一个 _handler_ 以及一个 _rule_ 构成。请参看该任务来获取关于指标收集的组件的完整信息。
+类似[收集指标和日志任务](/zh/docs/tasks/telemetry/metrics/collecting-metrics/)中的情况，新的配置由 _instance_ 、一个 _handler_ 以及一个 _rule_ 构成。请参看该任务来获取关于指标收集的组件的完整信息。
 
 _instances_ 中属性集的可选范围不同，是 TCP 服务的指标收集过程的唯一差异。
 

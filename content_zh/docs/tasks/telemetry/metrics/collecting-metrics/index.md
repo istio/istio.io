@@ -29,8 +29,9 @@ keywords: [telemetry,metrics]
     spec:
       value: "2" # 每个请求计数两次
       dimensions:
-        source: source.service | "unknown"
-        destination: destination.service | "unknown"
+        reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
+        source: source.workload.name | "unknown"
+        destination: destination.workload.name | "unknown"
         message: '"twice the fun!"'
       monitored_resource_type: '"UNSPECIFIED"'
     ---
@@ -46,6 +47,7 @@ keywords: [telemetry,metrics]
         instance_name: doublerequestcount.metric.istio-system # Mixer Instance 名称（全限定名称）
         kind: COUNTER
         label_names:
+        - reporter
         - source
         - destination
         - message
@@ -61,61 +63,15 @@ keywords: [telemetry,metrics]
       - handler: doublehandler.prometheus
         instances:
         - doublerequestcount.metric
-    ---
-    # logentry（日志条目）的 instance 配置
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: logentry
-    metadata:
-      name: newlog
-      namespace: istio-system
-    spec:
-      severity: '"warning"'
-      timestamp: request.time
-      variables:
-        source: source.labels["app"] | source.service | "unknown"
-        user: source.user | "unknown"
-        destination: destination.labels["app"] | destination.service | "unknown"
-        responseCode: response.code | 0
-        responseSize: response.size | 0
-        latency: response.duration | "0ms"
-      monitored_resource_type: '"UNSPECIFIED"'
-    ---
-    # stdio（标准输入输出）handler 的配置
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: stdio
-    metadata:
-      name: newhandler
-      namespace: istio-system
-    spec:
-     severity_levels:
-       warning: 1 # Params.Level.WARNING
-     outputAsJson: true
-    ---
-    # 将 logentry instance 发送到 stdio 的 rule 对象配置
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: newlogstdio
-      namespace: istio-system
-    spec:
-      match: "true" # 匹配所有请求
-      actions:
-       - handler: newhandler.stdio
-         instances:
-         - newlog.logentry
-    ---
     {{< /text >}}
 
 1. 把新配置推送给集群。
 
     {{< text bash >}}
-    $ istioctl create -f new_telemetry.yaml
-    Created config metric/istio-system/doublerequestcount at revision 1973035
-    Created config prometheus/istio-system/doublehandler at revision 1973036
-    Created config rule/istio-system/doubleprom at revision 1973037
-    Created config logentry/istio-system/newlog at revision 1973038
-    Created config stdio/istio-system/newhandler at revision 1973039
-    Created config rule/istio-system/newlogstdio at revision 1973041
+    $ kubectl apply -f new_metrics.yaml
+    Created configuration metric/istio-system/doublerequestcount at revision 1973035
+    Created configuration prometheus/istio-system/doublehandler at revision 1973036
+    Created configuration rule/istio-system/doubleprom at revision 1973037
     {{< /text >}}
 
 1. 向示例应用发送流量。
@@ -139,26 +95,13 @@ keywords: [telemetry,metrics]
     上面的链接会打开 Prometheus 界面并查询 `istio_double_request_count` 的值。**Console** 标签页会以表格形式进行数据展示，类似：
 
     {{< text plain >}}
-    istio_double_request_count{destination="details.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
-    istio_double_request_count{destination="ingress.istio-system.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="unknown"} 2
-    istio_double_request_count{destination="productpage.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="ingress.istio-system.svc.cluster.local"} 2
-    istio_double_request_count{destination="reviews.default.svc.cluster.local",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",source="productpage.default.svc.cluster.local"} 2
+    istio_double_request_count{destination="details-v1",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="client",source="productpage-v1"}   8
+    istio_double_request_count{destination="details-v1",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="productpage-v1"}   8
+    istio_double_request_count{destination="istio-policy",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="details-v1"}   4
+    istio_double_request_count{destination="istio-policy",instance="172.17.0.12:42422",job="istio-mesh",message="twice the fun!",reporter="server",source="istio-ingressgateway"}   4
     {{< /text >}}
 
     要查询更多的指标数据，可以参考[查询 Istio 指标](/zh/docs/tasks/telemetry/metrics/querying-metrics/)任务
-
-1. 检查请求过程中生成和处理的日志流。
-
-    在 Kubernetes 环境中，像这样在 `istio-telemetry` pods 中搜索日志：
-
-    {{< text bash json >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"newlog.logentry.istio-system\"
-    {"level":"warn","ts":"2017-09-21T04:33:31.249Z","instance":"newlog.logentry.istio-system","destination":"details","latency":"6.848ms","responseCode":200,"responseSize":178,"source":"productpage","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.291Z","instance":"newlog.logentry.istio-system","destination":"ratings","latency":"6.753ms","responseCode":200,"responseSize":48,"source":"reviews","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.263Z","instance":"newlog.logentry.istio-system","destination":"reviews","latency":"39.848ms","responseCode":200,"responseSize":379,"source":"productpage","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.239Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"67.675ms","responseCode":200,"responseSize":5599,"source":"ingress.istio-system.svc.cluster.local","user":"unknown"}
-    {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
-    {{< /text >}}
 
 ## 理解遥测配置
 
@@ -211,8 +154,14 @@ keywords: [telemetry,metrics]
 
 * 移除新的遥测配置：
 
+   {{< text bash >}}
+    $ kubectl delete -f new_metrics.yaml
+    {{< /text >}}
+
+*   删除任何可能仍在运行的 `kubectl port-forward` 进程：
+
     {{< text bash >}}
-    $ istioctl delete -f new_telemetry.yaml
+    $ killall kubectl
     {{< /text >}}
 
 * 如果不准备进一步的探索其他任务，可参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理) 的介绍关闭应用。

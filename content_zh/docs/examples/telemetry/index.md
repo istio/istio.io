@@ -21,7 +21,7 @@ keywords: [telemetry,metrics,logging,tracing]
 
 ## 任务
 
-1. [收集指标](/zh/docs/tasks/telemetry/metrics-logs/)：配置 Mixer，收集 Bookinfo 应用中所有服务的系列指标。
+1. [收集指标](/zh/docs/tasks/telemetry/metrics/collecting-metrics/)：配置 Mixer，收集 Bookinfo 应用中所有服务的系列指标。
 
 1. [查询指标](/zh/docs/tasks/telemetry/metrics/querying-metrics/)：安装 Prometheus 插件，用来收集指标，并在 Prometheus 服务中查询 Istio 指标。
 
