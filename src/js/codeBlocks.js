@@ -154,7 +154,7 @@ function handleCodeBlocks() {
                 if (line.startsWith("$ ")) {
                     if (tmp !== "") {
                         if (syntaxColoring) {
-                            cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                            cmd += "$ " + Prism.highlight(tmp, Prism.languages.bash, "bash") + "\n";
                         } else {
                             cmd += "$ " + tmp + "\n";
                         }
@@ -187,7 +187,7 @@ function handleCodeBlocks() {
 
             if (tmp !== "") {
                 if (syntaxColoring) {
-                    cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
+                    cmd += "$ " + Prism.highlight(tmp, Prism.languages.bash, "bash") + "\n";
                 } else {
                     cmd += "$ " + tmp + "\n";
                 }

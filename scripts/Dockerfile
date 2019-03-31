@@ -30,6 +30,7 @@ RUN tar -xf /tmp/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
 RUN npm install -g \
     sass \
     sass-lint \
+    jshint \
     markdown-spellcheck \
     svgstore-cli \
     svgo \

@@ -3,6 +3,10 @@
 function handleLinks() {
 
     function attachSelfLink(node) {
+        if (node.id === "") {
+            return;
+        }
+
         const anchor = document.createElement("a");
         anchor.className = "self-link";
         anchor.href = "#" + node.id;
@@ -12,24 +16,16 @@ function handleLinks() {
         node.appendChild(anchor);
     }
 
-    // Add a link icon next to each header so people can easily get bookmarks to headers
-    function attachLinksToHeaders() {
-        for (let level = 2; level <= 6; level++) {
-            queryAll(document, "h" + level.toString()).forEach(hdr => {
-                if (hdr.id !== "") {
-                    attachSelfLink(hdr);
-                }
-            });
-        }
-    }
+    function attachSelfLinks() {
+        // add a link icon next to each header so people can easily get bookmarks to headers
+        queryAll(document, "h2").forEach(attachSelfLink);
+        queryAll(document, "h3").forEach(attachSelfLink);
+        queryAll(document, "h4").forEach(attachSelfLink);
+        queryAll(document, "h5").forEach(attachSelfLink);
+        queryAll(document, "h6").forEach(attachSelfLink);
 
-    // Add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
-    function attachLinksToDefinedTerms() {
-        queryAll(document, "dt").forEach(dt => {
-            if (dt.id !== "") {
-                attachSelfLink(dt);
-            }
-        });
+        // add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
+        queryAll(document, "dt").forEach(attachSelfLink);
     }
 
     // Make it so each link outside of the current domain opens up in a different window
@@ -96,8 +92,7 @@ function handleLinks() {
         }
     }
 
-    attachLinksToHeaders();
-    attachLinksToDefinedTerms();
+    attachSelfLinks();
     makeOutsideLinksOpenInTabs();
     createEndnotes();
 }
