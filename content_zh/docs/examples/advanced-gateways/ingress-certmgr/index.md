@@ -29,7 +29,7 @@ $ helm template $HOME/istio-fetch/istio \
 缺省情况下， `istio-ingressgateway` 会以 `LoadBalancer` 的服务类型开放出来。根据本地环境条件，可以考虑把 `gateways.istio-ingressgateway.type` 参数设置为 `NodePort`。
 {{< /tip >}}
 
-## 配置 DNS 名称和 Gateway {#configuring-dns-name-and-gateway}
+## 配置 DNS 名称和 Gateway {#domain-name-and-gate-way}
 
 记录一下 `istio-ingressgateway` 服务的外部 IP 地址：
 
