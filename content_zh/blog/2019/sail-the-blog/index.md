@@ -18,7 +18,7 @@ keywords: [community,blog,contribution,guide,guideline,event]
 
 - 文章中详细介绍了你在使用和配置 Istio 中的经验。如果分享了一种新的观点或体验，那就更好了。
 - 文章中着重介绍或宣布了 Istio 的功能。
-- 文章中发布或重放了 Istio 的相关事件。
+- 文章中对 Istio 的相关事件进行了发布或回顾。
 - 文章中详细讲解了使用 Istio 完成一个任务或者满足特定用例需求的相关内容。
 
 仅需[提交一个 PR](/zh/about/contribute/github/#如何贡献)，如果需要，可以[申请评审](/zh/about/contribute/github/#review)。
