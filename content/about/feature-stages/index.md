@@ -78,7 +78,6 @@ Below is our list of existing features and their current phases. This informatio
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
-| Per-Path JWT Authentication | Experimental
 | TCP Authorization (RBAC) | Alpha
 | Cert management on Ingress Gateway | Alpha
 | Vault integration | Alpha
