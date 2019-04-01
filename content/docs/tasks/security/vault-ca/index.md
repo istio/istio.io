@@ -5,7 +5,7 @@ weight: 10
 keywords: [security,certificate]
 ---
 
-This tutorial walks you through an example of integrating Istio with a Vault CA to issue certificates
+This task walks you through an example of integrating Istio with a [Vault CA](https://www.vaultproject.io/) to issue certificates
 to Istio workloads and shows a demo of Istio mutual TLS using certificates issued by a Vault CA.
 
 ## Before you begin
