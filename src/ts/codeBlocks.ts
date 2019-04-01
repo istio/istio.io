@@ -1,4 +1,23 @@
-"use strict";
+// Copyright 2019 Istio Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+declare const buttonCopy: string;
+declare const buttonDownload: string;
+declare const buttonPrint: string;
+declare const docTitle: string;
+declare const branchName: string;
+declare const Prism: any;
 
 let syntaxColoring = true;
 
@@ -9,20 +28,22 @@ function handleCodeBlocks() {
     const syntaxColoringItem = "syntax-coloring-item";
 
     // Add a toolbar to all PRE blocks
-    function attachToolbar(pre) {
+    function attachToolbar(pre: HTMLElement): void {
         const copyButton = document.createElement(button);
         copyButton.title = buttonCopy;
         copyButton.className = "copy";
         copyButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#copy'/></svg>";
         copyButton.setAttribute(ariaLabel, buttonCopy);
-        listen(copyButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
-        listen(copyButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
-        listen(copyButton, "focus", e => e.currentTarget.classList.add(toolbarShow));
-        listen(copyButton, "blur", e => e.currentTarget.classList.remove(toolbarShow));
+        listen(copyButton, mouseenter, e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
+        listen(copyButton, mouseleave, e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
+        listen(copyButton, "focus", e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
+        listen(copyButton, "blur", e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
         listen(copyButton, click, e => {
-            const div = e.currentTarget.parentElement;
-            const text = getToolbarDivText(div);
-            copyToClipboard(text);
+            const div = (e.currentTarget as HTMLElement).parentElement;
+            if (div) {
+                const text = getToolbarDivText(div);
+                copyToClipboard(text);
+            }
             return true;
         });
 
@@ -31,25 +52,37 @@ function handleCodeBlocks() {
         downloadButton.className = "download";
         downloadButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#download'/></svg>";
         downloadButton.setAttribute(ariaLabel, buttonDownload);
-        listen(downloadButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
-        listen(downloadButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
-        listen(downloadButton, "focus", e => e.currentTarget.classList.add(toolbarShow));
-        listen(downloadButton, "blur", e => e.currentTarget.classList.remove(toolbarShow));
+        listen(downloadButton, mouseenter, e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
+        listen(downloadButton, mouseleave, e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
+        listen(downloadButton, "focus", e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
+        listen(downloadButton, "blur", e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
 
         listen(downloadButton, click, e => {
-            const div = e.currentTarget.parentElement;
+            const div = (e.currentTarget as HTMLElement).parentElement;
+            if (!div) {
+                return false;
+            }
+
             const codes = div.getElementsByTagName("code");
             if ((codes !== null) && (codes.length > 0)) {
                 const code = codes[0];
+                if (!code) {
+                    return false;
+                }
+
                 const text = getToolbarDivText(div);
                 let downloadas = code.dataset.downloadas;
                 if (downloadas === undefined || downloadas === null || downloadas === "") {
                     let lang = "";
-                    for (let j = 0; j < code.classList.length; j++) {
-                        if (code.classList.item(j).startsWith("language-")) {
-                            lang = code.classList.item(j).substr(9);
+                    for (const cl of code.classList) {
+                        if (!cl) {
+                            continue;
+                        }
+
+                        if (cl.startsWith("language-")) {
+                            lang = cl.substr(9);
                             break;
-                        } else if (code.classList.item(j).startsWith("command-")) {
+                        } else if (cl.startsWith("command-")) {
                             lang = "bash";
                             break;
                         }
@@ -73,44 +106,71 @@ function handleCodeBlocks() {
         printButton.className = "print";
         printButton.innerHTML = "<svg><use xlink:href='" + iconFile + "#printer'/></svg>";
         printButton.setAttribute(ariaLabel, buttonPrint);
-        listen(printButton, mouseenter, e => e.currentTarget.classList.add(toolbarShow));
-        listen(printButton, mouseleave, e => e.currentTarget.classList.remove(toolbarShow));
-        listen(printButton, "focus", e => e.currentTarget.classList.add(toolbarShow));
-        listen(printButton, "blur", e => e.currentTarget.classList.remove(toolbarShow));
+        listen(printButton, mouseenter, e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
+        listen(printButton, mouseleave, e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
+        listen(printButton, "focus", e => (e.currentTarget as HTMLElement).classList.add(toolbarShow));
+        listen(printButton, "blur", e => (e.currentTarget as HTMLElement).classList.remove(toolbarShow));
 
         listen(printButton, click, e => {
-            const div = e.currentTarget.parentElement;
-            const text = getToolbarDivText(div);
-            printText(text);
+            const div = (e.currentTarget as HTMLElement).parentElement;
+            if (div) {
+                const text = getToolbarDivText(div);
+                printText(text);
+            }
             return true;
         });
 
         // wrap the PRE block in a DIV so we have a place to attach the toolbar buttons
         const div = document.createElement("div");
         div.className = "toolbar";
-        pre.parentElement.insertBefore(div, pre);
+
+        const parent = pre.parentElement;
+        if (parent) {
+            parent.insertBefore(div, pre);
+        }
         div.appendChild(pre);
         div.appendChild(printButton);
         div.appendChild(downloadButton);
         div.appendChild(copyButton);
 
-        listen(pre, mouseenter, e => {
-            e.currentTarget.nextSibling.classList.add(toolbarShow);
-            e.currentTarget.nextSibling.nextSibling.classList.add(toolbarShow);
-            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.add(toolbarShow);
+        listen(pre, mouseenter, o => {
+            const e = o.currentTarget as HTMLElement;
+            const next0 = e.nextElementSibling as HTMLElement;
+            if (next0) {
+                next0.classList.add(toolbarShow);
+                const next1 = next0.nextElementSibling as HTMLElement;
+                if (next1) {
+                    next1.classList.add(toolbarShow);
+                    const next2 = next1.nextElementSibling as HTMLElement;
+                    if (next2) {
+                        next2.classList.add(toolbarShow);
+                    }
+                }
+            }
         });
 
-        listen(pre, mouseleave, e => {
-            e.currentTarget.nextSibling.classList.remove(toolbarShow);
-            e.currentTarget.nextSibling.nextSibling.classList.remove(toolbarShow);
-            e.currentTarget.nextSibling.nextSibling.nextSibling.classList.remove(toolbarShow);
+        listen(pre, mouseleave, o => {
+            const e = o.currentTarget as HTMLElement;
+            const next0 = e.nextElementSibling as HTMLElement;
+            if (next0) {
+                next0.classList.remove(toolbarShow);
+                const next1 = next0.nextElementSibling as HTMLElement;
+                if (next1) {
+                    next1.classList.remove(toolbarShow);
+                    const next2 = next1.nextElementSibling as HTMLElement;
+                    if (next2) {
+                        next2.classList.remove(toolbarShow);
+                    }
+                }
+            }
         });
     }
 
-    function getToolbarDivText(div) {
-        const commands = div.getElementsByClassName("command");
+    function getToolbarDivText(div: HTMLElement): string {
+        const commands = div.getElementsByClassName("command") as HTMLCollectionOf<HTMLElement>;
         if ((commands !== null) && (commands.length > 0)) {
-            const lines = commands[0].innerText.split("\n");
+            const inner = commands[0].innerText;
+            const lines = inner.split("\n");
             let cmd = "";
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].startsWith("$ ")) {
@@ -130,20 +190,23 @@ function handleCodeBlocks() {
         return div.innerText;
     }
 
-    function applySyntaxColoring(pre) {
-        const code = pre.firstChild;
+    function applySyntaxColoring(pre: HTMLElement): void {
+        const code = pre.firstElementChild as HTMLElement;
+        if (code == null) {
+            return;
+        }
 
         let cl = "";
-        for (let j = 0; j < code.classList.length; j++) {
-            if (code.classList.item(j).startsWith("language-bash")) {
-                cl = code.classList.item(j);
+        for (const o of code.classList) {
+            if (o && o.startsWith("language-bash")) {
+                cl = o;
                 break;
             }
         }
 
         if (cl !== "") {
             let firstLineOfOutput = 0;
-            let lines = code.innerText.split("\n");
+            const lines = code.innerText.split("\n");
             let cmd = "";
             let escape = false;
             let escapeUntilEOF = false;
@@ -241,10 +304,8 @@ function handleCodeBlocks() {
     }
 
     // Load the content of any externally-hosted PRE block
-    function loadExternal(pre) {
-        const code = pre.firstChild;
-
-        function fetchFile(elem, url) {
+    function loadExternal(pre: HTMLElement): void {
+        function fetchFile(elem: HTMLElement, url: string) {
             fetch(url)
                 .then(response => {
                     if (response.status !== 200) {
@@ -273,19 +334,20 @@ function handleCodeBlocks() {
                         data = buf;
                     }
 
-                    code.textContent = data;
+                    elem.textContent = data;
                     if (syntaxColoring) {
-                        Prism.highlightElement(code, false);
+                        Prism.highlightElement(elem, false);
                     }
                 });
         }
 
-        if (code.dataset.src) {
+        const code = pre.firstElementChild as HTMLElement;
+        if (code && code.dataset.src) {
             fetchFile(code, code.dataset.src);
         }
     }
 
-    function handleSyntaxColoring() {
+    function handleSyntaxColoring(): void {
         const cookieValue = readCookie(syntaxColoringCookie);
         if (cookieValue === "true") {
             syntaxColoring = true;
@@ -293,7 +355,7 @@ function handleCodeBlocks() {
             syntaxColoring = false;
         }
 
-        let item = document.getElementById(syntaxColoringItem);
+        const item = document.getElementById(syntaxColoringItem);
         if (item) {
             if (syntaxColoring) {
                 item.classList.add(active);
@@ -303,14 +365,14 @@ function handleCodeBlocks() {
         }
 
         listen(getById(syntaxColoringItem), click, () => {
-            createCookie(syntaxColoringCookie, !syntaxColoring);
+            createCookie(syntaxColoringCookie, syntaxColoring ? "false" : "true");
             location.reload();
         });
     }
 
     handleSyntaxColoring();
 
-    queryAll(document, "pre").forEach(pre => {
+    document.querySelectorAll<HTMLElement>("pre").forEach(pre => {
         attachToolbar(pre);
         applySyntaxColoring(pre);
         loadExternal(pre);

@@ -1,13 +1,35 @@
-"use strict";
+// Copyright 2019 Istio Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-function handleTabs() {
+function handleTabs(): void {
 
-    function updateLikeTabsets(cookieName, cookieValue) {
-        queryAll(document, ".tabset").forEach(tabset => {
-            queryAll(tabset, ".tab-strip").forEach(strip => {
+    function updateLikeTabsets(cookieName: string, cookieValue: string): void {
+        document.querySelectorAll(".tabset").forEach(tabset => {
+            tabset.querySelectorAll(".tab-strip").forEach(o => {
+                const strip = o as HTMLElement;
                 if (strip.dataset.cookieName === cookieName) {
-                    queryAll(strip, "[role=tab]").forEach(tab => {
-                        const panel = getById(tab.getAttribute(ariaControls));
+                    strip.querySelectorAll<HTMLElement>("[role=tab]").forEach(tab => {
+                        const attr = tab.getAttribute(ariaControls);
+                        if (!attr) {
+                            return;
+                        }
+
+                        const panel = getById(attr);
+                        if (!panel) {
+                            return;
+                        }
+
                         if (tab.dataset.cookieValue === cookieValue) {
                             tab.setAttribute(ariaSelected, "true");
                             tab.removeAttribute(tabIndex);
@@ -23,37 +45,44 @@ function handleTabs() {
         });
     }
 
-    queryAll(document, ".tabset").forEach(tabset => {
-        const strip = query(tabset, ".tab-strip");
+    document.querySelectorAll(".tabset").forEach(tabset => {
+        const strip = tabset.querySelector<HTMLElement>(".tab-strip");
         if (strip === null) {
             return;
         }
 
         const cookieName = strip.dataset.cookieName;
-        const panels = queryAll(tabset, '[role=tabpanel]');
+        const panels = tabset.querySelectorAll<HTMLElement>("[role=tabpanel]");
 
-        const tabs = [];
-        queryAll(strip, '[role=tab]').forEach(tab => {
+        const tabs: HTMLElement[] = [];
+        strip.querySelectorAll<HTMLElement>("[role=tab]").forEach(tab => {
             tabs.push(tab);
         });
 
         const kbdnav = new KbdNav(tabs);
 
-        function activateTab(tab) {
+        function activateTab(tab: HTMLElement): void {
             deactivateAllTabs();
             tab.removeAttribute(tabIndex);
-            tab.setAttribute(ariaSelected, 'true');
-            getById(tab.getAttribute(ariaControls)).removeAttribute('hidden');
+            tab.setAttribute(ariaSelected, "true");
+
+            const ac = tab.getAttribute(ariaControls);
+            if (ac) {
+                const other = getById(ac);
+                if (other) {
+                    other.removeAttribute("hidden");
+                }
+            }
         }
 
-        function deactivateAllTabs() {
+        function deactivateAllTabs(): void {
             tabs.forEach(tab => {
-                tab.setAttribute(tabIndex, '-1');
-                tab.setAttribute(ariaSelected, 'false');
+                tab.setAttribute(tabIndex, "-1");
+                tab.setAttribute(ariaSelected, "false");
             });
 
             panels.forEach(panel => {
-                panel.setAttribute('hidden', '');
+                panel.setAttribute("hidden", "");
             });
         }
 
@@ -65,14 +94,17 @@ function handleTabs() {
         }
 
         // attach the event handlers to support tab sets
-        queryAll(strip, button).forEach(tab => {
+        strip.querySelectorAll<HTMLElement>(button).forEach(tab => {
 
             listen(tab, "focus", () => {
                 activateTab(tab);
 
                 if (cookieName) {
-                    createCookie(cookieName, tab.dataset.cookieValue);
-                    updateLikeTabsets(cookieName, tab.dataset.cookieValue);
+                    const cookieValue = tab.dataset.cookieValue;
+                    if (cookieValue) {
+                        createCookie(cookieName, cookieValue);
+                        updateLikeTabsets(cookieName, cookieValue);
+                    }
                 }
             });
 
@@ -80,18 +112,21 @@ function handleTabs() {
                 activateTab(tab);
 
                 if (cookieName) {
-                    createCookie(cookieName, tab.dataset.cookieValue);
-                    updateLikeTabsets(cookieName, tab.dataset.cookieValue);
+                    const cookieValue = tab.dataset.cookieValue;
+                    if (cookieValue) {
+                        createCookie(cookieName, cookieValue);
+                        updateLikeTabsets(cookieName, cookieValue);
+                    }
                 }
             });
 
-            listen(tab, keydown, e => {
+            listen(tab, keydown, o => {
+                const e = o as KeyboardEvent;
                 const ch = e.key;
 
                 if (e.ctrlKey || e.altKey || e.metaKey) {
                     // nothing
-                }
-                else if (e.shiftKey) {
+                } else if (e.shiftKey) {
                     if (isPrintableCharacter(ch)) {
                         kbdnav.focusElementByChar(ch);
                     }

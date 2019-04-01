@@ -1,8 +1,22 @@
-"use strict";
+// Copyright 2019 Istio Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-function handleLinks() {
+declare var iconFile: string;
 
-    function attachSelfLink(node) {
+function handleLinks(): void {
+
+    function attachSelfLink(node: HTMLElement): void {
         if (node.id === "") {
             return;
         }
@@ -16,21 +30,21 @@ function handleLinks() {
         node.appendChild(anchor);
     }
 
-    function attachSelfLinks() {
+    function attachSelfLinks(): void {
         // add a link icon next to each header so people can easily get bookmarks to headers
-        queryAll(document, "h2").forEach(attachSelfLink);
-        queryAll(document, "h3").forEach(attachSelfLink);
-        queryAll(document, "h4").forEach(attachSelfLink);
-        queryAll(document, "h5").forEach(attachSelfLink);
-        queryAll(document, "h6").forEach(attachSelfLink);
+        document.querySelectorAll("h2").forEach(attachSelfLink);
+        document.querySelectorAll("h3").forEach(attachSelfLink);
+        document.querySelectorAll("h4").forEach(attachSelfLink);
+        document.querySelectorAll("h5").forEach(attachSelfLink);
+        document.querySelectorAll("h6").forEach(attachSelfLink);
 
         // add a link icon next to each defined term so people can easily get bookmarks to them in the glossary
-        queryAll(document, "dt").forEach(attachSelfLink);
+        document.querySelectorAll("dt").forEach(attachSelfLink);
     }
 
     // Make it so each link outside of the current domain opens up in a different window
-    function makeOutsideLinksOpenInTabs() {
-        queryAll(document, "a").forEach(link => {
+    function makeOutsideLinksOpenInTabs(): void {
+        document.querySelectorAll("a").forEach(link => {
             if (link.hostname && link.hostname !== location.hostname) {
                 link.setAttribute("target", "_blank");
                 link.setAttribute("rel", "noopener");
@@ -39,7 +53,7 @@ function handleLinks() {
     }
 
     // Create the set of endnotes that expand URLs when printing
-    function createEndnotes() {
+    function createEndnotes(): void {
         const notes = getById("endnotes");
         if (notes === null) {
             return;
@@ -49,7 +63,7 @@ function handleLinks() {
         const article = document.getElementsByTagName("article")[0];
         const map = new Map(null);
         let numLinks = 0;
-        queryAll(article, 'a').forEach(link => {
+        article.querySelectorAll("a").forEach(link => {
             if (link.pathname === location.pathname) {
                 // skip links pointing to the current page
                 return;
@@ -88,7 +102,10 @@ function handleLinks() {
 
         if (numLinks > 0) {
             // only show the section if there are links
-            getById("endnotes-container").classList.add('show');
+            const ec = getById("endnotes-container");
+            if (ec) {
+                ec.classList.add("show");
+            }
         }
     }
 

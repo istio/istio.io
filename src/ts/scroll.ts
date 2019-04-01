@@ -1,26 +1,38 @@
-"use strict";
+// Copyright 2019 Istio Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 // initialized after the DOM has been loaded
-let scrollToTopButton;
-let tocLinks;
-let tocHeadings;
-let pageHeader;
+let scrollToTopButton: HTMLElement | null;
+let tocLinks: HTMLCollectionOf<HTMLAnchorElement>;
+let tocHeadings: HTMLElement[] = [];
+let pageHeader: HTMLElement | null;
 
-function handleScroll() {
-    function dealWithScroll() {
+function handleScroll(): void {
+    function dealWithScroll(): void {
         // Based on the scroll position, make the "scroll to top" button visible or not
-        function controlScrollToTopButton() {
+        function controlScrollToTopButton(): void {
             if (scrollToTopButton) {
                 if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                    scrollToTopButton.classList.add('show');
+                    scrollToTopButton.classList.add("show");
                 } else {
-                    scrollToTopButton.classList.remove('show');
+                    scrollToTopButton.classList.remove("show");
                 }
             }
         }
 
         // Based on the scroll position, activate a TOC entry
-        function controlTOCActivation() {
+        function controlTOCActivation(): void {
             if (tocLinks) {
                 let closestHeadingBelowTop = -1;
                 let closestHeadingBelowTopPos = 1000000;
@@ -69,7 +81,7 @@ function handleScroll() {
             }
         }
 
-        const pageHeaderHeight = pageHeader.getBoundingClientRect().height;
+        const pageHeaderHeight = (pageHeader ? pageHeader.getBoundingClientRect().height : 0);
 
         controlScrollToTopButton();
         controlTOCActivation();
@@ -80,29 +92,33 @@ function handleScroll() {
         // Note that this only works once for a given target row per page load. If the user is clicking
         // around within a page, the second click to the same deep link will not trigger this hack and
         // the user will be left with the row under the page header.
-        const target = query(document, ":target");
-        if (target && target.tagName === 'TR' && !target.dataset.scrolled) {
+        const target = document.querySelector<HTMLElement>(":target");
+        if (target && target.tagName === "TR" && !target.dataset.scrolled) {
             document.documentElement.scrollTop -= pageHeaderHeight;
-            target.dataset.scrolled = 'true';
+            target.dataset.scrolled = "true";
         }
     }
 
     // discover a few DOM elements up front so we don't need to do it a zillion times for the life of the page
 
-    scrollToTopButton = getById('scroll-to-top');
+    scrollToTopButton = getById("scroll-to-top");
     listen(scrollToTopButton, click, () => {
         // scroll the document to the top
         document.body.scrollTop = 0;            // for Safari
         document.documentElement.scrollTop = 0; // for Chrome, Firefox, IE and Opera
     });
 
-    const toc = getById('toc');
+    const toc = getById("toc");
     if (toc) {
-        tocLinks = toc.getElementsByTagName('a');
-        tocHeadings = new Array(tocLinks.length);
-
-        for (let i = 0; i < tocLinks.length; i++) {
-            tocHeadings[i] = getById(tocLinks[i].hash.substring(1));
+        tocLinks = toc.getElementsByTagName("a");
+        for (const link of tocLinks) {
+            if (link) {
+                const id = link.hash.substring(1);
+                const hdr = getById(id);
+                if (hdr) {
+                    tocHeadings.push(hdr);
+                }
+            }
         }
     }
 

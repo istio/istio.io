@@ -1,95 +1,110 @@
-"use strict";
+// Copyright 2019 Istio Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 const keyCodes = Object.freeze({
-    'TAB': 9,
-    'RETURN': 13,
-    'ESC': 27,
-    'SPACE': 32,
-    'PAGEUP': 33,
-    'PAGEDOWN': 34,
-    'END': 35,
-    'HOME': 36,
-    'LEFT': 37,
-    'UP': 38,
-    'RIGHT': 39,
-    'DOWN': 40,
+    DOWN: 40,
+    END: 35,
+    ESC: 27,
+    HOME: 36,
+    LEFT: 37,
+    PAGEDOWN: 34,
+    PAGEUP: 33,
+    RETURN: 13,
+    RIGHT: 39,
+    SPACE: 32,
+    TAB: 9,
+    UP: 38,
 });
 
-const escapeChars = {
-    '¢': 'cent',
-    '£': 'pound',
-    '¥': 'yen',
-    '€': 'euro',
-    '©': 'copy',
-    '®': 'reg',
-    '<': 'lt',
-    '>': 'gt',
-    '"': 'quot',
-    '&': 'amp',
-    '\'': '#39',
+const escapeChars: { [index: string]: string } = {
+    "\"": "#39",
+    "&": "amp",
+    "'": "quot",
+    "<": "lt",
+    ">": "gt",
+    "¢": "cent",
+    "£": "pound",
+    "¥": "yen",
+    "©": "copy",
+    "®": "reg",
+    "€": "euro",
 };
 
-const regex = new RegExp("[¢£¥€©®<>\"&']", 'g');
+const regex = new RegExp("[¢£¥€©®<>\"&']", "g");
 
 // Escapes special characters into HTML entities
-function escapeHTML(str) {
-    return str.replace(regex, function(m) {
-        return '&' + escapeChars[m] + ';';
+function escapeHTML(str: string): string {
+    return str.replace(regex, m => {
+        return "&" + escapeChars[m] + ";";
     });
 }
 
 // copy the given text to the system clipboard
-function copyToClipboard(str) {
-    const el = document.createElement('textarea');   // Create a <textarea> element
+function copyToClipboard(str: string): void {
+    const sel = document.getSelection();
+    if (!sel) {
+        return;
+    }
+
+    const el = document.createElement("textarea");   // Create a <textarea> element
     el.value = str;                                  // Set its value to the string that you want copied
-    el.setAttribute('readonly', '');                 // Make it readonly to be tamper-proof
-    el.style.position = 'absolute';
-    el.style.left = '-9999px';                       // Move outside the screen to make it invisible
+    el.setAttribute("readonly", "");                 // Make it readonly to be tamper-proof
+    el.style.position = "absolute";
+    el.style.left = "-9999px";                       // Move outside the screen to make it invisible
     document.body.appendChild(el);                   // Append the <textarea> element to the HTML document
-    let selected;
-    if (document.getSelection().rangeCount > 0) {
-        selected = document.getSelection().getRangeAt(0);
-    } else {
-        selected = false;
-    }                                 // Mark as false to know no selection existed before
-    el.select();                                     // Select the <textarea> content
-    document.execCommand('copy');                    // Copy - only works as a result of a user action (e.g. click events)
-    document.body.removeChild(el);                   // Remove the <textarea> element
-    if (selected) {                                  // If a selection existed before copying
-        document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
-        document.getSelection().addRange(selected);   // Restore the original selection
+
+    if (sel.rangeCount > 0) {
+        const selected = sel.getRangeAt(0);
+        el.select();                                     // Select the <textarea> content
+        document.execCommand("copy");                    // Copy - only works as a result of a user action (e.g. click events)
+        document.body.removeChild(el);                   // Remove the <textarea> element
+        sel.removeAllRanges();                       // Unselect everything on the HTML document
+        sel.addRange(selected);                      // Restore the original selection
     }
 }
 
 // Saves a string to a particular client-side file
-function saveFile(filename, text) {
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/text;charset=utf-8,' + encodeURI(text));
-    element.setAttribute('download', filename);
+function saveFile(filename: string, text: string): void {
+    const element = document.createElement("a");
+    element.setAttribute("href", "data:text/text;charset=utf-8," + encodeURI(text));
+    element.setAttribute("download", filename);
     element.click();
 }
 
 // Sends a string to the printer
-function printText(text) {
+function printText(text: string): void {
     const html = "<html><body><pre><code>" + text + "</code></pre></html>";
 
-    const printWin = window.open('', '', 'left=0,top=0,width=100,height=100,toolbar=0,scrollbars=0,status=0,location=0,menubar=0', false);
-    printWin.document.write(html);
-    printWin.document.close();
-    printWin.focus();
-    printWin.print();
-    printWin.close();
+    const printWin = window.open("", "", "left=0,top=0,width=100,height=100,toolbar=0,scrollbars=0,status=0,location=0,menubar=0", false);
+    if (printWin) {
+        printWin.document.write(html);
+        printWin.document.close();
+        printWin.focus();
+        printWin.print();
+        printWin.close();
+    }
 }
 
 // Navigate to the given URL if possible. If the page doesn't exist then navigate to the
 // root of the target site instead.
-function navigateToUrlOrRoot(url) {
+function navigateToUrlOrRoot(url: string): void {
     const request = new XMLHttpRequest();
-    request.open('GET', url, true);
+    request.open("GET", url, true);
     request.onreadystatechange = () => {
         if (request.readyState === 4 && request.status === 404) {
             const u = new URL(url);
-            u.pathname = '';
+            u.pathname = "";
             url = u.toString();
         }
 
@@ -100,27 +115,21 @@ function navigateToUrlOrRoot(url) {
     request.send();
 }
 
-function createCookie(name, value) {
+function createCookie(name: string, value: string): void {
     document.cookie = name + "=" + value + "; path=/";
 }
 
-function getById(id) {
+function getById(id: string): HTMLElement | null {
     return document.getElementById(id);
 }
 
-function query(el, s) {
-    return el.querySelector(s);
+function listen(o: HTMLElement | Window | null, e: string, f: EventListenerOrEventListenerObject): void {
+    if (o) {
+        o.addEventListener(e, f);
+    }
 }
 
-function queryAll(el, s) {
-    return el.querySelectorAll(s);
-}
-
-function listen(o, e, f) {
-    o.addEventListener(e, f);
-}
-
-function toggleAttribute(el, name) {
+function toggleAttribute(el: HTMLElement, name: string): void {
     if (el.getAttribute(name) === "true") {
         el.setAttribute(name, "false");
     } else {
@@ -128,7 +137,6 @@ function toggleAttribute(el, name) {
     }
 }
 
-function isPrintableCharacter(str) {
-    return str.length === 1 && str.match(/\S/);
+function isPrintableCharacter(str: string): boolean {
+    return str.length === 1 && (str.match(/\S/) != null);
 }
-

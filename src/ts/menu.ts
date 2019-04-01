@@ -1,33 +1,53 @@
-"use strict";
+// Copyright 2019 Istio Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 // Attach the event handlers to support menus
-function handleMenu() {
-    queryAll(document, '.menu').forEach(menu => {
-        const trigger = query(menu, ".menu-trigger");
-        const content = query(menu, ".menu-content");
+function handleMenu(): void {
+    document.querySelectorAll<HTMLElement>(".menu").forEach(menu => {
+        const trigger = menu.querySelector<HTMLElement>(".menu-trigger");
+        const content = menu.querySelector<HTMLElement>(".menu-content");
+
+        if (!trigger || !content) {
+            // malformed menu
+            return;
+        }
 
         // get all the menu items, setting role="menuitem" and tabindex="-1" along the way
-        let items = [];
-        for (let i = 0; i < content.children.length; i++) {
-            const el = content.children[i];
-            if (el.getAttribute("role") === 'menuitem') {
-                items.push(el);
+        const items: HTMLElement[] = [];
+        for (const el of content.children) {
+            const child = el as HTMLElement;
+            if (child.getAttribute("role") === "menuitem") {
+                items.push(child);
             }
         }
 
         const kbdnav = new KbdNav(items);
 
         function focusTrigger() {
-            trigger.focus();
+            if (trigger) {
+                trigger.focus();
+            }
         }
 
         listen(trigger, click, e => {
             toggleOverlay(menu);
-            toggleAttribute(e.currentTarget, ariaExpanded);
+            toggleAttribute((e.currentTarget as HTMLElement), ariaExpanded);
             e.cancelBubble = true;
         });
 
-        listen(trigger, keydown, e => {
+        listen(trigger, keydown, o => {
+            const e = o as KeyboardEvent;
             const ch = e.key;
 
             switch (e.keyCode) {
@@ -54,13 +74,13 @@ function handleMenu() {
         });
 
         items.forEach(el => {
-            listen(el, keydown, e => {
+            listen(el, keydown, o => {
+                const e = o as KeyboardEvent;
                 const ch = e.key;
 
                 if (e.ctrlKey || e.altKey || e.metaKey) {
                     // nothing
-                }
-                else if (e.shiftKey) {
+                } else if (e.shiftKey) {
                     if (isPrintableCharacter(ch)) {
                         kbdnav.focusElementByChar(ch);
                     }
@@ -70,11 +90,11 @@ function handleMenu() {
                             break;
 
                         case keyCodes.RETURN:
-                            const evt = new MouseEvent("click", {
-                                view: window,
+                            const evt = new MouseEvent(click, {
                                 bubbles: true,
                                 cancelable: true,
                                 clientX: 20,
+                                view: window,
                             });
                             el.dispatchEvent(evt);
                             break;
