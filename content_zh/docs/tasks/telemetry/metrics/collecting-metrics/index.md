@@ -17,7 +17,7 @@ keywords: [telemetry,metrics]
 
 1. 新建一个 YAML 文件，用来配置新的指标以及数据流，Istio 将会进行自动生成和收集的工作。
 
-    以文件名 `new_telemetry.yaml` 保存下面的代码：
+    以文件名 `new_metrics.yaml` 保存下面的代码：
 
     {{< text yaml >}}
     # 指标 instance 的配置
