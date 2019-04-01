@@ -5,7 +5,7 @@ publishdate: 2019-03-19
 attribution: The Istio Team
 ---
 
-我们很高兴得宣布 Istio 1.1 发布！
+我们很高兴的宣布，Istio 1.1 发布！
 
 {{< announcement_links "1.1.0" >}}
 
