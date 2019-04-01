@@ -274,7 +274,7 @@ function handleCodeBlocks() {
                 }
 
                 if (output !== "") {
-                    output = escapeHTML(output);
+                    output = output.replace("<", "&lt;").replace(">", "&gt;");
 
                     // apply formatting to the output?
                     if (code.dataset.outputis) {
@@ -289,17 +289,13 @@ function handleCodeBlocks() {
                 code.innerHTML = html;
                 code.classList.remove(cl);
                 code.classList.add("command-output");
-            } else {
-                if (syntaxColoring) {
-                    // someone probably forgot to start a block with $, so let's just treat the whole thing as being a `bash` block
-                    Prism.highlightElement(code, false);
-                }
-            }
-        } else {
-            if (syntaxColoring) {
-                // this isn't one of our special code blocks, so handle normally
+            } else if (syntaxColoring) {
+                // someone probably forgot to start a block with $, so let's just treat the whole thing as being a `bash` block
                 Prism.highlightElement(code, false);
             }
+        } else if (syntaxColoring) {
+            // this isn't one of our special code blocks, so handle normally
+            Prism.highlightElement(code, false);
         }
     }
 

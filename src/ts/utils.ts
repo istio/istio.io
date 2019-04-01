@@ -27,29 +27,6 @@ const keyCodes = Object.freeze({
     UP: 38,
 });
 
-const escapeChars: { [index: string]: string } = {
-    "\"": "#39",
-    "&": "amp",
-    "'": "quot",
-    "<": "lt",
-    ">": "gt",
-    "¢": "cent",
-    "£": "pound",
-    "¥": "yen",
-    "©": "copy",
-    "®": "reg",
-    "€": "euro",
-};
-
-const regex = new RegExp("[¢£¥€©®<>\"&']", "g");
-
-// Escapes special characters into HTML entities
-function escapeHTML(str: string): string {
-    return str.replace(regex, m => {
-        return "&" + escapeChars[m] + ";";
-    });
-}
-
 // copy the given text to the system clipboard
 function copyToClipboard(str: string): void {
     const sel = document.getSelection();
