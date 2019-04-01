@@ -5,7 +5,7 @@ weight: 70
 keywords: [traffic-management,ingress,https,cert-manager,acme,sds]
 ---
 
-这个例子演示了使用 Istio 使用 [Let's Encrypt](https://letsencrypt.org/) 获取 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。虽然 Istio 提供了更强大的功能，例如 [Gateway](/docs/reference/config/networking/v1alpha3/gateway) 和 [Virtual service](/docs/reference/config/networking/v1alpha3/virtual-service)，它们可以用于更加高级的流量管理功能，而可选的 Kubernetes Ingress 控制器支持则可以简单的把传统应用和第三方解决方案集成到服务网格之中，并由此获得 Istio 提供的遥测和跟踪能力。
+这个例子演示了在 Istio 中使用 [Let's Encrypt](https://letsencrypt.org/) 获取 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。虽然 Istio 提供了更强大的功能，例如 [Gateway](/docs/reference/config/networking/v1alpha3/gateway) 和 [Virtual service](/docs/reference/config/networking/v1alpha3/virtual-service)，它们可以用于更加高级的流量管理功能，而可选的 Kubernetes Ingress 控制器支持则可以简单的把传统应用和第三方解决方案集成到服务网格之中，并由此获得 Istio 提供的遥测和跟踪能力。
 
 首先要从一个全新安装的 Istio 入手，创建一个示例应用，并利用 Kubernetes `Ingress` 资源将服务开放出去，Istio 可以为这一过程提供加密服务，它调用自带的 cert-manager 管理 TLS 证书的签发和续期，然后把证书分发给 Istio 的 Ingress [gateway](/docs/reference/config/networking/v1alpha3/gateway)，并在必要时使用 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/secret) 进行证书的热交换。
 
