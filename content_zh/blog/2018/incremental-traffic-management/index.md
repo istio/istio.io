@@ -56,7 +56,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-然后，**[安装 Helm](https://docs.helm.sh/using_helm/#installing-helm) 并[生成 Istio 最小配置安装](/zh/docs/setup/kubernetes/install/helm/)** -- 只有流量管理组件：
+然后，**[安装 Helm](https://helm.sh/docs/securing_installation/) 并[生成 Istio 最小配置安装](/zh/docs/setup/kubernetes/install/helm/)** -- 只有流量管理组件：
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \
