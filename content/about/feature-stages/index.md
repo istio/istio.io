@@ -78,11 +78,10 @@ Below is our list of existing features and their current phases. This informatio
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
-| Per-Path Authentication | Alpha
-| TCP Authorization | Alpha
-| Cert management on Ingress Gateway | Alpha
-| Vault integration | Alpha
-| SDS Integration | Alpha
+| [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
+| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/secure-ingress/sds) | Alpha
+| [Vault integration](/docs/tasks/security/vault-ca) | Alpha
+| [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
 ### Core
 
