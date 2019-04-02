@@ -22,15 +22,13 @@ keywords: [kubernetes,ibm,icp]
 
 ### 初始化 Helm 和 Tiller
 
-1. 安装 [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm)。
+1. 安装 [Helm CLI](https://helm.sh/docs/securing_installation/)。
 
 1. 在 `kube-system` namespace 为 Tiller 创建一个 Service account，以及一个与 pod `tiller-deploy` 绑定的 Kubernetes RBAC 集群角色:
 
     {{< text yaml >}}
     apiVersion: v1
     kind: ServiceAccount
-    metadata:
-      name: tiller
       namespace: kube-system
     ---
     apiVersion: rbac.authorization.k8s.io/v1
