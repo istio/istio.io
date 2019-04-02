@@ -1,11 +1,11 @@
 ---
-title: Pods 和服务
-description: 准备 Kubernetes Pods 和服务来运行启用了 Istio 的集群.
+title: Pod 和服务
+description: 预备 Kubernetes Pod 和服务，以便在启用了 Istio 的集群上运行。
 weight: 5
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
-作为 Istio 服务网格的一部分, Kubernetes 集群中的 pods 和服务必须满足如下条件:
+作为 Istio 服务网格的一部分, Kubernetes 集群中的 pod 和服务必须满足如下条件:
 
 - **服务端口命名**：服务端口必须被命名。端口名称键值对必须使用如下格式: `name: <protocol>[-<suffix>]`。要想利用 Istio 的路由功能，请把 `<protocol>` 替换为如下协议中的一个：
 
@@ -21,7 +21,7 @@ keywords: [kubernetes,sidecar,sidecar-injection]
 
     例如，`name: http2-foo` 或者 `name: http` 都是有效的端口命名，但 `name: http2foo` 就不是。如果端口名称不以特定前缀开头或者没有被命名，这个端口的流量将被作为简单 TCP 流量来处理，除非这个端口[明确地](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)使用 `Protocol: UDP` 来表示一个 UDP 端口。
 
-- **Pod 端口**：Pods 必须明确包含每个容器监听的端口列表。容器的每个端口都要使用 `containerPort` 配置。任何没有被列出的端口都将绕过 Istio 代理。
+- **Pod 端口**：Pod 必须明确包含每个容器监听的端口列表。容器的每个端口都要使用 `containerPort` 配置。任何没有被列出的端口都将绕过 Istio 代理。
 
 - **服务关联**: 每一个 pod 都必须关联至少一个 Kubernetes 服务即使这个 pod **没有**暴露任何端口。如果一个 pod 属于多个 [Kubernetes 服务](https://kubernetes.io/docs/concepts/services-networking/service/)，这些服务不能把相同的端口号用于不同协议，比如 HTTP 和 TCP。
 
@@ -31,9 +31,9 @@ keywords: [kubernetes,sidecar,sidecar-injection]
 
     - `version` 标签：这个标签标示了特定部署相关应用的版本号。
 
-- **应用 UIDs**：确保您的 pods **不会** 使用一个值为 **1337** 的用户ID (UID) 启动应用程序。
+- **应用 UIDs**：确保您的 pod **不会** 使用一个值为 **1337** 的用户ID (UID) 启动应用程序。
 
-- **`NET_ADMIN` 功能**：如果您的集群启用了 pod 安全策略，pods 必须启用 `NET_ADMIN` 功能。如果您使用了 [Istio CNI 插件](/docs/setup/kubernetes/additional-setup/cni/)，这个功能就不需要了。要了解更多关于 `NET_ADMIN` 的功能，请访问 [Pod 的必要功能](/zh/help/ops/setup/required-pod-capabilities/)。
+- **`NET_ADMIN` 功能**：如果您的集群启用了 pod 安全策略，pod 必须启用 `NET_ADMIN` 功能。如果您使用了 [Istio CNI 插件](/docs/setup/kubernetes/additional-setup/cni/)，这个功能就不需要了。要了解更多关于 `NET_ADMIN` 的功能，请访问 [Pod 的必要功能](/zh/help/ops/setup/required-pod-capabilities/)。
 
 ## Istio 使用的端口
 
