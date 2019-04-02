@@ -52,7 +52,7 @@ $ kubectl create namespace $NAMESPACE
 {{< /text >}}
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -f -
+$ cat <<EOF> | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
