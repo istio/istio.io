@@ -101,7 +101,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-    {{< text bash >}}
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -141,13 +141,13 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
 
     {{< /tab >}}
 
     {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-    {{< text bash >}}
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway

@@ -1,5 +1,17 @@
 <footer>
     <div class="user-links">
+        {{- $release_url := "" -}}
+        {{- if .Site.Data.args.preliminary }}
+            {{- $release_url = "https://github.com/istio/istio/releases/" -}}
+        {{- else -}}
+            {{- $release_url = printf "https://github.com/istio/istio/releases/tag/%s" .Site.Data.args.full_version -}}
+        {{- end -}}
+
+        <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="{{- $release_url -}}" aria-label="Download Istio">
+            <span>download</span>
+            {{ partial "icon.html" "download" }}
+        </a>
+
         <a class="channel" title='{{ i18n "discuss_istio_io_desc" }}' href="https://discuss.istio.io" aria-label="Istio discussion board">
             <span>discuss</span>
             {{ partial "icon.html" "discourse" }}
@@ -35,7 +47,7 @@
                 {{ i18n "footer_istio" }}
             {{ end }}
 
-            {{ .Site.Data.args.version }}<br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
+            {{ strings.TrimSuffix ".0" .Site.Data.args.full_version }}<br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
             {{ if .Site.Data.args.archive }}
                 {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
             {{ else }}

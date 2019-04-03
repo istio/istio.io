@@ -1,3 +1,6 @@
+[download_deac]
+other = "Go download Istio %s now."
+
 [discuss_istio_io_desc]
 other = "加入 Istio discussion board 参与讨论获取帮助"
 
