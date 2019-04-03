@@ -1,8 +1,7 @@
 ---
 title: Istio 1.1.2
-publishdate: 2019-04-02
+publishdate: 2019-04-05
 icon: notes
-layout: release-note
 draft: true
 ---
 

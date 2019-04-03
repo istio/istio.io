@@ -42,12 +42,19 @@ function copyToClipboard(str: string): void {
     document.body.appendChild(el);                   // Append the <textarea> element to the HTML document
 
     if (sel.rangeCount > 0) {
-        const selected = sel.getRangeAt(0);
+        const oldSelection = sel.getRangeAt(0);
+
         el.select();                                     // Select the <textarea> content
         document.execCommand("copy");                    // Copy - only works as a result of a user action (e.g. click events)
         document.body.removeChild(el);                   // Remove the <textarea> element
-        sel.removeAllRanges();                       // Unselect everything on the HTML document
-        sel.addRange(selected);                      // Restore the original selection
+
+        // restore the previous selection
+        sel.removeAllRanges();
+        sel.addRange(oldSelection);
+    } else {
+        el.select();                                     // Select the <textarea> content
+        document.execCommand("copy");                    // Copy - only works as a result of a user action (e.g. click events)
+        document.body.removeChild(el);                   // Remove the <textarea> element
     }
 }
 
