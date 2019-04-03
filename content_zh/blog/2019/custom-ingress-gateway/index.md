@@ -55,7 +55,7 @@ attribution: Julien Senon
         privateKeySecretRef:
           name: letsencrypt-demo
         dns01:
-          # 这里定义了一个列表，包含了 DNS-01 的相关内容，用于应对 DNS Challenge。 
+          # 这里定义了一个列表，包含了 DNS-01 的相关内容，用于应对 DNS Challenge。
           providers:
           - name: your-dns
             route53:
@@ -219,7 +219,6 @@ attribution: Julien Senon
         - destination:
             host: my-demoapp
     {{< /text >}}
-
 
 1. 服务器返回了正确的证书，并成功完成验证（`SSL certificate verify ok`）：
 
