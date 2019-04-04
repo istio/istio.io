@@ -5,7 +5,7 @@ keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
 ---
 
-在[使用通配符主机配置 Egress 流量](zh/docs/examples/advanced-gateways/wildcard-egress-hosts/)示例中描述了为 `*.wikipedia.org` 这样的域名启用 Egress 流量 TLS 支持的方法。本示例中将演示的是如何为 Egress TLS 流量配置 SNI 监控并应用策略。
+在[使用通配符主机配置 Egress 流量](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/)示例中描述了为 `*.wikipedia.org` 这样的域名启用 Egress 流量 TLS 支持的方法。本示例中将演示的是如何为 Egress TLS 流量配置 SNI 监控并应用策略。
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -336,6 +336,6 @@ $ kubectl delete listchecker us-wikipedia-checker canada-wikipedia-checker -n is
 
 ## 清理
 
-1. 执行 [使用通配符主机配置 Egress 流量](zh/docs/examples/advanced-gateways/wildcard-egress-hosts/)例子中的[清理任意域名的通配符配置](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/#清理任意域名的通配符配置)步骤。
+1. 执行 [使用通配符主机配置 Egress 流量](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/)例子中的[清理任意域名的通配符配置](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/#清理任意域名的通配符配置)步骤。
 
 1. 停止 [sleep]({{<github_tree>}}/samples/sleep) 服务：
