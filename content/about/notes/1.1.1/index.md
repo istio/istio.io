@@ -5,4 +5,4 @@ icon: notes
 layout: release-note
 ---
 
-This release includes security vulnerability fixes and improvements to robustness.  This release note describes what's different between Istio 1.1.1 and Istio 1.0.
+This release includes security vulnerability fixes and improvements to robustness.  This release note describes what's different between Istio 1.1 and Istio 1.1.1.
