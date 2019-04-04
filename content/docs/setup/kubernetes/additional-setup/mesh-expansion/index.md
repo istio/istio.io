@@ -285,19 +285,24 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
     {{< text bash >}}
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8080
+    {{< /text >}}
+
+    You should see something similar to the output below.
+
+    ```html
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
     <title>Directory listing for /</title>
     <body>
     <h2>Directory listing for /</h2>
     <hr>
     <ul>
-    <li><a href=".bashrc">.bashrc</a>
-    <li><a href=".ssh/">.ssh/</a>
+    <li><a href=".bashrc">.bashrc</a></li>
+    <li><a href=".ssh/">.ssh/</a></li>
+    ...
     </body>
-    {{< /text >}}
+    ```
 
-**Congratulations!**
-You successfully configured a service running in a pod within the cluster to
+**Congratulations!** You successfully configured a service running in a pod within the cluster to
 send traffic to a service running on a VM outside of the cluster and tested that
 the configuration worked.
 
