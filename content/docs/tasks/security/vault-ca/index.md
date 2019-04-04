@@ -112,23 +112,23 @@ certificates from a testing Vault CA. When you send a `curl` request from the `s
 to the `httpbin` workload, the request goes through a mutual TLS protected channel constructed
 with the certificates the Vault CA issued.
 
-    {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
-    200
-    {{< /text >}}
-
 1.  Send a `curl` request from the `sleep` workload to the `httpbin` workload.
     The request succeeds with a `200` response code if it goes through the
     mutual TLS protected channel constructed with the certificates issued by the Vault CA.
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
-    000command terminated with exit code 56
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
+    200
     {{< /text >}}
 
 1.  To verify that not all requests are successful, send a `curl`
     request from the `sleep` Envoy sidecar to the `httpbin` workload.
     The request fails because the request from the sidecar to the `httpbin` workload did not use mutual TLS.
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
+    000command terminated with exit code 56
+    {{< /text >}}
 
 **Congratulations!** You successfully integrated a Vault CA with Istio to use mutual TLS
 between workloads using the certificates the Vault CA issued.
