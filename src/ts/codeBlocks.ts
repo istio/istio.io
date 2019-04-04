@@ -190,7 +190,7 @@ function handleCodeBlocks() {
         return div.innerText;
     }
 
-    function applySyntaxColoring(pre: HTMLElement): void {
+    function applyTransformations(pre: HTMLElement): void {
         const code = pre.firstElementChild as HTMLElement;
         if (code == null) {
             return;
@@ -315,7 +315,7 @@ function handleCodeBlocks() {
                 })
                 .then(data => {
                     if (code.dataset.snippet) {
-                        const pattern = "\\n.*?\\$snippet " + code.dataset.snippet + "\\n(.+?)\\n.*?\\$endsnippet";
+                        const pattern = "\\#.*?\\$snippet " + code.dataset.snippet + "\\n(.*?)\\n\\#.+?\\$endsnippet";
                         const regex = new RegExp(pattern, "gms");
 
                         let buf = "";
@@ -331,9 +331,7 @@ function handleCodeBlocks() {
                     }
 
                     elem.textContent = data;
-                    if (syntaxColoring) {
-                        Prism.highlightElement(elem, false);
-                    }
+                    applyTransformations(pre);
                 });
         }
 
@@ -343,7 +341,7 @@ function handleCodeBlocks() {
         }
     }
 
-    function handleSyntaxColoring(): void {
+    function handleSyntaxColoringOption(): void {
         const cookieValue = readCookie(syntaxColoringCookie);
         if (cookieValue === "true") {
             syntaxColoring = true;
@@ -366,11 +364,11 @@ function handleCodeBlocks() {
         });
     }
 
-    handleSyntaxColoring();
+    handleSyntaxColoringOption();
 
     document.querySelectorAll<HTMLElement>("pre").forEach(pre => {
         attachToolbar(pre);
-        applySyntaxColoring(pre);
+        applyTransformations(pre);
         loadExternal(pre);
     });
 }
