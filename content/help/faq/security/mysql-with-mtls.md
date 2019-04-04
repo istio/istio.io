@@ -5,13 +5,13 @@ weight: 95
 keywords: [mysql,mtls]
 ---
 
-You may find MySQL can't be connected after installing Istio. This is because that `PERMISSIVE` mode, enabled in `istio-demo.yaml` by default, does not work with MySQL.
+You may find MySQL can't be connected after installing Istio. This is because of `PERMISSIVE` mode which is enabled in `istio-demo.yaml` by default, does not work with MySQL.
 
-We have two options to solve the problem.
+There have two options to solve the problem.
 
 1. Disable Mutual TLS
 
-    Choose this option if you don't want Istio mutual TLS. You achieve this by disable mutual TLS on the MySQL
+    Choose this option if you don't want Istio mutual TLS. You achieve this by disabling mutual TLS on the MySQL
     service explicitly.
 
     {{< text syntax="bash" >}}
