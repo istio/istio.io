@@ -5,7 +5,7 @@ weight: 30
 keywords: [kubernetes, helm, install, options]
 ---
 
-The tables below show changes made to the installation options used to customize Istio install using Helm between release 1.0 and release 1.1. The tables are grouped in to four different categories:
+The tables below show changes made to the installation options used to customize Istio install using Helm between release 1.0 and release 1.1. The tables are grouped in to three different categories:
 
 - The installation options already in the previous release but whose values or descriptions have been modified in the new release.
 - The new installation options added in the new release.
