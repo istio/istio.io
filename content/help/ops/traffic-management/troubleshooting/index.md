@@ -230,29 +230,3 @@ Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by d
 {{< /text >}}
 
 Make sure to raise your ulimit. Example: `ulimit -n 16384`
-
-## Envoy won't connect to my HTTP/1.0 service
-
-Envoy requires `HTTP/1.1` or `HTTP/2` traffic for upstream services. For example, when using [NGINX](https://www.nginx.com/) for serving traffic behind Envoy, you
-will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX configuration to be "1.1", since the NGINX default is 1.0.
-
-Example configuration:
-
-{{< text plain >}}
-upstream http_backend {
-    server 127.0.0.1:8080;
-
-    keepalive 16;
-}
-
-server {
-    ...
-
-    location /http/ {
-        proxy_pass http://http_backend;
-        proxy_http_version 1.1;
-        proxy_set_header Connection "";
-        ...
-    }
-}
-{{< /text >}}
