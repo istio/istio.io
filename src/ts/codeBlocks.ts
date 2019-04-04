@@ -315,7 +315,7 @@ function handleCodeBlocks() {
                 })
                 .then(data => {
                     if (code.dataset.snippet) {
-                        const pattern = "\\n.*?\\$snippet " + code.dataset.snippet + "\\n(.+?)\\n.*?\\$endsnippet";
+                        const pattern = "\\#.*?\\$snippet " + code.dataset.snippet + "\\n(.*?)\\n\\#.+?\\$endsnippet";
                         const regex = new RegExp(pattern, "gms");
 
                         let buf = "";
