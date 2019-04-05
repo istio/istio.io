@@ -145,21 +145,26 @@ This approach rewrites the application `PodSpec` liveness probe, such that the p
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-To use this approach, you need to install Istio with Helm option `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
-Note this is a global flag. **Turning it on means all Istio app deployment will be affected.**
-Please be aware of the risk.
+To use this approach, you need to configure Istio to rewrite the liveness HTTP probes.
+
+##### Configure Istio to rewrite liveness HTTP probes
+
+Update the configuration map of Istio sidecar injection:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set global.mtls.enabled=true --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
-    -f @install/kubernetes/helm/istio/values.yaml@ > $HOME/istio.yaml
-$ kubectl apply -f $HOME/istio.yaml
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e "s/ rewriteAppHTTPProbe: false/ rewriteAppHTTPProbe: true/" | kubectl apply -f -
 {{< /text >}}
 
-Re-deploy the liveness health check app.
+{{< warning >}}
+This is a global update. All Istio app deployments will be affected. Be aware of the risk.
+{{< /warning >}}
 
-The above Helm configuration makes it so sidecar injection automatically rewrites the Kubernetes pod YAML,
-such that health checks can work under mutual TLS. No need to update your app or Pod YAML by yourself.
+The above configuration map instructs the sidecar injection process to automatically rewrite the Kubernetes pod's spec,
+so health checks are able to work under mutual TLS. No need to update your app or pod spec by yourself.
+
+Alternatively, you can [install Istio](/docs/setup/kubernetes/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true` Helm option.
+
+##### Re-deploy the liveness health check app
 
 {{< text bash >}}
 $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
@@ -172,7 +177,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
-This features is not currently turned on by default. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
+This feature is not currently turned on by default. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
 on whether we should change this to default behavior for Istio installation.
 
 #### Separate port
