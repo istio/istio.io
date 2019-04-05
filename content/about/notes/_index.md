@@ -10,6 +10,7 @@ aliases:
 icon: /img/notes.svg
 ---
 
+- [Istio 1.0.7](./1.0.7)
 - [Istio 1.0.6](./1.0.6)
 - [Istio 1.0.5](./1.0.5)
 - [Istio 1.0.4](./1.0.4)
