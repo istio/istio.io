@@ -18,6 +18,14 @@ control already at the ingress point, even before the traffic arrives to your mi
     tutorial
     {{< /text >}}
 
+1.  Create an environment variable for
+
+    {{< text bash >}}
+    $ export MY_INGRESS_GATEWAY_HOST=istio.$NAMESPACE.bookinfo.com
+    $ echo $MY_INGRESS_GATEWAY_HOST
+    istio.tutorial.bookinfo.com
+    {{< /text >}}
+
 1.  Configure an Istio Ingress Gateway:
 
     {{< text bash >}}
@@ -35,7 +43,7 @@ control already at the ingress point, even before the traffic arrives to your mi
           name: http
           protocol: HTTP
         hosts:
-        - istio.$MYHOST
+        - $MY_INGRESS_GATEWAY_HOST
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -43,7 +51,7 @@ control already at the ingress point, even before the traffic arrives to your mi
       name: bookinfo
     spec:
       hosts:
-      - istio.$MYHOST
+      - $MY_INGRESS_GATEWAY_HOST
       gateways:
       - bookinfo-gateway.$NAMESPACE.svc.cluster.local
       http:
