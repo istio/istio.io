@@ -6,10 +6,8 @@ weight: 120
 
 ---
 
-While you inject faults to test how your microservices cope with networks problems and issues with the microservices
-they call, sometimes the real faults and bugs happen. In this module you deploy a faulty `ratings` microservice, which
-misbehaves half the time. With the probability of one half it performs a delay of 7 seconds, all other times it
-succeeds.
+In this module you deploy a faulty `ratings` microservice, which misbehaves half the time. With the probability of one
+half it performs a delay of 7 seconds, all other times it succeeds.
 
 To prevent user from waiting for 7 seconds, you use timeouts. It is often better to present partial information to the
 user instead of letting the user wait for a long period of time.
