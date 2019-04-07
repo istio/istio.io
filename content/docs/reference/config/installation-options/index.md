@@ -6,6 +6,11 @@ keywords: [kubernetes,helm]
 force_inline_toc: true
 ---
 
+{{< tip >}}
+Refer to [Installation Options Changes](/docs/reference/config/installation-options-changes/)
+for a detailed summary of the option changes between release 1.0 and release 1.1.
+{{< /tip >}}
+
 To customize Istio install using Helm, use the `--set <key>=<value>` option in Helm command to override one or more values. The set of supported keys is shown in the table below.
 
 <!-- Run python scripts/tablegen.py to generate this table -->

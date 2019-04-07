@@ -104,19 +104,13 @@ description: Connect, secure, control, and observe services.
             </a>
         </div>
     </div>
-<!--
-    <div class="ticker-wrap" onclick="go()">
+
+    <div class="ticker-wrap" onclick="window.location.href='/about/notes/1.1.2/';">
         <div class="ticker">
           <div class="item">Upgrade to Istio 1.1.2 Today!</div>
         </div>
     </div>
 
-    <script>
-        function go() {
-            window.location.href = "https://istio.io/about/notes/1.1.2/";
-        }
-    </script>
--->
     <div id="buttons">
         <a title="Install Istio on Kubernetes today." class="btn" href="/docs/setup/kubernetes/">GET STARTED</a>
         <a title="Dive deeper to understand what Istio is and how it works." class="btn" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
