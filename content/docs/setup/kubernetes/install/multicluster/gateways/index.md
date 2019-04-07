@@ -73,10 +73,17 @@ on **each** Kubernetes cluster.
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
    configuration in all of them.
 
-    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+    * Grant cluster administrator (`cluster-admin`) permissions to the current user.
+    On GKE platform, the following command uses `gcloud config` to get the current user.
+    For other platforms, please refer to the [platform setup](/docs/setup/kubernetes/prepare/platform-setup/).
 
         {{< text bash >}}
         $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
+        {{< /text >}}
+
+    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+
+        {{< text bash >}}
         $ kubectl create namespace istio-system
         $ kubectl create secret generic cacerts -n istio-system \
             --from-file=@samples/certs/ca-cert.pem@ \
