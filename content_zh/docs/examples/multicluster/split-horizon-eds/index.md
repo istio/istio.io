@@ -33,7 +33,7 @@ keywords: [kubernetes,multicluster]
 
 下面的说明还设置了 `cluster2` 集群，包含一个无 selector 的 service 和具有 `cluster1` Istio ingress gateway 地址的 `istio-pilot.istio-system` endpoint。这将用于通过 ingress gateway 安全地访问 `cluster1` pilot，而无需双向 TLS 终止。
 
-### 配置 cluster1（主） 集群
+### 配置 `cluster1`（主） 集群
 
 1. 使用 Helm 创建 Istio `cluster1` 的部署 YAML：
 
@@ -112,7 +112,7 @@ keywords: [kubernetes,multicluster]
 
     由于两个集群使用都是相同都 Pilot，虽然是应用在 `cluster1`上，但是网关示例也会影响 `cluster2`。
 
-### 配置 cluster2
+### 配置 `cluster2`
 
 1. 导出 `cluster1` 的网管地址:
 
@@ -257,7 +257,7 @@ keywords: [kubernetes,multicluster]
     EOF
     {{< /text >}}
 
-### 开始监听 cluster2 集群
+### 开始监听 `cluster2` 集群
 
 1. 执行下列命令，添加并标记 `cluster2` Kubernetes 的 secret。执行这些命令之后，`cluster1` 的 Istio Pilot 将开始监听 `cluster2` 集群的 service 和 instance，就像在 `cluster1` 集群中一样。
 
@@ -281,7 +281,7 @@ keywords: [kubernetes,multicluster]
 在这个实例中，您将了解到一个 service 的流量是如何在两个集群间分发的。
 如上图所示，您将为 `helloworld` service 部署两个实例，一个在 `cluster1` 集群，另一个在 `cluster2` 集群。两个实例的区别在于其 `helloworld` 镜像的版本。
 
-### 在 cluster2 集群部署 helloworld v2
+### 在 `cluster2` 集群部署 helloworld v2
 
 1. 使用 sidecar 自动注入标签创建一个 `sample` namespace：
 
@@ -305,7 +305,7 @@ keywords: [kubernetes,multicluster]
     helloworld-v2-7dd57c44c4-f56gq   2/2       Running   0          35s
     {{< /text >}}
 
-### 在 cluster1 中 helloworld v1
+### 在 `cluster1` 中部署 helloworld v1
 
 1. 使用 sidecar 自动注入标签创建一个 `sample` namespace：
 
