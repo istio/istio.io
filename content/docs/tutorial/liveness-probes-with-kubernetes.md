@@ -248,7 +248,7 @@ one later.
 1.  Check the unhealthy pod's status and see that it was restarted:
 
     {{< text bash >}}
-    kubectl get pod -l version=v-unhealthy
+    $ kubectl get pod -l version=v-unhealthy
     NAME                                   READY   STATUS    RESTARTS   AGE
     ratings-v-unhealthy-67b4bcb44d-8bn8w   2/2     Running   1          30m
     {{< /text >}}
