@@ -149,20 +149,22 @@ To use this approach, you need to configure Istio to rewrite the liveness HTTP p
 
 ##### Configure Istio to rewrite liveness HTTP probes
 
-Update the configuration map of Istio sidecar injection:
-
-{{< text bash >}}
-$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e "s/ rewriteAppHTTPProbe: false/ rewriteAppHTTPProbe: true/" | kubectl apply -f -
-{{< /text >}}
+[Install Istio](/docs/setup/kubernetes/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`
+[Helm installation option](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
 
 {{< warning >}}
 This is a global update. All Istio app deployments will be affected. Be aware of the risk.
 {{< /warning >}}
 
-The above configuration map instructs the sidecar injection process to automatically rewrite the Kubernetes pod's spec,
-so health checks are able to work under mutual TLS. No need to update your app or pod spec by yourself.
+**Alternatively**, update the configuration map of Istio sidecar injection:
 
-Alternatively, you can [install Istio](/docs/setup/kubernetes/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true` Helm option.
+{{< text bash >}}
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e "s/ rewriteAppHTTPProbe: false/ rewriteAppHTTPProbe: true/" | kubectl apply -f -
+{{< /text >}}
+
+The above installation option and configuration map, each instruct the sidecar injection process to automatically
+rewrite the Kubernetes pod's spec, so health checks are able to work under mutual TLS. No need to update your app or pod
+spec by yourself.
 
 ##### Re-deploy the liveness health check app
 
