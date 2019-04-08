@@ -1,17 +1,17 @@
 ---
 title: 多集群服务网格中的分版本路由
-description: 在多集群服务网格环境中配置 Istio 中的路由规则。
+description: 在多集群服务网格环境中配置 Istio 的路由规则。
 publishdate: 2019-02-07
 subtitle:
 attribution: Frank Budinsky (IBM)
 keywords: [traffic-management,multicluster]
 ---
 
-如果花一点时间对 Istio 进行了解，你可能会注意到，大量的功能都可以在单一的 Kubernetes 集群中,用简单的[任务](/zh/docs/tasks)和[示例](/zh/docs/examples/)所表达的方式来运行。但是真实世界中的云计算和基于微服务的应用往往不是这么简单的，会需要在不止一个地点分布运行，用户难免会产生怀疑，生产环境中是否还能这样运行？
+如果花一点时间对 Istio 进行了解，你可能会注意到，大量的功能都可以在单一的 Kubernetes 集群中，用简单的[任务](/zh/docs/tasks)和[示例](/zh/docs/examples/)所表达的方式来运行。但是真实世界中的云计算和基于微服务的应用往往不是这么简单的，会需要在不止一个地点分布运行，用户难免会产生怀疑，生产环境中是否还能这样运行？
 
 幸运的是，Istio 提供了多种服务网格的配置方式，应用能够用近乎透明的方式加入一个跨越多个集群运行的服务网格之中，也就是[多集群服务网格](/zh/docs/concepts/multicluster-deployments/#多集群服务网格)。最简单的设置多集群网格的方式，就是使用[多控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#多控制平面拓扑)，这种方式不需要特别的网络依赖。在这种条件下，每个 Kubernetes 集群都有自己的控制平面，但是每个控制平面都是同步的，并接受统一的管理。
 
-本文中，我们会在多控制平面拓扑形式的多集群网格中尝试一下 Istio 的一个[流量管理](/zh/docs/concepts/traffic-management/)功能。我们会展示如何配置 Istio 路由规则，在多集群服务网格中部署 [Bookinfo 示例]({{<github_tree>}}/samples/bookinfo)，`reviews` 服务的 `v1` 版本运行在一个集群上，而 `v2` 和 `v3` 运行在另一个集群上，并完成远程服务调用。
+本文中，我们会在多控制平面拓扑形式的多集群网格中尝试一下 Istio 的[流量管理](/zh/docs/concepts/traffic-management/)功能。我们会展示如何配置 Istio 路由规则，在多集群服务网格中部署 [Bookinfo 示例]({{<github_tree>}}/samples/bookinfo)，`reviews` 服务的 `v1` 版本运行在一个集群上，而 `v2` 和 `v3` 运行在另一个集群上，并完成远程服务调用。
 
 ## 集群部署 {#setup-clusters}
 
@@ -245,7 +245,7 @@ EOF
 
 * 遵循 [Bookinfo 示例应用](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)中的步骤，确定 Ingress 的 IP 和端口，用浏览器打开 `http://$GATEWAY_URL/productpage`。
 
-这里会看到 `productpage`，其中包含了 `reviews` 的内容，但是没有出现 `ratings`，这是因为 只有 `reviews` 服务的 `v1` 版本运行在 `cluster1` 上，我们还没有配置到 `cluster2` 的访问。
+这里会看到 `productpage`，其中包含了 `reviews` 的内容，但是没有出现 `ratings`，这是因为只有 `reviews` 服务的 `v1` 版本运行在 `cluster1` 上，我们还没有配置到 `cluster2` 的访问。
 
 ## 在 `cluster1` 上为远端的 `reviews` 服务创建 `ServiceEntry` 以及 `DestinationRule`
 
