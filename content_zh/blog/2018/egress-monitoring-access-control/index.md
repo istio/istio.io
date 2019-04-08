@@ -13,7 +13,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 ## 用例
 
-考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问edies.cnn.com的权限](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport)和[edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
+考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问 edition.cnn.com 的权限](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport)和[edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
 
 为了实现这一目标，组织的运维人员监控对外部服务的访问，并分析 Istio 日志，以验证没有向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送未经授权的请求。他们还配置了 Istio 来防止自动访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 。
 
@@ -39,7 +39,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[拥有 TLS 组织的 Egress 网关](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
 
-根据我们的场景，组织执行了[开始之前](#before-you-begin)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edies.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
+根据我们的场景，组织执行了[开始之前](#before-you-begin)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edition.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
 
 ### 日志
 
@@ -143,7 +143,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     {"level":"error","time":"2019-01-29T07:43:24.611462Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":1883355,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
     {{< /text >}}
 
-    您将看到与您的三个请求相关的四个日志条目。三个关于访问 _edies.cnn.com_ 的 _info_ 信息和一个关于访问 _edies.cnn.com/politics_ 的 _error_ 信息。服务网格 operators 可以查看所有访问实例，还可以搜索日志中表示禁止访问的 _error_ 日志。这是在自动地阻塞禁止访问之前可以应用的第一个安全措施，即将所有禁止访问实例记录为错误。在某些设置中，这可能是一个足够的安全措施。
+    您将看到与您的三个请求相关的四个日志条目。三个关于访问 _edition.cnn.com_ 的 _info_ 信息和一个关于访问 _edition.cnn.com/politics_ 的 _error_ 信息。服务网格 operators 可以查看所有访问实例，还可以搜索日志中表示禁止访问的 _error_ 日志。这是在自动地阻塞禁止访问之前可以应用的第一个安全措施，即将所有禁止访问实例记录为错误。在某些设置中，这可能是一个足够的安全措施。
 
     注意以下属性：
       * `destination`、 `path`、 `responseCode` 和 `responseSize` 与请求的 HTTP 参数相关
@@ -152,7 +152,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 ### 路由访问控制
 
-启用对 _edies.cnn.com_ 的访问进行日志记录之后，自动执行访问策略，即只允许访问 _/health_ 和 _/sport_ URL 路径。这样一个简单的策略控制可以通过 Istio 路由实现。
+启用对 _edition.cnn.com_ 的访问进行日志记录之后，自动执行访问策略，即只允许访问 _/health_ 和 _/sport_ URL 路径。这样一个简单的策略控制可以通过 Istio 路由实现。
 
 1.  为 _edition.cnn.com_ 重定义 `VirtualService` ：
 
@@ -232,7 +232,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 现在您移除在本节中使用的路由取消访问控制，在下一节将向您演示通过 Mixer 策略检查实现访问控制。
 
-1.  用之前[配置 Egress 网关](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway)示例中的版本替换 _edies.cnn.com_ 的 `VirtualService`：
+1.  用之前[配置 Egress 网关](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway)示例中的版本替换 _edition.cnn.com_ 的 `VirtualService`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -470,7 +470,7 @@ link="https-to-gateway.svg"
 caption="HTTPS egress 流量通过 egress 网关"
 >}}
 
-从安全的角度来看，端到端 HTTPS 被认为是一种更好的方法。然而，由于流量是加密的，Istio 代理和出口网关只能看到源和目标 IP 以及目标的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS ，所以[源标识](/docs/concepts/security/#istio-identity)也是已知的。网关无法检查 URL 路径、HTTP 方法和请求的头，因此无法基于 HTTP 信息进行监控和策略。在我们的用例中，组织将能够允许访问 _edies.cnn.com_ 并指定允许哪些应用程序访问 _edies.cnn.com_ 。但是，将不可能允许或阻止对 _edies.cnn.com_ 的特定URL路径的访问。使用HTTPS方法既不能阻止对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的访问，也不能监控此类访问。
+从安全的角度来看，端到端 HTTPS 被认为是一种更好的方法。然而，由于流量是加密的，Istio 代理和出口网关只能看到源和目标 IP 以及目标的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS ，所以[源标识](/docs/concepts/security/#istio-identity)也是已知的。网关无法检查 URL 路径、HTTP 方法和请求的头，因此无法基于 HTTP 信息进行监控和策略。在我们的用例中，组织将能够允许访问 _edition.cnn.com_ 并指定允许哪些应用程序访问 _edition.cnn.com_ 。但是，将不可能允许或阻止对 _edition.cnn.com_ 的特定URL路径的访问。使用HTTPS方法既不能阻止对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的访问，也不能监控此类访问。
 
 我们认为，每个组织都应充分考虑这两种方法的优缺点，并选择最适合其需要的方法。
 
