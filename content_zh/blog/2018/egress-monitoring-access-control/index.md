@@ -1,29 +1,29 @@
 ---
 title: HTTP Egress 流量监控和访问策略
-description: 描述如何配置 Istio 来监听 HTTP Egress 流量的访问策略。
+description: 描述如何配置 Istio 进行 HTTP Egress 流量监控和访问策略。
 publishdate: 2018-06-22
 last_update: 2019-01-29
 attribution: Vadim Eisenberg and Ronen Schaffer (IBM)
 keywords: [egress,traffic-management,access-control,monitoring]
 ---
 
-虽然 Istio 的主要关注点是管理服务网格内微服务之间的流量，但它也可以管理 Ingress (从外部进入网格)和 Egress (从网格向外)的流量。Istio 可以统一执行访问策略，并为网格内部、入口和出口流量聚合遥测数据。
+虽然 Istio 的主要关注点是管理服务网格内微服务之间的流量，但它也可以管理 ingress (从外部进入网格)和 egress (从网格向外)的流量。Istio 可以统一执行访问策略，并为网格内部、ingress 和 egress 流量聚合遥测数据。
 
-在这篇博客文章中，将向您展示如何使用 Istio 将监控和访问策略应用到 HTTP egress 流量。
+在这篇博客文章中，将向您展示如何使用 Istio 进行 HTTP Egress 流量监控和访问策略。
 
 ## 用例
 
-考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种主题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问edies.cnn.com的权限](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治主题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport)和[edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
+考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问edies.cnn.com的权限](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport)和[edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
 
 为了实现这一目标，组织的运维人员监控对外部服务的访问，并分析 Istio 日志，以验证没有向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送未经授权的请求。他们还配置了 Istio 来防止自动访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 。
 
-本组织决心防止对新策略的任何篡改。它决定设置一些机制以防止恶意应用程序访问禁止的主题。
+本组织决心防止对新策略的任何篡改，决定设置一些机制以防止恶意应用程序访问禁止的话题。
 
 ## 相关工作和示例
 
 * [Control Egress 流量](/docs/tasks/traffic-management/egress/)任务演示了网格内的应用程序如何访问外部(Kubernetes 集群之外) HTTP 和 HTTPS 服务。
 * [配置 Egress 网关](/docs/examples/advanced-gateways/egress-gateway/)示例描述了如何配置 Istio 来通过一个称为 _出口网关_ 的专用网关服务来引导出口流量。
-* [带有 TLS Origination 示例的 Egress Gateway](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)演示了如何允许应用程序向需要 HTTPS 的外部服务器发送 HTTP 请求，同时通过 Egress Gateway 引导流量。
+* [拥有 TLS 组织的 Egress Gateway](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) 示例演示了如何允许应用程序向需要 HTTPS 的外部服务器发送 HTTP 请求，同时通过 Egress Gateway 引导流量。
 * [收集指标](/docs/tasks/telemetry/metrics/collecting-metrics/)任务描述如何为网格中的服务配置指标。
 * [Grafana 的可视化指标](/docs/tasks/telemetry/metrics/using-istio-dashboard/)描述了用于监控网格流量的 Istio 仪表板。
 * [基本访问控制](/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何控制对网格内服务的访问。
@@ -43,7 +43,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 ### 日志
 
-配置 Istio 以记录对 _*.cnn.com_ 的访问。创建一个 `logentry` 和两个[stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`，一个用于记录禁止访问(_error_ 日志级别)，另一个用于记录对 _*.cnn.com_ 的所有访问(_info_ 日志级别)。然后创建规则将 `logentry` 实例定向到 `handlers`。一个规则指导访问 _*.cnn.com/politics_ 为日志禁止访问处理程序,另一个规则指导日志条目的处理程序,输出每个访问 _*.cnn.com_ 作为 _info_ 的日志级别。要了解 Istio `logentries`、`rules` 和 `handlers`，请参见 [Istio 适配器模型](/blog/2017/adapter-model/)。下图显示了涉及的实体和它们之间的依赖关系：
+配置 Istio 以记录对 _*.cnn.com_ 的访问。创建一个 `logentry` 和两个[stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`，一个用于记录禁止访问(_error_ 日志级别)，另一个用于记录对 _*.cnn.com_ 的所有访问(_info_ 日志级别)。然后创建规则将 `logentry` 实例定向到 `handlers`。一个规则指导访问 _*.cnn.com/politics_ 为日志禁止访问处理程序,另一个规则指导日志条目的处理程序，输出每个访问 _*.cnn.com_ 作为 _info_ 的日志级别。要了解 Istio `logentries`、`rules` 和 `handlers`，请参见 [Istio 适配器模型](/blog/2017/adapter-model/)。下图显示了涉及的实体和它们之间的依赖关系：
 
 {{< image width="80%" ratio="68.27%"
     link="egress-adapters-monitoring.svg"
@@ -143,7 +143,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     {"level":"error","time":"2019-01-29T07:43:24.611462Z","instance":"egress-access.logentry.istio-system","destination":"edition.cnn.com","path":"/politics","reporterUID":"kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system","responseCode":200,"responseSize":1883355,"sourcePrincipal":"cluster.local/ns/default/sa/sleep"}
     {{< /text >}}
 
-    您将看到与您的三个请求相关的四个日志条目。三个关于访问 _edies.cnn.com_ 的 _info_ 信息和一个关于访问 _edies.cnn.com/politics_ 的 _error_ 信息。服务网格 operators 可以查看所有访问实例，还可以搜索日志中表示禁止访问的 _error_ 日志。这是在自动阻塞禁止访问之前可以应用的第一个安全措施，即将所有禁止访问实例记录为错误。在某些设置中，这可能是一个足够的安全措施。
+    您将看到与您的三个请求相关的四个日志条目。三个关于访问 _edies.cnn.com_ 的 _info_ 信息和一个关于访问 _edies.cnn.com/politics_ 的 _error_ 信息。服务网格 operators 可以查看所有访问实例，还可以搜索日志中表示禁止访问的 _error_ 日志。这是在自动地阻塞禁止访问之前可以应用的第一个安全措施，即将所有禁止访问实例记录为错误。在某些设置中，这可能是一个足够的安全措施。
 
     注意以下属性：
       * `destination`、 `path`、 `responseCode` 和 `responseSize` 与请求的 HTTP 参数相关
@@ -197,7 +197,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
     注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅[ egress 网关安全性注意事项](/docs/examples/advanced-gateways/egress-gateway/#add -security- awareness)）。您一定不希望您的任何策略被篡改。
 
-1.  发送之前的三个 HTTP 请求到 _cnn.com_:
+1.  发送之前的三个 HTTP 请求到 _cnn.com_：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -214,7 +214,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     您可能需要等待几秒钟，等待 `VirtualService` 的更新传播到 egress 网关。
     {{< /tip >}}
 
-1.  查询 Mixer 日志，可以看到关于请求的信息再次出现在日志中:
+1.  查询 Mixer 日志，可以看到关于请求的信息再次出现在日志中：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
@@ -230,7 +230,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 另一方面是与远程访问策略系统的集成。如果在我们的用例中组织操作一些[标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，您可能希望配置 Istio 来使用来自这样一个系统的访问策略信息。您可以通过应用 [Istio Mixer 适配器](/blog/2017/adapter-model/)来实现这种集成。
 
-移除在本节中使用的路由取消访问控制，在下一节中演示通过 Mixer 策略检查实现访问控制。
+现在您移除在本节中使用的路由取消访问控制，在下一节将向您演示通过 Mixer 策略检查实现访问控制。
 
 1.  用之前[配置 Egress 网关](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway)示例中的版本替换 _edies.cnn.com_ 的 `VirtualService`：
 
@@ -287,7 +287,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 ### Mixer 策略检查访问控制
 
- 在此步骤中，您使用 Mixer [`Listchecker` 适配器](/docs/reference/config/policy-and-telemetry/adapters/list/)，它是一种白名单。您可以使用请求的 URL 路径定义一个 `listentry`，并使用一个 `listchecker` 由 `overrides` 字段指定的允许 URL 路径的静态列表检查 `listentry`。对于[外部标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，请使用 `providerurl` 字段。实例、规则和处理程序的更新图如下所示。注意，您重用相同的策略规则 `handle-cn-access` 来进行日志记录和访问策略检查。
+ 在该步骤中，您使用 Mixer [`Listchecker` 适配器](/docs/reference/config/policy-and-telemetry/adapters/list/)，它是一种白名单。您可以使用请求的 URL 路径定义一个 `listentry`，并使用一个 `listchecker` 由 `overrides` 字段指定的允许 URL 路径的静态列表检查 `listentry`。对于[外部标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，请使用 `providerurl` 字段。实例、规则和处理程序的更新图如下所示。注意，您重用相同的策略规则 `handle-cn-access` 来进行日志记录和访问策略检查。
 
 {{< image width="80%" ratio="65.45%"
     link="egress-adapters-monitoring-policy.svg"
@@ -473,7 +473,7 @@ caption="HTTPS egress 流量通过 egress 网关"
 
 从安全的角度来看，端到端 HTTPS 被认为是一种更好的方法。然而，由于流量是加密的，Istio 代理和出口网关只能看到源和目标 IP 以及目标的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS ，所以[源标识](/docs/concepts/security/#istio-identity)也是已知的。网关无法检查 URL 路径、HTTP 方法和请求的头，因此无法基于 HTTP 信息进行监控和策略。在我们的用例中，组织将能够允许访问 _edies.cnn.com_ 并指定允许哪些应用程序访问 _edies.cnn.com_。但是，将不可能允许或阻止对 _edies.cnn.com_ 的特定URL路径的访问。使用HTTPS方法既不能阻止对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的访问，也不能监控此类访问。
 
-我们认为，每个组织都将考虑这两种方法的优缺点，并选择最适合其需要的方法。
+我们认为，每个组织都应充分考虑这两种方法的优缺点，并选择最适合其需要的方法。
 
 ## 总结
 
