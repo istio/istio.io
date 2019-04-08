@@ -195,7 +195,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     EOF
     {{< /text >}}
 
-    注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅[ egress 网关安全性注意事项](/docs/examples/advanced-gateways/egress-gateway/#add -security- awareness)）。您一定不希望您的任何策略被篡改。
+    注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_ 。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅[ egress 网关安全性注意事项](/docs/examples/advanced-gateways/egress-gateway/#add -security- awareness)）。您一定不希望您的任何策略被篡改。
 
 1.  发送之前的三个 HTTP 请求到 _cnn.com_ ：
 
@@ -206,7 +206,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     200
     {{< /text >}}
 
-    向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送请求会返回 _404 Not Found_， 然而向
+    向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送请求会返回 _404 Not Found_ ， 然而向
       [edition.cnn.com/sport](https://edition.cnn.com/sport) 和
      [edition.cnn.com/health](https://edition.cnn.com/health) 发送请求，会像我们预想的那样返回 _200 OK_ 。
 
@@ -291,7 +291,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 {{< image width="80%" ratio="65.45%"
     link="egress-adapters-monitoring-policy.svg"
-    caption="Instances, rules and handlers for egress monitoring and access policies"
+    caption="用于 egress 监视和访问策略的实例、规则和处理程序"
     >}}
 
 1.  定义 `path-checker` 和 `request-path`：
@@ -367,7 +367,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     $ export SOURCE_POD_POLITICS=$(kubectl get pod -l app=politics -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-1.  执行常规测试，这次从 `SOURCE_POD_POLITICS` 发送三个 HTTP 请求。对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的请求返回 _403_，因为您没有为 _politics_ 命名空间配置异常。
+1.  执行常规测试，这次从 `SOURCE_POD_POLITICS` 发送三个 HTTP 请求。对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的请求返回 _403_ ，因为您没有为 _politics_ 命名空间配置异常。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_POLITICS -c politics -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -455,7 +455,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 在这个用例中，应用程序使用 HTTP 和 Istio Egress 网关为它们执行 TLS 初始化。或者，应用程序可以通过向 _edition.cnn.com_ 发出 HTTPS 请求来发起 TLS 本身。在本节中，我们将描述这两种方法及其优缺点。
 
-在 HTTP 方法中，请求在本地主机上不加密地发送，由 Istio sidecar 代理拦截并转发到 egress 网关。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS，因此流量会使 pod 加密。egress 网关解密流量，检查 URL 路径、 HTTP 方法和报头，报告遥测数据并执行策略检查。如果请求没有被某些策略检查阻止，那么 egress 网关将执行 TLS 发起到外部目的地（在我们的示例中是 _cnn.com_），因此请求将再次加密并发送到外部目的地。下图演示了这种方法的流程。网关内的 HTTP 协议根据解密后网关看到的协议来指定协议。
+在 HTTP 方法中，请求在本地主机上不加密地发送，由 Istio sidecar 代理拦截并转发到 egress 网关。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS，因此流量会使 pod 加密。egress 网关解密流量，检查 URL 路径、 HTTP 方法和报头，报告遥测数据并执行策略检查。如果请求没有被某些策略检查阻止，那么 egress 网关将执行 TLS 发起到外部目的地（在我们的示例中是 _cnn.com_ ），因此请求将再次加密并发送到外部目的地。下图演示了这种方法的流程。网关内的 HTTP 协议根据解密后网关看到的协议来指定协议。
 
 {{< image width="80%" ratio="73.96%"
 link="http-to-gateway.svg"
@@ -471,7 +471,7 @@ link="https-to-gateway.svg"
 caption="HTTPS egress 流量通过 egress 网关"
 >}}
 
-从安全的角度来看，端到端 HTTPS 被认为是一种更好的方法。然而，由于流量是加密的，Istio 代理和出口网关只能看到源和目标 IP 以及目标的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS ，所以[源标识](/docs/concepts/security/#istio-identity)也是已知的。网关无法检查 URL 路径、HTTP 方法和请求的头，因此无法基于 HTTP 信息进行监控和策略。在我们的用例中，组织将能够允许访问 _edies.cnn.com_ 并指定允许哪些应用程序访问 _edies.cnn.com_。但是，将不可能允许或阻止对 _edies.cnn.com_ 的特定URL路径的访问。使用HTTPS方法既不能阻止对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的访问，也不能监控此类访问。
+从安全的角度来看，端到端 HTTPS 被认为是一种更好的方法。然而，由于流量是加密的，Istio 代理和出口网关只能看到源和目标 IP 以及目标的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS ，所以[源标识](/docs/concepts/security/#istio-identity)也是已知的。网关无法检查 URL 路径、HTTP 方法和请求的头，因此无法基于 HTTP 信息进行监控和策略。在我们的用例中，组织将能够允许访问 _edies.cnn.com_ 并指定允许哪些应用程序访问 _edies.cnn.com_ 。但是，将不可能允许或阻止对 _edies.cnn.com_ 的特定URL路径的访问。使用HTTPS方法既不能阻止对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的访问，也不能监控此类访问。
 
 我们认为，每个组织都应充分考虑这两种方法的优缺点，并选择最适合其需要的方法。
 
