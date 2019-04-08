@@ -22,12 +22,17 @@
     --buttonActiveColor: #e07484;
     --dividerBarColor: rgba(255, 255, 255, .1);
     --glossaryHeaderColor: #{$medium-gray};
-    --blockQuoteBackgroundColor: #{$dark-gray};
-    --tipCalloutBackgroundColor: #{$dark-gray};
-    --ideaCalloutBackgroundColor: #{$dark-gray};
-    --warningCalloutBackgroundColor: #{$dark-gray};
     --deprecatedBackgroundColor: silver;
     --boxBorderColor: var(--textColor);
+
+    --quoteCalloutBackgroundColor: #{$dark-gray};
+    --quoteCalloutBorderColor: #{$dark-gray};
+    --tipCalloutBackgroundColor: #{$dark-gray};
+    --tipCalloutBorderColor: #{$dark-gray};
+    --ideaCalloutBackgroundColor: #{$dark-gray};
+    --ideaCalloutBorderColor: #{$dark-gray};
+    --warningCalloutBackgroundColor: #{$dark-gray};
+    --warningCalloutBorderColor: #{$dark-gray};
 
     --preBlockShadowColor: #777777;
     --preBlockBorderColor: #777777;
