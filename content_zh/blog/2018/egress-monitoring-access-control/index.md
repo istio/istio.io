@@ -39,7 +39,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[拥有 TLS 组织的 Egress 网关](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
 
-根据我们的场景，组织执行了[开始之前](#before-you-begin)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edition.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
+根据我们的场景，组织执行了[开始之前](#开始之前)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edition.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
 
 ### 日志
 
