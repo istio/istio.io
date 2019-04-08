@@ -226,7 +226,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
     你依然会得到关于访问[edition.cnn.com/politics](https://edition.cnn.com/politics)的信息和错误消息，然而这次 `responseCode` 会像我们预想的那样返回 `404` 。
 
-虽然在这个简单的例子中使用 Istio 路由实现访问控制是可行的，但是在更复杂的例子中就不够了。例如，组织可能希望在某些条件下允许访问[edition.cnn.com/politics](https://edition.cnn.com/politics)，因此需要比仅通过 URL 路径过滤更复杂的策略逻辑。您可能想要应用 Istio Mixer 适配器，例如允许/禁止 URL 路径的[白名单或黑名单](/zh/docs/tasks/policy-enforcement/denial-and-list/#基于属性的-_whitelists_-或者-_blacklists_)。策略规则允许指定复杂的条件，用丰富的表达式语言指定，其中包括与和或逻辑运算符。这些规则可用于日志记录和策略检查。更高级的用户可能希望应用基于 [Istio 角色访问控制](/docs/concepts/security/#authorization)。
+虽然在这个简单的例子中使用 Istio 路由实现访问控制是可行的，但是在更复杂的例子中就不够了。例如，组织可能希望在某些条件下允许访问[edition.cnn.com/politics](https://edition.cnn.com/politics)，因此需要比仅通过 URL 路径过滤更复杂的策略逻辑。您可能想要应用 Istio Mixer 适配器，例如允许/禁止 URL 路径的[白名单或黑名单](/zh/docs/tasks/policy-enforcement/denial-and-list/#基于属性的_whitelists_或者_blacklists_)。策略规则允许指定复杂的条件，用丰富的表达式语言指定，其中包括与和或逻辑运算符。这些规则可用于日志记录和策略检查。更高级的用户可能希望应用基于 [Istio 角色访问控制](/docs/concepts/security/#authorization)。
 
 另一方面是与远程访问策略系统的集成。如果在我们的用例中组织操作一些[标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，您可能希望配置 Istio 来使用来自这样一个系统的访问策略信息。您可以通过应用 [Istio Mixer 适配器](/blog/2017/adapter-model/)来实现这种集成。
 
