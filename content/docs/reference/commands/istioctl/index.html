@@ -4,16 +4,18 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 28
+number_of_entries: 36
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
 </p>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -55,9 +57,11 @@ A group of commands used to interact with Istio authentication policies.
 </p>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -105,9 +109,11 @@ and check if TLS settings are compatible between them.
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -158,9 +164,11 @@ istioctl authn tls-check 656bd7df7c-5zp4s.default bar
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -203,9 +211,11 @@ istioctl deregister my-svc 172.17.0.2
 <p>Experimental commands that may be modified or deprecated</p>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -246,9 +256,11 @@ istioctl deregister my-svc 172.17.0.2
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -296,6 +308,396 @@ istioctl deregister my-svc 172.17.0.2
 <h3 id="istioctl-experimental-convert-ingress Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl experimental convert-ingress -f samples/bookinfo/platform/kube/bookinfo-ingress.yaml
 </code></pre>
+<h2 id="istioctl-experimental-dashboard">istioctl experimental dashboard</h2>
+<p>Access to Istio web UIs</p>
+<pre class="language-bash"><code>istioctl experimental dashboard [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental dash [flags]
+istioctl experimental d [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-dashboard-controlz">istioctl experimental dashboard controlz</h2>
+<p>Open the ControlZ web UI for a pod in the Istio control plane</p>
+<pre class="language-bash"><code>istioctl experimental dashboard controlz &lt;pod-name[.namespace]&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;int&gt;</code></td>
+<td></td>
+<td>ControlZ port  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-dashboard-controlz Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental dashboard controlz pilot-123-456.istio-system
+</code></pre>
+<h2 id="istioctl-experimental-dashboard-envoy">istioctl experimental dashboard envoy</h2>
+<p>Open the Envoy admin dashboard for a sidecar</p>
+<pre class="language-bash"><code>istioctl experimental dashboard envoy &lt;pod-name[.namespace]&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-dashboard-envoy Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental dashboard envoy productpage-123-456.default
+</code></pre>
+<h2 id="istioctl-experimental-dashboard-grafana">istioctl experimental dashboard grafana</h2>
+<p>Open Istio&#39;s Grafana dashboard</p>
+<pre class="language-bash"><code>istioctl experimental dashboard grafana [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-dashboard-grafana Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental dashboard grafana
+</code></pre>
+<h2 id="istioctl-experimental-dashboard-jaeger">istioctl experimental dashboard jaeger</h2>
+<p>Open Istio&#39;s Jaeger dashboard</p>
+<pre class="language-bash"><code>istioctl experimental dashboard jaeger [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-dashboard-jaeger Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental dashboard jaeger
+</code></pre>
+<h2 id="istioctl-experimental-dashboard-kiali">istioctl experimental dashboard kiali</h2>
+<p>Open Istio&#39;s Kiali dashboard</p>
+<pre class="language-bash"><code>istioctl experimental dashboard kiali [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-dashboard-kiali Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental dashboard kiali
+</code></pre>
+<h2 id="istioctl-experimental-dashboard-prometheus">istioctl experimental dashboard prometheus</h2>
+<p>Open Istio&#39;s Prometheus dashboard</p>
+<pre class="language-bash"><code>istioctl experimental dashboard prometheus [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-dashboard-prometheus Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental dashboard prometheus
+</code></pre>
+<h2 id="istioctl-experimental-dashboard-zipkin">istioctl experimental dashboard zipkin</h2>
+<p>Open Istio&#39;s Zipkin dashboard</p>
+<pre class="language-bash"><code>istioctl experimental dashboard zipkin [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, default, kube-converter, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Istio host platform  (default `kube`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-dashboard-zipkin Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental dashboard zipkin
+</code></pre>
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
@@ -316,9 +718,11 @@ calculated over a time interval of 1 minute.
 </code></pre></div>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -368,9 +772,11 @@ A group of commands used to interact with Istio RBAC policies. For example, Quer
 request is allowed or denied under the current Istio RBAC policies.</p>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -421,9 +827,11 @@ is being taken on. PATH is the HTTP path within the service.</p>
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -491,9 +899,11 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -572,9 +982,11 @@ file/configmap created with a new Istio release.
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -685,9 +1097,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <p>A group of commands used to retrieve information about proxy configuration from the Envoy config dump</p>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -740,9 +1154,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </code></pre></div>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -797,9 +1213,11 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -880,9 +1298,11 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -968,9 +1388,11 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -1046,9 +1468,11 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -1115,9 +1539,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </code></pre></div>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -1166,9 +1592,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -1224,9 +1652,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -1280,9 +1710,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -1332,7 +1764,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </tr>
 </tbody>
 </table>
-<h2 id="envvars">Environment Variables</h2>
+<h2 id="envvars">Environment variables</h2>
 These environment variables affect the behavior of the <code>istioctl</code> command.
 <table class="envvars">
 <thead>
@@ -1456,6 +1888,90 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>V2_REFRESH</code></td>
 <td>Time Duration</td>
 <td><code>0s</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="annotations">Annotations</h2>
+These resource annotations are used by the <code>istioctl</code> command.
+<table class="annotations">
+<thead>
+<tr>
+<th>Annotation Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>policy.istio.io/check</code></td>
+<td>Determines the policy for behavior when unable to connect to Mixer. If not set, FAIL_CLOSE is set, rejecting requests.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkBaseRetryWaitTime</code></td>
+<td>Base time to wait between retries, will be adjusted by backoff and jitter. In duration format. If not set, this will be 80ms.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkMaxRetryWaitTime</code></td>
+<td>Maximum time to wait between retries to Mixer. In duration format. If not set, this will be 1000ms.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkRetries</code></td>
+<td>The maximum number of retries on transport errors to Mixer. If not set, this will be 0, indicating no retries.</td>
+</tr>
+<tr>
+<td><code>readiness.status.sidecar.istio.io/applicationPorts</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>readiness.status.sidecar.istio.io/failureThreshold</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>readiness.status.sidecar.istio.io/initialDelaySeconds</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>readiness.status.sidecar.istio.io/periodSeconds</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/inject</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/interceptionMode</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/proxyImage</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/status</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.sidecar.istio.io/port</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>traffic.sidecar.istio.io/excludeInboundPorts</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>traffic.sidecar.istio.io/excludeOutboundIPRanges</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>traffic.sidecar.istio.io/includeInboundPorts</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>traffic.sidecar.istio.io/includeOutboundIPRanges</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
 <td></td>
 </tr>
 </tbody>
