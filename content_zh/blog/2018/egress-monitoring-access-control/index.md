@@ -195,7 +195,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     EOF
     {{< /text >}}
 
-    注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_ 。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅[ egress 网关安全性注意事项](/docs/examples/advanced-gateways/egress-gateway/#add -security- awareness)）。您一定不希望您的任何策略被篡改。
+    注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_ 。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅 [egress 网关安全性注意事项](/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations)）。您一定不希望您的任何策略被篡改。
 
 1.  发送之前的三个 HTTP 请求到 _cnn.com_ ：
 
@@ -272,7 +272,6 @@ keywords: [egress,traffic-management,access-control,monitoring]
     {{< /text >}}
 
 1.  发送之前的三个 HTTP 请求到 _cnn.com_ ， 这一次您应该会收到三个 _200 OK_ 的响应：
-
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
