@@ -39,7 +39,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[拥有 TLS 组织的 Egress 网关](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
 
-根据我们的场景，组织执行了[开始之前](#before-you-begin)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edies.cnn.com_，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
+根据我们的场景，组织执行了[开始之前](#before-you-begin)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edies.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
 
 ### 日志
 
@@ -47,7 +47,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 {{< image width="80%" ratio="68.27%"
     link="egress-adapters-monitoring.svg"
-    caption="Instances, rules and handlers for egress monitoring"
+    caption="用于 egress 监视和访问策略的实例、规则和处理程序"
     >}}
 
 1.  创建 `logentry`、 `rules` 和 `handlers`。 注意您指定了 `context.reporter.uid` 作为
@@ -123,8 +123,8 @@ keywords: [egress,traffic-management,access-control,monitoring]
     EOF
     {{< /text >}}
 
-1.  发送三个 HTTP 请求到 _cnn.com_、 [edition.cnn.com/politics](https://edition.cnn.com/politics)、 [edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health)。
-三个请求都应该返回 _200 OK_。
+1.  发送三个 HTTP 请求到 _cnn.com_ 、 [edition.cnn.com/politics](https://edition.cnn.com/politics)、 [edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health)。
+三个请求都应该返回 _200 OK_ 。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -197,7 +197,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
     注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅[ egress 网关安全性注意事项](/docs/examples/advanced-gateways/egress-gateway/#add -security- awareness)）。您一定不希望您的任何策略被篡改。
 
-1.  发送之前的三个 HTTP 请求到 _cnn.com_：
+1.  发送之前的三个 HTTP 请求到 _cnn.com_ ：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -271,7 +271,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
     EOF
     {{< /text >}}
 
-1.  发送先前的三个 HTTP 请求到 _cnn.com_， 这一次您应该会收到三个 _200 OK_ 的响应：
+1.  发送之前的三个 HTTP 请求到 _cnn.com_ ， 这一次您应该会收到三个 _200 OK_ 的响应：
 
 
     {{< text bash >}}
