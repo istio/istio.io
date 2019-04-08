@@ -494,7 +494,7 @@ caption="HTTPS egress 流量通过 egress 网关"
     $ kubectl delete -n istio-system listentry request-path
     {{< /text >}}
 
-1.  删除 _politics_ 源 pod:
+1.  删除 _politics_ 源 pod：
 
     {{< text bash >}}
     $ sed 's/: sleep/: politics/g' samples/sleep/sleep.yaml | kubectl delete -f -
