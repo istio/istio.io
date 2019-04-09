@@ -12,9 +12,7 @@ number_of_entries: 5
 Check 方法用于检查执行前提条件和配额分配。Mixer 需要一组属性作为输入，它使用输入的配置来确定要调用哪些适配器，以及使用哪些参数来执行检查和配额分配。
 
 {{< text bash >}}
-
 $ mixc check [flags]
-
 {{< /text >}}
 
 | 参数 | 缩写 | 描述 |
@@ -40,9 +38,7 @@ $ mixc check [flags]
 Report 方法用于生成遥测。Mixer 需要一组属性作为输入，它使用输入的配置来确定要调用哪些适配器，以及使用哪些参数来输出遥测。
 
 {{< text bash >}}
-
 $ mixc report [flags]
-
 {{< /text >}}
 
 | 参数 | 缩写 | 描述 |
@@ -67,9 +63,7 @@ $ mixc report [flags]
 打印出版本信息
 
 {{< text bash >}}
-
 $ mixc version [flags]
-
 {{< /text >}}
 
 | 参数 | 缩写 | 描述 |

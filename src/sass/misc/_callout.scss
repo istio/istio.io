@@ -5,7 +5,7 @@
 
     margin: 1em 0 1em 1em;
     @media (min-width: $bp-md) {
-        margin: 1em;
+        margin: 1.25em;
     }
 
     .type {
@@ -24,6 +24,14 @@
     .content {
         display: table-cell;
         min-height: 100%;
+
+        p:first-of-type {
+            margin-top: 0;
+        }
+
+        p:last-of-type {
+            margin-bottom: 0;
+        }
     }
 
     &.tip {

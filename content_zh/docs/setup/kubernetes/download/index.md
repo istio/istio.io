@@ -12,7 +12,7 @@ Istio 会被安装到自己的 `istio-system` 命名空间，并且能够对所�
 1. 进入 [Istio release](https://github.com/istio/istio/releases) 页面，下载对应目标操作系统的安装文件。在 macOS 或者 Linux 系统中，还可以运行下面的命令，进行下载和自动解压缩：
 
     {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | sh -
+    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
     {{< /text >}}
 
 1. 进入 Istio 包目录。例如，假设这个包是 `istio-{{< istio_full_version >}}.0`：

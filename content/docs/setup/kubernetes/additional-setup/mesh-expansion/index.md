@@ -4,7 +4,7 @@ description: Integrate VMs and bare metal hosts into an Istio mesh deployed on K
 weight: 95
 keywords: [kubernetes,vms]
 aliases:
-    - /docs/setup/kubernetes/additional-setup/mesh-expansion/
+    - /docs/setup/kubernetes/mesh-expansion/
 ---
 
 This flow provides instructions to integrate VMs and bare metal hosts into
@@ -136,7 +136,7 @@ Next, run the following commands on each machine that you want to add to the mes
 
     {{< text bash >}}
     $ gcloud compute ssh --project=${MY_PROJECT} --zone={MY_ZONE} "${GCE_NAME}"
-    $ curl -L https://storage.googleapis.com/istio-release/releases/1.1.0-rc.0/deb/istio-sidecar.deb > istio-sidecar.deb
+    $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 

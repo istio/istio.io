@@ -11,15 +11,15 @@
 
 # The repos to mine for docs, just add new entries here to pull in more repos.
 REPOS=(
-    https://github.com/istio/istio.git@release-1.1
-    https://github.com/istio/api.git@release-1.1
+    https://github.com/istio/istio.git@master
+    https://github.com/istio/api.git@master
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
 )
 
 # The components from istio/istio to build and extract usage docs from.
-COMPONENT_REPO=https://github.com/istio/istio.git@release-1.1
+COMPONENT_REPO=https://github.com/istio/istio.git@master
 COMPONENTS=(
     mixer/cmd/mixc:mixc
     mixer/cmd/mixs:mixs
@@ -151,8 +151,5 @@ for f in `find ${WORK_DIR} -type f -name '*.pb.html'`
 do
     locate_file ${f}
 done
-
-# Copy all the example files over into the examples directory
-# cp $WORK_DIR/istio/Makefile examples/Makefile
 
 rm -fr ${WORK_DIR}

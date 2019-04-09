@@ -51,16 +51,16 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Prometheus Integration](/docs/tasks/telemetry/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/docs/tasks/telemetry/) | Stable
+| [Prometheus Integration](/docs/tasks/telemetry/metrics/querying-metrics/) | Stable
+| [Local Logging (STDIO)](/docs/tasks/telemetry/logs/collecting-logs/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
-| [Service Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Stable
-| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/using-istio-dashboard/) | Stable
+| [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
+| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Beta
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Beta
-| [Logging with Fluentd](/docs/tasks/telemetry/fluentd/) | Beta
+| [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
 
 ### Security and Policy Enforcement
@@ -78,11 +78,10 @@ Below is our list of existing features and their current phases. This informatio
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
-| Per-Path Authentication | Alpha
-| TCP Authorization | Alpha
-| Cert management on Ingress Gateway | Alpha
-| Vault integration | Alpha
-| SDS Integration | Alpha
+| [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
+| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/secure-ingress/sds) | Alpha
+| [Vault integration](/docs/tasks/security/vault-ca) | Alpha
+| [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
 ### Core
 
@@ -91,7 +90,8 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
-| [Mixer Adapter Authoring Model](/blog/2017/adapter-model/)        | Stable
+| [Mixer In-Process Adapter Authoring Model](/blog/2017/adapter-model/)        | Deprecated
+| Mixer Out-of-Process Adapter Authoring Model | Beta
 | [Helm](/docs/setup/kubernetes/install/helm/) | Beta
 | [Multicluster Mesh over VPN](/docs/setup/kubernetes/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta

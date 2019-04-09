@@ -23,20 +23,7 @@ This permits customization of Istio to operator specific requirements.
 
 1. [Download the Istio release](/docs/setup/kubernetes/download/).
 
-1. [Kubernetes platform setup](/docs/setup/kubernetes/prepare/platform-setup/):
-
-    * [Alibaba Cloud](/docs/setup/kubernetes/prepare/platform-setup/alicloud/)
-    * [Azure](/docs/setup/kubernetes/prepare/platform-setup/azure/)
-    * [Docker For Desktop](/docs/setup/kubernetes/prepare/platform-setup/docker/)
-    * [Google Container Engine (GKE)](/docs/setup/kubernetes/prepare/platform-setup/gke/)
-    * [IBM Cloud](/docs/setup/kubernetes/prepare/platform-setup/ibm/)
-    * [Minikube](/docs/setup/kubernetes/prepare/platform-setup/minikube/)
-    * [OpenShift Origin](/docs/setup/kubernetes/prepare/platform-setup/openshift/)
-    * [Oracle Cloud Infrastructure (OKE)](/docs/setup/kubernetes/prepare/platform-setup/oci/)
-
-    {{< tip >}}
-    Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
-    {{< /tip >}}
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
 
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
 
@@ -54,7 +41,7 @@ This permits customization of Istio to operator specific requirements.
 
 {{< tabset cookie-name="profile" >}}
 
-{{% tab name="permissive mTLS" cookie-value="permissive" %}}
+{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
 When using the permissive mutual TLS mode, all services accept both plain text and
 mutual TLS traffic. Clients send plain text traffic unless configured for
 [mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic).
@@ -73,9 +60,9 @@ Run the following command to install this variant:
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="strict mTLS" cookie-value="strict" %}}
+{{< tab name="strict mutual TLS" cookie-value="strict" >}}
 This variant will enforce
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between all clients and servers.
 
@@ -88,13 +75,13 @@ Run the following command to install this variant:
 $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP`:
+1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
@@ -113,7 +100,6 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     jaeger-query             ClusterIP      172.21.26.187    <none>          16686/TCP                                                                                                                 2m
     kiali                    ClusterIP      172.21.155.201   <none>          20001/TCP                                                                                                                 2m
     prometheus               ClusterIP      172.21.63.159    <none>          9090/TCP                                                                                                                  2m
-    servicegraph             ClusterIP      172.21.45.6      <none>          8088/TCP                                                                                                                  2m
     tracing                  ClusterIP      172.21.2.245     <none>          80/TCP                                                                                                                    2m
     zipkin                   ClusterIP      172.21.182.245   <none>          9411/TCP                                                                                                                  2m
     {{< /text >}}
@@ -146,7 +132,6 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     istio-tracing-69b5f778b7-s2zvw                                 1/1     Running     0          1m
     kiali-99f7467dc-6rvwp                                          1/1     Running     0          1m
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
-    servicegraph-85545585fc-f9p62                                  1/1     Running     1          1m
     {{< /text >}}
 
 ## Deploy your application
@@ -188,21 +173,21 @@ non-existent resources because they may have been deleted hierarchically.
 
 {{< tabset cookie-name="profile" >}}
 
-{{% tab name="permissive mTLS" cookie-value="permissive" %}}
+{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab name="strict mTLS" cookie-value="strict" %}}
+{{< tab name="strict mutual TLS" cookie-value="strict" >}}
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
 {{< /text >}}
 
-{{% /tab %}}
+{{< /tab >}}
 
 {{< /tabset >}}
 

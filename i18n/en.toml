@@ -107,7 +107,7 @@ other = "%s DOCS"
 other = "By "
 
 [button_copy]
-other = "Copy to clipoboard"
+other = "Copy to clipboard"
 
 [button_print]
 other = "Print"

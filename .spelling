@@ -8,6 +8,7 @@
 0.2.x
 0.8.x
 1.x
+10ms
 10s
 123456789012.my
 14.60
@@ -23,6 +24,15 @@
 4s
 5000qps
 50Mb
+1ms
+2ms
+3ms
+4ms
+5ms
+6ms
+7ms
+8ms
+9ms
 6s
 72.96ms
 7Mb
@@ -129,6 +139,7 @@ Datawire
 debian
 decapsulated
 Delayering
+Demailly
 deployment
 dev
 Devirtualization
@@ -137,6 +148,7 @@ discuss.istio.io
 distro
 docker-compose's
 docker.io
+Duggirala
 e.g.
 eBPF
 edition.cnn.com
@@ -156,6 +168,7 @@ failover
 failovers
 faq
 faq.md
+Fawad
 fcm.googleapis.com
 FDs
 filename
@@ -236,7 +249,7 @@ istio.io.
 Istiofied
 IstioMesh
 istio-mixer
-istio-policy
+istio-system
 jason
 Jog
 json
@@ -247,6 +260,7 @@ JWTs
 Keepalived
 key.pem
 Keycloak
+Khaliq
 Kiali
 Kibana
 Knative
@@ -520,6 +534,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+workgroup
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509

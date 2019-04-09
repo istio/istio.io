@@ -290,7 +290,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 {{< /text >}}
 
 If the [add-on tools](/docs/tasks/telemetry/), example
-[Prometheus](/docs/tasks/telemetry/querying-metrics/), are deployed
+[Prometheus](/docs/tasks/telemetry/metrics/querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.
 

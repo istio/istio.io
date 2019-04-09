@@ -39,18 +39,19 @@ function handleCodeBlocks() {
                 const code = codes[0];
                 const text = getToolbarDivText(div);
                 let downloadas = code.dataset.downloadas;
-                if (downloadas === null || downloadas === "") {
+                if (downloadas === undefined || downloadas === null || downloadas === "") {
                     let lang = "";
                     for (let j = 0; j < code.classList.length; j++) {
                         if (code.classList.item(j).startsWith("language-")) {
                             lang = code.classList.item(j).substr(9);
                             break;
+                        } else if (code.classList.item(j).startsWith("command-")) {
+                            lang = "bash";
+                            break;
                         }
                     }
 
-                    if (lang.startsWith("command")) {
-                        lang = "bash";
-                    } else if (lang === "markdown") {
+                    if (lang === "markdown") {
                         lang = "md";
                     } else if (lang === "") {
                         lang = "txt";
@@ -128,7 +129,7 @@ function handleCodeBlocks() {
 
         let cl = "";
         for (let j = 0; j < code.classList.length; j++) {
-            if (code.classList.item(j).startsWith("language-command")) {
+            if (code.classList.item(j).startsWith("language-bash")) {
                 cl = code.classList.item(j);
                 break;
             }
@@ -149,7 +150,7 @@ function handleCodeBlocks() {
                         if (syntaxColoring) {
                             cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
                         } else {
-                            cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
+                            cmd += "$ " + tmp + "\n";
                         }
                     }
 
@@ -182,12 +183,12 @@ function handleCodeBlocks() {
                 if (syntaxColoring) {
                     cmd += "$ " + Prism.highlight(tmp, Prism.languages["bash"], "bash") + "\n";
                 } else {
-                    cmd += "$ " + Prism.highlight(tmp, Prism.languages["plain"], "plain") + "\n";
+                    cmd += "$ " + tmp + "\n";
                 }
             }
 
             if (cmd !== "") {
-                if (code.dataset.expand === "true") {
+                if (code.dataset.expandlinks === "true") {
                     cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
                 }
 
@@ -204,15 +205,13 @@ function handleCodeBlocks() {
                 }
 
                 if (output !== "") {
+                    output = escapeHTML(output);
+
                     // apply formatting to the output?
-                    let prefix = "language-command-output-as-";
-                    if (cl.startsWith(prefix)) {
-                        let lang = cl.substr(prefix.length);
+                    if (code.dataset.outputis) {
                         if (syntaxColoring) {
-                            output = Prism.highlight(output, Prism.languages[lang], lang);
+                            output = Prism.highlight(output, Prism.languages[code.dataset.outputis], code.dataset.outputis);
                         }
-                    } else {
-                        output = escapeHTML(output);
                     }
 
                     html += "<div class='output'>" + output + "</div>";
@@ -237,20 +236,43 @@ function handleCodeBlocks() {
 
     // Load the content of any externally-hosted PRE block
     function loadExternal(pre) {
+        const code = pre.firstChild;
 
         function fetchFile(elem, url) {
             fetch(url)
-                .then(response => response.text())
+                .then(response => {
+                    if (response.status !== 200) {
+                        return "Unable to access " + url + ": " + response.statusText;
+                    }
+
+                    return response.text()
+                })
+                .catch(e => {
+                    return "Unable to access " + url + ": " + e;
+                })
                 .then(data => {
-                    elem.firstChild.textContent = data;
+                    if (code.dataset.snippet) {
+                        const pattern = "\\n.*?\\$snippet " + code.dataset.snippet + "\\n(.+?)\\n.*?\\$endsnippet";
+                        const regex = new RegExp(pattern, 'gms');
+
+                        let buf = "";
+                        let match = regex.exec(data);
+                        while (match != null) {
+                            buf = buf + match[1];
+                            match = regex.exec(data);
+                        }
+                        data = buf;
+                    }
+
+                    code.textContent = data;
                     if (syntaxColoring) {
-                        Prism.highlightElement(elem.firstChild, false);
+                        Prism.highlightElement(code, false);
                     }
                 });
         }
 
-        if (pre.hasAttribute("data-src")) {
-            fetchFile(pre, pre.dataset.src);
+        if (code.dataset.src) {
+            fetchFile(code, code.dataset.src);
         }
     }
 
