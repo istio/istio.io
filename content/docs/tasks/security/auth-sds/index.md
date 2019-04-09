@@ -96,7 +96,7 @@ As you can see there is no secret file mounted at `/etc/certs` folder.
 ## Increasing security with pod security policies
 
 The Istio Secret Discovery Service (SDS) uses the Citadel agent to distribute the certificate to the
-Envoy sidecar via Unix domain socket. All pods running in the same Kubernetes node share the Citadel
+Envoy sidecar via a Unix domain socket. All pods running in the same Kubernetes node share the Citadel
 agent and Unix domain socket.
 
 To prevent malicious modifications to the Unix domain socket, enable the [pod security policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
@@ -242,7 +242,7 @@ To enable the pod security policy, perform the following steps:
     {{< /text >}}
 
 1. To verify that the Citadel agents work with the enabled pod security policy, wait a few seconds
-   and run the following command to confirm the citadel agent started successfully:
+   and run the following command to confirm the agents started successfully:
 
     {{< text bash >}}
     $ kubectl get pod -l 'app=nodeagent' -n istio-system
