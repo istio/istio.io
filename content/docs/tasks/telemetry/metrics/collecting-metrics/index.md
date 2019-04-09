@@ -154,6 +154,6 @@ rule, and because the rule is in the configured default configuration namespace
     $ killall kubectl
     {{< /text >}}
 
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+*   If you are not planning to explore any follow-on tasks, refer to the
+    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    to shutdown the application.

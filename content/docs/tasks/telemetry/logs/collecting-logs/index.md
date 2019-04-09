@@ -135,6 +135,6 @@ here to illustrate how to use `match` expressions to control rule execution.
     $ killall kubectl
     {{< /text >}}
 
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+*   If you are not planning to explore any follow-on tasks, refer to the
+    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    to shutdown the application.
