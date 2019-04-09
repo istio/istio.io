@@ -226,7 +226,6 @@ on the same Kubernetes node.
     EOF
     {{< /text >}}
 
-
 1. Enable pod security policy in the cluster
 
     Different cloud platforms have different approach to enable the pod security policy, please refer to your
