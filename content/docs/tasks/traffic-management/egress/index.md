@@ -8,10 +8,14 @@ keywords: [traffic-management,egress]
 ---
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
-Istio must be configured in a way that allows access to URLs outside of the cluster before external
-services can be called. This task will show you how to do it in three different ways:
+accessability of URLs outside of the cluster depends on the configuration of the proxy.
+By default, Istio configures the Envoy proxy to passthourgh requests for unknown services.
+Although this provides a convenvient way to get started with Istio, configuring
+stricter control is usually preferrable.
 
-1. Configure the Envoy proxy to pass requests through to external services on ports that are not configured inside the mesh.
+This task shows you how to access external services in three different ways:
+
+1. Configure the Envoy proxy to pass requests through to external services that are not configured inside the mesh.
 1. Configure [service entries](/docs/reference/config/networking/v1alpha3/service-entry/) to provide controlled access to external services.
 1. Bypass the Envoy proxy for a specific range of IPs.
 
@@ -19,63 +23,81 @@ services can be called. This task will show you how to do it in three different 
 
 ## Envoy passthrough to external services
 
-Istio has an [installation option](/docs/reference/config/installation-options/)
-that configures the Istio proxy to pass through, instead of block, calls to external services
-on any ports without an HTTP service or service entry within the mesh.
-This option, `global.outboundTrafficPolicy.mode=ALLOW_ANY`, is enabled by default
-so that one can start evaluating Istio quickly, without controlling access to external
-services, and decide to [configure access to external services](#controlled-access-to-external-services) later.
-
-For example, if you don't register an HTTP service or define a service entry for port 8000
-within the mesh, the sidecar proxy will forward requests to any external service on that port.
-However, if you later create an HTTP service inside the mesh on port 8000 or define a service entry for any
-host on port 8000, Istio will block all external access to port 8000; Istio will fall back to a
-blocking-by-default behavior for that port.
+Istio has an [installation option](/docs/reference/config/installation-options/),
+`global.outboundTrafficPolicy.mode`, that configures the sidecar handling
+of external services (i.e., services that are not defined in Istio's internal service registry).
+If this option is set to `ALLOW_ANY`, the Istio proxy will pass through calls to unknown services.
+If, instead, it is set to `REGISTRY_ONLY`, then any host without an HTTP service or
+service entry defined within the mesh, will be blocked.
+`ALLOW_ANY` is the default value, allowing you to start evaluating Istio quickly,
+without controlling access to external services.
+You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
 
 {{< warning >}}
-Some ports, for example port 80, have HTTP services inside Istio by default. Because of this caveat,
-you cannot use this approach for services using those ports.
+In versions prior to Istio 1.1.3, `ALLOW_ANY` only worked on ports with no HTTP services or
+service entries defined within the mesh.
+External hosts using the same port as any internal HTTP service
+fell back to a blocking-by-default behavior.
+Because some ports, such as port 80, have HTTP services inside Istio by default,
+prior to Istio 1.1.3 you couldn't call external services on any of those ports either.
 {{< /warning >}}
 
-1. To demonstrate this approach you need to ensure that your Istio installation is configured
+1. To see this approach in action you need to ensure that your Istio installation is configured
     with the `global.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
-    disabled it using the `--set global.outboundTrafficPolicy.mode=REGISTRY_ONLY` flag when you
-    installed Istio using helm, it is enabled by default.
+    set it to `REGISTRY_ONLY` mode when you installed Istio, it is probabaly enabled by default.
+
+    You can run the following command to confirm it is configured correctly:
+
+    {{< text bash >}}
+    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
+    mode: ALLOW_ANY
+    mode: ALLOW_ANY
+    {{< /text >}}
+
+    The string `mode: ALLOW_ANY` should appear twice in the output.
 
     {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
 
-    {{< text bash >}}
+    {{< text_hack bash >}}
     $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
-    {{< /text >}}
+    {{< /text_hack >}}
 
     {{< /tip >}}
 
-1.  Make a couple of requests to external HTTPS services from `SOURCE_POD`:
+1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` and confirm that they produce
+    successful `200` responses:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://www.google.com | grep -o "<title>.*</title>"; kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://edition.cnn.com | grep -o "<title>.*</title>"
-    <title>Google</title>
-    <title>CNN International - Breaking News, US News, World News and Video</title>
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
+    HTTP/2 200
+    HTTP/2 200
     {{< /text >}}
 
-Note that if you configure Istio with allowed access to external services this way, you lose
-Istio monitoring on traffic to external services: the calls to external services will not appear in the Mixer log, for
-example. To start monitoring access to external services, follow the steps in
-[configure access to external services](#controlled-access-to-external-services) (no need to update Istio).
+That's it! It's as simple as that. Note, however, that if you use this approach to access external services, you lose
+Istio monitoring on traffic to external services; calls to external services will not appear in the Mixer log, for
+example. To start monitoring access to external services, follow the instructions in
+the following section.
 
 ## Controlled access to external services
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
-from within your Istio cluster. This task shows you how to access an external HTTP service,
+from within your Istio cluster. This section shows you how to configure access to an external HTTP service,
 [httpbin.org](http://httpbin.org), as well as an external HTTPS service,
 [www.google.com](https://www.google.com).
 
 ### Change to the blocking-by-default policy
 
-Before you can experiment with a controlled way of accessing external services, you need to
-disable the passthrough mode used in the previous section:
+To demonstrate the controlled way of enabling access to external services,
+you need to disable the `ALLOW_ANY` mode used in the previous section.
+
+{{< tip >}}
+You can add controlled access to services that are already accessable in `ALLOW_ANY` mode.
+This way, you can start using Istio features on some external services without blocking any others.
+Once you've configured all of your services, you can then switch the mode to `REGISTRY_ONLY` to block
+any other unintentional accesses.
+{{< /tip >}}
 
 1.  Run the following command to change the `global.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
@@ -87,13 +109,13 @@ disable the passthrough mode used in the previous section:
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://www.google.com | grep -o "<title>.*</title>"; kubectl exec -it $SOURCE_POD -c sleep -- curl -s https://edition.cnn.com | grep -o "<title>.*</title>"
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
     command terminated with exit code 35
     command terminated with exit code 35
     {{< /text >}}
 
     {{< warning >}}
-    It might take time for the configuration change to propagate so you might still get successful connections.
+    It may take a while for the configuration change to propagate, so you might still get successful connections.
     Wait for several seconds and then retry the last command.
     {{< /warning >}}
 
@@ -182,8 +204,8 @@ disable the passthrough mode used in the previous section:
 1.  Make a request to the external HTTPS service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl https://www.google.com | grep -o "<title>.*</title>"
-    <title>Google</title>
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"
+    HTTP/2 200
     {{< /text >}}
 
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
@@ -279,33 +301,29 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/#communication-between-services)
-the external requests. This can be done by setting the `global.proxy.includeIPRanges` variable of
-[Helm](/docs/reference/config/installation-options/) and
-updating the `istio-sidecar-injector` configmap by using `kubectl apply`.
-After `istio-sidecar-injector` is updated, the value of `global.proxy.includeIPRanges` will affect all the future
-deployments of the application pods.
-
-The simplest way to use the `global.proxy.includeIPRanges` variable is to pass it the IP range(s)
-used for internal cluster services, thereby excluding external IPs from being redirected
-to the sidecar proxy.
-The values used for internal IP range(s), however, depends on where your cluster is running.
-For example, with Minikube the range is 10.0.0.1&#47;24, so you would update your `istio-sidecar-injector` configmap
-like this:
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
-{{< /text >}}
-
-Note that you should use the same Helm command you used [to install Istio](/docs/setup/kubernetes/install/helm),
-in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio, add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
-
-Redeploy the `sleep` application as described in the [Before you begin](#before-you-begin) section.
+external requests. This can be done by setting the `global.proxy.includeIPRanges`
+or `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
+updating the `istio-sidecar-injector` configmap using `kubectl apply`.
+After `istio-sidecar-injector` is updated, the confiuration will affect all
+future application pod deployments.
 
 {{< warning >}}
-Make sure to remove the previously deployed `ServiceEntry` and `VirtualService`.
+Unlike [Envoy passthrough to external services](#envoy-passthrough-to-external-services),
+which uses the `ALLOW_ANY` traffic policy to instruct the Istio sidecar proxy to
+passthrough calls to unknown services,
+this approach completely bypasses the sidecar, essentially disabling all of Istio's features
+for the specified IPs. You cannot incrementally add service entries for specific
+destinations, as you can with the `ALLOW_ANY` approach.
+Therefore, this configuration approach is only recommeded as a last resort
+when, for performance or other reasons, external access cannot be configured using the sidecar.
 {{< /warning >}}
 
-### Set the value of `global.proxy.includeIPRanges`
+A simple way to exclude all external IPs from being redirected to the sidecar proxy is
+by setting the `global.proxy.includeIPRanges` variable to the IP range(s)
+used for internal cluster services.
+The values used for internal IP range(s), however, depends on where your cluster is running.
+
+### Determine the internal IP ranges for your platform
 
 Set the value of `global.proxy.includeIPRanges` according to your cluster provider.
 
@@ -357,7 +375,27 @@ $ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-
 
 Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
 
+### Configuring the proxy bypass
+
+Update your `istio-sidecar-injector` configmap using the IP ranges specified in the preceeding section.
+For example, if the range is 10.0.0.1&#47;24, use the following command:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
+{{< /text >}}
+
+Note that you should use the same Helm command that you used [to install Istio](/docs/setup/kubernetes/install/helm),
+in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio,
+add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
+
+{{< warning >}}
+Make sure to remove the previously deployed `ServiceEntry` and `VirtualService`.
+{{< /warning >}}
+
 ### Access the external services
+
+Because the bypass configuration only affects new deployments, you need to redeploy the `sleep`
+application as described in the [Before you begin](#before-you-begin) section.
 
 After updating the `istio-sidecar-injector` configmap and redeploying the `sleep` application,
 the Istio sidecar will only intercept and manage internal requests
@@ -394,24 +432,23 @@ $ helm template install/kubernetes/helm/istio <the flags you used to install Ist
 
 In this task you looked at three ways to call external services from an Istio mesh:
 
-1. Configuring Istio to allow access to any external service on some ports.
+1. Configuring Istio to allow access to any external service.
 
 1. Use a service entry to register an accessible external service inside the mesh. This is the
    recommended approach.
 
 1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
 
-The first approach directs traffic through the Istio sidecar proxy but it allows access to any service on any
-port that has no HTTP service or service entry defined in the mesh.
-You can't monitor access to external services and you can't apply Istio features on traffic to external services.
-You can easily switch to the second approach for a specific port by simply creating a service entry for that port.
-This means you can use this approach initially to allow access to any external service.
-Later, you can decide to start controlling access to external services for specific ports and
-enable traffic monitoring and control features as they are needed.
+The first approach directs traffic through the Istio sidecar proxy, including calls to services
+that are unknown inside the mesh. When using this approach,
+you can't monitor access to external services and you can't apply Istio features on traffic to them.
+You can easily switch to the second approach for specific services by simply creating service entries for them.
+This allows you to initally access any external service and then later
+decide to start controlling access to enable traffic monitoring and control features as they are needed.
 
-The second approach lets you use all of the same Istio service mesh features for calls to services inside or outside of
-the cluster. You saw how to monitor access to external services and set a timeout rule for calls to an external
-service.
+The second approach lets you use all of the same Istio service mesh features for calls to services inside or
+outside of the cluster. You saw how to monitor access to external services and set a timeout rule for calls
+to an external service.
 
 The third approach bypasses the Istio sidecar proxy, giving your services direct access to any external server.
 However, configuring the proxy this way does require cluster-provider specific knowledge and configuration.
@@ -425,8 +462,10 @@ Note that configuration examples in this task **do not enable secure egress traf
 A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
 {{< /warning >}}
 
-To implement egress traffic control in a secure way, you must [direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway) and address the security concerns expressed in
-[Configure an Egress Gateway example, Additional Security Considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations).
+To implement egress traffic control in a completely secure way, you must
+[direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway)
+and address the security concerns described in
+[Additional security considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations).
 
 ## Cleanup
 
