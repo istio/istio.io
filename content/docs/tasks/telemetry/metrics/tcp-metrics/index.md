@@ -29,13 +29,13 @@ example configuration and commands.
 will generate and collect automatically.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/telemetry/metrics.yaml@
+    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
     {{< /text >}}
 
     {{< warning >}}
     If you use version 1.1.2 or prior, please use the following configuration instead:
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/telemetry/metrics-crd.yaml@
+    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
     {{< /warning >}}
 
@@ -162,13 +162,13 @@ protocols within policies.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/telemetry/metrics.yaml@
+    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
     {{< /text >}}
 
     If you are using version 1.1.2 or prior:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/telemetry/metrics-crd.yaml@
+    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
 
 *   Remove the `port-forward` process:
