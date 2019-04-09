@@ -21,63 +21,11 @@ as the example application throughout this task.
 
 ## Collecting new logs data
 
-1.  Create a new YAML file to hold configuration for the new log
+1.  Apply a YAML file with configuration for the new log
     stream that Istio will generate and collect automatically.
 
-    Save the following as `new_logs.yaml`:
-
-    {{< text syntax="yaml" downloadas="new_logs.yaml" >}}
-    # Configuration for logentry instances
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: logentry
-    metadata:
-      name: newlog
-      namespace: istio-system
-    spec:
-      severity: '"warning"'
-      timestamp: request.time
-      variables:
-        source: source.labels["app"] | source.workload.name | "unknown"
-        user: source.user | "unknown"
-        destination: destination.labels["app"] | destination.workload.name | "unknown"
-        responseCode: response.code | 0
-        responseSize: response.size | 0
-        latency: response.duration | "0ms"
-      monitored_resource_type: '"UNSPECIFIED"'
-    ---
-    # Configuration for a stdio handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: stdio
-    metadata:
-      name: newhandler
-      namespace: istio-system
-    spec:
-     severity_levels:
-       warning: 1 # Params.Level.WARNING
-     outputAsJson: true
-    ---
-    # Rule to send logentry instances to a stdio handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: newlogstdio
-      namespace: istio-system
-    spec:
-      match: "true" # match for all requests
-      actions:
-       - handler: newhandler.stdio
-         instances:
-         - newlog.logentry
-    ---
-    {{< /text >}}
-
-1.  Push the new configuration.
-
     {{< text bash >}}
-    $ kubectl apply -f new_logs.yaml
-    Created configuration logentry/istio-system/newlog at revision 1973038
-    Created configuration stdio/istio-system/newhandler at revision 1973039
-    Created configuration rule/istio-system/newlogstdio at revision 1973041
+    $ kubectl apply -f @samples/bookinfo/telemetry/log-entry-crd.yaml@
     {{< /text >}}
 
 1.  Send traffic to the sample application.
@@ -165,7 +113,7 @@ here to illustrate how to use `match` expressions to control rule execution.
 *   Remove the new logs configuration:
 
     {{< text bash >}}
-    $ kubectl delete -f new_logs.yaml
+    $ kubectl delete -f @samples/bookinfo/telemetry/log-entry-crd.yaml@
     {{< /text >}}
 
 *   Remove any `kubectl port-forward` processes that may still be running:
