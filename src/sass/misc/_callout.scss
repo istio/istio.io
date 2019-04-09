@@ -1,20 +1,23 @@
 .callout {
-    display: table;
-    padding: .5em .5em .5em 0;
+    padding: .5em;
     border-radius: $border-radius;
+    border-width: 1px;
+    border-style: solid;
+    display: inline-block;
+    position: relative;
 
     margin: 1em 0 1em 1em;
+    max-width: calc(100% - .5em - .5em - 1em);        // .5em for left and right padding each, 1em for left margin
     @media (min-width: $bp-md) {
         margin: 1.25em;
+        max-width: calc(100% - .5em - .5em - 1.25em - 1.25em);  // .5em for left and right padding each, 1.25em for left and right margin each
     }
 
     .type {
-        position: relative;
-        display: table-cell;
         left: -.75em;
-        min-height: 100%;
-        text-align: center;
-        vertical-align: middle;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
 
         svg {
             fill: $boxBorderColor;
@@ -22,7 +25,7 @@
     }
 
     .content {
-        display: table-cell;
+        margin-left: 1em;
         min-height: 100%;
 
         p:first-of-type {
@@ -36,27 +39,33 @@
 
     &.tip {
         background-color: $tipCalloutBackgroundColor;
+        border-color: $tipCalloutBorderColor;
     }
 
     &.idea {
         background-color: $ideaCalloutBackgroundColor;
+        border-color: $ideaCalloutBorderColor;
     }
 
     &.warning {
         background-color: $warningCalloutBackgroundColor;
+        border-color: $warningCalloutBorderColor;
     }
 
     &.quote {
-        background-color: $blockQuoteBackgroundColor;
+        background-color: $quoteCalloutBackgroundColor;
+        border-color: $quoteCalloutBorderColor;
         font-style: italic;
     }
 
     &:hover {
-        svg {
-            animation: shake 2.82s cubic-bezier(.36, .07, .19, .97) both;
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            perspective: 1000px;
+        .type {
+            svg {
+                animation: shake 2.82s cubic-bezier(.36, .07, .19, .97) both;
+                transform: translate3d(0, 0, 0);
+                backface-visibility: hidden;
+                perspective: 1000px;
+            }
         }
 
         @keyframes shake {

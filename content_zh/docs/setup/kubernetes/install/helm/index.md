@@ -53,6 +53,7 @@ icon: helm
     {{< /text >}}
 
 1. 使用如下命令以确保全部 53 个 Istio CRD 被提交到 Kubernetes api-server：
+
     {{< warning >}}
     如果你启用了 cert-manager,那么 CRD 的数目为58个。
     {{< /warning >}}
@@ -140,6 +141,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
     {{< /text >}}
 
 1. 使用如下命令以确保全部 53 个 Istio CRD 被提交到 Kubernetes api-server：
+
     {{< warning >}}
     如果你启用了 cert-manager,那么 CRD 的数目为58个。
     {{< /warning >}}
