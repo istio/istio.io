@@ -145,7 +145,7 @@ rule, and because the rule is in the configured default configuration namespace
     If you are using version 1.1.2 or prior:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/telemetry/merics-crd.yaml@
+    $ kubectl delete -f @samples/bookinfo/telemetry/metrics-crd.yaml@
     {{< /text >}}
 
 *   Remove any `kubectl port-forward` processes that may still be running:
