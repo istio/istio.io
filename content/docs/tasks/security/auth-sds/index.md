@@ -93,15 +93,277 @@ $ kubectl exec -it $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..me
 
 As you can see there is no secret file mounted at `/etc/certs` folder.
 
+## Enabling pod security policy for increased security
+
+Istio Secret Discovery Service (SDS) uses citadel agent to distribute the certificate to the
+Envoy sidecar via unix domain socket. The citadel agent and unix domain socket are shared by all pods
+running on the same Kubernetes node.
+
+To prevent malicious modifications to the unix domain socket, it's recommended to enable the [pod security policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
+to restrict the pod permission on the unix domain socket, otherwise, a malicious pod could hijack the
+unix domain socket to break the SDS service or steal the identity credential from other pods running
+on the same Kubernetes node.
+
+1. Allow only citadel agent to modify the unix domain socket
+
+    Apply the following pod security policy to allow only citadel agent to modify the unix domain socket.
+    This is needed otherwise the citadel agent will fail to start due to unable to create the required
+    unix domain socket.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: PodSecurityPolicy
+    metadata:
+      name: istio-nodeagent
+    spec:
+      allowedHostPaths:
+      - pathPrefix: "/var/run/sds"
+      seLinux:
+        rule: RunAsAny
+      supplementalGroups:
+        rule: RunAsAny
+      runAsUser:
+        rule: RunAsAny
+      fsGroup:
+        rule: RunAsAny
+      volumes:
+      - '*'
+    ---
+    kind: Role
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-nodeagent
+      namespace: istio-system
+    rules:
+    - apiGroups:
+      - extensions
+      resources:
+      - podsecuritypolicies
+      resourceNames:
+      - istio-nodeagent
+      verbs:
+      - use
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: istio-nodeagent
+      namespace: istio-system
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: istio-nodeagent
+    subjects:
+    - kind: ServiceAccount
+      name: istio-nodeagent-service-account
+      namespace: istio-system
+    EOF
+    {{< /text >}}
+
+1. Disallow other pods to modify the unix domain socket
+
+    Apply the following pod security policy to disallow other pods to modify the unix domain socket.
+    It achieves this by requiring `readOnly: true` on the unix domain socket path used by citadel agent.
+
+    {{< warning >}}
+    The following pod security policy assumes there is no previous pod security policy applied before
+    this task. If you have already applied any other pod security policy, please incorporate the
+    following pod security policy into the existing ones instead of applying it directly.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: PodSecurityPolicy
+    metadata:
+      name: istio-sds-uds
+    spec:
+     # Protect the unix domain socket from unauthorized modification
+     allowedHostPaths:
+     - pathPrefix: "/var/run/sds"
+       readOnly: true
+     # Allow the istio sidecar injector to work
+     allowedCapabilities:
+     - NET_ADMIN
+     seLinux:
+       rule: RunAsAny
+     supplementalGroups:
+       rule: RunAsAny
+     runAsUser:
+       rule: RunAsAny
+     fsGroup:
+       rule: RunAsAny
+     volumes:
+     - '*'
+    ---
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-sds-uds
+    rules:
+    - apiGroups:
+      - extensions
+      resources:
+      - podsecuritypolicies
+      resourceNames:
+      - istio-sds-uds
+      verbs:
+      - use
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: istio-sds-uds
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: istio-sds-uds
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Group
+      name: system:serviceaccounts
+    EOF
+    {{< /text >}}
+
+
+1. Enable pod security policy in the cluster
+
+    Different cloud platforms have different approach to enable the pod security policy, please refer to your
+    cloud platform for detailed instructions. For GCP, please follow
+    [Enabling pod security policy controller](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#enabling_podsecuritypolicy_controller).
+
+    {{< warning >}}
+    Please make sure all needed permission has been granted by the pod security policy before enabling the pod
+    security policy.
+    Once pod security policy is enabled, a pod will fail to start if it requires any permissions not in the
+    pod security policy.
+    {{< /warning >}}
+
+1. Verify the citadel agent works with the pod security policy
+
+    Run the following command to restart the citadel agents.
+
+    {{< text bash >}}
+    $ kubectl delete pod -l 'app=nodeagent' -n istio-system
+    pod "istio-nodeagent-dplx2" deleted
+    pod "istio-nodeagent-jrbmx" deleted
+    pod "istio-nodeagent-rz878" deleted
+    {{< /text >}}
+
+    Wait a few seconds and run the following command to confirm the citadel agent started successfully.
+
+    {{< text bash >}}
+    $ kubectl get pod -l 'app=nodeagent' -n istio-system
+    NAME                    READY   STATUS    RESTARTS   AGE
+    istio-nodeagent-p4p7g   1/1     Running   0          4s
+    istio-nodeagent-qdwj6   1/1     Running   0          5s
+    istio-nodeagent-zsk2b   1/1     Running   0          14s
+    {{< /text >}}
+
+1. Verify the normal pod works with the pod security policy
+
+    Run the following command to start a normal pod.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: normal
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: normal
+        spec:
+          containers:
+          - name: normal
+            image: pstauffer/curl
+            command: ["/bin/sleep", "3650d"]
+            imagePullPolicy: IfNotPresent
+    EOF
+    {{< /text >}}
+
+    Wait a few seconds and run the following command to confirm the normal pod started successfully.
+
+    {{< text bash >}}
+    $ kubectl get pod -l 'app=normal'
+    NAME                      READY   STATUS    RESTARTS   AGE
+    normal-64c6956774-ptpfh   2/2     Running   0          8s
+    {{< /text >}}
+
+1. Verify the unix domain socket is protected by the pod security policy
+
+    Run the following command to start a malicious pod which tries to mount the unix domain socket with
+    write permission.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: malicious
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: malicious
+        spec:
+          containers:
+          - name: malicious
+            image: pstauffer/curl
+            command: ["/bin/sleep", "3650d"]
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: sds-uds
+              mountPath: /var/run/sds
+          volumes:
+          - name: sds-uds
+            hostPath:
+              path: /var/run/sds
+              type: ""
+    EOF
+    {{< /text >}}
+
+    Run the following command to confirm the malicious pod failed to start due to the pod security policy.
+
+    {{< text bash >}}
+    $ kubectl describe rs -l 'app=malicious' | grep Failed
+    Pods Status:    0 Running / 0 Waiting / 0 Succeeded / 0 Failed
+      ReplicaFailure   True    FailedCreate
+      Warning  FailedCreate  4s (x13 over 24s)  replicaset-controller  Error creating: pods "malicious-7dcfb8d648-" is forbidden: unable to validate against any pod security policy: [spec.containers[0].volumeMounts[0].readOnly: Invalid value: false: must be read-only]
+    {{< /text >}}
+
 ## Cleanup
 
-Clean up test services and Istio control plane:
+1. Clean up test services and Istio control plane:
 
-{{< text bash >}}
-$ kubectl delete ns foo
-$ kubectl delete ns bar
-$ kubectl delete -f istio-auth-sds.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns foo
+    $ kubectl delete ns bar
+    $ kubectl delete -f istio-auth-sds.yaml
+    {{< /text >}}
+
+1. Disable the pod security policy in the cluster:
+
+    Different cloud platform has different approach to disable the pod security policy, please refer to your
+    cloud platform for detail instructions. For GCP, please follow
+    [Disabling pod security policy controller](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#disabling_podsecuritypolicy_controller).
+
+1. Delete the pod security policy and the test deployments:
+
+    {{< text bash >}}
+    $ kubectl delete psp istio-sds-uds istio-nodeagent
+    $ kubectl delete role istio-nodeagent -n istio-system
+    $ kubectl delete rolebinding istio-nodeagent -n istio-system
+    $ kubectl delete clusterrole istio-sds-uds
+    $ kubectl delete clusterrolebinding istio-sds-uds
+    $ kubectl delete deploy malicious
+    $ kubectl delete deploy normal
+    {{< /text >}}
 
 ## Caveats
 
