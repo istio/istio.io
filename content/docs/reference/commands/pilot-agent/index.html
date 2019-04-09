@@ -94,6 +94,10 @@ number_of_entries: 5
 <td>Path to the custom configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--datadogAgentAddress &lt;string&gt;</code></td>
+<td>Address of the Datadog Agent  (default ``)</td>
+</tr>
+<tr>
 <td><code>--disableInternalTelemetry</code></td>
 <td>Disable internal telemetry </td>
 </tr>
@@ -204,6 +208,30 @@ number_of_entries: 5
 <tr>
 <td><code>--templateFile &lt;string&gt;</code></td>
 <td>Go template bootstrap config  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tlsClientCertChain &lt;string&gt;</code></td>
+<td>Absolute path to client cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsClientRootCert &lt;string&gt;</code></td>
+<td>Absolute path to client root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsSClientKey &lt;string&gt;</code></td>
+<td>Absolute path to client key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsServerCertChain &lt;string&gt;</code></td>
+<td>Absolute path to server cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsServerKey &lt;string&gt;</code></td>
+<td>Absolute path to server private key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--tlsServerRootCert &lt;string&gt;</code></td>
+<td>Absolute path to server root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
