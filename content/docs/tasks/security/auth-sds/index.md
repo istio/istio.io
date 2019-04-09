@@ -93,22 +93,21 @@ $ kubectl exec -it $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..me
 
 As you can see there is no secret file mounted at `/etc/certs` folder.
 
-## Enabling pod security policy for increased security
+## Increasing security with pod security policies
 
-Istio Secret Discovery Service (SDS) uses citadel agent to distribute the certificate to the
-Envoy sidecar via unix domain socket. The citadel agent and unix domain socket are shared by all pods
-running on the same Kubernetes node.
+The Istio Secret Discovery Service (SDS) uses the Citadel agent to distribute the certificate to the
+Envoy sidecar via Unix domain socket. All pods running in the same Kubernetes node share the Citadel
+agent and Unix domain socket.
 
-To prevent malicious modifications to the unix domain socket, it's recommended to enable the [pod security policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
-to restrict the pod permission on the unix domain socket, otherwise, a malicious pod could hijack the
-unix domain socket to break the SDS service or steal the identity credential from other pods running
+To prevent malicious modifications to the Unix domain socket, enable the [pod security policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
+to restrict the pod's permission on the Unix domain socket. Otherwise, a malicious pod could hijack the
+Unix domain socket to break the SDS service or steal the identity credentials from other pods running
 on the same Kubernetes node.
 
-1. Allow only citadel agent to modify the unix domain socket
+To enable the pod security policy, perform the following steps:
 
-    Apply the following pod security policy to allow only citadel agent to modify the unix domain socket.
-    This is needed otherwise the citadel agent will fail to start due to unable to create the required
-    unix domain socket.
+1. The Citadel agent fails to start unless it can create the required Unix domain socket. Apply the
+   following pod security policy to only allow the Citadel agent to modify the Unix domain socket:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -161,15 +160,13 @@ on the same Kubernetes node.
     EOF
     {{< /text >}}
 
-1. Disallow other pods to modify the unix domain socket
-
-    Apply the following pod security policy to disallow other pods to modify the unix domain socket.
-    It achieves this by requiring `readOnly: true` on the unix domain socket path used by citadel agent.
+1. To stop other pods from modifying the Unix domain socket, change the `allowedHostPaths` configuration
+   for the the path the Citadel agent uses for the Unix domain socket to `readOnly: true`.
 
     {{< warning >}}
-    The following pod security policy assumes there is no previous pod security policy applied before
-    this task. If you have already applied any other pod security policy, please incorporate the
-    following pod security policy into the existing ones instead of applying it directly.
+    The following pod security policy assumes no other pod security policy was applied before. If you
+    already applied another pod security policy, add the following configuration values to the existing
+    policies instead of applying the configuration directly.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -226,22 +223,16 @@ on the same Kubernetes node.
     EOF
     {{< /text >}}
 
-1. Enable pod security policy in the cluster
-
-    Different cloud platforms have different approach to enable the pod security policy, please refer to your
-    cloud platform for detailed instructions. For GCP, please follow
-    [Enabling pod security policy controller](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#enabling_podsecuritypolicy_controller).
+1. Enable pod security policies for your platform. Each supported platform enables pod security
+   policies differently. Please refer to the pertinent documentation for your platform. If you are
+   using the Google Kubernetes Engine (GKE), you must [enable the pod security policy controller](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#enabling_podsecuritypolicy_controller).
 
     {{< warning >}}
-    Please make sure all needed permission has been granted by the pod security policy before enabling the pod
-    security policy.
-    Once pod security policy is enabled, a pod will fail to start if it requires any permissions not in the
-    pod security policy.
+    Grant all needed permissions in the pod security policy before enabling it. Once the policy is
+    enabled, pods won't start if they require any permissions not granted.
     {{< /warning >}}
 
-1. Verify the citadel agent works with the pod security policy
-
-    Run the following command to restart the citadel agents.
+1. Run the following command to restart the Citadel agents:
 
     {{< text bash >}}
     $ kubectl delete pod -l 'app=nodeagent' -n istio-system
@@ -250,7 +241,8 @@ on the same Kubernetes node.
     pod "istio-nodeagent-rz878" deleted
     {{< /text >}}
 
-    Wait a few seconds and run the following command to confirm the citadel agent started successfully.
+1. To verify that the Citadel agents work with the enabled pod security policy, wait a few seconds
+   and run the following command to confirm the citadel agent started successfully:
 
     {{< text bash >}}
     $ kubectl get pod -l 'app=nodeagent' -n istio-system
@@ -260,9 +252,7 @@ on the same Kubernetes node.
     istio-nodeagent-zsk2b   1/1     Running   0          14s
     {{< /text >}}
 
-1. Verify the normal pod works with the pod security policy
-
-    Run the following command to start a normal pod.
+1. Run the following command to start a normal pod.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -285,7 +275,8 @@ on the same Kubernetes node.
     EOF
     {{< /text >}}
 
-    Wait a few seconds and run the following command to confirm the normal pod started successfully.
+1. To verify that the normal pod works with the pod security policy enabled, wait a few seconds and
+   run the following command to confirm the normal pod started successfully.
 
     {{< text bash >}}
     $ kubectl get pod -l 'app=normal'
@@ -293,10 +284,7 @@ on the same Kubernetes node.
     normal-64c6956774-ptpfh   2/2     Running   0          8s
     {{< /text >}}
 
-1. Verify the unix domain socket is protected by the pod security policy
-
-    Run the following command to start a malicious pod which tries to mount the unix domain socket with
-    write permission.
+1. Start a malicious pod that tries to mount the Unix domain socket using a write permission.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -327,7 +315,8 @@ on the same Kubernetes node.
     EOF
     {{< /text >}}
 
-    Run the following command to confirm the malicious pod failed to start due to the pod security policy.
+1. To verify that the Unix domain socket is protected, run the following command to confirm the
+   malicious pod failed to start due to the pod security policy:
 
     {{< text bash >}}
     $ kubectl describe rs -l 'app=malicious' | grep Failed
@@ -338,7 +327,7 @@ on the same Kubernetes node.
 
 ## Cleanup
 
-1. Clean up test services and Istio control plane:
+1. Clean up the test services and the Istio control plane:
 
     {{< text bash >}}
     $ kubectl delete ns foo
@@ -346,11 +335,8 @@ on the same Kubernetes node.
     $ kubectl delete -f istio-auth-sds.yaml
     {{< /text >}}
 
-1. Disable the pod security policy in the cluster:
-
-    Different cloud platform has different approach to disable the pod security policy, please refer to your
-    cloud platform for detail instructions. For GCP, please follow
-    [Disabling pod security policy controller](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#disabling_podsecuritypolicy_controller).
+1. Disable the pod security policy in the cluster using the documentation of your platform. If you are using GKE,
+   [disable the pod security policy controller](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#disabling_podsecuritypolicy_controller).
 
 1. Delete the pod security policy and the test deployments:
 
