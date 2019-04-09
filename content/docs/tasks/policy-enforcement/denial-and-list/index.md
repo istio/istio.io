@@ -64,10 +64,14 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
-    Created config denier/default/denyreviewsv3handler at revision 2882105
-    Created config checknothing/default/denyreviewsv3request at revision 2882106
-    Created config rule/default/denyreviewsv3 at revision 2882107
     {{< /text >}}
+
+    {{< warning >}}
+    If you use version 1.1.2 or prior, please use the following configuration instead:
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
+    {{< /text >}}
+    {{< /warning >}}
 
     Notice the following in the `denyreviewsv3` rule:
 
@@ -102,8 +106,14 @@ the `reviews` service.
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
-1. Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see red stars.
-   After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
+    If you are using version 1.1.2 or prior:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
+    {{< /text >}}
+
+1.  Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see red stars.
+    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
 1.  Create configuration for the [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/)
     adapter that lists versions `v1, v2`.
