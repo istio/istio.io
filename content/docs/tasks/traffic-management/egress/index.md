@@ -443,12 +443,12 @@ The first approach directs traffic through the Istio sidecar proxy, including ca
 that are unknown inside the mesh. When using this approach,
 you can't monitor access to external services and you can't apply Istio features on traffic to them.
 You can easily switch to the second approach for specific services by simply creating service entries for them.
-This allows you to initially access any external service and then later
-decide to start controlling access to enable traffic monitoring and control features as they are needed.
+This process allows you to initially access any external service and then later
+decide whether or not to control access, enable traffic monitoring, and use traffic control features as needed.
 
 The second approach lets you use all of the same Istio service mesh features for calls to services inside or
-outside of the cluster. You saw how to monitor access to external services and set a timeout rule for calls
-to an external service.
+outside of the cluster. In this task, you learned how to monitor access to external services and set a timeout
+rule for calls to an external service.
 
 The third approach bypasses the Istio sidecar proxy, giving your services direct access to any external server.
 However, configuring the proxy this way does require cluster-provider specific knowledge and configuration.
@@ -464,8 +464,9 @@ A malicious application can bypass the Istio sidecar proxy and access any extern
 
 To implement egress traffic control in a completely secure way, you must
 [direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway)
-and address the security concerns described in
-[Additional security considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations).
+and review the security concerns described in the
+[additional security considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations)
+section.
 
 ## Cleanup
 

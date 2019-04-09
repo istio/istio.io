@@ -5,8 +5,9 @@
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
     {{< warning >}}
-    Add the following [installation options](/docs/reference/config/installation-options/)
-    to your install command if they are not already configured in your selected [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/):
+    If the following [installation options](/docs/reference/config/installation-options/) are not configured
+    in your selected [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/),
+    add them with the following values:
 
     {{< text plain >}}
     --set global.outboundTrafficPolicy.mode=ALLOW_ANY --set pilot.env.PILOT_ENABLE_FALLTHROUGH_ROUTE=1
@@ -14,17 +15,16 @@
 
     {{< /warning >}}
 
-*   To use as a test source for sending requests, start the [sleep]({{< github_tree >}}/samples/sleep) sample.
-
+*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
     [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-    enabled, run the following command:
+    enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-    Otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+    Otherwise, manually inject the sidecar before deploying the `sleep` application with the following command:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
