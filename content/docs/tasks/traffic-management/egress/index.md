@@ -15,9 +15,9 @@ stricter control is usually preferable.
 
 This task shows you how to access external services in three different ways:
 
-1. Configure the Envoy proxy to pass requests through to external services that are not configured inside the mesh.
+1. Allow the Envoy proxy to pass requests through to services that are not configured inside the mesh.
 1. Configure [service entries](/docs/reference/config/networking/v1alpha3/service-entry/) to provide controlled access to external services.
-1. Bypass the Envoy proxy for a specific range of IPs.
+1. Completely bypass the Envoy proxy for a specific range of IPs.
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -25,10 +25,10 @@ This task shows you how to access external services in three different ways:
 
 Istio has an [installation option](/docs/reference/config/installation-options/),
 `global.outboundTrafficPolicy.mode`, that configures the sidecar handling
-of external services (i.e., services that are not defined in Istio's internal service registry).
-If this option is set to `ALLOW_ANY`, the Istio proxy will pass through calls to unknown services.
-If, instead, it is set to `REGISTRY_ONLY`, then any host without an HTTP service or
-service entry defined within the mesh, will be blocked.
+of external services, that is, those services that are not defined in Istio's internal service registry.
+If this option is set to `ALLOW_ANY`, the Istio proxy lets calls to unknown services pass through.
+If the option is set to `REGISTRY_ONLY`, then the Istio proxy blocks any host without an HTTP service or
+service entry defined within the mesh.
 `ALLOW_ANY` is the default value, allowing you to start evaluating Istio quickly,
 without controlling access to external services.
 You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
@@ -46,7 +46,7 @@ prior to Istio 1.1.3 you couldn't call external services on any of those ports e
     with the `global.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
 
-    You can run the following command to confirm it is configured correctly:
+    Run the following command to confirm it is configured correctly:
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
@@ -66,7 +66,7 @@ prior to Istio 1.1.3 you couldn't call external services on any of those ports e
 
     {{< /tip >}}
 
-1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` and confirm that they produce
+1.  Make a couple of requests to external HTTPS services from the `SOURCE_POD` to confirm
     successful `200` responses:
 
     {{< text bash >}}
@@ -75,22 +75,23 @@ prior to Istio 1.1.3 you couldn't call external services on any of those ports e
     HTTP/2 200
     {{< /text >}}
 
-That's it! It's as simple as that. Note, however, that if you use this approach to access external services, you lose
-Istio monitoring on traffic to external services; calls to external services will not appear in the Mixer log, for
-example. To start monitoring access to external services, follow the instructions in
-the following section.
+Congratulations! You successfully sent egress traffic from your mesh.
+
+This simple approach to access external services, has the drawback that you lose Istio monitoring and control
+for traffic to external services; calls to external services will not appear in the Mixer log, for example.
+The next section shows you how to monitor and control your mesh's access to external services.
 
 ## Controlled access to external services
 
 Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
 from within your Istio cluster. This section shows you how to configure access to an external HTTP service,
 [httpbin.org](http://httpbin.org), as well as an external HTTPS service,
-[www.google.com](https://www.google.com).
+[www.google.com](https://www.google.com) without losing Istio's traffic monitoring and control features.
 
 ### Change to the blocking-by-default policy
 
-To demonstrate the controlled way of enabling access to external services,
-you need to disable the `ALLOW_ANY` mode used in the previous section.
+To demonstrate the controlled way of enabling access to external services, you need to change the
+`global.outboundTrafficPolicy.mode` option from the `ALLOW_ANY` mode to the `REGISTRY_ONLY` mode.
 
 {{< tip >}}
 You can add controlled access to services that are already accessible in `ALLOW_ANY` mode.
@@ -301,10 +302,10 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/#communication-between-services)
-external requests. This can be done by setting the `global.proxy.includeIPRanges`
-or `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
-updating the `istio-sidecar-injector` configmap using `kubectl apply`.
-After `istio-sidecar-injector` is updated, the configuration will affect all
+external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
+or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
+update the `istio-sidecar-injector` configuration map using the `kubectl apply` command.
+After updating the `istio-sidecar-injector` configuration, it affects all
 future application pod deployments.
 
 {{< warning >}}
@@ -319,9 +320,9 @@ when, for performance or other reasons, external access cannot be configured usi
 {{< /warning >}}
 
 A simple way to exclude all external IPs from being redirected to the sidecar proxy is
-by setting the `global.proxy.includeIPRanges` variable to the IP range(s)
+to set the `global.proxy.includeIPRanges` configuration option to the IP range or ranges
 used for internal cluster services.
-The values used for internal IP range(s), however, depends on where your cluster is running.
+These IP range values depend on the platform where your cluster runs.
 
 ### Determine the internal IP ranges for your platform
 
@@ -377,20 +378,20 @@ Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
 
 ### Configuring the proxy bypass
 
-Update your `istio-sidecar-injector` configmap using the IP ranges specified in the preceding section.
+{{< warning >}}
+Remove the service entry and virtual service previously deployed in this guide.
+{{< /warning >}}
+
+Update your `istio-sidecar-injector` configuration map using the IP ranges specific to your platform.
 For example, if the range is 10.0.0.1&#47;24, use the following command:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
-Note that you should use the same Helm command that you used [to install Istio](/docs/setup/kubernetes/install/helm),
-in particular, the same value of the `--namespace` flag. In addition to the flags you used to install Istio,
-add `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
-
-{{< warning >}}
-Make sure to remove the previously deployed `ServiceEntry` and `VirtualService`.
-{{< /warning >}}
+Use the same Helm command that you used to [install Istio](/docs/setup/kubernetes/install/helm),
+specifically, ensure you use the same value for the `--namespace` flag and
+add these flags: `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
 
 ### Access the external services
 
@@ -441,8 +442,8 @@ In this task you looked at three ways to call external services from an Istio me
 
 The first approach directs traffic through the Istio sidecar proxy, including calls to services
 that are unknown inside the mesh. When using this approach,
-you can't monitor access to external services and you can't apply Istio features on traffic to them.
-You can easily switch to the second approach for specific services by simply creating service entries for them.
+you can't monitor access to external services or take advantage of Istio's traffic control features for them.
+To easily switch to the second approach for specific services, simply create service entries for those external services.
 This process allows you to initially access any external service and then later
 decide whether or not to control access, enable traffic monitoring, and use traffic control features as needed.
 
@@ -462,7 +463,7 @@ Note that configuration examples in this task **do not enable secure egress traf
 A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
 {{< /warning >}}
 
-To implement egress traffic control in a completely secure way, you must
+To implement egress traffic control in a more secure way, you must
 [direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway)
 and review the security concerns described in the
 [additional security considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations)
