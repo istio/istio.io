@@ -250,7 +250,8 @@ In the next section you will configure TLS origination for accessing an external
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     {{< /text >}}
 
-1.  Create a mesh-external service entry for `www.google.apis` and a destination rule to perform TLS origination.
+1.  Create a mesh-external service entry for `www.google.apis` , a virtual service to rewrite the destination port from
+    80 to 443, and a destination rule to perform TLS origination.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -265,6 +266,9 @@ In the next section you will configure TLS origination for accessing an external
       - number: 80
         name: http
         protocol: HTTP
+      - number: 443
+        name: https
+        protocol: HTTPS
       resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3
@@ -296,22 +300,19 @@ In the next section you will configure TLS origination for accessing an external
         - port:
             number: 443
           tls:
-            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+            mode: SIMPLE # initiates HTTPS when accessing www.googleapis.com
     EOF
     {{< /text >}}
 
-    Note that port `443` is designated by a name with the prefix `http-`, and its protocol is specified as `HTTP`. Note
-    that you are not required to use port 443 to send HTTP requests for TLS origination.
-    [This example](/docs/examples/advanced-gateways/egress-tls-origination/) shows how to perform TLS
-    origination with port rewriting.
-
 1.  Access the web page of the application and verify that the book details are displayed without errors.
+
+1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis
-    [2018-08-09T11:32:58.171Z] "GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1" 200 - 0 1050 264 264 "-" "Ruby" "b993bae7-4288-9241-81a5-4cde93b2e3a6" "www.googleapis.com:443" "172.217.20.74:443"
+    [2018-08-09T11:32:58.171Z] "GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1" 200 - 0 1050 264 264 "-" "Ruby" "b993bae7-4288-9241-81a5-4cde93b2e3a6" "www.googleapis.com:80" "172.217.20.74:80"
     EOF
     {{< /text >}}
 
