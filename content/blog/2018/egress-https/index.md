@@ -212,15 +212,14 @@ Here is how both patterns are supported in the
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
-http = Net::HTTP.new(uri.host, uri.port)
+http = Net::HTTP.new(uri.host, ENV['DO_NOT_ENCRYPT'] === 'true' ? 80:443)
 ...
 unless ENV['DO_NOT_ENCRYPT'] === 'true' then
      http.use_ssl = true
 end
 {{< /text >}}
 
-Note that the port is derived by the `URI.parse` from the URI's schema (`https://`) to be `443`, the default HTTPS port.
-When the `DO_NOT_ENCRYPT` environment variable is defined, the request is performed without SSL (plain HTTP).
+When the `DO_NOT_ENCRYPT` environment variable is defined, the request is performed without SSL (plain HTTP) to port 80.
 
 You can set the `DO_NOT_ENCRYPT` environment variable to _"true"_ in the
 [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
@@ -263,10 +262,26 @@ In the next section you will configure TLS origination for accessing an external
       hosts:
       - www.googleapis.com
       ports:
-      - number: 443
-        name: http-port-for-tls-origination
+      - number: 80
+        name: http
         protocol: HTTP
       resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: rewrite-port-for-googleapis
+    spec:
+      hosts:
+      - www.googleapis.com
+      http:
+      - match:
+        - port: 80
+        route:
+        - destination:
+            host: www.googleapis.com
+            port:
+              number: 443
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -307,6 +322,7 @@ In the next section you will configure TLS origination for accessing an external
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
+$ kubectl delete virtualservice rewrite-port-for-googleapis
 $ kubectl delete destinationrule originate-tls-for-googleapis
 $ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
