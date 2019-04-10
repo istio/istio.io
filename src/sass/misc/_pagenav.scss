@@ -21,14 +21,13 @@
     svg {
         fill: $linkColor;
         stroke: $linkColor;
+        margin-left: .5em;
+        margin-right: .5em;
 
         &:hover, &focus {
             fill: $linkHoverColor;
             stroke: $linkHoverColor;
         }
-
-        margin-left: .5em;
-        margin-right: .5em;
     }
 
     a:focus {

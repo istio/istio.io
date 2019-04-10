@@ -27,8 +27,7 @@
         font-size: 100%;
     }
 
-    @supports ((position:-webkit-sticky) or (position:sticky)) {
-        position: -webkit-sticky;
+    @supports (position: sticky) {
         position: sticky;
         top: $headerHeight;
     }
@@ -40,12 +39,12 @@
     }
 
     .directory {
-        @supports ((position:-webkit-sticky) or (position:sticky)) {
+        @supports (position: sticky) {
             max-height: calc(100vh - 9rem);
         }
 
         @media (min-width: $bp-md) {
-            @supports ((position:-webkit-sticky) or (position:sticky)) {
+            @supports (position: sticky) {
                 max-height: calc(100vh - 9rem);
                 overflow-y: auto;
             }
@@ -74,7 +73,7 @@
                 margin-bottom: 0;
                 background-color: rgba(0, 0, 0, .03);
                 border: 0;
-                border-bottom: 1px solid rgba(0,0,0,0);
+                border-bottom: 1px solid rgba(0, 0, 0, 0);
                 padding: .75em 1.25em;
                 color: $textColor;
                 width: 100%;
@@ -98,7 +97,7 @@
                 }
 
                 svg {
-                    margin-right: 0.3em;
+                    margin-right: .3em;
                 }
 
                 a {

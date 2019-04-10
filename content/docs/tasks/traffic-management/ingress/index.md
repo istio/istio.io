@@ -103,7 +103,7 @@ Setting the ingress IP depends on the cluster provider:
 1.  _Other environments (e.g., IBM Cloud Private etc):_
 
     {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
+    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
     {{< /text >}}
 
 ## Configuring ingress using an Istio Gateway

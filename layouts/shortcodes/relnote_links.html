@@ -26,51 +26,51 @@
 {{ end }}
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        window.setTimeout(function() {
-            document.getElementById('buttons').style.opacity = "1";
+    document.addEventListener("DOMContentLoaded", () => {
+        window.setTimeout(() => {
+            document.querySelectorAll(".call-to-action").forEach(el => {
+                el.style.opacity = "1";
+            });
         }, 250);
     });
 </script>
 
 <div class="call-to-action">
-    <div id="buttons">
-        {{ if .Site.Data.args.preliminary }}
-            {{ if eq $type_of_note "prelim" }}
-                <span class="btn">{{ printf (i18n "relnote_download") $dir_name }}</span>
+    {{ if .Site.Data.args.preliminary }}
+        {{ if eq $type_of_note "prelim" }}
+            <span class="btn">{{ printf (i18n "relnote_download") $dir_name }}</span>
 
-                {{ if eq $type_of_note "archive" }}
-                    <span class="btn">{{ printf (i18n "relnote_docs") $dir_name }}</span>
-                {{ else }}
-                    <span class="btn">{{ printf (i18n "relnote_docs") $dir_name }}</span>
-                {{ end }}
-
-                {{ if $patch }}
-                    <span class="btn">{{ printf (i18n "relnote_changes") $dir_name }}</span>
-                {{ end }}
+            {{ if eq $type_of_note "archive" }}
+                <span class="btn">{{ printf (i18n "relnote_docs") $dir_name }}</span>
             {{ else }}
-                <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $dir_name }}</a>
+                <span class="btn">{{ printf (i18n "relnote_docs") $dir_name }}</span>
+            {{ end }}
 
-                {{ if eq $type_of_note "archive" }}
-                    <a class="btn" href="https://archive.istio.io/v{{ $short_version }}">{{ printf (i18n "relnote_docs") $dir_name }}</a>
-                {{ else }}
-                    <a class="btn" href="https://istio.io">{{ printf (i18n "relnote_docs") $dir_name }}</a>
-                {{ end }}
-
-                {{ if $patch }}
-                    <a class="btn" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $dir_name }}</a>
-                {{ end }}
+            {{ if $patch }}
+                <span class="btn">{{ printf (i18n "relnote_changes") $dir_name }}</span>
             {{ end }}
         {{ else }}
             <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $dir_name }}</a>
 
-            {{ if (ne .Site.Data.args.version $short_version) }}
+            {{ if eq $type_of_note "archive" }}
                 <a class="btn" href="https://archive.istio.io/v{{ $short_version }}">{{ printf (i18n "relnote_docs") $dir_name }}</a>
+            {{ else }}
+                <a class="btn" href="https://istio.io">{{ printf (i18n "relnote_docs") $dir_name }}</a>
             {{ end }}
 
             {{ if $patch }}
                 <a class="btn" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $dir_name }}</a>
             {{ end }}
         {{ end }}
-    </div>
+    {{ else }}
+        <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $dir_name }}</a>
+
+        {{ if (ne .Site.Data.args.version $short_version) }}
+            <a class="btn" href="https://archive.istio.io/v{{ $short_version }}">{{ printf (i18n "relnote_docs") $dir_name }}</a>
+        {{ end }}
+
+        {{ if $patch }}
+            <a class="btn" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $dir_name }}</a>
+        {{ end }}
+    {{ end }}
 </div>

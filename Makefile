@@ -1,7 +1,7 @@
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
-img := gcr.io/istio-testing/website-builder:2019-03-03
+img := gcr.io/istio-testing/website-builder:2019-03-31
 docker := docker run -e INTERNAL_ONLY=true -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site $(img)
 
 ifeq ($(INTERNAL_ONLY),)

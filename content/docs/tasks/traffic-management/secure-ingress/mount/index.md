@@ -345,15 +345,15 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 
     {{< text bash >}}
     $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
-    --set gateways.istio-ingressgateway.secretVolumes[0].name=ingressgateway-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[0].secretName=istio-ingressgateway-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[0].mountPath=/etc/istio/ingressgateway-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[1].name=ingressgateway-ca-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[1].secretName=istio-ingressgateway-ca-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[1].mountPath=/etc/istio/ingressgateway-ca-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[2].name=ingressgateway-bookinfo-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[2].secretName=istio-ingressgateway-bookinfo-certs \
-    --set gateways.istio-ingressgateway.secretVolumes[2].mountPath=/etc/istio/ingressgateway-bookinfo-certs > \
+    --set 'gateways.istio-ingressgateway.secretVolumes[0].name'=ingressgateway-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[0].secretName'=istio-ingressgateway-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[0].mountPath'=/etc/istio/ingressgateway-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[1].name'=ingressgateway-ca-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[1].secretName'=istio-ingressgateway-ca-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[1].mountPath'='/etc/istio/ingressgateway-ca-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[2].name'=ingressgateway-bookinfo-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[2].secretName'=istio-ingressgateway-bookinfo-certs \
+    --set 'gateways.istio-ingressgateway.secretVolumes[2].mountPath'=/etc/istio/ingressgateway-bookinfo-certs > \
     $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 

@@ -199,7 +199,7 @@ spec:
 
 ## Headless TCP services losing connection
 
-If `istio-citadel` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
+If `istio-citadel` is deployed, Envoy is restarted every 45 days to refresh certificates.
 This causes the disconnection of TCP streams or long-running connections between services.
 
 You should build resilience into your application for this type of

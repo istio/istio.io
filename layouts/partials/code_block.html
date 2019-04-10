@@ -7,9 +7,6 @@
 {{- $snippet := .Get "snippet" -}}
 
 {{- $expand_links := "true" -}}
-{{- if or $url $file }}
-    {{- $expand_links = "false" -}}
-{{- end }}
 
 {{- if .Get "expandlinks" -}}
     {{- $expand_links = .Get "expandlinks" }}
@@ -45,7 +42,7 @@
         {{- if $snippet -}}
             {{- errorf "Snippets only work for imported text blocks (%s)" .Position -}}
         {{- end -}}
-        {{- $text = (trim .Inner " \n") -}}
+        {{- $text = partial "strip_indent.html" (dict "content" .Inner "pos" .Position) -}}
     {{- end -}}
 
     {{- if (hasPrefix $text " ") -}}
