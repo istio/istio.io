@@ -33,7 +33,7 @@ will generate and collect automatically.
     {{< /text >}}
 
     {{< warning >}}
-    If you use version 1.1.2 or prior, please use the following configuration instead:
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
@@ -165,7 +165,7 @@ protocols within policies.
     $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
     {{< /text >}}
 
-    If you are using version 1.1.2 or prior:
+    If you are using Istio 1.1.2 or prior:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@

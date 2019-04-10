@@ -29,7 +29,7 @@ as the example application throughout this task.
     {{< /text >}}
 
     {{< warning >}}
-    If you use version 1.1.2 or prior, please use the following configuration instead:
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/telemetry/log-entry-crd.yaml@
     {{< /text >}}
@@ -123,7 +123,7 @@ here to illustrate how to use `match` expressions to control rule execution.
     $ kubectl delete -f @samples/bookinfo/telemetry/log-entry.yaml@
     {{< /text >}}
 
-    If you are using version 1.1.2 or prior:
+    If you are using Istio 1.1.2 or prior:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/telemetry/log-entry-crd.yaml@

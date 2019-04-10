@@ -67,7 +67,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     {{< /text >}}
 
     {{< warning >}}
-    If you use version 1.1.2 or prior, please use the following configuration instead:
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
     {{< /text >}}
@@ -106,7 +106,7 @@ the `reviews` service.
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
-    If you are using version 1.1.2 or prior:
+    If you are using Istio 1.1.2 or prior:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
@@ -123,7 +123,7 @@ the `reviews` service.
     {{< /text >}}
 
     {{< warning >}}
-    If you use version 1.1.2 or prior, please use the following configuration instead:
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
     {{< /text >}}
@@ -150,7 +150,7 @@ subnet.
     {{< /text >}}
 
     {{< warning >}}
-    If you use version 1.1.2 or prior, please use the following configuration instead:
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@
     {{< /text >}}
@@ -169,7 +169,7 @@ subnet.
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-whitelist.yaml@
     {{< /text >}}
 
-    If you are using version 1.1.2 or prior:
+    If you are using Istio 1.1.2 or prior:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
@@ -181,7 +181,7 @@ subnet.
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-ip.yaml@
     {{< /text >}}
 
-    If you are using version 1.1.2 or prior:
+    If you are using Istio 1.1.2 or prior:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@

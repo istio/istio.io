@@ -301,7 +301,7 @@ $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio.yaml@
 {{< /text >}}
 
 {{< warning >}}
-If you use version 1.1.2 or prior, please use the following configuration instead:
+If you use Istio 1.1.2 or prior, please use the following configuration instead:
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
 {{< /text >}}
@@ -349,7 +349,7 @@ example stack.
     $ kubectl delete -f @samples/bookinfo/telemetry/fluentd-istio.yaml@
     {{< /text >}}
 
-    If you are using version 1.1.2 or prior:
+    If you are using Istio 1.1.2 or prior:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
