@@ -295,4 +295,4 @@ A rule contains a `match` predicate expression and a list of actions to perform 
 An action specifies the list of instances to be delivered to a handler.
 A rule must use the fully qualified names of handlers and instances.
 If the rule, handlers, and instances are all in the same namespace, the namespace suffix can be elided from
-the fully qualified name as seen in `handler.prometheus`.
+the fully qualified name as seen in `promhandler`.
