@@ -38,6 +38,7 @@ will generate and collect automatically.
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
+
     {{< /warning >}}
 
 1.  Setup Bookinfo to use MongoDB.

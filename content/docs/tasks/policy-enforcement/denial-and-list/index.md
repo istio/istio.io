@@ -72,6 +72,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
     {{< /text >}}
+
     {{< /warning >}}
 
     Notice the following in the `denyreviewsv3` rule:
@@ -129,6 +130,7 @@ the `reviews` service.
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
     {{< /text >}}
+
     {{< /warning >}}
 
 1.  Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see **no** stars.
@@ -157,6 +159,7 @@ subnet.
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@
     {{< /text >}}
+
     {{< /warning >}}
 
 1.  Try to access the Bookinfo `productpage` at

@@ -306,6 +306,7 @@ If you use Istio 1.1.2 or prior, please use the following configuration instead:
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
 {{< /text >}}
+
 {{< /warning >}}
 
 Notice that the `address: "fluentd-es.logging:24224"` line in the

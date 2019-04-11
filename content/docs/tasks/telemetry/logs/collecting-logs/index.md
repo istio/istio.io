@@ -34,6 +34,7 @@ as the example application throughout this task.
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/telemetry/log-entry-crd.yaml@
     {{< /text >}}
+
     {{< /warning >}}
 
 1.  Send traffic to the sample application.
