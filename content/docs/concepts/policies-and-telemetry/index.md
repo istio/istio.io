@@ -288,7 +288,7 @@ spec:
   match: destination.service.host == "service1.ns.svc.cluster.local" && request.headers["x-user"] == "user1"
   actions:
   - handler: promhandler
-    instances: [ requestduration.instance.istio-system ]
+    instances: [ requestduration ]
 {{< /text >}}
 
 A rule contains a `match` predicate expression and a list of actions to perform if the predicate is true.
