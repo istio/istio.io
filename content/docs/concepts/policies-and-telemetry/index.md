@@ -110,8 +110,8 @@ Here are some example attributes with their associated values:
 request.path: xyz/abc
 request.size: 234
 request.time: 12:34:56.789 04/17/2017
-source.ip: 192.168.0.1
-destination.service: example
+source.ip: [192 168 0 1]
+destination.service.name: example
 {{< /text >}}
 
 Mixer is in essence an attribute processing machine. The Envoy sidecar invokes Mixer for
@@ -171,7 +171,7 @@ address for a Statsd backend is an example of handler configuration.
 * Configuring a set of *instances*, which describe how to map request attributes into adapter inputs.
 Instances represent a chunk of data that one or more adapters will operate
 on. For example, an operator may decide to generate `requestcount`
-metric instances from attributes such as `destination.service` and
+metric instances from attributes such as `destination.service.host` and
 `response.code`.
 
 * Configuring a set of *rules*, which describe when a particular adapter is called and which instances
@@ -225,14 +225,14 @@ spec:
   params:
     metrics:
     - name: request_count
-      instance_name: requestcount.metric.istio-system
+      instance_name: requestcount.instance.istio-system
       kind: COUNTER
       label_names:
       - destination_service
       - destination_version
       - response_code
     - name: request_duration
-      instance_name: requestduration.metric.istio-system
+      instance_name: requestduration.instance.istio-system
       kind: DISTRIBUTION
       label_names:
       - destination_service
@@ -262,7 +262,7 @@ spec:
   params:
     value: response.duration | "0ms"
     dimensions:
-      destination_service: destination.service | "unknown"
+      destination_service: destination.service.host | "unknown"
       destination_version: destination.labels["version"] | "unknown"
       response_code: response.code | 200
     monitored_resource_type: '"UNSPECIFIED"'
