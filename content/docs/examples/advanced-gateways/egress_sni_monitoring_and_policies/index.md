@@ -18,6 +18,11 @@ example extends that example to show how to configure SNI monitoring and apply p
    [Configure Egress Traffic using Wildcard Hosts](/docs/examples/advanced-gateways/wildcard-egress-hosts/) example,
    **with mutual TLS enabled**.
 
+    {{< warning >}}
+    Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
+    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    {{< /warning >}}
+
 ## SNI monitoring and access policies
 
 Since you configured the egress traffic to flow through the egress gateway, you can apply monitoring and access policy
@@ -125,11 +130,11 @@ access the English and the French versions.
 1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'
-    {"level":"info","time":"2019-01-10T17:33:55.559093Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"en.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
-    {"level":"info","time":"2019-01-10T17:33:56.166227Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"de.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
-    {"level":"info","time":"2019-01-10T17:33:56.779842Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"es.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
-    {"level":"info","time":"2019-01-10T17:33:57.413908Z","instance":"egress-access.logentry.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"fr.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access'
+    {"level":"info","time":"2019-01-10T17:33:55.559093Z","instance":"egress-access.instance.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"en.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    {"level":"info","time":"2019-01-10T17:33:56.166227Z","instance":"egress-access.instance.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"de.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    {"level":"info","time":"2019-01-10T17:33:56.779842Z","instance":"egress-access.instance.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"es.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
+    {"level":"info","time":"2019-01-10T17:33:57.413908Z","instance":"egress-access.instance.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"fr.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
     {{< /text >}}
 
     Note the `requestedServerName` attribute, and `sourcePrincipal`, it must be `cluster.local/ns/default/sa/sleep-us`.
@@ -176,9 +181,9 @@ access the English and the French versions.
 ### Cleanup of monitoring and policy enforcement of SNI and source identity
 
 {{< text bash >}}
-$ kubectl delete serviceaccount sleep-us sleep-canada
 $ kubectl delete service sleep-us sleep-canada
 $ kubectl delete deployment sleep-us sleep-canada
+$ kubectl delete serviceaccount sleep-us sleep-canada
 $ kubectl delete -f @samples/sleep/telemetry/sni-logging.yaml@
 $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
 {{< /text >}}
