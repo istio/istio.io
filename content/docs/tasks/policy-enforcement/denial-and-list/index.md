@@ -81,7 +81,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
     match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
     {{< /text >}}
 
-    It matches requests coming from the service `reviews` with label `v3` to the service `ratings`.
+    It matches requests coming from the workload `reviews` with label `v3` to the workload `ratings`.
 
     This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
     The adapter always denies requests with a preconfigured status code and message.
