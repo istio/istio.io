@@ -111,17 +111,8 @@ of injected sidecar when it was.
     Check the default injection policy in the `istio-sidecar-injector` `configmap`.
 
     {{< text bash yaml >}}
-    $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | head
+    $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | grep policy:
     policy: enabled
-    template: |-
-      initContainers:
-      - name: istio-init
-        image: "docker.io/jasonayoung/proxy_init:d49fa0a7f7d17f25552ad749d23f8ac73596e0cc"
-        args:
-        - "-p"
-        - [[ .MeshConfig.ProxyListenPort ]]
-        - "-u"
-        - 1337
     {{< /text >}}
 
     Allowed policy values are `disabled` and `enabled`. The default policy
