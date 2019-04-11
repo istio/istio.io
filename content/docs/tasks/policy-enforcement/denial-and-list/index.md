@@ -68,6 +68,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
     {{< warning >}}
     If you use Istio 1.1.2 or prior, please use the following configuration instead:
+
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
     {{< /text >}}
@@ -124,6 +125,7 @@ the `reviews` service.
 
     {{< warning >}}
     If you use Istio 1.1.2 or prior, please use the following configuration instead:
+
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
     {{< /text >}}
@@ -151,6 +153,7 @@ subnet.
 
     {{< warning >}}
     If you use Istio 1.1.2 or prior, please use the following configuration instead:
+
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@
     {{< /text >}}

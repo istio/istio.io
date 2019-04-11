@@ -302,6 +302,7 @@ $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio.yaml@
 
 {{< warning >}}
 If you use Istio 1.1.2 or prior, please use the following configuration instead:
+
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
 {{< /text >}}

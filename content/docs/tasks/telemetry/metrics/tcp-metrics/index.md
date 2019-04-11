@@ -34,6 +34,7 @@ will generate and collect automatically.
 
     {{< warning >}}
     If you use Istio 1.1.2 or prior, please use the following configuration instead:
+
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
