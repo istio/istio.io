@@ -453,17 +453,19 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
 
 1.  Proceed to the next section.
 
-#### Verify that TCP egress traffic is directed through the egress gateway
+#### Verify that egress traffic is directed through the egress gateway
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  Check the statistics of the egress gateway's Envoy and see a counter that corresponds to your
+1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+
+1.  Check the log of the egress gateway's Envoy and see a line that corresponds to your
     requests to the MongoDB service. If Istio is deployed in the `istio-system` namespace, the command to print the
-    counter is:
+    log is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep $MONGODB_PORT | grep ${MONGODB_HOST}.upstream_cx_total
-    cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
+    $ kubectl logs -l istio=egressgateway -n istio-system
+    [2019-04-14T06:12:07.636Z] "- - -" 0 - "-" 1591 4393 94 - "-" "-" "-" "-" "169.50.214.187:<your MongoDB port>" outbound|<your MongoDB port>||<your MongoDB host> 172.30.146.119:59924 172.30.146.119:443 172.30.230.1:59206 <your MongoDB host>
     {{< /text >}}
 
 #### Cleanup directing TCP egress traffic through an egress gateway
@@ -749,16 +751,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
     {{< /tabset >}}
 
-1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
-
-1.  Check the statistics of the egress gateway's Envoy and see a counter that corresponds to your
-    requests to the MongoDB service. If Istio is deployed in the `istio-system` namespace, the command to print the
-    counter is:
-
-    {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep $MONGODB_PORT | grep ${MONGODB_HOST}.upstream_cx_total
-    cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
-    {{< /text >}}
+1. [Verify that the traffic is directed though the egress gateway](/blog/2018/egress-mongo/#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
 
 #### Cleanup directing TLS Egress traffic through an egress gateway
 
@@ -1074,6 +1067,8 @@ to hold the configuration of the Nginx SNI proxy:
     {{< /text >}}
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
+
+1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command
     to print the log is:
