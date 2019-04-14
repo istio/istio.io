@@ -184,7 +184,7 @@ is used for this purpose.
     {{< /text >}}
 
     {{< tip >}}
-    If the Istio Pilot container terminates, re-run the command from the previous step.
+    If the Istio Pilot container terminates, re-run the command `docker-compose -f install/consul/istio.yaml up -d`.
     {{< /tip >}}
 
 1.  Set `GATEWAY_URL`:

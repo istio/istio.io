@@ -274,7 +274,7 @@ function handleCodeBlocks() {
                 }
 
                 if (output !== "") {
-                    output = output.replace("<", "&lt;").replace(">", "&gt;");
+                    output = output.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
                     // apply formatting to the output?
                     if (code.dataset.outputis) {
