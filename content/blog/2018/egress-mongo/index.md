@@ -356,7 +356,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
     EOF
     {{< /text >}}
 
-1.  Proceed to [Verify that TCP egress traffic is directed through the egress gateway](#verify-that-tcp-egress-traffic-is-directed-through-the-egress-gateway).
+1.  [Verify that egress traffic is directed through the egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway).
 
 #### Mutual TLS between the sidecar proxies and the egress gateway
 
@@ -751,7 +751,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
     {{< /tabset >}}
 
-1. [Verify that the traffic is directed though the egress gateway](/blog/2018/egress-mongo/#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
+1. [Verify that the traffic is directed though the egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
 
 #### Cleanup directing TLS Egress traffic through an egress gateway
 
