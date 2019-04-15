@@ -100,13 +100,13 @@ metadata:
   namespace: logging
   labels:
     app: elasticsearch
-  annotations:
-    sidecar.istio.io/inject: "false"
 spec:
   template:
     metadata:
       labels:
         app: elasticsearch
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
       - image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.1
@@ -163,13 +163,13 @@ metadata:
   namespace: logging
   labels:
     app: fluentd-es
-  annotations:
-    sidecar.istio.io/inject: "false"
 spec:
   template:
     metadata:
       labels:
         app: fluentd-es
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
       - name: fluentd-es
@@ -248,13 +248,13 @@ metadata:
   namespace: logging
   labels:
     app: kibana
-  annotations:
-    sidecar.istio.io/inject: "false"
 spec:
   template:
     metadata:
       labels:
         app: kibana
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
       - name: kibana
