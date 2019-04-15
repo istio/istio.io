@@ -19,7 +19,45 @@ This task shows you how to access external services in three different ways:
 1. Configure [service entries](/docs/reference/config/networking/v1alpha3/service-entry/) to provide controlled access to external services.
 1. Completely bypass the Envoy proxy for a specific range of IPs.
 
-{{< boilerplate before-you-begin-egress >}}
+## Before you begin
+
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+
+    {{< warning >}}
+    If the following [installation options](/docs/reference/config/installation-options/) are not configured
+    in your selected [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/),
+    add them with the following values:
+
+    {{< text plain >}}
+    --set global.outboundTrafficPolicy.mode=ALLOW_ANY --set pilot.env.PILOT_ENABLE_FALLTHROUGH_ROUTE=1
+    {{< /text >}}
+
+    {{< /warning >}}
+
+*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+    If you have
+    [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    enabled, run the following command to deploy the sample app:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
+
+    Otherwise, manually inject the sidecar before deploying the `sleep` application with the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    {{< /text >}}
+
+    {{< tip >}}
+    You can use any pod with `curl` installed as a test source.
+    {{< /tip >}}
+
+*   Set the `SOURCE_POD` environment variable to the name of your source pod:
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
 
 ## Envoy passthrough to external services
 
@@ -60,7 +98,7 @@ prior to Istio 1.1.3 you couldn't call external services on any of those ports e
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
     {{< /text >}}
 
@@ -103,7 +141,7 @@ any other unintentional accesses.
 1.  Run the following command to change the `global.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system --export -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
+    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
     {{< /text >}}
 
@@ -433,7 +471,7 @@ $ helm template install/kubernetes/helm/istio <the flags you used to install Ist
 
 In this task you looked at three ways to call external services from an Istio mesh:
 
-1. Configuring Istio to allow access to any external service.
+1. Configuring Envoy to allow access to any external service.
 
 1. Use a service entry to register an accessible external service inside the mesh. This is the
    recommended approach.

@@ -4,17 +4,6 @@
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-    {{< warning >}}
-    If the following [installation options](/docs/reference/config/installation-options/) are not configured
-    in your selected [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/),
-    add them with the following values:
-
-    {{< text plain >}}
-    --set global.outboundTrafficPolicy.mode=ALLOW_ANY --set pilot.env.PILOT_ENABLE_FALLTHROUGH_ROUTE=1
-    {{< /text >}}
-
-    {{< /warning >}}
-
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
     [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)

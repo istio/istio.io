@@ -28,16 +28,16 @@ receiving configuration or is out of sync then `proxy-status` will tell you this
 
 {{< text bash >}}
 $ istioctl proxy-status
-PROXY                                                  CDS        LDS        EDS               RDS          PILOT
-details-v1-6dcc6fbb9d-wsjz4.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-tfdvh
-istio-egressgateway-c49694485-l9d5l.istio-system       SYNCED     SYNCED     SYNCED (100%)     NOT SENT     istio-pilot-75bdf98789-tfdvh
-istio-ingress-6458b8c98f-7ks48.istio-system            SYNCED     SYNCED     SYNCED (100%)     NOT SENT     istio-pilot-75bdf98789-n2kqh
-istio-ingressgateway-7d6874b48f-qxhn5.istio-system     SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh
-productpage-v1-6c886ff494-hm7zk.default                SYNCED     SYNCED     SYNCED (100%)     STALE        istio-pilot-75bdf98789-n2kqh
-ratings-v1-5d9ff497bb-gslng.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh
-reviews-v1-55d4c455db-zjj2m.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh
-reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-tfdvh
-reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh
+PROXY                                                  CDS        LDS        EDS               RDS          PILOT                            VERSION
+details-v1-6dcc6fbb9d-wsjz4.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
+istio-egressgateway-c49694485-l9d5l.istio-system       SYNCED     SYNCED     SYNCED (100%)     NOT SENT     istio-pilot-75bdf98789-tfdvh     1.1.2
+istio-ingress-6458b8c98f-7ks48.istio-system            SYNCED     SYNCED     SYNCED (100%)     NOT SENT     istio-pilot-75bdf98789-n2kqh     1.1.2
+istio-ingressgateway-7d6874b48f-qxhn5.istio-system     SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+productpage-v1-6c886ff494-hm7zk.default                SYNCED     SYNCED     SYNCED (100%)     STALE        istio-pilot-75bdf98789-n2kqh     1.1.2
+ratings-v1-5d9ff497bb-gslng.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+reviews-v1-55d4c455db-zjj2m.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
+reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
 {{< /text >}}
 
 If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be
@@ -170,33 +170,35 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
 1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where
 IP tables routes all inbound and outbound pod traffic to. This listener has `useOriginalDst` set to true which means
 it hands the request over to the listener that best matches the original destination of the request.
-If it can't find any matching virtual listeners it sends the request to the `BlackHoleCluster` which returns a 404.
+If it can't find any matching virtual listeners it sends the request to the `PassthroughCluster` which connects to the destination directly.
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
-    {
-        "name": "virtual",
-        "address": {
-            "socketAddress": {
-                "address": "0.0.0.0",
-                "portValue": 15001
-            }
-        },
-        "filterChains": [
-            {
-                "filters": [
-                    {
-                        "name": "envoy.tcp_proxy",
-                        "config": {
-                            "cluster": "BlackHoleCluster",
-                            "stat_prefix": "BlackHoleCluster"
+    [
+        {
+            "name": "virtual",
+            "address": {
+                "socketAddress": {
+                    "address": "0.0.0.0",
+                    "portValue": 15001
+                }
+            },
+            "filterChains": [
+                {
+                    "filters": [
+                        {
+                            "name": "envoy.tcp_proxy",
+                            "config": {
+                                "cluster": "PassthroughCluster",
+                                "stat_prefix": "PassthroughCluster"
+                            }
                         }
-                    }
-                ]
-            }
-        ],
-        "useOriginalDst": true
-    }
+                    ]
+                }
+            ],
+            "useOriginalDst": true
+        }
+    ]
     {{< /text >}}
 
 1. Our request is an outbound HTTP request to port `9080` this means it gets handed off to the `0.0.0.0:9080` virtual
