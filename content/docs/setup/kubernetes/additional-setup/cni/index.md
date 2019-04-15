@@ -135,7 +135,7 @@ of many common Kubernetes environments.
 | Hosted Cluster Type | Uses CNI | Required Non-default settings |
 |---------------------|----------|-------------------------------|
 | GKE 1.9+ default | N | |
-| GKE 1.9+ w/ [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) | Y | `istio-cni.cniBinDir=/home/kubernetes/bin` |
+| GKE 1.9+ w/ [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) | Y | `cniBinDir=/home/kubernetes/bin` |
 | IKS (IBM cloud) | Y | |
 | EKS (AWS) | Y | |
 | AKS (Azure) | Y | |
