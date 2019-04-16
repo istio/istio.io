@@ -292,63 +292,22 @@ deployment "kibana" created
 ## Configure Istio
 
 Now that there is a running Fluentd daemon, configure Istio with a new
-log type, and send those logs to the listening daemon. Create a new
-YAML file to hold configuration for the log stream that
-Istio will generate and collect automatically.
-
-Save the following as `fluentd-istio.yaml`:
-
-{{< text yaml >}}
-# Configuration for logentry instances
-apiVersion: "config.istio.io/v1alpha2"
-kind: logentry
-metadata:
-  name: newlog
-  namespace: istio-system
-spec:
-  severity: '"info"'
-  timestamp: request.time
-  variables:
-    source: source.labels["app"] | source.workload.name | "unknown"
-    user: source.user | "unknown"
-    destination: destination.labels["app"] | destination.workload.name | "unknown"
-    responseCode: response.code | 0
-    responseSize: response.size | 0
-    latency: response.duration | "0ms"
-  monitored_resource_type: '"UNSPECIFIED"'
----
-# Configuration for a Fluentd handler
-apiVersion: "config.istio.io/v1alpha2"
-kind: fluentd
-metadata:
-  name: handler
-  namespace: istio-system
-spec:
-  address: "fluentd-es.logging:24224"
----
-# Rule to send logentry instances to the Fluentd handler
-apiVersion: "config.istio.io/v1alpha2"
-kind: rule
-metadata:
-  name: newlogtofluentd
-  namespace: istio-system
-spec:
-  match: "true" # match for all requests
-  actions:
-   - handler: handler.fluentd
-     instances:
-     - newlog.logentry
----
-{{< /text >}}
-
-Create the resources:
+log type, and send those logs to the listening daemon. Apply a
+YAML file with configuration for the log stream that
+Istio will generate and collect automatically:
 
 {{< text bash >}}
-$ kubectl apply -f fluentd-istio.yaml
-Created config logentry/istio-system/newlog at revision 22374
-Created config fluentd/istio-system/handler at revision 22375
-Created config rule/istio-system/newlogtofluentd at revision 22376
+$ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio.yaml@
 {{< /text >}}
+
+{{< warning >}}
+If you use Istio 1.1.2 or prior, please use the following configuration instead:
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
+{{< /text >}}
+
+{{< /warning >}}
 
 Notice that the `address: "fluentd-es.logging:24224"` line in the
 handler configuration is pointing to the Fluentd daemon we setup in the
@@ -389,7 +348,13 @@ example stack.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ kubectl delete -f fluentd-istio.yaml
+    $ kubectl delete -f @samples/bookinfo/telemetry/fluentd-istio.yaml@
+    {{< /text >}}
+
+    If you are using Istio 1.1.2 or prior:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
     {{< /text >}}
 
 *   Remove the example Fluentd, Elasticsearch, Kibana stack:
