@@ -31,7 +31,7 @@ As a result, this field does not need to be configured.
 
 In order for Istio to determine locality, a Service must be associated with the caller.
 
-## Locality-Prioritized Load Balancing
+## Locality-prioritized load balancing
 
 _Locality-prioritized load balancing_ is the default behavior for _locality load balancing_.
 In this mode, Istio tells Envoy to prioritize traffic to the workload instances most closely matching
@@ -69,7 +69,7 @@ for options.
 
 An example configuration:
 
-```yaml
+{{< text yaml >}}
 global:
   localityLbSetting:
     failover:
@@ -77,19 +77,19 @@ global:
       to: eu-west
     - from: us-west
       to: us-east
-```
+{{< /text >}}
 
-## Locality-Weighted Load Balancing
+## Locality-weighted load balancing
 
-Locality-Weighted Load Balancing distributes user defined percentages of traffic to certain localities.
+Locality-weighted load balancing distributes user-defined percentages of traffic to certain localities.
 
 For example, if we want to keep 80% of traffic within our region, and send 20% of traffic out of region:
 
-```yaml
+{{< text yaml >}}
 global:
   localityLbSetting:
   - from: "us-central1/*"
     to:
       "us-central1/*": 80
       "us-central2/*": 20
-```
+{{< /text >}}
