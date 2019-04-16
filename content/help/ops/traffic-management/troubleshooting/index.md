@@ -13,7 +13,7 @@ by inspecting Envoy's access logs. By default, access logs are output to the sta
 Run the following command to see the log:
 
 {{< text bash >}}
-$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
+$ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
 In the default access log format, Envoy response flags and Mixer policy status are located after the response code,
