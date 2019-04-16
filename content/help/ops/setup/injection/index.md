@@ -180,18 +180,7 @@ deployment.extensions "istio-sidecar-injector" patched
 ### `no such hosts` or `no endpoints available` errors in deployment status
 
 Injection is fail-close. If the `istio-sidecar-injector` pod is not ready, pods
-cannot be created. In such cases you’ll see an error about `no such
-host` (Kubernetes 1.9) or `no endpoints available` (>=1.10).
-
-Kubernetes 1.9:
-
-{{< text plain >}}
-Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \
-    Post https://istio-sidecar-injector.istio-system.svc:443/admitPilot: dial tcp: lookup \
-    istio-sidecar-injector.istio-system.svc on 169.254.169.254:53: no such host
-{{< /text >}}
-
-Kubernetes 1.10:
+cannot be created. In such cases you’ll see an error about `no endpoints available`.
 
 {{< text plain >}}
 Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \

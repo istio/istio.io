@@ -31,10 +31,8 @@ function properly if the cluster is misconfigured. You can follow
 these steps once the cluster has been configured and dynamic
 webhooks and dependent features are not functioning properly.
 
-1. Verify you’re using the
-   [latest](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-   version of `kubectl` (>= 1.10) and that the Kubernetes server version
-   is >= 1.9.
+1. Verify you’re using a supported version ({{< supported_kubernetes_versions >}}) of
+   [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and of the Kubernetes server:
 
     {{< text bash >}}
     $ kubectl version --short

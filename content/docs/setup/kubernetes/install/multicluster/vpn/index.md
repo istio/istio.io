@@ -22,7 +22,7 @@ control plane and form a mesh network across multiple clusters.
 
 ## Prerequisites
 
-* Two or more clusters running **Kubernetes version 1.9 or newer**.
+* Two or more clusters running a supported Kubernetes version ({{< supported_kubernetes_versions >}}).
 
 * The ability to deploy the [Istio control plane](/docs/setup/kubernetes/install/kubernetes/)
   on **one** of the clusters.
