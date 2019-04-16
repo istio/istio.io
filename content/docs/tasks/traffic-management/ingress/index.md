@@ -172,9 +172,15 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     specifies that only requests through your `httpbin-gateway` are allowed.
     All other external requests will be rejected with a 404 response.
 
-    Note that in this configuration, internal requests from other services in the mesh are not subject to these rules
-    but instead will default to round-robin routing. To apply these or other rules to internal calls,
-    you can add the special value `mesh` to the list of `gateways`.
+    {{< warning >}}
+    Internal requests from other services in the mesh are not subject to these rules
+    but instead will default to round-robin routing. To apply these rules to internal calls as well,
+    you can add the special value `mesh` to the list of `gateways`. Since the internal hostname for the
+    service is probabaly different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
+    you will also need to add it to the `hosts` list. Refer to the
+    [troubleshooting guide](/help/ops/traffic-management/troubleshooting/#route-rules-have-no-effect-on-ingress-gateway-requests)
+    for more details.
+    {{< /warning >}}
 
 1.  Access the _httpbin_ service using _curl_:
 
