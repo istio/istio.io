@@ -23,7 +23,7 @@ install Istio **with mutual TLS enabled**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
-* Create service accounts and for the Bookinfo application. Run the following command to create service
+* Create service accounts for the Bookinfo application. Run the following command to create service
 account `bookinfo-productpage` for `productpage` and service account `bookinfo-reviews` for `reviews`:
 
     {{< text bash >}}
