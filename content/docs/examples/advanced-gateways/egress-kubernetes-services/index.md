@@ -46,7 +46,7 @@ The only configuration step you have to perform is to disable Istio's
 ## Kubernetes ExternalName service to access an external service
 
 1.  Create a Kubernetes
-    [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) service for Wikipedia:
+    [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) service for `httpbin.org`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
