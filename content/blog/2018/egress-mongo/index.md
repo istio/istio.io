@@ -217,7 +217,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
     Also note that when the protocol `TCP` is specified, the configuration is not specific for MongoDB, but is the same
     for any other database with the protocol on top of TCP.
 
-    Note that the host of your MongoDB is not used in TCP routing, so you can use any host, for example `my-mongo-fake-host.com`. Notice the `STATIC` resolution and the endpoint with the IP of your MongoDB service. Once you define such an endpoint, you can access MongoDB services which do not have an FQDN hostname.
+    Note that the host of your MongoDB is not used in TCP routing, so you can use any host, for example `my-mongo-fake-host.com`. Notice the `STATIC` resolution and the endpoint with the IP of your MongoDB service. Once you define such an endpoint, you can access MongoDB services that do not have an FQDN hostname.
 
 1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
