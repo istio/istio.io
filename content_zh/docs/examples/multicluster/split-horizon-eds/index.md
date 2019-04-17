@@ -5,7 +5,7 @@ weight: 85
 keywords: [kubernetes,multicluster]
 ---
 
-这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，Endpoint 发现服务）`特性（在 Istio 1.1 中介绍），通过 ingress gateway 将服务请求路由到其他集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
+这个示例展示了如何使用[单一控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#单一控制平面拓扑)配置一个多集群网格，并使用 Istio 的`水平分割 EDS（Endpoints Discovery Service，端点发现服务）`特性（在 Istio 1.1 中引入），通过 ingress gateway 将服务请求路由到其他集群。水平分割 EDS 使 Istio 可以基于请求来源的位置，将其路由到不同的 endpoint。
 
 按照此示例中的说明，您将设置一个两集群网格，如下图所示：
 
@@ -31,7 +31,7 @@ keywords: [kubernetes,multicluster]
 
 在此示例中，您将安装对控制平面和应用程序 pod 都启用了双向 TLS 的 Istio。为了共享根 CA，您将使用同一个来自 Istio 示例目录的证书，在 `cluster1` 和 `cluster2` 集群上创建一个相同的 `cacerts` secret。
 
-下面的说明还设置了 `cluster2` 集群，包含一个无 selector 的 service 和具有 `cluster1` Istio ingress gateway 地址的 `istio-pilot.istio-system` endpoint。这将用于通过 ingress gateway 安全地访问 `cluster1` pilot，而无需双向 TLS 终止。
+下面的说明还设置了 `cluster2` 集群，包含一个无 selector 的 service 和具有 `cluster1` Istio 入口网关地址的 `istio-pilot.istio-system` 端点。这将用于通过入口网关安全地访问 `cluster1` pilot，而无需双向 TLS 终止。
 
 ### 配置 `cluster1`（主） 集群
 
@@ -154,7 +154,7 @@ keywords: [kubernetes,multicluster]
     $ kubectl create --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
     {{< /text >}}
 
-    等待 `cluster2` pod 的状态，特别是 `istio-ingressgateway` 的状态为已准备：
+    等待 `cluster2` pod 的状态，特别是 `istio-ingressgateway` 的状态为已就绪：
 
    {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway
@@ -165,7 +165,7 @@ keywords: [kubernetes,multicluster]
     {{< /text >}}
 
     {{< warning >}}
-    需要在 `cluster1` 的控制平面中监听 `cluster2` 之后，`istio-ingressgateway` 的状态才会变成已准备。你可以在下一章节中尝试配置。
+    需要在 `cluster1` 的控制平面中监听 `cluster2` 之后，`istio-ingressgateway` 的状态才会变成已就绪。你可以在下一章节中尝试配置。
     {{< /warning >}}
 
 1. 确定 `cluster2` 的入口 IP 和端口号
@@ -177,7 +177,7 @@ keywords: [kubernetes,multicluster]
         $ kubectl config use-context $CTX_CLUSTER2
         {{< /text >}}
 
-    1. 根据 [确定入口 IP 和端口](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)的命令，设置 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量。
+    1. 根据[确定入口 IP 和端口](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)的命令，设置 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量。
 
     1. 恢复  `kubectl` 之前的上下文：
 
@@ -259,7 +259,7 @@ keywords: [kubernetes,multicluster]
 
 ### 开始监听 `cluster2` 集群
 
-1. 执行下列命令，添加并标记 `cluster2` Kubernetes 的 secret。执行这些命令之后，`cluster1` 的 Istio Pilot 将开始监听 `cluster2` 集群的 service 和 instance，就像在 `cluster1` 集群中一样。
+1. 执行下列命令，添加并标记 `cluster2` Kubernetes 的 secret。执行这些命令之后，`cluster1` 的 Istio Pilot 将开始监听 `cluster2` 集群的服务和实例，就像在 `cluster1` 集群中一样。
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 secret generic n2-k8s-secret --from-file n2-k8s-config -n istio-system
@@ -331,9 +331,9 @@ keywords: [kubernetes,multicluster]
 
 ### 横向分割 EDS 实战
 
-我们将从另一个集群中 `sleep` service 请求 `helloworld.sample` service。
+我们将从另一个集群中 `sleep` 服务请求 `helloworld.sample` 服务。
 
-1. 部署 `sleep` service：
+1. 部署 `sleep` 服务：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
@@ -346,13 +346,13 @@ keywords: [kubernetes,multicluster]
     sleep-754684654f-n6bzf           2/2     Running   0          5s
     {{< /text >}}
 
-1. 多次请求 `helloworld.sample` service：
+1. 多次请求 `helloworld.sample` 服务：
 
     {{< text bash >}}
     $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
-如果设置正确，到 `helloworld.sample` service 的流量将在 `cluster1` 和 `cluster2` 实例之间进行分发，导致响应 body 中 `v1` 或 `v2` 都可能出现。
+如果设置正确，到 `helloworld.sample` 服务的流量将在 `cluster1` 和 `cluster2` 实例之间进行分发，导致响应 body 中 `v1` 或 `v2` 都可能出现。
 
 {{< text sh >}}
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
@@ -362,7 +362,7 @@ Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 {{< /text >}}
 
-您可以通过打印 sleep pod 的 `istio-proxy` 容器日志来验证访问的 endpoint 的 IP 地址。
+您可以通过打印 `sleep` pod 的 `istio-proxy` 容器日志来验证访问的 endpoint 的 IP 地址。
 
 {{< text bash >}}
 $ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
@@ -374,7 +374,7 @@ v2 被调用时将记录 `cluster2` 网关 IP  `192.23.120.32:15443`，v1 被调
 
 ## 清理
 
-执行下列命令清理 demo service __and__ Istio 组件。
+执行下列命令清理 demo 服务 __and__ Istio 组件。
 
 清理 `cluster2` 集群：
 
