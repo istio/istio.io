@@ -241,7 +241,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
 
-1.  Create a `ServiceEntry` for the MongoDB service in the same way as for the case without egress gateway.
+1.  Create a `ServiceEntry` for the MongoDB service in the same way as in the case without egress gateway.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
