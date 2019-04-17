@@ -7,3 +7,5 @@ attribution: The Istio Team
 ---
 
 {{< announcement_links "1.1.3" >}}
+
+{{< boilerplate "notes/1.1.3" >}}
