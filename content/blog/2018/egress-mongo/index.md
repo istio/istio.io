@@ -193,7 +193,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
       name: mongo
     spec:
       hosts:
-      - $MONGODB_HOST
+      - my-mongo-fake-host.com
       addresses:
       - $MONGODB_IP/32
       ports:
@@ -201,6 +201,9 @@ instructions in this section. Alternatively, if you do want to direct your traff
         name: tcp
         protocol: TCP
       location: MESH_EXTERNAL
+      resolution: STATIC
+      endpoints:
+      - address: $MONGODB_IP
     EOF
     {{< /text >}}
 
@@ -213,6 +216,8 @@ instructions in this section. Alternatively, if you do want to direct your traff
     [MongoDB related statistics](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter#statistics).
     Also note that when the protocol `TCP` is specified, the configuration is not specific for MongoDB, but is the same
     for any other database with the protocol on top of TCP.
+
+    Note that the host of your MongoDB is not used in TCP routing, so you can use any host, for example `my-mongo-fake-host.com`. Notice the `STATIC` resolution and the endpoint with the IP of your MongoDB service. Once you define such an endpoint, you can access MongoDB services which do not have an FQDN hostname.
 
 1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
@@ -236,11 +241,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
 
-1.  Create a `ServiceEntry` for the MongoDB service, this time with `resolution` `DNS`. Specifying the resolution as
-    `DNS` instructs the egress gateway to perform a DNS query to get the IP address of the MongoDB host. Note that the
-    IP of the MongoDB host used by the MongoDB client (the `ratings` service) is not known to the egress gateway.
-    The sidecar proxy of the `ratings` service forwards the connection from the `ratings` service to the egress gateway,
-    so the IP of the egress gateway is used as the destination IP.
+1.  Create a `ServiceEntry` for the MongoDB service in the same way as for the case without egress gateway.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -250,15 +251,17 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
       name: mongo
     spec:
       hosts:
-      - $MONGODB_HOST
+      - my-mongo-fake-host.com
       addresses:
       - $MONGODB_IP/32
       ports:
       - number: $MONGODB_PORT
         name: tcp
         protocol: TCP
-      resolution: DNS
       location: MESH_EXTERNAL
+      resolution: STATIC
+      endpoints:
+      - address: $MONGODB_IP
     EOF
     {{< /text >}}
 
@@ -309,7 +312,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
           name: tcp
           protocol: TCP
         hosts:
-        - $MONGODB_HOST
+        - my-mongo-fake-host.com
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -321,12 +324,19 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
       - name: mongo
     ---
     apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: mongo
+    spec:
+      host: my-mongo-fake-host.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
       name: direct-mongo-through-egress-gateway
     spec:
       hosts:
-      - $MONGODB_HOST
+      - my-mongo-fake-host.com
       gateways:
       - mesh
       - istio-egressgateway
@@ -349,7 +359,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
           port: $EGRESS_GATEWAY_MONGODB_PORT
         route:
         - destination:
-            host: $MONGODB_HOST
+            host: my-mongo-fake-host.com
             port:
               number: $MONGODB_PORT
           weight: 100
@@ -369,7 +379,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
     {{< text bash >}}
     $ kubectl delete gateway istio-egressgateway
     $ kubectl delete virtualservice direct-mongo-through-egress-gateway
-    $ kubectl delete destinationrule egressgateway-for-mongo
+    $ kubectl delete destinationrule egressgateway-for-mongo mongo
     {{< /text >}}
 
 1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services
@@ -390,7 +400,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
           name: tls
           protocol: TLS
         hosts:
-        - $MONGODB_HOST
+        - my-mongo-fake-host.com
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
@@ -413,7 +423,14 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
               number: 443
             tls:
               mode: ISTIO_MUTUAL
-              sni: $MONGODB_HOST
+              sni: my-mongo-fake-host.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: mongo
+    spec:
+      host: my-mongo-fake-host.com
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -421,7 +438,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
       name: direct-mongo-through-egress-gateway
     spec:
       hosts:
-      - $MONGODB_HOST
+      - my-mongo-fake-host.com
       gateways:
       - mesh
       - istio-egressgateway
@@ -444,7 +461,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
           port: 443
         route:
         - destination:
-            host: $MONGODB_HOST
+            host: my-mongo-fake-host.com
             port:
               number: $MONGODB_PORT
           weight: 100
@@ -474,7 +491,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
 $ kubectl delete serviceentry mongo
 $ kubectl delete gateway istio-egressgateway
 $ kubectl delete virtualservice direct-mongo-through-egress-gateway
-$ kubectl delete destinationrule egressgateway-for-mongo
+$ kubectl delete destinationrule egressgateway-for-mongo mongo
 {{< /text >}}
 
 ## Egress control for TLS
