@@ -110,7 +110,7 @@ other = "%s DOCS"
 other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
 
 [relnote_update_button]
-other = "LEARN ABOUT ISITO %s"
+other = "LEARN ABOUT ISTIO %s"
 
 [page_attribution]
 other = "By "
