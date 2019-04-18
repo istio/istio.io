@@ -267,7 +267,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
     istio-egressgateway   ClusterIP   172.21.202.204   <none>        80/TCP,443/TCP,7777/TCP   34d
     {{< /text >}}
 
-1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services to direct the
+1.  Create an egress `Gateway` for your MongoDB service, and destination rules and a virtual service to direct the
     traffic through the egress gateway and from the egress gateway to the external service.
 
     {{< text bash >}}
@@ -355,7 +355,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
     $ kubectl delete destinationrule egressgateway-for-mongo mongo
     {{< /text >}}
 
-1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services
+1.  Create an egress `Gateway` for your MongoDB service, and destination rules and a virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     {{< text bash >}}
