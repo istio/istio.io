@@ -193,7 +193,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
       name: mongo
     spec:
       hosts:
-      - my-mongo-fake-host.com
+      - my-mongo.tcp.svc
       addresses:
       - $MONGODB_IP/32
       ports:
@@ -217,7 +217,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
     Also note that when the protocol `TCP` is specified, the configuration is not specific for MongoDB, but is the same
     for any other database with the protocol on top of TCP.
 
-    Note that the host of your MongoDB is not used in TCP routing, so you can use any host, for example `my-mongo-fake-host.com`. Notice the `STATIC` resolution and the endpoint with the IP of your MongoDB service. Once you define such an endpoint, you can access MongoDB services that do not have an FQDN hostname.
+    Note that the host of your MongoDB is not used in TCP routing, so you can use any host, for example `my-mongo.tcp.svc`. Notice the `STATIC` resolution and the endpoint with the IP of your MongoDB service. Once you define such an endpoint, you can access MongoDB services that do not have an FQDN hostname.
 
 1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
@@ -251,7 +251,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
       name: mongo
     spec:
       hosts:
-      - my-mongo-fake-host.com
+      - my-mongo.tcp.svc
       addresses:
       - $MONGODB_IP/32
       ports:
@@ -312,7 +312,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
           name: tcp
           protocol: TCP
         hosts:
-        - my-mongo-fake-host.com
+        - my-mongo.tcp.svc
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -328,7 +328,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
     metadata:
       name: mongo
     spec:
-      host: my-mongo-fake-host.com
+      host: my-mongo.tcp.svc
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -336,7 +336,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
       name: direct-mongo-through-egress-gateway
     spec:
       hosts:
-      - my-mongo-fake-host.com
+      - my-mongo.tcp.svc
       gateways:
       - mesh
       - istio-egressgateway
@@ -359,7 +359,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
           port: $EGRESS_GATEWAY_MONGODB_PORT
         route:
         - destination:
-            host: my-mongo-fake-host.com
+            host: my-mongo.tcp.svc
             port:
               number: $MONGODB_PORT
           weight: 100
@@ -400,7 +400,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
           name: tls
           protocol: TLS
         hosts:
-        - my-mongo-fake-host.com
+        - my-mongo.tcp.svc
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
@@ -423,14 +423,14 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
               number: 443
             tls:
               mode: ISTIO_MUTUAL
-              sni: my-mongo-fake-host.com
+              sni: my-mongo.tcp.svc
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
       name: mongo
     spec:
-      host: my-mongo-fake-host.com
+      host: my-mongo.tcp.svc
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -438,7 +438,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
       name: direct-mongo-through-egress-gateway
     spec:
       hosts:
-      - my-mongo-fake-host.com
+      - my-mongo.tcp.svc
       gateways:
       - mesh
       - istio-egressgateway
@@ -461,7 +461,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
           port: 443
         route:
         - destination:
-            host: my-mongo-fake-host.com
+            host: my-mongo.tcp.svc
             port:
               number: $MONGODB_PORT
           weight: 100
