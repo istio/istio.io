@@ -226,11 +226,8 @@ instructions in this section. Alternatively, if you do want to direct your traff
     Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
     provide yourself with a visual clue that your external database is indeed being used.
 
-#### Cleanup of the egress configuration for TCP without a gateway
-
-{{< text bash >}}
-$ kubectl delete serviceentry mongo
-{{< /text >}}
+1.  If you want to direct the traffic through an egress gateway, proceed to the next section. Otherwise, perform
+    [cleanup](#cleanup-of-tcp-egress-traffic-control).
 
 ### Direct TCP Egress traffic through an egress gateway
 
@@ -241,31 +238,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
 
-1.  Create a `ServiceEntry` for the MongoDB service in the same way as in the case without egress gateway.
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: mongo
-    spec:
-      hosts:
-      - my-mongo.tcp.svc
-      addresses:
-      - $MONGODB_IP/32
-      ports:
-      - number: $MONGODB_PORT
-        name: tcp
-        protocol: TCP
-      location: MESH_EXTERNAL
-      resolution: STATIC
-      endpoints:
-      - address: $MONGODB_IP
-    EOF
-    {{< /text >}}
-
-1.  Refresh the web page of the application and verify that the ratings are displayed correctly.
+1.  If you did not perform the steps in [the previous section](#control-tcp-egress-traffic-without-a-gateway), perform them now.
 
 1.  Proceed to the following section.
 
@@ -485,13 +458,13 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
     [2019-04-14T06:12:07.636Z] "- - -" 0 - "-" 1591 4393 94 - "-" "-" "-" "-" "169.50.214.187:<your MongoDB port>" outbound|<your MongoDB port>||<your MongoDB host> 172.30.146.119:59924 172.30.146.119:443 172.30.230.1:59206 <your MongoDB host>
     {{< /text >}}
 
-#### Cleanup directing TCP egress traffic through an egress gateway
+### Cleanup of TCP egress traffic control
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
-$ kubectl delete gateway istio-egressgateway
-$ kubectl delete virtualservice direct-mongo-through-egress-gateway
-$ kubectl delete destinationrule egressgateway-for-mongo mongo
+$ kubectl delete gateway istio-egressgateway --ignore-not-found=true
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
+$ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
 {{< /text >}}
 
 ## Egress control for TLS
