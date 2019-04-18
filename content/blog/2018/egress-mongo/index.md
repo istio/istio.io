@@ -455,7 +455,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway -n istio-system
-    [2019-04-14T06:12:07.636Z] "- - -" 0 - "-" 1591 4393 94 - "-" "-" "-" "-" "169.50.214.187:<your MongoDB port>" outbound|<your MongoDB port>||<your MongoDB host> 172.30.146.119:59924 172.30.146.119:443 172.30.230.1:59206 <your MongoDB host>
+    [2019-04-14T06:12:07.636Z] "- - -" 0 - "-" 1591 4393 94 - "-" "-" "-" "-" "<Your MongoDB IP>:<your MongoDB port>" outbound|<your MongoDB port>||my-mongo.tcp.svc 172.30.146.119:59924 172.30.146.119:443 172.30.230.1:59206 -
     {{< /text >}}
 
 ### Cleanup of TCP egress traffic control
