@@ -221,10 +221,10 @@ instructions in this section. Alternatively, if you do want to direct your traff
 
 1.  Refresh the web page of the application. Now the application should display the ratings without error:
 
-{{< image width="80%" link="./externalDBRatings.png" caption="Book Ratings Displayed Correctly" >}}
+    {{< image width="80%" link="./externalDBRatings.png" caption="Book Ratings Displayed Correctly" >}}
 
-Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
-provide yourself with a visual clue that your external database is indeed being used.
+    Note that you see a one-star rating for both displayed reviews, as expected. You set the ratings to be one star to
+    provide yourself with a visual clue that your external database is indeed being used.
 
 #### Cleanup of the egress configuration for TCP without a gateway
 
