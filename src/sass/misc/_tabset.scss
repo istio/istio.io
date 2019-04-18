@@ -38,6 +38,7 @@
                 background-color: $tabsetSelectedTabBackgroundColor;
                 cursor: default;
                 box-shadow: none;
+                border-bottom: solid 2px $mainBrandColor;
 
                 span {
                     color: $tabsetSelectedTabTextColor;
