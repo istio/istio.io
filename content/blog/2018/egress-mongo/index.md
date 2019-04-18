@@ -494,7 +494,7 @@ In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egr
 instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
 [Direct TCP Egress traffic through an egress gateway](#direct-tcp-egress-traffic-through-an-egress-gateway).
 
-1.  Create a `ServiceEntry` and a `VirtualService` for the MongoDB service:
+1.  Create a `ServiceEntry` for the MongoDB service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -510,26 +510,6 @@ instructions in this section. If you want to direct your traffic through an egre
         name: tls
         protocol: TLS
       resolution: DNS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: mongo
-    spec:
-      hosts:
-      - $MONGODB_HOST
-      tls:
-      - match:
-        - port: $MONGODB_PORT
-          sni_hosts:
-          - $MONGODB_HOST
-        route:
-        - destination:
-            host: $MONGODB_HOST
-            port:
-              number: $MONGODB_PORT
-          weight: 100
-      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
@@ -539,7 +519,6 @@ instructions in this section. If you want to direct your traffic through an egre
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
-$ kubectl delete virtualservice mongo
 {{< /text >}}
 
 ### Direct TLS Egress traffic through an egress gateway
