@@ -350,9 +350,9 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
 1.  Delete the configuration from the previous section:
 
     {{< text bash >}}
-    $ kubectl delete gateway istio-egressgateway
-    $ kubectl delete virtualservice direct-mongo-through-egress-gateway
-    $ kubectl delete destinationrule egressgateway-for-mongo mongo
+    $ kubectl delete gateway istio-egressgateway --ignore-not-found=true
+    $ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
+    $ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
     {{< /text >}}
 
 1.  Create an egress `Gateway` for your MongoDB service, and destination rules and a virtual service
