@@ -66,6 +66,15 @@ so the configuration to enable rate limiting on both adapters is the same.
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
+    {{< warning >}}
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit-crd.yaml@
+    {{< /text >}}
+
+    {{< /warning >}}
+
     The `memquota` handler defines 3 different rate limit schemes. The default,
     if no overrides match, is `500` requests per one second (`1s`). Two
     overrides are also defined:
@@ -210,6 +219,12 @@ namespace.
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
+    {{< /text >}}
+
+    If you are using Istio 1.1.2 or prior:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit-crd.yaml@
     {{< /text >}}
 
     Or
