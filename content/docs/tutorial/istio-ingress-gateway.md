@@ -78,7 +78,7 @@ control already at the ingress point, even before the traffic arrives to your mi
 1.  Echo the line you will add to your `/etc/hosts` file:
 
     {{< text bash >}}
-    $ echo $INGRESS_HOST istio.$MYHOST
+    $ echo $INGRESS_HOST $MY_INGRESS_GATEWAY_HOST
     {{< /text >}}
 
 1.  Add the output of the previous command to your `/etc/hosts` file.
@@ -86,21 +86,21 @@ control already at the ingress point, even before the traffic arrives to your mi
 1.  Access the application's home page from the command line:
 
     {{< text bash >}}
-    $ curl -s istio.$MYHOST:$INGRESS_PORT/productpage | grep -o "<title>.*</title>"
+    $ curl -s $MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
 1.  Paste the output of the following command in your browser address bar:
 
     {{< text bash >}}
-    $ echo http://istio.$MYHOST:$INGRESS_PORT/productpage
+    $ echo http://$MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage
     {{< /text >}}
 
 1.  Set an infinite loop in a separate terminal window to send traffic to your application. It will simulate the
     constant user traffic in the real world:
 
     {{< text bash >}}
-    $ while :; do curl -s istio.$MYHOST:$INGRESS_PORT/productpage | grep -o "<title>.*</title>"; sleep 1; done
+    $ while :; do curl -s $MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage | grep -o "<title>.*</title>"; sleep 1; done
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
