@@ -127,7 +127,7 @@ more failures and making the application or parts of it unavailable.
           - dimensions:
               destination: ratings
             maxAmount: 50
-            validDuration: 5s
+            validDuration: 1s
     ---
     apiVersion: config.istio.io/v1alpha2
     kind: instance
