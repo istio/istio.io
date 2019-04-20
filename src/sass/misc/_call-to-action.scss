@@ -1,17 +1,14 @@
 .call-to-action {
     text-align: center;
+    opacity: 0;
+    transition: opacity .25s ease-in;
 
     @media print {
         display: none;
     }
 
-    #buttons {
-        opacity: 0;
-        transition: opacity .25s ease-in;
-    }
-
     .btn {
-        margin: 1rem 1rem;
+        margin: 1rem;
         width: 13rem;
 
         @media (min-width: $bp-md) {

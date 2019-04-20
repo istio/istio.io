@@ -36,12 +36,12 @@ icon: feature-status
 
 | 功能           | 阶段
 |-------------------|-------------------
-| [Prometheus 集成](/zh/docs/tasks/telemetry/querying-metrics/) | Stable
+| [Prometheus 集成](/zh/docs/tasks/telemetry/metrics/querying-metrics/) | Stable
 | [本地日志记录（STDIO）](/zh/docs/examples/telemetry/) | Stable
 | [Statsd 集成](/zh/docs/reference/config/policy-and-telemetry/adapters/statsd) | Stable
 | [客户端和服务端的遥测报告](/zh/docs/concepts/policies-and-telemetry/) | Stable
-| [Grafana 中的 Service Dashboard](/zh/docs/tasks/telemetry/using-istio-dashboard/) | Beta
-| [Grafana 中的 Istio 组件 Dashboard](/zh/docs/tasks/telemetry/using-istio-dashboard/) | Beta
+| [Grafana 中的 Service Dashboard](/zh/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Beta
+| [Grafana 中的 Istio 组件 Dashboard](/zh/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Beta
 | [Stackdriver 集成](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Alpha
 | [SolarWinds 集成](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/) | Alpha
 | [Zipkin/Jaeger 的分布式追踪](/zh/docs/tasks/telemetry/distributed-tracing/) | Alpha

@@ -44,9 +44,10 @@ Here is a copy of the end-to-end architecture of the application from the origin
 
 Perform the steps in the
 [Deploying the application](/docs/examples/bookinfo/#deploying-the-application),
-[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster), and
+[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
 [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)
-sections.
+sections, and
+[change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/#change-to-the-blocking-by-default-policy).
 
 ## Bookinfo with HTTPS access to a Google Books web service
 
@@ -211,15 +212,14 @@ Here is how both patterns are supported in the
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
-http = Net::HTTP.new(uri.host, uri.port)
+http = Net::HTTP.new(uri.host, ENV['DO_NOT_ENCRYPT'] === 'true' ? 80:443)
 ...
 unless ENV['DO_NOT_ENCRYPT'] === 'true' then
      http.use_ssl = true
 end
 {{< /text >}}
 
-Note that the port is derived by the `URI.parse` from the URI's schema (`https://`) to be `443`, the default HTTPS port.
-When the `DO_NOT_ENCRYPT` environment variable is defined, the request is performed without SSL (plain HTTP).
+When the `DO_NOT_ENCRYPT` environment variable is defined, the request is performed without SSL (plain HTTP) to port 80.
 
 You can set the `DO_NOT_ENCRYPT` environment variable to _"true"_ in the
 [Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
@@ -250,7 +250,8 @@ In the next section you will configure TLS origination for accessing an external
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     {{< /text >}}
 
-1.  Create a mesh-external service entry for `www.google.apis` and a destination rule to perform TLS origination.
+1.  Create a mesh-external service entry for `www.google.apis` , a virtual service to rewrite the destination port from
+    80 to 443, and a destination rule to perform TLS origination.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -262,10 +263,29 @@ In the next section you will configure TLS origination for accessing an external
       hosts:
       - www.googleapis.com
       ports:
-      - number: 443
-        name: http-port-for-tls-origination
+      - number: 80
+        name: http
         protocol: HTTP
+      - number: 443
+        name: https
+        protocol: HTTPS
       resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: rewrite-port-for-googleapis
+    spec:
+      hosts:
+      - www.googleapis.com
+      http:
+      - match:
+        - port: 80
+        route:
+        - destination:
+            host: www.googleapis.com
+            port:
+              number: 443
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -280,22 +300,19 @@ In the next section you will configure TLS origination for accessing an external
         - port:
             number: 443
           tls:
-            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+            mode: SIMPLE # initiates HTTPS when accessing www.googleapis.com
     EOF
     {{< /text >}}
 
-    Note that port `443` is designated by a name with the prefix `http-`, and its protocol is specified as `HTTP`. Note
-    that you are not required to use port 443 to send HTTP requests for TLS origination.
-    [This example](/docs/examples/advanced-gateways/egress-tls-origination/) shows how to perform TLS
-    origination with port rewriting.
-
 1.  Access the web page of the application and verify that the book details are displayed without errors.
+
+1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis
-    [2018-08-09T11:32:58.171Z] "GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1" 200 - 0 1050 264 264 "-" "Ruby" "b993bae7-4288-9241-81a5-4cde93b2e3a6" "www.googleapis.com:443" "172.217.20.74:443"
+    [2018-08-09T11:32:58.171Z] "GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1" 200 - 0 1050 264 264 "-" "Ruby" "b993bae7-4288-9241-81a5-4cde93b2e3a6" "www.googleapis.com:80" "172.217.20.74:80"
     EOF
     {{< /text >}}
 
@@ -306,6 +323,7 @@ In the next section you will configure TLS origination for accessing an external
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
+$ kubectl delete virtualservice rewrite-port-for-googleapis
 $ kubectl delete destinationrule originate-tls-for-googleapis
 $ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@

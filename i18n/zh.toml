@@ -1,3 +1,6 @@
+[download_deac]
+other = "Go download Istio %s now."
+
 [discuss_istio_io_desc]
 other = "加入 Istio discussion board 参与讨论获取帮助"
 
@@ -103,6 +106,12 @@ other = "%s 变更"
 [relnote_docs]
 other = "%s 文档"
 
+[relnote_update_advice]
+other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
+
+[relnote_update_button]
+other = "LEARN ABOUT ISITO %s"
+
 [page_attribution]
 other = "作者 "
 
@@ -179,10 +188,10 @@ other = "切换到英文版"
 other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微滞后于英文版本，同步工作持续进行中"
 
 [syntax_coloring]
-other = "Color Examples"
+other = "代码高亮"
 
 [announcement_download]
-other = "Download %s"
+other = "下载 %s"
 
 [announcement_relnotes]
-other = "%s Release Notes"
+other = "%s 发布说明"

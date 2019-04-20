@@ -7,6 +7,8 @@
 0.1.x
 0.2.x
 0.8.x
+1.0.x
+1.1.x
 1.x
 10ms
 10s
@@ -130,6 +132,8 @@ CRD
 CRDs
 CSRs
 Ctrl
+CVE
+CVEs
 D3.js
 Datadog
 datapath
@@ -322,7 +326,10 @@ networking.istio.io
 nginx
 nodePorts
 non-sandboxed
+normalization
 ns
+NUL
+NULs
 OAuth2
 oc
 ok
@@ -488,6 +495,7 @@ uncommented
 Undeploy
 unencrypted
 unmanaged
+unnormalized
 unsampled
 untrusted
 uptime

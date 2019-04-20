@@ -15,12 +15,26 @@ with two paragraphs
 {{< /warning >}}
 
 {{< warning >}}
-This is a warning
+This is a warning with a reasonably long sentence.
 
 with two paragraphs
 
 {{< text plain >}}
 A nested text block
+{{< /text >}}
+
+{{< /warning >}}
+
+{{< warning >}}
+This is a warning with some very long text to see how the wrapping behavior will be like since we've had problems in this area previously where wrapping would
+actually not take place
+{{< /warning >}}
+
+{{< warning >}}
+Very wide text block in a call out
+
+{{< text plain >}}
+Reeeeeaaaaaalllllllllly lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllong
 {{< /text >}}
 
 {{< /warning >}}

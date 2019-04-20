@@ -16,6 +16,7 @@ pre {
         page-break-inside: avoid;
     }
 
+    min-width: 12em;
     max-height: 31em;
     border: 1px solid $preBlockBorderColor;
     border-radius: $border-radius;
@@ -43,7 +44,7 @@ pre {
         .command {
             padding: 1.5em 1em;
             @media (min-width: $bp-md) {
-                padding: .5em .5em 0 .5em;
+                padding: .5em .5em 0;
             }
         }
 
@@ -56,7 +57,7 @@ pre {
             clear: left;
             min-width: 100%;
             @media (min-width: $bp-md) {
-                padding: 0 .5em .5em .5em;
+                padding: 0 .5em .5em;
             }
         }
 

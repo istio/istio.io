@@ -23,7 +23,7 @@ CEXL 表达式支持下列的功能：
 |`!=` |不相等|`request.auth.principal != "admin"`
 |<code>&#124;&#124;</code> |逻辑或| `(request.size == 200)` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`
 |`&&` |逻辑与| `(request.size == 200) && (request.auth.principal == "admin")`
-|`[ ]` |访问字典 | `request.headers["x-id"]`
+|`[ ]` |访问字典 | `request.headers["x-request-id"]`
 |`+` |加| `request.host + request.path`
 |<code>&#124;</code> |默认值| `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
 |`match` | 全局匹配|`match(destination.service, "*.ns1.svc.cluster.local")` | 通过指定 `*` 字符的位置，匹配以特定字符串作为前缀或后缀的值
@@ -37,6 +37,7 @@ CEXL 表达式支持下列的功能：
 |`.endsWith` | 匹配字符串后缀 | `destination.service.endsWith("acme")`  | 匹配 `destination.service` 字符串是否以 `"acme"` 结束
 |`emptyStringMap` | 创建一个空字符串字典 | `request.headers` <code>&#124;</code> `emptyStringMap()`| 用 `emptyStringMap` 函数创建一个空字符串字典作为 `request.headers` 的默认值
 |`conditional` | 模拟三元操作符| `conditional((context.reporter.kind` <code>&#124;</code> `"inbound") == "outbound", "client", "server")` | 如果 `reporter.kind` 的值是 `"outbound"` 的话，返回 `"client"`，否则返回 `"server"`
+|`toLower` | 将字符串转换成小写 | `toLower("User-Agent")` | 返回 `"user-agent"`
 
 ## 类型检查
 
@@ -57,7 +58,7 @@ Mixer 在校验配置信息时，会校验其中的 CEXL 表达式，并将它�
 |表达式|返回类型|说明|
 |-----------|------------|-----------|
 |`request.size` <code>&#124;</code> `300` | `int` | 如果 `request.size` 存在，则返回，否则表达式值为整型 200
-|`request.headers["X-FORWARDED-HOST"] == "myhost"`| **boolean**
+|`request.headers["x-forwarded-host"] == "myhost"`| **boolean**
 |`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`| **boolean**| 如果用户为 admin，或者用户属于 admin 组，表达式为 true
 |`(request.auth.principal` <code>&#124;</code> `"nobody" ) == "user1"` | **boolean** | 如果 `request.auth.principal` 的值的是 "user1"，表达式值为 true，表达式解析不会因为 `request.auth.principal` 不存在而失败
 |`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | 如果 app label 的值为 "reviews" 而且 version label 是 "v3"，表达式值为 true，否则为 false

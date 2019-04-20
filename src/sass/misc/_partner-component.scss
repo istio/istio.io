@@ -8,7 +8,7 @@
 
     padding-left: 1em;
     padding-right: 1em;
-    background-color: $blockQuoteBackgroundColor;
+    background-color: $quoteCalloutBackgroundColor;
     border-radius: $border-radius;
 
     table td:first-of-type {
@@ -25,11 +25,11 @@
         border-bottom-color: $boxBorderColor;
     }
 
-    table.with_logo td:first-of-type {
+    table.with-logo td:first-of-type {
         opacity: .9;
     }
 
-    table.with_logo td:last-of-type {
+    table.with-logo td:last-of-type {
         opacity: .9;
     }
 }

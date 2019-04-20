@@ -3,7 +3,7 @@
     $title-size: 2rem;
 
     table, th, td {
-        border: none;
+        border: 0;
     }
 
     td {
@@ -14,12 +14,12 @@
     }
 
     td.logo {
-        width : 100px;
-        border: none;
+        width: 100px;
+        border: 0;
     }
 
     td.desc {
-        border: none;
+        border: 0;
     }
 
     li {
@@ -59,7 +59,7 @@
                     width: $panel-height;
                     text-align: center;
                     transform: rotate(-90deg);
-                    transform-origin: left top 0
+                    transform-origin: left top 0;
                 }
 
                 p {
