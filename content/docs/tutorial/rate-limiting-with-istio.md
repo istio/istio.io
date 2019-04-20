@@ -187,15 +187,20 @@ more failures and making the application or parts of it unavailable.
         EOF
         {{< /text >}}
 
-1.  Clean rate limiting and remove the _flooding_ version of `reviews` and recreate the destination rule and the virtual services to route to
+1.  Clean the rate limiting configuration:
+
+    {{< text bash >}}
+    $ kubectl delete rule.config.istio.io/quota
+    $ kubectl delete handler.config.istio.io/quotahandler
+    $ kubectl delete quotaspecbinding.config.istio.io/request-count
+    $ kubectl delete quotaspec.config.istio.io/request-count
+    $ kubectl delete instance.config.istio.io/requestcountquota
+    {{< /text >}}
+
+1.  Remove the _flooding_ version of `reviews` and recreate the destination rule and the virtual services to route to
     _reviews v2 and v3_:
 
     {{< text bash >}}
-    $ kubectl delete handler.config.istio.io/quotahandler
-    $ kubectl delete instance.config.istio.io/requestcountquota
-    $ kubectl delete quotaspec.config.istio.io/request-count
-    $ kubectl delete quotaspecbinding.config.istio.io/request-count
-    $ kubectl delete rule.config.istio.io/quota
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     $ kubectl delete virtualservice reviews
     $ kubectl delete deployment reviews-flooding
