@@ -1,5 +1,5 @@
 ---
-title: Rate limiting with Istio
+title: Rate limiting and bulkhead with Istio
 overview: Mitigate failures stemming from overloading a microservice with requests
 
 weight: 140
@@ -196,6 +196,43 @@ more failures and making the application or parts of it unavailable.
     $ kubectl delete quotaspec.config.istio.io/request-count
     $ kubectl delete instance.config.istio.io/requestcountquota
     {{< /text >}}
+
+1.  Specify the maximum number of connections for the `ratings` service:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: ratings
+    spec:
+      host: ratings
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+        connectionPool:
+          http:
+            http1MaxPendingRequests: 1
+            maxRequestsPerConnection: 5
+            maxRetries: 3
+          tcp:
+            maxConnections: 5
+    EOF
+    {{< /text >}}
+
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    Note that the traffic rate from `ratings` service (the triangle in Kiali's graph) to the `ratings v1` pod
+    (the square in Kiali's graph) is reduced and it is less than the flow shown from `reviews` to `ratings`. What
+    happens in reality is that some of the requests from the `reviews v-flooding` pod do not actually leave the pod
+    but are blocked by the sidecar proxy. The traffic to `ratings` is limited by the sidecar proxy of `reviews` and it
+    does not even arrive to `ratings`.
+
+    {{< image width="80%"
+        link="images/kiali-reviews-flooding-bulkhead.png"
+        caption="Kiali Graph Tab with reviews v-flooding and connection pool configured"
+        >}}
 
 1.  Remove the _flooding_ version of `reviews` and recreate the destination rule and the virtual services to route to
     _reviews v2 and v3_:
