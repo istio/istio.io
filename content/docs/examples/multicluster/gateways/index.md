@@ -43,7 +43,7 @@ running in a second cluster.
 
     {{< text bash >}}
     $ export CLUSTER2_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
-        -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
+        -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
     This command sets the value to the gateway's public IP, but note that you can set it to

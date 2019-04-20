@@ -21,7 +21,7 @@
                         {{ $adapter_name := path.Base $a.Dir }}
 
                         {{ $templates := split .Params.supported_templates "," }}
-                        {{ $templates := sort $templates }}
+                        {{ $templates = sort $templates }}
 
                         {{ range $templates }}
                             {{ $temp := trim . " "}}

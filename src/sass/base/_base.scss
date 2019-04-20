@@ -18,7 +18,7 @@
     // Unfortunately, although this fixes the bad rendering, it does mean that deep-linking to a
     // table row will position the row right underneath the page header. To deal with that case,
     // we have a hack in JavaScript to force-scroll the row into view.
-    tr[id]:before {
+    tr[id]::before {
         content: normal;
     }
 
@@ -83,11 +83,11 @@ table {
 }
 
 table p:first-of-type {
-    margin-top: 0
+    margin-top: 0;
 }
 
 table p:last-of-type {
-    margin-bottom: 0
+    margin-bottom: 0;
 }
 
 th {
@@ -111,11 +111,11 @@ th, td {
 }
 
 tr:first-child th:first-child {
-    border-radius: $border-radius 0 0 0;
+    border-radius: $border-radius 0 0;
 }
 
 tr:first-child td:first-child {
-    border-radius: $border-radius 0 0 0;
+    border-radius: $border-radius 0 0;
 }
 
 tr:first-child th:last-child {
@@ -135,7 +135,7 @@ tr:last-child td:first-child {
 }
 
 tr:last-child td:last-child {
-    border-radius: 0 0 $border-radius 0;
+    border-radius: 0 0 $border-radius;
 }
 
 tr th:last-child {
@@ -205,9 +205,9 @@ h2 {
     margin-top: 3rem;
     margin-bottom: 1.8rem;
 
-    &:before {
+    &::before {
         display: block;
-        content: ' ';
+        content: " ";
         width: 5rem;
         border-bottom: 2px solid $mainBrandColor;
         margin-bottom: 1.1rem;
@@ -254,10 +254,10 @@ h6 {
 
 .self-link {
     position: relative;
-    left: 0.5em;
+    left: .5em;
     top: -.1em;
     opacity: 0;
-    font-size: 0.6em;
+    font-size: .6em;
     display: none;
 }
 
@@ -298,7 +298,7 @@ blockquote {
 
     padding-left: 1em;
     padding-right: 1em;
-    background-color: $blockQuoteBackgroundColor;
+    background-color: $quoteCalloutBackgroundColor;
     border-radius: $border-radius;
 }
 
@@ -307,7 +307,7 @@ blockquote {
 }
 
 div.aliases::before {
-    content: 'Alternate forms:';
+    content: "Alternate forms:";
 }
 
 @media print {
@@ -370,7 +370,7 @@ div.aliases::before {
 .subtitle {
     margin-top: .15rem;
     margin-bottom: 0;
-    padding: 0 0 0 0;
+    padding: 0;
     font-size: 125%;
 }
 

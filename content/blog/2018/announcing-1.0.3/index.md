@@ -5,4 +5,8 @@ publishdate: 2018-10-30
 attribution: The Istio Team
 ---
 
-We're pleased to announce the availability of Istio 1.0.3. Please check out the [release notes](/about/notes/1.0.3/) to learn more and download this update.
+We're pleased to announce the availability of Istio 1.0.3. Please see below for what's changed.
+
+{{< announcement_links "1.0.3" >}}
+
+{{< boilerplate "notes/1.0.3" >}}

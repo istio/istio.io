@@ -13,7 +13,7 @@ by inspecting Envoy's access logs. By default, access logs are output to the sta
 Run the following command to see the log:
 
 {{< text bash >}}
-$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
+$ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
 In the default access log format, Envoy response flags and Mixer policy status are located after the response code,
@@ -199,7 +199,7 @@ spec:
 
 ## Headless TCP services losing connection
 
-If `istio-citadel` is deployed, Envoy is restarted every 15 minutes to refresh certificates.
+If `istio-citadel` is deployed, Envoy is restarted every 45 days to refresh certificates.
 This causes the disconnection of TCP streams or long-running connections between services.
 
 You should build resilience into your application for this type of

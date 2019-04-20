@@ -21,13 +21,13 @@ keywords: [telemetry,metrics,logging,tracing]
 
 ## 任务
 
-1. [收集指标](/zh/docs/tasks/telemetry/metrics-logs/)：配置 Mixer，收集 Bookinfo 应用中所有服务的系列指标。
+1. [收集指标](/zh/docs/tasks/telemetry/metrics/collecting-metrics/)：配置 Mixer，收集 Bookinfo 应用中所有服务的系列指标。
 
-1. [查询指标](/zh/docs/tasks/telemetry/querying-metrics/)：安装 Prometheus 插件，用来收集指标，并在 Prometheus 服务中查询 Istio 指标。
+1. [查询指标](/zh/docs/tasks/telemetry/metrics/querying-metrics/)：安装 Prometheus 插件，用来收集指标，并在 Prometheus 服务中查询 Istio 指标。
 
 1. [分布式追踪](/zh/docs/tasks/telemetry/distributed-tracing/)：这个任务会使用 Istio 来对应用中请求的流动路径进行追踪。最终用户所体验的总体延迟在服务之间是如何分布的？分布式追踪能够解决这一疑问，从而帮助开发人员更快的解决问题，这也是对分布式应用进行分析和排错的有力工具。
 
-1. [使用 Istio Dashboard](/zh/docs/tasks/telemetry/using-istio-dashboard/)：安装 Grafana 插件，这一插件中带有一个预配置 Dashboard，可以用来对服务网格中的流量进行监控。
+1. [使用 Istio Dashboard](/zh/docs/tasks/telemetry/metrics/using-istio-dashboard/)：安装 Grafana 插件，这一插件中带有一个预配置 Dashboard，可以用来对服务网格中的流量进行监控。
 
 ## 清理
 

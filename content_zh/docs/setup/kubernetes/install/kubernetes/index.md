@@ -5,7 +5,7 @@ weight: 10
 keywords: [kubernetes]
 ---
 
-依照本文说明，在各种平台的 Kubernetes 集群上快速安装 Istio。这里无需安装 [Helm](https://github.com/helm/helm)，只使用基本的 Kubernetes 命令，就能设置一个预配置的 Istio **demo**。
+依照本文说明，在各种平台的 Kubernetes 集群上快速安装 Istio。这里无需安装 [Helm](https://github.com/helm/helm)，只使用基本的 Kubernetes 命令，就能设置一个预[配置](/zh/docs/setup/kubernetes/additional-setup/config-profiles/)的 Istio **demo**。
 
 {{< tip >}}
 要正式在生产环境上安装 Istio，我们推荐[使用 Helm 进行安装](/zh/docs/setup/kubernetes/install/helm/)，其中包含了大量选项，可以对 Istio 的具体配置进行选择和管理，来满足特定的使用要求。
@@ -16,19 +16,6 @@ keywords: [kubernetes]
 1. [下载 Istio 发布包](/zh/docs/setup/kubernetes/download/)。
 
 1. [各平台下 Kubernetes 集群的配置](/zh/docs/setup/kubernetes/prepare/platform-setup/):
-
-    * [Minikube](/zh/docs/setup/kubernetes/prepare/platform-setup/minikube/)
-    * [Google Container Engine (GKE)](/zh/docs/setup/kubernetes/prepare/platform-setup/gke/)
-    * [IBM Cloud](/zh/docs/setup/kubernetes/prepare/platform-setup/ibm/)
-    * [OpenShift Origin](/zh/docs/setup/kubernetes/prepare/platform-setup/openshift/)
-    * [Amazon Web Services (AWS) with Kops](/zh/docs/setup/kubernetes/prepare/platform-setup/aws/)
-    * [Azure](/zh/docs/setup/kubernetes/prepare/platform-setup/azure/)
-    * [阿里云](/zh/docs/setup/kubernetes/prepare/platform-setup/alicloud/)
-    * [Docker For Desktop](/zh/docs/setup/kubernetes/prepare/platform-setup/docker/)
-
-    {{< tip >}}
-    Istio {{< istio_version >}} 已经在下列 Kubernetes 版本上完成测试：{{< supported_kubernetes_versions >}}。
-    {{< /tip >}}
 
 1. 复查 [Istio 对 Pod 和服务的要求](/zh/docs/setup/kubernetes/additional-setup/requirements/)。
 
@@ -86,16 +73,23 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                                                      AGE
-    istio-citadel            ClusterIP      172.21.113.238   <none>          8060/TCP,15014/TCP                                                                                                           8d
-    istio-egressgateway      ClusterIP      172.21.32.42     <none>          80/TCP,443/TCP,15443/TCP                                                                                                     8d
-    istio-galley             ClusterIP      172.21.137.255   <none>          443/TCP,15014/TCP,9901/TCP                                                                                                   8d
-    istio-ingressgateway     LoadBalancer   172.21.229.108   158.85.108.37   80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:31324/TCP,15030:31752/TCP,15031:30314/TCP,15032:30953/TCP,15443:30550/TCP   8d
-    istio-pilot              ClusterIP      172.21.100.28    <none>          15010/TCP,15011/TCP,8080/TCP,15014/TCP                                                                                       8d
-    istio-policy             ClusterIP      172.21.83.199    <none>          9091/TCP,15004/TCP,15014/TCP                                                                                                 8d
-    istio-sidecar-injector   ClusterIP      172.21.198.98    <none>          443/TCP                                                                                                                      8d
-    istio-telemetry          ClusterIP      172.21.84.130    <none>          9091/TCP,15004/TCP,15014/TCP,42422/TCP                                                                                       8d
-    prometheus               ClusterIP      172.21.140.237   <none>          9090/TCP                                                                                                                     8d
+    NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                                                   AGE
+    grafana                  ClusterIP      172.21.211.123   <none>          3000/TCP                                                                                                                  2m
+    istio-citadel            ClusterIP      172.21.177.222   <none>          8060/TCP,9093/TCP                                                                                                         2m
+    istio-egressgateway      ClusterIP      172.21.113.24    <none>          80/TCP,443/TCP                                                                                                            2m
+    istio-galley             ClusterIP      172.21.132.247   <none>          443/TCP,9093/TCP                                                                                                          2m
+    istio-ingressgateway     LoadBalancer   172.21.144.254   52.116.22.242   80:31380/TCP,443:31390/TCP,31400:31400/TCP,15011:32081/TCP,8060:31695/TCP,853:31235/TCP,15030:32717/TCP,15031:32054/TCP   2m
+    istio-pilot              ClusterIP      172.21.105.205   <none>          15010/TCP,15011/TCP,8080/TCP,9093/TCP                                                                                     2m
+    istio-policy             ClusterIP      172.21.14.236    <none>          9091/TCP,15004/TCP,9093/TCP                                                                                               2m
+    istio-sidecar-injector   ClusterIP      172.21.155.47    <none>          443/TCP                                                                                                                   2m
+    istio-telemetry          ClusterIP      172.21.196.79    <none>          9091/TCP,15004/TCP,9093/TCP,42422/TCP                                                                                     2m
+    jaeger-agent             ClusterIP      None             <none>          5775/UDP,6831/UDP,6832/UDP                                                                                                2m
+    jaeger-collector         ClusterIP      172.21.135.51    <none>          14267/TCP,14268/TCP                                                                                                       2m
+    jaeger-query             ClusterIP      172.21.26.187    <none>          16686/TCP                                                                                                                 2m
+    kiali                    ClusterIP      172.21.155.201   <none>          20001/TCP                                                                                                                 2m
+    prometheus               ClusterIP      172.21.63.159    <none>          9090/TCP                                                                                                                  2m
+    tracing                  ClusterIP      172.21.2.245     <none>          80/TCP                                                                                                                    2m
+    zipkin                   ClusterIP      172.21.182.245   <none>          9411/TCP                                                                                                                  2m
     {{< /text >}}
 
     {{< tip >}}
@@ -106,17 +100,22 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
-    NAME                                      READY     STATUS      RESTARTS   AGE
-    istio-citadel-5c4f467b9c-m8lhb            1/1       Running     0          8d
-    istio-cleanup-secrets-1.1.0-rc.0-msbk7    0/1       Completed   0          8d
-    istio-egressgateway-fbfb4865d-rv2f4       1/1       Running     0          8d
-    istio-galley-7799878d-hnphl               1/1       Running     0          8d
-    istio-ingressgateway-7cf9598b9c-s797z     1/1       Running     0          8d
-    istio-pilot-698687d96d-76j5m              2/2       Running     0          8d
-    istio-policy-55758d8898-sd7b8             2/2       Running     3          8d
-    istio-sidecar-injector-5948ffdfc8-wz69v   1/1       Running     0          8d
-    istio-telemetry-67d8545b68-wgkmg          2/2       Running     3          8d
-    prometheus-c8d8657bf-gwsc7                1/1       Running     0          8d
+    NAME                                                           READY   STATUS      RESTARTS   AGE
+    grafana-f8467cc6-rbjlg                                         1/1     Running     0          1m
+    istio-citadel-78df5b548f-g5cpw                                 1/1     Running     0          1m
+    istio-cleanup-secrets-release-1.1-20190308-09-16-8s2mp         0/1     Completed   0          2m
+    istio-egressgateway-78569df5c4-zwtb5                           1/1     Running     0          1m
+    istio-galley-74d5f764fc-q7nrk                                  1/1     Running     0          1m
+    istio-grafana-post-install-release-1.1-20190308-09-16-2p7m5    0/1     Completed   0          2m
+    istio-ingressgateway-7ddcfd665c-dmtqz                          1/1     Running     0          1m
+    istio-pilot-f479bbf5c-qwr28                                    2/2     Running     0          1m
+    istio-policy-6fccc5c868-xhblv                                  2/2     Running     2          1m
+    istio-security-post-install-release-1.1-20190308-09-16-bmfs4   0/1     Completed   0          2m
+    istio-sidecar-injector-78499d85b8-x44m6                        1/1     Running     0          1m
+    istio-telemetry-78b96c6cb6-ldm9q                               2/2     Running     2          1m
+    istio-tracing-69b5f778b7-s2zvw                                 1/1     Running     0          1m
+    kiali-99f7467dc-6rvwp                                          1/1     Running     0          1m
+    prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
 ## 部署应用
