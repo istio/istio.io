@@ -106,70 +106,86 @@ more failures and making the application or parts of it unavailable.
     tutorial
     {{< /text >}}
 
-1.  Enable Istio rate limiting.
+1.  Enable Istio rate limiting. Performs the steps below. There is no need to understand the steps, if you want to
+    understand what exactly the steps configure, read the
+    [Enabling Rate Limits](/docs/tasks/policy-enforcement/rate-limiting/) task.
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: config.istio.io/v1alpha2
-    kind: handler
-    metadata:
-      name: quotahandler
-    spec:
-      compiledAdapter: memquota
-      params:
-        quotas:
-        - name: requestcountquota.instance.$NAMESPACE
-          maxAmount: 500
-          validDuration: 1s
-          # The first matching override is applied.
-          # A requestcount instance is checked against override dimensions.
-          overrides:
-          - dimensions:
-              destination: ratings
-            maxAmount: 50
-            validDuration: 1s
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: instance
-    metadata:
-      name: requestcountquota
-    spec:
-      compiledTemplate: quota
-      params:
-        dimensions:
-          destination: destination.labels["app"] | destination.service.name | "unknown"
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: QuotaSpec
-    metadata:
-      name: request-count
-    spec:
-      rules:
-      - quotas:
-        - charge: 1
-          quota: requestcountquota
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: QuotaSpecBinding
-    metadata:
-      name: request-count
-    spec:
-      quotaSpecs:
-      - name: request-count
-      services:
-      - name: ratings
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: rule
-    metadata:
-      name: quota
-    spec:
-      actions:
-      - handler: quotahandler
-        instances:
-        - requestcountquota
-    EOF
-    {{< /text >}}
+    1.  Create a `quota` instance:
+
+        {{< text bash >}}
+        $ kubectl apply -f - <<EOF
+        apiVersion: config.istio.io/v1alpha2
+        kind: instance
+        metadata:
+          name: requestcountquota
+        spec:
+          compiledTemplate: quota
+          params:
+            dimensions:
+              destination: destination.labels["app"] | destination.service.name | "unknown"
+        EOF
+        {{< /text >}}
+
+    1.  Create a handler and a quota spec:
+
+        {{< text bash >}}
+        $ kubectl apply -f - <<EOF
+        apiVersion: config.istio.io/v1alpha2
+        kind: handler
+        metadata:
+          name: quotahandler
+        spec:
+          compiledAdapter: memquota
+          params:
+            quotas:
+            - name: requestcountquota
+              maxAmount: 500
+              validDuration: 1s
+              # The first matching override is applied.
+              # A requestcount instance is checked against override dimensions.
+              overrides:
+              - dimensions:
+                  destination: ratings
+                maxAmount: 50
+                validDuration: 1s
+        ---
+        apiVersion: config.istio.io/v1alpha2
+        kind: QuotaSpec
+        metadata:
+          name: request-count
+        spec:
+          rules:
+          - quotas:
+            - charge: 1
+              quota: requestcountquota
+        EOF
+        {{< /text >}}
+
+    1.  Create a quota spec binding and a rule:
+
+        {{< text bash >}}
+        $ kubectl apply -f - <<EOF
+        apiVersion: config.istio.io/v1alpha2
+        kind: QuotaSpecBinding
+        metadata:
+          name: request-count
+        spec:
+          quotaSpecs:
+          - name: request-count
+          services:
+          - name: ratings
+        ---
+        apiVersion: config.istio.io/v1alpha2
+        kind: rule
+        metadata:
+          name: quota
+        spec:
+          actions:
+          - handler: quotahandler
+            instances:
+            - requestcountquota.instances.$NAMESPACE
+        EOF
+        {{< /text >}}
 
 1.  Clean rate limiting and remove the _flooding_ version of `reviews` and recreate the destination rule and the virtual services to route to
     _reviews v2 and v3_:
