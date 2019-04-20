@@ -101,7 +101,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
 
-    {{< text bash >}}
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -141,13 +141,13 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
 
     {{< /tab >}}
 
     {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
 
-    {{< text bash >}}
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -173,7 +173,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       subsets:
       - name: cnn
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
 
     {{< /tab >}}
 
@@ -632,18 +632,18 @@ to hold the configuration of the NGINX server:
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
     --set gateways.istio-egressgateway.enabled=true \
-    --set gateways.istio-egressgateway.secretVolumes[0].name=egressgateway-certs \
-    --set gateways.istio-egressgateway.secretVolumes[0].secretName=istio-egressgateway-certs \
-    --set gateways.istio-egressgateway.secretVolumes[0].mountPath=/etc/istio/egressgateway-certs \
-    --set gateways.istio-egressgateway.secretVolumes[1].name=egressgateway-ca-certs \
-    --set gateways.istio-egressgateway.secretVolumes[1].secretName=istio-egressgateway-ca-certs \
-    --set gateways.istio-egressgateway.secretVolumes[1].mountPath=/etc/istio/egressgateway-ca-certs \
-    --set gateways.istio-egressgateway.secretVolumes[2].name=nginx-client-certs \
-    --set gateways.istio-egressgateway.secretVolumes[2].secretName=nginx-client-certs \
-    --set gateways.istio-egressgateway.secretVolumes[2].mountPath=/etc/nginx-client-certs \
-    --set gateways.istio-egressgateway.secretVolumes[3].name=nginx-ca-certs \
-    --set gateways.istio-egressgateway.secretVolumes[3].secretName=nginx-ca-certs \
-    --set gateways.istio-egressgateway.secretVolumes[3].mountPath=/etc/nginx-ca-certs > \
+    --set 'gateways.istio-egressgateway.secretVolumes[0].name'=egressgateway-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[0].secretName'=istio-egressgateway-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[0].mountPath'=/etc/istio/egressgateway-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[1].name'=egressgateway-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[1].secretName'=istio-egressgateway-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[1].mountPath'=/etc/istio/egressgateway-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[2].name'=nginx-client-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[2].secretName'=nginx-client-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[2].mountPath'=/etc/nginx-client-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[3].name'=nginx-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[3].secretName'=nginx-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[3].mountPath'=/etc/nginx-ca-certs > \
     ./istio-egressgateway.yaml
     {{< /text >}}
 

@@ -110,8 +110,8 @@ Here are some example attributes with their associated values:
 request.path: xyz/abc
 request.size: 234
 request.time: 12:34:56.789 04/17/2017
-source.ip: 192.168.0.1
-destination.service: example
+source.ip: [192 168 0 1]
+destination.service.name: example
 {{< /text >}}
 
 Mixer is in essence an attribute processing machine. The Envoy sidecar invokes Mixer for
@@ -171,7 +171,7 @@ address for a Statsd backend is an example of handler configuration.
 * Configuring a set of *instances*, which describe how to map request attributes into adapter inputs.
 Instances represent a chunk of data that one or more adapters will operate
 on. For example, an operator may decide to generate `requestcount`
-metric instances from attributes such as `destination.service` and
+metric instances from attributes such as `destination.service.host` and
 `response.code`.
 
 * Configuring a set of *rules*, which describe when a particular adapter is called and which instances
@@ -193,50 +193,54 @@ backends such as [Prometheus](https://prometheus.io) or [Stackdriver](https://cl
 A _handler_ is a resource responsible for holding the configuration state needed by an adapter. For example, a
 logging adapter may require the IP address and port of the log collection backend.
 
-Here is an example showing how to create a handler for an adapter of kind = `listchecker`. The `listchecker` adapter checks an input value against a list.
+Here is an example showing how to create a handler for an adapter. The `listchecker` adapter checks an input value against a list.
 If the adapter is configured for a whitelist, it returns success if the input value is found in the list.
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
-kind: listchecker
+kind: handler
 metadata:
   name: staticversion
   namespace: istio-system
 spec:
-  providerUrl: http://white_list_registry/
-  blacklist: false
+  compiledAdapter: listchecker
+  params:
+    providerUrl: http://white_list_registry/
+    blacklist: false
 {{< /text >}}
 
-The schema of the data in the `spec` stanza depends on the specific adapter being configured.
+The schema of the data in the `params` stanza depends on the specific adapter being configured.
 
 Some adapters implement functionality that goes beyond connecting Mixer to a backend.
 For example, the `prometheus` adapter consumes metrics and aggregates them as distributions or counters in a configurable way.
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
-kind: prometheus
+kind: handler
 metadata:
-  name: handler
+  name: promhandler
   namespace: istio-system
 spec:
-  metrics:
-  - name: request_count
-    instance_name: requestcount.metric.istio-system
-    kind: COUNTER
-    label_names:
-    - destination_service
-    - destination_version
-    - response_code
-  - name: request_duration
-    instance_name: requestduration.metric.istio-system
-    kind: DISTRIBUTION
-    label_names:
-    - destination_service
-    - destination_version
-    - response_code
-    buckets:
-      explicit_buckets:
-        bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+  compiledAdapter: prometheus
+  params:
+    metrics:
+    - name: request_count
+      instance_name: requestcount.instance.istio-system
+      kind: COUNTER
+      label_names:
+      - destination_service
+      - destination_version
+      - response_code
+    - name: request_duration
+      instance_name: requestduration.instance.istio-system
+      kind: DISTRIBUTION
+      label_names:
+      - destination_service
+      - destination_version
+      - response_code
+      buckets:
+        explicit_buckets:
+          bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 {{< /text >}}
 
 Each adapter defines its own particular format of configuration data. Learn more about [the full set of
@@ -249,17 +253,19 @@ The following is an example of a metric instance configuration that produces the
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
-kind: metric
+kind: instance
 metadata:
   name: requestduration
   namespace: istio-system
 spec:
-  value: response.duration | "0ms"
-  dimensions:
-    destination_service: destination.service | "unknown"
-    destination_version: destination.labels["version"] | "unknown"
-    response_code: response.code | 200
-  monitored_resource_type: '"UNSPECIFIED"'
+  compiledTemplate: metric
+  params:
+    value: response.duration | "0ms"
+    dimensions:
+      destination_service: destination.service.host | "unknown"
+      destination_version: destination.labels["version"] | "unknown"
+      response_code: response.code | 200
+    monitored_resource_type: '"UNSPECIFIED"'
 {{< /text >}}
 
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
@@ -279,15 +285,14 @@ metadata:
   name: promhttp
   namespace: istio-system
 spec:
-  match: destination.service == "service1.ns.svc.cluster.local" && request.headers["x-user"] == "user1"
+  match: destination.service.host == "service1.ns.svc.cluster.local" && request.headers["x-user"] == "user1"
   actions:
-  - handler: handler.prometheus
-    instances:
-    - requestduration.metric.istio-system
+  - handler: promhandler
+    instances: [ requestduration ]
 {{< /text >}}
 
 A rule contains a `match` predicate expression and a list of actions to perform if the predicate is true.
 An action specifies the list of instances to be delivered to a handler.
 A rule must use the fully qualified names of handlers and instances.
 If the rule, handlers, and instances are all in the same namespace, the namespace suffix can be elided from
-the fully qualified name as seen in `handler.prometheus`.
+the fully qualified name as seen in `promhandler`.

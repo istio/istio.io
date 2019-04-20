@@ -53,13 +53,10 @@ premature disclosure of the vulnerability.
 
 ## Early disclosure
 
-Before vulnerabilities are disclosed to the public, there is an early private disclosure to a small set of Istio partners.
-This is to enable partners that distribute Istio binaries to prepare to distribute the fix.
+The Istio project maintains a mailing list for private early disclosure of security vulnerabilities. The list is used to provide actionable
+information to close Istio partners. The list is not intended for individuals to find out about security issues.
 
-Early disclosure happens three working days prior to full public disclosure.
-
-Please fill out the [Early Security Vulnerability Disclosure](https://github.com/istio/community/issues/new?template=early-disclosure-request.md) form to request being
-added to the early disclosure mailing list.
+See [Early Disclosure of Security Vulnerabilities](https://github.com/istio/community/blob/master/EARLY-DISCLOSURE.md) to get more information.
 
 ## Public disclosure
 
@@ -75,8 +72,8 @@ branches.
     - The [Istio blog](/blog)
     - The [Announcements](https://discuss.istio.io/c/announcements) category on discuss.istio.io
     - The [Istio Twitter feed](https://twitter.com/IstioMesh)
-    - The [#announcement channel on Slack](https://istio.slack.com/messages/CFXS256EQ/)
+    - The [#announcements channel on Slack](https://istio.slack.com/messages/CFXS256EQ/)
 
-As much as possible this announcement should be actionable, and include any mitigating steps users can take prior to
+As much as possible this announcement will be actionable, and include any mitigating steps customers can take prior to
 upgrading to a fixed version. The recommended target time for these announcements is 16:00 UTC from Monday to Thursday.
 This means the announcement will be seen morning Pacific, early evening Europe, and late evening Asia.

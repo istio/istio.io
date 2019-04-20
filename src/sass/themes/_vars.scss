@@ -21,12 +21,17 @@ $h2UnderlineColor: var(--h2UnderlineColor);
 $buttonActiveColor: var(--buttonActiveColor);
 $dividerBarColor: var(--dividerBarColor);
 $glossaryHeaderColor: var(--glossaryHeaderColor);
-$blockQuoteBackgroundColor: var(--blockQuoteBackgroundColor);
-$tipCalloutBackgroundColor: var(--tipCalloutBackgroundColor);
-$ideaCalloutBackgroundColor: var(--ideaCalloutBackgroundColor);
-$warningCalloutBackgroundColor: var(--warningCalloutBackgroundColor);
 $deprecatedBackgroundColor: var(--deprecateBackgroundColor);
 $boxBorderColor: var(--boxBorderColor);
+
+$quoteCalloutBackgroundColor: var(--quoteCalloutBackgroundColor);
+$quoteCalloutBorderColor: var(--quoteCalloutBorderColor);
+$tipCalloutBackgroundColor: var(--tipCalloutBackgroundColor);
+$tipCalloutBorderColor: var(--tipCalloutBorderColor);
+$ideaCalloutBackgroundColor: var(--ideaCalloutBackgroundColor);
+$ideaCalloutBorderColor: var(--ideaCalloutBorderColor);
+$warningCalloutBackgroundColor: var(--warningCalloutBackgroundColor);
+$warningCalloutBorderColor: var(--warningCalloutBorderColor);
 
 $preBlockShadowColor: var(--preBlockShadowColor);
 $preBlockBorderColor: var(--preBlockBorderColor);
