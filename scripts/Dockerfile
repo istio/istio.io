@@ -1,9 +1,9 @@
-FROM ruby:2.4-alpine
+FROM ruby:2.6.2-alpine
 
 RUN echo 'gem: --no-document' >> /etc/gemrc
 
 RUN apk add --no-cache \
-    nodejs \
+    nodejs-current-npm \
     ruby \
     ruby-dev \
     build-base \
@@ -15,7 +15,7 @@ RUN apk add --no-cache \
     libcurl \
     git \
     bash \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted gnu-libiconv
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
 
 ENV HUGO_VERSION=0.54.0
 ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz /tmp
@@ -29,6 +29,9 @@ RUN tar -xf /tmp/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -C /tmp \
 
 RUN npm install -g \
     sass \
+    sass-lint \
+    typescript \
+    tslint \
     markdown-spellcheck \
     svgstore-cli \
     svgo \
@@ -41,5 +44,4 @@ RUN gem install html-proofer -v 3.9.2
 
 ENV PATH /usr/bin:$PATH
 
-# TODO: replace with your ENTRYPOINT or CMD.
 CMD [ "/usr/bin/ruby", "-v"]

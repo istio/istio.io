@@ -17,7 +17,7 @@ footer {
     }
 
     @media (min-width: $bp-sm) {
-        padding: 1.5rem 1.25rem 1rem 1.25rem;
+        padding: 1.5rem 1.25rem 1rem;
     }
 
     @media (min-width: $bp-lg) {
@@ -37,12 +37,12 @@ footer {
             margin-top: 8px;
             color: $textBrandColorLight;
             line-height: 1.6em;
-            font-size: 0.5em;
-            text-align: right!important;
+            font-size: .5em;
+            text-align: right !important;
 
             @media (min-width: $bp-lg) {
-                text-align: center!important;
-                font-size: 0.7em;
+                text-align: center !important;
+                font-size: .7em;
                 margin: 0;
             }
 
@@ -71,7 +71,7 @@ footer {
         position: relative;
         display: inline-flex;
         margin-top: 8px;
-        padding: 6px 6px;
+        padding: 6px;
         border-width: 2px;
         border-color: rgba(0, 0, 0, 0);
         border-style: solid;
@@ -129,6 +129,6 @@ footer {
         font-style: italic;
         margin: 0;
         line-height: 1.6em;
-        font-size: 0.8em;
+        font-size: .8em;
     }
 }

@@ -286,8 +286,7 @@ mounted from `istio.istio-galley-service-account` secret in the
 
 Validation is fail-close. If the `istio-galley` pod is not ready,
 configuration cannot be created and updated.  In such cases you’ll see
-an error about `no such host` (Kubernetes 1.9) or `no endpoints
-available` (>=1.10).
+an error about `no endpoints available`.
 
 Verify the `istio-galley` pod(s) are running and endpoints are ready.
 

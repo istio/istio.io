@@ -81,7 +81,7 @@ File-based text block
 
 File-based text block with snippet extraction and download name
 
-{{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" downloadas="foo.txt" >}}
+{{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP2" downloadas="foo.txt" >}}
 
 File-based bash text block with download name
 
@@ -97,4 +97,66 @@ URL-based text block with snippet extraction
 
 URL-based text block with redirects
 
-{{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/command_example.txt" syntax="bash" >}}
+{{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/command_example.txt" syntax="bash" outputis="yaml" >}}
+
+URL-based text block with @@ content
+
+{{< text_import url="https://raw.githubusercontent.com/istio/istio.io/release-1.1/test/command_example_atat.txt" syntax="bash" >}}
+
+Very wide text block
+
+{{< text plain >}}
+Reeeeeaaaaaalllllllllly lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllong
+{{< /text >}}
+
+Very tall text block
+
+{{< text plain >}}
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+Really tall
+{{< /text >}}

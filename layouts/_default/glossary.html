@@ -24,7 +24,7 @@
     </div>
 
     <div class="entries">
-        {{ $previous := "-" }}
+        {{ $previous = "-" }}
         {{ range $w := $words }}
             {{ $first := upper (slicestr $w.Title 0 1) }}
 
