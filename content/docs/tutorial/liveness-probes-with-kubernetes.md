@@ -15,7 +15,7 @@ make any progress. In such a situation it is better to restart the microservice.
 [HTTP liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-http-request) work in the following way: the microservice defines an HTTP endpoint on which it reports its
 health status. Then the operator who deploys the microservice provides in the deployment spec instructions for
 Kubernetes to probe the HTTP endpoint once in a while. Once the microservice reports an unhealthy status, it is
-restarted automatically by Kubernetes.  
+restarted automatically by Kubernetes.
 
 In this module you deploy a faulty `ratings` microservice, which will become unhealthy and unavailable (will return
 HTTP code `500`) after 15 minutes from its start. It will continue to be unhealthy and unavailable for the next 15
