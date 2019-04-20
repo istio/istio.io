@@ -137,9 +137,7 @@ more failures and making the application or parts of it unavailable.
       compiledTemplate: quota
       params:
         dimensions:
-          source: request.headers["x-forwarded-for"] | "unknown"
           destination: destination.labels["app"] | destination.service.name | "unknown"
-          destinationVersion: destination.labels["version"] | "unknown"
     ---
     apiVersion: config.istio.io/v1alpha2
     kind: QuotaSpec
