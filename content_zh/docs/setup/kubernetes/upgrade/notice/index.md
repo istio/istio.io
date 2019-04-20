@@ -22,7 +22,7 @@ weight: 5
 
 - 出站流量策略现在默认为 `ALLOW_ANY`。未知端口的流量将按原样转发。到已知端口（例如，端口 80 ）的流量将与系统中的一个服务匹配并相应地转发。
 - 在对服务的 Sidecar 路由期间，与 Sidecar 相同的命名空间中的目标服务的目标规则将优先，随后是服务命名空间中的目标规则，并且如果适用，最后在其他命名空间中跟随目标规则。
-- 我们建议将网关资源存储在与网关工作负载相同的命名空间中（例如，在 `istio-ingressgateway` 的情况下为 `istio-system`）。在 VirtualService 中引用网关资源时，请使用命名空间/名称格式，而不是使用 `name.namespace.svc.cluster.local`。
+- 我们建议将网关资源存储在与网关工作负载相同的命名空间中（例如，在 `istio-ingressgateway` 的情况下为 `istio-system`）。在 virtual services 中引用网关资源时，请使用命名空间/名称格式，而不是使用 `name.namespace.svc.cluster.local`。
 - 现在，默认情况下禁用可选的出口网关。它在演示配置文件中启用，供用户浏览，但默认情况下在其他所有配置中是禁用的。如果您需要通过出口网关控制和保护出站流量，则需要在任何非演示配置文件中手动启用 `gateways.istio-egressgateway.enabled=true`。
 
 ## 策略与遥测
