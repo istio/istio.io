@@ -78,7 +78,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     Switch the fetching interval to `5s`, so you will see what happens more precisely.
     {{< /tip >}}
 
-    Note the two versions of `ratings`, _v1_ and _v-unavailable_, handling the requests successfully.
+    Notice the two versions of `ratings`, _v1_ and _v-unavailable_, handling the requests successfully.
 
     {{< image width="80%"
         link="images/kiali-ratings-unavailable.png"
