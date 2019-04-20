@@ -37,10 +37,10 @@ header {
             width: 2em;
             height: 2em;
             top: 3px;
-            left: 0.8em;
+            left: .8em;
             position: fixed;
             fill: $textBrandColor;
-            transition-duration: 0.8s;
+            transition-duration: .8s;
             transition-property: transform;
             transform-origin: 50% 50%;
 
@@ -73,7 +73,7 @@ header {
 
             @media (min-width: $bp-sm) {
                 text-align: left;
-                margin-left: 3.0em;
+                margin-left: 3em;
                 margin-right: 1rem;
                 width: unset;
             }
@@ -174,11 +174,11 @@ header {
 
         top: .6rem;
         right: 1.1rem;
-        transition: right 0.5s;
+        transition: right .5s;
 
         &.show-search {
             right: -700px;
-            transition: right 0.5s;
+            transition: right .5s;
         }
 
         span {
@@ -224,11 +224,11 @@ header {
 
         top: 0;
         right: -700px;
-        transition: right 0.5s;
+        transition: right .5s;
 
         &.show-search {
             right: 1rem;
-            transition: right 0.5s;
+            transition: right .5s;
         }
 
         button:focus {
@@ -244,14 +244,14 @@ header {
         line-height: 1.5;
         border: 1px solid #ced4da;
         border-radius: .25rem;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         outline-offset: -2px;
-        margin: 12px 1rem 5px 1rem;
+        margin: 12px 1rem 5px;
         width: 100%;
         text-align: center;
 
         @media (min-width: $bp-sm) {
-            margin: 4px 0 5px 0;
+            margin: 4px 0 5px;
             width: 22rem;
             text-align: unset;
         }

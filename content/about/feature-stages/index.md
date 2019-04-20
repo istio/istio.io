@@ -71,18 +71,17 @@ Below is our list of existing features and their current phases. This informatio
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
-| [Kubernetes: Service Credential Distribution](/docs/concepts/security/#mutual-tls-authentication)   | Stable
+| [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
 | [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
-| Per-Path Authentication | Alpha
-| TCP Authorization | Alpha
-| Cert management on Ingress Gateway | Alpha
-| Vault integration | Alpha
-| SDS Integration | Alpha
+| [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
+| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/secure-ingress/sds) | Alpha
+| [Vault integration](/docs/tasks/security/vault-ca) | Alpha
+| [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
 ### Core
 

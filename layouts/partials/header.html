@@ -79,7 +79,11 @@
                             {{ $title := printf $msg .Page.Params.source_repo }}
                             <a tabindex="-1" role="menuitem" class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
                         {{ else }}
-                            <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                            {{ if eq $home.Lang "zh" }}
+                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content_zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                            {{ else }}
+                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                            {{ end }}
                         {{ end }}
 
                         <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
@@ -95,7 +99,7 @@
                     {{ if .Site.Data.args.archive }}
                         <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
                         <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next.name }}</a>
-                        <a tabidnex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                        <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else if .Site.Data.args.preliminary }}
                         <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current.name }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>

@@ -134,7 +134,7 @@ apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "default"
-  namespace: "default"
+  namespace: "istio-system"
 spec:
   host: "*.local"
   trafficPolicy:
@@ -144,6 +144,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
+* Starting with Istio 1.1, only destination rules in the client namespace, server namespace and `global` namespace (default is `istio-system`) will be considered for a service, in that order.
 * Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or
 namespace for destination rule.
 * With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to
@@ -202,6 +203,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
  name: "httpbin-legacy"
+ namespace: "legacy"
 spec:
  host: "httpbin.legacy.svc.cluster.local"
  trafficPolicy:
@@ -209,6 +211,10 @@ spec:
      mode: DISABLE
 EOF
 {{< /text >}}
+
+{{< tip >}}
+This destination rule is in the namespace of the server (`httpbin.legacy`), so it will be preferred over the global destination rule defined in `istio-system`
+{{< /tip >}}
 
 ### Request from Istio services to Kubernetes API server
 
@@ -230,6 +236,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
  name: "api-server"
+ namespace: istio-system
 spec:
  host: "kubernetes.default.svc.cluster.local"
  trafficPolicy:
@@ -257,7 +264,8 @@ Remove global authentication policy and destination rules added in the session:
 
 {{< text bash >}}
 $ kubectl delete meshpolicy default
-$ kubectl delete destinationrules default httpbin-legacy api-server
+$ kubectl delete destinationrules httpbin-legacy -n legacy
+$ kubectl delete destinationrules api-server -n istio-system
 {{< /text >}}
 
 ## Enable mutual TLS per namespace or service

@@ -111,17 +111,8 @@ of injected sidecar when it was.
     Check the default injection policy in the `istio-sidecar-injector` `configmap`.
 
     {{< text bash yaml >}}
-    $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | head
+    $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | grep policy:
     policy: enabled
-    template: |-
-      initContainers:
-      - name: istio-init
-        image: "docker.io/jasonayoung/proxy_init:d49fa0a7f7d17f25552ad749d23f8ac73596e0cc"
-        args:
-        - "-p"
-        - [[ .MeshConfig.ProxyListenPort ]]
-        - "-u"
-        - 1337
     {{< /text >}}
 
     Allowed policy values are `disabled` and `enabled`. The default policy
@@ -189,18 +180,7 @@ deployment.extensions "istio-sidecar-injector" patched
 ### `no such hosts` or `no endpoints available` errors in deployment status
 
 Injection is fail-close. If the `istio-sidecar-injector` pod is not ready, pods
-cannot be created. In such cases you’ll see an error about `no such
-host` (Kubernetes 1.9) or `no endpoints available` (>=1.10).
-
-Kubernetes 1.9:
-
-{{< text plain >}}
-Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \
-    Post https://istio-sidecar-injector.istio-system.svc:443/admitPilot: dial tcp: lookup \
-    istio-sidecar-injector.istio-system.svc on 169.254.169.254:53: no such host
-{{< /text >}}
-
-Kubernetes 1.10:
+cannot be created. In such cases you’ll see an error about `no endpoints available`.
 
 {{< text plain >}}
 Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \

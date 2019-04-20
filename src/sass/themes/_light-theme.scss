@@ -5,9 +5,9 @@ body {
     --textCodeColor: #d14;
     --disabledTextColor: #{lighten(#535f61, 50%)};
 
-    --linkColor: #306Bcc;
+    --linkColor: #306bcc;
     --linkHoverColor: #1d67a0;
-    --linkDisabledColor: #CCCCCC;
+    --linkDisabledColor: #cccccc;
     --linkActiveColor: #b05464;
 
     --h1Color: #{$near-black};
@@ -21,12 +21,17 @@ body {
     --buttonActiveColor: #b05464;
     --dividerBarColor: rgba(0, 0, 0, .1);
     --glossaryHeaderColor: #{$medium-gray};
-    --blockQuoteBackgroundColor: #{$light-gray};
-    --tipCalloutBackgroundColor: #f2fff2;
-    --ideaCalloutBackgroundColor: lightyellow;
-    --warningCalloutBackgroundColor: #fff2f2;
     --deprecatedBackgroundColor: silver;
     --boxBorderColor: var(--secondBrandColor);
+
+    --quoteCalloutBackgroundColor: #f3f3f3;
+    --quoteCalloutBorderColor: #ebebeb;
+    --tipCalloutBackgroundColor: #f2fff2;
+    --tipCalloutBorderColor: #eaf7ea;
+    --ideaCalloutBackgroundColor: #ffffe0;
+    --ideaCalloutBorderColor: #f7f7d8;
+    --warningCalloutBackgroundColor: #fff2f2;
+    --warningCalloutBorderColor: #f7eaea;
 
     --preBlockShadowColor: #a7a7a7;
     --preBlockBorderColor: #f2f2f2;
@@ -40,10 +45,10 @@ body {
 
     --tabsetBorderColor: #f2f2f2;
     --tabsetShadowColor: #a7a7a7;
-    --tabsetUnselectedTabTextColor: #306Bcc;
+    --tabsetUnselectedTabTextColor: #306bcc;
     --tabsetUnselectedTabBackgroundColor: #ffffff;
     --tabsetSelectedTabTextColor: var(--textColor);
-    --tabsetSelectedTabBackgroundColor: #ffffff;
+    --tabsetSelectedTabBackgroundColor: #eeeeff;
 
     --sidebarRightChevron: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='black' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");
     --sidebarRightChevronHover: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='orange' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");

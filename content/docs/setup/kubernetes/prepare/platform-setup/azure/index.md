@@ -32,7 +32,7 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
     {{< /text >}}
 
-    Ensure `1.10.5` is listed or choose a different value greater than or equal to `1.9.6`.
+    Ensure a minimum of `1.10.5` is listed.
 
 1. Create the resource group and deploy the AKS cluster
 
@@ -61,7 +61,7 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    Note: It is possible to use other api model definitions which will work with Istio.  The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default on 1.9 or later clusters.  See [acs-engine api model default values](https://github.com/Azure/acs-engine/blob/master/docs/clusterdefinition.md) for further information.
+    Note: It is possible to use other api model definitions which will work with Istio.  The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default. See [acs-engine api model default values](https://github.com/Azure/acs-engine/blob/master/docs/clusterdefinition.md) for further information.
 
 1. Deploy your cluster using the `istio.json` template. You can find references
    to the parameters in the

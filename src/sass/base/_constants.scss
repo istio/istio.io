@@ -1,10 +1,10 @@
 // Font sizes
-$font-size--primary         : 1rem;
-$font-size--s               : 1.15rem;
-$font-size--m               : 1.65rem;
-$font-size--l               : 1.85rem;
-$font-size--xl              : 2rem;
-$font-size--xxl             : 2.5rem;
+$font-size--primary: 1rem;
+$font-size--s: 1.15rem;
+$font-size--m: 1.65rem;
+$font-size--l: 1.85rem;
+$font-size--xl: 2rem;
+$font-size--xxl: 2.5rem;
 
 // Responsive breakpoints, corresponds to the BootStrap V4 ones
 $bp-xs: 0;
@@ -20,6 +20,7 @@ $footerHeight: 7rem;
 
 // Z-index of different layers
 $promotion-z: 200;
+$ticker-z: 150;
 $header-z: 100;
 $overlay-z: 75;
 $sidebar-z: 50;

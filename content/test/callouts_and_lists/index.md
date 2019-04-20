@@ -16,6 +16,17 @@ skip_sitemap: true
     with two paragraphs
     {{< /warning >}}
 
+    {{< warning >}}
+    This is a warning
+
+    with two paragraphs
+
+    {{< text plain >}}
+    A nested text block
+    {{< /text >}}
+
+    {{< /warning >}}
+
 1. Tip
 
     {{< tip >}}
