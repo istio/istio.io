@@ -11,7 +11,7 @@ requests to the failing microservice for some period of time, since it will prob
 You do not want to flood the failing microservice with requests since it will not be able to handle them.
 You want to give the faulty microservice time to recuperate, and then to start sending the requests to it again.
 
-1.  Deploy the version of `ratings` which becomes unavailable for 60 seconds from time to time:
+1.  Deploy the version of `ratings` that becomes unavailable for 60 seconds from time to time:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
