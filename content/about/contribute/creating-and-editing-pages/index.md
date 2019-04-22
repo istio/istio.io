@@ -131,7 +131,7 @@ The available front matter fields are:
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
-|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated content
+|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated part
 
 There are a few more front matter fields available specifically for blog posts:
 
