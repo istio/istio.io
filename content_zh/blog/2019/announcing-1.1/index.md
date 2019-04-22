@@ -3,11 +3,12 @@ title: 宣布 Istio 1.1 发布
 description: Istio 1.1 发布声明。
 publishdate: 2019-03-19
 attribution: The Istio Team
+release: 1.1.0
 ---
 
 我们很高兴地宣布，Istio 1.1 发布！
 
-{{< announcement_links "1.1.0" >}}
+{{< relnote linktonote="true" >}}
 
 自从去年 7 月份 1.0 发布以来，为了帮助人们将 Istio 投入生产我们做了很多工作。意料之中，我们发布了很多补丁（到目前为止已经发布了 6 个补丁！），但我们也在努力为产品添加新功能。
 
