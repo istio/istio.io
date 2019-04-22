@@ -126,6 +126,58 @@ function handleOverlays(): void {
         });
     });
 
+    // Expand download buttons that need an update notice into appropriate popup markup
+    document.querySelectorAll<HTMLAnchorElement>(".update-notice").forEach(downloadButton => {
+        const i = document.createElement("i");
+        i.innerHTML = "<svg class='icon'><use xlink:href='" + iconFile + "#callout-tip'/></svg>";
+
+        const span = document.createElement("span");
+        span.innerText = " " + downloadButton.dataset.title;
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.appendChild(i);
+        title.appendChild(span);
+
+        const body = document.createElement("div");
+        body.className = "body";
+        body.innerHTML =
+            "<p>" + downloadButton.dataset.updateadvice + "</p>" +
+            "<a class='btn wide' href='" + downloadButton.dataset.updatehref + "'>" + downloadButton.dataset.updatebutton + "</a>" +
+            "<a class='btn wide' target='_blank' rel='noopener' href='" + downloadButton.dataset.downloadhref + "'>" + downloadButton.innerText + "</a>";
+
+        const arrow = document.createElement("div");
+        arrow.className = "arrow";
+        arrow.setAttribute("x-arrow", "");
+
+        const div = document.createElement("div");
+        div.className = "popover";
+        div.appendChild(title);
+        div.appendChild(body);
+        div.appendChild(arrow);
+        div.setAttribute("aria-hidden", "true");
+        listen(div, click, e => {
+            e.cancelBubble = true;
+        });
+
+        const parent = downloadButton.parentElement;
+        if (parent) {
+            parent.insertBefore(div, downloadButton.nextElementSibling);
+        }
+
+        downloadButton.removeAttribute("data-title");
+        downloadButton.removeAttribute("data-downloadhref");
+        downloadButton.removeAttribute("data-updatehref");
+        downloadButton.removeAttribute("data-updateadvice");
+        downloadButton.removeAttribute("data-updatebutton");
+
+        listen(downloadButton, click, e => {
+            e.cancelBubble = true;
+            toggleOverlay(div);
+            attachPopper(downloadButton, div);
+        });
+    });
+
     listen(window, click, closeActiveOverlay);
     listen(window, "resize", closeActiveOverlay);
 }
