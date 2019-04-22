@@ -1,62 +1,12 @@
 ---
-title: 安全更新：发布 Istio 1.1.2 以及 1.0.7
+title: 安全更新：发布 Istio 1.1.2
 subtitle: 重要安全更新
-description: Istio 1.1.2 和 1.0.7 的补丁版本。
+description: Istio 1.1.2 的补丁版本。
 publishdate: 2019-04-05
 attribution: The Istio Team
+release: 1.1.2
 ---
 
-第一时间发布 Istio 1.1.2 以及 1.0.7，其中包含了重要的安全更新。请参看下方详情链接。
+第一时间发布 Istio 1.1.2，其中包含了重要的安全更新。请参看下方详情链接。
 
-{{< announcement_links "1.1.2" >}}
-
-{{< announcement_links "1.0.7" >}}
-
-## 安全更新
-
-最近发现了两个 Envoy 的安全威胁，分别是 [CVE 2019-9900](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [CVE 2019-9901](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901)。Envoy 1.9.1 中已经包含了应对这两个问题的安全补丁，对应的 Istio 中的集成版本分别是 Istio 1.1.2 和 Istio 1.0.7。Envoy 是 Istio 的重要组件，我们建议立刻更新 Istio 加以防范。
-
-这一安全问题的根本原因是 Envoy 没有对 HTTP URI 路径进行常规化，没有完整的对 HTTP/1.1 Header 进行校验。会影响到 Istio 依赖 Envoy 的一些功能，例如认证、路由以及速率限制。
-
-## 受影响的 Istio 版本
-
-下列 Istio 版本受到影响：
-
-- 1.1, 1.1.1
-    - 这些版本可以升级为 Istio 1.1.2。
-    - 1.1.2 和 1.1.1 的源码一致，加入了 Envoy 补丁用于应对 CVE。
-
-- 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6
-    - 这些版本可以升级到 Istio 1.0.7
-    - 1.0.7 和 1.0.6 的源码一致，加入了 Envoy 补丁用于应对 CVE。
-
-- 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8
-    - 这些版本已经不再支持，不会加入补丁。请升级到一个有支持的版本。
-
-## 影响范围
-
-[CVE 2019-9900](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 以及[CVE 2019-9901](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901) 允许远程攻击者能够使用特定构造的请求 URI 路径来访问未经授权的资源（9901），HTTP/1.1 中的 NUL 字节能够部分的回避 DoS 防御系统（例如速率限制），或者路由到一个未开放的上游系统（9900）。可以参考 [issue 6434](https://github.com/envoyproxy/envoy/issues/6434) 和 [issue 6435](https://github.com/envoyproxy/envoy/issues/6435) 中的具体信息。
-
-Istio 构建在 Envoy 的基础之上，如果用户在使用 Istio 的过程中，在路由或者策略中遇到了上文提到的路径或者 Header 方面的问题，就会受到影响，需要更新来解决。如果路径前缀符合规则的匹配条件，并且用于 Mixer 或者 Istio 授权策略或者路由规则，攻击者可以藉由这些隐患来访问特定 HTTP 后端的未授权服务的路径。
-
-## 防范
-
-要防范这些问题需要更新到 Envoy 的特定版本。我们已经在 Istio 的补丁版本中加入了必要的更新内容。
-
-Istio 1.1.x 版本，至少应更新到 [Istio 1.1.2](/zh/about/notes/1.1.2)
-
-Istio 1.0.x 版本，至少应更新到 [Istio 1.0.7](/zh/about/notes/1.0.7)
-
-Envoy 1.0.1 需要打开路径常规化的选项来应对 CVE 2019-9901，Istio 1.1.2 和 1.0.7 中内置的 Envoy 缺省启用了这一功能。
-
-## 检测 NUL Header 入侵
-
-根据目前的已知信息，这一问题仅对 HTTP/1.1 有影响。如果你的网络或者配置中不允许这种行为，应该不会受到这一威胁。
-
-基于文件的访问日志使用 `c_str()` 来处理 Header，gRPC 访问日志也是这样的，所以这种情况不会检查 Envoy 访问日志中的 NUL。运维人员可以查看 Envoy 路由和 `RouteConfiguration` 之间的差异。
-
-外部授权和速率限制服务会检查 Header 中的 NUL。后端服务器会检查 NUL 或者被禁止的访问；很多情况下会根据 RFC 7230，简单的使用 400 错误码来拒绝 NULS。
-
-## 检测路径遍历入侵
-
-Envoy 的访问日志（不论是文件的还是 gRPC 的）会包含未经常规化的路径，所以可以根据这些日志来检查可以的访问请求，从中发掘不符合配置规定的访问行为。另外未经常规化的路径在 `ext_auzhz`、速率限制以及日志后端服务器都是可能发现的。
+{{< relnote >}}
