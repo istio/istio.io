@@ -1,0 +1,94 @@
+{{ $link_to_note := .Get "linktonote" }}
+{{ $full_version := .Page.Params.release }}
+
+{{ $parts := split $full_version "." }}
+{{ $version := printf "%s.%s" (index $parts 0) (index $parts 1) }}
+{{ $patch := int (index $parts 2) }}
+{{ $release_name := strings.TrimSuffix ".0" $full_version }}
+
+{{ $home := .Site.GetPage "home" }}
+{{ $lang := $home.Lang }}
+{{ if eq $lang "en" }}
+    {{ $lang = "" }}
+{{ else }}
+    {{ $lang = "/zh" }}
+{{ end }}
+
+{{/* establish latest corresponding patch release */}}
+{{ $latest_patch := 0 }}
+{{ range $page := .Site.RegularPages }}
+    {{ if hasPrefix $page.Dir "about/notes" }}
+        {{ $release := $page.Params.release }}
+        {{ if $release }}
+            {{ $parts := split $release "." }}
+            {{ $v := printf "%s.%s" (index $parts 0) (index $parts 1) }}
+            {{ $p := int (index $parts 2) }}
+            {{ if eq $version $v }}
+                {{ if gt $p $latest_patch }}
+                    {{ $latest_patch = $p }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ $latest_full_version := printf "%s.%d" $version $latest_patch }}
+
+{{ $release_location := "archive" }}
+{{ if and .Site.Data.args.preliminary (eq $version .Site.Data.args.version) }}
+    {{ $release_location = "preliminary" }}
+{{ else if eq $version .Site.Data.args.main_version }}
+    {{ $release_location = "main" }}
+{{ end }}
+
+<div class="call-to-action">
+    {{ if eq $release_location "prelim" }}
+        <span class="btn">{{ printf (i18n "relnote_download") $release_name }}</span>
+        <span class="btn">{{ printf (i18n "relnote_docs") $release_name }}</span>
+
+        {{ if $patch }}
+            <span class="btn">{{ printf (i18n "relnote_changes") $release_name }}</span>
+        {{ end }}
+    {{ else }}
+        {{ if ne $latest_full_version $full_version }}
+            {{ .Page.Scratch.Set "needPopper" true }}
+            <button class="btn update-notice"
+                    data-title='{{ i18n "relnote_update_notice" }}'
+                    data-downloadhref="https://github.com/istio/istio/releases/tag/{{ $full_version }}"
+                    data-updateadvice='{{ printf (i18n "relnote_update_advice") $release_name }}'
+                    data-updatebutton='{{ printf (i18n "relnote_update_button") $latest_full_version }}'
+                    data-updatehref="{{ $lang }}/about/notes/{{ $latest_full_version }}">
+                {{ printf (i18n "relnote_download") $release_name }}
+            </button>
+        {{ else }}
+            <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $release_name }}</a>
+        {{ end }}
+
+        {{ if eq $release_location "archive" }}
+            <a class="btn" href="https://archive.istio.io/v{{ $version }}">{{ printf (i18n "relnote_docs") $release_name }}</a>
+        {{ else }}
+            <a class="btn" href="https://istio.io{{ $lang }}/docs">{{ printf (i18n "relnote_docs") $release_name }}</a>
+        {{ end }}
+
+        {{ if $patch }}
+            {{ $old_full_version := printf "%v.%d" $version (sub $patch 1) }}
+            <a class="btn" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $release_name }}</a>
+        {{ end }}
+    {{ end }}
+
+    {{ if $link_to_note }}
+        <a class="btn" href="{{ $lang }}/about/notes/{{ $release_name }}/">{{ printf (i18n "announcement_relnotes") $release_name }}</a>
+    {{ end }}
+</div>
+
+{{ if not $link_to_note }}
+    {{ $bundle := .Page.GetPage "/boilerplates" }}
+    {{ with $bundle }}
+        {{ $name := printf "notes/%s.md" $release_name }}
+        {{ $pattern := printf "%s*" $name }}
+        {{ $resource := $bundle.Resources.GetMatch $pattern }}
+        {{ with $resource }}
+            {{ .Content | markdownify }}
+        {{ end }}
+    {{ end }}
+{{ end }}

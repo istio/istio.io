@@ -5,5 +5,7 @@ aliases:
     - /docs/welcome/notes/0.3.html
     - /about/notes/0.3/index.html
 icon: notes
-layout: release-note
+release: 0.3.0
 ---
+
+{{< relnote >}}

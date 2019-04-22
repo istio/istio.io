@@ -110,7 +110,10 @@ other = "%s 文档"
 other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
 
 [relnote_update_button]
-other = "LEARN ABOUT ISITO %s"
+other = "LEARN ABOUT ISTIO %s"
+
+[relnote_update_notice]
+other = "Update Notice"
 
 [page_attribution]
 other = "作者 "
@@ -189,9 +192,6 @@ other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微�
 
 [syntax_coloring]
 other = "代码高亮"
-
-[announcement_download]
-other = "下载 %s"
 
 [announcement_relnotes]
 other = "%s 发布说明"

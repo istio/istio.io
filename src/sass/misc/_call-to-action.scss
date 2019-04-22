@@ -16,6 +16,18 @@
         }
     }
 
+    .wide {
+        width: 20rem;
+    }
+
+    button.btn {
+        outline: 0;
+
+        &:focus {
+            text-decoration: underline;
+        }
+    }
+
     span.btn {
         cursor: not-allowed;
 
