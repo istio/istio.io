@@ -146,9 +146,9 @@ you describe the changes in the release.
 1. Create a release note page in `content/about/notes/1.X.Y/index.md`, where `1.X.Y` is the name of the
 release. 
 
-1. Create an announcement blog post in `content/blog/YYYY/announcing-1.X.Y`, where `YYYY` is the current year
+1. Create an announcement blog post in `content/blog/YYYY/announcing-1.X.Y/index.md`, where `YYYY` is the current year
 and `1.x.Y` is the name of the release.
 
 1. Edit the `data/args.yml` file and change the `full_version` field to the name of the release.
 
-For the first three files, please look at existing files in the same location for example content and layout.
+For the first three files, please look at existing files in the same locations for example content and layout.
