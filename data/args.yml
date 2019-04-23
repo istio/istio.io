@@ -26,9 +26,6 @@ doc_branch_name: master
 # The list of supported versions described by the docs
 supported_kubernetes_versions: ["1.11", "1.12", "1.13"]
 
-# The version of Istio currently in istio.io
-main_version: "1.1"
-
 ####### Static values
 
 # we use different search engines for each incarnation of the site
