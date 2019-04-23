@@ -119,7 +119,7 @@ Part of the sidecar installation should involve setting up appropriate IP
 Table rules to transparently route application's network traffic through
 the Istio sidecars. The IP table script to setup such forwarding can be
 found in the
-[here]({{< github_file >}}/tools/deb/istio-iptables.sh).
+[here]({{< github_file >}}/tools/packaging/common/istio-iptables.sh).
 
 {{< warning >}}
 This script must be executed before starting the application or
