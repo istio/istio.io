@@ -50,8 +50,8 @@
                     <ul class="dropdown-menu">
                         <h6 class="dropdown-header">Other versions of this site</h6>
 
-                        {% assign next = site.data.releases[0] %}
-                        {% assign current = site.data.releases[1] %}
+                        {% assign next = site.data.versions.preliminary %}
+                        {% assign current = site.data.versions.main %}
 
                         <li>
                             <a href="https://istio.io">Current Release ({{current.name}})</a>
