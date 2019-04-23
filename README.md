@@ -84,11 +84,11 @@ and the `source_branch_name` and `doc_branch_name` fields to the name of the bra
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
-1. In the **master** branch, edit the file `data/versions.yml`. Set preliminary to the next Istio release
-("0.8") and main to the current release ("0.7").
+1. In the **master** branch, edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
+("0.8") and the `main` field to the current release ("0.7").
 
-1. In the **master** branch, edit the file `data/args.yml` and update the `version` and `full_version` fields to have the version
-of the next Istio release. In this case, you would set the fields to 0.8 and 0.8.0 respectively.
+1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
+of the next Istio release. In this case, you would set the fields to "0.8" and "0.8.0" respectively.
 
 1. Commit the previous edits to your local git repo and push the **master** branch to GitHub.
 
@@ -124,7 +124,10 @@ of the next Istio release. In this case, you would set the fields to 0.8 and 0.8
 1. In the **previous release's** branch (in this case release-0.6), edit the file `data/args.yml`. Set the
 `archive` field to true and the `archive_date` field to the current date.
 
-1. Commit the previous edit to your local git repo and push the **previous release's* branch to GitHub.
+1. In the **previous release's** branch (in this case release-0.6), edit the file `config.toml`. Set the
+`disableAliases` field to `false`.
+
+1. Commit the previous edits to your local git repo and push the **previous release's* branch to GitHub.
 
 1. Switch to the istio/admin-sites repo.
 
@@ -133,7 +136,7 @@ release-0.6) to the `TOBUILD` variable.
 
 1. Commit the previous edit to your local git repo and push the change to GitHub.
 
-1. Wait a while (~10 minutes) and browse archive.istio.io and make sure everything looks good.
+1. Wait a while (~15 minutes) and browse archive.istio.io and make sure everything looks good.
 
 ### Creating a patch release
 
