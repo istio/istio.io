@@ -69,18 +69,18 @@
 
                         <h6 class="dropdown-header">{{ i18n "other_versions_of_site" }}</h6>
 
-                        {{ $next := index .Site.Data.releases 0 }}
-                        {{ $current := index .Site.Data.releases 1 }}
+                        {{ $next := .Site.Data.versions.preliminary }}
+                        {{ $current := .Site.Data.versions.main }}
 
                         {{ if .Site.Data.args.archive }}
-                            <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current.name }}</a>
-                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current }}</a>
+                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf (i18n "next_release") $next }}</a>
                             <a href="https://archive.istio.io" class="dropdown-item">{{ i18n "archived_releases" }}</a>
                         {{ else if .Site.Data.args.preliminary }}
-                            <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current.name }}</a>
+                            <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current }}</a>
                             <a href="https://archive.istio.io" class="dropdown-item">{{ i18n "archived_releases" }}</a>
                         {{ else }}
-                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf (i18n "next_release") $next.name }}</a>
+                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf (i18n "next_release") $next }}</a>
                             <a href="https://archive.istio.io" class="dropdown-item">{{ i18n "archived_releases" }}</a>
                         {{ end }}
                     </div>

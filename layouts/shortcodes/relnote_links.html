@@ -13,13 +13,13 @@
     {{ $patch = true }}
 {{ end }}
 
-{{ $first := index .Site.Data.releases 0 }}
-{{ $second := index .Site.Data.releases 1 }}
+{{ $first := .Site.Data.versions.preliminary }}
+{{ $second := .Site.Data.versions.main }}
 
 {{ $type_of_note := "current" }}
-{{ if eq $short_version $first.name }}
+{{ if eq $short_version $first }}
     {{ $type_of_note = "prelim" }}
-{{ else if eq $short_version $second.name }}
+{{ else if eq $short_version $second }}
     {{ $type_of_note = "current" }}
 {{ else }}
     {{ $type_of_note = "archive" }}
