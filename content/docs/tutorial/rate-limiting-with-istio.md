@@ -138,7 +138,7 @@ more failures and making the application or parts of it unavailable.
           compiledAdapter: memquota
           params:
             quotas:
-            - name: requestcountquota
+            - name: requestcountquota.instances.default
               maxAmount: 500
               validDuration: 1s
               # The first matching override is applied.
