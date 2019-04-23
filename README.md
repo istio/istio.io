@@ -19,7 +19,8 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
   * [How versioning works](#how-versioning-works)
   * [Publishing content immediately](#publishing-content-immediately)
   * [Creating a version](#creating-a-version)
-
+  * [Creating a patch release](#creating-a-patch-release)
+  
 ## Editing and building
 
 To learn how to edit and build this repo's content, please refer to
@@ -83,10 +84,8 @@ and the `source_branch_name` and `doc_branch_name` fields to the name of the bra
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
-1. In the **master** branch, edit the file `data/releases.yml` and add a new entry at the top of the file
-for version 0.8. You'll need to make sure the URLs are updated for the first few entries. The top
-entry (0.8) should point to preliminary.istio.io. The second entry (0.7) should point to istio.io. The third
-and subsequent entries should point to archive.istio.io.
+1. In the **master** branch, edit the file `data/versions.yml`. Set preliminary to the next Istio release
+("0.8") and main to the current release ("0.7").
 
 1. In the **master** branch, edit the file `data/args.yml` and update the `version` and `full_version` fields to have the version
 of the next Istio release. In this case, you would set the fields to 0.8 and 0.8.0 respectively.
@@ -135,3 +134,21 @@ release-0.6) to the `TOBUILD` variable.
 1. Commit the previous edit to your local git repo and push the change to GitHub.
 
 1. Wait a while (~10 minutes) and browse archive.istio.io and make sure everything looks good.
+
+### Creating a patch release
+
+Creating a new patch release involves modifying a few files:
+
+1. Create the release note boilerplate for the release by adding a markdown file in
+`content/boilarplates/notes/1.X.Y.md`, where 1.X.Y is the name of the release. This is where
+you describe the changes in the release.
+
+1. Create a release note page in `content/about/notes/1.X.Y/index.md`, where `1.X.Y` is the name of the
+release. 
+
+1. Create an announcement blog post in `content/blog/YYYY/announcing-1.X.Y`, where `YYYY` is the current year
+and `1.x.Y` is the name of the release.
+
+1. Edit the `data/args.yml` file and change the `full_version` field to the name of the release.
+
+For the first three files, please look at existing files in the same location for example content and layout.
