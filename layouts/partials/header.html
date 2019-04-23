@@ -63,16 +63,16 @@
 
                         <h6 class="dropdown-header">Other versions of this site</h6>
 
-                        {{ $next := index .Site.Data.releases 0 }}
-                        {{ $current := index .Site.Data.releases 1 }}
+                        {{ $next := .Site.Data.versions.preliminary }}
+                        {{ $current := .Site.Data.versions.main }}
 
                         {{ if .Site.Data.args.archive }}
-                            <a href="https://istio.io" class="dropdown-item">{{ printf "Current Release (%v)" $current.name }}</a>
-                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf "Next Release (Preliminary %v)" $next.name }}</a>
+                            <a href="https://istio.io" class="dropdown-item">{{ printf "Current Release (%v)" $current }}</a>
+                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf "Next Release (Preliminary %v)" $next }}</a>
                         {{ else if .Site.Data.args.preliminary }}
-                            <a href="https://istio.io" class="dropdown-item">{{ printf "Current Release (%v)" $current.name }}</a>
+                            <a href="https://istio.io" class="dropdown-item">{{ printf "Current Release (%v)" $current }}</a>
                         {{ else }}
-                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf "Next Release (Preliminary %v)" $next.name }}</a>
+                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf "Next Release (Preliminary %v)" $next }}</a>
                         {{ end }}
                         <a href="https://archive.istio.io" class="dropdown-item">Older Releases</a>
                     </div>
