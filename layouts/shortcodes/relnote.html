@@ -37,7 +37,7 @@
 {{ $release_location := "archive" }}
 {{ if and .Site.Data.args.preliminary (eq $version .Site.Data.args.version) }}
     {{ $release_location = "preliminary" }}
-{{ else if eq $version .Site.Data.args.main_version }}
+{{ else if eq $version .Site.Data.versions.main }}
     {{ $release_location = "main" }}
 {{ end }}
 
