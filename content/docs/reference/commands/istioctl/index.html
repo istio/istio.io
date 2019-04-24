@@ -17,6 +17,11 @@ debug and diagnose their Istio mesh.
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -37,9 +42,19 @@ debug and diagnose their Istio mesh.
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -77,6 +92,11 @@ debug and diagnose their Istio mesh.
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -85,6 +105,21 @@ debug and diagnose their Istio mesh.
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -101,6 +136,11 @@ A group of commands used to interact with Istio authentication policies.
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -121,9 +161,19 @@ A group of commands used to interact with Istio authentication policies.
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -161,6 +211,11 @@ A group of commands used to interact with Istio authentication policies.
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -169,6 +224,21 @@ A group of commands used to interact with Istio authentication policies.
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -191,6 +261,11 @@ and check if TLS settings are compatible between them.
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -211,9 +286,19 @@ and check if TLS settings are compatible between them.
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -251,6 +336,11 @@ and check if TLS settings are compatible between them.
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -259,6 +349,21 @@ and check if TLS settings are compatible between them.
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -284,6 +389,11 @@ istioctl authn tls-check 656bd7df7c-5zp4s.default bar
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -304,9 +414,19 @@ istioctl authn tls-check 656bd7df7c-5zp4s.default bar
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -344,6 +464,11 @@ istioctl authn tls-check 656bd7df7c-5zp4s.default bar
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -352,6 +477,21 @@ istioctl authn tls-check 656bd7df7c-5zp4s.default bar
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -369,6 +509,11 @@ istioctl deregister my-svc 172.17.0.2
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -389,9 +534,19 @@ istioctl deregister my-svc 172.17.0.2
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -429,6 +584,11 @@ istioctl deregister my-svc 172.17.0.2
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -437,6 +597,21 @@ istioctl deregister my-svc 172.17.0.2
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -451,6 +626,11 @@ istioctl deregister my-svc 172.17.0.2
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -477,9 +657,19 @@ istioctl deregister my-svc 172.17.0.2
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -517,6 +707,11 @@ istioctl deregister my-svc 172.17.0.2
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -530,6 +725,21 @@ istioctl deregister my-svc 172.17.0.2
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -562,6 +772,11 @@ calculated over a time interval of 1 minute.
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -582,9 +797,19 @@ calculated over a time interval of 1 minute.
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -622,6 +847,11 @@ calculated over a time interval of 1 minute.
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -630,6 +860,21 @@ calculated over a time interval of 1 minute.
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -654,6 +899,11 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -674,9 +924,19 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -714,6 +974,11 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -722,6 +987,21 @@ request is allowed or denied under the current Istio RBAC policies.</p>
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -752,6 +1032,11 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <td>[Action] Additional data about the action. Specified as name1=value1,name2=value2,...  (default `[]`)</td>
 </tr>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -772,9 +1057,19 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -812,6 +1107,11 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -822,6 +1122,11 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <td>Istio host platform  (default `kube`)</td>
 </tr>
 <tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
 <td><code>--subject-properties &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>[Subject] Additional data about the subject. Specified as name1=value1,name2=value2,...  (default `[]`)</td>
@@ -830,6 +1135,16 @@ is being taken on. PATH is the HTTP path within the service.</p>
 <td><code>--user &lt;string&gt;</code></td>
 <td><code>-u</code></td>
 <td>[Subject] User name/ID that the subject represents.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -856,6 +1171,11 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -887,9 +1207,19 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -927,6 +1257,11 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -940,6 +1275,21 @@ istioctl experimental rbac can -s source.namespace=foo POST rating /data -a dest
 <td><code>--recursive</code></td>
 <td><code>-R</code></td>
 <td>Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory. </td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -978,6 +1328,11 @@ file/configmap created with a new Istio release.
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -1013,9 +1368,19 @@ file/configmap created with a new Istio release.
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1051,6 +1416,11 @@ file/configmap created with a new Istio release.
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -1102,6 +1472,21 @@ file/configmap created with a new Istio release.
 <td></td>
 <td>HTTP Port on which to serve pilot agent status. The path /healthz/ can be used for health checking. If zero, agent status will not be provided.  (default `15020`)</td>
 </tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-kube-inject Examples">Examples</h3>
@@ -1131,6 +1516,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -1151,9 +1541,19 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1191,6 +1591,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1204,6 +1609,21 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1226,6 +1646,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -1246,9 +1671,19 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1286,6 +1721,11 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1299,6 +1739,21 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConf
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1322,6 +1777,11 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -1353,9 +1813,19 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1393,6 +1863,11 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1413,9 +1888,24 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
 <td>Filter clusters by Port field  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
 <td><code>--subset &lt;string&gt;</code></td>
 <td></td>
 <td>Filter clusters by substring of Subset field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1451,6 +1941,11 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
 <td>Filter endpoints by address field  (default ``)</td>
 </tr>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--cluster &lt;string&gt;</code></td>
 <td></td>
 <td>Filter endpoints by cluster name field  (default ``)</td>
@@ -1476,9 +1971,19 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1516,6 +2021,11 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1539,6 +2049,21 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
 <td><code>--status &lt;string&gt;</code></td>
 <td></td>
 <td>Filter endpoints by status field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1579,6 +2104,11 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <td>Filter listeners by address field  (default ``)</td>
 </tr>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -1599,9 +2129,19 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1639,6 +2179,11 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1659,9 +2204,24 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <td>Filter listeners by Port field  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
 <td><code>--type &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by type field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1692,6 +2252,11 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -1712,9 +2277,19 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1752,6 +2327,11 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by route name field  (default ``)</td>
@@ -1770,6 +2350,21 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1801,6 +2396,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </thead>
 <tbody>
 <tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -1821,9 +2421,19 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1861,6 +2471,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1869,6 +2484,21 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--platform &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Istio host platform  (default `kube`)</td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -1891,6 +2521,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
 <tr>
 <td><code>--annotations &lt;stringSlice&gt;</code></td>
 <td><code>-a</code></td>
@@ -1922,9 +2557,19 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -1962,6 +2607,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1976,6 +2626,21 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>-s</code></td>
 <td>Service account to link to the service  (default `default`)</td>
 </tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-validate">istioctl validate</h2>
@@ -1989,6 +2654,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -2015,9 +2685,19 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -2055,6 +2735,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2068,6 +2753,21 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--recursive</code></td>
 <td><code>-R</code></td>
 <td>Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory. </td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -2085,6 +2785,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <th>Description</th>
 </thead>
 <tbody>
+<tr>
+<td><code>--alsologtostderr</code></td>
+<td></td>
+<td>log to standard error as well as files </td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -2106,9 +2811,19 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Whether to format output as JSON or in plain console-friendly format </td>
 </tr>
 <tr>
+<td><code>--log_backtrace_at &lt;traceLocation&gt;</code></td>
+<td></td>
+<td>when logging hits line file:N, emit a stack trace  (default `:0`)</td>
+</tr>
+<tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, default, kube-converter, meshconfig, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_dir &lt;string&gt;</code></td>
+<td></td>
+<td>If non-empty, write log files in this directory  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -2144,6 +2859,11 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>log to standard error instead of files </td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2169,6 +2889,21 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Displays a short form of the version information </td>
+</tr>
+<tr>
+<td><code>--stderrthreshold &lt;severity&gt;</code></td>
+<td></td>
+<td>logs at or above this threshold go to stderr  (default `2`)</td>
+</tr>
+<tr>
+<td><code>--v &lt;Level&gt;</code></td>
+<td><code>-v</code></td>
+<td>log level for V logs  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--vmodule &lt;moduleSpec&gt;</code></td>
+<td></td>
+<td>comma-separated list of pattern=N settings for file-filtered logging  (default ``)</td>
 </tr>
 </tbody>
 </table>
