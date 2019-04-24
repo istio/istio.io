@@ -12,8 +12,10 @@ copyright_year: 2019
 # when preliminary=false and archive=false, we're building for istio.io
 # When preliminary=true, we're building for preliminary.istio.io
 # when archive=true, we're building for archive.istio.io
+# when archive_landing=true, we're building the landing page for archive.istio.io
 preliminary: true
 archive: false
+archive_landing: false
 
 # When archive=true above, these values must be filled in
 archive_date: YYYY-MM-DD
