@@ -11,8 +11,10 @@ number_of_entries: 4
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -46,6 +48,10 @@ number_of_entries: 4
 <tr>
 <td><code>--experimental-dual-use</code></td>
 <td>Enable dual-use mode. Generates certificates with a CommonName identical to the SAN. </td>
+</tr>
+<tr>
+<td><code>--explicit-opt-in</code></td>
+<td>Specifies whether Citadel requires explicit opt-in for creating secrets. If set, only namespaces labeled with &#39;istio-managed=enabled&#39; will have secrets created. This feature is only available in key and certificates delivered through secret volume mount. </td>
 </tr>
 <tr>
 <td><code>--grpc-host-identities &lt;string&gt;</code></td>
@@ -124,6 +130,10 @@ number_of_entries: 4
 <td>Organization for the certificate.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--pkcs8-keys</code></td>
+<td>Whether to generate PKCS#8 private keys. </td>
+</tr>
+<tr>
 <td><code>--probe-check-interval &lt;duration&gt;</code></td>
 <td>Interval of checking the liveness of the CA.  (default `30s`)</td>
 </tr>
@@ -191,8 +201,10 @@ number_of_entries: 4
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -255,9 +267,11 @@ number_of_entries: 4
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -327,7 +341,7 @@ number_of_entries: 4
 </tr>
 </tbody>
 </table>
-<h2 id="envvars">Environment Variables</h2>
+<h2 id="envvars">Environment variables</h2>
 These environment variables affect the behavior of the <code>istio_ca</code> command.
 <table class="envvars">
 <thead>
@@ -394,6 +408,12 @@ These environment variables affect the behavior of the <code>istio_ca</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -440,6 +460,34 @@ These environment variables affect the behavior of the <code>istio_ca</code> com
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="annotations">Annotations</h2>
+These resource annotations are used by the <code>istio_ca</code> command.
+<table class="annotations">
+<thead>
+<tr>
+<th>Annotation Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>policy.istio.io/check</code></td>
+<td>Determines the policy for behavior when unable to connect to Mixer. If not set, FAIL_CLOSE is set, rejecting requests.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkBaseRetryWaitTime</code></td>
+<td>Base time to wait between retries, will be adjusted by backoff and jitter. In duration format. If not set, this will be 80ms.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkMaxRetryWaitTime</code></td>
+<td>Maximum time to wait between retries to Mixer. In duration format. If not set, this will be 1000ms.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkRetries</code></td>
+<td>The maximum number of retries on transport errors to Mixer. If not set, this will be 0, indicating no retries.</td>
 </tr>
 </tbody>
 </table>
