@@ -39,15 +39,21 @@
                 {{ printf "%s" $advisory }}<br>
             {{ end }}
 
-            {{ if .Site.Data.args.archive }}
-                {{ i18n "footer_istio_archive" }}
-            {{ else if .Site.Data.args.preliminary }}
-                {{ i18n "footer_istio_preliminary" }}
+            {{ if .Site.Data.args.archive_landing }}
+                istio.io Archives
             {{ else }}
-                {{ i18n "footer_istio" }}
-            {{ end }}
+                {{ if .Site.Data.args.archive }}
+                    {{ i18n "footer_istio_archive" }}
+                {{ else if .Site.Data.args.preliminary }}
+                    {{ i18n "footer_istio_preliminary" }}
+                {{ else }}
+                    {{ i18n "footer_istio" }}
+                {{ end }}
 
-            {{ strings.TrimSuffix ".0" .Site.Data.args.full_version }}<br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
+                {{ strings.TrimSuffix ".0" .Site.Data.args.full_version }}
+            {{ end -}}
+            <br>&copy; {{ .Site.Data.args.copyright_year }} Istio Authors, <a href="https://policies.google.com/privacy">{{ i18n "footer_privacy_policy" }}</a><br>
+
             {{ if .Site.Data.args.archive }}
                 {{ printf (i18n "footer_archived_on") (dateFormat (i18n "footer_date_format") .Site.Data.args.archive_date) }}
             {{ else }}

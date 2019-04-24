@@ -9,7 +9,9 @@
         <a id="brand" href="{{ $home.Permalink }}">
             <span class="logo">{{ with resources.Get "inline_images/istio-whitelogo-bluebackground-rounded.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}</span>
 
-            {{ if .Site.Data.args.archive }}
+            {{ if .Site.Data.args.archive_landing }}
+                <span class="name">Istioldies</span>
+            {{ else if .Site.Data.args.archive }}
                 <span class="name">Istioldie {{ .Site.Data.args.version }}</span>
             {{ else if .Site.Data.args.preliminary }}
                 <span class="name">Istio Prelim {{ .Site.Data.args.version }}</span>
@@ -52,63 +54,65 @@
                 {{ end }}
             {{ end }}
 
-            <div class="menu">
-                <button id="gearDropdownButton" class="menu-trigger" title='{{ i18n "options_menu" }}'
-                        aria-label="Options and Settings" aria-controls="gearDropdownContent">
-                    {{ partial "icon.html" "gear" }}
-                </button>
+            {{ if not .Site.Data.args.archive_landing }}
+                <div class="menu">
+                    <button id="gearDropdownButton" class="menu-trigger" title='{{ i18n "options_menu" }}'
+                            aria-label="Options and Settings" aria-controls="gearDropdownContent">
+                        {{ partial "icon.html" "gear" }}
+                    </button>
 
-                <div id="gearDropdownContent" class="menu-content" aria-labelledby="gearDropdownButton" role="menu">
-                    <a tabindex="-1" role="menuitem" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
-                    <a tabindex="-1" role="menuitem" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
+                    <div id="gearDropdownContent" class="menu-content" aria-labelledby="gearDropdownButton" role="menu">
+                        <a tabindex="-1" role="menuitem" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
+                        <a tabindex="-1" role="menuitem" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
 
-                    <div role="separator"></div>
-
-                    <a tabindex="-1" role="menuitem" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
-                    <a tabindex="-1" role="menuitem" id="dark-theme-item">{{ i18n "dark_theme" }}</a>
-
-                    <div role="separator"></div>
-
-                    <a tabindex="-1" role="menuitem" id="syntax-coloring-item">{{ i18n "syntax_coloring" }}</a>
-
-                    {{ if not .Site.Data.args.archive }}
                         <div role="separator"></div>
 
-                        {{ if .Params.source_repo }}
-                            {{ $msg := i18n "generated_file" }}
-                            {{ $title := printf $msg .Page.Params.source_repo }}
-                            <a tabindex="-1" role="menuitem" class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
-                        {{ else }}
-                            {{ if eq $home.Lang "zh" }}
-                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content_zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                        <a tabindex="-1" role="menuitem" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
+                        <a tabindex="-1" role="menuitem" id="dark-theme-item">{{ i18n "dark_theme" }}</a>
+
+                        <div role="separator"></div>
+
+                        <a tabindex="-1" role="menuitem" id="syntax-coloring-item">{{ i18n "syntax_coloring" }}</a>
+
+                        {{ if not .Site.Data.args.archive }}
+                            <div role="separator"></div>
+
+                            {{ if .Params.source_repo }}
+                                {{ $msg := i18n "generated_file" }}
+                                {{ $title := printf $msg .Page.Params.source_repo }}
+                                <a tabindex="-1" role="menuitem" class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
                             {{ else }}
-                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                {{ if eq $home.Lang "zh" }}
+                                    <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content_zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                {{ else }}
+                                    <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                {{ end }}
                             {{ end }}
+
+                            <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
                         {{ end }}
 
-                        <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}">{{ i18n "report_site_bugs" }}</a>
-                    {{ end }}
+                        <div role="separator"></div>
 
-                    <div role="separator"></div>
+                        <h6>{{ i18n "other_versions_of_site" }}</h6>
 
-                    <h6>{{ i18n "other_versions_of_site" }}</h6>
+                        {{ $next := .Site.Data.versions.preliminary }}
+                        {{ $current := .Site.Data.versions.main }}
 
-                    {{ $next := .Site.Data.versions.preliminary }}
-                    {{ $current := .Site.Data.versions.main }}
-
-                    {{ if .Site.Data.args.archive }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
-                        <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
-                    {{ else if .Site.Data.args.preliminary }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
-                        <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
-                    {{ else }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
-                        <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
-                    {{ end }}
+                        {{ if .Site.Data.args.archive }}
+                            <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
+                            <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                            <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                        {{ else if .Site.Data.args.preliminary }}
+                            <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
+                            <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                        {{ else }}
+                            <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                            <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
+                        {{ end }}
+                    </div>
                 </div>
-            </div>
+            {{ end }}
 
             <button id="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
         </div>
@@ -116,7 +120,7 @@
         <form id="search-form" name="cse" role="search">
             {{ if .Site.Data.args.preliminary }}
                 <input type="hidden" name="cx" value="{{ .Site.Data.args.preliminary_search_engine_id }}" />
-            {{ else if .Site.Data.args.archive }}
+            {{ else if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
                 <input type="hidden" name="cx" value="{{ .Site.Data.args.archive_search_engine_id }}" />
             {{ else }}
                 <input type="hidden" name="cx" value="{{ .Site.Data.args.main_search_engine_id }}" />
