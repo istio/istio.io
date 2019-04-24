@@ -11,7 +11,7 @@ process may install new binaries and may change configuration and API schemas.
 The upgrade process may result in service downtime. To minimize downtime,
 please ensure your Istio control plane components and your applications are
 highly available with multiple replicas (as multi-replica Citadel is still
-under development, Citadel should be deployed with one replica). 
+under development, Citadel should be deployed with one replica).
 
 This flow assumes that the Istio components are installed and upgraded in the
 `istio-system` namespace.
