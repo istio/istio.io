@@ -41,8 +41,8 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
         - httpbin.org
       - port:
           number: 443
-          name: https
-          protocol: HTTPS
+          name: tls
+          protocol: TLS
         tls:
           mode: PASSTHROUGH
         hosts:
@@ -78,8 +78,8 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
       - www.google.com
       ports:
       - number: 443
-        name: https
-        protocol: HTTPS
+        name: tls
+        protocol: TLS
       resolution: DNS
       location: MESH_EXTERNAL
     EOF
@@ -105,8 +105,8 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
         name: http
         protocol: HTTP
       - number: 443
-        name: https
-        protocol: HTTPS
+        name: tls
+        protocol: TLS
       resolution: STATIC
       endpoints:
       - address: 127.0.0.1
