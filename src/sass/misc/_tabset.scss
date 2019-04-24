@@ -11,7 +11,7 @@
             display: inline-block;
             margin: 0 3px;
             border: 1px solid $tabsetBorderColor;
-            border-bottom: none;
+            border-bottom: 0;
             border-top-left-radius: $border-radius;
             border-top-right-radius: $border-radius;
             padding: 0 1rem;
@@ -20,7 +20,6 @@
             cursor: pointer;
             outline: 0;
             font: inherit;
-            box-shadow: 3px 3px 8px $tabsetShadowColor;
             background-color: $tabsetUnselectedTabBackgroundColor;
 
             span {
@@ -39,6 +38,7 @@
                 background-color: $tabsetSelectedTabBackgroundColor;
                 cursor: default;
                 box-shadow: none;
+                border-bottom: solid 2px $mainBrandColor;
 
                 span {
                     color: $tabsetSelectedTabTextColor;
@@ -50,15 +50,15 @@
     .tab-content {
         border: 1px solid $tabsetBorderColor;
         border-radius: $border-radius;
-        padding: 1rem 1rem;
+        padding: 1rem;
         box-shadow: 3px 3px 8px $tabsetShadowColor;
 
         p:first-of-type {
-            margin-top: 0
+            margin-top: 0;
         }
 
         p:last-of-type {
-            margin-bottom: 0
+            margin-bottom: 0;
         }
     }
 }

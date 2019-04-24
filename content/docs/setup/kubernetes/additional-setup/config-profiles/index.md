@@ -31,8 +31,8 @@ your specific needs. The following built-in configuration profiles are currently
 
 The components marked as **X** are installed within each profile:
 
-| | default | demo | minimal | sds |
-| --- | :---: | :---: | :---: | :---: |
+|     | default | demo | minimal | sds |
+| --- | --- | --- | --- | --- |
 | Profile filename | `values.yaml` | `values-istio-demo.yaml` | `values-istio-minimal.yaml` | `values-istio-sds-auth.yaml` |
 | Core components | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-citadel` | X | X | | X |
@@ -54,7 +54,7 @@ Some profiles have an authentication variant, with `-auth` appended to the name,
 security features to the profile:
 
 | | default | demo | minimal | sds |
-| --- | :---: | :---: | :---: | :---: |
+| --- | --- | --- | --- | --- |
 | Control Plane Security | | X | | |
 | Strict Mutual TLS | | X | | X |
 | SDS | | | | X |

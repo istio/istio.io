@@ -57,7 +57,7 @@ so the configuration to enable rate limiting on both adapters is the same.
         * `QuotaSpecBinding` conditionally associates `QuotaSpec` with one or more services.
     * Mixer Side
         * `quota instance` defines how quota is dimensioned by Mixer.
-        * `memquota adapter` defines `memquota` adapter configuration.
+        * `memquota handler` defines `memquota` adapter configuration.
         * `quota rule` defines when quota instance is dispatched to the `memquota` adapter.
 
     Run the following command to enable rate limits using `memquota`:
@@ -66,127 +66,14 @@ so the configuration to enable rate limiting on both adapters is the same.
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
-    Or
-
-    Save the following yaml file as `redisquota.yaml`. Replace [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm),
-    [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) with values for your configuration.
-
-    {{< text yaml >}}
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: redisquota
-    metadata:
-      name: handler
-      namespace: istio-system
-    spec:
-      redisServerUrl: <redis_server_url>
-      connectionPoolSize: 10
-      quotas:
-      - name: requestcount.quota.istio-system
-        maxAmount: 500
-        validDuration: 1s
-        bucketDuration: 500ms
-        rateLimitAlgorithm: <rate_limit_algorithm>
-        # The first matching override is applied.
-        # A requestcount instance is checked against override dimensions.
-        overrides:
-        # The following override applies to 'reviews' regardless
-        # of the source.
-        - dimensions:
-            destination: reviews
-          maxAmount: 1
-        # The following override applies to 'productpage' when
-        # the source is a specific ip address.
-        - dimensions:
-            destination: productpage
-            source: "10.28.11.20"
-          maxAmount: 500
-        # The following override applies to 'productpage' regardless
-        # of the source.
-        - dimensions:
-            destination: productpage
-          maxAmount: 2
-    ---
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: quota
-    metadata:
-      name: requestcount
-      namespace: istio-system
-    spec:
-      dimensions:
-        source: request.headers["x-forwarded-for"] | "unknown"
-        destination: destination.labels["app"] | destination.workload.name | "unknown"
-        destinationVersion: destination.labels["version"] | "unknown"
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: rule
-    metadata:
-      name: quota
-      namespace: istio-system
-    spec:
-      # quota only applies if you are not logged in.
-      # match: match(request.headers["cookie"], "session=*") == false
-      actions:
-      - handler: handler.redisquota
-        instances:
-        - requestcount.quota
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: QuotaSpec
-    metadata:
-      name: request-count
-      namespace: istio-system
-    spec:
-      rules:
-      - quotas:
-        - charge: 1
-          quota: requestcount
-    ---
-    apiVersion: config.istio.io/v1alpha2
-    kind: QuotaSpecBinding
-    metadata:
-      name: request-count
-      namespace: istio-system
-    spec:
-      quotaSpecs:
-      - name: request-count
-        namespace: istio-system
-      services:
-      - name: productpage
-        namespace: default
-        #  - service: '*'  # Uncomment this to bind *all* services to request-count
-    ---
-    {{< /text >}}
-
-    Run the following command to enable rate limits using redisquota:
+    {{< warning >}}
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
 
     {{< text bash >}}
-    $ kubectl apply -f redisquota.yaml
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit-crd.yaml@
     {{< /text >}}
 
-1.  Confirm the `memquota` handler was created:
-
-    {{< text bash yaml >}}
-    $ kubectl -n istio-system get memquota handler -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: memquota
-    metadata:
-      name: handler
-      namespace: istio-system
-    spec:
-      quotas:
-      - name: requestcount.quota.istio-system
-        maxAmount: 500
-        validDuration: 1s
-        overrides:
-        - dimensions:
-            destination: reviews
-          maxAmount: 1
-          validDuration: 5s
-        - dimensions:
-            destination: productpage
-          maxAmount: 2
-          validDuration: 5s
-    {{< /text >}}
+    {{< /warning >}}
 
     The `memquota` handler defines 3 different rate limit schemes. The default,
     if no overrides match, is `500` requests per one second (`1s`). Two
@@ -200,35 +87,12 @@ so the configuration to enable rate limiting on both adapters is the same.
 
     Or
 
-    Confirm the `redisquota` handler was created:
-
-    {{< text bash yaml >}}
-    $ kubectl -n istio-system get redisquota handler -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: redisquota
-    metadata:
-      name: handler
-      namespace: istio-system
-    spec:
-      connectionPoolSize: 10
-      quotas:
-      - name: requestcount.quota.istio-system
-        maxAmount: 500
-        validDuration: 1s
-        bucketDuration: 500ms
-        rateLimitAlgorithm: ROLLING_WINDOW
-        overrides:
-        - dimensions:
-            destination: reviews
-          maxAmount: 1
-        - dimensions:
-            destination: productpage
-            source: 10.28.11.20
-          maxAmount: 500
-        - dimensions:
-            destination: productpage
-          maxAmount: 2
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-redis-quota-rolling-window.yaml@
     {{< /text >}}
+
+    _Note:_ Replace [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm),
+    [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) with values for your configuration.
 
     The `redisquota` handler defines 4 different rate limit schemes. The default,
     if no overrides match, is `500` requests per one second (`1s`). It is using `ROLLING_WINDOW`
@@ -244,18 +108,8 @@ so the configuration to enable rate limiting on both adapters is the same.
 
 1. Confirm the `quota instance` was created:
 
-    {{< text bash yaml >}}
-    $ kubectl -n istio-system get quotas requestcount -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: quota
-    metadata:
-      name: requestcount
-      namespace: istio-system
-    spec:
-      dimensions:
-        source: request.headers["x-forwarded-for"] | "unknown"
-        destination: destination.labels["app"] | destination.service.host | "unknown"
-        destinationVersion: destination.labels["version"] | "unknown"
+    {{< text bash >}}
+    $ kubectl -n istio-system get instance requestcountquota -o yaml
     {{< /text >}}
 
     The `quota` template defines three dimensions that are used by `memquota` or `redisquota`
@@ -267,60 +121,28 @@ so the configuration to enable rate limiting on both adapters is the same.
 
 1. Confirm the `quota rule` was created:
 
-    {{< text bash yaml >}}
-    $ kubectl -n istio-system get rules quota -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: rule
-    metadata:
-      name: quota
-      namespace: istio-system
-    spec:
-      actions:
-      - handler: handler.memquota
-        instances:
-        - requestcount.quota
+    {{< text bash >}}
+    $ kubectl -n istio-system get rule quota -o yaml
     {{< /text >}}
 
-    The `rule` tells Mixer to invoke the `handler.memquota\handler.redisquota` handler (created
+    The `rule` tells Mixer to invoke the `memquota` or `redisquota` handler (created
     above) and pass it the object constructed using the instance
-    `requestcount.quota` (also created above). This maps the
+    `requestcountquota` (also created above). This maps the
     dimensions from the `quota` template to `memquota` or `redisquota` handler.
 
 1. Confirm the `QuotaSpec` was created:
 
-    {{< text bash yaml >}}
+    {{< text bash >}}
     $ kubectl -n istio-system get QuotaSpec request-count -o yaml
-    apiVersion: config.istio.io/v1alpha2
-    kind: QuotaSpec
-    metadata:
-      name: request-count
-      namespace: istio-system
-    spec:
-      rules:
-      - quotas:
-        - charge: "1"
-          quota: requestcount
     {{< /text >}}
 
-    This `QuotaSpec` defines the `requestcount quota` you created above with a
+    This `QuotaSpec` defines the `requestcountquota` you created above with a
     charge of `1`.
 
 1. Confirm the `QuotaSpecBinding` was created:
 
-    {{< text bash yaml >}}
+    {{< text bash >}}
     $ kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
-    kind: QuotaSpecBinding
-    metadata:
-      name: request-count
-      namespace: istio-system
-    spec:
-      quotaSpecs:
-      - name: request-count
-        namespace: istio-system
-      services:
-      - name: productpage
-        namespace: default
-      # - service: '*'
     {{< /text >}}
 
     This `QuotaSpecBinding` binds the `QuotaSpec` you created above to the
@@ -346,17 +168,9 @@ You can update the `quota rule` by adding a match condition based on the `cookie
 
 {{< text yaml >}}
 $ kubectl -n istio-system edit rules quota
-apiVersion: config.istio.io/v1alpha2
-kind: rule
-metadata:
-  name: quota
-  namespace: istio-system
-spec:
+...
   match: match(request.headers["cookie"], "session=*") == false
-  actions:
-  - handler: handler.memquota
-    instances:
-    - requestcount.quota
+...
 {{< /text >}}
 
 `memquota` or `redisquota` adapter is now dispatched only if `session=<sessionid>` cookie is absent from the request.
@@ -407,12 +221,18 @@ namespace.
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
+    If you are using Istio 1.1.2 or prior:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit-crd.yaml@
+    {{< /text >}}
+
     Or
 
     If using `redisquota`, remove the `redisquota` rate limit configuration:
 
     {{< text bash >}}
-    $ kubectl delete -f redisquota.yaml
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-redis-quota-rolling-window.yaml@
     {{< /text >}}
 
 1. Remove the application routing rules:
@@ -422,5 +242,5 @@ namespace.
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+   to shutdown the application.

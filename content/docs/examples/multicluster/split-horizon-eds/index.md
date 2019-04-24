@@ -60,9 +60,9 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set global.controlPlaneSecurityEnabled=true \
       --set global.proxy.accessLogFile="/dev/stdout" \
       --set global.meshExpansion.enabled=true \
-      --set global.meshNetworks.network2.endpoints[0].fromRegistry=n2-k8s-config \
-      --set global.meshNetworks.network2.gateways[0].address=0.0.0.0 \
-      --set global.meshNetworks.network2.gateways[0].port=443 \
+      --set 'global.meshNetworks.network2.endpoints[0].fromRegistry'=n2-k8s-config \
+      --set 'global.meshNetworks.network2.gateways[0].address'=0.0.0.0 \
+      --set 'global.meshNetworks.network2.gateways[0].port'=443 \
       install/kubernetes/helm/istio > istio-auth.yaml
     {{< /text >}}
 
@@ -85,15 +85,17 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
-    NAME                                      READY     STATUS    RESTARTS   AGE
-    istio-citadel-5b9d878756-bwnxx            1/1       Running   0          2m
-    istio-galley-6f7594c9f4-7s9db             1/1       Running   0          2m
-    istio-ingressgateway-c6f9544b-hf7cm       1/1       Running   0          2m
-    istio-pilot-55f7f6fd57-5tb22              2/2       Running   0          2m
-    istio-policy-cd65dc85-4xwlw               2/2       Running   3          2m
-    istio-sidecar-injector-846f649c7b-w2kgp   1/1       Running   0          2m
-    istio-telemetry-67ffd9489-zncv7           2/2       Running   2          2m
-    prometheus-89bc5668c-mz4hl                1/1       Running   0          2m
+    NAME                                      READY   STATUS      RESTARTS   AGE
+    istio-citadel-9bbf9b4c8-nnmbt             1/1     Running     0          2m8s
+    istio-cleanup-secrets-1.1.0-x9crw         0/1     Completed   0          2m12s
+    istio-galley-868c5fff5d-9ph6l             1/1     Running     0          2m9s
+    istio-ingressgateway-6c756547b-dwc78      1/1     Running     0          2m8s
+    istio-pilot-54fcf8db8-sn9cn               2/2     Running     0          2m8s
+    istio-policy-5fcbd55d8b-xhbpz             2/2     Running     2          2m8s
+    istio-security-post-install-1.1.0-ww5zz   0/1     Completed   0          2m12s
+    istio-sidecar-injector-6dcc9d5c64-7hnnl   1/1     Running     0          2m8s
+    istio-telemetry-57875ffb6d-n2vmf          2/2     Running     3          2m8s
+    prometheus-66c9f5694-8pccr                1/1     Running     0          2m8s
     {{< /text >}}
 
 1. Create an ingress gateway to access service(s) in `cluster2`:
@@ -134,7 +136,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ export LOCAL_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-ingressgateway \
-        -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}") && echo ${LOCAL_GW_ADDR}
+        -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}') && echo ${LOCAL_GW_ADDR}
     {{< /text >}}
 
     This command sets the value to the gateway's public IP and displays it.
@@ -174,9 +176,10 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway
-    NAME                                      READY     STATUS    RESTARTS   AGE
-    istio-citadel-958c4b596-kpmj4             1/1       Running   0          40s
-    istio-sidecar-injector-77599f75f6-tnj7s   1/1       Running   0          39s
+    NAME                                     READY   STATUS      RESTARTS   AGE
+    istio-citadel-75c8fcbfcf-9njn6           1/1     Running     0          12s
+    istio-cleanup-secrets-1.1.0-vtp62        0/1     Completed   0          14s
+    istio-sidecar-injector-cdb5d4dd5-rhks9   1/1     Running     0          12s
     {{< /text >}}
 
     {{< warning >}}
@@ -224,11 +227,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Prepare environment variables for building the `n2-k8s-config` file for the service account `istio-multi`:
 
     {{< text bash >}}
-    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o "jsonpath={.clusters[].name}")
-    $ SERVER=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
+    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
+    $ SERVER=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
     $ SECRET_NAME=$(kubectl --context=$CTX_CLUSTER2 get sa istio-multi -n istio-system -o jsonpath='{.secrets[].name}')
-    $ CA_DATA=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['ca\.crt']}")
-    $ TOKEN=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o "jsonpath={.data['token']}" | base64 --decode)
+    $ CA_DATA=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o jsonpath="{.data['ca\.crt']}")
+    $ TOKEN=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o jsonpath="{.data['token']}" | base64 --decode)
     {{< /text >}}
 
     {{< idea >}}
@@ -344,10 +347,17 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
     $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
+1. Wait for the `sleep` service to start:
+
+    {{< text bash >}}
+    $ kubectl get po --context=$CTX_CLUSTER1 -n sample -l app=sleep
+    sleep-754684654f-n6bzf           2/2     Running   0          5s
+    {{< /text >}}
+
 1. Call the `helloworld.sample` service several times:
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) -- curl helloworld.sample:5000/hello
+    $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances on `cluster1` and `cluster2`
@@ -364,7 +374,7 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 You can also verify the IP addresses used to access the endpoints by printing the log of the sleep's `istio-proxy` container.
 
 {{< text bash >}}
-$ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath={.items[0].metadata.name}) istio-proxy
+$ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
 [2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}

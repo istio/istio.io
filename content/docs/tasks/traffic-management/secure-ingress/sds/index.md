@@ -448,13 +448,13 @@ the credentials of the ingress gateway by deleting its secret and creating a new
 The server uses the CA certificate to verify
 its clients, and we must use the name `cacert` to hold the CA certificate.
 
-    {{< text bash >}}
-    $ kubectl -n istio-system delete secret httpbin-credential
-    $ kubectl create -n istio-system secret generic httpbin-credential  \
-    --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
-    --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem \
-    --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl -n istio-system delete secret httpbin-credential
+$ kubectl create -n istio-system secret generic httpbin-credential  \
+--from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
+--from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem \
+--from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
+{{< /text >}}
 
 1. Change the gateway's definition to set the TLS mode to `MUTUAL`.
 

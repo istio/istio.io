@@ -7,9 +7,6 @@
 {{- $snippet := .Get "snippet" -}}
 
 {{- $expand_links := "true" -}}
-{{- if or $url $file }}
-    {{- $expand_links = "false" -}}
-{{- end }}
 
 {{- if .Get "expandlinks" -}}
     {{- $expand_links = .Get "expandlinks" }}
@@ -82,11 +79,10 @@
     {{- $attrs = printf "%sdata-outputis='%s' " $attrs $output_is -}}
 {{- end -}}
 
-{{- $result := printf "<pre><code class='language-%s' %s>%s</code></pre>" $syntax $attrs (htmlEscape $text) -}}
-
+{{- $anchor := "" }}
 {{- if $url -}}
     {{- /* expose the URL to the link checker */ -}}
-    {{- $result = printf "<a data-skipendnotes='true' style='display:none' href='%s'>Zip</a>%s" $url $result -}}
+    {{- $anchor = printf "<a data-skipendnotes='true' style='display:none' href='%s'>Zip</a>" $url -}}
 {{- else -}}
     {{- if eq $expand_links "true" -}}
         {{- /* include a dummy link to the special embedded @@ references so the links are statically checked as we build the site */ -}}
@@ -95,10 +91,17 @@
         {{- range $link := $links -}}
             {{- $target := trim $link "@" -}}
             {{- if gt (len $target) 0 -}}
-                {{- $result = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/istio/%s/%s'>Zip</a>%s" $branch $target $result -}}
+                {{- $anchor = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/istio/%s/%s'>Zip</a>%s" $branch $target $anchor -}}
             {{- end -}}
         {{- end -}}
     {{- end -}}
+{{- end -}}
+
+{{ $result := ""}}
+{{- if $anchor -}}
+    {{- $result = printf "<div>%s<pre><code class='language-%s' %s>%s</code></pre></div>" $anchor $syntax $attrs (htmlEscape $text) -}}
+{{- else -}}
+    {{- $result = printf "<pre><code class='language-%s' %s>%s</code></pre>" $syntax $attrs (htmlEscape $text) -}}
 {{- end -}}
 
 {{- $result | safeHTML -}}

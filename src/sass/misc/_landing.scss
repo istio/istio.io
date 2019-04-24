@@ -6,8 +6,8 @@
         padding-bottom: 1rem;
 
         #hero-label {
-            margin: 0 0 0 0;
-            padding: 30px 0 0 0;
+            margin: 0;
+            padding: 30px 0 0;
             font-size: 4rem;
             font-family: "Verdana", serif;
             text-align: center;
@@ -72,7 +72,7 @@
 
         .panel {
             color: $landingPanelTextColor;
-            opacity: 0.1;
+            opacity: .1;
             transition: opacity .25s linear;
             background-color: $landingPanelBackgroundColor;
             width: 18rem;
@@ -102,6 +102,8 @@
             .panel-line {
                 margin-left: 1.6rem;
                 margin-right: 1.6rem;
+                height: 1px;
+                border: 0;
                 background-color: $landingPanelTextColor;
             }
 
@@ -133,7 +135,7 @@
         }
 
         .btn {
-            margin: 1rem 1rem;
+            margin: 1rem;
             width: 18rem;
 
             @media (min-width: $bp-md) {

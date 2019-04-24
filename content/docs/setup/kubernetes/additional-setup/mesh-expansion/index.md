@@ -135,13 +135,12 @@ Next, run the following commands on each machine that you want to add to the mes
 1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
-    $ gcloud compute ssh --project=${MY_PROJECT} --zone={MY_ZONE} "${GCE_NAME}"
+    $ gcloud compute ssh --project=${MY_PROJECT} --zone=${MY_ZONE} "${GCE_NAME}"
     $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit [the preparing the cluster section](#preparing-the-kubernetes-cluster-for-expansion) to learn how to obtain the IP address.
-to `/etc/hosts` or to
+1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-expansion) section to learn how to obtain the IP address.
 The following example updates the `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
@@ -225,7 +224,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     of the GCE instance with the following commands:
 
     {{< text bash >}}
-    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe  ${GCE_NAME})
+    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe ${GCE_NAME})
     $ echo ${GCE_IP}
     {{< /text >}}
 
@@ -240,38 +239,42 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
-    name: vmhttp
+      name: vmhttp
     spec:
-    hosts:
-    - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
-    ports:
-    - number: 8080
+      hosts:
+      - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
+      ports:
+      - number: 8080
         name: http
         protocol: HTTP
-    resolution: STATIC
-    endpoints:
-        - address: ${GCE_IP}
+      resolution: STATIC
+      endpoints:
+      - address: ${GCE_IP}
         ports:
-            http: 8080
+          http: 8080
         labels:
-            app: vmhttp
-            version: "v1"
+          app: vmhttp
+          version: "v1"
     EOF
     {{< /text >}}
 
 1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the domain names of VM services. To
-    integrate the mapping with you own DNS system, use `istioctl register` and creates a Kubernetes `selector-less`
+    integrate the mapping with your own DNS system, use `istioctl register` and creates a Kubernetes `selector-less`
     service, for example:
 
     {{< text bash >}}
     $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP} 8080
     {{< /text >}}
 
+    {{< tip >}}
+    Make sure you have already added `istioctl` client to your `PATH` environment variable, as described in the Download page.
+    {{< /tip >}}
+
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
-    $ kubectl get po
+    $ kubectl get pod
     NAME                             READY     STATUS    RESTARTS   AGE
     productpage-v1-8fcdcb496-xgkwg   2/2       Running   0          1d
     sleep-88ddbcfdd-rm42k            2/2       Running   0          1s
@@ -282,25 +285,24 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
     {{< text bash >}}
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8080
+    {{< /text >}}
+
+    You should see something similar to the output below.
+
+    ```html
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
     <title>Directory listing for /</title>
     <body>
     <h2>Directory listing for /</h2>
     <hr>
     <ul>
-    <li><a href=".bashrc">.bashrc</a>
-    <li><a href=".ssh/">.ssh/</a>
+    <li><a href=".bashrc">.bashrc</a></li>
+    <li><a href=".ssh/">.ssh/</a></li>
+    ...
     </body>
-    {{< /text >}}
+    ```
 
-**Congratulations!**
-
-You successfully configured a service running in a pod within the mesh to send
-traffic to an external service running on a VM outside of the mesh and
-tested that the configuration worked.
-
-**Congratulations!**
-You successfully configured a service running in a pod within the cluster to
+**Congratulations!** You successfully configured a service running in a pod within the cluster to
 send traffic to a service running on a VM outside of the cluster and tested that
 the configuration worked.
 

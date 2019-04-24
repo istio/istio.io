@@ -25,90 +25,21 @@ example configuration and commands.
 
 ## Collecting new telemetry data
 
-1.  Create a new YAML file to hold configuration for the new metrics that Istio
+1.  Apply a YAML file with configuration for the new metrics that Istio
 will generate and collect automatically.
 
-    Save the following as `tcp_telemetry.yaml`:
-
-    {{< text yaml >}}
-    # Configuration for a metric measuring bytes sent from a server
-    # to a client
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: metric
-    metadata:
-      name: mongosentbytes
-      namespace: default
-    spec:
-      value: connection.sent.bytes | 0 # uses a TCP-specific attribute
-      dimensions:
-        source_service: source.workload.name | "unknown"
-        source_version: source.labels["version"] | "unknown"
-        destination_version: destination.labels["version"] | "unknown"
-      monitoredResourceType: '"UNSPECIFIED"'
-    ---
-    # Configuration for a metric measuring bytes sent from a client
-    # to a server
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: metric
-    metadata:
-      name: mongoreceivedbytes
-      namespace: default
-    spec:
-      value: connection.received.bytes | 0 # uses a TCP-specific attribute
-      dimensions:
-        source_service: source.workload.name | "unknown"
-        source_version: source.labels["version"] | "unknown"
-        destination_version: destination.labels["version"] | "unknown"
-      monitoredResourceType: '"UNSPECIFIED"'
-    ---
-    # Configuration for a Prometheus handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: prometheus
-    metadata:
-      name: mongohandler
-      namespace: default
-    spec:
-      metrics:
-      - name: mongo_sent_bytes # Prometheus metric name
-        instance_name: mongosentbytes.metric.default # Mixer instance name (fully-qualified)
-        kind: COUNTER
-        label_names:
-        - source_service
-        - source_version
-        - destination_version
-      - name: mongo_received_bytes # Prometheus metric name
-        instance_name: mongoreceivedbytes.metric.default # Mixer instance name (fully-qualified)
-        kind: COUNTER
-        label_names:
-        - source_service
-        - source_version
-        - destination_version
-    ---
-    # Rule to send metric instances to a Prometheus handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: mongoprom
-      namespace: default
-    spec:
-      match: context.protocol == "tcp"
-             && destination.service.host == "mongodb.default.svc.cluster.local"
-      actions:
-      - handler: mongohandler.prometheus
-        instances:
-        - mongoreceivedbytes.metric
-        - mongosentbytes.metric
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
     {{< /text >}}
 
-1.  Push the new configuration.
+    {{< warning >}}
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
 
     {{< text bash >}}
-    $ kubectl apply -f tcp_telemetry.yaml
-    Created config metric/default/mongosentbytes at revision 3852843
-    Created config metric/default/mongoreceivedbytes at revision 3852844
-    Created config prometheus/default/mongohandler at revision 3852845
-    Created config rule/default/mongoprom at revision 3852846
+    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
+
+    {{< /warning >}}
 
 1.  Setup Bookinfo to use MongoDB.
 
@@ -233,7 +164,13 @@ protocols within policies.
 *   Remove the new telemetry configuration:
 
     {{< text bash >}}
-    $ kubectl delete -f tcp_telemetry.yaml
+    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
+    {{< /text >}}
+
+    If you are using Istio 1.1.2 or prior:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
 
 *   Remove the `port-forward` process:

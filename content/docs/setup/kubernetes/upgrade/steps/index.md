@@ -71,8 +71,6 @@ including configurations generated using
       --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true > $HOME/istio-auth.yaml
     {{< /text >}}
 
-    If using Kubernetes versions prior to 1.9, you should add `--set sidecarInjectorWebhook.enabled=false`.
-
 1. Upgrade the Istio control plane components via the manifest, for example:
 
     {{< text bash >}}

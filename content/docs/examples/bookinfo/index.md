@@ -81,14 +81,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
-    The command launches all four services shown in the `bookinfo` application architecture diagram.
-    All 3 versions of the reviews service, v1, v2, and v3, are started.
-
-    {{< tip >}}
-    In a realistic deployment, new versions of a microservice are deployed
-    over time instead of deploying all versions simultaneously.
-    {{< /tip >}}
-
+    {{< warning >}}
     If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
     (/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
     use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
@@ -98,6 +91,16 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
     {{< /text >}}
+
+    {{< /warning >}}
+
+    The command launches all four services shown in the `bookinfo` application architecture diagram.
+    All 3 versions of the reviews service, v1, v2, and v3, are started.
+
+    {{< tip >}}
+    In a realistic deployment, new versions of a microservice are deployed
+    over time instead of deploying all versions simultaneously.
+    {{< /tip >}}
 
 1.  Confirm all services and pods are correctly defined and running:
 
@@ -181,7 +184,7 @@ is used for this purpose.
     {{< /text >}}
 
     {{< tip >}}
-    If the Istio Pilot container terminates, re-run the command from the previous step.
+    If the Istio Pilot container terminates, re-run the command `docker-compose -f install/consul/istio.yaml up -d`.
     {{< /tip >}}
 
 1.  Set `GATEWAY_URL`:
@@ -242,8 +245,9 @@ $ kubectl get destinationrules -o yaml
 
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc.
-To proceed, refer to one or more of the [Istio Examples](/docs/examples),
-depending on your interest.
+To proceed, refer to one or more of the [Istio Tasks](/docs/tasks),
+depending on your interest. [Configuring Request Routing](/docs/tasks/traffic-management/request-routing/)
+is a good place to start for beginners.
 
 ## Cleanup
 

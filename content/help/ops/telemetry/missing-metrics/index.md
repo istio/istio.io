@@ -89,15 +89,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
     {{< text bash >}}
     $ kubectl get metrics.config.istio.io --all-namespaces
-    NAMESPACE      NAME                   AGE
-    istio-system   requestcount           4h
-    istio-system   requestduration        4h
-    istio-system   requestsize            4h
-    istio-system   responsesize           4h
-    istio-system   tcpbytereceived        4h
-    istio-system   tcpbytesent            4h
-    istio-system   tcpconnectionsclosed   4h
-    istio-system   tcpconnectionsopened   4h
+    $ kubectl get instances -o custom-columns=NAME:.metadata.name,TEMPLATE:.spec.compiledTemplate
     {{< /text >}}
 
 1. If the output shows no configured metric instances, you must reconfigure Mixer with the appropriate instance configuration.
