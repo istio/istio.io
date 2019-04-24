@@ -47,7 +47,7 @@ check_content() {
     mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report *.md */*.md */*/*.md */*/*/*.md */*/*/*/*.md */*/*/*/*/*.md */*/*/*/*/*/*.md
     if [[ "$?" != "0" ]]
     then
-        echo "To learn how to address spelling errors, please see https://github.com/istio/istio.io#linting"
+        echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
         FAILED=1
     fi
 
