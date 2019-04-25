@@ -10,13 +10,13 @@ TOBUILD=(
 )
 
 TOBUILD_JEKYLL=(
-#  v0.7:release-0.7
-#  v0.6:release-0.6
-#  v0.5:release-0.5
-#  v0.4:release-0.4
-#  v0.3:release-0.3
-#  v0.2:release-0.2
-#  v0.1:release-0.1
+  v0.7:release-0.7
+  v0.6:release-0.6
+  v0.5:release-0.5
+  v0.4:release-0.4
+  v0.3:release-0.3
+  v0.2:release-0.2
+  v0.1:release-0.1
 )
 
 # Prepare
