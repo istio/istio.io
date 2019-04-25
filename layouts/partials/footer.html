@@ -7,10 +7,12 @@
             {{- $release_url = printf "https://github.com/istio/istio/releases/tag/%s" .Site.Data.args.full_version -}}
         {{- end -}}
 
-        <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="{{- $release_url -}}" aria-label="Download Istio">
-            <span>download</span>
-            {{ partial "icon.html" "download" }}
-        </a>
+        {{- if not .Site.Data.args.archive_landing -}}
+            <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="{{- $release_url -}}" aria-label="Download Istio">
+                <span>download</span>
+                {{ partial "icon.html" "download" }}
+            </a>
+        {{- end -}}
 
         <a class="channel" title='{{ i18n "discuss_istio_io_desc" }}' href="https://discuss.istio.io" aria-label="Istio discussion board">
             <span>discuss</span>
