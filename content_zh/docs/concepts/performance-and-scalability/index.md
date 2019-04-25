@@ -15,12 +15,12 @@ Envoy 作为 Istio 的数据平面组件，在系统中负责数据流的处理�
 
 - Envoy 在每秒处理 1000 请求的情况下，使用 **0.6 个 vCPU** 以及 **50 MB 的内存**。
 - `istio-telemetry` 在每秒 1000 个 网格范围内的请求的情况下，消耗了 **0.6 个 vCPU**。
-- Pilot 使用了 **1 个 vCPU** 以及 1.5GB 的内存。
+- Pilot 使用了 **1 个 vCPU** 以及 1.5 GB 的内存。
 - Envoy 在第 90 个百分位上增加了 8 毫秒的延迟。
 
 ## 控制平面的性能
 
-Pilot 根据用户编写的配置文件，结合当前的系统状况对 Sidecar 代理进行配置。在 Kubernetes 环境中，系统状态由 CRD 和 Deployment 构成。用户可以编写 VirtualService、Gateway 之类的 Istio 配置对象。Pilot 会使用这些配置对象，结合 Kubernetes 环境，为 Sidecar 生成配置。
+Pilot 根据用户编写的配置文件，结合当前的系统状况对 Sidecar 代理进行配置。在 Kubernetes 环境中，系统状态由 CRD 和 Deployment 构成。用户可以编写 `VirtualService`、`Gateway` 之类的 Istio 配置对象。Pilot 会使用这些配置对象，结合 Kubernetes 环境，为 Sidecar 生成配置。
 
 控制平面能够支持数千个 Pod 提供的数千个服务，以及同级别数量的用户配置对象。Pilot 的 CPU 和内存需求会随着配置的数量以及系统状态而变化。CPU 的消耗取决于几个方面：
 
@@ -30,7 +30,7 @@ Pilot 根据用户编写的配置文件，结合当前的系统状况对 Sidecar
 
 然而这部分的本质上就是支持水平伸缩的。
 
-在启用了[命名空间隔离](/docs/reference/config/networking/v1alpha3/sidecar/)的情况下，单一 Pilot 实例在使用 1 个 vCPU 和 1.5GB 内存的情况下，能够支持 1000 个服务、2000 个 Sidecar。可以增加 Pilot 实例数量来降低为 Sidecar 进行配置分发所需要的时长。
+在启用了[命名空间隔离](/docs/reference/config/networking/v1alpha3/sidecar/)的情况下，单一 Pilot 实例在使用 1 个 vCPU 和 1.5 GB 内存的情况下，能够支持 1000 个服务、2000 个 Sidecar。可以增加 Pilot 实例数量来降低为 Sidecar 进行配置分发所需要的时长。
 
 ## 数据平面性能
 
