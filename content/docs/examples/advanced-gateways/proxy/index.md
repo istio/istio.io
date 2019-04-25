@@ -259,11 +259,11 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
 
 ## Cleanup
 
-Remove the gateway, the virtual service and the service entries:
+Remove the gateway, the virtual services and the service entries:
 
 {{< text bash >}}
 $ kubectl delete gateway proxy
-$ kubectl delete virtualservice proxy
+$ kubectl delete virtualservice google httpbin
 $ kubectl delete serviceentry google httpbin-ext localhost
 $ kubectl delete destinationrule localhost
 {{< /text >}}
