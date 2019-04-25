@@ -50,11 +50,7 @@ is used is determined by the istio.io [Netlify](https://netlify.com) project's c
 
 * The content of archive.istio.io is taken from the older release-XXX branches. The set of branches that
 are included on archive.istio.io is determined by the `TOBUILD` variable in this
-[script](https://github.com/istio/admin-sites/blob/master/archive.istio.io/build.sh)
-
-> The above means that if you want to do a change to the main istio.io site, you need
-to make the change in the master branch of https://github.com/istio/istio.io and then merge that change into the
-current release branch.
+[script](https://github.com/istio/istio.io/blob/master/scripts/gen_archive_site.sh).
 
 ### Publishing content immediately
 
@@ -72,11 +68,21 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
+1. Run `scripts/grab_reference_docs.sh` in order to get the latest reference docs.
+
+1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version 
+(in this case release-0.6) to the `TOBUILD` variable.
+
+1. Commit the previous edits to your local git repo and push your **master** branch to GitHub.
+
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
 release-0.7. There is one such branch for every release.
 
 1. In the **release** branch you created, edit the file `data/args.yml`. Set the `preliminary` field to `false`
 and the `source_branch_name` and `doc_branch_name` fields to the name of the branch, in this case release-0.7.
+
+1. In the **release** branch you created, edit the file `scripts/grab_reference_docs.sh`. Update the branch
+name for `istio.git` and `api.git` to point to the release branch. In this case release-0.7. 
 
 1. Commit the previous edit to your local git repo and push your **release** branch to GitHub.
 
@@ -129,14 +135,13 @@ of the next Istio release. In this case, you would set the fields to "0.8" and "
 
 1. Commit the previous edits to your local git repo and push the **previous release's* branch to GitHub.
 
-1. Switch to the istio/admin-sites repo.
+1. Go to the archive.istio.io project on [Netlify](https://netlify.com)
 
-1. Edit the `archive.istio.io/build.sh` script to add the newest archive version (in this case
-release-0.6) to the `TOBUILD` variable.
+1. Change the branch that is built from the previous release's branch to the new release branch, in this case release-0.7.
 
-1. Commit the previous edit to your local git repo and push the change to GitHub.
+1. Select the option to trigger an immediate rebuild and redeployment.
 
-1. Wait a while (~15 minutes) and browse archive.istio.io and make sure everything looks good.
+1. Once deployment is done, browse archive.istio.io and make sure everything looks good.
 
 ### Creating a patch release
 
@@ -153,5 +158,7 @@ release.
 and `1.x.Y` is the name of the release.
 
 1. Edit the `data/args.yml` file and change the `full_version` field to the name of the release.
+
+1. Run `scripts/grab_reference_docs.sh` to get the latest reference docs.
 
 For the first three files, please look at existing files in the same locations for example content and layout.
