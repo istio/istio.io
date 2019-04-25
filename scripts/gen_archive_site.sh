@@ -10,22 +10,27 @@ TOBUILD=(
 )
 
 TOBUILD_JEKYLL=(
-#  v0.7:release-0.7
-#  v0.6:release-0.6
-#  v0.5:release-0.5
-#  v0.4:release-0.4
-#  v0.3:release-0.3
-#  v0.2:release-0.2
-#  v0.1:release-0.1
+  v0.7:release-0.7
+  v0.6:release-0.6
+  v0.5:release-0.5
+  v0.4:release-0.4
+  v0.3:release-0.3
+  v0.2:release-0.2
+  v0.1:release-0.1
 )
 
-# Grab the latest version info
-export TMP=$(mktemp -d)
-cp data/versions.yml ${TMP}
-
 # Prepare
+rm -fr public
+TMP=$(mktemp -d)
 mkdir ${TMP}/archive
-#echo "names:" >> ${TMP}/archives.yml
+
+GITDIR=istio.io
+rm -fr ${GITDIR}
+git clone https://github.com/istio/istio.io.git
+cd ${GITDIR}
+
+# Grab the latest version info
+cp data/versions.yml ${TMP}
 
 for rel in "${TOBUILD[@]}"
 do
@@ -60,15 +65,15 @@ do
   echo "- name:  \"${NAME}\"" >> ${TMP}/archives.yml
 done
 
-echo "### Building landing page"
+cd ..
+rm -fr ${GITDIR}
 
-git clean -f
-git checkout master
+echo "### Building landing page"
 
 # Grab the state
 cp ${TMP}/archives.yml data
 
-# Delete stuff we don't want in the archive_landing
+# Adjust a few things for archive_landing
 rm -fr content_zh content
 rm -fr static/talks
 mkdir content content_zh
