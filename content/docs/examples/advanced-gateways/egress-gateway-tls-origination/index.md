@@ -129,6 +129,14 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 80
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
       - name: cnn
         trafficPolicy:
@@ -697,6 +705,14 @@ to hold the configuration of the NGINX server:
       name: egressgateway-for-nginx
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
       - name: nginx
         trafficPolicy:
