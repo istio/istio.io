@@ -47,7 +47,7 @@ function handleTabs(): void {
 
     document.querySelectorAll(".tabset").forEach(tabset => {
         const strip = tabset.querySelector<HTMLElement>(".tab-strip");
-        if (strip === null) {
+        if (!strip) {
             return;
         }
 
