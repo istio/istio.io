@@ -41,7 +41,7 @@ function handleScroll(): void {
 
                 for (let i = 0; i < tocLinks.length; i++) {
                     const heading = tocHeadings[i];
-                    if (heading === null) {
+                    if (!heading) {
                         continue;
                     }
 
@@ -113,7 +113,7 @@ function handleScroll(): void {
         tocLinks = toc.getElementsByTagName("a");
         for (const link of tocLinks) {
             if (link) {
-                const id = link.hash.substring(1);
+                const id = decodeURIComponent(link.hash.substring(1));
                 const hdr = getById(id);
                 if (hdr) {
                     tocHeadings.push(hdr);
