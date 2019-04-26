@@ -80,7 +80,7 @@ _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`,
 [Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them
 appears below:
 
-{{< image width="80%" ratio="68.27%"
+{{< image width="80%"
     link="egress-adapters-monitoring.svg"
     caption="Instances, rules and handlers for egress monitoring"
     >}}
@@ -359,7 +359,7 @@ static list of allowed URL paths, specified by the `overrides` field. For an ext
 diagram of the instances, rules and handlers appears below. Note that you reuse the same policy rule, `handle-cnn-access`
  both for logging and for access policy checks.
 
-{{< image width="80%" ratio="65.45%"
+{{< image width="80%"
     link="egress-adapters-monitoring-policy.svg"
     caption="Instances, rules and handlers for egress monitoring and access policies"
     >}}
@@ -548,7 +548,7 @@ check, the egress gateway performs TLS origination to the external destination (
 is encrypted again and sent encrypted to the external destination. The diagram below demonstrates the network flow of
 this approach. The HTTP protocol inside the gateway designates the protocol as seen by the gateway after decryption.
 
-{{< image width="80%" ratio="73.96%"
+{{< image width="80%"
 link="http-to-gateway.svg"
 caption="HTTP egress traffic through an egress gateway"
 >}}
@@ -562,7 +562,7 @@ In the HTTPS approach, the requests are encrypted end-to-end, from the applicati
 diagram below demonstrates the network flow of this approach. The HTTPS protocol inside the gateway designates the
 protocol as seen by the gateway.
 
-{{< image width="80%" ratio="73.96%"
+{{< image width="80%"
 link="https-to-gateway.svg"
 caption="HTTPS egress traffic through an egress gateway"
 >}}

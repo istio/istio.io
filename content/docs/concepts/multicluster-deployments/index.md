@@ -59,7 +59,7 @@ you can configure a single logical service mesh that is composed from the partic
 This approach has no special networking requirements and is therefore generally considered
 the easiest approach to start with when there is no universal connectivity across clusters.
 
-{{< image width="80%" ratio="36.01%"
+{{< image width="80%"
     link="./multicluster-with-gateways.svg"
     caption="Istio mesh spanning multiple Kubernetes clusters using multiple Istio control planes and Gateway to reach remote pods"
     >}}
@@ -89,7 +89,7 @@ Envoy sidecars for all of the clusters.
 The following approach works best in environments where all of the participating clusters have VPN connectivity so
 every pod in the mesh is reachable from anywhere else using the same IP address.
 
-{{< image width="80%" ratio="36.01%"
+{{< image width="80%"
     link="./multicluster-with-vpn.svg"
     caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN"
     >}}
@@ -112,7 +112,7 @@ as, for example, on managed Kubernetes platforms where the API servers run on a 
 to all tenant clusters.
 If this is not possible, a multiple control plane topology is probably a better alternative.
 
-{{< image width="80%" ratio="36.01%"
+{{< image width="80%"
     link="./multicluster-split-horizon-eds.svg"
     caption="Istio mesh spanning multiple Kubernetes clusters using single Istio control plane and Gateway to reach remote pods"
     >}}

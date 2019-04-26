@@ -32,8 +32,7 @@ Istio 支持将一个应用程序的服务以多种拓扑分布，而不仅仅�
 在多控制平面配置中，每个集群具有相同的 Istio 控制平面安装方式，每个控制平面管理自己的 endpoint。
 使用 Istio gateway、公共根证书颁发机构（CA）和 service entry，您可以配置由参与集群组成的单个逻辑服务网格。这种方法没有特殊的网络要求，因此通常被认为是在集群之间没有通用连接时最简单的方法。
 
-{{< image width="80%" ratio="36.01%"
-    link="/docs/concepts/multicluster-deployments/multicluster-with-gateways.svg"
+{{< image width="80%" link="multicluster-with-gateways.svg"
     caption="Istio 网格跨越多个 Kubernetes 集群，使用多个 Istio 控制平面和 Gateway 到达远程 pod"
     >}}
 
@@ -45,8 +44,7 @@ Istio 支持将一个应用程序的服务以多种拓扑分布，而不仅仅�
 
 这种多集群配置使用运行在某个集群上的单个 Istio 控制平面。控制平面的 Pilot 管理本地和远程集群上的 service，并为所有集群配置 Envoy sidecar。这种方法在所有参与集群都具有 VPN 连接的环境中效果最佳，从其他任何地方都可以通过相同的 IP 地址访问网格中的每个 pod。
 
-{{< image width="80%" ratio="36.01%"
-    link="/docs/concepts/multicluster-deployments/multicluster-with-vpn.svg"
+{{< image width="80%" link="multicluster-with-vpn.svg"
     caption="Istio 网格跨越多个 Kubernetes 集群，通过 VPN 直接访问远程 pod"
     >}}
 
@@ -54,8 +52,7 @@ Istio 支持将一个应用程序的服务以多种拓扑分布，而不仅仅�
 
 如果设置具有全局 pod-to-pod 连接的环境很困难或不可能，您仍然可以使用 Istio 网关并和启用 Istio Pilot 的位置感知服务路由功能（也即`水平分割 EDS（Endpoint Discovery Service，终端发现服务）`）来配置单个控制平面拓扑。此方法仍需要从所有集群到 Kubernetes API server 的连接，例如在一个托管的 Kubernetes 平台上，其 API server 运行的网络可以被所有租户集群访问。如果无法做到这一点，那么多控制平面拓扑可能是更好的选择
 
-{{< image width="80%" ratio="36.01%"
-    link="/docs/concepts/multicluster-deployments/multicluster-split-horizon-eds.svg"
+{{< image width="80%" link="multicluster-split-horizon-eds.svg"
     caption="Istio 网格使用单个控制平面和 Gateway 跨越多个 Kubernetes 集群到达远程 pod"
     >}}
 

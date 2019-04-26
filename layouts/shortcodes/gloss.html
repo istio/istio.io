@@ -7,7 +7,7 @@
     {{- $gloss_entry = .Get 0 -}}
 {{- end -}}
 
-{{- $glossary := .Site.GetPage "/help/glossary" -}}
+{{- $glossary := .Site.GetPage "section" "glossary" -}}
 {{- $words := $glossary.Resources.ByType "page" -}}
 {{- $dfn := "" -}}
 {{- $title := $term -}}

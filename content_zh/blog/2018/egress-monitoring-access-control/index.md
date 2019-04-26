@@ -45,7 +45,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 配置 Istio 以记录对 _*.cnn.com_ 的访问。创建一个 `logentry` 和两个 [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`，一个用于记录禁止访问(_error_ 日志级别)，另一个用于记录对 _*.cnn.com_ 的所有访问(_info_ 日志级别)。然后创建规则将 `logentry` 实例定向到 `handlers`。一个规则指导访问 _*.cnn.com/politics_ 为日志禁止访问处理程序,另一个规则指导日志条目的处理程序，输出每个访问 _*.cnn.com_ 作为 _info_ 的日志级别。要了解 Istio `logentries`、`rules` 和 `handlers`，请参见 [Istio 适配器模型](/zh/blog/2017/adapter-model/)。下图显示了涉及的实体和它们之间的依赖关系：
 
-{{< image width="80%" ratio="68.27%"
+{{< image width="80%"
     link="egress-adapters-monitoring.svg"
     caption="用于 egress 监视和访问策略的实例、规则和处理程序"
     >}}
@@ -288,7 +288,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
  在该步骤中，您使用 Mixer [`Listchecker` 适配器](/docs/reference/config/policy-and-telemetry/adapters/list/)，它是一种白名单。您可以使用请求的 URL 路径定义一个 `listentry`，并使用一个 `listchecker` 由 `overrides` 字段指定的允许 URL 路径的静态列表检查 `listentry`。对于[外部标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，请使用 `providerurl` 字段。实例、规则和处理程序的更新图如下所示。注意，您重用相同的策略规则 `handle-cn-access` 来进行日志记录和访问策略检查。
 
-{{< image width="80%" ratio="65.45%"
+{{< image width="80%"
     link="egress-adapters-monitoring-policy.svg"
     caption="用于 egress 监视和访问策略的实例、规则和处理程序"
     >}}
@@ -456,7 +456,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 在 HTTP 方法中，请求在本地主机上不加密地发送，由 Istio sidecar 代理拦截并转发到 egress 网关。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS，因此流量会使 pod 加密。egress 网关解密流量，检查 URL 路径、 HTTP 方法和报头，报告遥测数据并执行策略检查。如果请求没有被某些策略检查阻止，那么 egress 网关将执行 TLS 发起到外部目的地（在我们的示例中是 _cnn.com_ ），因此请求将再次加密并发送到外部目的地。下图演示了这种方法的流程。网关内的 HTTP 协议根据解密后网关看到的协议来指定协议。
 
-{{< image width="80%" ratio="73.96%"
+{{< image width="80%"
 link="http-to-gateway.svg"
 caption="HTTP egress 流量通过 egress 网关"
 >}}
@@ -465,7 +465,7 @@ caption="HTTP egress 流量通过 egress 网关"
 
 在 HTTPS 方法中，从应用程序到外部目的地的请求是端到端加密的。下图演示了这种方法的流程。网关中的 HTTPS 协议指定网关所看到的协议。
 
-{{< image width="80%" ratio="73.96%"
+{{< image width="80%"
 link="https-to-gateway.svg"
 caption="HTTPS egress 流量通过 egress 网关"
 >}}

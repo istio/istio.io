@@ -56,7 +56,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --d
 现在，应用程序的更新架构如下所示：
 
 {{< image width="80%"
-    link="/blog/2018/egress-https/bookinfo-details-v2.svg"
+    link="bookinfo-details-v2.svg"
     caption="Bookinfo 的 details V2 应用程序"
     >}}
 
@@ -75,7 +75,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 
 糟糕...页面显示 _Error fetching product details_，而不是书籍详细信息：
 
-{{< image width="80%" link="/blog/2018/egress-https/errorFetchingBookDetails.png" caption="获取产品详细信息的错误消息" >}}
+{{< image width="80%" link="errorFetchingBookDetails.png" caption="获取产品详细信息的错误消息" >}}
 
 好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。在我们的例子中，
 失败的 _details_ 微服务不会导致 `productpage` 微服务失败, 尽管 _details_ 微服务失败，
@@ -130,7 +130,7 @@ EOF
 
 现在访问应用程序的网页会显示书籍详细信息而不会出现错误：
 
-{{< image width="80%" link="/blog/2018/egress-https/externalBookDetails.png" caption="正确显示书籍详细信息" >}}
+{{< image width="80%" link="externalBookDetails.png" caption="正确显示书籍详细信息" >}}
 
 您可以查询您的 `ServiceEntry` ：
 
@@ -184,7 +184,7 @@ sidecar 代理的这种监督和策略执行是无法实现的。Istio 只能通
 这些请求被 sidecar Envoy 代理拦截 , sidecar 代理执行 TLS 发起，因此 pod 和外部服务之间的流量被加密。
 
 {{< image width="60%"
-    link="/blog/2018/egress-https/https_from_the_app.svg"
+    link="https_from_the_app.svg"
     caption="对外发起 HTTPS 流量的两种方式：微服务自行发起，或由 Sidecar 代理发起"
     >}}
 

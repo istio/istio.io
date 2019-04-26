@@ -21,7 +21,6 @@ The control plane manages and configures the proxies to route traffic. Additiona
 {{< /quote >}}
 
 {{< image width="40%"
-    ratio="33%"
     link="./arch-2.svg"
     alt="The overall architecture of an Istio-based application."
     caption="Istio Architecture"

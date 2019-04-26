@@ -13,7 +13,7 @@ Split-horizon EDS enables Istio to route requests to different endpoints, depend
 
 By following the instructions in this example, you will setup a two cluster mesh as shown in the following diagram:
 
-  {{< image width="80%" ratio="36.01%"
+  {{< image width="80%"
   link="./diagram.svg"
   caption="Single Istio control plane topology spanning multiple Kubernetes clusters with Split-horizon EDS configured" >}}
 
