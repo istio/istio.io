@@ -61,12 +61,10 @@
                 </button>
 
                 <div id="gearDropdownContent" class="menu-content" aria-labelledby="gearDropdownButton" role="menu">
-                    {{ if not .Site.Data.args.archive_landing }}
-                        <a tabindex="-1" role="menuitem" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
-                        <a tabindex="-1" role="menuitem" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
+                    <a tabindex="-1" role="menuitem" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
+                    <a tabindex="-1" role="menuitem" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
 
-                        <div role="separator"></div>
-                    {{ end }}
+                    <div role="separator"></div>
 
                     <a tabindex="-1" role="menuitem" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
                     <a tabindex="-1" role="menuitem" id="dark-theme-item">{{ i18n "dark_theme" }}</a>
