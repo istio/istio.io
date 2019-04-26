@@ -22,7 +22,6 @@ Istio 服务网格逻辑上分为数据平面和控制平面。
 {{< /quote >}}
 
 {{< image width="40%"
-    ratio="33%"
     link="./arch-2.svg"
     alt="基于 Istio 的应用的总体架构。"
     caption="Istio 架构"

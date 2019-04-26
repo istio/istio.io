@@ -28,7 +28,7 @@ keywords: [traffic-management]
 在一个典型的网格中，通常有一个或多个用于终结外部 TLS 链接，将流量引入网格的负载均衡器（我们称之为 gateway）。 然后流量通过边车网关（sidecar gateway）流经内部服务。 应用程序使用外部服务的情况也很常见（例如访问 Google Maps API），一些情况下，这些外部服务可能被直接调用；但在某些部署中，网格中所有访问外部服务的流量可能被要求强制通过专用的出口网关（Egress gateway）。 下图描绘了网关在网格中的使用情况。
 
 {{< image width="80%"
-    link="/blog/2018/v1alpha3-routing/gateways.svg"
+    link="gateways.svg"
     alt="Role of gateways in the mesh"
     caption="Istio服务网格中的网关"
     >}}
@@ -45,7 +45,7 @@ keywords: [traffic-management]
 下图描述了跨多个配置资源的控制流程。
 
 {{< image width="80%"
-    link="/blog/2018/v1alpha3-routing/virtualservices-destrules.svg"
+    link="virtualservices-destrules.svg"
     caption="不同v1alpha3元素之间的关系"
     >}}
 

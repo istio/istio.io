@@ -61,11 +61,19 @@ omit this value and it will be computed automatically.
     {{- end -}}
 {{- end -}}
 
-{{- $path := printf "content/%s" $link }}
+{{- $path := "" }}
+{{- if eq .Page.Language.Lang "zh" -}}
+    {{- $path = printf "content_zh%s" $link }}
+    {{- if not (fileExists $path) -}}
+        {{- $path = printf "content%s" $link }}
+    {{- end -}}
+{{- else -}}
+    {{- $path = printf "content%s" $link }}
+{{- end -}}
 
 {{- if strings.HasSuffix $link ".svg" -}}
     {{- if not (fileExists $path) -}}
-        {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
+       {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
     {{- end -}}
 
     {{- $file := readFile $path -}}
