@@ -1,13 +1,8 @@
 | Site | Status
 |------|-------
 | istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/c98435af-5464-4ac3-93c2-9c98faeec9b6/deploy-status)](https://app.netlify.com/sites/istio/deploys) [![CircleCI](https://circleci.com/gh/istio/istio.svg?style=shield)](https://circleci.com/gh/istio/istio.io)
-| preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys)
+| preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys) [![Mergify Status](https://gh.mergify.io/badges/:owner/:repo.png?style=cut)](https://mergify.io)
 | archive.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/f8c3eecb-3c5c-48d9-b952-54c7ed0ece8f/deploy-status)](https://app.netlify.com/sites/archive-istio/deploys)
-
-# My project name [![Mergify Status][mergify-status]][mergify]
-
-[mergify]: https://mergify.io
-[mergify-status]: https://gh.mergify.io/badges/:owner/:repo.png?style=cut
 
 ## istio.io
 
