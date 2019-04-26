@@ -1,3 +1,8 @@
+We all live in a yellow state machine.
+Warning!, Sharks ahead.
+Martin made me do this.
+
+
 | Site | Status
 |------|-------
 | istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/c98435af-5464-4ac3-93c2-9c98faeec9b6/deploy-status)](https://app.netlify.com/sites/istio/deploys) [![CircleCI](https://circleci.com/gh/istio/istio.svg?style=shield)](https://circleci.com/gh/istio/istio.io)
