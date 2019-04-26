@@ -3,6 +3,7 @@ pull_request_rules:
     conditions:
       - status-success=ci/circleci
       - status-success=deploy/netlify
+      - status-success=cla/google
       - "#approved-reviews-by>=1"
       - label!=do-not-merge
       - label!=do-not-merge/work-in-progress
