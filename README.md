@@ -161,4 +161,4 @@ and `1.x.Y` is the name of the release.
 
 1. Run `scripts/grab_reference_docs.sh` to get the latest reference docs.
 
-For the first three files, please look at existing files in the same locations for example content and layout.
+For the first 3 files, please look at existing files in the same locations for example content and layout.
