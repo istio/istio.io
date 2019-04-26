@@ -14,7 +14,7 @@ keywords: [vms]
 ## 概述
 
 {{< image width="80%"
-    link="/docs/examples/integrating-vms/mesh-expansion.svg"
+    link="mesh-expansion.svg"
     caption="网格扩展环境下的 Bookinfo 应用"
     >}}
 

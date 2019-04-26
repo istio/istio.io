@@ -173,7 +173,7 @@ keywords: [traffic-management,egress,tcp]
 更新的架构如下所示，请注意，网格内的蓝色箭头标记根据我们添加的虚拟服务配置的流量，根据虚拟服务的定义，流量将发送到 _reviews v3_ 和 _ratings v2-mysql_ 。
 
 {{< image width="80%"
-    link="/blog/2018/egress-tcp/bookinfo-ratings-v2-mysql-external.svg"
+    link="bookinfo-ratings-v2-mysql-external.svg"
     caption="Bookinfo 应用程序，其评级为 v2-mysql，外部为 MySQL 数据库"
     >}}
 
@@ -185,7 +185,7 @@ keywords: [traffic-management,egress,tcp]
 
 你会发现问题，在每次审核下方都会显示消息 _"Ratings service is currently unavailable”_  而不是评级星标。
 
-{{< image width="80%" link="/blog/2018/egress-tcp/errorFetchingBookRating.png" caption="Ratings 服务的错误信息" >}}
+{{< image width="80%" link="errorFetchingBookRating.png" caption="Ratings 服务的错误信息" >}}
 
 与[使用外部Web服务](/zh/blog/2018/egress-https/)一样，你会体验到**优雅的服务降级**，这很好，虽然 _ratings_ 服务中有错误，但是应用程序并没有因此而崩溃，应用程序的网页正确显示了书籍信息，详细信息和评论，只是没有评级星。
 
@@ -240,7 +240,7 @@ keywords: [traffic-management,egress,tcp]
 
 有效！ 访问应用程序的网页会显示评级而不会出现错误：
 
-{{< image width="80%" link="/blog/2018/egress-tcp/externalMySQLRatings.png" caption="Book Ratings 显示正常" >}}
+{{< image width="80%" link="externalMySQLRatings.png" caption="Book Ratings 显示正常" >}}
 
 请注意，正如预期的那样，你会看到两个显示评论的一星评级。将评级更改为一颗星，为我们提供了一个视觉线索，确实使用了我们的外部数据库。
 

@@ -15,7 +15,7 @@ Istio Security 尝试提供全面的安全解决方案来解决所有这些问�
 
 本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据，端点，通信和平台的内部和外部威胁。
 
-{{< image width="80%" link="/docs/concepts/security/overview.svg"
+{{< image width="80%" link="overview.svg"
     alt="Istio 安全模型的组件构成。"
     caption="Istio 安全概述"
     >}}
@@ -45,7 +45,7 @@ Istio 中的安全性涉及多个组件：
 
 - **Mixer** 管理授权和审计
 
-{{< image width="80%" link="/docs/concepts/security/architecture.svg" caption="Istio 安全架构" >}}
+{{< image width="80%" link="architecture.svg" caption="Istio 安全架构" >}}
 
 在下面的部分中，我们将详细介绍 Istio 安全功能。
 
@@ -118,7 +118,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配的选项，如下图所示。请注意，本地计算机的标识提供流程是相同的，因此我们仅描述 Kubernetes 方案。
 
-{{< image width="80%" link="/docs/concepts/security/node_agent.svg" caption="PKI 与 Kubernetes 中的节点代理" >}}
+{{< image width="80%" link="node_agent.svg" caption="PKI 与 Kubernetes 中的节点代理" >}}
 
 流程如下：
 
@@ -202,7 +202,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
-{{< image width="60%" link="/docs/concepts/security/auth.svg" caption="认证架构" >}}
+{{< image width="60%" link="auth.svg" caption="认证架构" >}}
 
 Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#授权)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
 
