@@ -1,18 +1,18 @@
 {{ define "main" }}
 {{ if .Site.Data.args.archive_landing }}
     <main class="primary notoc">
-        <div id="sidebar-container" class="sidebar-container sidebar-offcanvas"></div>
+        <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
+        </div>
         <div class="article-container">
+            <h1>istio.io Archives</h1>
+            <p>Snapshots of the <a href="https://istio.io">istio.io</a> website for each release.</p>
 
-    <h1>istio.io Archives</h1>
-    <p>Snapshots of the <a href="https://istio.io">istio.io</a> website for each release.</p>
-
-    <ul>
-        {{ range $archive := .Site.Data.archives }}
-            <li><a href="./{{ $archive.name }}">{{ $archive.name }}</a></li>
-        {{ end }}
-    </ul>
-            </div>
+            <ul>
+                {{ range $archive := .Site.Data.archives }}
+                    <li><a href="./{{ $archive.name }}">{{ $archive.name }}</a></li>
+                {{ end }}
+            </ul>
+        </div>
     </main>
 {{ else }}
     <script>
