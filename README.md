@@ -6,7 +6,7 @@
 
 ## istio.io
 
-WThis repository contains the source code for the [istio.io](https://istio.io),
+This repository contains the source code for the [istio.io](https://istio.io),
 [preliminary.istio.io](https://preliminary.istio.io) and [archive.istio.io](https://archive.istio.io) sites.
 
 Please see the main Istio [README](https://github.com/istio/istio/blob/master/README.md)
