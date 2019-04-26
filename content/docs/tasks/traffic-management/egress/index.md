@@ -89,10 +89,9 @@ prior to Istio 1.1.3 you couldn't call external services on any of those ports e
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
     mode: ALLOW_ANY
-    mode: ALLOW_ANY
     {{< /text >}}
 
-    The string `mode: ALLOW_ANY` should appear twice in the output.
+    The string `mode: ALLOW_ANY` should appear in the output if it is enabled.
 
     {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
