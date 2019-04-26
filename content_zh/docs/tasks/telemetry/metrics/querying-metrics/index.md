@@ -53,7 +53,7 @@ keywords: [telemetry,metrics]
 
 结果将类似于：
 
-{{< image link="/docs/tasks/telemetry/metrics/querying-metrics/prometheus_query_result.png" caption="Prometheus 查询结果" >}}
+{{< image link="prometheus_query_result.png" caption="Prometheus 查询结果" >}}
 
 其他查询尝试：
 

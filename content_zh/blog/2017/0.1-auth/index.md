@@ -34,7 +34,7 @@ attribution: The Istio Team
 
 下图概述了 Kubernetes 上的 `Istio Auth` 服务认证体系结构。
 
-{{< image link="/blog/2017/0.1-auth/istio_auth_overview.svg" caption="`Istio Auth` 概览" >}}
+{{< image link="istio_auth_overview.svg" caption="`Istio Auth` 概览" >}}
 
 上图说明了三个关键的安全功能：
 
@@ -66,7 +66,7 @@ attribution: The Istio Team
 
 下图说明了 Kubernetes 上的端到端 `Istio Auth` 身份验证工作流程：
 
-{{< image link="/blog/2017/0.1-auth/istio_auth_workflow.svg" caption="`Istio Auth` 工作流程" >}}
+{{< image link="istio_auth_workflow.svg" caption="`Istio Auth` 工作流程" >}}
 
 `Istio Auth` 是更广泛的容器安全中的一部分。 Red Hat 是 Kubernetes 开发的合作伙伴，定义了 [10 层](https://www.redhat.com/en/resources/container-security-openshift-cloud-devops-whitepaper) 容器安全。 Istio 和 `Istio Auth` 解决了其中两个层：”网络隔离” 和 “API 和服务端点管理”。 随着集群联邦在 Kubernetes 和其他平台上的发展，我们的目的是让 Istio 对跨越多个联邦集群的服务间通信提供保护。
 

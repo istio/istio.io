@@ -49,7 +49,7 @@ keywords: [telemetry,visualization]
 
     Istio 仪表盘看起来类似于：
 
-    {{< image link="/docs/tasks/telemetry/metrics/using-istio-dashboard/grafana-istio-dashboard.png" caption="Istio Dashboard" >}}
+    {{< image link="grafana-istio-dashboard.png" caption="Istio Dashboard" >}}
 
 1.  向网格发送流量。
 
@@ -67,7 +67,7 @@ keywords: [telemetry,visualization]
 
     再次查看 Istio 仪表盘，它应该显示出生成的流量，看起来类似于：
 
-    {{< image link="/docs/tasks/telemetry/metrics/using-istio-dashboard/dashboard-with-traffic.png" caption="Istio Dashboard With Traffic" >}}
+    {{< image link="dashboard-with-traffic.png" caption="Istio Dashboard With Traffic" >}}
 
     这提供了网格的全局视图以及网格中的服务和工作负载。
     您可以通过导航到特定仪表盘获得有关服务和工作负载的更多详细信息，如下所述。
@@ -78,7 +78,7 @@ keywords: [telemetry,visualization]
 
     Istio 服务仪表盘看起来类似于：
 
-    {{< image link="/docs/tasks/telemetry/metrics/using-istio-dashboard/istio-service-dashboard.png" caption="Istio Service Dashboard" >}}
+    {{< image link="istio-service-dashboard.png" caption="Istio Service Dashboard" >}}
 
     这提供了有关服务的指标的详细信息，进一步地提供了有关该服务的客户端工作负载（调用此服务的工作负载）和服务工作负载（提供此服务的工作负载）的详细信息。
 
@@ -88,7 +88,7 @@ keywords: [telemetry,visualization]
 
     Istio 工作负载仪表盘看起来类似于：
 
-    {{< image link="/docs/tasks/telemetry/metrics/using-istio-dashboard/istio-workload-dashboard.png" caption="Istio Workload Dashboard" >}}
+    {{< image link="istio-workload-dashboard.png" caption="Istio Workload Dashboard" >}}
 
     这会提供有关每个工作负载的指标的详细信息，进一步地提供有关该工作负载的入站工作负载（向此工作负载发送请求的工作负载）和出站服务（此工作负载发送请求的服务）的指标。
 

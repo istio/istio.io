@@ -22,7 +22,7 @@ Bookinfo 应用分为四个单独的微服务：
 下图展示了这个应用的端到端架构。
 
 {{< image width="80%"
-    link="/docs/examples/bookinfo/noistio.svg"
+    link="noistio.svg"
     caption="Istio 注入之前的 Bookinfo 应用"
     >}}
 
@@ -37,7 +37,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 要在 Istio 中运行这一应用，无需对应用自身做出任何改变。我们只要简单的在 Istio 环境中对服务进行配置和运行，具体一点说就是把 Envoy sidecar 注入到每个服务之中。这个过程所需的具体命令和配置方法由运行时环境决定，而部署结果较为一致，如下图所示：
 
 {{< image width="80%"
-    link="/docs/examples/bookinfo/withistio.svg"
+    link="withistio.svg"
     caption="Bookinfo 应用"
     >}}
 

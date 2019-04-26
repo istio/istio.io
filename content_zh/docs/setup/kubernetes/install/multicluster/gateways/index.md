@@ -13,7 +13,7 @@ keywords: [kubernetes,multicluster,federation,gateway]
 跨集群通信发生在相应集群的 Istio Gateway 上。
 
 {{< image width="80%"
-    link="/docs/setup/kubernetes/install/multicluster/gateways/multicluster-with-gateways.svg"
+    link="multicluster-with-gateways.svg"
     caption="Istio 网格使用 Istio Gateway 跨越多个 Kubernetes 集群访问远程 Pod"
     >}}
 

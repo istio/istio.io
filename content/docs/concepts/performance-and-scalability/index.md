@@ -113,8 +113,8 @@ for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second usi
 In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `MixerV2`.
 This will decrease the amount data flowing through the system, which will in turn reduce the CPU usage and latency.
 
-{{< image width="90%" ratio="75%"
-    link="latency.svg?sanitize=true"
+{{< image width="90%"
+    link="latency.svg"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 >}}
