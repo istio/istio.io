@@ -15,12 +15,9 @@ and go through the guide on how to
 [configure Istio authorization](/docs/tasks/security/authz-http).
 
 * Read the Istio
-[authentication policy](/docs/concepts/security/#authentication-policies)
-and the related
-[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication)
-concepts.
+[authentication policy](/docs/concepts/security/#authentication-policies).
 
-* Create a Kubernetes cluster with Istio installed and mutual TLS enabled.
+* Create a Kubernetes cluster with Istio installed.
 To fulfill this prerequisite you can follow the Kubernetes
 [installation instructions](/docs/setup/kubernetes/install/kubernetes/#installation-steps).
 
@@ -69,7 +66,7 @@ pointed by the `NS` environmental variable.
 
     When the command succeeds, it returns the HTTP code 200.
 
-## Configure JSON Web Token (JWT) authentication with mutual TLS
+## Configure JSON Web Token (JWT) authentication
 
 The authentication policy you apply next enforces that a valid JWT is needed to
 access the `httpbin` service.
@@ -83,20 +80,17 @@ strings, [`"group1"`, `"group2"`] as the claim value.
 The JWT claim value could either be a string or a list of strings; both types
 are supported.
 
-1.  Apply an authentication policy to require both mutual TLS and
-JWT authentication for `httpbin`.
+1.  Apply an authentication policy to require JWT authentication for `httpbin`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
     apiVersion: "authentication.istio.io/v1alpha1"
     kind: "Policy"
     metadata:
-      name: "require-mtls-jwt"
+      name: "require-jwt"
     spec:
       targets:
       - name: httpbin
-      peers:
-      - mtls: {}
       origins:
       - jwt:
           issuer: "testing@secure.istio.io"
