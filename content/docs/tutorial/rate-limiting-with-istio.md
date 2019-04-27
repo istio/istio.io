@@ -138,7 +138,7 @@ more failures and making the application or parts of it unavailable.
           compiledAdapter: memquota
           params:
             quotas:
-            - name: requestcountquota.instances.default
+            - name: requestcountquota.instance.$NAMESPACE
               maxAmount: 500
               validDuration: 1s
               # The first matching override is applied.
@@ -183,7 +183,7 @@ more failures and making the application or parts of it unavailable.
           actions:
           - handler: quotahandler
             instances:
-            - requestcountquota.instances.$NAMESPACE
+            - requestcountquota
         EOF
         {{< /text >}}
 
