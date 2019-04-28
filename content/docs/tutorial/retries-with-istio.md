@@ -60,13 +60,13 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
       name: ratings
     spec:
       host: ratings
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
       subsets:
       - name: v-faulty
         labels:
           version: v-faulty
-        trafficPolicy:
-          tls:
-            mode: ISTIO_MUTUAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService

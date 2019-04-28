@@ -96,13 +96,13 @@ one later.
       name: ratings
     spec:
       host: ratings
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
       subsets:
       - name: v-unhealthy
         labels:
           version: v-unhealthy
-        trafficPolicy:
-          tls:
-            mode: ISTIO_MUTUAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService

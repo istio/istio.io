@@ -61,13 +61,14 @@ user instead of letting the user wait for a long period of time.
       name: ratings
     spec:
       host: ratings
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
       subsets:
       - name: v-delayed
         labels:
           version: v-delayed
-        trafficPolicy:
-          tls:
-            mode: ISTIO_MUTUAL
+
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
