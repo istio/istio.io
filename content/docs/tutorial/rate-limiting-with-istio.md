@@ -1,5 +1,5 @@
 ---
-title: Rate limiting and bulkhead with Istio
+title: Rate limiting with Istio
 overview: Mitigate failures stemming from overloading a microservice with requests
 
 weight: 140
@@ -11,7 +11,7 @@ might start sending too much requests to other microservices. Those, in turn, ca
 the microservices they call. If uncontrolled, one misbehaving microservice can overload the whole application, causing
 more failures and making the application or parts of it unavailable.
 
-1.  Deploy the version of `reviews` that sends 100 unnecessary requests to `ratings`:
+1.  Deploy the version of `productpage` that sends 100 unnecessary requests to `reviews`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -32,70 +32,46 @@ more failures and making the application or parts of it unavailable.
     apiVersion: extensions/v1beta1
     kind: Deployment
     metadata:
-      name: reviews-flooding
+      name: productpage-v-flooding
     spec:
       replicas: 1
       template:
         metadata:
           labels:
-            app: reviews
+            app: productpage
             version: v-flooding
         spec:
           containers:
-          - name: reviews
-            image: vadimeisenbergibm/examples-bookinfo-reviews-v-flooding:1.10.15
+          - name: productpage
+            image: vadimeisenbergibm/examples-bookinfo-productpage-v-flooding:1.10.22
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080
     EOF
     {{< /text >}}
 
-1.  Direct the traffic to the faulty `reviews`:
+1.  Update the destination rule of `productpage` to include the subset of the faulty `productpage`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: reviews
+      name: productpage
     spec:
-      host: reviews
+      host: productpage
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
       subsets:
+      - name: v1
+        labels:
+          version: v1     
       - name: v-flooding
         labels:
           version: v-flooding
-        trafficPolicy:
-          tls:
-            mode: ISTIO_MUTUAL
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-        - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v-flooding
     EOF
     {{< /text >}}
-
-1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
-
-    Notice the _v-flooding_ version of `reviews`
-
-    {{< image width="80%"
-        link="images/kiali-reviews-flooding.png"
-        caption="Kiali Graph Tab with reviews v-flooding"
-        >}}
-
-    Wait to see the outgoing traffic rate of `reviews` growing to almost 1000 times the incoming traffic rate. While the
-    application continues to operate successfully, you may want to limit the usage of the `ratings` service to prevent
-    overloading it or abusing its computing resources and its billing budget.
 
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
     You will need it to recognize your microservices in the logs:
@@ -105,6 +81,61 @@ more failures and making the application or parts of it unavailable.
     $ echo $NAMESPACE
     tutorial
     {{< /text >}}
+
+1.  Create an environment variable for
+
+    {{< text bash >}}
+    $ export MY_INGRESS_GATEWAY_HOST=istio.$NAMESPACE.bookinfo.com
+    $ echo $MY_INGRESS_GATEWAY_HOST
+    istio.tutorial.bookinfo.com
+    {{< /text >}}
+
+1.  Reconfigure the virtual service of the Istio Ingress Gateway to use the buggy version:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: bookinfo
+    spec:
+      hosts:
+      - $MY_INGRESS_GATEWAY_HOST
+      gateways:
+      - bookinfo-gateway.$NAMESPACE.svc.cluster.local
+      http:
+      - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/products
+        route:
+        - destination:
+            host: productpage
+            subset: v-flooding
+            port:
+              number: 9080
+    EOF
+    {{< /text >}}
+
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    Notice the _v-flooding_ version of `productpage`
+
+    {{< image width="80%"
+        link="images/kiali-productpage-flooding.png"
+        caption="Kiali Graph Tab with productpage v-flooding"
+        >}}
+
+    Wait to see the outgoing traffic rate of `productpage` growing to about 100 times the incoming traffic rate.
+    While the application continues to operate successfully, you may want to limit the usage of the `reviews` service to
+    prevent overloading it or abusing its computing resources and its billing budget. You also do not want the excessive
+    traffic to propagate to further microservices, in this case to the `ratings` service.
 
 1.  Enable Istio rate limiting. Performs the steps below. There is no need to understand the steps, if you want to
     understand what exactly the steps configure, read the
@@ -145,8 +176,8 @@ more failures and making the application or parts of it unavailable.
               # A requestcount instance is checked against override dimensions.
               overrides:
               - dimensions:
-                  destination: ratings
-                maxAmount: 50
+                  destination: reviews
+                maxAmount: 3
                 validDuration: 1s
         ---
         apiVersion: config.istio.io/v1alpha2
@@ -173,7 +204,7 @@ more failures and making the application or parts of it unavailable.
           quotaSpecs:
           - name: request-count
           services:
-          - name: ratings
+          - name: reviews
         ---
         apiVersion: config.istio.io/v1alpha2
         kind: rule
@@ -187,6 +218,21 @@ more failures and making the application or parts of it unavailable.
         EOF
         {{< /text >}}
 
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    {{< image width="80%"
+        link="images/kiali-productpage-flooding-rate-limiting.png"
+        caption="Kiali Graph Tab with productpage v-flooding and rate limiting enabled"
+        >}}
+
+    Note that now the `reviews` service returns an error to the most of the requests. The errors are returned by the
+    sidecar of the `reviews` microservice, the traffic does not arrive to the container of `reviews`. Note that the
+    traffic from `reviews` to `ratings` is reduced comparing to the traffic from `productpage` to `reviews`. So, you
+    significantly reduced the traffic that arrives to the application container of `reviews`, and did not allow the
+    excessive traffic to proceed to `ratings`. You localized the problem to `productpage` and `reviews`, and did not let
+    to cascade to `ratings`.  
+
 1.  Clean the rate limiting configuration:
 
     {{< text bash >}}
@@ -197,48 +243,42 @@ more failures and making the application or parts of it unavailable.
     $ kubectl delete instance.config.istio.io/requestcountquota
     {{< /text >}}
 
-1.  Specify the maximum number of connections for the `ratings` service:
+1.  Reconfigure the virtual service of the Istio Ingress Gateway to use the `v1` version of `productpage`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
+    kind: VirtualService
     metadata:
-      name: ratings
+      name: bookinfo
     spec:
-      host: ratings
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-        connectionPool:
-          http:
-            http1MaxPendingRequests: 1
-            maxRequestsPerConnection: 5
-            maxRetries: 3
-          tcp:
-            maxConnections: 5
+      hosts:
+      - $MY_INGRESS_GATEWAY_HOST
+      gateways:
+      - bookinfo-gateway.$NAMESPACE.svc.cluster.local
+      http:
+      - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/products
+        route:
+        - destination:
+            host: productpage
+            subset: v1
+            port:
+              number: 9080
     EOF
     {{< /text >}}
 
-1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
-
-    Note that the traffic rate from `ratings` service (the triangle in Kiali's graph) to the `ratings v1` pod
-    (the square in Kiali's graph) is reduced and it is less than the flow shown from `reviews` to `ratings`. What
-    happens in reality is that some of the requests from the `reviews v-flooding` pod do not actually leave the pod
-    but are blocked by the sidecar proxy. The traffic to `ratings` is limited by the sidecar proxy of `reviews` and it
-    does not even arrive to `ratings`.
-
-    {{< image width="80%"
-        link="images/kiali-reviews-flooding-bulkhead.png"
-        caption="Kiali Graph Tab with reviews v-flooding and connection pool configured"
-        >}}
-
-1.  Remove the _flooding_ version of `reviews` and recreate the destination rule and the virtual services to route to
-    _reviews v2 and v3_:
+1.  Remove the _flooding_ version of `productpage` and recreate the destination rule and the virtual services to route to
+    _productpage v1_:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
-    $ kubectl delete virtualservice reviews
-    $ kubectl delete deployment reviews-flooding
+    $ kubectl delete deployment productpage-v-flooding
     {{< /text >}}
