@@ -2,6 +2,7 @@
 title: Consuming External MongoDB Services
 description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-11-16
+last_update: 2019-04-18
 subtitle: Istio Egress Control Options for MongoDB traffic
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,tcp,mongo]
