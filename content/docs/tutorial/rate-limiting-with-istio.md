@@ -66,7 +66,7 @@ more failures and making the application or parts of it unavailable.
       subsets:
       - name: v1
         labels:
-          version: v1     
+          version: v1
       - name: v-flooding
         labels:
           version: v-flooding
@@ -231,7 +231,7 @@ more failures and making the application or parts of it unavailable.
     traffic from `reviews` to `ratings` is reduced comparing to the traffic from `productpage` to `reviews`. So, you
     significantly reduced the traffic that arrives to the application container of `reviews`, and did not allow the
     excessive traffic to proceed to `ratings`. You localized the problem to `productpage` and `reviews`, and did not let
-    to cascade to `ratings`.  
+    to cascade to `ratings`.
 
 1.  Clean the rate limiting configuration:
 
@@ -276,7 +276,7 @@ more failures and making the application or parts of it unavailable.
     {{< /text >}}
 
 1.  Remove the _flooding_ version of `productpage` and recreate the destination rule and the virtual services to route to
-    _productpage v1_:
+    `productpage v1`:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
