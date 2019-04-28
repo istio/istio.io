@@ -170,6 +170,11 @@ need to create secrets for multiple hosts and update the gateway definitions.
     --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
+    {{< warning >}}
+    The secret name **should not** begin with `istio` or `prometheus`, and
+    the secret **should not** contain `token` field.
+    {{< /warning >}}
+
 1.  Define a gateway with a `servers:` section for port 443, and specify values for
     `credentialName` to be `httpbin-credential`. The values are the same as the
     secret's name. The TLS mode should have the value of `SIMPLE`.
