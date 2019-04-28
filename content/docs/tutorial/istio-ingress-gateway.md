@@ -18,7 +18,7 @@ control already at the ingress point, even before the traffic arrives to your mi
     tutorial
     {{< /text >}}
 
-1.  Create an environment variable for
+1.  Create an environment variable for the hostname of the Istio ingress gateway:
 
     {{< text bash >}}
     $ export MY_INGRESS_GATEWAY_HOST=istio.$NAMESPACE.bookinfo.com
