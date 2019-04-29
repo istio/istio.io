@@ -1,7 +1,7 @@
 ---
 title: Istio as a transparent DNS-aware Kubernetes-aware Egress Firewall
 subtitle: Secure Egress Traffic Control in Istio
-publishdate: 2019-02-04
+publishdate: 2019-04-30
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress]
 ---
