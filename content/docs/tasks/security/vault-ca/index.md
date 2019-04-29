@@ -33,15 +33,15 @@ to Node Agent, which returns the signed certificate to the Istio proxy.
         --name=istio \
         --namespace=istio-system \
         --set global.mtls.enabled=true \
-        --set global.proxy.excludeIPRanges="35.233.249.249/32" \
+        --set global.proxy.excludeIPRanges="34.83.129.211/32" \
         --values install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml \
         install/kubernetes/helm/istio >> istio-auth.yaml
     $ kubectl create -f istio-auth.yaml
     {{< /text >}}
 
 The testing Vault server used in this tutorial has the IP
-address `35.233.249.249`. The configuration
-`global.proxy.excludeIPRanges="35.233.249.249/32"` whitelists the IP address of
+address `34.83.129.211`. The configuration
+`global.proxy.excludeIPRanges="34.83.129.211/32"` whitelists the IP address of
 the testing Vault server, so that Envoy will not intercept the traffic from
 Node Agent to Vault.
 
@@ -52,11 +52,11 @@ The Vault CA related configuration is set as environmental variables:
 {{< text yaml >}}
 env:
 - name: CA_ADDR
-  value: "https://35.233.249.249:8200"
+  value: "https://34.83.129.211:8200"
 - name: CA_PROVIDER
   value: "VaultCA"
 - name: "VAULT_ADDR"
-  value: "https://35.233.249.249:8200"
+  value: "https://34.83.129.211:8200"
 - name: "VAULT_AUTH_PATH"
   value: "auth/kubernetes/login"
 - name: "VAULT_ROLE"
@@ -92,7 +92,7 @@ certificate signing requests to Vault.
 
     {{< text bash >}}
     $ export SA_SECRET_NAME=$(kubectl get serviceaccount vault-citadel-sa -o=jsonpath='{.secrets[0].name}')
-    $ kubectl patch secret ${SA_SECRET_NAME} -p='{"data":{"token": "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklpSjkuZXlKcGMzTWlPaUpyZFdKbGNtNWxkR1Z6TDNObGNuWnBZMlZoWTJOdmRXNTBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5dVlXMWxjM0JoWTJVaU9pSmtaV1poZFd4MElpd2lhM1ZpWlhKdVpYUmxjeTVwYnk5elpYSjJhV05sWVdOamIzVnVkQzl6WldOeVpYUXVibUZ0WlNJNkluWmhkV3gwTFdOcGRHRmtaV3d0YzJFdGRHOXJaVzR0Y21aeFpHb2lMQ0pyZFdKbGNtNWxkR1Z6TG1sdkwzTmxjblpwWTJWaFkyTnZkVzUwTDNObGNuWnBZMlV0WVdOamIzVnVkQzV1WVcxbElqb2lkbUYxYkhRdFkybDBZV1JsYkMxellTSXNJbXQxWW1WeWJtVjBaWE11YVc4dmMyVnlkbWxqWldGalkyOTFiblF2YzJWeWRtbGpaUzFoWTJOdmRXNTBMblZwWkNJNklqSXpPVGs1WXpZMUxUQTRaak10TVRGbE9TMWhZekF6TFRReU1ERXdZVGhoTURBM09TSXNJbk4xWWlJNkluTjVjM1JsYlRwelpYSjJhV05sWVdOamIzVnVkRHBrWldaaGRXeDBPblpoZFd4MExXTnBkR0ZrWld3dGMyRWlmUS5STkgxUWJhcEpLUG1rdFYzdENucGl6N2hvWXB2MVRNNkxYelRoT3RhRHA3TEZwZUFOWmNKMXpWUWR5czNFZG5sa3J5a0dNZXBFanNkTnVUNm5kSGZoOGpSSkFadU5XTlBHcmh4ejRCZVVhT3FaZzN2N0F6SmxNZUZLallfZmlUWVlkMmdCWlp4a3B2MUZ2QVBpaEhZbmcyTmVOMm5LYmlaYnNuWk5VMXFGZHZiZ0NJU2FGcVRmMGRoNzVPemdDWF8xRmg2SE9BN0FOZjdwNTIyUERXX0JSbG4wUlR3VUpvdkNwR2VpTkNHZHVqR2lOTERaeUJjZHRpa1k1cnlfS1hUZHJWQWNUVXZJNmx4d1JiT05OZnVOOGhySURsOTV2SmpoVWxFLU8tX2N4OHFXdFhOZHFKbE1qZTFTc2lQQ0w0dXE3ME9lcEdfSTRhU3pDMm84YUR0bFE="}}'
+    $ kubectl patch secret ${SA_SECRET_NAME} -p='{"data":{"token": "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklpSjkuZXlKcGMzTWlPaUpyZFdKbGNtNWxkR1Z6TDNObGNuWnBZMlZoWTJOdmRXNTBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5dVlXMWxjM0JoWTJVaU9pSmtaV1poZFd4MElpd2lhM1ZpWlhKdVpYUmxjeTVwYnk5elpYSjJhV05sWVdOamIzVnVkQzl6WldOeVpYUXVibUZ0WlNJNkluWmhkV3gwTFdOcGRHRmtaV3d0YzJFdGRHOXJaVzR0TnpSMGQzTWlMQ0pyZFdKbGNtNWxkR1Z6TG1sdkwzTmxjblpwWTJWaFkyTnZkVzUwTDNObGNuWnBZMlV0WVdOamIzVnVkQzV1WVcxbElqb2lkbUYxYkhRdFkybDBZV1JsYkMxellTSXNJbXQxWW1WeWJtVjBaWE11YVc4dmMyVnlkbWxqWldGalkyOTFiblF2YzJWeWRtbGpaUzFoWTJOdmRXNTBMblZwWkNJNklqSmhZekF6WW1FeUxUWTVNVFV0TVRGbE9TMDVOamt3TFRReU1ERXdZVGhoTURFeE5DSXNJbk4xWWlJNkluTjVjM1JsYlRwelpYSjJhV05sWVdOamIzVnVkRHBrWldaaGRXeDBPblpoZFd4MExXTnBkR0ZrWld3dGMyRWlmUS5wWjhTaXlOZU8wcDFwOEhCOW9YdlhPQUkxWENKWktrMndWSFhCc1RTektXeGxWRDlIckhiQWNTYk8yZGxoRnBlQ2drbnQ2ZVp5d3ZoU2haSmgyRjYtaUhQX1lvVVZvQ3FRbXpqUG9CM2MzSm9ZRnBKby05alROMV9tTlJ0WlVjTnZZbC10RGxUbUJsYUtFdm9DNVAyV0dWVUYzQW9Mc0VTNjZ1NEZHOVdsbG1MVjkyTEcxV05xeF9sdGtUMXRhaFN5OVdpSFFneXpQcXd0d0U3MlQxakFHZGdWSW9KeTFsZlNhTGFtX2JvOXJxa1JsZ1NnLWF1OUJBalppREd0bTl0ZjNsd3JjZ2ZieGNjZGxHNGpBc1RGYTJhTnMzZFc0TkxrN21GbldDSmEtaVdqLVRnRnhmOVRXLTlYUEswZzNvWUlRMElkMENJVzJTaUZ4S0dQQWpCLWc="}}'
     {{< /text >}}
 
 1.  Deploy the `httpbin` and `sleep` backends:
