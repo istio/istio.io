@@ -48,7 +48,9 @@
         {{ end }}
 
         {{ $analytics_id := .Site.Data.args.main_analytics_id }}
-        {{ if .Site.Data.args.archive }}
+        {{ if .Site.Data.args.archive_landing }}
+            <title>istio.io Archives</title>
+        {{ else if .Site.Data.args.archive }}
             {{ if eq .Title "Istio" }}
                 <title>Istioldie {{ .Site.Data.args.version }}</title>
             {{ else }}
@@ -106,7 +108,7 @@
     </head>
 
     {{ $site_mode := ""}}
-    {{ if .Site.Data.args.archive }}
+    {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
         {{ $site_mode = "archive-site" }}
     {{ else if .Site.Data.args.preliminary }}
         {{ $site_mode = "preliminary-site" }}
