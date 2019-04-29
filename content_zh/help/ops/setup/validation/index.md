@@ -1,22 +1,22 @@
 ---
 title: 配置验证 Webhook
-description: 描述 Istio 使用 Kubernetes webhook 进行服务器端配置验证。
+description: Istio 使用 Kubernetes webhook 进行服务器端配置验证的方式。
 weight: 20
 ---
 
-Galley 配置验证确保用户授权的 Istio 配置在语法和语义上都是有效的。Galley 使用 Kubernetes `ValidatingWebhook`。 `istio-galley` `ValidationWebhookConfiguration` 有两个 webhook。
+Galley 的配置验证功能可以对用户编写的 Istio 配置进行验证，确保配置内容在语法和语义上的有效性。Galley 使用了 Kubernetes `ValidatingWebhook`。 `istio-galley` 的 `ValidationWebhookConfiguration` 包含两个 Webhook。
 
-* `pilot.validation.istio.io` - 服务地址路径为  `/admitpilot`，负责验证 Pilot 使用的配置（例如 `VirtualService` 、Authentication）。
+* `pilot.validation.istio.io` - 服务地址路径为  `/admitpilot`，负责验证 Pilot 使用的配置（例如 `VirtualService` 和鉴权相关配置）。
 
 * `mixer.validation.istio.io` - 服务地址路径为 `/admitmixer`，负责验证 Mixer 使用的配置。
 
-两个 webhook 都是在 `istio-galley` 服务的 443 端口上提供服务。每个 webhook 都有自己的 `clientConfig` 、 `namespaceSelector` 和  `rules` 部分。 这两个 `webhook` 都适用于所有的命名空间。 `namespaceSelector` 应该设置为空。两个规则都适用于 Istio CRD。
+两个 Webhook 都在 `istio-galley` 服务的 443 端口上提供服务。每个 webhook 都有自己的 `clientConfig` 、 `namespaceSelector` 和  `rules` 部分。 这两个 Webhook 都适用于所有的命名空间。`namespaceSelector` 应该设置为空。两个规则都适用于 Istio CRD。
 
-## 看似正确的配置被拒绝
+## 拒绝了看似正确的配置
 
 手动验证配置是否正确，必要时参考 [Istio API reference](/zh/docs/reference/config)。
 
-## 无效的配置被接受
+## 接受了无效的配置
 
 验证 `istio-galley` `validationwebhookconfiguration` 配置存在并正确。 `apiVersion` 、`apiGroup` 和  `resource` 无效配置的资源应会在两个 `webhooks`  之一的条目中被列出。
 
@@ -145,7 +145,7 @@ webhooks:
     - tracespans
 {{< /text >}}
 
-如 `validatingwebhookconfiguration` 不存在，则需要验证 `istio-galley-configuration` `configmap` 是否存在。`istio-galley` 使用此 configmap 中的数据来创建和更新 `validatingwebhookconfiguration`。
+如 `validatingwebhookconfiguration` 不存在，则需要验证 `istio-galley-configuration` `configmap` 是否存在。`istio-galley` 使用此 Configmap 中的数据来创建和更新 `validatingwebhookconfiguration`。
 
 {{< text bash yaml >}}
 $ kubectl -n istio-system get configmap istio-galley-configuration -o jsonpath='{.data}'
@@ -172,13 +172,13 @@ webhooks:
       (... snip ...)
 {{< /text >}}
 
-如果 `istio-galley-configuration` 中的 webhook 数组为空，且是使用的是 `helm template` 或 `helm install` 的方式，请验证 `--set galley.enabled` 和 `--set global.configValidation=true` 选项是否已经设置。如果并使用 helm 的方式，则需要找到生成的 YAML，其中包含填充的 webhook 数组。
+如果 `istio-galley-configuration` 中的 Webhook 数组为空，且是使用的是 `helm template` 或 `helm install` 的方式，请验证 `--set galley.enabled` 和 `--set global.configValidation=true` 选项是否已经设置。如果没有使用 Helm，就需要找到生成的 YAML，其中包含填充的 Webhook 数组。
 
-`istio-galley` 验证配置是失效关闭（fail-close）的。如果配置存在且范围正确，则 webhook 将被调用。在资源创建/更新时，如缺少 `caBundle`，错误证书或网络连接问题则会导致错误产生。如果 webhook 配置正确且没有发现任何错误提示，但是 webhook 未被调用，则表明群集配置存在错误。
+`istio-galley` 验证配置是失效关闭（fail-close）的。如果配置存在且范围正确，则 Webhook 将被调用。在资源创建/更新时，如缺少 `caBundle`，错误证书或网络连接问题则会导致错误产生。如果 Webhook 配置正确且没有发现任何错误提示，但是 Webhook 未被调用，则表明群集配置存在错误。
 
 ## 创建配置失败并提示 x509 证书错误
 
-`x509: certificate signed by unknown authority` 相关的错误通常由 webhook 配置中 `caBundle` 为空引起。验证它是否为空（请参阅[验证 webhook 配置](#无效的配置被接受))。`istio-galley` 部署可动态使用保存在 `istio-galley-configuration` `configmap` 中的 webhook 配置和根证书会从 `istio-system` 命名空间中保存的  `istio.istio-galley-service-account` 密钥中加载。
+`x509: certificate signed by unknown authority` 相关的错误通常因为 Webhook 配置中设置了空的 `caBundle`。验证它是否为空（请参阅[验证 Webhook 配置](#接受了无效的配置)）。`istio-galley` 部署可动态使用保存在 `istio-galley-configuration` `configmap` 中的 Webhook 配置，并且从 `istio-system` 命名空间中保存的  `istio.istio-galley-service-account` 密钥中加载根证书。
 
 1. 验证 `istio-galley` pod 正在运行：
 
@@ -188,7 +188,7 @@ webhooks:
     istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
     {{< /text >}}
 
-1. 确认使用的是 Istio 版本 >= 1.0.0。旧版本的 Galley 不能正确地 re-patch `caBundle。`这种情况通常发生在重新部署 `istio.yaml` 时，需要覆盖之前 patch 过的 `caBundle`。
+1. 确认使用的是 Istio 版本 >= 1.0.0。旧版本的 Galley 不能正确地 re-patch `caBundle`。这种情况通常发生在重新部署 `istio.yaml` 时，需要覆盖之前 patch 过的 `caBundle`。
 
     {{< text bash >}}
     $ for pod in $(kubectl -n istio-system get pod -listio=galley -o jsonpath='{.items[*].metadata.name}'); do \
@@ -205,7 +205,7 @@ webhooks:
     done
     {{< /text >}}
 
-1. 如果 patch 失败，则需验证 Galley 的 RBAC 配置：
+1. 如果 Patch 失败，则需验证 Galley 的 RBAC 配置：
 
     {{< text bash yaml >}}
     $ kubectl get clusterrole istio-galley-istio-system -o yaml
@@ -240,13 +240,13 @@ webhooks:
       - get
     {{< /text >}}
 
-    `istio-galley` 需对于 `validatingwebhookconfigurations` 写访问权以创建和更新 `istio-galley` `validatingwebhook`  配置。
+    `istio-galley` 需要有写入 `validatingwebhookconfigurations` 的权限，以创建和更新 `istio-galley` `validatingwebhook`  配置。
 
 ## 创建配置失败，提示 `no such hosts` 或 `no endpoints available` 错误
 
-验证是失败关闭的（fail-close）。如果 `istio-galley` pod 没有准备好，则无法创建和更新相关配置。这种情况下，会提示如下错误： `no such host` （Kubernetes 1.9） 或 `no endpoints available` （>=1.10）的错误。
+验证是失败关闭的（fail-close）。如果 `istio-galley` pod 没有准备好，则无法创建和更新相关配置。这种情况下，会提示如下错误： `no such host`（Kubernetes 1.9）或 `no endpoints available`（>=1.10）的错误。
 
-验证 `istio-galley` pod 正在运行且 endpoint 已准备就绪。
+验证 `istio-galley` pod 正在运行且 Endpoint 已准备就绪。
 
 {{< text bash >}}
 $  kubectl -n istio-system get pod -listio=galley
@@ -260,7 +260,7 @@ NAME           ENDPOINTS                          AGE
 istio-galley   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
-如果 pod 或 endpoint 尚未就绪，请检查 pod 日志和状态，以获取有关 webhook pod 无法启动和提供流量的原因。
+如果 Pod 或 Endpoint 尚未就绪，请检查 Pod 日志和状态，以获取有关 Webhook pod 无法启动和提供流量的原因。
 
 {{< text bash >}}
 $ for pod in $(kubectl -n istio-system get pod -listio=galley -o jsonpath='{.items[*].metadata.name}'); do \
