@@ -13,6 +13,12 @@ prepared for that scenario), you want to reduce the damage as much as possible a
 cluster for further attacks on external services and legacy systems outside of the cluster. For that you need egress
 traffic control.
 
+Also note that you might need to control the egress traffic for compliance reasons. For example, the [Payment Card
+Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/) requires that both inbound
+and outbound traffic must be restricted to that which is necessary:
+
+> _1.2.1 Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic._
+
 In this post I present attacks that involve egress traffic, present requirements for egress traffic control,
 describe the Istio way for controlling egress traffic securely, and compare it with alternative solutions such as
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
