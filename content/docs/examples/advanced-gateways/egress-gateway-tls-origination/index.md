@@ -6,7 +6,7 @@ keywords: [traffic-management,egress]
 ---
 
 The [TLS Origination for Egress Traffic](/docs/examples/advanced-gateways/egress-tls-origination) example
-shows how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination) for traffic to an external service.
+shows how to configure Istio to perform [TLS origination](/docs/reference/glossary/#tls-origination) for traffic to an external service.
 The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway) example shows how to configure
 Istio to direct egress traffic through a dedicated _egress gateway_ service.
 This example combines the previous two by describing how to configure an egress gateway to perform

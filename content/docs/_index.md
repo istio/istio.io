@@ -9,7 +9,7 @@ icon: docs
 
 In addition, you might find these links interesting:
 
-- Check out our [Help](/help) section, which includes our [Operations Guide](/help/ops), our [FAQ](/help/faq), and our [glossary](/help/glossary).
+- Check out our [Help](/help) section, which includes our [Operations Guide](/help/ops), our [FAQ](/help/faq), and our [glossary](/docs/reference/glossary).
 
 - See our [release notes](/about/notes) for info on individual Istio releases.
 
