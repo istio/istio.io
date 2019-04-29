@@ -72,7 +72,7 @@ function handleCodeBlocks() {
 
                 const text = getToolbarDivText(div);
                 let downloadas = code.dataset.downloadas;
-                if (downloadas === undefined || downloadas === null || downloadas === "") {
+                if (!downloadas || downloadas === "") {
                     let lang = "";
                     for (const cl of code.classList) {
                         if (!cl) {

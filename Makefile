@@ -28,4 +28,7 @@ serve: build
 	@docker run -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site -p 1313:1313 $(img) hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 
 netlify:
-	@scripts/gen_site.sh "$(baseurl)" -minify -aliases
+	@scripts/gen_site.sh "$(baseurl)" -minify
+
+netlify_archive:
+	@scripts/gen_archive_site.sh "$(baseurl)" -minify
