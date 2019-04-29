@@ -20,3 +20,8 @@ for example `kubectl get pods --context cluster1`.
     $ echo CTX_CLUSTER1 = ${CTX_CLUSTER1}, CTX_CLUSTER2 = ${CTX_CLUSTER2}
     CTX_CLUSTER1 = cluster1, CTX_CLUSTER2 = cluster2
     {{< /text >}}
+
+{{< tip >}}
+If you have more than two clusters in the context list and you want to configure your mesh using clusters other than the
+first two, you will need to manually set the environment variables to the appropriate context names
+{{< /tip >}}
