@@ -2,7 +2,7 @@
 title: Monitoring and Access Policies for HTTP Egress Traffic
 description: Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.
 publishdate: 2018-06-22
-last_update: 2019-01-29
+last_update: 2019-03-04
 attribution: Vadim Eisenberg and Ronen Schaffer (IBM)
 keywords: [egress,traffic-management,access-control,monitoring]
 ---
