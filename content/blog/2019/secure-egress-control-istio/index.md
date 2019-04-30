@@ -14,7 +14,7 @@ cluster for further attacks on external services and legacy systems outside of t
 traffic control.
 
 Compliance reasons might require you to control the egress traffic too. For example, the [Payment Card
-Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/) requires that both inbound
+Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/) requires that inbound
 and outbound traffic must be restricted to that which is necessary:
 
 > _1.2.1 Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic._
