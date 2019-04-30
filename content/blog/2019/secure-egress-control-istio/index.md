@@ -52,9 +52,9 @@ traffic control in the following section.
 
 ## The solution: egress traffic control
 
-To prevent attacks involving egress traffic, you must
- monitor all the egress traffic and enforce all security policies. To detect attacks, you want to monitor every access to external
-services to be able to detect the attacks, possibly offline, even if you were unable to prevent them in real time.
+To prevent attacks involving egress traffic, you must monitor all the egress traffic and enforce all security policies.
+Once you monitor the egress traffic, you can  analyze it, possibly offline, and detect the attacks, even if
+you were unable to prevent them in real time.
 Another good practice to avoid attacks is to specify policies that limit access following the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
 need external services should be allowed to access the external services they need.
