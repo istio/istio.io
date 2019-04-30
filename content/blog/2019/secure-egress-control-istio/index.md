@@ -9,7 +9,7 @@ keywords: [traffic-management,egress]
 In this blog post I describe how Istio can be used for secure egress traffic control. While the most important security
 aspect for a service mesh is ingress traffic to prevent attackers from penetrating the cluster though ingress APIs,
 securing the traffic leaving the mesh is also very important. Once your cluster is compromised, and you must be
-prepared for that scenario), you want to reduce the damage as much as possible and prevent the attackers from using the
+prepared for that scenario, you want to reduce the damage as much as possible and prevent the attackers from using the
 cluster for further attacks on external services and legacy systems outside of the cluster. For that you need egress
 traffic control.
 
