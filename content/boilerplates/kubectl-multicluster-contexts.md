@@ -1,7 +1,7 @@
 ---
 ---
 *   You can use the `kubectl` command to access both the `cluster1` and `cluster2` clusters with the `--context` flag,
-for example `kubectl get pods --context cluster1`.
+    for example `kubectl get pods --context cluster1`.
     Use the following command to list your contexts:
 
     {{< text bash >}}
