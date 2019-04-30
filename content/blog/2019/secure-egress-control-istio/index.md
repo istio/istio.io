@@ -19,10 +19,15 @@ and outbound traffic must be restricted to that which is necessary:
 
 > _1.2.1 Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic._
 
-In this post I present attacks that involve egress traffic, present requirements for egress traffic control,
-describe the Istio way for controlling egress traffic securely, and compare it with alternative solutions such as
+In this post, I explore the following aspects of securing egress traffic by Istio:
+
+1. describe attacks that involve egress traffic
+1. present requirements for egress traffic control
+1. describe the Istio way for controlling egress traffic securely
+1. compare it with alternative solutions such as
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
-egress proxies/firewalls.
+egress proxies/firewalls
+1. address performance overhead involved
 
 Let's start with attacks that involve egress traffic.
 
