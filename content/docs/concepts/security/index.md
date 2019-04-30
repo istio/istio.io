@@ -8,6 +8,7 @@ aliases:
     - /docs/concepts/security/authn-policy/
     - /docs/concepts/security/mutual-tls/
     - /docs/concepts/security/rbac/
+    - /docs/concepts/security/mutual-tls.html
 ---
 
 Breaking down a monolithic application into atomic services offers various benefits, including better agility, better scalability
