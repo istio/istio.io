@@ -21,6 +21,6 @@ for example `kubectl get pods --context cluster1`.
     {{< /text >}}
 
     {{< tip >}}
-    If you have more than two clusters in the context list and you want to configure your mesh using clusters other than the
-    first two, you will need to manually set the environment variables to the appropriate context names
+    If you have more than two clusters in the context list and you want to configure your mesh using clusters other than
+    the first two, you will need to manually set the environment variables to the appropriate context names.
     {{< /tip >}}
