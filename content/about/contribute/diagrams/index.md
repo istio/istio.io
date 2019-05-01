@@ -5,12 +5,14 @@ weight: 40
 keywords: [contribute,diagram,documentation,guide]
 ---
 
-Welcome to the Istio diagram guidelines!
+Welcome to the Istio diagram guide!
 
-The guidelines are in an SVG file to allow you to reuse the shapes and styles
-with ease. Use these guidelines to create SVG diagrams for the Istio website
-using any vector graphics tool, for example InkScape or Illustrator. Please
-ensure that the text in your diagrams remains editable.
+The guide is available as an [SVG file](./diagram-guidelines.svg) or as a
+[Google Draw file](https://docs.google.com/drawings/d/1f3NyutAQIDOA8ojGNyMA5JAJllDShZGQAFfdD01XdSc/edit)
+to allow you to reuse the shapes and styles with ease. Use these guidelines to
+create SVG diagrams for the Istio website using any vector graphics tool like
+Google Draw, InkScape, or Illustrator. Please ensure that the text in your
+diagrams remains editable.
 
 Our goal is to drive consistency across all diagrams in our website to ensure
 diagrams are clear, technically accurate, and accessible.
