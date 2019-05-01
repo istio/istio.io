@@ -21,10 +21,13 @@ gen: build
 opt:
 	@$(docker) scripts/opt_site.sh
 
-clean:
-	@rm -fr public resources .htmlproofer tmp
+clean_public:
+	@rm -fr public
 
-lint: clean build gen
+clean: clean_public
+	@rm -fr resources .htmlproofer tmp
+
+lint: clean_public build gen
 	@$(docker) scripts/lint_site.sh
 
 serve: build
