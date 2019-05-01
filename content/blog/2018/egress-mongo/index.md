@@ -387,6 +387,14 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
       name: egressgateway-for-mongo
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
       - name: mongo
         trafficPolicy:
@@ -598,6 +606,14 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
       name: egressgateway-for-mongo
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
       - name: mongo
         trafficPolicy:
@@ -945,6 +961,14 @@ to hold the configuration of the Nginx SNI proxy:
       name: mtls-for-egress-gateway
     spec:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
         - name: mongo
           trafficPolicy:

@@ -453,6 +453,14 @@ The SNI proxy will forward the traffic to port `443`.
       name: egressgateway-for-wikipedia
     spec:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
         - name: wikipedia
           trafficPolicy:

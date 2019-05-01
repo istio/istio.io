@@ -140,6 +140,14 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
       name: egressgateway-for-cnn
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 80
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
       - name: cnn
         trafficPolicy:
