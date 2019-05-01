@@ -102,27 +102,29 @@ check_content() {
 check_content content --en-us
 check_content content_zh --en-us
 
-grep -nr -e "“" ./content
-if [[ "$?" == "0" ]]
-then
-    echo "Ensure markdown content only uses standard quotation marks and not “"
-    FAILED=1
-fi
+for f in `find ./content -type f \( -name '*.html' -o -name '*.md' \)`
+do
+    grep -H -n -e "“" ${f}
+    if [[ "$?" == "0" ]]
+    then
+        echo "Ensure content only uses standard quotation marks and not “"
+        FAILED=1
+    fi
+done
 
 for f in `find ./public -type f -name '*.html'`
 do
-    grep -l -e "blockquote" $f
+    grep -H -n -i -e "blockquote" ${f}
     if [[ "$?" == "0" ]]
     then
-        echo "Ensure markdown content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
+        echo "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
         FAILED=1
     fi
 
-    grep -e "\"https://github.*#L[0-9]*\"" $f
+    grep -H -n -e "\"https://github.*#L[0-9]*\"" ${f}
     if [[ "$?" == "0" ]]
     then
-        echo $f
-        echo "Ensure markdown doesn't use links to specific lines in GitHub files as those are too brittle"
+        echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
         FAILED=1
     fi
 done
