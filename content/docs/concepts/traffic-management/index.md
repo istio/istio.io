@@ -477,7 +477,7 @@ spec:
 
 #### Timeouts and retries
 
-By default, the timeout for HTTP requests is 15 seconds,
+By default, the timeout for HTTP requests is disabled,
 but it can be overridden in a route rule as follows:
 
 {{< text yaml >}}
