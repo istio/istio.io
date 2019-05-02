@@ -26,11 +26,11 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
     Server Version: v1.10.4-gke.0
     {{< /text >}}
 
-1. `admissionregistration.kubernetes.io/v1beta1` 应是启用状态
+1. `admissionregistration.k8s.io/v1beta1` 应是启用状态
 
     {{< text bash >}}
-    $ kubectl api-versions |grep admissionregistration.Kubernetes.io/v1beta1
-    admissionregistration.Kubernetes.io/v1beta1
+    $ kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
+    admissionregistration.k8s.io/v1beta1
     {{< /text >}}
 
 1. 验证 `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook` 在`kube-apiserver --enable-admission-plugins` 配置中是否被启用。通过[特定提供者](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)提供的步骤来检查此标志。
