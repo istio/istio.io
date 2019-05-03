@@ -40,11 +40,11 @@ webhooks and dependent features are not functioning properly.
     Server Version: v1.10.4-gke.0
     {{< /text >}}
 
-1. `admissionregistration.kubernetes.io/v1beta1` should be enabled
+1. `admissionregistration.k8s.io/v1beta1` should be enabled
 
     {{< text bash >}}
-    $ kubectl api-versions |grep admissionregistration.Kubernetes.io/v1beta1
-    admissionregistration.Kubernetes.io/v1beta1
+    $ kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
+    admissionregistration.k8s.io/v1beta1
     {{< /text >}}
 
 1. Verify `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` plugins are
