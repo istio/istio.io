@@ -1,7 +1,7 @@
 ---
 title: Creating and Editing Pages
 description: Explains the mechanics of creating and maintaining documentation pages.
-weight: 30
+weight: 10
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
     - /docs/reference/contribute/writing-a-new-topic.html
