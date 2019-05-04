@@ -105,6 +105,9 @@
         <!-- style sheets -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic">
         <link rel="stylesheet" href="/css/all.css">
+
+        <!-- set the color theme -->
+        <script src="/js/themes_init.min.js"></script>
     </head>
 
     {{ $site_mode := ""}}
@@ -115,9 +118,6 @@
     {{ end }}
 
     <body class="language-unknown {{ $site_mode}}">
-        <!-- set the color theme as soon as possible -->
-        <script src="/js/themes_init.min.js"></script>
-
         <!-- inject some build-time constants into JavaScript-land -->
         <script>
             const branchName = "{{ .Site.Data.args.source_branch_name }}";
