@@ -253,6 +253,7 @@ function handleCodeBlocks() {
                     cmd += "$ " + Prism.highlight(tmp, Prism.languages.bash, "bash") + "\n";
                 } else {
                     cmd += "$ " + tmp + "\n";
+                    cmd = cmd.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 }
             }
 
