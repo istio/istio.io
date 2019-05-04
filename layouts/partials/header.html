@@ -99,14 +99,14 @@
                     {{ $current := .Site.Data.versions.main }}
 
                     {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else if .Site.Data.args.preliminary }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ end }}
                 </div>
