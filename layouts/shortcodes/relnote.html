@@ -17,7 +17,7 @@
 {{/* establish latest corresponding patch release */}}
 {{ $latest_patch := 0 }}
 {{ range $page := .Site.RegularPages }}
-    {{ if hasPrefix $page.Dir "about/notes" }}
+    {{ if hasPrefix $page.File.Dir "about/notes" }}
         {{ $release := $page.Params.release }}
         {{ if $release }}
             {{ $parts := split $release "." }}

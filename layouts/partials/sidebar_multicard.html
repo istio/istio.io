@@ -25,7 +25,7 @@
         {{ end }}
 
         {{ if not .Site.Data.args.archive }}
-            {{ if strings.HasSuffix $section.Dir "blog/" }}
+            {{ if strings.HasSuffix $section.File.Dir "blog/" }}
                 <div id="subscribe" >
                     <a href="/feed.xml" target="_blank">
                         {{ partial "large_icon.html" "rss" }}{{ i18n "subscribe" }}
