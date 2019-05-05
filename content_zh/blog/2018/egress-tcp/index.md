@@ -165,7 +165,7 @@ keywords: [traffic-management,egress,tcp]
 
 1. 将发往 `reviews` 服务的所有流量路由到 `v3` 版本，这样做是为了确保 `reviews` 服务始终调用 `ratings` 服务，此外，将发往 `ratings` 服务的所有流量路由到使用外部数据库的 `ratings:v2-mysql`。
 
-    添加两个 [`VirtualService`](/docs/reference/config/istio.networking.v1alpha3/#VirtualService)，为上述两个服务指定路由。这些代码保存在 Istio 发行包的 `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` 中。
+    添加两个 [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/)，为上述两个服务指定路由。这些代码保存在 Istio 发行包的 `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` 中。
 
     **注意**：确保你在完成了[添加默认目标路由](/zh/docs/examples/bookinfo/#应用缺省目标规则)的步骤之后才执行下面的命令。
 
