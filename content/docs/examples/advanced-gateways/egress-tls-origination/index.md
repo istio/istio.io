@@ -9,7 +9,7 @@ The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demons
 service mesh, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that task,
 a [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) is used to configure Istio
 to access external services in a controlled way.
-This example shows how to configure Istio to perform [TLS origination](/help/glossary/#tls-origination)
+This example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
 for traffic to an external service. Istio will open HTTPS connections to the external service while the original
 traffic is HTTP.
 
