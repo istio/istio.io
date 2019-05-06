@@ -5,7 +5,7 @@ weight: 40
 keywords: [traffic-management,egress]
 ---
 
-[Egress 流量 TLS 示例](/zh/docs/examples/advanced-gateways/egress-tls-origination)中展示了如何配置 Istio 来[发起 TLS](/zh/help/glossary/)，用于和外部进行通信。[配置 Egress 网关](/zh/docs/examples/advanced-gateways/egress-gateway)示例中展示了如何使用独立的 **egress 网关服务**来对 Egress 流量进行转发。这个例子中结合了前面的两个，描述了如何配置 Egress 网关，来发起对外的 TLS 访问。
+[Egress 流量 TLS 示例](/zh/docs/examples/advanced-gateways/egress-tls-origination)中展示了如何配置 Istio 来[发起 TLS](/zh/docs/reference/glossary/)，用于和外部进行通信。[配置 Egress 网关](/zh/docs/examples/advanced-gateways/egress-gateway)示例中展示了如何使用独立的 **egress 网关服务**来对 Egress 流量进行转发。这个例子中结合了前面的两个，描述了如何配置 Egress 网关，来发起对外的 TLS 访问。
 
 ## 开始之前 {#before-you-begin}
 
