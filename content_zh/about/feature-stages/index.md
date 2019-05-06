@@ -78,7 +78,7 @@ icon: feature-status
 | [Kubernetes：Istio 控制平面升级](/zh/docs/setup/kubernetes/) | Beta
 | [Consul 集成](/zh/docs/setup/consul/quick-start/) | Alpha
 | 基本配置资源校验  | Alpha
-| [Mixer 遥测收集（追踪、日志记录、监控）](/help/faq/mixer/#mixer-self-monitoring) | Alpha
+| [Mixer 遥测收集（追踪、日志记录、监控）](/faq/mixer/#mixer-self-monitoring) | Alpha
 | [自定义 Mixer 构建模型](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | Alpha
 | [进程外 Mixer 适配器（ gRPC Adapters ）](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Alpha
 

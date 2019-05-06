@@ -6,5 +6,5 @@ weight: 45
 layout: faq
 icon: faq
 aliases:
- - /zh/help/faq/telemetry
+ - /zh/faq/telemetry
 ---
