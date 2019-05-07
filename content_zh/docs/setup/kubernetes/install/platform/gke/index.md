@@ -1,21 +1,19 @@
 ---
-title: 使用 Google Kubernetes Engine 快速开始
+title: 在 Google Kubernetes Engine 上安装 Istio
 linktitle: Google Kubernetes Engine
 description: 在 Google Kubernetes Engine (GKE) 上快速搭建 Istio 服务。
 weight: 65
 keywords: [kubernetes,gke,google]
 ---
 
-这是一个快速开始的操作指南，用于在 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)（GKE）上使用 [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview) 安装并运行 Istio。
+根据本文所述流程，在 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)（GKE）上使用 [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview) 安装和配置 Istio 服务网格。
 
 ## 先决条件
 
-- 该用例需要一个启用了支付功能的有效的 Google Cloud Platform 项目。如果读者现在还不是 GCP 用户，可以现在加入，能够获得 [300 美元](https://cloud.google.com/free/) 的的充值点数用于试用。
+- 该用例需要一个启用了支付功能的有效的 Google Cloud Platform 项目。如果读者现在还不是 GCP 用户，可以现在加入，能够获得 [300 美元](https://cloud.google.com/free/) 的充值点数用于试用。
 - 确认试用项目已经启用了 [Google Kubernetes Engine API](https://console.cloud.google.com/apis/library/container.googleapis.com/)（在导航菜单中查找 “API 和服务” -> “信息中心”）。如果没有看到这一 API，则需要首先进行启用。
 - 必须安装和配置 [`gcloud` 命令行工具](https://cloud.google.com/sdk/docs/)，并确保其中包含 `kubectl` 组件（`gcloud components install kubectl`）。如果不想安装 `gcloud` 客户端，还可以使用 [Google Cloud Shell](https://cloud.google.com/shell/docs/) 来完成这一任务。
-- {{< warning >}}
-  必须为缺省的 Service Account 设置以下权限：
-  {{< /warning >}}
+- {{< warning_icon >}} 必须为缺省的 Service Account 设置以下权限：
     - `roles/container.admin`（Kubernetes Engine 管理）
     - `Editor`（缺省打开）
 
@@ -35,8 +33,8 @@ keywords: [kubernetes,gke,google]
 
 集群就绪后，获取该集群的凭据：
 
-    {{< text bash >}}
-    $ gcloud container clusters get-credentials <your_cluster> --zone=<your_zone>
-    {{< /text >}}
+{{< text bash >}}
+$ gcloud container clusters get-credentials <your_cluster> --zone=<your_zone>
+{{< /text >}}
 
 接下来就可以尝试 Istio 的示例了，例如 [Bookinfo](/zh/docs/examples/bookinfo/)。
