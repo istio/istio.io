@@ -1,12 +1,13 @@
 ---
 title: FAQ
 description: Frequently Asked Questions about Istio.
-weight: 20
+weight: 1
 layout: faq-landing
 aliases:
   - /faq
   - /docs/welcome/faq.html
   - /docs/reference/faq.html
+  - /help/faq/
 icon: faq
 ---
 

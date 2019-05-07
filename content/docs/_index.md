@@ -9,7 +9,7 @@ icon: docs
 
 In addition to the documentation, we provide the following resources:
 
-- [FAQ](/help/faq) section
+- [FAQ](/faq) section
 - [Glossary](/docs/reference/glossary).
 - [Release notes](/about/notes) for info on individual Istio releases.
 
