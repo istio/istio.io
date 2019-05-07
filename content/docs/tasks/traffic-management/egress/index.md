@@ -146,11 +146,7 @@ any other unintentional accesses.
 
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
 
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
-    command terminated with exit code 35
-    command terminated with exit code 35
-    {{< /text >}}
+    {{< text_import file="/docs/tasks/traffic-management/egress/egress-sample.txt" syntax="bash" snippet="SNIP1" >}}
 
     {{< warning >}}
     It may take a while for the configuration change to propagate, so you might still get successful connections.
@@ -161,23 +157,7 @@ any other unintentional accesses.
 
 1.  Create a `ServiceEntry` to allow access to an external HTTP service:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: httpbin-ext
-    spec:
-      hosts:
-      - httpbin.org
-      ports:
-      - number: 80
-        name: http
-        protocol: HTTP
-      resolution: DNS
-      location: MESH_EXTERNAL
-    EOF
-    {{< /text >}}
+    {{< text_import file="/docs/tasks/traffic-management/egress/egress-sample.txt" syntax="bash" snippet="SNIP2" >}}
 
 1.  Make a request to the external HTTP service from `SOURCE_POD`:
 

@@ -82,7 +82,7 @@ To confirm there is a conflict, check whether the `STATUS` field in the output o
 is set to `CONFLICT` for your service. For example:
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ istioctl authn tls-check istio-ingressgateway-6b454db869-5zn2j.istio-system httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
 {{< /text >}}
