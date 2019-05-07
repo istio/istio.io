@@ -248,7 +248,7 @@ For a client to call a server with mutual TLS authentication:
 #### Permissive mode
 
 Istio mutual TLS has a permissive mode, which allows a service to accept
-both plain text traffic and mutual TLS traffic at the same time. This
+both plaintext traffic and mutual TLS traffic at the same time. This
 feature greatly improves the mutual TLS onboarding experience.
 
 Many non-Istio clients communicating with a non-Istio server presents a
@@ -259,10 +259,10 @@ do so on some clients. Even after installing the Istio sidecar on the
 server, the operator cannot enable mutual TLS without breaking existing
 communications.
 
-With the permissive mode enabled, the server accepts both plain text and
+With the permissive mode enabled, the server accepts both plaintext and
 mutual TLS traffic. The mode provides great flexibility for the
 on-boarding process. The server's installed Istio sidecar takes mutual TLS
-traffic immediately without breaking existing plain text traffic. As a
+traffic immediately without breaking existing plaintext traffic. As a
 result, the operator can gradually install and configure the client's
 Istio sidecars to send mutual TLS traffic. Once the configuration of the
 clients is complete, the operator can configure the server to mutual TLS
@@ -508,7 +508,7 @@ recommendations to avoid disruption when updating your authentication policies:
 
 - To enable or disable mutual TLS: Use a temporary policy with a `mode:` key
   and a `PERMISSIVE` value. This configures receiving services to accept both
-  types of traffic: plain text and TLS. Thus, no request is dropped. Once all
+  types of traffic: plaintext and TLS. Thus, no request is dropped. Once all
   clients switch to the expected protocol, with or without mutual TLS, you can
   replace the `PERMISSIVE` policy with the final policy. For more information,
   visit the [Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
