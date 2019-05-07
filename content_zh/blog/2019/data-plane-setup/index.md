@@ -309,7 +309,7 @@ spec:
 - 缺省策略（在 ConfigMap `istio-sidecar-injector` 中定义）
 - Pod 注解（`sidecar.istio.io/inject`）
 
-[注入状态表](/zh/help/ops/setup/injection/)中，根据上面三个因素的不同，可以看到有不同的注入结果。
+[注入状态表](/zh/docs/ops/setup/injection/)中，根据上面三个因素的不同，可以看到有不同的注入结果。
 
 ## 从应用容器到 Sidecar 代理的通信
 

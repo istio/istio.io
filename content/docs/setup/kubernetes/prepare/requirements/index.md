@@ -61,7 +61,7 @@ cluster must satisfy the following requirements:
 - **`NET_ADMIN` capability**: If your cluster enforces pod security policies,
   pods must allow the `NET_ADMIN` capability. If you use the [Istio CNI Plugin](/docs/setup/kubernetes/additional-setup/cni/),
   this requirement no longer applies. To learn more about the `NET_ADMIN`
-  capability, visit [Required Pod Capabilities](/help/ops/setup/required-pod-capabilities/).
+  capability, visit [Required Pod Capabilities](/docs/ops/setup/required-pod-capabilities/).
 
 ## Ports used by Istio
 

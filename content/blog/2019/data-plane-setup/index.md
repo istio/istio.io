@@ -306,7 +306,7 @@ This example shows there are many variables, based on whether the automatic side
 - default policy (Configured in the ConfigMap `istio-sidecar-injector`)
 - per-pod override annotation (`sidecar.istio.io/inject`)
 
-The [injection status table](../../../help/ops/setup/injection/) shows a clear picture of the final injection status based on the value of the above variables.
+The [injection status table](/docs/ops/setup/injection/) shows a clear picture of the final injection status based on the value of the above variables.
 
 ## Traffic flow from application container to sidecar proxy
 
