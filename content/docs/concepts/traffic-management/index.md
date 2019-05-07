@@ -207,7 +207,7 @@ The geographic location typically represents a data center. Istio uses
 this information to prioritize load balancing pools to control
 the geographic location where requests are proxied.
 
-For more information and instructions on how to enable this feature see the [operations guide](/help/ops/traffic-management/locality-load-balancing/).
+For more information and instructions on how to enable this feature see the [operations guide](/docs/ops/traffic-management/locality-load-balancing/).
 
 ## Handling failures
 
