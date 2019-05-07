@@ -620,8 +620,8 @@ there are no services or ServiceEntries for the destination port</p>
 <p>MeshNetworks (config map) provides information about the set of networks
 inside a mesh and how to route to endpoints in each network. For example</p>
 
-<p>MeshNetworks(file/config map):
-networks:
+<p>MeshNetworks(file/config map):</p>
+<pre><code class="language-yaml">networks:
   network1:
   - endpoints:
     - fromRegistry: registry1 #must match secret name in Kubernetes
@@ -632,8 +632,8 @@ networks:
       locality: us-east-1a
     - address: 192.168.100.1
       port: 15443
-      locality: us-east-1a</p>
-
+      locality: us-east-1a
+</code></pre>
 <table class="message-fields">
 <thead>
 <tr>
