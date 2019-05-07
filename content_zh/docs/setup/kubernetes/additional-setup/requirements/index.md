@@ -17,4 +17,4 @@ keywords: [kubernetes,sidecar,sidecar-injection]
 
 * **Application UID**：**不要**使用 ID（UID）值为 **1337** 的用户来运行应用。
 
-* **`NET_ADMIN` 功能**: 如果您的群集中实施了 Pod 安全策略，除非您使用 [Istio CNI 插件](/docs/setup/kubernetes/additional-setup/cni/)，您的 pod 必须具有`NET_ADMIN`功能。请参阅[必需的 Pod 功能](/help/ops/setup/required-pod-capabilities/)。
+* **`NET_ADMIN` 功能**: 如果您的群集中实施了 Pod 安全策略，除非您使用 [Istio CNI 插件](/docs/setup/kubernetes/additional-setup/cni/)，您的 pod 必须具有`NET_ADMIN`功能。请参阅[必需的 Pod 功能](/docs/ops/setup/required-pod-capabilities/)。
