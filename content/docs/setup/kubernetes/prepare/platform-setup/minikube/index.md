@@ -41,6 +41,6 @@ resources to run Istio and some basic applications.
     {{< /text >}}
 
     {{< tip >}}
-    Running the minikube tunnel feature will block your terminal and output diagonstic information.  Be
+    Running the minikube tunnel feature will block your terminal and output diagnostic information.  Be
     prepared to run this optional command in a different terminal.
     {{< /tip >}}
