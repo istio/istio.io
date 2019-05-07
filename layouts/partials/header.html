@@ -39,8 +39,8 @@
                     <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
                 {{ end }}
             {{ end }}
-            {{ with (.Site.GetPage "section" "help") }}
-                {{ if eq $section "help" }}
+            {{ with (.Site.GetPage "section" "faq") }}
+                {{ if eq $section "faq" }}
                     <span title="{{ .Description }}">{{ .LinkTitle }}</span>
                 {{ else }}
                     <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>

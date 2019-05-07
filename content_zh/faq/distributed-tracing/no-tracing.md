@@ -8,5 +8,5 @@ weight: 30
 `istio-demo.yaml` 文件中的采样率仍设为 100%。
 有关如何设置采样率的更多信息，可参见[本节](/zh/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling)。
 
-如果您仍然没有看到任何追踪数据，请确认您的端口符合 Istio [端口命名规范](/zh/help/faq/traffic-management/#naming-port-convention)，
+如果您仍然没有看到任何追踪数据，请确认您的端口符合 Istio [端口命名规范](/zh/faq/traffic-management/#naming-port-convention)，
 并公开适当的容器端口（例如，通过 pod spec）来使得 sidecar 代理（Envoy）能够对流量进行捕获。
