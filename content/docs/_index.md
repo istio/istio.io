@@ -7,10 +7,11 @@ sidebar_multicard: true
 icon: docs
 ---
 
-In addition, you might find these links interesting:
+In addition to the documentation, we provide the following resources:
 
-- Check out our [Help](/help) section, which includes our [Operations Guide](/help/ops), our [FAQ](/help/faq), and our [glossary](/docs/reference/glossary).
+- [FAQ](/help/faq) section
+- [Glossary](/docs/reference/glossary).
+- [Release notes](/about/notes) for info on individual Istio releases.
 
-- See our [release notes](/about/notes) for info on individual Istio releases.
-
-- Nostalgic for days gone by? We keep an [archive of the earlier releases' documentation](https://archive.istio.io/).
+Are you looking for past versions of the documentation? We keep an
+[archive of the documentation for prior releases](https://archive.istio.io/).
