@@ -155,7 +155,7 @@ The tables below show changes made to the installation options used to customize
 | `global.tracer.zipkin.address` | `""` |  |
 | `global.defaultNodeSelector` | `{}` | `Default node selector to be applied to all deployments so that all pods can beconstrained to run a particular nodes. Each component can overwrite these defaultvalues by adding its node selector block in the relevant section below and settingthe desired values.` |
 | `global.meshExpansion.enabled` | `false` |  |
-| `global.meshExpansion.useILB` | `false` | `If set to true, the pilot and citadel mtls and the plain text pilot portswill be exposed on an internal gateway` |
+| `global.meshExpansion.useILB` | `false` | `If set to true, the pilot and citadel mutual TLS and the plaintext Pilot ports will be exposed on an internal gateway` |
 | `global.multiCluster.enabled` | `false` | `Set to true to connect two kubernetes clusters via their respectiveingressgateway services when pods in each cluster cannot directlytalk to one another. All clusters should be using Istio mTLS and musthave a shared root CA for this model to work.` |
 | `global.defaultPodDisruptionBudget.enabled` | `true` |  |
 | `global.useMCP` | `true` | `Use the Mesh Control Protocol (MCP) for configuring Mixer andPilot. Requires galley (--set galley.enabled=true).` |
