@@ -15,7 +15,7 @@ jobs:
 
       - run:
           name: Generating Site
-          command: scripts/gen_site.sh "" -no_minify -no_aliases
+          command: scripts/gen_site.sh "" -no_minify
 
       - run:
           name: Running Linters
