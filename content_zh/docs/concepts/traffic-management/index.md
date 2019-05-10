@@ -648,7 +648,7 @@ spec:
 
 ### Service Entry
 
-Istio 内部会维护一个服务注册表，可以用 [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 `ServiceEntry` 可以用来允许外部对 `*.foo.com` 域名上的服务主机的调用。
+Istio 内部会维护一个服务注册表，可以用 [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 向其中加入额外的条目。通常这个对象用来启用对 Istio 服务网格之外的服务发出请求。例如下面的 `ServiceEntry` 可以用来允许对外调用托管于 `*.foo.com` 域名上的服务。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
