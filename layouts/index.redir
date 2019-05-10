@@ -13,6 +13,7 @@
 /contrib/* go-get=1 /golang/contrib.html 200
 /test-infra/* go-get=1 /golang/test-infra.html 200
 /tools/* go-get=1 /golang/tools.html 200
+/common/* go-get=1 /golang/common.html 200
 
 # Redirect default Netlify subdomain to primary domain
 https://istio.netlify.com/* https://istio.io/:splat 301!
