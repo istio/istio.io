@@ -32,7 +32,6 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     a different implementation of `curl`, for example on a Linux machine.
 
 {{< tip >}}
-
 If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/secure-ingress/mount),
 and you want to migrate your ingress gateway to use the SDS approach. There are no
 extra steps required.
@@ -169,6 +168,11 @@ need to create secrets for multiple hosts and update the gateway definitions.
     --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
     --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
+
+    {{< warning >}}
+    The secret name **should not** begin with `istio` or `prometheus`, and
+    the secret **should not** contain a `token` field.
+    {{< /warning >}}
 
 1.  Define a gateway with a `servers:` section for port 443, and specify values for
     `credentialName` to be `httpbin-credential`. The values are the same as the
