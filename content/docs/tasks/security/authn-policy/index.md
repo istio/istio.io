@@ -729,10 +729,6 @@ spec:
 EOF
 {{< /text >}}
 
-{{< tip >}}
-Use `kubectl create` if the `jwt-example` policy hasn't been submitted.
-{{< /tip >}}
-
 And add a destination rule:
 
 {{< text bash >}}
