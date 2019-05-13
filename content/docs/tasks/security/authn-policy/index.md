@@ -730,7 +730,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-Use `istio create` if the `jwt-example` policy hasn't been submitted.
+Use `kubectl create` if the `jwt-example` policy hasn't been submitted.
 {{< /tip >}}
 
 And add a destination rule:
