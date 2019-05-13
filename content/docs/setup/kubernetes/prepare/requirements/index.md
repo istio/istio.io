@@ -20,6 +20,7 @@ cluster must satisfy the following requirements:
     - `http2`
     - `https`
     - `mongo`
+    - `mysql`
     - `redis`
     - `tcp`
     - `tls`
