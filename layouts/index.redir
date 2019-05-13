@@ -6,7 +6,7 @@
 
 # Redirect golang vanity imports for istio.io
 /istio/* go-get=1 /golang/istio.html 200
-/common/* go-get=1 /golang/common.html 200
+/pkg/* go-get=1 /golang/pkg.html 200
 /api/* go-get=1 /golang/api.html 200
 /gogo-genproto/* go-get=1 /golang/gogo-genproto.html 200
 /test-infra/* go-get=1 /golang/test-infra.html 200
