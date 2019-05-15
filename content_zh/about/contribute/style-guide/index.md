@@ -107,7 +107,7 @@ Front matter 中的 `title:` 应该使用标题格式：除了连词和介词之
 |----------------|------
 | load balancing | `load-balancing`
 | multicluster   | `multi-cluster`
-| add-on         | `add-on`
+| addon         | `add-on`
 | service mesh   | `Service Mesh`
 | sidecar        | `side-car`, `Sidecar`
 | Kubernetes     | `kubernetes`, `k8s`
