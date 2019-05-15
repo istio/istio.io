@@ -13,7 +13,7 @@ keywords: [telemetry,tracing]
 
 虽然 Istio 代理能够自动发送 span，但仍然需要一些线索来将整个追踪衔接起来。应用程序需要分发合适的 HTTP header，以便当代理发送 span 信息时，span 可以被正确的关联到一个追踪中。
 
-为此，应用程序需要收集传入请求中的 header，并将其传播到任何传出请求。header 如下所示：
+例如，如果您查看 Python 示例 `productpage` 服务，您将看到应用程序从 HTTP 请求中提取所需的头通过[OpenTracing](https://opentracing.io/)库：
 
 * `x-request-id`
 * `x-b3-traceid`
@@ -29,23 +29,26 @@ keywords: [telemetry,tracing]
 def getForwardHeaders(request):
     headers = {}
 
-    if 'user' in session:
-        headers['end-user'] = session['user']
+    # x-b3-*** headers can be populated using the opentracing span
+    span = get_current_span()
+    carrier = {}
+    tracer.inject(
+        span_context=span.context,
+        format=Format.HTTP_HEADERS,
+        carrier=carrier)
 
-    incoming_headers = [ 'x-request-id',
-                         'x-b3-traceid',
-                         'x-b3-spanid',
-                         'x-b3-parentspanid',
-                         'x-b3-sampled',
-                         'x-b3-flags',
-                         'x-ot-span-context'
-    ]
+    headers.update(carrier)
+
+    # ...
+
+    incoming_headers = ['x-request-id']
+
+    # ...
 
     for ihdr in incoming_headers:
         val = request.headers.get(ihdr)
         if val is not None:
             headers[ihdr] = val
-            #print "incoming: "+ihdr+":"+val
 
     return headers
 {{< /text >}}
@@ -64,8 +67,6 @@ public Response bookReviewsById(@PathParam("productId") int productId,
                             @HeaderParam("x-b3-sampled") String xsampled,
                             @HeaderParam("x-b3-flags") String xflags,
                             @HeaderParam("x-ot-span-context") String xotspan) {
-  int starsReviewer1 = -1;
-  int starsReviewer2 = -1;
 
   if (ratings_enabled) {
     JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
