@@ -23,17 +23,6 @@ This task shows you how to access external services in three different ways:
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-    {{< warning >}}
-    If the following [installation options](/docs/reference/config/installation-options/) are not configured
-    in your selected [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/),
-    add them with the following values:
-
-    {{< text plain >}}
-    --set global.outboundTrafficPolicy.mode=ALLOW_ANY --set pilot.env.PILOT_ENABLE_FALLTHROUGH_ROUTE=1
-    {{< /text >}}
-
-    {{< /warning >}}
-
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
     [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
@@ -72,7 +61,7 @@ without controlling access to external services.
 You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
 
 {{< warning >}}
-In versions prior to Istio 1.1.3, `ALLOW_ANY` only worked on ports with no HTTP services or
+In versions prior to Istio 1.1.4, `ALLOW_ANY` only worked on ports with no HTTP services or
 service entries defined within the mesh.
 External hosts using the same port as any internal HTTP service
 fell back to a blocking-by-default behavior.
