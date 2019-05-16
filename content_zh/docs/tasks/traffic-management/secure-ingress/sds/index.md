@@ -398,13 +398,13 @@ keywords: [traffic-management,ingress,sds-credentials]
 
 可以对网关的定义进行扩展，加入[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 的支持。要修改 Ingress 网关的凭据，就要删除并重建对应的 `Secret`。服务器会使用 CA 证书对客户端进行校验，因此需要使用 `cacert` 字段来保存 CA 证书：
 
-    {{< text bash >}}
-    $ kubectl -n istio-system delete secret httpbin-credential
-    $ kubectl create -n istio-system secret generic httpbin-credential  \
-    --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
-    --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem \
-    --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl -n istio-system delete secret httpbin-credential
+$ kubectl create -n istio-system secret generic httpbin-credential  \
+--from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
+--from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem \
+--from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
+{{< /text >}}
 
 1. 修改网关定义，设置 TLS 的模式为 `MUTUAL`：
 
