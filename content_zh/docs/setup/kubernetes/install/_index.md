@@ -1,8 +1,7 @@
 ---
 title: 安装方案
 description: 选择最适合您需求和平台的方案。
-weight: 3
-icon: setup
+weight: 20
 ---
 
 {{< tip >}}
