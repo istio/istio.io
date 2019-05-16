@@ -13,7 +13,7 @@ keywords: [telemetry,tracing]
 
 虽然 Istio 代理能够自动发送 span，但仍然需要一些线索来将整个追踪衔接起来。应用程序需要分发合适的 HTTP header，以便当代理发送 span 信息时，span 可以被正确的关联到一个追踪中。
 
-例如，如果您查看 Python 示例 `productpage` 服务，您将看到应用程序从 HTTP 请求中提取所需的头通过[OpenTracing](https://opentracing.io/)库：
+例如，如果您查看 Python 示例 `productpage` 服务，您将看到应用程序从 HTTP 请求中提取所需的头通过 [OpenTracing](https://opentracing.io/) 库：
 
 * `x-request-id`
 * `x-b3-traceid`
