@@ -9,10 +9,15 @@ keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 
 ## 开始之前
 
-1. 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
+1. 按照[安装指南](/zh/docs/setup/kubernetes/install/helm)中的说明安装 Istio。
 
-   使用 Helm chart 进行安装时，设置 `--set tracing.enabled=true` 选项以启用追踪，并通过 `--set tracing.provider=zipkin` 选项选择 `zipkin`
-   作为追踪提供者。
+   使用如下的 Helm 安装选项以启用追踪，选项选择 `zipkin` 作为追踪提供者：
+    * `--set tracing.enabled=true`
+    * `--set tracing.provider=zipkin`
+
+    {{< warning >}}
+    启用追踪时，可以设置 Istio 用于追踪的采样率。使用 `pilot.traceSampling` 选项用于设置采样率。默认采样率为 1% 。
+    {{< /warning >}}
 
 1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/#部署应用) 示例应用程序。
 
@@ -31,6 +36,8 @@ keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 ## 使用 Bookinfo 示例产生追踪
 
 1. 当 Bookinfo 应用程序启动并运行时，访问 `http://$GATEWAY_URL/productpage` 一次或多次以生成追踪信息。
+
+    {{< boilerplate trace-generation >}}
 
 1. 从顶部面板的 **Service Name** 下拉列表中选择一个感兴趣的 service （或 'all'），并点击 **Find Traces**：
 
