@@ -13,25 +13,28 @@ keywords: [security,certificates]
 
 * 根据 [quick start](/zh/docs/setup/kubernetes/install/kubernetes/) 内容，安装 Istio 并启用双向 TLS：
 
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}
+   遵照[安装说明](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装启用了**严格双向 TLS 模式**的 Istio。
 
     _**或者**_
 
-    使用 [Helm](/zh/docs/setup/kubernetes/install/helm/) 并设置 `global.mtls.enabled` 为 `true`.
+    使用 [Helm](/zh/docs/setup/kubernetes/install/helm/)，并启用双向 TLS。
 
 {{< tip >}}
-从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+您可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)。
 {{< /tip >}}
 
 ## 插入现有密钥和证书
 
-假设我们想让 Citadel 使用现有的 `ca-cert.pem` 证书和 `ca-key.pem`，其中 `ca-cert.pem` 是由 `root-cert.pem` 根证书签发的，我们也准备使用 `root-cert.pem` 作为 Istio 工作负载的根证书。
+假设我们想让 Citadel 使用现有的 `ca-cert.pem` 证书和 `ca-key.pem` 密钥，其中 `ca-cert.pem` 是由 `root-cert.pem` 根证书签发的，我们也准备使用 `root-cert.pem` 作为 Istio 工作负载的根证书。
 
-下面的例子中，Citadel 的签署（CA）证书（`root-cert.pem`）不同于根证书（`root-cert.pem`），因此工作负载无法使用根证书进行证书校验。工作负载需要一个 `cert-chain.pem` 文件作为信任链，其中需要包含所有从根证书到工作负载证书之间的中间 CA。在我们的例子中，他包含了 Citadel 的签署证书，所以 `cert-chain.pem` 和 `ca-cert.pem` 是一致的。注意如果你的 `ca-cert.pem` 和 `ca-cert.pem` 是一致的，那么 `cert-chain.pem` 就是个空文件了。
+下面的例子中，Citadel 的签署（CA）证书（`ca-cert.pem`）不同于根证书（`root-cert.pem`），因此工作负载无法使用根证书进行证书校验。工作负载需要一个 `cert-chain.pem` 文件作为信任链，其中需要包含所有从根证书到工作负载证书之间的中间 CA。在我们的例子中，它包含了 Citadel 的签署证书，所以 `cert-chain.pem` 和 `ca-cert.pem` 是一致的。注意如果你的 `ca-cert.pem` 和 `root-cert.pem` 是一致的，那么 `cert-chain.pem` 就是个空文件了。
 
 这些文件都会在 `samples/certs/` 目录中准备就绪提供使用。
+
+  {{< tip >}}
+  默认条件下，Citadel 安装所使用的[命令行选项](/zh/docs/reference/commands/istio_ca/index.html)会根据下面命令中使用的预定义 Secret 和文件名配置证书和密钥的位置（例如，Secret 名称为 `cacert`，根证书名称为 `root-cert.pem`，Citadel 密钥为 `ca-key.pem` 等）
+  您必须使用这些特定的秘钥和文件名，或者在部署时重新配置 Citadel。
+  {{< /tip >}}
 
 下面的步骤在 Citadel 中插入了证书和密钥：
 
