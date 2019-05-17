@@ -192,7 +192,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 在本节中，您将处理通过 [egress gateway](/zh/docs/examples/advanced-gateways/egress-gateway/#用例) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
 
-1.  [部署 Istio egress gateway](/zh/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway)。
+1.  [部署 Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway)。
 
 1.  如果您没有执行[上一节](#在没有-gateway-的情况下控制-TCP-egress-流量)中的步骤，现在就执行它们。
 
@@ -970,7 +970,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 1.  再次刷新应用程序的网页，验证评级数据仍然显示正确。
 
-1.  [启动 Envoy’s 访问日志](/docs/tasks/telemetry/logs/access-log/#开启-Envoy-访问日志)
+1.  [启动 Envoy’s 访问日志](/zh/docs/tasks/telemetry/logs/access-log/#开启-Envoy-访问日志)
 
 1.  检查 egress gateway 的 Envoy 的统计数据，找到对应请求 `*.com` 的 counter（到 SNI 代理的流量的 counter）。如果 Istio 部署在 `istio-system` namespace 中，打印 counter 的命令为：
 
