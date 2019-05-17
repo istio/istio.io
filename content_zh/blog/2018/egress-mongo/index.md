@@ -498,7 +498,7 @@ $ kubectl delete serviceentry mongo
 
 1.  为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。
 
-    如果要在应用程序 pod 的 Sidercar 代理和和 egress gateway 之间启用[双向 TLS 身份验证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。（您可能希望启用双向 TLS
+    如果要在应用程序 pod 的 Sidecar 代理和和 egress gateway 之间启用[双向 TLS 身份验证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。（您可能希望启用双向 TLS
     出口网关监视源容器的身份并基于此启用 Mixer 策略实施身份。）
 
     {{< tabset cookie-name="mtls" >}}
@@ -907,7 +907,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
         filterConfig: {}
     ---
     # 以下过滤器验证双向 TLS 连接的 SNI（报告给 Mixer 的 SNI）与应用程序发布的原始 SNI（SNI 代理用于路由的 SNI）相同。
-    # 过滤器可防止 Mixer 被恶意应用程序欺骗：路由到一个 SNI，同时报告其他一些 SNI 值。 
+    # 过滤器可防止 Mixer 被恶意应用程序欺骗：路由到一个 SNI，同时报告其他一些 SNI 值。
     # 如果原始 SNI 与双向 TLS 连接的 SNI 不匹配，则过滤器将阻止与外部服务的连接。
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
