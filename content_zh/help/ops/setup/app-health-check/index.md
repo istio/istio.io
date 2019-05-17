@@ -156,7 +156,7 @@ $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e "s/ rew
 这样健康检查可以在双向 TLS 下工作。无需自行更新您的应用程序或 Pod YAML。
 
 {{< warning >}}
-上面的配置更改（通过 Helm 或 config）会影响所有 Istio 应用程序部署。
+上面的配置更改（通过 Helm 或 configmap）会影响所有 Istio 应用程序部署。
 {{< /warning >}}
 
 ##### 重新部署存活健康检查应用程序
