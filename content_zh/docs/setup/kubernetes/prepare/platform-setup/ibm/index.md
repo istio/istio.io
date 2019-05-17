@@ -42,7 +42,7 @@ IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平�
     {{< /text >}}
 
 {{< warning >}}
-Make sure to use the `kubectl` CLI version that matches the Kubernetes version of your cluster.
+确保使用与您的集群的 Kubernetes 版本匹配的 `kubectl` 版本。
 {{< /warning >}}
 
 ## IBM Cloud Private
