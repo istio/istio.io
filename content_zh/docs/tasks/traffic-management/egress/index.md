@@ -292,7 +292,7 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 如果想要跳过 Istio，直接访问某个 IP 范围内的外部服务，就需要对 Envoy sidecar 进行配置，阻止 Envoy 对外部请求的[劫持](/zh/docs/concepts/traffic-management/#服务之间的通讯)。可以在 [Helm](/zh/docs/reference/config/installation-options/) 中设置 `global.proxy.includeIPRanges` 变量，然后使用 `kubectl apply` 命令来更新名为 `istio-sidecar-injector` 的 `Configmap`。在 `istio-sidecar-injector` 更新之后，`global.proxy.includeIPRanges` 会在所有未来部署的 Pod 中生效。
 
 {{< warning >}}
-与[Envoy 配置外部服务](＃Envoy-配置外部服务)不同，它使用 `ALLOW_ANY` 流量策略指示 Istio sidecar 代理通过对未知服务的调用，这种方法完全绕过了 sidecar，基本上禁用指定 IP 的所有 Istio 功能。
+与[Envoy 配置外部服务](#Envoy-配置外部服务)不同，它使用 `ALLOW_ANY` 流量策略指示 Istio sidecar 代理通过对未知服务的调用，这种方法完全绕过了 sidecar，基本上禁用指定 IP 的所有 Istio 功能。
 您无法使用 `ALLOW_ANY` 方法逐步添加特定目标的服务条目。
 因此，此配置方法仅建议作为最后的手段当出于性能或其他原因，无法使用 sidecar 配置外部访问。
 {{< /warning >}}
