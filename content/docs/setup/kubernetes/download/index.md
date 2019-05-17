@@ -103,6 +103,10 @@ Once the bash-completion package has been installed on your macOS system, also m
 `[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"`
 {{< /tip >}}
 
+### Prerequisites for Linux
+
+For Linux, to install the bash completion package, you would use the `apt-get install bash-completion` command for Debian-based Linux distributions or `yum install bash-completion` for RPM-based Linux distributions, the two most common occurrences.
+
 ## Using `istioctl` auto-completion
 
 If the `istioctl` completion file has been installed correctly, press the Tab key while writing an `istioctl` command, and it should return a set of command suggestions for you to choose from:
