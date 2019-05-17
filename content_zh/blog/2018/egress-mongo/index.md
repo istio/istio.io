@@ -498,7 +498,7 @@ $ kubectl delete serviceentry mongo
 
 1.  为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。
 
-    如果要在应用程序 pod 的 sidercar 代理和和 egress gateway 之间启用[双向 TLS 身份验证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。（您可能希望启用双向 TLS
+    如果要在应用程序 pod 的 Sidercar 代理和和 egress gateway 之间启用[双向 TLS 身份验证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。（您可能希望启用双向 TLS
     出口网关监视源容器的身份并基于此启用 Mixer 策略实施身份。）
 
     {{< tabset cookie-name="mtls" >}}
