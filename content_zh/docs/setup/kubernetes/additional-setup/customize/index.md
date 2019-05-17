@@ -48,6 +48,6 @@ istio-citadel-b48446f79-wd4tk            1/1       Running   0          1m
 istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 {{< /text >}}
 
-在这个最小组件集的支持下，可以安装你自己的应用并为其[配置请求路由](/zh//docs/tasks/traffic-management/request-routing/)。可能需要[手工注入 Sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)。
+在这个最小组件集的支持下，可以安装你自己的应用并为其[配置请求路由](/zh/docs/tasks/traffic-management/request-routing/)。可能需要[手工注入 Sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)。
 
 [安装选项参考](/zh/docs/reference/config/installation-options/)中列出了所有可用于对 Istio 安装进行按需裁剪的参数。在使用 `helm install` 的 `--set` 参数覆盖缺省值之前，请检查 `install/kubernetes/helm/istio/values.yaml` 中的配置，并按照实际需要去掉其中的注释标志。
