@@ -1,12 +1,12 @@
 ---
 title: 高级安装选项
-description: 定制 Istio 安装的介绍。
+description: 自定义 Istio 安装。
 weight: 35
 keywords: [kubernetes]
 draft: true
 ---
 
-本节介绍了一些 Istio 组件的碎片式安装的选项。
+本页面介绍了一些 Istio 组件的碎片式安装的选项。
 
 ## 仅安装 Ingress 控制器
 
