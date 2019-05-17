@@ -43,7 +43,7 @@ Istio 有一个[安装选项](/zh/docs/reference/config/installation-options/) `
 如果此选项设置为 `ALLOW_ANY`，则 Istio 代理允许调用未知服务。
 如果该选项设置为 `REGISTRY_ONLY`，则 Istio 代理会阻止任何没有 HTTP 服务的主机或网格中定义的服务条目。
 `ALLOW_ANY` 是默认值，允许您快速开始评估 Istio，而无需控制对外部服务的访问。
-然后后面你可以决定[配置对外部服务的访问](#controlled-access-to-external-services) .
+然后后面你可以决定[配置对外部服务的访问](#控制外部服务) .
 
 {{< warning >}}
 在 Istio 1.1.4 之前的版本中，`ALLOW_ANY` 仅适用于没有在网格中定义的 HTTP 服务或服务条目的端口。
@@ -292,7 +292,7 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 如果想要跳过 Istio，直接访问某个 IP 范围内的外部服务，就需要对 Envoy sidecar 进行配置，阻止 Envoy 对外部请求的[劫持](/zh/docs/concepts/traffic-management/#服务之间的通讯)。可以在 [Helm](/zh/docs/reference/config/installation-options/) 中设置 `global.proxy.includeIPRanges` 变量，然后使用 `kubectl apply` 命令来更新名为 `istio-sidecar-injector` 的 `Configmap`。在 `istio-sidecar-injector` 更新之后，`global.proxy.includeIPRanges` 会在所有未来部署的 Pod 中生效。
 
 {{< warning >}}
-与[Envoy passthrough to external services](＃envoy-passthrough-to-external-services)不同，它使用 `ALLOW_ANY` 流量策略指示 Istio sidecar 代理通过对未知服务的调用，这种方法完全绕过了 sidecar，基本上禁用指定 IP 的所有 Istio 功能。
+与[Envoy 配置外部服务](＃Envoy-配置外部服务)不同，它使用 `ALLOW_ANY` 流量策略指示 Istio sidecar 代理通过对未知服务的调用，这种方法完全绕过了 sidecar，基本上禁用指定 IP 的所有 Istio 功能。
 您无法使用 `ALLOW_ANY` 方法逐步添加特定目标的服务条目。
 因此，此配置方法仅建议作为最后的手段当出于性能或其他原因，无法使用 sidecar 配置外部访问。
 {{< /warning >}}
