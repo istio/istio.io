@@ -25,8 +25,8 @@ keywords: [profiles,install,helm]
 
 下表中标记为 **X** 的功能就是包含在配置文件里面的内容：
 
-| | default | demo | minimal | sds |
-| --- | :---: | :---: | :---: | :---: |
+-|     | default | demo | minimal | sds |
+-| --- | --- | --- | --- | --- |
 | Profile filename | `values.yaml` | `values-istio-demo.yaml` | `values-istio-minimal.yaml` | `values-istio-sds-auth.yaml` |
 | Core components | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-citadel` | X | X | | X |
@@ -47,7 +47,7 @@ keywords: [profiles,install,helm]
 有些配置文件会有一个带有认证功能的变体，文件名会加入 `-auth`，这种配置会加入以下几个功能：
 
 | | default | demo | minimal | sds |
-| --- | :---: | :---: | :---: | :---: |
+-| --- | --- | --- | --- | --- |
 | Control Plane Security | | X | | |
 | Strict Mutual TLS | | X | | X |
 | SDS | | | | X |
