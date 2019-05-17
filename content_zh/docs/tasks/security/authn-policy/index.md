@@ -119,7 +119,7 @@ apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "default"
-  namespace: "default"
+  namespace: "istio-system"
 spec:
   host: "*.local"
   trafficPolicy:
