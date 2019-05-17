@@ -139,21 +139,27 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 这种方法重写了应用程序 `PodSpec` liveness 探针, 这样探测请求将被发送给 [Pilot 代理](/docs/reference/commands/pilot-agent/). 然后，Pilot 代理将请求重定向到应用程序，并丢掉响应主体，仅返回响应代码。
 
-要使用这种方法, 你安装 Istio 需要 Helm 的 `sidecarInjectorWebhook.rewriteAppHTTPProbe=true` 选项。
-请注意，这是一个全局标志。 **打开它意味着所有 Istio 应用程序部署都将受到影响**。
-请注意风险。
+要使用此方法，您需要配置 Istio 以重写 HTTP 存活探针。
+
+##### 配置 Istio 以重写 HTTP 存活探针
+
+要使用这种方法, 你[安装 Istio](/zh/docs/setup/kubernetes/install/helm/)  需要 Helm 的 `sidecarInjectorWebhook.rewriteAppHTTPProbe=true` 选项。
+[Helm 安装选项](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
+
+**另外**, 更新 Istio sidecar 的注入配置：
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set global.mtls.enabled=true --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
-    -f install/kubernetes/helm/istio/values.yaml > $HOME/istio.yaml
-$ kubectl apply -f $HOME/istio.yaml
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e "s/ rewriteAppHTTPProbe: false/ rewriteAppHTTPProbe: true/" | kubectl apply -f -
 {{< /text >}}
-
-重新部署 liveness 健康检查应用程序。
 
 上面的 Helm 配置使得 sidecar 注入自动重写 Kubernetes pod YAML,
 这样健康检查可以在双向 TLS 下工作。无需自行更新您的应用程序或 Pod YAML。
+
+{{< warning >}}
+上面的配置更改（通过 Helm 或 config）会影响所有 Istio 应用程序部署。
+{{< /warning >}}
+
+##### 重新部署存活健康检查应用程序
 
 {{< text bash >}}
 $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
