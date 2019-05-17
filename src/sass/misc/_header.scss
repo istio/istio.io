@@ -181,11 +181,6 @@ header {
             transition: right .5s;
         }
 
-        @media (min-width: $bp-xl) {
-            right: 335px;
-            transition: none;
-        }
-
         span {
             border-bottom: solid 3px $textBrandColor;
             border-radius: 2px;
@@ -211,10 +206,6 @@ header {
         @media (min-width: $bp-sm) {
             display: inline-block;
         }
-
-        @media (min-width: $bp-xl) {
-            display: none;
-        }
     }
 
     #search-form {
@@ -238,11 +229,6 @@ header {
         &.show-search {
             right: 1rem;
             transition: right .5s;
-        }
-
-        @media (min-width: $bp-xl) {
-            right: 1rem;
-            transition: none;
         }
 
         button:focus {
@@ -291,10 +277,6 @@ header {
 
         &:hover {
             color: $textBrandHighlightColor;
-        }
-
-        @media (min-width: $bp-xl) {
-            display: none;
         }
     }
 }
