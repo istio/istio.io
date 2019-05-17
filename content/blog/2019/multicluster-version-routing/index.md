@@ -329,7 +329,7 @@ EOF
 The address `127.255.0.3` of the service entry can be any arbitrary unallocated IP.
 Using an IP from the loopback range 127.0.0.0/8 is a good choice.
 Check out the
-[gateway-connected multicluster example](/docs/examples/multicluster/gateways/#configure-the-example-services)
+[gateway-connected multicluster example](/docs/tasks/multicluster/gateways/#configure-the-example-services)
 for more details.
 
 Note that the labels of the subsets in the destination rule map to the service entry
