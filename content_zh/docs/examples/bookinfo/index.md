@@ -54,37 +54,39 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 如果运行的是 GKE，请确认你的集群具有至少四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
 {{< /tip >}}
 
-1. 进入 Istio 安装目录。
+1.  进入 Istio 安装目录。
 
-1. 启动应用容器：
+1.   Istio 安装 默认用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
 
-    * 如果集群用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)，使用如下命令：
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection=enabled
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
-        {{< /text >}}
+1.  使用 `kubectl` 部署简单的服务
 
-        [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在在部署应用之前修改 `bookinfo.yaml`。
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    {{< /text >}}
 
-    * 如果集群使用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
+    {{< warning >}}
+    如果您在安装过程中禁用了自动 Sidecar 注入并依赖 [手工 Sidecar 注入]
+    (/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar),
+    `istioctl kube-inject` 命令用于在在部署应用之前修改 `bookinfo.yaml`。 有关更多信息，请
+    查看 `istioctl` [参考文档](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)。
 
-        {{< text bash >}}
-        $ kubectl label namespace default istio-injection=enabled
-        {{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
+    {{< /text >}}
 
-        使用 `kubectl` 部署简单的服务
+    {{< /warning >}}
 
-        {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-        {{< /text >}}
-
-    上面的命令会启动全部的四个服务，其中也包括了 `reviews` 服务的三个版本（`v1`、`v2` 以及 `v3`）
+    上面的命令会启动 `bookinfo` 应用程序架构图中全部的四个服务，其中也包括了 `reviews` 服务的三个版本（`v1`、`v2` 以及 `v3`）
 
     {{< tip >}}
     在实际部署中，微服务版本的启动过程需要持续一段时间，并不是同时完成的。
     {{< /tip >}}
 
-1. 确认所有的服务和 Pod 都已经正确的定义和启动：
+1.  确认所有的服务和 Pod 都已经正确的定义和启动：
 
     {{< text bash >}}
     $ kubectl get services
@@ -120,13 +122,13 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 现在 Bookinfo 服务启动并运行中，你需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。一个 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateway) 应用到了目标中。
 
-1. 为应用程序定义入口网关：
+1.  为应用程序定义入口网关：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
-1. 确认网关创建完成：
+1.  确认网关创建完成：
 
     {{< text bash >}}
     $ kubectl get gateway
@@ -134,29 +136,30 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     bookinfo-gateway   32s
     {{< /text >}}
 
-1. 根据[文档](/zh/docs/tasks/traffic-management/ingress/#使用外部负载均衡器时确定-ip-和端口)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
+1.  根据[文档](/zh/docs/tasks/traffic-management/ingress/#使用外部负载均衡器时确定-ip-和端口)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
 
-1. 设置 `GATEWAY_URL`：
+1.  设置 `GATEWAY_URL`：
 
     {{< text bash >}}
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1. 进入[下一步](#下一步)。
+1.  进入[下一步](#下一步)。
 
 ### 如果在 Docker 和 Consul 环境中运行
 
-1. 进入 Istio 安装目录。
+1.  进入 Istio 安装目录。
 
-1. 启动应用容器。
+1.  启动应用容器。
 
     运行下面的目录，测试 Consul：
 
     {{< text bash >}}
     $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
+    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
-1. 确认所有的容器都在运行：
+1.  确认所有的容器都在运行：
 
     {{< text bash >}}
     $ docker ps -a
@@ -166,13 +169,13 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     如果 Istio Pilot 容器已经终止，重新运行上一步即可。
     {{< /tip >}}
 
-1. 设置 `GATEWAY_URL`:
+1.  设置 `GATEWAY_URL`:
 
     {{< text bash >}}
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-1. __Consul 用户请注意：__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
+1.  __Consul 用户请注意：__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
 
 ## 确认应用在运行中
 
@@ -221,13 +224,13 @@ $ kubectl get destinationrules -o yaml
 
 ### 在 Kubernetes 环境中完成删除
 
-1. 删除路由规则，并终结应用的 Pod
+1.  删除路由规则，并终结应用的 Pod
 
     {{< text bash >}}
     $ @samples/bookinfo/platform/kube/cleanup.sh@
     {{< /text >}}
 
-1. 确认应用已经关停
+1.  确认应用已经关停
 
     {{< text bash >}}
     $ kubectl get virtualservices   #-- there should be no virtual services
@@ -238,7 +241,7 @@ $ kubectl get destinationrules -o yaml
 
 ### 在 Docker 环境中完成删除
 
-1. 删除路由规则和应用容器
+1.  删除路由规则和应用容器
 
     在 Consul 设置中，运行如下命令：
 
@@ -246,7 +249,7 @@ $ kubectl get destinationrules -o yaml
     $ @samples/bookinfo/platform/consul/cleanup.sh@
     {{< /text >}}
 
-1. 确认应用已经关停
+1.  确认应用已经关停
 
     {{< text bash >}}
     $ kubectl get virtualservices   #-- 此处应该已经没有 VirtualService
