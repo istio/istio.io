@@ -88,14 +88,14 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 1. 通过以下 `helm template` 命令在远程集群中指定 Istio 控制平面服务端点：
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
-   --name istio-remote \
-   --set global.remotePilotAddress=${PILOT_POD_IP} \
-   --set global.remotePolicyAddress=${POLICY_POD_IP} \
-   --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-   --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} > $HOME/istio-remote.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --namespace istio-system \
+    --name istio-remote \
+    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > $HOME/istio-remote.yaml
+    {{< /text >}}
 
 1. 通过以下命令给远程 Istio 创建一个 `istio-system` 命名空间：
 
@@ -142,12 +142,35 @@ $ helm template install/kubernetes/helm/istio-remote --namespace istio-system \
 1. 通过以下命令来为  `istio-remote`  安装 Helm chart：
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-remote --name istio-remote  --namespace istio-system --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP}
+    $ helm install install/kubernetes/helm/istio \
+    --name istio-remote --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP}
     {{< /text >}}
 
 {{< /tab >}}
 
 {{< /tabset >}}
+
+### 设置环境变量{#environment-var}
+
+等待 Istio 控制平面完成初始化，然后再执行本节中的步骤。
+
+您必须在 Istio 控制平面群集上运行这些操作以捕获 Istio 控制平面服务端点，例如 Pilot 和 Policy Pod IP 端点。
+
+如果在每个遥控器上使用Helm with Tiller，则必须先将环境变量复制到每个节点，然后才能使用Helm将远程集群连接到Istio控制平面。
+
+使用以下命令设置环境变量：
+
+{{< text bash >}}
+$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
+$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
+$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
+{{< /text >}}
+
+通常，启用远程群集上的自动 sidecar 注入。要执行手动 sidecar 注入，请参阅[手动 sidecar 示例](#manual-sidecar)
 
 ### Helm chart 配置参数
 
@@ -182,14 +205,14 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
 
     {{< text bash >}}
     $ export WORK_DIR=$(pwd)
-    $ CLUSTER_NAME=$(kubectl config view --minify=true -o "jsonpath={.clusters[].name}")
+    $ CLUSTER_NAME=$(kubectl config view --minify=true -o jsonpath='{.clusters[].name}')
     $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
-    $ SERVER=$(kubectl config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
+    $ SERVER=$(kubectl config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
     $ NAMESPACE=istio-system
     $ SERVICE_ACCOUNT=istio-multi
     $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
-    $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['ca\.crt']}")
-    $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o "jsonpath={.data['token']}" | base64 --decode)
+    $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['ca\.crt']}")
+    $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['token']}" | base64 --decode)
     {{< /text >}}
 
     {{< tip >}}
@@ -202,7 +225,6 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
     $ cat <<EOF > ${KUBECFG_FILE}
     apiVersion: v1
     clusters:
-
        - cluster:
            certificate-authority-data: ${CA_DATA}
            server: ${SERVER}
@@ -242,9 +264,9 @@ Istio 控制平面需要服务所有集群中的网格来发现服务、端点�
 该过程使用的 `WORK_DIR`、`CLUSTER_NAME` 和 `NAMESPACE` 环境变量都存在于[上一节](#kubeconfig)为远程集群创建的配置文件中。
 如果你为远程集群的 secret 创建了环境变量文件，请通过以下命令获取该文件：
 
-    {{< text bash >}}
-    $ source remote_cluster_env_vars
-    {{< /text >}}
+{{< text bash >}}
+$ source remote_cluster_env_vars
+{{< /text >}}
 
 你可以在不同的命名空间中安装 Istio。该过程需要使用 `istio-system` 命名空间。
 
@@ -269,9 +291,9 @@ Kubernetes secret 数据秘钥必须符合 `DNS-1123 subdomain` [格式](https:/
 
 通过 `kubectl + Helm` 或 `Tiller + Helm` 合理卸载他们。
 
-{{< tabset cookie-name="uninstall-istio-remote" >}}
+{{< tabset cookie-name="install-istio-remote" >}}
 
-{{< tab name="kubectl" cookie-value="kubectl" >}}
+{{< tab name="kubectl" cookie-value="Helm+kubectl" >}}
 
 ### 通过 `kubectl`
 
@@ -284,7 +306,7 @@ $ kubectl delete -f $HOME/istio-remote.yaml
 
 {{< /tab >}}
 
-{{< tab name="Tiller" cookie-value="Tiller" >}}
+{{< tab name="Tiller" cookie-value="Helm+Tiller" >}}
 
 ### 通过 Tiller
 
@@ -311,7 +333,13 @@ $ helm delete --purge istio-remote
    控制平面的 service 端点：
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote --namespace istio-system --name istio-remote --set global.remotePilotAddress=${PILOT_POD_IP} --set global.remotePolicyAddress=${POLICY_POD_IP} --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} --set global.remoteZipkinAddress=${ZIPKIN_POD_IP} --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
+    $ helm template install/kubernetes/helm/istio \
+    --namespace istio-system --name istio-remote \
+    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
+    --set global.remotePilotAddress=${PILOT_POD_IP} \
+    --set global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+    --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
     {{< /text >}}
 
 1. 为远程 Istio 创建 `istio-system` 命名空间：
@@ -378,7 +406,6 @@ pod 重启的一个简单的解决方案是给 Istio 服务使用负载均衡器
 * `istio-pilot`
 * `istio-telemetry`
 * `istio-policy`
-* `zipkin`
 
 目前，Istio 安装不提供为 Istio 服务指定服务类型的选项。 您可以在 Istio Helm chart 或 Istio 清单中手动指定服务类型。
 
@@ -488,9 +515,10 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 1. 通过以下命令为部署远程集群的组件并为控制平面和应用 pod 启用安全，同时启用创建 Istio Pilot 无选择器服务和端点以在远程集群中获取 DNS 条目。
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-remote \
+    $ helm template install/kubernetes/helm/istio \
       --name istio-remote \
-      --namespace=istio-system \
+      --namespace istio-system \
+      --values install/kubernetes/helm/istio/values-istio-remote.yaml \
       --set global.mtls.enabled=true \
       --set security.selfSigned=false \
       --set global.controlPlaneSecurityEnabled=true \
