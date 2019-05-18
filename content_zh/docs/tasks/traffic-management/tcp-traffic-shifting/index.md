@@ -7,6 +7,11 @@ keywords: [traffic-management,tcp-traffic-shifting]
 
 本任务展示了如何优雅的将微服务中的 TCP 流量从一个版本迁移到另一个版本。例如将 TCP 流量从旧版本迁移到一个新版本。这是一个常见的场景。在 Istio 中可以通过定义一组规则，将 TCP 流量在不同服务之间进行分配。在这一任务中，首先把 100% 的 TCP 流量发送到 `tcp-echo:v1`；下一步就是使用 Istio 的路由分配能力，把 20% 的流量分配到 `tcp-echo:v2` 服务之中。
 
+一个常见的用例是将 TCP 流量从一个版本的微服务逐渐迁移到另一个版本。
+在 Istio 中，您可以通过配置一系列规则来实现此目标，这些规则将一定百分比的 TCP 流量路由到一个或另一个服务。
+在此任务中，您将 100％ 的 TCP 流量发送到 `tcp-echo: v1`。
+然后，您将使用 Istio 的加权路由功能将 20％ 的 TCP 流量路由到 `tcp-echo: v2`。
+
 ## 开始之前 {#before-you-begin}
 
 * 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
@@ -17,7 +22,7 @@ keywords: [traffic-management,tcp-traffic-shifting]
 
 1. 第一个步骤是部署 `tcp-echo` 微服务的 `v1` 版本。
 
-    * 如果使用的是[手工 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)，使用如下命令：
+    * 如果使用的是[手动 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)，使用如下命令：
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
@@ -37,13 +42,13 @@ keywords: [traffic-management,tcp-traffic-shifting]
         $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@
         {{< /text >}}
 
-1. 下一步，把所有目标是 `tcp-echo` 微服务的 TCP 流量路由到 `v1` 版本：
+1.  下一步，把所有目标是 `tcp-echo` 微服务的 TCP 流量路由到 `v1` 版本：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@
     {{< /text >}}
 
-1. 确认 `tcp-echo` 服务已经启动并开始运行。
+1.  确认 `tcp-echo` 服务已经启动并开始运行。
 
     下面的 `$INGRESS_HOST` 变量中保存了 Ingress 的外部 IP 地址（[Bookinfo](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口) 文档中描写了这一部分的相关内容）。可以使用下面的命令来获取 `$INGRESS_PORT` 的值：
 
@@ -68,6 +73,10 @@ keywords: [traffic-management,tcp-traffic-shifting]
     one Mon Nov 12 23:25:17 UTC 2018
     one Mon Nov 12 23:25:19 UTC 2018
     {{< /text >}}
+
+    {{< warning >}}
+    `docker` 命令可能需要使用 `sudo`，具体取决于您的 Docker 安装。
+    {{< /warning >}}
 
     不难发现，所有的时间戳都有一个 `one` 前缀，这代表所有访问 `tcp-echo` 服务的流量都被路由到了 `v1` 版本。
 
@@ -126,6 +135,10 @@ keywords: [traffic-management,tcp-traffic-shifting]
     one Mon Nov 12 23:39:07 UTC 2018
     {{< /text >}}
 
+    {{< warning >}}
+    `docker` 命令可能需要使用 `sudo`，具体取决于您的 Docker 安装。
+    {{< /warning >}}
+
     现在应该会看到，输出内容中有 20% 的时间戳前缀为 `two`，这意味着 80% 的流量被路由到 `tcp-echo:v1`，其余 20% 流量被路由到了 `v2`。
 
 ## 理解原理 {#understanding-what-happened}
@@ -133,6 +146,8 @@ keywords: [traffic-management,tcp-traffic-shifting]
 这个任务里，用 Istio 的权重路由功能，把一部分访问 `tcp-echo` 服务的 TCP 流量被从旧版本迁移到了新版本。容器编排平台中的版本迁移使用的是对特定组别的实例进行伸缩来完成对流量的控制的，两种迁移方式显然大相径庭。
 
 在 Istio 中可以对两个版本的 `tcp-echo` 服务进行独立的扩缩容，伸缩过程中不会对流量的分配结果造成影响，可以阅读博客：[使用 Istio 进行金丝雀部署](/zh/blog/2017/0.1-canary/)，进一步了解相关内容。
+
+有关使用自动缩放的版本路由的更多信息，请查看博客文章[使用Istio的金丝雀部署](/blog/2017/0.1-canary/)。
 
 ## 清理 {#clean-up}
 
