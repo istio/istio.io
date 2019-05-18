@@ -155,7 +155,7 @@ Istio 能在不杀死 Pod 的情况下，将特定协议的故障注入到网络
 金丝雀背后的想法是通过首先使用一小部分用户流量对其进行测试来引入新版本的服务，然后，如果一切顺利，逐渐增加百分比，直到所有流量都转移到新版本。
 如果在此过程中出现任何问题，则会中止部署并将流量返回到旧版本。
 
-尽管像 Docker、Mesos/Marathon 或 Kubernetes 这样的容器编排平台提供了支持金丝雀部署的功能，但它们受到实例扩展来管理流量分配的限制。 
+尽管像 Docker、Mesos/Marathon 或 Kubernetes 这样的容器编排平台提供了支持金丝雀部署的功能，但它们受到实例扩展来管理流量分配的限制。
 例如，要将 10％ 的流量发送到 canary 版本，需要为每 1 个金丝雀实例运行 9 个旧版本的实例。
 这在需要自动缩放的生产部署中变得特别困难。
 当流量负载增加时，自动缩放器需要同时扩展两个版本的实例，确保实例比率保持不变。
@@ -174,16 +174,15 @@ Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用
 
 Istio 中包含的流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry`、`Gateway` 和 `Sidecar`。
 
-* [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
+- [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
 
-* [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/) 是 `VirtualService` 路由生效后，配置应用与请求的策略集。
+- [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/) 是 `VirtualService` 路由生效后，配置应用与请求的策略集。
 
-* [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 是通常用于在 Istio 服务网格之外启用对服务的请求。
+- [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 是通常用于在 Istio 服务网格之外启用对服务的请求。
 
-* [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
+- [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
 
-* [`Sidecar`](/docs/reference/config/networking/v1alpha3/sidecar/)
-配置连接到网格内运行的应用程序工作负载的一个或多个 sidecar 代理。
+- [`Sidecar`](/docs/reference/config/networking/v1alpha3/sidecar/) 配置连接到网格内运行的应用程序工作负载的一个或多个 sidecar 代理。
 
 例如，将 `reviews` 服务接收到的流量 100% 地发送到 `v1` 版本，这一需求可以用下面的规则来实现：
 
