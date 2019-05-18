@@ -157,7 +157,7 @@ Ingress [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway
     该[网关](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice)列表指定，只有通过我们的要求 `httpbin-gateway` 是允许的。所有其他外部请求将被拒绝，并返回 404 响应。
 
     {{< warning >}}
-    网格中其他服务的内部请求不受这些规则的约束，而是默认为循环路由。 要将这些规则应用于内部调用，您可以将特殊值 `mesh` 添加到 `gateways` 列表中。 
+    网格中其他服务的内部请求不受这些规则的约束，而是默认为循环路由。 要将这些规则应用于内部调用，您可以将特殊值 `mesh` 添加到 `gateways` 列表中。
     由于服务的内部主机名可能与外部主机名不同（例如，`httpbin.default.svc.cluster.local`），因此您还需要将其添加到 `hosts` 列表中。
     有关详细信息，请参阅[故障排除指南](/help/ops/traffic-management/troubleshooting/#route-rules-have-no-effect-on-ingress-gateway-requests)。
     {{< /warning >}}
