@@ -39,7 +39,7 @@ keywords: [traffic-management,egress]
 
 ## Envoy 配置外部服务
 
-Istio 有一个[安装选项](/zh/docs/reference/config/installation-options/) `global.outboundTrafficPolicy.mode`，用于配置外部服务的边车处理，即那些未在Istio内部服务注册中定义的服务。
+Istio 有一个[安装选项](/zh/docs/reference/config/installation-options/) `global.outboundTrafficPolicy.mode`，配置了 Sidecar 对外部服务的处理方式，所谓外部服务就是没有在 Istio 内部服务注册表中进行注册的服务。
 如果此选项设置为 `ALLOW_ANY`，则 Istio 代理允许调用未知服务。
 如果该选项设置为 `REGISTRY_ONLY`，则 Istio 代理会阻止任何没有 HTTP 服务的主机或网格中定义的服务条目。
 `ALLOW_ANY` 是默认值，允许您快速开始评估 Istio，而无需控制对外部服务的访问。
@@ -48,7 +48,7 @@ Istio 有一个[安装选项](/zh/docs/reference/config/installation-options/) `
 {{< warning >}}
 在 Istio 1.1.4 之前的版本中，`ALLOW_ANY` 仅适用于没有在网格中定义的 HTTP 服务或服务条目的端口。
 使用与任何内部 HTTP 服务相同的端口的外部主机回退到默认阻止行为。
-由于某些端口（例如端口 80 ）默认情况下在 Istio 内部具有 HTTP 服务，因此在 Istio 1.1.3 之前，您无法在任何端口上调用外部服务。
+由于某些端口（例如端口 80 ）默认情况下在 Istio 内部具有 HTTP 服务，因此在 Istio 1.1.3 之前，您无法在那些端口上调用外部服务。
 {{< /warning >}}
 
 1. 要查看此方法，您需要确保将 `global.outboundTrafficPolicy.mode` 选项设置为 `ALLOW_ANY` 来配置 Istio 安装。除非您在安装 Istio 时将其明确设置为 `REGISTRY_ONLY` 模式，否则默认情况下可能会启用它。
@@ -82,14 +82,14 @@ Istio 有一个[安装选项](/zh/docs/reference/config/installation-options/) `
 
 恭喜！您已成功从网格中发送出口流量。
 
-这种访问外部服务的简单方法的缺点是您失去了对外部服务流量的监控和控制;例如，调用外部服务不会出现在 Mixer 日志中。
+这种访问外部服务的简单方法的缺点是您失去了对外部服务流量的监控和控制；例如，调用外部服务不会出现在 Mixer 日志中。
 下一节将向您展示如何监视和控制网格对外部服务的访问。
 
 ### 控制外部服务
 
-使用 Istio `ServiceEntry` 配置，您可以从 Istio 集群中访问任何可公开访问的服务。本节介绍如何配置对外部HTTP服务的访问，
-[httpbin.org](http://httpbin.org), 以及外部 HTTPS 服务，
-[www.google.com](https://www.google.com) 不失去 Istio 的流量监控和控制功能。
+使用 Istio `ServiceEntry` 配置，您可以从 Istio 集群中访问任何可公开访问的服务。本节介绍如何配置对外部 HTTP 服务的访问，
+[httpbin.org](http://httpbin.org)， 以及外部 HTTPS 服务，
+[www.google.com](https://www.google.com) 并且已久有 Istio 的流量监控和控制功能。
 
 ### 修改为默认阻止策略
 
@@ -357,15 +357,15 @@ $ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-
 {{< /warning >}}
 
 使用特定于您平台的 IP 范围更新 `istio-sidecar-injector` configmap。
-例如，如果范围是10.0.0.1/24，请使用以下命令：
+例如，假设范围是 10.0.0.1/24，请使用以下命令：
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
-使用您以前使用的相同 Helm 命令 [install Istio](/docs/setup/kubernetes/install/helm),
-特别, 确保为 `--namespace` 标志使用相同的值
-添加这些标志： `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
+使用您以前使用的相同 Helm 命令[安装 Istio](/docs/setup/kubernetes/install/helm)，
+特别，确保为 `--namespace` 标志使用相同的值
+添加这些标志： `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`。
 
 ### 访问外部服务
 
@@ -386,8 +386,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 }
 {{< /text >}}
 
-与通过 HTTP 或 HTTPS 访问外部服务不同，您看不到与 Istio sidecar 相关的任何 header ，并且发送到外部服务的请求既不出现在边车的日志中，也不出现在 Mixer 日志中。
-绕过 Istio sidecars 意味着您无法再监控对外部服务的访问。
+与通过 HTTP 或 HTTPS 访问外部服务不同，您看不到与 Istio sidecar 相关的任何 header ，并且发送到外部服务的请求既不出现在 sidecar 的日志中，也不出现在 Mixer 日志中。
+绕过 Istio sidecar 意味着您无法再监控对外部服务的访问。
 
 ### 清除对外部服务的直接访问
 
@@ -409,18 +409,14 @@ $ helm template install/kubernetes/helm/istio <the flags you used to install Ist
 
 第二种方式越过了 Istio sidecar proxy，让服务直接访问到对应的外部地址。然而要进行这种配置，需要了解云供应商特定的知识和配置。
 
-## Security note
+## 安全说明
 
 {{< warning >}}
-Note that configuration examples in this task **do not enable secure egress traffic control** in Istio.
-A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
+请注意，此任务中的配置示例**不会在 Istio 中启用安全出口流量控制**。
+恶意应用程序可以绕过 Istio sidecar 代理并在没有 Istio 控制的情况下访问任何外部服务。
 {{< /warning >}}
 
-To implement egress traffic control in a more secure way, you must
-[direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway)
-and review the security concerns described in the
-[additional security considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations)
-section.
+要以更安全的方式实施出口流量控制，您必须[通过出口网关指示出口流量](/docs/examples/advanced-gateways/egress-gateway)，并查看本节中描述的安全性[附加安全性考虑因素](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations)。
 
 ## 清理
 
