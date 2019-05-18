@@ -23,7 +23,7 @@ IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平�
 1. 创建标准 Kubernetes 集群。将 `<cluster-name>` 替换为您要在以下说明中使用的群集的名称。
 
     {{< tip >}}
-    要查看可用区域，请运行 `ibmcloud ks zones`。区域彼此隔离，确保没有共享的单点故障。 IBM Cloud Kubernetes 服务[区域和区域](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones)描述了区域，区域以及如何为新区域和区域指定区域和区域簇。
+    要查看可用区域，请运行 `ibmcloud ks zones`。区域彼此隔离，确保没有共享的单点故障。 IBM Cloud Kubernetes 服务[区域和区域](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones)描述了区域，区域以及如何为新区域和区域指定区域和区域集群。
     {{< /tip >}}
 
     {{< tip >}}
