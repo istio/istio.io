@@ -155,18 +155,18 @@ Istio 能在不杀死 Pod 的情况下，将特定协议的故障注入到网络
 金丝雀背后的想法是通过首先使用一小部分用户流量对其进行测试来引入新版本的服务，然后，如果一切顺利，逐渐增加百分比，直到所有流量都转移到新版本。
 如果在此过程中出现任何问题，则会中止部署并将流量返回到旧版本。
 
-尽管像 Docker、Mesos/Marathon 或 Kubernetes 这样的容器编排平台提供了支持金丝雀部署的功能，但它们受到实例扩展来管理流量分配的限制。
-例如，要将 10％ 的流量发送到 canary 版本，需要为每 1 个金丝雀实例运行 9 个旧版本的实例。
+尽管像 Docker、Mesos/Marathon 或 Kubernetes 这样的容器编排平台提供了支持金丝雀部署的功能，但它们只能使用实例数量来控制流量分配。
+例如要把 10% 的流量分配给金丝雀版本，就需要让旧版本的实例数量是金丝雀实例数量的 9 倍。
 这在需要自动缩放的生产部署中变得特别困难。
 当流量负载增加时，自动缩放器需要同时扩展两个版本的实例，确保实例比率保持不变。
 
 实例部署方法的另一个问题是它只支持简单（随机百分比）金丝雀部署。
-根据某些特定标准，不可能将金丝雀的可见性限制为请求。
+不可能将根据一些特定的标准，限制金丝雀版本对某种请求的可见性。
 
 使用 Istio，流量路由和实例部署是两个完全独立的功能。
-实现服务的实例数量可以根据流量负载自由扩展和缩小，与版本流量路由的控制完全正交。
+实现服务的实例数量可以根据流量负载自由扩展和缩小，与基于版本的流量路由控制完全无关。
 这使得在存在自动缩放的情况下管理金丝雀版本是一个更简单的问题。
-有关使用 Istio 时 canary 部署和自动扩展的互操作性的更多信息，请参阅[使用 Istio 的 Canary 部署](/zh/blog/2017/0.1-canary/)。
+有关使用 Istio 时金丝雀部署和自动扩展的互操作性的更多信息，请参阅[使用 Istio 的金丝雀部署](/zh/blog/2017/0.1-canary/)。
 
 ## 规则配置
 
@@ -174,13 +174,13 @@ Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用
 
 Istio 中包含的流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry`、`Gateway` 和 `Sidecar`。
 
-- [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
+- [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) 是一种用来控制把目标为某一服务的请求在 Istio 服务网格内进行路由的规则。
 
-- [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/) 是 `VirtualService` 路由生效后，配置应用与请求的策略集。
+- [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/) 是 `VirtualService` 路由生效后，配置应用于请求的策略集。
 
-- [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 是通常用于在 Istio 服务网格之外启用对服务的请求。
+- [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 通常用来启用对 Istio 服务网格之外的服务的访问。
 
-- [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
+- [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/) 用于在网格边缘配置一个负载均衡，用于承载网格内应用的 HTTP/TCP Ingress 流量或对外的 Egress 流量。
 
 - [`Sidecar`](/docs/reference/config/networking/v1alpha3/sidecar/) 配置连接到网格内运行的应用程序工作负载的一个或多个 sidecar 代理。
 
@@ -228,7 +228,7 @@ spec:
 
 可以使用 `kubectl` 命令配置规则。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
-以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/networking/)。
+以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/docs/reference/config/networking/)。
 
 ## Virtual Service
 
@@ -807,7 +807,7 @@ spec:
     - "./*"
 {{< /text >}}
 
-以这种方式限制 sidecar 可达性可以用于显着减少存储器使用，这对于大型应用来说是一个主要问题，其中每个 sidecar 都具有到达网格中的每个其他服务所必需的配置。
+以这种方式限制 sidecar 可达性可以显著降低内存用量。缺省情况下每个 Sidecar 中都包含网格中所有其它服务的信息，这对大型应用来说是个很大的问题。
 
 `Sidecar` 资源也可以以更多方式使用。
 详细内容请参考 [sidecar reference](/docs/reference/config/networking/v1alpha3/sidecar/)。
