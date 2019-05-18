@@ -69,10 +69,12 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
 ## 检查 `istio` 双向 TLS 认证的配置
 
 您可以使用 `istioctl` 工具检查有效的双向 TLS 设置。标识用于的身份验证策略和目标规则
+
 `httpbin.default.svc.cluster.local` 配置和使用的模式，使用以下命令：
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 {{< /text >}}
 
 在以下示例输出中，您可以看到：
@@ -83,7 +85,7 @@ $ istioctl authn tls-check httpbin.default.svc.cluster.local
 
 {{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       default/            default/default
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/istio-system
 {{< /text >}}
 
 输出显示：
@@ -101,11 +103,12 @@ httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       defa
 为了说明存在冲突的情况，请为具有错误 TLS 模式的 `httpbin` 添加特定于服务的目标规则：
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n bar -f -
+$ cat <<EOF | istioctl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "bad-rule"
+  namespace: "default"
 spec:
   host: "httpbin.default.svc.cluster.local"
   trafficPolicy:
@@ -117,23 +120,22 @@ EOF
 运行与上面相同的 `istioctl` 命令，您现在看到状态为 `CONFLICT` ，因为客户端处于 `HTTP` 模式，而服务器处于 `mTLS` 。
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ i authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8080     CONFLICT     mTLS       HTTP       default/            bad-rule/default
+httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/            bad-rule/default
 {{< /text >}}
 
 您还可以确认从 `sleep` 到 `httpbin` 的请求现在已失败：
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
-000
-command terminated with exit code 56
+503
 {{< /text >}}
 
 在继续之前，请使用以下命令删除错误的目标规则以使双向 TLS 再次起作用：
 
 {{< text bash >}}
-$ kubectl delete --ignore-not-found=true bad-rule
+$ kubectl delete destinationrule --ignore-not-found=true bad-rule
 {{< /text >}}
 
 ## 验证请求
