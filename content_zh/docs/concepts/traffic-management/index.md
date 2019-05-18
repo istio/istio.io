@@ -29,7 +29,7 @@ Istio 流量管理的核心组件是 [Pilot](#pilot-和-envoy)，它管理和配
 Pilot 负责管理通过 Istio 服务网格发布的 Envoy 实例的生命周期。
 
 {{< image width="60%"
-    link="/docs/concepts/traffic-management/PilotAdapters.svg"
+    link="./PilotAdapters.svg"
     caption="Pilot 架构"
     >}}
 
@@ -66,7 +66,7 @@ Istio 不提供 DNS。应用程序可以尝试使用底层平台（`kube-dns`、
 Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理进行传输。通过将 Envoy 代理部署在服务之前，运维人员可以针对面向用户的服务进行 A/B 测试、部署金丝雀服务等。类似地，通过使用 Envoy 将流量路由到外部 Web 服务（例如，访问 Maps API 或视频服务 API）的方式，运维人员可以为这些服务添加超时控制、重试、断路器等功能，同时还能从服务连接中获取各种细节指标。
 
 {{< image width="85%"
-    link="/docs/concepts/traffic-management/ServiceModel_RequestFlow.svg"
+    link="./ServiceModel_RequestFlow.svg"
     alt="通过 Envoy 的 Ingress 和 Egress。"
     caption="请求流"
     >}}
@@ -88,6 +88,19 @@ Pilot 使用来自服务注册的信息，并提供与平台无关的服务发�
 除了负载均衡外，Envoy 还会定期检查池中每个实例的运行状况。Envoy 遵循熔断器风格模式，根据健康检查 API 调用的失败率将实例分类为不健康和健康两种。换句话说，当给定实例的健康检查失败次数超过预定阈值时，将会被从负载均衡池中弹出。类似地，当通过的健康检查数超过预定阈值时，该实例将被添加回负载均衡池。您可以在[处理故障](#故障处理)中了解更多有关 Envoy 的故障处理功能。
 
 服务可以通过使用 HTTP 503 响应健康检查来主动减轻负担。在这种情况下，服务实例将立即从调用者的负载均衡池中删除。
+
+### 本地负载均衡
+
+地点使用以下三元组定义网格中的地理位置：
+
+- 地区（Region）
+- 区域（Zone）
+- 分区（Sub-zone）
+
+地理位置通常代表数据中心。
+Istio 使用此信息来确定负载均衡池的优先级，以控制请求被代理的地理位置。
+
+有关如何启用此功能的更多信息和说明，请参阅[操作指南](/zh/help/ops/traffic-management/locality-load-balancing/)。
 
 ## 故障处理
 
@@ -137,11 +150,29 @@ Istio 能在不杀死 Pod 的情况下，将特定协议的故障注入到网络
 
 运维人员可以为符合特定条件的请求配置故障，还可以进一步限制遭受故障的请求的百分比。可以注入两种类型的故障：延迟和中断。延迟是计时故障，模拟网络延迟上升或上游服务超载的情况。中断是模拟上游服务的崩溃故障。中断通常以 HTTP 错误代码或 TCP 连接失败的形式表现。
 
+## 金丝雀
+
+金丝雀背后的想法是通过首先使用一小部分用户流量对其进行测试来引入新版本的服务，然后，如果一切顺利，逐渐增加百分比，直到所有流量都转移到新版本。
+如果在此过程中出现任何问题，则会中止部署并将流量返回到旧版本。
+
+尽管像 Docker、Mesos/Marathon 或 Kubernetes 这样的容器编排平台提供了支持金丝雀部署的功能，但它们受到实例扩展来管理流量分配的限制。 
+例如，要将 10％ 的流量发送到 canary 版本，需要为每 1 个金丝雀实例运行 9 个旧版本的实例。
+这在需要自动缩放的生产部署中变得特别困难。
+当流量负载增加时，自动缩放器需要同时扩展两个版本的实例，确保实例比率保持不变。
+
+实例部署方法的另一个问题是它只支持简单（随机百分比）金丝雀部署。
+根据某些特定标准，不可能将金丝雀的可见性限制为请求。
+
+使用 Istio，流量路由和实例部署是两个完全独立的功能。
+实现服务的实例数量可以根据流量负载自由扩展和缩小，与版本流量路由的控制完全正交。
+这使得在存在自动缩放的情况下管理金丝雀版本是一个更简单的问题。
+有关使用 Istio 时 canary 部署和自动扩展的互操作性的更多信息，请参阅[使用 Istio 的 Canary 部署](/zh/blog/2017/0.1-canary/)。
+
 ## 规则配置
 
 Istio 提供了一个简单的配置模型，用来控制 API 调用以及应用部署内多个服务之间的四层通信。运维人员可以使用这个模型来配置服务级别的属性，这些属性可以是断路器、超时、重试，以及一些普通的持续发布任务，例如金丝雀发布、A/B 测试、使用百分比对流量进行控制，从而完成应用的逐步发布等。
 
-Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry` 以及 `Gateway`。下面会讲一下这几个资源的一些重点。在[网络参考](/docs/reference/config/networking/)中可以获得更多这方面的信息。
+Istio 中包含的流量管理配置资源，分别是 `VirtualService`、`DestinationRule`、`ServiceEntry`、`Gateway` 和 `Sidecar`。
 
 * [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) 在 Istio 服务网格中定义路由规则，控制路由如何路由到服务上。
 
@@ -150,6 +181,9 @@ Istio 中包含有四种流量管理配置资源，分别是 `VirtualService`、
 * [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 是通常用于在 Istio 服务网格之外启用对服务的请求。
 
 * [`Gateway`](/docs/reference/config/networking/v1alpha3/gateway/) 为 HTTP/TCP 流量配置负载均衡器，最常见的是在网格的边缘的操作，以启用应用程序的入口流量。
+
+* [`Sidecar`](/docs/reference/config/networking/v1alpha3/sidecar/)
+配置连接到网格内运行的应用程序工作负载的一个或多个 sidecar 代理。
 
 例如，将 `reviews` 服务接收到的流量 100% 地发送到 `v1` 版本，这一需求可以用下面的规则来实现：
 
@@ -193,9 +227,9 @@ spec:
       version: v2
 {{< /text >}}
 
-可以使用 `kubectl` 命令配置规则。在[配置请求路由任务](/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
+可以使用 `kubectl` 命令配置规则。在[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中包含有配置示例。
 
-以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/docs/reference/config/networking/)。
+以下部分提供了流量管理配置资源的基本概述。详细信息请查看[网络参考](/zh/docs/reference/config/networking/)。
 
 ## Virtual Service
 
@@ -376,8 +410,9 @@ spec:
   - ratings
   http:
   - match:
-      sourceLabels:
+    - sourceLabels:
         app: reviews
+    route:
     ...
 {{< /text >}}
 
@@ -398,6 +433,7 @@ spec:
     - sourceLabels:
         app: reviews
         version: v2
+    route:
     ...
 {{< /text >}}
 
@@ -416,6 +452,7 @@ spec:
     - headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 
@@ -435,6 +472,7 @@ spec:
   - match:
     - uri:
         prefix: /api/v1
+    route:
     ...
 {{< /text >}}
 
@@ -460,6 +498,7 @@ spec:
       headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 
@@ -481,6 +520,7 @@ spec:
     - headers:
         end-user:
           exact: jason
+    route:
     ...
 {{< /text >}}
 
@@ -587,7 +627,9 @@ spec:
 
 规则评估的第一步，是确认 `VirtualService` 中所请求的主机相对应的路由规则（如果有的话），这一步骤决定了将请求发往目标服务的哪一个 `subset`（就是特定版本）。下一步，被选中的 `subset` 如果定义了策略，就会开始是否生效的评估。
 
+{{< tip >}}
 **注意：**这一算法需要留心是，为特定 `subset` 定义的策略，只有在该 `subset` 被显式的路由时候才能生效。例如下面的配置，只为 `review` 服务定义了规则（没有对应的 `VirtualService` 路由规则）。
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -706,6 +748,8 @@ kind: Gateway
 metadata:
   name: bookinfo-gateway
 spec:
+  selector:
+    istio: ingressgateway # use istio default controller
   servers:
   - port:
       number: 443
@@ -741,4 +785,30 @@ spec:
 
 在 [Ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中有完整的 Ingress Gateway 例子。
 
-虽然主要用于管理入口（Ingress）流量，`Gateway` 还可以用在纯粹的内部服务之间或者出口（Egress）场景下使用。不管处于什么位置，所有的网关都可以以同样的方式进行配置和控制。[Gateway 参考](/docs/reference/config/networking/v1alpha3/gateway/) 中包含更多细节描述。
+虽然最常用于管理入口（Ingress）流量，`Gateway` 还可以用在纯粹的内部服务之间或者出口（Egress）场景下使用。
+不管处于什么位置，所有的网关都可以以同样的方式进行配置和控制。[Gateway 参考](/docs/reference/config/networking/v1alpha3/gateway/) 中包含更多细节描述。
+
+### Sidecars
+
+默认情况下，Istio 将每个 sidecar 代理配置为接受其关联工作负载的所有端口上的流量，并在转发流量时到达网格中的每个工作负载。
+[Sidecar](/docs/reference/config/networking/v1alpha3/sidecar/) 配置可用于微调代理将接受的端口和协议集，并限制代理可以达到的服务集。
+
+`Sidecar` 资源可用于配置使用工作负载标签选择的一个或多个 sidecar 代理，或配置特定命名空间中的所有 sidecar。
+例如，以下 `Sidecar` 将 `bookinfo` 命名空间中的所有服务配置为仅访问在同一命名空间中运行的服务：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: default
+  namespace: bookinfo
+spec:
+  egress:
+  - hosts:
+    - "./*"
+{{< /text >}}
+
+以这种方式限制 sidecar 可达性可以用于显着减少存储器使用，这对于大型应用来说是一个主要问题，其中每个 sidecar 都具有到达网格中的每个其他服务所必需的配置。
+
+`Sidecar` 资源也可以以更多方式使用。
+详细内容请参考 [sidecar reference](/docs/reference/config/networking/v1alpha3/sidecar/)。
