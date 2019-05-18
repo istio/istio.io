@@ -35,7 +35,7 @@ IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平�
       --name <cluster-name>
     {{< /text >}}
 
-1. 检索 `kubectl` 的凭据。
+1.  获取 `kubectl` 的认证凭据。
 
     {{< text bash >}}
     $(ibmcloud ks cluster-config <cluster-name> --export)
