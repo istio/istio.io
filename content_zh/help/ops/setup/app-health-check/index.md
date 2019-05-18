@@ -143,7 +143,7 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 
 ##### 配置 Istio 以重写 HTTP 存活探针
 
-要使用这种方法, 你[安装 Istio](/zh/docs/setup/kubernetes/install/helm/)  需要 Helm 的 `sidecarInjectorWebhook.rewriteAppHTTPProbe=true` 选项。
+要使用这种方法, 你[安装 Istio](/zh/docs/setup/kubernetes/install/helm/)时候，  需要在 Helm 中设置 `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`。
 [Helm 安装选项](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
 
 **另外**, 更新 Istio sidecar 的注入配置：
