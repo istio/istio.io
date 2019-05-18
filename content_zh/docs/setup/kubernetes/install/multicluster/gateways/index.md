@@ -42,6 +42,7 @@ keywords: [kubernetes,multicluster,federation,gateway]
     {{< /warning >}}
 
     {{< text bash >}}
+    $ cat install/kubernetes/helm/istio-init/files/crd-* > $HOME/istio.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
         -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
     {{< /text >}}
@@ -49,6 +50,16 @@ keywords: [kubernetes,multicluster,federation,gateway]
     要了解更多细节以及参数定制方法，请阅读：[用 Helm 进行安装](/zh/docs/setup/kubernetes/install/helm)。
 
 1. 在**每个集群**中运行下面的命令，从而为所有集群生成一致的 Istio 控制面部署配置。
+
+    {{< warning >}}
+
+    确保当前用户具有集群管理员（`cluster-admin`）权限，如果没有，则授予他们权限。例如，在 GKE 平台上，可以使用以下命令：
+
+    {{< text bash >}}
+    $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
+    {{< /text >}}
+
+    {{< /warning >}}
 
     * 使用如下命令，用新生成的 CA 证书，创建一个 Kubernetes Secret，阅读 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)一节，其中有更多的相关细节。
 
