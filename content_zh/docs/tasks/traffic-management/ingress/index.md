@@ -33,7 +33,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 #### 使用外部负载均衡器时确定 IP 和端口
 
-如果您确定您的环境**具有**外部负载平衡器，请按照这些说明进行操作。
+如果您确定您的环境**具有**外部负载均衡器，请按照这些说明进行操作。
 
 设置入口 IP 和端口：
 
@@ -157,7 +157,7 @@ Ingress [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway
     该[网关](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice)列表指定，只有通过我们的要求 `httpbin-gateway` 是允许的。所有其他外部请求将被拒绝，并返回 404 响应。
 
     {{< warning >}}
-    网格中其他服务的内部请求不受这些规则的约束，而是默认为循环路由。 要将这些规则应用于内部调用，您可以将特殊值 `mesh` 添加到 `gateways` 列表中。
+    网格内其它服务的请求不受这一规则的影响，而是会使用缺省的轮询路由。要将这些规则应用于内部调用，您可以将特殊值 `mesh` 添加到 `gateways` 列表中。
     由于服务的内部主机名可能与外部主机名不同（例如，`httpbin.default.svc.cluster.local`），因此您还需要将其添加到 `hosts` 列表中。
     有关详细信息，请参阅[故障排除指南](/help/ops/traffic-management/troubleshooting/#route-rules-have-no-effect-on-ingress-gateway-requests)。
     {{< /warning >}}
@@ -262,7 +262,7 @@ EOF
     $ kubectl get ingress --all-namespaces
     {{< /text >}}
 
-1.  如果您有外部负载平衡器并且它不适合您，请尝试使用服务的[节点端口](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port)访问网关。
+1.  如果您有外部负载平衡器并且它不适合您，请尝试使用服务的[Node Port](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port)访问网关。
 
 ## 清理
 
