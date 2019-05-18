@@ -56,7 +56,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
 
 1.  进入 Istio 安装目录。
 
-1.   Istio 安装 默认用的是[自动 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
+1.   Istio 默认启用[自动 Sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，为 `default` 命名空间打上标签 `istio-injection=enabled`。
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
@@ -136,7 +136,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     bookinfo-gateway   32s
     {{< /text >}}
 
-1.  根据[文档](/zh/docs/tasks/traffic-management/ingress/#使用外部负载均衡器时确定-ip-和端口)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
+1.  根据[文档](/zh/docs/tasks/traffic-management/ingress/#使用外部负载均衡器时确定-ip-和端口)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。
 
 1.  设置 `GATEWAY_URL`：
 
@@ -175,7 +175,7 @@ Bookinfo 是一个异构应用，几个微服务是由不同的语言编写的�
     $ export GATEWAY_URL=localhost:9081
     {{< /text >}}
 
-1.  __Consul 用户请注意：__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同对 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
+1.  __Consul 用户请注意：__ 在以下说明中，在执行任何后续路由任务时，由于当前默认子域的实现问题导致在 `samples/bookinfo/networking` 中的 yaml 文件对短服务主机不可用。现在，需要使用 `samples/bookinfo/platform/consul` 中相同的 yaml 文件。例如：使用 `kubectl apply` 指令 将 `samples/bookinfo/networking/destination-rule-all.yaml` 替换成 `samples/bookinfo/platform/consul/destination-rule-all.yaml` 。
 
 ## 确认应用在运行中
 
