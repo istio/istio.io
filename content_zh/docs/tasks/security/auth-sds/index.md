@@ -79,7 +79,7 @@ $ kubectl exec -it $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..me
 ## 使用 pod 安全策略提高安全性
 
 Istio Secret 发现服务（SDS）使用 Citadel 代理通过 Unix domain socket 将证书分发给 Envoy sidecar。
-在同一个 Kubernetes 节点中运行的所有 pod 共享 Citade l代理和 Unix domain socket。
+在同一个 Kubernetes 节点中运行的所有 pod 共享 Citadel 代理和 Unix domain socket。
 
 要防止对 Unix domain socket 进行恶意修改，请启用 pod 安全策略以限制 pod 对 Unix domain socket 的权限。
 否则，恶意 pod 可能会劫持 Unix domain socket 以破坏 SDS 服务或从同一 Kubernetes 节点上运行的其他 pod 窃取身份凭证。
