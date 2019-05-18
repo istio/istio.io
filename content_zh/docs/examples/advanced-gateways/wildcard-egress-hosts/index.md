@@ -14,31 +14,9 @@ egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipe
 都有自己的主机名，例如 `en.wikipedia.org` 和 `de.wikipedia.org` 分别对应英文和德文。
 您希望通过通用配置项对所有 `wikipedia` 网站启用 egress 流量，而无需单独配置每个语言的站点。
 
-## 开始之前
+{{< boilerplate before-you-begin-egress >}}
 
-* 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
-
-* 启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，它将被用作外部请求的测试源。
-
-  如果您启用了[自动 sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，请运行
-
-{{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
-{{< /text >}}
-
-  否则，您需要在部署 `sleep` 应用之前手动注入 sidecar：
-
-{{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-{{< /text >}}
-
-  请注意，任何您能够 `exec` 和 `curl` 的 pod 都可以作为示例。
-
-* 创建一个 shell 变量来保存源 pod 的名称，以便将请求发送到外部服务。如果您使用 [sleep]({{<github_tree>}}/samples/sleep) 示例，请运行：
-
-{{< text bash >}}
-$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-{{< /text >}}
+*   [部署 Istio 出口网关](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
 
 ## 配置到通配符主机的直接流量
 
@@ -325,7 +303,7 @@ SNI 代理会将流量转发到 `443` 端口。
     EOF
     {{< /text >}}
 
-1. 部署新的 egress gateway：
+1.  部署新的 egress gateway：
 
     {{< text bash >}}
     $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
@@ -337,7 +315,7 @@ SNI 代理会将流量转发到 `443` 端口。
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
     {{< /text >}}
 
-1. 验证新的 egress gateway 工作正常。请注意，pod 包含两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。
+1.  验证新的 egress gateway 工作正常。请注意，pod 包含两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。
 
     {{< text bash >}}
     $ kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system
@@ -345,7 +323,7 @@ SNI 代理会将流量转发到 `443` 端口。
     istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
     {{< /text >}}
 
-1. 创建一个 service entry，指定静态地址为 127.0.0.1 （`localhost`），并对定向到新 service entry 的流量禁用双向 TLS。
+1.  创建一个 service entry，指定静态地址为 127.0.0.1 （`localhost`），并对定向到新 service entry 的流量禁用双向 TLS。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -379,7 +357,7 @@ SNI 代理会将流量转发到 `443` 端口。
 
 #### 通过具有 SNI 代理的 egress gateway 配置流量
 
-1. 为 `*.wikipedia.org` 定义一个 `ServiceEntry`：
+1.  为 `*.wikipedia.org` 定义一个 `ServiceEntry`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
@@ -397,10 +375,20 @@ SNI 代理会将流量转发到 `443` 端口。
     EOF
     {{< /text >}}
 
-1. 为 `*.wikipedia.org` 创建一个 egress `Gateway`，端口为 443，协议为 TLS，并创建一个 virtual service 以将目的为 `*.wikipedia.org`
-   的流量定向到 gateway。
+1.  为 `*.wikipedia.org` 创建一个 egress `Gateway`，端口为 443，协议为 TLS，并创建一个 virtual service 以将目的为 `*.wikipedia.org`
+    的流量定向到 gateway。
 
-    {{< text bash >}}
+    选择与是否要在源容器和出口网关之间启用[双向 TLS 身份验证](/zh/docs/tasks/security/mutual-tls/)相对应的说明。
+
+    {{< idea >}}
+    您可能希望启用双向 TLS 以允许出口网关监视源容器的标识，并基于该标识启用 Mixer 策略。
+    {{< /idea >}}
+
+    {{< tabset cookie-name="mtls" >}}
+
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -412,12 +400,15 @@ SNI 代理会将流量转发到 `443` 端口。
       servers:
       - port:
           number: 443
-          name: tls
+          name: tls-egress
           protocol: TLS
         hosts:
         - "*.wikipedia.org"
         tls:
-          mode: PASSTHROUGH
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -425,8 +416,24 @@ SNI 代理会将流量转发到 `443` 端口。
       name: egressgateway-for-wikipedia
     spec:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
         - name: wikipedia
+          trafficPolicy:
+            loadBalancer:
+              simple: ROUND_ROBIN
+            portLevelSettings:
+            - port:
+                number: 443
+              tls:
+                mode: ISTIO_MUTUAL
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -452,20 +459,126 @@ SNI 代理会将流量转发到 `443` 端口。
             port:
               number: 443
           weight: 100
+      tcp:
       - match:
         - gateways:
           - istio-egressgateway-with-sni-proxy
           port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
         route:
         - destination:
             host: sni-proxy.local
             port:
               number: 8443
           weight: 100
+    ---
+    # 以下过滤器用于将原始 SNI（由应用程序发送）转发为双向 TLS 连接的 SNI。
+    # 转发的 SNI 将报告给 Mixer ，以便根据原始 SNI 值强制执行策略。
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: forward-downstream-sni
+    spec:
+      filters:
+      - listenerMatch:
+          portNumber: 443
+          listenerType: SIDECAR_OUTBOUND
+        filterName: forward_downstream_sni
+        filterType: NETWORK
+        filterConfig: {}
+    ---
+    # 以下过滤器验证双向 TLS 连接的 SNI（报告给 Mixer 的 SNI）与应用程序发布的原始 SNI（SNI 代理用于路由的 SNI）相同。
+    # 过滤器可防止 Mixer 被恶意应用程序欺骗：路由到一个　SNI，同时报告其他一些　SNI　值。如果原始　SNI　与双向　TLS　连接的　SNI　不匹配，则过滤器将阻止与外部服务的连接。
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: egress-gateway-sni-verifier
+    spec:
+      workloadLabels:
+        app: istio-egressgateway-with-sni-proxy
+      filters:
+      - listenerMatch:
+          portNumber: 443
+          listenerType: GATEWAY
+        filterName: sni_verifier
+        filterType: NETWORK
+        filterConfig: {}
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+
+    {{< text_hack bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+     name: istio-egressgateway-with-sni-proxy
+    spec:
+     selector:
+       istio: egressgateway-with-sni-proxy
+     servers:
+     - port:
+         number: 443
+         name: tls
+         protocol: TLS
+       hosts:
+       - "*.wikipedia.org"
+       tls:
+         mode: PASSTHROUGH
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+     name: egressgateway-for-wikipedia
+    spec:
+     host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+     subsets:
+       - name: wikipedia
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+     name: direct-wikipedia-through-egress-gateway
+    spec:
+     hosts:
+     - "*.wikipedia.org"
+     gateways:
+     - mesh
+     - istio-egressgateway-with-sni-proxy
+     tls:
+     - match:
+       - gateways:
+         - mesh
+         port: 443
+         sni_hosts:
+         - "*.wikipedia.org"
+       route:
+       - destination:
+           host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+           subset: wikipedia
+           port:
+             number: 443
+         weight: 100
+     - match:
+       - gateways:
+         - istio-egressgateway-with-sni-proxy
+         port: 443
+         sni_hosts:
+         - "*.wikipedia.org"
+       route:
+       - destination:
+           host: sni-proxy.local
+           port:
+             number: 8443
+         weight: 100
+    EOF
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. 发送 HTTPS 请求到 [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)：
 
@@ -475,14 +588,21 @@ SNI 代理会将流量转发到 `443` 端口。
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1. 检查 egress gateway 代理的统计数据，找到对应于到 `*.wikipedia.org` 的请求的 counter（到 SNI 代理流量的 counter）。如果 Istio 部署在 `istio-system` namespace 中，打印 counter 的命令为：
+1. 检查 mixer 日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
-    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 2
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
     {{< /text >}}
 
-1. 检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
+    您应该看到类似于以下内容的行：
+
+    {{< text plain >}}
+    [2019-01-02T16:34:23.312Z] "- - -" 0 - 578 79141 624 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55018 172.30.109.84:443 172.30.109.112:45346 en.wikipedia.org
+    [2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
+    {{< /text >}}
+
+1.  检查　SNI　代理的日志。如果　Istio　部署在　`istio-system`　命名空间中，则打印命令
+    日志是：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
@@ -490,143 +610,14 @@ SNI 代理会将流量转发到 `443` 端口。
     127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
     {{< /text >}}
 
-1. 检查 mixer 日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
+1.  检查　Mixer 日志。如果　Istio　部署在　`istio-system`　命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'; done
-    {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"placeholder.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/default/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
+    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'
+    {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"en.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/sleep/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
     {{< /text >}}
 
-    注意 `requestedServerName` 属性。
-
-#### SNI 监控和访问策略
-
-现在，一旦通过一个 egress gateway 引导 egress 流量，您就可以在 egress 流量上**安全的**应用监控和访问策略。在本小节中，您将为到 `*.wikipedia.org`
-的 egress 流量定义一个 log entry 和访问策略。
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    # Log entry for egress access
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: logentry
-    metadata:
-      name: egress-access
-      namespace: istio-system
-    spec:
-      severity: '"info"'
-      timestamp: context.time | timestamp("2017-01-01T00:00:00Z")
-      variables:
-        connectionEvent: connection.event | ""
-        source: source.labels["app"] | "unknown"
-        sourceNamespace: source.namespace | "unknown"
-        sourceWorkload: source.workload.name | ""
-        sourcePrincipal: source.principal | "unknown"
-        requestedServerName: connection.requested_server_name | "unknown"
-        destinationApp: destination.labels["app"] | ""
-      monitored_resource_type: '"UNSPECIFIED"'
-    ---
-    # Handler for info egress access entries
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: stdio
-    metadata:
-      name: egress-access-logger
-      namespace: istio-system
-    spec:
-      severity_levels:
-        info: 0 # output log level as info
-      outputAsJson: true
-    ---
-    # Rule to handle access to *.wikipedia.org
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: handle-wikipedia-access
-      namespace: istio-system
-    spec:
-      match: source.labels["app"] == "istio-egressgateway-with-sni-proxy" && destination.labels["app"] == "" && connection.event == "open"
-      actions:
-      - handler: egress-access-logger.stdio
-        instances:
-          - egress-access.logentry
-    EOF
-    {{< /text >}}
-
-1. 发送 HTTPS 请求到 [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)：
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
-    <title>Wikipedia, the free encyclopedia</title>
-    <title>Wikipedia – Die freie Enzyklopädie</title>
-    {{< /text >}}
-
-1. 检查 mixer 日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access.logentry.istio-system'; done
-    {{< /text >}}
-
-1. 定义一个策略，允许访问除英文版 Wikipedia 之外匹配 `*.wikipedia.org` 的主机名：
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl create -f -
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: listchecker
-    metadata:
-      name: wikipedia-checker
-      namespace: istio-system
-    spec:
-      overrides: ["en.wikipedia.org"]  # overrides 提供一个静态列表
-      blacklist: true
-    ---
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: listentry
-    metadata:
-      name: requested-server-name
-      namespace: istio-system
-    spec:
-      value: connection.requested_server_name
-    ---
-    # Rule to check access to *.wikipedia.org
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: check-wikipedia-access
-      namespace: istio-system
-    spec:
-      match: source.labels["app"] == "istio-egressgateway-with-sni-proxy" && destination.labels["app"] == ""
-      actions:
-      - handler: wikipedia-checker.listchecker
-        instances:
-          - requested-server-name.listentry
-    EOF
-    {{< /text >}}
-
-1. 发送一个 HTTPS 请求到被纳入黑名单的 [https://en.wikipedia.org](https://en.wikipedia.org):
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
-    ...
-    curl: (35) Unknown SSL protocol error in connection to en.wikipedia.org:443
-    command terminated with exit code 35
-    {{< /text >}}
-
-1. 发送 HTTPS 请求到其余网站，例如 [https://es.wikipedia.org](https://es.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)：
-
-    {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
-    <title>Wikipedia, la enciclopedia libre</title>
-    <title>Wikipedia – Die freie Enzyklopädie</title>
-    {{< /text >}}
-
-##### 清理监控和策略
-
-{{< text bash >}}
-$ kubectl delete rule handle-wikipedia-access check-wikipedia-access -n istio-system
-$ kubectl delete logentry egress-access -n istio-system
-$ kubectl delete stdio egress-access-logger -n istio-system
-$ kubectl delete listentry requested-server-name -n istio-system
-$ kubectl delete listchecker wikipedia-checker -n istio-system
-{{< /text >}}
+    请注意　`requestedServerName`　属性。
 
 #### 清理任意域名的通配符配置
 
@@ -637,6 +628,7 @@ $ kubectl delete listchecker wikipedia-checker -n istio-system
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
     $ kubectl delete destinationrule egressgateway-for-wikipedia
+    $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
 1. 删除 `egressgateway-with-sni-proxy` `Deployment` 的配置项：
