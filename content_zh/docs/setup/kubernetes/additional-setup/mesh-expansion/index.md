@@ -71,7 +71,7 @@ keywords: [kubernetes,vms]
     35.232.112.158
     {{< /text >}}
 
-1.  生成 `cluster.env` 配置以在 VM 中部署。此文件包含 Kubernetes 集群 IP 地址范围
+1.  生成 `cluster.env` 配置以在 `VM` 中部署。此文件包含 Kubernetes 集群 IP 地址范围
     通过 envoy 拦截和重定向。将 Kubernetes 安装为 `servicesIpv4Cidr` 时指定 CIDR 范围。
     使用适当的值替换以下示例命令中的 `$MY_ZONE` 和 `$MY_PROJECT` 以获取 CIDR
     安装后：
@@ -197,7 +197,7 @@ $ curl -v productpage.default.svc.cluster.local:9080
 ... html content ...
     {{< /text >}}
 
-`server: envoy` header 表示 sidecar 拦截了流量。
+header 中的 `server: envoy` 表示 sidecar 拦截了流量。
 
 ## 在网格扩展机器上运行服务{#running-services-on-a-mesh-expansion-machine}
 
