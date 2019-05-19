@@ -63,7 +63,7 @@ keywords: [telemetry,logs]
 
 日志配置要求 Mixer 把日志发送给 stdout。它使用了三个部分的配置：**instance** 配置、**handler** 配置以及 **rule** 配置。
 
-配置中的 `kind: logentry` 一节定义了生成日志条目（命名为 `newlog` 的 instance）的格式。这个 instance 配置告知 Mixer 如何根据请求过程中 Envoy 报告的属性生成日志条目。
+配置中的 `kind: instance` 一节定义了生成日志条目（命名为 `newlog` 的 instance）的格式。这个 instance 配置告知 Mixer 如何根据请求过程中 Envoy 报告的属性生成日志条目。
 
 `severity` 参数用来指定生成的 `logentry` 的日志级别。在本例中使用的是一个常量 `"warning"`。这个值会被映射到支持日志级别数据的 `logentry` handler 中。
 
@@ -71,7 +71,7 @@ keywords: [telemetry,logs]
 
 `variables` 参数让运维人员可以配置每个 `logentry` 中应该包含什么数据。一系列的表达式控制了从 Istio 属性以及常量映射和组成 `logentry` 的过程。在本文中，每个 `logentry` 都有一个 `latency` 字段，这个字段是从 `response.duration` 属性中得来的。如果 `response.duration` 中没有值，`latency` 字段就会设置为 `0ms`。
 
-`kind: stdio` 这一段配置定义了一个叫做 `newhandler` 的 handler。Handler 的 `spec`
+`kind: handler` 这一段配置定义了一个叫做 `newhandler` 的 handler。Handler 的 `spec`
  配置了 `stdio` 适配器收到 `logentry` instance 之后的处理方法。 `severity_levels` 参数控制了 `logentry` 中 `severity` 字段的映射方式。这里的常量 `"warning"` 映射为 `WARNING` 日志级别。`outputAsJson` 参数要求适配器生成 JSON 格式的日志。
 
 `kind: rule` 部分定义了命名为 `newlogstdio` 的 `rule` 对象。这个对象引导 Mixer 把所有 `newlog.logentry` instance 发送给 `newhandler.stdio` handler。因为 `match` 参数取值为 `true`，所以网格中所有的请求都会执行这一对象。
