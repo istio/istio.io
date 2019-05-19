@@ -57,7 +57,7 @@ keywords: [kubernetes,vms]
     有关在[Helm 文档](https://docs.helm.sh/using_helm/#using-helm)中自定义 Helm 图表的更多信息。
     {{< /tip >}}
 
-1. 定义 VM 加入的命名空间。此示例使用 `SERVICE_NAMESPACE 环境变量来存储命名空间。此变量的值必须与稍后在配置文件中使用的命名空间匹配。
+1. 定义 VM 加入的命名空间。此示例使用 `SERVICE_NAMESPACE` 环境变量来存储命名空间。此变量的值必须与稍后在配置文件中使用的命名空间匹配。
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="default"
@@ -71,7 +71,7 @@ keywords: [kubernetes,vms]
     35.232.112.158
     {{< /text >}}
 
-1.  生成 `cluster.env` 配置以在 `VM` 中部署。此文件包含 Kubernetes 集群 IP 地址范围
+1.  生成 `cluster.env` 配置以在 VM 中部署。此文件包含 Kubernetes 集群 IP 地址范围
     通过 envoy 拦截和重定向。将 Kubernetes 安装为 `servicesIpv4Cidr` 时指定 CIDR 范围。
     使用适当的值替换以下示例命令中的 `$MY_ZONE` 和 `$MY_PROJECT` 以获取 CIDR
     安装后：
