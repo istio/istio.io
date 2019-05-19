@@ -17,7 +17,7 @@ I will describe the implementation of the egress traffic control in Istio and co
 next posts.
 
 The most important security aspect for a service mesh is probably ingress traffic. You definitely must prevent attackers
-from penetrating the cluster though ingress APIs. Having said that, securing 
+from penetrating the cluster though ingress APIs. Having said that, securing
 the traffic leaving the mesh is also very important. Once your cluster is compromised, and you must be
 prepared for that scenario, you want to reduce the damage as much as possible and prevent the attackers from using the
 cluster for further attacks on external services and legacy systems outside of the cluster. For that you need egress
