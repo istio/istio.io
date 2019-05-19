@@ -1,6 +1,6 @@
 ---
-title: Announcing end of support for Istio 1.0
-description: Istio 1.0 EOL announcement
+title: Support for Istio 1.0 ends on June 19th, 2019
+description: Upcoming Istio 1.0 EOL announcement
 publishdate: 2019-05-20
 attribution: The Istio Team
 release: 1.0
