@@ -17,62 +17,18 @@ keywords: [telemetry,metrics]
 
 1. 新建一个 YAML 文件，用来配置新的指标以及数据流，Istio 将会进行自动生成和收集的工作。
 
-    以文件名 `new_telemetry.yaml` 保存下面的代码：
-
-    {{< text yaml >}}
-    # 指标 instance 的配置
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: metric
-    metadata:
-      name: doublerequestcount
-      namespace: istio-system
-    spec:
-      value: "2" # 每个请求计数两次
-      dimensions:
-        reporter: conditional((context.reporter.kind | "inbound") == "outbound", "client", "server")
-        source: source.workload.name | "unknown"
-        destination: destination.workload.name | "unknown"
-        message: '"twice the fun!"'
-      monitored_resource_type: '"UNSPECIFIED"'
-    ---
-    # prometheus handler 的配置
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: prometheus
-    metadata:
-      name: doublehandler
-      namespace: istio-system
-    spec:
-      metrics:
-      - name: double_request_count # Prometheus 指标名称
-        instance_name: doublerequestcount.metric.istio-system # Mixer Instance 名称（全限定名称）
-        kind: COUNTER
-        label_names:
-        - reporter
-        - source
-        - destination
-        - message
-    ---
-    # 将指标 Instance 发送给 prometheus handler 的 rule 对象
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: doubleprom
-      namespace: istio-system
-    spec:
-      actions:
-      - handler: doublehandler.prometheus
-        instances:
-        - doublerequestcount.metric
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/telemetry/metrics.yaml@
     {{< /text >}}
 
-1. 把新配置推送给集群。
+    {{< warning >}}
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下配置：
 
     {{< text bash >}}
-    $ kubectl apply -f new_metrics.yaml
-    Created configuration metric/istio-system/doublerequestcount at revision 1973035
-    Created configuration prometheus/istio-system/doublehandler at revision 1973036
-    Created configuration rule/istio-system/doubleprom at revision 1973037
+    $ kubectl apply -f @samples/bookinfo/telemetry/metrics-crd.yaml@
     {{< /text >}}
+
+    {{< /warning >}}
 
 1. 向示例应用发送流量。
 
@@ -117,17 +73,27 @@ keywords: [telemetry,metrics]
 
 ### 理解指标配置
 
+在此任务中，您添加了 Istio 配置，指示 Mixer 自动生成并报告网格中所有流量的新度量标准。
+
+添加的配置控制了三个 Mixer 功能：
+
+1. 从 Istio 属性生成 *instances*（在此示例中，度量值）
+
+1. 创建 *handlers*（配置的 Mixer 适配器），能够处理生成的 *instances*
+
+1. 根据一组 *rule* 将 *instances* 发送给 *handlers*
+
 指标的配置让 Mixer 把指标数值发送给 Prometheus。其中包含三块内容：**instance** 配置、**handler** 配置以及 **rule** 配置。
 
-`kind: metric` 为指标值（或者 **instance**）定义了结构，命名为 `doublerequestcount`。Instance 配置告诉 Mixer 如何为所有请求生成指标。指标来自于 Envoy 汇报的属性（然后由 Mixer 生成）。
+`kind: instance` 为指标值（或者 **instance**）定义了结构，命名为 `doublerequestcount`。Instance 配置告诉 Mixer 如何为所有请求生成指标。指标来自于 Envoy 汇报的属性（然后由 Mixer 生成）。
 
-`doublerequestcount.metric` 配置让 Mixer 给每个 instance 赋值为 `2`。因为 Istio 为每个请求都会生成 instance，这就意味着这个指标的记录的值等于收到请求数量的两倍。
+`doublerequestcount` 配置让 Mixer 给每个 instance 赋值为 `2`。因为 Istio 为每个请求都会生成 instance，这就意味着这个指标的记录的值等于收到请求数量的两倍。
 
-每个 `doublerequestcount.metric` 都有一系列的 `dimension`。`dimension` 提供了一种为不同查询和需求对指标数据进行分割、聚合以及分析的方式。例如在对应用进行排错的过程中，可能只需要目标为某个服务的请求进行报告。这种配置让 Mixer 根据属性值和常量为 `dimension` 生成数值。例如 `source` 这个 `dimension`，他首先尝试从 `source.service` 属性中取值，如果取值失败，则会使用缺省值 `"unknown"`。而 `message` 这个 `dimension`，所有的 instance 都会得到一个常量值：`"twice the fun!"`。
+每个 `doublerequestcount` 都有一系列的 `dimension`。`dimension` 提供了一种为不同查询和需求对指标数据进行分割、聚合以及分析的方式。例如在对应用进行排错的过程中，可能只需要目标为某个服务的请求进行报告。这种配置让 Mixer 根据属性值和常量为 `dimension` 生成数值。例如 `source` 这个 `dimension`，他首先尝试从 `source.service` 属性中取值，如果取值失败，则会使用缺省值 `"unknown"`。而 `message` 这个 `dimension`，所有的 instance 都会得到一个常量值：`"twice the fun!"`。
 
-`kind: prometheus` 这一段定义了一个叫做 `doublehandler` 的 **handler**。`spec` 中配置了 Prometheus 适配器收到指标之后，如何将指标 `instance` 转换为 Prometheus 能够处理的指标数据格式的方式。配置中生成了一个新的 Prometheus 指标，取名为 `double_request_count`。Prometheus 适配器会给指标名称加上 `istio_` 前缀，因此这个指标在 Prometheus 中会显示为 `istio_double_request_count`。指标带有三个标签，和 `doublerequestcount.metric` 的 `dimension` 配置相匹配。
+`kind: handler` 这一段定义了一个叫做 `doublehandler` 的 **handler**。`spec` 中配置了 Prometheus 适配器收到指标之后，如何将指标 `instance` 转换为 Prometheus 能够处理的指标数据格式的方式。配置中生成了一个新的 Prometheus 指标，取名为 `double_request_count`。Prometheus 适配器会给指标名称加上 `istio_` 前缀，因此这个指标在 Prometheus 中会显示为 `istio_double_request_count`。指标带有三个标签，和 `doublerequestcount.metric` 的 `dimension` 配置相匹配。
 
-对于 `kind: prometheus` 来说，Mixer 中的 instance 通过 `instance_name` 来匹配 Prometheus 指标。`instance_name` 必须是一个全限定名称（例如：`doublerequestcount.metric.istio-system`）
+Mixer 中的 instance 通过 `instance_name` 来匹配 Prometheus 指标。`instance_name` 必须是一个全限定名称（例如：`doublerequestcount.metric.istio-system`）
 
 `kind: rule` 部分定义了一个新的叫做 `doubleprom` 的 `rule` 对象。这个对象要求 Mixer 把所有的  `doublerequestcount.metric` 发送给 `doublehandler.prometheus`。因为 `rule` 中没有包含 `match` 字段，并且身处缺省配置的命名空间内（`istio-system`），所以这个 `rule` 对象对所有的网格内通信都会生效。
 
@@ -154,8 +120,14 @@ keywords: [telemetry,metrics]
 
 * 移除新的遥测配置：
 
-   {{< text bash >}}
-    $ kubectl delete -f new_metrics.yaml
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/telemetry/metrics.yaml@
+    {{< /text >}}
+
+    如果您使用的是 Istio 1.1.2 或之前：
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/telemetry/metrics-crd.yaml@
     {{< /text >}}
 
 *   删除任何可能仍在运行的 `kubectl port-forward` 进程：
