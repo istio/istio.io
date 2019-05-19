@@ -17,7 +17,7 @@ keywords: [policies,routing]
 
 * 按照 [Ingress 任务](/docs/tasks/traffic-management/ingress/) 中的设置说明使用网关配置入口。
 
-* 自定义 `httpbin` 服务的[虚拟服务](/zh/docs/reference/config/networking/v1alpha3/virtual-service/)配置，该服务包含允许路径 `/headers` 和 `/status` 的流量的两个路由规则：
+* 自定义 `httpbin` 服务的[虚拟服务](/docs/reference/config/networking/v1alpha3/virtual-service/)配置，该服务包含允许路径 `/headers` 和 `/status` 的流量的两个路由规则：
 
     {{< text yaml >}}
     $ kubectl apply -f - <<EOF
@@ -46,7 +46,7 @@ keywords: [policies,routing]
 
 ## 产生输出的适配器
 
-在此任务中，我们使用示例策略适配器 `keyval`。除了策略检查结果之外，此适配器还返回一个名为 `value` 的单个字段的输出。 
+在此任务中，我们使用示例策略适配器 `keyval`。除了策略检查结果之外，此适配器还返回一个名为 `value` 的单个字段的输出。
 适配器配置有查找表，用于填充输出值，或者如果查找表中不存在输入实例键，则返回 `NOT_FOUND` 错误状态。
 
 1. 部署演示适配器：
