@@ -68,12 +68,10 @@ JWT 声明值可以是字符串或字符串列表;两种类型都受支持。
     apiVersion: "authentication.istio.io/v1alpha1"
     kind: "Policy"
     metadata:
-      name: "require-mtls-jwt"
+      name: "require-jwt"
     spec:
       targets:
       - name: httpbin
-      peers:
-      - mtls: {}
       origins:
       - jwt:
           issuer: "testing@secure.istio.io"
@@ -84,7 +82,7 @@ JWT 声明值可以是字符串或字符串列表;两种类型都受支持。
 
 1.  设置 `TOKEN` 环境变量以包含有效的示例 JWT。
 
-    {{< text bash>}}
+    {{< text bash >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s)
     {{< /text >}}
 
