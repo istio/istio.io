@@ -27,7 +27,9 @@ Compliance requirements is another reason to control egress traffic. For example
 Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/) requires that inbound
 and outbound traffic must be restricted to that which is necessary:
 
-> _1.2.1 Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic._
+{{< quote >}}
+_1.2.1 Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic._
+{{< /quote >}}
 
 Let's start with the attacks that involve egress traffic.
 
