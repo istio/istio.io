@@ -1,5 +1,5 @@
 ---
-title: Secure Egress Traffic Control in Istio, part 1
+title: Secure Control of Egress Traffic in Istio, part 1
 subtitle: Attacks involving egress traffic and requirements for egress traffic control
 description: Attacks involving egress traffic and requirements for egress traffic control.
 publishdate: 2019-05-22
