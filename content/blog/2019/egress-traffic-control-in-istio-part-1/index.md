@@ -46,7 +46,7 @@ Even though you [cannot know](https://en.wikipedia.org/wiki/There_are_known_know
 attacks, you want to reduce possibilities for any attacks, both for known and unknown ones.
 
 The external attackers gain access to the application’s container from outside the mesh through a
-bug in the application. The attackers can also be internal, that is, for example, malicious DevOps people inside the
+bug in the application but attackers can also be internal, for example, malicious DevOps people inside the
 organization.
 
 To prevent the attacks described above, some form of egress traffic control must be applied. Let me present egress
