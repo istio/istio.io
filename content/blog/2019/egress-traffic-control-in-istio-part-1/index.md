@@ -131,7 +131,7 @@ all the IP addresses of a service are not even known, for example in the case of
 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
 
 The fourth requirement states that the source of the egress traffic must be added to the policies effectively extending the third requirement.
-can specify which source can access which external service. The source must be identified as in the second requirement, for
+Policies can specify which source can access which external service and the source must be identified just as in the second requirement, for
 example, by a label of the source pod or by service account of the pod. It means that policy enforcement must also be
 _Kubernetes-aware_. If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
 the IP of the pod, which is not convenient, especially since the pods can come and go and their IPs are not static.
