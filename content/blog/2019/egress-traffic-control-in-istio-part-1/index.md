@@ -104,7 +104,7 @@ monitored, there is a chance to discover the suspicious traffic and take a corre
 Note that in the case of TLS originated by an application, the Istio sidecar proxies can only see TCP traffic and a
 TLS handshake that includes SNI.
 A label of the source pod could identify the source of the traffic but a service account of the pod or some
-other source identifier. We call this property of an egress control system _being Kubernetes-aware_: the system must
+other source identifier could be used. We call this property of an egress control system as _being Kubernetes-aware_: the system must
 understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware, it can only monitor
 the IP address as the identifier of the source.
 
