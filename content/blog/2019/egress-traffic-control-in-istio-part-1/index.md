@@ -23,7 +23,7 @@ prepared for that scenario, you want to reduce the damage as much as possible an
 cluster for further attacks on external services and legacy systems outside of the cluster. To achieve that goal,
 you need secure control of egress traffic.
 
-Compliance requirements is another reason to control egress traffic. For example, the [Payment Card
+Compliance requirements are another reason to implement secure control of egress traffic. For example, the [Payment Card
 Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/) requires that inbound
 and outbound traffic must be restricted to that which is necessary:
 
