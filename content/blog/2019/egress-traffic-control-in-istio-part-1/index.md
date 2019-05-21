@@ -35,7 +35,6 @@ Let's start with the attacks that involve egress traffic.
 
 ## The attacks
 
-Any IT organization must operate under the assumption that it will be attacked one day, if it is not attacked already, and
 An IT organization must assume it will be attacked if it hasn't been attacked already, and that
 part of its infrastructure could already be compromised or become compromised in the future.
 Once attackers are able to penetrate an application in a cluster, they can proceed to attack external services:
