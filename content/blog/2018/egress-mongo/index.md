@@ -179,7 +179,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 ### Control TCP egress traffic without a gateway
 
 In case you do not need to direct the traffic through an
-[egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), for example if you do not have a
+[egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case), for example if you do not have a
 requirement that all the traffic that exists your mesh must exit through the gateway, follow the
 instructions in this section. Alternatively, if you do want to direct your traffic through an egress gateway, proceed to
 [Direct TCP egress traffic through an egress gateway](#direct-tcp-egress-traffic-through-an-egress-gateway).
@@ -233,11 +233,11 @@ instructions in this section. Alternatively, if you do want to direct your traff
 ### Direct TCP Egress traffic through an egress gateway
 
 In this section you handle the case when you need to direct the traffic through an
-[egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TCP
+[egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case). The sidecar proxy routes TCP
 connections from the MongoDB client to the egress gateway, by matching the IP of the MongoDB host (a CIDR block of
   length 32). The egress gateway forwards the traffic to the MongoDB host, by its hostname.
 
-1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+1.  [Deploy Istio egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway).
 
 1.  If you did not perform the steps in [the previous section](#control-tcp-egress-traffic-without-a-gateway), perform them now.
 
@@ -491,7 +491,7 @@ your MongoDB egress traffic on the TCP level, as described in the previous secti
 
 ### Control TLS egress traffic without a gateway
 
-In case you [do not need an egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case), follow the
+In case you [do not need an egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case), follow the
 instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
 [Direct TCP Egress traffic through an egress gateway](#direct-tcp-egress-traffic-through-an-egress-gateway).
 
@@ -525,13 +525,13 @@ $ kubectl delete serviceentry mongo
 ### Direct TLS Egress traffic through an egress gateway
 
 In this section you handle the case when you need to direct the traffic through an
-[egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case). The sidecar proxy routes TLS
+[egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case). The sidecar proxy routes TLS
 connections from the MongoDB client to the egress gateway, by matching the SNI of the MongoDB host.
 The egress gateway forwards the traffic to the MongoDB host. Note that the sidecar proxy rewrites the destination port
 to be 443. The egress gateway accepts the MongoDB traffic on the port 443, matches the MongoDB host by SNI, and rewrites
  the port again to be the port of the MongoDB server.
 
-1.  [Deploy Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+1.  [Deploy Istio egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway).
 
 1.  Create a `ServiceEntry` for the MongoDB service:
 
@@ -745,7 +745,7 @@ You can pick a wildcarded domain according to your MongoDB host.
 
 To configure egress gateway traffic for a wildcarded domain, you will first need to deploy a custom egress
 gateway with
-[an additional SNI proxy](/docs/examples/advanced-gateways/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains).
+[an additional SNI proxy](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains).
 This is needed due to current limitations of Envoy, the proxy used by the standard Istio egress gateway.
 
 #### Prepare a new egress gateway with an SNI proxy

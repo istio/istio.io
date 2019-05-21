@@ -128,7 +128,7 @@ EOF
 
 如果一个集群中的服务需要访问远端集群中的服务，就需要创建一个 `ServiceEntry`。`ServiceEntry` 中的主机名应该是 `<name>.<namespace>.global` 的格式，其中的 `name` 和 `namespace` 需要根据服务名称和命名空间进行替换。
 
-为了检查多集群配置是否生效，可以参考示例[通过网关进行多集群连接](/zh/docs/examples/multicluster/gateways/)来进行测试。
+为了检查多集群配置是否生效，可以参考示例[通过网关进行多集群连接](/zh/docs/tasks/multicluster/gateways/)来进行测试。
 
 ## 清理
 
