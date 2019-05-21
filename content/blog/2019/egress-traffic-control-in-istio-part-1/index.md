@@ -7,7 +7,7 @@ attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress]
 ---
 
-This is the first blog post in a series about secure egress traffic control in Istio that I am going to publish.
+This is part 1 in a new series about secure control of egress traffic in Istio that I am going to publish.
 In this installment, I explain why you should apply egress traffic control to your cluster, the attacks
 involving egress traffic you want to prevent.
 Once you agree that you must control egress traffic from your cluster, the next questions are what are the
