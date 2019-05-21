@@ -108,7 +108,7 @@ other source identifier could be used. We call this property of an egress contro
 understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware, it can only monitor
 the IP address as the identifier of the source.
 
-The third requirement states that Istio operators must be able to define policies for egress traffic per whole cluster. The
+The third requirement states that Istio operators must be able to define policies for egress traffic for the entire cluster. The
 policies state which external services may be accessed by any pod in the cluster. The external services can be
 identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
 service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified may be
