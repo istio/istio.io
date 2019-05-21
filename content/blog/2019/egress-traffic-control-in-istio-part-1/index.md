@@ -89,7 +89,7 @@ Istio 1.1 satisfies all gathered requirements:
 from sending fake information to the monitoring system, and from breaking the egress policies.
 1. Nice to have: traffic control is **transparent** to the applications
 
-Let me explain each of the requirements. The first requirement states that only TLS traffic to the external services must be
+Let me explain each requirement in more detail. The first requirement states that only TLS traffic to the external services must be
 supported. The requirement is based on the observation that all the traffic that leaves the cluster usually must be
 encrypted.
 This means that either the applications will perform TLS origination or Istio must perform TLS origination
