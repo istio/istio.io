@@ -90,7 +90,7 @@ from sending fake information to the monitoring system, and from breaking the eg
 1. Nice to have: traffic control is **transparent** to the applications
 
 Let me explain each requirement in more detail. The first requirement states that only TLS traffic to the external services must be
-supported. The requirement is based on the observation that all the traffic that leaves the cluster usually must be
+supported. The requirement emerged upon observation that all the traffic that leaves the cluster must be
 encrypted.
 This means that either the applications will perform TLS origination or Istio must perform TLS origination
 for them. Note that in the case an application performs TLS origination, the Istio proxies cannot see the original traffic,
