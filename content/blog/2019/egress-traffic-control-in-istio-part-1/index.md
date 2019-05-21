@@ -74,7 +74,7 @@ Istio 1.1 satisfies all gathered requirements:
 1.  Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/docs/reference/glossary/#tls-origination) by Istio.
 
-1.  **Monitor** SNI and the source workload of every egress access
+1.  **Monitor** SNI and the source workload of every egress access.
 
 1.  Define and enforce **policies per cluster**, e.g.:
 
@@ -95,7 +95,7 @@ Istio 1.1 satisfies all gathered requirements:
 1.  **Prevent tampering**. In case an application pod is compromised, prevent the compromised pod from escaping
     monitoring, from sending fake information to the monitoring system, and from breaking the egress policies.
 
-1.  Nice to have: traffic control is **transparent** to the applications
+1.  Nice to have: traffic control is **transparent** to the applications.
 
 Let me explain each requirement in more detail. The first requirement states that only TLS traffic to the external
 services must be supported.
