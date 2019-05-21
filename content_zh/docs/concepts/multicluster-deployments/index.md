@@ -56,4 +56,4 @@ Istio 支持将一个应用程序的服务以多种拓扑分布，而不仅仅�
     caption="Istio 网格使用单个控制平面和 Gateway 跨越多个 Kubernetes 集群到达远程 pod"
     >}}
 
-在此配置中，从一个集群中的 sidecar 到同一集群中的 service 的请求仍然被转发到本地 service IP。如果目标工作负载在其他集群中运行，远程集群网关 IP 会替代 service 用于连接。访问我们的[单一控制平面](/zh/docs/examples/multicluster/split-horizon-eds/)页面，并使用网关示例来试验此功能。
+在此配置中，从一个集群中的 sidecar 到同一集群中的 service 的请求仍然被转发到本地 service IP。如果目标工作负载在其他集群中运行，远程集群网关 IP 会替代 service 用于连接。访问我们的[单一控制平面](/zh/docs/tasks/multicluster/split-horizon-eds/)页面，并使用网关示例来试验此功能。

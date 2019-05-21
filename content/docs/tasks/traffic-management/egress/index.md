@@ -257,7 +257,7 @@ any other unintentional accesses.
     HTTPS all the HTTP-related information like method, URL path, response code, is encrypted so Istio cannot see and
     cannot monitor that information for HTTPS. If you need to monitor HTTP-related information in access to external
     HTTPS services, you may want to let your applications issue HTTP requests and
-    [configure Istio to perform TLS origination](/docs/examples/advanced-gateways/egress-tls-origination/).
+    [configure Istio to perform TLS origination](/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/).
 
 ### Manage traffic to external services
 
@@ -490,9 +490,9 @@ A malicious application can bypass the Istio sidecar proxy and access any extern
 {{< /warning >}}
 
 To implement egress traffic control in a more secure way, you must
-[direct egress traffic through an egress gateway](/docs/examples/advanced-gateways/egress-gateway)
+[direct egress traffic through an egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/)
 and review the security concerns described in the
-[additional security considerations](/docs/examples/advanced-gateways/egress-gateway#additional-security-considerations)
+[additional security considerations](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#additional-security-considerations)
 section.
 
 ## Cleanup

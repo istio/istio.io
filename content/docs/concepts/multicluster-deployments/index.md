@@ -121,4 +121,4 @@ In this configuration, a request from a sidecar in one cluster to a service in
 the same cluster is forwarded to the local service IP as usual.
 If the destination workload is running in a different cluster,
 the remote cluster Gateway IP is used to connect to the service instead.
-Visit our [single control plane with gateways example](/docs/examples/multicluster/split-horizon-eds/) to experiment with this feature.
+Visit our [single control plane with gateways example](/docs/tasks/multicluster/split-horizon-eds/) to experiment with this feature.
