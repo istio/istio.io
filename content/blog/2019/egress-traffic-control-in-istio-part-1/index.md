@@ -4,7 +4,7 @@ subtitle: Attacks involving egress traffic and requirements for egress traffic c
 description: Attacks involving egress traffic and requirements for egress traffic control.
 publishdate: 2019-05-22
 attribution: Vadim Eisenberg (IBM)
-keywords: [traffic-management,egress]
+keywords: [traffic-management,egress,security]
 ---
 
 This is part 1 in a new series about secure control of egress traffic in Istio that I am going to publish.
