@@ -123,7 +123,7 @@ access and to block access to all the other services, this way you reduce the
 can have their own security mechanisms, you want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to have multiple security layers: a security layer in your cluster in addition to
 the security layers in the external systems.
 
-Note that according to the requirement the external services must be identified by domain names. We call this property
+This requirement means that the external services must be identifiable by domain names. We call this property
 of an egress control system _being DNS-aware_.
 If the system is not DNS-aware, the external services must be specified by IP addresses.
 Using IP addresses is not convenient and often is not feasible, since IP addresses of a service can change. Sometimes
