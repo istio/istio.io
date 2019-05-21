@@ -87,7 +87,7 @@ Istio 1.1 satisfies all gathered requirements:
 
 1. **Prevent tampering**. In case an application pod is compromised, prevent the compromised pod from escaping monitoring,
 from sending fake information to the monitoring system, and from breaking the egress policies.
-1. Preferably: perform traffic control **transparently** to the applications
+1. Nice to have: traffic control is **transparent** to the applications
 
 Let me explain each of the requirements. The first requirement states that only TLS traffic to the external services must be
 supported. The requirement is based on the observation that all the traffic that leaves the cluster usually must be
