@@ -142,7 +142,7 @@ system provides _secure_ control of egress traffic.
 
 The sixth requirement states that the traffic control should be provided without changing the application containers, in
 particular without changing the code of the applications and without changing the environment of the containers.
-We call such an egress traffic control system _transparent_.
+We call such a control of egress traffic _transparent_.
 
 In the next posts I will show that Istio can function as an example of an egress traffic control system that satisfies
 all of these requirements, in particular it is transparent, DNS-aware, and Kubernetes-aware.
