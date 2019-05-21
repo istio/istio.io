@@ -124,7 +124,7 @@ can have their own security mechanisms, you want to exercise [Defense in depth](
 the security layers in the external systems.
 
 This requirement means that the external services must be identifiable by domain names. We call this property
-of an egress control system _being DNS-aware_.
+of an egress control system as _being DNS-aware_.
 If the system is not DNS-aware, the external services must be specified by IP addresses.
 Using IP addresses is not convenient and often is not feasible, since IP addresses of a service can change. Sometimes
 all the IP addresses of a service are not even known, for example in the case of
