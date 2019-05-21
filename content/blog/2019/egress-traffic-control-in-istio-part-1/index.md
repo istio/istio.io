@@ -52,7 +52,7 @@ organization.
 To prevent the attacks described above, some form of egress traffic control must be applied. Let me present egress
 traffic control in the following section.
 
-## The solution: egress traffic control
+## The solution: secure control of egress traffic
 
 To prevent attacks involving egress traffic, you must monitor all the egress traffic and enforce all security policies.
 Once you monitor the egress traffic, you can  analyze it, possibly offline, and detect the attacks, even if
