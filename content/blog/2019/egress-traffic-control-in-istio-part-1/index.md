@@ -148,7 +148,7 @@ It means that policy enforcement must also be _Kubernetes-aware_.
 If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
 the IP of the pod, which is not convenient, especially since the pods can come and go so their IPs are not static.
 
-The fifth requirement states that even if the cluster is compromised and the attackers controls some of the pods, they
+The fifth requirement states that even if the cluster is compromised and the attackers control some of the pods, they
 must not be able to cheat the monitoring or to violate policies of the egress control system. We say that such a
 system provides _secure_ control of egress traffic.
 
