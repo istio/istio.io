@@ -13,7 +13,7 @@ involving egress traffic you want to prevent, and the requirements for your syst
 Once you agree that you should control the egress traffic coming from your cluster, the following questions arise:
 What requirements does a system have for secure control of egress traffic? Which is the best solution to fulfill
 these requirements? (spoiler: Istio in my opinion)
-Future installments will describe the implementation of the secure control of egress traffic control in Istio and
+Future installments will describe the implementation of the secure control of egress traffic in Istio and
 compare it with other solutions.
 
 The most important security aspect for a service mesh is probably ingress traffic. You definitely must prevent attackers
