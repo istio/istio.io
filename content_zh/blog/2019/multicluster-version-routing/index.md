@@ -301,7 +301,7 @@ spec:
 EOF
 {{< /text >}}
 
-`ServiceEntry` 的地址 `127.255.0.3` 可以是任意的未分配 IP。在 `127.0.0.0/8` 的范围里面进行选择是个不错的主意。阅读[通过网关进行连接的多集群](/zh/docs/examples/multicluster/gateways/#configure-the-example-services)一文，能够获得更多相关信息。
+`ServiceEntry` 的地址 `127.255.0.3` 可以是任意的未分配 IP。在 `127.0.0.0/8` 的范围里面进行选择是个不错的主意。阅读[通过网关进行连接的多集群](/zh/docs/tasks/multicluster/gateways/#configure-the-example-services)一文，能够获得更多相关信息。
 
 注意 `DestinationRule` 中的 `subset` 的标签，`cluster: cluster2` 对应的是 `cluster2` 网关。一旦流量到达目标集群，就会由本地目的 `DestinationRule` 来鉴别实际的 Pod 标签（`version: v1` 或者 `version: v2`）
 

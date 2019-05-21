@@ -267,7 +267,7 @@ env:
 
     注意，前缀为 `http-` `ServiceEntr` 指定了端口为 `443`，其协议指定为 `HTTP`。
     请注意，您不需要使用端口 443 发送 TLS 发起的 HTTP 请求。
-    [出口流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/)
+    [出口流量的 TLS](/zh/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/)
     显示了如何使用端口重写执行 TLS 发起。
 
 1.  访问应用程序的网页，并验证是否显示图书详细信息。

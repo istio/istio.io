@@ -147,7 +147,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 ### 在没有 gateway 的情况下控制 TCP egress 流量
 
-如果您不用通过 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case) 定向流量，例如不要求所有流量都通过 gateway 流出网格时，请遵循以下部分的说明。或者，如果您确实希望通过 egress gateway 定向流量，请继续阅读*通过 egress gateway 定向 TCP egress 流量*。
+如果您不用通过 [egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case) 定向流量，例如不要求所有流量都通过 gateway 流出网格时，请遵循以下部分的说明。或者，如果您确实希望通过 egress gateway 定向流量，请继续阅读*通过 egress gateway 定向 TCP egress 流量*。
 
 1. 定义一个网格外 TCP service entry：
 
@@ -188,7 +188,7 @@ $ kubectl delete serviceentry mongo
 
 ### 通过 egress gateway 定向 TCP egress 流量
 
-在本节中，您将处理通过 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
+在本节中，您将处理通过 [egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
 
 1. 为 MongoDB 服务创建一个 `ServiceEntry`，这次使用 `resolution` `DNS`。指定 resolution 为 `DNS` 以指示 egress gateway 执行一次 DNS 查询来获取 MongoDB 主机的 IP 地址。请注意，egress gateway 并不知道 MongoDB 客户端（`ratings` service）使用的 MongoDB 主机地址，所以 egress gateway 的 IP 地址被当做目的 IP 地址。
 
@@ -430,7 +430,7 @@ $ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOS
 
 ### 无 gateway 情况下控制 TLS egress 流量
 
-如果您[不需要 egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case)，请遵循本小节中的说明。如果您需要通过 egress gateway 定向流量，请继续阅读*通过 egress gateway 定向 TCP Egress 流量*。
+如果您[不需要 egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case)，请遵循本小节中的说明。如果您需要通过 egress gateway 定向流量，请继续阅读*通过 egress gateway 定向 TCP Egress 流量*。
 
 1. 为 MongoDB service 创建一个 `ServiceEntry` 和一个 `VirtualService`：
 
@@ -482,7 +482,7 @@ $ kubectl delete virtualservice mongo
 
 ### 通过 egress gateway 定向 TLS Egress 流量
 
-在本小节中，您将处理通过 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 SNI，将 TLS 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 再将流量转发到 MongoDB 主机。请注意，sidecar 代理会将目的端口重写为 443。Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoDB 主机，并再次将端口重写为 MongoDB 服务器的端口。
+在本小节中，您将处理通过 [egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 SNI，将 TLS 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 再将流量转发到 MongoDB 主机。请注意，sidecar 代理会将目的端口重写为 443。Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoDB 主机，并再次将端口重写为 MongoDB 服务器的端口。
 
 1. 为 MongoDB service 创建一个 `ServiceEntry`:
 
@@ -680,7 +680,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 有时，您希望将 egress 流量配置为来自同一域的多个主机名，例如到 `*.<your company domain>.com` 中的所有 MongoDB service。您不希望创建多个配置项，而是一个用于公司中所有 MongoDB service 的通用配置项。要想通过一个配置来控制到所有相同域中的外部服务的访问，您需要使用*通配符*主机。
 
-要为通配符域名配置 egress gateway 流量，您需要使用[一个额外的 SNI 代理](/docs/examples/advanced-gateways/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)来部署一个自定义的 egress gateway。由于 Envoy（Istio egress gateway 使用的标准代理）目前的限制，这是必须的。
+要为通配符域名配置 egress gateway 流量，您需要使用[一个额外的 SNI 代理](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)来部署一个自定义的 egress gateway。由于 Envoy（Istio egress gateway 使用的标准代理）目前的限制，这是必须的。
 
 #### 准备一个使用 SNI 代理的新 egress gateway
 
