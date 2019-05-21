@@ -121,7 +121,7 @@ The third requirement states that Istio operators must be able to define policie
 cluster.
 The policies state which external services may be accessed by any pod in the cluster. The external services can be
 identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
-service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified may be
+service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the specified external services may be
 accessed, all other egress traffic is blocked.
 
 This requirement originates from the need to prevent
