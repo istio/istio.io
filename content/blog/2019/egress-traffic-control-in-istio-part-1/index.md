@@ -138,7 +138,7 @@ the IP of the pod, which is not convenient, especially since the pods can come a
 
 The fifth requirement states that even if the cluster is compromised and the attackers controls some of the pods, they
 must not be able to cheat the monitoring or to violate policies of the egress control system. We say that such a
-system provides _secure_ egress traffic control.
+system provides _secure_ control of egress traffic.
 
 The sixth requirement states that the traffic control should be provided without changing the application containers, in
 particular without changing the code of the applications and without changing the environment of the containers.
