@@ -55,7 +55,7 @@ traffic control in the following section.
 ## The solution: secure control of egress traffic
 
 Secure control of egress traffic means monitoring the egress traffic and enforcing all the security policies of the mesh to the egress traffic.
-Once you monitor the egress traffic, you can  analyze it, possibly offline, and detect the attacks, even if
+Monitoring the egress traffic, enables you to analyze it, possibly offline, and detect the attacks even if
 you were unable to prevent them in real time.
 Another good practice to reduce possibilities of attacks is to specify policies that limit access following the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
