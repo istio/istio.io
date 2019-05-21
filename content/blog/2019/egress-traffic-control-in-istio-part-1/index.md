@@ -21,7 +21,7 @@ from penetrating the cluster though ingress APIs. Having said that, securing
 the traffic leaving the mesh is also very important. Once your cluster is compromised, and you must be
 prepared for that scenario, you want to reduce the damage as much as possible and prevent the attackers from using the
 cluster for further attacks on external services and legacy systems outside of the cluster. To achieve that goal,
-traffic control.
+you need secure control of egress traffic.
 
 Compliance requirements is another reason to control egress traffic. For example, the [Payment Card
 Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/) requires that inbound
