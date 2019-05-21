@@ -11,9 +11,9 @@ This is part 1 in a new series about secure control of egress traffic in Istio t
 In this installment, I explain why you should apply egress traffic control to your cluster, the attacks
 involving egress traffic you want to prevent, and the requirements for your system to do so.
 Once you agree that you should control the egress traffic coming from your cluster, the following questions arise:
-What requirements does a system have for secure control of egress traffic? Which is the best solution to fulfill 
+What requirements does a system have for secure control of egress traffic? Which is the best solution to fulfill
 these requirements? (spoiler: Istio in my opinion)
-Future installments will describe the implementation of the secure control of egress traffic control in Istio and 
+Future installments will describe the implementation of the secure control of egress traffic control in Istio and
 compare it with other solutions.
 
 The most important security aspect for a service mesh is probably ingress traffic. You definitely must prevent attackers
@@ -65,35 +65,44 @@ Let me now turn to the requirements for egress traffic control we collected.
 
 ## Requirements for egress traffic control
 
-My colleagues at IBM and I collected requirements for secure control of egress traffic from several customers, and combined them with
-the [egress traffic control requirements from Kubernetes Network Special Interest Group](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg).
+My colleagues at IBM and I collected requirements for secure control of egress traffic from several customers, and
+combined them with the
+[egress traffic control requirements from Kubernetes Network Special Interest Group](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg).
+
 Istio 1.1 satisfies all gathered requirements:
 
-1. Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/docs/reference/glossary/#tls-origination) by Istio.
-1. **Monitor** SNI and the source workload of every egress access
-1. Define and enforce **policies per cluster**, e.g.:
+1.  Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/docs/reference/glossary/#tls-origination) by Istio.
 
-   * all applications in the cluster may access `service1.foo.com` (a specific host)
-   * all applications in the cluster may access any host of the form `*.bar.com` (a wildcarded domain)
+1.  **Monitor** SNI and the source workload of every egress access
+
+1.  Define and enforce **policies per cluster**, e.g.:
+
+    * all applications in the cluster may access `service1.foo.com` (a specific host)
+
+    * all applications in the cluster may access any host of the form `*.bar.com` (a wildcarded domain)
 
      All unspecified access must be blocked.
 
-1. Define and enforce **policies per source**, _Kubernetes-aware_:
+1.  Define and enforce **policies per source**, _Kubernetes-aware_:
 
-   * application `A` may access `*.foo.com`.
-   * application `B` may access `*.bar.com`.
+    * application `A` may access `*.foo.com`.
+
+    * application `B` may access `*.bar.com`.
 
     All other access must be blocked, in particular access of application `A` to `service1.bar.com`.
 
-1. **Prevent tampering**. In case an application pod is compromised, prevent the compromised pod from escaping monitoring,
-from sending fake information to the monitoring system, and from breaking the egress policies.
-1. Nice to have: traffic control is **transparent** to the applications
+1.  **Prevent tampering**. In case an application pod is compromised, prevent the compromised pod from escaping
+    monitoring, from sending fake information to the monitoring system, and from breaking the egress policies.
 
-Let me explain each requirement in more detail. The first requirement states that only TLS traffic to the external services must be
-supported. The requirement emerged upon observation that all the traffic that leaves the cluster must be
-encrypted.
+1.  Nice to have: traffic control is **transparent** to the applications
+
+Let me explain each requirement in more detail. The first requirement states that only TLS traffic to the external
+services must be supported.
+The requirement emerged upon observation that all the traffic that leaves the cluster must be encrypted.
 This means that either the applications perform TLS origination or Istio must perform TLS origination
-for them. Note that in the case an application performs TLS origination, the Istio proxies cannot see the original traffic,
+for them.
+Note that in the case an application performs TLS origination, the Istio proxies cannot see the original traffic,
 only the encrypted one, so the proxies see the TLS protocol only. For the proxies it does not matter if the original
 protocol is HTTP or MongoDB, all the Istio proxies can see is TLS traffic.
 
@@ -104,12 +113,13 @@ monitored, there is a chance to discover the suspicious traffic and take a corre
 Note that in the case of TLS originated by an application, the Istio sidecar proxies can only see TCP traffic and a
 TLS handshake that includes SNI.
 A label of the source pod could identify the source of the traffic but a service account of the pod or some
-other source identifier could be used. We call this property of an egress control system as _being Kubernetes-aware_: the system must
-understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware, it can only monitor
-the IP address as the identifier of the source.
+other source identifier could be used. We call this property of an egress control system as _being Kubernetes-aware_:
+the system must understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware,
+it can only monitor the IP address as the identifier of the source.
 
-The third requirement states that Istio operators must be able to define policies for egress traffic for the entire cluster. The
-policies state which external services may be accessed by any pod in the cluster. The external services can be
+The third requirement states that Istio operators must be able to define policies for egress traffic for the entire
+cluster.
+The policies state which external services may be accessed by any pod in the cluster. The external services can be
 identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
 service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified may be
 accessed, all other egress traffic is blocked.
@@ -130,10 +140,12 @@ Using IP addresses is not convenient and often is not feasible, since the IP add
 all the IP addresses of a service are not even known, for example in the case of
 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
 
-The fourth requirement states that the source of the egress traffic must be added to the policies effectively extending the third requirement.
-Policies can specify which source can access which external service and the source must be identified just as in the second requirement, for
-example, by a label of the source pod or by service account of the pod. It means that policy enforcement must also be
-_Kubernetes-aware_. If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
+The fourth requirement states that the source of the egress traffic must be added to the policies effectively extending
+the third requirement.
+Policies can specify which source can access which external service and the source must be identified just as in the
+second requirement, for example, by a label of the source pod or by service account of the pod.
+It means that policy enforcement must also be _Kubernetes-aware_.
+If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
 the IP of the pod, which is not convenient, especially since the pods can come and go and their IPs are not static.
 
 The fifth requirement states that even if the cluster is compromised and the attackers controls some of the pods, they
