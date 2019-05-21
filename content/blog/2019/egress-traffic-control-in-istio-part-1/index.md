@@ -67,7 +67,7 @@ Let me now turn to the requirements for egress traffic control we collected.
 
 My colleagues at IBM and I collected requirements for secure control of egress traffic from several customers, and combined them with
 [egress traffic control requirements from Kubernetes Network Special Interest Group](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg).
-All the requirements are satisfied by Istio 1.1.
+Istio 1.1 satisfies all gathered requirements:
 
 1. Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/docs/reference/glossary/#tls-origination) by Istio.
 1. **Monitor** SNI and the source workload of every egress access
