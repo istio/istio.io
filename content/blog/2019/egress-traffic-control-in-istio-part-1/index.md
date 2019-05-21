@@ -114,7 +114,7 @@ identified either by a [Fully qualified domain name](https://en.wikipedia.org/wi
 service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the external services specified may be
 accessed, all other egress traffic is blocked.
 
-The rationale for this requirement is that you want to prevent
+This requirement originates from the need to prevent
 attackers from accessing malicious sites, for example for downloading updates/instructions for their malware. You also
 want to limit the number of external sites that the attackers can access and attack.
 You want to allow access only to the external services that the applications in the cluster need to
