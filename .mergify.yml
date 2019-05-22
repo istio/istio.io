@@ -12,3 +12,10 @@ pull_request_rules:
       merge:
         method: squash
         strict: false
+  - name: Automatically merge PRs from master to the release branch if the right label is set
+    conditions:
+      - base=master
+      - label=action/merge-to-release-branch
+    action:
+      - backport:
+        - release-1.1

@@ -59,6 +59,10 @@ istio.io the next time a release is created, which can be several weeks in the f
 immediately reflected on istio.io, you need to check your changes both to the master branch and to the
 current release branch (named release-XXX such as release-0.7).
 
+This process can be taken care of automatically by our infrastructure. If you submit a PR
+to the master branch and annotate the PR with the `actions/merge-to-release-branch` label,
+then as soon as your PR is merged into master, it will be merged into the current release branch.
+
 ### Creating a version
 
 Here are the steps necessary to create a new documentation version. Let's assume the current
@@ -95,6 +99,9 @@ name for `istio.git` and `api.git` to point to the release branch. In this case 
 
 1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
 of the next Istio release. In this case, you would set the fields to "0.8" and "0.8.0" respectively.
+
+1. In the **master** branch, edit the file `.mergify.yml`. Set the `branches` array to the name of the
+new release branch you just created.
 
 1. Commit the previous edits to your local git repo and push the **master** branch to GitHub.
 
