@@ -283,7 +283,7 @@ In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concept
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: "rbac.istio.io/v1alpha1"
-    kind: RbacConfig
+    kind: ClusterRbacConfig
     metadata:
       name: default
       namespace: istio-system
