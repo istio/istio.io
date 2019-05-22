@@ -296,6 +296,11 @@ In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concept
 
     To enable Istio RBAC on multiple namespaces, list them in the `namespaces` field, separated by commas.
 
+    {{< warning >}}
+    After Istio RBAC is enabled on a namespace, all the traffic to microservices in the namespace is blocked unless
+    explicitly allowed. This is the recommended mode according to some compliance standards.
+    {{< /warning >}}
+
 1.  Access the application's webpage and verify that the application continues to work, which would mean that the
     authorized access is allowed and you configured your policy rules correctly.
 
