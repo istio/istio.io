@@ -8,7 +8,7 @@ Plain boilerplate:
 
 {{< boilerplate "test-0" >}}
 
-Boilerplate with some markdown and a short code
+Boilerplate with some markdown and a short code sequence
 
 {{< boilerplate "test-1" >}}
 
