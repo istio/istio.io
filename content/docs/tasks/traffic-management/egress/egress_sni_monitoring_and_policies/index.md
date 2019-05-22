@@ -1,5 +1,6 @@
 ---
 title: SNI Monitoring and Policies for TLS Egress Traffic
+linktitle: Monitoring and Policies for TLS Egress
 description: Describes how to configure SNI monitoring and apply policies on TLS egress traffic.
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
@@ -13,7 +14,7 @@ example extends that example to show how to configure SNI monitoring and apply p
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway).
+*  [Deploy Istio egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway).
 
 *  Configure traffic to `*.wikipedia.org` by following
    [the steps](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in

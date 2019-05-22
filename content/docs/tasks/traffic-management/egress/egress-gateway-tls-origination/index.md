@@ -1,5 +1,5 @@
 ---
-title: Egress Gateway with TLS Origination
+title: Egress Gateways with TLS Origination
 description: Describes how to configure an Egress Gateway to perform TLS origination to external services.
 weight: 40
 keywords: [traffic-management,egress]

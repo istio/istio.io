@@ -1,9 +1,10 @@
 ---
-title: Control Egress Traffic
+title: Accessing External Services
 description: Describes how to configure Istio to route traffic from services in the mesh to external services.
-weight: 40
+weight: 10
 aliases:
     - /docs/tasks/egress.html
+    - /docs/tasks/egress
 keywords: [traffic-management,egress]
 ---
 
@@ -66,7 +67,7 @@ service entries defined within the mesh.
 External hosts using the same port as any internal HTTP service
 fell back to a blocking-by-default behavior.
 Because some ports, such as port 80, have HTTP services inside Istio by default,
-prior to Istio 1.1.3 you couldn't call external services on any of those ports either.
+prior to Istio 1.1.4 you couldn't call external services on any of those ports either.
 {{< /warning >}}
 
 1. To see this approach in action you need to ensure that your Istio installation is configured

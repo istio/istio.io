@@ -1,7 +1,7 @@
 ---
 title: Ingress Gateway without TLS Termination
 description: Describes how to configure SNI passthrough for an ingress gateway.
-weight: 10
+weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
   - /docs/examples/advanced-gateways/ingress-sni-passthrough/

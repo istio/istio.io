@@ -1,10 +1,12 @@
 ---
-title: Control Ingress Traffic
+title: Configuring Ingress Gateways
+linktitle: Ingress Gateways
 description: Describes how to configure Istio to expose a service outside of the service mesh.
-weight: 30
+weight: 10
 keywords: [traffic-management,ingress]
 aliases:
     - /docs/tasks/ingress.html
+    - /docs/tasks/ingress
 ---
 
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
