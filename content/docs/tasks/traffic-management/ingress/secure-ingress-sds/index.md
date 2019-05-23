@@ -317,7 +317,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     spec:
       ports:
       - name: http
-        port: 8000
+        port: 5000
       selector:
         app: helloworld-v1
     ---
