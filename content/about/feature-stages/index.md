@@ -79,7 +79,7 @@ Below is our list of existing features and their current phases. This informatio
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 | [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
-| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/secure-ingress/sds) | Alpha
+| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Alpha
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 

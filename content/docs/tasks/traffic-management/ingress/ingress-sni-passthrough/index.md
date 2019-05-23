@@ -7,7 +7,7 @@ aliases:
   - /docs/examples/advanced-gateways/ingress-sni-passthrough/
 ---
 
-The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/) task describes how to configure HTTPS
+The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress-mount/) task describes how to configure HTTPS
 ingress access to an HTTP service. This example describes how to configure HTTPS ingress access to an HTTPS service,
 i.e., configure an ingress gateway to perform SNI passthrough, instead of TLS termination on incoming requests.
 
@@ -17,7 +17,7 @@ Then you configure a gateway to provide ingress access to the service via host `
 
 ## Generate client and server certificates and keys
 
-Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/mount/#generate-client-and-server-certificates-and-keys) task.
+Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress-mount/#generate-client-and-server-certificates-and-keys) task.
 
 1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
 

@@ -4,7 +4,7 @@ linktitle: Secure Gateways (SDS)
 description: Expose a service outside of the service mesh over TLS or mTLS using the secret discovery serivce (SDS).
 weight: 21
 aliases:
-    - /docs/tasks/traffic-management/secure-ingress/sds/
+    - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
@@ -36,7 +36,7 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     a different implementation of `curl`, for example on a Linux machine.
 
 {{< tip >}}
-If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/secure-ingress/mount),
+If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/ingress/secure-ingress-mount),
 and you want to migrate your ingress gateway to use the SDS approach. There are no
 extra steps required.
 {{< /tip >}}

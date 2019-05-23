@@ -306,7 +306,7 @@ server with another secret, before you can use it to handle a second host.
 
 ### Generate client and server certificates and keys for `bookinfo.com`
 
-Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/mount/#generate-client-and-server-certificates-and-keys),
+Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/ingress/secure-ingress-mount/#generate-client-and-server-certificates-and-keys),
 only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 
 1.  Change directory to the cloned repository:
