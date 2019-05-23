@@ -28,8 +28,16 @@ Istio 会被安装到自己的 `istio-system` 命名空间，并且能够对所�
     * `istioctl` 客户端文件保存在 `bin/` 目录之中。`istioctl` 的功能是手工进行 Envoy Sidecar 的注入。
     * `istio.VERSION` 配置文件
 
-1. 把 `istioctl` 客户端加入 PATH 环境变量，如果是 macOS 或者 Linux，可以这样实现：
+1. 把 `istioctl` 客户端加入 `PATH` 环境变量，如果是 macOS 或者 Linux，可以这样实现：
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
+    {{< /text >}}
+
+## Helm Chart Release 仓库
+
+要使用 Istio Release Helm Chart 仓库，请通过以下方式添加 Istio Release 仓库：
+
+    {{< text bash >}}
+    $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
     {{< /text >}}
