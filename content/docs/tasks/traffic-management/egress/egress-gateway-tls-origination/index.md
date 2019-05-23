@@ -1,5 +1,5 @@
 ---
-title: Egress Gateway with TLS Origination
+title: Egress Gateways with TLS Origination
 description: Describes how to configure an Egress Gateway to perform TLS origination to external services.
 weight: 40
 keywords: [traffic-management,egress]
@@ -7,9 +7,9 @@ aliases:
   - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
 ---
 
-The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/)
+The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
 example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
-for traffic to an external service. The [Configure an Egress Gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/)
+for traffic to an external service. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/)
 example shows how to configure Istio to direct egress traffic through a
 dedicated _egress gateway_ service. This example combines the previous two by
 describing how to configure an egress gateway to perform TLS origination for
@@ -43,12 +43,12 @@ traffic to external services.
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway).
+*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 ## Perform TLS origination with an egress gateway
 
 This section describes how to perform the same TLS origination as in the
-[TLS Origination for Egress Traffic](/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/) example,
+[TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
 only this time using an egress gateway. Note that in this case the TLS origination will
 be done by the egress gateway, as opposed to by the sidecar in the previous example.
 
@@ -247,7 +247,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     ...
     {{< /text >}}
 
-    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/)
+    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
     example, with TLS origination: without the _301 Moved Permanently_ message.
 
 1.  Check the log of the `istio-egressgateway` pod and you should see a line corresponding to our request.

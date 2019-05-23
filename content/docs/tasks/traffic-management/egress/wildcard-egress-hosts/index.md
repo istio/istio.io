@@ -1,5 +1,6 @@
 ---
-title: Configure Egress Traffic using Wildcard Hosts
+title: Configuring Egress Traffic using Wildcard Hosts
+linktitle: Egress using Wildcard Hosts
 description: Describes how to enable egress traffic for a set of hosts in a common domain, instead of configuring each and every host separately.
 keywords: [traffic-management,egress]
 weight: 50
@@ -8,7 +9,7 @@ aliases:
 ---
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task and
-the [Configure an Egress Gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/) example
+the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example
 describe how to configure egress traffic for specific hostnames, like `edition.cnn.com`.
 This example shows how to enable egress traffic for a set of hosts in a common domain, for
 example `*.wikipedia.org`, instead of configuring each and every host separately.
@@ -23,7 +24,7 @@ without the need to specify every language's site separately.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway).
+*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 ## Configure direct traffic to a wildcard host
 

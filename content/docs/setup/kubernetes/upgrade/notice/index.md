@@ -17,7 +17,7 @@ For an overview of new features introduced with Istio 1.1, please refer to the [
 - The 1.0 `istio-remote` chart used for [multicluster VPN](/docs/setup/kubernetes/install/multicluster/vpn/) and [multicluster split horizon](/docs/tasks/multicluster/split-horizon-eds/) remote cluster installation has been consolidated into the Istio chart.  To generate an equivalent `istio-remote` chart, use the `--set global.istioRemote=true` flag.
 - Addons are no longer exposed via separate load balancers.  Instead addons can now be optionally exposed via the Ingress Gateway.  To expose an addon via the Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/tasks/telemetry/gateways/) guide.
 - The built-in Istio Statsd collector has been removed. Istio retains the capability of integrating with your own Statsd collector, using the `--set global.envoyStatsd.enabled=true` flag.
-- The `ingress` series of options for configuring a Kubernetes Ingress have been removed.  Kubernetes Ingress is still functional and can be enabled using the `--set global.k8sIngress.enabled=true` flag.  Check out the [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/edge-traffic/ingress-certmgr/) for how to secure your Kubernetes ingress resources.
+- The `ingress` series of options for configuring a Kubernetes Ingress have been removed.  Kubernetes Ingress is still functional and can be enabled using the `--set global.k8sIngress.enabled=true` flag.  Check out the [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/) for how to secure your Kubernetes ingress resources.
 
 ## Traffic Management
 

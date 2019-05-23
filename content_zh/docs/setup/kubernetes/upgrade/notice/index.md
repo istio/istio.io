@@ -16,7 +16,7 @@ weight: 5
 - 用于[多集群 VPN](/zh/docs/setup/kubernetes/install/multicluster/vpn/) 的 1.0 `istio-remote` chart 和 [多集群水平分割](/zh/docs/tasks/multicluster/split-horizon-eds/) 远程集群安装已合并到 Istio chart 中。要生成等效的 `istio-remote` chart，请使用 `--set global.istioRemote=true` 标志。
 - 插件不再通过单独的负载均衡器暴露。现在可以选择通过 Ingress 网关公开插件。要通过 Ingress Gateway 公开插件，请按照[远程访问遥测插件](/docs/tasks/telemetry/gateways/)指南进行操作。
 - 内置的 Istio Statsd 收集器已被删除。 Istio 使用 `--set global.envoyStatsd.enabled=true` 标志保留与您自己的 Statsd 收集器集成的功能。
-- 用于配置 Kubernetes Ingress 的 `ingress` 系列选项已被删除。 Kubernetes Ingress 仍然可以使用 `--set global.k8sIngress.enabled=true` 标志启用。查看[使用 Cert-Manager 保护 Kubernetes Ingress](/docs/tasks/traffic-management/edge-traffic/ingress-certmgr/)，了解如何保护您的 Kubernetes 入口资源。
+- 用于配置 Kubernetes Ingress 的 `ingress` 系列选项已被删除。 Kubernetes Ingress 仍然可以使用 `--set global.k8sIngress.enabled=true` 标志启用。查看[使用 Cert-Manager 保护 Kubernetes Ingress](/zh/docs/tasks/traffic-management/edge-traffic/ingress-certmgr/)，了解如何保护您的 Kubernetes 入口资源。
 
 ## 流量管理
 

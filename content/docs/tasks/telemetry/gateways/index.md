@@ -21,7 +21,7 @@ A server certificate is required for secure access. Follow these steps to instal
 server certificates for a domain that you control.
 
 You may use self-signed certificates instead. Visit our
-[Securing Gateways with HTTPS Using Secret Discovery Service task](/docs/tasks/traffic-management/secure-ingress/sds/)
+[Securing Gateways with HTTPS Using Secret Discovery Service task](/docs/tasks/traffic-management/ingress/secure-ingress-sds/)
 for general information on using self-signed certificates to access in-cluster services.
 
 {{< warning >}}

@@ -42,7 +42,7 @@ Perform the steps in the
 [Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
 [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)
 sections, and
-[change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/#change-to-the-blocking-by-default-policy).
+[change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
 ## Bookinfo with HTTPS access to a Google Books web service
 
