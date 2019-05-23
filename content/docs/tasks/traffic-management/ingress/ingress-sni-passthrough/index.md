@@ -1,13 +1,13 @@
 ---
 title: Ingress Gateway without TLS Termination
 description: Describes how to configure SNI passthrough for an ingress gateway.
-weight: 10
+weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
   - /docs/examples/advanced-gateways/ingress-sni-passthrough/
 ---
 
-The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/) task describes how to configure HTTPS
+The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress-mount/) task describes how to configure HTTPS
 ingress access to an HTTP service. This example describes how to configure HTTPS ingress access to an HTTPS service,
 i.e., configure an ingress gateway to perform SNI passthrough, instead of TLS termination on incoming requests.
 
@@ -17,7 +17,7 @@ Then you configure a gateway to provide ingress access to the service via host `
 
 ## Generate client and server certificates and keys
 
-Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/secure-ingress/mount/#generate-client-and-server-certificates-and-keys) task.
+Generate the certificates and keys in the same way as in the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress-mount/#generate-client-and-server-certificates-and-keys) task.
 
 1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
 
@@ -237,7 +237,7 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 1.  Follow the instructions in
-    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
     to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 1.  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and

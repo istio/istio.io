@@ -1,22 +1,26 @@
 ---
-title: Securing Gateways with HTTPS Using Secret Discovery Service
-description: Describes how to configure Istio to expose a service outside of the service mesh, over TLS or Mutual TLS, using secret discovery service.
-weight: 32
+title: Securing HTTPS Gateways - SDS Approach
+linktitle: Secure Gateways (SDS)
+description: Expose a service outside of the service mesh over TLS or mTLS using the secret discovery serivce (SDS).
+weight: 21
+aliases:
+    - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
 The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
-describes how to configure an ingress gateway to expose an HTTP endpoint of a
-service to external traffic. This task shows how to do it but using
-HTTPS access to the service with either simple or mutual TLS. The private key,
-server certificate, and root certificate required in mutual TLS are
-configured using Secret Discovery Service (SDS).
+describes how to configure an ingress gateway to expose an HTTP
+service to external traffic. This task shows how to expose a secure HTTPS
+service using either simple or mutual TLS.
+
+The TLS required private key, server certificate, and root certificate, are configured
+using the Secret Discovery Service (SDS).
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin)
-and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)
-sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing
+1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
+and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports)
+sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
 and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
@@ -32,7 +36,7 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     a different implementation of `curl`, for example on a Linux machine.
 
 {{< tip >}}
-If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/secure-ingress/mount),
+If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/ingress/secure-ingress-mount),
 and you want to migrate your ingress gateway to use the SDS approach. There are no
 extra steps required.
 {{< /tip >}}

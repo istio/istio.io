@@ -1,5 +1,6 @@
 ---
 title: Configuring Request Routing
+linktitle: Request Routing
 description: This task shows you how to configure dynamic request routing to multiple versions of a microservice.
 weight: 10
 aliases:

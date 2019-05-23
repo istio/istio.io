@@ -1,5 +1,6 @@
 ---
 title: SNI Monitoring and Policies for TLS Egress Traffic
+linktitle: Monitoring and Policies for TLS Egress
 description: Describes how to configure SNI monitoring and apply policies on TLS egress traffic.
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
@@ -7,17 +8,17 @@ aliases:
   - /docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 ---
 
-The [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/) example
+The [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example
 describes how to enable TLS egress traffic for a set of hosts in a common domain, in that case `*.wikipedia.org`. This
 example extends that example to show how to configure SNI monitoring and apply policies on TLS egress traffic.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway).
+*  [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 *  Configure traffic to `*.wikipedia.org` by following
-   [the steps](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in
-   [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/) example,
+   [the steps](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in
+   [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example,
    **with mutual TLS enabled**.
 
     {{< warning >}}
@@ -193,8 +194,8 @@ $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
 ## Cleanup
 
 1.  Perform
-    [the cleanup steps](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)
-    from [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/edge-traffic/wildcard-egress-hosts/)
+    [the cleanup steps](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)
+    from [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)
     example.
 
 1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:

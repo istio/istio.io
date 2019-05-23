@@ -1,10 +1,12 @@
 ---
-title: Control Ingress Traffic
+title: Configuring Ingress Gateways
+linktitle: Ingress Gateways
 description: Describes how to configure Istio to expose a service outside of the service mesh.
-weight: 30
+weight: 10
 keywords: [traffic-management,ingress]
 aliases:
     - /docs/tasks/ingress.html
+    - /docs/tasks/ingress
 ---
 
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
@@ -291,7 +293,7 @@ they have valid values, according to the output of the following commands:
     {{< /text >}}
 
 1.  If you have an external load balancer and it does not work for you, try to access the gateway using the service's
-    [node port](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
+    [node port](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
 
 ## Cleanup
 

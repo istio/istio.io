@@ -1,21 +1,25 @@
 ---
-title: Securing Gateways with HTTPS With a File Mount-Based Approach
-description: Expose a service outside of the service mesh over TLS or mTLS.
-weight: 31
+title: Securing HTTPS Gateways - File Mount Approach
+linktitle: Secure Gateways (File Mount)
+description: Expose a service outside of the service mesh over TLS or mTLS using file-mounted certificates.
+weight: 20
+aliases:
+    - /docs/tasks/traffic-management/secure-ingress/mount/
 keywords: [traffic-management,ingress,file-mount-credentials]
 ---
 
 The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
-describes how to configure an ingress gateway to expose the HTTP endpoint of a
-service to external traffic. This task shows how to do it but using
-HTTPS access to the service with either simple or mutual TLS. The private key,
-server certificate, and the root certificate required by mutual TLS are configured
+describes how to configure an ingress gateway to expose an HTTP
+service to external traffic. This task shows how to expose a secure HTTPS
+service using either simple or mutual TLS.
+
+The TLS required private key, server certificate, and root certificate, are configured
 using a file mount based approach.
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin)
-and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)
+1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
+and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports)
 sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
 and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
@@ -129,7 +133,7 @@ create a gateway definition that configures a server on port 443.
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) task:
+1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control/#configuring-ingress-using-an-istio-gateway) task:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -302,7 +306,7 @@ server with another secret, before you can use it to handle a second host.
 
 ### Generate client and server certificates and keys for `bookinfo.com`
 
-Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/secure-ingress/mount/#generate-client-and-server-certificates-and-keys),
+Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/ingress/secure-ingress-mount/#generate-client-and-server-certificates-and-keys),
 only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 
 1.  Change directory to the cloned repository:

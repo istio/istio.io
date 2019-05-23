@@ -26,7 +26,7 @@ To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine]
 ## HTTP Endpoints service
 
 1. Inject the service into the mesh using `--includeIPRanges` by following the
-[instructions](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)
+[instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
 so that Egress is allowed to call external services directly.
 Otherwise, ESP won't be able to access Google cloud service control.
 
@@ -53,7 +53,7 @@ Otherwise, ESP won't be able to access Google cloud service control.
     EOF
     {{< /text >}}
 
-1.  Get the Ingress IP and port by following the [instructions](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports).
+1.  Get the Ingress IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports).
 You can verify accessing the Endpoints service through Ingress:
 
     {{< text bash >}}
@@ -89,7 +89,7 @@ Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP 
 1. After this, you will find access to `EXTERNAL_IP` no longer works because the Istio proxy only accept secure mesh connections.
 Accessing through Ingress works because Ingress does HTTP terminations.
 
-1. To secure the access at Ingress, follow the [instructions](/docs/tasks/traffic-management/secure-ingress/).
+1. To secure the access at Ingress, follow the [instructions](/docs/tasks/traffic-management/ingress/secure-ingress-mount/).
 
 1.  You can verify accessing the Endpoints service through secure Ingress:
 
