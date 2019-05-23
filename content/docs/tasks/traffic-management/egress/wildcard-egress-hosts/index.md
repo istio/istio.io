@@ -1,6 +1,5 @@
 ---
-title: Configuring Egress Traffic using Wildcard Hosts
-linktitle: Egress using Wildcard Hosts
+title: Egress using Wildcard Hosts
 description: Describes how to enable egress traffic for a set of hosts in a common domain, instead of configuring each and every host separately.
 keywords: [traffic-management,egress]
 weight: 50

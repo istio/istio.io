@@ -1,7 +1,6 @@
 ---
-title: Securing HTTPS Gateways - SDS Approach
-linktitle: Secure Gateways (SDS)
-description: Expose a service outside of the service mesh over TLS or mTLS using the secret discovery serivce (SDS).
+title: Secure Gateways (SDS)
+description: Expose a service outside of the service mesh over TLS or mTLS using the secret discovery service (SDS).
 weight: 21
 aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/

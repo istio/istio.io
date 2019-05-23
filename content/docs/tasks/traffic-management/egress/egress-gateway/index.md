@@ -1,6 +1,5 @@
 ---
-title: Configuring Egress Gateways
-linktitle: Egress Gateways
+title: Egress Gateways
 description: Describes how to configure Istio to direct traffic to external services through a dedicated gateway.
 weight: 30
 keywords: [traffic-management,egress]
