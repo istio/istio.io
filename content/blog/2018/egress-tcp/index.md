@@ -150,7 +150,7 @@ Now you are ready to deploy a version of the Bookinfo application that will use 
 ### Initial setting of Bookinfo application
 
 To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then you deploy the
-[Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and [change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/#change-to-the-blocking-by-default-policy).
+[Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and [change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
 This application uses the `ratings` microservice to fetch
  book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions
@@ -332,7 +332,7 @@ Also note that the IPs of an external service are not always static, for example
 be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible
 IPs is known, you should specify the range by CIDR blocks. If the range of the possible IPs is not known, service
 entries for TCP cannot be used and
-[the external services must be called directly](/docs/tasks/traffic-management/egress/#direct-access-to-external-services),
+[the external services must be called directly](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services),
 bypassing the sidecar proxies.
 
 ## Relation to mesh expansion

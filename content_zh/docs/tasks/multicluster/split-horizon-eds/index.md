@@ -179,7 +179,7 @@ aliases:
         $ kubectl config use-context $CTX_CLUSTER2
         {{< /text >}}
 
-    1. 根据[确定入口 IP 和端口](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)的命令，设置 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量。
+    1. 根据[确定入口 IP 和端口](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的命令，设置 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量。
 
     1. 恢复  `kubectl` 之前的上下文：
 

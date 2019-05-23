@@ -1,7 +1,7 @@
 ---
-title: Securing Kubernetes Ingress with Cert-Manager
+title: Kubernetes Ingress with Cert-Manager
 description: Demonstrates how to obtain Let's Encrypt TLS certificates for Kubernetes Ingress automatically using Cert-Manager.
-weight: 70
+weight: 40
 keywords: [traffic-management,ingress,https,cert-manager,acme,sds]
 aliases:
   - /docs/examples/advanced-gateways/ingress-certmgr/

@@ -1,5 +1,6 @@
 ---
-title: Configure an Egress Gateway
+title: Configuring Egress Gateways
+linktitle: Egress Gateways
 description: Describes how to configure Istio to direct traffic to external services through a dedicated gateway.
 weight: 30
 keywords: [traffic-management,egress]
@@ -101,7 +102,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     {{< /text >}}
 
     The output should be the same as in the
-    [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/) example,
+    [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
     without TLS origination.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for

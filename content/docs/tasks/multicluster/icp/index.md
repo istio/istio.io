@@ -224,7 +224,7 @@ The following example enables [automatic sidecar injection](/docs/setup/kubernet
     service address.  This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
     in a federated Kubernetes environment.
 
-1.  [Determine the ingress IP and ports](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
+1.  [Determine the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
     for `istio-ingressgateway`'s `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway.
 
     Access `http://<INGRESS_HOST>:<INGRESS_PORT>/productpage` repeatedly and each version of `reviews` should be equally load balanced,
