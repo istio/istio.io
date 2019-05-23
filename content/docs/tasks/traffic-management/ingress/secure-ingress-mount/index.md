@@ -1,6 +1,5 @@
 ---
-title: Securing HTTPS Gateways - File Mount Approach
-linktitle: Secure Gateways (File Mount)
+title: Secure Gateways (File Mount)
 description: Expose a service outside of the service mesh over TLS or mTLS using file-mounted certificates.
 weight: 20
 aliases:
