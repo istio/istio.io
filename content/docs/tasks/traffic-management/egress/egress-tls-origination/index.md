@@ -1,6 +1,5 @@
 ---
-title: Configuring Egress with TLS Origination
-linktitle: Egress TLS Origination
+title: Egress TLS Origination
 description: Describes how to configure Istio to perform TLS origination for traffic to external services.
 keywords: [traffic-management,egress]
 weight: 20

@@ -1,6 +1,5 @@
 ---
-title: Control Ingress Traffic
-linktitle: Ingress
-description: Managing ingress traffic for an Istio service mesh.
+title: Ingress
+description: Controlling ingress traffic for an Istio service mesh.
 weight: 70
 ---

@@ -1,6 +1,5 @@
 ---
-title: SNI Monitoring and Policies for TLS Egress Traffic
-linktitle: Monitoring and Policies for TLS Egress
+title: Monitoring and Policies for TLS Egress
 description: Describes how to configure SNI monitoring and apply policies on TLS egress traffic.
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
