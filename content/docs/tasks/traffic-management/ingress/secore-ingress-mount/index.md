@@ -18,8 +18,8 @@ using a file mount based approach.
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress#before-you-begin)
-and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress#determining-the-ingress-ip-and-ports)
+1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
+and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports)
 sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
 and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
@@ -133,7 +133,7 @@ create a gateway definition that configures a server on port 443.
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/#configuring-ingress-using-an-istio-gateway) task:
+1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control/#configuring-ingress-using-an-istio-gateway) task:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

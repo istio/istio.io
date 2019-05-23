@@ -41,7 +41,7 @@ aliases:
 
 ## 使用 Egress 网关发起 TLS
 
-本节描述了如何执行和[在 Egress 流量中发起 TLS](/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/) 示例中一样的过程，只不过这次使用的是 Egress 网关，而不是 Sidecar。
+本节描述了如何执行和[在 Egress 流量中发起 TLS](/zh/docs/tasks/traffic-management/edge-traffic/egress-tls-origination/) 示例中一样的过程，只不过这次使用的是 Egress 网关，而不是 Sidecar。
 
 1. 为 `edition.cnn.com` 定义一个 `ServiceEntry`：
 

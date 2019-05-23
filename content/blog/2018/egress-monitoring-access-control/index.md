@@ -36,7 +36,7 @@ will prevent any possibility for a malicious application to access the forbidden
   Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh.
 * The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example describes how to configure
   Istio to direct egress traffic through a dedicated gateway service called _egress gateway_.
-* The [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/) example
+* The [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example
   demonstrates how to allow applications to send HTTP requests to external servers that require HTTPS, while directing
   traffic through egress gateway.
 * The [Collecting Metrics](/docs/tasks/telemetry/metrics/collecting-metrics/) task describes how to configure metrics for services in a mesh.
