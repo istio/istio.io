@@ -30,6 +30,9 @@
                         <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page-icon">
                                 {{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}</a>
                     </h5>
+                    {{ if .Params.subtitle }}
+                        <p>({{ .Params.subtitle }})</p>
+                    {{ end }}
                     <p>{{ .Description }}</p>
                 </div>
             {{ end }}
