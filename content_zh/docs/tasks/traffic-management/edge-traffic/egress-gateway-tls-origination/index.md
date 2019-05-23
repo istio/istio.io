@@ -89,7 +89,7 @@ aliases:
 
     {{< tab name="启用双向 TLS" cookie-value="enabled" >}}
 
-    {{< text bash >}}
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -129,13 +129,13 @@ aliases:
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
 
     {{< /tab >}}
 
     {{< tab name="禁用双向 TLS" cookie-value="disabled" >}}
 
-    {{< text bash >}}
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -161,7 +161,7 @@ aliases:
       subsets:
       - name: cnn
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
 
     {{< /tab >}}
 
