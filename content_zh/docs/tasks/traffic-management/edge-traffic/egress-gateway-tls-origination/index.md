@@ -37,7 +37,7 @@ aliases:
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-* [部署 Istio egress 网关](/docs/tasks/traffic-management/edge-traffic/egress-gateway/#deploy-istio-egress-gateway)
+* [部署 Istio egress 网关](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)
 
 ## 使用 Egress 网关发起 TLS
 

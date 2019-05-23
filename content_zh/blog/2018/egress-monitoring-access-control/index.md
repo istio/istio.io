@@ -33,11 +33,11 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 ## 开始之前
 
-按照[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/)中的步骤，**启用了双向 TLS 身份验证**，而不需要[清除](/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination//#cleanup)步骤。完成该示例后，您可以从安装了 `curl` 的网格中容器访问 [edition.cnn.com/politics](https://edition.cnn.com/politics)。本文假设 `SOURCE_POD` 环境变量包含源 pod 的名称，容器的名称为 `sleep`。
+按照[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/)中的步骤，**启用了双向 TLS 身份验证**，而不需要[清除](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination//#cleanup)步骤。完成该示例后，您可以从安装了 `curl` 的网格中容器访问 [edition.cnn.com/politics](https://edition.cnn.com/politics)。本文假设 `SOURCE_POD` 环境变量包含源 pod 的名称，容器的名称为 `sleep`。
 
 ## 配置监控和访问策略
 
-由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[带 TLS 发起的 Egress 网关](/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
+由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
 
 根据我们的场景，组织执行了[开始之前](#开始之前)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edition.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
 
@@ -232,7 +232,7 @@ keywords: [egress,traffic-management,access-control,monitoring]
 
 现在您移除在本节中使用的路由取消访问控制，在下一节将向您演示通过 Mixer 策略检查实现访问控制。
 
-1.  用之前[配置 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway)示例中的版本替换 _edition.cnn.com_ 的 `VirtualService`：
+1.  用之前[配置 Egress 网关](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway)示例中的版本替换 _edition.cnn.com_ 的 `VirtualService`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
