@@ -15,7 +15,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 ## Before you begin
 
-1.  Ensure you have a LightStep account. [Sign up](https://lightstep.com/products/tracing/) for a free trial of LightStep Tracing, or [Contact LightStep](https://lightstep.com/contact/) to create an enterprise-levell LightStep [𝑥]PM account.
+1.  Ensure you have a LightStep account. [Sign up](https://lightstep.com/products/tracing/) for a free trial of LightStep Tracing, or [Contact LightStep](https://lightstep.com/contact/) to create an enterprise-level LightStep [𝑥]PM account.
 
 1.  For [𝑥]PM users, ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
     [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup) for details about setting up satellites.
