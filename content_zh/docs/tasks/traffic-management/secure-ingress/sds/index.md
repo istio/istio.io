@@ -47,7 +47,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 1. 把证书移动到 `httpbin.example.com` 目录之中：
 
     {{< text bash >}}
-    $ mkdir ~+1/httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/httpbin.example.com
+    $ mkdir ../httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.example.com
     {{< /text >}}
 
 1. 返回之前的目录：
@@ -207,8 +207,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     {{< text bash >}}
     $ pushd mtls-go-example
     $ ./generate.sh httpbin.example.com <password>
-    $ mkdir ~+1/httpbin.new.example.com && mv 1_root 2_intermediate \
-    3_application 4_client ~+1/httpbin.new.example.com
+    $ mkdir ../httpbin.new.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.new.example.com
     $ popd
     $ kubectl create -n istio-system secret generic httpbin-credential \
     --from-file=key=httpbin.new.example.com/3_application/private/httpbin.example.com.key.pem \
@@ -300,8 +299,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     {{< text bash >}}
     $ pushd mtls-go-example
     $ ./generate.sh helloworld-v1.example.com <password>
-    $ mkdir ~+1/helloworld-v1.example.com && mv 1_root 2_intermediate \
-    3_application 4_client ~+1/helloworld-v1.example.com
+    $ mkdir ../helloworld-v1.example.com && mv 1_root 2_intermediate 3_application 4_client ../helloworld-v1.example.com
     $ popd
     $ kubectl create -n istio-system secret generic helloworld-credential \
     --from-file=key=helloworld-v1.example.com/3_application/private/helloworld-v1.example.com.key.pem \
