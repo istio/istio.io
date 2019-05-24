@@ -41,7 +41,7 @@ aliases:
 1.  将证书移动到 `nginx.example.com` 目录：
 
     {{< text bash >}}
-    $ mkdir ~+1/nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/nginx.example.com
+    $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
     {{< /text >}}
 
 1.  返回根目录：
