@@ -63,7 +63,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
 1.  Move the certificates into a directory named `httpbin.example.com`:
 
     {{< text bash >}}
-    $ mkdir ~+1/httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ~+1/httpbin.example.com
+    $ mkdir ../httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.example.com
     {{< /text >}}
 
 1.  Go back to your previous directory:
@@ -325,7 +325,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 1.  Move the certificates into a directory named `bookinfo.com`:
 
     {{< text bash >}}
-    $ mkdir ~+1/bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ~+1/bookinfo.com
+    $ mkdir ../bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ../bookinfo.com
     {{< /text >}}
 
 1.  Go back to your previous directory:
