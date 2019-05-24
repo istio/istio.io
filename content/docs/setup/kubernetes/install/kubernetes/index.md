@@ -12,12 +12,15 @@ This flow installs Istio's built-in **demo**
 [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
 using basic Kubernetes commands without needing to download or install [Helm](https://github.com/helm/helm).
 
-{{< tip >}}
+{{< warning >}}
+The demo configuration profile is not suitable for performance evaluation.
+It is designed to showcase Istio functionality with high levels of tracing and access logging.
+{{< /warning >}}
+
 To install Istio for production use, we recommend using the
 [Helm Installation guide](/docs/setup/kubernetes/install/helm/) instead,
 which provides many more options for selecting and managing the Istio configuration.
 This permits customization of Istio to operator specific requirements.
-{{< /tip >}}
 
 ## Prerequisites
 
