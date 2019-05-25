@@ -384,10 +384,11 @@ The difference between the two instances is the version of their `helloworld` im
 
 We will call the `helloworld.sample` service from another in-mesh `sleep` service.
 
-1. Deploy the `sleep` service:
+1. Deploy the `sleep` service in two clusters:
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
+    $ kubectl create --context=$CTX_CLUSTER2 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
 1. Wait for the `sleep` service to start:
@@ -395,12 +396,20 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
     {{< text bash >}}
     $ kubectl get po --context=$CTX_CLUSTER1 -n sample -l app=sleep
     sleep-754684654f-n6bzf           2/2     Running   0          5s
+    $ kubectl get po --context=$CTX_CLUSTER2 -n sample -l app=sleep
+    sleep-754684654f-dzl9j           2/2     Running   0          5s
     {{< /text >}}
 
-1. Call the `helloworld.sample` service several times:
+1. Call the `helloworld.sample` service several times from `cluster1` :
 
     {{< text bash >}}
     $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
+    {{< /text >}}
+ 
+1. Call the `helloworld.sample` service several times from `cluster2` :
+
+    {{< text bash >}}
+    $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances on `cluster1` and `cluster2`
@@ -423,6 +432,14 @@ $ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CT
 {{< /text >}}
 
 The gateway IP, `192.23.120.32:15443`, of `cluster2` is logged when v2 was called and the instance IP, `10.10.0.90:5000`, of `cluster1` is logged when v1 was called.
+
+{{< text bash >}}
+$ kubectl logs --context=$CTX_CLUSTER2 -n sample $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
+[2019-05-25T08:06:11.468Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 177 176 "-" "curl/7.60.0" "58cfb92b-b217-4602-af67-7de8f63543d8" "helloworld.sample:5000" "192.168.1.246:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36840 -
+[2019-05-25T08:06:12.834Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 181 180 "-" "curl/7.60.0" "ce480b56-fafd-468b-9996-9fea5257cb1e" "helloworld.sample:5000" "10.32.0.9:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36886 -
+{{< /text >}}
+
+The gateway IP, `1192.168.1.246:15443`, of `cluster1` is logged when v1 was called and the instance IP, `10.32.0.9:5000`, of `cluster2` is logged when v2 was called.
 
 ## Cleanup
 
