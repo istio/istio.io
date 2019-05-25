@@ -62,6 +62,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set global.controlPlaneSecurityEnabled=true \
       --set global.proxy.accessLogFile="/dev/stdout" \
       --set global.meshExpansion.enabled=true \
+      --set 'global.meshNetworks.network1.endpoints[0].fromRegistry'=Kubernetes \
+      --set 'global.meshNetworks.network1.gateways[0].address'=0.0.0.0 \
+      --set 'global.meshNetworks.network1.gateways[0].port'=443 \
+      --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network1" \
+      --set global.network="network1" \
       --set 'global.meshNetworks.network2.endpoints[0].fromRegistry'=n2-k8s-config \
       --set 'global.meshNetworks.network2.gateways[0].address'=0.0.0.0 \
       --set 'global.meshNetworks.network2.gateways[0].port'=443 \
@@ -70,7 +75,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< warning >}}
     Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
-    later be updated to the value of the public IP of `cluster2`'s gateway after it is deployed
+    later be updated to the value of the public IP of `cluster1` `cluster2`'s gateway after it is deployed
     in the following section.
     {{< /warning >}}
 
@@ -131,6 +136,42 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     Although applied to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
     same Pilot.
+1.  Determine the ingress IP and port for `cluster1`.
+
+    1.   Set the current context of `kubectl` to `CTX_CLUSTER1`
+
+        {{< text bash >}}
+        $ export ORIGINAL_CONTEXT=$(kubectl config current-context)
+        $ kubectl config use-context $CTX_CLUSTER1
+        {{< /text >}}
+
+    1.   Follow the instructions in
+        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
+
+    1.  Restore the previous `kubectl` context:
+
+        {{< text bash >}}
+        $ kubectl config use-context $ORIGINAL_CONTEXT
+        $ unset ORIGINAL_CONTEXT
+        {{< /text >}}
+
+    1.  Print the values of `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
+
+        {{< text bash >}}
+        $ echo The ingress gateway of cluster1: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
+        {{< /text >}}
+
+1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
+
+    {{< text bash >}}
+    $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
+    {{< /text >}}
+
+    Update the gateway's address and port of `network1` to reflect the `cluster1` ingress host and port,
+    respectively, then save and quit.
+
+    Once saved, Pilot will automatically read the updated network configuration.
 
 ### Setup cluster 2
 
