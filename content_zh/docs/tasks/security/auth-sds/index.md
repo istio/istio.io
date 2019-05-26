@@ -88,7 +88,7 @@ Istio Secret 发现服务（SDS）使用 Citadel 代理通过 Unix domain socket
 
 1. Citadel 代理无法启动，除非它可以创建所需的 Unix domain socket。应用以下 pod 安全策略仅允许 Citadel 代理修改 Unix domain socket：
 
-    {{< text bash >}}
+    {{< text bash yaml >}}
     $ cat <<EOF | kubectl apply -f -
     apiVersion: extensions/v1beta1
     kind: PodSecurityPolicy
