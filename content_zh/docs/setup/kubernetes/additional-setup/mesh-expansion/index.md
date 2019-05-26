@@ -118,7 +118,7 @@ keywords: [kubernetes,vms]
     $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
     {{< /text >}}
 
-1.  使用 Envoy sidecar 安装 Debian 软件包：
+1.  安装 Envoy sidecar 的 Debian 软件包：
 
     {{< text bash >}}
     $ gcloud compute ssh --project=${MY_PROJECT} --zone=${MY_ZONE} "${GCE_NAME}"
@@ -244,7 +244,7 @@ header 中的 `server: envoy` 表示 sidecar 拦截了流量。
     EOF
     {{< /text >}}
 
-1.  Kubernetes 集群中的工作负载需要 DNS 映射来解析 VM 服务的域名。要将映射与您自己 的DNS 系统集成，请使用 `istioctl register` 并创建 Kubernetes `selector-less` 服务，例如：
+1.  Kubernetes 集群中的工作负载需要 DNS 映射来解析 VM 服务的域名。要将映射与您自己的 DNS 系统集成，并创建无选择器服务，请使用 `istioctl register` 并创建 Kubernetes `selector-less` 服务，例如：
 
     {{< text bash >}}
     $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP} 8080
