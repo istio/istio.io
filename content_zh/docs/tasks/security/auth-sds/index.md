@@ -39,7 +39,6 @@ Istio 1.1 之前，Istio 为工作负载提供的密钥和证书是由 Citadel �
     {{< text bash >}}
     $ cat install/kubernetes/namespace.yaml > istio-auth-sds.yaml
     $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth-sds.yaml
-    $ helm dep update --skip-refresh install/kubernetes/helm/istio
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/values-istio-sds-auth.yaml@ >> istio-auth-sds.yaml
     $ kubectl create -f istio-auth-sds.yaml
     {{< /text >}}
@@ -77,15 +76,250 @@ $ kubectl exec -it $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..me
 
 这里会看到，在 `/etc/certs` 文件夹中没有加载 Secret 卷生成的文件。
 
+## 使用 pod 安全策略提高安全性
+
+Istio Secret 发现服务（SDS）使用 Citadel 代理通过 Unix domain socket 将证书分发给 Envoy sidecar。
+在同一个 Kubernetes 节点中运行的所有 pod 共享 Citadel 代理和 Unix domain socket。
+
+要防止对 Unix domain socket 进行恶意修改，请启用 pod 安全策略以限制 pod 对 Unix domain socket 的权限。
+否则，恶意 pod 可能会劫持 Unix domain socket 以破坏 SDS 服务或从同一 Kubernetes 节点上运行的其他 pod 窃取身份凭证。
+
+要启用 pod 安全策略，请执行以下步骤：
+
+1. Citadel 代理无法启动，除非它可以创建所需的 Unix domain socket。应用以下 pod 安全策略仅允许 Citadel 代理修改 Unix domain socket：
+
+    {{< text bash yaml >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: PodSecurityPolicy
+    metadata:
+      name: istio-nodeagent
+    spec:
+      allowedHostPaths:
+      - pathPrefix: "/var/run/sds"
+      seLinux:
+        rule: RunAsAny
+      supplementalGroups:
+        rule: RunAsAny
+      runAsUser:
+        rule: RunAsAny
+      fsGroup:
+        rule: RunAsAny
+      volumes:
+      - '*'
+    ---
+    kind: Role
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-nodeagent
+      namespace: istio-system
+    rules:
+    - apiGroups:
+      - extensions
+      resources:
+      - podsecuritypolicies
+      resourceNames:
+      - istio-nodeagent
+      verbs:
+      - use
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: istio-nodeagent
+      namespace: istio-system
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: istio-nodeagent
+    subjects:
+    - kind: ServiceAccount
+      name: istio-nodeagent-service-account
+      namespace: istio-system
+    EOF
+    {{< /text >}}
+
+1. 要阻止其他 pod 修改 UNIX Domain Socket，请将 Citadel 代理用于 UNIX Domain Socket 的路径的 `allowedHostPaths` 配置更改为 `readOnly: true`。
+
+    {{< warning >}}
+    以下 pod 安全策略假定之前未应用其他 pod 安全策略。如果您已应用其他 pod 安全策略，请将以下配置值添加到现有策略，而不是直接应用配置。
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: PodSecurityPolicy
+    metadata:
+      name: istio-sds-uds
+    spec:
+     # 保护 UNIX Domain Socket 免受未经授权的修改
+     allowedHostPaths:
+     - pathPrefix: "/var/run/sds"
+       readOnly: true
+     # 允许 istio sidecar 注入工作
+     allowedCapabilities:
+     - NET_ADMIN
+     seLinux:
+       rule: RunAsAny
+     supplementalGroups:
+       rule: RunAsAny
+     runAsUser:
+       rule: RunAsAny
+     fsGroup:
+       rule: RunAsAny
+     volumes:
+     - '*'
+    ---
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: istio-sds-uds
+    rules:
+    - apiGroups:
+      - extensions
+      resources:
+      - podsecuritypolicies
+      resourceNames:
+      - istio-sds-uds
+      verbs:
+      - use
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: istio-sds-uds
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: istio-sds-uds
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Group
+      name: system:serviceaccounts
+    EOF
+    {{< /text >}}
+
+1. 为您的平台启用 pod 安全策略。每个支持的平台都会以不同方式启用 pod 安全策略，请参阅适用于您的平台的相关文档。
+   如果您使用的是 Google Kubernetes Engine（GKE），则必须[启用 pod 安全策略控制器](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#enabling_podsecuritypolicy_controller)。
+
+    {{< warning >}}
+    在启用它之前，在 pod 安全策略中授予所有必需的权限。启用该策略后，如果 pods 需要任何未授予的权限，则无法启动。
+    {{< /warning >}}
+
+1. 运行以下命令以重新启动 Citadel 代理：
+
+    {{< text bash >}}
+    $ kubectl delete pod -l 'app=nodeagent' -n istio-system
+    pod "istio-nodeagent-dplx2" deleted
+    pod "istio-nodeagent-jrbmx" deleted
+    pod "istio-nodeagent-rz878" deleted
+    {{< /text >}}
+
+1. 要验证 Citadel 代理是否使用启用的 pod 安全策略，请等待几秒钟并运行以下命令以确认代理已成功启动：
+
+    {{< text bash >}}
+    $ kubectl get pod -l 'app=nodeagent' -n istio-system
+    NAME                    READY   STATUS    RESTARTS   AGE
+    istio-nodeagent-p4p7g   1/1     Running   0          4s
+    istio-nodeagent-qdwj6   1/1     Running   0          5s
+    istio-nodeagent-zsk2b   1/1     Running   0          14s
+    {{< /text >}}
+
+1. 运行以下命令以启动普通 pod。
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: normal
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: normal
+        spec:
+          containers:
+          - name: normal
+            image: pstauffer/curl
+            command: ["/bin/sleep", "3650d"]
+            imagePullPolicy: IfNotPresent
+    EOF
+    {{< /text >}}
+
+1. 要验证正常 pod 是否与启用了 pod 安全策略一起使用，请等待几秒钟并运行以下命令以确认正常 pod 已成功启动。
+
+    {{< text bash >}}
+    $ kubectl get pod -l 'app=normal'
+    NAME                      READY   STATUS    RESTARTS   AGE
+    normal-64c6956774-ptpfh   2/2     Running   0          8s
+    {{< /text >}}
+
+1. 启动一个恶意 pod，尝试使用写入权限挂载 UNIX Domain Socket。
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: malicious
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: malicious
+        spec:
+          containers:
+          - name: malicious
+            image: pstauffer/curl
+            command: ["/bin/sleep", "3650d"]
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: sds-uds
+              mountPath: /var/run/sds
+          volumes:
+          - name: sds-uds
+            hostPath:
+              path: /var/run/sds
+              type: ""
+    EOF
+    {{< /text >}}
+
+1. 要验证 UNIX Domain Socket 是否受保护，请运行以下命令以确认由于 pod 安全策略而无法启动恶意 pod：
+
+    {{< text bash >}}
+    $ kubectl describe rs -l 'app=malicious' | grep Failed
+    Pods Status:    0 Running / 0 Waiting / 0 Succeeded / 0 Failed
+      ReplicaFailure   True    FailedCreate
+      Warning  FailedCreate  4s (x13 over 24s)  replicaset-controller  Error creating: pods "malicious-7dcfb8d648-" is forbidden: unable to validate against any pod security policy: [spec.containers[0].volumeMounts[0].readOnly: Invalid value: false: must be read-only]
+    {{< /text >}}
+
 ## 清理 {#cleanup}
 
-清理测试服务以及 Istio 控制面：
+1. 清理测试服务以及 Istio 控制面：
 
-{{< text bash >}}
-$ kubectl delete ns foo
-$ kubectl delete ns bar
-$ kubectl delete -f istio-auth-sds.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns foo
+    $ kubectl delete ns bar
+    $ kubectl delete -f istio-auth-sds.yaml
+    {{< /text >}}
+
+1. Disable the pod security policy in the cluster using the documentation of your platform. If you are using GKE,
+   [disable the pod security policy controller](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#disabling_podsecuritypolicy_controller).
+
+1. Delete the pod security policy and the test deployments:
+
+    {{< text bash >}}
+    $ kubectl delete psp istio-sds-uds istio-nodeagent
+    $ kubectl delete role istio-nodeagent -n istio-system
+    $ kubectl delete rolebinding istio-nodeagent -n istio-system
+    $ kubectl delete clusterrole istio-sds-uds
+    $ kubectl delete clusterrolebinding istio-sds-uds
+    $ kubectl delete deploy malicious
+    $ kubectl delete deploy normal
+    {{< /text >}}
 
 ## 注意事项 {#caveats}
 
