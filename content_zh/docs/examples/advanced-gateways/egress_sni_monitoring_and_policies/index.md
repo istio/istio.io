@@ -14,7 +14,7 @@ weight: 51
 * 根据[使用通配符主机配置 Egress 流量](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/)示例中的[步骤](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/#任意域名的通配符配置) 为流向 `*.wikipedia.org` 的流量进行配置，启用 TLS 支持。
 
     {{< warning >}}
-    必须在群集中为此任务启用策略实施。按照[启用策略强制执行](/zh/docs/tasks/policy-enforcement/enabling-policy/)中的步骤操作，确保已启用策略实施。
+    必须在集群中为此任务启用策略实施。按照[启用策略强制执行](/zh/docs/tasks/policy-enforcement/enabling-policy/)中的步骤操作，确保已启用策略实施。
     {{< /warning >}}
 
 ## SNI 监控和访问策略

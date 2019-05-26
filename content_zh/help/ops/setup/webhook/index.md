@@ -16,7 +16,7 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
 ## 验证动态准入 Webhook 前置条件
 
-请参阅 Kubernetes 快速入门中的[前置条件章节](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)。如果群集配置错误，Webhook 将无法正常工作。如集群配置后，动态 Webhook 和依赖的相关功能无法正常工作，可以通过以下步骤进行检查。
+请参阅 Kubernetes 快速入门中的[前置条件章节](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)。如果集群配置错误，Webhook 将无法正常工作。如集群配置后，动态 Webhook 和依赖的相关功能无法正常工作，可以通过以下步骤进行检查。
 
 1. 验证 `kubectl` 是否是[最新版本](https://kubernetes.io/docs/tasks/tools/install-kubectl/)（>= 1.10），并且 Kubernetes 服务器版本 >= 1.9。
 

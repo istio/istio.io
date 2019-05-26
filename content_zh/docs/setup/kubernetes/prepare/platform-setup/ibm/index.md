@@ -18,7 +18,7 @@ IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平�
 
 ## IBM Cloud Public
 
-将下面代码块中 `<cluster-name>` 替换为您要使用的群集名称。
+将下面代码块中 `<cluster-name>` 替换为您要使用的集群名称。
 
 1. 创建一个新的 `lite` 或付费 Kubernetes 集群：
 

@@ -143,7 +143,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 如果有多个服务运维团队（又名 [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的 [Kubernetes 命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
 
 {{< warning >}}
-如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
+如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们强烈建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问集群。
 {{< /warning >}}
 
 ### 示例
@@ -162,7 +162,7 @@ Istio 提供两种类型的身份验证：
   Istio 提供 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
   您可以轻松打开此功能，而无需更改服务代码。这个解决方案：
 
-    - 为每个服务提供强大的身份，表示其角色，以实现跨群集和云的互操作性。
+    - 为每个服务提供强大的身份，表示其角色，以实现跨集群和云的互操作性。
     - 保护服务到服务通信和最终用户到服务通信。
     - 提供密钥管理系统，以自动执行密钥和证书生成，分发和轮换。
 

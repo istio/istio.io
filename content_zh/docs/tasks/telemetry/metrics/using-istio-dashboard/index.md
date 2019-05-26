@@ -17,7 +17,7 @@ keywords: [telemetry,visualization]
 
 ## 查看 Istio 仪表盘
 
-1.  确认您的群集中 `prometheus` 服务正在运行。
+1.  确认您的集群中 `prometheus` 服务正在运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
@@ -27,7 +27,7 @@ keywords: [telemetry,visualization]
     prometheus   10.59.241.54   <none>        9090/TCP   2m
     {{< /text >}}
 
-1.  验证 Grafana 服务是否在群集中运行。
+1.  验证 Grafana 服务是否在集群中运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
