@@ -1,5 +1,5 @@
 ---
-title: 使用 Istio CNI 插件安装 Istio
+title: Istio CNI 插件的安装和使用 Istio
 description: Istio CNI 插件的安装和使用 Istio，该插件让运维人员可以用较低的权限来完成网格服务的部署工作。
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
@@ -42,13 +42,13 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 
 1.  安装 Istio CNI。
 
-    *  选项1.  渲染并应用 Istio CNI Helm 模板。
+    *  选项 1.  渲染并应用 Istio CNI Helm 模板。
 
         {{< text bash >}}
         $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
         {{< /text >}}
 
-    *  选项2.  用 `helm install` 安装。
+    *  选项 2.  用 `helm install` 安装。
 
         {{< text bash >}}
         $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system
@@ -58,7 +58,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
     可以在 [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml) 中获取 `istio-cni` 的完整参数。
     {{< /tip >}}
 
-1.  通过在 [Helm 的 Istio 安装](/zh/docs/setup/kubernetes/install/helm/) 是设置参数 `--set istio_cni.enabled=true`，以包含 Istio CNI 插件的安装。例如：
+1.  在 [Helm 安装 Istio](/zh/docs/setup/kubernetes/install/helm/) 时设置参数 `--set istio_cni.enabled=true`，以启用 Istio 的 CNI 插件。例如：
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
