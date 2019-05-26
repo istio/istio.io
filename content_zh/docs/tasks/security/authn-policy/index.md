@@ -100,7 +100,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-网格身份验证策略使用在群集范围的 `MeshPolicy` CRD 中定义的[常规身份验证策略 API](/docs/reference/config/istio.authentication.v1alpha1/)。
+网格身份验证策略使用在集群范围的 `MeshPolicy` CRD 中定义的[常规身份验证策略 API](/docs/reference/config/istio.authentication.v1alpha1/)。
 {{< /tip >}}
 
 此策略指定网格中的所有工作负荷仅接受使用 TLS 的加密请求。如您所见，此身份验证策略的类型是
