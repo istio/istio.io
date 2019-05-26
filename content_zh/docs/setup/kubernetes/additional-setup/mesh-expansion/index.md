@@ -17,6 +17,10 @@ keywords: [kubernetes,vms]
 
 * 如果您[在使用 Helm 安装时](/zh/docs/setup/kubernetes/install/helm/)尚未启用网格扩展。您需要 [Helm 客户端](https://docs.helm.sh/using_helm/)来为集群启用网格扩展。
 
+以下说明：
+- 假设扩展 VM 在 GCE 上运行。
+- 某些步骤使用特定于 Google 平台的命令。
+
 ## 安装步骤{#installation-steps}
 
 安装过程包含服务网格的扩展准备、扩展安装以及虚拟机的配置过程。
@@ -25,21 +29,23 @@ keywords: [kubernetes,vms]
 
 将非 Kubernetes 服务添加到 Istio 网格的第一步是安装配置 Istio，并生成允许网格扩展 VM 连接到网格的配置文件。要准备集群以进行网格扩展，请在具有集群管理员权限的计算机上运行以下命令：
 
-1.  确保为集群启用了网格扩展。如果在安装时没有使用 Helm 指定 `--set global.meshExpansion=true`，则有两个选项可用于启用网格扩展，具体取决于您最初在集群上安装 Istio 的方式：
+1.  确保为集群启用了网格扩展。如果在安装时没有使用 Helm 指定 `--set global.meshExpansion.enabled=true`，则有两个选项可用于启用网格扩展，具体取决于您最初在集群上安装 Istio 的方式：
 
     *   如果您使用 Helm 和 Tiller 安装了 Istio，请使用新选项运行 `helm upgrade`：
 
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
-    $ helm upgrade --set global.meshExpansion=true istio-system .
+    $ helm upgrade --set global.meshExpansion.enabled=true istio-system .
     $ cd -
     {{< /text >}}
 
     *   如果您没有使用 Helm 和 Tiller 安装 Istio，请使用 `helm template` 通过该选项更新您的配置并使用 `kubectl` 重新应用配置：
 
     {{< text bash >}}
+    $ kubectl create namespace istio-system
+    $ helm template  install/kubernetes/helm/istio-init --name istio-init --namespace istio-system  | kubectl apply -f -
     $ cd install/kubernetes/helm/istio
-    $ helm template --set global.meshExpansion=true --namespace istio-system . > istio.yaml
+    $ helm template --set global.meshExpansion.enabled=true --namespace istio-system . > istio.yaml
     $ kubectl apply -f istio.yaml
     $ cd -
     {{< /text >}}
@@ -51,10 +57,16 @@ keywords: [kubernetes,vms]
     有关在[Helm 文档](https://docs.helm.sh/using_helm/#using-helm)中自定义 Helm 图表的更多信息。
     {{< /tip >}}
 
-1.  找到 Istio ingress 网关的 IP 地址，因为网格扩展机器将访问 [Citadel](/zh/docs/concepts/security/) 和 [Pilot](/zh/docs/concepts/traffic-management/#Pilot-和-Envoy)。
+1. 定义 VM 加入的命名空间。此示例使用 `SERVICE_NAMESPACE` 环境变量来存储命名空间。此变量的值必须与稍后在配置文件中使用的命名空间匹配。
 
     {{< text bash >}}
-    $ GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export SERVICE_NAMESPACE="default"
+    {{< /text >}}
+
+1. 找到 Istio ingress 网关的 IP 地址，因为网格扩展机器将访问 [Citadel](/zh/docs/concepts/security/) 和 [Pilot](/zh/docs/concepts/traffic-management/#Pilot-和-Envoy)。
+
+    {{< text bash >}}
+    $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $GWIP
     35.232.112.158
     {{< /text >}}
@@ -99,14 +111,20 @@ keywords: [kubernetes,vms]
 
 接下来，在要添加到网格的每台计算机上运行以下命令：
 
-1.  使用 Envoy sidecar 安装 Debian 软件包：
+1.  将您在上一节中创建的 `cluster.env` 和 `*.pem` 文件复制到 VM。例如：
 
     {{< text bash >}}
-    $ curl -L https://storage.googleapis.com/istio-release/releases/1.0.0/deb/istio-sidecar.deb > istio-sidecar.deb
-    $ dpkg -i istio-sidecar.deb
+    $ export GCE_NAME="your-gce-instance"
+    $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
     {{< /text >}}
 
-1.  将您在上一节中创建的 `cluster.env` 和 `*.pem` 文件复制到 VM。
+1.  安装 Envoy sidecar 的 Debian 软件包：
+
+    {{< text bash >}}
+    $ gcloud compute ssh --project=${MY_PROJECT} --zone=${MY_ZONE} "${GCE_NAME}"
+    $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
+    $ sudo dpkg -i istio-sidecar.deb
+    {{< /text >}}
 
 1.  添加 Istio 网关的 IP 地址（我们在[上一节](#preparing-the-kubernetes-cluster-for-expansion)中找到了）
     到 `/etc/hosts` 或者
@@ -114,13 +132,13 @@ keywords: [kubernetes,vms]
     使用 Istio 网关地址更新 `/etc/hosts` 文件的示例：
 
     {{< text bash >}}
-    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" >> /etc/hosts
+    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" | sudo tee -a /etc/hosts
     {{< /text >}}
 
 1.  在 `/etc/certs/` 下安装 `root-cert.pem`、`key.pem` 和 `cert-chain.pem`。
 
     {{< text bash >}}
-    $ sudo mkdir /etc/certs
+    $ sudo mkdir -p /etc/certs
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
@@ -151,6 +169,8 @@ keywords: [kubernetes,vms]
     $ sudo systemctl start istio
     {{< /text >}}
 
+## 将请求从 VM 工作负载发送到 Kubernetes 服务
+
 设置完成后，计算机可以访问 Kubernetes 集群中运行的服务
 或在其他网格扩展机器上。
 
@@ -160,48 +180,123 @@ keywords: [kubernetes,vms]
 1.  首先，在集群管理员机器上获取服务的虚拟 IP 地址（`clusterIP`）：
 
     {{< text bash >}}
-$ kubectl -n bookinfo get svc productpage -o jsonpath='{.spec.clusterIP}'
-10.55.246.247
+    $ kubectl get svc productpage -o jsonpath='{.spec.clusterIP}'
+    10.55.246.247
     {{< /text >}}
 
 1.  然后在网格扩展机器上，将服务名称和地址添加到其 `etc/hosts` 文件中。然后你可以连接到
     来自 VM 的集群服务，如下例所示：
 
     {{< text bash >}}
-$ sudo echo "10.55.246.247 productpage.bookinfo.svc.cluster.local" >> /etc/hosts
-$ curl productpage.bookinfo.svc.cluster.local:9080
+$ echo "10.55.246.247 productpage.default.svc.cluster.local" | sudo tee -a /etc/hosts
+$ curl -v productpage.default.svc.cluster.local:9080
+< HTTP/1.1 200 OK
+< content-type: text/html; charset=utf-8
+< content-length: 1836
+< server: envoy
 ... html content ...
     {{< /text >}}
 
+header 中的 `server: envoy` 表示 sidecar 拦截了流量。
+
 ## 在网格扩展机器上运行服务{#running-services-on-a-mesh-expansion-machine}
 
-通过配置 [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 可以将 VM 服务添加到网格中。
+1. 在 VM 实例上设置 HTTP 服务器以在端口 8080 上提供 HTTP 流量：
+
+    {{< text bash >}}
+    $ gcloud compute ssh ${GCE_NAME}
+    $ python -m SimpleHTTPServer 8080
+    {{< /text >}}
+
+1. 确定 VM 实例的 IP 地址。例如，使用以下命令查找 GCE 实例的 IP 地址：
+
+    {{< text bash >}}
+    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe ${GCE_NAME})
+    $ echo ${GCE_IP}
+    {{< /text >}}
+
+1. 通过配置 [`ServiceEntry`](/docs/reference/config/networking/v1alpha3/service-entry/) 可以将 VM 服务添加到网格中。
 您可以手动向 Istio 的网格模型添加其他服务，以便其他服务可以找到并引导流量到它们。每个
 `ServiceEntry` 配置包含暴露特定服务的所有 VM 的 IP 地址，端口和标签（如果适用），
 如下例所示。
 
-{{< text bash yaml >}}
-$ kubectl -n test apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: vm1
-spec:
-   hosts:
-   - vm1.test.svc.cluster.local
-   ports:
-   - number: 80
-     name: http
-     protocol: HTTP
-   resolution: STATIC
-   endpoints:
-    - address: 10.128.0.17
+    {{< text bash yaml >}}
+    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: vmhttp
+    spec:
+      hosts:
+      - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
       ports:
-        http: 8080
-      labels:
-        app: vm1
-        version: 1
-EOF
+      - number: 8080
+        name: http
+        protocol: HTTP
+      resolution: STATIC
+      endpoints:
+      - address: ${GCE_IP}
+        ports:
+          http: 8080
+        labels:
+          app: vmhttp
+          version: "v1"
+    EOF
+    {{< /text >}}
+
+1.  Kubernetes 集群中的工作负载需要 DNS 映射来解析 VM 服务的域名。要将映射与您自己的 DNS 系统集成，并创建无选择器服务，请使用 `istioctl register` 并创建 Kubernetes `selector-less` 服务，例如：
+
+    {{< text bash >}}
+    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP} 8080
+    {{< /text >}}
+
+    {{< tip >}}
+    确保已经将 `istioctl` 客户端添加到 `PATH` 环境变量中，如下载页面中所述。
+    {{< /tip >}}
+
+1. 在 Kubernetes 集群中部署运行 `sleep` 服务的 pod，并等待它准备好：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl get pod
+    NAME                             READY     STATUS    RESTARTS   AGE
+    productpage-v1-8fcdcb496-xgkwg   2/2       Running   0          1d
+    sleep-88ddbcfdd-rm42k            2/2       Running   0          1s
+    ...
+    {{< /text >}}
+
+1. 从 pod 上的 `sleep` 服务发送请求到 VM 的 HTTP 服务：
+
+    {{< text bash >}}
+    $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8080
+    {{< /text >}}
+
+    你应该看到类似于下面输出的东西。
+
+    ```html
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
+    <title>Directory listing for /</title>
+    <body>
+    <h2>Directory listing for /</h2>
+    <hr>
+    <ul>
+    <li><a href=".bashrc">.bashrc</a></li>
+    <li><a href=".ssh/">.ssh/</a></li>
+    ...
+    </body>
+    ```
+
+**恭喜！** 您已成功配置在群集中的 Pod 中运行的服务，以将流量发送到群集外部 VM 上运行的服务，并测试配置是否有效。
+
+## 清理
+
+运行以下命令从网格的抽象模型中删除扩展 VM。
+
+{{< text bash >}}
+$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP}
+2019-02-21T22:12:22.023775Z     info    Deregistered service successfull
+$ kubectl delete ServiceEntry vmhttp -n ${SERVICE_NAMESPACE}
+serviceentry.networking.istio.io "vmhttp" deleted
 {{< /text >}}
 
 ## 故障排除{#troubleshooting}
@@ -213,7 +308,7 @@ EOF
 *    验证计算机是否可以访问集群中运行的所有工作负载的 IP。例如：
 
     {{< text bash >}}
-    $ kubectl get endpoints -n bookinfo productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
+    $ kubectl get endpoints productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
     10.52.39.13
     {{< /text >}}
 
