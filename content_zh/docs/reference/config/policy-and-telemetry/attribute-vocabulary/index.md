@@ -75,7 +75,7 @@ weight: 10
 | `context.time`          | timestamp | Mixer 操作的时间戳。 | |
 | `context.reporter.kind` | string | 将报告的属性集上下文化。 对于来自 sidecars 的服务器端调用设置为 `inbound`，对于来自 sidecars 和网关的客户端调用设置为 `outbound` 。 | `inbound` |
 | `context.reporter.uid`  | string | 属性报告者特定于平台的唯一标识符。 | `kubernetes://my-svc-234443-5sffe.my-namespace` |
-| `context.proxy_error_code` | string | 有关代理响应或连接的其他详细信息。在 Envoy 的情况下，更多请 `%RESPONSE_FLAGS%` 在 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)中查看 | `UH` |
+| `context.proxy_error_code` | string | 有关代理响应或连接的其他详细信息。在 Envoy 的情况下，更多 `%RESPONSE_FLAGS%` 请在 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)中查看 | `UH` |
 | `api.service` | string | 公开的服务名。和处于网格中的服务身份不同，它反映了暴露给客户端的服务名称。 | `my-svc.com` |
 | `api.version` | string | API 版本。 | `v1alpha1` |
 | `api.operation` | string | 用于辨别操作的唯一字符串。在特定的 &lt;service, version&gt; 描述的所有操作中，这个 ID 是唯一的。 | `getPetsById` |
