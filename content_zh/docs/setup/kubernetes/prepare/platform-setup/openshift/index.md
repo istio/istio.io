@@ -37,11 +37,11 @@ $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 
 ## 自动注入
 
-必须启用 Webhook 和证书签名请求支持才能[自动注入](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection) 工作。
+要使用[自动注入](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)，必须启用 Webhook 和证书签名请求支持。
 修改群集主节点上的主配置文件，如下所示。
 
 {{< tip >}}
-默认情况下，主配置文件可以在 /etc/origin/master/master-config.yaml 中找到。
+默认情况下，主配置文件可以在 `/etc/origin/master/master-config.yaml` 中找到。
 {{< /tip >}}
 
 在与主配置文件相同的目录中，使用以下内容创建名为 master-config.patch 的文件：
