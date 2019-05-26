@@ -147,7 +147,7 @@ keywords: [traffic-management,tcp-traffic-shifting]
 
 在 Istio 中可以对两个版本的 `tcp-echo` 服务进行独立的扩缩容，伸缩过程中不会对流量的分配结果造成影响，可以阅读博客：[使用 Istio 进行金丝雀部署](/zh/blog/2017/0.1-canary/)，进一步了解相关内容。
 
-有关使用自动缩放的版本路由的更多信息，请查看博客文章[使用Istio的金丝雀部署](/blog/2017/0.1-canary/)。
+有关使用自动缩放的版本路由的更多信息，请查看博客文章[使用 Istio 的金丝雀部署](/zh/blog/2017/0.1-canary/)。
 
 ## 清理 {#clean-up}
 
