@@ -15,7 +15,7 @@ keywords: [policies,routing]
     必须在群集中为此任务启用策略实施。按照[启用策略强制执行](/zh/docs/tasks/policy-enforcement/enabling-policy/)中的步骤操作，确保已启用策略实施。
     {{< /warning >}}
 
-* 按照 [Ingress 任务](/docs/tasks/traffic-management/ingress/) 中的设置说明使用网关配置入口。
+* 按照 [Ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中的设置说明使用网关配置入口。
 
 * 自定义 `httpbin` 服务的[虚拟服务](/docs/reference/config/networking/v1alpha3/virtual-service/)配置，该服务包含允许路径 `/headers` 和 `/status` 的流量的两个路由规则：
 
@@ -183,12 +183,9 @@ keywords: [policies,routing]
     ...
     {{< /text >}}
 
-    请注意，Ingress 网关更改了规则应用程序的路径 _after_
-    策略适配器。修改后的请求可以使用不同的路由和
-    目的地，并受交通管理配置的约束。
+    注意，Ingress Gateway 在应用适配器策略**之后**修改了路由。被修改的请求受流量管理配置的影响，可能会发往不同的路由和目的地。
 
-    策略引擎不会在同一代理中再次检查修改后的请求。因此，我们建议在网关中使用此功能
-    服务器端策略检查生效。
+    策略引擎不会在同一代理中再次检查修改后的请求。因此我们建议在网关中使用这一功能，这样服务端的检查功能就可以继续使用了。
 
 ## 清理
 
@@ -200,5 +197,5 @@ $ kubectl delete service keyval -n istio-system
 $ kubectl delete deployment keyval -n istio-system
 {{< /text >}}
 
-完成 [ingress task](/zh/docs/tasks/traffic-management/ingress/) 中的清理说明。
+完成 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/)中的清理说明。
 
