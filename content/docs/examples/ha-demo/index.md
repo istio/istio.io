@@ -17,7 +17,7 @@ The HA-demo application consists of two components:
 ## Before you begin
 
 If you haven't already done so, setup Istio for Kubernetes. E.g. [Installation with Helm
-](/docs/setup/kubernetes/helm-install/).
+](/docs/setup/kubernetes/install/helm/).
 
 ## Deploy the ha-demo
 
