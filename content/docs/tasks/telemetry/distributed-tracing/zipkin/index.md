@@ -11,11 +11,12 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/kubernetes/install/helm).
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/kubernetes/install/helm)
+    and then configure:
 
-    Use the following Helm install options to enable tracing and to select the `zipkin` tracing provider:
-    * `--set tracing.enabled=true`
-    * `--set tracing.provider=zipkin`
+    a) a demo/test environment by setting the `--set tracing.enabled=true` and `--set tracing.provider=zipkin` Helm install options to enable tracing "out of the box"
+
+    b) a production environment by referencing an existing Zipkin instance and then setting the `--set global.tracer.zipkin.address=<zipkin-collector-service>.<zipkin-collector-namespace>:9411` Helm install option.
 
     {{< warning >}}
     When you enable tracing, you can set the sampling rate that Istio uses for tracing.
