@@ -7,8 +7,7 @@ aliases:
     - /docs/guides/ha-demo/index.html
 ---
 
-This example deploys a small sample application composed of two components used
-to demonstrate Istio features in a high available fashion. The service shows the latest news article.
+This example deploys a small sample application composed of two components to demonstrate Istio's high available capabilities. The service shows the latest news article.
 
 The HA-demo application consists of two components:
 
@@ -17,8 +16,8 @@ The HA-demo application consists of two components:
 
 ## Before you begin
 
-If you haven't already done so, setup Istio by following the instructions
-corresponding to your platform [installation guide for Kubernetes](/docs/setup/kubernetes).
+If you haven't already done so, setup Istio for Kubernetes. E.g. [Installation with Helm
+](/docs/setup/kubernetes/helm-install/).
 
 ## Deploy the ha-demo
 
@@ -32,6 +31,15 @@ This creates two namespaces:
 
 * One for the client
 * One containing the ha-demo with sidecar injection enabled.
+
+There should now be two pods with two containers (workload and sidecar) each running in the ha-demo namespace.
+
+{{< text bash >}}
+$ kubectl get pods -n ha-demo
+NAME                         READY   STATUS    RESTARTS   AGE
+article-v2-8875b7c5f-rkbqr   2/2     Running   0          21s
+news-64647f476f-fpxhb        2/2     Running   0          21s
+{{< /text >}}
 
 ### Update Virtual Service
 
@@ -68,7 +76,7 @@ $ watch kubectl -n ha-demo get pods
 
 ### Accessing the service from the client
 
-By curling the service, we can verify that although the restarts are ongoing, no request fails
+By calling the service, we can verify that although the restarts are ongoing, no request fails
 
 {{< text bash >}}
 $ POD_NAME=$(kubectl -n client get pods -l app=sleep -o=jsonpath='{.items[0].metadata.name}') && echo $POD_NAME
@@ -77,11 +85,11 @@ $ while true; do kubectl exec -n client $POD_NAME -c sleep -- curl -s news.ha-de
 
 ## Cleanup
 
-When you're finished experimenting with the Bookinfo sample, uninstall and clean
+When you're finished experimenting with the HA-Demo, uninstall and clean
 it up using the following instructions corresponding to your Istio runtime environment.
 
 1. Stop background process restarting the pods
-  
+
     {{< text bash >}}
     $ ps | grep -v grep | grep "restart-continuously" | awk '{print $1}' | xargs kill
     {{< /text >}}
