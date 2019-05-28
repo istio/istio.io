@@ -14,8 +14,9 @@ to do so.
 Once you agree that you should control the egress traffic coming from your cluster, the following questions arise:
 What is required from a system for secure control of egress traffic? Which is the best solution to fulfill
 these requirements? (spoiler: Istio in my opinion)
-Future installments will describe the implementation of the secure control of egress traffic in Istio and
-compare it with other solutions.
+Future installments will describe
+[the implementation of the secure control of egress traffic in Istio](/blog/2019/egress-traffic-control-in-istio-part-2/)
+and compare it with other solutions.
 
 The most important security aspect for a service mesh is probably ingress traffic. You definitely must prevent attackers
 from penetrating the cluster though ingress APIs. Having said that, securing
@@ -162,8 +163,9 @@ all of these requirements, in particular it is transparent, DNS-aware, and Kuber
 
 ## Summary
 
-I hope that you are convinced that controlling egress traffic is important for the security of your cluster. In the
-next blogs in this series I will describe the Istio way to perform secure control of egress traffic and compare it with
-alternative solutions such as
+I hope that you are convinced that controlling egress traffic is important for the security of your cluster. In [the
+part 2 of this series](/blog/2019/egress-traffic-control-in-istio-part-2/) I describe the Istio way to perform secure
+control of egress traffic.
+Next, I will compare it with alternative solutions such as
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
 egress proxies/firewalls.
