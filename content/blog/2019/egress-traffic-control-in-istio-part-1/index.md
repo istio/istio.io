@@ -9,9 +9,10 @@ keywords: [traffic-management,egress,security]
 
 This is part 1 in a new series about secure control of egress traffic in Istio that I am going to publish.
 In this installment, I explain why you should apply egress traffic control to your cluster, the attacks
-involving egress traffic you want to prevent, and the requirements for your system to do so.
+involving egress traffic you want to prevent, and the requirements for a system for egress traffic control
+to do so.
 Once you agree that you should control the egress traffic coming from your cluster, the following questions arise:
-What requirements does a system have for secure control of egress traffic? Which is the best solution to fulfill
+What is required from a system for secure control of egress traffic? Which is the best solution to fulfill
 these requirements? (spoiler: Istio in my opinion)
 Future installments will describe the implementation of the secure control of egress traffic in Istio and
 compare it with other solutions.
