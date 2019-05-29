@@ -17,7 +17,7 @@ number_of_entries: 5
 <tbody>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
-<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
@@ -114,7 +114,7 @@ number_of_entries: 5
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td></td>
-<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
@@ -212,6 +212,16 @@ number_of_entries: 5
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--mcpInitialConnWindowSize &lt;int&gt;</code></td>
+<td></td>
+<td>Max message size received by MCP&#39;s grpc client  (default `1048576`)</td>
+</tr>
+<tr>
+<td><code>--mcpInitialWindowSize &lt;int&gt;</code></td>
+<td></td>
+<td>Max message size received by MCP&#39;s grpc client  (default `1048576`)</td>
+</tr>
+<tr>
 <td><code>--mcpMaxMsgSize &lt;int&gt;</code></td>
 <td></td>
 <td>Max message size received by MCP&#39;s grpc client  (default `4194304`)</td>
@@ -282,7 +292,7 @@ number_of_entries: 5
 <tbody>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
-<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
@@ -354,7 +364,7 @@ number_of_entries: 5
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td></td>
-<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
@@ -506,15 +516,9 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_CDS_PRECOMPUTATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
@@ -522,6 +526,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
@@ -566,6 +576,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
+<td><code>ProxyInboundListenPort</code></td>
+<td>Integer</td>
+<td><code>15006</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -607,7 +623,15 @@ These resource annotations are used by the <code>pilot-discovery</code> command.
 </tr>
 <tr>
 <td><code>sidecar.istio.io/statsInclusionPrefixes</code></td>
-<td>Control over Envoy stats collection.</td>
+<td>Specifies the comma separated list of prefixes of the stats to be emitted by Envoy.</td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionRegexps</code></td>
+<td>Specifies the comma separated list of regexes the stats should match to be emitted by Envoy.</td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionSuffixes</code></td>
+<td>Specifies the comma separated list of suffixes of the stats to be emitted by Envoy.</td>
 </tr>
 </tbody>
 </table>
