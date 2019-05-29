@@ -293,7 +293,7 @@ Istio 的设计中，其自定义资源以 CRD 的形式存在于 Kubernetes 环
 CRD 的删除，意味着删掉所有的用户配置。
 {{< /warning >}}
 
-`istio-init` Chart 包含了 `istio-init/ifiles` 目录中的所有原始 CRD。下载该 Chart 之后，可以简单的使用 `kubectl` 删除 CRD。要永久删除 Istio 的 CRD 以及所有 Istio 配置,请运行如下命令：
+`istio-init` Chart 包含了 `istio-init/files` 目录中的所有原始 CRD。下载该 Chart 之后，可以简单的使用 `kubectl` 删除 CRD。要永久删除 Istio 的 CRD 以及所有 Istio 配置,请运行如下命令：
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/helm/istio-init/files

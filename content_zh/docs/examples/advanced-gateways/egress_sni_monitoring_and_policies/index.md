@@ -9,7 +9,7 @@ weight: 51
 
 {{< boilerplate before-you-begin-egress >}}
 
-* [在 Istio 中部署 Egress 网关](/zh/docs/examples/advanced-gateways/egress-gateway/#定义-egress-gateway-并引导-http-流量通过这一网关)
+* [在 Istio 中部署 Egress 网关](/zh/docs/examples/advanced-gateways/egress-gateway/#部署-Istio-Egress-gateway)
 
 * 根据[使用通配符主机配置 Egress 流量](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/)示例中的[步骤](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/#任意域名的通配符配置) 为流向 `*.wikipedia.org` 的流量进行配置，启用 TLS 支持。
 

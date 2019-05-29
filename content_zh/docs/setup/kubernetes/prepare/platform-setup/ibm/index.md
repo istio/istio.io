@@ -1,6 +1,6 @@
 ---
-title: IBM Cloud Kubernetes Service
-description: 对 IBM Cloud Kubernetes Service（IKS）集群进行配置以便安装运行 Istio。
+title: IBM Cloud
+description: 为 IBM Cloud 集群设置 Istio 的说明。
 weight: 18
 skip_seealso: true
 keywords: [platform-setup,ibm,iks]
@@ -18,28 +18,32 @@ IBM Cloud Kubernetes Service 上提供 Istio 的无缝安装，Istio 控制平�
 
 ## IBM Cloud Public
 
-将下面代码块中 `<cluster-name>` 替换为您要使用的集群名称。
+1. [安装 IBM Cloud CLI，IBM Cloud Kubernetes Service 插件和 Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
 
-1. 创建一个新的 `lite` 或付费 Kubernetes 集群：
+1. 创建标准 Kubernetes 集群。将 `<cluster-name>` 替换为您要在以下说明中使用的集群的名称。
 
-    `lite` 集群:
+    {{< tip >}}
+    要查看可用区域 (zone)，请运行 `ibmcloud ks zones`。区域 (zone)彼此隔离，确保没有共享的单点故障。 IBM Cloud Kubernetes 服务[地区 (Region)和区域 (zone)](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones)描述了地区 (Region)，区域 (zone)以及如何为新地区 (Region)和区域 (zone)指定地区 (Region)和区域 (zone)集群。
+    {{< /tip >}}
+
+    {{< tip >}}
+    下面的命令不包含 `--private-vlan value` 和 `--public-vlan value` 选项。要查看可用的 VLAN，请运行 `ibmcloud ks vlan-ls --zone <zone-name>`。如果您还没有私有 VLAN 和公共 VLAN，则会自动为您创建它们。如果您已经拥有 VLAN，则需要使用 `--private-vlan value` 和 `--public-vlan value` 选项指定它们。
+    {{< /tip >}}
 
     {{< text bash >}}
-    $ ibmcloud cs cluster-create --name <cluster-name>
-    {{< /text >}}
-
-    付费集群:
-
-    {{< text bash >}}
-    $ ibmcloud cs cluster-create --location <location> --machine-type u2c.2x4 \
+    $ ibmcloud ks cluster-create --zone <zone-name> --machine-type b2c.4x16 \
       --name <cluster-name>
     {{< /text >}}
 
-1. 为 `kubectl` 获取认证凭据。下面的命令需要根据实际情况对 `<cluster-name>` 进行替换：
+1.  获取 `kubectl` 的认证凭据。
 
     {{< text bash >}}
-    $(ibmcloud cs cluster-config <cluster-name> --export)
+    $(ibmcloud ks cluster-config <cluster-name> --export)
     {{< /text >}}
+
+{{< warning >}}
+确保使用与您的集群的 Kubernetes 版本匹配的 `kubectl` 版本。
+{{< /warning >}}
 
 ## IBM Cloud Private
 

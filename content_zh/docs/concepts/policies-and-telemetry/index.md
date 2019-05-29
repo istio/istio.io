@@ -13,7 +13,7 @@ Istio 提供统一抽象，使得 Istio 可以与一组开放式基础设施后�
 
 Mixer 是负责提供策略控制和遥测收集的 Istio 组件：
 
-{{< image width="75%" link="/docs/concepts/policies-and-telemetry/topology-without-cache.svg" caption="Mixer 拓扑" >}}
+{{< image width="55%" link="/docs/concepts/policies-and-telemetry/topology-without-cache.svg" caption="Mixer 拓扑" >}}
 
 在每次请求执行先决条件检查之前以及在每次报告遥测请求之后，Envoy sidecar 在逻辑上调用 Mixer。
 该 Sidecar 具有本地缓存​，从而可以在缓存中执行相对较大比例的前提条件检查。此外，sidecar 缓冲出站遥测，使其实际上不需要经常调用 Mixer。
@@ -33,7 +33,7 @@ Mixer 是高度模块化和可扩展的组件。它的一个关键功能就是�
 
 Mixer 处理不同基础设施后端的灵活性是通过使用通用插件模型实现的。每个插件都被称为 **Adapter**，Mixer 通过它们与不同的基础设施后端连接，这些后端可提供核心功能，例如日志、监控、配额、ACL 检查等。通过配置能够决定在运行时使用的确切的适配器套件，并且可以轻松扩展到新的或定制的基础设施后端。
 
-{{< image width="35%" link="/docs/concepts/policies-and-telemetry/adapters.svg"
+{{< image width="80%" link="/docs/concepts/policies-and-telemetry/adapters.svg"
     alt="显示 Mixer 及其适配器"
     caption="Mixer 及其适配器"
     >}}
@@ -45,12 +45,14 @@ Mixer 处理不同基础设施后端的灵活性是通过使用通用插件模�
 Mixer 是一个高可用的组件，其设计有助于提高整体可用性并减少网格中服务的平均延迟。其设计的关键方面带来以下好处：
 
 - **无状态**。Mixer 是无状态的，因为它不管理任何自己的持久化存储。
+
 - **加固**。Mixer 本身被设计成高度可靠的组件。设计目标是为任何单独的 Mixer 实例实现 > 99.999％ 的正常运行时间。
+
 - **缓存和缓冲**。Mixer 被设计为累积大量瞬态短暂状态。
 
 网格中每个服务都会有对应的 Sidecar 代理在运行，因此在内存消耗方面，Sidecar 必须厉行节约，这就限制了本地缓存和缓冲的可能数量。然而，独立运行 的 Mixer 可以使用相当大的缓存和输出缓冲区。因此，Mixer 可用作 Sidecar 的高度扩展且高度可用的二级缓存。
 
-{{< image width="75%" link="/docs/concepts/policies-and-telemetry/topology-with-cache.svg"  caption="Mixer 拓扑" >}}
+{{< image width="65%" link="/docs/concepts/policies-and-telemetry/topology-with-cache.svg"  caption="Mixer 拓扑" >}}
 
 由于 Mixer 的预期可用性远高于大多数基础设施后端（通常这些可用性可能达到 99.9％）。Mixer 的本地缓存和缓冲不仅有助于减少延迟，而且即使在后端无响应时也能继续运行，从而有助于屏蔽基础设施后端故障。
 
@@ -68,8 +70,8 @@ Mixer 是一个高可用的组件，其设计有助于提高整体可用性并�
 request.path: xyz/abc
 request.size: 234
 request.time: 12:34:56.789 04/17/2017
-source.ip: 192.168.0.1
-destination.service: example
+source.ip: [192 168 0 1]
+destination.service.name: example
 {{< /text >}}
 
 Mixer 本质上是一个属性处理机。每个经过 Envoy sidecar 的请求都会调用 Mixer，为 Mixer 提供一组描述请求和请求周围环境的属性。基于 Envoy sidecar 的配置和给定的特定属性集，Mixer 会调用各种基础设施后端。
@@ -87,7 +89,7 @@ Mixer 本质上是一个属性处理机。每个经过 Envoy sidecar 的请求�
 配置 [Instance](/zh/docs/concepts/policies-and-telemetry/#实例-instance) 时要使用属性表达式。下面是一些简单的属性表达式示例：
 
 {{< text yaml >}}
-destination_service: destination.service
+destination_service: destination.service.host
 response_code: response.code
 destination_version: destination.labels["version"] | "unknown"
 {{< /text >}}
@@ -111,12 +113,15 @@ Istio 通过一个通用模型进行策略和遥测功能的配置，目的是�
 策略和遥控功能的控制能力包含了三种类型资源的配置：
 
 - 配置一组**处理器（Handler）**，用于确定正在使用的适配器组及其操作方式。处理器配置的一个例子如：为 Statsd 后端提供带有 IP 地址的 `statsd` 适配器。
+
 - 配置一组**实例（Instance）**，描述如何将请求属性映射到适配器输入。实例表示一个或多个适配器将操作的各种数据。例如，运维人员可能决定从诸如 `destination.service` 和 `response.code` 之类的属性中生成 `requestcount` 指标的实例。
+
 - 配置一组**规则（Rule）**，这些规则描述了何时调用特定适配器及哪些实例。规则包含 `match` 表达式和 `action`。`match` 表达式控制何时调用适配器，而 `action` 决定了要提供给适配器的一组实例。例如，规则可能会将生成的 `requestcount` 实例发送到 `statsd` 适配器。
 
 配置基于**适配器**和**模板（Template）** ：
 
 - **适配器** 封装了 Mixer 和特定基础设施后端之间的接口。
+
 - **模板** 定义了从特定请求的属性到适配器输入的映射关系。一个适配器可以支持任意数量的模板。
 
 ## 处理器（Handler）
@@ -127,13 +132,15 @@ Istio 通过一个通用模型进行策略和遥测功能的配置，目的是�
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
-kind: listchecker
+kind: handler
 metadata:
   name: staticversion
   namespace: istio-system
 spec:
-  providerUrl: http://white_list_registry/
-  blacklist: false
+  compiledAdapter: listchecker
+  params:
+    providerUrl: http://white_list_registry/
+    blacklist: false
 {{< /text >}}
 
 `{metadata.name}.{kind}.{metadata.namespace}` 是 Handler 的完全限定名。上面定义的对象的 FQDN 就是 `staticversion.listchecker.istio-system`，他必须是唯一的。`spec` 中的数据结构则依赖于对应的适配器的要求。
@@ -142,29 +149,31 @@ spec:
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
-kind: prometheus
+kind: handler
 metadata:
-  name: handler
+  name: promhandler
   namespace: istio-system
 spec:
-  metrics:
-  - name: request_count
-    instance_name: requestcount.metric.istio-system
-    kind: COUNTER
-    label_names:
-    - destination_service
-    - destination_version
-    - response_code
-  - name: request_duration
-    instance_name: requestduration.metric.istio-system
-    kind: DISTRIBUTION
-    label_names:
-    - destination_service
-    - destination_version
-    - response_code
+  compiledAdapter: prometheus
+  params:
+    metrics:
+    - name: request_count
+      instance_name: requestcount.instance.istio-system
+      kind: COUNTER
+      label_names:
+      - destination_service
+      - destination_version
+      - response_code
+    - name: request_duration
+      instance_name: requestduration.instance.istio-system
+      kind: DISTRIBUTION
+      label_names:
+      - destination_service
+      - destination_version
+      - response_code
       buckets:
-      explicit_buckets:
-        bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+        explicit_buckets:
+          bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 {{< /text >}}
 
 每个适配器都定义了自己格式的配置数据。适配器及其配置的详尽列表可以在[这里](/zh/docs/reference/config/policy-and-telemetry/adapters/)找到。
@@ -175,17 +184,19 @@ spec:
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
-kind: metric
+kind: instance
 metadata:
   name: requestduration
   namespace: istio-system
 spec:
-  value: response.duration | "0ms"
-  dimensions:
-    destination_service: destination.service | "unknown"
-    destination_version: destination.labels["version"] | "unknown"
-    response_code: response.code | 200
-  monitored_resource_type: '"UNSPECIFIED"'
+  compiledTemplate: metric
+  params:
+    value: response.duration | "0ms"
+    dimensions:
+      destination_service: destination.service.host | "unknown"
+      destination_version: destination.labels["version"] | "unknown"
+      response_code: response.code | 200
+    monitored_resource_type: '"UNSPECIFIED"'
 {{< /text >}}
 
 注意 Handler 配置中需要的所有维度都定义在这一映射之中。每个模板都有自己格式的配置数据。完整的模板及其特定配置格式可以在[这里](/zh/docs/reference/config/policy-and-telemetry/templates/)查阅。
@@ -201,11 +212,10 @@ metadata:
   name: promhttp
   namespace: istio-system
 spec:
-  match: destination.service == "service1.ns.svc.cluster.local" && request.headers["x-user"] == "user1"
+  match: destination.service.host == "service1.ns.svc.cluster.local" && request.headers["x-user"] == "user1"
   actions:
-  - handler: handler.prometheus
-    instances:
-    - requestduration.metric.istio-system
+  - handler: promhandler
+    instances: [ requestduration ]
 {{< /text >}}
 
 规则中包含有一个 `match` 元素，用于前置检查，如果检查通过则会执行 `action` 列表。`action` 中包含了一个实例列表，这个列表将会分发给 Handler。规则必须使用 Handler 和实例的完全限定名。如果规则、Handler 以及实例全都在同一个命名空间，命名空间后缀就可以在 FQDN 中省略，例如 `handler.prometheus`。

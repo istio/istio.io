@@ -39,6 +39,7 @@ weight: 10
 | `destination.service.uid`       | string | 目标服务特定于平台的唯一标识符。 | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name`      | string | 目标服务的名称。 | `istio-telemetry` |
 | `destination.service.namespace` | string | 目标服务的命名空间。 | `istio-system` |
+| `origin.ip` | ip_address | 代理客户端的 IP 地址，例如入口代理的起源。| `127.0.0.1` |
 | `request.headers` | map[string, string] | HTTP 请求头, key 使用小写，或者是 gRPC 的元数据。 | |
 | `request.id` | string | 从统计角度上拥有低碰撞概率的请求 ID。 | |
 | `request.path` | string | 包括 query string 的 HTTP URL 路径。 | |
@@ -74,6 +75,7 @@ weight: 10
 | `context.time`          | timestamp | Mixer 操作的时间戳。 | |
 | `context.reporter.kind` | string | 将报告的属性集上下文化。 对于来自 sidecars 的服务器端调用设置为 `inbound`，对于来自 sidecars 和网关的客户端调用设置为 `outbound` 。 | `inbound` |
 | `context.reporter.uid`  | string | 属性报告者特定于平台的唯一标识符。 | `kubernetes://my-svc-234443-5sffe.my-namespace` |
+| `context.proxy_error_code` | string | 有关代理响应或连接的其他详细信息。在 Envoy 的情况下，更多 `%RESPONSE_FLAGS%` 请在 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)中查看 | `UH` |
 | `api.service` | string | 公开的服务名。和处于网格中的服务身份不同，它反映了暴露给客户端的服务名称。 | `my-svc.com` |
 | `api.version` | string | API 版本。 | `v1alpha1` |
 | `api.operation` | string | 用于辨别操作的唯一字符串。在特定的 &lt;service, version&gt; 描述的所有操作中，这个 ID 是唯一的。 | `getPetsById` |
@@ -88,22 +90,13 @@ weight: 10
 | `check.cache_hit` | boolean | 标示 Mixer check 调用是否命中本地缓存。 | |
 | `quota.cache_hit` | boolean | 标示 Mixer 限额调用是否命中本地缓存。 | |
 
-## 被弃用的属性
+## 时间戳和持续时间属性格式
 
-以下的属性已被重命名。我们强烈建议大家使用替代的属性。原来的属性名将在随后的版本中移除：
+时间戳属性以 RFC 3339 格式表示。使用 timestamp 属性操作时，可以使用 [CEXL](/docs/reference/config/policy-and-telemetry/expression-language/) 中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为 `TIMESTAMP` 类型，例如：`request.time | timestamp("2018-01-01T22:08:41+00:00")`，`response.time> timestamp("2020-02-29T00:00:00-08:00")`。
 
-| 名称 | 替代 |
-|------|-------------|
-|`source.user`          |`source.principal`|
-|`destination.user`     |`destination.principal`|
-|`destination.service`  |`destination.service.host`|
+持续时间属性表示时间量，表示为一系列十进制数，其中可选的小数部分用句点表示，以及单位值。可能的单位值是纳秒的 `ns`，微秒的 `us`（或`μs`），毫秒的 `ms`，秒的 `s`，分钟的 `m`，小时的 `h`。例如：
 
-属性 `source.name` 和 `destination.name` 已被重新用于引用相应的源和目标工作负载实例名称而不是服务名称。
-
-以下属性已被弃用，将在后续版本中删除：
-
-| 名称 | 类型 | 描述 | Kubernetes 示例 |
-|------|------|-------------|--------------------|
-| `source.service` | string | 客户端所属服务的完全限定名称。 | `redis-master.my-namespace.svc.cluster.local` |
-| `source.domain` | string | 源服务的域后缀部分，不包括名称和命名空间。 | `svc.cluster.local` |
-| `destination.domain` | string | 目标服务的域后缀部分，不包括名称和名称空间。 | `svc.cluster.local` |
+* `1ms` 代表 1 毫秒
+* `2.3s` 代表 2.3 秒
+* `4m` 代表 4 分钟
+* `5h10m` 代表 5 小时 10 分钟

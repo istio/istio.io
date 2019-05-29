@@ -34,3 +34,38 @@ $ oc adm policy add-scc-to-user anyuid -z istio-security-post-install-account -n
 {{< text bash >}}
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 {{< /text >}}
+
+## 自动注入
+
+要使用[自动注入](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)，必须启用 Webhook 和证书签名请求支持。
+修改群集主节点上的主配置文件，如下所示。
+
+{{< tip >}}
+默认情况下，主配置文件可以在 `/etc/origin/master/master-config.yaml` 中找到。
+{{< /tip >}}
+
+在与主配置文件相同的目录中，使用以下内容创建名为 master-config.patch 的文件：
+
+{{< text yaml >}}
+admissionConfig:
+  pluginConfig:
+    MutatingAdmissionWebhook:
+      configuration:
+        apiVersion: apiserver.config.k8s.io/v1alpha1
+        kubeConfigFile: /dev/null
+        kind: WebhookAdmission
+    ValidatingAdmissionWebhook:
+      configuration:
+        apiVersion: apiserver.config.k8s.io/v1alpha1
+        kubeConfigFile: /dev/null
+        kind: WebhookAdmission
+{{< /text >}}
+
+在同一目录中，执行：
+
+{{< text bash >}}
+$ cp -p master-config.yaml master-config.yaml.prepatch
+$ oc ex config patch master-config.yaml.prepatch -p "$(cat master-config.patch)" > master-config.yaml
+$ master-restart api
+$ master-restart controllers
+{{< /text >}}

@@ -11,6 +11,11 @@ keywords: [policies,denial,whitelist,blacklist]
 
 * 按照[安装指南](/zh/docs/setup/kubernetes/)在 Kubernetes 集群上部署 Istio。
 
+    {{< warning >}}
+    必须在群集中为此任务启用策略实施。
+    按照[启用策略](/docs/tasks/policy-enforcement/enabling-policy/)强制执行中的步骤操作，确保已启用策略实施。
+    {{< /warning >}}
+
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
 * 初始化版本路由，对目标为 `reviews` 服务的请求，来自用户 "jason" 的请求分配给 `v2` 版本，其他用户的请求分配到 `v3` 版本。
@@ -47,12 +52,18 @@ keywords: [policies,denial,whitelist,blacklist]
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
-    Created config denier/default/denyreviewsv3handler at revision 2882105
-    Created config checknothing/default/denyreviewsv3request at revision 2882106
-    Created config rule/default/denyreviewsv3 at revision 2882107
     {{< /text >}}
 
-    着重关注 `denyreviewsv3` 规则中的这段内容：
+    {{< warning >}}
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下配置：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
+    {{< /text >}}
+
+    {{< /warning >}}
+
+    请注意 `denyreviewsv3` 规则中的以下内容：
 
     {{< text plain >}}
     match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
@@ -70,70 +81,34 @@ keywords: [policies,denial,whitelist,blacklist]
 
 Istio 支持基于属性的黑名单和白名单。下面的白名单配置和前面的 `Denier` 配置是等价的——拒绝来自 `reviews:v3` 的请求。
 
-1. 删除前文配置的 Denier 规则。
+1.  删除前文配置的 Denier 规则。
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
-1. 在登出状态下浏览 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该看到红星图标。在完成后续步骤之后，只有在使用 "jason" 的身份进行登录之后才能看到星形图标。
-
-1. 给 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器创建配置，其中包含 `v1, v2` 两个版本。保存下面的 YAML 代码为 `whitelist-handler.yaml`：
-
-    {{< text yaml >}}
-    apiVersion: config.istio.io/v1alpha2
-    kind: listchecker
-    metadata:
-      name: whitelist
-    spec:
-      # providerUrl: 通常会在外部管理列表内容，然后使用这一参数进行异步的抓取
-      overrides: ["v1", "v2"]  # 用 overrides 字段提供静态内容
-      blacklist: false
-    {{< /text >}}
-
-    然后运行命令：
+    如果您使用的是 Istio 1.1.2 或更早版本，请使用以下配置：
 
     {{< text bash >}}
-    $ kubectl apply -f whitelist-handler.yaml
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
     {{< /text >}}
 
-1. 创建一个 [`listentry`](/zh/docs/reference/config/policy-and-telemetry/templates/listentry/) 适配器的模板，用于解析版本标签，将下面的 YAML 代码段保存为 `appversion-instance.yaml`：
+1.  校验，在没有登录的情况下访问 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该是看不到星形图标的；如果使用 "jason" 用户登录，则应该看到黑星图标。
 
-    {{< text yaml >}}
-    apiVersion: config.istio.io/v1alpha2
-    kind: listentry
-    metadata:
-      name: appversion
-    spec:
-      value: source.labels["version"]
-    {{< /text >}}
-
-    接下来运行命令：
+1.  应用白名单版本 `v1，v2` 的 [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/)适配器的配置：
 
     {{< text bash >}}
-    $ kubectl apply -f appversion-instance.yaml
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist.yaml@
     {{< /text >}}
 
-1. 为 `ratings` 服务启用 `whitelist` 检查功能，将下面的 YAML 代码段保存为 `checkversion-rule.yaml`：
-
-    {{< text yaml >}}
-    apiVersion: config.istio.io/v1alpha2
-    kind: rule
-    metadata:
-      name: checkversion
-    spec:
-      match: destination.labels["app"] == "ratings"
-      actions:
-      - handler: whitelist.listchecker
-        instances:
-        - appversion.listentry
-    {{< /text >}}
-
-    然后运行命令：
+    {{< warning >}}
+    If you use Istio 1.1.2 or prior, please use the following configuration instead:
 
     {{< text bash >}}
-    $ kubectl apply -f checkversion-rule.yaml
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
     {{< /text >}}
+
+    {{< /warning >}}
 
 1. 校验，在没有登录的情况下访问 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`），应该是看不到星形图标的；如果使用 "jason" 用户登录，则应该看到黑星图标。
 
@@ -147,65 +122,20 @@ Istio 支持基于 IP 的黑名单和白名单。你可以给 Istio 设置接受
     其中包含子网 `"10.57.0.0\16"`。
     将以下 YAML 代码段另存为 `whitelistip-handler.yaml`:
 
-    {{< text yaml >}}
-    apiVersion: config.istio.io/v1alpha2
-    kind: listchecker
-    metadata:
-      name: whitelistip
-    spec:
-      # providerUrl: 通常，黑白名单在外部维护，并使用 providerUrl 异步提取。
-      overrides: ["10.57.0.0/16"]  # 覆盖提供静态列表
-      blacklist: false
-      entryType: IP_ADDRESSES
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip.yaml@
     {{< /text >}}
 
-1. 保存代码段后，运行以下命令：
+    {{< warning >}}
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下配置：
 
     {{< text bash >}}
-    $ kubectl apply -f whitelistip-handler.yaml
+    $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@
     {{< /text >}}
 
-1.  提取源 IP, 从模板创建 [list entry instance](/docs/reference/config/policy-and-telemetry/templates/listentry/)
-    。 您可以根据需要使用请求 header `x-forwarded-for` 或 `x-real-ip`。将以下 YAML 代码段另存为
-    `sourceip-instance.yaml`:
+    {{< /warning >}}
 
-    {{< text yaml >}}
-    apiVersion: config.istio.io/v1alpha2
-    kind: listentry
-    metadata:
-      name: sourceip
-    spec:
-      value: source.ip | ip("0.0.0.0")
-    {{< /text >}}
-
-1. 保存代码段后，运行以下命令：
-
-    {{< text bash >}}
-    $ kubectl apply -f sourceip-instance.yaml
-    {{< /text >}}
-
-1.  启用 `whitelist` 检查评级服务。将以下 YAML 代码段保存为 `checkip-rule.yaml`：
-
-    {{< text yaml >}}
-    apiVersion: config.istio.io/v1alpha2
-    kind: rule
-    metadata:
-      name: checkip
-    spec:
-      match: source.labels["istio"] == "ingressgateway"
-      actions:
-      - handler: whitelistip.listchecker
-        instances:
-        - sourceip.listentry
-    {{< /text >}}
-
-1. 保存代码段后，运行以下命令：
-
-    {{< text bash >}}
-    $ kubectl apply -f checkip-rule.yaml
-    {{< /text >}}
-
-1. 试着访问 Bookinfo 的 `productpage`
+1.  试着访问 Bookinfo 的 `productpage`
    `http://$GATEWAY_URL/productpage` 并验证您是否收到类似于的错误： `PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is
    not whitelisted`
 
@@ -214,17 +144,25 @@ Istio 支持基于 IP 的黑名单和白名单。你可以给 Istio 设置接受
 * 删除基于属性的白名单和黑名单的 Mixer 配置：
 
     {{< text bash >}}
-    $ kubectl delete -f checkversion-rule.yaml
-    $ kubectl delete -f appversion-instance.yaml
-    $ kubectl delete -f whitelist-handler.yaml
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-whitelist.yaml@
+    {{< /text >}}
+
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下配置：
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
     {{< /text >}}
 
 * 删除基于 IP 的白名单和黑名单的 Mixer 配置：
 
     {{< text bash >}}
-    $ kubectl delete -f checkip-rule.yaml
-    $ kubectl delete -f sourceip-instance.yaml
-    $ kubectl delete -f whitelistip-handler.yaml
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-ip.yaml@
+    {{< /text >}}
+
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下配置：
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@
     {{< /text >}}
 
 * 移除应用路由规则：

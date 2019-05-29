@@ -1,6 +1,6 @@
 ---
-title: 安装 Istio CNI 
-description: Istio CNI 插件的安装和使用，该插件让运维人员可以用较低的权限来完成网格服务的部署工作。
+title: Istio CNI 插件的安装和使用 Istio
+description: Istio CNI 插件的安装和使用 Istio，该插件让运维人员可以用较低的权限来完成网格服务的部署工作。
 weight: 70
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
@@ -20,34 +20,74 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 1. Kubernetes 集群需要启用 [ServiceAccount 准入控制器](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount)。
     * Kubernetes 文档中强烈建议所有使用 `ServiceAccount` 的 Kubernetes 集群都应该启用该控制器。
 
+1.  [下载 Istio 版本](/zh/docs/setup/kubernetes/download/)。
+
 ## 安装 {#installation}
 
-1. 获取 Kubernetes 环境 CNI 插件 `--cni-bin-dir` 以及 `--cni-conf-dir` 的设置。
+1.  获取 Kubernetes 环境 CNI 插件 `--cni-bin-dir` 以及 `--cni-conf-dir` 的设置。
 
     1. [Hosted Kubernetes 用法](#hosted-Kubernetes-usage)一节中的介绍了非缺省配置的介绍。
 
-1. 在[使用 Helm 安装 Istio](/zh/docs/setup/kubernetes/install/helm/)的过程中，加入  `--set istio_cni.enabled=true` 的设置，来启用 Istio CNI 插件的安装。例如：
+1.  在[使用 Helm 安装 Istio](/zh/docs/setup/kubernetes/install/helm/)的过程中，加入  `--set istio_cni.enabled=true` 的设置，来启用 Istio CNI 插件的安装。例如：
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-      --set istio_cni.enabled=true > $HOME/istio.yaml
+    $ kubectl create namespace istio-system
     {{< /text >}}
+
+1.  解压下载的 Istio CNI chart 压缩包。
+
+    {{< text bash >}}
+    $ tar -xzf install/kubernetes/helm/charts/istio-cni-*.tgz -C install/kubernetes/helm/
+    {{< /text >}}
+
+1.  安装 Istio CNI。
+
+    *  选项 1.  渲染并应用 Istio CNI Helm 模板。
+
+        {{< text bash >}}
+        $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
+        {{< /text >}}
+
+    *  选项 2.  用 `helm install` 安装。
+
+        {{< text bash >}}
+        $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system
+        {{< /text >}}
 
     {{< tip >}}
     可以在 [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml) 中获取 `istio-cni` 的完整参数。
     {{< /tip >}}
 
+1.  在 [Helm 安装 Istio](/zh/docs/setup/kubernetes/install/helm/) 时设置参数 `--set istio_cni.enabled=true`，以启用 Istio 的 CNI 插件。例如：
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+      --set istio_cni.enabled=true | kubectl apply -f -
+    {{< /text >}}
+
 ### 用例：排除特定的 Kubernetes 命名空间 {#example-excluding-specific-Kubernetes-namespaces}
 
 下面的例子中对 Istio CNI 插件进行配置，忽略 `istio-system`、`foo_ns` 以及 `bar_ns` 命名空间中的 Pod：
 
+1.  为 Istio 控制平面组件创建一个 `istio-system` 命名空间。
+
+    {{< text bash >}}
+    $ kubectl create namespace istio-system
+    {{< /text >}}
+
 1. 创建一个 Istio 清单文件，其中启用了 Istio CNI 插件，并覆盖了 `istio-cni` Helm Chart 的缺省配置中的 `logLevel` 以及 `excludeNamespaces` 参数：
 
     {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system \
+    --set logLevel=info \
+    --set excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"} | kubectl apply -f -
+    {{< /text >}}
+
+1.  在启用 Istio CNI 插件的情况下创建并应用 Istio 清单：
+
+    {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set istio_cni.enabled=true \
-    --set istio-cni.logLevel=info \
-    --set istio-cni.excludeNamespaces={"istio-system,foo_ns,bar_ns"} > $HOME/istio.yaml
+    --set istio_cni.enabled=true | kubectl apply -f -
     {{< /text >}}
 
 ### Helm Chart 参数 {#helm-chart-parameter}
@@ -77,10 +117,15 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 
 #### GKE 配置 {#google-Kubernetes-engine-setup}
 
-1. 参考[为 Istio 准备 GKE 集群](/zh/docs/setup/kubernetes/prepare/platform-setup/gke/)的内容，并启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)。
+1.  参考[为 Istio 准备 GKE 集群](/zh/docs/setup/kubernetes/prepare/platform-setup/gke/)的内容，并启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)。
     * 注意：如果是现存集群，这一操作会重新部署 Node。
 
-1. 在 Helm 中使用如下参数安装 Istio `--set istio_cni.enabled=true --set istio-cni.cniBinDir=/home/kubernetes/bin`
+1.  在 Helm 中使用如下参数安装 Istio `--set cniBinDir=/home/kubernetes/bin`。
+    命令为 GKE 设置设置 `cniBinDir` 值：
+
+    {{< text bash >}}
+    $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system --set cniBinDir=/home/kubernetes/bin
+    {{< /text >}}
 
 ## Sidecar 注入的兼容性 {#sidecar-injection-compatibility}
 
@@ -110,7 +155,6 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 Istio CNI 插件会监听 Kubernetes Pod 的创建和删除事件，并作出如下动作：
 
 1. 通过 Istio Sidecar 识别用户应用 Pod 的流量是否需要重定向。
-
 1. 对 Pod 网络命名空间进行配置，将流量转向 Istio Sidecar。
 
 ### 识别 Pod 是否需要流量重定向 {#identifying-pods-requiring-traffic-redirection}

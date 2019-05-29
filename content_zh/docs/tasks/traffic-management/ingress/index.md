@@ -15,19 +15,7 @@ keywords: [traffic-management,ingress]
 
 *   确保您当前的目录是 `istio` 目录。
 
-*   启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样本，该样本将用作要在外部公开的目标服务。
-
-    如果您已启用[自动注入 Sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，请执行
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    {{< /text >}}
-
-    否则就必须在部署 `httpbin` 应用程序之前手动注入 Sidecar：
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
-    {{< /text >}}
+{{< boilerplate start-httpbin-service >}}
 
 *   按照以下小节中的说明确定 Ingress IP 和端口。
 
@@ -45,12 +33,17 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 #### 使用外部负载均衡器时确定 IP 和端口
 
+如果您确定您的环境**具有**外部负载均衡器，请按照这些说明进行操作。
+
+设置入口 IP 和端口：
+
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 {{< /text >}}
 
+{{< warning >}}
 请注意，在某些环境中，外部负载均衡器可能需要使用主机名而不是 IP 地址。
 在这种情况下，上一节命令输出中的 `EXTERNAL-IP` 的值就不是 IP 地址，
 而是一个主机名，上面的命令将无法设置 `INGRESS_HOST` 环境变量。在这种情况下，使用以下命令来更正 `INGRESS_HOST` 值：
@@ -58,6 +51,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 {{< /text >}}
+
+{{< /warning >}}
 
 #### 确定使用 Node Port 时的 ingress IP 和端口
 
@@ -85,14 +80,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
     $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
     {{< /text >}}
 
-1.  _IBM Cloud Kubernetes 服务免费版本：_
-
-    {{< text bash >}}
-    $ bx cs workers <cluster-name or id>
-    $ export INGRESS_HOST=<public IP of one of the worker nodes>
-    {{< /text >}}
-
-1.  _Minikube：_
+1.  _Minikube:_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(minikube ip)
@@ -107,7 +95,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 1.  _其他环境（例如 IBM Cloud Private等）：_
 
     {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
+    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
     {{< /text >}}
 
 ## 使用 Istio 网关配置 Ingress
@@ -168,7 +156,11 @@ Ingress [`Gateway`](/zh/docs/reference/config/istio.networking.v1alpha3/#gateway
 
     该[网关](/zh/docs/reference/config/istio.networking.v1alpha3/#virtualservice)列表指定，只有通过我们的要求 `httpbin-gateway` 是允许的。所有其他外部请求将被拒绝，并返回 404 响应。
 
-    请注意，在此配置中，来自网格中其他服务的内部请求不受这些规则约束，而是简单地默认为循环路由。要将这些（或其他规则）应用于内部调用，我们可以将特殊值 `mesh` 添加到 `gateways` 的列表中。
+    {{< warning >}}
+    网格内其它服务的请求不受这一规则的影响，而是会使用缺省的轮询路由。要将这些规则应用于内部调用，您可以将特殊值 `mesh` 添加到 `gateways` 列表中。
+    由于服务的内部主机名可能与外部主机名不同（例如，`httpbin.default.svc.cluster.local`），因此您还需要将其添加到 `hosts` 列表中。
+    有关详细信息，请参阅[故障排除指南](/help/ops/traffic-management/troubleshooting/#route-rules-have-no-effect-on-ingress-gateway-requests)。
+    {{< /warning >}}
 
 1.  使用 curl 访问 httpbin 服务：
 
@@ -247,6 +239,30 @@ EOF
 `Gateway` 配置资源允许外部流量进入 Istio 服务网，并使 Istio 的流量管理和策略功能可用于边缘服务。
 
 在前面的步骤中，我们在 Istio 服务网格中创建了一个服务，并展示了如何将服务的 HTTP 端点暴露给外部流量。
+
+## 故障排除
+
+1.  检查 `INGRESS_HOST` 和 `INGRESS_PORT` 环境变量的值。
+    根据以下命令的输出，确保它们具有有效值：
+
+    {{< text bash >}}
+    $ kubectl get svc -n istio-system
+    $ echo INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT
+    {{< /text >}}
+
+1.  检查在同一端口上是否没有定义其他 Istio ingress 网关：
+
+    {{< text bash >}}
+    $ kubectl get gateway --all-namespaces
+    {{< /text >}}
+
+1.  检查您是否在同一 IP 和端口上没有定义 Kubernetes Ingress 资源：
+
+    {{< text bash >}}
+    $ kubectl get ingress --all-namespaces
+    {{< /text >}}
+
+1.  如果您有外部负载平衡器并且它不适合您，请尝试使用服务的[Node Port](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports-when-using-a-node-port)访问网关。
 
 ## 清理
 

@@ -67,7 +67,8 @@ No resources found.
 
 {{< text bash >}}
 $ kubectl get meshpolicies.authentication.istio.io
-No resources found.
+NAME      AGE
+default   3m
 {{< /text >}}
 
 最后要进行的验证是，确保没有为示例服务定义匹配的目标规则。一个验证方法是：获取现存目标规则，查看 `host:` 字段值是否匹配示例服务的 FQDN。例如：
@@ -98,6 +99,10 @@ spec:
 EOF
 {{< /text >}}
 
+{{< tip >}}
+网格身份验证策略使用在集群范围的 `MeshPolicy` CRD 中定义的[常规身份验证策略 API](/docs/reference/config/istio.authentication.v1alpha1/)。
+{{< /tip >}}
+
 此策略指定网格中的所有工作负荷仅接受使用 TLS 的加密请求。如您所见，此身份验证策略的类型是
 `MeshPolicy`，这种策略的生效范围是整个网格内的所有服务，因此名称必须是 `default`，另外也不包含 `targets` 字段。
 
@@ -119,7 +124,7 @@ apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "default"
-  namespace: "default"
+  namespace: "istio-system"
 spec:
   host: "*.local"
   trafficPolicy:
@@ -129,6 +134,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
+*从 Istio 1.1 开始，将按顺序考虑服务中的客户命名空间，服务器命名空间和 `global` 命名空间（默认为 `istio-system`）中的目标规则。
 * 主机值 `*.local` 仅限于与集群中的服务匹配，而不是外部服务。另请注意，目标规则中没有针对名称或命名空间的限制。
 * 在 `ISTIO_MUTUAL` TLS 模式中，Istio 将根据其内部实现设置密钥和证书（例如客户端证书、私钥和 CA 证书）的路径。
 {{< /tip >}}
@@ -155,7 +161,6 @@ sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 {{< tip >}}
@@ -182,6 +187,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
  name: "httpbin-legacy"
+ namespace: "legacy"
 spec:
  host: "httpbin.legacy.svc.cluster.local"
  trafficPolicy:
@@ -190,13 +196,17 @@ spec:
 EOF
 {{< /text >}}
 
+{{< tip >}}
+此目标规则位于服务（`httpbin.legacy`）的命名空间中，因此它优先于 `istio-system` 中定义的全局目标规则。
+{{< /tip >}}
+
 ### 从 Istio 服务请求到 Kubernetes API Server
 
 Kubernetes API Server 没有 Sidecar，因此来自 `sleep.foo` 等 Istio 服务的请求会失败，出现像请求非 Istio 服务时同样的问题而失败。
 
 {{< text bash >}}
-$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
-kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl https://kubernetes.default/api --header "Authorization: Bearer $TOKEN" --insecure -s -o /dev/null -w "%{http_code}\n"
+$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default-token | cut -f1 -d ' ' | head -1) | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
+$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl https://kubernetes.default/api --header "Authorization: Bearer $TOKEN" --insecure -s -o /dev/null -w "%{http_code}\n"
 000
 command terminated with exit code 35
 {{< /text >}}
@@ -209,6 +219,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
  name: "api-server"
+ namespace: istio-system
 spec:
  host: "kubernetes.default.svc.cluster.local"
  trafficPolicy:
@@ -224,7 +235,7 @@ EOF
 重新运行上面的测试命令，确认在添加规则后能够成功返回 200：
 
 {{< text bash >}}
-$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
+$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default-token | cut -f1 -d ' ' | head -1) | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl https://kubernetes.default/api --header "Authorization: Bearer $TOKEN" --insecure -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
@@ -235,7 +246,8 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 {{< text bash >}}
 $ kubectl delete meshpolicy default
-$ kubectl delete destinationrules default httpbin-legacy api-server
+$ kubectl delete destinationrules httpbin-legacy -n legacy
+$ kubectl delete destinationrules api-server -n istio-system
 {{< /text >}}
 
 ## 为每个命名空间或服务启用双向 TLS
@@ -533,7 +545,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 
 用下面的 `curl` 命令生成 Token 并附加在请求中，然后执行请求就会返回成功信息：
 
-{{< text bash>}}
+{{< text bash >}}
 $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
@@ -542,7 +554,14 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 要观察 JWT 验证的其他方面，请使用脚本 [`gen-jwt.py`]({{<github_tree>}}/security/tools/jwt/samples/gen-jwt.py) 生成新的令牌以测试不同的发行者、受众和到期日期等。例如下面的命令创建一个 5 秒后到期的 Token。Istio 首先成功通过该令牌的验证请求，但在 5 秒后就会拒绝这一 Token 了：
 
 {{< text bash >}}
-$ TOKEN=$(@security/tools/jwt/samples/gen-jwt.py@ @security/tools/jwt/samples/key.pem@ --expire 5)
+$ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
+{{< /text >}}
+
+例如，下面的命令会创建一个在 5 秒内到期的令牌。
+如您所见，Istio 首先成功使用该令牌验证请求，但在 5 秒后拒绝它们：
+
+{{< text bash >}}
+$ TOKEN=$(./gen-jwt.py ./key.pem --expire 5)
 $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
 200
 200
@@ -554,6 +573,102 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 401
 401
+{{< /text >}}
+
+您还可以将 JWT 策略添加到入口网关（例如，服务 `istio-ingressgateway.istio-system.svc.cluster.local`）。
+这通常用于为绑定到网关的所有服务定义 JWT 策略，而不是针对单个服务。
+
+### 具有每个路径要求的最终用户身份验证
+
+可以根据请求路径启用或禁用最终用户身份验证。如果要禁用某些路径的身份验证（例如，用于运行状况检查或状态报告的路径），这将非常有用。
+您还可以在不同路径上指定不同的 JWT 要求。
+
+{{< warning >}}
+具有每路径要求的最终用户认证是 Istio 1.1 中的实验性功能，并且不建议用于生产用途。
+{{< /warning >}}
+
+#### 禁用特定路径的最终用户身份验证
+
+修改 `jwt-example` 策略以禁用路径 `/user-agent` 的最终用户身份验证：
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - excluded_paths:
+        - exact: /user-agent
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+确认允许在没有 JWT 令牌的情况下访问路径 `/user-agent`：
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+确认在没有 JWT 令牌的情况下拒绝访问除 `/user-agent` 以外的路径：
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+#### 为特定路径启用最终用户身份验证
+
+修改 `jwt-example` 策略，只为路径 `/ip` 启用最终用户认证：
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - included_paths:
+        - exact: /ip
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+确认允许在没有 JWT 令牌的情况下访问除 `/ip` 以外的路径：
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+确认在没有 JWT 令牌的情况下拒绝访问路径 `/ip`：
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+确认允许使用有效的 JWT 令牌访问路径 `/ip`：
+
+{{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
+$ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+200
 {{< /text >}}
 
 ### 使用双向 TLS 进行最终用户身份验证
@@ -607,6 +722,7 @@ EOF
 在这些更改之后，来自 Istio 服务（包括 ingress gateway）到 `httpbin.foo` 的流量将使用双向 TLS。上面的测试命令仍然有效。在使用正确的令牌的情况下，Istio 服务直接向 `httpbin.foo` 发出的请求也可以正常工作：
 
 {{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
 200
 {{< /text >}}
@@ -623,13 +739,13 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 1. 删除身份验证策略：
 
     {{< text bash >}}
-    $ kubectl delete policy jwt-example
+    $ kubectl -n foo delete policy jwt-example
     {{< /text >}}
 
 1. 删除目标规则：
 
     {{< text bash >}}
-    $ kubectl delete policy httpbin
+    $ kubectl -n foo delete destinationrule httpbin
     {{< /text >}}
 
 1. 如果您不打算探索任何后续任务，则只需删除测试命名空间即可删除所有资源：
