@@ -13,7 +13,7 @@
 // limitations under the License.
 
 class KbdNav {
-    private elements: HTMLElement[];
+    private readonly elements: HTMLElement[];
 
     constructor(elements: HTMLElement[]) {
         this.elements = elements;

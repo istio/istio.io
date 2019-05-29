@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 37
+number_of_entries: 38
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
@@ -229,6 +229,7 @@ istioctl deregister my-svc 172.17.0.2
 <p>Commands to inspect and interact with the authentication (TLS, JWT) and authorization (RBAC) policies in the mesh
   check - check the TLS/JWT/RBAC settings based on the Envoy config
   upgrade - upgrade the authorization policy from version v1 to v2
+	validate - check for potential incorrect usage in authorization policy files.
 </p>
 <table class="command-flags">
 <thead>
@@ -346,7 +347,7 @@ workload labels in the AuthorizationPolicy. The service definition could be prov
 Kubernetes cluster or from a yaml file specified from command line.</p>
 <p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental auth upgrade -f &lt;yaml-file&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental auth upgrade [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -363,9 +364,9 @@ Kubernetes cluster or from a yaml file specified from command line.</p>
 <td>The name of the kubeconfig context to use  (default ``)</td>
 </tr>
 <tr>
-<td><code>--file &lt;string&gt;</code></td>
+<td><code>--file &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Authorization policy file  (default ``)</td>
+<td>Authorization policy file  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -396,10 +397,62 @@ Kubernetes cluster or from a yaml file specified from command line.</p>
 </table>
 <h3 id="istioctl-experimental-auth-upgrade Examples">Examples</h3>
 <pre class="language-bash"><code>  # Upgrade the Istio authorization policy with service definition from the current k8s cluster:
-  istioctl experimental auth upgrade -f istio-authz-v1-policy.yaml
+  istioctl experimental auth upgrade -f istio-authz-v1-policy-1.yaml,istio-authz-v1-policy-2.yaml
 
   # Upgrade the Istio authorization policy with service definition from 2 yaml files specified in the command line:
   istioctl experimental auth upgrade -f istio-authz-v1-policy.yaml --service svc-a.yaml,svc-b.yaml
+</code></pre>
+<h2 id="istioctl-experimental-auth-validate">istioctl experimental auth validate</h2>
+<p>This command goes through all authorization policy files and finds potential issues such as:
+						* ServiceRoleBinding refers to a non existing ServiceRole.
+						* ServiceRole not used.
+           It does not require access to the cluster as the validation is against local files.
+					</p>
+<pre class="language-bash"><code>istioctl experimental auth validate &lt;policy-file1,policy-file2,...&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;stringSlice&gt;</code></td>
+<td><code>-f</code></td>
+<td>Authorization policy file  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, attributes, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-auth-validate Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl experimental auth validate -f policy1.yaml,policy2.yaml
 </code></pre>
 <h2 id="istioctl-experimental-convert-ingress">istioctl experimental convert-ingress</h2>
 <p>Converts Ingresses into VirtualService configuration on a best effort basis. The output should be considered a starting point for your Istio configuration and probably require some minor modification. Warnings will be generated where configs cannot be converted perfectly. The input must be a Kubernetes Ingress. The conversion of v1alpha1 Istio rules has been removed from istioctl.</p>
@@ -1772,6 +1825,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_BURST</code></td>
