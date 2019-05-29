@@ -394,15 +394,9 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_CDS_PRECOMPUTATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
@@ -410,6 +404,12 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
@@ -527,6 +527,10 @@ These resource annotations are used by the <code>sidecar-injector</code> command
 </tr>
 <tr>
 <td><code>traffic.sidecar.istio.io/excludeOutboundIPRanges</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>traffic.sidecar.istio.io/excludeOutboundPorts</code></td>
 <td></td>
 </tr>
 <tr>

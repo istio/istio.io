@@ -132,7 +132,7 @@ nexus for policy evaluation and telemetry reporting.</p>
 <tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td></td>
-<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `127.0.0.1`)</td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
@@ -394,15 +394,9 @@ These environment variables affect the behavior of the <code>mixs</code> command
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_CDS_PRECOMPUTATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
@@ -410,6 +404,12 @@ These environment variables affect the behavior of the <code>mixs</code> command
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
