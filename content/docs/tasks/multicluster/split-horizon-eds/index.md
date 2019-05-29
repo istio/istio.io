@@ -405,7 +405,7 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
     {{< text bash >}}
     $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
- 
+
 1. Call the `helloworld.sample` service several times from `cluster2` :
 
     {{< text bash >}}
