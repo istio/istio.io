@@ -110,6 +110,10 @@ number_of_entries: 5
 <td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default `istio-pilot:15010`)</td>
 </tr>
 <tr>
+<td><code>--dnsRefreshRate &lt;string&gt;</code></td>
+<td>The dns_refresh_rate for bootstrap STRICT_DNS clusters  (default `300s`)</td>
+</tr>
+<tr>
 <td><code>--domain &lt;string&gt;</code></td>
 <td>DNS domain suffix. If not provided uses ${POD_NAMESPACE}.svc.cluster.local  (default ``)</td>
 </tr>
@@ -198,6 +202,10 @@ number_of_entries: 5
 <td>Port on which Envoy should listen for administrative commands  (default `15000`)</td>
 </tr>
 <tr>
+<td><code>--proxyComponentLogLevel &lt;string&gt;</code></td>
+<td>The component log level used to start the Envoy proxy  (default `misc:error`)</td>
+</tr>
+<tr>
 <td><code>--proxyLogLevel &lt;string&gt;</code></td>
 <td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off})  (default `warning`)</td>
 </tr>
@@ -220,30 +228,6 @@ number_of_entries: 5
 <tr>
 <td><code>--templateFile &lt;string&gt;</code></td>
 <td>Go template bootstrap config  (default ``)</td>
-</tr>
-<tr>
-<td><code>--tlsClientCertChain &lt;string&gt;</code></td>
-<td>Absolute path to client cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsClientRootCert &lt;string&gt;</code></td>
-<td>Absolute path to client root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsSClientKey &lt;string&gt;</code></td>
-<td>Absolute path to client key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsServerCertChain &lt;string&gt;</code></td>
-<td>Absolute path to server cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsServerKey &lt;string&gt;</code></td>
-<td>Absolute path to server private key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsServerRootCert &lt;string&gt;</code></td>
-<td>Absolute path to server root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
@@ -418,6 +402,42 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>ISTIO_META_TLS_CLIENT_CERT_CHAIN</code></td>
+<td>String</td>
+<td><code>/etc/certs/cert-chain.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_CLIENT_KEY</code></td>
+<td>String</td>
+<td><code>/etc/certs/key.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_CLIENT_ROOT_CERT</code></td>
+<td>String</td>
+<td><code>/etc/certs/root-cert.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_SERVER_CERT_CHAIN</code></td>
+<td>String</td>
+<td><code>/etc/certs/cert-chain.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_SERVER_KEY</code></td>
+<td>String</td>
+<td><code>/etc/certs/key.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_SERVER_ROOT_CERT</code></td>
+<td>String</td>
+<td><code>/etc/certs/root-cert.pem</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>ISTIO_NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -460,15 +480,9 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_CDS_PRECOMPUTATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
@@ -476,6 +490,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
@@ -561,7 +581,15 @@ These resource annotations are used by the <code>pilot-agent</code> command.
 </tr>
 <tr>
 <td><code>sidecar.istio.io/statsInclusionPrefixes</code></td>
-<td>Control over Envoy stats collection.</td>
+<td>Specifies the comma separated list of prefixes of the stats to be emitted by Envoy.</td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionRegexps</code></td>
+<td>Specifies the comma separated list of regexes the stats should match to be emitted by Envoy.</td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionSuffixes</code></td>
+<td>Specifies the comma separated list of suffixes of the stats to be emitted by Envoy.</td>
 </tr>
 </tbody>
 </table>
