@@ -287,6 +287,10 @@ When a client calls the `datastore` service, it extracts the `test-team` identit
 and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
 The client detects that `test-team` is **not** allowed to run the `datastore` service and the authentication fails.
 
+Secure naming is able to protect against general network hijackings for HTTPS traffic. However, it would fail to work 
+for TCP traffic if the attacker hijacks the DNS and modifies the IP address of the destination. This is because TCP 
+traffic does not contain hostname information and we can only rely on the IP address for routing.    
+
 ### Authentication architecture
 
 You can specify authentication requirements for services receiving requests in
