@@ -289,7 +289,7 @@ The client detects that `test-team` is **not** allowed to run the `datastore` se
 
 Secure naming is able to protect against general network hijackings for HTTPS traffic. However, it would fail to work 
 for TCP traffic if the attacker hijacks the DNS and modifies the IP address of the destination. This is because TCP 
-traffic does not contain hostname information and we can only rely on the IP address for routing.    
+traffic does not contain the hostname information and we can only rely on the IP address for routing.    
 
 ### Authentication architecture
 
