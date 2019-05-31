@@ -31,4 +31,10 @@ netlify:
 	@scripts/gen_site.sh "$(baseurl)" -minify
 
 netlify_archive:
+<<<<<<< HEAD
 	@scripts/gen_archive_site.sh "$(baseurl)" -minify
+=======
+	@scripts/gen_archive_site.sh "$(baseurl)"
+
+include Makefile.common.mk
+>>>>>>> 366304355... Import common files into this repo. (#4246)
