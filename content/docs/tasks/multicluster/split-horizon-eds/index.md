@@ -74,7 +74,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     {{< warning >}}
-    Note that the gateway addresses is set to `0.0.0.0`. These are temporary placeholder values that will
+    Note that the gateway addresses are set to `0.0.0.0`. These are temporary placeholder values that will
     later be updated with the public IPs of the `cluster1` and `cluster2` gateways after they are deployed
     in the following section.
     {{< /warning >}}
