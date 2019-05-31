@@ -43,7 +43,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
         spec:
           containers:
           - name: ratings
-            image: vadimeisenbergibm/examples-bookinfo-ratings-v-unavailable:1.10.4
+            image: istio/examples-bookinfo-ratings-v-unavailable:latest
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080

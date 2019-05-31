@@ -79,7 +79,7 @@ one later.
         spec:
           containers:
           - name: ratings
-            image: vadimeisenbergibm/examples-bookinfo-ratings-v-unhealthy:1.10.9
+            image: istio/examples-bookinfo-ratings-v-unhealthy:latest
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080
@@ -228,7 +228,7 @@ one later.
         spec:
           containers:
           - name: ratings
-            image: vadimeisenbergibm/examples-bookinfo-ratings-v-unhealthy:1.10.9
+            image: istio/examples-bookinfo-ratings-v-unhealthy:latest
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080

@@ -44,7 +44,7 @@ user instead of letting the user wait for a long period of time.
         spec:
           containers:
           - name: ratings
-            image: vadimeisenbergibm/examples-bookinfo-ratings-v-delayed:1.10.3
+            image: istio/examples-bookinfo-ratings-v-delayed:latest
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080

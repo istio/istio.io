@@ -43,7 +43,7 @@ more failures and making the application or parts of it unavailable.
         spec:
           containers:
           - name: productpage
-            image: vadimeisenbergibm/examples-bookinfo-productpage-v-flooding:1.10.22
+            image: istio/examples-bookinfo-productpage-v-flooding:latest
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080

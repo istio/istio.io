@@ -43,7 +43,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
         spec:
           containers:
           - name: ratings
-            image: vadimeisenbergibm/examples-bookinfo-ratings-v-faulty:1.10.3
+            image: istio/examples-bookinfo-ratings-v-faulty:latest
             imagePullPolicy: IfNotPresent
             ports:
             - containerPort: 9080
