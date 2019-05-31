@@ -36,4 +36,4 @@ keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 
 下图显示了完成前面所有步骤的界面:
 
-{{< image link="csconsole.png" caption="Console" >}}
+{{< image link="/docs/setup/kubernetes/platform-setup/alicloud/csconsole.png" caption="Console" >}}

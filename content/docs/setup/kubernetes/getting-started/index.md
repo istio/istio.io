@@ -1,14 +1,40 @@
 ---
-title: Downloading the Release
-linktitle: Download
-description: Download the Istio release and prepare for installation.
-weight: 15
+title: Getting Started
+description: Download and install Istio.
+weight: 5
 aliases:
     - /docs/setup/kubernetes/download-release/
 keywords: [kubernetes]
 ---
 
-## Download and prepare for the installation
+Istio can be installed on Kubernetes in many different ways, depending on the target platform and intended use.
+The simplest way to get started if you're new to Istio and just want to try it out is by 
+installing Istio's **demo** profile [on Kubernetes without Helm](/docs/setup/kubernetes/install/kubernetes/).
+This will allow you to experiment with many of the Istio's features with modest resource requirements.
+
+If you want to install Istio for production use, or for performance evaluation, you should
+install Istio using the [Helm Installation guide](/docs/setup/kubernetes/install/helm/).
+Alternatively, if you run Kubernetes on a supported platform, you can follow the instructions
+specific to your Kubernetes platform:
+
+- [Alibaba Cloud Kubernetes Container Service](/docs/setup/kubernetes/install/platform/alicloud/)
+- [Google Kubernetes Engine](/docs/setup/kubernetes/install/platform/gke/)
+- [IBM Cloud](/docs/setup/kubernetes/install/platform/ibm/)
+
+If you want your installation to use Istio's Container Network Interface
+(CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
+
+If you want to perform a multicluster setup, visit our
+[Multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
+
+To expand your existing mesh with additional containers or VMs not running on
+your mesh's Kubernetes cluster, follow our [Mesh Expansion guide](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
+
+Adding services requires understanding sidecar injection in detail. Visit our
+[Installing the Sidecar guide](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
+to learn more.
+
+## Downloading the release
 
 Istio is installed in its own `istio-system` namespace and can manage
 services from all other namespaces.
@@ -44,15 +70,7 @@ services from all other namespaces.
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-## Helm Chart Release Repositories
-
-To use the Istio release Helm chart repository, add the Istio release repository as follows:
-
-{{< text bash >}}
-$ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
-{{< /text >}}
-
-## `istioctl` tab completion
+## Enabling `istioctl` tab completion
 
 If you are using Bash or ZSH, `istioctl` includes a helpful script that enables tab completion for the currently available `istioctl` commands.
 

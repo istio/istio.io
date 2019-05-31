@@ -4,6 +4,8 @@ description:  Prepare your Kubernetes pods and services to run in an Istio-enabl
 weight: 5
 aliases:
     - /docs/setup/kubernetes/spec-requirements/
+    - /docs/setup/kubernetes/prepare/spec-requirements/
+    - /docs/setup/kubernetes/prepare/requirements/
 keywords: [kubernetes,sidecar,sidecar-injection]
 ---
 
