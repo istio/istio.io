@@ -24,7 +24,7 @@ This permits customization of Istio to operator specific requirements.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#download-the-release).
+1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
 
 1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 
