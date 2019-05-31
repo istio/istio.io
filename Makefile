@@ -38,3 +38,5 @@ netlify:
 
 netlify_archive:
 	@scripts/gen_archive_site.sh "$(baseurl)"
+
+include Makefile.common.mk
