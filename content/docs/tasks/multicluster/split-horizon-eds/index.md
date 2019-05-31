@@ -74,8 +74,8 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     {{< warning >}}
-    Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
-    later be updated to the value of the public IP of `cluster1` `cluster2`'s gateway after it is deployed
+    Note that the gateway addresses is set to `0.0.0.0`. These are temporary placeholder values that will
+    later be updated with the public IPs of the `cluster1` and `cluster2` gateways after they are deployed
     in the following section.
     {{< /warning >}}
 
@@ -384,7 +384,7 @@ The difference between the two instances is the version of their `helloworld` im
 
 We will call the `helloworld.sample` service from another in-mesh `sleep` service.
 
-1. Deploy the `sleep` service in two clusters:
+1. Deploy the `sleep` service in both clusters:
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
@@ -439,7 +439,7 @@ $ kubectl logs --context=$CTX_CLUSTER2 -n sample $(kubectl get pod --context=$CT
 [2019-05-25T08:06:12.834Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 181 180 "-" "curl/7.60.0" "ce480b56-fafd-468b-9996-9fea5257cb1e" "helloworld.sample:5000" "10.32.0.9:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36886 -
 {{< /text >}}
 
-The gateway IP, `1192.168.1.246:15443`, of `cluster1` is logged when v1 was called and the instance IP, `10.32.0.9:5000`, of `cluster2` is logged when v2 was called.
+The gateway IP, `192.168.1.246:15443`, of `cluster1` is logged when v1 was called and the gateway IP, `10.32.0.9:5000`, of `cluster2` is logged when v2 was called.
 
 ## Cleanup
 
