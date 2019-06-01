@@ -9,8 +9,8 @@ weight: 105
 The Istio dashboard and the log database can show which microservice called which microservice, for example,
 `productpage` called `reviews`, and what was the latency of the call. However, it is not enough.
 You also want to know what happened during the whole call chain, in your case that `productpage` called `reviews` which
-in turn called `ratings`. You want the time it took to process each step in the chain and the latency of each call in
-the same chain.
+in turn called `ratings`. You want to know the time it took to process each step in the chain and the latency of each
+call in the same chain.
 
 To get data about a chain of calls between microservices, you need a
 [distributed tracing](https://microservices.io/patterns/observability/distributed-tracing.html) system. Istio comes
