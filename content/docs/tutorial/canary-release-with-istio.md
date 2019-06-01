@@ -7,7 +7,7 @@ weight: 80
 ---
 
 In this module you deploy a new version of the `reviews` microservice, _v3_. This version displays ratings as red stars
-(_v2_ displayed ratings as black stars). In this and a couple of next modules, you will learn how deploying a new
+(_v2_ displays ratings as black stars). In this and a couple of next modules, you will learn how deploying a new
 version of a microservice can be made simple, effective and safe with Istio.
 
 First, you want your new version to be accessible to testers only and not to the real clients. In this module you deploy
