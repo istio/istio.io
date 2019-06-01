@@ -5,7 +5,7 @@ weight: 70
 
 ---
 
-Previously you deployed the Istio control plane and enabled Istio on a single microservice, `productpage`.
+Previously you enabled Istio on a single microservice, `productpage`.
 You can proceed to enable Istio on the microservices incrementally, one by one, to get the functionality provided by
 Istio for more and more microservices. For the purpose of this tutorial, you will just enable Istio on the remaining
 microservices in one stroke.
