@@ -25,7 +25,7 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
 1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
 
 1.  Download one of the [Istio release archives](https://github.com/istio/istio/releases) and extract
-    `istioctl` command line tool from it. The tool is in the `bin` directory of the archive.
+    the `istioctl` command line tool from it. The tool is in the `bin` directory of the archive.
 
     Verify that you can run `istioctl`:
 
