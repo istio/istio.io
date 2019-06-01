@@ -133,7 +133,7 @@ Most of the functionality is already available in various libraries, for example
 However, now you have to change your code to use the libraries.
 You have to put additional effort, your code will bloat, business logic will be mixed with reporting, routing, policies,
 networking logic.
-Since your microservices use different programming languages You have to learn, use, update multiple libraries.
+Since your microservices use different programming languages, you have to learn, use, update multiple libraries.
 You are not happy with this option.
 
 1. Use a _service mesh_. In a service mesh, you put all the reporting, routing, policies, security logic in _sidecar_
