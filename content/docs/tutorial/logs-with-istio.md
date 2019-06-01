@@ -92,6 +92,6 @@ your namespace.
 
 The queries above use the `istio_requests_total` metric, which is a standard Istio metric. You can observe
 other metrics, in particular, the ones of Envoy ([Envoy](https://www.envoyproxy.io) is the sidecar proxy of Istio). You
-can see the collected metrics in the _insert metric at cursor_ drop down menu.
+can see the collected metrics in the _insert metric at cursor_ drop-down menu.
 
 You can even [define your own metrics](/docs/tasks/telemetry/metrics/collecting-metrics/).
