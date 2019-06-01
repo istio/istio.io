@@ -28,7 +28,7 @@ In this module you examine the traces of your application.
         >}}
 
     Select your `productpage` from the _Service_ drop-down menu, in the _Find Traces_ sidebar on the left,
-    in the _Search_ tab. The service of the form `productpage.<your namespace>`.
+    in the _Search_ tab. The service name has the `productpage.<your namespace>` format. Push the _Find Traces_ button.
 
 1.  Examine one of the returned traces on the right:
 
