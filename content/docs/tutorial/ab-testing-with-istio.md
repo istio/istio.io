@@ -16,6 +16,10 @@ requests 50:50. Then you will measure by various metrics which version is accept
 (Measuring business metrics is out of scope of Istio). In this module you redeploy _reviews v2_ and configure Istio
 to split the traffic destined to `reviews` equally between the _v2_ and _v3_ versions.
 
+Additional experiment you may want to try is to run different versions of a microservice for different clients. For
+example, to show black stars for Firebox and red stars for any other browser. Suppose you believe that blacks
+stars look better in Firefox and you want to check your hypothesis, by directing the traffic for Firefox to _reviews v2_.
+
 1.  Deploy _reviews v2_:
 
     {{< text bash >}}
@@ -24,6 +28,24 @@ to split the traffic destined to `reviews` equally between the _v2_ and _v3_ ver
     {{< /text >}}
 
 1.  Configure a virtual service to distribute the traffic 50:50 between _reviews v2_ and _reviews v3_.
+
+    {{< text bash >}}
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-reviews-v2-v3.yaml
+    {{< /text >}}
+
+1.  Access application's webpage and verify that now the red stars are displayed roughly every other access.
+
+1.  Check your Kiali console,
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+
+    You will see the rate of the traffic entering `reviews` split roughly 50:50 between `reviews` _v2_ and _v3_.
+
+    {{< image width="80%"
+        link="images/kiali-ab-testing.png"
+        caption="Kiali Graph Tab with traffic splitting 50:50 between reviews v2 and v3"
+        >}}
+
+1.  Configure a virtual service to direct the traffic for Firefox to _reviews v2_.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -51,7 +73,7 @@ to split the traffic destined to `reviews` equally between the _v2_ and _v3_ ver
     {{< /text >}}
 
 1.  Access application's webpage in Firefox and in some other browser, and verify that now the red stars are displayed
-    in the other browser and black stars in Firefox. Alternatively, check the access by `curl`:
+    in the other browser and the black stars in Firefox. Alternatively, check the access by `curl`:
 
     {{< text bash >}}
     $ curl -s $MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage  -H"User-Agent: Safari" | grep color | uniq
@@ -62,6 +84,3 @@ to split the traffic destined to `reviews` equally between the _v2_ and _v3_ ver
     $ curl -s $MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage  -H"User-Agent: Firefox" | grep color | uniq
      <font color="black">
     {{< /text >}}
-
-1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
