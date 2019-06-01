@@ -38,6 +38,11 @@ In the next modules, you will evolve the application.
 
     {{< text bash >}}
     $ kubectl get pods
+    NAME                            READY   STATUS    RESTARTS   AGE
+    details-v1-6d86fd9949-q8rrf     1/1     Running   0          10s
+    productpage-v1-c9965499-tjdjx   1/1     Running   0          8s
+    ratings-v1-7bf577cb77-pq9kg     1/1     Running   0          9s
+    reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
 1.  Scale the deployments: let each version of each microservice run in three pods.
@@ -56,6 +61,19 @@ In the next modules, you will evolve the application.
 
     {{< text bash >}}
     $ kubectl get pods
+    NAME                            READY   STATUS    RESTARTS   AGE
+    details-v1-6d86fd9949-fr59p     1/1     Running   0          50s
+    details-v1-6d86fd9949-mksv7     1/1     Running   0          50s
+    details-v1-6d86fd9949-q8rrf     1/1     Running   0          1m
+    productpage-v1-c9965499-hwhcn   1/1     Running   0          50s
+    productpage-v1-c9965499-nccwq   1/1     Running   0          50s
+    productpage-v1-c9965499-tjdjx   1/1     Running   0          1m
+    ratings-v1-7bf577cb77-cbdsg     1/1     Running   0          50s
+    ratings-v1-7bf577cb77-cz6jm     1/1     Running   0          50s
+    ratings-v1-7bf577cb77-pq9kg     1/1     Running   0          1m
+    reviews-v1-77c65dc5c6-5wt8g     1/1     Running   0          49s
+    reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          1m
+    reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
 1.  Deploy a testing pod, [sleep]({{< github_tree >}}/samples/sleep), to use it for sending
