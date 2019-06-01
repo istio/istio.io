@@ -36,7 +36,7 @@ without errors.
     {{< /text >}}
 
 1.  Access the webpage of the application a couple of times. You'll see that the black ratings stars are displayed
-    which means that _reviews v2_ are called as previously.
+    which means that _reviews v2_ is called as previously.
     Examine the logs of the sidecar proxy of _reviews v3_:
 
     {{< text bash >}}
