@@ -45,16 +45,7 @@ then to 20% and so on.
     istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}
     {{< /text >}}
 
-    Switch to the _Graph_ tab:
-
-    {{< image width="80%"
-        link="images/prometheus-reviews-graph.png"
-        caption="Prometheus Query UI, distribution of calls to reviews v2 and reviews v3"
-        >}}
-
-    Note that you might see multiple metric instances related to the same destination workload, it could
-    happen if you have multiple `istio-telemetry` pods. To get the correct numbers of the calls to
-    _v2_ and _v3_, sum the calls in the next step.
+    Observe the _Value_ column, the counters of the calls to reviews _v2_ and reviews _v3_.
 
 1.  Execute the following queries:
 
