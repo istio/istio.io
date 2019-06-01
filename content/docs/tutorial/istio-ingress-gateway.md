@@ -113,7 +113,7 @@ control already at the ingress point, even before the traffic reaches your micro
     (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
-    This time you see that the traffic arrives from two sources, `unknown` (the Kubernetes Ingress) and from
+    This time you can see that the traffic arrives from two sources, `unknown` (the Kubernetes Ingress) and from
     `istio-ingressgateway istio-system` (the Istio Ingress Gateway).
 
     {{< image width="80%"
