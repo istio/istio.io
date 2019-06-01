@@ -130,7 +130,7 @@ Now you have two choices:
 1. Implement the required functionality in the application code.
 Most of the functionality is already available in various libraries, for example in the Netflix's
 [Hystrix](https://github.com/Netflix/Hystrix) library  for the Java programming language.
-However, now you have to change your code to call the functions from the libraries.
+However, now you have to change your code to use the libraries.
 You have to put additional effort, your code will bloat, business logic will be mixed with reporting, routing, policies,
 networking logic.
 Since your microservices use different programming languages You have to learn, use, update multiple libraries.
