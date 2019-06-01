@@ -67,3 +67,5 @@ ratings of a product with `productID`.
     $ curl localhost:9080/ratings/7
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
+
+1.  Stop the microservice by killing its process (`Ctrl-C` in the terminal).
