@@ -137,7 +137,7 @@ Since your microservices use different programming languages, you have to learn,
 You are not happy with this option.
 
 1. Use a _service mesh_. In a service mesh, you put all the reporting, routing, policies, security logic in _sidecar_
-proxies, injected into your pods *transparently* to your application. The business logic remains in the code of the
+proxies, injected *transparently* into your application pods. The business logic remains in the code of the
 application, no changes are required to the application code.
 
 Enters [Istio service mesh](/). Istio can perform the tasks mentioned here and much more.
