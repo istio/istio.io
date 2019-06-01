@@ -14,7 +14,7 @@ call in the same chain.
 
 To get data about a chain of calls between microservices, you need a
 [distributed tracing](https://microservices.io/patterns/observability/distributed-tracing.html) system. Istio comes
-out-of-the-box with [Jaeger](https://www.jaegertracing.io), a distributed tracing system.
+out-of-the-box with [Jaeger](https://www.jaegertracing.io).
 
 In this module you examine the traces of your application.
 
