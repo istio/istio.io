@@ -68,11 +68,18 @@ microservices in one stroke.
     Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
     In the _Display_ drop-down menu mark the _Traffic Animation_ checkbox to see some cool traffic animation.
 
-    Access your application's homepage several times for several seconds and see the graph of your application
-    displayed.
+    {{< image width="80%"
+        link="images/kiali-display-menu.png"
+        caption="Kiali Graph Tab, display drop-down menu"
+        >}}
 
     Try different options in the _Edge Labels_ drop-down menu. Hover with the mouse over the nodes and edges of the
     graph. Notice the traffic metrics on the right.
+
+    {{< image width="80%"
+        link="images/kiali-edge-labels-menu.png"
+        caption="Kiali Graph Tab, edge labels drop-down menu"
+        >}}
 
     {{< image width="80%"
         link="images/kiali-initial.png"
