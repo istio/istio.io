@@ -34,8 +34,8 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
     version.BuildInfo{Version:"release-1.1-20190214-09-16", GitRevision:"6113e155ac85e2485e30dfea2b80fd97afd3130a", User:"root", Host:"4496ae63-3039-11e9-86e9-0a580a2c0304", GolangVersion:"go1.10.4", DockerHub:"gcr.io/istio-release", BuildStatus:"Clean", GitTag:"1.1.0-snapshot.6-6-g6113e15"}
     {{< /text >}}
 
-1.  **For instructors**: you may want to allocate a separate namespace per different participant. The tutorial supports
-    work in multiple namespaces simultaneously by multiple participants.
+1.  **For instructors and participants with their own cluster**: you may want to allocate a separate namespace per
+    different participant. The tutorial supports work in multiple namespaces simultaneously by multiple participants.
 
 1.  Create a Kubernetes Ingress resource for common Istio services:
 
@@ -79,8 +79,9 @@ For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kub
     EOF
     {{< /text >}}
 
-1.  **For instructors**: you may want to limit the permissions of each participant so they will be able to create
-    resources only in their namespace. Perform the following steps to achieve this:
+1.  **For instructors and participants with their own cluster**: you may want to limit the permissions of each
+    participant so they will be able to create resources only in their namespace. Perform the following steps to achieve
+    this:
 
     1.  Create a role to provide read access to `istio-system` namespace:
 
