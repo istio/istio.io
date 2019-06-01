@@ -38,7 +38,7 @@ microservices in your namespace.
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     {{< /text >}}
 
-1.  Access your application's web page and verify that everything continued to work as expected.
+1.  Access your application's web page and verify that everything continues to work as expected.
 
 1.  Verify that your microservices do not accept unencrypted traffic anymore. Send an HTTP request to `ratings` from
     your testing pod, `sleep`:
