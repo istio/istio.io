@@ -113,7 +113,7 @@ then to 20% and so on.
 
 1.  Observe in the Kiali console, the graph of your namespace, how the traffic switches from _v2_ to _v3_.
 
-1.  Let's check that no more requests were sent to _reviews v2_:
+1.  Check that no more requests were sent to _reviews v2_:
 
     {{< text bash >}}
     $ kubectl logs -l app=reviews,version=v2 -c istio-proxy
