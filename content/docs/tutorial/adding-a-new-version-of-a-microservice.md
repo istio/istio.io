@@ -30,6 +30,7 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
 
         {{< text bash >}}
         $ REVIEWS_V2_POD_IP=$(kubectl get pod -l app=reviews_test,version=v2 -o jsonpath='{.items[0].status.podIP}')
+        $ echo $REVIEWS_V2_POD_IP
         {{< /text >}}
 
     1.  Send a request to the pod and see that it returns the correct result:
