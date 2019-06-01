@@ -184,7 +184,7 @@ weight: 3
         EOF
         {{< /text >}}
 
-        You can send this Kube config file to the tutorial's participant. The participant will define the
+        You can send this Kube config file to a tutorial's participant. The participant will define the
         `KUBECONFIG` variable to store the location of the file, and as a result will have access to the tutorial's
         namespace only.
 
