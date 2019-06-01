@@ -7,8 +7,7 @@ weight: 3
 and get access to a [Kubernetes](https://kubernetes.io) cluster.
 For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or [IBM Cloud Container Service](https://www.ibm.com/cloud/container-service).
 
-1.  Create a shell variable to store the name of the namespace you will work with. All the commands in this tutorial
-    will use this variable so only the tutorial's namespace will be affected.
+1.  Create a shell variable to store the name of the namespace you will work with.
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
