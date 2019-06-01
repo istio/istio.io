@@ -66,6 +66,11 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
     several times and notice that sometimes the page is returned with stars (approximately 25% of the time) and
     sometimes without stars (approximately 75% of the time).
 
+    {{< image width="80%"
+        link="images/bookinfo-reviews-v2.png"
+        caption="Bookinfo Web Application with black stars as ratings"
+        >}}
+
 1.  If you encounter any problems you can quickly undeploy the new version, so only the old version will be used:
 
     {{< text bash >}}
