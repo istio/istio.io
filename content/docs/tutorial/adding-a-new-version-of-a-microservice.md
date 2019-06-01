@@ -50,9 +50,9 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
         {{< /text >}}
 
 1.  Now you are rather confident that your new version of `reviews` will work and you can release it.
-    You will release a single replica of it into production so the real production traffic will arrive to your new
-    version. With the current setting, 75% of the traffic will arrive to the old version (three pods of the old
-    version) and 25% will arrive to the new version (one pod).
+    You will release a single replica of it into production so the real production traffic will start to arrive to your
+    new version. With the current setting, 75% of the traffic will arrive to the old version (three pods of the old
+    version) and 25% will arrive to the new version (a single pod).
 
     To release _reviews v2_ redeploy the new version with the `app=reviews` label, so it will become addressable by
     the `reviews` service.
