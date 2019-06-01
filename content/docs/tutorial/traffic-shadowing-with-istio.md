@@ -11,7 +11,7 @@ The next step in deploying a new version of a microservice is to perform
 You shadow the traffic destined to `reviews` to _reviews v3_ and verify that your new version provides correct results
 without errors.
 
-1.  Add a virtual service to route traffic to _reviews v2_, while shadowing traffic to _reviews 2_
+1.  Add a virtual service to route traffic to _reviews v2_, while shadowing traffic to _reviews v3_
     (using the
       [HTTP route _mirror_ attribute](http://localhost:1313/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute)):
 
