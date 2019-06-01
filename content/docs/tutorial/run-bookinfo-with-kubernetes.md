@@ -156,7 +156,16 @@ configure the steps below successfully, you will be able to access the applicati
     $ echo http://$MYHOST/productpage
     {{< /text >}}
 
-1.  Observe how microservices call each other, for example, `reviews` calls the `ratings` microservice by the URL `http://ratings:9080/ratings`. See the [code of `reviews`]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
+    You should see the following webpage:
+
+    {{< image width="80%"
+        link="images/bookinfo.png"
+        caption="Bookinfo Web Application"
+        >}}
+
+1.  Observe how microservices call each other, for example, `reviews` calls the `ratings` microservice by the
+    `http://ratings:9080/ratings` URL.
+    See the [code of `reviews`]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
 
     {{< text java >}}
     private final static String ratings_service = "http://ratings:9080/ratings";
