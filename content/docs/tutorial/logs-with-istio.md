@@ -37,7 +37,7 @@ In this module you will see how you can inspect and query logs related to the tr
     Notice the HTTP-related attributes: `responseCode`, `url`, `method`.
     Also observe general communication attributes: `responseSize`, `responseTimestamp`, `latency`.
 
-    Note that the log entries from all of Bookinfo's microservices appear in one place.
+    Note that the log entries from all of Bookinfo microservices appear in one place.
     You do not have to go after each and every microservice and to display their logs one by one.
 
 While you can dump the log in the textual format and search the relevant entries, you can do something smarter.
