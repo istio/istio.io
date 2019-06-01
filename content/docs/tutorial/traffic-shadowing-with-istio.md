@@ -6,8 +6,10 @@ weight: 90
 
 ---
 
-The next step in deploying a new version of a microservice is to perform [traffic shadowing](https://blog.christianposta.com/microservices/advanced-traffic-shadowing-patterns-for-microservices-with-istio-service-mesh/). You will shadow the
-traffic destined to `reviews` to _reviews v3_ and verify that your new version provides correct results without errors.
+The next step in deploying a new version of a microservice is to perform
+[traffic shadowing](https://blog.christianposta.com/microservices/advanced-traffic-shadowing-patterns-for-microservices-with-istio-service-mesh/).
+You shadow the traffic destined to `reviews` to _reviews v3_ and verify that your new version provides correct results
+without errors.
 
 1.  Add a virtual service to route traffic to _reviews v2_, while shadowing traffic to _reviews 2_
     (using the
