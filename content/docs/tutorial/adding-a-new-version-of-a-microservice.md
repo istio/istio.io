@@ -115,7 +115,7 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
 You performed the update of `reviews` pretty well. First, you deployed the new version without directing to it any
 production traffic. You tested it in the production environment, on test traffic.
 You checked that the new version provides correct results. You released the new version,
-gradually increasing the production traffic to it. Finally, You decommissioned the old version.
+gradually increasing the production traffic to it. Finally, you decommissioned the old version.
 
 It all went well, however you want to improve your release strategy. First, you want to allow your testers to test the
 new version end-to-end in production.
