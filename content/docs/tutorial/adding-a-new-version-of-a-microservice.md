@@ -119,7 +119,7 @@ gradually increasing the production traffic to it. Finally, you decommissioned t
 
 It all went well, however you want to improve your release strategy. First, you want to allow your testers to test the
 new version end-to-end in production.
-For that you need an ability to drive traffic to your new version by request parameters, for example by the user name
+For that you need the ability to drive traffic to your new version by request parameters, for example by the user name
 stored in a cookie. In addition, you would like to perform _shadowing_ of the production traffic to your new version and
 checking if your new version provides incorrect results or produces any errors. Finally, you would like to be more
 fine-grained with your rollout. You would like to release your new version to 10% of the users and then increase it by
