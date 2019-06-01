@@ -86,6 +86,12 @@ a new version and enable traffic to it for a tester with login name `jason`.
 
 1.  Use the _Sign in_ button in the top right corner to sign in as `jason` (any password would do).
     You will see that now the ratings have red stars which means that your new version is used.
+
+    {{< image width="80%"
+        link="images/bookinfo-ratings-v3-jason.png"
+        caption="Bookinfo Web Application, ratings v3 version for the jason user"
+        >}}
+
     You can let a human tester test your new version as part of the whole application or use some automatic testing
     tool. This way you verify that your new version of the `reviews` microservice works correctly with all other
     microservices in production. You test the whole application, end-to-end, with the new version.
