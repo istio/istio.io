@@ -120,7 +120,7 @@ then to 20% and so on.
     {{< /text >}}
 
 1.  You examined the logs and saw that no more requests to _reviews v2_ arrived
-    (in real life you would take a while to be sure). Now you can safely decommission _reviews v2_:
+    (in real life you would wait a while to be sure). Now you can safely decommission _reviews v2_:
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v2
