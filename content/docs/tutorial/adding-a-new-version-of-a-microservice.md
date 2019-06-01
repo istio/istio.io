@@ -11,7 +11,7 @@ provided by reviewers, as a number of stars, with the color of stars. In real li
 unit tests, integration tests, end-to-end tests and tests in a staging environment, before the deployment.
 
 1.  Deploy the new version of the `reviews` microservice without the `app=reviews` label. Without that label, the new
-version will not be selected to provide the `reviews` service. As such, it will not be called by the production code.
+    version will not be selected to provide the `reviews` service. As such, it will not be called by the production code.
     Run the following command to deploy the `reviews` microservice version 2, while replacing the label `app=reviews` by `app=reviews_test`:
 
     {{< text bash >}}
