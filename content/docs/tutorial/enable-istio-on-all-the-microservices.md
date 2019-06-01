@@ -41,8 +41,6 @@ microservices in one stroke.
     ratings-v1-b7b7fbbc9-sggxf        2/2       Running   0          2m
     reviews-v2-dfbcf859c-27dvk        2/2       Running   0          2m
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
-    sleep-88ddbcfdd-flvp6             1/1       Running   0          7h
-    sleep-88ddbcfdd-zpn8m             1/1       Running   0          11h
     {{< /text >}}
 
 1.  Access the Istio dashboard at
