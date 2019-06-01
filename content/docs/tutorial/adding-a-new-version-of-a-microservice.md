@@ -71,7 +71,8 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
         caption="Bookinfo Web Application with black stars as ratings"
         >}}
 
-1.  If you encounter any problems you can quickly undeploy the new version, so only the old version will be used:
+1.  If you would encounter any problems with the new version in real life, you could quickly undeploy the new version,
+    so only the old version will be used:
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v2
@@ -80,12 +81,17 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
     pod "reviews-v2-79c8c8c7c5-4p4mn" deleted
     {{< /text >}}
 
+    Access your application's webpage several times and see that now black stars do not appear anymore.
+
     To put the new version back:
 
     {{< text bash >}}
     $ kubectl apply -l app=reviews,version=v2 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     deployment "reviews-v2" created
     {{< /text >}}
+
+    Access your application's webpage several times and see that now the black stars are back, approximately 25% of the
+    time.
 
 1.  Next you increase the replicas of your new version. You can do it gradually, carefully checking that the number of
     errors does not increase:
@@ -94,6 +100,8 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
     $ kubectl scale deployment reviews-v2 --replicas=3
     deployment "reviews-v2" scaled
     {{< /text >}}
+
+    Access your application's webpage several times and see that now the black stars appear approximately half the time.
 
 1.  Now you can decommission the old version:
 
