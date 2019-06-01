@@ -13,7 +13,8 @@ You definitely want to prevent _cascading failures_: a situation when a failure 
 failures in other microservices.
 
 To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from
-one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your microservices react to the faults you injected.
+one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your
+microservices react to the faults you injected.
 
 1.  Configure a virtual service to inject a fault on requests to `ratings`, for your test user `jason`:
 
