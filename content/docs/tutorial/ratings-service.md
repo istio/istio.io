@@ -4,9 +4,10 @@ overview: Work on a single microservice, on a local developer machine.
 weight: 10
 ---
 
-This module demonstrates work on a single microservice, on a local developer machine. The microservice is written in
-[Node.js](https://nodejs.org/en/) and is a small web app on its own. Being a web app, it listens to a port, expects for
-HTTP GET requests on the path `/ratings/{productID}` and returns the product ratings by the reviewers.
+This module demonstrates work on a single microservice, `ratings`, on a local developer machine.
+The microservice is written in [Node.js](https://nodejs.org/en/) and is a small web app on its own.
+Being a web app, it listens to a port, expects for HTTP GET requests on the path `/ratings/{productID}` and returns
+ratings of a product with `productID`.
 
 1.  Download
     [the service's code]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
