@@ -87,17 +87,30 @@ serve user requests.
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). (The `my-istio-dashboard.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
-    In the top left drop-down menu, select _Istio Mesh Dashboard_. Notice the `productpage` service from your namespace,
-    it's name should be `productpage.<your namespace>.svc.cluster.local`.
+    In the top left drop-down menu, select _Istio Mesh Dashboard_.
+
+    {{< image width="80%"
+        link="images/dashboard-select-dashboard.png"
+        caption="Select Istio Mesh Dashboard from the top left drop-down menu"
+        >}}
+
+    Notice the `productpage` service from your namespace, it's name should be
+    `productpage.<your namespace>.svc.cluster.local`.
 
     {{< image width="80%"
         link="images/dashboard-mesh.png"
         caption="Istio Mesh Dashboard"
         >}}
 
-    Select _Istio Service Dashboard_ from the top left drop-down menu, and then select your `productpage` service from
+1.  Select _Istio Service Dashboard_ from the top left drop-down menu, and then select your `productpage` service from
     the drop-down menu of services.
-    Scroll down to the _Service Workloads_ section. Access the application's webpage several times and see that the
+
+    {{< image width="80%"
+        link="images/dashboard-service-select-productpage.png"
+        caption="Istio Service Dashboard, `productpage` selected"
+        >}}
+
+    Scroll down to the _Service Workloads_ section. Observe that the
     dashboard graphs are updated.
 
     {{< image width="80%"
