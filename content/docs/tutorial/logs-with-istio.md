@@ -33,7 +33,7 @@ In this module you will see how you can inspect and query logs related to the tr
     {{< /text >}}
 
     Notice the `sourceName` and `destinationName` attributes that tell you who called whom, for example `productpage`
-    called `reviews`. (For `productpage` `sourceName` is unknown since it is called from the outside).
+    called `reviews`. (For `productpage`, `sourceName` is unknown since it is called from the outside).
     Notice the HTTP-related attributes: `responseCode`, `url`, `method`.
     Also notice general communication attributes: `responseSize`, `responseTimestamp`, `latency`.
 
