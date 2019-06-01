@@ -3,7 +3,7 @@ title: Prerequisites
 weight: 2
 ---
 
-## Instructors
+## Instructors or self-learning participants
 
 * Access to a Kubernetes cluster with administrator privileges
 * Ability to create a namespace in the cluster per participant
