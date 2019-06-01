@@ -40,7 +40,7 @@ serve user requests.
     **transparently**, the code of the original application did not change.
 
 1.  Check the the `productpage`'s pods and see that now each replica has two containers.
-    The first container is the microservice itself, the second is the sidecar proxy attached to it:
+    The first container is the microservice itself, the second one is the sidecar proxy attached to it:
 
     {{< text bash >}}
     $ kubectl get pods
