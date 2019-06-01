@@ -9,7 +9,7 @@ weight: 100
 In this module, you perform phased rollout of _reviews v3_. After performing unit tests, integration tests,
 end-to-end tests, tests in the staging environment, and finally canary deployment and traffic shadowing,
 you are pretty confident.
-Now you can start directing live traffic from the real users. you will perform it gradually, first to 10% of the users,
+Now you can start directing live traffic from the real users. You perform it gradually, first to 10% of the users,
 then to 20% and so on.
 
 1.  Configure a virtual service to distribute the traffic 90:10 between _reviews v2_ and _reviews v3_:
