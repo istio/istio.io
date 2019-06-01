@@ -98,7 +98,12 @@ then to 20% and so on.
 
 1.  Observe the traffic rates and verify that they are roughly 80:20, as expected.
 
-1.  Direct 70% of the traffic to _reviews v3_.
+1.  You can also edit the virtual service directly, using `kubectl edit` command.
+    Direct 70% of the traffic to _reviews v3_.
+
+    {{< text bash >}}
+    $ kubectl edit virtualservice reviews
+    {{< /text >}}
 
 1.  Finally, direct all the traffic to _reviews v3_.
 
