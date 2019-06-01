@@ -5,9 +5,9 @@ weight: 71
 
 ---
 
-Until now you operated the Kubernetes Ingress. Istio started to operate at your front-end microservice, `productpage`.
-In this module you configure the traffic to enter through Istio Ingress Gateway, so you will be able to apply Istio
-control already at the ingress point, even before the traffic arrives to your microservices.
+Until now you used a Kubernetes Ingress to access your application from the outside.
+In this module you configure the traffic to enter through an Istio Ingress Gateway, in order to apply Istio
+control already at the ingress point, even before the traffic reaches your microservices.
 
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
     You will need it to recognize your microservices in the logs:
