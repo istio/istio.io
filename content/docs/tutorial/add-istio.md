@@ -32,7 +32,7 @@ serve user requests.
 1.  Redeploy the `productpage` microservice, Istio-enabled:
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app=productpage,version=v1 -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | sed 's/replicas: 1/replicas: 3/g' | kubectl apply -l app=productpage,version=v1 -f -
     deployment "productpage-v1" configured
     {{< /text >}}
 
