@@ -35,7 +35,7 @@ In this module you will see how you can inspect and query logs related to the tr
     Notice the `sourceName` and `destinationName` attributes that tell you who called whom, for example `productpage`
     called `reviews`. (For `productpage`, `sourceName` is a pod of `istio-ingressgateway`).
     Notice the HTTP-related attributes: `responseCode`, `url`, `method`.
-    Also notice general communication attributes: `responseSize`, `responseTimestamp`, `latency`.
+    Also observe general communication attributes: `responseSize`, `responseTimestamp`, `latency`.
 
     Note that the log entries from all of Bookinfo's microservices appear in one place.
     You do not have to go after each and every microservice and to display their logs one by one.
