@@ -6,7 +6,7 @@ weight: 60
 
 ---
 
-As you saw in the previous module, Kubernetes does not provide us all the functionality you need to effectively operate
+As you saw in the previous module, Kubernetes does not provide you all the functionality you need to effectively operate
 your microservices. Istio comes to your help.
 
 In this module you enable Istio on a single microservice, `productpage`.
