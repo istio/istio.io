@@ -53,9 +53,9 @@ serve user requests.
     ratings-v1-76f4c9765f-khlvv       1/1       Running   0          7h
     ratings-v1-76f4c9765f-ntvkx       1/1       Running   0          7h
     ratings-v1-76f4c9765f-zd5mp       1/1       Running   0          7h
-    reviews-v1-56f6855586-cnrjp       1/1       Running   0          7h
-    reviews-v1-56f6855586-lxc49       1/1       Running   0          7h
-    reviews-v1-56f6855586-qh84k       1/1       Running   0          7h
+    reviews-v2-56f6855586-cnrjp       1/1       Running   0          7h
+    reviews-v2-56f6855586-lxc49       1/1       Running   0          7h
+    reviews-v2-56f6855586-qh84k       1/1       Running   0          7h
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
