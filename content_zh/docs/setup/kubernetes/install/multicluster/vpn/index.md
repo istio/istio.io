@@ -158,7 +158,7 @@ $ export ZIPKIN_POD_IP=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpa
 
 等待 Istio 控制平面完成初始化，然后再执行本节中的步骤。
 
-您必须在 Istio 控制平面群集上运行这些操作以捕获 Istio 控制平面服务端点，例如 Pilot 和 Policy Pod IP 端点。
+您必须在 Istio 控制平面集群上运行这些操作以捕获 Istio 控制平面服务端点，例如 Pilot 和 Policy Pod IP 端点。
 
 如果在每个遥控器上使用Helm with Tiller，则必须先将环境变量复制到每个节点，然后才能使用Helm将远程集群连接到Istio控制平面。
 
@@ -170,7 +170,7 @@ $ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=pol
 $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
 {{< /text >}}
 
-通常，启用远程群集上的自动 sidecar 注入。要执行手动 sidecar 注入，请参阅[手动 sidecar 示例](#manual-sidecar)
+通常，启用远程集群上的自动 sidecar 注入。要执行手动 sidecar 注入，请参阅[手动 sidecar 示例](#manual-sidecar)
 
 ### Helm chart 配置参数
 
@@ -444,7 +444,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
     * `cacerts` 的 secret 通过[(CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#插入现有密钥和证书)下发在Istio 控制平面命名空间中。
 
-     主集群的证书颁发机构（CA）或根 CA 也必须为远程群集签署 CA 证书。
+     主集群的证书颁发机构（CA）或根 CA 也必须为远程集群签署 CA 证书。
 
     * Istio pilot 服务主机名必须通过DNS解析。DNS解析是必需的，因为Istio 需要配置 sidecar 以使用 `istio-pilot.<namespace>` 主题名称格式验证证书主题名称。
 
@@ -501,7 +501,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
     $ kubectl apply -f ${HOME}/istio-auth.yaml
     {{< /text >}}
 
-#### 远程群集：部署 Istio 组件
+#### 远程集群：部署 Istio 组件
 
 1. 通过在 `istio-system`  命名空间中的Istio 证书示例创建 `cacerts` secret：
 
@@ -533,7 +533,7 @@ Istio 支持在控制平面组件之间以及在 sidecar 注入的应用 pod 之
 
 ### 主集群：实例化凭据
 
-你必须为每个远程群集实例化凭据。请按照[实例化凭据工程](#credentials)完成部署。
+你必须为每个远程集群实例化凭据。请按照[实例化凭据工程](#credentials)完成部署。
 
 **恭喜!**
 
