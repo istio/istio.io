@@ -131,6 +131,7 @@ control already at the ingress point, even before the traffic reaches your micro
 
     {{< text bash >}}
     $ kubectl delete ingress bookinfo
+    ingress.extensions "bookinfo" deleted
     {{< /text >}}
 
 1.  Check your graph at the Kiali console. After several seconds you will see the Istio Ingress Gateway as a single source
