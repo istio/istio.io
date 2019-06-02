@@ -125,7 +125,7 @@ more failures and making the application or parts of it unavailable.
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Notice the _v-flooding_ version of `productpage`
+    Notice the _v-flooding_ version of `productpage`.
 
     {{< image width="80%"
         link="images/kiali-productpage-flooding.png"
