@@ -86,7 +86,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
         >}}
 
 1.  Wait for about a minute. You will notice that _v-unavailable_ starts returning errors. It's box turns red, the
-    box of the whole `ratings` microservice turns red, the box of the `reviews` becomes orange.
+    box of the whole `ratings` microservice turns red, the box of `reviews` becomes orange.
 
     {{< image width="80%"
         link="images/kiali-ratings-unavailable-failing.png"
