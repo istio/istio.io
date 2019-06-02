@@ -12,7 +12,7 @@ You want to specify policies to limit access similar to the
 [Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the microservices
 that need to access other microservices should be allowed to access the microservices they need.
 
-In your case, `ratings` microservice can be accessed by `reviews` only. Access from `productpage` and from `details`
+In your case, `ratings` microservice should be accessed by `reviews` only. Access from `productpage` and from `details`
 should be denied.
 `productpage` and `details` should not be able to access `ratings`, neither accidentally nor intentionally.
 
