@@ -149,8 +149,8 @@ user instead of letting the user wait for a long period of time.
         caption="Kiali Graph Tab with faulty ratings"
         >}}
 
-1.  Remove the _v-delayed_ version of `ratings` and recreate the destination rule and the virtual service to route to
-    _ratings v1_:
+1.  Remove the `v-delayed` version of `ratings`, the virtual service that routes to it, and recreate the destination
+    rule for `ratings`:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
