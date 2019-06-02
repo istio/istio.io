@@ -25,7 +25,9 @@ In the same way, the following access must be allowed:
 HTTP POST method must be prohibited.
 * all other access must be denied
 
-In this module you add access policies to enforce the access requirements above.
+In this module you add access policies to enforce the access requirements above. You use two different mechanisms:
+[Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and
+[Istio RBAC](/docs/concepts/security/#authorization).
 
 1.  Verify that any microservice can access any microservice, including sending POST requests to `ratings`.
 
