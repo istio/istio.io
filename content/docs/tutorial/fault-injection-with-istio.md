@@ -12,7 +12,7 @@ What you can do is verify that your microservices react to failures in a best po
 You definitely want to prevent [cascading failures](https://en.wikipedia.org/wiki/Cascading_failure): a situation when a
 failure in one microservice causes chain of failures in other microservices.
 
-To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from
+In this module, to verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from
 one microservice to another. Next, you introduce a delay on a path between two microservices. You inspect how your
 microservices react to the faults you injected.
 
