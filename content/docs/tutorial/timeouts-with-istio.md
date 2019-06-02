@@ -96,7 +96,7 @@ user instead of letting the user wait for a long period of time.
         caption="Kiali Graph Tab with delayed ratings"
         >}}
 
-1.  Approximately half of the times you will get a delay of about 3 seconds and finally an error about
+1.  Approximately half the time you will get a delay of about 3 seconds and finally an error about
     `ratings` being unavailable. Note that in this case you both caused a delay for your user and also failed at least
     to display the reviews (without ratings). You have a cascading failure, that is, the fault propagated from `ratings`
     through `reviews` to `productpage`. Not good.
