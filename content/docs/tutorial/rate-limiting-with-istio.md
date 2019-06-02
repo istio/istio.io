@@ -231,7 +231,7 @@ more failures and making the application or parts of it unavailable.
     traffic from `reviews` to `ratings` is reduced comparing to the traffic from `productpage` to `reviews`. So, you
     significantly reduced the traffic that arrives to the application container of `reviews`, and did not allow the
     excessive traffic to proceed to `ratings`. You localized the problem to `productpage` and `reviews`, and did not let
-    to cascade to `ratings`.
+    it cascade to `ratings`.
 
 1.  Clean the rate limiting configuration:
 
