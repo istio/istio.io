@@ -6,7 +6,7 @@ weight: 110
 
 ---
 
-In this module you perform [fault injection](https://en.wikipedia.org/wiki/Fault_injection) on your application.
+In this module you [inject faults](https://en.wikipedia.org/wiki/Fault_injection) in your application.
 You know that in real life your microservices will fail, you cannot prevent all possible failures.
 What you can do is verify that your microservices react to failures in a best possible way.
 You definitely want to prevent [cascading failures](https://en.wikipedia.org/wiki/Cascading_failure): a situation when a
