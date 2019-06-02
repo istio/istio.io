@@ -40,7 +40,7 @@ one later.
 1.  Access the Istio dashboard at
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
     In the top left drop-down menu, select _Istio Service Dashboard_. Select the `ratings` service of your namespace.
-    Notice 100% client and server success rate.
+    Notice the 100% client and server success rate.
 
     {{< image width="80%"
         link="images/dashboard-successful-ratings.png"
