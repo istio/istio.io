@@ -106,7 +106,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
 
 1.  After about another half minute, Istio will start sending traffic to _ratings v-unavailable_ again.
     _ratings v-unavailable_ will return successful results for about a minute. After that, it will start failing again,
-    and after some time will detected by Istio as failing and Istio will stop sending traffic to it. You may want to
+    and after some time Istio will detect it and will stop sending traffic to _ratings v-unavailable_. You may want to
     observe the process for several cycles.
 
 1.  Remove the _unavailable_ version of `ratings` and recreate the destination rule and the virtual service to route to
