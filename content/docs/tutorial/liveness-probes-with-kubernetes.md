@@ -122,7 +122,7 @@ one later.
 1.  Set the fetching interval for 30 minutes in your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), in the graph of your namespace.
 
-    Select `last 30 minutes` in the fetching interval drop down menu at the top right.
+    Select `last 30 minutes` in the fetching interval drop-down menu at the top right.
 
     {{< image width="80%"
         link="images/kiali-set-last-30-minutes.png"
@@ -131,7 +131,7 @@ one later.
 
 1.  Set the fetching interval for 30 minutes in your Istio dashboard at
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). In your Istio Service Dashboard of the `ratings` service of your namespace, select `last 30 minutes` in
-    the fetching interval drop down menu at the top right.
+    the fetching interval drop-down menu at the top right.
 
     {{< image width="80%"
         link="images/dashboard-set-last-30-minutes.png"
