@@ -275,8 +275,7 @@ more failures and making the application or parts of it unavailable.
     EOF
     {{< /text >}}
 
-1.  Remove the _flooding_ version of `productpage` and recreate the destination rule and the virtual services to route to
-    `productpage v1`:
+1.  Remove the `v-flooding` version of `productpage` and recreate the destination rule for `productpage`:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
