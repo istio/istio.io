@@ -7,7 +7,7 @@ weight: 140
 ---
 
 There could be cases when one microservice, due to a bug or maliciously or due to incorrect service usage planning,
-might start sending too much requests to other microservices. Those, in turn, can start sending even more requests to
+might start sending too many requests to other microservices. Those, in turn, can start sending even more requests to
 the microservices they call. If uncontrolled, one misbehaving microservice can overload the whole application, causing
 more failures and making the application or parts of it unavailable.
 
