@@ -141,7 +141,7 @@ more failures and making the application or parts of it unavailable.
     understand what exactly the steps configure, read the
     [Enabling Rate Limits](/docs/tasks/policy-enforcement/rate-limiting/) task.
 
-    1.  Create a `quota` instance:
+    1.  Create a quota instance:
 
         {{< text bash >}}
         $ kubectl apply -f - <<EOF
