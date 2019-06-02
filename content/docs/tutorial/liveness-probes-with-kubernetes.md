@@ -12,7 +12,7 @@ situation themselves. For example, there might be some deadlock situation in whi
 make any progress. In such a situation it is better to restart the microservice. Kubernetes can do it automatically via
 [liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/).
 
-[HTTP liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-http-request) work in the following way: the microservice defines an HTTP endpoint on which it reports its
+[HTTP liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-http-request) work in the following way: a microservice defines an HTTP endpoint on which it reports its
 health status. Then the operator who deploys the microservice provides in the deployment spec instructions for
 Kubernetes to probe the HTTP endpoint once in a while. Once the microservice reports an unhealthy status, it is
 restarted automatically by Kubernetes.
