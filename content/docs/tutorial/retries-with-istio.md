@@ -138,8 +138,8 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
         caption="Kiali Graph Tab with retry to ratings"
         >}}
 
-1.  Remove the _faulty_ version of `ratings` and recreate the destination rule and the virtual service to route to
-    _ratings v1_:
+1.  Remove the `faulty` version of `ratings`, the virtual service that routes to it, and recreate the destination
+    rule for `ratings`:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
