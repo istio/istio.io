@@ -29,7 +29,7 @@ microservices react to the faults you injected.
         caption="Bookinfo Web Application, ratings unavailable for a test user"
         >}}
 
-1.  See that the error appears in the logs of the sidecar proxy of the `reviews` microservice which calls
+1.  Check that the error appears in the logs of the sidecar proxy of the `reviews` microservice which calls
     `ratings`:
 
     {{< text bash >}}
