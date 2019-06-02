@@ -7,14 +7,13 @@ weight: 110
 ---
 
 In this module you perform [fault injection](https://en.wikipedia.org/wiki/Fault_injection) on your application.
-you know that in real life your microservices
-will fail, you cannot prevent all possible failures.
-What you can do is to verify that your microservices react to failures in a best possible way.
+You know that in real life your microservices will fail, you cannot prevent all possible failures.
+What you can do is verify that your microservices react to failures in a best possible way.
 You definitely want to prevent [cascading failures](https://en.wikipedia.org/wiki/Cascading_failure): a situation when a
 failure in one microservice causes chain of failures in other microservices.
 
 To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from
-one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your
+one microservice to another. Next, you introduce a delay on a path between two microservices. You inspect how your
 microservices react to the faults you injected.
 
 1.  Configure a virtual service to inject a fault on requests to `ratings`, for your test user `jason`:
