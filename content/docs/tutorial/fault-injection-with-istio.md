@@ -10,8 +10,8 @@ In this module you perform [fault injection](https://en.wikipedia.org/wiki/Fault
 you know that in real life your microservices
 will fail, you cannot prevent all possible failures.
 What you can do is to verify that your microservices react to failures in a best possible way.
-You definitely want to prevent _cascading failures_: a situation when a failure in one microservice causes chain of
-failures in other microservices.
+You definitely want to prevent [cascading failures](https://en.wikipedia.org/wiki/Cascading_failure): a situation when a
+failure in one microservice causes chain of failures in other microservices.
 
 To verify that your microservices behave well under failures, first you inject a fault, an HTTP error on the path from
 one microservice to another. Next, you introduce a delay on a path between two microservices. you inspect how your
