@@ -274,8 +274,8 @@ one later.
         caption="Istio Service Dashboard, ratings with the liveness probe"
         >}}
 
-1.  Remove the _v-unhealthy_ version of `ratings`, the virtual service that routes to it, and recreate the destination
-    rule for _ratings_:
+1.  Remove the `v-unhealthy` version of `ratings`, the virtual service that routes to it, and recreate the destination
+    rule for `ratings`:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
