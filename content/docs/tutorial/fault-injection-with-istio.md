@@ -46,7 +46,7 @@ microservices react to the faults you injected.
     According to the log messages above, a call to `ratings` returned `500` while `reviews` managed to handle the error
     and returned `200`. You didn't get _cascading failire_, a failing microservice or a network error did not cause the
     whole chain of calls to fail. The application continued to function, but with reduced functionality, just not
-    presenting ratings stars. You experience _graceful degradation_ which is good.
+    presenting ratings stars. You experience _graceful degradation_, which is good.
 
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
