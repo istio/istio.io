@@ -75,7 +75,13 @@ microservices react to the faults you injected.
     {{< /text >}}
 
 1.  Access the application's webpage and sign in as `jason`.
-    You should see that now the message "Error fetching product reviews!" is displayed.
+    You should see that now the "Error fetching product reviews!" message is displayed.
+
+    {{< image width="80%"
+        link="images/bookinfo-reviews-unavailable-jason.png"
+        caption="Bookinfo Web Application, reviews unavailable for a test user"
+        >}}
+
     It means that the application cannot handle the delay of seven seconds between `reviews` and `ratings`.
     If you suspect that such delays may happen in production, you should handle the problem now, proactively,
     before it appears in production.
