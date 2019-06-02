@@ -86,8 +86,8 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Note that now `productpage` turned orange while `reviews` and `ratings` turned red. Notice the red edges and the
-    error rate of the HTTP traffic on the right.
+    Note that `reviews` and `ratings` turned red. Notice the red edges and the error rate of the HTTP traffic on the
+    right.
 
     {{< image width="80%"
         link="images/kiali-faulty-ratings.png"
