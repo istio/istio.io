@@ -12,7 +12,7 @@ weight: 30
 运行以下命令以查看日志：
 
 {{< text bash >}}
-$ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
+$ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
 在默认访问日志格式中，Envoy响应标志和 Mixer 策略状态位于响应代码之后，
@@ -41,7 +41,7 @@ $ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
 
 在当前版本的 Envoy Sidecar 实现中，可能要 100 个请求才能观察到有权重版本的路由分发过程。
 
-如果一组路由规则能够完美的和 [Bookinfo](/zh/docs/examples/bookinfo/) 配合，但是类似的版本路由功能在其它应用上无法生效，一个可能的解决方法就是对 Kubernetes Service 进行一点改动。Kubernetes Service 的定义必须符合一定规范，才能享受到 Istio 的七层路由特性。应该根据 [Istio 对 Pod 和服务的要求](/zh/docs/setup/kubernetes/additional-setup/requirements)对服务进行调整。
+如果一组路由规则能够完美的和 [Bookinfo](/zh/docs/examples/bookinfo/) 配合，但是类似的版本路由功能在其它应用上无法生效，一个可能的解决方法就是对 Kubernetes Service 进行一点改动。Kubernetes Service 的定义必须符合一定规范，才能享受到 Istio 的七层路由特性。应该根据 [Istio 对 Pod 和服务的要求](/docs/setup/kubernetes/prepare/requirements/)对服务进行调整。
 
 还有个潜在问题就是路由的生效速度很慢。Istio 在 Kubernetes 上实现了一种最终一致性算法，这个算法用于保障所有 Envoy Sidecar 都能够获得正确的配置信息，其中就包含所有的路由规则。配置的变化需要一些时间来传递给所有的 Sidecar。在部署规模很大的情况下，这一传播过程会更长，可能会有数秒的延迟。
 
@@ -174,7 +174,7 @@ spec:
 
 ## Headless TCP 服务连接丢失
 
-如果部署了 `istio-citadel`，Envoy 会每隔 15 分钟重启一次，来完成证书的刷新任务。这就造成了服务间的长连接以及 TCP 流的中断。
+如果部署了 `istio-citadel`，Envoy 会每隔 45 天重启一次，来完成证书的刷新任务。这就造成了服务间的长连接以及 TCP 流的中断。
 
 建议提高应用的适应能力，来应对这种断流情况。如果要阻止这种情况的发生，就要禁止双向 TLS 和 `istio-citadel` 的部署。
 

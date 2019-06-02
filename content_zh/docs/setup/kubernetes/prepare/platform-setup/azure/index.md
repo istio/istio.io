@@ -30,7 +30,7 @@ keywords: [platform-setup,azure]
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
     {{< /text >}}
 
-    这里需要看到 `1.10.5` 出现在列表之中，或者选择一个大于或等于 `1.9.6` 的其它版本。
+    确保列出最小值 `1.10.5`。
 
 1. 创建资源组，然后部署 AKS 集群
 
@@ -59,7 +59,7 @@ keywords: [platform-setup,azure]
     $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    注意：使用其他的 API 模型定义也是可以支持 Istio 的。MutatingAdmissionWebhook 以及 ValidatingAdmissionWebhook 两个准入控制标志以及 RBAC 在 1.9 或更新版本的集群中都是缺省开启的。请参看 [acs-engine API 模型的缺省值](https://github.com/Azure/acs-engine/blob/master/docs/clusterdefinition.md)获取更多相关信息。
+    注意：使用其他的 API 模型定义也是可以支持 Istio 的。MutatingAdmissionWebhook 以及 ValidatingAdmissionWebhook 两个准入控制标志以及 RBAC 在 集群中都是缺省开启的。请参看 [acs-engine API 模型的缺省值](https://github.com/Azure/acs-engine/blob/master/docs/clusterdefinition.md)获取更多相关信息。
 
 1. 使用 `istio.json` 模板定义集群。其中的参数可以在[官方文档](https://github.com/Azure/acs-engine/blob/master/docs/kubernetes/deploy.md#step-3-edit-your-cluster-definition)中找到。
 

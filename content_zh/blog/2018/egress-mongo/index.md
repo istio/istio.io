@@ -2,18 +2,19 @@
 title: 使用外部 MongoDB 服务
 description: 描述了一个基于 Istio 的 Bookinfo 示例的简单场景。
 publishdate: 2018-11-16
+last_update: 2019-04-18
 subtitle: MongoDB 流量的 Istio Egress 控制选项
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,tcp,mongo]
 ---
 
-在[使用外部 TCP 服务](/blog/2018/egress-tcp/)博文中，我描述了网格内的 Istio 应用程序如何通过 TCP 使用外部服务。在本文中，我将演示如何使用外部 MongoDB
-服务。您将使用 [Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/)，它的书籍评级数据保存在 MongoDB 数据库中。您会将此数据库部署在集群外部，并配置 `ratings`
+在[使用外部 TCP 服务](/zh/blog/2018/egress-tcp/)博文中，我描述了网格内的 Istio 应用程序如何通过 TCP 使用外部服务。在本文中，我将演示如何使用外部 MongoDB
+服务。您将使用 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)，它的书籍评级数据保存在 MongoDB 数据库中。您会将此数据库部署在集群外部，并配置 `ratings`
 微服务使用它。您将学习控制到外部 MongoDB 服务流量的多种选择及其利弊。
 
 ## 使用外部 ratings 数据库的 Bookinfo
 
-首先，在您的 Kubernetes 集群外部建立一个 MongoDB 数据库实例以保存书籍评级数据。然后修改 [Bookinfo 示例应用程序](/docs/examples/bookinfo/)使用该数据库。
+首先，在您的 Kubernetes 集群外部建立一个 MongoDB 数据库实例以保存书籍评级数据。然后修改 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)使用该数据库。
 
 ### 建立 ratings 数据库
 
@@ -25,15 +26,15 @@ keywords: [traffic-management,egress,tcp,mongo]
     $ export MONGO_ADMIN_PASSWORD=<your MongoDB admin password>
     {{< /text >}}
 
-1. 为需要创建的新用户（即 `bookinfo`）的密码设置环境变量，并使用 [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins) 将其从历史记录中删除。
+1.  为需要创建的新用户（即 `bookinfo`）的密码设置环境变量，并使用 [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins) 将其从历史记录中删除。
 
     {{< text bash >}}
     $ export BOOKINFO_PASSWORD=<password>
     {{< /text >}}
 
-1. 为您的 MongoDB 服务设置环境变量 `MONGODB_HOST` 和 `MONGODB_PORT`。
+1.  为您的 MongoDB 服务设置环境变量 `MONGODB_HOST` 和 `MONGODB_PORT`。
 
-1. 创建 `bookinfo` 用户：
+1.  创建 `bookinfo` 用户：
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
@@ -48,8 +49,8 @@ keywords: [traffic-management,egress,tcp,mongo]
     EOF
     {{< /text >}}
 
-1. 创建一个 `collection` 来保存评级数据。以下命令将两个评级都设置为 `1`，以便在 Bookinfo `ratings` service 使用数据库时提供视觉验证（默认 Bookinfo `ratings`
-   为 `4` 和 `5`）
+1.  创建一个 `collection` 来保存评级数据。以下命令将两个评级都设置为 `1`，以便在 Bookinfo `ratings` service 使用数据库时提供视觉验证（默认 Bookinfo `ratings`
+    为 `4` 和 `5`）
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
@@ -62,7 +63,7 @@ keywords: [traffic-management,egress,tcp,mongo]
     EOF
     {{< /text >}}
 
-1. 检查 `bookinfo` 用户是否可以获取评级数据:
+1.  检查 `bookinfo` 用户是否可以获取评级数据:
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u bookinfo -p $BOOKINFO_PASSWORD --authenticationDatabase test
@@ -83,33 +84,33 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 ### Bookinfo 应用程序的初始设置
 
-为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/docs/setup/kubernetes/install/kubernetes/#installation-steps) 的 Kubernetes 集群。然后部署
-[Istio Bookinfo 示例应用程序](/docs/examples/bookinfo/)并[应用默认 destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)。
+为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤) 的 Kubernetes 集群。然后部署
+[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
 
 此应用程序从 `ratings` 微服务获取书籍评级（1 到 5 的数字）。评级以星标形式显示每条评论。`ratings` 微服务有几个版本。在下一小节中，请部署使用 [MongoDB](https://www.mongodb.com)
 作为 ratings 数据库的版本。
 
 本博文中的示例命令适用于 Istio 1.0。
 
-作为提醒，这是 [Bookinfo 示例应用程序](/docs/examples/bookinfo/) 的端到端架构。
+作为提醒，这是 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/) 的端到端架构。
 
 {{< image width="80%" link="/docs/examples/bookinfo/withistio.svg" caption="初始 Bookinfo 应用程序" >}}
 
 ### 在 Bookinfo 应用程序中使用外部数据库
 
-1. 部署使用 MongoDB 数据库的 `ratings` 微服务（`ratings v2`），并设置 `MONGO_DB_URL` 环境变量：
+1.  部署使用 MongoDB 数据库的 `ratings` 微服务（`ratings v2`），并设置 `MONGO_DB_URL` 环境变量：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - "MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&ssl=true" -o yaml | kubectl apply -f -
     deployment "ratings-v2" created
     {{< /text >}}
 
-1. 将所有到 `reviews` service 的流量路由到它的 `v3` 版本，以确保 `reviews` service 总是调用 `ratings` service。此外，将所有到 `ratings` service
-   的流量路由到使用外部数据库的 `ratings v2版本`。
+1.  将所有到 `reviews` service 的流量路由到它的 `v3` 版本，以确保 `reviews` service 总是调用 `ratings` service。此外，将所有到 `ratings` service
+    的流量路由到使用外部数据库的 `ratings v2版本`。
 
-   通过添加两个 [virtual service](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 来为以上两个 service 指定路由。这些 virtual service
-   在 Istio 发布包中有指定。
-   ***重要：*** 请确保在运行以下命令之前[应用了默认的 destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)。
+    通过添加两个 [virtual service](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService) 来为以上两个 service 指定路由。这些 virtual service
+    在 Istio 发布包中有指定。
+    ***重要：*** 请确保在运行以下命令之前[应用了默认的 destination rules](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
@@ -125,7 +126,7 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 ### 访问网页
 
-[确认 ingress IP 和端口之后](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)，访问应用程序的网页。
+[确认 ingress IP 和端口之后](/zh/docs/examples/bookinfo/#确定-Ingress-的-IP-和端口)，访问应用程序的网页。
 
 由于您尚未配置 egress 流量控制，所以 Istio 会阻止到 MongoDB 服务的访问。这就是为什么您当前不能看到评级的星标，只能看到 _"Ratings service is currently unavailable"_ 的信息：
 
@@ -135,9 +136,9 @@ keywords: [traffic-management,egress,tcp,mongo]
 
 ## TCP 的 egress 控制
 
-由于 [MongoDB 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)运行在 TCP 之上，您可以像控制到[其余 TCP 服务](/blog/2018/egress-tcp/)的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 [CIDR](https://tools.ietf.org/html/rfc2317) 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。
+由于 [MongoDB 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)运行在 TCP 之上，您可以像控制到[其余 TCP 服务](/zh/blog/2018/egress-tcp/)的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 [CIDR](https://tools.ietf.org/html/rfc2317) 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。
 
-在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/docs/tasks/traffic-management/egress/#direct-access-to-external-services)路由流量。
+在 MongoDB IP 不稳定的情况下，可以以 TLS 方式控制 egress 流量，或绕过 Istio sidecar [直接](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)路由流量。
 
 获取 MongoDB 数据库实例的 IP 地址。一种选择是使用 [host](https://linux.die.net/man/1/host) 命令。
 
@@ -147,7 +148,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 ### 在没有 gateway 的情况下控制 TCP egress 流量
 
-如果您不用通过 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case) 定向流量，例如不要求所有流量都通过 gateway 流出网格时，请遵循以下部分的说明。或者，如果您确实希望通过 egress gateway 定向流量，请继续阅读*通过 egress gateway 定向 TCP egress 流量*。
+如果您不用通过 [egress gateway](/zh/docs/examples/advanced-gateways/egress-gateway/#用例) 定向流量，例如不要求所有流量都通过 gateway 流出网格时，请遵循以下部分的说明。或者，如果您确实希望通过 egress gateway 定向流量，请继续阅读[通过 egress gateway 定向 TCP egress 流量](#通过-egress-gateway-定向-TCP-egress-流量)。
 
 1. 定义一个网格外 TCP service entry：
 
@@ -159,7 +160,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
       name: mongo
     spec:
       hosts:
-      - $MONGODB_HOST
+      - my-mongo.tcp.svc
       addresses:
       - $MONGODB_IP/32
       ports:
@@ -167,54 +168,35 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
         name: tcp
         protocol: TCP
       location: MESH_EXTERNAL
+      resolution: STATIC
+      endpoints:
+      - address: $MONGODB_IP
     EOF
     {{< /text >}}
 
-   请注意，protocol 被指定为 `TCP` 而不是 `MONGO`，因为如果 [MongoDB 协议运行在 TLS 之上时](https://docs.mongodb.com/manual/tutorial/configure-ssl/)，流量可以加密。如果加密了流量，该加密的 MongoDB 协议就不能被 Istio 代理解析。
+    请注意，protocol 被指定为 `TCP` 而不是 `MONGO`，因为如果 [MongoDB 协议运行在 TLS 之上时](https://docs.mongodb.com/manual/tutorial/configure-ssl/)，流量可以加密。如果加密了流量，该加密的 MongoDB 协议就不能被 Istio 代理解析。
 
-   如果您知道使用的是未加密的 MongoDB 协议，可以指定 protocol 为 `MONGO`，从而使 Istio 代理产生 [MongoDB 相关的统计数据](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter#statistics)。还要注意，当指定 protocol `TCP` 时，配置不是特定于 MongoDB 的，对于其余使用基于 TCP 协议的数据库同样适用。
+    如果您知道使用的是未加密的 MongoDB 协议，可以指定 protocol 为 `MONGO`，从而使 Istio 代理产生 [MongoDB 相关的统计数据](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter#statistics)。还要注意，当指定 protocol `TCP` 时，配置不是特定于 MongoDB 的，对于其余使用基于 TCP 协议的数据库同样适用。
 
-1. 刷新应用程序的网页。应用程序现在应该显示评级数据而非错误：
+    请注意，MongoDB 的 host 不用于 TCP 路由，因此可以使用任何 host，例如 `my-mongo.tcp.svc`。注意 `STATIC` 会解析具有 MongoDB 服务 IP 的端点。定义此类端点后，可以访问没有域名的 MongoDB 服务。
 
-{{< image width="80%" link="./externalDBRatings.png" caption="Book 评级显式正确" >}}
+1.  刷新应用程序的网页。应用程序现在应该显示评级数据而非错误：
 
-请注意，和预期的一样，您会看到两个显示评论的一星评级。您将评级设置为一星，以作为外部数据库确实被使用了的视觉证据。
+    {{< image width="80%" link="./externalDBRatings.png" caption="Book 评级显式正确" >}}
 
-#### 清除无 gateway 情况下的 TCP egress 配置
+    请注意，和预期的一样，您会看到两个显示评论的一星评级。您将评级设置为一星，以作为外部数据库确实被使用了的证据。
 
-{{< text bash >}}
-$ kubectl delete serviceentry mongo
-{{< /text >}}
+1.  如果要通过 egress gateway 引导流量，请继续下一部分。否则，执行[清理](#清理-TCP-egress-流量的配置)。
 
 ### 通过 egress gateway 定向 TCP egress 流量
 
-在本节中，您将处理通过 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
+在本节中，您将处理通过 [egress gateway](/zh/docs/examples/advanced-gateways/egress-gateway/#用例) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
 
-1. 为 MongoDB 服务创建一个 `ServiceEntry`，这次使用 `resolution` `DNS`。指定 resolution 为 `DNS` 以指示 egress gateway 执行一次 DNS 查询来获取 MongoDB 主机的 IP 地址。请注意，egress gateway 并不知道 MongoDB 客户端（`ratings` service）使用的 MongoDB 主机地址，所以 egress gateway 的 IP 地址被当做目的 IP 地址。
+1.  [部署 Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway)。
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: mongo
-    spec:
-      hosts:
-      - $MONGODB_HOST
-      addresses:
-      - $MONGODB_IP/32
-      ports:
-      - number: $MONGODB_PORT
-        name: tcp
-        protocol: TCP
-      resolution: DNS
-      location: MESH_EXTERNAL
-    EOF
-    {{< /text >}}
+1.  如果您没有执行[上一节](#在没有-gateway-的情况下控制-TCP-egress-流量)中的步骤，现在就执行它们。
 
-1. 刷新应用程序的网页，验证评级数据是否显示正确。
-
-1. 继续以下部分。
+1.  继续以下部分。
 
 #### 配置从 sidecar 到 egress gateway 的 TCP 流量
 
@@ -227,7 +209,7 @@ $ kubectl delete serviceentry mongo
 1. 添加选择的端口到 `istio-egressgateway` service。您需要使用和安装 Istio 时一样的端口，特别是必须指定前面配置 `istio-egressgateway` 的所有端口。
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/service.yaml --set gateways.istio-ingressgateway.enabled=false --set gateways.istio-egressgateway.ports[0].port=80 --set gateways.istio-egressgateway.ports[0].name=http --set gateways.istio-egressgateway.ports[1].port=443 --set gateways.istio-egressgateway.ports[1].name=https --set gateways.istio-egressgateway.ports[2].port=$EGRESS_GATEWAY_MONGODB_PORT --set gateways.istio-egressgateway.ports[2].name=mongo | kubectl apply -f -
+    $ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/service.yaml --set gateways.istio-ingressgateway.enabled=false --set gateways.istio-egressgateway.enabled=true --set gateways.istio-egressgateway.ports[0].port=80 --set gateways.istio-egressgateway.ports[0].name=http --set gateways.istio-egressgateway.ports[1].port=443 --set gateways.istio-egressgateway.ports[1].name=https --set gateways.istio-egressgateway.ports[2].port=$EGRESS_GATEWAY_MONGODB_PORT --set gateways.istio-egressgateway.ports[2].name=mongo | kubectl apply -f -
     {{< /text >}}
 
 1. 检查 `istio-egressgateway` service 确实有选择的端口：
@@ -255,7 +237,7 @@ $ kubectl delete serviceentry mongo
           name: tcp
           protocol: TCP
         hosts:
-        - $MONGODB_HOST
+        - my-mongo.tcp.svc
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -267,12 +249,19 @@ $ kubectl delete serviceentry mongo
       - name: mongo
     ---
     apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: mongo
+    spec:
+      host: my-mongo.tcp.svc
+    ---
+    apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
       name: direct-mongo-through-egress-gateway
     spec:
       hosts:
-      - $MONGODB_HOST
+      - my-mongo.tcp.svc
       gateways:
       - mesh
       - istio-egressgateway
@@ -295,25 +284,25 @@ $ kubectl delete serviceentry mongo
           port: $EGRESS_GATEWAY_MONGODB_PORT
         route:
         - destination:
-            host: $MONGODB_HOST
+            host: my-mongo.tcp.svc
             port:
               number: $MONGODB_PORT
           weight: 100
     EOF
     {{< /text >}}
 
-1. 继续验证 TCP egress 流量是否被定向到 egress gateway。
+1.  [继续验证 TCP egress 流量是否被定向到 egress gateway](#验证-TCP-egress-流量是否通过-egress-gateway-定向)。
 
 #### Sidecar 代理和 egress gateway 之间的双向 TLS
 
-您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的[双向 TLS 认证](/docs/tasks/security/mutual-tls/)，以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
+您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
 
 1. 删除前面小节中的配置：
 
     {{< text bash >}}
-    $ kubectl delete gateway istio-egressgateway
-    $ kubectl delete virtualservice direct-mongo-through-egress-gateway
-    $ kubectl delete destinationrule egressgateway-for-mongo
+    $ kubectl delete gateway istio-egressgateway --ignore-not-found=true
+    $ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
+    $ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
     {{< /text >}}
 
 1. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以定向流量到 egress gateway，并从 egress gateway 发送到外部服务。
@@ -333,7 +322,7 @@ $ kubectl delete serviceentry mongo
           name: tls
           protocol: TLS
         hosts:
-        - $MONGODB_HOST
+        - my-mongo.tcp.svc
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
@@ -346,6 +335,14 @@ $ kubectl delete serviceentry mongo
       name: egressgateway-for-mongo
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
       - name: mongo
         trafficPolicy:
@@ -356,7 +353,14 @@ $ kubectl delete serviceentry mongo
               number: 443
             tls:
               mode: ISTIO_MUTUAL
-              sni: $MONGODB_HOST
+              sni: my-mongo.tcp.svc
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: mongo
+    spec:
+      host: my-mongo.tcp.svc
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -364,7 +368,7 @@ $ kubectl delete serviceentry mongo
       name: direct-mongo-through-egress-gateway
     spec:
       hosts:
-      - $MONGODB_HOST
+      - my-mongo.tcp.svc
       gateways:
       - mesh
       - istio-egressgateway
@@ -387,7 +391,7 @@ $ kubectl delete serviceentry mongo
           port: 443
         route:
         - destination:
-            host: $MONGODB_HOST
+            host: my-mongo.tcp.svc
             port:
               number: $MONGODB_PORT
           weight: 100
@@ -400,20 +404,22 @@ $ kubectl delete serviceentry mongo
 
 1. 再次刷新应用程序的网页，验证评级数据仍然显示正确。
 
+1.  [启动 Envoy’s 访问日志](/zh/docs/tasks/telemetry/logs/access-log/#开启-Envoy-访问日志)
+
 1. 检查 egress gateway 的 Envoy 的统计数据，找到对应请求 MongoDB service 的 counter。如果 Istio 步骤在 `istio-system` namespace 中，打印 counter 的命令为：
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep $MONGODB_PORT | grep ${MONGODB_HOST}.upstream_cx_total
-    cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
+    $ kubectl logs -l istio=egressgateway -n istio-system
+    [2019-04-14T06:12:07.636Z] "- - -" 0 - "-" 1591 4393 94 - "-" "-" "-" "-" "<Your MongoDB IP>:<your MongoDB port>" outbound|<your MongoDB port>||my-mongo.tcp.svc 172.30.146.119:59924 172.30.146.119:443 172.30.230.1:59206 -
     {{< /text >}}
 
-#### 清理通过 egress gateway 定向 TCP egress 流量的配置
+#### 清理 TCP egress 流量的配置
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
-$ kubectl delete gateway istio-egressgateway
-$ kubectl delete virtualservice direct-mongo-through-egress-gateway
-$ kubectl delete destinationrule egressgateway-for-mongo
+$ kubectl delete gateway istio-egressgateway --ignore-not-found=true
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
+$ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
 {{< /text >}}
 
 ## TLS egress 控制
@@ -430,9 +436,9 @@ $ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOS
 
 ### 无 gateway 情况下控制 TLS egress 流量
 
-如果您[不需要 egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case)，请遵循本小节中的说明。如果您需要通过 egress gateway 定向流量，请继续阅读*通过 egress gateway 定向 TCP Egress 流量*。
+如果您[不需要 egress gateway](/zh/docs/examples/advanced-gateways/egress-gateway/#用例)，请遵循本小节中的说明。如果您需要通过 egress gateway 定向流量，请继续阅读[通过 egress gateway 定向 TCP Egress 流量](#通过-egress-gateway-定向-TCP-egress-流量)。
 
-1. 为 MongoDB service 创建一个 `ServiceEntry` 和一个 `VirtualService`：
+1.  为 MongoDB service 创建一个 `ServiceEntry`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -448,43 +454,24 @@ $ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOS
         name: tls
         protocol: TLS
       resolution: DNS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: mongo
-    spec:
-      hosts:
-      - $MONGODB_HOST
-      tls:
-      - match:
-        - port: $MONGODB_PORT
-          sni_hosts:
-          - $MONGODB_HOST
-        route:
-        - destination:
-            host: $MONGODB_HOST
-            port:
-              number: $MONGODB_PORT
-          weight: 100
-      location: MESH_EXTERNAL
     EOF
     {{< /text >}}
 
-1. 刷新应用程序的网页。应用程序应该正确显示评级数据。
+1.  刷新应用程序的网页。应用程序应该正确显示评级数据。
 
 #### 清理 TLS 的 egress 配置
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
-$ kubectl delete virtualservice mongo
 {{< /text >}}
 
 ### 通过 egress gateway 定向 TLS Egress 流量
 
-在本小节中，您将处理通过 [egress gateway](/docs/examples/advanced-gateways/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 SNI，将 TLS 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 再将流量转发到 MongoDB 主机。请注意，sidecar 代理会将目的端口重写为 443。Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoDB 主机，并再次将端口重写为 MongoDB 服务器的端口。
+在本小节中，您将处理通过 [egress gateway](/zh/docs/examples/advanced-gateways/egress-gateway/#用例) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 SNI，将 TLS 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 再将流量转发到 MongoDB 主机。请注意，sidecar 代理会将目的端口重写为 443。Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoDB 主机，并再次将端口重写为 MongoDB 服务器的端口。
 
-1. 为 MongoDB service 创建一个 `ServiceEntry`:
+1.  [部署 Istio egress gateway](/docs/examples/advanced-gateways/egress-gateway/#deploy-istio-egress-gateway).
+
+1.  为 MongoDB service 创建一个 `ServiceEntry`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -507,13 +494,18 @@ $ kubectl delete virtualservice mongo
     EOF
     {{< /text >}}
 
-1. 刷新应用程序的网页并验证评级数据是否显示正常。
+1.  刷新应用程序的网页并验证评级数据是否显示正常。
 
-1. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。
+1.  为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。
 
-   如果您希望启用 sidecar 代理和应用程序 pod 以及 egress gateway 之间的[双向 TLS 认证](/docs/tasks/security/mutual-tls/)，可以使用下面的命令。（您可能希望启用双向 TLS 以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。）
+    如果要在应用程序 pod 的 Sidecar 代理和和 egress gateway 之间启用[双向 TLS 身份验证](/zh/docs/tasks/security/mutual-tls/)，请使用以下命令。（您可能希望启用双向 TLS
+    出口网关监视源容器的身份并基于此启用 Mixer 策略实施身份。）
 
-    {{< text bash >}}
+    {{< tabset cookie-name="mtls" >}}
+
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -541,6 +533,14 @@ $ kubectl delete virtualservice mongo
       name: egressgateway-for-mongo
     spec:
       host: istio-egressgateway.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
       - name: mongo
         trafficPolicy:
@@ -588,11 +588,13 @@ $ kubectl delete virtualservice mongo
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
 
-    或者:
+    {{< /tab >}}
 
-    {{< text bash >}}
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+
+    {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -656,16 +658,13 @@ $ kubectl delete virtualservice mongo
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text >}}
+    {{< /text_hack >}}
 
-1. 再次刷新应用程序的网页，验证 ratings 是否仍然显示正确。
+    {{< /tab >}}
 
-1. 检查 egress gateway 的 Envoy 的统计数据，找到对应请求 MongoDB service 的 counter。如果    Istio 部署在 `istio-system` namespace 中，打印 counter 的命令为：
+    {{< /tabset >}}
 
-    {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep $MONGODB_PORT | grep ${MONGODB_HOST}.upstream_cx_total
-    cluster.outbound|<your MongoDB port>||<your MongoDB host>.upstream_cx_total: 1
-    {{< /text >}}
+1. [继续验证 TCP egress 流量是否被定向到 egress gateway](#验证-TCP-egress-流量是否通过-egress-gateway-定向)。
 
 #### 清除通过 egress gateway 定向 TLS Egress 流量的配置
 
@@ -680,7 +679,10 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 有时，您希望将 egress 流量配置为来自同一域的多个主机名，例如到 `*.<your company domain>.com` 中的所有 MongoDB service。您不希望创建多个配置项，而是一个用于公司中所有 MongoDB service 的通用配置项。要想通过一个配置来控制到所有相同域中的外部服务的访问，您需要使用*通配符*主机。
 
-要为通配符域名配置 egress gateway 流量，您需要使用[一个额外的 SNI 代理](/docs/examples/advanced-gateways/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)来部署一个自定义的 egress gateway。由于 Envoy（Istio egress gateway 使用的标准代理）目前的限制，这是必须的。
+在本节中，您将为通配域配置出口流量。我在 `composedb.com` 域使用了 MongoDB 实例，因此配置 `*.com` 的出口流量对我有效（我本可以使用 `*.composedb.com`）。
+您可以根据 MongoDB 主机选择通配域。
+
+要为通配符域名配置 egress gateway 流量，您需要使用[一个额外的 SNI 代理](/zh/docs/examples/advanced-gateways/wildcard-egress-hosts/#配置到通配符主机的直接流量)来部署一个自定义的 egress gateway。由于 Envoy（Istio egress gateway 使用的标准代理）目前的限制，这是必须的。
 
 #### 准备一个使用 SNI 代理的新 egress gateway
 
@@ -713,13 +715,13 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1. 创建一个 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 来保存 Nginx SNI 代理的配置：
+1.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 来保存 Nginx SNI 代理的配置：
 
     {{< text bash >}}
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
-1. 下面的命令将产生用于编辑和部署的 `istio-egressgateway-with-sni-proxy.yaml` 文件。
+1.  下面的命令将产生用于编辑和部署的 `istio-egressgateway-with-sni-proxy.yaml` 文件。
 
     {{< text bash >}}
     $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set  global.mtls.enabled=true --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
@@ -737,6 +739,8 @@ $ kubectl delete destinationrule egressgateway-for-mongo
         replicaCount: 1
         autoscaleMin: 1
         autoscaleMax: 5
+        cpu:
+          targetAverageUtilization: 80
         serviceAnnotations: {}
         type: ClusterIP
         ports:
@@ -762,7 +766,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1. 部署新的 egress gateway：
+1.  部署新的 egress gateway：
 
     {{< text bash >}}
     $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
@@ -774,7 +778,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
     {{< /text >}}
 
-1. 验证新 egress gateway 是否工作正常。请注意 pod 有两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。
+1.  验证新 egress gateway 是否工作正常。请注意 pod 有两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。
 
     {{< text bash >}}
     $ kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system
@@ -782,7 +786,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
     {{< /text >}}
 
-1. 创建一个使用静态地址 127.0.0.1 (`localhost`) 的 service entry，并对定向到新 service entry 的流量禁用双向 TLS：
+1.  创建一个使用静态地址 127.0.0.1 (`localhost`) 的 service entry，并对定向到新 service entry 的流量禁用双向 TLS：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -816,7 +820,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 #### 使用新 egress gateway 配置到 `*.com` 的访问
 
-1. 为 `*.com` 定义一个 `ServiceEntry`：
+1.  为 `*.com` 定义一个 `ServiceEntry`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
@@ -838,7 +842,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1. 为 `*.com` 创建一个 egress `Gateway`，使用 443 端口和 TLS 协议。创建一个 destination rule 来为 gateway 设置 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)，以及一个 virtual service 以将目的为 `*.com` 流量定向到 gateway。
+1.  为 `*.com` 创建一个 egress `Gateway`，使用 443 端口和 TLS 协议。创建一个 destination rule 来为 gateway 设置 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)，以及一个 virtual service 以将目的为 `*.com` 流量定向到 gateway。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -865,9 +869,17 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: set-sni-for-egress-gateway
+      name: mtls-for-egress-gateway
     spec:
       host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
       subsets:
         - name: mongo
           trafficPolicy:
@@ -878,11 +890,43 @@ $ kubectl delete destinationrule egressgateway-for-mongo
                 number: 443
               tls:
                 mode: ISTIO_MUTUAL
-                sni: placeholder.com
+    ---
+    # 以下过滤器用于将原始 SNI（由应用程序发送）转发为双向 TLS 连接的 SNI。
+    # 转发的 SNI 将报告给Mixer，以便根据原始 SNI 值强制执行策略。
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: forward-downstream-sni
+    spec:
+      filters:
+      - listenerMatch:
+          portNumber: $MONGODB_PORT
+          listenerType: SIDECAR_OUTBOUND
+        filterName: forward_downstream_sni
+        filterType: NETWORK
+        filterConfig: {}
+    ---
+    # 以下过滤器验证双向 TLS 连接的 SNI（报告给 Mixer 的 SNI）与应用程序发布的原始 SNI（SNI 代理用于路由的 SNI）相同。
+    # 过滤器可防止 Mixer 被恶意应用程序欺骗：路由到一个 SNI，同时报告其他一些 SNI 值。
+    # 如果原始 SNI 与双向 TLS 连接的 SNI 不匹配，则过滤器将阻止与外部服务的连接。
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: egress-gateway-sni-verifier
+    spec:
+      workloadLabels:
+        app: istio-egressgateway-with-sni-proxy
+      filters:
+      - listenerMatch:
+          portNumber: 443
+          listenerType: GATEWAY
+        filterName: sni_verifier
+        filterType: NETWORK
+        filterConfig: {}
     EOF
     {{< /text >}}
 
-1. 将目的为 `*.com` 的流量路由到 egress gateway，并从 egress gateway 路由到 SNI 代理。
+1.  将目的为 `*.com` 的流量路由到 egress gateway，并从 egress gateway 路由到 SNI 代理。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -924,16 +968,24 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1. 再次刷新应用程序的网页，验证评级数据仍然显示正确。
+1.  再次刷新应用程序的网页，验证评级数据仍然显示正确。
 
-1. 检查 egress gateway 的 Envoy 的统计数据，找到对应请求 `*.com` 的 counter（到 SNI 代理的流量的 counter）。如果 Istio 部署在 `istio-system` namespace 中，打印 counter 的命令为：
+1.  [启动 Envoy’s 访问日志](/zh/docs/tasks/telemetry/logs/access-log/#开启-Envoy-访问日志)
+
+1.  检查 egress gateway 的 Envoy 的统计数据，找到对应请求 `*.com` 的 counter（到 SNI 代理的流量的 counter）。如果 Istio 部署在 `istio-system` namespace 中，打印 counter 的命令为：
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep sni-proxy.local.upstream_cx_total
-    cluster.outbound|8443||sni-proxy.local.upstream_cx_total: 1
+    $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
     {{< /text >}}
 
-1. 检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
+    您应该看到类似于以下内容的行：
+
+    {{< text plain >}}
+    [2019-01-02T17:22:04.602Z] "- - -" 0 - 768 1863 88 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 <your MongoDB host>
+    [2019-01-02T17:22:04.713Z] "- - -" 0 - 1534 2590 85 - "-" "-" "-" "-" "127.0.0.1:28543" outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 <your MongoDB host>
+    {{< /text >}}
+
+1.  检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
@@ -949,16 +1001,17 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 #### 清理到任意通配符域名的 MongoDB TLS egress 流量的配置
 
-1. 删除针对 `*.com` 的配置项：
+1.  删除针对 `*.com` 的配置项：
 
     {{< text bash >}}
     $ kubectl delete serviceentry mongo
     $ kubectl delete gateway istio-egressgateway-with-sni-proxy
     $ kubectl delete virtualservice direct-mongo-through-egress-gateway
-    $ kubectl delete destinationrule set-sni-for-egress-gateway
+    $ kubectl delete destinationrule mtls-for-egress-gateway
+    $ kubectl delete envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
-1. 删除 `egressgateway-with-sni-proxy` `Deployment` 的配置项：
+1.  删除 `egressgateway-with-sni-proxy` `Deployment` 的配置项：
 
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy
@@ -967,7 +1020,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     {{< /text >}}
 
-1. 删除您创建的配置文件：
+1.  删除您创建的配置文件：
 
     {{< text bash >}}
     $ rm ./istio-egressgateway-with-sni-proxy.yaml
@@ -976,7 +1029,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 ## 清理
 
-1. 删除`bookinfo`用户：
+1.  删除`bookinfo`用户：
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
@@ -985,7 +1038,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1. 删除 `ratings` 集合：
+1.  删除 `ratings` 集合：
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
@@ -994,13 +1047,13 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1. 取消您使用的环境变量：
+1.  取消您使用的环境变量：
 
     {{< text bash >}}
     $ unset MONGO_ADMIN_PASSWORD BOOKINFO_PASSWORD MONGODB_HOST MONGODB_PORT MONGODB_IP
     {{< /text >}}
 
-1. 删除 virtual services：
+1.  删除 virtual services：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
@@ -1008,7 +1061,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     Deleted config: virtual-service/default/ratings
     {{< /text >}}
 
-1. 删除 `ratings v2-mongodb` deployment：
+1.  删除 `ratings v2-mongodb` deployment：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@

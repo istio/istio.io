@@ -174,7 +174,7 @@ webhooks:
 
 如果 `istio-galley-configuration` 中的 Webhook 数组为空，且是使用的是 `helm template` 或 `helm install` 的方式，请验证 `--set galley.enabled` 和 `--set global.configValidation=true` 选项是否已经设置。如果没有使用 Helm，就需要找到生成的 YAML，其中包含填充的 Webhook 数组。
 
-`istio-galley` 验证配置是失效关闭（fail-close）的。如果配置存在且范围正确，则 Webhook 将被调用。在资源创建/更新时，如缺少 `caBundle`，错误证书或网络连接问题则会导致错误产生。如果 Webhook 配置正确且没有发现任何错误提示，但是 Webhook 未被调用，则表明群集配置存在错误。
+`istio-galley` 验证配置是失效关闭（fail-close）的。如果配置存在且范围正确，则 Webhook 将被调用。在资源创建/更新时，如缺少 `caBundle`，错误证书或网络连接问题则会导致错误产生。如果 Webhook 配置正确且没有发现任何错误提示，但是 Webhook 未被调用，则表明集群配置存在错误。
 
 ## 创建配置失败并提示 x509 证书错误
 

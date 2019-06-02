@@ -27,13 +27,13 @@ Mixer 会生成指标来监控它自身行为。第一步是检查这些指标�
 1. 建立与 mixer 自监控 endpoint 的连接以进行 Istio 遥测部署。在 Kubernetes 环境中，执行以下命令：
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward <istio-telemetry pod> 10514 &
+    $ kubectl -n istio-system port-forward <istio-telemetry pod> 15014 &
     {{< /text >}}
 
 1. 查看成功的返回，在 Mixer 的自监控 endpoint 上，搜索 `grpc_server_handled_total`。你应该能看到类似的东西：
 
     {{< text plain >}}
-    grpc_server_handled_total{grpc_code="OK",grpc_method="Report",grpc_service="istio.mixer.v1.Mixer",grpc_type="unary"} 68
+    grpc_io_server_completed_rpcs{grpc_server_method="istio.mixer.v1.Mixer/Report",grpc_server_status="OK"} 2532
     {{< /text >}}
 
     如果你没有看到带有 `grpc_method="Report"` 的 `grpc_server_handled_total` 的任何数据，则 Envoy 就没有调用 Mixer 来报告遥测数据。
@@ -46,12 +46,13 @@ Mixer 会生成指标来监控它自身行为。第一步是检查这些指标�
 
 {{< text bash >}}
 $ kubectl get rules --all-namespaces
-NAMESPACE      NAME        AGE
-istio-system   kubeattrgenrulerule      13d
-istio-system   promhttp                 13d
-istio-system   promtcp                  13d
-istio-system   stdio                    13d
-istio-system   tcpkubeattrgenrulerule   13d
+NAMESPACE      NAME                      AGE
+istio-system   kubeattrgenrulerule       4h
+istio-system   promhttp                  4h
+istio-system   promtcp                   4h
+istio-system   promtcpconnectionclosed   4h
+istio-system   promtcpconnectionopen     4h
+istio-system   tcpkubeattrgenrulerule    4h
 {{< /text >}}
 
 如果输出显示没有名为 `promhttp` 或 `promtcp` 的规则，则缺少将 mixer 指标实例发送到 Prometheus adapter 的 Mixer 配置。你必须提供将 Mixer 指标实例连接到 Prometheus handler 的规则配置。
@@ -68,6 +69,15 @@ istio-system   tcpkubeattrgenrulerule   13d
     istio-system   handler   13d
     {{< /text >}}
 
+    根据您的 Istio 安装是全新安装还是升级，您可能还需要执行以下命令：
+
+    {{< text bash >}}
+    $ kubectl get handlers.config.istio.io --all-namespaces
+    NAMESPACE      NAME            AGE
+    istio-system   kubernetesenv   4h
+    istio-system   prometheus      4h
+    {{< /text >}}
+
 1. 如果输出未显示已配置的 Prometheus handler，则必须重新在 Mixer 配置适当的 handler。
 
 有关参考，请参阅 [Prometheus 的默认 handler 配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
@@ -78,13 +88,7 @@ istio-system   tcpkubeattrgenrulerule   13d
 
     {{< text bash >}}
     $ kubectl get metrics.config.istio.io --all-namespaces
-    NAMESPACE      NAME              AGE
-    istio-system   requestcount      13d
-    istio-system   requestduration   13d
-    istio-system   requestsize       13d
-    istio-system   responsesize      13d
-    istio-system   tcpbytereceived   13d
-    istio-system   tcpbytesent       13d
+    $ kubectl get instances -o custom-columns=NAME:.metadata.name,TEMPLATE:.spec.compiledTemplate
     {{< /text >}}
 
 1. 如果输出未显示已配置的 Mixer 指标实例，则必须使用相应的实例配置重新配置 Mixer。
@@ -97,29 +101,25 @@ istio-system   tcpkubeattrgenrulerule   13d
 
 1. 确认以下的指标的最新的值是0：
 
-    * `mixer_config_adapter_info_config_error_count`
+    * `mixer_config_adapter_info_config_errors_total`
 
-    * `mixer_config_handler_validation_error_count`
+    * `mixer_config_template_config_errors_total`
 
-    * `mixer_config_instance_config_error_count`
+    * `mixer_config_instance_config_errors_total`
 
-    * `mixer_config_rule_config_error_count`
+    * `mixer_config_rule_config_errors_total`
 
-    * `mixer_config_rule_config_match_error_count`
+    * `mixer_config_rule_config_match_error_total`
 
-    * `mixer_config_unsatisfied_action_handler_count`
+    * `mixer_config_unsatisfied_action_handler_total`
 
-    * `mixer_handler_handler_build_failure_count`
+    * `mixer_config_handler_validation_error_total`
 
-在显示 Mixer 自监控 endpoint 的页面上，搜索上面列出的每个指标。搜索结果应该像下面这样（以 `mixer_config_instance_config_error_count` 为例）：
+    * `mixer_handler_handler_build_failures_total`
 
-{{< text plain >}}
-mixer_config_rule_config_match_error_count{configID="-1"} 0
-mixer_config_rule_config_match_error_count{configID="0"} 0
-mixer_config_rule_config_match_error_count{configID="1"} 0</td>
-{{< /text >}}
+在显示 Mixer 自监控 endpoint 的页面上，搜索上面列出的每个指标。如果一切配置正确，您不应该找到这些指标的任何值。
 
-确认具有最大配置 ID 的指标的值为0。这说明 Mixer 在按照配置工作，并且未生成任何错误。
+如果这些度量标准中的任何一个具有值，请确认具有最大配置标识的度量标准值为 0。这将验证 Mixer 在处理提供的最新配置时未生成任何错误。
 
 ## 验证 Mixer 可以将指标实例发送到 Prometheus adapter
 
@@ -128,8 +128,7 @@ mixer_config_rule_config_match_error_count{configID="1"} 0</td>
 1. 在 Mixer 自监控 endpoint 上，搜索 `mixer_runtime_dispatch_count`。输出应该大致是：
 
     {{< text plain >}}
-    mixer_runtime_dispatch_count{adapter="prometheus",error="false",handler="handler.prometheus.istio-system",meshFunction="metric"} 916
-    mixer_runtime_dispatch_count{adapter="prometheus",error="true",handler="handler.prometheus.istio-system",meshFunction="metric"} 0
+    mixer_runtime_dispatches_total{adapter="prometheus",error="false",handler="prometheus.istio-system",meshFunction="metric"} 2532
     {{< /text >}}
 
 1. 确认 `mixer_runtime_dispatch_count` 的值是：

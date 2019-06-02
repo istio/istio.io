@@ -47,12 +47,12 @@ $ istioctl kube-inject \
 $ kubectl apply -f sleep-injected.yaml
 {{< /text >}}
 
-检查被注入到 Deployment 中的 Sidecar：
+验证 sidecar 是否已在 READY 列下以 `2/2` 注入 sleep pod。
 
 {{< text bash >}}
-$ kubectl get deployment sleep -o wide
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS          IMAGES                             SELECTOR
-sleep     1         1         1            1           2h        sleep,istio-proxy   tutum/curl,unknown/proxy:unknown   app=sleep
+$$ kubectl get pod  -l app=sleep
+NAME                     READY   STATUS    RESTARTS   AGE
+sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 {{< /text >}}
 
 ### Sidecar 的自动注入
@@ -64,8 +64,6 @@ $ kubectl api-versions | grep admissionregistration
 admissionregistration.k8s.io/v1alpha1
 admissionregistration.k8s.io/v1beta1
 {{< /text >}}
-
-在 [Kubernetes 快速开始](/zh/docs/setup/kubernetes/install/kubernetes/) 中介绍了 Kubernetes 1.9 以上版本的安装。
 
 注意，跟手工注入不同的是，自动注入过程是发生在 Pod 级别的。因此是不会看到 Deployment 本身发生什么变化的。但是可以使用 `kubectl describe` 来观察单独的 Pod，在其中能看到注入 Sidecar 的相关信息。
 
@@ -141,11 +139,17 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 [admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io) 配置了 Webhook 何时会被 Kubernetes 调用。Istio 提供的缺省配置，会在带有 `istio-injection=enabled` 标签的命名空间中选择 Pod。使用 `kubectl edit mutatingwebhookconfiguration istio-sidecar-injector` 命令可以编辑目标命名空间的范围。
 
+{{< text bash >}}
+$ kubectl edit mutatingwebhookconfiguration istio-sidecar-injector
+{{< /text >}}
+
 {{< warning >}}
 修改 `mutatingwebhookconfiguration` 之后，应该重新启动已经被注入 Sidecar 的 Pod。
 {{< /warning >}}
 
-`istio-system` 命名空间中的 ConfigMap `istio-sidecar-injector` 中包含了缺省的注入策略以及 Sidecar 的注入模板。
+例如，您可以修改 `MutatingWebhookConfiguration` 以始终将 sidecar 注入每个命名空间，除非设置了标签。 编辑此配置是一项高级操作。请参阅 Kubernetes 文档
+用于 [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+欲获得更多信息。
 
 ##### **policy**
 
@@ -178,10 +182,12 @@ Sidecar 注入模板使用的是 [golang 模板](https://golang.org/pkg/text/tem
 
 {{< text go >}}
 type SidecarInjectionSpec struct {
-      InitContainers   []v1.Container `yaml:"initContainers"`
-      Containers       []v1.Container `yaml:"containers"`
-      Volumes          []v1.Volume    `yaml:"volumes"`
-      ImagePullSecrets []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
+      RewriteAppHTTPProbe bool                          `yaml:"rewriteAppHTTPProbe"`
+      InitContainers      []corev1.Container            `yaml:"initContainers"`
+      Containers          []corev1.Container            `yaml:"containers"`
+      Volumes             []corev1.Volume               `yaml:"volumes"`
+      DNSConfig           *corev1.PodDNSConfig          `yaml:"dnsConfig"`
+      ImagePullSecrets    []corev1.LocalObjectReference `yaml:"imagePullSecrets"`
 }
 {{< /text >}}
 
@@ -189,10 +195,11 @@ type SidecarInjectionSpec struct {
 
 {{< text go >}}
 type SidecarTemplateData struct {
-    ObjectMeta  *metav1.ObjectMeta
-    Spec        *v1.PodSpec
-    ProxyConfig *meshconfig.ProxyConfig  // 定义来自于https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
-    MeshConfig  *meshconfig.MeshConfig   // 定义来自于 https://istio.io/docs/reference/config/service-mesh.html#meshconfig
+    DeploymentMeta *metav1.ObjectMeta
+    ObjectMeta     *metav1.ObjectMeta
+    Spec           *corev1.PodSpec
+    ProxyConfig    *meshconfig.ProxyConfig  // Defined by https://istio.io/docs/reference/config/service-mesh.html#proxyconfig
+    MeshConfig     *meshconfig.MeshConfig   // Defined by https://istio.io/docs/reference/config/service-mesh.html#meshconfig
 }
 {{< /text >}}
 

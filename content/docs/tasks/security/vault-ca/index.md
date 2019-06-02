@@ -33,17 +33,10 @@ to Node Agent, which returns the signed certificate to the Istio proxy.
         --name=istio \
         --namespace=istio-system \
         --set global.mtls.enabled=true \
-        --set global.proxy.excludeIPRanges="34.83.129.211/32" \
         --values install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml \
         install/kubernetes/helm/istio >> istio-auth.yaml
     $ kubectl create -f istio-auth.yaml
     {{< /text >}}
-
-The testing Vault server used in this tutorial has the IP
-address `34.83.129.211`. The configuration
-`global.proxy.excludeIPRanges="34.83.129.211/32"` whitelists the IP address of
-the testing Vault server, so that Envoy will not intercept the traffic from
-Node Agent to Vault.
 
 The yaml file [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml)
 contains the configuration that enables SDS (secret discovery service) in Istio.
@@ -64,6 +57,29 @@ env:
 - name: "VAULT_SIGN_CSR_PATH"
   value: "istio_ca/sign/istio-pki-role"
 {{< /text >}}
+
+1.  The testing Vault server used in this tutorial has the IP
+    address `34.83.129.211`. Create a service entry with the address of the testing
+    Vault server:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: vault-service-entry
+    spec:
+      hosts:
+      - vault-server
+      addresses:
+      - 34.83.129.211/32
+      ports:
+      - number: 8200
+        name: https
+        protocol: HTTPS
+      location: MESH_EXTERNAL
+    EOF
+    {{< /text >}}
 
 ## Deploy workloads for testing
 

@@ -2,17 +2,11 @@
 title: 使用外部 Web 服务
 description: 描述基于 Istio Bookinfo 示例的简单场景。
 publishdate: 2018-01-31
+last_update: 2019-04-11
 subtitle: HTTPS 流量的出口规则
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
 ---
-
-{{< tip >}}
-此博客文章于 2018 年 8 月 9 日更新。它反映并使用了 Istio 1.0 的新功能。
-{{< /tip >}}
-
-[v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果您需要使用旧版本，请按照文档进行操作
-[使用外部 Web 服务归档版](https://archive.istio.io/v0.7/blog/2018/egress-https.html)。
 
 在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部，有时，
 网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能，虽然我们希望逐步将这些系统迁移到服务网格中。
@@ -42,7 +36,7 @@ keywords: [traffic-management,egress,https]
     >}}
 
 执行[部署应用程序](/zh/docs/examples/bookinfo/#部署应用)、[确认应用正在运行](/zh/docs/examples/bookinfo/#确认应用在运行中)，以及
-[应用默认目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)中的步骤部分。
+[应用默认目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)中的步骤部分，和[Istio 更改为 blocking-egress-by-default 策略](/docs/tasks/traffic-management/egress/#change-to-the-blocking-by-default-policy)。
 
 ### Bookinfo 使用 HTTPS 访问 Google 图书网络服务
 
@@ -184,7 +178,7 @@ sidecar 代理的这种监督和策略执行是无法实现的。Istio 只能通
 这些请求被 sidecar Envoy 代理拦截 , sidecar 代理执行 TLS 发起，因此 pod 和外部服务之间的流量被加密。
 
 {{< image width="60%"
-    link="/blog/2018/egress-https/https_from_the_app.svg"
+    link="./https_from_the_app.svg"
     caption="对外发起 HTTPS 流量的两种方式：微服务自行发起，或由 Sidecar 代理发起"
     >}}
 
@@ -193,18 +187,16 @@ sidecar 代理的这种监督和策略执行是无法实现的。Istio 只能通
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
-http = Net::HTTP.new(uri.host, uri.port)
+http = Net::HTTP.new(uri.host, ENV['DO_NOT_ENCRYPT'] === 'true' ? 80:443)
 ...
 unless ENV['DO_NOT_ENCRYPT'] === 'true' then
      http.use_ssl = true
 end
 {{< /text >}}
 
-请注意，默认的 HTTPS 端口 `443` 的取值是 `URI.parse` 通过对 URI (`https://`) 的解析得来的，
-当在 Istio 服务网格内运行时，微服务必须向端口 `443` 发出 HTTP 请求，该端口是外部服务侦听的端口。
-当定义 `WITH_ISTIO` 环境变量时，请求在没有 SSL（普通 HTTP ）的情况下执行。
+当定义 `DO_NOT_ENCRYPT` 环境变量时，请求在没有 SSL（普通 HTTP ）的 80 端口下执行。
 
-我们将 `WITH_ISTIO` 环境变量设置为 _"true"_ [details 的部署配置文件]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
+我们将 `DO_NOT_ENCRYPT` 环境变量设置为 _"true"_ [details 的部署配置文件]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
 `container` 部分：
 
 {{< text yaml >}}
@@ -243,10 +235,29 @@ env:
       hosts:
       - www.googleapis.com
       ports:
-      - number: 443
-        name: http-port-for-tls-origination
+      - number: 80
+        name: http
         protocol: HTTP
+      - number: 443
+        name: https
+        protocol: HTTPS
       resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: rewrite-port-for-googleapis
+    spec:
+      hosts:
+      - www.googleapis.com
+      http:
+      - match:
+        - port: 80
+        route:
+        - destination:
+            host: www.googleapis.com
+            port:
+              number: 443
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -265,18 +276,15 @@ env:
     EOF
     {{< /text >}}
 
-    注意，前缀为 `http-` `ServiceEntr` 指定了端口为 `443`，其协议指定为 `HTTP`。
-    请注意，您不需要使用端口 443 发送 TLS 发起的 HTTP 请求。
-    [出口流量的 TLS](/zh/docs/examples/advanced-gateways/egress-tls-origination/)
-    显示了如何使用端口重写执行 TLS 发起。
-
 1.  访问应用程序的网页，并验证是否显示图书详细信息。
+
+1.  [启用 Envoy’s 访问日志](/zh/docs/tasks/telemetry/logs/access-log/#开启-Envoy-访问日志))
 
 1.  检查 _details v2_ 的 sidecar 代理的日志，并查看 HTTP 请求。
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis
-    [2018-08-09T11:32:58.171Z] "GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1" 200 - 0 1050 264 264 "-" "Ruby" "b993bae7-4288-9241-81a5-4cde93b2e3a6" "www.googleapis.com:443" "172.217.20.74:443"
+    [2018-08-09T11:32:58.171Z] "GET /books/v1/volumes?q=isbn:0486424618 HTTP/1.1" 200 - 0 1050 264 264 "-" "Ruby" "b993bae7-4288-9241-81a5-4cde93b2e3a6" "www.googleapis.com:80" "172.217.20.74:80"
     EOF
     {{< /text >}}
 
@@ -287,6 +295,7 @@ env:
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
+$ kubectl delete virtualservice rewrite-port-for-googleapis
 $ kubectl delete destinationrule originate-tls-for-googleapis
 $ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@

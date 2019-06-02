@@ -21,83 +21,18 @@ keywords: [telemetry,metrics,tcp]
 
     把下面的文本保存为 `tcp_telemetry.yaml`：
 
-    {{< text yaml >}}
-    # 配置一个指标，描述从服务器发送到客户端的字节数量
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: metric
-    metadata:
-      name: mongosentbytes
-      namespace: default
-    spec:
-      value: connection.sent.bytes | 0 # uses a TCP-specific attribute
-      dimensions:
-        source_service: source.workload.name | "unknown"
-        source_version: source.labels["version"] | "unknown"
-        destination_version: destination.labels["version"] | "unknown"
-      monitoredResourceType: '"UNSPECIFIED"'
-    ---
-    # 这一指标代表从客户端到服务器的字节数
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: metric
-    metadata:
-      name: mongoreceivedbytes
-      namespace: default
-    spec:
-      value: connection.received.bytes | 0 # uses a TCP-specific attribute
-      dimensions:
-        source_service: source.workload.name | "unknown"
-        source_version: source.labels["version"] | "unknown"
-        destination_version: destination.labels["version"] | "unknown"
-      monitoredResourceType: '"UNSPECIFIED"'
-    ---
-    # 配置 Prometheus 的 Handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: prometheus
-    metadata:
-      name: mongohandler
-      namespace: default
-    spec:
-      metrics:
-      - name: mongo_sent_bytes # Prometheus metric name
-        instance_name: mongosentbytes.metric.default # Mixer instance name (fully-qualified)
-        kind: COUNTER
-        label_names:
-        - source_service
-        - source_version
-        - destination_version
-      - name: mongo_received_bytes # Prometheus metric name
-        instance_name: mongoreceivedbytes.metric.default # Mixer instance name (fully-qualified)
-        kind: COUNTER
-        label_names:
-        - source_service
-        - source_version
-        - destination_version
-    ---
-    # 这里定义一个 rule，把 metric 发送给 Prometheus handler
-    apiVersion: "config.istio.io/v1alpha2"
-    kind: rule
-    metadata:
-      name: mongoprom
-      namespace: default
-    spec:
-      match: context.protocol == "tcp"
-             && destination.service.host == "mongodb.default.svc.cluster.local"
-      actions:
-      - handler: mongohandler.prometheus
-        instances:
-        - mongoreceivedbytes.metric
-        - mongosentbytes.metric
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
     {{< /text >}}
 
-1. 应用新配置。
+    {{< warning >}}
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下配置：
 
     {{< text bash >}}
-    $ kubectl apply -f tcp_telemetry.yaml
-    Created config metric/default/mongosentbytes at revision 3852843
-    Created config metric/default/mongoreceivedbytes at revision 3852844
-    Created config prometheus/default/mongohandler at revision 3852845
-    Created config rule/default/mongoprom at revision 3852846
+    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
+
+    {{< /warning >}}
 
 1. 设置 Bookinfo 使用 Mongodb。
 
@@ -154,7 +89,7 @@ keywords: [telemetry,metrics,tcp]
         由于虚拟服务中的子集引用依赖于目标规则，
         在添加引用这些子集的虚拟服务之前，请等待几秒钟以使目标规则传播。
 
-    1. 创建 `ratings` 以及 `reviews` 两个虚拟服务:
+    1.  创建 `ratings` 以及 `reviews` 两个虚拟服务:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
@@ -162,7 +97,7 @@ keywords: [telemetry,metrics,tcp]
         Created config virtual-service/default/ratings at revision 3004
         {{< /text >}}
 
-1. 向应用发送流量。
+1.  向应用发送流量。
 
     对于 Bookinfo 应用来说，在浏览器中浏览 `http://$GATEWAY_URL/productpage`，或者使用下面的命令：
 
@@ -170,7 +105,7 @@ keywords: [telemetry,metrics,tcp]
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1. 检查是否已经生成并收集了新的指标。
+1.  检查是否已经生成并收集了新的指标。
 
     在 Kubernetes 环境中，使用下面的命令为 Prometheus 设置端口转发：
 
@@ -208,7 +143,13 @@ TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是�
 * 删除新的遥测配置：
 
     {{< text bash >}}
-    $ kubectl delete -f tcp_telemetry.yaml
+    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
+    {{< /text >}}
+
+    如果您使用的是 Istio 1.1.2 或之前：
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
     {{< /text >}}
 
 * 删除端口转发进程：
