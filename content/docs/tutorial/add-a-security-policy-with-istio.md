@@ -29,36 +29,39 @@ In this module you add access policies to enforce the access requirements above.
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and
 [Istio RBAC](/docs/concepts/security/#authorization).
 
-1.  Verify that any microservice can access any microservice, including sending POST requests to `ratings`.
+First, verify that without access policies in place, any microservice can access any microservice, including sending
+POST requests to `ratings`.
 
-    1.  GET request from `ratings` to `reviews`
+1.  GET request from `ratings` to `reviews`
 
-        {{< text bash >}}
-        $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl reviews:9080/reviews/0
-        {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}
-        {{< /text >}}
+    {{< text bash >}}
+    $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl reviews:9080/reviews/0
+    {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}
+    {{< /text >}}
 
-    1.  GET request from `ratings` to `details`
+1.  GET request from `ratings` to `details`
 
-        {{< text bash >}}
-        $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl details:9080/details/0
-        {"id":0,"author":"William Shakespeare","year":1595,"type":"paperback","pages":200,"publisher":"PublisherA","language":"English","ISBN-10":"1234567890","ISBN-13":"123-1234567890"}
-        {{< /text >}}
+    {{< text bash >}}
+    $  kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl details:9080/details/0
+    {"id":0,"author":"William Shakespeare","year":1595,"type":"paperback","pages":200,"publisher":"PublisherA","language":"English","ISBN-10":"1234567890","ISBN-13":"123-1234567890"}
+    {{< /text >}}
 
-    1.  POST request from _sleep_ to `ratings`
+1.  POST request from _sleep_ to `ratings`
 
-        {{< text bash >}}
-        $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":1,"Reviewer2":1}'
-        {"id":0,"ratings":{"Reviewer1":1,"Reviewer2":1}}
-        {{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":1,"Reviewer2":1}'
+    {"id":0,"ratings":{"Reviewer1":1,"Reviewer2":1}}
+    {{< /text >}}
 
-        Access the application's webpage. You see one-star ratings from both reviewers! Fix it ASAP so no fake
-        ratings will be displayed in production.
+    Access the application's webpage. You see one-star ratings from both reviewers! Fix it ASAP so no fake
+    ratings will be displayed in production.
 
-        {{< text bash >}}
-        $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":5,"Reviewer2":4}'
-        {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
-        {{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":5,"Reviewer2":4}'
+    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
+    {{< /text >}}
+
+Enable access policies in the following sections to limit access to the microservices that legitimately require it.
 
 ## Kubernetes Network Policies
 
