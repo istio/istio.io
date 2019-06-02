@@ -137,7 +137,7 @@ more failures and making the application or parts of it unavailable.
     prevent overloading it or abusing its computing resources and its billing budget. You also do not want the excessive
     traffic to propagate to further microservices, in this case to the `ratings` service.
 
-1.  Enable Istio rate limiting. Performs the steps below. There is no need to understand the steps, if you want to
+1.  Enable Istio rate limiting. Perform the steps below. There is no need to understand the steps, if you want to
     understand what exactly the steps configure, read the
     [Enabling Rate Limits](/docs/tasks/policy-enforcement/rate-limiting/) task.
 
