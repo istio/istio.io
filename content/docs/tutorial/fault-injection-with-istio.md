@@ -24,6 +24,11 @@ microservices react to the faults you injected.
 
 1.  Access application's webpage, sign in as `jason` and observe that now an error is displayed instead of the reviews.
 
+    {{< image width="80%"
+        link="images/bookinfo-ratings-unavailable-jason.png"
+        caption="Bookinfo Web Application, ratings unavailable for a test user"
+        >}}
+
 1.  See that the error appears in the logs of the sidecar proxy of the `reviews` microservice which calls
     `ratings`:
 
