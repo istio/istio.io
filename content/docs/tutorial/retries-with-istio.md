@@ -94,8 +94,8 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
         caption="Kiali Graph Tab with faulty ratings"
         >}}
 
-1.  Access the webpage of your application in a browser several times. Once in a while you will get an error about
-    `reviews` being unavailable.
+1.  Access the webpage of your application in a browser several times. About half the time you will get an error about
+    `ratings` being unavailable.
 
     {{< image width="80%"
         link="images/bookinfo-ratings-unavailable.png"
