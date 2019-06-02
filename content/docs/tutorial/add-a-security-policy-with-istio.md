@@ -23,7 +23,7 @@ In the same way, the following access must be allowed:
 * the testing pod, _sleep_, can access any microservice
 * all the access is read-only, which means that only HTTP GET method can be applied on `ratings`.
 HTTP POST method must be prohibited.
-* all other access must be prohibited
+* all other access must be denied
 
 In this module you add access policies to enforce the access requirements above.
 
