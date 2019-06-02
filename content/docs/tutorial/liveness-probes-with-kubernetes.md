@@ -6,9 +6,9 @@ weight: 115
 
 ---
 
-While you inject faults to test how your microservices cope with networks problems and issues with the microservices
-they call, sometimes the real faults and bugs happen. Sometimes the microservices can detect the problematic situation
-themselves. For example, there might be some deadlock situation in which a microservice runs but cannot
+While you inject faults to test how your microservices cope with networks problems and with issues with the
+microservices they call, sometimes real faults and bugs happen. Sometimes the microservices can detect the problematic
+situation themselves. For example, there might be some deadlock situation in which a microservice runs but cannot
 make any progress. In such a situation it is better to restart the microservice. Kubernetes can do it automatically via
 [liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/).
 
