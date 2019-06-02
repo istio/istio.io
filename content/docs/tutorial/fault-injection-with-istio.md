@@ -96,9 +96,12 @@ microservices react to the faults you injected.
     You should see something similar to:
 
     {{< text plain >}}
-    [2019-02-17T03:55:50.384Z] "GET /reviews/0 HTTP/1.1" 500 - 0 3965 2824 2824 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "8acc1b91-e238-9ec3-ab04-32317110c27d" "reviews:9080" "172.30.146.72:9080" outbound|9080|v3|reviews.tutorial.svc.cluster.local - 172.21.5.201:9080 172.30.109.78:48222 -
-    [2019-02-17T03:55:47.367Z] "GET /productpage HTTP/1.1" 200 - 0 4209 5843 5843 "10.127.220.66" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "8acc1b91-e238-9ec3-ab04-32317110c27d" "tutorial.bookinfo.com" "127.0.0.1:9080" inbound|9080|http|productpage.tutorial.svc.cluster.local - 172.30.109.78:9080 10.127.220.66:0 -
+    [2019-06-02T02:19:26.742Z] "GET /reviews/0 HTTP/1.1" 0 DC "-" 0 0 3003 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15" "0c33b868-b724-96d7-9113-501b1bf0513c" "reviews:9080" "172.30.230.14:9080" outbound|9080|v2|reviews.tutorial.svc.cluster.local - 172.21.35.212:9080 172.30.109.86:50506 -
+    [2019-06-02T02:19:23.726Z] "GET /productpage HTTP/1.1" 200 - "-" 0 4209 6020 6020 "10.127.220.66" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15" "0c33b868-b724-96d7-9113-501b1bf0513c" "istio.tutorial.bookinfo.com" "127.0.0.1:9080" inbound|9080|http|productpage.tutorial.svc.cluster.local - 172.30.109.86:9080 10.127.220.66:0 outbound_.9080_._.productpage.tutorial.svc.cluster.local
     {{< /text >}}
+
+    Notice the `0` response code in the call to `/reviews/0`, appears after `GET /reviews/0 HTTP/1.1`, and Envoy's
+    response flag `DC` (`Downstream connection termination`) appears next to it.
 
 1.  Check your Kiali console,
         [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
