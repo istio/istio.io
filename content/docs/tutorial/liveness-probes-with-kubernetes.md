@@ -188,7 +188,7 @@ one later.
 
 1.  Access the Istio dashboard at
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
-    In _Istio Service Dashboard_, the `ratings` service of your namespace, notice less about 50% client and server
+    In _Istio Service Dashboard_, the `ratings` service of your namespace, notice about 50% client and server
     success rate.
 
     {{< image width="80%"
