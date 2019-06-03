@@ -23,4 +23,4 @@ At a high level, the basic flow is the same regardless of platform:
 1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release)
 1. [Install Istio on your platform](/docs/setup/kubernetes/install)
 
-Refer to [Getting Started](/docs/setup/kubernetes/getting-started/) to proceed with your installation.
+To proceed with your installation, follow our [getting started guide](/docs/setup/kubernetes/getting-started/).
