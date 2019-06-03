@@ -281,11 +281,19 @@ Suppose the legitimate servers that run the service `datastore` only use the `in
 A malicious user has certificate and key for the `test-team` identity.
 The malicious user intends to impersonate the service to inspect the data sent from the clients.
 The malicious user deploys a forged server with the certificate and key for the `test-team` identity.
-Suppose the malicious user successfully hacked the discovery service or DNS to map the `datastore` service name to the forged server.
+Suppose the malicious user successfully hijacked (through DNS spoofing, BGP/route hijacking, ARP
+spoofing, etc.) the traffic sent to the `datastore` and redirected it to the forged server.
 
 When a client calls the `datastore` service, it extracts the `test-team` identity from the server's certificate,
 and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
 The client detects that `test-team` is **not** allowed to run the `datastore` service and the authentication fails.
+
+Secure naming is able to protect against general network hijackings for HTTPS traffic. It can also
+protect TCP traffic from general network hijackings except for DNS spoofing. It would fail to work
+for TCP traffic if the attacker hijacks the DNS and modifies the IP address of the destination. This
+is because TCP traffic does not contain the hostname information and we can only rely on the IP
+address for routing. And this DNS hijack can happen even before the client-side Envoy receives the
+traffic.
 
 ### Authentication architecture
 
