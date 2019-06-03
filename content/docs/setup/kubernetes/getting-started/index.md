@@ -24,7 +24,7 @@ whether or not you intend to use Istio in production.
    corresponding to your intended use.
 
 After choosing an option and installing Istio on your cluster, you can deploy
-your own application or to experiment with some of our [tasks](/docs/tasks/) and [examples](/docs/examples/).
+your own application or experiment with some of our [tasks](/docs/tasks/) and [examples](/docs/examples/).
 
 {{< tip >}}
 If you're running your own application, make sure to
