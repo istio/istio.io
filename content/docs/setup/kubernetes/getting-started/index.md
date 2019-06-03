@@ -16,7 +16,7 @@ whether or not you intend to use Istio in production.
    It allows you to experiment with many Istio features with modest resource requirements.
 
 1. [Custom installation with Helm](/docs/setup/kubernetes/install/helm/):
-   Choose this option if you want to install Istio for production use, or for performance evaluation.
+   This option is ideal to install Istio for production use or for performance evaluation.
 
 1. [Supported platform installation](/docs/setup/kubernetes/install/platform/):
    Choose this option if your Kubernetes platform provides native support for Istio-enabled clusters
