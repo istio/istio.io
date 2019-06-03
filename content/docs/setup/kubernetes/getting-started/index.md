@@ -8,7 +8,7 @@ aliases:
 keywords: [kubernetes]
 ---
 
-Istio offers multiple installation options depending on your Kubernetes platform and
+Istio offers multiple installation options depending on your platform and
 whether or not you intend to use Istio in production.
 
 - [Demo installation](/docs/setup/kubernetes/install/kubernetes/):
