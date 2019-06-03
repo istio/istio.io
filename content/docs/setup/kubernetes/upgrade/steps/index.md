@@ -23,7 +23,7 @@ upgrading your deployment to Istio 1.1.
 
 ## Upgrade steps
 
-[Download the new Istio release](/docs/setup/kubernetes/download/)
+[Download the new Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release)
 and change directory to the new release directory.
 
 ### Control plane upgrade
@@ -244,7 +244,7 @@ the object to be namespace-scoped in some cases. The `ClusterRbacConfig` follows
 specification as the `RbacConfig` but with the correct cluster scope implementation.
 
 To automate the migration, we developed the `convert_RbacConfig_to_ClusterRbacConfig.sh` script.
-The script is included in the [Istio installation package](/docs/setup/kubernetes/download).
+The script is included in the [Istio installation package](/docs/setup/kubernetes/getting-started/#downloading-the-release).
 
 Download and run the script with the following command:
 

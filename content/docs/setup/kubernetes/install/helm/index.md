@@ -27,9 +27,9 @@ and then further customize the configuration for your specific needs.
 
 1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
 
-1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
 
@@ -40,7 +40,7 @@ need to ensure that a CNI plugin is deployed. Refer to [CNI Setup](/docs/setup/k
 for details.
 {{< /tip >}}
 
-## Helm Chart Release Repositories
+## Helm chart release repositories
 
 The commands in this guide use the Helm charts that are included in the Istio release image.
 If you want to use the Istio release Helm chart repository instead, adjust the commands accordingly and

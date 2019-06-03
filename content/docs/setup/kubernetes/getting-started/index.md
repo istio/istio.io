@@ -4,11 +4,12 @@ description: Download and install Istio.
 weight: 5
 aliases:
     - /docs/setup/kubernetes/download-release/
+    - /docs/setup/kubernetes/download/
 keywords: [kubernetes]
 ---
 
 Istio can be installed on Kubernetes in many different ways, depending on the target platform and intended use.
-The simplest way to get started if you're new to Istio and just want to try it out is by 
+The simplest way to get started if you're new to Istio and just want to try it out is by
 installing Istio's **demo** profile [on Kubernetes without Helm](/docs/setup/kubernetes/install/kubernetes/).
 This will allow you to experiment with many of the Istio's features with modest resource requirements.
 
@@ -57,11 +58,11 @@ services from all other namespaces.
 
     The installation directory contains:
 
-    * Installation YAML files for Kubernetes in `install/`
-    * Sample applications in `samples/`
-    * The `istioctl` client binary in the `bin/` directory. `istioctl` is
+    - Installation YAML files for Kubernetes in `install/`
+    - Sample applications in `samples/`
+    - The `istioctl` client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
-    * The `istio.VERSION` configuration file
+    - The `istio.VERSION` configuration file
 
 1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
     Linux system:
