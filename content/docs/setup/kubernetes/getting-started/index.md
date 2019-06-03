@@ -8,30 +8,41 @@ aliases:
 keywords: [kubernetes]
 ---
 
-Istio can be installed on Kubernetes in many different ways, depending on the target platform and intended use.
-The simplest way to get started if you're new to Istio and just want to try it out is by
-installing Istio's **demo** profile [on Kubernetes without Helm](/docs/setup/kubernetes/install/kubernetes/).
-This will allow you to experiment with many of the Istio's features with modest resource requirements.
+Istio offers multiple installation options depending on your Kubernetes platform and
+whether or not you intend to use Istio in production.
 
-If you want to install Istio for production use, or for performance evaluation, you should
-install Istio using the [Helm Installation guide](/docs/setup/kubernetes/install/helm/).
-Alternatively, if you run Kubernetes on a supported platform, you can follow the instructions
-specific to your Kubernetes platform:
+1. [Quick-start demo install](/docs/setup/kubernetes/install/kubernetes/):
+   Choose this option if you're new to Istio and just want to try it out.
+   This option allows you to experiment with many of the Istio's features with modest resource requirements.
 
-- [Alibaba Cloud Kubernetes Container Service](/docs/setup/kubernetes/install/platform/alicloud/)
-- [Google Kubernetes Engine](/docs/setup/kubernetes/install/platform/gke/)
-- [IBM Cloud](/docs/setup/kubernetes/install/platform/ibm/)
+1. [Customizable install with Helm](/docs/setup/kubernetes/install/helm/):
+   Choose this option if you want to install Istio for production use, or for performance evaluation.
 
-If you want your installation to use Istio's Container Network Interface
+1. [Istio supported platform](/docs/setup/kubernetes/install/platform/):
+   Choose this option if your Kubernetes platform provides native support for Istio-enabled clusters
+   with a [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
+   corresponding to your intended use.
+
+After you've chosen an option and created an Istio-enabled cluster, you can then proceed to deploy
+your own application or to experiment with some of our [tasks](/docs/tasks/) and [examples](/docs/examples/).
+
+{{< tip >}}
+If you're running your own application, make sure to
+check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
+{{< /tip >}}
+
+When you're ready to consider more advanced Istio setups, check out the following:
+
+- If you want your installation to use Istio's Container Network Interface
 (CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
 
-If you want to perform a multicluster setup, visit our
+- If you want to perform a multicluster setup, visit our
 [Multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
 
-To expand your existing mesh with additional containers or VMs not running on
+- To expand your existing mesh with additional containers or VMs not running on
 your mesh's Kubernetes cluster, follow our [Mesh Expansion guide](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
 
-Adding services requires understanding sidecar injection in detail. Visit our
+- Adding services requires understanding sidecar injection in detail. Visit our
 [Installing the Sidecar guide](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
 to learn more.
 
