@@ -28,7 +28,7 @@ your own application or experiment with some of our [tasks](/docs/tasks/) and [e
 
 {{< tip >}}
 If you're running your own application, make sure to
-check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
+check the [requirements for pods and services](/docs/setup/kubernetes/additional-setup/requirements/).
 {{< /tip >}}
 
 When you're ready to consider more advanced Istio setups, check out the following:
