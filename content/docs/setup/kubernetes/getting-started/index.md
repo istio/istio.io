@@ -33,7 +33,7 @@ check the [requirements for pods and services](/docs/setup/kubernetes/additional
 
 When you're ready to consider more advanced Istio use cases, check out the following resources:
 
-- If you want your installation to use Istio's Container Network Interface
+- To install using Istio's Container Network Interface
 (CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
 
 - If you want to perform a multicluster setup, visit our
