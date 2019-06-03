@@ -1,7 +1,7 @@
 ---
 title: Installation Guides
 linktitle: Install
-description: Choose the instructions that best suit your needs and platform.
+description: Choose the guide that best suit your needs and platform.
 weight: 20
 ---
 
