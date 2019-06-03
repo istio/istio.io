@@ -31,7 +31,7 @@ If you're running your own application, make sure to
 check the [requirements for pods and services](/docs/setup/kubernetes/additional-setup/requirements/).
 {{< /tip >}}
 
-When you're ready to consider more advanced Istio setups, check out the following:
+When you're ready to consider more advanced Istio use cases, check out the following resources:
 
 - If you want your installation to use Istio's Container Network Interface
 (CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
