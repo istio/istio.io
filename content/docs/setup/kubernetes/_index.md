@@ -16,7 +16,7 @@ Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< 
 {{< /tip >}}
 
 Istio offers multiple installation flows depending on your Kubernetes platform and inteded use.
-However, at a high level the basic flow is the same regardless of platform:
+At a high level, the basic flow is the same regardless of platform:
 
 1. [Review the pod requirements](/docs/setup/kubernetes/additional-setup/requirements/)
 1. [Prepare your platform for Istio](/docs/setup/kubernetes/platform-setup/)
