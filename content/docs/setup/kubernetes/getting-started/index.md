@@ -36,7 +36,7 @@ When you're ready to consider more advanced Istio use cases, check out the follo
 - To install using Istio's Container Network Interface
 (CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
 
-- If you want to perform a multicluster setup, visit our
+- To perform a multicluster setup, visit our
 [Multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
 
 - To expand your existing mesh with additional containers or VMs not running on
