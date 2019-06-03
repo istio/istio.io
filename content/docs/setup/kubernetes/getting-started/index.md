@@ -11,7 +11,7 @@ keywords: [kubernetes]
 Istio offers multiple installation options depending on your Kubernetes platform and
 whether or not you intend to use Istio in production.
 
-1. [Quick-start demo install](/docs/setup/kubernetes/install/kubernetes/):
+- [Demo installation](/docs/setup/kubernetes/install/kubernetes/):
    Choose this option if you're new to Istio and just want to try it out.
    This option allows you to experiment with many of the Istio's features with modest resource requirements.
 
