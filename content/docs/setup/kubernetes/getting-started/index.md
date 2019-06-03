@@ -13,7 +13,7 @@ whether or not you intend to use Istio in production.
 
 - [Demo installation](/docs/setup/kubernetes/install/kubernetes/):
    This option is ideal if you're new to Istio and just want to try it out.
-   This option allows you to experiment with many of the Istio's features with modest resource requirements.
+   It allows you to experiment with many Istio features with modest resource requirements.
 
 1. [Custom installation with Helm](/docs/setup/kubernetes/install/helm/):
    Choose this option if you want to install Istio for production use, or for performance evaluation.
