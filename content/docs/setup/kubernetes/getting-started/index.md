@@ -37,7 +37,7 @@ When you're ready to consider more advanced Istio use cases, check out the follo
 (CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
 
 - To perform a multicluster setup, visit our
-[Multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
+[multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
 
 - To expand your existing mesh with additional containers or VMs not running on
 your mesh's Kubernetes cluster, follow our [Mesh Expansion guide](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
