@@ -43,7 +43,7 @@ When you're ready to consider more advanced Istio setups, check out the followin
 your mesh's Kubernetes cluster, follow our [Mesh Expansion guide](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
 
 - To add services requires detailed understanding of sidecar injection. Visit our
-[Installing the Sidecar guide](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
+[sidecar injection guide](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
 to learn more.
 
 ## Downloading the release
