@@ -23,7 +23,7 @@ whether or not you intend to use Istio in production.
    with a [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
    corresponding to your intended use.
 
-After you've chosen an option and created an Istio-enabled cluster, you can then proceed to deploy
+After choosing an option and installing Istio on your cluster, you can deploy
 your own application or to experiment with some of our [tasks](/docs/tasks/) and [examples](/docs/examples/).
 
 {{< tip >}}
