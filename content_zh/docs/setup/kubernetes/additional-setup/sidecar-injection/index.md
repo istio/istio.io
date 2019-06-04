@@ -240,7 +240,7 @@ containers:
 
 有时用户不具备控制 Pod 创建过程的能力，例如其他人创建了 Pod。这样一来就无法将注解 `sidecar.istio.io/inject` 加入 Pod，也就不能显式的控制是否进行 Sidecar 的注入了。
 
-设想一下一些中间步骤中的辅助性 Pod，例如用于将源码构建为应用程序的 [OpenShift Builds](https://docs.openshift.com/container-platform/latest/dev_guide/builds/index.html)。二进制交付物构建成功之后，应用程序准备就绪，中间 Pod 就可以删除了。显而易见，即使注入策略被设置为 `enabled` 并且所在命名空间被正确的标记为进行自动注入的情况下，这种中间 Pod 也是不该注入 Sidecar 的。
+设想一下一些中间步骤中的辅助性 Pod，例如用于将源码构建为应用程序的 OpenShift Builds。二进制交付物构建成功之后，应用程序准备就绪，中间 Pod 就可以删除了。显而易见，即使注入策略被设置为 `enabled` 并且所在命名空间被正确的标记为进行自动注入的情况下，这种中间 Pod 也是不该注入 Sidecar 的。
 
 这种情况下可以设置 Istio **不要对这些 Pod 进行注入**，这种设置也是通过标签来进行的。要编辑 `istio-sidecar-injector` ConfigMap，加入 `neverInjectSelector` 条目，这一条目的取值是一个 Kubernetes 标签选择器的数组，数组各个判断之间是逻辑或的关系，首次匹配之后就会停止后面的匹配，来看一个例子：
 
