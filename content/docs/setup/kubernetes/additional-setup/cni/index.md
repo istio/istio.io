@@ -23,7 +23,7 @@ networking functionality but without requiring Istio users to enable elevated
 Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/kubernetes/prepare/requirements/)
+setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/kubernetes/additional-setup/requirements/)
 for users deploying pods into the Istio mesh.  The [Istio CNI plugin](https://github.com/istio/cni)
 replaces the functionality provided by the `istio-init` container.
 
@@ -40,7 +40,7 @@ replaces the functionality provided by the `istio-init` container.
     *  The Kubernetes documentation highly recommends this for all Kubernetes installations
        where `ServiceAccounts` are utilized.
 
-1.  [Download the Istio release](/docs/setup/kubernetes/download/).
+1.  [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
 
 ## Installation
 
@@ -143,7 +143,7 @@ of many common Kubernetes environments.
 
 #### GKE setup
 
-1.  Refer to the procedure to [prepare a GKE cluster for Istio](/docs/setup/kubernetes/prepare/platform-setup/gke/) and
+1.  Refer to the procedure to [prepare a GKE cluster for Istio](/docs/setup/kubernetes/platform-setup/gke/) and
     enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster.
     *  Note for existing clusters this redeploys the nodes.
 
