@@ -4,7 +4,7 @@ description: Instructions to setup an OpenShift cluster for Istio.
 weight: 24
 skip_seealso: true
 aliases:
-    - /docs/setup/kubernetes/platform-setup/openshift/
+    - /docs/setup/kubernetes/prepare/platform-setup/openshift/
 keywords: [platform-setup,openshift]
 ---
 
@@ -45,10 +45,10 @@ $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
 Webhook and certificate signing requests support must be enabled for [automatic injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection) to work. Modify the master configuration file on the master node for the cluster as follows.
 
 {{< tip >}}
-By default, the master configuration file can be found in /etc/origin/master/master-config.yaml.
+By default, the master configuration file can be found in `/etc/origin/master/master-config.yaml`.
 {{< /tip >}}
 
-In the same directory as the master configuration file, create a file named master-config.patch with the following contents:
+In the same directory as the master configuration file, create a file named `master-config.patch` with the following contents:
 
 {{< text yaml >}}
 admissionConfig:

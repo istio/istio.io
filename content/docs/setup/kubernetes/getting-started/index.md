@@ -1,14 +1,52 @@
 ---
-title: Downloading the Release
-linktitle: Download
-description: Download the Istio release and prepare for installation.
-weight: 15
+title: Getting Started
+description: Download and install Istio.
+weight: 5
 aliases:
     - /docs/setup/kubernetes/download-release/
+    - /docs/setup/kubernetes/download/
 keywords: [kubernetes]
 ---
 
-## Download and prepare for the installation
+Istio offers multiple installation options depending on your platform and
+whether or not you intend to use Istio in production.
+
+- [Demo installation](/docs/setup/kubernetes/install/kubernetes/):
+   This option is ideal if you're new to Istio and just want to try it out.
+   It allows you to experiment with many Istio features with modest resource requirements.
+
+- [Custom installation with Helm](/docs/setup/kubernetes/install/helm/):
+   This option is ideal to install Istio for production use or for performance evaluation.
+
+- [Supported platform installation](/docs/setup/kubernetes/install/platform/):
+   This option is ideal if your platform provides native support for Istio-enabled clusters
+   with a [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
+   corresponding to your intended use.
+
+After choosing an option and installing Istio on your cluster, you can deploy
+your own application or experiment with some of our [tasks](/docs/tasks/) and [examples](/docs/examples/).
+
+{{< tip >}}
+If you're running your own application, make sure to
+check the [requirements for pods and services](/docs/setup/kubernetes/additional-setup/requirements/).
+{{< /tip >}}
+
+When you're ready to consider more advanced Istio use cases, check out the following resources:
+
+- To install using Istio's Container Network Interface
+(CNI) plugin, visit our [CNI guide](/docs/setup/kubernetes/additional-setup/cni/).
+
+- To perform a multicluster setup, visit our
+[multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
+
+- To expand your existing mesh with additional containers or VMs not running on
+your mesh's Kubernetes cluster, follow our [mesh expansion guide](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
+
+- To add services requires detailed understanding of sidecar injection. Visit our
+[sidecar injection guide](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
+to learn more.
+
+## Downloading the release
 
 Istio is installed in its own `istio-system` namespace and can manage
 services from all other namespaces.
@@ -31,11 +69,11 @@ services from all other namespaces.
 
     The installation directory contains:
 
-    * Installation YAML files for Kubernetes in `install/`
-    * Sample applications in `samples/`
-    * The `istioctl` client binary in the `bin/` directory. `istioctl` is
+    - Installation YAML files for Kubernetes in `install/`
+    - Sample applications in `samples/`
+    - The `istioctl` client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
-    * The `istio.VERSION` configuration file
+    - The `istio.VERSION` configuration file
 
 1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
     Linux system:
@@ -44,15 +82,7 @@ services from all other namespaces.
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-## Helm Chart Release Repositories
-
-To use the Istio release Helm chart repository, add the Istio release repository as follows:
-
-{{< text bash >}}
-$ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
-{{< /text >}}
-
-## `istioctl` tab completion
+## Enabling `istioctl` tab completion
 
 If you are using Bash or ZSH, `istioctl` includes a helpful script that enables tab completion for the currently available `istioctl` commands.
 

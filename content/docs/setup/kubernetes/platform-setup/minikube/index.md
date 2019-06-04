@@ -4,7 +4,7 @@ description: Instructions to setup Minikube for use with Istio.
 weight: 21
 skip_seealso: true
 aliases:
-    - /docs/setup/kubernetes/platform-setup/minikube/
+    - /docs/setup/kubernetes/prepare/platform-setup/minikube/
 keywords: [platform-setup,kubernetes,minikube]
 ---
 
@@ -26,7 +26,7 @@ resources to run Istio and some basic applications.
 
     {{< /tip >}}
 
-1. Start Minikube with 8192 `MB` of memory and 4 `CPUs`.  This example uses Kuberenetes version **1.13.0**.
+1. Start Minikube with 8192 `MB` of memory and 4 `CPUs`.  This example uses Kubernetes version **1.13.0**.
    You can change the version to any Kubernetes version supported by Istio by altering the `--kubernetes-version` value:
 
     {{< text bash >}}
