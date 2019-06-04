@@ -282,8 +282,8 @@ In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concept
     EOF
     {{< /text >}}
 
-1.  Ask the instructor (write access to the `istio-system` namespace is required) to enable
-    [Istio RBAC](/docs/concepts/security/#authorization) on your namespace:
+1.  Ask your cluster owner to enable
+    [Istio RBAC](/docs/concepts/security/#authorization) on your namespace.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
