@@ -8,6 +8,7 @@ aliases:
     - /docs/concepts/security/authn-policy/
     - /docs/concepts/security/mutual-tls/
     - /docs/concepts/security/rbac/
+    - /docs/concepts/security/mutual-tls.html
 ---
 
 Breaking down a monolithic application into atomic services offers various benefits, including better agility, better scalability
@@ -247,7 +248,7 @@ For a client to call a server with mutual TLS authentication:
 #### Permissive mode
 
 Istio mutual TLS has a permissive mode, which allows a service to accept
-both plain text traffic and mutual TLS traffic at the same time. This
+both plaintext traffic and mutual TLS traffic at the same time. This
 feature greatly improves the mutual TLS onboarding experience.
 
 Many non-Istio clients communicating with a non-Istio server presents a
@@ -258,10 +259,10 @@ do so on some clients. Even after installing the Istio sidecar on the
 server, the operator cannot enable mutual TLS without breaking existing
 communications.
 
-With the permissive mode enabled, the server accepts both plain text and
+With the permissive mode enabled, the server accepts both plaintext and
 mutual TLS traffic. The mode provides great flexibility for the
 on-boarding process. The server's installed Istio sidecar takes mutual TLS
-traffic immediately without breaking existing plain text traffic. As a
+traffic immediately without breaking existing plaintext traffic. As a
 result, the operator can gradually install and configure the client's
 Istio sidecars to send mutual TLS traffic. Once the configuration of the
 clients is complete, the operator can configure the server to mutual TLS
@@ -280,11 +281,19 @@ Suppose the legitimate servers that run the service `datastore` only use the `in
 A malicious user has certificate and key for the `test-team` identity.
 The malicious user intends to impersonate the service to inspect the data sent from the clients.
 The malicious user deploys a forged server with the certificate and key for the `test-team` identity.
-Suppose the malicious user successfully hacked the discovery service or DNS to map the `datastore` service name to the forged server.
+Suppose the malicious user successfully hijacked (through DNS spoofing, BGP/route hijacking, ARP
+spoofing, etc.) the traffic sent to the `datastore` and redirected it to the forged server.
 
 When a client calls the `datastore` service, it extracts the `test-team` identity from the server's certificate,
 and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
 The client detects that `test-team` is **not** allowed to run the `datastore` service and the authentication fails.
+
+Secure naming is able to protect against general network hijackings for HTTPS traffic. It can also
+protect TCP traffic from general network hijackings except for DNS spoofing. It would fail to work
+for TCP traffic if the attacker hijacks the DNS and modifies the IP address of the destination. This
+is because TCP traffic does not contain the hostname information and we can only rely on the IP
+address for routing. And this DNS hijack can happen even before the client-side Envoy receives the
+traffic.
 
 ### Authentication architecture
 
@@ -507,7 +516,7 @@ recommendations to avoid disruption when updating your authentication policies:
 
 - To enable or disable mutual TLS: Use a temporary policy with a `mode:` key
   and a `PERMISSIVE` value. This configures receiving services to accept both
-  types of traffic: plain text and TLS. Thus, no request is dropped. Once all
+  types of traffic: plaintext and TLS. Thus, no request is dropped. Once all
   clients switch to the expected protocol, with or without mutual TLS, you can
   replace the `PERMISSIVE` policy with the final policy. For more information,
   visit the [Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).

@@ -1,7 +1,7 @@
 ---
 title: TCP Traffic Shifting
 description: Shows you how to migrate TCP traffic from an old to new version of a TCP service.
-weight: 26
+weight: 31
 keywords: [traffic-management,tcp-traffic-shifting]
 aliases:
     - /docs/tasks/traffic-management/tcp-version-migration.html

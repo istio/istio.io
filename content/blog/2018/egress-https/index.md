@@ -2,16 +2,11 @@
 title: Consuming External Web Services
 description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-01-31
-last_update: 2018-08-09
+last_update: 2019-04-11
 subtitle: Mesh-external service entries for egress HTTPS traffic
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
 ---
-
-{{< tip >}}
-This blog post was updated on August 09, 2018. It reflects the functionality of Istio 1.0 and uses the new
-[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow these [docs](https://archive.istio.io/v0.7/blog/2018/egress-https.html).
-{{< /tip >}}
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the
 microservices-based applications use functionality provided by legacy systems that reside outside the mesh. You may want
@@ -47,7 +42,7 @@ Perform the steps in the
 [Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
 [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)
 sections, and
-[change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/#change-to-the-blocking-by-default-policy).
+[change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
 ## Bookinfo with HTTPS access to a Google Books web service
 

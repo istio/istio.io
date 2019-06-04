@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: gcr.io/istio-testing/website-builder:2019-03-31
+      - image: gcr.io/istio-testing/website-builder:2019-05-03
 
     working_directory: ~/site
 
@@ -15,7 +15,7 @@ jobs:
 
       - run:
           name: Generating Site
-          command: scripts/gen_site.sh "" -no_minify -no_aliases
+          command: scripts/gen_site.sh "" -no_minify
 
       - run:
           name: Running Linters

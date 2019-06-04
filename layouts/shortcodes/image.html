@@ -54,18 +54,26 @@ omit this value and it will be computed automatically.
     {{- if (ne $prefix "https://") -}}
         {{- $prefix := slicestr $link 0 3 -}}
         {{- if (eq $prefix "../") -}}
-            {{- $link = printf "/%s%s" .Page.Dir (slicestr $link 3) -}}
+            {{- $link = printf "/%s%s" .Page.File.Dir (slicestr $link 3) -}}
         {{- else -}}
-            {{- $link = printf "/%s%s" .Page.Dir $link -}}
+            {{- $link = printf "/%s%s" .Page.File.Dir $link -}}
         {{- end -}}
     {{- end -}}
 {{- end -}}
 
-{{- $path := printf "content/%s" $link }}
+{{- $path := "" }}
+{{- if eq .Page.Language.Lang "zh" -}}
+    {{- $path = printf "content_zh%s" $link }}
+    {{- if not (fileExists $path) -}}
+        {{- $path = printf "content%s" $link }}
+    {{- end -}}
+{{- else -}}
+    {{- $path = printf "content%s" $link }}
+{{- end -}}
 
 {{- if strings.HasSuffix $link ".svg" -}}
     {{- if not (fileExists $path) -}}
-        {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
+       {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
     {{- end -}}
 
     {{- $file := readFile $path -}}

@@ -153,6 +153,7 @@ Devirtualization
 devops
 discuss.istio.io
 distro
+DNS
 Dockerfile
 docker-compose's
 docker.io
@@ -238,6 +239,7 @@ initializer
 Initializers
 initializers
 injector
+InkScape
 int64
 interdependencies
 Interdependencies
@@ -362,6 +364,7 @@ peek
 pem
 PKI
 PKIs
+plaintext
 platform-specific
 pluggability
 pluggable

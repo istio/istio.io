@@ -2,7 +2,7 @@
 title: Monitoring and Access Policies for HTTP Egress Traffic
 description: Describes how to configure Istio for monitoring and access policies of HTTP egress traffic.
 publishdate: 2018-06-22
-last_update: 2019-01-29
+last_update: 2019-03-04
 attribution: Vadim Eisenberg and Ronen Schaffer (IBM)
 keywords: [egress,traffic-management,access-control,monitoring]
 ---
@@ -16,7 +16,7 @@ In this blog post, we show how to apply monitoring and access policies to HTTP e
 ## Use case
 
 Consider an organization that runs applications that process content from _cnn.com_. The applications are decomposed
-into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) and everything works fine. However, at some
+into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) and everything works fine. However, at some
 point in time, the organization decides to banish politics. Practically, it means blocking access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) and allowing access to
 [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health)
@@ -34,9 +34,9 @@ will prevent any possibility for a malicious application to access the forbidden
 
 * The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the
   Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh.
-* The [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway/) example describes how to configure
+* The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example describes how to configure
   Istio to direct egress traffic through a dedicated gateway service called _egress gateway_.
-* The [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example
+* The [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example
   demonstrates how to allow applications to send HTTP requests to external servers that require HTTPS, while directing
   traffic through egress gateway.
 * The [Collecting Metrics](/docs/tasks/telemetry/metrics/collecting-metrics/) task describes how to configure metrics for services in a mesh.
@@ -52,14 +52,14 @@ applied exclusively to the egress traffic.
 
 ## Before you begin
 
-Follow the steps in the [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/) example, **with mutual TLS authentication enabled**, without
-the [Cleanup](/docs/examples/advanced-gateways/egress-gateway-tls-origination//#cleanup) step.
+Follow the steps in the [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example, **with mutual TLS authentication enabled**, without
+the [Cleanup](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination//#cleanup) step.
 After completing that example, you can access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container with `curl` installed. This blog post assumes that the `SOURCE_POD` environment variable contains the source pod's name and that the container's name is `sleep`.
 
 ## Configure monitoring and access policies
 
 Since you want to accomplish your tasks in a _secure way_, you should direct egress traffic through
-_egress gateway_, as described in the [Egress Gateway with TLS Origination](/docs/examples/advanced-gateways/egress-gateway-tls-origination/)
+_egress gateway_, as described in the [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)
 task. The _secure way_ here means that you want to prevent malicious applications from bypassing Istio monitoring and
 policy enforcement.
 
@@ -80,7 +80,7 @@ _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`,
 [Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them
 appears below:
 
-{{< image width="80%" ratio="68.27%"
+{{< image width="80%"
     link="egress-adapters-monitoring.svg"
     caption="Instances, rules and handlers for egress monitoring"
     >}}
@@ -241,7 +241,7 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
     either _/health_ or _/sport_. Also note that this condition is added to the `istio-egressgateway`
     section of the `VirtualService`, since the egress gateway is a hardened component in terms of security (see
     [egress gateway security considerations]
-    (/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations)). You don't want any tampering
+    (/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)). You don't want any tampering
     with your policies.
 
 1.  Send the previous three HTTP requests to _cnn.com_:
@@ -296,7 +296,7 @@ Istio to use access policy information from such a system. You implement this in
 Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
-1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway) example:
+1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway) example:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -359,7 +359,7 @@ static list of allowed URL paths, specified by the `overrides` field. For an ext
 diagram of the instances, rules and handlers appears below. Note that you reuse the same policy rule, `handle-cnn-access`
  both for logging and for access policy checks.
 
-{{< image width="80%" ratio="65.45%"
+{{< image width="80%"
     link="egress-adapters-monitoring-policy.svg"
     caption="Instances, rules and handlers for egress monitoring and access policies"
     >}}
@@ -548,7 +548,7 @@ check, the egress gateway performs TLS origination to the external destination (
 is encrypted again and sent encrypted to the external destination. The diagram below demonstrates the network flow of
 this approach. The HTTP protocol inside the gateway designates the protocol as seen by the gateway after decryption.
 
-{{< image width="80%" ratio="73.96%"
+{{< image width="80%"
 link="http-to-gateway.svg"
 caption="HTTP egress traffic through an egress gateway"
 >}}
@@ -562,7 +562,7 @@ In the HTTPS approach, the requests are encrypted end-to-end, from the applicati
 diagram below demonstrates the network flow of this approach. The HTTPS protocol inside the gateway designates the
 protocol as seen by the gateway.
 
-{{< image width="80%" ratio="73.96%"
+{{< image width="80%"
 link="https-to-gateway.svg"
 caption="HTTPS egress traffic through an egress gateway"
 >}}
@@ -592,8 +592,8 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
 
 ## Cleanup
 
-1.  Perform the instructions in [Cleanup](/docs/examples/advanced-gateways/egress-gateway//#cleanup) section of the
-[Configure an Egress Gateway](/docs/examples/advanced-gateways/egress-gateway//) example.
+1.  Perform the instructions in [Cleanup](/docs/tasks/traffic-management/egress/egress-gateway//#cleanup) section of the
+[Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway//) example.
 
 1.  Delete the logging and policy checks configuration:
 

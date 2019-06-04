@@ -9,11 +9,11 @@
     <hr/>
     <div class="directory" role="directory">
         <nav id="InlineTableOfContents">
-            <ul>
+            <ol>
                 {{ range $q := $sorted_questions }}
-                    <li><a href="#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a></li>
+                    <li role="none" aria-label="{{ $q.Title }}"><a href="#{{ $q.File.BaseFileName | urlize }}">{{ $q.Title }}</a></li>
                 {{ end }}
-            </ul>
+            </ol>
         </nav>
     </div>
     <hr/>

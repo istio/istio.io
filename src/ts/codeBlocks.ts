@@ -72,7 +72,7 @@ function handleCodeBlocks() {
 
                 const text = getToolbarDivText(div);
                 let downloadas = code.dataset.downloadas;
-                if (downloadas === undefined || downloadas === null || downloadas === "") {
+                if (!downloadas || downloadas === "") {
                     let lang = "";
                     for (const cl of code.classList) {
                         if (!cl) {
@@ -253,6 +253,7 @@ function handleCodeBlocks() {
                     cmd += "$ " + Prism.highlight(tmp, Prism.languages.bash, "bash") + "\n";
                 } else {
                     cmd += "$ " + tmp + "\n";
+                    cmd = cmd.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 }
             }
 

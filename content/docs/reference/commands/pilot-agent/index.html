@@ -9,8 +9,10 @@ number_of_entries: 5
 <p>Istio Pilot agent runs in the sidecar or gateway container and bootstraps Envoy.</p>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -57,8 +59,10 @@ number_of_entries: 5
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -104,6 +108,10 @@ number_of_entries: 5
 <tr>
 <td><code>--discoveryAddress &lt;string&gt;</code></td>
 <td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default `istio-pilot:15010`)</td>
+</tr>
+<tr>
+<td><code>--dnsRefreshRate &lt;string&gt;</code></td>
+<td>The dns_refresh_rate for bootstrap STRICT_DNS clusters  (default `300s`)</td>
 </tr>
 <tr>
 <td><code>--domain &lt;string&gt;</code></td>
@@ -194,6 +202,10 @@ number_of_entries: 5
 <td>Port on which Envoy should listen for administrative commands  (default `15000`)</td>
 </tr>
 <tr>
+<td><code>--proxyComponentLogLevel &lt;string&gt;</code></td>
+<td>The component log level used to start the Envoy proxy  (default `misc:error`)</td>
+</tr>
+<tr>
 <td><code>--proxyLogLevel &lt;string&gt;</code></td>
 <td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off})  (default `warning`)</td>
 </tr>
@@ -218,30 +230,6 @@ number_of_entries: 5
 <td>Go template bootstrap config  (default ``)</td>
 </tr>
 <tr>
-<td><code>--tlsClientCertChain &lt;string&gt;</code></td>
-<td>Absolute path to client cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsClientRootCert &lt;string&gt;</code></td>
-<td>Absolute path to client root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsSClientKey &lt;string&gt;</code></td>
-<td>Absolute path to client key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsServerCertChain &lt;string&gt;</code></td>
-<td>Absolute path to server cert-chain file used for istio mTLS  (default `/etc/certs/cert-chain.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsServerKey &lt;string&gt;</code></td>
-<td>Absolute path to server private key file used for istio mTLS  (default `/etc/certs/key.pem`)</td>
-</tr>
-<tr>
-<td><code>--tlsServerRootCert &lt;string&gt;</code></td>
-<td>Absolute path to server root cert file used for istio mTLS  (default `/etc/certs/root-cert.pem`)</td>
-</tr>
-<tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
 <td>The domain to use for identities  (default ``)</td>
 </tr>
@@ -257,8 +245,10 @@ number_of_entries: 5
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -305,9 +295,11 @@ number_of_entries: 5
 </code></pre>
 <table class="command-flags">
 <thead>
+<tr>
 <th>Flags</th>
 <th>Shorthand</th>
 <th>Description</th>
+</tr>
 </thead>
 <tbody>
 <tr>
@@ -367,7 +359,7 @@ number_of_entries: 5
 </tr>
 </tbody>
 </table>
-<h2 id="envvars">Environment Variables</h2>
+<h2 id="envvars">Environment variables</h2>
 These environment variables affect the behavior of the <code>pilot-agent</code> command.
 <table class="envvars">
 <thead>
@@ -407,6 +399,42 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>ISTIO_KUBE_APP_PROBERS</code></td>
 <td>String</td>
 <td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_CLIENT_CERT_CHAIN</code></td>
+<td>String</td>
+<td><code>/etc/certs/cert-chain.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_CLIENT_KEY</code></td>
+<td>String</td>
+<td><code>/etc/certs/key.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_CLIENT_ROOT_CERT</code></td>
+<td>String</td>
+<td><code>/etc/certs/root-cert.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_SERVER_CERT_CHAIN</code></td>
+<td>String</td>
+<td><code>/etc/certs/cert-chain.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_SERVER_KEY</code></td>
+<td>String</td>
+<td><code>/etc/certs/key.pem</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_META_TLS_SERVER_ROOT_CERT</code></td>
+<td>String</td>
+<td><code>/etc/certs/root-cert.pem</code></td>
 <td></td>
 </tr>
 <tr>
@@ -452,16 +480,22 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_CDS_PRECOMPUTATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
+<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
@@ -474,6 +508,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_BURST</code></td>
@@ -516,6 +556,46 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="annotations">Annotations</h2>
+These resource annotations are used by the <code>pilot-agent</code> command.
+<table class="annotations">
+<thead>
+<tr>
+<th>Annotation Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>policy.istio.io/check</code></td>
+<td>Determines the policy for behavior when unable to connect to Mixer. If not set, FAIL_CLOSE is set, rejecting requests.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkBaseRetryWaitTime</code></td>
+<td>Base time to wait between retries, will be adjusted by backoff and jitter. In duration format. If not set, this will be 80ms.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkMaxRetryWaitTime</code></td>
+<td>Maximum time to wait between retries to Mixer. In duration format. If not set, this will be 1000ms.</td>
+</tr>
+<tr>
+<td><code>policy.istio.io/checkRetries</code></td>
+<td>The maximum number of retries on transport errors to Mixer. If not set, this will be 0, indicating no retries.</td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionPrefixes</code></td>
+<td>Specifies the comma separated list of prefixes of the stats to be emitted by Envoy.</td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionRegexps</code></td>
+<td>Specifies the comma separated list of regexes the stats should match to be emitted by Envoy.</td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionSuffixes</code></td>
+<td>Specifies the comma separated list of suffixes of the stats to be emitted by Envoy.</td>
 </tr>
 </tbody>
 </table>

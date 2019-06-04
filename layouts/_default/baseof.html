@@ -48,7 +48,9 @@
         {{ end }}
 
         {{ $analytics_id := .Site.Data.args.main_analytics_id }}
-        {{ if .Site.Data.args.archive }}
+        {{ if .Site.Data.args.archive_landing }}
+            <title>istio.io Archives</title>
+        {{ else if .Site.Data.args.archive }}
             {{ if eq .Title "Istio" }}
                 <title>Istioldie {{ .Site.Data.args.version }}</title>
             {{ else }}
@@ -103,19 +105,19 @@
         <!-- style sheets -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic">
         <link rel="stylesheet" href="/css/all.css">
+
+        <!-- set the color theme -->
+        <script src="/js/themes_init.min.js"></script>
     </head>
 
     {{ $site_mode := ""}}
-    {{ if .Site.Data.args.archive }}
+    {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
         {{ $site_mode = "archive-site" }}
     {{ else if .Site.Data.args.preliminary }}
         {{ $site_mode = "preliminary-site" }}
     {{ end }}
 
     <body class="language-unknown {{ $site_mode}}">
-        <!-- set the color theme as soon as possible -->
-        <script src="/js/themes_init.min.js"></script>
-
         <!-- inject some build-time constants into JavaScript-land -->
         <script>
             const branchName = "{{ .Site.Data.args.source_branch_name }}";

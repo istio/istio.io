@@ -79,7 +79,7 @@ Below is our list of existing features and their current phases. This informatio
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 | [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
-| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/secure-ingress/sds) | Alpha
+| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Alpha
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
@@ -97,7 +97,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
 | Basic Configuration Resource Validation | Alpha
-| [Mixer Self Monitoring](/help/faq/mixer/#mixer-self-monitoring) | Beta
+| [Mixer Self Monitoring](/faq/mixer/#mixer-self-monitoring) | Beta
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
 | [Istio CNI plugin](/docs/setup/kubernetes/additional-setup/cni/) | Alpha

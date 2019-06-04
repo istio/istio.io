@@ -5,6 +5,7 @@ weight: 10
 aliases:
     - /docs/samples/bookinfo.html
     - /docs/guides/bookinfo/index.html
+    - /docs/guides/bookinfo.html
 ---
 
 This example deploys a sample application composed of four separate microservices used
@@ -155,7 +156,7 @@ is used for this purpose.
     bookinfo-gateway   32s
     {{< /text >}}
 
-1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
+1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
 
 1.  Set `GATEWAY_URL`:
 
@@ -175,6 +176,7 @@ is used for this purpose.
 
     {{< text bash >}}
     $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
+    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
     {{< /text >}}
 
 1.  Confirm that all docker containers are running:

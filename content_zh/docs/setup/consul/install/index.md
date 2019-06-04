@@ -82,7 +82,7 @@ Istio Pilot 、Mixer 和 Citadel 的 Debian 包可以通过 Istio 的发行版�
 
 ## 通过 Istio sidecars 做流量路由
 
-为了能够通过 Istio sidecars 透明地路由应用的网络流量，部分 sidecar 的安装需要设置适当的 IP Table 规则。这种转发规则的 IP Table 脚本可以在[这里]({{< github_file >}}/tools/deb/istio-iptables.sh)找到。
+为了能够通过 Istio sidecars 透明地路由应用的网络流量，部分 sidecar 的安装需要设置适当的 IP Table 规则。这种转发规则的 IP Table 脚本可以在[这里]({{< github_file >}}/tools/packaging/common/istio-iptables.sh)找到。
 
 {{< warning >}}
 该脚本必须在启动应用和 sidecar 之前执行。

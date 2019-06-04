@@ -11,6 +11,7 @@ aliases:
     - /docs/concepts/traffic-management/handling-failures
     - /docs/concepts/traffic-management/load-balancing
     - /docs/concepts/traffic-management/request-routing
+    - /docs/concepts/traffic-management/pilot.html
 ---
 
 This page provides an overview of how traffic management works
@@ -206,7 +207,7 @@ The geographic location typically represents a data center. Istio uses
 this information to prioritize load balancing pools to control
 the geographic location where requests are proxied.
 
-For more information and instructions on how to enable this feature see the [operations guide](/help/ops/traffic-management/locality-load-balancing/).
+For more information and instructions on how to enable this feature see the [operations guide](/docs/ops/traffic-management/locality-load-balancing/).
 
 ## Handling failures
 
@@ -476,7 +477,7 @@ spec:
 
 #### Timeouts and retries
 
-By default, the timeout for HTTP requests is 15 seconds,
+By default, the timeout for HTTP requests is disabled,
 but it can be overridden in a route rule as follows:
 
 {{< text yaml >}}

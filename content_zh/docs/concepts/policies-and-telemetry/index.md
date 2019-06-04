@@ -13,7 +13,7 @@ Istio 提供统一抽象，使得 Istio 可以与一组开放式基础设施后�
 
 Mixer 是负责提供策略控制和遥测收集的 Istio 组件：
 
-{{< image width="75%" link="/docs/concepts/policies-and-telemetry/topology-without-cache.svg" caption="Mixer 拓扑" >}}
+{{< image width="75%" link="topology-without-cache.svg" caption="Mixer 拓扑" >}}
 
 在每次请求执行先决条件检查之前以及在每次报告遥测请求之后，Envoy sidecar 在逻辑上调用 Mixer。
 该 Sidecar 具有本地缓存​，从而可以在缓存中执行相对较大比例的前提条件检查。此外，sidecar 缓冲出站遥测，使其实际上不需要经常调用 Mixer。
@@ -33,7 +33,7 @@ Mixer 是高度模块化和可扩展的组件。它的一个关键功能就是�
 
 Mixer 处理不同基础设施后端的灵活性是通过使用通用插件模型实现的。每个插件都被称为 **Adapter**，Mixer 通过它们与不同的基础设施后端连接，这些后端可提供核心功能，例如日志、监控、配额、ACL 检查等。通过配置能够决定在运行时使用的确切的适配器套件，并且可以轻松扩展到新的或定制的基础设施后端。
 
-{{< image width="35%" link="/docs/concepts/policies-and-telemetry/adapters.svg"
+{{< image width="35%" link="adapters.svg"
     alt="显示 Mixer 及其适配器"
     caption="Mixer 及其适配器"
     >}}
@@ -50,7 +50,7 @@ Mixer 是一个高可用的组件，其设计有助于提高整体可用性并�
 
 网格中每个服务都会有对应的 Sidecar 代理在运行，因此在内存消耗方面，Sidecar 必须厉行节约，这就限制了本地缓存和缓冲的可能数量。然而，独立运行 的 Mixer 可以使用相当大的缓存和输出缓冲区。因此，Mixer 可用作 Sidecar 的高度扩展且高度可用的二级缓存。
 
-{{< image width="75%" link="/docs/concepts/policies-and-telemetry/topology-with-cache.svg"  caption="Mixer 拓扑" >}}
+{{< image width="75%" link="topology-with-cache.svg"  caption="Mixer 拓扑" >}}
 
 由于 Mixer 的预期可用性远高于大多数基础设施后端（通常这些可用性可能达到 99.9％）。Mixer 的本地缓存和缓冲不仅有助于减少延迟，而且即使在后端无响应时也能继续运行，从而有助于屏蔽基础设施后端故障。
 
@@ -74,7 +74,7 @@ destination.service: example
 
 Mixer 本质上是一个属性处理机。每个经过 Envoy sidecar 的请求都会调用 Mixer，为 Mixer 提供一组描述请求和请求周围环境的属性。基于 Envoy sidecar 的配置和给定的特定属性集，Mixer 会调用各种基础设施后端。
 
-{{< image width="60%" link="/docs/concepts/policies-and-telemetry/machine.svg" caption="属性机" >}}
+{{< image width="60%" link="machine.svg" caption="属性机" >}}
 
 ### 属性词汇
 

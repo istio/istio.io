@@ -105,7 +105,7 @@ The output shows:
 To illustrate the case when there are conflicts, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl apply -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
@@ -122,7 +122,7 @@ EOF
 Run the same `istioctl` command as above, you now see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
 
 {{< text bash >}}
-$ i authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
+$ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/            bad-rule/default
 {{< /text >}}

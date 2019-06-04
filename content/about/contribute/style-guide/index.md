@@ -1,7 +1,7 @@
 ---
 title: Style Guide
 description: Explains the dos and donts of writing Istio documentation.
-weight: 70
+weight: 20
 aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html

@@ -1,7 +1,7 @@
 ---
 title: Creating and Editing Pages
 description: Explains the mechanics of creating and maintaining documentation pages.
-weight: 30
+weight: 10
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
     - /docs/reference/contribute/writing-a-new-topic.html
@@ -131,7 +131,7 @@ The available front matter fields are:
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 |`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
-|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated content
+|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated part
 
 There are a few more front matter fields available specifically for blog posts:
 
@@ -657,12 +657,12 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /faq
+    - /help/faq
 ---
 {{< /text >}}
 
-With the above in a page saved as `help/faq.md`, the user will be able to access the page by going
-to `istio.io/help/faq/` as normal, as well as `istio.io/faq/`.
+With the above in a page saved as `faq/_index.md`, the user will be able to access the page by going
+to `istio.io/faq/` as normal, as well as `istio.io/help/faq/`.
 
 You can also add many redirects like so:
 

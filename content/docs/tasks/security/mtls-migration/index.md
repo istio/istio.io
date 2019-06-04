@@ -21,7 +21,7 @@ You can configure Istio services to send mutual
 TLS traffic to that service while connections from legacy services will not
 lose communication. Moreover, you can use the
 [Grafana dashboard](/docs/tasks/telemetry/metrics/using-istio-dashboard/) to check which services are
-still sending plain text traffic to the service in "PERMISSIVE" mode and choose to lock
+still sending plaintext traffic to the service in "PERMISSIVE" mode and choose to lock
 down once the migration is done.
 
 ## Before you begin
@@ -90,7 +90,7 @@ spec:
 EOF
 {{< /text >}}
 
-`sleep.foo` and `sleep.bar` should start sending mutual TLS traffic to `httpbin.foo`. And `sleep.legacy` still sends plain text
+`sleep.foo` and `sleep.bar` should start sending mutual TLS traffic to `httpbin.foo`. And `sleep.legacy` still sends plaintext
 traffic to `httpbin.foo` since it does not have sidecar thus `DestinationRule` does not apply.
 
 Now we confirm all requests to `httpbin.foo` still succeed.
@@ -137,7 +137,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 {{< /text >}}
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
-However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for the plain text traffic by default.
+However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
 We recommend you use [Istio Authorization](/docs/tasks/security/authz-http/) to configure different paths with different authorization policies.
 
 ## Cleanup

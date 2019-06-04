@@ -112,6 +112,9 @@ other = "Before you download %s, you should know that there's a newer patch rele
 [relnote_update_button]
 other = "LEARN ABOUT ISTIO %s"
 
+[relnote_update_notice]
+other = "Update Notice"
+
 [page_attribution]
 other = "By "
 
@@ -189,9 +192,6 @@ other = "-"
 
 [syntax_coloring]
 other = "Color Examples"
-
-[announcement_download]
-other = "DOWNLOAD %s"
 
 [announcement_relnotes]
 other = "%s RELEASE NOTES"
