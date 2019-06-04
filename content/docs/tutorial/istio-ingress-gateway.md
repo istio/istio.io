@@ -73,7 +73,8 @@ control already at the ingress point, even before the traffic reaches your micro
     {{< /text >}}
 
 1.  Follow the instructions in the
-    [Istio Ingress Configuration task, Determining the Ingress IP and ports section](/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports) to set `INGRESS_HOST` and `INGRESS_PORT`.
+    [Istio Ingress Configuration task, Determining the Ingress IP and ports section](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    to set `INGRESS_HOST` and `INGRESS_PORT`.
 
 1.  Echo the line you will add to your `/etc/hosts` file:
 

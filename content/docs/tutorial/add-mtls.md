@@ -12,7 +12,7 @@ environments, there are regulations that require that all the traffic inside the
 Here Istio comes to your rescue, by encrypting the traffic between the sidecars. The traffic is unencrypted only inside
 the application pods, between the microservices and the sidecars, but leaves the pods encrypted.
 
-In this module you enable [mutual TLS authentication](/help/glossary#mutual-tls-authentication) of Istio on the traffic between
+In this module you enable [mutual TLS authentication](/docs/reference/glossary#mutual-tls-authentication) of Istio on the traffic between
 microservices in your namespace.
 
 1.  First, check that your microservices accept unencrypted traffic. Send an HTTP request to `ratings` from your testing
