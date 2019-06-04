@@ -152,7 +152,7 @@ Enable access policies in the following sections to limit access to the microser
     either read-write, or nothing. Similarly, you cannot allow/deny traffic based on other HTTP parameters, like
     HTTP Path. To specify access policies based on HTTP parameters you have to use Istio policies.
 
-    Delete the Kubernetes Network Policies in the next subsection and proceed to define Istio policies.
+    Delete the Kubernetes Network Policies in the next subsection and proceed to define Istio RBAC policies.
 
 ### Clean Kubernetes Network Policies
 
