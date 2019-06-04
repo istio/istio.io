@@ -169,8 +169,8 @@ The configuration changes above (by Helm or by the configuration map) effect all
 ##### Re-deploy the liveness health check app
 
 {{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
 {{< /text >}}
 
 {{< text bash >}}
