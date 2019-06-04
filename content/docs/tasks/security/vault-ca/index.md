@@ -105,6 +105,8 @@ certificate signing requests to Vault.
     on the testing Vault CA.
     To learn more about configuring a Vault CA for Kubernetes authentication and authorization,
     visit the [Vault Kubernetes `auth` method reference documentation](https://www.vaultproject.io/docs/auth/kubernetes.html).
+    The [Integration Kubernetes with Vault - auth](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) post includes
+    detailed examples of configuring Vault to authenticate and authorize Kubernetes service accounts.
 
     {{< text bash >}}
     $ export SA_SECRET_NAME=$(kubectl get serviceaccount vault-citadel-sa -o=jsonpath='{.secrets[0].name}')
