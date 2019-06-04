@@ -122,6 +122,9 @@ Enable access policies in the following sections to limit access to the microser
     EOF
     {{< /text >}}
 
+1.  Access the application's webpage and verify that the application continues to work, which would mean that the
+    authorized access is allowed and you configured your policy rules correctly.
+
 1.  Check that unauthorized access is denied.
 
     1.  GET request from `ratings` to `reviews`
