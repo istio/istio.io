@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/mesh-expansion/
 ---
 
-This flow provides instructions to integrate VMs and bare metal hosts into
+This guide provides instructions to integrate VMs and bare metal hosts into
 an Istio mesh deployed on Kubernetes.
 
 ## Prerequisites

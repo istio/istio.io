@@ -7,8 +7,8 @@ aliases:
     - /docs/setup/kubernetes/quick-start/
 ---
 
-Follow this flow to quickly evaluate Istio in a Kubernetes cluster on any platform.
-This flow installs Istio's built-in **demo**
+Follow this guide to quickly evaluate Istio in a Kubernetes cluster on any platform.
+This guide installs Istio's built-in **demo**
 [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
 using basic Kubernetes commands without needing to download or install [Helm](https://github.com/helm/helm).
 
@@ -24,11 +24,11 @@ This permits customization of Istio to operator specific requirements.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/kubernetes/download/).
+1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
 
-1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
 
 ## Installation steps
 

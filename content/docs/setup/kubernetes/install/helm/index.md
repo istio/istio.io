@@ -10,9 +10,9 @@ aliases:
 icon: helm
 ---
 
-Follow this flow to install and configure an Istio mesh for in-depth evaluation or production use.
+Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
 
-This installation flow uses [Helm](https://github.com/helm/helm) charts that provide rich
+This installation guide uses [Helm](https://github.com/helm/helm) charts that provide rich
 customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can simply use `helm template` to generate the configuration and then install it
 using `kubectl apply`, or you can choose to use `helm install` and let
@@ -25,11 +25,11 @@ and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/kubernetes/download/).
+1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
 
-1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
 
@@ -40,9 +40,18 @@ need to ensure that a CNI plugin is deployed. Refer to [CNI Setup](/docs/setup/k
 for details.
 {{< /tip >}}
 
+## Helm chart release repositories
+
+The commands in this guide use the Helm charts that are included in the Istio release image.
+If you want to use the Istio release Helm chart repository instead, adjust the commands accordingly and
+add the Istio release repository as follows:
+
+{{< text bash >}}
+$ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
+{{< /text >}}
+
 ## Installation steps
 
-The following commands use the Helm charts that are included in the Istio release image.
 Change directory to the root of the release and then
 choose one of the following two **mutually exclusive** options:
 
