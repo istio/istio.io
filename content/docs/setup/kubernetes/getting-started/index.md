@@ -15,10 +15,10 @@ whether or not you intend to use Istio in production.
    This option is ideal if you're new to Istio and just want to try it out.
    It allows you to experiment with many Istio features with modest resource requirements.
 
-1. [Custom installation with Helm](/docs/setup/kubernetes/install/helm/):
+- [Custom installation with Helm](/docs/setup/kubernetes/install/helm/):
    This option is ideal to install Istio for production use or for performance evaluation.
 
-1. [Supported platform installation](/docs/setup/kubernetes/install/platform/):
+- [Supported platform installation](/docs/setup/kubernetes/install/platform/):
    This option is ideal if your platform provides native support for Istio-enabled clusters
    with a [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
    corresponding to your intended use.
