@@ -12,7 +12,7 @@ weight: 990
     $ kubectl delete namespace $NAMESPACE
     {{< /text >}}
 
-1.  ** Cluster owner**: Delete the tutorial-related resources in the `istio-system` namespace:
+1.  **Cluster owner**: Delete the tutorial-related resources in the `istio-system` namespace:
 
     {{< text bash >}}
     $ kubectl delete ingress istio-system -n istio-system
