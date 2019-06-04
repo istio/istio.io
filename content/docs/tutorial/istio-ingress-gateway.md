@@ -123,7 +123,7 @@ control already at the ingress point, even before the traffic reaches your micro
 
 1.  At this point you can stop sending requests through the Kubernetes Ingress and use Istio Ingress Gateway only.
     Stop the infinite loop (`Ctrl-C` in the terminal window) you set
-    [previosly](/docs/tutorial/run-bookinfo-with-kubernetes/#access-your-application).
+    [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#access-your-application).
     In the real life, that would mean updating the DNS entry of your application to contain the IP of Istio Ingress
     Gateway or configuring your external Load Balancer.
 
