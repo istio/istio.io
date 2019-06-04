@@ -65,7 +65,7 @@ Enable access policies in the following sections to limit access to the microser
 
 ## Kubernetes Network Policies
 
-1.  Define the policies:
+1.  Specify which pod can access which pod by defining the following policies. All unspecified access will be denied.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
