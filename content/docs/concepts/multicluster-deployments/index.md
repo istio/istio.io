@@ -97,7 +97,7 @@ same IP address.
     caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN"
 >}}
 
-In this topoloigy, the Istio control plane is deployed on one of the clusters while all other
+In this topology, the Istio control plane is deployed on one of the clusters while all other
 clusters run a simpler remote Istio configuration which connects them to the single Istio control plane
 that manages all of the Envoy's as a single mesh. The IP addresses on the various clusters must not
 overlap and DNS resolution for services on remote clusters is not automatic.  Users need to replicate
