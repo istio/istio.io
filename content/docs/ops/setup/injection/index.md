@@ -11,7 +11,7 @@ time. Injection can be scoped to particular sets of namespaces using
 the webhooks `namespaceSelector` mechanism. Injection can also be
 enabled and disabled per-pod with an annotation.
 
-Whether or not a sidecar is injected is depends on three pieces of configuration and two limitations:
+Whether or not a sidecar is injected depends on three pieces of configuration and two limitations:
 
 Configuration:
 * webhooks `namespaceSelector`
