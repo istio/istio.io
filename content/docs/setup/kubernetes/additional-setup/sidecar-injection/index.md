@@ -67,7 +67,7 @@ $ kubectl apply -f sleep-injected.yaml
 Verify that the sidecar has been injected into the sleep pod with `2/2` under the READY column.
 
 {{< text bash >}}
-$$ kubectl get pod  -l app=sleep
+$ kubectl get pod  -l app=sleep
 NAME                     READY   STATUS    RESTARTS   AGE
 sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 {{< /text >}}
@@ -133,8 +133,8 @@ kube-system    Active    1h
 Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
 
 {{< text bash >}}
-$ kubectl delete pod sleep-776b7bcdcd-7hpnk
-$ kubectl get pod
+$ kubectl delete pod -l app=sleep
+$ kubectl get pod -l app=sleep
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
 sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
@@ -143,14 +143,14 @@ sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
 View detailed state of the injected pod. You should see the injected `istio-proxy` container and corresponding volumes. Be sure to substitute the correct name for the `Running` pod below.
 
 {{< text bash >}}
-$ kubectl describe pod sleep-776b7bcdcd-bhn9m
+$ kubectl describe pod -l app=sleep
 {{< /text >}}
 
 Disable injection for the `default` namespace and verify new pods are created without the sidecar.
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
-$ kubectl delete pod sleep-776b7bcdcd-bhn9m
+$ kubectl delete pod -l app=sleep
 $ kubectl get pod
 NAME                     READY     STATUS        RESTARTS   AGE
 sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
