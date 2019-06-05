@@ -51,7 +51,7 @@ of injected sidecar when it was.
 1. Ensure your pod does not have `hostNetwork: true` in its pod spec.
    Automatic sidecar injection cannot be used with pods that are on the host network.
 
-   The sidecar model assumes that the iptables changes required for Envy to intercept
+   The sidecar model assumes that the iptables changes required for Envoy to intercept
    traffic are within the pod. For pods on the host network this assumption is violated,
    and this can lead to routing failures at the host level.
 
