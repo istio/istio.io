@@ -629,7 +629,7 @@ Each rule has the following standard fields:
   include all services in the specified namespace.
 
 - **`methods`**: A list of HTTP methods. You can set the value to `*` to include all
-  HTTP methods. This field should not be used for TCP and gRPC services.
+  HTTP methods. This field should not be set for TCP and gRPC services.
 
 - **`paths`**: HTTP paths or gRPC methods. The gRPC methods must be in the
    form of `/packageName.serviceName/methodName` and are case sensitive.
