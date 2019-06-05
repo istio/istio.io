@@ -69,11 +69,10 @@ services from all other namespaces.
 
     The installation directory contains:
 
-    - Installation YAML files for Kubernetes in `install/`
+    - Installation YAML files for Kubernetes in `install/kubernetes`
     - Sample applications in `samples/`
     - The `istioctl` client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
-    - The `istio.VERSION` configuration file
 
 1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
     Linux system:
