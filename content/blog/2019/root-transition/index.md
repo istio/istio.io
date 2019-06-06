@@ -1,6 +1,6 @@
 ---
-title: User guide for extenting Istio root certificate lifetime
-description: The user guide to extend Istio root certificate lifetime.
+title: Extending the lifetime of the Istio self-signed root certificate
+description: Learn how to extend the lifetime of the Istio self-signed root certificate.
 publishdate: 2019-06-06
 subtitle:
 attribution: Oliver Liu
@@ -11,21 +11,22 @@ keywords: [security, PKI, certificate, Citadel]
 
 ## Background
 
-The Istio self-signed certificates have the default lifetime of 1 year.
+The Istio self-signed certificates have a default lifetime of 1 year.
 If you are using the Istio self-signed certificates,
 please schedule a root transition before it expires.
 An expiration of root certificate may lead to an unexpected cluster-wide outage.
-After the transition, the root certificate will be renewed to have 10 year lifetime.
+After the transition, the root certificate will be renewed to have a 10 year lifetime.
 
 {{< tip >}}
-We strongly recommend you rotate root keys and root certificates anually as a security best practice.
+We strongly recommend you rotate root keys and root certificates annually as a security best practice.
 We will send out instructions for root key/cert rotation as a follow-up.
 {{< /tip >}}
 
-To evaluate the lifetime remaining for your root certificate, please refer to Step 0 in the following procedure.
+To evaluate the lifetime remaining for your root certificate, please refer to the first step in the
+[procedure below](#root-transition-procedure).
 
 We provide the following procedure for you to do the root transition.
-Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact the long-lived connections.
+Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
 For details about the impacts and how Envoy hot restart works, please refer to
 [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart) and
 [here](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5).
@@ -42,9 +43,9 @@ you are recommended to follow the procedure listed below to upgrade.
 If you are currently using the mutual TLS feature in Istio with self-signed certificates,
 please follow the procedure and check whether you will be affected.
 
-## Procedure
+## Root transition procedure
 
-### Step 0. Check when the root certificate expires
+1. Check when the root certificate expires:
 
 Download this [script](TODO) on a machine that has `kubectl` access to the cluster.
 
@@ -56,13 +57,22 @@ $ ./root-transition.sh check
 
 Execute the remainder of the steps prior to root certificate expiration to avoid system outages.
 
-### Step 1. Execute a root certificate transition
+1. Execute a root certificate transition:
 
 During the transition, the Envoy sidecars may be hot-restarted. This may have some impact on your traffic.
 Please refer to
 [Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)
 and read [this](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)
 blog post for more details.
+
+{{< warning >}}
+If your Pilot does not have a Envoy sidecar, consider installing Envoy sidecar for your Pilot.
+Because the Pilot has issue using the old root certificate to verify the new workload certificates.
+This may cause disconnection between Pilot and Envoy.
+Please see the [here](check-if-pilot-has-an-envoy-sidecar) for how to check.
+The [Istio upgrade guide](/docs/setup/kubernetes/upgrade/steps/)
+by default installs Pilot with Envoy sidecar.
+{{< /warning >}}
 
 {{< text bash>}}
 $ ./root_transition.sh transition
@@ -86,11 +96,13 @@ Certificate:
         ...
 {{< /text >}}
 
-### Step 2. Verify the new workload certificates are generated
+1. Verify the new workload certificates are generated:
 
 {{< text bash>}}
-$ ./root_transition.sh verify
-This script checks the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.                    
+$ ./root_transition.sh check
+...
+===YOU HAVE 3650 DAYS BEFORE THE ROOT CERT EXPIRES!=====
+Checking the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.
 Root cert MD5 is 8fa8229ab89122edba73706e49a55e4c
 Checking namespace: default
   Secret default.istio.default is updated.
@@ -102,18 +114,18 @@ Checking namespace: istio-system
 {{< /text >}}
 
 If this command fails, wait a minute and run the command again.
-It takes time for Citadel to propogate the certificates.
+It takes time for Citadel to propagate the certificates.
 
-### Step 3. Update to Istio 1.1.8
+1. Update to Istio 1.1.8:
 
 {{< warning >}}
 To ensure the control plane components and Envoy sidecars all reload the new certificates and keys, this step is mandatory.
 {{< /warning >}}
 
 Upgrade your control plane and `istio-proxy` sidecars to 1.1.8.
-To upgrade to 1.1.8, please follow the Istio [upgrade procedure](https://istio.io/docs/setup/kubernetes/upgrade/steps/).
+To upgrade to 1.1.8, please follow the Istio [upgrade procedure](/docs/setup/kubernetes/upgrade/steps/).
 
-### Step 4. Verify the new workload certificates are loaded by Envoy
+1. Verify the new workload certificates are loaded by Envoy:
 
 You can verify whether an Envoy has received the new certificates.
 The following command shows an example to check the Envoy’s certificate for pod _foo_ running in namespace _bar_.
@@ -135,16 +147,48 @@ $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/cert
 {{< /text >}}
 
 Please inspect the `valid\_from` value of the `ca\_cert`.
-If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 1,
+If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
 your Envoy has loaded the new root certificate.
 
 ## Troubleshooting
 
-### Why my workloads do not pick up the new certificates (in Step 4)?
+### Why my workloads do not pick up the new certificates (in Step 5)?
 
-Please make sure you have updated to Istio 1.1.8 for the `istio-proxy` sidecars in Step 3.
+Please make sure you have updated to Istio 1.1.8 for the `istio-proxy` sidecars in Step 4.
 
 {{< warning >}}
 If you are using Istio releases 1.1.3 - 1.1.7, the Envoy may not be hot-restarted
 after the new certificates are generated.
 {{< /warning >}}
+
+### Why my Envoy cannot talk to Pilot?
+
+It can be because the Pilot is not using an Envoy sidecar, and the `controlPlaneSecurity` is enabled.
+In this case, restart both Galley and Pilot to ensure they load the new certificates.
+The following commands redeploys a pod for Galley / Pilot by removing a pod.
+
+{{< text bash>}}
+$ kubectl delete po <galley-pod> -n istio-system
+$ kubectl delete po <pilot-pod> -n istio-system
+{{< /text >}}
+
+### Check if Pilot has an Envoy sidecar
+
+If the following command shows `1/1`, that means your Pilot does not have an Envoy sidecar,
+otherwise, if it is showing `2/2`, your Pilot is using Envoy sidecar.
+
+{{< text bash>}}
+$ kubectl get po -l istio=pilot -n istio-system
+istio-pilot-569bc6d9c-tfwjr   1/1     Running   0          11m
+{{< /text >}}
+
+# I can't deploy new workloads with the auto-injector
+
+This may happen if you did not upgrade to 1.1.8.
+Try to restart the sidecar injector.
+Sidecar injector will reload the certificate after the restart:
+
+{{< text bash>}}
+$ kubectl delete po -l istio=sidecar-injector -n istio-system
+pod "istio-sidecar-injector-788bd8fc48-x9gdc" deleted
+{{< /text >}}
