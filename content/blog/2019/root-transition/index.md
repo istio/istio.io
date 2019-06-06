@@ -11,7 +11,7 @@ keywords: [security, PKI, certificate, Citadel]
 
 ## Background
 
-Istio self-signed certificates have the default lifetime of 1 year.
+For Istio releases prior to 1.0.8 and prior to 1.1.8, the Istio self-signed certificates have the default lifetime of 1 year.
 If you are using the Istio self-signed certificates with default lifetime configuration,
 please schedule a root transition before it expires. An expiration of root certificate may lead to an unexpected cluster-wide outage.
 After the transition, the root certificate will be renewed to have 10 year lifetime.
@@ -20,7 +20,7 @@ We will send out instructions for root key/cert rotation as a follow-up.
 
 To evaluate the lifetime remaining for your root certificate, please refer to Step 0 in the following procedure.
 
-To resolve this problem, we have a procedure that does the root transition automatically.
+We provide the following procedure for you to do the root transition.
 Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact the long-lived connections.
 For details about the impacts and how Envoy hot restart works, please refer to
 [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart) and
@@ -28,11 +28,14 @@ For details about the impacts and how Envoy hot restart works, please refer to
 
 ## Scenarios
 
-If you are not currently using the mTLS feature in Istio and will not use it in the future, you are not affected and can skip the below content.
+If you are not currently using the mTLS feature in Istio and will not use it in the future,
+you are not affected and should only upgrade to 1.1.8 or later versions.
 
-If you are not currently using the mTLS feature in Istio and may use it in the future, you are recommended to follow the procedure listed below to upgrade. 
+If you are not currently using the mTLS feature in Istio and may use it in the future,
+you are recommended to follow the procedure listed below to upgrade.
 
-If you are currently using the mTLS feature in Istio, please follow the procedure and check whether you will be affected.
+If you are currently using the mTLS feature in Istio with self-signed certificates,
+please follow the procedure and check whether you will be affected.
 
 ## Procedure
 
@@ -46,7 +49,7 @@ $ ./root-transition.sh check
 ===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRED!=====
 {{< /text >}}
 
-Please run the following steps to upgrade immediately, before your root certificate expires.
+Please run the following steps to upgrade immediately to avoid system outages, before your root certificate expires.
 
 ### Step 1. Do the root certificate transition
 
