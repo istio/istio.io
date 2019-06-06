@@ -55,7 +55,7 @@ This approach has the following benefits:
     $ cat install/kubernetes/namespace.yaml > istio-auth-sds.yaml
     $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth-sds.yaml
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/values-istio-sds-auth.yaml@ >> istio-auth-sds.yaml
-    $ kubectl create -f istio-auth-sds.yaml
+    $ kubectl apply -f istio-auth-sds.yaml
     {{< /text >}}
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
