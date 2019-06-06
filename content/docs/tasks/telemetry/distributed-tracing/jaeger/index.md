@@ -25,15 +25,15 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Accessing the dashboard
 
-1.  To setup access to the tracing dashboard, use port forwarding:
+[Remotely Accessing Telemetry Addons](/docs/tasks/telemetry/gateways) details how to configure access to the Istio       addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the Helm chart option `--set tracing.ingress.enabled=true` during install.
 
-    {{< text bash >}}
-    $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686  &
-    {{< /text >}}
+For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Jaeger to the `istio-control` namespace:
 
-    Open your browser to [http://localhost:16686](http://localhost:16686).
+{{< text bash >}}
+$ kubectl -n istio-control port-forward $(kubectl -n istio-control get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 15032:16686
+{{< /text >}}
 
-1.  To use a Kubernetes ingress, specify the Helm chart option `--set tracing.ingress.enabled=true`.
+Open your browser to [http://localhost:15032](http://localhost:15032).
 
 ## Generating traces using the Bookinfo sample
 
