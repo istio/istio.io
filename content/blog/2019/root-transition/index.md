@@ -43,10 +43,10 @@ Download this [script](TODO) on a machine that has kubectl access to the cluster
 {{< text bash>}}
 $ ./root-transition.sh check
 ...
-===YOU HAVE 364 DAYS BEFORE THE ROOT CERT EXPIRED!=====
+===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRED!=====
 {{< /text >}}
 
-If there is less than 30 days remaining, we suggest to run following steps immediately to avoid system outage. Otherwise we will have a smoother solution released in 30 days.
+Please run the following steps to upgrade immediately, before your root certificate expires.
 
 ### Step 1. Do the root certificate transition
 
@@ -54,9 +54,30 @@ Run the following command to do the root certificate transition.
 
 {{< text bash>}}
 $ ./root_transition.sh transition
+create new ca cert, with trust domain as  cluster.abc
+Wed Jun  5 19:11:15 PDT 2019 delete old ca secret
+secret "istio-ca-secret" deleted
+Wed Jun  5 19:11:15 PDT 2019 create new ca secret
+secret/istio-ca-secret created
+pod "istio-citadel-8574b88bcd-j7v2d" deleted
+Wed Jun  5 19:11:18 PDT 2019 restarted Citadel, checking status
+NAME                             READY     STATUS    RESTARTS   AGE
+istio-citadel-8574b88bcd-l2g74   1/1       Running   0          3s
+New root certificate:
+Certificate:
+    Data:
+        ...
+        Validity
+            Not Before: Jun  6 03:24:43 2019 GMT
+            Not After : Jun  3 03:24:43 2029 GMT
+        Subject: O = " cluster.abc"
+        ...
 {{< /text >}}
 
-After the transition, the Envoy sidecars may be hot-restarted. This does not have an impact on short-lived connections. Long-lived connections will be gracefully drained, and normally applications can reconnect automatically.
+After the transition, the Envoy sidecars may be hot-restarted. This may have some impact on your traffic.
+Please refer to 
+[here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart) and
+[here](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5) for more details.
 
 ### Step 2. Verify the new workload certificates are generated
 
@@ -64,6 +85,15 @@ Run the following command to verify that all the new certificates are generated.
 
 {{< text bash>}}
 $ ./root_transition.sh verify
+This script checks the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.                    
+Root cert MD5 is 8fa8229ab89122edba73706e49a55e4c
+Checking namespace: default
+  Secret default.istio.default is updated.
+  Secret default.istio.sleep is updated.
+Checking namespace: istio-system
+  Secret istio-system.istio.default is updated.
+  ...
+------All Istio keys and certificates are updated in secret!
 {{< /text >}}
 
 ### Step 3. Install Istio 1.1.8
@@ -76,8 +106,8 @@ to do the upgrades.
 
 ### Step 4. Verify the new workload certificates are loaded by Envoy
 
-You can verify your Envoy sidecars have picked on the new certificates.
-The following command can be used to check the certificates loaded for a pod _foo_ running in namespace _bar_.
+You can verify whether an Envoy has received the new certificates.
+The following command shows an example to check the Envoy’s certificate for pod _foo_ running in namespace _bar_.
 
 {{< text bash>}}
 $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/certs | head -c 1000
@@ -86,7 +116,7 @@ $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/cert
   {
    "ca_cert": [
       ...
-      "valid_from": "2019-06-01T16:47:10Z",
+      "valid_from": "2019-06-06T03:24:43Z",
       "expiration_time": ...
    ],
    "cert_chain": [
@@ -95,12 +125,15 @@ $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/cert
     }
 {{< /text >}}
 
-Please inspect the "valid\_from" value of the "cert\_chain".
-It should be after the time Citadel is restarted. If so, the Envoy is loading the new certificate.
+Please inspect the "valid\_from" value of the "ca\_cert".
+If it matches the "_Not_ _Before_" value in the new certificate as shown in Step 1,
+your Envoy has loaded the new root certificate.
 
 ## Troubleshooting
 
-Why my workloads do not pick up the new certificates (in Step 4)?
+### Why my workloads do not pick up the new certificates (in Step 4)?
 
-Please make sure you have updated the sidecar images in Step 2.
-If you are using Istio releases 1.1.3 - 1.1.7, pilot agent may not restart Envoy automatically.
+Please make sure you have updated to Istio 1.1.8 for the sidecars in Step 3.
+If you are using Istio releases 1.1.3 - 1.1.7, pilot agent may not hot-restart Envoy
+after the new certificates are generated.
+
