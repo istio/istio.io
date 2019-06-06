@@ -82,4 +82,4 @@ services from all other namespaces.
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. If you are using Bash or ZSH, you have the option of [Enabling auto-completion](/docs/ops/setup/istioctl/) for your macOS or Linux system.
+1. You can enable the [auto-completion option](/docs/ops/setup/istioctl) when working with a bash or ZSH console.

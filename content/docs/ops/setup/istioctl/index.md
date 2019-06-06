@@ -1,13 +1,15 @@
 ---
-title: istioctl auto-completion
-description: Istio includes a helpful script that enables auto-completion for the currently available istioctl commands.
+title: Using the istioctl command-line tool
+description: Istio includes a supplemental tool that provides debugging and diagnosis for Istio service mesh deployments.
 weight: 20
 keywords: [istioctl,bash,zsh,shell,command-line]
 ---
 
-`istioctl` includes two helpful scripts that enable auto-completion for Bash and ZSH. Both of these scripts provide support the currently available `istioctl` commands.
+## Overview
 
-### Prerequisites
+The `istioctl` tool is a configuration command line utility that allows service operators to debug and diagnose their Istio service mesh deployments. The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion for Bash and ZSH. Both of these scripts provide support for the currently available `istioctl` commands.
+
+## Prerequisites for `istioctl` auto-completion
 
 {{< tabset cookie-name="prereqs" >}}
 
@@ -52,7 +54,7 @@ To enable `istioctl` completion on your system, follow the steps for your prefer
 
 {{< tab name="Bash" cookie-value="bash" >}}
 
-### Installing the bash auto-completion file
+Installing the bash auto-completion file
 
 If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
 
@@ -64,7 +66,7 @@ $ source ~/istioctl.bash
 
 {{< tab name="ZSH" cookie-value="zsh" >}}
 
-### Installing the ZSH auto-completion file
+Installing the ZSH auto-completion file
 
 For ZSH users, the `istioctl` auto-completion file is located in the `tools` directory. Copy the `_istioctl` file to your home directory, then source the `istioctl` auto-completion file as follows:
 
