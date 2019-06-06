@@ -11,12 +11,16 @@ keywords: [security, PKI, certificate, Citadel]
 
 ## Background
 
-For Istio releases prior to 1.0.8 and prior to 1.1.8, the Istio self-signed certificates have the default lifetime of 1 year.
-If you are using the Istio self-signed certificates with default lifetime configuration,
-please schedule a root transition before it expires. An expiration of root certificate may lead to an unexpected cluster-wide outage.
+The Istio self-signed certificates have the default lifetime of 1 year.
+If you are using the Istio self-signed certificates,
+please schedule a root transition before it expires.
+An expiration of root certificate may lead to an unexpected cluster-wide outage.
 After the transition, the root certificate will be renewed to have 10 year lifetime.
-As a best practice for security, we strongly recommend you to do annual root key/cert rotation.
+
+{{< tip >}}
+We strongly recommend you rotate root keys and root certificates anually as a security best practice.
 We will send out instructions for root key/cert rotation as a follow-up.
+{{< /tip >}}
 
 To evaluate the lifetime remaining for your root certificate, please refer to Step 0 in the following procedure.
 
@@ -28,32 +32,37 @@ For details about the impacts and how Envoy hot restart works, please refer to
 
 ## Scenarios
 
-If you are not currently using the mTLS feature in Istio and will not use it in the future,
-you are not affected and should only upgrade to 1.1.8 or later versions.
+If you are not currently using the mutual TLS feature in Istio and will not use it in the future,
+you are not affected and no action is required.
+You may choose to upgrade to 1.1.8 or later versions to avoid this problem in the future.
 
-If you are not currently using the mTLS feature in Istio and may use it in the future,
+If you are not currently using the mutual TLS feature in Istio and may use it in the future,
 you are recommended to follow the procedure listed below to upgrade.
 
-If you are currently using the mTLS feature in Istio with self-signed certificates,
+If you are currently using the mutual TLS feature in Istio with self-signed certificates,
 please follow the procedure and check whether you will be affected.
 
 ## Procedure
 
-### Step 0. Check when your root certificate will expire
+### Step 0. Check when the root certificate expires
 
-Download this [script](TODO) on a machine that has kubectl access to the cluster.
+Download this [script](TODO) on a machine that has `kubectl` access to the cluster.
 
 {{< text bash>}}
 $ ./root-transition.sh check
 ...
-===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRED!=====
+===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRES!=====
 {{< /text >}}
 
-Please run the following steps to upgrade immediately to avoid system outages, before your root certificate expires.
+Execute the remainder of the steps prior to root certificate expiration to avoid system outages.
 
-### Step 1. Do the root certificate transition
+### Step 1. Execute a root certificate transition
 
-Run the following command to do the root certificate transition.
+During the transition, the Envoy sidecars may be hot-restarted. This may have some impact on your traffic.
+Please refer to
+[Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)
+and read [this](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)
+blog post for more details.
 
 {{< text bash>}}
 $ ./root_transition.sh transition
@@ -77,14 +86,7 @@ Certificate:
         ...
 {{< /text >}}
 
-After the transition, the Envoy sidecars may be hot-restarted. This may have some impact on your traffic.
-Please refer to 
-[here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart) and
-[here](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5) for more details.
-
 ### Step 2. Verify the new workload certificates are generated
-
-Run the following command to verify that all the new certificates are generated. If not, wait a minute and run it again.
 
 {{< text bash>}}
 $ ./root_transition.sh verify
@@ -99,13 +101,17 @@ Checking namespace: istio-system
 ------All Istio keys and certificates are updated in secret!
 {{< /text >}}
 
-### Step 3. Install Istio 1.1.8
+If this command fails, wait a minute and run the command again.
+It takes time for Citadel to propogate the certificates.
 
-Note that this step is necessary, to make sure the control plane components and sidecar Envoys all reload the new certificates and keys.
+### Step 3. Update to Istio 1.1.8
 
-Upgrade your control plane and Envoy sidecars to 1.1.8. You can refer to this
-[doc](https://istio.io/docs/setup/kubernetes/upgrade/steps/)
-to do the upgrades.
+{{< warning >}}
+To ensure the control plane components and Envoy sidecars all reload the new certificates and keys, this step is mandatory.
+{{< /warning >}}
+
+Upgrade your control plane and `istio-proxy` sidecars to 1.1.8.
+To upgrade to 1.1.8, please follow the Istio [upgrade procedure](https://istio.io/docs/setup/kubernetes/upgrade/steps/).
 
 ### Step 4. Verify the new workload certificates are loaded by Envoy
 
@@ -128,15 +134,17 @@ $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/cert
     }
 {{< /text >}}
 
-Please inspect the "valid\_from" value of the "ca\_cert".
-If it matches the "_Not_ _Before_" value in the new certificate as shown in Step 1,
+Please inspect the `valid\_from` value of the `ca\_cert`.
+If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 1,
 your Envoy has loaded the new root certificate.
 
 ## Troubleshooting
 
 ### Why my workloads do not pick up the new certificates (in Step 4)?
 
-Please make sure you have updated to Istio 1.1.8 for the sidecars in Step 3.
-If you are using Istio releases 1.1.3 - 1.1.7, pilot agent may not hot-restart Envoy
-after the new certificates are generated.
+Please make sure you have updated to Istio 1.1.8 for the `istio-proxy` sidecars in Step 3.
 
+{{< warning >}}
+If you are using Istio releases 1.1.3 - 1.1.7, the Envoy may not be hot-restarted
+after the new certificates are generated.
+{{< /warning >}}
