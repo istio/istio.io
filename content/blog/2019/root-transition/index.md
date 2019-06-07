@@ -1,5 +1,5 @@
 ---
-title: Extending Istio self-signed Root Certificate Lifetime
+title: Extending Istio Self-Signed Root Certificate Lifetime
 description: Learn how to extend the lifetime of Istio self-signed root certificate.
 publishdate: 2019-06-07
 attribution: Oliver Liu
