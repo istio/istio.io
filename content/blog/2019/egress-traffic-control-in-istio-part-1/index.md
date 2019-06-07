@@ -31,6 +31,12 @@ and outbound traffic must be restricted to that which is necessary:
 _1.2.1 Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic._
 {{< /quote >}}
 
+And specifically regarding outbound traffic:
+
+{{< quote >}}
+_1.3.4 Do not allow unauthorized outbound traffic from the cardholder data environment to the Internet... All traffic outbound from the cardholder data environment should be evaluated to ensure that it follows established, authorized rules. Connections should be inspected to restrict traffic to only authorized communications (for example by restricting source/destination addresses/ports, and/or blocking of content)._
+{{< /quote >}}
+
 Let's start with the attacks that involve egress traffic.
 
 ## The attacks
