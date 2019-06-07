@@ -44,110 +44,112 @@ please follow the procedure and check whether you will be affected.
 
 1. Check when the root certificate expires:
 
-Download this [script](https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh)
-on a machine that has `kubectl` access to the cluster.
+    Download this [script](https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh)
+    on a machine that has `kubectl` access to the cluster.
 
-{{< text bash>}}
-$ wget https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh
-$ chmod +x root-transition.sh
-$ ./root-transition.sh check
-...
-===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRES!=====
-{{< /text >}}
+    {{< text bash>}}
+    $ wget https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh
+    $ chmod +x root-transition.sh
+    $ ./root-transition.sh check
+    ...
+    ===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRES!=====
+    {{< /text >}}
 
-Execute the remainder of the steps prior to root certificate expiration to avoid system outages.
+    Execute the remainder of the steps prior to root certificate expiration to avoid system outages.
 
 1. Execute a root certificate transition:
 
-During the transition, the Envoy sidecars may be hot-restarted. This may have some impact on your traffic.
-Please refer to
-[Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)
-and read [this](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)
-blog post for more details.
+    During the transition, the Envoy sidecars may be hot-restarted. This may have some impact on your traffic.
+    Please refer to
+    [Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)
+    and read [this](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)
+    blog post for more details.
 
-{{< warning >}}
-If your Pilot does not have a Envoy sidecar, consider installing Envoy sidecar for your Pilot.
-Because the Pilot has issue using the old root certificate to verify the new workload certificates.
-This may cause disconnection between Pilot and Envoy.
-Please see the [here](#check-if-pilot-has-an-envoy-sidecar) for how to check.
-The [Istio upgrade guide](/docs/setup/kubernetes/upgrade/steps/)
-by default installs Pilot with Envoy sidecar.
-{{< /warning >}}
+    {{< warning >}}
+    If your Pilot does not have a Envoy sidecar, consider installing Envoy sidecar for your Pilot.
+    Because the Pilot has issue using the old root certificate to verify the new workload certificates.
+    This may cause disconnection between Pilot and Envoy.
+    Please see the [here](#check-if-pilot-has-an-envoy-sidecar) for how to check.
+    The [Istio upgrade guide](/docs/setup/kubernetes/upgrade/steps/)
+    by default installs Pilot with Envoy sidecar.
+    {{< /warning >}}
 
-{{< text bash>}}
-$ ./root-transition.sh transition
-create new ca cert, with trust domain as cluster.local
-Wed Jun  5 19:11:15 PDT 2019 delete old ca secret
-secret "istio-ca-secret" deleted
-Wed Jun  5 19:11:15 PDT 2019 create new ca secret
-secret/istio-ca-secret created
-pod "istio-citadel-8574b88bcd-j7v2d" deleted
-Wed Jun  5 19:11:18 PDT 2019 restarted Citadel, checking status
-NAME                             READY     STATUS    RESTARTS   AGE
-istio-citadel-8574b88bcd-l2g74   1/1       Running   0          3s
-New root certificate:
-Certificate:
-    Data:
-        ...
-        Validity
-            Not Before: Jun  6 03:24:43 2019 GMT
-            Not After : Jun  3 03:24:43 2029 GMT
-        Subject: O = cluster.local
-        ...
-{{< /text >}}
+    {{< text bash>}}
+    $ ./root-transition.sh transition
+    Create new ca cert, with trust domain as cluster.local
+    Wed Jun  5 19:11:15 PDT 2019 delete old ca secret
+    secret "istio-ca-secret" deleted
+    Wed Jun  5 19:11:15 PDT 2019 create new ca secret
+    secret/istio-ca-secret created
+    pod "istio-citadel-8574b88bcd-j7v2d" deleted
+    Wed Jun  5 19:11:18 PDT 2019 restarted Citadel, checking status
+    NAME                             READY     STATUS    RESTARTS   AGE
+    istio-citadel-8574b88bcd-l2g74   1/1       Running   0          3s
+    New root certificate:
+    Certificate:
+        Data:
+            ...
+            Validity
+                Not Before: Jun  6 03:24:43 2019 GMT
+                Not After : Jun  3 03:24:43 2029 GMT
+            Subject: O = cluster.local
+            ...
+    Your old certificate is stored as old-ca-cert.pem, and your private key is stored as ca-key.pem
+    Please save them safely and privately.
+    {{< /text >}}
 
 1. Verify the new workload certificates are generated:
 
-{{< text bash>}}
-$ ./root-transition.sh verify
-...
-Checking the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.
-Root cert MD5 is 8fa8229ab89122edba73706e49a55e4c
-Checking namespace: default
-  Secret default.istio.default is updated.
-  Secret default.istio.sleep is updated.
-Checking namespace: istio-system
-  Secret istio-system.istio.default is updated.
-  ...
-------All Istio keys and certificates are updated in secret!
-{{< /text >}}
+    {{< text bash>}}
+    $ ./root-transition.sh verify
+    ...
+    Checking the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.
+    Root cert MD5 is 8fa8229ab89122edba73706e49a55e4c
+    Checking namespace: default
+      Secret default.istio.default is updated.
+      Secret default.istio.sleep is updated.
+    Checking namespace: istio-system
+      Secret istio-system.istio.default is updated.
+      ...
+    ------All Istio keys and certificates are updated in secret!
+    {{< /text >}}
 
-If this command fails, wait a minute and run the command again.
-It takes time for Citadel to propagate the certificates.
+    If this command fails, wait a minute and run the command again.
+    It takes time for Citadel to propagate the certificates.
 
 1. Upgrade to Istio 1.1.8:
 
-{{< warning >}}
-To ensure the control plane components and Envoy sidecars all reload the new certificates and keys, this step is mandatory.
-{{< /warning >}}
+    {{< warning >}}
+    To ensure the control plane components and Envoy sidecars all reload the new certificates and keys, this step is mandatory.
+    {{< /warning >}}
 
-Upgrade your control plane and `istio-proxy` sidecars to 1.1.8.
-To upgrade to 1.1.8, please follow the Istio [upgrade procedure](/docs/setup/kubernetes/upgrade/steps/).
+    Upgrade your control plane and `istio-proxy` sidecars to 1.1.8.
+    To upgrade to 1.1.8, please follow the Istio [upgrade procedure](/docs/setup/kubernetes/upgrade/steps/).
 
 1. Verify the new workload certificates are loaded by Envoy:
 
-You can verify whether an Envoy has received the new certificates.
-The following command shows an example to check the Envoy’s certificate for pod _foo_ running in namespace _bar_.
+    You can verify whether an Envoy has received the new certificates.
+    The following command shows an example to check the Envoy’s certificate for pod _foo_ running in namespace _bar_.
 
-{{< text bash>}}
-$ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/certs | head -c 1000
-{
- "certificates": [
-  {
-   "ca_cert": [
-      ...
-      "valid_from": "2019-06-06T03:24:43Z",
-      "expiration_time": ...
-   ],
-   "cert_chain": [
+    {{< text bash>}}
+    $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/certs | head -c 1000
     {
-      ...
-    }
-{{< /text >}}
+     "certificates": [
+      {
+       "ca_cert": [
+          ...
+          "valid_from": "2019-06-06T03:24:43Z",
+          "expiration_time": ...
+       ],
+       "cert_chain": [
+        {
+          ...
+        }
+    {{< /text >}}
 
-Please inspect the `valid\_from` value of the `ca\_cert`.
-If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
-your Envoy has loaded the new root certificate.
+    Please inspect the `valid\_from` value of the `ca\_cert`.
+    If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
+    your Envoy has loaded the new root certificate.
 
 ## Troubleshooting
 
@@ -189,11 +191,11 @@ $ kubectl get po -l istio=pilot -n istio-system
 istio-pilot-569bc6d9c-tfwjr   1/1     Running   0          11m
 {{< /text >}}
 
-# I can't deploy new workloads with the sidecar-injector
+### I can't deploy new workloads with the sidecar-injector
 
 This may happen if you did not upgrade to 1.1.8.
 Try to restart the sidecar injector.
-Sidecar injector will reload the certificate after the restart:
+The sidecar injector will reload the certificate after the restart:
 
 {{< text bash>}}
 $ kubectl delete po -l istio=sidecar-injector -n istio-system
