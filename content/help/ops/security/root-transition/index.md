@@ -44,9 +44,12 @@ please follow the procedure and check whether you will be affected.
 
 1. Check when the root certificate expires:
 
-Download this [script](TODO) on a machine that has `kubectl` access to the cluster.
+Download this [script](https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh)
+on a machine that has `kubectl` access to the cluster.
 
 {{< text bash>}}
+$ wget https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh
+$ chmod +x root-transition.sh
 $ ./root-transition.sh check
 ...
 ===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRES!=====
@@ -73,7 +76,7 @@ by default installs Pilot with Envoy sidecar.
 
 {{< text bash>}}
 $ ./root-transition.sh transition
-create new ca cert, with trust domain as  cluster.abc
+create new ca cert, with trust domain as cluster.local
 Wed Jun  5 19:11:15 PDT 2019 delete old ca secret
 secret "istio-ca-secret" deleted
 Wed Jun  5 19:11:15 PDT 2019 create new ca secret
@@ -89,16 +92,15 @@ Certificate:
         Validity
             Not Before: Jun  6 03:24:43 2019 GMT
             Not After : Jun  3 03:24:43 2029 GMT
-        Subject: O = " cluster.abc"
+        Subject: O = cluster.local
         ...
 {{< /text >}}
 
 1. Verify the new workload certificates are generated:
 
 {{< text bash>}}
-$ ./root-transition.sh check
+$ ./root-transition.sh verify
 ...
-===YOU HAVE 3650 DAYS BEFORE THE ROOT CERT EXPIRES!=====
 Checking the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.
 Root cert MD5 is 8fa8229ab89122edba73706e49a55e4c
 Checking namespace: default
