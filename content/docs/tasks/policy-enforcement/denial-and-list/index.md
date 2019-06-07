@@ -168,6 +168,17 @@ subnet.
     not whitelisted`
 
 ## Cleanup
+* Remove the Mixer configuration for simple denials:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
+    {{< /text >}}
+    
+    If you are using Istio 1.1.2 or prior:
+    
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
+    {{< /text >}}
 
 * Remove the Mixer configuration for attribute-based white- and blacklisting:
 
@@ -197,18 +208,7 @@ subnet.
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
-
-* Remove the application destination rules:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all.yaml@
-    {{< /text >}}
-
-    If you enabled mutual TLS, please run the following instead
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
