@@ -28,7 +28,7 @@ For details about the impacts and how Envoy hot restart works, please refer to
 
 If you are not currently using the mutual TLS feature in Istio and will not use it in the future,
 you are not affected and no action is required.
-You may choose to upgrade to 1.1.8 or later versions to avoid this problem in the future.
+You may choose to upgrade to 1.0.8, 1.1.8 or later versions to avoid this problem in the future.
 
 If you are not currently using the mutual TLS feature in Istio and may use it in the future,
 you are recommended to follow the procedure listed below to upgrade.
@@ -113,14 +113,14 @@ please follow the procedure and check whether you will be affected.
     If this command fails, wait a minute and run the command again.
     It takes some time for Citadel to propagate the certificates.
 
-1. Upgrade to Istio 1.1.8:
+1. Upgrade to Istio 1.0.8, 1.1.8 or later:
 
     {{< warning >}}
     To ensure the control plane components and Envoy sidecars all load the new certificates and keys, this step is mandatory.
     {{< /warning >}}
 
-    Upgrade your control plane and `istio-proxy` sidecars to 1.1.8.
-    To upgrade to 1.1.8, please follow the Istio [upgrade procedure](/docs/setup/kubernetes/upgrade/steps/).
+    Upgrade your control plane and `istio-proxy` sidecars to 1.0.8, 1.1.8 or later.
+    Please follow the Istio [upgrade procedure](/docs/setup/kubernetes/upgrade/steps/).
 
 1. Verify the new workload certificates are loaded by Envoy:
 
@@ -149,15 +149,15 @@ please follow the procedure and check whether you will be affected.
 
 ## Troubleshooting
 
-### Can I upgrade to 1.1.8 first, and then do the root transition?
+### Can I upgrade to 1.0.8, 1.1.8 or later first, and then do the root transition?
 
-Yes, you can. You can upgrade to 1.1.8 as normal.
+Yes, you can. You can upgrade to 1.0.8, 1.1.8 or later as normal.
 After that, follow the root transition steps and in Step 4,
 manually restart Galley, Pilot and sidecar-injector to ensure they load the new root certificates.
 
 ### Why my workloads do not pick up the new certificates (in Step 5)?
 
-Please make sure you have updated to Istio 1.1.8 for the `istio-proxy` sidecars in Step 4.
+Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 4.
 
 {{< warning >}}
 If you are using Istio releases 1.1.3 - 1.1.7, the Envoy may not be hot-restarted
@@ -189,7 +189,7 @@ istio-pilot-569bc6d9c-tfwjr   1/1     Running   0          11m
 
 ### I can't deploy new workloads with the sidecar-injector
 
-This may happen if you did not upgrade to 1.1.8.
+This may happen if you did not upgrade to 1.0.8, 1.1.8 or later.
 Try to restart the sidecar injector.
 The sidecar injector will reload the certificate after the restart:
 

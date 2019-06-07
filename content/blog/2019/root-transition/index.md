@@ -10,6 +10,10 @@ Istio self-signed certificates have historically had a 1 year default lifetime.
 If you are using Istio self-signed certificates,
 you need to schedule regular root transitions before they expire.
 An expiration of a root certificate may lead to an unexpected cluster-wide outage.
+<<<<<<< HEAD
+=======
+The issue affects all versions up to 1.0.7 and 1.1.7.
+>>>>>>> 521a2fe7... Patch #4273 to master branch (#4285)
 
 See [Extending Self-Signed Certificate Lifetime](/help/ops/security/root-transition/) for
 information on how to gauge the age of your certificates and how to perform rotation.
