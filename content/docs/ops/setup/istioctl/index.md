@@ -9,7 +9,9 @@ keywords: [istioctl,bash,zsh,shell,command-line]
 
 The `istioctl` tool is a configuration command line utility that allows service operators to debug and diagnose their Istio service mesh deployments. The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion for Bash and ZSH. Both of these scripts provide support for the currently available `istioctl` commands.
 
-## Prerequisites for `istioctl` auto-completion
+Documentation for the complete set of supported commands can be found in [`istioctl` reference](/docs/reference/commands/istioctl/).
+
+## `istioctl` auto-completion
 
 {{< tabset cookie-name="prereqs" >}}
 
@@ -28,7 +30,7 @@ If you find that the `bash-completion` package is _not_ installed, proceed with 
 $ brew install bash-completion
 {{< /text >}}
 
-Once the `bash-completion package` has been installed on your macOS system, also make sure to add the following line to your `~/.bash_profile` file:
+Once the `bash-completion package` has been installed on your macOS system, add the following line to your `~/.bash_profile` file:
 
 `[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"`
 
@@ -38,7 +40,7 @@ Once the `bash-completion package` has been installed on your macOS system, also
 
 If you are using a Linux-based operating system, you can install the Bash completion package with the `apt-get install bash-completion` command for Debian-based Linux distributions or `yum install bash-completion` for RPM-based Linux distributions, the two most common occurrences.
 
-Once the `bash-completion` package has been installed on your Linux system, also make sure to add the following line to your `~/.bash_profile` file:
+Once the `bash-completion` package has been installed on your Linux system, add the following line to your `~/.bash_profile` file:
 
 `[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"`
 
@@ -46,7 +48,7 @@ Once the `bash-completion` package has been installed on your Linux system, also
 
 {{< /tabset >}}
 
-## Enabling `istioctl` auto-completion
+### Enabling auto-completion
 
 To enable `istioctl` completion on your system, follow the steps for your preferred shell:
 
@@ -71,7 +73,7 @@ Installing the ZSH auto-completion file
 For ZSH users, the `istioctl` auto-completion file is located in the `tools` directory. Copy the `_istioctl` file to your home directory, then source the `istioctl` auto-completion file as follows:
 
 {{< text zsh >}}
-source < _istioctl
+source ~/_istioctl
 {{< /text >}}
 
 {{< tip >}}
@@ -85,13 +87,13 @@ $ compinit
 
 {{< /tip >}}
 
-You may also add the `_istioctl` file to a directory listed in the `FPATH` variable. To achieve this, place the `_istioctl` file in an existing directory in the `FPATH`, or create a new directory and add it to the `FPATH` variable in your `~/.zshrc` file.
+You may also add the `_istioctl` file to a directory listed in the `fpath` variable. To achieve this, place the `_istioctl` file in an existing directory in the `fpath`, or create a new directory and add it to the `fpath` variable in your `~/.zshrc` file.
 
 {{< /tab >}}
 
 {{< /tabset >}}
 
-## Using `istioctl` auto-completion
+### Using auto-completion
 
 If the `istioctl` completion file has been installed correctly, press the Tab key while writing an `istioctl` command, and it should return a set of command suggestions for you to choose from:
 
