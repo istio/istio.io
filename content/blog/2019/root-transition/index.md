@@ -1,7 +1,7 @@
 ---
 title: Extending Istio self-signed Root Certificate Lifetime
 description: Learn how to extend the lifetime of Istio self-signed root certificate.
-publishdate: 2019-06-06
+publishdate: 2019-06-07
 attribution: Oliver Liu
 keywords: [security, PKI, certificate, Citadel]
 ---
