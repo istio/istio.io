@@ -7,7 +7,7 @@ keywords: [telemetry,tracing,lightstep]
 
 This task shows you how to configure Istio to collect trace spans and send them to [LightStep Tracing](https://lightstep.com/products/) or [LightStep [𝑥]PM](https://lightstep.com/products/).
 LightStep lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
-distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis. 
+distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
 At the end of this task, Istio sends trace spans from the proxies to a LightStep [𝑥]PM Satellite pool making them
 available to the web UI.
 
