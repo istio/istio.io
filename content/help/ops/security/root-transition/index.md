@@ -59,17 +59,17 @@ please follow the procedure and check whether you will be affected.
 
 1. Execute a root certificate transition:
 
-    During the transition, the Envoy sidecars may be hot-restarted. This may have some impact on your traffic.
-    Please refer to
+    During the transition, the Envoy sidecars may be hot-restarted to reload the new certificates.
+    This may have some impact on your traffic. Please refer to
     [Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)
     and read [this](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)
     blog post for more details.
 
     {{< warning >}}
-    If your Pilot does not have a Envoy sidecar, consider installing Envoy sidecar for your Pilot.
+    If your Pilot does not have an Envoy sidecar, consider installing Envoy sidecar for your Pilot.
     Because the Pilot has issue using the old root certificate to verify the new workload certificates.
     This may cause disconnection between Pilot and Envoy.
-    Please see the [here](#check-if-pilot-has-an-envoy-sidecar) for how to check.
+    Please see the [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check.
     The [Istio upgrade guide](/docs/setup/kubernetes/upgrade/steps/)
     by default installs Pilot with Envoy sidecar.
     {{< /warning >}}
@@ -115,12 +115,12 @@ please follow the procedure and check whether you will be affected.
     {{< /text >}}
 
     If this command fails, wait a minute and run the command again.
-    It takes time for Citadel to propagate the certificates.
+    It takes some time for Citadel to propagate the certificates.
 
 1. Upgrade to Istio 1.1.8:
 
     {{< warning >}}
-    To ensure the control plane components and Envoy sidecars all reload the new certificates and keys, this step is mandatory.
+    To ensure the control plane components and Envoy sidecars all load the new certificates and keys, this step is mandatory.
     {{< /warning >}}
 
     Upgrade your control plane and `istio-proxy` sidecars to 1.1.8.
@@ -171,7 +171,7 @@ after the new certificates are generated.
 ### Why my Pilot does not work and logs "handshake error"?
 
 This may because the Pilot is
-[not using an Envoy sidecar](#check-if-pilot-has-an-envoy-sidecar),
+[not using an Envoy sidecar](#how-to-check-if-pilot-has-an-envoy-sidecar),
 while the `controlPlaneSecurity` is enabled.
 In this case, restart both Galley and Pilot to ensure they load the new certificates.
 As an example, the following commands redeploy a pod for Galley / Pilot by removing a pod.
@@ -181,10 +181,10 @@ $ kubectl delete po <galley-pod> -n istio-system
 $ kubectl delete po <pilot-pod> -n istio-system
 {{< /text >}}
 
-### Check if Pilot has an Envoy sidecar
+### How to check if Pilot has an Envoy sidecar
 
 If the following command shows `1/1`, that means your Pilot does not have an Envoy sidecar,
-otherwise, if it is showing `2/2`, your Pilot is using Envoy sidecar.
+otherwise, if it is showing `2/2`, your Pilot is using an Envoy sidecar.
 
 {{< text bash>}}
 $ kubectl get po -l istio=pilot -n istio-system
