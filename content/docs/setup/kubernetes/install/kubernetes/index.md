@@ -27,9 +27,9 @@ This permits customization of Istio to operator specific requirements.
 1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
 
     {{< warning >}}
-    These quick-start instruction will not work with a downloaded [istio github repository](https://github.com/istio/istio)
+    These quick-start instructions will not work with a downloaded [istio repository](https://github.com/istio/istio)
     becuase the pregenerated yaml files, `istio-demo.yaml` and `istio-demo-auth.yaml`, are only available in
-    **release images**. If you want to use the github repository, istead of a release image,
+    **release images**. If you want to use the GitHub repository, istead of a release image,
     install the demo profile using [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) instead.
     {{< /warning >}}
 
