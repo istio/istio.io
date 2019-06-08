@@ -122,6 +122,8 @@ communicating with `httpbin`.
     EOF
     {{< /text >}}
 
+    Policy needs some time to take affect. Wait at least one minute.
+
 1.  Set the `TOKEN` environmental variable to contain a valid sample JWT.
 
     {{< text bash >}}
@@ -152,6 +154,10 @@ As there may be some delays due to caching and other propagation overhead,
 wait until the newly defined RBAC policy to take effect.
 
 1.  Enable the Istio RBAC for the namespace:
+
+    {{< warning >}}
+    This is a cluster-wide policy. If your cluster is using another `ClusterRbacConfig`, it will be overwritten.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
@@ -258,6 +264,11 @@ You may use the `gen-jwt`
 [python script]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py)
 to generate a JWT with other list-typed claims for testing purposes.
 Follow the instructions in the `gen-jwt` script to use the `gen-jwt.py` file.
+For the `key.pem` file, you may use one at
+
+{{< text bash >}}
+$ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
+{{< /text >}}
 
 1.  To assign the `httpbin-viewer` role to a request with a JWT including a
 list-typed `scope` claim with the value of `scope1`,
@@ -300,4 +311,5 @@ resources created in the namespace.
 
 {{< text bash >}}
 $ kubectl delete namespace $NS
+$ kubectl delete clusterrbacconfig default
 {{< /text >}}
