@@ -46,10 +46,10 @@ This includes an injected sidecar when it wasn't expected and a lack
 of injected sidecar when it was.
 
 1. Ensure your pod is not in the `kube-system` or `kube-public` namespace.
-   Automatic sidecar injection cannot be used in these namespaces.
+   Automatic sidecar injection will be ignored for pods in these namespaces.
 
 1. Ensure your pod does not have `hostNetwork: true` in its pod spec.
-   Automatic sidecar injection cannot be used with pods that are on the host network.
+   Automatic sidecar injection will be ignored for pods that are on the host network.
 
    The sidecar model assumes that the iptables changes required for Envoy to intercept
    traffic are within the pod. For pods on the host network this assumption is violated,
