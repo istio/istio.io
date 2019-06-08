@@ -11,19 +11,19 @@ time. Injection can be scoped to particular sets of namespaces using
 the webhooks `namespaceSelector` mechanism. Injection can also be
 enabled and disabled per-pod with an annotation.
 
-Whether or not a sidecar is injected depends on three pieces of configuration and two limitations:
+Whether or not a sidecar is injected depends on three pieces of configuration and two security rules:
 
 Configuration:
 * webhooks `namespaceSelector`
 * default `policy`
 * per-pod override annotation
 
-Limitations:
+Security rules:
 * sidecars cannot be injected in the `kube-system` or `kube-public` namespaces
 * sidecars cannot be injected into pods that use the host network
 
 The following truth table shows the final injection status based on
-the three configuration items. The limitations above cannot be overridden.
+the three configuration items. The security rules above cannot be overridden.
 
 | `namespaceSelector` match | default `policy` | Pod override annotation `sidecar.istio.io/inject` | Sidecar injected? |
 |---------------------------|------------------|---------------------------------------------------|-----------|
