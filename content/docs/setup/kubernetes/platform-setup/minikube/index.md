@@ -10,7 +10,6 @@ keywords: [platform-setup,kubernetes,minikube]
 
 Follow these instructions to prepare minikube for Istio installation with sufficient
 resources to run Istio and some basic applications.
-
 {{< tip >}}
 Administrative privileges are required to run minikube.
 {{< /tip >}}
@@ -18,7 +17,7 @@ Administrative privileges are required to run minikube.
 1. To run Istio locally, install the latest version of
    [minikube](https://kubernetes.io/docs/setup/minikube/), version **1.1.1 or
    later**, and a
-   [minikube Hypervisor Driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
+   [minikube hypervisor driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
     {{< tip >}}
     Set your minikube Hypervisor driver.  For example if you installed the KVM hypervisor, set the vm-driver
@@ -34,18 +33,22 @@ Administrative privileges are required to run minikube.
    You can change the version to any Kubernetes version supported by Istio by altering the
    `--kubernetes-version` value:
 
+    {{< text bash >}}
+    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.14.2
+    {{< /text >}}
+
     {{< warning >}}
     Depending on the hypervisor you use and the platform on which the hypervisor
     is run, minimum memory requirements vary.  16384 `MB` is sufficent to run
     Istio and bookinfo.  If you don't have enough ram allocated to the minikube
     virtual machine, the following errors could occur:
 
-    - Image pull failures
-    - Healthcheck timeout failures
+    - image pull failures
+    - healthcheck timeout failures
     - kubectl failures on the host
-    - General network instability of the virtual machine and the host
-    - Complete lock-up of the virtual machine
-    - Host NMI watchdog reboots
+    - general network instability of the virtual machine and the host
+    - complete lock-up of the virtual machine
+    - host NMI watchdog reboots
 
     One effective way to monitor memory usage in minikube:
 
@@ -56,12 +59,8 @@ Administrative privileges are required to run minikube.
     {{< /text >}}
 
     This shows 12.4GiB used of 15.7 GiB in the virtual machine.  This data was generated with
-    VMWare Fusion hypervisor on a Macbook Pro 13" running Istio 1.2 with bookinfo installed, 
+    VMWare Fusion hypervisor on a Macbook Pro 13" running Istio 1.2 with bookinfo installed.
     {{< /warning >}}
-
-    {{< text bash >}}
-    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.14.2
-    {{< /text >}}
 
 1. (Optional, strongly recommended) If you want minikube to provide a load balancer for use
    by Istio, you can use the
