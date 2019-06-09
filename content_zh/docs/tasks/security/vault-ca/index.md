@@ -18,6 +18,7 @@ keywords: [security,certificate]
 ## 安装 Istio 并启用双向 和 SDS
 
 1. 使用 [Helm](/docs/setup/kubernetes/install/helm/#prerequisites) 安装 Istio 并启用双向 TLS、SDS 以及 Node Agent，Node Agent 发送向测试 Vault CA 发送 CSR：
+
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
     $ cat install/kubernetes/namespace.yaml > istio-auth.yaml
