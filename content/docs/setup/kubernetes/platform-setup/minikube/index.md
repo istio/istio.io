@@ -11,7 +11,7 @@ keywords: [platform-setup,kubernetes,minikube]
 Follow these instructions to prepare minikube for Istio installation with sufficient
 resources to run Istio and some basic applications.
 
-{< tip >}}
+{{< tip >}}
 Administrative privileges are required to run minikube.
 {{< /tip >}}
 
