@@ -60,7 +60,7 @@ This guide installs the current release version of Istio.
 - Input the Helm release name (e.g. `istio`).
 - Select `istio-system` as the target namespace.
 - Select `local-cluster` as target cluster.
-- Check the agree checkbox after reading the license terms.
+- If you agree with the license terms, check the agree to license terms box.
 - (Optional) Customize the installation parameters by clicking `All parameters`.
 - Click the `Install` button.
 
