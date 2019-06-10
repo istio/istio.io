@@ -59,8 +59,9 @@ Administrative privileges are required to run minikube.
     GiB Mem : 12.4/15.7
     {{< /text >}}
 
-    This shows 12.4GiB used of 15.7 GiB RAMin the virtual machine.  This data was generated with
-    VMWare Fusion hypervisor on a Macbook Pro 13" with 16GiB RAM running Istio 1.2 with bookinfo installed.
+    This shows 12.4GiB used of an available 15.7 GiB RAM within the virtual
+    machine.  This data was generated with the VMWare Fusion hypervisor on a
+    Macbook Pro 13" with 16GiB RAM running Istio 1.2 with bookinfo installed.
     {{< /warning >}}
 
 1. (Optional, strongly recommended) If you want minikube to provide a load balancer for use
