@@ -81,8 +81,8 @@ When you make downstream calls in your applications, make sure to include these 
 
 ## Trace sampling
 
-Istio captures a trace for all requests by default. For example, when
-using the Bookinfo sample application above, every time you access
+When installing with demo profile, Istio captures a trace for all requests by default.
+For example, when using the Bookinfo sample application above, every time you access
 `/productpage` you see a corresponding trace in the
 dashboard. This sampling rate is suitable for a test or low traffic
 mesh. For a high traffic mesh you can lower the trace sampling
