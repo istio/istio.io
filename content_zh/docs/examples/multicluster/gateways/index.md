@@ -5,7 +5,7 @@ weight: 20
 keywords: [kubernetes,multicluster]
 ---
 
-这个示例展示了如何在[多控制平面拓扑](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology)的多集群网格中
+这个示例展示了如何在[多控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#多控制平面拓扑)的多集群网格中
 配置和调用远程服务。为了演示跨集群访问，会在一个集群中使用 [Sleep 服务]({{<github_tree>}}/samples/sleep)调用另一个集群中的 [httpbin 服务]({{<github_tree>}}/samples/httpbin)。
 
 ## 开始之前 {#before-you-begin}
@@ -172,7 +172,7 @@ EOF
 
 {{< /text >}}
 
-可以创建 Virtual Service 和 Destination Rule，使用 Gateway 的标签来创建服务子集。在[多集群服务网格中的分版本路由](/blog/2019/multicluster-version-routing/)中有完整的介绍。
+可以创建 Virtual Service 和 Destination Rule，使用 Gateway 的标签来创建服务子集。在[多集群服务网格中的分版本路由](/zh/blog/2019/multicluster-version-routing/)中有完整的介绍。
 
 ## 清理 {#clean-up}
 
