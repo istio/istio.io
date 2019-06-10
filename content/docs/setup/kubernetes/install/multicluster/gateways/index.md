@@ -99,14 +99,13 @@ on **each** Kubernetes cluster.
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-
-   * Install Istio's CRDs:
+    * Install Istio's CRDs:
 
         {{< text bash >}}
         $ kubectl apply -f install/kubernetes/helm/istio-init/files/crd/
         {{< /text >}}
 
-   * {{< boilerplate verify-crds >}}
+    * {{< boilerplate verify-crds >}}
 
     * Use the Istio installation yaml file generated in a previous step to install Istio:
 
