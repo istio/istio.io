@@ -13,7 +13,7 @@ egress traffic and the requirements we collected for a secure control system for
 In this installment, I describe the Istio way to securely control the egress traffic, and show how Istio can help you prevent such
 attacks.
 
-## Egress traffic control by Istio
+## Secure control of egress traffic in Istio
 
 To implement secure egress traffic control in Istio, you must
 [direct TLS traffic to external services through an egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#egress-gateway-for-https-traffic).
