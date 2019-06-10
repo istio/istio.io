@@ -29,7 +29,8 @@ firewall that will enforce that traffic from the cluster to the outside is allow
 [an example for Kubernetes Network Policies configuration](/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies).
 
 You must also increase the security measures applied to the Istio control plane and the
-egress gateway by running them on nodes separate from the application nodes, in a separate namespace, monitoring them
+- Run the Istio control plane services on separate nodes and a separate namespace from the application.
+- Run the egress gateway on a separate node and a separate namespace from the application.
 more thoroughly, etc. After all, if the attackers are able to attack Istio Mixer or the egress gateway, they could
 violate any policy.
 
