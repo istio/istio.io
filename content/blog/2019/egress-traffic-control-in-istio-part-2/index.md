@@ -10,7 +10,7 @@ keywords: [traffic-management,egress,security,gateway,tls]
 Welcome to part 2 in our new series about secure control of egress traffic in Istio.
 In [the first part in the series](/blog/2019/egress-traffic-control-in-istio-part-1/), I presented the attacks involving
 egress traffic and the requirements we collected for a secure control system for egress traffic.
-In this installment, I describe the Istio way for controlling egress traffic securely and show how Istio prevents the
+In this installment, I describe the Istio way to securely control the egress traffic, and show how Istio can help you prevent such
 attacks.
 
 ## Egress traffic control by Istio
