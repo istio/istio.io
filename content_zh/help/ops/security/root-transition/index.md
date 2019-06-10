@@ -118,7 +118,7 @@ keywords: [security, PKI, certificate, Citadel]
         }
     {{< /text >}}
 
-    查看 `ca\_cert` 中的 `valid\_from`。如果它符合步骤 2 中新证书的 `_Not_ _Before_` 内容，则说明 Envoy 已经载入了新的根证书。
+    查看 `ca_cert` 中的 `valid_from`。如果它符合步骤 2 中新证书的 `Not Before` 内容，则说明 Envoy 已经载入了新的根证书。
 
 ## 常见问题
 
@@ -134,7 +134,7 @@ keywords: [security, PKI, certificate, Citadel]
 如果使用的是 Istio 1.1.3-1.1.7，Envoy 可能不会因为新证书的生成而进行热重启。
 {{< /warning >}}
 
-### 为什么我的 Pilot 不工作，并在日志中输出 `handshake error`？
+### 为什么我的 Pilot 不工作，并在日志中输出 “handshake error”？
 
 这可能是因为启用 `controlPlaneSecurity` 的同时，Pilot 没有配置 [Envoy Sidecar](#how-to-check-if-pilot-has-an-envoy-sidecar)。这种情况下，需要重启 Galley 和 Pilot 来保证它们载入了新证书。例如下面的命令通过删除 Pod 的方式重新部署 Galley 和 Pilot：
 
