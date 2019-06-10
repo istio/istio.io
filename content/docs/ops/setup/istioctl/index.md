@@ -9,6 +9,10 @@ keywords: [istioctl,bash,zsh,shell,command-line]
 
 The `istioctl` tool is a configuration command line utility that allows service operators to debug and diagnose their Istio service mesh deployments. The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion for Bash and ZSH. Both of these scripts provide support for the currently available `istioctl` commands.
 
+{{< tip >}}
+`istioctl` only has auto-completion enabled for non-deprecated commands.
+{{< /tip >}}
+
 Documentation for the complete set of supported commands can be found in [`istioctl` reference](/docs/reference/commands/istioctl/).
 
 ## `istioctl` auto-completion
@@ -70,11 +74,13 @@ $ source ~/istioctl.bash
 
 Installing the ZSH auto-completion file
 
-For ZSH users, the `istioctl` auto-completion file is located in the `tools` directory. Copy the `_istioctl` file to your home directory, then source the `istioctl` auto-completion file as follows:
+For ZSH users, the `istioctl` auto-completion file is located in the `tools` directory. Copy the `_istioctl` file to your home directory, or any directory of your choosing (update directory in script snippet below), and source the `istioctl` auto-completion file in your `.zshrc` file as follows:
 
 {{< text zsh >}}
 source ~/_istioctl
 {{< /text >}}
+
+You may also add the `_istioctl` file to a directory listed in the `fpath` variable. To achieve this, place the `_istioctl` file in an existing directory in the `fpath`, or create a new directory and add it to the `fpath` variable in your `~/.zshrc` file.
 
 {{< tip >}}
 
@@ -85,9 +91,9 @@ $ autoload -Uz compinit
 $ compinit
 {{< /text >}}
 
-{{< /tip >}}
+If your auto-completion is not working, try again after restarting your terminal. If auto-completion still does not work, try resetting the completion cache using the above commands in your terminal.
 
-You may also add the `_istioctl` file to a directory listed in the `fpath` variable. To achieve this, place the `_istioctl` file in an existing directory in the `fpath`, or create a new directory and add it to the `fpath` variable in your `~/.zshrc` file.
+{{< /tip >}}
 
 {{< /tab >}}
 
