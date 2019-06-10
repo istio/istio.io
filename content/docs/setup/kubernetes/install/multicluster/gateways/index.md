@@ -25,7 +25,7 @@ Cross-cluster communication occurs over Istio Gateways of the respective cluster
 
 ## Prerequisites
 
-* Two or more Kubernetes clusters with {{< supported_kubernetes_versions >}}.
+* Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
 * Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/install/helm/)
 on **each** Kubernetes cluster.
@@ -106,7 +106,7 @@ on **each** Kubernetes cluster.
         $ kubectl apply -f install/kubernetes/helm/istio-init/files/crd/
         {{< /text >}}
 
-        {{< boilerplate verify-crds >}}
+   * {{< boilerplate verify-crds >}}
 
     * Use the Istio installation yaml file generated in a previous step to install Istio:
 
@@ -137,7 +137,7 @@ documentation to determine how to `stub DNS domains` for each unique
 environment.  The objective of this bash is to stub a domain for `.global` on
 port `53` to reference or proxy the `istiocoredns` service in Istio's service
 namespace.
-<<{ /warning >}}
+{{<< /warning >}}
 
 Create one of the following ConfigMaps, or update an existing one, in each
 cluster that will be calling services in remote clusters
