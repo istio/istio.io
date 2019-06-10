@@ -77,7 +77,7 @@ Otherwise, ESP will not be able to access Google cloud service control.
 You can verify accessing the Endpoints service through Istio ingress:
 
     {{< text bash >}}
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"i
+    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"
     {{< /text >}}
 
 ## HTTPS Endpoints service using secured Ingress
