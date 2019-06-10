@@ -84,7 +84,7 @@ You can verify accessing the Endpoints service through Istio ingress:
 
 The recommended way to securely access a mesh Endpoints service is through an ingress configured with TLS.
 
-1.  Install Istio with strict mTLS enabled. Confirm that the following command outputs either `STRICT` or empty:
+1.  Install Istio with strict mutual TLS enabled. Confirm that the following command outputs either `STRICT` or empty:
 
     {{< text bash >}}
     $ kubectl get meshpolicy default -n istio-system -o=jsonpath='{.spec.peers[0].mtls.mode}'
@@ -97,6 +97,6 @@ so that Egress is allowed to call external services directly.
 Otherwise, ESP will not be able to access Google cloud service control.
 
 1.  After this, you will find access to `ENDPOINTS_IP` no longer works because the Istio proxy only accepts secure mesh connections.
-Accessing through Istio ingress should continue to work since the ingress proxy initiates mTLS connections within the mesh.
+Accessing through Istio ingress should continue to work since the ingress proxy initiates mutual TLS connections within the mesh.
 
 1.  To secure the access at the ingress, follow the [instructions](/docs/tasks/traffic-management/ingress/secure-ingress-mount/).
