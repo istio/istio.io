@@ -37,7 +37,7 @@ backing up your custom resource data, before proceeding with the upgrade:
 
 {{< text bash >}}
 $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
-    xargs -n1 -i sh -c "kubectl get --all-namespaces -oyaml {}; echo ---" > $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
+    xargs -n1 -I{} sh -c "kubectl get --all-namespaces -oyaml {}; echo ---" > $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
 {{< /text >}}
 
 {{< /warning >}}
