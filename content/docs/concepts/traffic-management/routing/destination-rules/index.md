@@ -62,7 +62,7 @@ spec:
 {{< /text >}}
 
 As shown above, you can specify multiple policies in a single destination rule.
-In this example, the default policy is defined above the subsets field. The `v2`
+In this example, the default policy is defined above the `subsets` field. The `v2`
 specific policy is defined in the corresponding subset's field. The following
 diagram shows how the different configurations in the `my-destination-rule`
 destination rule and in the routing rules in `my-vtl-svc` virtual service would
