@@ -1,39 +1,38 @@
 ---
 title: Istio Vault CA 集成
-description: 有关如何整合 Vault CA 到 Istio 中颁发证书的教程。
+description: 整合 Vault CA 到 Istio 中为双向 TLS 提供 支持。
 weight: 10
 keywords: [security,certificate]
 ---
 
-本教程将向您介绍如何在 Istio 中整合 Vault CA 颁发证书的示例。
+本任务展示了如何将 [Vault CA](https://www.vaultproject.io/) 集成到 Istio 之中，并为网格中的工作负载签发证书。任务里会使用 Vault CA 签发的证书为 Istio 双向 TLS 提供支持。
 
 ## 开始之前{#before-you-begin}
 
 * 创建一个新的 Kubernetes 集群以运行本教程中的示例。
 
-## 安装启用 SDS 的 Istio
+## 证书请求流程
 
-1.  使用 [Helm](/docs/setup/kubernetes/install/helm/#prerequisites) 安装 Istio 启用 SDS 和向节点代理发送证书签名请求来测试 Vault CA ：
+在高级视角中，Istio 代理（例如 Envoy）通过 SDS 从 Node Agent 请求证书。Node Agent 会向 Vault CA 发送一个 CSR（证书签名请求），其中包含了 Envoy 代理所在的 Kubernetes Service account 的 Token。
+
+## 安装 Istio 并启用双向 和 SDS
+
+1. 使用 [Helm](/docs/setup/kubernetes/install/helm/#prerequisites) 安装 Istio 并启用双向 TLS、SDS 以及 Node Agent，Node Agent 发送向测试 Vault CA 发送 CSR：
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
-    $ helm dep update --skip-refresh install/kubernetes/helm/istio
     $ cat install/kubernetes/namespace.yaml > istio-auth.yaml
     $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth.yaml
     $ helm template \
         --name=istio \
         --namespace=istio-system \
-        --set global.proxy.excludeIPRanges="35.233.249.249/32" \
+        --set global.mtls.enabled=true \
         --values install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml \
         install/kubernetes/helm/istio >> istio-auth.yaml
     $ kubectl create -f istio-auth.yaml
     {{< /text >}}
 
-本教程中使用的测试 Vault 服务器的 IP 地址为 `35.233.249.249`。配置 `global.proxy.excludeIPRanges ="35.233.249.249/32"` 将测试 Vault 服务器的 IP 地址列入白名单，以便 Envoy 不会拦截从 Node Agent 到 Vault 的流量。
-
-这个 yaml 文件 [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml)
-包含 Istio 中启用 SDS（密钥发现服务）的配置。
-Vault CA 相关配置设置为环境变量：
+文件 [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml) 中包含 Istio 中启用 SDS（密钥发现服务）的配置。将 Vault CA 相关配置设置为环境变量：
 
 {{< text yaml >}}
 env:
@@ -51,46 +50,79 @@ env:
   value: "istio_ca/sign/istio-pki-role"
 {{< /text >}}
 
-## 部署测试工作负载{#deploy-a-testing-workload}
-
-本节部署测试工作负载 `httpbin`。当测试工作负载的 sidecar 通过 SDS 请求证书时，Node Agent 将向 Vault 发送证书签名请求。
-
-1.  生成示例 `httpbin` 后端的部署：
+1. 这里用于测试的 Vault 服务器 IP 地址是  `34.83.129.211`。用这个地址为 Vault 服务器创建一个 `ServiceEntry`：
 
     {{< text bash >}}
-    $ istioctl kube-inject -f @samples/httpbin/httpbin.yaml@ > httpbin-injected.yaml
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: vault-service-entry
+    spec:
+      hosts:
+      - vault-server
+      addresses:
+      - 34.83.129.211/32
+      ports:
+      - number: 8200
+        name: https
+        protocol: HTTPS
+      location: MESH_EXTERNAL
+    EOF
     {{< /text >}}
 
-1.  部署示例后端：
+## 部署测试工作负载 {#deploy-workloads-for-testing}
+
+本节中部署的测试工作负载是 `httpbin` 和 `sleep`。当测试工作负载的 Sidecar 通过 SDS 请求证书时，Node Agent 将向 Vault 发送证书签名请求。
+
+1. 生成 `sleep` 和 `httpbin` 的 Deployment：
+
+    {{< text bash >}}
+    $ istioctl kube-inject -f @samples/httpbin/httpbin-vault.yaml@ > httpbin-injected.yaml
+    $ istioctl kube-inject -f @samples/sleep/sleep-vault.yaml@ > sleep-injected.yaml
+    {{< /text >}}
+
+1. 为 Vault CA 创建 SA：`vault-citadel-sa`：
+
+    {{< text bash >}}
+    $ kubectl create serviceaccount vault-citadel-sa
+    {{< /text >}}
+
+1. Vault CA 需要 Kubernetes Service account 的认证和鉴权，因此必须对 `vault-citadel-sa` Service account 进行编辑，令其使用 Vault CA 中配置的样例 JWT。要了解更多关于使用 Vault CA 为 Kubernetes 提供认证和鉴权的内容，可以浏览 [Vault Kubernetes `auth` method reference documentation](https://www.vaultproject.io/docs/auth/kubernetes.html)。[Integration Kubernetes with Vault - auth](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) 中包含了配置 Vault 来为 Kubernetes Service account 提供认证和鉴权过程的详细例子。
+
+    {{< text bash >}}
+    $ export SA_SECRET_NAME=$(kubectl get serviceaccount vault-citadel-sa -o=jsonpath='{.secrets[0].name}')
+    $ kubectl patch secret ${SA_SECRET_NAME} -p='{"data":{"token": "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklpSjkuZXlKcGMzTWlPaUpyZFdKbGNtNWxkR1Z6TDNObGNuWnBZMlZoWTJOdmRXNTBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5dVlXMWxjM0JoWTJVaU9pSmtaV1poZFd4MElpd2lhM1ZpWlhKdVpYUmxjeTVwYnk5elpYSjJhV05sWVdOamIzVnVkQzl6WldOeVpYUXVibUZ0WlNJNkluWmhkV3gwTFdOcGRHRmtaV3d0YzJFdGRHOXJaVzR0TnpSMGQzTWlMQ0pyZFdKbGNtNWxkR1Z6TG1sdkwzTmxjblpwWTJWaFkyTnZkVzUwTDNObGNuWnBZMlV0WVdOamIzVnVkQzV1WVcxbElqb2lkbUYxYkhRdFkybDBZV1JsYkMxellTSXNJbXQxWW1WeWJtVjBaWE11YVc4dmMyVnlkbWxqWldGalkyOTFiblF2YzJWeWRtbGpaUzFoWTJOdmRXNTBMblZwWkNJNklqSmhZekF6WW1FeUxUWTVNVFV0TVRGbE9TMDVOamt3TFRReU1ERXdZVGhoTURFeE5DSXNJbk4xWWlJNkluTjVjM1JsYlRwelpYSjJhV05sWVdOamIzVnVkRHBrWldaaGRXeDBPblpoZFd4MExXTnBkR0ZrWld3dGMyRWlmUS5wWjhTaXlOZU8wcDFwOEhCOW9YdlhPQUkxWENKWktrMndWSFhCc1RTektXeGxWRDlIckhiQWNTYk8yZGxoRnBlQ2drbnQ2ZVp5d3ZoU2haSmgyRjYtaUhQX1lvVVZvQ3FRbXpqUG9CM2MzSm9ZRnBKby05alROMV9tTlJ0WlVjTnZZbC10RGxUbUJsYUtFdm9DNVAyV0dWVUYzQW9Mc0VTNjZ1NEZHOVdsbG1MVjkyTEcxV05xeF9sdGtUMXRhaFN5OVdpSFFneXpQcXd0d0U3MlQxakFHZGdWSW9KeTFsZlNhTGFtX2JvOXJxa1JsZ1NnLWF1OUJBalppREd0bTl0ZjNsd3JjZ2ZieGNjZGxHNGpBc1RGYTJhTnMzZFc0TkxrN21GbldDSmEtaVdqLVRnRnhmOVRXLTlYUEswZzNvWUlRMElkMENJVzJTaUZ4S0dQQWpCLWc="}}'
+    {{< /text >}}
+
+1. 部署 `httpbin` 和 `sleep`：
 
     {{< text bash >}}
     $ kubectl apply -f httpbin-injected.yaml
+    $ kubectl apply -f sleep-injected.yaml
     {{< /text >}}
 
-1.  列出节点代理的 pod：
+## 集成 Vault CA 到 Istio 双向 TLS
+
+本节中会演示集成了 Vault CA 的双向 TLS。前面的步骤中，为 Istio 服务网格启用了双向 TLS，并部署了 `httpbin` 和 `sleep` 工作负载。这些工作负载会从测试 Vault CA 中接收证书。如果从 `sleep` 工作负载中使用 `curl` 向 `httpbin` 发出请求，请求从双向 TLS 保护的通道中进行传输，这一隧道就是使用 Vault CA 签发的证书创建的。
+
+1. 从 `sleep` 发送一个 `curl` 请求到 `httpbin`。
+
+    通过 Vault CA 签发的证书，建立起双向 TLS 保护的通道，这一请求通过该通道，会收到一个 `200` 响应码。
 
     {{< text bash >}}
-    $ kubectl get pod -n istio-system -l app=nodeagent -o jsonpath={.items..metadata.name}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
+    200
     {{< /text >}}
 
-1.  查看每个节点代理的日志。驻留在与测试工作负载相同的节点上的节点代理将包含与 Vault 相关的日志。
+1. 要检查并非所有请求都会成功，可以从 `sleep` 的 Sidecar 中向 `httpbin` 发送请求。这一请求会失败，原因是从 Sidecar 到 `httpbin` 的通信没有使用双向 TLS。
 
     {{< text bash >}}
-    $ kubectl logs -n istio-system THE-POD-NAME-FROM-PREVIOUS-COMMAND
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl -s -o /dev/null -w "%{http_code}" httpbin:8000/headers
+    000command terminated with exit code 56
     {{< /text >}}
 
-1.  因为在此示例中，Vault 未配置为从 `httpbin` 工作负载接受 Kubernetes JWT 服务帐户，您应该看到 Vault 使用以下日志拒绝签名请求：
-
-    {{< text plain >}}
-    2019-01-16T19:42:19.274291Z     info    SDS gRPC server start, listen "/var/run/sds/uds_path"
-    2019-01-16T19:42:22.015814Z     error   failed to login Vault: Error making API request.
-    URL: PUT https://35.233.249.249:8200/v1/auth/kubernetes/login
-    Code: 500. Errors:
-    * service account name not authorized
-    2019-01-16T19:42:22.016112Z     error   Failed to sign cert for "default": failed to login Vault at https://35.233.249.249:8200: Error making API request.
-    {{< /text >}}
-
-1.  生成上述日志后，您已完成本文中的教程，该教程将整合外部 Vault CA 并将证书签名请求路由到 Vault。
+**恭喜你！**成功的将 Vault CA 集成到了 Istio 之中，用 Vault CA 签发的证书为工作负载之间的双向 TLS 通信提供支持。
 
 ## 清理{#cleanup}
 
