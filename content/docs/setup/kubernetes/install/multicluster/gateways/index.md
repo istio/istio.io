@@ -137,7 +137,7 @@ documentation to determine how to `stub DNS domains` for each unique
 environment.  The objective of this bash is to stub a domain for `.global` on
 port `53` to reference or proxy the `istiocoredns` service in Istio's service
 namespace.
-{{<< /warning >}}
+{{< /warning >}}
 
 Create one of the following ConfigMaps, or update an existing one, in each
 cluster that will be calling services in remote clusters
