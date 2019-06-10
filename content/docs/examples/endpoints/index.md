@@ -90,7 +90,6 @@ The recommended way to securely access a mesh Endpoints service is through an in
     $ kubectl get meshpolicy default -n istio-system -o=jsonpath='{.spec.peers[0].mtls.mode}'
     {{< /text >}}
 
-
 1.  Re-inject the service and the deployment into the mesh using `--includeIPRanges` by following the
 [instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
 so that Egress is allowed to call external services directly.
