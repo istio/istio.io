@@ -81,7 +81,7 @@ When you make downstream calls in your applications, make sure to include these 
 
 ## Trace sampling
 
-When installing with demo profile, Istio captures a trace for all requests by default.
+Istio captures a trace for all requests by default when installing with the demo profile.
 For example, when using the Bookinfo sample application above, every time you access
 `/productpage` you see a corresponding trace in the
 dashboard. This sampling rate is suitable for a test or low traffic
