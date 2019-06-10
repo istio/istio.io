@@ -42,8 +42,9 @@ This guide installs the current release version of Istio.
 
 - Log in to the **IBM Cloud Private** console.
 - Click `Catalog` on the right side of the navigation bar.
-- Click `Filter` on the right side of the search box and select the `ibm-charts` check box.
-- Click `Operations` in the left navigation pane.
+- Click `Repositories` drop-down on the right side of the search box.
+- Select the `ibm-charts` check box.
+- Input `istio` in the search box.
 
 {{< image link="./istio-catalog-1.png" caption="IBM Cloud Private - Istio Catalog" >}}
 
@@ -52,18 +53,20 @@ This guide installs the current release version of Istio.
 {{< image link="./istio-catalog-2.png" caption="IBM Cloud Private - Istio Catalog" >}}
 
 - (Optional) Change the Istio version using the `CHART VERSION` drop-down.
-- Click the `Configure` button.
+- Click the `Configure` button at the bottom right corner.
 
 {{< image link="./istio-installation-1.png" caption="IBM Cloud Private - Istio Installation" >}}
 
-- Input the Helm release name (e.g. `istio-1.0.3`) and select `istio-system` as the target namespace.
-- Agree to the license terms.
+- Input the Helm release name (e.g. `istio`).
+- Select `istio-system` as the target namespace.
+- Select `local-cluster` as target cluster.
+- If you agree with the license terms, check the agree to license terms box.
 - (Optional) Customize the installation parameters by clicking `All parameters`.
 - Click the `Install` button.
 
 {{< image link="./istio-installation-2.png" caption="IBM Cloud Private - Istio Installation" >}}
 
-After it is installed, you can find it by searching for its release name on the **Helm Releases** page.
+After Istio is installed, you can find it by searching for its release name on the **Helm Releases** page.
 
 {{< image link="./istio-release.png" caption="IBM Cloud Private - Istio Installation" >}}
 
