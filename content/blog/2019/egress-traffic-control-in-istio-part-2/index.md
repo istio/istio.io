@@ -4,7 +4,7 @@ subtitle: Use Istio Egress Traffic Control to prevent attacks involving egress t
 description: Use Istio Egress Traffic Control to prevent attacks involving egress traffic.
 publishdate: 2019-05-29
 attribution: Vadim Eisenberg (IBM)
-keywords: [traffic-management,egress,security]
+keywords: [traffic-management,egress,security,gateway,tls]
 ---
 
 This is part 2 in a new series about secure control of egress traffic in Istio.
