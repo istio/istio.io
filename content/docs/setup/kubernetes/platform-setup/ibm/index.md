@@ -49,5 +49,5 @@ Make sure to use the `kubectl` CLI version that matches the Kubernetes version o
 
 ## IBM Cloud Private
 
-[Configure `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0.3/manage_cluster/cfc_cli.html)
+[Configure `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.0/manage_cluster/install_kubectl.html)
 to access the IBM Cloud Private Cluster.
