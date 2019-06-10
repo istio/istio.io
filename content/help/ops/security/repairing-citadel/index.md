@@ -5,6 +5,15 @@ weight: 10
 keywords: [security,citadel,ops]
 ---
 
+Istio currently supports only a **single Citadel instance**. Running multiple Citadel instances may introduce
+race conditions and can **lead to system outages**.
+
+Citadel is not a critical data plane component. The default workload certificate lifetime is 3
+months and certificates will be rotated before they expire, which means if Citadel is down for a
+while, e.g., several hours, existing mutual TLS traffic will not be affected. However,
+workloads with new Kubernetes service accounts can not be started since they can't get their
+certificates generated when Citadel is down.
+
 If you suspect Citadel isn't working properly, verify the status of the `istio-citadel` pod:
 
 {{< text bash >}}
@@ -22,3 +31,17 @@ debugging information and check if there are any errors:
 $ kubectl logs -l istio=citadel -n istio-system
 $ kubectl describe pod -l istio=citadel -n istio-system
 {{< /text >}}
+
+If you want to check a workload (with `default` service account and `default` namespace)
+certificate's lifetime, run:
+
+{{< text bash >}}
+$ kubectl get secret -o json istio.default -n default | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -noout -text | grep "Not After" -C 1
+  Not Before: Jun  1 18:23:30 2019 GMT
+  Not After : Aug 30 18:23:30 2019 GMT
+Subject:
+{{< /text >}}
+
+Remember to replace `istio.default` and `-n default` with `istio.YourServiceAccount` and
+`-n YourNamespace` for other workloads. If the certificate is expired, Citadel did not
+update the secret properly. Check Citadel logs for more information.
