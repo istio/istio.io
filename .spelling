@@ -206,6 +206,7 @@ goroutines
 goto
 Grafana
 grafana-istio-dashboard
+granularly
 Graphviz
 gRPC
 grpc
@@ -312,6 +313,7 @@ misconfigured
 misordered
 MongoDB
 mongodb
+mTLS
 Multicloud
 multicloud
 Multicluster
