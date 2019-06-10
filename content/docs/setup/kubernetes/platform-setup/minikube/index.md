@@ -79,7 +79,7 @@ Administrative privileges are required to run minikube.
     {{< tip >}}
     Sometimes minikube does not clean up the tunnel network properly.  To force a proper
     cleanup:
-    
+
     {{< text bash >}}
     $ sudo minikube tunnel --cleanup
     {{< /text >}}
