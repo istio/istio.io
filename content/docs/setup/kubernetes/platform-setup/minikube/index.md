@@ -52,7 +52,7 @@ Administrative privileges are required to run minikube.
 
     One effective way to monitor memory usage in minikube:
 
-    {{< text_hack >}}
+    {{< text_hack bash >}}
     $ minikube ssh
     $ top
     GiB Mem : 12.4/15.7
