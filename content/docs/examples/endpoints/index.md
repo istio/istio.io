@@ -84,7 +84,7 @@ You can verify accessing the Endpoints service through Istio ingress:
 
 The recommended way to securely access a mesh Endpoints service is through an ingress configured with TLS.
 
-1.  Install Istio with strict mTLS enabled. Confirm that the following commands outputs either `STRICT` or empty:
+1.  Install Istio with strict mTLS enabled. Confirm that the following command outputs either `STRICT` or empty:
 
     {{< text bash >}}
     $ kubectl get meshpolicy default -n istio-system -o=jsonpath='{.spec.peers[0].mtls.mode}'
