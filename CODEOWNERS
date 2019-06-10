@@ -1,4 +1,4 @@
-# Defines code owners for this repo
 *               @geeknoid
-content/        @sdake @frankbu @rcaballeromx
-content_zh/     @fleeto @gyliu513 @rootsongjc
+.spelling       @geeknoid @frankbu @rcaballeromx
+content/        @geeknoid @sdake @frankbu @rcaballeromx
+content_zh/     @geeknoid @fleeto @gyliu513 @rootsongjc @frankbu @loverto
