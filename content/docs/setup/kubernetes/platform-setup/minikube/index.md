@@ -52,11 +52,11 @@ Administrative privileges are required to run minikube.
 
     One effective way to monitor memory usage in minikube:
 
-    {{< text bash >}}
+    {{< text_hack >}}
     $ minikube ssh
     $ top
     GiB Mem : 12.4/15.7
-    {{< /text >}}
+    {{< /text_hack >}}
 
     This shows 12.4GiB used of 15.7 GiB in the virtual machine.  This data was generated with
     VMWare Fusion hypervisor on a Macbook Pro 13" running Istio 1.2 with bookinfo installed.
