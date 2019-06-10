@@ -10,6 +10,7 @@ keywords: [platform-setup,kubernetes,minikube]
 
 Follow these instructions to prepare minikube for Istio installation with sufficient
 resources to run Istio and some basic applications.
+
 {{< tip >}}
 Administrative privileges are required to run minikube.
 {{< /tip >}}
@@ -20,7 +21,7 @@ Administrative privileges are required to run minikube.
    [minikube hypervisor driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
     {{< tip >}}
-    Set your minikube Hypervisor driver.  For example if you installed the KVM hypervisor, set the vm-driver
+    Set your minikube hypervisor driver.  For example if you installed the KVM hypervisor, set the vm-driver
     within the minikube configuration using the following command:
 
     {{< text bash >}}
@@ -52,14 +53,14 @@ Administrative privileges are required to run minikube.
 
     One effective way to monitor memory usage in minikube:
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ minikube ssh
     $ top
     GiB Mem : 12.4/15.7
-    {{< /text_hack >}}
+    {{< /text >}}
 
-    This shows 12.4GiB used of 15.7 GiB in the virtual machine.  This data was generated with
-    VMWare Fusion hypervisor on a Macbook Pro 13" running Istio 1.2 with bookinfo installed.
+    This shows 12.4GiB used of 15.7 GiB RAMin the virtual machine.  This data was generated with
+    VMWare Fusion hypervisor on a Macbook Pro 13" with 16GiB RAM running Istio 1.2 with bookinfo installed.
     {{< /warning >}}
 
 1. (Optional, strongly recommended) If you want minikube to provide a load balancer for use
