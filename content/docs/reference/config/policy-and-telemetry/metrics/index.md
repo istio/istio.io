@@ -13,29 +13,27 @@ We will describe metrics first and then the labels for each metric.
 
 ## Metrics
 
-*   **Request Count**: This is a `COUNTER` incremented for every
-    request handled by an Istio proxy.
+For HTTP, HTTP/2, and GRPC traffic, Istio generates the following metrics:
 
-*   **Request Duration**: This is a `DISTRIBUTION` which measures the
-    duration of the request.
+*   **Request Count** (`istio_requests_total`): This is a `COUNTER` incremented for every request handled by an Istio proxy.
 
-*   **Request Size**: This is a `DISTRIBUTION` which measures the size
-    of the HTTP request’s body size.
+*   **Request Duration** (`istio_request_duration_seconds`): This is a `DISTRIBUTION` which measures the duration of requests.
 
-*   **Response Size**: This is a `DISTRIBUTION` which measures the size of
-    the HTTP response body size.
+*   **Request Size** (`istio_request_bytes`): This is a `DISTRIBUTION` which measures HTTP request body sizes.
 
-*   **Tcp Byte Sent**: This is a `COUNTER` which measures the size of total
-    bytes sent during response in case of a TCP connection.
+*   **Response Size** (`istio_response_bytes`): This is a `DISTRIBUTION` which measures HTTP response body sizes.
 
-*   **Tcp Byte Received**: This is a `COUNTER` which measures the size of total
+For TCP traffic, Istio generates the following metrics:
+
+*   **Tcp Byte Sent** (`istio_tcp_sent_bytes_total`): This is a `COUNTER` which measures the size of total bytes sent during response in case of a TCP
+    connection.
+
+*   **Tcp Byte Received** (`istio_tcp_received_bytes_total`): This is a `COUNTER` which measures the size of total
     bytes received during request in case of a TCP connection.
 
-*   **Tcp Connections Opened**: This is a `COUNTER` incremented for every opened
-    tcp connection.
+*   **Tcp Connections Opened** (`istio_tcp_connections_opened_total`): This is a `COUNTER` incremented for every opened connection.
 
-*   **Tcp Connections Closed**: This is a `COUNTER` incremented for every closed
-    tcp connection.
+*   **Tcp Connections Closed** (`istio_tcp_connections_closed_total`): This is a `COUNTER` incremented for every closed connection.
 
 ## Labels
 

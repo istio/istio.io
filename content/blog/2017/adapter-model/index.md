@@ -26,10 +26,10 @@ Adapters are Go packages that are directly linked into the Mixer binary. It’s 
 
 ## Philosophy
 
-Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes](/docs/concepts/policies-and-telemetry/#attributes) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
+Mixer is essentially an attribute processing and routing machine. The proxy sends it [attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) as part of doing precondition checks and telemetry reports, which it turns into a series of calls into adapters. The operator supplies configuration which describes how to map incoming attributes to inputs for the adapters.
 
 {{< image width="60%"
-    link="/docs/concepts/policies-and-telemetry/machine.svg"
+    link="/docs/reference/config/policy-and-telemetry/mixer-overview/machine.svg"
     caption="Attribute Machine"
     >}}
 
@@ -39,7 +39,7 @@ Configuration is a complex task. In fact, evidence shows that the overwhelming m
 
 Each adapter that Mixer uses requires some configuration to operate. Typically, adapters need things like the URL to their backend, credentials, caching options, and so forth. Each adapter defines the exact configuration data it needs via a [protobuf](https://developers.google.com/protocol-buffers/) message.
 
-You configure each adapter by creating [*handlers*](/docs/concepts/policies-and-telemetry/#handlers) for them. A handler is a
+You configure each adapter by creating [*handlers*](/docs/reference/config/policy-and-telemetry/mixer-overview/#handlers) for them. A handler is a
 configuration resource which represents a fully configured adapter ready for use. There can be any number of handlers for a single adapter, making it possible to reuse an adapter in different scenarios.
 
 ## Templates: adapter input schema
@@ -54,8 +54,8 @@ Each template is specified as a [protobuf](https://developers.google.com/protoco
 ## Instances: attribute mapping
 
 You control which data is delivered to individual adapters by creating
-[*instances*](/docs/concepts/policies-and-telemetry/#instances).
-Instances control how Mixer uses the [attributes](/docs/concepts/policies-and-telemetry/#attributes) delivered
+[*instances*](/docs/reference/config/policy-and-telemetry/mixer-overview/#instances).
+Instances control how Mixer uses the [attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) delivered
 by the proxy into individual bundles of data that can be routed to different adapters.
 
 Creating instances generally requires using [attribute expressions](/docs/concepts/policies-and-telemetry/#attribute-expressions). The point of these expressions is to use any attribute or literal value in order to produce a result that can be assigned to an instance’s field.
@@ -68,7 +68,7 @@ to a string field.  This kind of strong typing is designed to minimize the risk 
 ## Rules: delivering data to adapters
 
 The last piece to the puzzle is telling Mixer which instances to send to which handler and when. This is done by
-creating [*rules*](/docs/concepts/policies-and-telemetry/#rules). Each rule identifies a specific handler and the set of
+creating [*rules*](/docs/reference/config/policy-and-telemetry/mixer-overview/#rules). Each rule identifies a specific handler and the set of
 instances to send to that handler. Whenever Mixer processes an incoming call, it invokes the indicated handler and gives it the specific set of instances for processing.
 
 Rules contain matching predicates. A predicate is an attribute expression which returns a true/false value. A rule only takes effect if its predicate expression returns true. Otherwise, it’s like the rule didn’t exist and the indicated handler isn’t invoked.
@@ -85,6 +85,6 @@ The refreshed Mixer adapter model is designed to provide a flexible framework to
 
 Handlers provide configuration data for individual adapters, templates determine exactly what kind of data different adapters want to consume at runtime, instances let operators prepare this data, rules direct the data to one or more handlers.
 
-You can learn more about Mixer's overall architecture [here](/docs/concepts/policies-and-telemetry/), and learn the specifics of templates, handlers,
+You can learn more about Mixer's overall architecture [here](/docs/reference/config/policy-and-telemetry/mixer-overview/), and learn the specifics of templates, handlers,
 and rules [here](/docs/reference/config/policy-and-telemetry). You can find many examples of Mixer configuration resources in the Bookinfo sample
 [here]({{< github_tree >}}/samples/bookinfo).
