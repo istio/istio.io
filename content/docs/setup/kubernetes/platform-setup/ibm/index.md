@@ -10,7 +10,7 @@ keywords: [platform-setup,ibm,iks]
 
 Follow these instructions to prepare an IBM Cloud cluster for Istio.
 
-You can use the [Managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on) in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#ibm-cloud-public), or install Istio in [IBM-Cloud-Private](#ibm-cloud-private).
+You can use the [Managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on) in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#ibm-cloud-public), or install Istio in [IBM Cloud Private](#ibm-cloud-private).
 
 ## Managed Istio add-on
 
