@@ -90,8 +90,9 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
     {{< text bash >}}
     $ kubectl get instances -o custom-columns=NAME:.metadata.name,TEMPLATE:.spec.compiledTemplate --all-namespaces
     {{< /text >}}
-    
+
     If you have Istio version before 1.2 installed, issue the following command instead:
+
     {{< text bash >}}
     $ kubectl get metrics.config.istio.io --all-namespaces
     {{< /text >}}
