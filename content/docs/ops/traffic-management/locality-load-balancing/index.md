@@ -88,8 +88,9 @@ For example, if we want to keep 80% of traffic within our region, and send 20% o
 {{< text yaml >}}
 global:
   localityLbSetting:
-  - from: "us-central1/*"
-    to:
-      "us-central1/*": 80
-      "us-central2/*": 20
+    distribute:
+    - from: "us-central1/*"
+      to:
+        "us-central1/*": 80
+        "us-central2/*": 20
 {{< /text >}}
