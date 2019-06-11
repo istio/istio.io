@@ -17,8 +17,7 @@ disabled for maintenance since they can't get their certificates generated.
 
 Citadel is not a critical data plane component. The default workload certificate lifetime is 3
 months. Certificates will be rotated by Citadel before they expire. If Citadel is disabled for
-short maintenance periods, existing mutual TLS traffic will not be affected. 
-
+short maintenance periods, existing mutual TLS traffic will not be affected.
 
 If you suspect Citadel isn't working properly, verify the status of the `istio-citadel` pod:
 
@@ -48,8 +47,8 @@ $ kubectl get secret -o json istio.default -n default | jq -r '.data["cert-chain
 Subject:
 {{< /text >}}
 
-{{< text plain >}}
+{{< tip >}}
 Remember to replace `istio.default` and `-n default` with `istio.YourServiceAccount` and
 `-n YourNamespace` for other workloads. If the certificate is expired, Citadel did not
 update the secret properly. Check Citadel logs for more information.
-{{< /text >}}
+{{< /tip >}}

@@ -10,7 +10,7 @@ control plane and the sidecar proxies, to a new release of Istio. The upgrade
 process may install new binaries and may change configuration and API schemas.
 The upgrade process may result in service downtime. To minimize downtime,
 please ensure your Istio control plane components and your applications are
-highly available with multiple replicas. 
+highly available with multiple replicas.
 
 {{ warning }}
 Citadel does not support multiple instances. Running multiple Citadel instances
