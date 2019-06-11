@@ -48,7 +48,7 @@ $ kubectl get secret -o json istio.default -n default | jq -r '.data["cert-chain
 Subject:
 {{< /text >}}
 
-{{< text bash >}}
+{{< text plain >}}
 Remember to replace `istio.default` and `-n default` with `istio.YourServiceAccount` and
 `-n YourNamespace` for other workloads. If the certificate is expired, Citadel did not
 update the secret properly. Check Citadel logs for more information.
