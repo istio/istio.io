@@ -51,9 +51,9 @@ of injected sidecar when it was.
 1. Ensure your pod does not have `hostNetwork: true` in its pod spec.
    Automatic sidecar injection will be ignored for pods that are on the host network.
 
-   The sidecar model assumes that the iptables changes required for Envoy to intercept
-   traffic are within the pod. For pods on the host network this assumption is violated,
-   and this can lead to routing failures at the host level.
+    The sidecar model assumes that the iptables changes required for Envoy to intercept
+    traffic are within the pod. For pods on the host network this assumption is violated,
+    and this can lead to routing failures at the host level.
 
 1. Check the webhook's `namespaceSelector` to determine whether the
    webhook is scoped to opt-in or opt-out for the target namespace.
