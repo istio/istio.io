@@ -94,7 +94,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
     If you have Istio version before 1.2 installed, issue the following command instead:
     {{< text bash >}}
     $ kubectl get metrics.config.istio.io --all-namespaces
-    {{< /text >}
+    {{< /text >}}
 
 1. If the output shows no configured metric instances, you must reconfigure Mixer with the appropriate instance configuration.
 
