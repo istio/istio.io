@@ -14,11 +14,13 @@ enabled and disabled per-pod with an annotation.
 Whether or not a sidecar is injected depends on three pieces of configuration and two security rules:
 
 Configuration:
+
 - webhooks `namespaceSelector`
 - default `policy`
 - per-pod override annotation
 
 Security rules:
+
 - sidecars cannot be injected in the `kube-system` or `kube-public` namespaces
 - sidecars cannot be injected into pods that use the host network
 
