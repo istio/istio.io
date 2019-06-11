@@ -5,28 +5,14 @@ weight: 20
 keywords: [kubernetes,multicluster]
 ---
 
-这个示例展示了如何在[多控制平面拓扑](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology)的多集群网格中
+这个示例展示了如何在[多控制平面拓扑](/zh/docs/concepts/multicluster-deployments/#多控制平面拓扑)的多集群网格中
 配置和调用远程服务。为了演示跨集群访问，会在一个集群中使用 [Sleep 服务]({{<github_tree>}}/samples/sleep)调用另一个集群中的 [httpbin 服务]({{<github_tree>}}/samples/httpbin)。
 
 ## 开始之前 {#before-you-begin}
 
 * 根据[使用网关连接多控制平面](/zh/docs/setup/kubernetes/install/multicluster/gateways/)的介绍，建立两个 Istio 网格组成的集群环境。
 
-* 用 `kubectl` 的 `--context` 参数来访问两个不同的集群。用下面的命令列出配置文件中的 `context`（上下文）：
-
-    {{< text bash >}}
-    $ kubectl config get-contexts
-    CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
-    *         cluster1   cluster1   user@foo.com   default
-              cluster2   cluster2   user@foo.com   default
-    {{< /text >}}
-
-* 将配置文件中的上下文名称导出为环境变量：
-
-    {{< text bash >}}
-    $ export CTX_CLUSTER1=<cluster1 context name>
-    $ export CTX_CLUSTER2=<cluster2 context name>
-    {{< /text >}}
+{{< boilerplate kubectl-multicluster-contexts >}}
 
 ## 配置示例服务 {#configure-the-example-services}
 
@@ -36,6 +22,7 @@ keywords: [kubernetes,multicluster]
     $ kubectl create --context=$CTX_CLUSTER1 namespace foo
     $ kubectl label --context=$CTX_CLUSTER1 namespace foo istio-injection=enabled
     $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f @samples/sleep/sleep.yaml@
+    $ export SLEEP_POD=$(kubectl get --context=$CTX_CLUSTER1 -n foo pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 1. 在 `cluster2` 中部署 `httpbin` 服务：
@@ -50,7 +37,7 @@ keywords: [kubernetes,multicluster]
 
     {{< text bash >}}
     $ export CLUSTER2_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
-        -n istio-system -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
+        -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
     这个命令使用了网关的公网 IP，如果条件允许，这里使用 DNS 名称也是可以的
@@ -63,13 +50,13 @@ keywords: [kubernetes,multicluster]
 
     为了让 `cluster1` 中的 `sleep` 能够访问到 `cluster2` 中的 `httpbin`，需要创建一个 `ServiceEntry`。`ServiceEntry` 的主机名称应该是 `<name>.<namespace>.global` 的格式，其中的 `name` 和 `namespace` 代表的是远端服务的名称和命名空间。
 
-    为了让 DNS 为 `*.global` 域的服务进行解析。必须给这些服务提供 IP 地址。
+    必须给这些服务提供唯一的 IP 地址，以便 DNS 为 `*.global` 域的服务进行解析，
 
     {{< tip >}}
     （`.global` DNS 域）中的每个服务必须在集群内具有唯一的 IP 地址。
     {{< /tip >}}
 
-    如果这些全局服务具有真实的 VIP，可以直接使用；否则我们推荐使用 loopback 范围内的 `127.0.0.0/8`。这些 IP 在 Pod 之外是不可路由的。在这个例子中我们会使用 `127.255.0.0/16`，这样就不会和一些知名地址例如 `127.0.0.1` 重叠了。对这些 IP 的访问会被 Sidecar 截获，并路由到对应的远程服务之中。
+    如果这些全局服务具有真实的 VIP，可以直接使用；否则我们推荐使用 loopback 范围内的空闲 `127.0.0.0/8` IP 地址。这些 IP 在 Pod 之外是不可路由的。在这个例子中我们会使用 `127.255.0.0/16`，这样就不会和一些知名地址例如 `127.0.0.1` 重叠了。对这些 IP 的访问会被 Sidecar 截获，并路由到对应的远程服务之中。
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
@@ -112,8 +99,7 @@ keywords: [kubernetes,multicluster]
 1. 从 `sleep` 服务中检查对 `httpbin` 的访问：
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_CLUSTER1 $(kubectl get --context=$CTX_CLUSTER1 -n foo pod -l app=sleep -o jsonpath={.items..metadata.name}) \
-       -n foo -c sleep -- curl httpbin.bar.global:8000/ip
+    $ kubectl exec --context=$CTX_CLUSTER1 $SLEEP_POD -n foo -c sleep -- curl -I httpbin.bar.global:8000/headers
     {{< /text >}}
 
 ## 使用 Egress Gateway 向远程集群发送流量 {#send-remote-cluster-traffic-using-egress-gateway}
@@ -179,15 +165,14 @@ spec:
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     labels:
-      version: beta
-      some: thing
-      foo: bar
+      cluster: cluster2
     ports:
-      http1: 15443 # 不要修改这个端口号
+      http1: 15443 # 不要修改这个端口
 EOF
+
 {{< /text >}}
 
-接下来可以根据[配置请求路由任务](/zh/docs/tasks/traffic-management/request-routing/)中的说明来创建对应的 `VirtualService` 和 `DestinationRule`。`DestinationRule` 使用标签选择器来定义 `httpbin.bar.global` 服务的子集。具体步骤和本地服务是一致的。
+可以创建 Virtual Service 和 Destination Rule，使用 Gateway 的标签来创建服务子集。在[多集群服务网格中的分版本路由](/zh/blog/2019/multicluster-version-routing/)中有完整的介绍。
 
 ## 清理 {#clean-up}
 
