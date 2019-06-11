@@ -177,6 +177,12 @@ $ kubectl -n istio-system edit rules quota
 ...
 {{< /text >}}
 
+{{< warning >}}
+Don't enable [chrome preload](https://support.google.com/chrome/answer/114836?hl=en&co=GENIE.Platform=Desktop) as it can 
+preload cookies and fail this task.
+
+{{< /warning >}}
+
 `memquota` or `redisquota` adapter is now dispatched only if `session=<sessionid>` cookie is absent from the request.
 This ensures that a logged in user is not subject to this quota.
 
