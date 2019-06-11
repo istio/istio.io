@@ -973,7 +973,7 @@ metadata:
   name: foo-ext-svc
 spec:
   hosts:
-  - *.foo.com
+  - "*.foo.com"
   ports:
   - number: 80
     name: http
