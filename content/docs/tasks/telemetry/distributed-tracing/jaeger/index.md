@@ -5,6 +5,11 @@ weight: 10
 keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 ---
 
+After completing this task, you understand how to have your application participate in tracing with [Jaeger](https://www.jaegertracing.io/),
+regardless of the language, framework, or platform you use to build your application.
+
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
+
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin

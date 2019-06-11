@@ -5,12 +5,15 @@ weight: 1
 keywords: [telemetry,tracing]
 ---
 
-After completing this task, you understand how to have your application participate in tracing,
-regardless of the language, framework, or platform you use to build your application.
+Distributed tracing enables users to track a request through mesh that is distributed across multiple services.
+This allows a deeper understanding about request latency, serialization and parallelism via visulization.
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
+Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing) feature
+to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend
+and configure proxies to send trace spans to them automatically.
+See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [Lightstep](../lightstep) task docs about how Istio works with those tracing systems.
 
-## Understanding what happened
+## Trace context propagation
 
 Although Istio proxies are able to automatically send spans, they need some hints to tie together the entire trace.
 Applications need to propagate the appropriate HTTP headers so that when the proxies send span information,
