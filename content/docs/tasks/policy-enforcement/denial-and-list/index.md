@@ -168,16 +168,11 @@ subnet.
     not whitelisted`
 
 ## Cleanup
+
 * Remove the Mixer configuration for simple denials:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
-    {{< /text >}}
-    
-    If you are using Istio 1.1.2 or prior:
-    
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
     {{< /text >}}
 
 * Remove the Mixer configuration for attribute-based white- and blacklisting:
