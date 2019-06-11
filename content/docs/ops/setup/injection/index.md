@@ -11,14 +11,21 @@ time. Injection can be scoped to particular sets of namespaces using
 the webhooks `namespaceSelector` mechanism. Injection can also be
 enabled and disabled per-pod with an annotation.
 
-Whether or not a sidecar is injected is depends on three things:
+Whether or not a sidecar is injected depends on three pieces of configuration and two security rules:
 
-* webhooks `namespaceSelector`
-* default `policy`
-* per-pod override annotation
+Configuration:
+
+- webhooks `namespaceSelector`
+- default `policy`
+- per-pod override annotation
+
+Security rules:
+
+- sidecars cannot be injected in the `kube-system` or `kube-public` namespaces
+- sidecars cannot be injected into pods that use the host network
 
 The following truth table shows the final injection status based on
-these three variables.
+the three configuration items. The security rules above cannot be overridden.
 
 | `namespaceSelector` match | default `policy` | Pod override annotation `sidecar.istio.io/inject` | Sidecar injected? |
 |---------------------------|------------------|---------------------------------------------------|-----------|
@@ -39,6 +46,16 @@ these three variables.
 
 This includes an injected sidecar when it wasn't expected and a lack
 of injected sidecar when it was.
+
+1. Ensure your pod is not in the `kube-system` or `kube-public` namespace.
+   Automatic sidecar injection will be ignored for pods in these namespaces.
+
+1. Ensure your pod does not have `hostNetwork: true` in its pod spec.
+   Automatic sidecar injection will be ignored for pods that are on the host network.
+
+    The sidecar model assumes that the iptables changes required for Envoy to intercept
+    traffic are within the pod. For pods on the host network this assumption is violated,
+    and this can lead to routing failures at the host level.
 
 1. Check the webhook's `namespaceSelector` to determine whether the
    webhook is scoped to opt-in or opt-out for the target namespace.
