@@ -178,7 +178,7 @@ $ kubectl -n istio-system edit rules quota
 {{< /text >}}
 
 {{< warning >}}
-Don't enable [chrome preload](https://support.google.com/chrome/answer/114836?hl=en&co=GENIE.Platform=Desktop) as it can 
+Don't enable [chrome preload](https://support.google.com/chrome/answer/114836?hl=en&co=GENIE.Platform=Desktop) as it can
 preload cookies and fail this task.
 
 {{< /warning >}}
