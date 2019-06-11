@@ -5,10 +5,9 @@ weight: 11
 keywords: [telemetry,tracing,lightstep]
 ---
 
-This task shows you how to configure Istio to collect trace spans and send them to LightStep [𝑥]PM.
-[𝑥]PM lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
-distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis. For more
-information, visit [LightStep](https://lightstep.com).
+This task shows you how to configure Istio to collect trace spans and send them to [LightStep Tracing](https://lightstep.com/products/) or [LightStep [𝑥]PM](https://lightstep.com/products/).
+LightStep lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
+distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
 At the end of this task, Istio sends trace spans from the proxies to a LightStep [𝑥]PM Satellite pool making them
 available to the web UI.
 
@@ -16,16 +15,22 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 ## Before you begin
 
-1.  Ensure you have a LightStep account. [Contact LightStep](https://lightstep.com/contact/) to create an account.
+1.  Ensure you have a LightStep account. [Sign up](https://lightstep.com/products/tracing/) for a free trial of LightStep Tracing, or [Contact LightStep](https://lightstep.com/contact/) to create an enterprise-level LightStep [𝑥]PM account.
 
-1.  Ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
+1.  For [𝑥]PM users, ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
     [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup) for details about setting up satellites.
 
-1.  Ensure sure you have a LightStep access token.
+    For LightStep Tracing users, your satellites are already configured.
 
-1.  Ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
+1.  Ensure sure you have a LightStep [access token](https://docs.lightstep.com/docs/project-access-tokens).
+
+1.  You'll need to deploy Istio with your satellite address.
+    For [𝑥]PM users, ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
+
+    For LightStep Tracing users, use the address `collector-grpc.lightstep.com:443`.
 
 1.  Deploy Istio with the following configuration parameters specified:
+    - `pilot.traceSampling=100`
     - `global.proxy.tracer="lightstep"`
     - `global.tracer.lightstep.address="<satellite-address>"`
     - `global.tracer.lightstep.accessToken="<access-token>"`
@@ -37,6 +42,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
     {{< text bash >}}
     $ helm template \
+        --set pilot.traceSampling=100 \
         --set global.proxy.tracer="lightstep" \
         --set global.tracer.lightstep.address="<satellite-address>" \
         --set global.tracer.lightstep.accessToken="<access-token>" \
@@ -49,6 +55,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     {{< /text >}}
 
 1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
+    For LightStep Tracing users, download and use [this certificate](https://docs.lightstep.com/docs/use-istio-as-your-service-mesh-with-lightstep).
     If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
 
     {{< text bash >}}
