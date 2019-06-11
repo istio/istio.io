@@ -26,7 +26,7 @@ number_of_entries: 4
 </tbody>
 </table>
 <h2 id="operator-server">operator server</h2>
-<p>Starts the Istio operation server</p>
+<p>Starts the Istio operator server</p>
 <pre class="language-bash"><code>operator server [flags]
 </code></pre>
 <table class="command-flags">
@@ -38,12 +38,20 @@ number_of_entries: 4
 </thead>
 <tbody>
 <tr>
+<td><code>--base-chart-path &lt;string&gt;</code></td>
+<td>The absolute path to a directory containing nested charts, e.g. /etc/istio-operator/helm.  This will be used as the base path for any IstioControlPlane instances specifying a relative ChartPath.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
 </tr>
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--default-chart-path &lt;string&gt;</code></td>
+<td>A path relative to base-chart-path containing charts to be used when no ChartPath is specified by an IstioControlPlane resource, e.g. 1.1.0/istio  (default ``)</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
