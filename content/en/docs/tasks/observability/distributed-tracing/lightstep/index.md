@@ -10,7 +10,11 @@ aliases:
 This task shows you how to configure Istio to collect trace spans and send them to [LightStep Tracing](https://lightstep.com/products/) or [LightStep [𝑥]PM](https://lightstep.com/products/).
 LightStep lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
 distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
+<<<<<<< HEAD:content/en/docs/tasks/observability/distributed-tracing/lightstep/index.md
 At the end of this task, Istio sends trace spans from the proxies to a LightStep Satellite pool making them
+=======
+At the end of this task, Istio sends trace spans from the proxies to a LightStep [𝑥]PM Satellite pool making them
+>>>>>>> Updated with instructions for LightStep Tracing vs. LightStep [x]pm (#4203):content/docs/tasks/telemetry/distributed-tracing/lightstep/index.md
 available to the web UI.
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an example.
@@ -20,11 +24,19 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 1.  Ensure you have a LightStep account. [Sign up](https://lightstep.com/products/tracing/) for a free trial of LightStep Tracing, or [Contact LightStep](https://lightstep.com/contact/) to create an enterprise-level LightStep [𝑥]PM account.
 
 1.  For [𝑥]PM users, ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
+<<<<<<< HEAD:content/en/docs/tasks/observability/distributed-tracing/lightstep/index.md
     [LightStep Satellite Setup](https://docs.lightstep.com/docs/install-and-configure-satellites) for details about setting up satellites.
 
     For LightStep Tracing users, your satellites are already configured.
 
 1.  Ensure sure you have a LightStep [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens).
+=======
+    [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup) for details about setting up satellites.
+
+    For LightStep Tracing users, your satellites are already configured.
+
+1.  Ensure sure you have a LightStep [access token](https://docs.lightstep.com/docs/project-access-tokens).
+>>>>>>> Updated with instructions for LightStep Tracing vs. LightStep [x]pm (#4203):content/docs/tasks/telemetry/distributed-tracing/lightstep/index.md
 
 1.  You'll need to deploy Istio with your satellite address.
     For [𝑥]PM users, ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
@@ -43,6 +55,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     when you run the install command. For example:
 
     {{< text bash >}}
+<<<<<<< HEAD:content/en/docs/tasks/observability/distributed-tracing/lightstep/index.md
     $ istioctl manifest apply \
         --set values.pilot.traceSampling=100 \
         --set values.global.proxy.tracer="lightstep" \
@@ -54,6 +67,23 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
     For LightStep Tracing users, download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh).
+=======
+    $ helm template \
+        --set pilot.traceSampling=100 \
+        --set global.proxy.tracer="lightstep" \
+        --set global.tracer.lightstep.address="<satellite-address>" \
+        --set global.tracer.lightstep.accessToken="<access-token>" \
+        --set global.tracer.lightstep.secure=true \
+        --set global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem" \
+        install/kubernetes/helm/istio \
+        --name istio --namespace istio-system > $HOME/istio.yaml
+    $ kubectl create namespace istio-system
+    $ kubectl apply -f $HOME/istio.yaml
+    {{< /text >}}
+
+1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
+    For LightStep Tracing users, download and use [this certificate](https://docs.lightstep.com/docs/use-istio-as-your-service-mesh-with-lightstep).
+>>>>>>> Updated with instructions for LightStep Tracing vs. LightStep [x]pm (#4203):content/docs/tasks/telemetry/distributed-tracing/lightstep/index.md
     If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
 
     {{< text bash >}}
