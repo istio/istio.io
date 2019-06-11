@@ -65,18 +65,18 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 1. In Kubernetes environments, issue the following command:
 
     {{< text bash >}}
-    $ kubectl get prometheuses.config.istio.io --all-namespaces
-    NAMESPACE      NAME      AGE
-    istio-system   handler   13d
-    {{< /text >}}
-
-    Depending on whether or not your install of Istio was a fresh install or upgrade, you may also need to issue the following command:
-
-    {{< text bash >}}
     $ kubectl get handlers.config.istio.io --all-namespaces
     NAMESPACE      NAME            AGE
     istio-system   kubernetesenv   4h
     istio-system   prometheus      4h
+    {{< /text >}}
+
+    If you have Istio version before 1.2 installed, issue the following command instead:
+
+    {{< text bash >}}
+    $ kubectl get prometheuses.config.istio.io --all-namespaces
+    NAMESPACE      NAME      AGE
+    istio-system   handler   13d
     {{< /text >}}
 
 1. If the output shows no configured Prometheus handlers, you must reconfigure Mixer with the appropriate handler configuration.
@@ -88,9 +88,13 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 1. In Kubernetes environments, issue the following command:
 
     {{< text bash >}}
-    $ kubectl get metrics.config.istio.io --all-namespaces
-    $ kubectl get instances -o custom-columns=NAME:.metadata.name,TEMPLATE:.spec.compiledTemplate
+    $ kubectl get instances -o custom-columns=NAME:.metadata.name,TEMPLATE:.spec.compiledTemplate --all-namespaces
     {{< /text >}}
+    
+    If you have Istio version before 1.2 installed, issue the following command instead:
+    {{< text bash >}}
+    $ kubectl get metrics.config.istio.io --all-namespaces
+    {{< /text >}
 
 1. If the output shows no configured metric instances, you must reconfigure Mixer with the appropriate instance configuration.
 
