@@ -16,7 +16,7 @@ keywords: [platform-setup,kubernetes,docker-desktop]
     {{< /tip >}}
 
 1. If you want to run Istio under Docker Desktop's built-in Kubernetes, you need to increase Docker's memory limit
-    under the *Advanced* pane of Docker Desktop's preferences. Set the resources to 8.0 GB of memory and 4 CPUs.
+    under the *Advanced* pane of Docker Desktop's preferences. Set the resources to 8.0 `GB` of memory and 4 `CPUs`.
 
     {{< image width="60%" link="./dockerprefs.png"  caption="Docker Preferences"  >}}
 
