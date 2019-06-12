@@ -128,7 +128,7 @@ keywords: [traffic-management,tcp-traffic-shifting]
 
     现在应该会看到，输出内容中有 20% 的时间戳前缀为 `two`，这意味着 80% 的流量被路由到 `tcp-echo:v1`，其余 20% 流量被路由到了 `v2`。
 
-## 理解原理 {#understanding-what-happened}
+## 理解原理 {#trace-context-propagation}
 
 这个任务里，用 Istio 的权重路由功能，把一部分访问 `tcp-echo` 服务的 TCP 流量被从旧版本迁移到了新版本。容器编排平台中的版本迁移使用的是对特定组别的实例进行伸缩来完成对流量的控制的，两种迁移方式显然大相径庭。
 
