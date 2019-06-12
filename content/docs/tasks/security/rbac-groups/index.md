@@ -98,7 +98,7 @@ are supported.
       principalBinding: USE_ORIGIN
     EOF
     {{< /text >}}
-    
+
 1.  Apply a `DestinationRule` policy on `sleep` to use mutual TLS when
 communicating with `httpbin`.
 
