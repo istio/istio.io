@@ -31,7 +31,7 @@ Istio provides behavioral insights and operational control over the service mesh
 
 ## Why use Istio?
 
-Istio makes it easy to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, with [few](/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened) or no code changes
+Istio makes it easy to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, with [few](/docs/tasks/telemetry/distributed-tracing/overview/#trace-context-propagation) or no code changes
 in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication
 between microservices, then configure and manage Istio using its control plane functionality, which includes:
 

@@ -7,6 +7,11 @@ aliases:
     - /docs/tasks/zipkin-tracing.html
 ---
 
+After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.apache.org/),
+regardless of the language, framework, or platform you use to build your application.
+
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
+
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
@@ -29,10 +34,10 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 [Remotely Accessing Telemetry Addons](/docs/tasks/telemetry/gateways) details how to configure access to the Istio       addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the Helm chart option `--set tracing.ingress.enabled=true` during install.
 
-For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-control` namespace:
+For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-system` namespace:
 
 {{< text bash >}}
-$ kubectl -n istio-control port-forward $(kubectl -n istio-control get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 15032:9411
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 15032:9411
 {{< /text >}}
 
 Open your browser to [http://localhost:15032](http://localhost:15032).
@@ -56,7 +61,7 @@ Open your browser to [http://localhost:15032](http://localhost:15032).
 
 1.  The trace is comprised of a set of spans,
     where each span corresponds to a Bookinfo service, invoked during the execution of a `/productpage` request, or
-    internal Istio component, for example: `istio-ingressgateway`, `istio-mixer`, `istio-policy`.
+    internal Istio component, for example: `istio-ingressgateway`.
 
 ## Cleanup
 
