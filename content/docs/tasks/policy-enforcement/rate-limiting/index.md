@@ -75,17 +75,21 @@ so the configuration to enable rate limiting on both adapters is the same.
 
     {{< /warning >}}
 
-    The `memquota` handler defines 3 different rate limit schemes. The default,
+    The `memquota` handler defines 4 different rate limit schemes. The default,
     if no overrides match, is `500` requests per one second (`1s`). Two
     overrides are also defined:
 
     * The first is `1` request (the `maxAmount` field) every `5s` (the
     `validDuration` field), if the `destination` is `reviews`.
-    * The second is `2` requests every `5s`, if the `destination` is `productpage`.
+    * The second is `500` requests every `1s`, if the destination is `productpage`
+     and source is `10.28.11.20`
+    * The third is `2` requests every `5s`, if the `destination` is `productpage`.
 
     When a request is processed, the first matching override is picked (reading from top to bottom).
 
     Or
+
+    Run the following command to enable rate limits using `redisquota`:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-redis-quota-rolling-window.yaml@
@@ -172,6 +176,12 @@ $ kubectl -n istio-system edit rules quota
   match: match(request.headers["cookie"], "session=*") == false
 ...
 {{< /text >}}
+
+{{< warning >}}
+Don't enable [chrome preload](https://support.google.com/chrome/answer/114836?hl=en&co=GENIE.Platform=Desktop) as it can
+preload cookies and fail this task.
+
+{{< /warning >}}
 
 `memquota` or `redisquota` adapter is now dispatched only if `session=<sessionid>` cookie is absent from the request.
 This ensures that a logged in user is not subject to this quota.
