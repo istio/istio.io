@@ -5,7 +5,7 @@ weight: 90
 keywords: [security, PKI, certificate, Citadel]
 ---
 
-因为历史原因，Istio 的自签发证书只有一年的有效期。如果你是用的是 Istio 的自签发证书，就需要在它们过期之前订好计划进行根证书的更迭。根证书过期可能会导致集群范围内的意外中断。
+因为历史原因，Istio 的自签发证书只有一年的有效期。如果你选择使用 Istio 的自签发证书，就需要在它们过期之前订好计划进行根证书的更迭。根证书过期可能会导致集群范围内的意外中断。
 
 {{< tip >}}
 我们认为每年更换根证书和密钥是一个安全方面的最佳实践，我们会在后续内容中介绍如何完成根证书和密钥的轮转过程。
@@ -41,7 +41,8 @@ keywords: [security, PKI, certificate, Citadel]
 
 1. 执行根证书更新过程：
 
-    在更新过程中，Envoy 可能会用热重启的方式来载入新的证书。这可能对流量产生一定影响。可以阅读相关的[Envoy 热启动的文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)，来了解更多细节。
+    在更新过程中，Envoy 会用热重启的方式来载入新的证书。这可能对流量产生一定影响。
+    可以阅读 Envoy 热启动方面的相关[文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)，来了解更多细节。
 
     {{< warning >}}
     如果你的 Pilot 没有 Envoy Sidecar，则应该给 Pilot 安装一个 Sidecar。这是因为 Pilot 在使用旧的根证书来验证新的工作负载证书时会出现问题，导致 Pilot 和 Evnoy 之间断开连接。请参考[相关步骤](#how-to-check-if-pilot-has-an-envoy-sidecar)，以了解如何进行检查。[Istio 升级指南](/zh/docs/setup/kubernetes/upgrade/steps/)中缺省会为 Pilot 安装 Envoy Sidecar。
@@ -87,8 +88,7 @@ keywords: [security, PKI, certificate, Citadel]
     ------All Istio keys and certificates are updated in secret!
     {{< /text >}}
 
-    If this command fails, wait a minute and run the command again.
-    It takes some time for Citadel to propagate the certificates.
+    Citadel 的证书分发过程需要一段时间来完成，因此命令失败，可以在几分钟之后再次尝试。
 
 1. 升级到 Istio 1.0.8、1.1.8 或更新的版本:
 
@@ -100,7 +100,7 @@ keywords: [security, PKI, certificate, Citadel]
 
 1. 检查 Envoy 是否已经载入新的工作负载证书：
 
-    可以检查一下，Envoy 是否收到了新的证书。要检查检查命名空间 `bar` 之中一个名为 `foo` 的 Pod，验证它的 Envoy 证书的过程：
+    可以检查一下，Envoy 是否收到了新的证书。要检查命名空间 `bar` 之中一个名为 `foo` 的 Pod，验证它的 Envoy 证书的过程：
 
     {{< text bash>}}
     $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/certs | head -c 1000
@@ -154,7 +154,7 @@ keywords: [security, PKI, certificate, Citadel]
 
 ### 无法使用 sidecar-injector 部署新的工作负载
 
-如果没有更新到 Istio 1.0.8、1.1.8 或者更新的版本，就有可能出现这种情况。请试着重启动 Sidecar injector，重启之后就会载入证书：
+如果没有更新到 Istio 1.0.8、1.1.8 或者更新的版本，就有可能出现这种情况。请试着重新启动 Sidecar injector，重启之后就会载入证书：
 
 {{< text bash>}}
 $ kubectl delete po -l istio=sidecar-injector -n istio-system
