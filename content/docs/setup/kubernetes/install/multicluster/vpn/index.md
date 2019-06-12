@@ -37,7 +37,7 @@ across the multicluster environment and may not overlap.
 
     * All Kubernetes control plane API servers must be routable to each other.
 
-* Helm **2.7.2 or newer**.  The use of Tiller is optional.
+* Helm **2.10 or newer**.  The use of Tiller is optional.
 
 This guide describes how to install a multicluster Istio topology using the
 manifests and Helm charts provided within the Istio repository.
