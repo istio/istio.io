@@ -11,16 +11,38 @@ aliases:
 Follow this flow to install and configure an Istio mesh in IBM Cloud.
 
 You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on)
-in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#ibm-cloud-public),
+in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#helm),
 or install Istio in [IBM Cloud Private](#ibm-cloud-private).
 
-## Managed Istio add-on
-
-Istio on IBM Cloud Kubernetes Service provides a seamless installation of Istio, automatic updates and lifecycle management of Istio control plane components, and integration with platform logging and monitoring tools. With one click, you can get all Istio core components, additional tracing, monitoring, and visualization, and the Bookinfo sample app up and running. Istio on IBM Cloud Kubernetes Service is offered as a managed add-on, so IBM Cloud automatically keeps all your Istio components up to date.
-
-To install the managed Istio add-on in IBM Cloud Public, see the [IBM Cloud Kubernetes Service documentation](https://cloud.ibm.com/docs/containers?topic=containers-istio).
-
 ## IBM Cloud Public
+
+### Managed Istio add-on
+
+Instead of using Helm to install Istio, you can enable the managed Istio add-on in your cluster. Istio on IBM Cloud Kubernetes Service provides a seamless installation of Istio, automatic updates and lifecycle management of Istio control plane components, and integration with platform logging and monitoring tools. With one click, you can get all Istio core components, additional tracing, monitoring, and visualization, and the Bookinfo sample app up and running. Istio on IBM Cloud Kubernetes Service is offered as a managed add-on, so IBM Cloud automatically keeps all your Istio components up to date.
+
+To install the managed Istio add-on in IBM Cloud Public, you can use the UI or the CLI.
+
+**To use the UI**:
+
+1. In your cluster dashboard External link icon, click the name of a cluster.
+
+2. Click the Add-ons tab.
+
+3. On the Istio card, click Install.
+
+4. The Istio check box is already selected. To also install the Istio extras and BookInfo sample app, select the Istio Extras and the Istio Sample check boxes.
+
+5. Click Install.
+
+6. On the Istio card, verify that the add-ons you enabled are listed.
+
+**To use the CLI**:
+
+
+
+For more information, see the [IBM Cloud Kubernetes Service documentation](https://cloud.ibm.com/docs/containers?topic=containers-istio).
+
+### Helm
 
 Follow [these instructions](/docs/setup/kubernetes/install/helm/) to install and run the current release version of Istio in [IBM Cloud Public](https://www.ibm.com/cloud/) using Helm and the IBM Cloud Kubernetes Service (IKS).
 
