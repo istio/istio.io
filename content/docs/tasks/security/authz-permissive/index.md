@@ -27,19 +27,21 @@ To complete this task, you should first take the following actions:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the instructions in the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to
-install Istio **with mutual TLS enabled**.
+* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
-* Create service accounts for the Bookinfo application. Run the following command to create service
-account `bookinfo-productpage` for `productpage` and service account `bookinfo-reviews` for `reviews`:
+After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
+the product page, you can see the following sections:
 
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
-    {{< /text >}}
+* **Book Details** on the lower left side, which includes: book type, number of
+  pages, publisher, etc.
+* **Book Reviews** on the lower right of the page.
 
-### Test enabling authorization globally
+When you refresh the page, the app shows different versions of reviews in the product page.
+The app presents the reviews in a round robin style: red stars, black stars, or no stars.
+
+## Test enabling authorization globally
 
 The following steps show you how to use authorization permissive mode to test whether it's safe to
 turn on authorization globally:
@@ -122,7 +124,7 @@ turn on authorization globally:
     as expected. To enable the authorization policy, follow the steps described in the
     [Enabling Istio authorization task](/docs/tasks/security/authz-http#enabling-istio-authorization).
 
-### Test adding authorization policy
+## Test adding authorization policy
 
 The following steps show how to test a new authorization policy with permissive mode when authorization
 has already been enabled.
