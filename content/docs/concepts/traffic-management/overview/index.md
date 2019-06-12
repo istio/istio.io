@@ -14,8 +14,8 @@ traffic splits.
 
 Istio's traffic management model relies on the following two components:
 
--  {{<gloss>}}Pilot{{</gloss>}}, the core traffic management component.
--  {{<gloss>}}Envoy{{</gloss>}} proxies, which enforce configurations and policies set through Pilot.
+-  {{< gloss >}}Pilot{{</ gloss >}}, the core traffic management component.
+-  {{< gloss >}}Envoy{{</ gloss >}} proxies, which enforce configurations and policies set through Pilot.
 
 These components enable the following high-level tasks:
 
