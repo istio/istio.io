@@ -20,7 +20,7 @@ The activities in this task assume that you:
 
 * Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo#deploying-the-application) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
 the product page, you can see the following sections:
