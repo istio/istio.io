@@ -31,10 +31,9 @@ want your mesh services to use. By default, Istio configures the Envoy proxies
 to passthrough requests from unknown services. You can also use service entries
 to configure internal infrastructure:
 
--  A **mesh-internal** service entry adds a service running in unmanaged
-   infrastructure, which does not have an Envoy proxy, but still is within the
-   same network, to the mesh. You configure mesh-internal service entries as
-   you expand the mesh to include unmanaged infrastructure.
+-  A **mesh-internal** service entry adds a service running in the mesh, which
+   doesn't have a service discovery adapter that would add it to the abstract
+   model automatically.
 
     For example, you create mesh-internal service entries for the services
     running on VMs outside the Kubernetes cluster but within the network.
@@ -42,11 +41,11 @@ to configure internal infrastructure:
     service entries, but to change the authentication method, you can configure
     a destination rule for the service entry.
 
--  A **mesh-external** service entry adds a service running on infrastructure
-   outside the network of the mesh. You configure a mesh-external service entry
-   so that a service inside the mesh can make API calls to an external server.
-   When you add a mesh external service entry, you don't need to configure an
-   egress gateway.
+-  A **mesh-external** service entry adds a service without and Envoy proxy to
+   the mesh. You configure a mesh-external service entry so that a service
+   inside the mesh can make API calls to an external server. You can use
+   service entries with an egress gateway to ensure all external services are
+   accessed though a single exit point.
 
     mTLS is disabled by default for mesh-external service entries, but you can
     change the authentication method by configuring a destination rule for the

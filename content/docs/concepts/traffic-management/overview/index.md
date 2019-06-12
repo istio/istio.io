@@ -37,9 +37,10 @@ abstract model appropriately for your platform.
 
 For example, the Kubernetes adapter implements controllers to watch the
 Kubernetes API server for changes to pod registration information, ingress
-resources, and third-party resources that store traffic management rules. The
-Kubernetes adapter translates this data for the abstract model, so Pilot can
-generate and deliver the appropriate Envoy-specific configurations.
+resources, and third-party resources like custom resource definitions (CRDs)
+that store traffic management rules. The Kubernetes adapter translates this
+data for the abstract model, so Pilot can generate and deliver the appropriate
+Envoy-specific configurations.
 
 The Pilot **service discovery and traffic rules** use the abstract model to let
 Envoy proxies know about one another in the mesh through the **Envoy API.**

@@ -5,11 +5,11 @@ weight: 1
 keywords: [traffic-management, virtual-service, routing-rule, precedence, match-condition]
 ---
 
-A virtual service is a network resource you can use to configure how Envoy
-proxies route requests to a service within an Istio service mesh. Virtual
-services let you finely configure traffic behavior. For example, you can use
-virtual services to direct HTTP traffic to use a different version of the
-service for a specific user.
+A [virtual service](/docs/reference/config/networking/v1alpha3/virtual-service/)
+is a network resource you can use to configure how Envoy proxies route requests
+to a service within an Istio service mesh. Virtual services let you finely
+configure traffic behavior. For example, you can use virtual services to direct
+HTTP traffic to use a different version of the service for a specific user.
 
 Istio and your platform provide basic connectivity and discovery for your
 services. With virtual services, you can add a configuration layer to set up
@@ -67,7 +67,7 @@ You can use virtual services to perform the following types of tasks:
    rule](/docs/concepts/traffic-management/routing/destination-rules/) to
    determine the set of pods or VMs belonging to these subsets.
 
--  Configure route traffic rules to provide [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
+-  Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
    for ingress and egress traffic in combination with
    [gateways](/docs/concepts/traffic-management/routing/gateways/).
 
@@ -94,10 +94,11 @@ metadata:
 spec:
   hosts:
     - *.my-co.org
-     - route:
-      - destination:
-        host: my-svc
-        subset: v1
+    http:
+      - route:
+        - destination:
+            host: my-svc
+            subset: v1
 {{< /text >}}
 
 In the example, note that under `spec,` which lists the specifications of the
@@ -110,10 +111,10 @@ mesh service name as long as the name resolves, implicitly or explicitly, to
 one or more fully qualified domain names (FQDN). To specify multiple hosts, you
 can use wildcards.
 
-Also, note that under `- route:`, which specifies the routing rule's
-configuration, and `-destination:`, which specifies the routing rule's
+Also, note that under `route:`, which specifies the routing rule's
+configuration, and `destination:`, which specifies the routing rule's
 destination, `host: my-svc` specifies the destination's host. If you are
-running on Kubernetes, then `my-svc` is the name of the Kubernetes service.
+running on Kubernetes, then `my-svc` is the name of a Kubernetes service.
 
 You use the destination's host to specify where you want the traffic to be
 sent. The destination's host must exist in the service registry. To use
@@ -147,20 +148,20 @@ metadata:
   name: my-namespace
 spec:
   hosts:
-    - *.my-namespace.svc.cluster.local
+    - my-namespace.com
   http:
   - match:
     - uri:
         prefix: /svc-1
     route:
     - destination:
-        host: svc-1
+        host: svc-1.my-namespace.svc.cluster.local
   - match:
     - uri:
         prefix: /svc-2
     route:
     - destination:
-        host: svc-2
+        host: svc-2.my-namespace.svc.cluster.local
 {{< /text >}}
 
 The following diagram shows the configured rule:
@@ -422,8 +423,11 @@ spec:
 {{< /text >}}
 
 {{< warning >}}
+
 In a YAML file, the difference between AND behavior and OR behavior in a
-routing rule is a single dash.
+routing rule is a single dash. The dash indicates two separate matches as
+opposed to one match with multiple conditions.
+
 {{< /warning >}}
 
 ## Routing rule precedence {#precedence}

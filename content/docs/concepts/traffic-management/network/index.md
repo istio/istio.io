@@ -176,14 +176,6 @@ independent of platform:
 1. When the number of passed health checks exceeds a specified threshold, the
    Envoy proxy adds the instance back into the service's load balancing pool.
 
-The following diagram shows steps 1-3 in the process of removing an unhealthy
-instance and restoring it when it is healthy:
-
-{{< image width="40%"
-    link="./network-1.svg"
-    caption="Health checking process"
-    >}}
-
 Services can shed loads by returning a Service Unavailable (`HTTP 503`)
 response to a health check. The Envoy proxy for the calling service immediately
 removes the service instance from its load balancing pool.
@@ -213,11 +205,14 @@ You can inject two types of faults:
    services. Aborts usually manifest in the form of HTTP error codes or TCP
    connection failures.
 
-### Introduce a 5 second delay in 10% of requests
-
 You can configure a virtual service to inject one or more faults while
 forwarding HTTP requests to the rule's corresponding request destination. The
 faults can be either delays or aborts.
+
+### Introduce a 5 second delay in 10% of requests
+
+You can configure a virtual service to introduce a 5 second delay for 10% of
+the requests to the `ratings` service.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

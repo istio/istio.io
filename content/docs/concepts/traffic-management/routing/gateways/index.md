@@ -5,9 +5,10 @@ weight: 3
 keywords: [traffic-management, http, tcp, grpc, ingress, egress]
 ---
 
-You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/)
-to manage inbound and outbound traffic for your mesh. You can manage the
-following types of traffic with a gateway: HTTP TCP gRPC
+You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/) to
+manage inbound and outbound traffic for your mesh. You can manage
+[multiple types of traffic](/docs/reference/config/networking/v1alpha3/gateway/#Port)
+with a gateway.
 
 Gateway configurations apply to Envoy proxies that are separate from the
 service sidecar proxies. To configure a gateway means configuring an Envoy
