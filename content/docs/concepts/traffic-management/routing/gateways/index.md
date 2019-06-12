@@ -9,14 +9,14 @@ You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/)
 to manage inbound and outbound traffic for your mesh. You can manage the
 following types of traffic with a gateway: HTTP TCP gRPC
 
-A gateway configurations apply to Envoy proxies that are separate from the
+Gateway configurations apply to Envoy proxies that are separate from the
 service sidecar proxies. To configure a gateway means configuring an Envoy
 proxy to allow or block certain traffic from entering or leaving the mesh.
 
 Your mesh can have any number of gateway configurations, and multiple gateway
 workload implementations can co-exist within your mesh. You might use multiple
 gateways to have one gateway for private traffic and another for public
-traffic, so that you can balance the loads independently.
+traffic, so you can keep all private traffic inside a firewall, for example.
 
 For better security, you can use a gateway to make your services inaccessible
 to the public internet. You can use a gateway to configure workload labels for
@@ -111,8 +111,8 @@ For more information:
 -  Refer to the [gateways reference documentation](/docs/reference/config/networking/v1alpha3/gateway/)
    to review all the enabled keys and values.
 
--  Refer to the Ingress task topic for instructions, including how to configure
+-  Refer to the [Ingress task topic](/docs/tasks/traffic-management/ingress/) for instructions, including how to configure
    an Istio gateway for Kubernetes ingress.
 
--  Refer to the Egress task topic to learn how to configure egress traffic
+-  Refer to the [Egress task topic](/docs/tasks/traffic-management/egress/) to learn how to configure egress traffic
    using a gateway network resource.

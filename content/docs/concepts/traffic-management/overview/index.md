@@ -14,8 +14,8 @@ traffic splits.
 
 Istio's traffic management model relies on the following two components:
 
--  Pilot, the core traffic management component.
--  Envoy proxies, which enforce configurations and policies set through Pilot.
+-  {{<gloss>}}Pilot{{</gloss>}}, the core traffic management component.
+-  {{<gloss>}}Envoy{{</gloss>}} proxies, which enforce configurations and policies set through Pilot.
 
 These components enable the following high-level tasks:
 
@@ -72,7 +72,7 @@ and [network resilience and testing](/docs/concepts/traffic-management/network/)
 sections dig into more sophisticated features and tasks enabled by Envoy
 proxies, which include:
 
--  Traffic management features: enforce fine-grained traffic control with rich
+-  Traffic control features: enforce fine-grained traffic control with rich
    routing rules for HTTP, gRPC, WebSocket, and TCP traffic.
 
 -  Network resiliency features: setup retries, failovers, circuit breakers, and
@@ -101,7 +101,7 @@ The diagram shows how the platform adapters and Envoy proxies interact.
     caption="Service discovery"
     >}}
 
-Because service discovery feature is platform-independent:
+Because the service discovery feature is platform-independent:
 
 -  A service mesh can include services across multiple platforms.
 

@@ -6,7 +6,7 @@ keywords: [traffic-management, destination-rule, service-subset, load-balancing]
 ---
 
 You specify the path for traffic with routing rules, and then you use
-**destination rules** to configure the set of policies that Envoy proxies apply
+[destination rules](/docs/reference/config/networking/v1alpha3/destination-rule/) to configure the set of policies that Envoy proxies apply
 to a request at a specific destination. Destination rules are applied after the
 routing rules are evaluated.
 

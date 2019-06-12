@@ -17,7 +17,7 @@ Limiting sidecar reachability reduces memory usage, which can become a problem
 for large applications in which every sidecar is configured to reach every
 other service in the mesh.
 
-A `Sidecar` resource can be used to configure one or more sidecar proxies
+A [Sidecar](/docs/reference/config/networking/v1alpha3/sidecar/) resource can be used to configure one or more sidecar proxies
 selected using workload labels, or to configure all sidecars in a particular
 namespace.
 

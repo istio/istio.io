@@ -91,7 +91,7 @@ it fully or use a wildcard domain name. The value represents the set of one or
 more services outside the mesh that services in the mesh can access.
 
 Configuring a service entry can be enough to call an external service, but
-typically you configure either a virtual service or destination rules to route
+typically you configure either, or both, a virtual service or destination rules to control
 traffic more granularly. You can configure traffic for a service entry in the
 same way you configure traffic for a service in the mesh.
 
