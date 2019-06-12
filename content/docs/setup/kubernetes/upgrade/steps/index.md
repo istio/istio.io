@@ -13,6 +13,11 @@ please ensure your Istio control plane components and your applications are
 highly available with multiple replicas (as multi-replica Citadel is still
 under development, Citadel should be deployed with one replica).
 
+{{ warning }}
+Citadel does not support multiple instances. Running multiple Citadel instances
+may introduce race conditions and lead to system outages.
+{{ /warning }}
+
 This flow assumes that the Istio components are installed and upgraded in the
 `istio-system` namespace.
 
