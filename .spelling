@@ -227,7 +227,7 @@ httpbin.org
 https
 Huawei
 hyperkube
-Hypervisor
+hypervisor
 Hystrix
 i.e.
 ILBs
@@ -307,7 +307,7 @@ microservice
 microservices
 middleboxes
 middleware
-Minikube
+minikube
 misconfigured
 misordered
 MongoDB
