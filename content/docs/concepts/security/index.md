@@ -462,8 +462,7 @@ The `peers:` section defines the authentication methods and associated
 parameters supported for transport authentication in a policy. The section can
 list more than one method and only one method must be satisfied for the
 authentication to pass. However, as of the Istio 0.7 release, the only
-transport authentication method currently supported is mutual TLS. If you do not
-need transport authentication, skip this section entirely.
+transport authentication method currently supported is mutual TLS.
 
 The following example shows the `peers:` section enabling transport
 authentication using mutual TLS.
@@ -473,10 +472,24 @@ peers:
   - mtls: {}
 {{< /text >}}
 
-Currently, the mutual TLS setting doesn't require any parameters. Hence,
-`-mtls: {}`, `- mtls:` or `- mtls: null` declarations are treated the same. In
-the future, the mutual TLS setting may carry arguments to provide different
-mutual TLS implementations.
+The mutual TLS setting has an optional `mode` parameter that defines the
+strictness of the peer transport authentication:
+
+- `mode: STRICT` enforces that all peers must use mutual TLS. This declaration
+is identical to `-mtls: {}`, `- mtls:` or `- mtls: null`
+
+- `mode: PERMISSIVE` allows peers to use mututal TLS while still allowing
+peers to not use transport authentication. This mode is useful for transitioning
+existing workloads to peer authentication gradually, as it allows interoperation
+between mTLS and plaintext traffic.
+
+If this section is omitted completely, peers may not use transport
+authentication, and mutual TLS connections bound for the sidecar pod
+will be rejected. However clients are free to handle their own mutual
+TLS sessions at the application layer.
+
+In the future, the mutual TLS setting may carry additional arguments to
+provide different mutual TLS implementations.
 
 #### Origin authentication
 
