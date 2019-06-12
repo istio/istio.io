@@ -37,7 +37,7 @@ to configure internal infrastructure:
 
     For example, you create mesh-internal service entries for the services
     running on VMs outside the Kubernetes cluster but within the network.
-    Mutual TLS authentication (mTLS) is enabled by default for mesh-internal
+    Mutual TLS authentication (mutual TLS) is enabled by default for mesh-internal
     service entries, but to change the authentication method, you can configure
     a destination rule for the service entry.
 
@@ -47,7 +47,7 @@ to configure internal infrastructure:
    service entries with an egress gateway to ensure all external services are
    accessed though a single exit point.
 
-    mTLS is disabled by default for mesh-external service entries, but you can
+    mutual TLS is disabled by default for mesh-external service entries, but you can
     change the authentication method by configuring a destination rule for the
     service entry. Because the destination is external to the mesh, the Envoy
     proxies of the services inside the mesh enforce the configured policies for
@@ -91,13 +91,13 @@ more services outside the mesh that services in the mesh can access.
 
 Configuring a service entry can be enough to call an external service, but
 typically you configure either, or both, a virtual service or destination rules to control
-traffic more granularly. You can configure traffic for a service entry in the
+traffic more in a granular way. You can configure traffic for a service entry in the
 same way you configure traffic for a service in the mesh.
 
-### Secure the connection with mTLS
+### Secure the connection with mutual TLS
 
 The following destination rule configures the traffic route to use mutual TLS
-(mTLS) to secure the connection to the `ext-resource` external service we
+(mutual TLS) to secure the connection to the `ext-resource` external service we
 configured using the service entry:
 
 {{< text yaml >}}
@@ -117,7 +117,7 @@ spec:
 
 Together, the `svc-entry` service entry and the `ext-res-dr` destination rule
 configure a route for the HTTPS traffic to and from the `ext-resource` external
-dependency through the `svc-entry` service entry on port 80 using mTLS. The
+dependency through the `svc-entry` service entry on port 80 using mutual TLS. The
 following diagram shows the configured traffic routing rules:
 
 {{< image width="40%"
