@@ -23,7 +23,7 @@ This task demonstrates how to use a policy adapter to manipulate request headers
   configuration for the `httpbin` service containing two route rules that allow traffic for paths `/headers` and
   `/status`:
 
-    {{< text yaml >}}
+    {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -71,7 +71,7 @@ instance key is not present in the lookup table.
 
 1. Create a handler for the demo adapter with a fixed lookup table:
 
-    {{< text yaml >}}
+    {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
     apiVersion: config.istio.io/v1alpha2
     kind: handler
@@ -90,7 +90,7 @@ instance key is not present in the lookup table.
 
 1. Create an instance for the handler with the `user` request header as a lookup key:
 
-    {{< text yaml >}}
+    {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
     apiVersion: config.istio.io/v1alpha2
     kind: instance
@@ -124,7 +124,7 @@ instance key is not present in the lookup table.
 
 1. Create a rule for the demo adapter:
 
-    {{< text yaml >}}
+    {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
     apiVersion: config.istio.io/v1alpha2
     kind: rule
@@ -166,7 +166,7 @@ instance key is not present in the lookup table.
 1. Modify the rule to rewrite the URI path to a different virtual service route
    if the check succeeds:
 
-    {{< text yaml >}}
+    {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
     apiVersion: config.istio.io/v1alpha2
     kind: rule
