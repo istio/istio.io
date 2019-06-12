@@ -444,6 +444,19 @@ only one authentication policy per mesh and one authentication policy per
 namespace. Istio also requires mesh-wide and namespace-wide policies to have
 the specific name `default`.
 
+If a service has no matching policies, the service behaves as if the following
+'empty' policy applies:
+
+{{< text yaml >}}
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "empty-policy"
+spec:
+{{< /text >}}
+
+This disables both transport authentication and origin authentication.
+
 #### Transport authentication
 
 The `peers:` section defines the authentication methods and associated
