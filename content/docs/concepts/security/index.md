@@ -478,10 +478,10 @@ strictness of the peer transport authentication:
 - `mode: STRICT` enforces that all peers must use mutual TLS. This declaration
 is identical to `-mtls: {}`, `- mtls:` or `- mtls: null`
 
-- `mode: PERMISSIVE` allows peers to use mututal TLS while still allowing
+- `mode: PERMISSIVE` allows peers to use mutual TLS while still allowing
 peers to not use transport authentication. This mode is useful for transitioning
 existing workloads to peer authentication gradually, as it allows interoperation
-between mTLS and plaintext traffic.
+between mutual TLS and plaintext traffic.
 
 If this section is omitted completely, peers may not use transport
 authentication, and mutual TLS connections bound for the sidecar pod
