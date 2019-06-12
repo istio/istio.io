@@ -25,7 +25,7 @@ and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/kubernetes/#downloading-the-release).
 
 1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 

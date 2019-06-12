@@ -40,7 +40,7 @@ replaces the functionality provided by the `istio-init` container.
     *  The Kubernetes documentation highly recommends this for all Kubernetes installations
        where `ServiceAccounts` are utilized.
 
-1.  [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
+1.  [Download the Istio release](/docs/setup/kubernetes/#downloading-the-release).
 
 ## Installation
 

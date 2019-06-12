@@ -24,13 +24,13 @@ This permits customization of Istio to operator specific requirements.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/kubernetes/getting-started/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/kubernetes/#downloading-the-release).
 
     {{< warning >}}
     These quick-start instructions will not work with a downloaded [istio repository](https://github.com/istio/istio)
     becuase the pregenerated yaml files, `istio-demo.yaml` and `istio-demo-auth.yaml`, are only available in
-    **release images**. If you want to use the GitHub repository, istead of a release image,
-    install the demo profile using [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) instead.
+    [release images](https://github.com/istio/istio/releases). If you want to work with the latest Istio codebase,
+    refer to the [developer wiki](https://github.com/istio/istio/wiki) for instructions.
     {{< /warning >}}
 
 1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
