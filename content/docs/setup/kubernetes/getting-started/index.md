@@ -21,7 +21,7 @@ by downloading and installing Istio's built-in **demo** configuration by followi
 Once you've installed Istio, a good way to start evaluating Istio's features is using our
 [Bookinfo sample application](/docs/examples/bookinfo/).
 You can use this sample to experiment with Istio’s features for traffic routing,
-fault injection, rate limitting, etc..
+fault injection, rate limiting, etc..
 
 1. [Deploy the Bookinfo sample](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)
 1. Explore various [Istio tasks](/docs/tasks/), depending on your interest.
