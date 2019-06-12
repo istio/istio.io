@@ -5,14 +5,12 @@ weight: 5
 keywords: [kubernetes]
 ---
 
-{{< tip >}}
-These quick-start instructions are for new users that want to try out Istio on Kubernetes.
+If you’re new to Istio and just want to try it out, the quickest way to get started is
+by downloading and installing Istio's built-in **demo** configuration.
 Istio can also be installed and customized in many other ways, depending on your platform and intended use.
 Check out our [general installation instructions](/docs/setup/) for details.
-{{< /tip >}}
 
-If you’re new to Istio and just want to try it out, the quickest way to get started is
-by downloading and installing Istio's built-in **demo** configuration by following these simple steps:
+To get started, proceed as follows:
 
 1. [Setup your platform](/docs/setup/kubernetes/platform-setup/)
 1. [Download the Istio release](/docs/setup/kubernetes/#downloading-the-release)
