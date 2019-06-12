@@ -18,16 +18,16 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio **with the strict mutual TLS profile**.
+* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo#deploying-the-application) sample application.
 
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
-the product page, you can see:
+the product page, you can see the following sections:
 
-* The **Book Details** section on the lower left of the page includes book type, number of
+* **Book Details** on the lower left side, which includes: book type, number of
   pages, publisher, etc.
-* The **Book Reviews** section on the lower right of the page.
+* **Book Reviews** on the lower right of the page.
 
 When you refresh the page, the app shows different versions of reviews in the product page.
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
@@ -65,7 +65,7 @@ Run the following command to create a namespace-level access control policy:
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `service-viewer` which allows read access to any service in the `default` namespace that has
 the `app` label
@@ -149,7 +149,7 @@ Run the following command:
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `productpage-viewer` which allows read access to the `productpage` service.
 
@@ -203,7 +203,7 @@ Run the following command:
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `details-reviews-viewer` which allows access to the `details` and `reviews` services.
 
@@ -258,7 +258,7 @@ Run the following command to create a policy that allows the `reviews` service t
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `ratings-viewer` which allows access to the `ratings` service.
 

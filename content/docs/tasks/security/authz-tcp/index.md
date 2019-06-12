@@ -15,16 +15,16 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio **with the strict mutual TLS profile**.
+* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo#deploying-the-application) sample application.
 
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
-the product page, you can see:
+the product page, you can see the following sections:
 
-* The **Book Details** section on the lower left of the page includes book type, number of
+* **Book Details** on the lower left side, which includes: book type, number of
   pages, publisher, etc.
-* The **Book Reviews** section on the lower right of the page.
+* **Book Reviews** on the lower right of the page.
 
 When you refresh the page, the app shows different versions of reviews in the product page.
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
@@ -123,9 +123,9 @@ Run the following command to apply the authorization policy:
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
 {{< /text >}}
 
-The step above does the following:
+Once applied, the policy has the following effects:
 
-* Creates a service role "mongodb-viewer" which allows access to the port 27017 of the MongoDB service.
+* Creates the following `mongodb-viewer` service role, which allows access to the MongoDB service on port 27017.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -141,7 +141,8 @@ The step above does the following:
           values: ["27017"]
     {{< /text >}}
 
-* Creates a service role binding `bind-mongodb-viewer` which assigns the `mongodb-viewer` role to `bookinfo-ratings-v2`.
+* Creates the following `bind-mongodb-viewer` service role binding, which assigns the `mongodb-viewer` role
+to the `bookinfo-ratings-v2` service.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -157,10 +158,10 @@ The step above does the following:
         name: "mongodb-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see the following sections:
 
-* The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
-* The **Book Reviews** section on the lower right of the page includes red stars.
+* **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
+* **Book Reviews** on the lower right side, which includes: red stars.
 
 {{< tip >}}
 There may be some delays due to caching and other propagation overhead.

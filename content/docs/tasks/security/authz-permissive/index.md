@@ -8,7 +8,7 @@ keywords: [security,access-control,rbac,authorization]
 The [authorization permissive mode](/docs/concepts/security/#authorization-permissive-mode) allows
 you to verify authorization policies before applying them in a production environment.
 
-The authorization permissive mode is an experimental feature in version 1.2. Its interface can change
+The authorization permissive mode is an experimental feature in version 1.1. Its interface can change
 in future releases. If you do not want to try out the permissive mode feature, you can directly
 [enable Istio authorization](/docs/tasks/security/authz-http#enabling-istio-authorization) to skip
 enabling the permissive mode.
@@ -27,16 +27,16 @@ To complete this task, you should first take the following actions:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio **with the strict mutual TLS profile**.
+* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo#deploying-the-application) sample application.
 
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
-the product page, you can see:
+the product page, you can see the following sections:
 
-* The **Book Details** section on the lower left of the page includes book type, number of
+* **Book Details** on the lower left side, which includes: book type, number of
   pages, publisher, etc.
-* The **Book Reviews** section on the lower right of the page.
+* **Book Reviews** on the lower right of the page.
 
 When you refresh the page, the app shows different versions of reviews in the product page.
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
