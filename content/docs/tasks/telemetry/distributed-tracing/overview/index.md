@@ -6,12 +6,12 @@ keywords: [telemetry,tracing]
 ---
 
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.
-This allows a deeper understanding about request latency, serialization and parallelism via visulization.
+This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing) feature
 to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend
 and configure proxies to send trace spans to them automatically.
-See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [Lightstep](../lightstep) task docs about how Istio works with those tracing systems.
+See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [Lightstep](../lightstep/) task docs about how Istio works with those tracing systems.
 
 ## Trace context propagation
 
