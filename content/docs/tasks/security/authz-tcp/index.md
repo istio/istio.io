@@ -15,13 +15,19 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the instructions in the [quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio on
-  Kubernetes **with authentication enabled**.
+* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
-* Enable mutual TLS authentication when running the [installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps).
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
-The commands used in this task assume the Bookinfo example application is deployed in the default
-namespace. To specify a namespace other than the default namespace, use the `-n` option in the command.
+After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
+the product page, you can see the following sections:
+
+* **Book Details** on the lower left side, which includes: book type, number of
+  pages, publisher, etc.
+* **Book Reviews** on the lower right of the page.
+
+When you refresh the page, the app shows different versions of reviews in the product page.
+The app presents the reviews in a round robin style: red stars, black stars, or no stars.
 
 ## Installing and configuring a TCP service
 
@@ -30,47 +36,21 @@ To show how Istio handles the authorization of TCP services, we must update the 
 TCP service. Follow this procedure to deploy the Bookinfo example app and update its `ratings` service
 to the `v2` version, which talks to a MongoDB backend using TCP.
 
-### Prerequisites
-
-Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
-
-After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
-the product page, you can see:
-
-* The **Book Details** section on the lower left of the page includes book type, number of
-  pages, publisher, etc.
-* The **Book Reviews** section on the lower right of the page.
-
-When you refresh the page, the app shows different versions of reviews in the product page.
-The app presents the reviews in a round robin style: red stars, black stars, or no stars.
-
-### Installing a service using a service account
-
 1. Install `v2` of the `ratings` service with service account `bookinfo-ratings-v2`:
-
-    Istio cryptographically authenticates service accounts in the mesh. To give different services
-    different access privileges, we must create a `v2` version of the `ratings` service using the
-    `bookinfo-ratings-v2` service account. Other services use the `default` service account.
 
     * To create the service account and configure the new version of the service for a cluster
       **with** automatic sidecar injection enabled:
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
         {{< /text >}}
 
     * To create the service account and configure the new version of the service for a cluster
       **without** automatic sidecar injection enabled:
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
         {{< /text >}}
-
-### Configure the application to use the new version of the service
-
-The Bookinfo application can use multiple versions of each service. Istio requires you to define
-a service subset for each version. You must also define the load balancing policy for each subset.
-To define the subsets and their load balancing policies, you must create appropriate destination rules.
 
 1. Create the appropriate destination rules:
 
@@ -132,91 +112,60 @@ define access control policies to grant access to the MongoDB service.
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-## Enforcing Service-level access control
+## Enforcing access control on TCP service
 
 Now let's set up service-level access control using Istio authorization to allow `v2` of `ratings`
 to access the MongoDB service.
 
-1. Run the following command to apply the authorization policy:
+Run the following command to apply the authorization policy:
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
+{{< /text >}}
+
+Once applied, the policy has the following effects:
+
+* Creates the following `mongodb-viewer` service role, which allows access to the MongoDB service on port 27017.
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRole
+    metadata:
+      name: mongodb-viewer
+      namespace: default
+    spec:
+      rules:
+      - services: ["mongodb.default.svc.cluster.local"]
+        constraints:
+        - key: "destination.port"
+          values: ["27017"]
     {{< /text >}}
 
-    The step above does the following:
+* Creates the following `bind-mongodb-viewer` service role binding, which assigns the `mongodb-viewer` role
+to the `bookinfo-ratings-v2` service.
 
-    * Creates a service role "mongodb-viewer" which allows access to the port 27017 of the MongoDB service.
-
-        {{< text yaml >}}
-        apiVersion: "rbac.istio.io/v1alpha1"
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-mongodb-viewer
+      namespace: default
+    spec:
+      subjects:
+      - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
+      roleRef:
         kind: ServiceRole
-        metadata:
-          name: mongodb-viewer
-          namespace: default
-        spec:
-          rules:
-          - services: ["mongodb.default.svc.cluster.local"]
-            constraints:
-            - key: "destination.port"
-              values: ["27017"]
-        {{< /text >}}
-
-    * Creates a service role binding `bind-mongodb-viewer` which assigns the "mongodb-viewer" role to "bookinfo-ratings-v2".
-
-        {{< text yaml >}}
-        apiVersion: "rbac.istio.io/v1alpha1"
-        kind: ServiceRoleBinding
-        metadata:
-          name: bind-mongodb-viewer
-          namespace: default
-        spec:
-          subjects:
-          - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
-          roleRef:
-            kind: ServiceRole
-            name: "mongodb-viewer"
-        {{< /text >}}
-
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
-
-    * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
-    * The **Book Reviews** section on the lower right of the page includes red stars.
-
-    {{< tip >}}
-    There may be some delays due to caching and other propagation overhead.
-    {{< /tip >}}
-
-1. To confirm the MongoDB service can only be accessed by service account `bookinfo-ratings-v2`:
-
-    Run the following command to delete the `ratings` deployment with service account `bookinfo-ratings-v2`:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
+        name: "mongodb-viewer"
     {{< /text >}}
 
-    Run the following command to deploy the `ratings` deployment with service account `default`:
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see the following sections:
 
-    * To deploy in a cluster **with** automatic sidecar injection enabled:
+* **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
+* **Book Reviews** on the lower right side, which includes: red stars.
 
-        {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
-        {{< /text >}}
-
-    * To deploy in a cluster **without** automatic sidecar injection enabled:
-
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
-        {{< /text >}}
-
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
-
-    * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
-    * The **Book Reviews** section on the lower right of the page includes an error message **"Ratings
-      service is currently unavailable"**.
-
-    {{< tip >}}
-    There may be some delays due to caching and other propagation overhead.
-    {{< /tip >}}
+{{< tip >}}
+There may be some delays due to caching and other propagation overhead.
+{{< /tip >}}
 
 ## Cleanup
 

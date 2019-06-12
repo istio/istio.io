@@ -18,29 +18,19 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the instructions in the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to
-install Istio **with mutual TLS enabled**.
+* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
-* Create service accounts for the Bookinfo application. Run the following command to create service
-account `bookinfo-productpage` for `productpage` and service account `bookinfo-reviews` for `reviews`:
+After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
+the product page, you can see the following sections:
 
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
-    {{< /text >}}
+* **Book Details** on the lower left side, which includes: book type, number of
+  pages, publisher, etc.
+* **Book Reviews** on the lower right of the page.
 
-{{< tip >}}
-If you are using a namespace other than `default`, use `kubectl -n namespace ...` to specify the namespace.
-{{< /tip >}}
-
-* Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see:
-
-    * The "Book Details" section in the lower left part of the page, including type, pages, publisher, etc.
-    * The "Book Reviews" section in the lower right part of the page.
-
-    If you refresh the page several times, you should see different versions of reviews shown in the product page,
-    presented in a round robin style (red stars, black stars, no stars)
+When you refresh the page, the app shows different versions of reviews in the product page.
+The app presents the reviews in a round robin style: red stars, black stars, or no stars.
 
 ## Enabling Istio authorization
 
@@ -58,7 +48,7 @@ explicitly define access control policy to grant access to any service.
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-## Namespace-level access control
+## Enforcing Namespace-level access control
 
 Using Istio authorization, you can easily setup namespace-level access control by specifying all (or a collection of) services
 in a namespace are accessible by services from another namespace.
@@ -75,7 +65,7 @@ Run the following command to create a namespace-level access control policy:
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `service-viewer` which allows read access to any service in the `default` namespace that has
 the `app` label
@@ -139,7 +129,7 @@ Remove the following configuration before you proceed to the next task:
 $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
-## Service-level access control
+## Enforcing Service-level access control
 
 This task shows you how to set up service-level access control using Istio authorization. Before you start, please make sure that:
 
@@ -159,7 +149,7 @@ Run the following command:
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `productpage-viewer` which allows read access to the `productpage` service.
 
@@ -213,7 +203,7 @@ Run the following command:
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `details-reviews-viewer` which allows access to the `details` and `reviews` services.
 
@@ -268,7 +258,7 @@ Run the following command to create a policy that allows the `reviews` service t
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
 {{< /text >}}
 
-The policy does the following:
+Once applied, the policy has the following effects:
 
 *   Creates a `ServiceRole` `ratings-viewer` which allows access to the `ratings` service.
 
