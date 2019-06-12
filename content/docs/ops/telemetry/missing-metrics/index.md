@@ -71,7 +71,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
     istio-system   prometheus      4h
     {{< /text >}}
 
-    If you have Istio version before 1.2 installed, issue the following command instead:
+    If you're upgrading from Istio 1.1 or earlier, issue the following command instead:
 
     {{< text bash >}}
     $ kubectl get prometheuses.config.istio.io --all-namespaces
@@ -91,7 +91,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
     $ kubectl get instances -o custom-columns=NAME:.metadata.name,TEMPLATE:.spec.compiledTemplate --all-namespaces
     {{< /text >}}
 
-    If you have Istio version before 1.2 installed, issue the following command instead:
+    If you're upgrading from Istio 1.1 or earlier, issue the following command instead:
 
     {{< text bash >}}
     $ kubectl get metrics.config.istio.io --all-namespaces
