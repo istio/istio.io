@@ -302,7 +302,7 @@ You can configure an ingress gateway for multiple hosts,
 `httpbin.example.com` and `helloworld-v1.example.com`, for example. The ingress gateway
 retrieves unique credentials corresponding to a specific `credentialName`.
 
-1.  Restore credentials for httpbin by deleting its secret and creating again.
+1.  To restore the credentials for `httpbin`, delete its secret and create it again.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
