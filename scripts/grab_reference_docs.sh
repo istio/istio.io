@@ -11,8 +11,8 @@
 
 # The repos to mine for docs, just add new entries here to pull in more repos.
 REPOS=(
-    https://github.com/istio/istio.git@master
-    https://github.com/istio/api.git@master
+    https://github.com/istio/istio.git@release-1.2
+    https://github.com/istio/api.git@release-1.2
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
@@ -21,14 +21,14 @@ REPOS=(
 
 # The components to build and extract usage docs from.
 COMPONENTS=(
-    https://github.com/istio/istio.git@master@mixer/cmd/mixs@mixs
-    https://github.com/istio/istio.git@master@istioctl/cmd/istioctl@istioctl
-    https://github.com/istio/istio.git@master@pilot/cmd/pilot-agent@pilot-agent
-    https://github.com/istio/istio.git@master@pilot/cmd/pilot-discovery@pilot-discovery
-    https://github.com/istio/istio.git@master@pilot/cmd/sidecar-injector@sidecar-injector
-    https://github.com/istio/istio.git@master@security/cmd/istio_ca@istio_ca
-    https://github.com/istio/istio.git@master@security/cmd/node_agent@node_agent
-    https://github.com/istio/istio.git@master@galley/cmd/galley@galley
+    https://github.com/istio/istio.git@release-1.2@mixer/cmd/mixs@mixs
+    https://github.com/istio/istio.git@release-1.2@istioctl/cmd/istioctl@istioctl
+    https://github.com/istio/istio.git@release-1.2@pilot/cmd/pilot-agent@pilot-agent
+    https://github.com/istio/istio.git@release-1.2@pilot/cmd/pilot-discovery@pilot-discovery
+    https://github.com/istio/istio.git@release-1.2@pilot/cmd/sidecar-injector@sidecar-injector
+    https://github.com/istio/istio.git@release-1.2@security/cmd/istio_ca@istio_ca
+    https://github.com/istio/istio.git@release-1.2@security/cmd/node_agent@node_agent
+    https://github.com/istio/istio.git@release-1.2@galley/cmd/galley@galley
     https://github.com/istio/operator.git@master@cmd/manager@operator
 )
 

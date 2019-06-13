@@ -379,7 +379,7 @@ number_of_entries: 5
 <tr>
 <td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
 <td></td>
-<td>File that contains k8s validatingwebhookconfiguration yaml. Required if enable-validation is true.  (default ``)</td>
+<td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
 </tr>
 <tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
@@ -518,7 +518,7 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <td><code>BYPASS_OOP_MTLS_SAN_VERIFICATION</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Whether or not to validate SANs for out-of-process adapters auth.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
@@ -530,7 +530,7 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <td><code>ISTIO_LANG</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Selects the attribute expression langauge runtime for Mixer.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_DIR</code></td>
@@ -674,8 +674,8 @@ These resource annotations are used by the <code>galley</code> command.
 </tr>
 </tbody>
 </table>
-<h2 id=\"metrics\">Exported Metrics</h2>
-<table class=\"metrics\">
+<h2 id="metrics">Exported metrics</h2>
+<table class="metrics">
 <thead>
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
