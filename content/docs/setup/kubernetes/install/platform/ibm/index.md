@@ -72,7 +72,7 @@ To install the managed Istio add-on in IBM Cloud Public, you can use the UI or t
 
 ### Helm
 
-Follow [these instructions](/docs/setup/kubernetes/install/helm/) to install and run the current release version of Istio in [IBM Cloud Public](https://www.ibm.com/cloud/) using Helm and the IBM Cloud Kubernetes Service (IKS).
+Follow [these instructions](/docs/setup/kubernetes/) to install and run the current release version of Istio in [IBM Cloud Public](https://www.ibm.com/cloud/) using the IBM Cloud Kubernetes Service (IKS).
 
 To upgrade Istio in an existing IKS cluster, follow the [upgrade instructions](/docs/setup/kubernetes/upgrade) instead.
 
