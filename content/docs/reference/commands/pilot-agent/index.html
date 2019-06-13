@@ -122,10 +122,6 @@ number_of_entries: 5
 <td>The time in seconds that Envoy will drain connections during a hot restart  (default `45s`)</td>
 </tr>
 <tr>
-<td><code>--envoyAccessLogServiceAddress &lt;string&gt;</code></td>
-<td>Host and Port of an Envoy gRPC Access Log Service API implementation (e.g. accesslog-service.istio-system:15000)  (default ``)</td>
-</tr>
-<tr>
 <td><code>--envoyMetricsServiceAddress &lt;string&gt;</code></td>
 <td>Host and Port of an Envoy Metrics Service API implementation (e.g. metrics-service:15000)  (default ``)</td>
 </tr>
@@ -609,8 +605,8 @@ These resource annotations are used by the <code>pilot-agent</code> command.
 </tr>
 </tbody>
 </table>
-<h2 id=\"metrics\">Exported Metrics</h2>
-<table class=\"metrics\">
+<h2 id="metrics">Exported metrics</h2>
+<table class="metrics">
 <thead>
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
