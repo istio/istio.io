@@ -144,12 +144,13 @@ use the following service entry for `httpbin.bar` instead of the one in the prev
 
 {{< tip >}}
 The egress gateway used in this configuration cannot also be used for other, non inter-cluster, egress traffic.
-If $CLUSTER2_GW_ADDR is an IP address, use option 1.  If $CLUSTER2_GW_ADDR is a host name, use option 2.
+
+If $CLUSTER2_GW_ADDR is an IP address, use the `$CLUSTER2_GW_ADDR - IP address` option.  If $CLUSTER2_GW_ADDR is a hostname, use the `$CLUSTER2_GW_ADDR - hostname` option.
 {{< /tip >}}
 
 {{< tabset cookie-name="profile" >}}
 
-{{< tab name="Option 1" cookie-value="option1" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - IP address" cookie-value="option1" >}}
 * Export the `cluster1` egress gateway address:
 {{< text bash >}}
 $ export CLUSTER1_EGW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-egressgateway \
@@ -187,7 +188,7 @@ EOF
 {{< /text >}}
 {{< /tab >}}
 
-{{< tab name="Option 2" cookie-value="option2" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
 If the `${CLUSTER2_GW_ADDR}` is a hostname, you can use `resolution: DNS` for the endpoint resolution: 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
