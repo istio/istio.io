@@ -139,42 +139,79 @@ running in a second cluster.
 
 ## Send remote cluster traffic using egress gateway
 
-If you want to route traffic from `cluster1` via a dedicated
-egress gateway, instead of directly from the sidecars,
+If you want to route traffic from `cluster1` via a dedicated egress gateway, instead of directly from the sidecars,
 use the following service entry for `httpbin.bar` instead of the one in the previous section.
 
 {{< tip >}}
 The egress gateway used in this configuration cannot also be used for other, non inter-cluster, egress traffic.
 {{< /tip >}}
 
-{{< text bash >}}
-$ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: httpbin-bar
-spec:
-  hosts:
-  # must be of form name.namespace.global
-  - httpbin.bar.global
-  location: MESH_INTERNAL
-  ports:
-  - name: http1
-    number: 8000
-    protocol: http
-  resolution: DNS
-  addresses:
-  - 127.255.0.2
-  endpoints:
-  - address: ${CLUSTER2_GW_ADDR}
-    network: external
-    ports:
-      http1: 15443 # Do not change this port value
-  - address: istio-egressgateway.istio-system.svc.cluster.local
-    ports:
-      http1: 15443
-EOF
-{{< /text >}}
+1. Export the `cluster1` egress gateway address:
+    {{< text bash >}}
+    export CLUSTER1_EGW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-egressgateway \
+        -n istio-system -o yaml -o jsonpath='{.items[0].spec.clusterIP}')
+    {{< /text >}}
+
+1. Apply the httpbin-bar service entry:
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: httpbin-bar
+    spec:
+      hosts:
+      # must be of form name.namespace.global
+      - httpbin.bar.global
+      location: MESH_INTERNAL
+      ports:
+      - name: http1
+        number: 8000
+        protocol: http
+      resolution: STATIC
+      addresses:
+      - 127.255.0.2
+      endpoints:
+      - address: ${CLUSTER2_GW_ADDR}
+        network: external
+        ports:
+          http1: 15443 # Do not change this port value
+      - address: ${CLUSTER1_EGW_ADDR}
+        ports:
+          http1: 15443
+    EOF
+    {{< /text >}}
+    
+    If the `${CLUSTER2_GW_ADDR}` is a hostname, you can use `resolution: DNS` for the endpoint resolution: 
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: httpbin-bar
+    spec:
+      hosts:
+      # must be of form name.namespace.global
+      - httpbin.bar.global
+      location: MESH_INTERNAL
+      ports:
+      - name: http1
+        number: 8000
+        protocol: http
+      resolution: DNS
+      addresses:
+      - 127.255.0.2
+      endpoints:
+      - address: ${CLUSTER2_GW_ADDR}
+        network: external
+        ports:
+          http1: 15443 # Do not change this port value
+      - address: istio-egressgateway.istio-system.svc.cluster.local
+        ports:
+          http1: 15443
+    EOF
+    {{< /text >}}    
+    
 
 ## Version-aware routing to remote services
 
