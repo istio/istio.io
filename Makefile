@@ -18,9 +18,6 @@ build:
 gen: build
 	@$(docker) scripts/gen_site.sh ""
 
-opt:
-	@$(docker) scripts/opt_site.sh
-
 clean_public:
 	@rm -fr public
 

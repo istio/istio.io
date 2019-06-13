@@ -82,4 +82,6 @@ rm -fr ${GITDIR} public
 mv ${TMP}/archive public
 rm -fr ${TMP}
 
+npx svgo -r -f public
+
 echo "All done!"

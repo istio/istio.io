@@ -8,4 +8,5 @@ then
     hugo --baseURL "$1"
 else
     hugo --minify --baseURL "$1"
+    npx svgo -r -f public
 fi
