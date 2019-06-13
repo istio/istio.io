@@ -11,7 +11,7 @@
 <path d="m205.15 449.81v-2.4856" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m205.15 449.81v-2.4856" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m205.15 441.85v-40.798" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m205.15 441.85v-40.798" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m205.15 441.85v-40.798" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m205.15 398.37v-2.4882" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m205.15 398.37v-2.4882" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m205.15 387.02l-6.2677 10.646h12.438l-6.1706-10.646z" fill="#476baf" fill-rule="evenodd"/>
@@ -19,21 +19,21 @@
 <path d="m205.15 449.81l2.0892-1.1942" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m205.15 449.81l2.0892-1.1942" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m211.33 446.23l30.648-17.711" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m211.33 446.23l30.648-17.711" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m211.33 446.23l30.648-17.711" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m243.97 427.43l2.0892-1.1942" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m243.97 427.43l2.0892-1.1942" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m241.48 421.75l6.168 10.646 6.1706-10.646z" fill="#476baf" fill-rule="evenodd"/>
 <path d="m604.4 448.72v-2.4882" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m604.4 448.72v-2.4882" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m604.4 441.46v-34.533" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m604.4 441.46v-34.533" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m604.4 441.46v-34.533" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m604.4 404.54v-2.4882" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m604.4 404.54v-2.4882" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m604.4 393.09l-6.1706 10.848h12.339l-6.168-10.848z" fill="#476baf" fill-rule="evenodd"/>
 <path d="m604.4 448.72l-2.4882-0.79526" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m604.4 448.72l-2.4882-0.79526" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m597.63 446.83l-41.696-11.144" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m597.63 446.83l-41.696-11.144" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m597.63 446.83l-41.696-11.144" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m553.84 434.99l-2.3885-0.59579" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m553.84 434.99l-2.3885-0.59579" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m554.84 428.92l-12.139 3.2861 8.8557 8.6562 3.2834-11.942z" fill="#476baf" fill-rule="evenodd"/>
@@ -62,7 +62,7 @@
 <path d="m404.77 448.72v-2.4882" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m404.77 448.72v-2.4882" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m404.77 441.16v-37.617" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m404.77 441.16v-37.617" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m404.77 441.16v-37.617" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m404.77 401.06v-2.4882" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m404.77 401.06v-2.4882" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m404.77 389.61l-6.168 10.748h12.438l-6.2703-10.748z" fill="#476baf" fill-rule="evenodd"/>
@@ -83,7 +83,7 @@
 <path d="m320.79 344.83h-2.4882" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m320.79 344.83h-2.4882" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m312.33 344.83h-8.9554" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m312.33 344.83h-8.9554" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m312.33 344.83h-8.9554" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m300.39 344.83h-2.4882" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m300.39 344.83h-2.4882" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m299.79 338.66l-10.845 6.168 10.845 6.2703v-12.438z" fill="#476baf" fill-rule="evenodd"/>
@@ -140,14 +140,14 @@
 <path d="m206.95 188.9c0.19948 0.79527 0.49606 1.5932 0.79527 2.3884" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m206.95 188.9c0.19948 0.79527 0.49606 1.5932 0.79527 2.3884" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m209.63 195.86c14.131 28.063 64.782 44.283 104.29 44.283 43.386 0 78.514 21.593 88.168 46.472" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m209.63 195.86c14.131 28.063 64.782 44.283 104.29 44.283 43.386 0 78.514 21.593 88.168 46.472" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m209.63 195.86c14.131 28.063 64.782 44.283 104.29 44.283 43.386 0 78.514 21.593 88.168 46.472" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m402.88 288.81c0.29919 0.79526 0.49869 1.5905 0.69553 2.3884" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m402.88 288.81c0.29919 0.79526 0.49869 1.5905 0.69553 2.3884" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m205.85 180.04l-4.5774 11.543 12.339-1.8924-7.7612-9.6509zm203.4 108.47l-12.239 1.8898 7.7612 9.6535 4.4777-11.543z" fill="#476baf" fill-rule="evenodd"/>
 <path d="m405.97 291.19c0.19946-0.79788 0.49869-1.5932 0.69815-2.3884" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m405.97 291.19c0.19946-0.79788 0.49869-1.5932 0.69815-2.3884" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m408.66 284.33c14.131-28.163 64.782-44.283 104.29-44.283 43.386 0 78.514-21.693 88.165-46.472" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
-<path d="m408.66 284.33c14.131-28.163 64.782-44.283 104.29-44.283 43.386 0 78.514-21.693 88.165-46.472" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
+<path d="m408.66 284.33c14.131-28.163 64.782-44.283 104.29-44.283 43.386 0 78.514-21.693 88.165-46.472" fill-rule="evenodd" stroke="#476baf" stroke-dasharray="9.952755905511811,7.464566929133858" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m601.91 191.28c0.19684-0.79527 0.49603-1.5932 0.69556-2.3884" fill="#000" fill-opacity="0" fill-rule="evenodd"/>
 <path d="m601.91 191.28c0.19684-0.79527 0.49603-1.5932 0.69556-2.3884" fill-rule="evenodd" stroke="#476baf" stroke-linecap="butt" stroke-miterlimit="37.914" stroke-width="2.4882"/>
 <path d="m603.7 180.04l-7.6614 9.6509 12.239 1.8924-4.5774-11.543zm-203.4 108.47l4.4777 11.543 7.7638-9.6535-12.241-1.8898z" fill="#476baf" fill-rule="evenodd"/>
