@@ -85,7 +85,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl create --context=$CTX_CLUSTER1 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER1 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply --context=$CTX_CLUSTER1 -f $i; done
-    $ kubectl create --context=$CTX_CLUSTER1 -f istio-auth.yaml
+    $ kubectl apply --context=$CTX_CLUSTER1 -f istio-auth.yaml
     {{< /text >}}
 
     Wait for the Istio pods on `cluster1` to become ready:
@@ -108,7 +108,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Create an ingress gateway to access service(s) in `cluster2`:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER1 -f - <<EOF
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -212,7 +212,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER2 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
-    $ kubectl create --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
+    $ kubectl apply --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
     {{< /text >}}
 
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
@@ -387,8 +387,8 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 1. Deploy the `sleep` service in both clusters:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
-    $ kubectl create --context=$CTX_CLUSTER2 -f @samples/sleep/sleep.yaml@ -n sample
+    $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
+    $ kubectl apply --context=$CTX_CLUSTER2 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
 1. Wait for the `sleep` service to start in each cluster:
