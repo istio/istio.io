@@ -152,7 +152,7 @@ If $CLUSTER2_GW_ADDR is an IP address, use option 1.  If $CLUSTER2_GW_ADDR is a 
 {{< tab name="Option 1" cookie-value="option1" >}}
 * Export the `cluster1` egress gateway address:
 {{< text bash >}}
-export CLUSTER1_EGW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-egressgateway \
+$ export CLUSTER1_EGW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-egressgateway \
     -n istio-system -o yaml -o jsonpath='{.items[0].spec.clusterIP}')
 {{< /text >}}
 
