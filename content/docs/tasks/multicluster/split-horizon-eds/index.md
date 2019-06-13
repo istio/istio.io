@@ -391,11 +391,14 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
     $ kubectl create --context=$CTX_CLUSTER2 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
-1. Wait for the `sleep` service to start:
+1. Wait for the `sleep` service to start in each cluster:
 
     {{< text bash >}}
     $ kubectl get po --context=$CTX_CLUSTER1 -n sample -l app=sleep
     sleep-754684654f-n6bzf           2/2     Running   0          5s
+    {{< /text >}}
+
+    {{< text bash >}}
     $ kubectl get po --context=$CTX_CLUSTER2 -n sample -l app=sleep
     sleep-754684654f-dzl9j           2/2     Running   0          5s
     {{< /text >}}
@@ -409,7 +412,7 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 1. Call the `helloworld.sample` service several times from `cluster2` :
 
     {{< text bash >}}
-    $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
+    $ kubectl exec --context=$CTX_CLUSTER2 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances on `cluster1` and `cluster2`
