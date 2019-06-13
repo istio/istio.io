@@ -266,6 +266,7 @@ Remove global authentication policy and destination rules added in the session:
 $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules httpbin-legacy -n legacy
 $ kubectl delete destinationrules api-server -n istio-system
+$ kubectl delete destinationrules default -n istio-system
 {{< /text >}}
 
 ## Enable mutual TLS per namespace or service
