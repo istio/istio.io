@@ -11,7 +11,7 @@ aliases:
 Follow this flow to install and configure an Istio mesh in IBM Cloud.
 
 You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on)
-in IBM Cloud Public, use [Helm to install Istio in IBM Cloud Public](#helm),
+in IBM Cloud Public, [install Istio manually](#manual-istio-install) in IBM Cloud Public,
 or install Istio in [IBM Cloud Private](#ibm-cloud-private).
 
 ## IBM Cloud Public
