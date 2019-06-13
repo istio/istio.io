@@ -19,9 +19,8 @@ workload implementations can co-exist within your mesh. You might use multiple
 gateways to have one gateway for private traffic and another for public
 traffic, so you can keep all private traffic inside a firewall, for example.
 
-For better security, you can use a gateway to make your services inaccessible
-to the public internet. You can use a gateway to configure workload labels for
-your existing network tasks, including:
+You can use a gateway to configure workload labels for your existing network
+tasks, including:
 
 -  Firewall functions
 -  Caching

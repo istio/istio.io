@@ -35,7 +35,7 @@ prevent localized failures from cascading to other nodes:
     inject faults at the application layer, rather than the network layer, to
     get more relevant results.
 
--  **Fault tolerance libraries**
+-  **Fault tolerance**
 
     You can use Istio failure recovery features to complement application-level
     fault tolerance libraries in situations where their behaviors don’t

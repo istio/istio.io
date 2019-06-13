@@ -17,7 +17,7 @@ Istio's traffic management model relies on the following two components:
 -  {{< gloss >}}Pilot{{</ gloss >}}, the core traffic management component.
 -  {{< gloss >}}Envoy{{</ gloss >}} proxies, which enforce configurations and policies set through Pilot.
 
-These components enable the following high-level tasks:
+These components enable the following high-level features:
 
 -  Service discovery
 -  Load balancing
@@ -105,8 +105,6 @@ The diagram shows how the platform adapters and Envoy proxies interact.
 Because the service discovery feature is platform-independent:
 
 -  A service mesh can include services across multiple platforms.
-
--  Envoy proxies perform service discovery.
 
 -  Envoy proxies enforce the traffic rules, configurations, and load balancing
    for all instances.
