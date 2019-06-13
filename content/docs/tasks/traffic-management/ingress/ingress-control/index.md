@@ -40,11 +40,13 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
 
-Depending on your environment, follow the instructions in one of the following **mutually exclusive** subsections.
+Choose the instructions corresponding to your environment:
 
-#### Determining the ingress IP and ports when using an external load balancer
+{{< tabset cookie-name="gateway-ip" >}}
 
-Follow these instructions if you have determined that your environment **does have** an external load balancer.
+{{< tab name="external load balancer" cookie-value="external-lb" >}}
+
+Follow these instructions if you have determined that your environment has an external load balancer.
 
 Set the ingress IP and ports:
 
@@ -65,9 +67,12 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /warning >}}
 
-#### Determining the ingress IP and ports when using a node port
+{{< /tab >}}
 
-Follow these instructions if you have determined that your environment **does not have** an external load balancer.
+{{< tab name="node port" cookie-value="node-port" >}}
+
+Follow these instructions if you have determined that your environment does not have an external load balancer,
+so you need to use a node port instead.
 
 Set the ingress ports:
 
@@ -109,6 +114,10 @@ Setting the ingress IP depends on the cluster provider:
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
     {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Configuring ingress using an Istio Gateway
 
@@ -200,7 +209,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     x-envoy-upstream-service-time: 48
     {{< /text >}}
 
-    Note that you use the `-H` flag to set the _Host_ HTTP Header to
+    Note that you use the `-H` flag to set the _Host_ HTTP header to
     "httpbin.example.com". This is needed because your ingress `Gateway` is configured to handle "httpbin.example.com",
     but in your test environment you have no DNS binding for that host and are simply sending your request to the ingress IP.
 
@@ -216,9 +225,13 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 ## Accessing ingress services using a browser
 
-Entering the `httpbin` service URL in a browser won't work because you can't tell the browser to pretend to be accessing `httpbin.example.com` like with `curl`. In a real world situation, this is not a problem because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name in the URL, for example, `https://httpbin.example.com/status/200`.
+Entering the `httpbin` service URL in a browser won't work because you can't pass the _Host_ header
+to a browser like you did with `curl`. In a real world situation, this is not a problem
+because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name
+in the URL, for example, `https://httpbin.example.com/status/200`.
 
-To work around this problem for simple tests and demos, use a wildcard `*` value for the host in the `Gateway` and `VirtualService` configurations. For example, if you change your ingress configuration to the following:
+To work around this problem for simple tests and demos, use a wildcard `*` value for the host in the `Gateway`
+and `VirtualService` configurations. For example, if you change your ingress configuration to the following:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -258,7 +271,8 @@ spec:
 EOF
 {{< /text >}}
 
-You can then use `$INGRESS_HOST:$INGRESS_PORT` (e.g., `192.168.99.100:31380`) in the browser URL. For example, `http://192.168.99.100:31380/headers` should display the request headers sent by your browser.
+You can then use `$INGRESS_HOST:$INGRESS_PORT` in the browser URL. For example,
+`http://$INGRESS_HOST:$INGRESS_PORT/headers` will display all the headers that your browser sends.
 
 ## Understanding what happened
 
