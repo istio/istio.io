@@ -2,6 +2,7 @@
 title: Getting Started
 description: Download and install Istio.
 weight: 5
+skip_toc: true
 keywords: [kubernetes]
 ---
 
