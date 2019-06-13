@@ -70,7 +70,7 @@ To install the managed Istio add-on in IBM Cloud Public, you can use the UI or t
     $ kubectl get pods -n default
     {{< /text >}}
 
-### Helm
+### Manual Istio install
 
 Follow [these instructions](/docs/setup/kubernetes/) to install and run the current release version of Istio in [IBM Cloud Public](https://www.ibm.com/cloud/) using the IBM Cloud Kubernetes Service (IKS).
 
