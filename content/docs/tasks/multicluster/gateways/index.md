@@ -221,7 +221,9 @@ EOF
 {{< /text >}}    
     
 {{< /tab >}}
-    
+
+{{< /tabset >}}
+
 ## Version-aware routing to remote services
 
 If the remote service has multiple versions, you can add
