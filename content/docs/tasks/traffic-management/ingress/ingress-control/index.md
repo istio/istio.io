@@ -305,8 +305,8 @@ they have valid values, according to the output of the following commands:
     $ kubectl get ingress --all-namespaces
     {{< /text >}}
 
-1.  If you have an external load balancer and it does not work for you, try to access the gateway using the service's
-    [node port](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports-when-using-a-node-port).
+1.  If you have an external load balancer and it does not work for you, try to
+    [access the gateway using its node port](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
 
 ## Cleanup
 
