@@ -11,14 +11,14 @@ aliases:
 Follow this flow to install and configure an Istio mesh in IBM Cloud.
 
 You can use the [managed Istio add-on for IBM Cloud Kubernetes Service](#managed-istio-add-on)
-in IBM Cloud Public, use Helm to install Istio in [IBM Cloud Public](#helm),
+in IBM Cloud Public, use [Helm to install Istio in IBM Cloud Public](#helm),
 or install Istio in [IBM Cloud Private](#ibm-cloud-private).
 
 ## IBM Cloud Public
 
 ### Managed Istio add-on
 
-Instead of using Helm to install Istio, you can enable the managed Istio add-on in your cluster. Istio on IBM Cloud Kubernetes Service provides a seamless installation of Istio, automatic updates and lifecycle management of Istio control plane components, and integration with platform logging and monitoring tools. With one click, you can get all Istio core components, additional tracing, monitoring, and visualization, and the Bookinfo sample app up and running. Istio on IBM Cloud Kubernetes Service is offered as a managed add-on, so IBM Cloud automatically keeps all your Istio components up to date. For more information, see the [IBM Cloud Kubernetes Service documentation](https://cloud.ibm.com/docs/containers?topic=containers-istio).
+[Istio on IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-istio) provides a seamless installation of Istio, automatic updates and lifecycle management of Istio control plane components, and integration with platform logging and monitoring tools. With one click, you can get all Istio core components, additional tracing, monitoring, and visualization, and the Bookinfo sample app up and running. Istio on IBM Cloud Kubernetes Service is offered as a managed add-on, so IBM Cloud automatically keeps all your Istio components up to date.
 
 To install the managed Istio add-on in IBM Cloud Public, you can use the UI or the CLI.
 
@@ -52,23 +52,23 @@ To install the managed Istio add-on in IBM Cloud Public, you can use the UI or t
 
 1. Verify that the Istio services are deployed and their corresponding pods have a `STATUS` of `Running`.
 
-  {{< text bash >}}
-  $ kubectl get svc -n istio-system
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get svc -n istio-system
+    {{< /text >}}
 
-  {{< text bash >}}
-  $ kubectl get pods -n istio-system
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get pods -n istio-system
+    {{< /text >}}
 
 1. Verify that the BookInfo microservices are deployed and their corresponding pods have a `STATUS` of `Running`.
 
-  {{< text bash >}}
-  $ kubectl get svc -n default
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get svc -n default
+    {{< /text >}}
 
-  {{< text bash >}}
-  $ kubectl get pods -n default
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get pods -n default
+    {{< /text >}}
 
 ### Helm
 
