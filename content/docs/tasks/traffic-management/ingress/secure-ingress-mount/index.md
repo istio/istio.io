@@ -347,7 +347,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     used for generating your `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template $HOME/istio-fetch/istio --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
+    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
     --set 'gateways.istio-ingressgateway.secretVolumes[0].name'=ingressgateway-certs \
     --set 'gateways.istio-ingressgateway.secretVolumes[0].secretName'=istio-ingressgateway-certs \
     --set 'gateways.istio-ingressgateway.secretVolumes[0].mountPath'=/etc/istio/ingressgateway-certs \
@@ -421,7 +421,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
       hosts:
       - "bookinfo.com"
       gateways:
-      - httpbin-gateway
+      - bookinfo-gateway
       http:
       - match:
         - uri:
@@ -460,7 +460,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     should already love:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     -=[ teapot ]=-
 
