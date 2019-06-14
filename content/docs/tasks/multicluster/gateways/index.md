@@ -145,19 +145,21 @@ use the following service entry for `httpbin.bar` instead of the one in the prev
 {{< tip >}}
 The egress gateway used in this configuration cannot also be used for other, non inter-cluster, egress traffic.
 
-If $CLUSTER2_GW_ADDR is an IP address, use the `$CLUSTER2_GW_ADDR - IP address` option.  If $CLUSTER2_GW_ADDR is a hostname, use the `$CLUSTER2_GW_ADDR - hostname` option.
+If `$CLUSTER2_GW_ADDR` is an IP address, use the `$CLUSTER2_GW_ADDR - IP address` option.  If `$CLUSTER2_GW_ADDR` is a hostname, use the `$CLUSTER2_GW_ADDR - hostname` option.
 {{< /tip >}}
 
 {{< tabset cookie-name="profile" >}}
 
 {{< tab name="$CLUSTER2_GW_ADDR - IP address" cookie-value="option1" >}}
 * Export the `cluster1` egress gateway address:
+
 {{< text bash >}}
 $ export CLUSTER1_EGW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-egressgateway \
     -n istio-system -o yaml -o jsonpath='{.items[0].spec.clusterIP}')
 {{< /text >}}
 
 * Apply the httpbin-bar service entry:
+
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
@@ -186,10 +188,12 @@ spec:
       http1: 15443
 EOF
 {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
 If the `${CLUSTER2_GW_ADDR}` is a hostname, you can use `resolution: DNS` for the endpoint resolution: 
+
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
@@ -217,7 +221,8 @@ spec:
     ports:
       http1: 15443
 EOF
-{{< /text >}}    
+{{< /text >}}
+
 {{< /tab >}}
 
 {{< /tabset >}}
