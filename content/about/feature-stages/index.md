@@ -78,12 +78,10 @@ The `Sidecar` runtime is considered Beta, but it is advertised as Alpha since it
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
+| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Beta
 | [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
-| [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
-| [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
