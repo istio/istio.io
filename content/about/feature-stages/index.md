@@ -42,11 +42,11 @@ Below is our list of existing features and their current phases. This informatio
 | Resilience features: timeouts, retries, connection pools, outlier detection | Stable
 | Gateway: Ingress, Egress for all protocols | Stable
 | TLS termination and SNI Support in Gateways | Stable
+| SNI (multiple certs) at ingress | Stable
 | [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) | Alpha
-| SNI (multiple certs) at ingress | Alpha
 
 The `Sidecar` runtime is considered Beta, but it is advertised as Alpha since its API is still subject to backward incompatible change.
 
