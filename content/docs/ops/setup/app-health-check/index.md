@@ -8,15 +8,16 @@ aliases:
 keywords: [security,health-check]
 ---
 
-This task shows how to use [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/) for health checking of Istio services.
-
-There are three options for liveness and readiness probes in Kubernetes:
+[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)  offers three options for liveness and readiness probes:
 
 1. Command
-1. HTTP request
 1. TCP request
+1. HTTP request
 
-This task provides examples for the first two options with Istio mutual TLS enabled and disabled, respectively.
+This task explains how these approaches work when Istio mutual TLS is enabled.
+
+Command and TCP type probers work with Istio regardless whether mutual TLS is enabled or not. HTTP request requires different Istio configuration when
+Istio mutual TLS is enabled.
 
 ## Before you begin
 
@@ -27,27 +28,7 @@ This task provides examples for the first two options with Istio mutual TLS enab
 
 ## Liveness and readiness probes with command option
 
-In this section, you configure health checking when mutual TLS is disabled, then when mutual TLS is enabled.
-
-### Mutual TLS disabled
-
-Run this command to deploy [liveness]({{< github_file >}}/samples/health-check/liveness-command.yaml) in the default namespace:
-
-{{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
-{{< /text >}}
-
-Wait for a minute and check the pod status:
-
-{{< text bash >}}
-$ kubectl get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-6857c8775f-zdv9r        2/2       Running   0           1m
-{{< /text >}}
-
-The number '0' in the 'RESTARTS' column means liveness probes worked fine. Readiness probes work in the same way and you can modify `liveness-command.yaml` accordingly to try it yourself.
-
-### Mutual TLS enabled
+In this section, you first configure health checking when mutual TLS is enabled.
 
 To enable mutual TLS for services in the default namespace, you must configure an authentication policy and a destination rule.
 Follow these steps to complete the configuration:
@@ -84,10 +65,9 @@ Follow these steps to complete the configuration:
     EOF
     {{< /text >}}
 
-Run this command to re-deploy the service:
+Run this command to deploy the service:
 
 {{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
@@ -99,55 +79,23 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
 
-### Cleanup
-
-Remove the mutual TLS policy and corresponding destination rule added in the steps above:
-
-1. To remove the mutual TLS policy, run:
-
-    {{< text bash >}}
-    $ kubectl delete policies default
-    {{< /text >}}
-
-1. To remove the corresponding destination rule, run:
-
-    {{< text bash >}}
-    $ kubectl delete destinationrules default
-    {{< /text >}}
-
 ## Liveness and readiness probes with HTTP request option
 
-This section shows how to configure health checking with the HTTP request option.
+This section shows how to configure health checking with the HTTP request option when mutual TLS is enabled.
 
-### Mutual TLS is disabled
+Kuberenetes HTTP health check request is sent from Kubelet, which does not have Istio issued certificate to the `liveness-http` service. So when mutual TLS is enabled, the health check request will fail.
 
-Run this command to deploy [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) in the default namespace:
+We have two options to solve the problem: probe rewrites and separate ports.
 
-{{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
-{{< /text >}}
+### Probe rewrite
 
-Wait for a minute and check the pod status to make sure the liveness probes work with '0' in the 'RESTARTS' column.
-
-{{< text bash >}}
-$ kubectl get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
-{{< /text >}}
-
-### Mutual TLS is enabled
-
-When mutual TLS is enabled, we have two options to support HTTP probes: probe rewrites and separate ports.
-
-#### Probe rewrite
-
-This approach rewrites the application `PodSpec` liveness probe, such that the probe request will be sent to
+This approach rewrites the application `PodSpec` readiness/liveness probe, such that the probe request will be sent to
 [Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
-To use this approach, you need to configure Istio to rewrite the liveness HTTP probes.
+You have two ways to enable Istio to rewrite the liveness HTTP probes.
 
-##### Configure Istio to rewrite liveness HTTP probes
+#### Enable via Helm Option
 
 [Install Istio](/docs/setup/kubernetes/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`
 [Helm installation option](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
@@ -166,7 +114,18 @@ spec by yourself.
 The configuration changes above (by Helm or by the configuration map) effect all Istio app deployments.
 {{< /warning >}}
 
-##### Re-deploy the liveness health check app
+#### Use Annotations on Pod
+
+<!-- Add samples YAML or kubectl patch? -->
+
+Rather than install Istio with different Helm option, you can annotate Pod with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`.
+
+This approach allows you to enable the health check prober rewrite gradually on each deployment withou reinstalling Istio.
+
+#### Re-deploy the liveness health check app
+
+Instructions below assume you turn on the feature via Helm flag globally.
+Annotations works the same.
 
 {{< text bash >}}
 $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
@@ -182,41 +141,9 @@ liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 This feature is not currently turned on by default. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
 on whether we should change this to default behavior for Istio installation.
 
-#### Separate port
+### Separate port
 
-Again, enable mutual TLS for services in the default namespace by adding namespace-wide authentication policy and a destination rule:
-
-1. To configure the authentication policy, run:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
-    metadata:
-      name: "default"
-      namespace: "default"
-    spec:
-      peers:
-      - mtls: {}
-    EOF
-    {{< /text >}}
-
-1. To configure the destination rule, run:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "networking.istio.io/v1alpha3"
-    kind: "DestinationRule"
-    metadata:
-      name: "default"
-      namespace: "default"
-    spec:
-      host: "*.default.svc.cluster.local"
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-    EOF
-    {{< /text >}}
+Another alternative is to use separate port for health checking and regular traffic.
 
 Run these commands to re-deploy the service:
 
@@ -233,4 +160,13 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< /text >}}
 
-Note that the image in [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) exposes two ports: 8001 and 8002 ([source code]({{< github_file >}}/samples/health-check/server.go)). In this deployment, port 8001 serves the regular traffic while port 8002 is used for liveness probes. Because the Istio proxy only intercepts ports that are explicitly declared in the `containerPort` field, traffic to 8002 port bypasses the Istio proxy regardless of whether Istio mutual TLS is enabled. However, if you use port 8001 for both regular traffic and liveness probes, health check will fail when mutual TLS is enabled because the HTTP request is sent from Kubelet, which does not send client certificate to the `liveness-http` service.
+Note that the image in [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) exposes two ports: 8001 and 8002 ([source code]({{< github_file >}}/samples/health-check/server.go)). In this deployment, port 8001 serves the regular traffic while port 8002 is used for liveness probes.
+
+### Cleanup
+
+Remove the mutual TLS policy and corresponding destination rule added in the steps above:
+
+    {{< text bash >}}
+    $ kubectl delete policies default
+    $ kubectl delete destinationrules default
+    {{< /text >}}
