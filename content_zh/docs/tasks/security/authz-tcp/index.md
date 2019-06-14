@@ -41,13 +41,13 @@ keywords: [security,access-control,rbac,tcp,authorization]
     * 创建新的 `ServiceAccount` 并在**启用自动注入**的网格中部署新版本的服务：
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
+        $ kubectl apply -f samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml
         {{< /text >}}
 
     * 创建新的 `ServiceAccount` 并在**没有启用自动注入**的网格中部署新版本的服务：
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml)
         {{< /text >}}
 
 ### 配置应用使用新版本的服务
