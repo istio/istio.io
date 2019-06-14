@@ -10,7 +10,7 @@ aliases:
 icon: helm
 ---
 
-<script defer>
+<script id="cni" defer>
 window.onload = function(){
   if (window.location.hash == '#cni') {
     selectTabsets('helm_profile', 'cni');
