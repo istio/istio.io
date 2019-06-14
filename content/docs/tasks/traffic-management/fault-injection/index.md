@@ -109,7 +109,7 @@ still expect the end-to-end flow to continue without any errors.
 You've found a bug. There are hard-coded timeouts in the microservices that have
 caused the `reviews` service to fail.
 
-The `reviews` service is unaffected by the 7s delay we introduced,
+The `reviews` service is unaffected by the 7s delay you introduced,
 because the timeout between the `reviews` and `ratings` service is hard-coded at 10s.
 However, there is also a hard-coded timeout between the `productpage` and the `reviews` service,
 coded as 3s + 1 retry for 6s total.
