@@ -10,6 +10,14 @@ aliases:
 icon: helm
 ---
 
+<script defer>
+window.onload = function(){
+  if (window.location.hash == '#cni') {
+    selectTabsets('helm_profile', 'cni');
+  }
+}
+</script>
+
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
 
 This installation guide uses [Helm](https://github.com/helm/helm) charts that provide rich
@@ -148,6 +156,22 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
+{{< tab name="default with CNI enabled" cookie-value="cni" >}}
+
+Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) components:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
+{{< /text >}}
+
+Enable CNI in Istio with the `--set istio_cni.enabled=true` setting:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< /tabset >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -230,6 +254,22 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="default with CNI enabled" cookie-value="cni" >}}
+
+Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) chart:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace istio-system
+{{< /text >}}
+
+Enable CNI in Istio with the `--set istio_cni.enabled=true` setting:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true
 {{< /text >}}
 
 {{< /tab >}}
