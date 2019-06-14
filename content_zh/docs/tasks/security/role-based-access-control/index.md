@@ -17,17 +17,6 @@ keywords: [安全,访问控制,rbac,鉴权]
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
-* 这个任务里，我们会在 Service account 的基础上启用访问控制，在网格中进行加密的认证。为了给不同的微服务以不同的访问授权，就需要建立一系列不同的 Service account，用这些账号来分别运行 Bookinfo 中的微服务。
-
-    运行命令，完成以下目的：
-
-    * 创建 Service account：`bookinfo-productpage`，并用这一身份部署 `productpage`。
-    * 创建 Service account：`bookinfo-reviews`，并用这一身份部署 `reviews`（注意其中包含 `reviews-v2` 和 `reviews-v3` 两个版本）。
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml)
-    {{< /text >}}
-
 {{< tip >}}
 如果使用的命名空间不是 `default`，就应改用 `kubectl -n namespace ...` 来指定命名空间。
 {{< /tip >}}
