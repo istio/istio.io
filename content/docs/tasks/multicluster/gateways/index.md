@@ -192,7 +192,7 @@ EOF
 {{< /tab >}}
 
 {{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
-If the `${CLUSTER2_GW_ADDR}` is a hostname, you can use `resolution: DNS` for the endpoint resolution: 
+If the `${CLUSTER2_GW_ADDR}` is a hostname, you can use `resolution: DNS` for the endpoint resolution:
 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
