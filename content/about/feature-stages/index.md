@@ -59,7 +59,7 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [Prometheus Integration](/docs/tasks/telemetry/metrics/querying-metrics/) | Stable
 | [Local Logging (STDIO)](/docs/tasks/telemetry/logs/collecting-logs/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
-| [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
+| [Client and Server Telemetry Reporting](/docs/reference/config/policy-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Distributed Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable

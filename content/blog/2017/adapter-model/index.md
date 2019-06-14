@@ -58,7 +58,7 @@ You control which data is delivered to individual adapters by creating
 Instances control how Mixer uses the [attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) delivered
 by the proxy into individual bundles of data that can be routed to different adapters.
 
-Creating instances generally requires using [attribute expressions](/docs/concepts/policies-and-telemetry/#attribute-expressions). The point of these expressions is to use any attribute or literal value in order to produce a result that can be assigned to an instance’s field.
+Creating instances generally requires using [attribute expressions](/docs/reference/config/policy-and-telemetry/expression-language/). The point of these expressions is to use any attribute or literal value in order to produce a result that can be assigned to an instance’s field.
 
 Every instance field has a type, as defined in the template, every attribute has a
 [type](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto), and every attribute expression has a type.

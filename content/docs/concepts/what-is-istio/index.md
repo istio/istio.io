@@ -107,7 +107,7 @@ plane**.
 * The **data plane** is composed of a set of intelligent proxies
   ([Envoy](https://www.envoyproxy.io/)) deployed as sidecars. These proxies
   mediate and control all network communication between microservices along
-  with [Mixer](/docs/concepts/policies-and-telemetry/), a general-purpose
+  with [Mixer](/docs/reference/config/policy-and-telemetry/), a general-purpose
   policy and telemetry hub.
 
 * The **control plane** manages and configures the proxies to route traffic.
@@ -143,8 +143,8 @@ for example:
 Envoy is deployed as a **sidecar** to the relevant service in the same
 Kubernetes pod. This deployment allows Istio to extract a wealth of signals
 about traffic behavior as
-[attributes](/docs/concepts/policies-and-telemetry/#attributes). Istio can, in
-turn, use these attributes in [Mixer](/docs/concepts/policies-and-telemetry/)
+[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes). Istio can, in
+turn, use these attributes in [Mixer](/docs/reference/config/policy-and-telemetry/)
 to enforce policy decisions, and send them to monitoring systems to provide
 information about the behavior of the entire mesh.
 
@@ -155,14 +155,14 @@ Goals](/docs/concepts/what-is-istio/#design-goals).
 
 ### Mixer
 
-[Mixer](/docs/concepts/policies-and-telemetry/) is a platform-independent
+[Mixer](/docs/reference/config/policy-and-telemetry/) is a platform-independent
 component. Mixer enforces access control and usage policies across the service
 mesh, and collects telemetry data from the Envoy proxy and other services. The
 proxy extracts request level
-[attributes](/docs/concepts/policies-and-telemetry/#attributes), and sends them
+[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes), and sends them
 to Mixer for evaluation. You can find more information on this attribute
 extraction and policy evaluation in our [Mixer Configuration
-documentation](/docs/concepts/policies-and-telemetry/#configuration-model).
+documentation](/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model).
 
 Mixer includes a flexible plugin model. This model enables Istio to interface
 with a variety of host environments and infrastructure backends. Thus, Istio

@@ -191,7 +191,7 @@ The photo SRE team creates two service accounts to run `photo-frontend` and
 `photo-backend` respectively in the `photo-ns` namespace. The datastore SRE
 team creates one service account to run the `datastore` service in the
 `datastore-ns` namespace. Moreover, we need to enforce the service access
-control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
+control in [Istio Mixer](/docs/reference/config/policy-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
 In this setup, Kubernetes can isolate the operator privileges on managing the services.
@@ -899,4 +899,4 @@ spec:
 
 While we strongly recommend using the Istio authorization mechanisms,
 Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
-To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/concepts/policies-and-telemetry/#adapters).
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/reference/config/policy-and-telemetry/adapters).
