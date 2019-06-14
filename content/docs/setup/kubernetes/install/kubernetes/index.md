@@ -35,6 +35,41 @@ This permits customization of Istio to operator specific requirements.
 
 1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 
+    {{< tip >}}
+    Run the following command to verify the Kubernetes cluster is ready for Istio installation:
+
+    {{< text bash >}}
+    $ istioctl verify-install
+    Checking the cluster to make sure it is ready for Istio installation...
+
+    Kubernetes-api
+    -----------------------
+    Can initialize the Kubernetes client.
+    Can query the Kubernetes API Server.
+
+    Kubernetes-version
+    -----------------------
+    Istio is compatible with Kubernetes: v1.13.6.
+
+
+    Istio-existence
+    -----------------------
+    Istio will be installed in the istio-system namespace.
+
+    Kubernetes-setup
+    -----------------------
+    Can create necessary Kubernetes configurations: Namespace,ClusterRole,ClusterRoleBinding,CustomResourceDefinition,Role,ServiceAccount,Service,Deployments,ConfigMap. 
+
+    SideCar-Injector
+    -----------------------
+    This Kubernetes cluster supports automatic sidecar injection. To enable automatic sidecar injection see https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/#deploying-an-app
+
+    -----------------------
+    Install Pre-Check passed! The cluster is ready for Istio installation.
+    {{< /text >}}
+
+    {{< /tip >}}
+
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
 
 ## Installation steps
@@ -144,6 +179,15 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
+1.  Run the following command to verify the installation succeeds:
+
+    {{< text bash >}}
+    $ istioctl verify-install -f install/kubernetes/istio-demo.yaml --enableVerbose=false
+    Checked 28 crds
+    Checked 9 Istio Deployments
+    Istio is installed successfully
+    {{< /text >}}
+
 ## Deploy your application
 
 You can now deploy your own application or one of the sample applications
@@ -153,6 +197,16 @@ provided with the installation like [Bookinfo](/docs/examples/bookinfo/).
 The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
 traffic; HTTP/1.0 is not supported.
 {{< /warning >}}
+
+{{< tip >}}
+Run the following command to validate your application:
+
+{{< text bash >}}
+$ istioctl validate -f <your-app-spec>.yaml
+<your-app-spec>.yaml is valid.
+{{< /text >}}
+
+{{< /tip >}}
 
 When you deploy your application using `kubectl apply`,
 the [Istio sidecar injector](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
