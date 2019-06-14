@@ -16,7 +16,7 @@ keywords: [security,health-check]
 
 This task explains how these approaches work when Istio mutual TLS is enabled.
 
-Command and TCP type probers work with Istio regardless whether mutual TLS is enabled or not. HTTP request requires different Istio configuration when
+Command and TCP type probes work with Istio regardless whether mutual TLS is enabled or not. HTTP request requires different Istio configuration when
 Istio mutual TLS is enabled.
 
 ## Before you begin
@@ -83,7 +83,7 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 
 This section shows how to configure health checking with the HTTP request option when mutual TLS is enabled.
 
-Kuberenetes HTTP health check request is sent from Kubelet, which does not have Istio issued certificate to the `liveness-http` service. So when mutual TLS is enabled, the health check request will fail.
+Kubernetes HTTP health check request is sent from Kubelet, which does not have Istio issued certificate to the `liveness-http` service. So when mutual TLS is enabled, the health check request will fail.
 
 We have two options to solve the problem: probe rewrites and separate ports.
 
@@ -120,7 +120,7 @@ The configuration changes above (by Helm or by the configuration map) effect all
 
 Rather than install Istio with different Helm option, you can annotate Pod with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`.
 
-This approach allows you to enable the health check prober rewrite gradually on each deployment withou reinstalling Istio.
+This approach allows you to enable the health check prober rewrite gradually on each deployment without reinstalling Istio.
 
 #### Re-deploy the liveness health check app
 
