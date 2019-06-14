@@ -27,7 +27,7 @@ topology.
     # Default IPv4 CIDR is 10.1.0.0/16
     # Default IPv6 CIDR is fd03::0/112
     network_cidr: 10.1.0.0/16
-    
+
     ## Kubernetes Settings
     # Default IPv4 Service Cluster Range is 10.0.0.0/16
     # Default IPv6 Service Cluster Range is fd02::0/112
