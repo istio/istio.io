@@ -591,8 +591,10 @@ You also need the `key.pem` file:
 $ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
 {{< /text >}}
 
-You may also need to download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
-if it is not already present on your system.
+{{< tip >}}
+Download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
+if you haven't installed it on your system.
+{{< /tip >}}
 
 For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
