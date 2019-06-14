@@ -167,7 +167,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
     用下面的命令重新部署 `ratings:v2` 服务，并使用 `default` 服务账号运行该服务：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
+    $ kubectl delete -f samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
     {{< /text >}}
 
