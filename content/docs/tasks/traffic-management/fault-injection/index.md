@@ -139,7 +139,7 @@ so that it is compatible with (less than) the timeout of the downstream `product
 If you migrate all traffic to `reviews:v3` as described in the
 [traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task, you can then
 try to change the delay rule to any amount less that 2.5s (e.g., 2s) and confirm
-that the end-to-end flow will continue without any errors.
+that the end-to-end flow continues without any errors.
 
 ## Injecting an HTTP abort fault
 
