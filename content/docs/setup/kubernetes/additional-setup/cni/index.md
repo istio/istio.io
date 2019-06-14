@@ -31,7 +31,7 @@ replaces the functionality provided by the `istio-init` container.
 
 1.  Install Kubernetes with the container runtime supporting CNI and `kubelet` configured
     with the main [CNI](https://github.com/containernetworking/cni) plugin enabled via `--network-plugin=cni`.
-    *  Kubernetes installations for AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
+    *  AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
     *  Google Cloud GKE clusters require that the
        [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) feature
        is enabled to have Kubernetes configured with `network-plugin=cni`.
@@ -40,78 +40,18 @@ replaces the functionality provided by the `istio-init` container.
     *  The Kubernetes documentation highly recommends this for all Kubernetes installations
        where `ServiceAccounts` are utilized.
 
-1.  [Download the Istio release](/docs/setup/kubernetes/#downloading-the-release).
-
 ## Installation
 
 1.  Determine the Kubernetes environment's CNI plugin `--cni-bin-dir` and `--cni-conf-dir` settings.
+    Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
-    1.  Refer to the [Hosted Kubernetes Usage](#hosted-kubernetes-usage) section for any non-default
-        settings required.
-
-1.  Create a namespace for the Istio control-plane components:
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    {{< /text >}}
-
-1.  Expand the release's compressed Istio CNI chart.
-
-    {{< text bash >}}
-    $ tar -xzf install/kubernetes/helm/charts/istio-cni-*.tgz -C install/kubernetes/helm/
-    {{< /text >}}
-
-1.  Install Istio CNI.
-
-    *  Option 1.  Render and apply the Istio CNI Helm template.
-
-        {{< text bash >}}
-        $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
-        {{< /text >}}
-
-    *  Option 2.  Install via Helm and Tiller via `helm install`.
-
-        {{< text bash >}}
-        $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system
-        {{< /text >}}
+1.  Install Istio CNI and Istio using Helm.
+    Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) instructions and the **default with CNI enabled** profile.
+    Pass `--set cniBinDir=...` and/or `--set cniConfDir=...` options when installing `istio-cni` if non-default, as determined in the previous step.
 
     {{< tip >}}
-    Refer to the full set of `istio-cni` Helm parameters in the chart's [`values.yaml`](https://github.com/istio/cni/blob/master/deployments/kubernetes/install/helm/istio-cni/values.yaml).
+    Refer to [Helm chart parameters](#helm-chart-parameters) below for the full set of `istio-cni` Helm parameters.
     {{< /tip >}}
-
-1.  Add the `--set istio_cni.enabled=true` setting to the [Istio Installation with Helm procedure](/docs/setup/kubernetes/install/helm/) to include the installation of the Istio CNI plugin. For example:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-      --set istio_cni.enabled=true | kubectl apply -f -
-    {{< /text >}}
-
-### Example: excluding specific Kubernetes namespaces
-
-The following example configures the Istio CNI plugin to ignore pods in the namespaces `istio-system`,
-`foo_ns`, and `bar_ns`.
-
-1.  Create an `istio-system` namespace for the Istio control-plane components.
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    {{< /text >}}
-
-1.  Create and apply Istio CNI manifest.  Override the default configuration of the `istio-cni` Helm
-    chart's `logLevel` and `excludeNamespaces` parameters:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system \
-    --set logLevel=info \
-    --set excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"} | kubectl apply -f -
-    {{< /text >}}
-
-1.  Create and apply Istio manifest with the Istio CNI plugin enabled:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set istio_cni.enabled=true | kubectl apply -f -
-    {{< /text >}}
 
 ### Helm chart parameters
 
@@ -125,31 +65,46 @@ The following example configures the Istio CNI plugin to ignore pods in the name
 | `cniConfDir` | | `/etc/cni/net.d` | Must be the same as the environment's `--cni-conf-dir` setting (`kubelet` parameter). |
 | `cniConfFileName` | | None | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
 
-### Hosted Kubernetes Usage
+### Excluding specific Kubernetes namespaces
 
-Not all hosted Kubernetes clusters are created with the `kubelet` configured to use the CNI plugin so
-compatibility with this `istio-cni` solution is not ubiquitous.  The `istio-cni` plugin is expected
-to work with any hosted Kubernetes leveraging CNI plugins.  The below table indicates the known CNI status
-of many common Kubernetes environments.
+This example configures the Istio CNI plugin via `helm template` to modify the log level and
+ignore pods in the namespaces `istio-system`, `foo_ns`, and `bar_ns`.
+Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) for complete instructions.
 
-| Hosted Cluster Type | Uses CNI | Required Non-default settings |
-|---------------------|----------|-------------------------------|
-| GKE 1.9+ default | N | |
-| GKE 1.9+ w/ [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) | Y | `cniBinDir=/home/kubernetes/bin` |
-| IKS (IBM cloud) | Y | |
-| EKS (AWS) | Y | |
-| AKS (Azure) | Y | |
-| Red Hat OpenShift 3.10+ | Y | |
+Render and apply Istio CNI components and override the default configuration of the `istio-cni` Helm
+    chart's `logLevel` and `excludeNamespaces` parameters:
 
-#### GKE setup
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system \
+    --set logLevel=info \
+    --set excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"} | kubectl apply -f -
+{{< /text >}}
+
+### Hosted Kubernetes settings
+
+The Istio CNI solution is not ubiquitous. Some platforms, especially hosted Kubernetes environments, do not enable the CNI plugin in the kubelet configuration.
+The `istio-cni` plugin is expected to work with any hosted Kubernetes leveraging CNI plugins.
+The below table indicates the required settings for many common Kubernetes environments.
+
+| Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
+|---------------------|--------------------------------------|-------------------------------------|
+| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| IKS (IBM cloud) | _(none)_ | _(none)_ |
+| EKS (AWS) | _(none)_ | _(none)_ |
+| AKS (Azure) | _(none)_ | _(none)_ |
+| Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
+
+### GKE setup
 
 1.  Refer to the procedure to [prepare a GKE cluster for Istio](/docs/setup/kubernetes/platform-setup/gke/) and
     enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster.
-    *  Note for existing clusters this redeploys the nodes.
 
-1.  Install Istio CNI via Helm including this option
-    `--set cniBinDir=/home/kubernetes/bin`. For example, the following `helm install`
-    command sets the `cniBinDir` value for GKE setups:
+    {{< warning >}}
+    For existing clusters, this redeploys all the nodes.
+    {{< /warning >}}
+
+1.  Install Istio CNI via Helm including the `--set cniBinDir=/home/kubernetes/bin` option.
+    For example, the following `helm install` command sets the `cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system --set cniBinDir=/home/kubernetes/bin
@@ -215,7 +170,7 @@ corresponding application pod annotation key.
 
 ### Logging
 
-The Istio CNI plugin is run by the container runtime process space, and, therefore, the log entries are added within
+The Istio CNI plugin is run by the container runtime process space. Therefore, the log entries are logged by the
 the `kubelet` process.
 
 ## Compatibility with other CNI plugins
