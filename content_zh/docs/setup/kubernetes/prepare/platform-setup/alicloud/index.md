@@ -12,17 +12,17 @@ keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 
 ## 前置条件
 
-1. [按照阿里云说明](https://www.alibabacloud.com/help/doc-detail/53752.htm)可以启动以下服务：容器服务、资源编排服务（ROS）和 RAM。
+1. 按照[阿里云说明](https://www.alibabacloud.com/help/doc-detail/53752.htm)，启动以下服务：容器服务、资源编排服务（ROS）和 RAM。
 
 ## 步骤
 
-1. 登陆“容器服务控制台”，点击左边导航栏中 **Kubernetes** 下的 **集群** 进入到 **集群列表** 页面。
+1. 登陆“容器服务控制台”，点击左边导航栏中 **Kubernetes** 下的**集群**进入到**集群列表**页面。
 
-1. 点击右上角的 **创建 Kubernetes 集群** 按钮。
+1. 点击右上角的**创建 Kubernetes 集群**按钮。
 
 1. 输入集群名称。集群名称可以是长度为 1–63 个字符，可以包含数字、中文字符、英文字母和 (-) 。
 
-1. 选择集群所在到 **地区** 和 **区域**。
+1. 选择集群所在到**地区**和**区域**。
 
 1. 设置集群到网络类型。 Kubernetes 集群现在只支持 VPC 的网络类型。
 
