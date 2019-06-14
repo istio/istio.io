@@ -315,7 +315,7 @@ effect immediately on that pod.
 Client services, those that send requests, are responsible for following
 the necessary authentication mechanism. For origin authentication (JWT), the
 application is responsible for acquiring and attaching the JWT credential to
-the request. For mutual TLS, Istio provides a [destination rule](/docs/concepts/traffic-management/#destination-rules).
+the request. For mutual TLS, Istio provides a [destination rule](/docs/concepts/traffic-management/routing/destination-rules/).
 The operator can use the destination rule to instruct client proxies to make
 initial connections using TLS with the certificates expected on the server
 side. You can find out more about how mutual TLS works in Istio in
