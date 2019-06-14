@@ -87,7 +87,7 @@ proxies, which include:
 Service discovery works in a similar way regardless of what platform you're
 using:
 
-1. The platform starts a new instance of a service and notifies its platform
+1. The platform starts a new instance of a service which notifies its platform
    adapter.
 
 1. The platform adapter registers the instance with the Pilot abstract model.
