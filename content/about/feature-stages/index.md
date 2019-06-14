@@ -96,7 +96,8 @@ Below is our list of existing features and their current phases. This informatio
 | [Multicluster Mesh over VPN](/docs/setup/kubernetes/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
 | [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
-| Basic Configuration Resource Validation | Alpha
+| Basic Configuration Resource Validation | Beta
+| Configuration Processing with Galley | Beta
 | [Mixer Self Monitoring](/faq/mixer/#mixer-self-monitoring) | Beta
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
