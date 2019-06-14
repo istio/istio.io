@@ -21,7 +21,7 @@ To evaluate the lifetime remaining for your root certificate, please refer to th
 We provide the following procedure for you to do the root transition.
 Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
 For details about the impacts and how Envoy hot restart works, please refer to
-[here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart) and
+[here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart) and
 [here](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5).
 
 ## Scenarios
@@ -57,7 +57,7 @@ please follow the procedure and check whether you will be affected.
 
     During the transition, the Envoy sidecars may be hot-restarted to reload the new certificates.
     This may have some impact on your traffic. Please refer to
-    [Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)
+    [Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart)
     and read [this](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)
     blog post for more details.
 

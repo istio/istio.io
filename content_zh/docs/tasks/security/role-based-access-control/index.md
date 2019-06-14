@@ -25,7 +25,7 @@ keywords: [安全,访问控制,rbac,鉴权]
     * 创建 Service account：`bookinfo-reviews`，并用这一身份部署 `reviews`（注意其中包含 `reviews-v2` 和 `reviews-v3` 两个版本）。
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml)
     {{< /text >}}
 
 {{< tip >}}
