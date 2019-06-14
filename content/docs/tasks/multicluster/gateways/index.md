@@ -146,7 +146,6 @@ use the following service entry for `httpbin.bar` instead of the one in the prev
 The egress gateway used in this configuration cannot also be used for other, non inter-cluster, egress traffic.
 {{< /tip >}}
 
-
 If `$CLUSTER2_GW_ADDR` is an IP address, use the `$CLUSTER2_GW_ADDR - IP address` option.  If `$CLUSTER2_GW_ADDR` is a hostname, use the `$CLUSTER2_GW_ADDR - hostname` option.
 
 {{< tabset cookie-name="profile" >}}
