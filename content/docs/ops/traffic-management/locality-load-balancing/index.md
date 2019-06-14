@@ -38,7 +38,7 @@ In this mode, Istio tells Envoy to prioritize traffic to the workload instances 
 the locality of the Envoy sending the request. When all instances are healthy, the requests
 remains within the same locality. When instances become unhealthy, traffic spills over to
 instances in the next prioritized locality. This behavior continues until all localities are
-receiving traffic. You can find the exact percentages in the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels).
+receiving traffic. You can find the exact percentages in the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority).
 
 A typical prioritization for an Envoy with a locality of `us-west/zone2` is as follows:
 

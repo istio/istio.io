@@ -24,7 +24,7 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
     * 创建 Service Account `bookinfo-reviews`，并用它来重新部署 `reviews`（`reviews-v2` 和 `reviews-v3` 两个 Deployment）。
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml)
     {{< /text >}}
 
 {{< tip >}}
