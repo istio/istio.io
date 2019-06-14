@@ -122,7 +122,7 @@ configure routing rules for traffic to reach specific subsets, the Envoy
 proxies route traffic to the subset according to the rule but again use
 round-robin to route traffic across the instances of each subset. You can
 change this default load balancing behavior of the Envoy proxies. To learn
-more, visit the [Envoy load balancing documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing).
+more, visit the [Envoy load balancing documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing.html).
 
 In this example for A/B testing, we configure traffic routes based on
 percentages. With Istio, you can use a virtual service to specify a routing
