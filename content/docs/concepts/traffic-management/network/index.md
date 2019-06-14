@@ -23,11 +23,6 @@ prevent localized failures from cascading to other nodes:
     upstream service to respond. You can configure a circuit breaker based on a
     number of conditions, such as connection and request limits.
 
--  **Health checks**
-
-    A health check runs diagnostic tests on each member of a [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
-    pool to help you troubleshoot connectivity issues.
-
 -  **Fault injection**
 
     Fault injection is a testing method that introduces errors into a system to
@@ -150,35 +145,6 @@ spec:
 
 See the [circuit-breaking task](/docs/tasks/traffic-management/circuit-breaking/)
 for detailed instructions on how to configure a circuit breaker pattern.
-
-## Health checking
-
-Istio currently supports passive health checking to minimize the chances of
-accessing an unhealthy instance in the load balancing pool. The Envoy proxies
-support active health checking but Istio doesn’t enable it. When you combine
-Istio health checks with platform-level health checks, such as those supported
-by Kubernetes, your applications can quickly eject unhealthy pods, containers,
-or VMs from the service mesh, minimizing request failures and impact on
-latency.
-
-The Envoy proxies follow a circuit breaker pattern to classify instances as
-unhealthy or healthy based on their failure rates for the health check API
-call. The process to remove unhealthy instances from the load balancing pool is
-independent of platform:
-
-1. Envoy periodically checks the health of each instance in the load balancing
-   pool.
-
-1. When the number of failed health checks for a given instance exceeds a
-   specified threshold, the Envoy proxy removes the instance from the service's
-   load balancing pool.
-
-1. When the number of passed health checks exceeds a specified threshold, the
-   Envoy proxy adds the instance back into the service's load balancing pool.
-
-Services can shed loads by returning a Service Unavailable (`HTTP 503`)
-response to a health check. The Envoy proxy for the calling service immediately
-removes the service instance from its load balancing pool.
 
 ## Fault injection
 
