@@ -473,15 +473,18 @@ peers:
 {{< /text >}}
 
 The mutual TLS setting has an optional `mode` parameter that defines the
-strictness of the peer transport authentication:
+strictness of the peer transport authentication. These modes are documented
+in the [Authentication Policy reference document](/docs/reference/config/istio.authentication.v1alpha1/#MutualTls).
 
-- `mode: STRICT` enforces that all peers must use mutual TLS. This declaration
-is identical to `-mtls: {}`, `- mtls:` or `- mtls: null`
+{{< tip >}}
+The default mutual TLS mode is `STRICT`. Therefore, `mode: STRICT` is equivalent
+to all of the following:
 
-- `mode: PERMISSIVE` allows peers to use mutual TLS while still allowing
-peers to not use transport authentication. This mode is useful for transitioning
-existing workloads to peer authentication gradually, as it allows interoperation
-between mutual TLS and plaintext traffic.
+- `- mtls: {}`
+- `- mtls:`
+- `- mtls: null`
+
+{{< /tip >}}
 
 When you do not specify a mutual TLS mode, peers cannot use transport
 authentication, and Istio rejects mutual TLS connections bound for the sidecar.
