@@ -483,10 +483,9 @@ peers to not use transport authentication. This mode is useful for transitioning
 existing workloads to peer authentication gradually, as it allows interoperation
 between mutual TLS and plaintext traffic.
 
-If this section is omitted completely, peers may not use transport
-authentication, and mutual TLS connections bound for the sidecar pod
-will be rejected. However clients are free to handle their own mutual
-TLS sessions at the application layer.
+When you do not specify a mutual TLS mode, peers cannot use transport
+authentication, and Istio rejects mutual TLS connections bound for the sidecar.
+At the application layer, services may still handle their own mutual TLS sessions.
 
 In the future, the mutual TLS setting may carry additional arguments to
 provide different mutual TLS implementations.
