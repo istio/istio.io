@@ -13,7 +13,7 @@ keywords: [security, PKI, certificate, Citadel]
 
 为了了解根证书的剩余有效期，请参考下面[过程中的第一步](#root-transition-procedure)。
 
-我们提供了下面的过程，用于完成根证书更新工作。Envoy 进程不需要进行重启来载入新的根证书，也就不会影响长链接了。要了解 Envoy 的热重启过程及其影响范围，请参考相关的[文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)。
+我们提供了下面的过程，用于完成根证书更新工作。Envoy 进程不需要进行重启来载入新的根证书，也就不会影响长链接了。要了解 Envoy 的热重启过程及其影响范围，请参考相关的[文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart#arch-overview-hot-restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)。
 
 ## 场景 {#scenarios}
 
