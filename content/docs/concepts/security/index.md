@@ -490,9 +490,6 @@ When you do not specify a mutual TLS mode, peers cannot use transport
 authentication, and Istio rejects mutual TLS connections bound for the sidecar.
 At the application layer, services may still handle their own mutual TLS sessions.
 
-In the future, the mutual TLS setting may carry additional arguments to
-provide different mutual TLS implementations.
-
 #### Origin authentication
 
 The `origins:` section defines authentication methods and associated parameters
