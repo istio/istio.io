@@ -474,7 +474,7 @@ peers:
 
 The mutual TLS setting has an optional `mode` parameter that defines the
 strictness of the peer transport authentication. These modes are documented
-in the [Authentication Policy reference document](/docs/reference/config/istio.authentication.v1alpha1/#MutualTls).
+in the [Authentication Policy reference document](/docs/reference/config/istio.authentication.v1alpha1/#MutualTls-Mode).
 
 {{< tip >}}
 The default mutual TLS mode is `STRICT`. Therefore, `mode: STRICT` is equivalent
