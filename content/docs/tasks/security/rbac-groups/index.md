@@ -99,6 +99,23 @@ are supported.
     EOF
     {{< /text >}}
 
+1.  Apply a policy through a destination rule for the `sleep` service to use mutual TLS when
+communicating with `httpbin`.
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: use-mtls-on-sleep
+    spec:
+      host: httpbin.$NS.svc.cluster.local
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    EOF
+    {{< /text >}}
+
 1.  Set the `TOKEN` environmental variable to contain a valid sample JWT.
 
     {{< text bash >}}
