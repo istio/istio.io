@@ -13,7 +13,7 @@ keywords: [security, PKI, certificate, Citadel]
 
 为了了解根证书的剩余有效期，请参考下面[过程中的第一步](#root-transition-procedure)。
 
-我们提供了下面的过程，用于完成根证书更新工作。Envoy 进程不需要进行重启来载入新的根证书，也就不会影响长链接了。要了解 Envoy 的热重启过程及其影响范围，请参考相关的[文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)。
+我们提供了下面的过程，用于完成根证书更新工作。Envoy 进程不需要进行重启来载入新的根证书，也就不会影响长链接了。要了解 Envoy 的热重启过程及其影响范围，请参考相关的[文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)。
 
 ## 场景 {#scenarios}
 
@@ -42,7 +42,7 @@ keywords: [security, PKI, certificate, Citadel]
 1. 执行根证书更新过程：
 
     在更新过程中，Envoy 会用热重启的方式来载入新的证书。这可能对流量产生一定影响。
-    可以阅读 Envoy 热启动方面的相关[文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/hot_restart#arch-overview-hot-restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)，来了解更多细节。
+    可以阅读 Envoy 热启动方面的相关[文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart)和[博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)，来了解更多细节。
 
     {{< warning >}}
     如果你的 Pilot 没有 Envoy Sidecar，则应该给 Pilot 安装一个 Sidecar。这是因为 Pilot 在使用旧的根证书来验证新的工作负载证书时会出现问题，导致 Pilot 和 Evnoy 之间断开连接。请参考[相关步骤](#how-to-check-if-pilot-has-an-envoy-sidecar)，以了解如何进行检查。[Istio 升级指南](/zh/docs/setup/kubernetes/upgrade/steps/)中缺省会为 Pilot 安装 Envoy Sidecar。

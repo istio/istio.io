@@ -79,7 +79,7 @@ spec:
 <h2 id="ConnectionPoolSettings">ConnectionPoolSettings</h2>
 <section>
 <p>Connection pool settings for an upstream host. The settings apply to
-each individual host in the upstream service.  See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/circuit_breaking">circuit
+each individual host in the upstream service.  See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">circuit
 breaker</a>
 for more details. Connection pool settings can be applied at the TCP
 level as well as at HTTP level.</p>
@@ -360,7 +360,7 @@ defines an export to all namespaces.</p>
 <section>
 <p>Load balancing policies to apply for a specific destination. See Envoy&rsquo;s
 load balancing
-<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing">documentation</a>
+<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing">documentation</a>
 for more details.</p>
 
 <p>For example, the following rule uses a round robin load balancing policy
@@ -577,7 +577,7 @@ TCP services.  For HTTP services, hosts that continually return 5xx
 errors for API calls are ejected from the pool for a pre-defined period
 of time. For TCP services, connection timeouts or connection
 failures to a given host counts as an error when measuring the
-consecutive errors metric. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier">outlier
+consecutive errors metric. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier">outlier
 detection</a>
 for more details.</p>
 
