@@ -8,16 +8,17 @@ aliases:
 keywords: [security,health-check]
 ---
 
-[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)  offers three options for liveness and readiness probes:
+[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)  
+offer three different options:
 
 1. Command
 1. TCP request
 1. HTTP request
 
-This task explains how these approaches work when Istio mutual TLS is enabled.
+This task shows how to use these approaches in Istio with mutual TLS is enabled.
 
-Command and TCP type probes work with Istio regardless whether mutual TLS is enabled or not. HTTP request requires different Istio configuration when
-Istio mutual TLS is enabled.
+Command and TCP type probes work with Istio regardless of whether or not mutual TLS is enabled. The HTTP request approach requires different Istio configuration with
+mutual TLS enabled.
 
 ## Before you begin
 
@@ -28,7 +29,7 @@ Istio mutual TLS is enabled.
 
 ## Liveness and readiness probes with command option
 
-In this section, you first configure health checking when mutual TLS is enabled.
+First, you need to configure health checking with mutual TLS enabled.
 
 To enable mutual TLS for services in the default namespace, you must configure an authentication policy and a destination rule.
 Follow these steps to complete the configuration:
@@ -65,7 +66,7 @@ Follow these steps to complete the configuration:
     EOF
     {{< /text >}}
 
-Run this command to deploy the service:
+Run the following command to deploy the service:
 
 {{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
