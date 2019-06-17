@@ -219,8 +219,8 @@ spec:
        subset: v1
 {{< /text >}}
 
-In the preceding example, there are two routing rules in the
-`http` section, indicated by a `-` preceeding the first field of each rule.
+In the preceding example, there are two routing rules in the `http` section,
+indicated by a leading `-` in front of the first field of each rule.
 
 The first routing rule begins with the `match` field:
 
@@ -245,7 +245,7 @@ The first routing rule begins with the `match` field:
     `v2` in this case.
 
 The configuration of the second routing rule in the example begins with the
-`route` field preceeded by a `-`. This rule applies to all traffic that doesn't match the
+`route` field with a leading `-`. This rule applies to all traffic that doesn't match the
 conditions specified in the first routing rule.
 
 -  `route` Specifies where to route all traffic
