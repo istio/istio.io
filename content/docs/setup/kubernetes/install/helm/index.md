@@ -41,13 +41,6 @@ and then further customize the configuration for your specific needs.
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
 
-{{< tip >}}
-These instructions assume the `istio-init` container will be used to setup `iptables` to redirect network traffic
-to/from Envoy sidecars. If you plan to customize the configuration to use `--set istio_cni.enabled=true`, you also
-need to ensure that a CNI plugin is deployed. Refer to [CNI Setup](/docs/setup/kubernetes/additional-setup/cni/)
-for details.
-{{< /tip >}}
-
 ## Helm chart release repositories
 
 The commands in this guide use the Helm charts that are included in the Istio release image.
