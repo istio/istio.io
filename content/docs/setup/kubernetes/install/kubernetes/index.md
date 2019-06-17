@@ -7,9 +7,6 @@ aliases:
     - /docs/setup/kubernetes/quick-start/
 ---
 
-Visit our [getting started guide](/docs/setup/kubernetes/getting-started/) to
-learn how to evaluate and try Istio's basic features quickly.
-
 This guide installs Istio's built-in **demo** [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
 using basic Kubernetes commands without needing to download or install
 [Helm](https://github.com/helm/helm). This installation lets you quickly
