@@ -266,6 +266,7 @@ Remove global authentication policy and destination rules added in the session:
 $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules httpbin-legacy -n legacy
 $ kubectl delete destinationrules api-server -n istio-system
+$ kubectl delete destinationrules default -n istio-system
 {{< /text >}}
 
 ## Enable mutual TLS per namespace or service
@@ -589,6 +590,11 @@ You also need the `key.pem` file:
 {{< text bash >}}
 $ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
 {{< /text >}}
+
+{{< tip >}}
+Download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
+if you haven't installed it on your system.
+{{< /tip >}}
 
 For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
