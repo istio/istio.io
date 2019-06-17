@@ -187,14 +187,14 @@ Due to this, the `kubelet` process writes the plugin's log entries into its log.
 The Istio CNI plugin may cause networking connectivity problems for any application `initContainers`. When using Istio CNI, `kubelet`
 starts an injected pod with the following steps:
 1. The Istio CNI plugin sets up traffic redirection to the Istio sidecar proxy within the pod.
-1. All init containers execute and successfully complete.
-1. The Istio sidecar proxy is started in the pod along with the pod's other containers.
+1. All init containers execute and complete successfully.
+1. The Istio sidecar proxy starts in the pod along with the pod's other containers.
 
-Init containers execute before the sidecar proxy is started, which may result in traffic loss during their execution.
-This traffic loss can be avoided by:
-- setting the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
-  CIDRs the init containers communicate with,
-- and/or setting the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
+Init containers execute before the sidecar proxy starts, which can result in traffic loss during their execution.
+Avoid this traffic loss with one or both of the following settings:
+- Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
+  CIDRs the init containers communicate with.
+- Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
   specific outbound ports the init containers use.
 
 ### Compatibility with other CNI plugins
@@ -210,5 +210,6 @@ CNI plugin only performs actions to setup the application pod's traffic redirect
 sidecar (using `iptables` in the pod's network namespace).
 
 {{< warning >}}
-The Istio CNI plugin should have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI plugins have been validated.
+The Istio CNI plugin should not interfere with the operations of the base CNI plugin that configures the pod's
+networking setup, although not all CNI plugins have been validated.
 {{< /warning >}}
