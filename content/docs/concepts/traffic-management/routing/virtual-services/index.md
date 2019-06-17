@@ -93,7 +93,7 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    - *.my-co.org
+    - "*.my-co.org"
     http:
       - route:
         - destination:
@@ -101,7 +101,7 @@ spec:
             subset: v1
 {{< /text >}}
 
-In the example, note that under `spec,` which lists the specifications of the
+In the example, note that under `spec`, which lists the specifications of the
 network resource, `hosts` lists the virtual service's hosts. In this case, the
 hosts are `*.my-co.org`, where `*` is a wildcard prefix indicating that this
 virtual service handles routing for any DNS name ending with `.my-co.org`.
@@ -111,7 +111,7 @@ mesh service name as long as the name resolves, implicitly or explicitly, to
 one or more fully qualified domain names (FQDN). To specify multiple hosts, you
 can use wildcards.
 
-Also, note that under `route:`, which specifies the routing rule's
+Also, note that under `route`, which specifies the routing rule's
 configuration, and `destination:`, which specifies the routing rule's
 destination, `host: my-svc` specifies the destination's host. If you are
 running on Kubernetes, then `my-svc` is the name of a Kubernetes service.
@@ -189,11 +189,11 @@ To learn more about the actions available, visit the [virtual service reference 
 
 ### Routing rule for HTTP traffic
 
-The following example shows a virtual service that specifies a specific routing
-rule for HTTP traffic in the `http:` section. The rule includes a `match:`
+The following example shows a virtual service that specifies
+two HTTP traffic routing rules. The first rule includes a `match`
 condition with a regular expression to check if the username "jason" is in the
-request's cookie. If the request matches this condition, the routing rule sends
-traffic to the `v2` subset of the `my-svc` service. Otherwise, the routing rule
+request's cookie. If the request matches this condition, the rule sends
+traffic to the `v2` subset of the `my-svc` service. Otherwise, the second rule
 sends traffic to the `v1` subset of the `my-svc` service.
 
 {{< text yaml >}}
@@ -203,7 +203,7 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    -*
+    - "*"
  http:
  - match:
    - headers:
@@ -219,43 +219,43 @@ spec:
        subset: v1
 {{< /text >}}
 
-In the preceding example, there are two routing rules. The configuration of the
-first routing rule in the virtual service begins with the `http:` field:
+In the preceding example, there are two routing rules in the
+`http` section, indicated by a `-` preceeding the first field of each rule.
 
--  `http:` Specifies the type of traffic that follows the the routing rule. In
-   this case, the routing rule applies to HTTP traffic.
+The first routing rule begins with the `match` field:
 
--  `- match:` Lists the routing rule's matching conditions.
+- `match` Lists the routing rule's matching conditions.
 
--  `- headers:` Specifies to look for a match in the header of the request.
+- `headers` Specifies to look for a match in the header of the request.
 
--  `cookie:` Specifies to look for a match in the header's cookie.
+- `cookie` Specifies to look for a match in the header's cookie.
 
--  `regex:` Specifies the regular expression used to determine a match.
+- `regex` Specifies the regular expression used to determine a match.
 
--  `route:` Specifies the routing rule's configurations for the traffic
+- `route` Specifies where to route the traffic
    matching the condition. In this case, that traffic is HTTP traffic with the
    username `jason` in the cookie of the request's header.
 
--  `- destination:` Specifies the destination for the traffic matching the
-   conditions.
+-  `destination` Specifies the route destination for the traffic matching the
+   rule conditions.
 
--  `host: my-svc` Specifies the destination's host.
+-  `host` Specifies the destination's host, `my-svc`.
 
--  `subset: v2` Specifies the destination’s subset for the traffic matching the conditions.
+-  `subset` Specifies the destination’s subset for the traffic matching the conditions,
+    `v2` in this case.
 
-The configuration of the second routing rule in the example begins with the `-
-route:` field. This rule applies to all traffic that doesn't match the
+The configuration of the second routing rule in the example begins with the
+`route` field preceeded by a `-`. This rule applies to all traffic that doesn't match the
 conditions specified in the first routing rule.
 
--  `- route:` Specifies the routing rule's configurations for all traffic
+-  `route` Specifies where to route all traffic
    except for HTTP traffic matching the condition of the previous rule.
 
--  `- destination:` Specifies the routing rule's destination.
+-  `destination` Specifies the routing rule's destination.
 
--  `host: my-svc` Specifies the destination's host.
+-  `host` Specifies the destination's host, `my-svc`.
 
--  `subset: v1`  Specifies the destination’s subset.
+-  `subset`  Specifies the destination’s subset, `v1` in this case.
 
 The following diagram shows the configured traffic routes for the matched traffic and for all other traffic:
 
@@ -294,7 +294,7 @@ spec:
     …
 {{< /text >}}
 
-The value of the `sourceLabels:` key depends on the implementation of the
+The value of the `sourceLabels` key depends on the implementation of the
 service. In Kubernetes, the value corresponds to the same labels you use in the
 pod selector of the corresponding Kubernetes service.
 
@@ -322,7 +322,7 @@ spec:
 
 You can also base conditions on HTTP headers. The following configuration sets
 up a rule that only applies to an incoming request that includes a custom
-`end-user:` header containing the exact `jason` string:
+`end-user` header containing the exact `jason` string:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -374,7 +374,7 @@ single section of `match.`
 
 For example, the following rule applies only to requests that come from an
 instance of the `reviews` service in the `v2` subset AND only if the requests
-include the custom `end-user:` header that contains the exact `jason` string:
+include the custom `end-user` header that contains the exact `jason` string:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
