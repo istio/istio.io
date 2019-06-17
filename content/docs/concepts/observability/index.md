@@ -54,7 +54,7 @@ subset of the Envoy-generated statistics to avoid overwhelming metrics backends 
 operators can easily expand the set of collected proxy metrics when required. This enables targeted debugging of networking behavior, while reducing the
 overall cost of monitoring across the mesh.
 
-The [Envoy documentation site](https://www.envoyproxy.io/docs/envoy/latest/) includes a detailed overview of [Envoy statistics collection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/statistics.html?highlight=statistics).
+The [Envoy documentation site](https://www.envoyproxy.io/docs/envoy/latest/) includes a detailed overview of [Envoy statistics collection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/statistics.html?highlight=statistics).
 The operations guide on [Envoy Statistics](/docs/ops/telemetry/envoy-stats/) provides more information on controlling the generation of proxy-level metrics.
 
 Example proxy-level Metrics:
