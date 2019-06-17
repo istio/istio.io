@@ -177,16 +177,6 @@ application pod annotation key.
 | `traffic.sidecar.istio.io/excludeOutboundPorts` | `<port1>,<port2>,...` | | Comma separated list of outbound ports to be excluded from redirection to Envoy. | 
 | `traffic.sidecar.istio.io/kubevirtInterfaces` | `<ethX>,<ethY>,...` | | Comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound. |
 
-To set cluster-wide defaults for these parameters, use the corresponding
-[`global.proxy.*` parameters](/docs/reference/config/installation-options/#global-options) when installing Istio via
-the `istio` Helm chart.  For example, you can set a default `traffic.sidecar.istio.io/excludeOutboundIPRanges` option
-for all pods in the cluster using the following command to install Istio:
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set global.proxy.excludeOutboundPorts=53 | kubectl apply -f -
-{{< /text >}}
-
 ### Logging
 
 The Istio CNI plugin runs in the container runtime process space.
