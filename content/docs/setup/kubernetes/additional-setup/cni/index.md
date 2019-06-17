@@ -185,7 +185,7 @@ the `kubelet` process.
 
 ### Compatibility with application init containers
 
-Installing the Istio CNI plugin may cause networking problems for any application `initContainers`, since the plugin
+The Istio CNI plugin may cause networking problems for any application `initContainers`, since the plugin
 sets up traffic redirection for the pod prior to any init container starting, and Istio's sidecar proxy is not
 started up until all init containers have successfully completed, potentially resulting in traffic loss during the
 execution of the init containers.
