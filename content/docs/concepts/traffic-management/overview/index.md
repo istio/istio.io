@@ -14,13 +14,13 @@ traffic splits.
 
 Istio's traffic management model relies on the following two components:
 
--  {{< gloss >}}Pilot{{</ gloss >}}, the core traffic management component.
--  {{< gloss >}}Envoy{{</ gloss >}} proxies, which enforce configurations and policies set through Pilot.
+- {{< gloss >}}Pilot{{</ gloss >}}, the core traffic management component.
+- {{< gloss >}}Envoy{{</ gloss >}} proxies, which enforce configurations and policies set through Pilot.
 
 These components enable the following high-level features:
 
--  Service discovery
--  Load balancing
+- Service discovery
+- Load balancing
 
 ## Pilot: Core traffic management {#pilot}
 
@@ -65,21 +65,21 @@ in the mesh. Envoy proxies are deployed as sidecars to services, logically
 augmenting the services with traffic management features, including the two
 discussed in this overview:
 
--  [Service discovery](/docs/concepts/traffic-management/overview/#discovery)
--  [Load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
+- [Service discovery](/docs/concepts/traffic-management/overview/#discovery)
+- [Load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
 
 The [traffic routing and configuration](/docs/concepts/traffic-management/routing/)
 and [network resilience and testing](/docs/concepts/traffic-management/network/)
 sections dig into more sophisticated features and tasks enabled by Envoy
 proxies, which include:
 
--  Traffic control features: enforce fine-grained traffic control with rich
+- Traffic control features: enforce fine-grained traffic control with rich
    routing rules for HTTP, gRPC, WebSocket, and TCP traffic.
 
--  Network resiliency features: setup retries, failovers, circuit breakers, and
+- Network resiliency features: setup retries, failovers, circuit breakers, and
    fault injection.
 
--  Security and authentication features: enforce security policies and enforce
+- Security and authentication features: enforce security policies and enforce
    access control and rate limiting defined through the configuration API.
 
 ### Platform-agnostic service discovery {#discovery}
@@ -104,9 +104,9 @@ The diagram shows how the platform adapters and Envoy proxies interact.
 
 Because the service discovery feature is platform-independent:
 
--  A service mesh can include services across multiple platforms.
+- A service mesh can include services across multiple platforms.
 
--  Envoy proxies enforce the traffic rules, configurations, and load balancing
+- Envoy proxies enforce the traffic rules, configurations, and load balancing
    for all instances.
 
 You can use the Istio service discovery features with the features provided by
@@ -122,16 +122,16 @@ changes to the Pilot abstract model.
 
 Istio supports the following load balancing methods:
 
--  Round robin: Requests are forwarded to instances in the pool in turn, and
+- Round robin: Requests are forwarded to instances in the pool in turn, and
    the algorithm instructs the load balancer to go back to the top of the pool
    and repeat.
 
--  Random: Requests are forwarded at random to instances in the pool.
+- Random: Requests are forwarded at random to instances in the pool.
 
--  Weighted: Requests are forwarded to instances in the pool according to a
+- Weighted: Requests are forwarded to instances in the pool according to a
    specific percentage.
 
--  Least requests: Requests are forwarded to instances with the least number of
+- Least requests: Requests are forwarded to instances with the least number of
    requests. See the [Envoy load balancing documentation](https://www.envoyproxy.io/docs/envoy/v1.5.0/intro/arch_overview/load_balancing)
    for more information.
 
