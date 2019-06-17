@@ -59,7 +59,7 @@ only much more convenient when there are many hosts within the common domain.
       tls:
       - match:
         - port: 443
-         sni_hosts:
+          sni_hosts:
           - "*.wikipedia.org"
         route:
         - destination:
