@@ -17,7 +17,7 @@ offer three different options:
 
 This task shows how to use these approaches in Istio with mutual TLS is enabled.
 
-Command and TCP type probes work with Istio regardless whether mutual TLS is enabled or not. HTTP request requires different Istio configuration when
+Command and TCP type probes work with Istio regardless of whether or not mutual TLS is enabled. The HTTP request approach requires different Istio configuration with
 mutual TLS enabled.
 
 ## Before you begin
@@ -66,7 +66,7 @@ Follow these steps to complete the configuration:
     EOF
     {{< /text >}}
 
-Run this command to deploy the service:
+Run the following command to deploy the service:
 
 {{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
