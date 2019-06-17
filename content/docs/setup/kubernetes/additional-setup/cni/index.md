@@ -157,7 +157,7 @@ accompanying Istio proxy sidecar by checking that the pod meets all of the follo
 
 To redirect traffic in the application pod's network namespace to/from the Istio proxy sidecar, the Istio
 CNI plugin configures the namespace's iptables.  The following table describes the parameters to the
-redirect functionality.  The default values for the parameters are able to be overridden by setting the
+redirect functionality.  The default values for the parameters can be overridden by setting the
 corresponding application pod annotation key.
 
 | Annotation Key | Values | Default | Description |
@@ -175,7 +175,19 @@ corresponding application pod annotation key.
 The Istio CNI plugin is run by the container runtime process space. Therefore, the log entries are logged by the
 the `kubelet` process.
 
-## Compatibility with other CNI plugins
+### Compatibility with application init containers
+
+Installing the Istio CNI plugin may cause networking problems for any application `initContainers`, since the plugin
+sets up traffic interception for the pod prior to any init container starting, and Istio's sidecar proxy is not
+started up until all init containers have successfully completed, potentially resulting in traffic loss during the
+execution of the init containers.
+
+This traffic loss can be avoided by setting the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to avoid
+intercepting traffic to any CIDRs the init containers communicate with, and/or the
+`traffic.sidecar.istio.io/excludeOutboundPorts` annotation to avoid intercepting traffic to the specific outbound ports
+the init containers use.
+
+### Compatibility with other CNI plugins
 
 The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current `NET_ADMIN`
 `istio-init` container.
