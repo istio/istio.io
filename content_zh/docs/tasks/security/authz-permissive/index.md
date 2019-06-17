@@ -25,12 +25,6 @@ keywords: [security,access-control,rbac,authorization]
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
-* 为 Bookinfo 应用创建 Service account。运行下列命令，分别为 `productpage` 和 `reviews` 服务创建 Service account：`bookinfo-productpage` 和 `bookinfo-reviews`：
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
-    {{< /text >}}
-
 ### 测试启用全局访问控制的可行性 {#test-enabling-authorization-globally}
 
 下面的步骤展示了如何使用宽容模式的鉴权来测试是否可以安全的启用全局的访问控制：
