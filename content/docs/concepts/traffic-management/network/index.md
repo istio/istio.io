@@ -10,27 +10,27 @@ dynamically at runtime through the [Istio traffic management rules](/docs/concep
 With these features, the service mesh can tolerate failing nodes and Istio can
 prevent localized failures from cascading to other nodes:
 
--  **Timeouts and retries**
+- **Timeouts and retries**
 
     A timeout is the amount of time that Istio waits for a response to a
     request. A retry is an attempt to complete an operation multiple times if
     it fails. You can set defaults and specify request-level overrides for both
     timeouts and retries or for one or the other.
 
--  **Circuit breakers**
+- **Circuit breakers**
 
     Circuit breakers prevent your application from stalling as it waits for an
     upstream service to respond. You can configure a circuit breaker based on a
     number of conditions, such as connection and request limits.
 
--  **Fault injection**
+- **Fault injection**
 
     Fault injection is a testing method that introduces errors into a system to
     ensure that it can withstand and recover from error conditions. You can
     inject faults at the application layer, rather than the network layer, to
     get more relevant results.
 
--  **Fault tolerance**
+- **Fault tolerance**
 
     You can use Istio failure recovery features to complement application-level
     fault tolerance libraries in situations where their behaviors don’t
@@ -106,9 +106,9 @@ Consumers of a service can also override timeout and retry defaults with
 request-level overrides through special HTTP headers. The Envoy proxy
 implementation makes the following headers available:
 
--  Timeouts: `x-envoy-upstream-rq-timeout-ms`
+- Timeouts: `x-envoy-upstream-rq-timeout-ms`
 
--  Retries: `X-envoy-max-retries`
+- Retries: `X-envoy-max-retries`
 
 ## Circuit breakers
 
@@ -164,10 +164,10 @@ restrict the percentage of requests Istio subjects to faults.
 
 You can inject two types of faults:
 
--  **Delays:** Delays are timing failures. They mimic increased network latency
+- **Delays:** Delays are timing failures. They mimic increased network latency
    or an overloaded upstream service.
 
--  **Aborts:** Aborts are crash failures. They mimic failures in upstream
+- **Aborts:** Aborts are crash failures. They mimic failures in upstream
    services. Aborts usually manifest in the form of HTTP error codes or TCP
    connection failures.
 

@@ -23,11 +23,11 @@ service versions.
 You specify explicit routing rules to service subsets. This model allows you
 to:
 
--  Cleanly refer to a specific service version across different [virtual services](/docs/concepts/traffic-management/routing/virtual-services/).
+- Cleanly refer to a specific service version across different [virtual services](/docs/concepts/traffic-management/routing/virtual-services/).
 
--  Simplify the stats that the Istio proxies emit.
+- Simplify the stats that the Istio proxies emit.
 
--  Encode subsets in Server Name Indication (SNI) headers.
+- Encode subsets in Server Name Indication (SNI) headers.
 
 ## Load balancing 3 subsets
 
@@ -80,9 +80,9 @@ divisions and labels, use the `subsets:` section in [destination rules](/docs/co
 For example, you can use subsets to configure the following traffic routing
 scenarios:
 
--  Use subsets to [route traffic to different versions of a service](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset).
+- Use subsets to [route traffic to different versions of a service](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset).
 
--  Use subsets to route traffic to the same service in different environments.
+- Use subsets to route traffic to the same service in different environments.
 
 You use service subsets in the routing rules of [virtual services](/docs/concepts/traffic-management/routing/virtual-services/),
 [gateways](/docs/concepts/traffic-management/routing/gateways/)
