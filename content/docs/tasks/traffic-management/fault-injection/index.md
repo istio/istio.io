@@ -109,11 +109,11 @@ still expect the end-to-end flow to continue without any errors.
 You've found a bug. There are hard-coded timeouts in the microservices that have
 caused the `reviews` service to fail.
 
-The `reviews` service is unaffected by the 7s delay you introduced,
+The 7s delay you introduced doesn't affect the `reviews` service,
 because the timeout between the `reviews` and `ratings` service is hard-coded at 10s.
 However, there is also a hard-coded timeout between the `productpage` and the `reviews` service,
 coded as 3s + 1 retry for 6s total.
-As a result the `productpage` call to `reviews` times out prematurely and throws an error after 6s.
+As a result, the `productpage` call to `reviews` times out prematurely and throws an error after 6s.
 
 Bugs like this can occur in typical enterprise applications where different teams
 develop different microservices independently. Istio's fault injection rules help you identify such anomalies
@@ -138,8 +138,8 @@ so that it is compatible with (less than) the timeout of the downstream `product
 
 If you migrate all traffic to `reviews:v3` as described in the
 [traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task, you can then
-try to change the delay rule to any amount less that 2.5s (e.g., 2s) and confirm
-that the end-to-end flow will continue without any errors.
+try to change the delay rule to any amount less that 2.5s, for example 2s, and confirm
+that the end-to-end flow continues without any errors.
 
 ## Injecting an HTTP abort fault
 
