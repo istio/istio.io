@@ -156,7 +156,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="default with CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
 
 Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) components:
 
@@ -164,7 +164,8 @@ Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) components
 $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
 {{< /text >}}
 
-Enable CNI in Istio with the `--set istio_cni.enabled=true` setting:
+Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
+For example, to configure the **default** profile:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true | kubectl apply -f -
@@ -258,7 +259,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="default with CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
 
 Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) chart:
 
@@ -266,7 +267,8 @@ Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) chart:
 $ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace istio-system
 {{< /text >}}
 
-Enable CNI in Istio with the `--set istio_cni.enabled=true` setting:
+Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
+For example, to configure the **default** profile:
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true

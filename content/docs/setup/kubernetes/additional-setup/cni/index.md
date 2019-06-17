@@ -46,7 +46,7 @@ replaces the functionality provided by the `istio-init` container.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
 1.  Install Istio CNI and Istio using Helm.
-    Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) instructions and the **default with CNI enabled** profile.
+    Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) instructions and the **Istio CNI enabled** profile.
     Pass `--set cniBinDir=...` and/or `--set cniConfDir=...` options when installing `istio-cni` if non-default, as determined in the previous step.
 
     {{< tip >}}
