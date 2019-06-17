@@ -18,7 +18,7 @@ weight: 50
 
 ## `ConnectionPoolSettings`
 
-上游主机的连接池设置。这一设置会应用到上游服务中的每个主机上。可以参考 Envoy 的[断路器文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/circuit_breaking)获取更多信息。这一设置在 TCP 和 HTTP 级别都是有效的。
+上游主机的连接池设置。这一设置会应用到上游服务中的每个主机上。可以参考 Envoy 的[断路器文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking)获取更多信息。这一设置在 TCP 和 HTTP 级别都是有效的。
 
 例如下面的规则为 Redis 服务设置了一个名为 `myredissrv` 的规则，限制连接数上限为 100，连接超时限制为 30 毫秒。
 
@@ -784,7 +784,7 @@ spec:
 
 ## `LoadBalancerSettings`
 
-特定目标的负载均衡策略。阅读 [Envoy 负载均衡文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing)能够获得更多这方面的信息。
+特定目标的负载均衡策略。阅读 [Envoy 负载均衡文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing)能够获得更多这方面的信息。
 
 例如下面的例子中，为所有指向 `ratings` 服务的流量指定了轮询调度算法负载均衡。
 
@@ -852,11 +852,11 @@ spec:
 |`ROUND_ROBIN`|轮询调度策略。缺省。|
 |`LEAST_CONN`|使用一个 O(1) 复杂度的算法：随机选择两个健康主机，从中选择一个较少请求的主机提供服务。|
 |`RANDOM`|随机的负载均衡算法会随机选择一个健康主机。在没有健康检查策略的情况下，随机策略通常会比轮询调度策略更加高效。|
-|`PASSTHROUGH`|这个策略会直接把请求发给客户端要求的地址上。这个选项需要慎重使用。这是一种高级用例。参考 [Envoy 的 Original destination 负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/load_balancing) 一文进一步了解其应用方式。|
+|`PASSTHROUGH`|这个策略会直接把请求发给客户端要求的地址上。这个选项需要慎重使用。这是一种高级用例。参考 [Envoy 的 Original destination 负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing) 一文进一步了解其应用方式。|
 
 ## `OutlierDetection`
 
-熔断器的实现需要对每个上游服务主机进行追踪。对 HTTP 和 TCP 服务都可以生效。对 HTTP 服务来说，如果有主机持续返回 `5xx` 给 API 调用，会被踢出服务池，并持续一个预定义的时间长度；而对于 TCP 服务，到指定主机的连接超时和连接失败都会被记为错误次数，作为持续失败的指标进行统计。参考 Envoy 的 [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier) 可以获取更多信息。
+熔断器的实现需要对每个上游服务主机进行追踪。对 HTTP 和 TCP 服务都可以生效。对 HTTP 服务来说，如果有主机持续返回 `5xx` 给 API 调用，会被踢出服务池，并持续一个预定义的时间长度；而对于 TCP 服务，到指定主机的连接超时和连接失败都会被记为错误次数，作为持续失败的指标进行统计。参考 Envoy 的 [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier) 可以获取更多信息。
 
 下面的规则为 `reviews` 服务设置了一个 100 个 TCP 连接，以及 1000 个 HTTP2 并发请求同时每个连接不能超过 10 请求的连接池。另外其中还配置了每五分钟扫描一次上游服务主机，连续失败 7 次返回 `5xx` 错误码的主机会被移出连接池 15 分钟。
 
