@@ -15,7 +15,7 @@ offer three different options:
 1. TCP request
 1. HTTP request
 
-This task explains how these approaches work when Istio mutual TLS is enabled.
+This task shows how to use these approaches in Istio with mutual TLS is enabled.
 
 Command and TCP type probes work with Istio regardless whether mutual TLS is enabled or not. HTTP request requires different Istio configuration when
 Istio mutual TLS is enabled.
