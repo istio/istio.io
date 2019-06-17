@@ -22,11 +22,11 @@ traffic, so you can keep all private traffic inside a firewall, for example.
 You can use a gateway to configure workload labels for your existing network
 tasks, including:
 
--  Firewall functions
--  Caching
--  Authentication
--  Network address translation
--  IP address management
+- Firewall functions
+- Caching
+- Authentication
+- Network address translation
+- IP address management
 
 Gateways are primarily used to manage ingress traffic, but you can also use a
 gateway to configure an egress gateway. You can use egress gateways to
@@ -108,11 +108,11 @@ HTTPS traffic to the `my-svc` service within the mesh:
 
 For more information:
 
--  Refer to the [gateways reference documentation](/docs/reference/config/networking/v1alpha3/gateway/)
+- Refer to the [gateways reference documentation](/docs/reference/config/networking/v1alpha3/gateway/)
    to review all the enabled keys and values.
 
--  Refer to the [Ingress task topic](/docs/tasks/traffic-management/ingress/) for instructions, including how to configure
+- Refer to the [Ingress task topic](/docs/tasks/traffic-management/ingress/) for instructions, including how to configure
    an Istio gateway for Kubernetes ingress.
 
--  Refer to the [Egress task topic](/docs/tasks/traffic-management/egress/) to learn how to configure egress traffic
+- Refer to the [Egress task topic](/docs/tasks/traffic-management/egress/) to learn how to configure egress traffic
    using a gateway network resource.
