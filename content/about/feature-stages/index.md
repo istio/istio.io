@@ -60,12 +60,11 @@ The `Sidecar` runtime is considered Beta, but it is advertised as Alpha since it
 | [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
-| [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Stable
+| [Distributed Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
 | [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
-| Prometheus Operator | Alpha
 
 ### Security and Policy Enforcement
 
@@ -78,12 +77,14 @@ The `Sidecar` runtime is considered Beta, but it is advertised as Alpha since it
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
-| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Beta
 | [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
+| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
+
+The 'Authorization (RBAC)' runtime is considered Beta, but it is advertised as Alpha since its API is still subject to backward incompatible change.
 
 ### Core
 
