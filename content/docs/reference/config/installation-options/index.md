@@ -137,7 +137,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | --- | --- | --- |
 | `global.hub` | `gcr.io/istio-release` | `Default hub for Istio images. Releases are published to docker hub under 'istio' project. Daily builds from prow are on gcr.io, and nightly builds from circle on docker.io/istionightly` |
 | `global.tag` | `release-1.1-latest-daily` | `Default tag for Istio images.` |
-| `global.imagePullSecrets` | `` | `List of secrets to use when pulling images in the case of a secure registry.` |
+| `global.imagePullSecrets` | `` | `List of secrets to use when pulling Istio images from a secure registry.` |
 | `global.monitoringPort` | `15014` | `monitoring port used by mixer, pilot, galley` |
 | `global.k8sIngress.enabled` | `false` |  |
 | `global.k8sIngress.gatewayName` | `ingressgateway` | `Gateway used for k8s Ingress resources. By default it is using 'istio:ingressgateway' that will be installed by setting 'gateways.enabled' and 'gateways.istio-ingressgateway.enabled' flags to true.` |
