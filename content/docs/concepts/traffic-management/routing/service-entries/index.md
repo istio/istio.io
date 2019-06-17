@@ -11,10 +11,10 @@ service registry, that Istio maintains internally. Once added, the Envoy
 proxies can send traffic to the external service as if it was a service in your
 mesh. You can configure service entries to configure routing rules to:
 
--  Redirect and forward traffic for external destinations, such as APIs
+- Redirect and forward traffic for external destinations, such as APIs
    consumed from the web, or traffic to services in legacy infrastructure.
 
--  Define
+- Define
    [retry](/docs/concepts/traffic-management/network/#timeouts-and-retries),
    [timeout](/docs/concepts/traffic-management/network/#timeouts-and-retries),
    and [fault injection](/docs/concepts/traffic-management/network/#fault-injection)
@@ -31,7 +31,7 @@ want your mesh services to use. By default, Istio configures the Envoy proxies
 to passthrough requests from unknown services. You can also use service entries
 to configure internal infrastructure:
 
--  A **mesh-internal** service entry adds a service running in the mesh, which
+- A **mesh-internal** service entry adds a service running in the mesh, which
    doesn't have a service discovery adapter that would add it to the abstract
    model automatically.
 
@@ -41,7 +41,7 @@ to configure internal infrastructure:
     service entries, but to change the authentication method, you can configure
     a destination rule for the service entry.
 
--  A **mesh-external** service entry adds a service without and Envoy proxy to
+- A **mesh-external** service entry adds a service without and Envoy proxy to
    the mesh. You configure a mesh-external service entry so that a service
    inside the mesh can make API calls to an external server. You can use
    service entries with an egress gateway to ensure all external services are
@@ -56,12 +56,12 @@ to configure internal infrastructure:
 You can use mesh-external service entries to perform the following
 configurations:
 
--  Configure multiple external dependencies with a single service entry.
+- Configure multiple external dependencies with a single service entry.
 
--  Configure the resolution mode for the external dependencies to `NONE`,
+- Configure the resolution mode for the external dependencies to `NONE`,
    `STATIC`, or `DNS`.
 
--  Access secure external services over plain text ports to directly access
+- Access secure external services over plain text ports to directly access
    external dependencies from your application.
 
 ## Add an external dependency securely
