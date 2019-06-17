@@ -29,7 +29,7 @@ mutual TLS enabled.
 
 ## Liveness and readiness probes with command option
 
-In this section, you first configure health checking when mutual TLS is enabled.
+First, you need to configure health checking with mutual TLS enabled.
 
 To enable mutual TLS for services in the default namespace, you must configure an authentication policy and a destination rule.
 Follow these steps to complete the configuration:
