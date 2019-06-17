@@ -8,7 +8,8 @@ aliases:
 keywords: [security,health-check]
 ---
 
-[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)  offers three options for liveness and readiness probes:
+[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)  
+offer three different options:
 
 1. Command
 1. TCP request
