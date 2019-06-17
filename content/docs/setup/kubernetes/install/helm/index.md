@@ -161,7 +161,8 @@ Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the
 For example, to configure the **default** profile:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true | kubectl apply -f -
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set istio_cni.enabled=true | kubectl apply -f -
 {{< /text >}}
 
 {{< /tab >}}

@@ -46,12 +46,14 @@ replaces the functionality provided by the `istio-init` container.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
 1.  Install Istio CNI and Istio using Helm.
-    Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) instructions and the **Istio CNI enabled** profile.
-    Pass `--set cniBinDir=...` and/or `--set cniConfDir=...` options when installing `istio-cni` if non-default, as determined in the previous step.
+    Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) instructions and the
+    **Istio CNI enabled** profile.
+    Pass `--set cniBinDir=...` and/or `--set cniConfDir=...` options when installing `istio-cni` if non-default,
+    as determined in the previous step.
 
 ### Helm chart parameters
 
-The following table indicates all the options supported by the `istio-cni` Helm chart:
+The following table shows all the options that the `istio-cni` Helm chart supports:
 
 | Option | Values | Default | Description |
 |--------|--------|---------|-------------|
@@ -61,16 +63,22 @@ The following table indicates all the options supported by the `istio-cni` Helm 
 | `excludeNamespaces` | `[]string` | `[ istio-system ]` | List of namespaces to exclude from Istio pod check. |
 | `cniBinDir` | | `/opt/cni/bin` | Must be the same as the environment's `--cni-bin-dir` setting (`kubelet` parameter). |
 | `cniConfDir` | | `/etc/cni/net.d` | Must be the same as the environment's `--cni-conf-dir` setting (`kubelet` parameter). |
-| `cniConfFileName` | | None | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
+| `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
 
 ### Excluding specific Kubernetes namespaces
 
-This example configures the Istio CNI plugin via `helm template` to modify the log level and
-ignore pods in the namespaces `istio-system`, `foo_ns`, and `bar_ns`.
+This example uses Helm to perform the following tasks:
+- Install the Istio CNI plugin.
+- Configure its log level.
+- Ignore the pods in the following namespaces:
+    - `istio-system`
+    - `foo_ns`
+    - `bar_ns`
+
 Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) for complete instructions.
 
-Render and apply Istio CNI components and override the default configuration of the `istio-cni` Helm
-chart's `logLevel` and `excludeNamespaces` parameters:
+Use the following command to render and apply Istio CNI components and override the default configuration of the
+`istio-cni` Helm chart's `logLevel` and `excludeNamespaces` parameters:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system \
@@ -80,9 +88,10 @@ $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=i
 
 ### Hosted Kubernetes settings
 
-The Istio CNI solution is not ubiquitous. Some platforms, especially hosted Kubernetes environments, do not enable the CNI plugin in the kubelet configuration.
+The Istio CNI solution is not ubiquitous. Some platforms, especially hosted Kubernetes environments, do not enable the
+CNI plugin in the `kubelet` configuration.
 The `istio-cni` plugin is expected to work with any hosted Kubernetes leveraging CNI plugins.
-The following table indicates the required settings for many common Kubernetes environments.
+The following table shows the required settings for many common Kubernetes environments.
 
 | Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
 |---------------------|--------------------------------------|-------------------------------------|
@@ -98,7 +107,7 @@ The following table indicates the required settings for many common Kubernetes e
     enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster.
 
     {{< warning >}}
-    For existing clusters, this redeploys all the nodes.
+    For existing clusters, this redeploys all nodes.
     {{< /warning >}}
 
 1.  Install Istio CNI via Helm including the `--set cniBinDir=/home/kubernetes/bin` option.
@@ -155,23 +164,23 @@ accompanying Istio proxy sidecar by checking that the pod meets all of the follo
 
 To redirect traffic in the application pod's network namespace to/from the Istio proxy sidecar, the Istio
 CNI plugin configures the namespace's iptables.  The following table describes the parameters to the
-redirect functionality.  The default values for the parameters can be overridden by setting the
-corresponding application pod annotation key.
+redirect functionality.  To override the default values for the parameters, set the corresponding
+application pod annotation key.
 
 | Annotation Key | Values | Default | Description |
 |----------------|--------|---------|-------------|
 | `sidecar.istio.io/interceptionMode`| `REDIRECT`, `TPROXY` | `REDIRECT` | The iptables redirect mode to use. |
-| `traffic.sidecar.istio.io/includeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | `"*"` | Optional comma separated list of IP ranges in CIDR form to redirect to the sidecar proxy.  The default value of `"*"` redirects all traffic. |
-| `traffic.sidecar.istio.io/excludeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | | Optional comma separated list of IP ranges in CIDR form to be excluded from redirection.  Only applies when `includeOutboundIPRanges` is `"*"`. |
+| `traffic.sidecar.istio.io/includeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | `"*"` | Comma separated list of IP ranges in CIDR form to redirect to the sidecar proxy.  The default value of `"*"` redirects all traffic. |
+| `traffic.sidecar.istio.io/excludeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | | Comma separated list of IP ranges in CIDR form to be excluded from redirection.  Only applies when `includeOutboundIPRanges` is `"*"`. |
 | `traffic.sidecar.istio.io/includeInboundPorts` | `<port1>,<port2>,...` | Pod's list of `containerPorts` | Comma separated list of inbound ports for which traffic is to be redirected to the Istio proxy sidecar.  The value of `"*"` redirects all ports. |
 | `traffic.sidecar.istio.io/excludeInboundPorts` | `<port1>,<port2>,...` | | Comma separated list of inbound ports to be excluded from redirection to the Istio sidecar proxy.  Only valid when `includeInboundPorts` is `"*"`. |
 | `traffic.sidecar.istio.io/excludeOutboundPorts` | `<port1>,<port2>,...` | | Comma separated list of outbound ports to be excluded from redirection to Envoy. | 
 | `traffic.sidecar.istio.io/kubevirtInterfaces` | `<ethX>,<ethY>,...` | | Comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound. |
 
-Cluster-wide defaults for these parameters can be set using the corresponding
-[`global.proxy.*` parameters](/docs/reference/config/installation-options/#global-options) when installing the `istio`
-Helm chart.  For instance, to set a default `traffic.sidecar.istio.io/excludeOutboundIPRanges` option for all pods in
-the cluster when installing Istio:
+To set cluster-wide defaults for these parameters, use the corresponding
+[`global.proxy.*` parameters](/docs/reference/config/installation-options/#global-options) when installing Istio via
+the `istio` Helm chart.  For example, you can set a default `traffic.sidecar.istio.io/excludeOutboundIPRanges` option
+for all pods in the cluster using the following command to install Istio:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -180,20 +189,23 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 ### Logging
 
-The Istio CNI plugin is run by the container runtime process space. Therefore, the log entries are logged by the
-the `kubelet` process.
+The Istio CNI plugin runs in the container runtime process space.
+Due to this, the `kubelet` process writes the plugin's log entries into its log.
 
 ### Compatibility with application init containers
 
-The Istio CNI plugin may cause networking problems for any application `initContainers`, since the plugin
-sets up traffic redirection for the pod prior to any init container starting, and Istio's sidecar proxy is not
-started up until all init containers have successfully completed, potentially resulting in traffic loss during the
-execution of the init containers.
+The Istio CNI plugin may cause networking connectivity problems for any application `initContainers`. When using Istio CNI, `kubelet`
+starts an injected pod with the following steps:
+1. The Istio CNI plugin sets up traffic redirection to the Istio sidecar proxy within the pod.
+1. All init containers execute and successfully complete.
+1. The Istio sidecar proxy is started in the pod along with the pod's other containers.
 
-This traffic loss can be avoided by setting the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable
-redirecting traffic to any CIDRs the init containers communicate with, and/or the
-`traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the specific outbound ports
-the init containers use.
+Init containers execute before the sidecar proxy is started, which may result in traffic loss during their execution.
+This traffic loss can be avoided by:
+- setting the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
+  CIDRs the init containers communicate with,
+- and/or setting the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
+  specific outbound ports the init containers use.
 
 ### Compatibility with other CNI plugins
 
