@@ -31,10 +31,10 @@ tasks are a good place to start:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/telemetry/kiali/)
 
-These tasks provide a good basic understanding of Istio's features. Now, you
-can install and customize Istio in many ways depending on your platform and
-intended use. Check out our [general installation instructions](/docs/setup/)
-for details.
+The tasks above provide a good basic understanding of Istio's features but,
+explore more [tasks](/docs/tasks/) depending on what interests you. Before you
+install and customize Istio to fit your platform and intended use, check out
+our [general installation instructions](/docs/setup/) for details.
 
 The next step is to deploy your own applications.
 
