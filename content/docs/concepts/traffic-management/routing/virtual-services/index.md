@@ -17,9 +17,9 @@ complex traffic routing. You can map user-addressable destinations to real
 workloads in the mesh, for example. Or, you can configure more advanced traffic
 routes:
 
--  To specific services or subsets in the mesh.
+- To specific services or subsets in the mesh.
 
--  To other network resources in the mesh.
+- To other network resources in the mesh.
 
 Your mesh can require multiple virtual services or none depending on your use
 case. You can add [gateways](/docs/concepts/traffic-management/routing/gateways/)
@@ -30,7 +30,7 @@ to add external dependencies to the mesh and combine them with virtual services
 to configure the traffic to and from these dependencies. The following diagrams
 show some example virtual service configurations:
 
--  1:1 relationship: Virtual service A configures routing rules for traffic to
+- 1:1 relationship: Virtual service A configures routing rules for traffic to
    reach service X.
 
    {{< image width="40%"
@@ -38,9 +38,9 @@ show some example virtual service configurations:
     caption="1 : 1 relationship"
     >}}
 
--  1:many relationship:
+- 1:many relationship:
 
-    -  Virtual service B configures routing rules for traffic to reach services
+    - Virtual service B configures routing rules for traffic to reach services
       Y and Z.
 
        {{< image width="40%"
@@ -48,7 +48,7 @@ show some example virtual service configurations:
         caption="1 : multiple services"
         >}}
 
-    -  Virtual service C configures routing rules for traffic to reach different
+    - Virtual service C configures routing rules for traffic to reach different
       versions of service W.
 
          {{< image width="40%"
@@ -58,25 +58,25 @@ show some example virtual service configurations:
 
 You can use virtual services to perform the following types of tasks:
 
--  Add [multiple match conditions](/docs/concepts/traffic-management/routing/virtual-services/#multi-match)
+- Add [multiple match conditions](/docs/concepts/traffic-management/routing/virtual-services/#multi-match)
    to a virtual service configuration to eliminate redundant rules.
 
--  Configure each application service version as a
+- Configure each application service version as a
    [subset](/docs/concepts/traffic-management/routing/destination-rules/#service-subsets) and add
    a corresponding [destination
    rule](/docs/concepts/traffic-management/routing/destination-rules/) to
    determine the set of pods or VMs belonging to these subsets.
 
--  Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
+- Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
    for ingress and egress traffic in combination with
    [gateways](/docs/concepts/traffic-management/routing/gateways/).
 
--  Configure [traffic routes](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset)
+- Configure [traffic routes](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset)
    to your application services using DNS names. These DNS names support
    wildcard prefixes or CIDR prefixes to create a single rule for all matching
    services.
 
--  Address one or more application services through a single virtual service.
+- Address one or more application services through a single virtual service.
    If your mesh uses Kubernetes, for example, you can configure a virtual
    service to handle all services in a specific
    [namespace](/docs/concepts/traffic-management/routing/virtual-services/#routing-namespace).
@@ -236,26 +236,23 @@ The first routing rule begins with the `match` field:
    matching the condition. In this case, that traffic is HTTP traffic with the
    username `jason` in the cookie of the request's header.
 
--  `destination` Specifies the route destination for the traffic matching the
-   rule conditions.
+- `destination` Specifies the route destination for the traffic matching the rule conditions.
 
--  `host` Specifies the destination's host, `my-svc`.
+- `host` Specifies the destination's host, `my-svc`.
 
--  `subset` Specifies the destination’s subset for the traffic matching the conditions,
-    `v2` in this case.
+- `subset` Specifies the destination’s subset for the traffic matching the conditions, `v2` in this case.
 
 The configuration of the second routing rule in the example begins with the
 `route` field with a leading `-`. This rule applies to all traffic that doesn't match the
 conditions specified in the first routing rule.
 
--  `route` Specifies where to route all traffic
-   except for HTTP traffic matching the condition of the previous rule.
+- `route` Specifies where to route all traffic except for HTTP traffic matching the condition of the previous rule.
 
--  `destination` Specifies the routing rule's destination.
+- `destination` Specifies the routing rule's destination.
 
--  `host` Specifies the destination's host, `my-svc`.
+- `host` Specifies the destination's host, `my-svc`.
 
--  `subset`  Specifies the destination’s subset, `v1` in this case.
+- `subset`  Specifies the destination’s subset, `v1` in this case.
 
 The following diagram shows the configured traffic routes for the matched traffic and for all other traffic:
 
