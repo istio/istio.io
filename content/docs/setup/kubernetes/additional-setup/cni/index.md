@@ -186,5 +186,5 @@ CNI plugin only performs actions to setup the application pod's traffic redirect
 sidecar (using `iptables` in the pod's network namespace).
 
 {{< warning >}}
-This _should_ have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI's have been validated.
+The Istio CNI plugin should have no effect on the operations performed by the base CNI plugin configuring the pod's networking setup, although not all CNI plugins have been validated.
 {{< /warning >}}
