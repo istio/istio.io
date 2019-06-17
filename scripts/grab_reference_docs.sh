@@ -94,7 +94,7 @@ handle_doc_scraping() {
         REPO_BRANCH=$(echo $repo | cut -d @ -f 2)
         DEST_DIR=${REPO_URL//\//_}
 
-        echo "  INPUT REPO: ${REPO_URL}"
+        echo "  INPUT REPO: ${REPO_URL}@${REPO_BRANCH}"
 
         git clone -q -b ${REPO_BRANCH} ${REPO_URL} ${DEST_DIR}
 
@@ -119,7 +119,7 @@ handle_components() {
         COMP_PATH=$(echo ${comp} | cut -d @ -f 3)
         COMP_NAME=$(echo ${comp} | cut -d @ -f 4)
 
-        echo "  COMPONENT: ${COMP_NAME}"
+        echo "  COMPONENT: ${COMP_NAME} from ${REPO_URL}@${REPO_BRANCH}"
 
         git clone -q -b ${REPO_BRANCH} ${REPO_URL}
 
