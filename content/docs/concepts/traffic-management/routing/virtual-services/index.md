@@ -261,8 +261,6 @@ The following diagram shows the configured traffic routes for the matched traffi
     caption="Configurable traffic route based on the namespace of two application services"
     >}}
 
-Configurable traffic rules for traffic with and without a matched cookie
-
 Routing rules are evaluated in a specific order. For details, refer to
 [Precedence](/docs/concepts/traffic-management/routing/virtual-services/#precedence).
 
