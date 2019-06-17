@@ -339,68 +339,6 @@ the cluster results of the client pod and the listener results of the server pod
   # Check the TLS/JWT/RBAC policy status from a config dump file:
   istioctl experimental auth check -f httpbin_config_dump.txt
 </code></pre>
-<h2 id="istioctl-experimental-auth-upgrade">istioctl experimental auth upgrade</h2>
-<p>Upgrade converts Istio authorization policy from version v1 to v2. It requires access to Kubernetes
-service definition in order to translate the service name specified in the ServiceRole to the corresponding
-workload labels in the AuthorizationPolicy. The service definition could be provided either from the current
-Kubernetes cluster or from a yaml file specified from command line.</p>
-<p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
-</p>
-<pre class="language-bash"><code>istioctl experimental auth upgrade -f &lt;yaml-file&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--file &lt;string&gt;</code></td>
-<td><code>-f</code></td>
-<td>Authorization policy file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--service &lt;stringSlice&gt;</code></td>
-<td><code>-s</code></td>
-<td>Kubernetes Service resource that provides the mapping relationship between service name and pod labels  (default `[]`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-auth-upgrade Examples">Examples</h3>
-<pre class="language-bash"><code>  # Upgrade the Istio authorization policy with service definition from the current k8s cluster:
-  istioctl experimental auth upgrade -f istio-authz-v1-policy.yaml
-
-  # Upgrade the Istio authorization policy with service definition from 2 yaml files specified in the command line:
-  istioctl experimental auth upgrade -f istio-authz-v1-policy.yaml --service svc-a.yaml,svc-b.yaml
-</code></pre>
 <h2 id="istioctl-experimental-convert-ingress">istioctl experimental convert-ingress</h2>
 <p>Converts Ingresses into VirtualService configuration on a best effort basis. The output should be considered a starting point for your Istio configuration and probably require some minor modification. Warnings will be generated where configs cannot be converted perfectly. The input must be a Kubernetes Ingress. The conversion of v1alpha1 Istio rules has been removed from istioctl.</p>
 <pre class="language-bash"><code>istioctl experimental convert-ingress [flags]
@@ -1616,13 +1554,13 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <h3 id="istioctl-verify-install Examples">Examples</h3>
 <pre class="language-bash"><code>
 		# Verify that Istio can be freshly installed
-		istioctl experimental verify-install
+		istioctl verify-install
 		
 		# Verify that the deployment matches the istio-demo profile
-		istioctl experimental verify-install -f istio-demo.yaml
+		istioctl verify-install -f istio-demo.yaml
 		
 		# Verify the deployment matches a custom Istio deployment configuration
-		istioctl experimental verify-install -f $HOME/istio.yaml
+		istioctl verify-install -f $HOME/istio.yaml
 
 </code></pre>
 <h2 id="istioctl-version">istioctl version</h2>
@@ -1769,12 +1707,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
