@@ -49,11 +49,9 @@ replaces the functionality provided by the `istio-init` container.
     Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) instructions and the **Istio CNI enabled** profile.
     Pass `--set cniBinDir=...` and/or `--set cniConfDir=...` options when installing `istio-cni` if non-default, as determined in the previous step.
 
-    {{< tip >}}
-    Refer to [Helm chart parameters](#helm-chart-parameters) below for the full set of `istio-cni` Helm parameters.
-    {{< /tip >}}
-
 ### Helm chart parameters
+
+The following table indicates all the options supported by the `istio-cni` Helm chart:
 
 | Option | Values | Default | Description |
 |--------|--------|---------|-------------|
@@ -72,7 +70,7 @@ ignore pods in the namespaces `istio-system`, `foo_ns`, and `bar_ns`.
 Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) for complete instructions.
 
 Render and apply Istio CNI components and override the default configuration of the `istio-cni` Helm
-    chart's `logLevel` and `excludeNamespaces` parameters:
+chart's `logLevel` and `excludeNamespaces` parameters:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system \
@@ -84,7 +82,7 @@ $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=i
 
 The Istio CNI solution is not ubiquitous. Some platforms, especially hosted Kubernetes environments, do not enable the CNI plugin in the kubelet configuration.
 The `istio-cni` plugin is expected to work with any hosted Kubernetes leveraging CNI plugins.
-The below table indicates the required settings for many common Kubernetes environments.
+The following table indicates the required settings for many common Kubernetes environments.
 
 | Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
 |---------------------|--------------------------------------|-------------------------------------|
@@ -153,7 +151,7 @@ accompanying Istio proxy sidecar by checking that the pod meets all of the follo
 1.  The pod has more than 1 container.
 1.  The pod has no annotation with key `sidecar.istio.io/inject` OR the value of the annotation is `true`.
 
-### Traffic redirection details
+### Traffic redirection parameters
 
 To redirect traffic in the application pod's network namespace to/from the Istio proxy sidecar, the Istio
 CNI plugin configures the namespace's iptables.  The following table describes the parameters to the
@@ -170,6 +168,16 @@ corresponding application pod annotation key.
 | `traffic.sidecar.istio.io/excludeOutboundPorts` | `<port1>,<port2>,...` | | Comma separated list of outbound ports to be excluded from redirection to Envoy. | 
 | `traffic.sidecar.istio.io/kubevirtInterfaces` | `<ethX>,<ethY>,...` | | Comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound. |
 
+Cluster-wide defaults for these parameters can be set using the corresponding
+[`global.proxy.*` parameters](/docs/reference/config/installation-options/#global-options) when installing the `istio`
+Helm chart.  For instance, to set a default `traffic.sidecar.istio.io/excludeOutboundIPRanges` option for all pods in
+the cluster when installing Istio:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set global.proxy.excludeOutboundPorts=53 | kubectl apply -f -
+{{< /text >}}
+
 ### Logging
 
 The Istio CNI plugin is run by the container runtime process space. Therefore, the log entries are logged by the
@@ -178,13 +186,13 @@ the `kubelet` process.
 ### Compatibility with application init containers
 
 Installing the Istio CNI plugin may cause networking problems for any application `initContainers`, since the plugin
-sets up traffic interception for the pod prior to any init container starting, and Istio's sidecar proxy is not
+sets up traffic redirection for the pod prior to any init container starting, and Istio's sidecar proxy is not
 started up until all init containers have successfully completed, potentially resulting in traffic loss during the
 execution of the init containers.
 
-This traffic loss can be avoided by setting the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to avoid
-intercepting traffic to any CIDRs the init containers communicate with, and/or the
-`traffic.sidecar.istio.io/excludeOutboundPorts` annotation to avoid intercepting traffic to the specific outbound ports
+This traffic loss can be avoided by setting the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable
+redirecting traffic to any CIDRs the init containers communicate with, and/or the
+`traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the specific outbound ports
 the init containers use.
 
 ### Compatibility with other CNI plugins
