@@ -14,11 +14,11 @@ For an overview of new features introduced with Istio 1.2, please refer to the [
 
 ## Installation
 
-{{< tip >>}
+{{< tip >}}
 The vast array of Mixer plugins were deprecated in Istio 1.1.  Please move
 to the new configuration model quickly, as the old configuration model has
 been removed in Istio 1.2.0.
-{{< /tip >>}
+{{< /tip >}}
 
 Most Mixer CRDs were removed from the system to simplify the configuration
 model, improve performance of Mixer when used with Kubernetes, and improve
