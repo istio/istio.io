@@ -18,7 +18,7 @@ will eventually need to be distributed and have some of their services running e
 Istio supports many possible topologies for distributing the services of an
 application beyond a single cluster, for example:
 
-* Services within the mesh can use [service entries](/docs/concepts/traffic-management/routing/service-entries/)
+* Services within the mesh can use [service entries](/docs/concepts/traffic-management/#service-entries)
   to access standalone external services or to access services exposed by another loosely-coupled service mesh.
 * You can [expand the service mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/) to include
   services running on VMs or bare metal hosts.
@@ -75,7 +75,7 @@ that can be configured to handle service names of the form `<name>.<namespace>.g
 For example, calls from any cluster to `foo.ns1.global` will resolve to the `foo` service in
 namespace `ns1` of a specific cluster where it is running as determined by the service discovery
 configuration. You configure service discovery of `foo.ns.global` by creating an appropriate
-[service entry](/docs/concepts/traffic-management/routing/service-entries/).
+[service entry](/docs/concepts/traffic-management/#service-entries).
 
 To configure this type of multicluster topology, visit our
 [multiple control planes with gateways instructions](/docs/setup/kubernetes/install/multicluster/gateways/).
