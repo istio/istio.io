@@ -97,7 +97,7 @@ spec:
 In situations where it is inconvenient to define the complete set of route rules or policies for a particular
 host in a single `VirtualService` or `DestinationRule` resource, it may be preferable to incrementally specify
 the configuration for the host in multiple resources.
-Starting in Istio 1.0.1, an experimental feature has been added to merge such destination rules
+Starting with Istio 1.0.1, Pilot will merge such destination rules
 and merge such virtual services if they are bound to a gateway.
 
 Consider the case of a `VirtualService` bound to an ingress gateway exposing an application host which uses
