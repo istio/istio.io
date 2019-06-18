@@ -34,9 +34,10 @@ In order to make release quality and timing predictable, we declared a
 project infrastructure. As a result, we’ve been investing a ton of effort
 in our build, test and release machinery.
 
-We formed 4 teams (GitHub Workflow, Source Organization, Testing Methodology,
-and Build & Release Automation). Each had a set of issues to take on and a
-set of exit criteria. Code Mauve isn’t over yet, in fact we expect it to go
+We formed 3 new teams (GitHub Workflow, Source Organization, Testing
+Methodology, and Build & Release Automation). Each had a set of issues to
+take on and a set of exit criteria. Code Mauve isn’t over yet, in fact we
+expect it to go
 on for some time.   We’re putting in place the infrastructure to measure the
 metrics each team decided on (paraphrasing Peter Drucker: if you can’t
 measure it, you can’t manage it).
@@ -45,17 +46,21 @@ Even as that work has been ongoing, we’ve also been doing work — especially
 in networking — to make sure Istio and Envoy work at scale. See a complete
 list of changes in the [release notes](/about/notes/1.2).
 
+We're seeing early results from the usability group. In the release notes,
+you'll find that you can now set log levels for the control plane and the
+data plane globally.  You can use istioctl to validate that your Kubernetes
+installation meets Istio's requirements. And the new
+'traffic.sidecar.istio.io/includeInboundPorts' annotation to eliminate the
+need for service owner to declare 'containerPort' in the deployment yaml
 Some of the features have matured as well. The following features have
 progressed from Beta status
 to Stable:  SNI at ingress, distributed tracing, and service tracing. The
-following features have reached beta status: Authorization (RBAC), cert
-management on ingress, configuration resource validation, configuration
-processing with Galley.
-
+following features have reached beta status: cert management on ingress,
+configuration resource validation, and configuration processing with Galley.
 We know there are lots of feature requests outstanding, and we have an
-exciting roadmap (watch for a forthcoming post from the TOC on that). The work
-we have done in this release has taken care of some technical debt which will
-help us get those features out reliably in future.
+exciting roadmap (watch for a forthcoming post from the TOC on that). The
+work we have done in this release has taken care of some technical debt which
+will help us get those features out reliably in future.
 
 As always, there is also a lot happening in the [Community
 Meeting](https://github.com/istio/community#community-meeting) (Thursdays at
