@@ -7,11 +7,11 @@ keywords: [security,health-check]
 
 You can enable Citadel's health checking feature
 to detect the failures of the Citadel CSR (Certificate Signing Request) service.
-When a failure is detected, Kubelet will be automatically start the Citadel container.
+When a failure is detected, Kubelet automatically starts the Citadel container.
 
 When the health checking feature is enabled,
-the _prober client_ module in Citadel periodically checks the health status of Citadel's CSR gRPC server,
-by sending CSRs to the gRPC server and verifying the response.
+the **prober client** module in Citadel periodically checks the health status of Citadel's CSR gRPC server,
+sends CSRs to the gRPC server, and verifies the response.
 If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_.
 Otherwise, it does nothing. Citadel relies on a
 [Kubernetes liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
@@ -52,7 +52,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 $ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
-## Verifying the health checking is working
+## Verify that health checking works
 
 Citadel will log the health checking results. Run the following in command line:
 
