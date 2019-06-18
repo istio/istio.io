@@ -43,10 +43,13 @@ Below is our list of existing features and their current phases. This informatio
 | Resilience features: timeouts, retries, connection pools, outlier detection | Stable
 | Gateway: Ingress, Egress for all protocols | Stable
 | TLS termination and SNI Support in Gateways | Stable
+| SNI (multiple certs) at ingress | Stable
+| [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
-| Sidecar API | Alpha
-| SNI (multiple certs) at ingress | Alpha
+| [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) | Alpha
+
+The `Sidecar` runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
 
 ### Telemetry
 
@@ -58,9 +61,9 @@ Below is our list of existing features and their current phases. This informatio
 | [Client and Server Telemetry Reporting](/docs/concepts/policies-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
+| [Distributed Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
+| [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
-| [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Beta
-| [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Beta
 | [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
 
@@ -75,14 +78,14 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
-| [Authentication policy](/docs/concepts/security/#authentication-policies)  | Alpha
+| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
+| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
-| [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
-| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Alpha
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
+
+The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
 
 ### Core
 
@@ -91,7 +94,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
-| [Mixer In-Process Adapter Authoring Model](/blog/2017/adapter-model/)        | Deprecated
 | Mixer Out-of-Process Adapter Authoring Model | Beta
 | [Helm](/docs/setup/kubernetes/install/helm/) | Beta
 | [Multicluster Mesh over VPN](/docs/setup/kubernetes/install/multicluster/) | Alpha
