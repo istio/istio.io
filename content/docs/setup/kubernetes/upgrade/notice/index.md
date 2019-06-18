@@ -34,9 +34,8 @@ The following CRDs remain:
 | `handler` | Specification of extension invocations |
 | `rule` | Specification of extension invocations |
 | `instance` | Specification of extension invocations |
-| --- | --- |
 
 In the event you are using the removed mixer configuration schemas, set
-the following Helm flags during upgrade of the main Helm chart.
+the following Helm flags during upgrade of the main Helm chart:
 
-`--set mixer.templates.useTemplateCRDs=true --set mixer.adapters.useAdapterCRDs=true`
+    `--set mixer.templates.useTemplateCRDs=true --set mixer.adapters.useAdapterCRDs=true`
