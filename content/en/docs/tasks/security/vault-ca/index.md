@@ -102,12 +102,15 @@ certificate signing requests to Vault.
 
 1.  Since the Vault CA requires the authentication and authorization of Kubernetes service accounts,
     you must edit the `vault-citadel-sa` service account to use the example Kubernetes service account
-    that has been configured on the testing Vault CA.
+    that has already been configured on the testing Vault CA for authentication and authorization.
+    Since the testing Vault CA used in this guide has been configured to accept this example Kubernetes service
+    account for the certificate signing requests, you do not need to configure the authentication and authorization.
+    When integrating your Vault server with Istio for issuing certificates, you are responsible to
+    configure your Vault server's authentication and authorization for Kubernetes service accounts.
     To learn more about configuring a Vault CA for Kubernetes authentication and authorization,
     visit the [Vault Kubernetes `auth` method reference documentation](https://www.vaultproject.io/docs/auth/kubernetes.html).
-    The example Kubernetes service account used here has been configured for authentication and authorization
-    on the testing Vault server. The [Appendix](#appendix) includes an example to
-    configure a basic Vault server to authenticate and authorize a Kubernetes service account.
+    A later [section](#configuring-a-basic-vault-server) includes an example to
+    configure a basic Vault server to authenticate and authorize Kubernetes service accounts.
 
     {{< text bash >}}
     $ export SA_SECRET_NAME=$(kubectl get serviceaccount vault-citadel-sa -o=jsonpath='{.secrets[0].name}')
@@ -155,9 +158,9 @@ between workloads using the certificates the Vault CA issued.
 After completing this tutorial, you may delete the testing cluster created
 at the beginning of this tutorial.
 
-## Appendix
+## Configuring a basic Vault server
 
-Vault servers are hosted and managed by their owners. When signing a CSR, Istio Citadel Agent
+The Vault server owners are responsible of hosting and managing the server. When signing a CSR, Istio Citadel Agent
 sends the CSR and a Kubernetes service account to your Vault server,
 which authenticate and authorize the request based on the
 [Vault Kubernetes `auth` method](https://www.vaultproject.io/docs/auth/kubernetes.html) and
