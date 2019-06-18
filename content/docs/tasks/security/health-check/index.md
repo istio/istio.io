@@ -7,7 +7,7 @@ keywords: [security,health-check]
 
 You can enable Citadel's health checking feature
 to detect the failures of the Citadel CSR (Certificate Signing Request) service.
-When a failure is detected, Kubelet automatically starts the Citadel container.
+When a failure is detected, Kubelet automatically restarts the Citadel container.
 
 When the health checking feature is enabled,
 the **prober client** module in Citadel periodically checks the health status of Citadel's CSR gRPC server,
