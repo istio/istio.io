@@ -650,6 +650,58 @@ external service.
     sleep istio-proxy
     {{< /text >}}
 
+1.  Create the same destination rule as for the `sleep` pod in the `default` namespace to direct the traffic through the egress gateway:
+
+    Choose the instructions corresponding to whether or not you have
+    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+
+    {{< tabset cookie-name="mtls" >}}
+
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+
+    {{< text_hack bash >}}
+    $ kubectl apply -n test-egress -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: edition.cnn.com
+    EOF
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+
+    {{< text_hack bash >}}
+    $ kubectl apply -n test-egress -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-cnn
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: cnn
+    EOF
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it should succeed
     since the traffic flows to `istio-egressgateway` in the `istio-system` namespace, which is allowed by the
     Network Policy you defined. `istio-egressgateway` forwards the traffic to `edition.cnn.com`.
@@ -674,6 +726,7 @@ external service.
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+    $ kubectl delete destinationrule egressgateway-for-cnn -n test-egress
     $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
     $ kubectl label namespace kube-system kube-system-
     $ kubectl label namespace istio-system istio-
