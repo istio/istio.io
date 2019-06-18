@@ -10,8 +10,8 @@ to detect the failures of the Citadel CSR (Certificate Signing Request) service.
 When a failure is detected, Kubelet automatically restarts the Citadel container.
 
 When the health checking feature is enabled,
-the **prober client** module in Citadel periodically checks the health status of Citadel's CSR gRPC server,
-sends CSRs to the gRPC server, and verifies the response.
+the **prober client** module in Citadel periodically checks the health status of Citadel's CSR gRPC server.
+It does this by sending CSRs to the gRPC server and verifies the responses.
 If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_.
 Otherwise, it does nothing. Citadel relies on a
 [Kubernetes liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
