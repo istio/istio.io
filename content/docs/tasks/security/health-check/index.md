@@ -7,9 +7,11 @@ keywords: [security,health-check]
 
 You can enable Citadel's health checking feature
 to detect the failures of the Citadel CSR (Certificate Signing Request) service.
-Citadel periodically sends CSRs to its CSR service and verifies the response.
+When a failure is detected, Kubelet automatically restarts the Citadel container.
 
-The _prober client_ module in Citadel periodically checks the health status of Citadel's CSR gRPC server.
+When the health checking feature is enabled,
+the **prober client** module in Citadel periodically checks the health status of Citadel's CSR gRPC server.
+It does this by sending CSRs to the gRPC server and verifies the responses.
 If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_.
 Otherwise, it does nothing. Citadel relies on a
 [Kubernetes liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
@@ -41,13 +43,16 @@ See the [authentication policy task](/docs/tasks/security/authn-policy/) for det
 
 ## Deploying Citadel with health checking
 
-To enable health checking, redeploy Citadel using the configuration in `istio-citadel-with-health-check.yaml`:
+To enable health checking, redeploy Citadel with helm:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+-x charts/security/templates/deployment.yaml \
+--set global.mtls.enabled=true --set security.citadelHealthCheck=true > citadel-health-check.yaml
+$ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
-## Verifying the health checker is working
+## Verify that health checking works
 
 Citadel will log the health checking results. Run the following in command line:
 
@@ -67,7 +72,7 @@ The default health checking interval is 15 seconds and is logged once every 100 
 ## (Optional) Configuring the health checking
 
 This section talks about how to modify the health checking configuration. Open the file
-`install/kubernetes/istio-citadel-with-health-check.yaml`, and locate the following lines.
+`citadel-health-check.yaml`, and locate the following lines.
 
 {{< text plain >}}
 ...
