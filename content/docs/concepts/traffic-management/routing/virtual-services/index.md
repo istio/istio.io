@@ -136,10 +136,19 @@ The following diagram shows the configured rule:
 
 ## Route requests to services in a Kubernetes namespace {#routing-namespace}
 
-The following example shows a virtual service configuration with traffic routes
+When the `host` field of a route destination in a virtual service is specified using
+a short name such as `svc-1`, Istio will expand it into a fully qualified domain name
+by appending a domain suffix based on the namespace of virtual service containing the
+route rule. For example, if the virtual service is defined in namespace `my-namesapce`,
+the suffix `my-namespace.svc.cluster.local` will be appended to the destination to form
+the actual destination: `svc-1.my-namespace.svc.cluster.local`.
+
+This approach is very convenient and commonly used to simplify examples, but can
+easily lead to misconfigurations and is therefore
+[not recommended for production deployments](/docs/reference/config/networking/v1alpha3/virtual-service/#Destination).
+
+The following example shows a virtual service configuration with fully qualified traffic routes
 for two services in the `my-namespace.svc.cluster.local` Kubernetes namespace.
-The configuration relies on the URI prefixes of the two services to distinguish
-them.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -170,6 +179,9 @@ The following diagram shows the configured rule:
     link="./virtual-services-5.svg"
     caption="Configurable traffic route based on the namespace of two application services"
     >}}
+
+Note that this approach is also more flexible in that the two destinations could be
+in different namespaces but could not be when short names are used.
 
 ## Routing rules
 
@@ -286,7 +298,7 @@ spec:
       sourceLabels:
         app: reviews
     route:
-    …
+    ...
 {{< /text >}}
 
 The value of the `sourceLabels` key depends on the implementation of the
