@@ -9,30 +9,30 @@ keywords: [traffic-management, virtual-service, routing-rule, destination-rule, 
 The Istio traffic routing and configuration model relies on the following
 network resources of the Istio API:
 
--  **Virtual services**
+- **Virtual services**
 
     Use a [virtual service](/docs/concepts/traffic-management/routing/virtual-services/)
     to configure an ordered list of routing rules to control how Envoy proxies
     route requests for a service within an Istio service mesh.
 
--  **Destination rules**
+- **Destination rules**
 
     Use [destination rules](/docs/concepts/traffic-management/routing/destination-rules/)
     to configure the policies you want Istio to apply to a request after
     enforcing the routing rules in your virtual service.
 
--  **Gateways**
+- **Gateways**
 
     Use [gateways](/docs/concepts/traffic-management/routing/gateways/)
     to configure how the Envoy proxies load balance HTTP, TCP, or gRPC traffic.
 
--  **Service entries**
+- **Service entries**
 
     Use a [service entry](/docs/concepts/traffic-management/routing/service-entries/)
     to add an entry to Istio's **abstract model** that configures routing rules
     for external dependencies of the mesh.
 
--  **Sidecars**
+- **Sidecars**
 
     Use a [sidecar](/docs/concepts/traffic-management/routing/sidecars/)
     to configure the scope of the Envoy proxies to enable certain features,
@@ -41,16 +41,16 @@ network resources of the Istio API:
 You configure these features using the Istio Networking API to configure
 fine-grained traffic control for a range of use cases:
 
--  Configure ingress traffic, enforce traffic policing, perform a traffic
+- Configure ingress traffic, enforce traffic policing, perform a traffic
    rewrite.
 
--  Set up load balancers and define [service subsets](/docs/concepts/traffic-management/routing/destination-rules//#service-subsets)
+- Set up load balancers and define [service subsets](/docs/concepts/traffic-management/routing/destination-rules/#service-subsets)
    as destinations in the mesh.
 
--  Set up canary rollouts, circuit breakers, timeouts, and retries to test
+- Set up canary rollouts, circuit breakers, timeouts, and retries to test
    network resilience.
 
--  Configure TLS settings and outlier detection.
+- Configure TLS settings and outlier detection.
 
 The next section walks through some common use cases and describes how Istio
 supports them. Following sections describe each of the network resources in

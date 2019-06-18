@@ -17,9 +17,9 @@ complex traffic routing. You can map user-addressable destinations to real
 workloads in the mesh, for example. Or, you can configure more advanced traffic
 routes:
 
--  To specific services or subsets in the mesh.
+- To specific services or subsets in the mesh.
 
--  To other network resources in the mesh.
+- To other network resources in the mesh.
 
 Your mesh can require multiple virtual services or none depending on your use
 case. You can add [gateways](/docs/concepts/traffic-management/routing/gateways/)
@@ -30,7 +30,7 @@ to add external dependencies to the mesh and combine them with virtual services
 to configure the traffic to and from these dependencies. The following diagrams
 show some example virtual service configurations:
 
--  1:1 relationship: Virtual service A configures routing rules for traffic to
+- 1:1 relationship: Virtual service A configures routing rules for traffic to
    reach service X.
 
    {{< image width="40%"
@@ -38,9 +38,9 @@ show some example virtual service configurations:
     caption="1 : 1 relationship"
     >}}
 
--  1:many relationship:
+- 1:many relationship:
 
-    -  Virtual service B configures routing rules for traffic to reach services
+    - Virtual service B configures routing rules for traffic to reach services
       Y and Z.
 
        {{< image width="40%"
@@ -48,7 +48,7 @@ show some example virtual service configurations:
         caption="1 : multiple services"
         >}}
 
-    -  Virtual service C configures routing rules for traffic to reach different
+    - Virtual service C configures routing rules for traffic to reach different
       versions of service W.
 
          {{< image width="40%"
@@ -58,25 +58,25 @@ show some example virtual service configurations:
 
 You can use virtual services to perform the following types of tasks:
 
--  Add [multiple match conditions](/docs/concepts/traffic-management/routing/virtual-services/#multi-match)
+- Add [multiple match conditions](/docs/concepts/traffic-management/routing/virtual-services/#multi-match)
    to a virtual service configuration to eliminate redundant rules.
 
--  Configure each application service version as a
+- Configure each application service version as a
    [subset](/docs/concepts/traffic-management/routing/destination-rules/#service-subsets) and add
    a corresponding [destination
    rule](/docs/concepts/traffic-management/routing/destination-rules/) to
    determine the set of pods or VMs belonging to these subsets.
 
--  Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
+- Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
    for ingress and egress traffic in combination with
    [gateways](/docs/concepts/traffic-management/routing/gateways/).
 
--  Configure [traffic routes](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset)
+- Configure [traffic routes](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset)
    to your application services using DNS names. These DNS names support
    wildcard prefixes or CIDR prefixes to create a single rule for all matching
    services.
 
--  Address one or more application services through a single virtual service.
+- Address one or more application services through a single virtual service.
    If your mesh uses Kubernetes, for example, you can configure a virtual
    service to handle all services in a specific
    [namespace](/docs/concepts/traffic-management/routing/virtual-services/#routing-namespace).
@@ -93,7 +93,7 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    - *.my-co.org
+    - "*.my-co.org"
     http:
       - route:
         - destination:
@@ -101,7 +101,7 @@ spec:
             subset: v1
 {{< /text >}}
 
-In the example, note that under `spec,` which lists the specifications of the
+In the example, note that under `spec`, which lists the specifications of the
 network resource, `hosts` lists the virtual service's hosts. In this case, the
 hosts are `*.my-co.org`, where `*` is a wildcard prefix indicating that this
 virtual service handles routing for any DNS name ending with `.my-co.org`.
@@ -111,7 +111,7 @@ mesh service name as long as the name resolves, implicitly or explicitly, to
 one or more fully qualified domain names (FQDN). To specify multiple hosts, you
 can use wildcards.
 
-Also, note that under `route:`, which specifies the routing rule's
+Also, note that under `route`, which specifies the routing rule's
 configuration, and `destination:`, which specifies the routing rule's
 destination, `host: my-svc` specifies the destination's host. If you are
 running on Kubernetes, then `my-svc` is the name of a Kubernetes service.
@@ -189,11 +189,11 @@ To learn more about the actions available, visit the [virtual service reference 
 
 ### Routing rule for HTTP traffic
 
-The following example shows a virtual service that specifies a specific routing
-rule for HTTP traffic in the `http:` section. The rule includes a `match:`
+The following example shows a virtual service that specifies
+two HTTP traffic routing rules. The first rule includes a `match`
 condition with a regular expression to check if the username "jason" is in the
-request's cookie. If the request matches this condition, the routing rule sends
-traffic to the `v2` subset of the `my-svc` service. Otherwise, the routing rule
+request's cookie. If the request matches this condition, the rule sends
+traffic to the `v2` subset of the `my-svc` service. Otherwise, the second rule
 sends traffic to the `v1` subset of the `my-svc` service.
 
 {{< text yaml >}}
@@ -203,7 +203,7 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    -*
+    - "*"
  http:
  - match:
    - headers:
@@ -219,43 +219,40 @@ spec:
        subset: v1
 {{< /text >}}
 
-In the preceding example, there are two routing rules. The configuration of the
-first routing rule in the virtual service begins with the `http:` field:
+In the preceding example, there are two routing rules in the `http` section,
+indicated by a leading `-` in front of the first field of each rule.
 
--  `http:` Specifies the type of traffic that follows the the routing rule. In
-   this case, the routing rule applies to HTTP traffic.
+The first routing rule begins with the `match` field:
 
--  `- match:` Lists the routing rule's matching conditions.
+- `match` Lists the routing rule's matching conditions.
 
--  `- headers:` Specifies to look for a match in the header of the request.
+- `headers` Specifies to look for a match in the header of the request.
 
--  `cookie:` Specifies to look for a match in the header's cookie.
+- `cookie` Specifies to look for a match in the header's cookie.
 
--  `regex:` Specifies the regular expression used to determine a match.
+- `regex` Specifies the regular expression used to determine a match.
 
--  `route:` Specifies the routing rule's configurations for the traffic
+- `route` Specifies where to route the traffic
    matching the condition. In this case, that traffic is HTTP traffic with the
    username `jason` in the cookie of the request's header.
 
--  `- destination:` Specifies the destination for the traffic matching the
-   conditions.
+- `destination` Specifies the route destination for the traffic matching the rule conditions.
 
--  `host: my-svc` Specifies the destination's host.
+- `host` Specifies the destination's host, `my-svc`.
 
--  `subset: v2` Specifies the destination’s subset for the traffic matching the conditions.
+- `subset` Specifies the destination’s subset for the traffic matching the conditions, `v2` in this case.
 
-The configuration of the second routing rule in the example begins with the `-
-route:` field. This rule applies to all traffic that doesn't match the
+The configuration of the second routing rule in the example begins with the
+`route` field with a leading `-`. This rule applies to all traffic that doesn't match the
 conditions specified in the first routing rule.
 
--  `- route:` Specifies the routing rule's configurations for all traffic
-   except for HTTP traffic matching the condition of the previous rule.
+- `route` Specifies where to route all traffic except for HTTP traffic matching the condition of the previous rule.
 
--  `- destination:` Specifies the routing rule's destination.
+- `destination` Specifies the routing rule's destination.
 
--  `host: my-svc` Specifies the destination's host.
+- `host` Specifies the destination's host, `my-svc`.
 
--  `subset: v1`  Specifies the destination’s subset.
+- `subset`  Specifies the destination’s subset, `v1` in this case.
 
 The following diagram shows the configured traffic routes for the matched traffic and for all other traffic:
 
@@ -263,8 +260,6 @@ The following diagram shows the configured traffic routes for the matched traffi
     link="./virtual-services-6.svg"
     caption="Configurable traffic route based on the namespace of two application services"
     >}}
-
-Configurable traffic rules for traffic with and without a matched cookie
 
 Routing rules are evaluated in a specific order. For details, refer to
 [Precedence](/docs/concepts/traffic-management/routing/virtual-services/#precedence).
@@ -294,7 +289,7 @@ spec:
     …
 {{< /text >}}
 
-The value of the `sourceLabels:` key depends on the implementation of the
+The value of the `sourceLabels` key depends on the implementation of the
 service. In Kubernetes, the value corresponds to the same labels you use in the
 pod selector of the corresponding Kubernetes service.
 
@@ -322,7 +317,7 @@ spec:
 
 You can also base conditions on HTTP headers. The following configuration sets
 up a rule that only applies to an incoming request that includes a custom
-`end-user:` header containing the exact `jason` string:
+`end-user` header containing the exact `jason` string:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -374,7 +369,7 @@ single section of `match.`
 
 For example, the following rule applies only to requests that come from an
 instance of the `reviews` service in the `v2` subset AND only if the requests
-include the custom `end-user:` header that contains the exact `jason` string:
+include the custom `end-user` header that contains the exact `jason` string:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

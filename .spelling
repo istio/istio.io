@@ -19,7 +19,9 @@
 1qps
 22.99
 24.13
+2s
 2x
+2.5s
 3.99ms
 3s
 404s
@@ -261,6 +263,7 @@ jason
 Jog
 json
 JSON-formatted
+jwcrypto
 JWT
 jwt.io
 JWTs
