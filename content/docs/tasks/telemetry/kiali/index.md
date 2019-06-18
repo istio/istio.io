@@ -141,7 +141,7 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
     {{< image width="75%" link="./kiali-overview.png" caption="Example Overview" >}}
 
 1.  To view a namespace graph, click on the `bookinfo` graph icon in the Bookinfo namespace card. The graph icon is in the lower left of 
-    the namespace card and looks a connected group of circles.
+    the namespace card and looks like a connected group of circles.
     The page looks similar to:
 
     {{< image width="75%" link="./kiali-graph.png" caption="Example Graph" >}}
