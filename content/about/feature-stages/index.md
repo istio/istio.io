@@ -105,7 +105,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
 | [Istio CNI plugin](/docs/setup/kubernetes/additional-setup/cni/) | Alpha
-| IPV6 support for Kubernetes) | Alpha
+| IPv6 support for Kubernetes) | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
