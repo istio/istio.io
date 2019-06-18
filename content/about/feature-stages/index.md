@@ -62,7 +62,6 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Distributed Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
-| [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
