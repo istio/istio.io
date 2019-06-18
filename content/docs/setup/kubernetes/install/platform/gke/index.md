@@ -10,8 +10,7 @@ aliases:
 ---
 
 Follow this flow to install and configure an Istio mesh Istio in the
-[Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE)
-using [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview).
+[Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE).
 
 ## Prerequisites
 
@@ -46,12 +45,7 @@ Then add the `Kubernetes Engine Admin` role:
 
 ## Setup using Istio on GKE
 
-Refer to the [Istio on GKE documentation](https://cloud.google.com/istio/docs/istio-on-gke/overview) for instructions on creating a cluster with Istio installed.
 
-Once the cluster is ready, acquire its credentials:
-
-{{< text bash >}}
-$ gcloud container clusters get-credentials <your_cluster> --zone=<your_zone>
-{{< /text >}}
+Refer to [Installing Istio on GKE](https://cloud.google.com/kubernetes-engine/docs/tutorials/installing-istio) for instructions on creating a cluster with Istio installed.
 
 You can now try out one of the Istio examples like [Bookinfo](/docs/examples/bookinfo/).
