@@ -60,7 +60,7 @@ spec:
 {{< /text >}}
 
 As shown above, you can specify multiple policies in a single destination rule.
-In this example, the default policy is defined above the `subsets:` field. The
+In this example, the default policy is defined above the `subsets` field. The
 `v2` specific policy is defined in the corresponding subset's field. The
 following diagram shows how the different configurations in the
 `my-destination-rule` destination rule and in the routing rules in `my-vtl-svc`
@@ -71,12 +71,12 @@ virtual service would apply to the traffic to and from the `my-svc` service:
     caption="Configurable route examples defined in the destination rule"
     >}}
 
-Visit our [destination rules reference documentation](/docs/reference/config/networking/v1alpha3/destination-rule) to review all the enabled keys and values.
+Visit our [destination rules reference documentation](/docs/reference/config/networking/v1alpha3/destination-rule/) to review all the enabled keys and values.
 
 ## Service subsets
 
 Service subsets subdivide and label the instances of a service. To define the
-divisions and labels, use the `subsets:` section in [destination rules](/docs/concepts/traffic-management/routing/destination-rules/).
+divisions and labels, use the `subsets` section in [destination rules](/docs/reference/config/networking/v1alpha3/destination-rule/).
 For example, you can use subsets to configure the following traffic routing
 scenarios:
 
@@ -98,4 +98,4 @@ the following common use cases:
 - [Splitting traffic between versions for A/B testing](/docs/concepts/traffic-management/routing/#splitting)
 
 To learn how you can use service subsets to configure failure handling use
-cases, visit our [Network resilience and testing concept](/docs/concepts/traffic-management/network).
+cases, visit our [Network resilience and testing concept](/docs/concepts/traffic-management/network/).
