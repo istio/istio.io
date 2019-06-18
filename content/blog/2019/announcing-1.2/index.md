@@ -52,7 +52,6 @@ following features have reached beta status: Authorization (RBAC), cert
 management on ingress, configuration resource validation, configuration
 processing with Galley.
 
-
 We know there are lots of feature requests outstanding, and we have an
 exciting roadmap (watch for a forthcoming post from the TOC on that). The work
 we have done in this release has taken care of some technical debt which will
