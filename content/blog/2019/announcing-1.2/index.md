@@ -11,23 +11,15 @@ We are pleased to announce the release of Istio 1.2!
 
 {{< relnote linktonote="true" >}}
 
-In order to get features in the hands of our customers and users as soon as
-possible, most of the new features from the last three months have been
-delivered in 1.1.x releases.  1.2 focuses on improving the stability of
-these new features, and improving general product health.
+The theme of 1.2 is Predictable Releases - predictable in quality (we want
+every release to be a good release) as well as in time (we want to be able
+to ship on well known schedules).
 
 As nearly anyone using Istio 1.0 noticed, it took us a long time to get 1.1
 out. Far too long. One of the reasons was that we needed to do some work on
 our testing and infrastructure -- it was simply far too manual a process to
-build, test and release.
-
-While the [patch releases](/about/notes) for 1.1 have been coming fast and
-furious, we’ve
-also been making some changes to the project itself.
-
-The theme of 1.2 is Predictable Releases - predictable in quality (we want
-every release to be a good release) as well as in time (we want to be able
-to ship on well known schedules).
+build, test and release. Because of that, 1.2 focuses on improving the
+stability of these new features, and improving general product health.
 
 In order to make release quality and timing predictable, we declared a
 "Code Mauve",  meaning that we would spend the next iteration focusing on
@@ -42,16 +34,22 @@ on for some time.   We’re putting in place the infrastructure to measure the
 metrics each team decided on (paraphrasing Peter Drucker: if you can’t
 measure it, you can’t manage it).
 
-Even as that work has been ongoing, we’ve also been doing work — especially
-in networking — to make sure Istio and Envoy work at scale. See a complete
+You might have noticed that the [patch releases](/about/notes) for 1.1 have
+been coming fast and furious. 
+
+In order to get features in the hands of our customers and users as soon as
+possible, most of the new features from the last three months have been
+delivered in 1.1.x releases. With 1.2, those features are now officially
+part of the release.  See a complete
 list of changes in the [release notes](/about/notes/1.2).
 
 We're seeing early results from the usability group. In the release notes,
 you'll find that you can now set log levels for the control plane and the
-data plane globally.  You can use istioctl to validate that your Kubernetes
+data plane globally.  You can use `istioctl` to validate that your Kubernetes
 installation meets Istio's requirements. And the new
-'traffic.sidecar.istio.io/includeInboundPorts' annotation to eliminate the
-need for service owner to declare 'containerPort' in the deployment yaml
+`traffic.sidecar.istio.io/includeInboundPorts` annotation to eliminate the
+need for service owner to declare `containerPort` in the deployment yaml.
+
 Some of the features have matured as well. The following features have
 progressed from Beta status
 to Stable:  SNI at ingress, distributed tracing, and service tracing. The
