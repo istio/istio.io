@@ -8,7 +8,7 @@ aliases:
 keywords: [security,health-check]
 ---
 
-[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)  
+[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
 offer three different options:
 
 1. Command
@@ -96,7 +96,7 @@ request to application, and strips the response body only returning the response
 
 You have two ways to enable Istio to rewrite the liveness HTTP probes.
 
-#### Enable via Helm Option
+#### Enable via Helm Option Globally
 
 [Install Istio](/docs/setup/kubernetes/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`
 [Helm installation option](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
@@ -120,6 +120,33 @@ The configuration changes above (by Helm or by the configuration map) effect all
 <!-- Add samples YAML or kubectl patch? -->
 
 Rather than install Istio with different Helm option, you can annotate Pod with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: liveness-http
+spec:
+  template:
+    metadata:
+      labels:
+        app: liveness-http
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      containers:
+      - name: liveness-http
+        image: docker.io/istio/health:example
+        ports:
+        - containerPort: 8001
+        livenessProbe:
+          httpGet:
+            path: /foo
+            port: 8001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+```
 
 This approach allows you to enable the health check prober rewrite gradually on each deployment without reinstalling Istio.
 
