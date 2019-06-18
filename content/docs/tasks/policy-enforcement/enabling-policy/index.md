@@ -24,7 +24,7 @@ which enables policy checks by default.
     disablePolicyChecks: true
     {{< /text >}}
 
-    If policy enforcement is enabled, no further action is needed.
+    If policy enforcement is enabled (`disablePolicyChecks` is false), no further action is needed.
 
 1. Edit the `istio` configmap to enable policy checks.
 
