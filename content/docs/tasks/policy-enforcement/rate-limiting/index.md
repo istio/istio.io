@@ -170,10 +170,15 @@ In a realistic scenario you may use a `jwt` token for this purpose.
 
 You can update the `quota rule` by adding a match condition based on the `cookie`.
 
-{{< text yaml >}}
+{{< text bash >}}
 $ kubectl -n istio-system edit rules quota
+{{< /text >}}
+
+{{< text yaml >}}
 ...
+spec:
   match: match(request.headers["cookie"], "session=*") == false
+  actions:
 ...
 {{< /text >}}
 
