@@ -48,7 +48,7 @@ Below is our list of existing features and their current phases. This informatio
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) | Alpha
 
-The `Sidecar` runtime is considered Beta, but it is advertised as Alpha since its API is still subject to backward incompatible change.
+The `Sidecar` runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
 
 ### Telemetry
 
@@ -84,7 +84,7 @@ The `Sidecar` runtime is considered Beta, but it is advertised as Alpha since it
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
-The 'Authorization (RBAC)' runtime is considered Beta, but it is advertised as Alpha since its API is still subject to backward incompatible change.
+The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
 
 ### Core
 
