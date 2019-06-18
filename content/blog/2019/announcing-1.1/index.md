@@ -23,9 +23,9 @@ adopt Istio they hit some limits.
 One of our prime areas of focus has been [performance and scalability](/docs/concepts/performance-and-scalability/).
 As people moved into production with larger clusters running more services at
 higher volume, they hit some scaling and performance issues. The
-[sidecars](/docs/concepts/traffic-management/routing/sidecars/) took too many resources
+[sidecars](/docs/concepts/traffic-management/#sidecars) took too many resources
 and added too much latency. The control plane (especially
-[Pilot](/docs/concepts/traffic-management/overview/#pilot)) was overly
+[Pilot](/docs/concepts/traffic-management/#pilot-and-envoy)) was overly
 resource hungry.
 
 We’ve done a lot of work to make both the data plane and the control plane more

@@ -134,6 +134,7 @@ CRD
 CRDs
 CSRs
 Ctrl
+Customizable
 CVE
 CVEs
 D3.js
@@ -252,6 +253,7 @@ IPs
 iptables
 iptables
 IPv4
+IPv6
 Istio
 istio.io
 istio.io.
@@ -259,6 +261,7 @@ Istiofied
 IstioMesh
 istio-mixer
 istio-system
+iter8
 jason
 Jog
 json
