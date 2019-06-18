@@ -44,7 +44,7 @@ fine-grained traffic control for a range of use cases:
 - Configure ingress traffic, enforce traffic policing, perform a traffic
    rewrite.
 
-- Set up load balancers and define [service subsets](/docs/concepts/traffic-management/routing/destination-rules//#service-subsets)
+- Set up load balancers and define [service subsets](/docs/concepts/traffic-management/routing/destination-rules/#service-subsets)
    as destinations in the mesh.
 
 - Set up canary rollouts, circuit breakers, timeouts, and retries to test
