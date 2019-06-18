@@ -79,10 +79,11 @@ instead of TLS encrypted requests. Thus, the requests conflict with the server p
 encrypted requests.
 
 To confirm there is a conflict, check whether the `STATUS` field in the output of the `istioctl authn tls-check` command
-is set to `CONFLICT` for your service. For example:
+is set to `CONFLICT` for your service. For example, a command similar to the following could be used to check
+for a conflict with the `httpbin` service:
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ istioctl authn tls-check istio-ingressgateway-db454d49b-lmtg8.istio-system httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
 {{< /text >}}
