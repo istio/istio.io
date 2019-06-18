@@ -10,6 +10,14 @@ aliases:
 icon: helm
 ---
 
+<script id="cni" defer>
+window.onload = function(){
+  if (window.location.hash == '#cni') {
+    selectTabsets('helm_profile', 'cni');
+  }
+}
+</script>
+
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
 
 This installation guide uses [Helm](https://github.com/helm/helm) charts that provide rich
@@ -32,13 +40,6 @@ and then further customize the configuration for your specific needs.
 1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
-
-{{< tip >}}
-These instructions assume the `istio-init` container will be used to setup `iptables` to redirect network traffic
-to/from Envoy sidecars. If you plan to customize the configuration to use `--set istio_cni.enabled=true`, you also
-need to ensure that a CNI plugin is deployed. Refer to [CNI Setup](/docs/setup/kubernetes/additional-setup/cni/)
-for details.
-{{< /tip >}}
 
 ## Helm chart release repositories
 
@@ -148,6 +149,24 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
+{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+
+Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) components:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
+{{< /text >}}
+
+Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
+For example, to configure the **default** profile:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set istio_cni.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< /tabset >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -230,6 +249,23 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+
+Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) chart:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace istio-system
+{{< /text >}}
+
+Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
+For example, to configure the **default** profile:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true
 {{< /text >}}
 
 {{< /tab >}}
