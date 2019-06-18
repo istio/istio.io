@@ -34,7 +34,7 @@ Whether we use one deployment or two, canary management using deployment feature
 
 With Istio, traffic routing and replica deployment are two completely independent functions. The number of pods implementing services are free to scale up and down based on traffic load, completely orthogonal to the control of version traffic routing. This makes managing a canary version in the presence of autoscaling a much simpler problem. Autoscalers may, in fact, respond to load variations resulting from traffic routing changes, but they are nevertheless functioning independently and no differently than when loads change for other reasons.
 
-Istio’s [routing rules](/docs/concepts/traffic-management/routing/virtual-services/#routing-rules) also provide other important advantages; you can easily control
+Istio’s [routing rules](/docs/concepts/traffic-management/#rule-configuration) also provide other important advantages; you can easily control
 fine-grained traffic percentages (e.g., route 1% of traffic without requiring 100 pods) and you can control traffic using other criteria (e.g., route traffic for specific users to the canary version). To illustrate, let’s look at deploying the **helloworld** service and see how simple the problem becomes.
 
 We begin by defining the **helloworld** Service, just like any other Kubernetes service, something like this:
