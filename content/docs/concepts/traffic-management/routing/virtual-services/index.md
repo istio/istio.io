@@ -136,19 +136,21 @@ The following diagram shows the configured rule:
 
 ## Route requests to services in a Kubernetes namespace {#routing-namespace}
 
-When the `host` field of a route destination in a virtual service is specified using
-a short name such as `svc-1`, Istio will expand it into a fully qualified domain name
-by appending a domain suffix based on the namespace of virtual service containing the
-route rule. For example, if the virtual service is defined in namespace `my-namesapce`,
-the suffix `my-namespace.svc.cluster.local` will be appended to the destination to form
+When you specify the `host` field for the destination of a route in a virtual service
+using a short name like `svc-1`, Istio expands the short name into a fully qualified domain name.
+To perform the expansion, Istio adds a domain suffix based on the namespace of the virtual service that
+contains the routing rule. For example, if the virtual service is defined in the `my-namespace` namespace,
+Istio adds the `my-namespace.svc.cluster.local` suffix to the abbreviated destination resulting in
 the actual destination: `svc-1.my-namespace.svc.cluster.local`.
 
-This approach is very convenient and commonly used to simplify examples, but can
-easily lead to misconfigurations and is therefore
-[not recommended for production deployments](/docs/reference/config/networking/v1alpha3/virtual-service/#Destination).
+While this approach is very convenient and commonly used to simplify examples, it can
+easily lead to misconfigurations. Therefore we do
+[not recommend it for production deployments](/docs/reference/config/networking/v1alpha3/virtual-service/#Destination).
 
 The following example shows a virtual service configuration with fully qualified traffic routes
 for two services in the `my-namespace.svc.cluster.local` Kubernetes namespace.
+The configuration relies on the URI prefixes of the two services to distinguish
+them.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -180,8 +182,9 @@ The following diagram shows the configured rule:
     caption="Configurable traffic route based on the namespace of two application services"
     >}}
 
-Note that this approach is also more flexible in that the two destinations could be
-in different namespaces but could not be when short names are used.
+Using fully qualified hosts in the routing rules also provides more flexibility.
+If you use short names, the destinations must be in the same namespace as the virtual service.
+If you use fully qualified domain names, the destinations can be in any namespace.
 
 ## Routing rules
 
