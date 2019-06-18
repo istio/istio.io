@@ -139,7 +139,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 #### Determining the ingress IP and port
 
 Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
-Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/routing/gateways/)
+Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
 is used for this purpose.
 
 1.  Define the ingress gateway for the application:
@@ -219,7 +219,7 @@ version routing.
 ## Apply default destination rules
 
 Before you can use Istio to control the Bookinfo version routing, you need to define the available
-versions, called *subsets*, in [destination rules](/docs/concepts/traffic-management/routing/destination-rules/).
+versions, called *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 Run the following command to create default destination rules for the Bookinfo services:
 
