@@ -50,9 +50,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Use Helm to create the Istio deployment YAML for `cluster1`:
 
     {{< warning >}}
-    If you're not sure if your `helm` dependencies are up to date, update them using the
-    command shown in [Helm installation steps](/docs/setup/kubernetes/install/helm/#installation-steps)
-    before running the following command.
+    When you enable the additional components necessary for multicluster operation, the resource footprint
+    of the Istio control plane may increase beyond the capacity of the default Kubernetes cluster you created when
+    completing the [Platform setup](/docs/setup/kubernetes/platform-setup/) steps.
+    If the Istio services aren't getting scheduled due to insufficient CPU or memory, consider
+    adding more nodes to your cluster or upgrading to larger memory instances as necessary.
     {{< /warning >}}
 
     {{< text bash >}}
