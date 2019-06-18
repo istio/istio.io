@@ -12,7 +12,7 @@ familiar with the use and operation of Istio 1.1.
 
 For an overview of new features introduced with Istio 1.2, please refer to the [1.2 release notes](/about/notes/1.2/).
 
-## Installation
+## Installation and Upgrade
 
 {{< tip >}}
 The vast array of Mixer plugins were deprecated in Istio 1.1.  Please move
@@ -39,3 +39,14 @@ In the event you are using the removed mixer configuration schemas, set
 the following Helm flags during upgrade of the main Helm chart:
 
     `--set mixer.templates.useTemplateCRDs=true --set mixer.adapters.useAdapterCRDs=true`
+
+## Security
+
+{{< tip >}}
+Istio 1.0's `RbacConfig` was deprecated in 1.1.  It has been replaced with a
+new custom resource `ClusterRbacConfig`
+{{< /tip >}}
+
+- In Istio 1.2 the `RbacConfig` custom resource is replaced by the `ClusterRbacConfig`
+  custom resource. Refer to [Migrating `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig)
+  for migration instructions if you're currently using `RbacConfig`.
