@@ -43,8 +43,8 @@ the following Helm flags during upgrade of the main Helm chart:
 ## Security
 
 {{< tip >}}
-Istio 1.0's `RbacConfig` was deprecated in 1.1.  It has been replaced with a
-new custom resource `ClusterRbacConfig`
+Istio 1.0's `RbacConfig` was deprecated in Istio 1.1.  It has been replaced
+with a new custom resource `ClusterRbacConfig` in Istio 1.2.0.
 {{< /tip >}}
 
 - In Istio 1.2 the `RbacConfig` custom resource is replaced by the `ClusterRbacConfig`
