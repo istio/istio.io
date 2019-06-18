@@ -68,12 +68,13 @@ The following table shows all the options that the `istio-cni` Helm chart suppor
 ### Excluding specific Kubernetes namespaces
 
 This example uses Helm to perform the following tasks:
-- Install the Istio CNI plugin.
-- Configure its log level.
-- Ignore the pods in the following namespaces:
-    - `istio-system`
-    - `foo_ns`
-    - `bar_ns`
+
+* Install the Istio CNI plugin.
+* Configure its log level.
+* Ignore the pods in the following namespaces:
+    * `istio-system`
+    * `foo_ns`
+    * `bar_ns`
 
 Refer to the [Customizable Install with Helm](/docs/setup/kubernetes/install/helm/#cni) for complete instructions.
 
@@ -186,15 +187,17 @@ Due to this, the `kubelet` process writes the plugin's log entries into its log.
 
 The Istio CNI plugin may cause networking connectivity problems for any application `initContainers`. When using Istio CNI, `kubelet`
 starts an injected pod with the following steps:
+
 1. The Istio CNI plugin sets up traffic redirection to the Istio sidecar proxy within the pod.
 1. All init containers execute and complete successfully.
 1. The Istio sidecar proxy starts in the pod along with the pod's other containers.
 
 Init containers execute before the sidecar proxy starts, which can result in traffic loss during their execution.
 Avoid this traffic loss with one or both of the following settings:
-- Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
+
+* Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
   CIDRs the init containers communicate with.
-- Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
+* Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
   specific outbound ports the init containers use.
 
 ### Compatibility with other CNI plugins
