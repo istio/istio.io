@@ -22,9 +22,14 @@ This flow assumes that the Istio components are installed and upgraded in the
 `istio-system` namespace.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/docs/setup/kubernetes/upgrade/notice) for a concise list of things you should know before
-upgrading your deployment to Istio 1.1.
+Be sure to check out the [upgrade notice](/docs/setup/kubernetes/upgrade/notice)
+for a concise list of things you should know before upgrading your deployment to Istio 1.2.
 {{< /warning >}}
+
+{{< tip >}}
+Istio does **NOT** support skip level upgrades.  Only upgrades from 1.1 to 1.2
+are supported. If you are on an older version, please upgrade to 1.1 first.
+{{< /tip >}}
 
 ## Upgrade steps
 
@@ -33,22 +38,9 @@ and change directory to the new release directory.
 
 ### Control plane upgrade
 
-{{< warning >}}
-Helm has significant problems when upgrading CRDs using Tiller.
-We believe we have solved these with the introduction of the `istio-init` chart.
-However, because of the wide variety of Helm and Tiller versions used with previous Istio deployments,
-ranging from 2.7.2 to 2.12.2, we recommend an abundance of caution by
-backing up your custom resource data, before proceeding with the upgrade:
-
-{{< text bash >}}
-$ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
-    xargs -n1 -I{} sh -c "kubectl get --all-namespaces -oyaml {}; echo ---" > $HOME/ISTIO_1_0_RESTORE_CRD_DATA.yaml
-{{< /text >}}
-
-{{< /warning >}}
-
-The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Galley, Policy, Telemetry and
-Sidecar injector.  Choose one of the following two **mutually exclusive** options to update the control plane:
+Pilot, Galley, Policy, Telemetry and Sidecar injector.  Choose one of the following
+ Choose one of the following **mutually exclusive** options
+ to update the control plane:
 
 {{< tabset cookie-name="controlplaneupdate" >}}
 {{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
@@ -57,11 +49,14 @@ This is suitable for cases where `kubectl apply` was used to deploy the Istio co
 including configurations generated using
 [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
 
-1. Use `kubectl apply` to upgrade all the Istio's CRDs.  Wait a few seconds for the Kubernetes API server to receive the upgraded CRDs:
+1. Use `kubectl apply` to upgrade all of Istio's CRDs.  Wait a few seconds for the Kubernetes
+   API server to commit the upgraded CRDs:
 
     {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    $ kubectl apply -f install/kubernetes/helm/istio-init/files/
     {{< /text >}}
+
+1. {{< boilerplate verify-crds >}}
 
 1. Add Istio's core components to a Kubernetes manifest file, for example.
 
@@ -70,7 +65,8 @@ including configurations generated using
       --namespace istio-system > $HOME/istio.yaml
     {{< /text >}}
 
-    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication), set `global.mtls.enabled` and `global.controlPlaneSecurityEnabled` to `true` for the last command:
+    If you want to enable [global mutual TLS](/docs/concepts/security/#mutual-tls-authentication),
+    set `global.mtls.enabled` and `global.controlPlaneSecurityEnabled` to `true` for the last command:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -89,9 +85,11 @@ including configurations generated using
     $ kubectl apply -f $HOME/istio-auth.yaml
     {{< /text >}}
 
-The rolling update process will upgrade all deployments and configmaps to the new version. After this process finishes,
-your Istio control plane should be updated to the new version. Your existing application should continue to work without
-any change. If there is any critical issue with the new control plane, you can rollback the changes by applying the yaml files from the old version.
+The rolling update process will upgrade all deployments and configmaps to the new version.
+After this process finishes, your Istio control plane should be updated to the new version.
+Your existing application should continue to work without any change. If there is any
+critical issue with the new control plane, you can rollback the changes by applying the
+yaml files from the old version.
 {{< /tab >}}
 
 {{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
@@ -104,11 +102,7 @@ the preferred upgrade option is to let Helm take care of the upgrade.
     $ helm upgrade --install --force istio-init install/kubernetes/helm/istio-init --namespace istio-system
     {{< /text >}}
 
-1. Check that all the CRD creation jobs completed successfully to verify that the Kubernetes API server received all the CRDs:
-
-    {{< text bash >}}
-    $ kubectl get job --namespace istio-system | grep istio-init-crd
-    {{< /text >}}
+1. {{< boilerplate verify-crds >}}
 
 1. Upgrade the `istio` chart:
 
@@ -121,7 +115,8 @@ the preferred upgrade option is to let Helm take care of the upgrade.
 
 ### Sidecar upgrade
 
-After the control plane upgrade, the applications already running Istio will still be using an older sidecar. To upgrade the sidecar, you will need to re-inject it.
+After the control plane upgrade, the applications already running Istio will
+still be using an older sidecar. To upgrade the sidecar, you will need to re-inject it.
 
 If you're using automatic sidecar injection, you can upgrade the sidecar
 by doing a rolling update for all the pods, so that the new version of the
@@ -129,8 +124,7 @@ sidecar will be automatically re-injected. There are some tricks to reload
 all pods. E.g. There is a sample [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
 which triggers the rolling update by patching the grace termination period.
 
-If you're using manual injection, you can upgrade the
-sidecar by executing:
+If you're using manual injection, you can upgrade the sidecar by executing:
 
 {{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
