@@ -3,6 +3,8 @@ title: Locality Load Balancing
 description: Information on how to enable and understand Locality Load Balancing.
 weight: 40
 keywords: [locality,load balancing,priority,prioritized]
+aliases:
+    - /help/ops/traffic-management/locality-load-balancing
 ---
 
 A locality defines a geographic location within your mesh using the following triplet:
