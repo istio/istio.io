@@ -46,7 +46,7 @@ Istio metrics collection begins with the sidecar proxies (Envoy). Each proxy gen
 inbound and outbound). The proxies also provide detailed statistics about the administrative functions of the proxy itself, including configuration and health
 information.
 
-Envoy-generated metrics provide monitoring of the mesh at the granularity of Envoy resources (such as listeners and clusters). As a result understanding the
+Envoy-generated metrics provide monitoring of the mesh at the granularity of Envoy resources (such as listeners and clusters). As a result, understanding the
 connection between mesh services and Envoy resources is required for monitoring the Envoy metrics.
 
 Istio enables operators to select which of the Envoy metrics are generated and collected at each workload instance. By default, Istio enables only a small
@@ -116,11 +116,11 @@ istio_requests_total{
 Each Istio component (Pilot, Galley, Mixer) also provides a collection of self-monitoring metrics. These metrics allow monitoring of the behavior
 of Istio itself (as distinct from that of the services within the mesh).
 
-For more information on which metrics are maintained, please the reference docs for each of the components:
+For more information on which metrics are maintained, please refer to the reference documentation for each of the components:
 
-- Pilot
-- Galley
-- Mixer
+- [Pilot](/docs/concepts/traffic-management/overview/#pilot)
+- [Galley](/docs/concepts/what-is-istio/#galley)
+- [Mixer](/docs/reference/config/policy-and-telemetry/)
 
 ## Distributed Traces
 
