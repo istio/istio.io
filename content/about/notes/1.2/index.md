@@ -2,7 +2,7 @@
 title: Istio 1.2
 publishdate: 2019-06-18
 icon: notes
-release: 1.2
+release: 1.2.0
 ---
 
 We’re proud to release Istio 1.2!  We are excited that we are back with a 3 month release cadence!
