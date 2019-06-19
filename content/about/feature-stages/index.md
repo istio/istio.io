@@ -62,7 +62,6 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Distributed Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
-| [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
@@ -105,6 +104,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
 | [Istio CNI plugin](/docs/setup/kubernetes/additional-setup/cni/) | Alpha
+| IPv6 support for Kubernetes | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
