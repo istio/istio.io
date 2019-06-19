@@ -12,8 +12,6 @@ ifeq ($(CONTEXT),production)
 baseurl := "$(URL)"
 endif
 
-baseurl := https://archive.istio.io
-
 build:
 	@$(docker) scripts/build_site.sh
 
