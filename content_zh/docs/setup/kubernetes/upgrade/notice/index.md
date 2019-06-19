@@ -29,7 +29,3 @@ weight: 5
 
 - `istio-policy` 检查现在默认禁用。它在演示配置文件中启用，供用户浏览但在所有其他配置文件中禁用。这种变化仅适用于 `istio-policy` 而不适用于 `istio-telemetry`。要重新启用策略检查，请使用 `--set global.disablePolicyChecks=false` 运行 `helm template` 并重新应用配置。
 - 服务图组件现已弃用，推荐使用 [Kiali](https://www.kiali.io/)。
-
-## 安全
-
-- 已修改 RBAC 配置以实现集群范围。 `RbacConfig` 资源已被 `ClusterRbacConfig` 资源取代。有关迁移说明，请参阅[将 `RbacConfig` 迁移到 `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig)。
