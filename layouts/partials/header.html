@@ -25,32 +25,34 @@
         </div>
 
         <div id="header-links">
-            {{ with (.Site.GetPage "section" "docs") }}
-                {{ if eq $section "docs" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+            {{ if not .Site.Data.args.archive_landing }}
+                {{ with (.Site.GetPage "section" "docs") }}
+                    {{ if eq $section "docs" }}
+                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with $latest_post }}
-                {{ if eq $section "blog" }}
-                    <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                {{ with $latest_post }}
+                    {{ if eq $section "blog" }}
+                        <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with (.Site.GetPage "section" "faq") }}
-                {{ if eq $section "faq" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                {{ with (.Site.GetPage "section" "faq") }}
+                    {{ if eq $section "faq" }}
+                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with (.Site.GetPage "section" "about") }}
-                {{ if eq $section "about" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                {{ with (.Site.GetPage "section" "about") }}
+                    {{ if eq $section "about" }}
+                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
             {{ end }}
 
