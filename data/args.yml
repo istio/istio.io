@@ -1,8 +1,8 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.2"
+version: "1.3"
 
 # The full Istio version identifier the docs describe
-full_version: "1.2.0"
+full_version: "1.3.0"
 
 # The year to display in copyright notices
 copyright_year: 2019
@@ -22,7 +22,7 @@ archive_date: YYYY-MM-DD
 archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub
-source_branch_name: release-1.2
+source_branch_name: master
 doc_branch_name: master
 
 # The list of supported versions described by the docs
