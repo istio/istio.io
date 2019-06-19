@@ -5,7 +5,7 @@ weight: 5
 ---
 
 This page describes changes you need to be aware of when upgrading from
-Istio 1.1 to 1.2.  Here we detail cases where we intentionally broke backwards
+Istio 1.1 to 1.2.  Here, we detail cases where we intentionally broke backwards
 compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.1.
@@ -16,8 +16,8 @@ For an overview of new features introduced with Istio 1.2, please refer to the [
 
 {{< tip >}}
 The vast array of Mixer plugins were deprecated in Istio 1.1.  Please move
-to the new configuration model quickly, as the old configuration model has
-been removed in Istio 1.2.0.
+to the new configuration model quickly, since we removed the old configuration
+model Istio 1.2.0.
 {{< /tip >}}
 
 Most Mixer CRDs were removed from the system to simplify the configuration
