@@ -98,6 +98,17 @@ $ kubectl apply -f $HOME/istio.yaml
 
 Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
+### Running on OpenShift
+
+When Kiali runs on OpenShift it needs access to some OpenShift specific resources in order to function properly,
+which can be done using the following commands after Kiali has been installed:
+
+{{< text bash >}}
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["apps.openshift.io"], "resources":["deploymentconfigs"],"verbs": ["get", "list", "watch"]}}]' --type json
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["project.openshift.io"], "resources":["projects"],"verbs": ["get"]}}]' --type json
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["route.openshift.io"], "resources":["routes"],"verbs": ["get"]}}]' --type json
+{{< /text >}}
+
 ## Generating a service graph
 
 1.  To verify the service is running in your cluster, run the following command:
