@@ -67,8 +67,7 @@ do
 done
 
 echo "### Building landing page"
-git clean -f
-git checkout master
+cd ..
 rm -fr content/about content/docs content/faq content/blog content_zh
 
 # Grab the state
@@ -76,14 +75,13 @@ cp ${TMP}/archives.yml data
 
 # Adjust a few things for archive_landing
 rm -fr static/talks
-sed -e 's/preliminary: true/preliminary: false/g' -i "" data/args.yml
-sed -e 's/archive_landing: false/archive_landing: true/g' -i "" data/args.yml
+sed -i 's/preliminary: true/preliminary: false/g' data/args.yml
+sed -i 's/archive_landing: false/archive_landing: true/g' data/args.yml
 
 scripts/build_site.sh
 scripts/gen_site.sh "https://archive.istio.io"
 
 mv public/* ${TMP}/archive
-cd ..
 rm -fr ${GITDIR} public
 mv ${TMP}/archive public
 rm -fr ${TMP}
