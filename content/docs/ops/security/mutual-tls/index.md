@@ -2,6 +2,8 @@
 title: Mutual TLS
 description: What to do if mutual TLS authentication isn't working.
 weight: 30
+aliases:
+    - /help/ops/security/mutual-tls
 ---
 
 If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](/docs/ops/security/repairing-citadel/), and

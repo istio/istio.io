@@ -2,6 +2,8 @@
 title: End User Authentication
 description: What to do if end-user authentication doesn't work.
 weight: 80
+aliases:
+    - /help/ops/security/end-user-auth
 ---
 
 With Istio, you can enable authenticating end user. Currently, the end user credential supported by the Istio authentication policy is JWT.

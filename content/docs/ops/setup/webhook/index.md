@@ -2,6 +2,8 @@
 title: Dynamic Admission Webhooks Overview
 description: Provides a general overview of Istio's use of Kubernetes webhooks and the related issues that can arise.
 weight: 10
+aliases:
+    - /help/ops/setup/webhook
 ---
 
 From [Kubernetes mutating and validating webhook mechanisms](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/):

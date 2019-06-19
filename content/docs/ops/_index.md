@@ -7,6 +7,5 @@ aliases:
     - /troubleshooting/index.html
     - /help/troubleshooting/index.html
     - /help/ops
-    - /ops
 icon: guide
 ---
