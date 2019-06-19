@@ -170,7 +170,7 @@ abstracts the Envoy proxy and Istio-managed services from these details.
 
 ### Pilot
 
-[Pilot](/docs/concepts/traffic-management/#pilot-and-envoy) provides
+[Pilot](/docs/concepts/traffic-management/overview/#pilot) provides
 service discovery for the Envoy sidecars, traffic management capabilities
 for intelligent routing (e.g., A/B tests, canary rollouts, etc.),
 and resiliency (timeouts, retries, circuit breakers, etc.).
