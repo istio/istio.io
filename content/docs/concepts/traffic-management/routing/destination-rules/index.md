@@ -36,36 +36,6 @@ to:
 The following example destination rule configures three different subsets with
 different load balancing policies for the `my-svc` destination service:
 
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: my-destination-rule
-spec:
-  host: my-svc
-  trafficPolicy:
-    loadBalancer:
-      simple: RANDOM
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-  - name: v3
-    labels:
-      version: v3
-{{< /text >}}
-
-{{< image width="40%"
-    link="./destination-rules-1.svg"
-    caption="Configurable route examples defined in the destination rule"
-    >}}
-
 Visit our [destination rules reference documentation](/docs/reference/config/networking/v1alpha3/destination-rule/)
 to review all the enabled keys and values.
 
