@@ -1,36 +1,41 @@
 ---
-title: 1.1 Upgrade Notice
-description: Important changes operators must understand before upgrading to Istio 1.1.
+title: 1.2 Upgrade Notice
+description: Important changes operators must understand before upgrading to Istio 1.2.
 weight: 5
-
 ---
 
-This page describes changes you need to be aware of when upgrading from Istio 1.0 to 1.1.  Here we detail cases where we intentionally broke backwards compatibility.  We also mention cases where backwards compatibility was preserved but new behavior was introduced that would be surprising to someone familiar with the use and operation of Istio 1.0.
+This page describes changes you need to be aware of when upgrading from
+Istio 1.1 to 1.2.  Here, we detail cases where we intentionally broke backwards
+compatibility.  We also mention cases where backwards compatibility was
+preserved but new behavior was introduced that would be surprising to someone
+familiar with the use and operation of Istio 1.1.
 
-For an overview of new features introduced with Istio 1.1, please refer to the [1.1 release notes](/about/notes/1.1/).
+For an overview of new features introduced with Istio 1.2, please refer
+to the [1.2 release notes](/about/notes/1.2/).
 
-## Installation
+## Installation and Upgrade
 
-- We have increased the control plane and envoy sidecar’s required CPU and memory.  It is critical to ensure your cluster have enough resource before proceeding the update.
-- Istio’s CRDs have been placed into their own Helm chart `istio-init`.  This prevents loss of custom resource data, facilitates the upgrade process, and enables Istio to evolve beyond a Helm-based installation.  The [upgrade documentation](/docs/setup/kubernetes/upgrade/steps/) provides the proper procedures for upgrading from Istio 1.0.6 to Istio 1.1.  Please follow these instructions carefully when upgrading.  If `certmanager` is desired, use the `--set certmanager=true` flag when installing both `istio-init` and Istio charts with either `template` or `tiller` installation modes.
-- Many installation options have been added, removed, or changed. Refer to [Installation Options Changes](/docs/reference/config/installation-options-changes/) for a detailed summary of the changes.
-- The 1.0 `istio-remote` chart used for [multicluster VPN](/docs/setup/kubernetes/install/multicluster/vpn/) and [multicluster split horizon](/docs/tasks/multicluster/split-horizon-eds/) remote cluster installation has been consolidated into the Istio chart.  To generate an equivalent `istio-remote` chart, use the `--set global.istioRemote=true` flag.
-- Addons are no longer exposed via separate load balancers.  Instead addons can now be optionally exposed via the Ingress Gateway.  To expose an addon via the Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/tasks/telemetry/gateways/) guide.
-- The built-in Istio Statsd collector has been removed. Istio retains the capability of integrating with your own Statsd collector, using the `--set global.envoyStatsd.enabled=true` flag.
-- The `ingress` series of options for configuring a Kubernetes Ingress have been removed.  Kubernetes Ingress is still functional and can be enabled using the `--set global.k8sIngress.enabled=true` flag.  Check out the [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/) for how to secure your Kubernetes ingress resources.
+{{< tip >}}
+The vast array of Mixer plugins were deprecated in Istio 1.1.  Please move
+to the new configuration model quickly, since we removed the old configuration
+model in Istio 1.2.
+{{< /tip >}}
 
-## Traffic Management
+Most Mixer CRDs were removed from the system to simplify the configuration
+model, improve performance of Mixer when used with Kubernetes, and improve
+reliability in a variety of Kubernetes environments.
 
-- Outbound traffic policy now defaults to `ALLOW_ANY`.  Traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched with one of the services in the system and forwarded accordingly.
-- During sidecar routing to a service, destination rules for the target service in the same namespace as the sidecar will take precedence, followed by destination rules in the service’s namespace, and finally followed by destination rules in other namespaces if applicable.
-- We recommend storing gateway resources in the same namespace as the gateway workload (e.g., `istio-system` in case of `istio-ingressgateway`).  When referring to gateway resources in virtual services, use the namespace/name format instead of using `name.namespace.svc.cluster.local`.
-- The optional egress gateway is now disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles by default.  If you need to control and secure your outbound traffic through the egress gateway, you will need to enable `gateways.istio-egressgateway.enabled=true` manually in any of the non-demo profiles.
+The following CRDs remain:
 
-## Policy & Telemetry
+| Custom Resource Definition name | Purpose |
+| --- | --- |
+| `adapter`| Specification of Istio extension declarations |
+| `attributemanifest` | Specification of Istio extension declarations |
+| `template` | Specification of Istio extension declarations |
+| `handler` | Specification of extension invocations |
+| `rule` | Specification of extension invocations |
+| `instance` | Specification of extension invocations |
 
-- `istio-policy` check is now disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles.  This change is only for `istio-policy` and not for `istio-telemetry`.  In order to re-enable policy checking, run `helm template` with `--set global.disablePolicyChecks=false` and re-apply the configuration.
-- The Service Graph component has now been deprecated in favor of [Kiali](https://www.kiali.io/).
-
-## Security
-
-- RBAC configuration has been modified to implement cluster scoping.  The `RbacConfig` resource has been replaced with the `ClusterRbacConfig` resource. Refer to [Migrating `RbacConfig` to `ClusterRbacConfig`](/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig) for migration instructions.
+In the event you are using the removed mixer configuration schemas, set
+the following Helm flags during upgrade of the main Helm chart:
+`--set mixer.templates.useTemplateCRDs=true --set mixer.adapters.useAdapterCRDs=true`
