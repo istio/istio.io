@@ -128,7 +128,7 @@ sleep.bar to httpbin.bar: 503
 * It could take a minute or two for the policy to propagate to endpoints. Retry the command couple of times until you see the consistent result as above.
 {{< /tip >}}
 
-To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/routing/destination-rules/) to use mutual TLS. It's possible to use
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#rule-destinations) to use mutual TLS. It's possible to use
 multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with the `*` wildcard to match all
 services so that it is on par with the mesh-wide authentication policy.
 
