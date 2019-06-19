@@ -140,13 +140,13 @@ new release branch you just created.
 
 1. Commit the previous edits to your local git repo and push the **previous release's** branch to GitHub.
 
-1. Switch to the **archive** branch.
+1. Go to the archive.istio.io project on [Netlify](https://netlify.com)
 
-1. Rebase the archive branch to the current master
+1. Change the branch that is built from the previous release's branch to the new release branch, in this case release-0.7
 
-1. Commit the previous edits to your local git repo and push the **archive** branch to GitHub.
+1. Select the option to trigger an immediate rebuild and redeployment.
 
-1. Wait ~15 minutes, then browse archive.istio.io and make sure everything looks good.
+1. Once deployment is done, browse archive.istio.io and make sure everything looks good.
 
 ### Creating a patch release
 
