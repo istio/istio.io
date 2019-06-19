@@ -44,10 +44,10 @@ other = "Dark Theme"
 other = "Other versions of this site"
 
 [current_release]
-other = "Current Release (%s)"
+other = "Current Release"
 
 [next_release]
-other = "Next Release (Preliminary %s)"
+other = "Next Release"
 
 [archived_releases]
 other = "Older Releases"
