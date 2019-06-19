@@ -21,7 +21,7 @@ TOBUILD_JEKYLL=(
 )
 
 # Prereqs
-npm install -g sass sass-lint typescript tslint @babel/cli @babel/core svgstore-cli html-minifier
+npm install sass sass-lint typescript tslint @babel/cli @babel/core svgstore-cli html-minifier --save-dev
 npm install babel-preset-minify --save-dev
 
 # Prepare
@@ -68,15 +68,15 @@ done
 
 echo "### Building landing page"
 cd ..
-rm -fr content/about content/docs content/faq content/blog content_zh
-
-# Grab the state
-cp ${TMP}/archives.yml data
 
 # Adjust a few things for archive_landing
+rm -fr content/about content/docs content/faq content/blog content_zh
 rm -fr static/talks
 sed -i 's/preliminary: true/preliminary: false/g' data/args.yml
 sed -i 's/archive_landing: false/archive_landing: true/g' data/args.yml
+
+# Grab the state
+cp ${TMP}/archives.yml data
 
 scripts/build_site.sh
 scripts/gen_site.sh "https://archive.istio.io"
