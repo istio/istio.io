@@ -44,4 +44,7 @@ netlify: install
 netlify_archive:
 	@scripts/gen_archive_site.sh "$(baseurl)"
 
+archive:
+	@$(docker) scripts/gen_archive_site.sh "$(baseurl)"
+
 include Makefile.common.mk
