@@ -151,7 +151,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
     {{< image width="75%" link="./kiali-overview.png" caption="Example Overview" >}}
 
-1.  To view a namespace graph, click on the `bookinfo` graph icon in the Bookinfo namespace card. The graph icon is in the lower left of 
+1.  To view a namespace graph, click on the `bookinfo` graph icon in the Bookinfo namespace card. The graph icon is in the lower left of
     the namespace card and looks like a connected group of circles.
     The page looks similar to:
 

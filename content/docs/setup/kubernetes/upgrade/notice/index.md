@@ -10,14 +10,15 @@ compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.1.
 
-For an overview of new features introduced with Istio 1.2, please refer to the [1.2 release notes](/about/notes/1.2/).
+For an overview of new features introduced with Istio 1.2, please refer
+to the [1.2 release notes](/about/notes/1.2/).
 
 ## Installation and Upgrade
 
 {{< tip >}}
 The vast array of Mixer plugins were deprecated in Istio 1.1.  Please move
 to the new configuration model quickly, since we removed the old configuration
-model Istio 1.2.0.
+model in Istio 1.2.
 {{< /tip >}}
 
 Most Mixer CRDs were removed from the system to simplify the configuration
