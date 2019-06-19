@@ -77,6 +77,9 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version 
 (in this case release-0.6) to the `TOBUILD` variable.
 
+1. Edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
+("0.8") and the `main` field to the current release ("0.7").
+
 1. Commit the previous edits to your local git repo and push your **master** branch to GitHub.
 
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
@@ -93,9 +96,6 @@ name for `istio.git` and `api.git` to point to the release branch. In this case 
 #### Updating preliminary.istio.io
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
-
-1. In the **master** branch, edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
-("0.8") and the `main` field to the current release ("0.7").
 
 1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
 of the next Istio release. In this case, you would set the fields to "0.8" and "0.8.0" respectively.
