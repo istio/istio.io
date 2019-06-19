@@ -61,8 +61,6 @@ spec:
       version: v3
 {{< /text >}}
 
-The following diagram shows the different configurations:
-
 {{< image width="40%"
     link="./destination-rules-1.svg"
     caption="Configurable route examples defined in the destination rule"
