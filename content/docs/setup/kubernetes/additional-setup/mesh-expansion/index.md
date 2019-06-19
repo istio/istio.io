@@ -27,8 +27,8 @@ server, or configuring the IPs in any other DNS server accessible from the VM.
 
 The following instructions:
 
-- Assume the expansion VM is running on GCE.
-- Use Google platform-specific commands for some steps.
+* Assume the expansion VM is running on GCE.
+* Use Google platform-specific commands for some steps.
 
 ## Installation steps
 
