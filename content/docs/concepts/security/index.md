@@ -445,7 +445,7 @@ namespace. Istio also requires mesh-wide and namespace-wide policies to have
 the specific name `default`.
 
 If a service has no matching policies, the service behaves as if the following
-'empty' policy applies:
+`empty-policy` policy applies:
 
 {{< text yaml >}}
 apiVersion: "authentication.istio.io/v1alpha1"
@@ -455,7 +455,7 @@ metadata:
 spec:
 {{< /text >}}
 
-This disables both transport authentication and origin authentication.
+This policy disables both transport authentication and origin authentication.
 
 #### Transport authentication
 
