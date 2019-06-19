@@ -21,7 +21,7 @@ TOBUILD_JEKYLL=(
 )
 
 # Prereqs
-npm install -g sass sass-lint typescript tslint @babel/cli @babel/core svgstore-cli html-minifier
+npm install sass sass-lint typescript tslint @babel/cli @babel/core svgstore-cli html-minifier --save-dev
 npm install babel-preset-minify --save-dev
 
 # Prepare
