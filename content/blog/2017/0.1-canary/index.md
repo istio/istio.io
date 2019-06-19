@@ -55,6 +55,7 @@ spec:
 We then add 2 Deployments, one for each version (**v1** and **v2**), both of which include the service selector’s `app: helloworld` label:
 
 {{< text yaml >}}
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-v1
@@ -70,7 +71,7 @@ spec:
       - image: helloworld-v1
         ...
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-v2
