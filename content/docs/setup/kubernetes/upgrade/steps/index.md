@@ -145,3 +145,150 @@ $ kubectl apply -f <(istioctl kube-inject \
      --injectConfigFile inject-config.yaml \
      --filename $ORIGINAL_DEPLOYMENT_YAML)
 {{< /text >}}
+
+## Migrating per-service mutual TLS enablement via annotations to authentication policy
+
+If you use service annotations to override global mutual TLS enablement for a service, you need to replace it with
+[authentication policy](/docs/concepts/security/#authentication-policies) and [destination rules](/docs/concepts/traffic-management/routing/destination-rules/).
+
+For example, if you install Istio with mutual TLS enabled, and disable it for service `foo` using a service annotation like below:
+
+{{< text yaml >}}
+kind: Service
+metadata:
+  name: foo
+  namespace: bar
+  annotations:
+    auth.istio.io/8000: NONE
+{{< /text >}}
+
+You need to replace this with this authentication policy and destination rule (deleting the old annotation is optional)
+
+{{< text yaml >}}
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "disable-mTLS-foo"
+  namespace: bar
+spec:
+  targets:
+  - name: foo
+    ports:
+    - number: 8000
+  peers:
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "disable-mTLS-foo"
+  namespace: "bar"
+spec:
+  host: "foo"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+    portLevelSettings:
+    - port:
+        number: 8000
+      tls:
+        mode: DISABLE
+{{< /text >}}
+
+If you already have destination rules for `foo`, you must edit that rule instead of creating a new one.
+When create a new destination rule, make sure to include other settings, i.e `load balancer`, `connection pool` and `outlier detection` if necessary.
+Finally, If `foo` doesn't have sidecar, you can skip authentication policy, but still need to add destination rule.
+
+If 8000 is the only port that service `foo` provides (or you want to disable mutual TLS for all ports), the policies can be simplified as:
+
+{{< text yaml >}}
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "disable-mTLS-foo"
+    namespace: bar
+  spec:
+    targets:
+    - name: foo
+    peers:
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "disable-mTLS-foo"
+  namespace: "bar"
+spec:
+  host: "foo"
+trafficPolicy:
+  tls:
+    mode: DISABLE
+{{< /text >}}
+
+## Migrating the `mtls_excluded_services` configuration to destination rules
+
+If you installed Istio with mutual TLS enabled, and used the mesh configuration option `mtls_excluded_services` to
+disable mutual TLS when connecting to these services (e.g Kubernetes API server), you need to replace this by adding a destination rule. For example:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: "kubernetes-master"
+  namespace: "default"
+spec:
+  host: "kubernetes.default.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+{{< /text >}}
+
+## Migrating from `RbacConfig` to `ClusterRbacConfig`
+
+The `RbacConfig` is deprecated due to a [bug](https://github.com/istio/istio/issues/8825). You must
+migrate to `ClusterRbacConfig` if you are currently using `RbacConfig`. The bug reduces the scope of
+the object to be namespace-scoped in some cases. The `ClusterRbacConfig` follows the exact same
+specification as the `RbacConfig` but with the correct cluster scope implementation.
+
+To automate the migration, we developed the `convert_RbacConfig_to_ClusterRbacConfig.sh` script.
+The script is included in the [Istio installation package](/docs/setup/kubernetes/#downloading-the-release).
+
+Download and run the script with the following command:
+
+{{< text bash >}}
+$ curl -L {{< github_file >}}/tools/convert_RbacConfig_to_ClusterRbacConfig.sh | sh -
+{{< /text >}}
+
+The script automates the following operations:
+
+1. The script creates the cluster RBAC configuration with same specification as the existing RBAC configuration
+   because Kubernetes doesn't allow the value of `kind:` in a custom resource to change after it's created.
+
+    For example, if you have the following RBAC configuration:
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: RbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["default"]
+    {{< /text >}}
+
+    The script creates the following cluster RBAC configuration:
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ClusterRbacConfig
+    metadata:
+      name: default
+    spec:
+      mode: 'ON_WITH_INCLUSION'
+      inclusion:
+        namespaces: ["default"]
+    {{< /text >}}
+
+1. The script applies the configuration and waits for a few seconds to let the configuration to take effect.
+
+1. The script deletes the previous RBAC configuration custom resource after applying the cluster RBAC
+   configuration successfully.
