@@ -47,15 +47,10 @@ Below is our list of existing features and their current phases. This informatio
 | [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
-<<<<<<< HEAD
 | [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) | Alpha
+| SNI (multiple certs) at ingress | Stable
 
 The `Sidecar` runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
-=======
-| Sidecar API | Alpha
-| Sidecar API Runtime | Beta
-| SNI (multiple certs) at ingress | Stable
->>>>>>> Updated feature statuses on feature page
 
 ### Telemetry
 
@@ -69,11 +64,7 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
 | [Distributed Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
-<<<<<<< HEAD
-=======
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Beta
-| [Service Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
->>>>>>> Updated feature statuses on feature page
 | [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
 
@@ -92,12 +83,9 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-<<<<<<< HEAD
-=======
 | [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
 | [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
 | [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
->>>>>>> Updated feature statuses on feature page
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 

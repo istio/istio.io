@@ -35,7 +35,7 @@ metrics each team decided on (paraphrasing Peter Drucker: if you can’t
 measure it, you can’t manage it).
 
 You might have noticed that the [patch releases](/about/notes) for 1.1 have
-been coming fast and furious. 
+been coming fast and furious.
 
 In order to get features in the hands of our customers and users as soon as
 possible, most of the new features from the last three months have been
