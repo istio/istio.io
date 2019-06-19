@@ -39,7 +39,8 @@ and change directory to the new release directory.
 ### Control plane upgrade
 
 Pilot, Galley, Policy, Telemetry and Sidecar injector.  Choose one of the following
-two **mutually exclusive** options to update the control plane:
+ Choose one of the following **mutually exclusive** options
+ to update the control plane:
 
 {{< tabset cookie-name="controlplaneupdate" >}}
 {{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
