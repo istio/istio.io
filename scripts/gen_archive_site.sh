@@ -5,6 +5,7 @@
 
 # List of name:tagOrBranch
 TOBUILD=(
+  v1.1:release-1.1
   v1.0:release-1.0
   v0.8:release-0.8
 )
