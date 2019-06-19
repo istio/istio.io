@@ -132,8 +132,6 @@ new release branch you just created.
     case, the site URL would be archive.istio.io/v0.6/*. Set the label of this site to the name of the
     facet item created above (V0.6 in this case).
 
-1. Switch to the istio/istio.io repo and make sure everything is up to date.
-
 1. In the **previous release's** branch (in this case release-0.6), edit the file `data/args.yml`. Set the
 `archive` field to true and the `archive_date` field to the current date.
 
