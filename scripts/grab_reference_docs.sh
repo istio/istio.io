@@ -16,7 +16,7 @@ REPOS=(
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
-    https://github.com/apache/incubator-skywalking-data-collect-protocol.git@master
+    https://github.com/apache/skywalking-data-collect-protocol.git@master
 )
 
 # The components to build and extract usage docs from.
