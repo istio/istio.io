@@ -41,10 +41,10 @@ other = "暗主题"
 other = "本站的其它版本"
 
 [current_release]
-other = "当前版本（%s）"
+other = "当前版本"
 
 [next_release]
-other = "下个版本（预发布 %s）"
+other = "下个版本"
 
 [archived_releases]
 other = "旧版本"

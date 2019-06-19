@@ -73,8 +73,8 @@
                         {{ $current := .Site.Data.versions.main }}
 
                         {{ if .Site.Data.args.archive }}
-                            <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current }}</a>
-                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ printf (i18n "next_release") $next }}</a>
+                            <a href="https://istio.io" class="dropdown-item">{{ i18n "current_release" }}</a>
+                            <a href="https://preliminary.istio.io" class="dropdown-item">{{ i18n "next_release" }}</a>
                             <a href="https://archive.istio.io" class="dropdown-item">{{ i18n "archived_releases" }}</a>
                         {{ else if .Site.Data.args.preliminary }}
                             <a href="https://istio.io" class="dropdown-item">{{ printf (i18n "current_release") $current }}</a>
