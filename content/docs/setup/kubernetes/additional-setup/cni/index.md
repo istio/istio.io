@@ -82,7 +82,7 @@ Use the following command to render and apply Istio CNI components and override 
 `istio-cni` Helm chart's `logLevel` and `excludeNamespaces` parameters:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system \
+$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system \
     --set logLevel=info \
     --set excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"} | kubectl apply -f -
 {{< /text >}}
@@ -115,7 +115,7 @@ The following table shows the required settings for many common Kubernetes envir
     For example, the following `helm install` command sets the `cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system --set cniBinDir=/home/kubernetes/bin
+    $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system --set cniBinDir=/home/kubernetes/bin
     {{< /text >}}
 
 ## Sidecar injection compatibility
