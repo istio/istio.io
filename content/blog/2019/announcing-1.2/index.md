@@ -4,7 +4,7 @@ subtitle: Major Update
 description: Istio 1.2 release announcement.
 publishdate: 2019-06-18
 attribution: The Istio Team
-release: 1.1.0
+release: 1.2.0
 ---
 
 We are pleased to announce the release of Istio 1.2!
