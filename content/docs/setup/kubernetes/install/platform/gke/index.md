@@ -45,7 +45,6 @@ Then add the `Kubernetes Engine Admin` role:
 
 ## Setup using Istio on GKE
 
-
 Refer to [Installing Istio on GKE](https://cloud.google.com/kubernetes-engine/docs/tutorials/installing-istio) for instructions on creating a cluster with Istio installed.
 
 You can now try out one of the Istio examples like [Bookinfo](/docs/examples/bookinfo/).
