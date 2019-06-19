@@ -41,8 +41,7 @@ netlify: install
 	@scripts/build_site.sh
 	@scripts/gen_site.sh "$(baseurl)"
 
-netlify_archive: install
-	@scripts/build_site.sh
+netlify_archive:
 	@scripts/gen_archive_site.sh "$(baseurl)"
 
 include Makefile.common.mk
