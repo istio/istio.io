@@ -2,6 +2,8 @@
 title: Grafana
 description: Dealing with Grafana issues.
 weight: 90
+aliases:
+    - /help/ops/telemetry/grafana
 ---
 
 If you're unable to get Grafana output when connecting from a local web client to Istio remotely hosted, you

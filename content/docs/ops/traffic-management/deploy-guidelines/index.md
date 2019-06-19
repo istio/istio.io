@@ -2,6 +2,8 @@
 title: Deployment and Configuration Guidelines
 description: Provides specific deployment and configuration guidelines.
 weight: 20
+aliases:
+    - /help/ops/traffic-management/deploy-guidelines
 ---
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.

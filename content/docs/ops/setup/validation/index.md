@@ -2,6 +2,8 @@
 title: Configuration Validation Webhook
 description: Describes Istio's use of Kubernetes webhooks for server-side configuration validation.
 weight: 20
+aliases:
+    - /help/ops/setup/validation
 ---
 
 Galley’s configuration validation ensures user authored Istio

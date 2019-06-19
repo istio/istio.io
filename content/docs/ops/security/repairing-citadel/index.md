@@ -3,6 +3,8 @@ title: Repairing Citadel
 description: What to do if Citadel is not behaving properly.
 weight: 10
 keywords: [security,citadel,ops]
+aliases:
+    - /help/ops/security/repairing-citadel
 ---
 
 {{< warning >}}
