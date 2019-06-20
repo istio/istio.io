@@ -16,9 +16,10 @@ to the [1.2 release notes](/about/notes/1.2/).
 ## Installation and Upgrade
 
 {{< tip >}}
-The vast array of Mixer plugins were deprecated in Istio 1.1.  Please move
-to the new configuration model quickly, since we removed the old configuration
-model in Istio 1.2.
+The configuration model for Mixer has been simplified. Support for
+adapter-specific and template-specific Custom Resources has been
+removed by default in 1.2 and will be removed entirely in 1.3.
+Please move to the new configuration model.
 {{< /tip >}}
 
 Most Mixer CRDs were removed from the system to simplify the configuration
