@@ -5,36 +5,39 @@ weight: 50
 ---
 
 This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this
-is the built-in set. They can be found [here]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)
-under the section with "kind: metric”. It uses [metric
+is the built-in set. The configuration can be found [here]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml). Metric instances are those with a `compiledTemplate: metric` field in their specification. Istio uses the [metric
 template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 
-We will describe metrics first and then the labels for each metric.
+We will describe the metrics first and then the labels for each metric.
 
 ## Metrics
 
-*   **Request Count**: This is a `COUNTER` incremented for every
+For HTTP, HTTP/2, and GRPC requests, Istio generates the following mesh metrics:
+
+*   **Request Count** (`istio_requests_total`): This is a `COUNTER` incremented for every
     request handled by an Istio proxy.
 
-*   **Request Duration**: This is a `DISTRIBUTION` which measures the
+*   **Request Duration** (`istio_request_duration_seconds`): This is a `DISTRIBUTION` which measures the
     duration of the request.
 
-*   **Request Size**: This is a `DISTRIBUTION` which measures the size
+*   **Request Size** (`istio_request_bytes`): This is a `DISTRIBUTION` which measures the size
     of the HTTP request’s body size.
 
-*   **Response Size**: This is a `DISTRIBUTION` which measures the size of
+*   **Response Size** (`istio_response_bytes`): This is a `DISTRIBUTION` which measures the size of
     the HTTP response body size.
 
-*   **Tcp Byte Sent**: This is a `COUNTER` which measures the size of total
+For TCP traffic, Istio generates the following mesh metrics:
+
+*   **Tcp Byte Sent** (`istio_tcp_sent_bytes_total`): This is a `COUNTER` which measures the size of total
     bytes sent during response in case of a TCP connection.
 
-*   **Tcp Byte Received**: This is a `COUNTER` which measures the size of total
+*   **Tcp Byte Received** (`istio_tcp_received_bytes_total`): This is a `COUNTER` which measures the size of total
     bytes received during request in case of a TCP connection.
 
-*   **Tcp Connections Opened**: This is a `COUNTER` incremented for every opened
+*   **Tcp Connections Opened** (`istio_tcp_connections_opened_total`): This is a `COUNTER` incremented for every opened
     tcp connection.
 
-*   **Tcp Connections Closed**: This is a `COUNTER` incremented for every closed
+*   **Tcp Connections Closed** (`istio_tcp_connections_closed_total`): This is a `COUNTER` incremented for every closed
     tcp connection.
 
 ## Labels
