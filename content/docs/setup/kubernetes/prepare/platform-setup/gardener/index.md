@@ -21,14 +21,14 @@ project. To learn more about this open source project, read the
     the version. You need v1.10 or newer. If your `kubectl` is older, follow the
     next step to install a newer version.
 
-1.  [Install the kubectl CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl).
+1.  [Install the kubectl CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
 ### Access Gardener
 
 1.  Create a project in the Gardener dashboard. This will essentially create a
     Kubernetes namespace with the name `garden-<my-project>`.
 
-1.  [Configure access to your Gardener project](https://kubernetes.io/docs/tasks/tools/install-kubectl/#configure-kubectl)
+1.  [Configure access to your Gardener project](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration)
     using a kubeconfig. If you are not the Gardener Administrator already, you
     can create a technical user in the Gardener dashboard: go to the "Members"
     section and add a service account. You can then download the kubeconfig for
