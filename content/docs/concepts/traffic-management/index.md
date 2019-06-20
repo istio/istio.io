@@ -130,7 +130,7 @@ Istio also provides load balancing for traffic to multiple instances of
 the same service version. See [Discovery
 and Load Balancing](/docs/concepts/traffic-management/#discovery-and-load-balancing) for more.
 
-Istio does not provide a DNS. Applications can try to resolve the
+Istio does not provide a [DNS](https://hosting.review/web-hosting-glossary/#9). Applications can try to resolve the
 FQDN using the DNS service present in the underlying platform (`kube-dns`,
 `mesos-dns`, etc.).
 
