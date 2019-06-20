@@ -27,15 +27,15 @@ to Node Agent, which returns the signed certificate to the Istio proxy.
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
-    $ cat install/kubernetes/namespace.yaml > istio-auth.yaml
-    $ cat install/kubernetes/helm/istio-init/files/crd-* >> istio-auth.yaml
+    $ kubectl create namespace istio-system
+    $ kubectl apply -f install/kubernetes/helm/istio-init/files/crd/
     $ helm template \
         --name=istio \
         --namespace=istio-system \
         --set global.mtls.enabled=true \
         --values install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml \
-        install/kubernetes/helm/istio >> istio-auth.yaml
-    $ kubectl create -f istio-auth.yaml
+        install/kubernetes/helm/istio > istio-auth.yaml
+    $ kubectl apply -f istio-auth.yaml
     {{< /text >}}
 
 The yaml file [`values-istio-example-sds-vault.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-example-sds-vault.yaml)
