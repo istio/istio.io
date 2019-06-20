@@ -339,128 +339,6 @@ number_of_entries: 4
 </tr>
 </tbody>
 </table>
-<h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>sidecar-injector</code> command.
-<table class="envvars">
-<thead>
-<tr>
-<th>Variable Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
-<td>Integer</td>
-<td><code>100000</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_CERT_DIR</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_AFTER</code></td>
-<td>Time Duration</td>
-<td><code>100ms</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_MAX</code></td>
-<td>Time Duration</td>
-<td><code>10s</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_EDS_ISOLATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_HTTP10</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
-</tr>
-<tr>
-<td><code>PILOT_PUSH_BURST</code></td>
-<td>Integer</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_PUSH_THROTTLE</code></td>
-<td>Integer</td>
-<td><code>10</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_TRACE_SAMPLING</code></td>
-<td>Floating-Point</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>V2_REFRESH</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h2 id="annotations">Annotations</h2>
 These resource annotations are used by the <code>sidecar-injector</code> command.
 <table class="annotations">
@@ -504,6 +382,18 @@ These resource annotations are used by the <code>sidecar-injector</code> command
 <td></td>
 </tr>
 <tr>
+<td><code>sidecar.istio.io/bootstrapOverride</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/controlPlaneAuthPolicy</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/discoveryAddress</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>sidecar.istio.io/inject</code></td>
 <td></td>
 </tr>
@@ -512,7 +402,15 @@ These resource annotations are used by the <code>sidecar-injector</code> command
 <td></td>
 </tr>
 <tr>
+<td><code>sidecar.istio.io/proxyCPU</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>sidecar.istio.io/proxyImage</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/proxyMemory</code></td>
 <td></td>
 </tr>
 <tr>
@@ -520,7 +418,27 @@ These resource annotations are used by the <code>sidecar-injector</code> command
 <td>Rewrite HTTP readiness and liveness probes to be redirected to istio-proxy sidecar</td>
 </tr>
 <tr>
+<td><code>sidecar.istio.io/statsInclusionPrefixes</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionRegexps</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/statsInclusionSuffixes</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>sidecar.istio.io/status</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/userVolume</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sidecar.istio.io/userVolumeMount</code></td>
 <td></td>
 </tr>
 <tr>
@@ -553,8 +471,8 @@ These resource annotations are used by the <code>sidecar-injector</code> command
 </tr>
 </tbody>
 </table>
-<h2 id="metrics">Exported metrics</h2>
-<table class="metrics">
+<h2 id=\"metrics\">Exported Metrics</h2>
+<table class=\"metrics\">
 <thead>
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>

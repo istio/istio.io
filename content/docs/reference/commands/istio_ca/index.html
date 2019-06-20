@@ -87,11 +87,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, monitor, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, monitor, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -111,7 +111,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, monitor, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -225,11 +225,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, monitor, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, monitor, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -249,7 +249,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, monitor, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -292,12 +292,12 @@ number_of_entries: 4
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, monitor, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, monitor, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -322,7 +322,7 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, monitor, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -354,117 +354,9 @@ These environment variables affect the behavior of the <code>istio_ca</code> com
 </thead>
 <tbody>
 <tr>
-<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
-<td>Integer</td>
-<td><code>100000</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_CERT_DIR</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_AFTER</code></td>
-<td>Time Duration</td>
-<td><code>100ms</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_MAX</code></td>
-<td>Time Duration</td>
-<td><code>10s</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_EDS_ISOLATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_HTTP10</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
-</tr>
-<tr>
-<td><code>PILOT_PUSH_BURST</code></td>
-<td>Integer</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_PUSH_THROTTLE</code></td>
-<td>Integer</td>
-<td><code>10</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_TRACE_SAMPLING</code></td>
-<td>Floating-Point</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>V2_REFRESH</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
 <td></td>
 </tr>
 </tbody>
@@ -497,8 +389,8 @@ These resource annotations are used by the <code>istio_ca</code> command.
 </tr>
 </tbody>
 </table>
-<h2 id="metrics">Exported metrics</h2>
-<table class="metrics">
+<h2 id=\"metrics\">Exported Metrics</h2>
+<table class=\"metrics\">
 <thead>
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>

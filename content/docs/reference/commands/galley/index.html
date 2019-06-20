@@ -379,7 +379,7 @@ number_of_entries: 5
 <tr>
 <td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
 <td></td>
-<td>File that contains k8s validatingwebhookconfiguration yaml. Validation is disabled if file is not specified  (default ``)</td>
+<td>File that contains k8s validatingwebhookconfiguration yaml. Required if enable-validation is true.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
@@ -518,121 +518,13 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <td><code>BYPASS_OOP_MTLS_SAN_VERIFICATION</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
-<td>Integer</td>
-<td><code>100000</code></td>
-<td></td>
+<td>Whether or not to validate SANs for out-of-process adapters auth.</td>
 </tr>
 <tr>
 <td><code>ISTIO_LANG</code></td>
 <td>String</td>
 <td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_CERT_DIR</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_AFTER</code></td>
-<td>Time Duration</td>
-<td><code>100ms</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_MAX</code></td>
-<td>Time Duration</td>
-<td><code>10s</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_EDS_ISOLATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_HTTP10</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
-</tr>
-<tr>
-<td><code>PILOT_PUSH_BURST</code></td>
-<td>Integer</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_PUSH_THROTTLE</code></td>
-<td>Integer</td>
-<td><code>10</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_TRACE_SAMPLING</code></td>
-<td>Floating-Point</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>V2_REFRESH</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td></td>
+<td>Selects the attribute expression langauge runtime for Mixer.</td>
 </tr>
 </tbody>
 </table>
@@ -668,8 +560,8 @@ These resource annotations are used by the <code>galley</code> command.
 </tr>
 </tbody>
 </table>
-<h2 id="metrics">Exported metrics</h2>
-<table class="metrics">
+<h2 id=\"metrics\">Exported Metrics</h2>
+<table class=\"metrics\">
 <thead>
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
