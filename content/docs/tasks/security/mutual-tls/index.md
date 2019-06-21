@@ -73,7 +73,7 @@ Use the `istioctl` tool to check if the mutual TLS settings are in effect. The `
 You can also provide the destination service to filter the status to that service only.
 
 {{< tip >}}
-This tool only check the TLS setting consistency between destination rules and authentication policies. It does not take into account whether the
+This tool only checks the consistency of the static TLS settings between destination rules and authentication policies. It doesn't take into account whether or not the
 workloads have sidecar or not (i.e, whether those policy/destination rule can be enforced). In other words, status `CONFLICT` doesn't always mean traffic is broken.
 {{< /tip >}}
 
