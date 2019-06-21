@@ -40,6 +40,18 @@ and audit (AAA) tools to protect your services and data. The goals of Istio secu
 Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
 Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
 
+## Policies
+
+Istio lets you configure custom policies for your application to enforce rules at runtime such as:
+
+- Rate limiting to dynamically limit the traffic to a service
+- Denials, whitelists, and blacklists, to restrict access to services
+- Header rewrites and redirects
+
+Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
+
+You must enable policy enforcement for your mesh to use this feature.
+
 ## High-level architecture
 
 Security in Istio involves multiple components:
