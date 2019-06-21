@@ -13,24 +13,23 @@ aliases:
     - /docs/concepts/traffic-management/pilot.html
 ---
 
-- Overview and terminology: Learn about Pilot, Istio's core traffic management
-  component and Envoy proxies and how they enable service discovery and load
-  balancing.
+- [Overview and terminology](/docs/concepts/traffic-management/#overview-and-terminology):
+  Learn about Pilot, Istio's core traffic management component and Envoy
+  proxies and how they enable service discovery and load balancing.
 
-- Traffic routing and configuration: Learn about the Istio features and
-  components needed to implement routing and control the ingress and egress of
-  traffic for the mesh.
+- [Traffic routing and configuration](/docs/concepts/traffic-management/#traffic-routing-and-configuration):
+  Learn about the Istio features and components needed to implement routing and
+  control the ingress and egress of traffic for the mesh.
 
-- Network resilience and testing: Learn about Istio's dynamic failure recovery
-  features that you can configure to build tolerance for failing nodes, and to
-  prevent cascading failures to other nodes.
-
+- [Network resilience and testing](/docs/concepts/traffic-management/#network-resilience-and-testing):
+  Learn about Istio's dynamic failure recovery features that you can configure
+  to build tolerance for failing nodes, and to prevent cascading failures to
+  other nodes.
 
 ## Overview and terminology
 
-
-With Istio, you can manage [traffic routing](/docs/concepts/traffic-management/routing)
-and [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
+With Istio, you can manage [traffic routing](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
+and [load balancing](/docs/concepts/traffic-management/#load-balancing)
 for your service mesh without having to update your services. Istio simplifies
 configuration of service-level properties like timeouts and retries, and makes
 it straightforward to set up tasks like staged rollouts with percentage-based
@@ -88,11 +87,11 @@ in the mesh. Envoy proxies are deployed as sidecars to services, logically
 augmenting the services with traffic management features, including the two
 discussed in this overview:
 
-- [Service discovery](/docs/concepts/traffic-management/overview/#discovery)
-- [Load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
+- [Service discovery](/docs/concepts/traffic-management/#discovery)
+- [Load balancing](/docs/concepts/traffic-management/#load-balancing)
 
-The [traffic routing and configuration](/docs/concepts/traffic-management/routing/)
-and [network resilience and testing](/docs/concepts/traffic-management/network/)
+The [traffic routing and configuration](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
+and [network resilience and testing](/docs/concepts/traffic-management/#network-resilience-and-testing)
 sections dig into more sophisticated features and tasks enabled by Envoy
 proxies, which include:
 
@@ -173,7 +172,7 @@ and Envoy proxies:
     caption="Traffic management example"
     >}}
 
-To learn more about the traffic management resources shown, see the [Traffic routing and configuration concept](/docs/concepts/traffic-management/routing/)
+To learn more about the traffic management resources shown, see the [Traffic routing and configuration concept](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
 
 ## Traffic routing and configuration
 
@@ -182,30 +181,30 @@ network resources of the Istio API:
 
 - **Virtual services**
 
-    Use a [virtual service](/docs/concepts/traffic-management/routing/virtual-services/)
+    Use a [virtual service](/docs/concepts/traffic-management/#virtual-services)
     to configure an ordered list of routing rules to control how Envoy proxies
     route requests for a service within an Istio service mesh.
 
 - **Destination rules**
 
-    Use [destination rules](/docs/concepts/traffic-management/routing/destination-rules/)
+    Use [destination rules](/docs/concepts/traffic-management/#destination-rules)
     to configure the policies you want Istio to apply to a request after
     enforcing the routing rules in your virtual service.
 
 - **Gateways**
 
-    Use [gateways](/docs/concepts/traffic-management/routing/gateways/)
+    Use [gateways](/docs/concepts/traffic-management/#gateways)
     to configure how the Envoy proxies load balance HTTP, TCP, or gRPC traffic.
 
 - **Service entries**
 
-    Use a [service entry](/docs/concepts/traffic-management/routing/service-entries/)
+    Use a [service entry](/docs/concepts/traffic-management/#service-entries)
     to add an entry to Istio's **abstract model** that configures routing rules
     for external dependencies of the mesh.
 
 - **Sidecars**
 
-    Use a [sidecar](/docs/concepts/traffic-management/routing/sidecars/)
+    Use a [sidecar](/docs/concepts/traffic-management/#sidecars)
     to configure the scope of the Envoy proxies to enable certain features,
     like namespace isolation.
 
@@ -215,7 +214,7 @@ fine-grained traffic control for a range of use cases:
 - Configure ingress traffic, enforce traffic policing, perform a traffic
    rewrite.
 
-- Set up load balancers and define [service subsets](/docs/concepts/traffic-management/routing/destination-rules/#service-subsets)
+- Set up load balancers and define [service subsets](/docs/concepts/traffic-management/#service-subsets)
    as destinations in the mesh.
 
 - Set up canary rollouts, circuit breakers, timeouts, and retries to test
@@ -250,14 +249,14 @@ handle the communication between a client and a service that has multiple
 versions.
 
 Envoy proxies dynamically determine where to send the traffic based on the
-routing rules you configure in the [ingress gateway](/docs/concepts/traffic-management/routing/gateways/)
-and [virtual service](/docs/concepts/traffic-management/routing/virtual-services).
+routing rules you configure in the [ingress gateway](/docs/concepts/traffic-management/#gateways)
+and [virtual service](/docs/concepts/traffic-management/#virtual-services).
 In this example, those rules route the incoming request to v1, v2, or v3 of
 your application's service.
 
 You use the Istio [networking APIs](/docs/reference/config/networking/)
-to configure [network resources](/docs/concepts/traffic-management/routing/)
-and specify the [routing rules](/docs/concepts/traffic-management/routing/virtual-services/#routing-rules).
+to configure [network resources](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
+and specify the [routing rules](/docs/concepts/traffic-management/#routing-rules).
 
 The advantage of this configuration method is that it decouples the application
 code from the evolution of its dependent services. This in turn provides
@@ -285,7 +284,7 @@ blog post.
 
 #### Splitting traffic for A/B testing {#splitting}
 
-With [service subsets](/docs/concepts/traffic-management/routing/destination-rules/#service-subsets),
+With [service subsets](/docs/concepts/traffic-management/#service-subsets),
 you can label all instances that correspond to a specific version of a service.
 Before you configure routing rules, the Envoy proxies use round-robin load
 balancing across all service instances, regardless of their subset. After you
@@ -339,10 +338,10 @@ routes:
 - To other network resources in the mesh.
 
 Your mesh can require multiple virtual services or none depending on your use
-case. You can add [gateways](/docs/concepts/traffic-management/routing/gateways/)
+case. You can add [gateways](/docs/concepts/traffic-management/#gateways)
 to route traffic in or out of your mesh, or combine virtual services with
-[destination rules](/docs/concepts/traffic-management/routing/destination-rules/)
-to configure the behavior of the traffic. You can use a [service entry](/docs/concepts/traffic-management/routing/service-entries/)
+[destination rules](/docs/concepts/traffic-management/#destination-rules)
+to configure the behavior of the traffic. You can use a [service entry](/docs/concepts/traffic-management/#service-entries)
 to add external dependencies to the mesh and combine them with virtual services
 to configure the traffic to and from these dependencies. The following diagrams
 show some example virtual service configurations:
@@ -375,20 +374,20 @@ show some example virtual service configurations:
 
 You can use virtual services to perform the following types of tasks:
 
-- Add [multiple match conditions](/docs/concepts/traffic-management/routing/virtual-services/#multi-match)
+- Add [multiple match conditions](/docs/concepts/traffic-management/#multi-match)
    to a virtual service configuration to eliminate redundant rules.
 
 - Configure each application service version as a
-   [subset](/docs/concepts/traffic-management/routing/destination-rules/#service-subsets) and add
+   [subset](/docs/concepts/traffic-management/#service-subsets) and add
    a corresponding [destination
-   rule](/docs/concepts/traffic-management/routing/destination-rules/) to
+   rule](/docs/concepts/traffic-management/#destination-rules) to
    determine the set of pods or VMs belonging to these subsets.
 
-- Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/overview/#load-balancing)
+- Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/#load-balancing)
    for ingress and egress traffic in combination with
-   [gateways](/docs/concepts/traffic-management/routing/gateways/).
+   [gateways](/docs/concepts/traffic-management/#gateways).
 
-- Configure [traffic routes](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset)
+- Configure [traffic routes](/docs/concepts/traffic-management/#routing-subset)
    to your application services using DNS names. These DNS names support
    wildcard prefixes or CIDR prefixes to create a single rule for all matching
    services.
@@ -396,7 +395,7 @@ You can use virtual services to perform the following types of tasks:
 - Address one or more application services through a single virtual service.
    If your mesh uses Kubernetes, for example, you can configure a virtual
    service to handle all services in a specific
-   [namespace](/docs/concepts/traffic-management/routing/virtual-services/#routing-namespace).
+   [namespace](/docs/concepts/traffic-management/#routing-namespace).
 
 ### Route requests to a subset {#routing-subset}
 
@@ -435,7 +434,7 @@ running on Kubernetes, then `my-svc` is the name of a Kubernetes service.
 
 You use the destination's host to specify where you want the traffic to be
 sent. The destination's host must exist in the service registry. To use
-external services as destinations, use [service entries](/docs/concepts/traffic-management/routing/service-entries/)
+external services as destinations, use [service entries](/docs/concepts/traffic-management/#service-entries)
 to add those services to the registry.
 
 {{< warning >}}
@@ -594,7 +593,7 @@ The following diagram shows the configured traffic routes for the matched traffi
     >}}
 
 Routing rules are evaluated in a specific order. For details, refer to
-[Precedence](/docs/concepts/traffic-management/routing/virtual-services/#precedence).
+[Precedence](/docs/concepts/traffic-management/#precedence).
 
 #### Match a condition
 
@@ -830,7 +829,7 @@ destination rule to specify a single rule for multiple services.
 
 You can use destination rules to specify service subsets, that is, to group all
 the instances of your service with a particular version together. You then
-configure [routing rules](/docs/concepts/traffic-management/routing/virtual-services/#routing-rules)
+configure [routing rules](/docs/concepts/traffic-management/#routing-rules)
 that route traffic to your subsets to send certain traffic to particular
 service versions.
 
@@ -838,7 +837,7 @@ You specify explicit routing rules to service subsets. This model allows you
 to:
 
 - Cleanly refer to a specific service version across different
-    [virtual services](/docs/concepts/traffic-management/routing/virtual-services/).
+    [virtual services](/docs/concepts/traffic-management/#virtual-services).
 
 - Simplify the stats that the Istio proxies emit.
 
@@ -896,25 +895,25 @@ divisions and labels, use the `subsets` section in [destination rules](/docs/ref
 For example, you can use subsets to configure the following traffic routing
 scenarios:
 
-- Use subsets to [route traffic to different versions of a service](/docs/concepts/traffic-management/routing/virtual-services/#routing-subset).
+- Use subsets to [route traffic to different versions of a service](/docs/concepts/traffic-management/#routing-subset).
 
 - Use subsets to route traffic to the same service in different environments.
 
-You use service subsets in the routing rules of [virtual services](/docs/concepts/traffic-management/routing/virtual-services/),
-[gateways](/docs/concepts/traffic-management/routing/gateways/)
-and [service entries](/docs/concepts/traffic-management/routing/service-entries/)
+You use service subsets in the routing rules of [virtual services](/docs/concepts/traffic-management/#virtual-services),
+[gateways](/docs/concepts/traffic-management/#gateways)
+and [service entries](/docs/concepts/traffic-management/#service-entries)
 to control the traffic to your services.
 
 Understanding service subsets in Istio allows you to configure the
 communication to services with multiple versions within your mesh and configure
 the following common use cases:
 
-- [Canary rollout](/docs/concepts/traffic-management/routing/#canary)
+- [Canary rollout](/docs/concepts/traffic-management/#canary)
 
-- [Splitting traffic between versions for A/B testing](/docs/concepts/traffic-management/routing/#splitting)
+- [Splitting traffic between versions for A/B testing](/docs/concepts/traffic-management/#splitting)
 
 To learn how you can use service subsets to configure failure handling use
-cases, visit our [Network resilience and testing concept](/docs/concepts/traffic-management/network/).
+cases, visit our [Network resilience and testing concept](/docs/concepts/traffic-management/#network-resilience-and-testing).
 
 ## Gateways
 
@@ -960,7 +959,7 @@ gateway.
 
 All traffic enters the mesh through an ingress gateway workload. To configure
 the traffic, use an Istio gateway and a virtual service. You bind the virtual
-service to the gateway to use standard Istio [routing rules](/docs/concepts/traffic-management/routing/virtual-services/#routing-rules)
+service to the gateway to use standard Istio [routing rules](/docs/concepts/traffic-management/#routing-rules)
 to control HTTP requests and TCP traffic entering the mesh.
 
 ### Configure a gateway for external HTTPS traffic
@@ -1032,7 +1031,6 @@ For more information:
 
 ## Service entries
 
-
 A [service entry](/docs/reference/config/networking/v1alpha3/service-entry)
 is a network resource used to add an entry to Istio's abstract model, or
 service registry, that Istio maintains internally. After you add the service
@@ -1044,9 +1042,9 @@ rules to:
    consumed from the web, or traffic to services in legacy infrastructure.
 
 - Define
-   [retry](/docs/concepts/traffic-management/network/#timeouts-and-retries),
-   [timeout](/docs/concepts/traffic-management/network/#timeouts-and-retries),
-   and [fault injection](/docs/concepts/traffic-management/network/#fault-injection)
+   [retry](/docs/concepts/traffic-management/#timeouts-and-retries),
+   [timeout](/docs/concepts/traffic-management/#timeouts-and-retries),
+   and [fault injection](/docs/concepts/traffic-management/#fault-injection)
    policies for external destinations.
 
 - Add a service running in a Virtual Machine (VM) to the mesh to [expand your mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/#running-services-on-a-mesh-expansion-machine).
@@ -1159,7 +1157,6 @@ to review all the enabled keys and values.
 
 ## Sidecars
 
-
 By default, Istio configures every Envoy proxy to accept traffic on all the
 ports of its associated workload, and to reach every workload in the mesh when
 forwarding traffic. You can use a sidecar configuration to do the following:
@@ -1199,9 +1196,8 @@ for details.
 
 ## Network resilience and testing
 
-
 Istio provides opt-in failure recovery features that you can configure
-dynamically at runtime through the [Istio traffic management rules](/docs/concepts/traffic-management/routing/virtual-services/#routing-rules).
+dynamically at runtime through the [Istio traffic management rules](/docs/concepts/traffic-management/#routing-rules).
 With these features, the service mesh can tolerate failing nodes and Istio can
 prevent localized failures from cascading to other nodes:
 
