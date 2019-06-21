@@ -74,7 +74,7 @@ You can also provide the destination service to filter the status to that servic
 
 {{< tip >}}
 This tool only checks the consistency of the static TLS settings between destination rules and authentication policies. It doesn't take into account whether or not the
-workloads have sidecar or not (i.e, whether those policy/destination rule can be enforced). In other words, status `CONFLICT` doesn't always mean traffic is broken.
+corresponding workloads have sidecars or not. When they don't, the policy and destination rules are not enforced, so note that status `CONFLICT` doesn't always mean that traffic is broken.
 {{< /tip >}}
 
 The following commands identify the authentication policy for the `httpbin.default.svc.cluster.local` service and identify the destination rules for the service as seen from the same pod of the `sleep` app:
