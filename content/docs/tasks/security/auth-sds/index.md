@@ -53,7 +53,7 @@ This approach has the following benefits:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ kubectl apply -f install/kubernetes/helm/istio-init/files/crd/
+    $ kubectl apply -f install/kubernetes/helm/istio-init/files/
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/values-istio-sds-auth.yaml@ > istio-auth-sds.yaml
     $ kubectl apply -f istio-auth-sds.yaml
     {{< /text >}}
