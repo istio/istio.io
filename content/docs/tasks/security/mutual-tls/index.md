@@ -72,6 +72,11 @@ Please check [Istio identity](/docs/concepts/security/#istio-identity) for more 
 Use the `istioctl` tool to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
 You can also provide the destination service to filter the status to that service only.
 
+{{< tip >}}
+This tool only checks the consistency of the static TLS settings between destination rules and authentication policies. It doesn't take into account whether or not the
+corresponding workloads have sidecars or not. When they don't, the policy and destination rules are not enforced, so note that status `CONFLICT` doesn't always mean that traffic is broken.
+{{< /tip >}}
+
 The following commands identify the authentication policy for the `httpbin.default.svc.cluster.local` service and identify the destination rules for the service as seen from the same pod of the `sleep` app:
 
 {{< text bash >}}
