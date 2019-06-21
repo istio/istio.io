@@ -2,6 +2,8 @@
 title: Troubleshooting Networking Issues
 description: Describes common networking issues and how to recognize and avoid them.
 weight: 30
+aliases:
+    - /help/ops/traffic-management/troubleshooting
 ---
 
 This section describes common problems and tools and techniques to address issues related to traffic management.

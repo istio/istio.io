@@ -3,6 +3,8 @@ title: Component Logging
 description: Describes how to use component-level logging to get insights into a running component's behavior.
 weight: 10
 keywords: [ops]
+aliases:
+    - /help/ops/component-logging
 ---
 
 Istio components are built with a flexible logging framework which provides a number of features and controls to

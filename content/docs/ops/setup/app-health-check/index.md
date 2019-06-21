@@ -5,6 +5,7 @@ weight: 65
 aliases:
   - /docs/tasks/traffic-management/app-health-check/
   - /docs/ops/security/health-checks-and-mtls/
+  - /help/ops/setup/app-health-check
 keywords: [security,health-check]
 ---
 

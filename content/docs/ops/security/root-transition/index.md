@@ -3,6 +3,8 @@ title: Extending Self-Signed Certificate Lifetime
 description: Learn how to extend the lifetime of the Istio self-signed root certificate.
 weight: 90
 keywords: [security, PKI, certificate, Citadel]
+aliases:
+    - /help/ops/security/root-transition
 ---
 
 Istio self-signed certificates have historically had a 1 year default lifetime.
