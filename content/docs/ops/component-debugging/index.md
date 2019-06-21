@@ -2,6 +2,8 @@
 title: Component Debugging
 description: How to do low-level debugging of Istio components.
 weight: 25
+aliases:
+    - /help/ops/component-debugging
 ---
 
 You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/component-logging/)

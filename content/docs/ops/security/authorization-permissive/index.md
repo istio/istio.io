@@ -2,6 +2,8 @@
 title: Authorization Too Permissive
 description: Authorization is enabled, but requests make it through anyway.
 weight: 50
+aliases:
+    - /help/ops/security/authorization-permissive
 ---
 If authorization checks are enabled for a service and yet requests to the
 service aren't being blocked, then authorization was likely not enabled
