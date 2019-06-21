@@ -38,7 +38,7 @@ The final concept that is essential for the operator to understand is how
 Istio uses gateways to allow traffic into the mesh or requests originating
 in the mesh from accessing external services. This is described with a
 configuration example here:
-[Istio Gateways](/docs/concepts/traffic-management/routing/gateways/)
+[Istio Gateways](/docs/concepts/traffic-management/#gateways)
 
 ## Network Layers Beneath the Mesh
 

@@ -263,7 +263,7 @@ any other unintentional accesses.
 ### Manage traffic to external services
 
 Similar to inter-cluster requests, Istio
-[routing rules](/docs/concepts/traffic-management/routing/virtual-services/#routing-rules)
+[routing rules](/docs/concepts/traffic-management/#routing-rules)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
 In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
@@ -328,7 +328,7 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
-[intercepting](/docs/concepts/traffic-management/routing/)
+[intercepting](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
 external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
 or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
 update the `istio-sidecar-injector` configuration map using the `kubectl apply` command.
