@@ -122,9 +122,9 @@ external services as destinations, use [service entries](/docs/concepts/traffic-
 to add those services to the registry.
 
 {{< warning >}}
-Istio **doesn't** provide DNS resolution. Applications can try
-to resolve the FQDN by using the DNS service present in their platform of
-choice, for example `kube-dns`.
+Istio **doesn't** provide [DNS](https://hosting.review/web-hosting-glossary/#9)
+resolution. Applications can try to resolve the FQDN by using the DNS service
+present in their platform of choice, for example `kube-dns`.
 {{< /warning >}}
 
 The following diagram shows the configured rule:
@@ -200,7 +200,7 @@ to perform some actions on the traffic, for example:
 
 - Set a retry policy.
 
-To learn more about the actions available, visit the [virtual service reference documentation](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
+To learn more about the actions available, see the [virtual service reference documentation](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
 
 ### Routing rule for HTTP traffic
 

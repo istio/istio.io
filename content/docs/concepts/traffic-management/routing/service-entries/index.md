@@ -7,9 +7,10 @@ keywords: [traffic-management, http, tcp, grpc, ingress, egress]
 
 A [service entry](/docs/reference/config/networking/v1alpha3/service-entry)
 is a network resource used to add an entry to Istio's abstract model, or
-service registry, that Istio maintains internally. Once added, the Envoy
-proxies can send traffic to the external service as if it was a service in your
-mesh. You can configure service entries to configure routing rules to:
+service registry, that Istio maintains internally. After you add the service
+entry, the Envoy proxies can send traffic to the external service as if it was
+a service in your mesh. You can configure service entries to configure routing
+rules to:
 
 - Redirect and forward traffic for external destinations, such as APIs
    consumed from the web, or traffic to services in legacy infrastructure.
@@ -20,7 +21,7 @@ mesh. You can configure service entries to configure routing rules to:
    and [fault injection](/docs/concepts/traffic-management/network/#fault-injection)
    policies for external destinations.
 
-- Add a service running in a Virtual Machine to the mesh to [expand your mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/#running-services-on-a-mesh-expansion-machine).
+- Add a service running in a Virtual Machine (VM) to the mesh to [expand your mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/#running-services-on-a-mesh-expansion-machine).
 
 - Logically add services from a different cluster to the mesh to configure a
   [multicluster Istio mesh](/docs/tasks/multicluster/gateways/#configure-the-example-services)
@@ -45,7 +46,7 @@ to configure internal infrastructure:
    the mesh. You configure a mesh-external service entry so that a service
    inside the mesh can make API calls to an external server. You can use
    service entries with an egress gateway to ensure all external services are
-   accessed though a single exit point.
+   accessed through a single exit point.
 
     mutual TLS is disabled by default for mesh-external service entries, but you can
     change the authentication method by configuring a destination rule for the
@@ -66,7 +67,7 @@ configurations:
 
 ## Add an external dependency securely
 
-The following example mesh-external service entry adds the ext-resource
+The following example mesh-external service entry adds the `ext-resource`
 external dependency to Istio's service registry:
 
 {{< text yaml >}}
@@ -90,14 +91,14 @@ it fully or use a wildcard domain name. The value represents the set of one or
 more services outside the mesh that services in the mesh can access.
 
 Configuring a service entry can be enough to call an external service, but
-typically you configure either, or both, a virtual service or destination rules to control
-traffic more in a granular way. You can configure traffic for a service entry in the
-same way you configure traffic for a service in the mesh.
+typically you configure either, or both, a virtual service or destination rules
+to control traffic in a more granular way. You can configure traffic for a
+service entry in the same way you configure traffic for a service in the mesh.
 
 ### Secure the connection with mutual TLS
 
 The following destination rule configures the traffic route to use mutual TLS
-(mutual TLS) to secure the connection to the `ext-resource` external service we
+to secure the connection to the `ext-resource` external service we
 configured using the service entry:
 
 {{< text yaml >}}
@@ -125,5 +126,5 @@ following diagram shows the configured traffic routing rules:
     caption="Configurable traffic routes using service entries and destination rules"
     >}}
 
-Visit the [service entries reference documentation](/docs/reference/config/networking/v1alpha3/service-entry)
+See the [service entries reference documentation](/docs/reference/config/networking/v1alpha3/service-entry)
 to review all the enabled keys and values.
