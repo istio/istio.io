@@ -3,6 +3,8 @@ title: Debugging Envoy and Pilot
 description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
 weight: 40
 keywords: [debug,proxy,status,config,pilot,envoy]
+aliases:
+    - /help/ops/traffic-management/proxy-cmd
 ---
 
 Istio provides two very valuable commands to help diagnose traffic management configuration problems,

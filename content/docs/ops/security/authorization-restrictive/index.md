@@ -2,6 +2,8 @@
 title: Authorization Too Restrictive
 description: Authorization is enabled and no requests make it through to the service.
 weight: 60
+aliases:
+    - /help/ops/security/authorization-restrictive
 ---
 
 When you first enable authorization for a service, all requests are denied by default. After you add one or more authorization policies, then
