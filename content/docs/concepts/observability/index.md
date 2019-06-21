@@ -118,9 +118,10 @@ of Istio itself (as distinct from that of the services within the mesh).
 
 For more information on which metrics are maintained, please refer to the reference documentation for each of the components:
 
-- [Pilot](/docs/concepts/traffic-management/overview/#pilot)
-- [Galley](/docs/concepts/what-is-istio/#galley)
-- [Mixer](/docs/reference/config/policy-and-telemetry/)
+- [Pilot](/docs/reference/commands/pilot-discovery/#metrics)
+- [Galley](/docs/reference/commands/galley/#metrics)
+- [Mixer](/docs/reference/commands/mixs/#metrics)
+- [Citadel](/docs/reference/commands/istio_ca/#metrics)
 
 ## Distributed Traces
 
