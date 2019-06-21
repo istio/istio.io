@@ -73,7 +73,7 @@ apply to the traffic to and from the `my-svc` service:
     caption="Configurable route examples defined in the destination rule"
     >}}
 
-Visit our [destination rules reference documentation](/docs/reference/config/networking/v1alpha3/destination-rule/)
+See our [destination rules reference documentation](/docs/reference/config/networking/v1alpha3/destination-rule/)
 to review all the enabled keys and values.
 
 ## Service subsets

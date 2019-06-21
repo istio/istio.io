@@ -1,6 +1,6 @@
 ---
 title: Overview and Terminology
-description: Learn about Pilot, Istio's core traffic management component, Envoy proxies, and how they enable service discovery and load balancing.
+description: Learn about Pilot, Istio's core traffic management component and Envoy proxies and how they enable service discovery and load balancing.
 weight: 1
 keywords: [traffic-management, pilot, envoy-proxies, service-discovery, load-balancing]
 ---
@@ -53,9 +53,8 @@ over the traffic in your service mesh.
 Traffic in Istio is categorized as data plane traffic and control plane
 traffic. Data plane traffic refers to the data that the business logic of the
 workloads manipulate. Control plane traffic refers to configuration and control
-data sent between Istio components to program the behavior of the mesh. When
-referring to traffic management in Istio, the traffic involved is exclusively
-data plane traffic.
+data sent between Istio components to program the behavior of the mesh. Traffic
+management in Istio refers exclusively to data plane traffic.
 
 Envoy proxies are the only Istio components that interact with data plane
 traffic. Envoy proxies route the data plane traffic across the mesh and enforce
@@ -95,7 +94,8 @@ using:
 1. **Pilot** distributes traffic rules and configurations to the Envoy proxies
    to account for the change.
 
-The diagram shows how the platform adapters and Envoy proxies interact.
+The following diagram shows how the platform adapters and Envoy proxies
+interact.
 
 {{< image width="40%"
     link="./discovery.svg"
@@ -149,6 +149,5 @@ and Envoy proxies:
     caption="Traffic management example"
     >}}
 
-To learn more about the traffic management resources shown, please continue to
-our [Traffic routing and configuration concept](/docs/concepts/traffic-management/routing/)
+To learn more about the traffic management resources shown, see the [Traffic routing and configuration concept](/docs/concepts/traffic-management/routing/)
 
