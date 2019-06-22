@@ -124,7 +124,11 @@ sleep.bar to httpbin.foo: 503
 sleep.bar to httpbin.bar: 503
 {{< /text >}}
 
+<<<<<<< HEAD
 To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#rule-destinations) to use mutual TLS. It's possible to use
+=======
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#destination-rules) to use mutual TLS. It's possible to use
+>>>>>>> f48927ffe... Add new Traffic management concept as a single page (#4525)
 multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with the `*` wildcard to match all
 services so that it is on par with the mesh-wide authentication policy.
 
