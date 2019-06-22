@@ -10,7 +10,7 @@ keywords: [traffic-management]
 使用 Istio 的流量管理模型，本质上是将流量与基础设施扩容解耦，让运维人员可以通过 Pilot 指定流量遵循什么规则，而不是指定哪些 pod/VM 应该接收流量——Pilot 和智能 Envoy 代理会帮我们搞定。因此，例如，您可以通过 Pilot 指定特定服务的 5％ 流量可以转到金丝雀版本，而不必考虑金丝雀部署的大小，或根据请求的内容将流量发送到特定版本。
 
 {{< image width="85%"
-    link="TrafficManagementOverview.svg"
+    link="./TrafficManagementOverview.svg"
     caption=" Istio 流量管理"
     >}}
 
@@ -29,7 +29,7 @@ Istio 流量管理的核心组件是 [Pilot](#pilot-和-envoy)，它管理和配
 Pilot 负责管理通过 Istio 服务网格发布的 Envoy 实例的生命周期。
 
 {{< image width="60%"
-    link="PilotAdapters.svg"
+    link="./PilotAdapters.svg"
     caption="Pilot 架构"
     >}}
 
@@ -48,7 +48,7 @@ Istio 引入了服务版本的概念，可以通过版本（`v1`、`v2`）或环
 ### 服务之间的通讯
 
 {{< image width="60%"
-    link="ServiceModel_Versions.svg"
+    link="./ServiceModel_Versions.svg"
     alt="服务版本的处理。"
     caption="服务版本"
     >}}
@@ -66,7 +66,7 @@ Istio 不提供 DNS。应用程序可以尝试使用底层平台（`kube-dns`、
 Istio 假定进入和离开服务网络的所有流量都会通过 Envoy 代理进行传输。通过将 Envoy 代理部署在服务之前，运维人员可以针对面向用户的服务进行 A/B 测试、部署金丝雀服务等。类似地，通过使用 Envoy 将流量路由到外部 Web 服务（例如，访问 Maps API 或视频服务 API）的方式，运维人员可以为这些服务添加超时控制、重试、断路器等功能，同时还能从服务连接中获取各种细节指标。
 
 {{< image width="85%"
-    link="ServiceModel_RequestFlow.svg"
+    link="./ServiceModel_RequestFlow.svg"
     alt="通过 Envoy 的 Ingress 和 Egress。"
     caption="请求流"
     >}}
@@ -80,7 +80,7 @@ Istio 假定存在服务注册表，以追踪应用程序中服务的 pod/VM。�
 Pilot 使用来自服务注册的信息，并提供与平台无关的服务发现接口。网格中的 Envoy 实例执行服务发现，并相应地动态更新其负载均衡池。
 
 {{< image width="55%"
-    link="LoadBalancing.svg"
+    link="./LoadBalancing.svg"
     caption="发现与负载均衡">}}
 
 如上图所示，网格中的服务使用其 DNS 名称访问彼此。服务的所有 HTTP 流量都会通过 Envoy 自动重新路由。Envoy 在负载均衡池中的实例之间分发流量。虽然 Envoy 支持多种[复杂的负载均衡算法](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing)，但 Istio 目前仅允许三种负载均衡模式：轮询、随机和带权重的最少请求。
