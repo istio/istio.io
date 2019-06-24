@@ -374,7 +374,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 1.  Apply `istio-ingressgateway` deployment patch with the following command:
 
     {{< text bash >}}
-    $ oc -n istio-system patch --type=json deploy istio-ingressgateway -p "$(cat patch.json)"
+    $ kubectl -n istio-system patch --type=json deploy istio-ingressgateway -p "$(cat patch.json)"
     {{< /text >}}
 
 1.  Verify that the key and certificate have been successfully loaded in the `istio-ingressgateway` pod:
