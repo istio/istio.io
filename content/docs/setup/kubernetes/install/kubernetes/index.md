@@ -30,7 +30,7 @@ requirements.
 
     {{< warning >}}
     These quick-start instructions will not work with a downloaded [istio repository](https://github.com/istio/istio)
-    becuase the pregenerated yaml files, `istio-demo.yaml` and `istio-demo-auth.yaml`, are only available in
+    because the pregenerated yaml files, `istio-demo.yaml` and `istio-demo-auth.yaml`, are only available in
     [release images](https://github.com/istio/istio/releases). If you want to work with the latest Istio codebase,
     refer to the [developer wiki](https://github.com/istio/istio/wiki) for instructions.
     {{< /warning >}}
