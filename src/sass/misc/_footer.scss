@@ -9,7 +9,7 @@ footer {
     padding: 1rem 4px 1.5rem;
     text-align: center;
     display: grid;
-    grid-template-columns: [user-links] 45% [info] 55% [dev-links] 0%;
+    grid-template-columns: [user-links] 60% [info] 40% [dev-links] 0;
     grid-template-rows: 100%;
 
     @media print {
