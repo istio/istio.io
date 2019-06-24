@@ -19,6 +19,13 @@ participate in discussions, and get help troubleshooting problems. You can use y
 on deploying, configuring, and using Istio.
 {{< /community_item >}}
 
+{{< community_item logo="./slack.svg" alt="Slack" >}}
+If you'd like to have live interactions with members of our community, you can join us on
+[Istio's Slack](https://istio.slack.com) workspace.
+Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
+to join.
+{{< /community_item >}}
+
 {{< community_item logo="./gcal.svg" alt="Community Calendar" >}}
 Attend events on our [Community calendar](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do%40group.calendar.google.com&ctz=America%2FLos_Angeles).
 {{< /community_item >}}
@@ -29,13 +36,6 @@ Follow us on [Twitter](https://twitter.com/IstioMesh) to get the latest news.
 
 {{< community_item logo="./github.png" alt="GitHub" >}}
 [GitHub](https://github.com/istio/community) is where development takes place on Istio code.
-{{< /community_item >}}
-
-{{< community_item logo="./slack.svg" alt="Slack" >}}
-If you're contributing code to Istio (or thinking about contributing!), you can join us on
-[Istio's Slack](https://istio.slack.com) channel.
-Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
-to join.
 {{< /community_item >}}
 
 {{< community_item logo="./drive.svg" alt="Google Drive" >}}
