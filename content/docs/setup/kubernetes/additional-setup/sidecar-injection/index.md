@@ -40,14 +40,6 @@ $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 
 Alternatively, inject using local copies of the configuration.
 
-{{< tip >}}
-The `istioctl kube-inject` operation may not be repeated on the output
-from a previous `kube-inject`.  The `kube-inject` operation is not idempotent.
-For upgrade purposes, if using manual injection, it is recommended to keep
-the original non-injected `yaml` file so that the data plane sidecars may be
-updated.
-{{< /tip >}}
-
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
