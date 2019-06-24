@@ -16,4 +16,4 @@ source.ip: 192.168.0.1
 destination.workload.name: example
 {{< /text >}}
 
-Attributes are used by Istio's [policy and telemetry](/docs/concepts/policies-and-telemetry/) features.
+Attributes are used by Istio's [policy and telemetry](/docs/reference/config/policy-and-telemetry/) features.
