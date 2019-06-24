@@ -462,6 +462,10 @@ the credentials of the ingress gateway by deleting its secret and creating a new
 The server uses the CA certificate to verify
 its clients, and we must use the name `cacert` to hold the CA certificate.
 
+{{< tip >}}
+You can optionally provide a Certificate Revocation List (CRL) by using the name `crl`.
+{{< /tip >}}
+
 {{< text bash >}}
 $ kubectl -n istio-system delete secret httpbin-credential
 $ kubectl create -n istio-system secret generic httpbin-credential  \
