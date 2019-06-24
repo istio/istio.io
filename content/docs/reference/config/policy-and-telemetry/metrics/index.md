@@ -12,6 +12,7 @@ We will describe the metrics first and then the labels for each metric.
 
 ## Metrics
 
+<<<<<<< HEAD
 For HTTP, HTTP/2, and GRPC requests, Istio generates the following mesh metrics:
 
 *   **Request Count** (`istio_requests_total`): This is a `COUNTER` incremented for every
@@ -39,6 +40,29 @@ For TCP traffic, Istio generates the following mesh metrics:
 
 *   **Tcp Connections Closed** (`istio_tcp_connections_closed_total`): This is a `COUNTER` incremented for every closed
     tcp connection.
+=======
+For HTTP, HTTP/2, and GRPC traffic, Istio generates the following metrics:
+
+*   **Request Count** (`istio_requests_total`): This is a `COUNTER` incremented for every request handled by an Istio proxy.
+
+*   **Request Duration** (`istio_request_duration_seconds`): This is a `DISTRIBUTION` which measures the duration of requests.
+
+*   **Request Size** (`istio_request_bytes`): This is a `DISTRIBUTION` which measures HTTP request body sizes.
+
+*   **Response Size** (`istio_response_bytes`): This is a `DISTRIBUTION` which measures HTTP response body sizes.
+
+For TCP traffic, Istio generates the following metrics:
+
+*   **Tcp Byte Sent** (`istio_tcp_sent_bytes_total`): This is a `COUNTER` which measures the size of total bytes sent during response in case of a TCP
+    connection.
+
+*   **Tcp Byte Received** (`istio_tcp_received_bytes_total`): This is a `COUNTER` which measures the size of total
+    bytes received during request in case of a TCP connection.
+
+*   **Tcp Connections Opened** (`istio_tcp_connections_opened_total`): This is a `COUNTER` incremented for every opened connection.
+
+*   **Tcp Connections Closed** (`istio_tcp_connections_closed_total`): This is a `COUNTER` incremented for every closed connection.
+>>>>>>> e260e3385... Fixing observability concept doc. (#4448)
 
 ## Labels
 

@@ -260,7 +260,7 @@ and specify the [routing rules](/docs/concepts/traffic-management/#routing-rules
 
 The advantage of this configuration method is that it decouples the application
 code from the evolution of its dependent services. This in turn provides
-monitoring benefits. For details, see [Mixer policies and telemetry](/docs/concepts/policies-and-telemetry/).
+monitoring benefits. For details, see [Mixer policies and telemetry](/docs/reference/config/policy-and-telemetry/).
 
 #### Canary rollouts with autoscaling {#canary}
 
