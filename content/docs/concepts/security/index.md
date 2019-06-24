@@ -1,8 +1,8 @@
 ---
-title: Security
+title: Policies and Security
 description: Describes Istio's authorization and authentication functionality.
 weight: 30
-keywords: [security,authentication,authorization,rbac,access-control]
+keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
 aliases:
     - /docs/concepts/network-and-auth/auth.html
     - /docs/concepts/security/authn-policy/
@@ -39,6 +39,18 @@ and audit (AAA) tools to protect your services and data. The goals of Istio secu
 
 Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
 Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
+
+## Policies
+
+Istio lets you configure custom policies for your application to enforce rules at runtime such as:
+
+- Rate limiting to dynamically limit the traffic to a service
+- Denials, whitelists, and blacklists, to restrict access to services
+- Header rewrites and redirects
+
+Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
+
+You must enable policy enforcement for your mesh to use this feature.
 
 ## High-level architecture
 
@@ -191,7 +203,7 @@ The photo SRE team creates two service accounts to run `photo-frontend` and
 `photo-backend` respectively in the `photo-ns` namespace. The datastore SRE
 team creates one service account to run the `datastore` service in the
 `datastore-ns` namespace. Moreover, we need to enforce the service access
-control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
+control in [Istio Mixer](/docs/reference/config/policy-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
 In this setup, Kubernetes can isolate the operator privileges on managing the services.
@@ -899,4 +911,4 @@ spec:
 
 While we strongly recommend using the Istio authorization mechanisms,
 Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
-To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/concepts/policies-and-telemetry/#adapters).
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/reference/config/policy-and-telemetry/adapters).
