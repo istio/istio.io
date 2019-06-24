@@ -343,7 +343,8 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     secret "istio-ingressgateway-bookinfo-certs" created
     {{< /text >}}
 
-1.  Let's update the `istio-ingressgateway` deployment to include a volume to be mounted from the new secret we created above. Create this `patch.json` file that will be used to patch the `istio-ingressgateway` deployment:
+1.  To include a volume mounted from the new created secret, update the `istio-ingressgateway` deployment. 
+    To patch the `istio-ingressgateway` deployment, create the following `patch.json` file:
 
     {{< text bash >}}
     $ cat > patch.json <<EOF
@@ -370,7 +371,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     EOF
     {{< /text >}}
 
-1.  Apply this `istio-ingressgateway` deployment patch:
+1.  Apply `istio-ingressgateway` deployment patch with the following command:
 
     {{< text bash >}}
     $ oc -n istio-system patch --type=json deploy istio-ingressgateway -p "$(cat patch.json)"
