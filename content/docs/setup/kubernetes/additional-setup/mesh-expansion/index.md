@@ -49,7 +49,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
-    $ helm upgrade --set global.meshExpansion.enabled=true istio-system .
+    $ helm upgrade --set global.meshExpansion.enabled=true istio .
     $ cd -
     {{< /text >}}
 
