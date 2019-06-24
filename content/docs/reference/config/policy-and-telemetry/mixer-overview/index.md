@@ -1,7 +1,7 @@
 ---
-title: Policies and Telemetry
-description: Describes the policy enforcement and telemetry mechanisms.
-weight: 40
+title: Mixer Configuration Model 
+description: Describes the configuration model for Istio's policy enforcement and telemetry mechanisms.
+weight: 5
 keywords: [policies,telemetry,control,config]
 aliases:
     - /docs/concepts/policy-and-control/mixer.html
@@ -41,8 +41,6 @@ At a high level, Mixer provides:
 
 * **Intermediation**. Mixer allows operators to have fine-grained control over all interactions between the mesh and infrastructure backends.
 
-Beyond these purely functional aspects, Mixer also has [reliability and scalability](#reliability-and-latency) benefits as outlined below.
-
 Policy enforcement and telemetry collection are entirely driven from configuration.
 Policy check is disabled by default, avoiding the need to go through the Mixer policy component.
 Refer to [Installation Options](/docs/reference/config/installation-options/) for more information.
@@ -67,30 +65,6 @@ extended to target new or custom infrastructure backends.
     >}}
 
 Learn more about the [set of supported adapters](/docs/reference/config/policy-and-telemetry/adapters/).
-
-## Reliability and latency
-
-Mixer is a highly available component whose design helps increase overall availability and reduce average latency
-of services in the mesh. Key aspects of its design deliver these benefits:
-
-* **Statelessness**. Mixer is stateless in that it doesn’t manage any persistent storage of its own.
-
-* **Hardening**. Mixer proper is designed to be a highly reliable component. The design intent is to achieve > 99.999% uptime for any individual Mixer instance.
-
-* **Caching and Buffering**. Mixer is designed to accumulate a large amount of transient ephemeral state.
-
-The sidecar proxies that sit next to each service instance in the mesh must necessarily be frugal in terms of memory consumption, which constrains the possible amount of local
-caching and buffering. Mixer, however, lives independently and can use considerably larger caches and output buffers. Mixer thus acts as a highly-scaled and highly-available second-level
-cache for the sidecars.
-
-{{< image width="65%" link="./topology-with-cache.svg" caption="Mixer Topology" >}}
-
-Since Mixer’s expected availability is considerably higher than most infrastructure backends (those often have availability of perhaps 99.9%). Mixer's local
-caches and buffers not only contribute to reduce latency, they also help mask infrastructure backend failures by being able to continue operating
-even when a backend has become unresponsive.
-
-Finally, Mixer's caching and buffering helps reduce the frequency of calls to backends, and can sometimes reduce the amount of data
-sent to backends (through local aggregation). Both of these can reduce operational expense in certain cases.
 
 ## Attributes
 
