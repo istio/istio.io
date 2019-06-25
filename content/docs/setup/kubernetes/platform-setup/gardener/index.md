@@ -1,7 +1,7 @@
 ---
 title: Kubernetes Gardener
 description: Instructions to setup a Gardener cluster for Istio.
-weight: 15 
+weight: 19
 skip_seealso: true
 keywords: [platform-setup,kubernetes,gardener,sap]
 ---
