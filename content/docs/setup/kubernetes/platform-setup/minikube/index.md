@@ -42,7 +42,7 @@ Administrative privileges are required to run minikube.
     Istio and bookinfo.
 
     {{< tip >}}
-    If you don't have enough ram allocated to the minikube
+    If you don't have enough RAM allocated to the minikube
     virtual machine, the following errors could occur:
 
     - image pull failures
