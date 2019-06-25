@@ -343,28 +343,38 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     secret "istio-ingressgateway-bookinfo-certs" created
     {{< /text >}}
 
-1.  Generate the `istio-ingressgateway` deployment with a volume to be mounted from the new secret. Use the same options you
-    used for generating your `istio.yaml`:
+1.  To include a volume mounted from the new created secret, update the `istio-ingressgateway` deployment.
+    To patch the `istio-ingressgateway` deployment, create the following `patch.json` file:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-egressgateway.enabled=false \
-    --set 'gateways.istio-ingressgateway.secretVolumes[0].name'=ingressgateway-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[0].secretName'=istio-ingressgateway-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[0].mountPath'=/etc/istio/ingressgateway-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[1].name'=ingressgateway-ca-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[1].secretName'=istio-ingressgateway-ca-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[1].mountPath'='/etc/istio/ingressgateway-ca-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[2].name'=ingressgateway-bookinfo-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[2].secretName'=istio-ingressgateway-bookinfo-certs \
-    --set 'gateways.istio-ingressgateway.secretVolumes[2].mountPath'=/etc/istio/ingressgateway-bookinfo-certs > \
-    $HOME/istio-ingressgateway.yaml
+    $ cat > patch.json <<EOF
+    [{
+      "op": "add",
+      "path": "/spec/template/spec/containers/0/volumeMounts/0",
+      "value": {
+        "mountPath": "/etc/istio/ingressgateway-bookinfo-certs",
+        "name": "ingressgateway-bookinfo-certs",
+        "readOnly": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spec/template/spec/volumes/0",
+      "value": {
+      "name": "ingressgateway-bookinfo-certs",
+        "secret": {
+          "secretName": "istio-ingressgateway-bookinfo-certs",
+          "optional": true
+        }
+      }
+    }]
+    EOF
     {{< /text >}}
 
-1.  Redeploy `istio-ingressgateway`:
+1.  Apply `istio-ingressgateway` deployment patch with the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f $HOME/istio-ingressgateway.yaml
-    deployment "istio-ingressgateway" configured
+    $ kubectl -n istio-system patch --type=json deploy istio-ingressgateway -p "$(cat patch.json)"
     {{< /text >}}
 
 1.  Verify that the key and certificate have been successfully loaded in the `istio-ingressgateway` pod:
