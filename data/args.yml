@@ -2,7 +2,7 @@
 version: "1.2"
 
 # The full Istio version identifier the docs describe
-full_version: "1.2.0"
+full_version: "1.2.1"
 
 # The year to display in copyright notices
 copyright_year: 2019
