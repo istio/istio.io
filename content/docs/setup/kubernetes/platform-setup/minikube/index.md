@@ -22,7 +22,7 @@ Administrative privileges are required to run minikube.
 
 1.  If you're not using the default driver, set your minikube hypervisor driver.
 
-    For example, if you installed the KVM hypervisor, set the vm-driver
+    For example, if you installed the KVM hypervisor, set the `vm-driver`
     within the minikube configuration using the following command:
 
     {{< text bash >}}
