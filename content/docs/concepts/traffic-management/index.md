@@ -59,9 +59,8 @@ services in the mesh. **Platform-specific adapters** in Pilot translate the
 abstract model appropriately for your platform.
 
 For example, the Kubernetes adapter implements controllers to watch the
-Kubernetes API server for changes to pod registration information, ingress
-resources, and third-party resources like custom resource definitions (CRDs)
-that store traffic management rules. The Kubernetes adapter translates this
+Kubernetes API server for changes to pod registration information and service
+resouces. The Kubernetes adapter translates this
 data for the abstract model, so Pilot can generate and deliver the appropriate
 Envoy-specific configurations.
 
@@ -1034,9 +1033,10 @@ For more information:
 A [service entry](/docs/reference/config/networking/v1alpha3/service-entry)
 is a network resource used to add an entry to Istio's abstract model, or
 service registry, that Istio maintains internally. After you add the service
-entry, the Envoy proxies can send traffic to the external service as if it was
-a service in your mesh. You can configure service entries to configure routing
-rules to:
+entry, the Envoy proxies can send traffic to the service as if it was
+a service in your mesh.
+Configuring service entries allows you to manage traffic for services running
+outside of the mesh:
 
 - Redirect and forward traffic for external destinations, such as APIs
    consumed from the web, or traffic to services in legacy infrastructure.
@@ -1053,9 +1053,12 @@ rules to:
   [multicluster Istio mesh](/docs/tasks/multicluster/gateways/#configure-the-example-services)
   on Kubernetes.
 
-You don’t need to add a service entry for every mesh-external service that you
+You don’t need to add a service entry for every external service that you
 want your mesh services to use. By default, Istio configures the Envoy proxies
-to passthrough requests from unknown services. You can also use service entries
+to passthrough requests to unknown services, although you can't use Istio features
+to control the traffic to destinations that are not registered in the mesh.
+
+You can also use service entries
 to configure internal infrastructure:
 
 - A **mesh-internal** service entry adds a service running in the mesh, which
@@ -1068,7 +1071,7 @@ to configure internal infrastructure:
     service entries, but to change the authentication method, you can configure
     a destination rule for the service entry.
 
-- A **mesh-external** service entry adds a service without and Envoy proxy to
+- A **mesh-external** service entry adds a service without an Envoy proxy to
    the mesh. You configure a mesh-external service entry so that a service
    inside the mesh can make API calls to an external server. You can use
    service entries with an egress gateway to ensure all external services are
