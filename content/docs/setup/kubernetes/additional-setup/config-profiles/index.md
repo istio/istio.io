@@ -53,16 +53,15 @@ The components marked as **X** are installed within each profile:
 Some profiles have an authentication variant, with `-auth` appended to the name, which adds the following
 security features to the profile:
 
+{{< tip >}}
+Control plane security with SDS is planned for an upcoming release.
+{{< /tip >}}
+
 | | default | demo | minimal | sds-auth |
 | --- | --- | --- | --- | --- |
 | Control Plane Security | | X | | |
 | Strict Mutual TLS | | X | | X |
 | SDS | | | | X |
-
-{{< tip >}}
-Control plan security still requires the use of secret volume mounts, and is therefore
-incompatible with SDS.
-{{< /tip >}}
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
 
