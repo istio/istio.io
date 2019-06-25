@@ -863,7 +863,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <p>kube-inject manually injects the Envoy sidecar into Kubernetes
 workloads. Unsupported resources are left unmodified so it is safe to
 run kube-inject over a single file that contains multiple Service,
-ConfigMap, Deployment, etc. definitions for a complex application. Its
+ConfigMap, Deployment, etc. definitions for a complex application. It&#39;s
 best to do this when the resource is initially created.</p>
 <p>k8s.io/docs/concepts/workloads/pods/pod-overview/#pod-templates is
 updated for Job, DaemonSet, ReplicaSet, Pod and Deployment YAML resource
@@ -871,11 +871,7 @@ documents. Support for additional pod-based resource types can be
 added as necessary.</p>
 <p>The Istio project is continually evolving so the Istio sidecar
 configuration may change unannounced. When in doubt re-run istioctl
-kube-inject on deployments to get the most up-to-date changes.</p>
-<p>To override the sidecar injection template from kubernetes configmap
-&#39;istio-inject&#39;, the parameters --injectConfigFile or --injectConfigMapName
-can be used. Either of options would typically be used with the
-file/configmap created with a new Istio release.
+kube-inject on deployments to get the most up-to-date changes.
 </p>
 <pre class="language-bash"><code>istioctl kube-inject [flags]
 </code></pre>
@@ -962,9 +958,15 @@ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml
 # Update an existing deployment.
 kubectl get deployment -o yaml | istioctl kube-inject -f - | kubectl apply -f -
 
-# Create a persistent version of the deployment with Envoy sidecar
-# injected configuration from Kubernetes configmap &#39;istio-inject&#39;
-istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-inject
+# Capture cluster configuration for later use with kube-inject
+kubectl -n istio-system get cm istio-sidecar-injector  -o jsonpath=&#34;{.data.config}&#34; &gt; /tmp/inj-template.tmpl
+kubectl -n istio-system get cm istio -o jsonpath=&#34;{.data.mesh}&#34; &gt; /tmp/mesh.yaml
+kubectl -n istio-system get cm istio-sidecar-injector -o jsonpath=&#34;{.data.values}&#34; &gt; /tmp/values.json
+# Use kube-inject based on captured configuration
+istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
+	--injectConfigFile /tmp/inj-template.tmpl \
+	--meshConfigFile /tmp/mesh.yaml \
+	--valuesFile /tmp/values.json
 
 </code></pre>
 <h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
@@ -1662,12 +1664,12 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--remote</code></td>
 <td></td>
-<td>Prints remote version information, from the control plane </td>
+<td>Use --remote=false to suppress control plane check </td>
 </tr>
 <tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
-<td>Displays a short form of the version information </td>
+<td>Use --short=false to generate full version information </td>
 </tr>
 </tbody>
 </table>
@@ -1965,7 +1967,7 @@ These resource annotations are used by the <code>istioctl</code> command.
 </tr>
 </tbody>
 </table>
-<h2 id="metrics">Exported Metrics</h2>
+<h2 id="metrics">Exported metrics</h2>
 <table class="metrics">
 <thead>
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
