@@ -57,11 +57,11 @@ security features to the profile:
 Control plane security with SDS is planned for an upcoming release.
 {{< /tip >}}
 
-| | default | demo | minimal | sds-auth |
-| --- | --- | --- | --- | --- |
-| Control Plane Security | | X | | |
-| Strict Mutual TLS | | X | | X |
-| SDS | | | | X |
+| Security feature | demo-auth | sds-auth |
+| --- | --- | --- |
+| Control Plane Security | X | |
+| Strict Mutual TLS | X | X |
+| SDS | | X |
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
 
