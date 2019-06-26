@@ -34,6 +34,10 @@ cluster must satisfy the following requirements:
     plain TCP traffic unless the port [explicitly](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
     uses `Protocol: UDP` to signify a UDP port.
 
+    {{< warning >}}
+    To avoid conflicts, use different port names when multiple TLS or HTTPS servers use the same port in a gateway.
+    {{< /warning >}}
+
 - **Pod ports**: Pods must include an explicit list of the ports each
   container listens on. Use a `containerPort` configuration in the container
   specification for each port. Any unlisted ports bypass the Istio proxy.
