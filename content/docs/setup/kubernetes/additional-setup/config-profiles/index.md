@@ -26,8 +26,8 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
-1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
-    This profile comes only with authentication enabled.
+1. **sds-auth**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
+    This profile comes with additional authentication features enabled by default.
 
 The components marked as **X** are installed within each profile:
 
@@ -53,11 +53,15 @@ The components marked as **X** are installed within each profile:
 Some profiles have an authentication variant, with `-auth` appended to the name, which adds the following
 security features to the profile:
 
-| | default | demo | minimal | sds |
-| --- | --- | --- | --- | --- |
-| Control Plane Security | | X | | |
-| Strict Mutual TLS | | X | | X |
-| SDS | | | | X |
+{{< tip >}}
+Control plane security with SDS is planned for an upcoming release.
+{{< /tip >}}
+
+| Security feature | demo-auth | sds-auth |
+| --- | --- | --- |
+| Control Plane Security | X | |
+| Strict Mutual TLS | X | X |
+| SDS | | X |
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
 
