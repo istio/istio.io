@@ -160,20 +160,20 @@ at the beginning of this tutorial.
 
 ## Configuring a basic Vault server
 
-The Vault server owners are responsible of hosting and managing the server. When signing a CSR, Istio Citadel Agent
-passes the Kubernetes service account from the workload and the CSR to your Vault server,
-which authenticate and authorize the request (e.g., based on the
+The Vault server administrator is responsible of hosting and managing the server. When signing a CSR, Istio Citadel Agent
+passes the Kubernetes service account token of the workload and the CSR to the Vault server,
+which authenticates and authorizes the request (e.g., based on the
 [Vault Kubernetes `auth` method](https://www.vaultproject.io/docs/auth/kubernetes.html)) and
 returns the signed certificate to Istio Citadel Agent, if the request is authorized.
-Based on their security requirements, owners of Vault servers may configure various authentication,
-authorization, and certificate issuance policies for Kubernetes service accounts and certificate
+Based on their security requirements, owners of Vault servers may configure various
+certificate issuance policies for Kubernetes service accounts and certificate
 signing requests.
 
-The following instructions configure an example basic Vault to authenticate and authorize a CSR
+The following instructions configure an example basic Vault server to authenticate and authorize a CSR
 based on the Vault Kubernetes auth method.
 **The instructions here are for illustrative purposes only. Please consult with security experts
-on the security configuration and certificate issuance policies of your Vault servers.** The instructions are based on the
-post [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
+to set up the security configuration and certificate issuance policies of your Vault servers.** The instructions are based on the
+posts [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
 [2](https://coreos.com/tectonic/docs/latest/vault-operator/user/kubernetes-auth-backend.html).
 
 1.  Create a Kubernetes cluster to host an example basic Vault server.
