@@ -31,8 +31,85 @@ upgrading your deployment to Istio 1.1.
 [Download the new Istio release](/docs/setup/kubernetes/#downloading-the-release)
 and change directory to the new release directory.
 
+### Istio CNI upgrade
+
+If you have installed or are planning to install [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/),
+choose one of the following **mutually exclusive** options to check whether
+Istio CNI is already installed and to upgrade it:
+
+{{< tabset cookie-name="controlplaneupdate" >}}
+{{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
+
+You can use Kubernetes’ rolling update mechanism to upgrade the Istio CNI components.
+This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
+
+1. To check whether `istio-cni` is installed, search for `istio-cni-node` pods
+   and in which namespace they are running (typically, `kube-system` or `istio-system`):
+
+    {{< text bash >}}
+    $ kubectl get pods -l k8s-app=istio-cni-node --all-namespaces
+    $ NAMESPACE=$(kubectl get pods -l k8s-app=istio-cni-node --all-namespaces --output='jsonpath={.items[0].metadata.namespace}')
+    {{< /text >}}
+
+1. If `istio-cni` is currently installed in a namespace other than `kube-system`
+   (for example, `istio-system`), delete `istio-cni`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=$NAMESPACE | kubectl delete -f -
+    {{< /text >}}
+
+1. Install or upgrade `istio-cni` in the `kube-system` namespace:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl apply -f -
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
+
+If you installed Istio CNI using [Helm and Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
+the preferred upgrade option is to let Helm take care of the upgrade.
+
+1. Check whether `istio-cni` is installed, and in which namespace:
+
+    {{< text bash >}}
+    $ helm status istio-cni
+    {{< /text >}}
+
+1. (Re-)install or upgrade `istio-cni` depending on the status:
+
+    * If `istio-cni` is not currently installed and you decide to install it:
+
+        {{< text bash >}}
+        $ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace kube-system
+        {{< /text >}}
+
+    * If `istio-cni` is currently installed in a namespace other than `kube-system`
+      (for example, `istio-system`), delete it:
+
+        {{< text bash >}}
+        $ helm delete --purge istio-cni
+        {{< /text >}}
+
+        Then install it again in the `kube-system` namespace:
+
+        {{< text bash >}}
+        $ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace kube-system
+        {{< /text >}}
+
+    * If `istio-cni` is currently installed in the `kube-system` namespace, upgrade it:
+
+        {{< text bash >}}
+        $ helm upgrade istio-cni install/kubernetes/helm/istio-cni --namespace kube-system
+        {{< /text >}}
+
+{{< /tab >}}
+{{< /tabset >}}
+
 ### Control plane upgrade
 
+<<<<<<< HEAD
 {{< warning >}}
 Helm has significant problems when upgrading CRDs using Tiller.
 We believe we have solved these with the introduction of the `istio-init` chart.
@@ -49,6 +126,11 @@ $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | cut -f1-1 -d "." | \
 
 The Istio control plane components include: Citadel, Ingress gateway, Egress gateway, Pilot, Galley, Policy, Telemetry and
 Sidecar injector.  Choose one of the following two **mutually exclusive** options to update the control plane:
+=======
+Pilot, Galley, Policy, Telemetry and Sidecar injector.
+Choose one of the following **mutually exclusive** options
+to update the control plane:
+>>>>>>> d4545c923... Document upgrade steps for Istio CNI (#4518)
 
 {{< tabset cookie-name="controlplaneupdate" >}}
 {{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
@@ -76,6 +158,8 @@ including configurations generated using
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
       --set global.mtls.enabled=true --set global.controlPlaneSecurityEnabled=true > $HOME/istio-auth.yaml
     {{< /text >}}
+
+    If Istio CNI is installed, enable it by adding the `--set istio_cni.enabled=true` setting.
 
 1. Upgrade the Istio control plane components via the manifest, for example:
 
@@ -115,6 +199,8 @@ the preferred upgrade option is to let Helm take care of the upgrade.
     {{< text bash >}}
     $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
     {{< /text >}}
+
+    If Istio CNI is installed, enable it by adding the `--set istio_cni.enabled=true` setting.
 
 {{< /tab >}}
 {{< /tabset >}}
