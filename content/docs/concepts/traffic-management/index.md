@@ -15,21 +15,20 @@ aliases:
 
 - [Overview and terminology](/docs/concepts/traffic-management/#overview-and-terminology):
   Learn about Pilot, Istio's core traffic management component and Envoy
-  proxies and how they enable service discovery and load balancing.
+  proxies and how they enable service discovery and traffic control for services in the mesh.
 
 - [Traffic routing and configuration](/docs/concepts/traffic-management/#traffic-routing-and-configuration):
-  Learn about the Istio features and components needed to implement routing and
+  Learn about the Istio features and resources needed to configure routing and
   control the ingress and egress of traffic for the mesh.
 
 - [Network resilience and testing](/docs/concepts/traffic-management/#network-resilience-and-testing):
   Learn about Istio's dynamic failure recovery features that you can configure
-  to build tolerance for failing nodes, and to prevent cascading failures to
+  to test and build tolerance for failing nodes, and to prevent cascading failures to
   other nodes.
 
 ## Overview and terminology
 
-With Istio, you can manage [traffic routing](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
-and [load balancing](/docs/concepts/traffic-management/#load-balancing)
+With Istio, you can manage service discovery, traffic routing, and load balancing
 for your service mesh without having to update your services. Istio simplifies
 configuration of service-level properties like timeouts and retries, and makes
 it straightforward to set up tasks like staged rollouts with percentage-based
@@ -40,10 +39,11 @@ Istio's traffic management model relies on the following two components:
 - {{< gloss >}}Pilot{{</ gloss >}}, the core traffic management component.
 - {{< gloss >}}Envoy{{</ gloss >}} proxies, which enforce configurations and policies set through Pilot.
 
-These components enable the following high-level features:
+These components enable the following Istio traffic management features:
 
 - Service discovery
 - Load balancing
+- Traffic routing and control
 
 ### Pilot: Core traffic management {#pilot}
 
@@ -57,18 +57,16 @@ The following diagram shows the Pilot architecture:
 As the diagram illustrates, Pilot maintains an **abstract model** of all the
 services in the mesh. **Platform-specific adapters** in Pilot translate the
 abstract model appropriately for your platform.
-
 For example, the Kubernetes adapter implements controllers to watch the
-Kubernetes API server for changes to pod registration information, ingress
-resources, and third-party resources like custom resource definitions (CRDs)
-that store traffic management rules. The Kubernetes adapter translates this
-data for the abstract model, so Pilot can generate and deliver the appropriate
-Envoy-specific configurations.
+Kubernetes API server for changes to pod registration information and service
+resources. The Kubernetes adapter translates this
+data for the abstract model.
 
-The Pilot **service discovery and traffic rules** use the abstract model to let
-Envoy proxies know about one another in the mesh through the **Envoy API.**
+Pilot uses the abstract model to generate appropriate Envoy-specific configurations
+to let Envoy proxies know about one another in the mesh through the **Envoy API.**
 
-You can use the **Networking and Rules APIs** to exercise more granular control
+You can use Istio's **Traffic Management API** to instruct Pilot to refine
+the Envoy configuration to exercise more granular control
 over the traffic in your service mesh.
 
 ### Envoy proxies
@@ -84,16 +82,13 @@ traffic. Envoy proxies route the data plane traffic across the mesh and enforce
 the configurations and traffic rules without the services having to be aware of
 them. Envoy proxies mediate all inbound and outbound traffic for all services
 in the mesh. Envoy proxies are deployed as sidecars to services, logically
-augmenting the services with traffic management features, including the two
-discussed in this overview:
+augmenting the services with traffic management features:
 
-- [Service discovery](/docs/concepts/traffic-management/#discovery)
-- [Load balancing](/docs/concepts/traffic-management/#load-balancing)
+- [service discovery and load balancing](/docs/concepts/traffic-management/#discovery)
+- [traffic routing and configuration](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
+- [network resilience and testing](/docs/concepts/traffic-management/#network-resilience-and-testing)
 
-The [traffic routing and configuration](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
-and [network resilience and testing](/docs/concepts/traffic-management/#network-resilience-and-testing)
-sections dig into more sophisticated features and tasks enabled by Envoy
-proxies, which include:
+Some of the features and tasks enabled by Envoy proxies include:
 
 - Traffic control features: enforce fine-grained traffic control with rich
    routing rules for HTTP, gRPC, WebSocket, and TCP traffic.
@@ -104,8 +99,10 @@ proxies, which include:
 - Security and authentication features: enforce security policies and enforce
    access control and rate limiting defined through the configuration API.
 
-#### Platform-agnostic service discovery {#discovery}
+#### Service discovery and load balancing {#discovery}
 
+Istio service discovery leverages the service discovery features provided by
+platforms like Kubernetes for container-based applications.
 Service discovery works in a similar way regardless of what platform you're
 using:
 
@@ -125,23 +122,15 @@ interact.
     caption="Service discovery"
     >}}
 
-Because the service discovery feature is platform-independent:
+Because the service discovery feature is platform-independent,
+a service mesh can include services across multiple platforms.
 
-- A service mesh can include services across multiple platforms.
-
-- Envoy proxies enforce the traffic rules, configurations, and load balancing
-   for all instances.
-
-You can use the Istio service discovery features with the features provided by
-platforms like Kubernetes for container-based applications. See your platform's
-documentation for more information.
-
-#### Load balancing
-
-Using Istio, all traffic bound to a service goes through the appropriate Envoy
-proxy. Envoy proxies distribute the traffic across the instances in the calling
-service's load balancing pool, and update load balancing pools according to
-changes to the Pilot abstract model.
+Using the abstract model, Pilot configures the Envoy proxies to perform
+load balancing for service requests, replacing any underlying
+platform-specific load balancing feature.
+In the absence of more specific routing rules, Envoy will distribute the traffic
+across the instances in the calling service's load balancing pool, according to
+the Pilot abstract model and load balancer configuration.
 
 Istio supports the following load balancing methods:
 
@@ -162,22 +151,13 @@ You can also choose to prioritize your load balancing pools based on geographic
 location. Visit the [operations guide](/docs/ops/traffic-management/locality-load-balancing/)
 for more information on the locality load balancing feature.
 
-#### Example traffic configuration
-
-The following diagram shows a basic example of traffic management using Pilot
-and Envoy proxies:
-
-{{< image width="60%"
-    link="./routing-overview.svg"
-    caption="Traffic management example"
-    >}}
-
-To learn more about the traffic management resources shown, see the [Traffic routing and configuration concept](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
+In addition to basic service discovery and load balancing, Istio provides a rich
+set of traffic routing and control features, which are described in the following sections.
 
 ## Traffic routing and configuration
 
 The Istio traffic routing and configuration model relies on the following
-network resources of the Istio API:
+Istio [traffic management API](/docs/reference/config/networking/) resources:
 
 - **Virtual services**
 
@@ -199,8 +179,8 @@ network resources of the Istio API:
 - **Service entries**
 
     Use a [service entry](/docs/concepts/traffic-management/#service-entries)
-    to add an entry to Istio's **abstract model** that configures routing rules
-    for external dependencies of the mesh.
+    to add an entry to Istio's **abstract model** that configures
+    external dependencies of the mesh.
 
 - **Sidecars**
 
@@ -208,7 +188,7 @@ network resources of the Istio API:
     to configure the scope of the Envoy proxies to enable certain features,
     like namespace isolation.
 
-You configure these features using the Istio Networking API to configure
+You can use these resources to configure
 fine-grained traffic control for a range of use cases:
 
 - Configure ingress traffic, enforce traffic policing, perform a traffic
@@ -223,13 +203,13 @@ fine-grained traffic control for a range of use cases:
 - Configure TLS settings and outlier detection.
 
 The next section walks through some common use cases and describes how Istio
-supports them. Following sections describe each of the network resources in
+supports them. Following sections describe each of the traffic management API resources in
 more detail.
 
 ### Traffic routing use cases
 
-You might use all or only some of the Istio network resources, depending on
-your platform and your use case. Your platform handles basic traffic routing,
+You might use all or only some of the Istio traffic management API resources,
+depending on your use case. Istio handles basic traffic routing by default,
 but configurations for advanced use cases might require the full range of Istio
 traffic routing features.
 
@@ -241,59 +221,25 @@ the service.
 
 With Istio, because the Envoy proxy intercepts and forwards all requests and
 responses between the clients and the services, you can use routing rules with
-service subsets in a virtual service to configure the traffic routes for
-multiple versions of a service.
+[service subsets](/docs/concepts/traffic-management/#service-subsets)
+in a virtual service to configure the [routing rules](/docs/concepts/traffic-management/#routing-rules)
+for multiple versions of a service.
 
-The following diagram shows a configuration that relies on routing rules to
-handle the communication between a client and a service that has multiple
-versions.
-
-Envoy proxies dynamically determine where to send the traffic based on the
-routing rules you configure in the [ingress gateway](/docs/concepts/traffic-management/#gateways)
-and [virtual service](/docs/concepts/traffic-management/#virtual-services).
-In this example, those rules route the incoming request to v1, v2, or v3 of
-your application's service.
-
-You use the Istio [networking APIs](/docs/reference/config/networking/)
-to configure [network resources](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
-and specify the [routing rules](/docs/concepts/traffic-management/#routing-rules).
-
-The advantage of this configuration method is that it decouples the application
-code from the evolution of its dependent services. This in turn provides
-monitoring benefits. For details, see [Mixer policies and telemetry](/docs/reference/config/policy-and-telemetry/).
-
-#### Canary rollouts with autoscaling {#canary}
-
-Canary rollouts allow you to test a new version of a service by sending a small
-amount of traffic to the new version. If the test is successful, you can
-gradually increase the percentage of traffic sent to the new version until all
-the traffic is moved. If anything goes wrong along the way, you can abort the
-rollout and return the traffic to the old version.
-
-Container orchestration platforms like Docker, or Kubernetes support canary
-rollouts, but they use instance scaling to manage traffic distribution, which
-quickly becomes complex, especially in a production environment that requires
-autoscaling.
-
-With Istio, you can configure traffic routing and instance deployment as
-independent functions. The number of instances implementing the services can
-scale up and down based on traffic load without referring to version traffic
-routing at all. This makes managing a canary version that includes autoscaling
-a much simpler problem. For details, see the [Canary Deployments](/blog/2017/0.1-canary/)
-blog post.
-
-#### Splitting traffic for A/B testing {#splitting}
-
-With [service subsets](/docs/concepts/traffic-management/#service-subsets),
-you can label all instances that correspond to a specific version of a service.
+Service subsets are used to label all instances that correspond to a specific
+version of a service.
 Before you configure routing rules, the Envoy proxies use round-robin load
 balancing across all service instances, regardless of their subset. After you
 configure routing rules for traffic to reach specific subsets, the Envoy
 proxies route traffic to the subset according to the rule but again use
-round-robin to route traffic across the instances of each subset. You can
-change the default load balancing behavior of the Envoy proxies. For details, see the [Envoy load balancing documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing.html).
+round-robin to route traffic across the instances of each subset.
 
-In this example for A/B testing, we configure traffic routes based on
+This configuration method provides the following advantages:
+
+- Decouples the application code from the evolution of the application's dependent services.
+- Provides monitoring benefits.
+For details, see [Mixer policies and telemetry](/docs/reference/config/policy-and-telemetry/).
+
+For example, in A/B testing we often want to configure traffic routes based on
 percentages. With Istio, you can use a virtual service to specify a routing
 rule that sends 25% of requests to instances in the `v2` subset, and sends the
 remaining 75% of requests to instances in the `v1` subset. The following
@@ -319,10 +265,30 @@ spec:
       weight: 25
 {{< /text >}}
 
+#### Canary rollouts with autoscaling {#canary}
+
+Canary rollouts allow you to test a new version of a service by sending a small
+amount of traffic to the new version. If the test is successful, you can
+gradually increase the percentage of traffic sent to the new version until all
+the traffic is moved. If anything goes wrong along the way, you can abort the
+rollout and return the traffic to the old version.
+
+Container orchestration platforms like Docker or Kubernetes support canary
+rollouts, but they use instance scaling to manage traffic distribution, which
+quickly becomes complex, especially in a production environment that requires
+autoscaling.
+
+With Istio, you can configure traffic routing and instance deployment as
+independent functions. The number of instances implementing the services can
+scale up and down based on traffic load without referring to version traffic
+routing at all. This makes managing a canary version that includes autoscaling
+a much simpler problem. For details, see the [Canary Deployments](/blog/2017/0.1-canary/)
+blog post.
+
 ## Virtual services
 
 A [virtual service](/docs/reference/config/networking/v1alpha3/virtual-service/)
-is a network resource you can use to configure how Envoy proxies route requests
+is a resource you can use to configure how Envoy proxies route requests
 to a service within an Istio service mesh. Virtual services let you finely
 configure traffic behavior. For example, you can use virtual services to direct
 HTTP traffic to use a different version of the service for a specific user.
@@ -331,11 +297,7 @@ Istio and your platform provide basic connectivity and discovery for your
 services. With virtual services, you can add a configuration layer to set up
 complex traffic routing. You can map user-addressable destinations to real
 workloads in the mesh, for example. Or, you can configure more advanced traffic
-routes:
-
-- To specific services or subsets in the mesh.
-
-- To other network resources in the mesh.
+routes to specific services or subsets in the mesh.
 
 Your mesh can require multiple virtual services or none depending on your use
 case. You can add [gateways](/docs/concepts/traffic-management/#gateways)
@@ -374,18 +336,18 @@ show some example virtual service configurations:
 
 You can use virtual services to perform the following types of tasks:
 
-- Add [multiple match conditions](/docs/concepts/traffic-management/#multi-match)
-   to a virtual service configuration to eliminate redundant rules.
-
 - Configure each application service version as a
    [subset](/docs/concepts/traffic-management/#service-subsets) and add
    a corresponding [destination
    rule](/docs/concepts/traffic-management/#destination-rules) to
    determine the set of pods or VMs belonging to these subsets.
 
-- Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/#load-balancing)
-   for ingress and egress traffic in combination with
-   [gateways](/docs/concepts/traffic-management/#gateways).
+- Configure traffic rules in combination with
+   [gateways](/docs/concepts/traffic-management/#gateways)
+   to control ingress and egress traffic
+
+- Add [multiple match conditions](/docs/concepts/traffic-management/#multi-match)
+   to a virtual service configuration to eliminate redundant rules.
 
 - Configure [traffic routes](/docs/concepts/traffic-management/#routing-subset)
    to your application services using DNS names. These DNS names support
@@ -417,8 +379,8 @@ spec:
             subset: v1
 {{< /text >}}
 
-In the example, note that under `spec`, which lists the specifications of the
-network resource, `hosts` lists the virtual service's hosts. In this case, the
+In the example, under `spec`,
+`hosts` lists the virtual service's hosts. In this case, the
 hosts are `*.my-co.org`, where `*` is a wildcard prefix indicating that this
 virtual service handles routing for any DNS name ending with `.my-co.org`.
 
@@ -428,7 +390,7 @@ one or more fully qualified domain names (FQDN). To specify multiple hosts, you
 can use wildcards.
 
 Also, note that under `route`, which specifies the routing rule's
-configuration, and `destination:`, which specifies the routing rule's
+configuration, and `destination`, which specifies the routing rule's
 destination, `host: my-svc` specifies the destination's host. If you are
 running on Kubernetes, then `my-svc` is the name of a Kubernetes service.
 
@@ -490,13 +452,6 @@ spec:
     - destination:
         host: svc-2.my-namespace.svc.cluster.local
 {{< /text >}}
-
-The following diagram shows the configured rule:
-
-{{< image width="40%"
-    link="./virtual-services-5.svg"
-    caption="Configurable traffic route based on the namespace of two application services"
-    >}}
 
 Using fully qualified hosts in the routing rules also provides more flexibility.
 If you use short names, the destinations must be in the same namespace as the virtual service.
@@ -895,22 +850,20 @@ divisions and labels, use the `subsets` section in [destination rules](/docs/ref
 For example, you can use subsets to configure the following traffic routing
 scenarios:
 
-- Use subsets to [route traffic to different versions of a service](/docs/concepts/traffic-management/#routing-subset).
+- Use subsets to route traffic to different versions of a service.
 
 - Use subsets to route traffic to the same service in different environments.
 
-You use service subsets in the routing rules of [virtual services](/docs/concepts/traffic-management/#virtual-services),
-[gateways](/docs/concepts/traffic-management/#gateways)
-and [service entries](/docs/concepts/traffic-management/#service-entries)
+You use service subsets in the routing rules of [virtual services](/docs/concepts/traffic-management/#virtual-services)
 to control the traffic to your services.
 
 Understanding service subsets in Istio allows you to configure the
 communication to services with multiple versions within your mesh and configure
 the following common use cases:
 
-- [Canary rollout](/docs/concepts/traffic-management/#canary)
+- [Splitting traffic between versions for A/B testing](/docs/concepts/traffic-management/#routing-subset)
 
-- [Splitting traffic between versions for A/B testing](/docs/concepts/traffic-management/#splitting)
+- [Canary rollout](/docs/concepts/traffic-management/#canary)
 
 To learn how you can use service subsets to configure failure handling use
 cases, visit our [Network resilience and testing concept](/docs/concepts/traffic-management/#network-resilience-and-testing).
@@ -922,8 +875,9 @@ manage inbound and outbound traffic for your mesh. You can manage
 [multiple types of traffic](/docs/reference/config/networking/v1alpha3/gateway/#Port)
 with a gateway.
 
-Gateway configurations apply to Envoy proxies that are separate from the
-service sidecar proxies. To configure a gateway means configuring an Envoy
+Gateway configurations apply to Envoy proxies that are running at the edge
+of the mesh, which means that the Envoy proxies are not running as service sidecars.
+To configure a gateway means configuring an Envoy
 proxy to allow or block certain traffic from entering or leaving the mesh.
 
 Your mesh can have any number of gateway configurations, and multiple gateway
@@ -995,7 +949,7 @@ port 443, but doesn't specify any routing for the traffic.
 
 To specify routing and for the gateway to work as intended, you must also bind
 the gateway to a virtual service. You do this using the virtual service's
-`gateways:` field, as shown in the following example:
+`gateways` field, as shown in the following example:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -1010,33 +964,28 @@ spec:
 {{< /text >}}
 
 You can then configure the virtual service with routing rules for the external
-traffic. The following diagram shows the configured routes for the external
-HTTPS traffic to the `my-svc` service within the mesh:
-
-{{< image width="70%"
-    link="./gateways-2.svg"
-    caption="Configurable routes for the external HTTPS traffic"
-    >}}
+traffic.
 
 For more information:
 
 - Refer to the [gateways reference documentation](/docs/reference/config/networking/v1alpha3/gateway/)
    to review all the enabled keys and values.
 
-- Refer to the [Ingress task topic](/docs/tasks/traffic-management/ingress/) for instructions, including how to configure
-   an Istio gateway for Kubernetes ingress.
+- Refer to the [Ingress task topic](/docs/tasks/traffic-management/ingress/) for instructions on how to configure
+   an Istio gateway for ingress traffic.
 
-- Refer to the [Egress task topic](/docs/tasks/traffic-management/egress/) to learn how to configure egress traffic
-   using a gateway network resource.
+- Refer to the [Egress gateway task](/docs/tasks/traffic-management/egress/egress-gateway/) to learn how to configure egress traffic
+   using a gateway resource.
 
 ## Service entries
 
 A [service entry](/docs/reference/config/networking/v1alpha3/service-entry)
-is a network resource used to add an entry to Istio's abstract model, or
+is used to add an entry to Istio's abstract model, or
 service registry, that Istio maintains internally. After you add the service
-entry, the Envoy proxies can send traffic to the external service as if it was
-a service in your mesh. You can configure service entries to configure routing
-rules to:
+entry, the Envoy proxies can send traffic to the service as if it was
+a service in your mesh.
+Configuring service entries allows you to manage traffic for services running
+outside of the mesh:
 
 - Redirect and forward traffic for external destinations, such as APIs
    consumed from the web, or traffic to services in legacy infrastructure.
@@ -1053,43 +1002,19 @@ rules to:
   [multicluster Istio mesh](/docs/tasks/multicluster/gateways/#configure-the-example-services)
   on Kubernetes.
 
-You don’t need to add a service entry for every mesh-external service that you
+You don’t need to add a service entry for every external service that you
 want your mesh services to use. By default, Istio configures the Envoy proxies
-to passthrough requests from unknown services. You can also use service entries
-to configure internal infrastructure:
+to passthrough requests to unknown services, although you can't use Istio features
+to control the traffic to destinations that are not registered in the mesh.
 
-- A **mesh-internal** service entry adds a service running in the mesh, which
-   doesn't have a service discovery adapter that would add it to the abstract
-   model automatically.
+You can use service entries to perform the following configurations:
 
-    For example, you create mesh-internal service entries for the services
-    running on VMs outside the Kubernetes cluster but within the network.
-    Mutual TLS authentication (mutual TLS) is enabled by default for mesh-internal
-    service entries, but to change the authentication method, you can configure
-    a destination rule for the service entry.
+- Access secure external services over plain text ports,
+  to configure Envoy to perform {{< gloss >}}TLS Origination{{</ gloss >}}.
+- Ensure, together with an egress gateway, that all external services are
+  accessed through a single exit point.
 
-- A **mesh-external** service entry adds a service without and Envoy proxy to
-   the mesh. You configure a mesh-external service entry so that a service
-   inside the mesh can make API calls to an external server. You can use
-   service entries with an egress gateway to ensure all external services are
-   accessed through a single exit point.
-
-    mutual TLS is disabled by default for mesh-external service entries, but you can
-    change the authentication method by configuring a destination rule for the
-    service entry. Because the destination is external to the mesh, the Envoy
-    proxies of the services inside the mesh enforce the configured policies for
-    services added through mesh-external service entries.
-
-You can use mesh-external service entries to perform the following
-configurations:
-
-- Configure multiple external dependencies with a single service entry.
-
-- Configure the resolution mode for the external dependencies to `NONE`,
-   `STATIC`, or `DNS`.
-
-- Access secure external services over plain text ports to directly access
-   external dependencies from your application.
+Refer to the [Egress task topic](/docs/tasks/traffic-management/egress/) for details.
 
 ## Add an external dependency securely
 
@@ -1112,12 +1037,12 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-You must specify the external resource using the `hosts:` key. You can qualify
+You must specify the external resource using the `hosts` key. You can qualify
 it fully or use a wildcard domain name. The value represents the set of one or
 more services outside the mesh that services in the mesh can access.
 
 Configuring a service entry can be enough to call an external service, but
-typically you configure either, or both, a virtual service or destination rules
+typically you configure either, or both, a virtual service or destination rule
 to control traffic in a more granular way. You can configure traffic for a
 service entry in the same way you configure traffic for a service in the mesh.
 
@@ -1143,14 +1068,8 @@ spec:
 {{< /text >}}
 
 Together, the `svc-entry` service entry and the `ext-res-dr` destination rule
-configure a route for the HTTPS traffic to and from the `ext-resource` external
-dependency through the `svc-entry` service entry on port 80 using mutual TLS. The
-following diagram shows the configured traffic routing rules:
-
-{{< image width="40%"
-    link="./service-entries-1.svg"
-    caption="Configurable traffic routes using service entries and destination rules"
-    >}}
+configure a connection for traffic to the `ext-resource` external
+dependency using port 443 and mutual TLS.
 
 See the [service entries reference documentation](/docs/reference/config/networking/v1alpha3/service-entry)
 to review all the enabled keys and values.
@@ -1383,7 +1302,7 @@ spec:
   - fault:
       delay:
         percentage:
-  value: 0.1
+          value: 0.1
         fixedDelay: 5s
     route:
     - destination:
@@ -1452,24 +1371,19 @@ spec:
 For detailed instructions on how to configure delays and aborts, visit our
 [fault injection task](/docs/tasks/traffic-management/fault-injection/).
 
-## Compatibility with fault tolerance libraries
+## Compatibility with application-level fault handling
 
 Istio failure recovery features are completely transparent to the application.
-Applications cannot distinguish between the Envoy proxy's failure response and
-the failure response of the called upstream service, so fault tolerance
-libraries such as [Hystrix](https://github.com/Netflix/Hystrix) are compatible
-with Istio.
+Applications don't know if an Envoy sidecar proxy is handling
+failures for a called upstream service, before returning a response.
 
 When you use application-level fault tolerance libraries and Envoy proxy
-failure recovery policies at the same time, Istio first triggers the more
-restrictive of the two when failures occur.
+failure recovery policies at the same time, you need to keep in mind that
+both work independently, and therefore might conflict.
 
 For example: Suppose you can have two timeouts, one configured in a virtual
-service and another in an application's library. The application sets a
-5 second timeout for an API call to a service. However, you configured a
-10 second timeout in your virtual service. In this case, the application's
-timeout kicks in first.
-
-Similarly, if you configure a circuit breaker using Istio and it triggers
-before the application's circuit breaker, the API calls to the service get an
-HTTP `503` error code from Istio's Envoy proxy.
+service and another in the application. The application sets a
+2 second timeout for an API call to a service. However, you configured a
+3 second timeout with 1 retry in your virtual service. In this case,
+the application's timeout kicks in first, so your Envoy timeout and retry
+attempt has no affect.
