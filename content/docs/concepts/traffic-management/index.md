@@ -59,7 +59,7 @@ services in the mesh. **Platform-specific adapters** in Pilot translate the
 abstract model appropriately for your platform.
 For example, the Kubernetes adapter implements controllers to watch the
 Kubernetes API server for changes to pod registration information and service
-resouces. The Kubernetes adapter translates this
+resources. The Kubernetes adapter translates this
 data for the abstract model.
 
 Pilot uses the abstract model to generate appropriate Envoy-specific configurations
@@ -127,7 +127,7 @@ a service mesh can include services across multiple platforms.
 
 Using the abstract model, Pilot configures the Envoy proxies to perform
 load balancing for service requests, replacing any underlying
-platorm-specific load balancing feature.
+platform-specific load balancing feature.
 In the absence of more specific routing rules, Envoy will distribute the traffic
 across the instances in the calling service's load balancing pool, according to
 the Pilot abstract model and load balancer configuration.
@@ -157,7 +157,7 @@ set of traffic routing and control features, which will be described in the foll
 ## Traffic routing and configuration
 
 The Istio traffic routing and configuration model relies on the following
-Istio [traffic managment API](/docs/reference/config/networking/) resources:
+Istio [traffic management API](/docs/reference/config/networking/) resources:
 
 - **Virtual services**
 
@@ -203,7 +203,7 @@ fine-grained traffic control for a range of use cases:
 - Configure TLS settings and outlier detection.
 
 The next section walks through some common use cases and describes how Istio
-supports them. Following sections describe each of the taffic management API resources in
+supports them. Following sections describe each of the traffic management API resources in
 more detail.
 
 ### Traffic routing use cases
@@ -334,18 +334,18 @@ show some example virtual service configurations:
 
 You can use virtual services to perform the following types of tasks:
 
-- Add [multiple match conditions](/docs/concepts/traffic-management/#multi-match)
-   to a virtual service configuration to eliminate redundant rules.
-
 - Configure each application service version as a
    [subset](/docs/concepts/traffic-management/#service-subsets) and add
    a corresponding [destination
    rule](/docs/concepts/traffic-management/#destination-rules) to
    determine the set of pods or VMs belonging to these subsets.
 
-- Configure traffic rules to provide [load balancing](/docs/concepts/traffic-management/#load-balancing)
-   for ingress and egress traffic in combination with
-   [gateways](/docs/concepts/traffic-management/#gateways).
+- Configure traffic rules in combination with
+   [gateways](/docs/concepts/traffic-management/#gateways)
+   to control ingress and egress traffic
+
+- Add [multiple match conditions](/docs/concepts/traffic-management/#multi-match)
+   to a virtual service configuration to eliminate redundant rules.
 
 - Configure [traffic routes](/docs/concepts/traffic-management/#routing-subset)
    to your application services using DNS names. These DNS names support
