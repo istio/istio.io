@@ -76,7 +76,7 @@ represents. For example:
 |Set the value of the `ports` field in the configuration file. | Set the value of the "ports" field in the configuration file.
 |The value of the `rule` field is a `Rule` object.           | The value of the "rule" field is a `Rule` object.
 
-## Use title capitalization for `title:` front-matter
+### Use title capitalization for `title:` front-matter
 
 The text for the `title:` front-matter must use title case:
 Capitalize the first letter of every word except conjunctions and prepositions.
@@ -212,3 +212,9 @@ be considered new in a few months.
 |------------------------------------|------
 |In version 1.4, ...                 | In the current version, ...
 |The Federation feature provides ... | The new Federation feature provides ...
+
+### Minimize use of callouts
+
+[Callouts](/about/contribute/creating-and-editing-pages/#callouts) let you highlight some particular content in your pages, but
+they need to be used sparingly. Callouts are intended for special notes to the user and over-using them
+throughout the site neutralizes their special attention-grabbing nature.
