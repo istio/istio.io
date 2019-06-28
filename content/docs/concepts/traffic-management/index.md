@@ -1381,4 +1381,4 @@ service and another in the application. The application sets a
 2 second timeout for an API call to a service. However, you configured a
 3 second timeout with 1 retry in your virtual service. In this case,
 the application's timeout kicks in first, so your Envoy timeout and retry
-attempt will have no affect.
+attempt has no affect.
