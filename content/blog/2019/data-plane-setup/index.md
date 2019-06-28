@@ -260,9 +260,9 @@ $ kubectl get svc --namespace=istio-system | grep sidecar-injector
 istio-sidecar-injector   ClusterIP   10.102.70.184   <none>        443/TCP             24d
 {{< /text >}}
 
-This configuration ultimately does pretty much the same as we saw in manual injection. Just that it is done automatically during pod creation, so you won’t see the change in the deployment. You need to use `kubectl describe` to see the sidecar proxy and the init proxy. In case you want to change the default behavior, like the namespaces where Istio applies the injection, you can edit the `MutatingWebhookConfiguration` and restart the sidecar injector pod.
+This configuration ultimately does pretty much the same as we saw in manual injection. Just that it is done automatically during pod creation, so you won’t see the change in the deployment. You need to use `kubectl describe` to see the sidecar proxy and the init proxy. 
 
-The automatic sidecar injection depends on the `namespaceSelector` webhook but also on the default injection policy and the per-pod override annotation.
+The automatic sidecar injection not only depends on the `namespaceSelector` mechanism of the webhook, but also on the default injection policy and the per-pod override annotation.
 
 If you look at the `istio-sidecar-injector` ConfigMap again, it has the default injection policy defined. In our case, it is enabled by default.
 
