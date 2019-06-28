@@ -233,7 +233,10 @@ configure routing rules for traffic to reach specific subsets, the Envoy
 proxies route traffic to the subset according to the rule but again use
 round-robin to route traffic across the instances of each subset.
 
-The advantage of this configuration method is that it decouples the application
+This configuration method provides the following advantages:
+
+- Decouples the application code from the evolution of the application's dependent services.
+- Provides monitoring benefits.
 code from the evolution of its dependent services. This in turn provides
 monitoring benefits. For details, see [Mixer policies and telemetry](/docs/reference/config/policy-and-telemetry/).
 
