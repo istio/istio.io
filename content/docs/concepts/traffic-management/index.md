@@ -1011,7 +1011,7 @@ You can use service entries to perform the following configurations:
 
 - Access secure external services over plain text ports,
 that is, configure Envoy to perform {{< gloss >}}TLS Origination{{</ gloss >}}.
-You can also use service entries with an egress gateway to ensure all external services are
+- Ensure, together with an egress gateway, that all external services are
 accessed through a single exit point.
 Refer to the [Egress task topic](/docs/tasks/traffic-management/egress/) for details.
 
