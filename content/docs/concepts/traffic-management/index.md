@@ -1010,7 +1010,7 @@ to control the traffic to destinations that are not registered in the mesh.
 You can use service entries to perform the following configurations:
 
 - Access secure external services over plain text ports,
-that is, configure Envoy to perform {{< gloss >}}TLS Origination{{</ gloss >}}.
+  to configure Envoy to perform {{< gloss >}}TLS Origination{{</ gloss >}}.
 - Ensure, together with an egress gateway, that all external services are
   accessed through a single exit point.
 
