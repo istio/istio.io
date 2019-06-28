@@ -152,7 +152,7 @@ location. Visit the [operations guide](/docs/ops/traffic-management/locality-loa
 for more information on the locality load balancing feature.
 
 In addition to basic service discovery and load balancing, Istio provides a rich
-set of traffic routing and control features, which will be described in the following sections.
+set of traffic routing and control features, which are described in the following sections.
 
 ## Traffic routing and configuration
 
