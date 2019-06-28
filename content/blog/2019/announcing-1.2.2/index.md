@@ -1,7 +1,7 @@
 ---
 title: Announcing Istio 1.2.2
 description: Istio 1.2.2 patch release.
-publishdate: 2019-06-28
+publishdate: 2019-07-01
 attribution: The Istio Team
 release: 1.2.2
 ---
