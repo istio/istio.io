@@ -379,7 +379,7 @@ spec:
             subset: v1
 {{< /text >}}
 
-In the example under `spec`, the resource specification,
+In the example, under `spec`,
 `hosts` lists the virtual service's hosts. In this case, the
 hosts are `*.my-co.org`, where `*` is a wildcard prefix indicating that this
 virtual service handles routing for any DNS name ending with `.my-co.org`.
