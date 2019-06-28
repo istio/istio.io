@@ -874,7 +874,7 @@ manage inbound and outbound traffic for your mesh. You can manage
 with a gateway.
 
 Gateway configurations apply to Envoy proxies that are running at the edge
-of the mesh, that is, not in service sidecars.
+of the mesh, which means that the Envoy proxies are not running as service sidecars.
 To configure a gateway means configuring an Envoy
 proxy to allow or block certain traffic from entering or leaving the mesh.
 
