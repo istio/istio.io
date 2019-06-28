@@ -1374,7 +1374,7 @@ failures for a called upstream service, before returning a response.
 
 When you use application-level fault tolerance libraries and Envoy proxy
 failure recovery policies at the same time, you need to keep in mind that
-both will work independently, and therefore might conflict.
+both work independently, and therefore might conflict.
 
 For example: Suppose you can have two timeouts, one configured in a virtual
 service and another in the application. The application sets a
