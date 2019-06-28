@@ -560,6 +560,9 @@ This is a useful tip from an expert
 This is a quote from somewhere
 {{< /quote >}}
 
+Please use these callouts sparingly. Callouts are intended for special notes to the user and over-using them
+throughout the site neutralizes their special attention-grabbing nature.
+
 ## Embedding boilerplate text
 
 You can embed common boilerplate text into any markdown output using the `boilerplate` sequence:
