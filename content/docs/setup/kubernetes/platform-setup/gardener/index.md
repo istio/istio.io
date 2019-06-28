@@ -1,7 +1,7 @@
 ---
 title: Kubernetes Gardener
 description: Instructions to setup a Gardener cluster for Istio.
-weight: 15 
+weight: 19
 skip_seealso: true
 keywords: [platform-setup,kubernetes,gardener,sap]
 ---
@@ -13,15 +13,15 @@ To set up your own [Gardener](https://gardener.cloud), see the
 or have a look at the
 [landscape-setup-template](https://github.com/gardener/landscape-setup-template)
 project. To learn more about this open source project, read the
-[blog on kubernetes.io](https://kubernetes.io/blog/2018/05/17/gardener/).
+[blog on `kubernetes.io`](https://kubernetes.io/blog/2018/05/17/gardener/).
 
 ### Install and configure `kubectl`
 
 1.  If you already have `kubectl` CLI, run `kubectl version --short` to check
-    the version. You need v1.10 or newer. If your `kubectl` is older, follow the
+    the version. You need `v1.10` or newer. If your `kubectl` is older, follow the
     next step to install a newer version.
 
-1.  [Install the kubectl CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+1.  [Install the `kubectl` CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
 ### Access Gardener
 
@@ -43,7 +43,7 @@ You can create your cluster using `kubectl` cli by providing a cluster
 specification yaml file. You can find an example for GCP
 [here](https://github.com/gardener/gardener/blob/master/example/90-shoot-gcp.yaml).
 Make sure the namespace matches that of your project. Then just apply the
-prepared so-called "shoot" cluster crd with kubectl:
+prepared so-called "shoot" cluster CRD with `kubectl`:
 
 {{< text bash >}}
 $ kubectl apply --filename my-cluster.yaml
@@ -53,7 +53,7 @@ The easier alternative is to create the cluster following the cluster creation
 wizard in the Gardener dashboard:
 ![shoot creation](images/gardener_shoot_creation.png "shoot creation via the dashboard")
 
-### Configure kubectl for your cluster
+### Configure `kubectl` for your cluster
 
 You can now download the kubeconfig for your freshly created cluster in the
 Gardener dashboard or via cli as follows:
@@ -68,7 +68,7 @@ of this guide be sure you have `export KUBECONFIG=my-cluster.yaml` set.
 ## Cleaning up
 
 Use the Gardener dashboard to delete your cluster, or execute the following with
-kubectl pointing to your `garden-my-project.yaml` kubeconfig:
+`kubectl` pointing to your `garden-my-project.yaml` kubeconfig:
 
 {{< text bash >}}
 $ kubectl --kubeconfig garden-my-project.yaml --namespace garden--my-project annotate shoot my-cluster confirmation.garden.sapcloud.io/deletion=true
