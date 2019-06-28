@@ -498,6 +498,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -526,6 +532,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Integer</td>
 <td><code>10</code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
 </tr>
 <tr>
 <td><code>PILOT_TRACE_SAMPLING</code></td>
