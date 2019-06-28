@@ -478,6 +478,18 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>PILOT_DISABLE_EMPTY_ROUTE_RESPONSE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>DisableEmptyRouteResponse provides an option to disable a partial route response. This will cause Pilot to ignore a route request if Pilot generates a nil route (due to an error). This may cause Envoy to wait forever for the route, blocking listeners from receiving traffic. The default behavior (without this flag set) is to explicitly send an empty route. This will break routing for that particular route, but allow others on the same listener to work.</td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_PARTIAL_ROUTE_RESPONSE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>DisablePartialRouteResponse provides an option to disable a partial route response. This will cause Pilot to send an error if any routes are invalid. The default behavior (without this flag) is to just skip the invalid route.</td>
+</tr>
+<tr>
 <td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -536,6 +548,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Integer</td>
 <td><code>10</code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
 </tr>
 <tr>
 <td><code>PILOT_TRACE_SAMPLING</code></td>
@@ -615,5 +633,20 @@ These resource annotations are used by the <code>pilot-agent</code> command.
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
+<tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
+<tr><td><code>pilot_discovery_calls</code></td><td><code>Sum</code></td><td>Individual method calls in Pilot</td></tr>
+<tr><td><code>pilot_discovery_errors</code></td><td><code>Sum</code></td><td>Errors encountered during a given method call within Pilot</td></tr>
+<tr><td><code>pilot_discovery_resources</code></td><td><code>Distribution</code></td><td>Returned resource counts per method by Pilot</td></tr>
+<tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
+<tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
+<tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
+<tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
+<tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
+<tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 </tbody>
 </table>
