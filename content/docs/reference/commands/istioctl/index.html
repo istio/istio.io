@@ -745,10 +745,10 @@ istioctl experimental d [flags]
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system 
+<p>This command finds a Prometheus pod running in the specified istio system
 namespace. It then executes a series of queries per requested workload to
 find the following top-level workload metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The 
+error rate, and request latency at p50, p90, and p99 percentiles. The
 query results are printed to the console, organized by workload name.</p>
 <p>All metrics returned are from server-side reports. This means that latencies
 and error rates are from the perspective of the service itself and not of an
@@ -1481,7 +1481,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Validate bookinfo-gateway.yaml
 		istioctl validate -f bookinfo-gateway.yaml
-		
+
 		# Validate current deployments under &#39;default&#39; namespace within the cluster
 		kubectl get deployments -o yaml |istioctl validate -f -
 
@@ -1555,10 +1555,10 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Verify that Istio can be freshly installed
 		istioctl verify-install
-		
+
 		# Verify that the deployment matches the istio-demo profile
 		istioctl verify-install -f istio-demo.yaml
-		
+
 		# Verify the deployment matches a custom Istio deployment configuration
 		istioctl verify-install -f $HOME/istio.yaml
 
@@ -1709,6 +1709,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1737,6 +1743,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Integer</td>
 <td><code>10</code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
 </tr>
 <tr>
 <td><code>PILOT_TRACE_SAMPLING</code></td>
@@ -1864,13 +1876,5 @@ These resource annotations are used by the <code>istioctl</code> command.
 <td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
 <td></td>
 </tr>
-</tbody>
-</table>
-<h2 id="metrics">Exported metrics</h2>
-<table class="metrics">
-<thead>
-<tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
-</thead>
-<tbody>
 </tbody>
 </table>
