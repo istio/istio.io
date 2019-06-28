@@ -237,7 +237,6 @@ This configuration method provides the following advantages:
 
 - Decouples the application code from the evolution of the application's dependent services.
 - Provides monitoring benefits.
-code from the evolution of its dependent services. This in turn provides
 monitoring benefits. For details, see [Mixer policies and telemetry](/docs/reference/config/policy-and-telemetry/).
 
 For example, in A/B testing we often want to configure traffic routes based on
