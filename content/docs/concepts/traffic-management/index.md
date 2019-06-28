@@ -1007,7 +1007,9 @@ want your mesh services to use. By default, Istio configures the Envoy proxies
 to passthrough requests to unknown services, although you can't use Istio features
 to control the traffic to destinations that are not registered in the mesh.
 
-You can use service entries to access secure external services over plain text ports,
+You can use service entries to perform the following configurations:
+
+- Access secure external services over plain text ports,
 that is, configure Envoy to perform {{< gloss >}}TLS Origination{{</ gloss >}}.
 You can also use service entries with an egress gateway to ensure all external services are
 accessed through a single exit point.
