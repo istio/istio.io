@@ -18,4 +18,4 @@ Mixer：
 - 基于 *operator-supplied* 配置为每个请求生成追踪 span
 - 发送生成的追踪 span 到 *operator-designated* 追踪后端
 
-[Stackdriver 与 Istio 的追踪集成](https://cloud.google.com/istio/docs/istio-on-gke/installing#disabling_tracing_and_logging)是通过 Mixer 进行追踪集成的一个例子。
+[Stackdriver 与 Istio 的追踪集成](https://cloud.google.com/istio/docs/istio-on-gke/installing#tracing_and_logging)是通过 Mixer 进行追踪集成的一个例子。
