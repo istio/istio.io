@@ -9,6 +9,7 @@
 0.8.x
 1.0.x
 1.1.x
+1.2.x
 1.x
 10ms
 10s
@@ -153,6 +154,7 @@ Devirtualization
 devops
 discuss.istio.io
 distro
+Divya
 DNS
 docker-compose's
 docker.io
@@ -318,6 +320,7 @@ minikube
 misconfigurations
 misconfigured
 misordered
+Mitigations
 MongoDB
 mongodb
 Multicloud
