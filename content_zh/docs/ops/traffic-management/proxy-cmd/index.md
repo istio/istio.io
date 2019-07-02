@@ -150,7 +150,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
     172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
     {{< /text >}}
 
-1. 从上面的摘要中可以看出，每个 sidecar 都有一个绑定到 `0.0.0.0:15001` 的监听器，IP tables 将 pod 的所有入站和出站流量路由到这里。此监听器把 `useOriginalDst` 设置为 true，这意味着它将请求交给最符合请求原始目标的监听器。如果找不到任何匹配的虚拟监听器，它会将请求发送给返回 404 的 `BlackHoleCluster`。
+1. 从上面的摘要中可以看出，每个 sidecar 都有一个绑定到 `0.0.0.0:15001` 的监听器，IP tables 将 pod 的所有入站和出站流量路由到这里。此监听器把 `useOriginalDst` 设置为 true，这意味着它将请求交给最符合请求原始目标的监听器。如果找不到任何匹配的虚拟监听器，它会将请求发送给直接访问目标地址的 `PassthroughCluster`。
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
