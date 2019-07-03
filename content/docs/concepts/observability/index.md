@@ -25,7 +25,7 @@ Istio generates the following types of telemetry in order to provide overall ser
   of call flows and service dependencies within a mesh.
 - [**Access Logs**](#access-logs). As traffic flows into a service within a mesh, Istio can generate a full record of each request, including source and
   destination metadata. This information enables operators to audit service behavior down to the individual
-  [workload instance](http://localhost:1313/docs/reference/glossary/#workload-instance) level.
+  [workload instance](/docs/reference/glossary/#workload-instance) level.
 
 ## Metrics
 
@@ -78,7 +78,7 @@ basic service monitoring needs: latency, traffic, errors, and saturation. Istio 
 [dashboards](/docs/tasks/telemetry/metrics/using-istio-dashboard/) for monitoring service behaviors based on these metrics.
 
 The [default Istio metrics](/docs/reference/config/policy-and-telemetry/metrics/) are defined by a set of configuration artifacts that ship with Istio and are
-exported to [Prometheus](http://localhost:1313/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default. Operators are free to modify the
+exported to [Prometheus](/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default. Operators are free to modify the
 shape and content of these metrics, as well as to change their collection mechanism, to meet their individual monitoring needs.
 
 The [Collecting Metrics](/docs/tasks/telemetry/metrics/collecting-metrics/) task provides more information on customizing Istio metrics generation.
