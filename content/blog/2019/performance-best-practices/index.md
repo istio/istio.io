@@ -13,7 +13,7 @@ Earlier this year, we published a [blog post](/blog/2019/istio1.1_perf/) on Isti
 
 Overall, we found that Istio's [sidecar proxy](/docs/concepts/what-is-istio/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
 
-In the [Istio Tools repository](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with Linkerd, another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
+In the [Istio Tools repository](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
 
 ## 1. Use a production-ready Istio installation
 
@@ -21,7 +21,7 @@ To accurately measure the performance of a service mesh at scale, it's important
 
 Then, it's important to use a production-ready Istio **installation profile** on that cluster. This lets us achieve performance-oriented settings such as control plane pod autoscaling, and ensures that resource limits are appropriate for heavy traffic load. The [default](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) Istio installation is suitable for most benchmarking use cases. For extensive performance benchmarking, with thousands of proxy-injected services, we also provide [a tuned Istio install](https://github.com/istio/tools/blob/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/istio-install/values.yaml) that allocates extra memory and CPU to the Istio control plane.
 
-Note that Istio's [demo installation](/docs/setup/kubernetes/install/kubernetes/) is not suitable for performance testing, because it is designed to be deployed on a small trial cluster, and has full tracing and access logs enabled to showcase Istio's features.
+{{< warning_icon >}} Note: Istio's [demo installation](/docs/setup/kubernetes/install/kubernetes/) is not suitable for performance testing, because it is designed to be deployed on a small trial cluster, and has full tracing and access logs enabled to showcase Istio's features.
 
 ## 2. Focus on the data plane
 
@@ -34,7 +34,7 @@ It is also important to focus on data plane performance for **latency** reasons.
 1.  **Telemetry reporting:** Each proxy sends raw telemetry data to {{<gloss>}}Mixer{{</gloss>}}, which Mixer processes into metrics, traces, and other telemetry. The raw telemetry data is similar to access logs, and therefore comes at a cost. Access log processing consumes CPU and keeps a worker thread from picking up the next unit of work. At higher throughput, it is more likely that the next unit of work is waiting in the queue to be picked up by the worker. This can lead to long-tail (99th percentile) latency for Envoy.
 1.  **Custom policy checks:** When using [custom Istio policy adapters](/docs/concepts/observability/), policy checks are on the request path. This means that request headers and metadata on the data path will be sent to the control plane (Mixer), resulting in higher request latency. **Note:** These policy checks are [disabled by default](/docs/reference/config/installation-options/#global-options), as the most common policy use case (RBAC) is performed entirely by the Envoy proxies.
 
-Both of these exceptions will go away in a future Istio release, when [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) moves all policy and telemetry features directly into the sidecar proxies.
+Both of these exceptions will go away in a future Istio release, when [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) moves all policy and telemetry features directly into the proxies.
 
 Next, when testing Istio's data plane performance at scale, it's important to test not only at increasing requests per second, but also against an increasing number of **concurrent** connections. This is because real-world, high-throughput traffic comes from multiple clients. The [provided scripts](https://github.com/istio/tools/tree/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/benchmark#example-2) let you perform the same load test with any number of concurrent connections, at increasing RPS.
 
@@ -46,7 +46,8 @@ Why test with only two pods? Because scaling up throughput (RPS) and connections
 
 While many Istio features, such as [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication), rely on an Envoy proxy next to an application pod, you can [selectively disable](/docs/setup/kubernetes/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook) sidecar proxy injection for some of your mesh services. As you scale up Istio for production, you may want to incrementally add the sidecar proxy to your workloads.
 
-To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`). We also provide an option to disable [Mixer](/docs/concepts/observability/) (telemetry) during the performance tests, which will provide results in line with the performance we expect when the Mixer V2 work is completed.
+To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`). We also provide an option to disable [Mixer](/docs/concepts/observability/) (telemetry) during the performance tests, which will provide results in line with the performance we expect when the Mixer V2 work is completed. Also, Istio now supports [Envoy native telemetry](https://github.com/istio/istio/wiki/Envoy-native-telemetry), and its performance is comparable to Mixer telemetry disabled.
+
 
 ## Istio 1.2 Performance
 
