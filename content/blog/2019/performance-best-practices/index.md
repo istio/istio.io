@@ -34,7 +34,7 @@ It is also important to focus on data plane performance for **latency** reasons.
 1.  **Telemetry reporting:** Each proxy sends raw telemetry data to {{<gloss>}}Mixer{{</gloss>}}, which Mixer processes into metrics, traces, and other telemetry. The raw telemetry data is similar to access logs, and therefore comes at a cost. Access log processing consumes CPU and keeps a worker thread from picking up the next unit of work. At higher throughput, it is more likely that the next unit of work is waiting in the queue to be picked up by the worker. This can lead to long-tail (99th percentile) latency for Envoy.
 1.  **Custom policy checks:** When using [custom Istio policy adapters](/docs/concepts/observability/), policy checks are on the request path. This means that request headers and metadata on the data path will be sent to the control plane (Mixer), resulting in higher request latency. **Note:** These policy checks are [disabled by default](/docs/reference/config/installation-options/#global-options), as the most common policy use case (RBAC) is performed entirely by the Envoy proxies.
 
-Both these exceptions will likely go away in a future Istio release, due to an [ongoing plan to eliminate Mixer](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s), and to instead push all policy and telemetry logic into the sidecar proxies.
+Both of these exceptions will go away in a future Istio release, when [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) moves all policy and telemetry features directly into the sidecar proxies.
 
 Next, when testing Istio's data plane performance at scale, it's important to test not only at increasing requests per second, but also against an increasing number of **concurrent** connections. This is because real-world, high-throughput traffic comes from multiple clients. The [provided scripts](https://github.com/istio/tools/tree/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/benchmark#example-2) let you perform the same load test with any number of concurrent connections, at increasing RPS.
 
@@ -46,7 +46,7 @@ Why test with only two pods? Because scaling up throughput (RPS) and connections
 
 While many Istio features, such as [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication), rely on an Envoy proxy next to an application pod, you can [selectively disable](/docs/setup/kubernetes/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook) sidecar proxy injection for some of your mesh services. As you scale up Istio for production, you may want to incrementally add the sidecar proxy to your workloads.
 
-To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`). We also provide an option to disable [Mixer](/docs/concepts/observability/) (telemetry) during the performance tests.
+To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`). We also provide an option to disable [Mixer](/docs/concepts/observability/) (telemetry) during the performance tests, which will provide results in line with the performance we expect when the Mixer V2 work is completed.
 
 ## Istio 1.2 Performance
 
@@ -56,7 +56,7 @@ Let's see how to use this test environment to analyze the data plane performance
 
 For measuring sidecar proxy latency, we look at the 99th, 90th, and 50th percentiles for an increasing number of concurrent connections, keeping request throughput (RPS) constant.
 
-We found that with 16 concurrent connections and 1000 RPS, Istio adds **3ms** over the baseline (P50) when a request travels through both a client and server proxy. At 64 concurrent connections, Istio adds **12ms** over the baseline, but when [policy and telemetry](/docs/concepts/observability/) are disabled (`nomixer_both`), Istio only adds **7ms**.
+We found that with 16 concurrent connections and 1000 RPS, Istio adds **3ms** over the baseline (P50) when a request travels through both a client and server proxy. At 64 concurrent connections, Istio adds **12ms** over the baseline, but with Mixer disabled (`nomixer_both`), Istio only adds **7ms**.
 
 {{< image  width="75%" ratio="60%"
     link="./latency_p50.png"
