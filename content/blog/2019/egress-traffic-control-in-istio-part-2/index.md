@@ -54,7 +54,7 @@ policy enforcement and reporting in the same way as the sidecar proxies in the a
 
 Now let's examine possible attacks and let me show you how the secure control of egress traffic in Istio prevents them.
 
-## Possible attacks and their prevention
+## Preventing possible attacks
 
 Consider the following security policy with regard to egress traffic:
 
