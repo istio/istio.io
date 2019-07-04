@@ -17,8 +17,7 @@ attacks.
 
 To implement secure egress traffic control in Istio, you must
 [direct TLS traffic to external services through an egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#egress-gateway-for-https-traffic).
-(To support wildcard domains, you must create
-[a custom version of an egress gateway](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)). Alternatively, you
+Alternatively, you
 can [direct HTTP traffic through an egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#egress-gateway-for-http-traffic)
 and [let the egress gateway perform TLS origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway).
 
