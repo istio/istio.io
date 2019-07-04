@@ -71,14 +71,18 @@ Consider the following security policies for egress traffic:
 In the scenario that one pod of application **A** is compromised, suppose the attackers have the
 following goals:
 
-1. Application **A** will try to access `*.ibm.com` unmonitored
+1. Application **A** will try to access `*.ibm.com`
+1. Application **A** will try to access `*.ibm.com` undetected
 1. Application **A** will try to access `mongo1.composedb.com`
 
-Since application **A** is allowed to access `*.ibm.com`, the attacker is able to access it. There is no way
-to prevent such access since there is no way to distinguish, at least initially, between the original and the
-compromised versions of application **A**, but, since you monitor any access to external services, you could
-detect suspicious traffic. For example, you could apply anomaly detection tools on the egress traffic logs.
-The attackers, on the contrary, want to access external services unmonitored, so the attack will not be detected.
+First, let's see which attacker's goals you can thwart. Since application **A** is allowed to access `*.ibm.com`, the
+attacker is able to access it. There is no way to prevent such access since there is no way to distinguish, at least
+initially, between the original and the compromised versions of application **A**. Fortunately, if you can monitor all
+access to external services, you could detect suspicious traffic and thwart the second goal of the attackers.
+For example, you could apply anomaly detection tools on the egress traffic logs. The attackers, on the contrary, want to
+access external services unmonitored, so the attack will not be detected. You can thwart the third goal if you can
+correctly detect the source of the traffic, in this case, application **A**, and check that it is not allowed to access
+the destination, `mongo1.composedb.com`, according to the security policies mentioned above.
 
 Now, let's see which attacks malicious actors could attempt to achieve their goals and how secure control of egress traffic in Istio
 control will prevent each kind of attack. The attackers may try to:
