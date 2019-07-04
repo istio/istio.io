@@ -59,7 +59,7 @@ Now let's examine possible attacks and let me show you how the secure control of
 
 Consider the following security policy with regard to egress traffic:
 
-1. Application A is allowed to access `*.ibm.com` (all the external services with URL matching `*.ibm.com`,
+1. Application **A** is allowed to access `*.ibm.com`, which includes all the external services with URLs matching `*.ibm.com`.
   e.g. `www.ibm.com`)
 1. Application B is allowed to access `mongo1.composedb.com`
 1. All egress traffic must be monitored
