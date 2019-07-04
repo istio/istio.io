@@ -62,7 +62,7 @@ Consider the following security policies as they regard to egress traffic:
 1. Application **A** is allowed to access `*.ibm.com`, which includes all the external services with URLs matching `*.ibm.com`.
   e.g. `www.ibm.com`)
 1. Application **B** is allowed to access `mongo1.composedb.com`.
-1. All egress traffic must be monitored
+1. All egress traffic is monitored.
 
 In the scenario that one pod of application **A** is compromised, suppose the attackers have the
 following goals:
