@@ -576,7 +576,7 @@ spec:
 {{< /text >}}
 
 The value of the `sourceLabels` key depends on the implementation of the
-client workload. In Kubernetes, the value would typically correspond to the same labels you use in the
+client workload. In Kubernetes, the value typically corresponds to the same labels you use in the
 pod selector of the corresponding Kubernetes service.
 
 The following example further refines the rule to apply only to requests from
