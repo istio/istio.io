@@ -305,7 +305,7 @@ to route traffic in or out of your mesh, or combine virtual services with
 [destination rules](/docs/concepts/traffic-management/#destination-rules)
 to configure the behavior of the traffic. You can use a [service entry](/docs/concepts/traffic-management/#service-entries)
 to add external dependencies to the mesh and combine them with virtual services
-to configure the traffic to and from these dependencies. The following diagrams
+to configure the traffic to these dependencies. The following diagrams
 show some example virtual service configurations:
 
 - 1:1 relationship: Virtual service A configures routing rules for traffic to
@@ -576,7 +576,7 @@ spec:
 {{< /text >}}
 
 The value of the `sourceLabels` key depends on the implementation of the
-service. In Kubernetes, the value corresponds to the same labels you use in the
+client workload. In Kubernetes, the value would typically correspond to the same labels you use in the
 pod selector of the corresponding Kubernetes service.
 
 The following example further refines the rule to apply only to requests from
@@ -829,16 +829,9 @@ spec:
 {{< /text >}}
 
 As shown above, you can specify multiple policies in a single destination rule.
-In this example, the default policy is defined above the subsets field. The `v2`
-specific policy is defined in the corresponding subset's field. The following
-diagram shows how the different configurations in the `my-destination-rule`
-destination rule and in the routing rules in `my-vtl-svc` virtual service would
-apply to the traffic to and from the `my-svc` service:
-
-{{< image width="40%"
-    link="./destination-rules-1.svg"
-    caption="Configurable route examples defined in the destination rule"
-    >}}
+In this example, the default policy, defined above the subsets field,
+sets a simple random load balancer for the `v1` and `v3` subsets. A `v2`
+specific policy, a round robin load balancer, is defined in the corresponding subset's field.
 
 See our [destination rules reference documentation](/docs/reference/config/networking/v1alpha3/destination-rule/)
 to review all the enabled keys and values.
