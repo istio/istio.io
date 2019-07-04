@@ -10,9 +10,17 @@ aliases:
 icon: helm
 ---
 
-Follow this flow to install and configure an Istio mesh for in-depth evaluation or production use.
+<script id="cni" defer>
+window.onload = function(){
+  if (window.location.hash == '#cni') {
+    selectTabsets('helm_profile', 'cni');
+  }
+}
+</script>
 
-This installation flow uses [Helm](https://github.com/helm/helm) charts that provide rich
+Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
+
+This installation guide uses [Helm](https://github.com/helm/helm) charts that provide rich
 customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can simply use `helm template` to generate the configuration and then install it
 using `kubectl apply`, or you can choose to use `helm install` and let
@@ -25,26 +33,35 @@ and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/kubernetes/download/).
+1. [Download the Istio release](/docs/setup/kubernetes/#downloading-the-release).
 
-1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
 
-{{< tip >}}
-These instructions assume the `istio-init` container will be used to setup `iptables` to redirect network traffic
-to/from Envoy sidecars. If you plan to customize the configuration to use `--set istio_cni.enabled=true`, you also
-need to ensure that a CNI plugin is deployed. Refer to [CNI Setup](/docs/setup/kubernetes/additional-setup/cni/)
-for details.
-{{< /tip >}}
+## Helm chart release repositories
+
+The commands in this guide use the Helm charts that are included in the Istio release image.
+If you want to use the Istio release Helm chart repository instead, adjust the commands accordingly and
+add the Istio release repository as follows:
+
+{{< text bash >}}
+$ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/charts/
+{{< /text >}}
 
 ## Installation steps
 
-The following commands use the Helm charts that are included in the Istio release image.
 Change directory to the root of the release and then
 choose one of the following two **mutually exclusive** options:
+
+{{< warning >}}
+Istio's installation uses [Helm Package Manager](https://helm.sh) extensively for rendering Istio
+manifests. [Helm Issue 5863](https://github.com/helm/helm/issues/5863) contains details of a problem where
+extra white space in the command line is not properly handled resulting in a `helm template`
+or `helm install` operation that produces an incorrect manifest.
+{{< /warning >}}
 
 1. To deploy Istio without using Tiller, follow the instructions for [option 1](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template).
 1. To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
@@ -132,6 +149,24 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
+{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+
+Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) components:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system | kubectl apply -f -
+{{< /text >}}
+
+Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
+For example, to configure the **default** profile:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set istio_cni.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< /tabset >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -214,6 +249,23 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+
+Install the [Istio CNI](/docs/setup/kubernetes/additional-setup/cni/) chart:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace istio-system
+{{< /text >}}
+
+Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
+For example, to configure the **default** profile:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true
 {{< /text >}}
 
 {{< /tab >}}

@@ -2,6 +2,8 @@
 title: Component Debugging
 description: How to do low-level debugging of Istio components.
 weight: 25
+aliases:
+    - /help/ops/component-debugging
 ---
 
 You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/component-logging/)
@@ -57,18 +59,6 @@ $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
 See [Debugging Envoy and Pilot](/docs/ops/traffic-management/proxy-cmd/) for more advice on interpreting this information.
-
-## With GDB
-
-To debug Istio with `gdb`, you will need to run the debug images of Envoy / Mixer / Pilot. A recent `gdb` and the golang extensions (for Mixer/Pilot or other golang components) is required.
-
-1. `kubectl exec -it PODNAME -c [proxy | mixer | pilot]`
-
-1. Find process ID: ps ax
-
-1. gdb -p PID binary
-
-1. For go: info goroutines, goroutine x bt
 
 ## With Tcpdump
 

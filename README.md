@@ -77,6 +77,9 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version 
 (in this case release-0.6) to the `TOBUILD` variable.
 
+1. Edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
+("0.8") and the `main` field to the current release ("0.7").
+
 1. Commit the previous edits to your local git repo and push your **master** branch to GitHub.
 
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
@@ -93,9 +96,6 @@ name for `istio.git` and `api.git` to point to the release branch. In this case 
 #### Updating preliminary.istio.io
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
-
-1. In the **master** branch, edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
-("0.8") and the `main` field to the current release ("0.7").
 
 1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
 of the next Istio release. In this case, you would set the fields to "0.8" and "0.8.0" respectively.
@@ -132,8 +132,6 @@ new release branch you just created.
     case, the site URL would be archive.istio.io/v0.6/*. Set the label of this site to the name of the
     facet item created above (V0.6 in this case).
 
-1. Switch to the istio/istio.io repo and make sure everything is up to date.
-
 1. In the **previous release's** branch (in this case release-0.6), edit the file `data/args.yml`. Set the
 `archive` field to true and the `archive_date` field to the current date.
 
@@ -142,13 +140,13 @@ new release branch you just created.
 
 1. Commit the previous edits to your local git repo and push the **previous release's** branch to GitHub.
 
-1. Switch to the **archive** branch.
+1. Go to the archive.istio.io project on [Netlify](https://netlify.com)
 
-1. Rebase the archive branch to the current master
+1. Change the branch that is built from the previous release's branch to the new release branch, in this case release-0.7
 
-1. Commit the previous edits to your local git repo and push the **archive** branch to GitHub.
+1. Select the option to trigger an immediate rebuild and redeployment.
 
-1. Wait ~15 minutes, then browse archive.istio.io and make sure everything looks good.
+1. Once deployment is done, browse archive.istio.io and make sure everything looks good.
 
 ### Creating a patch release
 

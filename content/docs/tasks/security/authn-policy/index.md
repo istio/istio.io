@@ -124,7 +124,7 @@ sleep.bar to httpbin.foo: 503
 sleep.bar to httpbin.bar: 503
 {{< /text >}}
 
-To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#rule-destinations) to use mutual TLS. It's possible to use
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#destination-rules) to use mutual TLS. It's possible to use
 multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with the `*` wildcard to match all
 services so that it is on par with the mesh-wide authentication policy.
 
@@ -266,6 +266,7 @@ Remove global authentication policy and destination rules added in the session:
 $ kubectl delete meshpolicy default
 $ kubectl delete destinationrules httpbin-legacy -n legacy
 $ kubectl delete destinationrules api-server -n istio-system
+$ kubectl delete destinationrules default -n istio-system
 {{< /text >}}
 
 ## Enable mutual TLS per namespace or service
@@ -589,6 +590,11 @@ You also need the `key.pem` file:
 {{< text bash >}}
 $ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
 {{< /text >}}
+
+{{< tip >}}
+Download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
+if you haven't installed it on your system.
+{{< /tip >}}
 
 For example, the command below creates a token that
 expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:

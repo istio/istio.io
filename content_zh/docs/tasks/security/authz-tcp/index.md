@@ -41,13 +41,13 @@ keywords: [security,access-control,rbac,tcp,authorization]
     * 创建新的 `ServiceAccount` 并在**启用自动注入**的网格中部署新版本的服务：
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
+        $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
         {{< /text >}}
 
     * 创建新的 `ServiceAccount` 并在**没有启用自动注入**的网格中部署新版本的服务：
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
         {{< /text >}}
 
 ### 配置应用使用新版本的服务
@@ -113,72 +113,54 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.y
 
 接下来使用 Istio 授权机制来让 `ratings:v2` 服务能够访问 MongoDB 服务。
 
-1. 运行下列命令，完成授权策略：
+运行下列命令，完成授权策略：
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
+{{< /text >}}
+
+这条命令会执行如下动作：
+
+* 创建一个命名为 `mongodb-viewer` 的角色，这个角色有权访问 MongoDB 服务的 `27017` 端口。
+
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRole
+    metadata:
+      name: mongodb-viewer
+      namespace: default
+    spec:
+      rules:
+      - services: ["mongodb.default.svc.cluster.local"]
+        constraints:
+        - key: "destination.port"
+          values: ["27017"]
     {{< /text >}}
 
-    这条命令会执行如下动作：
+* 创建一个 `ServiceRoleBinding` 对象，命名为 `bind-mongodb-viewer`，这个对象的用意是将 `mongodb-viewer` 角色分配给 `bookinfo-ratings-v2`。
 
-    * 创建一个命名为 `mongodb-viewer` 的角色，这个角色有权访问 MongoDB 服务的 `27017` 端口。
-
-        {{< text yaml >}}
-        apiVersion: "rbac.istio.io/v1alpha1"
+    {{< text yaml >}}
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ServiceRoleBinding
+    metadata:
+      name: bind-mongodb-viewer
+      namespace: default
+    spec:
+      subjects:
+      - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
+      roleRef:
         kind: ServiceRole
-        metadata:
-          name: mongodb-viewer
-          namespace: default
-        spec:
-          rules:
-          - services: ["mongodb.default.svc.cluster.local"]
-            constraints:
-            - key: "destination.port"
-              values: ["27017"]
-        {{< /text >}}
-
-    * 创建一个 `ServiceRoleBinding` 对象，命名为 `bind-mongodb-viewer`，这个对象的用意是将 `mongodb-viewer` 角色分配给 `bookinfo-ratings-v2`。
-
-        {{< text yaml >}}
-        apiVersion: "rbac.istio.io/v1alpha1"
-        kind: ServiceRoleBinding
-        metadata:
-          name: bind-mongodb-viewer
-          namespace: default
-        spec:
-          subjects:
-          - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
-          roleRef:
-            kind: ServiceRole
-            name: "mongodb-viewer"
-        {{< /text >}}
-
-    用浏览器打开产品页面（`http://$GATEWAY_URL/productpage`）会看到：
-
-    * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
-    * 页面右下角的 **Book Reviews** 显示了红色星星。
-
-    {{< tip >}}
-    缓存和传播过程可能会造成一定延迟。
-    {{< /tip >}}
-
-1. 要确认 MongoDB 服务职能被 `bookinfo-ratings-v2` 服务账号访问：
-
-    用下面的命令重新部署 `ratings:v2` 服务，并使用 `default` 服务账号运行该服务：
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-v2-add-serviceaccount.yaml@
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+        name: "mongodb-viewer"
     {{< /text >}}
 
-    用浏览器打开产品页面（`http://$GATEWAY_URL/productpage`）会看到：
+用浏览器打开产品页面（`http://$GATEWAY_URL/productpage`）会看到：
 
-    * 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
-    * 页面右下角的 **Book Reviews** 显示了错误信息：**"Ratings service is currently unavailable"**。
+* 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
+* 页面右下角的 **Book Reviews** 显示了红色星星。
 
-    {{< tip >}}
-    缓存和传播过程可能会造成一定延迟。
-    {{< /tip >}}
+ {{< tip >}}
+ 缓存和传播过程可能会造成一定延迟。
+ {{< /tip >}}
 
 ## 清理
 

@@ -7,7 +7,7 @@ aliases:
     - /docs/setup/kubernetes/mesh-expansion/
 ---
 
-This flow provides instructions to integrate VMs and bare metal hosts into
+This guide provides instructions to integrate VMs and bare metal hosts into
 an Istio mesh deployed on Kubernetes.
 
 ## Prerequisites
@@ -26,8 +26,9 @@ server, or configuring the IPs in any other DNS server accessible from the VM.
 * Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to enable mesh expansion.
 
 The following instructions:
-- Assume the expansion VM is running on GCE.
-- Use Google platform-specific commands for some steps.
+
+* Assume the expansion VM is running on GCE.
+* Use Google platform-specific commands for some steps.
 
 ## Installation steps
 
@@ -48,7 +49,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
-    $ helm upgrade --set global.meshExpansion.enabled=true istio-system .
+    $ helm upgrade --set global.meshExpansion.enabled=true istio .
     $ cd -
     {{< /text >}}
 
@@ -77,7 +78,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     $ export SERVICE_NAMESPACE="default"
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot-and-envoy) through this IP address.
+1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot) through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')

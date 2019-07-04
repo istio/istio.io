@@ -18,103 +18,84 @@ After setup, you should be able to get an API key and store it in `ENDPOINTS_KEY
 You may test the service using the following command:
 
 {{< text bash >}}
-$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
+$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/prepare/platform-setup/gke).
+To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/gke).
 
 ## HTTP Endpoints service
 
-1. Inject the service into the mesh using `--includeIPRanges` by following the
+1.  Inject the service and the deployment into the mesh using `--includeIPRanges` by following the
 [instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
 so that Egress is allowed to call external services directly.
-Otherwise, ESP won't be able to access Google cloud service control.
+Otherwise, ESP will not be able to access Google cloud service control.
 
-1. After injection, issue the same test command as above to ensure that calling ESP continues to work.
+1.  After injection, issue the same test command as above to ensure that calling ESP continues to work.
 
-1.  If you want to access the service through Ingress, create the following Ingress definition:
+1.  If you want to access the service through Istio ingress, create the following networking definitions:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
-    kind: Ingress
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
     metadata:
-      name: simple-ingress
-      annotations:
-        kubernetes.io/ingress.class: istio
+      name: echo-gateway
     spec:
-      rules:
-      - http:
-          paths:
-          - path: /echo
-            backend:
-              serviceName: esp-echo
-              servicePort: 80
+      selector:
+        istio: ingressgateway # use Istio default gateway implementation
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - "*"
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: echo
+    spec:
+      hosts:
+      - "*"
+      gateways:
+      - echo-gateway
+      http:
+      - match:
+        - uri:
+            prefix: /echo
+        route:
+        - destination:
+            port:
+              number: 80
+            host: esp-echo
+    ---
     EOF
     {{< /text >}}
 
-1.  Get the Ingress IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports).
-You can verify accessing the Endpoints service through Ingress:
+1.  Get the ingress gateway IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports).
+You can verify accessing the Endpoints service through Istio ingress:
 
     {{< text bash >}}
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"i
+    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"
     {{< /text >}}
 
 ## HTTPS Endpoints service using secured Ingress
 
-The recommended way to securely access a mesh Endpoints service is through an ingress configured with mutual TLS.
+The recommended way to securely access a mesh Endpoints service is through an ingress configured with TLS.
 
-1.  Expose the HTTP port in your mesh service.
-Adding `"--http_port=8081"` in the ESP deployment arguments and expose the HTTP port:
-
-    {{< text yaml >}}
-    - port: 80
-      targetPort: 8081
-      protocol: TCP
-      name: http
-    {{< /text >}}
-
-1.  Turn on mutual TLS in Istio by using the following command:
+1.  Install Istio with strict mutual TLS enabled. Confirm that the following command outputs either `STRICT` or empty:
 
     {{< text bash >}}
-    $ kubectl edit cm istio -n istio-system
+    $ kubectl get meshpolicy default -n istio-system -o=jsonpath='{.spec.peers[0].mtls.mode}'
     {{< /text >}}
 
-    And uncomment the line:
+1.  Re-inject the service and the deployment into the mesh using `--includeIPRanges` by following the
+[instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
+so that Egress is allowed to call external services directly.
+Otherwise, ESP will not be able to access Google cloud service control.
 
-    {{< text yaml >}}
-    authPolicy: MUTUAL_TLS
-    {{< /text >}}
+1.  After this, you will find access to `ENDPOINTS_IP` no longer works because the Istio proxy only accepts secure mesh connections.
+Accessing through Istio ingress should continue to work since the ingress proxy initiates mutual TLS connections within the mesh.
 
-1. After this, you will find access to `EXTERNAL_IP` no longer works because the Istio proxy only accept secure mesh connections.
-Accessing through Ingress works because Ingress does HTTP terminations.
-
-1. To secure the access at Ingress, follow the [instructions](/docs/tasks/traffic-management/ingress/secure-ingress-mount/).
-
-1.  You can verify accessing the Endpoints service through secure Ingress:
-
-    {{< text bash >}}
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${INGRESS_HOST}/echo?key=${ENDPOINTS_KEY}" -k
-    {{< /text >}}
-
-## HTTPS Endpoints service using `LoadBalancer EXTERNAL_IP`
-
-This solution uses Istio proxy for TCP bypassing. The traffic is secured through ESP. This is not a recommended way.
-
-1.  Modify the name of the HTTP port to be `tcp`
-
-    {{< text yaml >}}
-    - port: 80
-      targetPort: 8081
-      protocol: TCP
-      name: tcp
-    {{< /text >}}
-
-1.  Update the mesh service deployment. See further readings on port naming rules in
-[Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
-
-1.  You can verify access to the Endpoints service through secure Ingress:
-
-    {{< text bash >}}
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
-    {{< /text >}}
+1.  To secure the access at the ingress, follow the [instructions](/docs/tasks/traffic-management/ingress/secure-ingress-mount/).

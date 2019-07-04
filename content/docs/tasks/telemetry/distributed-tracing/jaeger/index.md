@@ -5,6 +5,11 @@ weight: 10
 keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 ---
 
+After completing this task, you understand how to have your application participate in tracing with [Jaeger](https://www.jaegertracing.io/),
+regardless of the language, framework, or platform you use to build your application.
+
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
+
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
@@ -14,7 +19,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
     a) a demo/test environment by setting the `--set tracing.enabled=true`  Helm install option to enable tracing "out of the box"
 
-    b) a production environment by referencing an existing Jaeger instance, e.g. created with the [operator](https://github.com/jaegertracing/jaeger-operator), and then setting the `--set global.tracer.zipkin.address=<jaeger-collector-service>.<jaeger-collector-namespace>:9411` Helm install option.
+    b) a production environment by referencing an existing Jaeger instance, e.g. created with the [operator](https://github.com/jaegertracing/jaeger-operator), and then setting the `--set global.tracer.zipkin.address=<jaeger-collector-service>.<jaeger-collector-namespace>:16686` Helm install option.
 
     {{< warning >}}
     When you enable tracing, you can set the sampling rate that Istio uses for tracing.
@@ -25,15 +30,15 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Accessing the dashboard
 
-1.  To setup access to the tracing dashboard, use port forwarding:
+[Remotely Accessing Telemetry Addons](/docs/tasks/telemetry/gateways) details how to configure access to the Istio       addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the Helm chart option `--set tracing.ingress.enabled=true` during install.
 
-    {{< text bash >}}
-    $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686  &
-    {{< /text >}}
+For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Jaeger to the `istio-system` namespace:
 
-    Open your browser to [http://localhost:16686](http://localhost:16686).
+{{< text bash >}}
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 15032:16686
+{{< /text >}}
 
-1.  To use a Kubernetes ingress, specify the Helm chart option `--set tracing.ingress.enabled=true`.
+Open your browser to [http://localhost:15032](http://localhost:15032).
 
 ## Generating traces using the Bookinfo sample
 
@@ -42,7 +47,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
     {{< boilerplate trace-generation >}}
 
-1.  From the left-hand pane of the dashboard, select `productpage` from the **Service** drop-down list and click
+1.  From the left-hand pane of the dashboard, select `productpage.default` from the **Service** drop-down list and click
     **Find Traces**:
 
     {{< image link="./istio-tracing-list.png" caption="Tracing Dashboard" >}}
@@ -54,7 +59,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 1.  The trace is comprised of a set of spans,
     where each span corresponds to a Bookinfo service, invoked during the execution of a `/productpage` request, or
-    internal Istio component, for example: `istio-ingressgateway`, `istio-mixer`, `istio-policy`.
+    internal Istio component, for example: `istio-ingressgateway`.
 
 ## Cleanup
 

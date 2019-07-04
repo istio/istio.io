@@ -40,7 +40,7 @@ between the `reviews:v2` and `ratings` microservices for user `jason`. This test
 will uncover a bug that was intentionally introduced into the Bookinfo app.
 
 Note that the `reviews:v2` service has a 10s hard-coded connection timeout for
-calls to the ratings service. Even with the 7s delay that you introduced, you
+calls to the `ratings` service. Even with the 7s delay that you introduced, you
 still expect the end-to-end flow to continue without any errors.
 
 1.  Create a fault injection rule to delay traffic coming from the test user
@@ -87,7 +87,7 @@ still expect the end-to-end flow to continue without any errors.
 
 1. Open the [Bookinfo](/docs/examples/bookinfo) web application in your browser.
 
-1. On the `/productpage`, log in as user `jason`.
+1. On the `/productpage` web page, log in as user `jason`.
 
     You expect the Bookinfo home page to load without errors in approximately
     7 seconds. However, there is a problem: the Reviews section displays an error
@@ -99,23 +99,25 @@ still expect the end-to-end flow to continue without any errors.
     {{< /text >}}
 
 1. View the web page response times:
+
     1. Open the *Developer Tools* menu in you web browser.
     1. Open the Network tab
-    1. Reload the `productpage` web page. You will see that the webpage actually
-    loads in about 6 seconds.
+    1. Reload the `/productpage` web page. You will see that the page actually loads in about 6 seconds.
 
 ## Understanding what happened
 
 You've found a bug. There are hard-coded timeouts in the microservices that have
 caused the `reviews` service to fail.
 
-The timeout between the
-`productpage` and the `reviews` service is 6 seconds - coded as 3s + 1 retry
-for 6s total. The timeout between the `reviews` and `ratings`
-service is hard-coded at 10 seconds. Because of the delay we introduced, the `/productpage` times out prematurely and throws the error.
+As expected, the 7s delay you introduced doesn't affect the `reviews` service
+because the timeout between the `reviews` and `ratings` service is hard-coded at 10s.
+However, there is also a hard-coded timeout between the `productpage` and the `reviews` service,
+coded as 3s + 1 retry for 6s total.
+As a result, the `productpage` call to `reviews` times out prematurely and throws an error after 6s.
 
 Bugs like this can occur in typical enterprise applications where different teams
-develop different microservices independently. Istio's fault injection rules help you identify such anomalies without impacting end users.
+develop different microservices independently. Istio's fault injection rules help you identify such anomalies
+without impacting end users.
 
 {{< tip >}}
 Notice that the fault injection test is restricted to when the logged in user is
@@ -126,19 +128,18 @@ Notice that the fault injection test is restricted to when the logged in user is
 
 You would normally fix the problem by:
 
-1. Either increasing the
-`/productpage` timeout or decreasing the `reviews` to `ratings` service timeout
+1. Either increasing the `productpage` to `reviews` service timeout or decreasing the `reviews` to `ratings` timeout
 1. Stopping and restarting the fixed microservice
-1. Confirming that the `/productpage` returns its response without any errors.
+1. Confirming that the `/productpage` web page returns its response without any errors.
 
-However, you already have this fix running in v3 of the reviews service, so you
-can simply fix the problem by migrating all traffic to `reviews:v3` as described
-in the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task.
+However, you already have a fix running in v3 of the `reviews` service.
+The `reviews:v3` service reduces the `reviews` to `ratings` timeout from 10s to 2.5s
+so that it is compatible with (less than) the timeout of the downstream `productpage` requests.
 
-## Exercise
-
-Change the delay rule to use a 2.8 second delay and then run it against the v3
-version of reviews.
+If you migrate all traffic to `reviews:v3` as described in the
+[traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task, you can then
+try to change the delay rule to any amount less that 2.5s, for example 2s, and confirm
+that the end-to-end flow continues without any errors.
 
 ## Injecting an HTTP abort fault
 

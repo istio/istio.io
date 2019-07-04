@@ -9,7 +9,7 @@ keywords: [telemetry,tracing]
 
 这个任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为示例应用程序。
 
-## 了解发生了什么 {#understanding-what-happened}
+## 了解发生了什么 {#trace-context-propagation}
 
 虽然 Istio 代理能够自动发送 span，但仍然需要一些线索来将整个追踪衔接起来。应用程序需要分发合适的 HTTP header，以便当代理发送 span 信息时，span 可以被正确的关联到一个追踪中。
 

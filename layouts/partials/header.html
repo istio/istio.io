@@ -25,32 +25,34 @@
         </div>
 
         <div id="header-links">
-            {{ with (.Site.GetPage "section" "docs") }}
-                {{ if eq $section "docs" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+            {{ if not .Site.Data.args.archive_landing }}
+                {{ with (.Site.GetPage "section" "docs") }}
+                    {{ if eq $section "docs" }}
+                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with $latest_post }}
-                {{ if eq $section "blog" }}
-                    <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                {{ with $latest_post }}
+                    {{ if eq $section "blog" }}
+                        <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with (.Site.GetPage "section" "faq") }}
-                {{ if eq $section "faq" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                {{ with (.Site.GetPage "section" "faq") }}
+                    {{ if eq $section "faq" }}
+                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with (.Site.GetPage "section" "about") }}
-                {{ if eq $section "about" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                {{ with (.Site.GetPage "section" "about") }}
+                    {{ if eq $section "about" }}
+                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
             {{ end }}
 
@@ -98,15 +100,20 @@
                     {{ $next := .Site.Data.versions.preliminary }}
                     {{ $current := .Site.Data.versions.main }}
 
+                    {{ $fileDir := "" }}
+                    {{ with .File }}
+                        {{ $fileDir = .Dir }}
+                    {{ end }}
+
                     {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else if .Site.Data.args.preliminary }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ end }}
                 </div>

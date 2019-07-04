@@ -117,7 +117,7 @@ This requires you have `openssl` installed on your machine.
 1.  Verify the CA certificate is the same as the one specified by operator:
 
     {{< text bash >}}
-    $ tail -n 22 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
+    $ tail -n 23 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
     $ openssl x509 -in @samples/certs/ca-cert.pem@ -text -noout > /tmp/ca-cert.crt.txt
     $ openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
     $ diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt

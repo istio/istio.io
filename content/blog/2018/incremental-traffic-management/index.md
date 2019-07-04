@@ -44,9 +44,9 @@ Fortunately, a standard Istio deployment already includes a [Gateway](/docs/conc
 
 ## In action: traffic routing with Istio
 
-A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/prepare/platform-setup/) instructions, and then install the **minimal** Istio profile using [Helm](/docs/setup/kubernetes/install/helm/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
+A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/docs/setup/kubernetes/platform-setup/) instructions, and then install the **minimal** Istio profile using [Helm](/docs/setup/kubernetes/install/helm/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
 
-First, setup and configure [GKE](/docs/setup/kubernetes/prepare/platform-setup/gke/):
+First, setup and configure [GKE](/docs/setup/kubernetes/platform-setup/gke/):
 
 {{< text bash >}}
 $ gcloud container clusters create istio-inc --zone us-central1-f

@@ -1,8 +1,8 @@
 ---
-title: Security
+title: Policies and Security
 description: Describes Istio's authorization and authentication functionality.
 weight: 30
-keywords: [security,authentication,authorization,rbac,access-control]
+keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
 aliases:
     - /docs/concepts/network-and-auth/auth.html
     - /docs/concepts/security/authn-policy/
@@ -39,6 +39,18 @@ and audit (AAA) tools to protect your services and data. The goals of Istio secu
 
 Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
 Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
+
+## Policies
+
+Istio lets you configure custom policies for your application to enforce rules at runtime such as:
+
+- Rate limiting to dynamically limit the traffic to a service
+- Denials, whitelists, and blacklists, to restrict access to services
+- Header rewrites and redirects
+
+Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
+
+You must enable policy enforcement for your mesh to use this feature.
 
 ## High-level architecture
 
@@ -191,7 +203,7 @@ The photo SRE team creates two service accounts to run `photo-frontend` and
 `photo-backend` respectively in the `photo-ns` namespace. The datastore SRE
 team creates one service account to run the `datastore` service in the
 `datastore-ns` namespace. Moreover, we need to enforce the service access
-control in [Istio Mixer](/docs/concepts/policies-and-telemetry/) such that
+control in [Istio Mixer](/docs/reference/config/policy-and-telemetry/) such that
 `photo-frontend` cannot access datastore.
 
 In this setup, Kubernetes can isolate the operator privileges on managing the services.
@@ -281,11 +293,19 @@ Suppose the legitimate servers that run the service `datastore` only use the `in
 A malicious user has certificate and key for the `test-team` identity.
 The malicious user intends to impersonate the service to inspect the data sent from the clients.
 The malicious user deploys a forged server with the certificate and key for the `test-team` identity.
-Suppose the malicious user successfully hacked the discovery service or DNS to map the `datastore` service name to the forged server.
+Suppose the malicious user successfully hijacked (through DNS spoofing, BGP/route hijacking, ARP
+spoofing, etc.) the traffic sent to the `datastore` and redirected it to the forged server.
 
 When a client calls the `datastore` service, it extracts the `test-team` identity from the server's certificate,
 and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
 The client detects that `test-team` is **not** allowed to run the `datastore` service and the authentication fails.
+
+Secure naming is able to protect against general network hijackings for HTTPS traffic. It can also
+protect TCP traffic from general network hijackings except for DNS spoofing. It would fail to work
+for TCP traffic if the attacker hijacks the DNS and modifies the IP address of the destination. This
+is because TCP traffic does not contain the hostname information and we can only rely on the IP
+address for routing. And this DNS hijack can happen even before the client-side Envoy receives the
+traffic.
 
 ### Authentication architecture
 
@@ -436,14 +456,16 @@ only one authentication policy per mesh and one authentication policy per
 namespace. Istio also requires mesh-wide and namespace-wide policies to have
 the specific name `default`.
 
+If a service has no matching policies, both transport authentication and
+origin authentication are disabled.
+
 #### Transport authentication
 
 The `peers:` section defines the authentication methods and associated
 parameters supported for transport authentication in a policy. The section can
 list more than one method and only one method must be satisfied for the
 authentication to pass. However, as of the Istio 0.7 release, the only
-transport authentication method currently supported is mutual TLS. If you do not
-need transport authentication, skip this section entirely.
+transport authentication method currently supported is mutual TLS.
 
 The following example shows the `peers:` section enabling transport
 authentication using mutual TLS.
@@ -453,10 +475,19 @@ peers:
   - mtls: {}
 {{< /text >}}
 
-Currently, the mutual TLS setting doesn't require any parameters. Hence,
-`-mtls: {}`, `- mtls:` or `- mtls: null` declarations are treated the same. In
-the future, the mutual TLS setting may carry arguments to provide different
-mutual TLS implementations.
+The mutual TLS setting has an optional `mode` parameter that defines the
+strictness of the peer transport authentication. These modes are documented
+in the [Authentication Policy reference document](/docs/reference/config/istio.authentication.v1alpha1/#MutualTls-Mode).
+
+The default mutual TLS mode is `STRICT`. Therefore, `mode: STRICT` is equivalent to all of the following:
+
+- `- mtls: {}`
+- `- mtls:`
+- `- mtls: null`
+
+When you do not specify a mutual TLS mode, peers cannot use transport
+authentication, and Istio rejects mutual TLS connections bound for the sidecar.
+At the application layer, services may still handle their own mutual TLS sessions.
 
 #### Origin authentication
 
@@ -620,9 +651,8 @@ Each rule has the following standard fields:
 - **`services`**: A list of service names. You can set the value to `*` to
   include all services in the specified namespace.
 
-- **`methods`**: A list of HTTP method names, for permissions on gRPC requests,
-  the HTTP verb is always `POST`. You can set the value to `*` to include all
-  HTTP methods.
+- **`methods`**: A list of HTTP methods. You can set the value to `*` to include all
+  HTTP methods. This field should not be set for TCP and gRPC services.
 
 - **`paths`**: HTTP paths or gRPC methods. The gRPC methods must be in the
    form of `/packageName.serviceName/methodName` and are case sensitive.
@@ -892,4 +922,4 @@ spec:
 
 While we strongly recommend using the Istio authorization mechanisms,
 Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
-To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/concepts/policies-and-telemetry/#adapters).
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/reference/config/policy-and-telemetry/adapters).

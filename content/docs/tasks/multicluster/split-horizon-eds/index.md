@@ -50,9 +50,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Use Helm to create the Istio deployment YAML for `cluster1`:
 
     {{< warning >}}
-    If you're not sure if your `helm` dependencies are up to date, update them using the
-    command shown in [Helm installation steps](/docs/setup/kubernetes/install/helm/#installation-steps)
-    before running the following command.
+    When you enable the additional components necessary for multicluster operation, the resource footprint
+    of the Istio control plane may increase beyond the capacity of the default Kubernetes cluster you created when
+    completing the [Platform setup](/docs/setup/kubernetes/platform-setup/) steps.
+    If the Istio services aren't getting scheduled due to insufficient CPU or memory, consider
+    adding more nodes to your cluster or upgrading to larger memory instances as necessary.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -62,6 +64,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set global.controlPlaneSecurityEnabled=true \
       --set global.proxy.accessLogFile="/dev/stdout" \
       --set global.meshExpansion.enabled=true \
+      --set 'global.meshNetworks.network1.endpoints[0].fromRegistry'=Kubernetes \
+      --set 'global.meshNetworks.network1.gateways[0].address'=0.0.0.0 \
+      --set 'global.meshNetworks.network1.gateways[0].port'=443 \
+      --set gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network1" \
+      --set global.network="network1" \
       --set 'global.meshNetworks.network2.endpoints[0].fromRegistry'=n2-k8s-config \
       --set 'global.meshNetworks.network2.gateways[0].address'=0.0.0.0 \
       --set 'global.meshNetworks.network2.gateways[0].port'=443 \
@@ -69,8 +76,8 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     {{< warning >}}
-    Note that the gateway address is set to `0.0.0.0`. This is a temporary placeholder value that will
-    later be updated to the value of the public IP of `cluster2`'s gateway after it is deployed
+    Note that the gateway addresses are set to `0.0.0.0`. These are temporary placeholder values that will
+    later be updated with the public IPs of the `cluster1` and `cluster2` gateways after they are deployed
     in the following section.
     {{< /warning >}}
 
@@ -80,7 +87,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl create --context=$CTX_CLUSTER1 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER1 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply --context=$CTX_CLUSTER1 -f $i; done
-    $ kubectl create --context=$CTX_CLUSTER1 -f istio-auth.yaml
+    $ kubectl apply --context=$CTX_CLUSTER1 -f istio-auth.yaml
     {{< /text >}}
 
     Wait for the Istio pods on `cluster1` to become ready:
@@ -103,7 +110,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Create an ingress gateway to access service(s) in `cluster2`:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER1 -f - <<EOF
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -131,6 +138,42 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     Although applied to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
     same Pilot.
+1.  Determine the ingress IP and port for `cluster1`.
+
+    1.   Set the current context of `kubectl` to `CTX_CLUSTER1`
+
+        {{< text bash >}}
+        $ export ORIGINAL_CONTEXT=$(kubectl config current-context)
+        $ kubectl config use-context $CTX_CLUSTER1
+        {{< /text >}}
+
+    1.   Follow the instructions in
+        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
+
+    1.  Restore the previous `kubectl` context:
+
+        {{< text bash >}}
+        $ kubectl config use-context $ORIGINAL_CONTEXT
+        $ unset ORIGINAL_CONTEXT
+        {{< /text >}}
+
+    1.  Print the values of `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
+
+        {{< text bash >}}
+        $ echo The ingress gateway of cluster1: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
+        {{< /text >}}
+
+1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
+
+    {{< text bash >}}
+    $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
+    {{< /text >}}
+
+    Update the gateway's address and port of `network1` to reflect the `cluster1` ingress host and port,
+    respectively, then save and quit.
+
+    Once saved, Pilot will automatically read the updated network configuration.
 
 ### Setup cluster 2
 
@@ -171,7 +214,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER2 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
-    $ kubectl create --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
+    $ kubectl apply --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
     {{< /text >}}
 
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
@@ -343,23 +386,35 @@ The difference between the two instances is the version of their `helloworld` im
 
 We will call the `helloworld.sample` service from another in-mesh `sleep` service.
 
-1. Deploy the `sleep` service:
+1. Deploy the `sleep` service in both clusters:
 
     {{< text bash >}}
-    $ kubectl create --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
+    $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
+    $ kubectl apply --context=$CTX_CLUSTER2 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
-1. Wait for the `sleep` service to start:
+1. Wait for the `sleep` service to start in each cluster:
 
     {{< text bash >}}
     $ kubectl get po --context=$CTX_CLUSTER1 -n sample -l app=sleep
     sleep-754684654f-n6bzf           2/2     Running   0          5s
     {{< /text >}}
 
-1. Call the `helloworld.sample` service several times:
+    {{< text bash >}}
+    $ kubectl get po --context=$CTX_CLUSTER2 -n sample -l app=sleep
+    sleep-754684654f-dzl9j           2/2     Running   0          5s
+    {{< /text >}}
+
+1. Call the `helloworld.sample` service several times from `cluster1` :
 
     {{< text bash >}}
     $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
+    {{< /text >}}
+
+1. Call the `helloworld.sample` service several times from `cluster2` :
+
+    {{< text bash >}}
+    $ kubectl exec --context=$CTX_CLUSTER2 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances on `cluster1` and `cluster2`
@@ -382,6 +437,14 @@ $ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CT
 {{< /text >}}
 
 The gateway IP, `192.23.120.32:15443`, of `cluster2` is logged when v2 was called and the instance IP, `10.10.0.90:5000`, of `cluster1` is logged when v1 was called.
+
+{{< text bash >}}
+$ kubectl logs --context=$CTX_CLUSTER2 -n sample $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
+[2019-05-25T08:06:11.468Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 177 176 "-" "curl/7.60.0" "58cfb92b-b217-4602-af67-7de8f63543d8" "helloworld.sample:5000" "192.168.1.246:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36840 -
+[2019-05-25T08:06:12.834Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 181 180 "-" "curl/7.60.0" "ce480b56-fafd-468b-9996-9fea5257cb1e" "helloworld.sample:5000" "10.32.0.9:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36886 -
+{{< /text >}}
+
+The gateway IP, `192.168.1.246:15443`, of `cluster1` is logged when v1 was called and the gateway IP, `10.32.0.9:5000`, of `cluster2` is logged when v2 was called.
 
 ## Cleanup
 

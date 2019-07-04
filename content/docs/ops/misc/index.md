@@ -3,6 +3,8 @@ title: Miscellaneous
 description: Advice on tackling common problems with Istio.
 weight: 90
 force_inline_toc: true
+aliases:
+    - /help/ops/misc
 ---
 
 ## Verifying connectivity to Istio Pilot

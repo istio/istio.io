@@ -3,6 +3,8 @@ title: Debugging Envoy and Pilot
 description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
 weight: 40
 keywords: [debug,proxy,status,config,pilot,envoy]
+aliases:
+    - /help/ops/traffic-management/proxy-cmd
 ---
 
 Istio provides two very valuable commands to help diagnose traffic management configuration problems,
@@ -29,22 +31,21 @@ receiving configuration or is out of sync then `proxy-status` will tell you this
 {{< text bash >}}
 $ istioctl proxy-status
 PROXY                                                  CDS        LDS        EDS               RDS          PILOT                            VERSION
-details-v1-6dcc6fbb9d-wsjz4.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
-istio-egressgateway-c49694485-l9d5l.istio-system       SYNCED     SYNCED     SYNCED (100%)     NOT SENT     istio-pilot-75bdf98789-tfdvh     1.1.2
-istio-ingress-6458b8c98f-7ks48.istio-system            SYNCED     SYNCED     SYNCED (100%)     NOT SENT     istio-pilot-75bdf98789-n2kqh     1.1.2
-istio-ingressgateway-7d6874b48f-qxhn5.istio-system     SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-productpage-v1-6c886ff494-hm7zk.default                SYNCED     SYNCED     SYNCED (100%)     STALE        istio-pilot-75bdf98789-n2kqh     1.1.2
-ratings-v1-5d9ff497bb-gslng.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-reviews-v1-55d4c455db-zjj2m.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
-reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
-reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED (100%)     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+details-v1-6dcc6fbb9d-wsjz4.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
+istio-egressgateway-c49694485-l9d5l.istio-system       SYNCED     SYNCED     SYNCED     NOT SENT     istio-pilot-75bdf98789-tfdvh     1.1.2
+istio-ingress-6458b8c98f-7ks48.istio-system            SYNCED     SYNCED     SYNCED     NOT SENT     istio-pilot-75bdf98789-n2kqh     1.1.2
+istio-ingressgateway-7d6874b48f-qxhn5.istio-system     SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+productpage-v1-6c886ff494-hm7zk.default                SYNCED     SYNCED     SYNCED     STALE        istio-pilot-75bdf98789-n2kqh     1.1.2
+ratings-v1-5d9ff497bb-gslng.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+reviews-v1-55d4c455db-zjj2m.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
+reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-tfdvh     1.1.2
+reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
 {{< /text >}}
 
 If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be
 receiving any configuration.
 
 * `SYNCED` means that Envoy has acknowledged the last configuration Pilot has sent to it.
-* `SYNCED (100%)` means that Envoy has successfully synced all of the endpoints in the cluster.
 * `NOT SENT` means that Pilot hasn't sent anything to Envoy. This usually is because Pilot has nothing to send.
 * `STALE` means that Pilot has sent an update to Envoy but has not received an acknowledgement. This usually indicates
 a networking issue between Envoy and Pilot or a bug with Istio itself.

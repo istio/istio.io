@@ -9,6 +9,7 @@
 0.8.x
 1.0.x
 1.1.x
+1.2.x
 1.x
 10ms
 10s
@@ -19,7 +20,9 @@
 1qps
 22.99
 24.13
+2s
 2x
+2.5s
 3.99ms
 3s
 404s
@@ -101,6 +104,7 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+callouts
 Callouts
 camelCase
 canaried
@@ -132,6 +136,7 @@ CRD
 CRDs
 CSRs
 Ctrl
+Customizable
 CVE
 CVEs
 D3.js
@@ -150,9 +155,11 @@ Devirtualization
 devops
 discuss.istio.io
 distro
+Divya
 DNS
 docker-compose's
 docker.io
+Drucker
 Duggirala
 e.g.
 eBPF
@@ -227,6 +234,7 @@ httpbin.org
 https
 Huawei
 hyperkube
+hypervisor
 Hystrix
 i.e.
 ILBs
@@ -249,6 +257,7 @@ IPs
 iptables
 iptables
 IPv4
+IPv6
 Istio
 istio.io
 istio.io.
@@ -257,10 +266,12 @@ IstioMesh
 istio-identity
 istio-mixer
 istio-system
+iter8
 jason
 Jog
 json
 JSON-formatted
+jwcrypto
 JWT
 jwt.io
 JWTs
@@ -307,9 +318,11 @@ microservice
 microservices
 middleboxes
 middleware
-Minikube
+minikube
+misconfigurations
 misconfigured
 misordered
+Mitigations
 MongoDB
 mongodb
 Multicloud
@@ -370,6 +383,7 @@ pre-specified
 preconfigured
 prefetching
 preformatted
+preload
 prepends
 prober
 programmatically

@@ -1,5 +1,5 @@
 ---
-title: Operations Guide
+title: Operations
 description: Hints, tips, tricks about running an Istio mesh.
 weight: 32
 aliases:
@@ -7,6 +7,5 @@ aliases:
     - /troubleshooting/index.html
     - /help/troubleshooting/index.html
     - /help/ops
-    - /ops
 icon: guide
 ---

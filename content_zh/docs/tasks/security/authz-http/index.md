@@ -17,20 +17,6 @@ Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP �
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
-* 这一任务中，借助 Service Account 在网格中提供加密的访问控制能力。为了给不同的微服务赋予不同的访问权限，就需要创建一些 Service Account 用来运行 Bookinfo 中的微服务。
-
-    运行命令完成两个目标：
-    * 创建 Service Account `bookinfo-productpage`，并用这一身份重新部署 `productpage` 微服务。
-    * 创建 Service Account `bookinfo-reviews`，并用它来重新部署 `reviews`（`reviews-v2` 和 `reviews-v3` 两个 Deployment）。
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml@)
-    {{< /text >}}
-
-{{< tip >}}
-如果你的 Bookinfo 使用的不是 `default` 命名空间，可以使用 `kubectl -n namespace ...` 来指定命名空间。
-{{< /tip >}}
-
 * 用浏览器打开 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`）应该会看到：
 
     * 页面左下方的 “Book Details” 中包含了类型、页数、出版商等信息。

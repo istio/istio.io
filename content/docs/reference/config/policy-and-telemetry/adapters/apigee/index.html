@@ -12,7 +12,7 @@ support_link: https://apigee.com/about/support/portal
 source_link: https://github.com/apigee/istio-mixer-adapter
 latest_release_link: https://github.com/apigee/istio-mixer-adapter/releases
 helm_chart_link:
-istio_versions: "1.0.0, 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6"
+istio_versions: "1.0.x, 1.1.x"
 supported_templates: authorization, analytics
 number_of_entries: 3
 ---
@@ -49,6 +49,7 @@ spec:
     legacy_endpoint: false
     file_limit: 1024
   api_key_claim:
+  allowUnverifiedSSLCert: false
 </code></pre>
 
 <h2 id="Params">Params</h2>
@@ -146,6 +147,15 @@ Optional. Default: &ldquo;30s&rdquo; (30 seconds).</p>
 <td>
 <p>The name of a JWT claim from which to look for an api_key.
 Optional. Default: none.</p>
+
+</td>
+</tr>
+<tr id="Params-allowUnverifiedSSLCert">
+<td><code>allowUnverifiedSSLCert</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Set to true to allow an unknown server SSL Certificate (eg. self-signed)
+Optional. Default: false.</p>
 
 </td>
 </tr>

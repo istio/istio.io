@@ -7,28 +7,37 @@ aliases:
     - /docs/setup/kubernetes/quick-start/
 ---
 
-Follow this flow to quickly evaluate Istio in a Kubernetes cluster on any platform.
-This flow installs Istio's built-in **demo**
-[configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
-using basic Kubernetes commands without needing to download or install [Helm](https://github.com/helm/helm).
+This guide installs Istio's built-in **demo** [configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
+using basic Kubernetes commands without needing to download or install
+[Helm](https://github.com/helm/helm). This installation lets you quickly
+evaluate Istio in a Kubernetes cluster on any platform.
 
 {{< warning >}}
-The demo configuration profile is not suitable for performance evaluation.
-It is designed to showcase Istio functionality with high levels of tracing and access logging.
+The demo configuration profile is not suitable for performance evaluation. It
+is designed to showcase Istio functionality with high levels of tracing and
+access logging.
 {{< /warning >}}
 
 To install Istio for production use, we recommend using the
-[Helm Installation guide](/docs/setup/kubernetes/install/helm/) instead,
-which provides many more options for selecting and managing the Istio configuration.
-This permits customization of Istio to operator specific requirements.
+[Helm Installation guide](/docs/setup/kubernetes/install/helm/)
+instead, which provides many more options for selecting and managing the Istio
+configuration. This permits customization of Istio to operator specific
+requirements.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/kubernetes/download/).
+1. [Download the Istio release](/docs/setup/kubernetes/#downloading-the-release).
 
-1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/prepare/platform-setup/).
+    {{< warning >}}
+    These quick-start instructions will not work with a downloaded [istio repository](https://github.com/istio/istio)
+    because the pregenerated yaml files, `istio-demo.yaml` and `istio-demo-auth.yaml`, are only available in
+    [release images](https://github.com/istio/istio/releases). If you want to work with the latest Istio codebase,
+    refer to the [developer wiki](https://github.com/istio/istio/wiki) for instructions.
+    {{< /warning >}}
 
-1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/).
+1. Perform any necessary [platform-specific setup](/docs/setup/kubernetes/platform-setup/).
+
+1. Check the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/).
 
 ## Installation steps
 

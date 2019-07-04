@@ -2,6 +2,8 @@
 title: Troubleshooting Networking Issues
 description: Describes common networking issues and how to recognize and avoid them.
 weight: 30
+aliases:
+    - /help/ops/traffic-management/troubleshooting
 ---
 
 This section describes common problems and tools and techniques to address issues related to traffic management.
@@ -49,7 +51,7 @@ but similar version routing rules have no effect on your own application, it may
 your Kubernetes services need to be changed slightly.
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/prepare/requirements/)
+Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/)
 for details.
 
 Another potential issue is that the route rules may simply be slow to take effect.
@@ -79,10 +81,11 @@ instead of TLS encrypted requests. Thus, the requests conflict with the server p
 encrypted requests.
 
 To confirm there is a conflict, check whether the `STATUS` field in the output of the `istioctl authn tls-check` command
-is set to `CONFLICT` for your service. For example:
+is set to `CONFLICT` for your service. For example, a command similar to the following could be used to check
+for a conflict with the `httpbin` service:
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ istioctl authn tls-check istio-ingressgateway-db454d49b-lmtg8.istio-system httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
 httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
 {{< /text >}}

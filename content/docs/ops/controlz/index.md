@@ -3,6 +3,8 @@ title: Component Introspection
 description: Describes how to use ControlZ to get insight into individual running components.
 weight: 20
 keywords: [ops]
+aliases:
+    - /help/ops/controlz
 ---
 
 Istio components are built with a flexible introspection framework which makes it easy to inspect and manipulate the internal state

@@ -98,6 +98,17 @@ $ kubectl apply -f $HOME/istio.yaml
 
 Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
 
+### Running on OpenShift
+
+When Kiali runs on OpenShift it needs access to some OpenShift specific resources in order to function properly,
+which can be done using the following commands after Kiali has been installed:
+
+{{< text bash >}}
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["apps.openshift.io"], "resources":["deploymentconfigs"],"verbs": ["get", "list", "watch"]}}]' --type json
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["project.openshift.io"], "resources":["projects"],"verbs": ["get"]}}]' --type json
+$ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiGroups":["route.openshift.io"], "resources":["routes"],"verbs": ["get"]}}]' --type json
+{{< /text >}}
+
 ## Generating a service graph
 
 1.  To verify the service is running in your cluster, run the following command:
@@ -140,7 +151,8 @@ Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/
 
     {{< image width="75%" link="./kiali-overview.png" caption="Example Overview" >}}
 
-1.  To view a namespace graph, click on the `bookinfo` namespace in the Bookinfo namespace card.
+1.  To view a namespace graph, click on the `bookinfo` graph icon in the Bookinfo namespace card. The graph icon is in the lower left of
+    the namespace card and looks like a connected group of circles.
     The page looks similar to:
 
     {{< image width="75%" link="./kiali-graph.png" caption="Example Graph" >}}

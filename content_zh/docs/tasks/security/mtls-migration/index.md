@@ -60,7 +60,7 @@ metadata:
 spec:
   targets:
   - name: httpbin
-    peers:
+  peers:
   - mtls:
       mode: PERMISSIVE
 EOF
@@ -120,7 +120,7 @@ metadata:
 spec:
   targets:
   - name: httpbin
-    peers:
+  peers:
   - mtls:
       mode: STRICT
 EOF

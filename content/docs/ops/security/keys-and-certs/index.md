@@ -2,6 +2,8 @@
 title: Keys and Certificates
 description: What to do if you suspect problems with Istio keys and certificates.
 weight: 20
+aliases:
+    - /help/ops/security/keys-and-certs
 ---
 
 If you suspect that some of the keys and/or certificates used by Istio aren't correct, the

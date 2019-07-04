@@ -33,7 +33,7 @@ _Locality-prioritized load balancing_ 是 _locality load balancing_ 的默认行
 当所有实例都正常运行时，请求将保持在同一地点。
 当实例变得不健康时，流量会被调度到位于下一个优先级位置的实例上。
 这种行为一直持续到所有地点都接收到流量为止。
-您可以在 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing/priority#priority-levels)中找到确切的百分比。  
+您可以在 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority)中找到确切的百分比。  
 
 具有 `us-west/zone2` 地点标识的 Envoy 典型优先顺序如下：  
 

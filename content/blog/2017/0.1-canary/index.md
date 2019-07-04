@@ -34,8 +34,8 @@ Whether we use one deployment or two, canary management using deployment feature
 
 With Istio, traffic routing and replica deployment are two completely independent functions. The number of pods implementing services are free to scale up and down based on traffic load, completely orthogonal to the control of version traffic routing. This makes managing a canary version in the presence of autoscaling a much simpler problem. Autoscalers may, in fact, respond to load variations resulting from traffic routing changes, but they are nevertheless functioning independently and no differently than when loads change for other reasons.
 
-Istio’s [routing rules](/docs/concepts/traffic-management/#rule-configuration) also provide other important advantages; you can easily control
-fine grain traffic percentages (e.g., route 1% of traffic without requiring 100 pods) and you can control traffic using other criteria (e.g., route traffic for specific users to the canary version). To illustrate, let’s look at deploying the **helloworld** service and see how simple the problem becomes.
+Istio’s [routing rules](/docs/concepts/traffic-management/#routing-rules) also provide other important advantages; you can easily control
+fine-grained traffic percentages (e.g., route 1% of traffic without requiring 100 pods) and you can control traffic using other criteria (e.g., route traffic for specific users to the canary version). To illustrate, let’s look at deploying the **helloworld** service and see how simple the problem becomes.
 
 We begin by defining the **helloworld** Service, just like any other Kubernetes service, something like this:
 
@@ -55,6 +55,7 @@ spec:
 We then add 2 Deployments, one for each version (**v1** and **v2**), both of which include the service selector’s `app: helloworld` label:
 
 {{< text yaml >}}
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-v1
@@ -70,7 +71,7 @@ spec:
       - image: helloworld-v1
         ...
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-v2

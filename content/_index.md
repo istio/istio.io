@@ -73,7 +73,7 @@ description: Connect, secure, control, and observe services.
         </div>
 
         <div id="panel3" class="panel">
-            <a href="/docs/concepts/policies-and-telemetry/">
+            <a href="/docs/reference/config/policy-and-telemetry/">
                 <div class="panel-img-top">
                     {{< inline_image "landing/policy-enforcement.svg" >}}
                 </div>
@@ -89,7 +89,7 @@ description: Connect, secure, control, and observe services.
         </div>
 
         <div id="panel4" class="panel">
-            <a href="/docs/concepts/policies-and-telemetry/">
+            <a href="/docs/reference/config/policy-and-telemetry/">
                 <div class="panel-img-top">
                     {{< inline_image "landing/telemetry-and-reporting.svg" >}}
                 </div>
@@ -106,7 +106,7 @@ description: Connect, secure, control, and observe services.
     </div>
 
     <div id="buttons">
-        <a title="Install Istio on Kubernetes today." class="btn" href="/docs/setup/kubernetes/">GET STARTED</a>
+        <a title="Install Istio on Kubernetes today." class="btn" href="/docs/setup/kubernetes/getting-started/">GET STARTED</a>
         <a title="Dive deeper to understand what Istio is and how it works." class="btn" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
         <a title="Download the latest release." class="btn" href="{{< istio_release_url >}}">DOWNLOAD {{< istio_release_name >}}</a>
     </div>

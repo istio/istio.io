@@ -16,12 +16,14 @@ with the <a href="/docs/reference/config/policy-and-telemetry/adapters/list/">li
 <p>Example config:</p>
 
 <pre><code class="language-yaml">apiVersion: &quot;config.istio.io/v1alpha2&quot;
-kind: listentry
+kind: instance
 metadata:
   name: appversion
   namespace: istio-system
 spec:
-  value: source.labels[&quot;version&quot;]
+  compiledTemplate: listentry
+  params:
+    value: source.labels[&quot;version&quot;]
 </code></pre>
 
 <h2 id="Template">Template</h2>

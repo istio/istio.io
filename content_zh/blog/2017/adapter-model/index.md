@@ -26,7 +26,7 @@ Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Isti
 Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/zh/docs/concepts/policies-and-telemetry/#属性)作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
 
 {{< image width="60%"
-    link="/docs/concepts/policies-and-telemetry/machine.svg"
+    link="/docs/reference/config/policy-and-telemetry/mixer-overview/machine.svg"
     caption="Attribute Machine"
     >}}
 

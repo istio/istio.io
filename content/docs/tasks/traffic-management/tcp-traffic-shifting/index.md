@@ -61,7 +61,7 @@ weighted routing feature.
 1.  Confirm that the `tcp-echo` service is up and running.
 
     The `$INGRESS_HOST` variable below is the External IP address of the ingress, as explained in
-the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc. To obtain the
+the [Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) doc. To obtain the
 `$INGRESS_PORT` value, use the following command.
 
     {{< text bash >}}
