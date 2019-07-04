@@ -103,7 +103,7 @@ In the process of benchmarking Istio's performance, we learned several key lesso
 
 For Istio 1.2, we found that on average, with 1000 RPS across 16 connections, Istio adds just **3 milliseconds** of latency over the baseline.
 
-{{< tip >}} 
+{{< tip >}}
 Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repo](https://github.com/istio/tools/tree/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/benchmark).
 {{< /tip >}}
 
