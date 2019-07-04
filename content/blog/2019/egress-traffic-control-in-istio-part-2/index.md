@@ -38,7 +38,7 @@ Once you direct egress traffic through an egress gateway and apply the additiona
 you can securely monitor and define security policies for the traffic.
 If the application sends HTTP requests and the egress gateway performs TLS origination, you can monitor HTTP
 information like HTTP methods, headers, and URL paths. You can also
-[define policies](/blog/2018/egress-monitoring-access-control) based on the HTTP information. If the application
+[define policies](/blog/2018/egress-monitoring-access-control) based on said HTTP information. If the application
 performs TLS origination, for TLS traffic you can
 [monitor SNI and the service account](/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/) of the
 source pod, and define policies based on them.
