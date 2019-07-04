@@ -71,8 +71,8 @@ Consider the following security policies for egress traffic:
 In the scenario that one pod of application **A** is compromised, suppose the attackers have the
 following goals:
 
-1. Application A will try to access `*.ibm.com` unmonitored
-1. Application A will try to access `mongo1.composedb.com`
+1. Application **A** will try to access `*.ibm.com` unmonitored
+1. Application **A** will try to access `mongo1.composedb.com`
 
 Since application **A** is allowed to access `*.ibm.com`, the attacker is able to access it. There is no way
 to prevent such access since there is no way to distinguish, at least initially, between the original and the
@@ -94,8 +94,8 @@ control will prevent each kind of attack. The attackers may try to:
 1. Since the previous attacks are prevented, the attackers have no other option but to direct the traffic through the
    egress gateway. The traffic will be monitored by the egress gateway, so the goal of the attackers to access
    external services unmonitored cannot be achieved. The attackers may want to try to achieve their second goal, that is
-   to access `mongo1.composedb.com`. To achieve it, they may try to **impersonate** as application B since
-   application B is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong
+   to access `mongo1.composedb.com`. To achieve it, they may try to **impersonate** as application **B** since
+   application **B** is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong
    identity support](/docs/concepts/security/#istio-identity).
 
 ## Summary
