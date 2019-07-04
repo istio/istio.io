@@ -50,7 +50,7 @@ To that end, the test scripts provide [three different modes](https://github.com
 
 ## Istio 1.2 Performance
 
-The [README](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#istio-performance-benchmarking) in the [`perf/benchmarking`](https://github.com/istio/tools/tree/0dabae1760a2c1bffb87bc5cb00eaf9285ba720a/perf/benchmark)directory provides instructions for running these performance tests. We also provide instructions to run the [same scripts for the Linkerd data plane](https://github.com/istio/tools/tree/master/perf/benchmark/linkerd); currently, only latency benchmarking is supported for Linkerd.
+The [performance and benchmarking](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#istio-performance-benchmarking) repository provides the resources and instructions needed to run these performance tests. We also provide instructions to run the [same performance tests for the Linkerd data plane](https://github.com/istio/tools/tree/master/perf/benchmark/linkerd). Currently, only latency benchmarking is supported for Linkerd.
 
 Let's see how to use this test environment to analyze the data plane performance of Istio 1.2.
 
@@ -96,14 +96,16 @@ For CPU usage, we measured with an increasing request throughput (RPS), and a co
 
 In the process of benchmarking Istio's performance, we learned several key lessons:
 
-*   use an environment that mimics production
-*   focus on data plane traffic
-*   measure against a baseline
-*   increase concurrent connections as well as total throughput.
+- Use an environment that mimics production.
+- Focus on data plane traffic.
+- Measure against a baseline.
+- Increase concurrent connections as well as total throughput.
 
 For Istio 1.2, we found that on average, with 1000 RPS across 16 connections, Istio adds just **3 milliseconds** of latency over the baseline.
 
-A final note: Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repo](https://github.com/istio/tools/tree/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/benchmark).
+{{< tip >}} 
+Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repo](https://github.com/istio/tools/tree/76e3cb2488303316c8511a3ebe9676828c9d4765/perf/benchmark).
+{{< /tip >}}
 
 Also check out the [Istio Performance and Scalability guide](/docs/concepts/performance-and-scalability) for the most up-to-date performance data for current and future releases.
 
