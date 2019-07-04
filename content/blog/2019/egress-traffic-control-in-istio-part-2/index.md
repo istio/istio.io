@@ -21,7 +21,9 @@ Alternatively, you
 can [direct HTTP traffic through an egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#egress-gateway-for-http-traffic)
 and [let the egress gateway perform TLS origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway).
 
-Both alternatives have their pros and cons, you should choose between them according to your circumstances. The choice would mainly depend on the question if your application can send unencrypted HTTP requests and if your organization's security policies allow sending unencrypted HTTP requests. For example, if your application uses some client library that encrypts the traffic without a possibility to cancel the encryption, you cannot use the option of sending HTTP traffic. The same in the case your organization's security policies do not allow sending unencrypted HTTP requests **inside the pod** (outside the pod the traffic is encrypted by Istio).
+Both alternatives have their pros and cons, you should choose between them according to your circumstances. The choice would mainly depend on the question if your application can send unencrypted HTTP requests and if your organization's security policies allow sending unencrypted HTTP requests. For example, if your application uses some client library that encrypts the traffic without a possibility to cancel the encryption, you cannot use the option of sending unencrypted HTTP traffic.
+The same in the case your organization's security policies do not allow sending unencrypted HTTP requests
+**inside the pod** (outside the pod the traffic is encrypted by Istio).
 
 If the application sends HTTP requests and the egress gateway performs TLS origination, you can monitor HTTP
 information like HTTP methods, headers, and URL paths. You can also
