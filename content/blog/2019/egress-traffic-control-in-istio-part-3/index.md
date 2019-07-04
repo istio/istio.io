@@ -71,7 +71,7 @@ are not transparent and not Kubernetes-aware.
 
 Istio egress traffic control is **secure**: it is based on the strong identity of Istio and, when you
 apply
-[additional security measures](/docs/examples/advanced-gateways/egress-gateway/#additional-security-considerations),
+[additional security measures](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations),
 it is tamper-proof.
 
 On top of these beneficial features, Istio egress traffic control provides additional advantages:
@@ -101,9 +101,9 @@ Note that Istio egress control has its price, which is the increased latency of 
 increase of CPU usage by the cluster pods.
 After all, the traffic has to pass through two proxies, namely the sidecar proxy of the
 application and the proxy of the egress gateway. In the case of
-[TLS egress traffic to wildcard domains](/docs/examples/advanced-gateways/wildcard-egress-hosts/),
+[TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
 you have to add
-[an additional proxy](/docs/examples/advanced-gateways/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
+[an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
 making the count of proxies between the application and the external service three. The traffic between the second and
 third proxies is on the local network of the pod, so it should not have significant impact on the latency.
 
