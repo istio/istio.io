@@ -84,8 +84,8 @@ access external services unmonitored, so the attack will not be detected. You ca
 correctly detect the source of the traffic, in this case, application **A**, and check that it is not allowed to access
 the destination, `mongo1.composedb.com`, according to the security policies mentioned above.
 
-Now, let's see which attacks malicious actors could attempt to achieve their goals and how secure control of egress traffic in Istio
-control will prevent each kind of attack. The attackers may try to:
+Now, let's see which attacks malicious actors could attempt to achieve their goals and how secure control of egress
+traffic in Istio will prevent each kind of attack. The attackers may try to:
 
 1. **Bypass** the container's sidecar proxy and access external services directly. This attack is prevented by a
    Kubernetes Network Policy or by an L3 firewall that allow egress traffic to exit the mesh only from the egress
