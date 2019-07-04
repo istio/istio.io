@@ -46,11 +46,12 @@ source pod's TLS traffic, and define policies based on SNI and service accounts.
 The following diagram shows Istio's security architecture, augmented with an L3 firewall which is part of the
 [additional security mechanisms](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)
 that should be provided outside of Istio.
+
+{{< image width="80%" link="./SecurityArchitectureWithL3Firewalls.svg" caption="Istio Security Architecture with Egress Gateway and L3 Firewall" >}}
+
 You can configure the L3 firewall trivially to only allow incoming traffic through the Istio ingress gateway and
 only allow outgoing traffic through the Istio egress gateway. The Istio proxy of the egress gateway enforces and reports policies as all other proxies in the mesh.
 policy enforcement and reporting in the same way as the sidecar proxies in the application pods.
-
-{{< image width="80%" link="./SecurityArchitectureWithL3Firewalls.svg" caption="Istio Security Architecture with Egress Gateway and L3 Firewall" >}}
 
 Now let's examine possible attacks and let me show you how the secure control of egress traffic in Istio prevents them.
 
