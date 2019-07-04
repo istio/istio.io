@@ -64,41 +64,47 @@ Now let's examine possible attacks and let me show you how the secure control of
 
 Consider the following security policies for egress traffic:
 
-* Application **A** is allowed to access `*.ibm.com`, which includes all the external services with URLs matching `*.ibm.com`.
+* Application **A** is allowed to access `*.ibm.com`, which includes all the external services with URLs matching
+`*.ibm.com`.
 * Application **B** is allowed to access `mongo1.composedb.com`.
 * All egress traffic is monitored.
 
-In the scenario that one pod of application **A** is compromised, suppose the attackers have the
-following goals:
+Suppose the attackers have the following goals:
 
-1. Application **A** will try to access `*.ibm.com`
-1. Application **A** will try to access `*.ibm.com` undetected
-1. Application **A** will try to access `mongo1.composedb.com`
+1. To access `*.ibm.com` from your cluster.
+1. To access `*.ibm.com` from your cluster, unmonitored. The attackers want their traffic to be unmonitored to prevent a
+possibility that you will detect the forbidden access.
+1. To access `mongo1.composedb.com` from your cluster.
 
-First, let's see which attacker's goals you can thwart. Since application **A** is allowed to access `*.ibm.com`, the
-attacker is able to access it. There is no way to prevent such access since there is no way to distinguish, at least
-initially, between the original and the compromised versions of application **A**. Fortunately, if you can monitor all
+Now suppose that the attackers manage to break into one of the pods of application **A**. The attackers try to use the compromised pod to perform the forbidden access.
+
+First, let's see which attacker's goals it is possible for you to thwart:
+
+1. Since application **A** is allowed to access `*.ibm.com`, the compromised pod is able to access it. There is no way to prevent such access since there is no way to distinguish, at
+least initially, between the original and the compromised versions of the pod.
+1. Fortunately, if you can monitor all
 access to external services, you could detect suspicious traffic and thwart the second goal of the attackers.
-For example, you could apply anomaly detection tools on the egress traffic logs. The attackers, on the contrary, want to
-access external services unmonitored, so the attack will not be detected. You can thwart the third goal if you can
-correctly detect the source of the traffic, in this case, application **A**, and check that it is not allowed to access
-the destination, `mongo1.composedb.com`, according to the security policies mentioned above.
+For example, you could apply anomaly detection tools on the egress traffic logs.
+1. You can thwart the third goal if you can correctly detect the source of the traffic, in this case, application **A**,
+and check that it is not allowed to access the destination, `mongo1.composedb.com`, according to the security policies
+mentioned above.
 
 Now, let's see which attacks malicious actors could attempt to achieve their goals and how secure control of egress
 traffic in Istio will prevent each kind of attack. The attackers may try to:
 
-1. **Bypass** the container's sidecar proxy and access external services directly. This attack is prevented by a
-   Kubernetes Network Policy or by an L3 firewall that allow egress traffic to exit the mesh only from the egress
-   gateway.
-1. **Compromise** the egress gateway and force it to send fake information to the monitoring system or to disable
-   enforcement of the security policies.
-   This attack is prevented by applying the special security measures to the egress gateway pods.
-1. Since the previous attacks are prevented, the attackers have no other option but to direct the traffic through the
-   egress gateway. The traffic will be monitored by the egress gateway, so the goal of the attackers to access
-   external services unmonitored cannot be achieved. The attackers may want to try to achieve their second goal, that is
-   to access `mongo1.composedb.com`. To achieve it, they may try to **impersonate** as application **B** since
-   application **B** is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong
-   identity support](/docs/concepts/security/#istio-identity).
+* **Bypass** the container's sidecar proxy to be able to access any external service directly, without the sidecar's
+   policy enforcement and reporting. This attack is prevented by a Kubernetes Network Policy or by an L3 firewall that
+   allow egress traffic to exit the mesh only from the egress gateway.
+* **Compromise** the egress gateway to be able to force it to send fake information to the monitoring system or to
+   disable enforcement of the security policies. This attack is prevented by applying the special security measures to
+   the egress gateway pods.
+
+Since the previous attacks are prevented, the attackers have no other option but to direct the traffic through the
+egress gateway. The traffic will be monitored by the egress gateway, so the goal of the attackers to access
+external services unmonitored is thwarted. The attackers may try another attempt to achieve their second goal,
+that is to access `mongo1.composedb.com`:
+
+* **Impersonate** as application **B** since application **B** is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong identity support](/docs/concepts/security/#istio-identity).
 
 ## Summary
 
