@@ -48,7 +48,6 @@ While many Istio features, such as [mutual TLS authentication](/docs/concepts/se
 
 To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`). We also provide an option to disable [Mixer](/docs/concepts/observability/) (telemetry) during the performance tests, which will provide results in line with the performance we expect when the Mixer V2 work is completed. Also, Istio now supports [Envoy native telemetry](https://github.com/istio/istio/wiki/Envoy-native-telemetry), and its performance is comparable to Mixer with telemetry disabled.
 
-
 ## Istio 1.2 Performance
 
 The [README](https://github.com/istio/tools/tree/de2ab3e4650a2eab47002928a42fd5616f395dc2/perf/benchmark#istio-performance-benchmarking) in the [`perf/benchmarking`](https://github.com/istio/tools/tree/0dabae1760a2c1bffb87bc5cb00eaf9285ba720a/perf/benchmark)directory provides instructions for running these performance tests. We also provide instructions to run the [same scripts for the Linkerd data plane](https://github.com/istio/tools/tree/master/perf/benchmark/linkerd); currently, only latency benchmarking is supported for Linkerd.
