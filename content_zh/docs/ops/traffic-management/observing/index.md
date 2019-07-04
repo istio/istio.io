@@ -7,7 +7,7 @@ keywords: [debug,proxy,status,config,pilot,envoy]
 
 Istio 提供了两个非常有价值的命令，用于协助对流量管理方面的配置问题进行诊断：[`proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config)。
 
-`proxy-status` 命令可以获取网格的概要信息，可以用来确定代理服务器导致的问题；而 `proxy-status` 命令则可以用来观察 Envoy 的配置并对问题进行诊断。
+`proxy-status` 命令可以获取网格的概要信息，可以用来确定代理服务器导致的问题；而 `proxy-config` 命令则可以用来观察 Envoy 的配置并对问题进行诊断。
 
 要试用下面的命令，首先要满足下列两个条件中的一个：
 
