@@ -97,7 +97,7 @@ control will prevent each kind of attack. The attackers may try to:
 ## Summary
 
 Hopefully, I managed to convince you that Istio is an effective tool to prevent attacks involving egress
-traffic. In the next blog post in this series I compare control of egress traffic in Istio with alternative
+traffic. In the next part of this series, I compare secure control of egress traffic in Istio with alternative
 solutions such as
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
 egress proxies/firewalls.
