@@ -49,7 +49,7 @@ After all, if the attackers are able to attack Istio Mixer or the egress gateway
 violate any policy.
 
 Once you direct egress traffic through an egress gateway and apply the additional security mechanisms,
-you can securely monitor and define security policies for the traffic.
+you can securely monitor and enforce security policies for the traffic.
 
 The following diagram shows Istio's security architecture, augmented with an L3 firewall which is part of the
 [additional security mechanisms](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)
