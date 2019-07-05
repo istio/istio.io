@@ -43,7 +43,7 @@ on **each** Kubernetes cluster.
   sample root CA certificate available in the Istio installation
   under the `samples/certs` directory.
 
-## Deploy the Istio control plane in each cluster
+## Deploy the Istio control plane in each cluster {#deploy-istio}
 
 1. Generate intermediate CA certificates for each cluster's Citadel from your
     organization's root CA. The shared root CA enables mutual TLS communication
@@ -311,7 +311,7 @@ running in a second cluster. Before you begin:
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the multicluster Istio installation step
-    in the [before you begin](#before-you-begin) section. Traffic entering port 15443 will be
+    in the [deploy the Istio control plane](#deploy-istio) section. Traffic entering port 15443 will be
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in `cluster2`).
 

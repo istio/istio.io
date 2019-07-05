@@ -999,7 +999,7 @@ outside of the mesh:
 - Add a service running in a Virtual Machine (VM) to the mesh to [expand your mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/#running-services-on-a-mesh-expansion-machine).
 
 - Logically add services from a different cluster to the mesh to configure a
-  [multicluster Istio mesh](/docs/tasks/multicluster/gateways/#configure-the-example-services)
+  [multicluster Istio mesh](/docs/setup/kubernetes/install/multicluster/gateways/#configure-the-example-services)
   on Kubernetes.
 
 You don’t need to add a service entry for every external service that you
