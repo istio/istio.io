@@ -55,7 +55,7 @@ Kubernetes artifact. The egress proxies can fulfill the first, second, third and
 but not the fourth and the six requirements.
 They are DNS-aware, but not transparent and not Kubernetes-aware.
 
-### Advantages of Istio egress traffic control
+## Advantages of Istio egress traffic control
 
 Istio egress traffic control is **DNS-aware**: you can define policies based on URLs or on wildcard domains like
 `*.ibm.com`. In this sense, it is better than Kubernetes Network Policies which are not DNS-aware.
@@ -95,7 +95,7 @@ Let me summarize the features of Istio egress traffic control and of the alterna
 | Transparent | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
 | Istio-aware | {{< cancel_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
 
-### Performance considerations
+## Performance considerations
 
 Note that Istio egress control has its price, which is the increased latency of the calls to external services and
 increase of CPU usage by the cluster pods.
