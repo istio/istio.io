@@ -52,7 +52,7 @@ To that end, the test scripts provide [three different modes](https://github.com
 
 Let's see how to use this test environment to analyze the data plane performance of Istio 1.2. We also provide instructions to run the [same performance tests for the Linkerd data plane](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark/linkerd). Currently, only latency benchmarking is supported for Linkerd.
 
-For measuring Istio's sidecar proxy latency, we look at the 99th, 90th, and 50th percentiles for an increasing number of concurrent connections,keeping request throughput (RPS) constant.
+For measuring Istio's sidecar proxy latency, we look at the 50th, 90th, and 99th percentiles for an increasing number of concurrent connections,keeping request throughput (RPS) constant.
 
 We found that with 16 concurrent connections and 1000 RPS, Istio adds **3ms** over the baseline (P50) when a request travels through both a client and server proxy. At 64 concurrent connections, Istio adds **12ms** over the baseline, but with Mixer disabled (`nomixer_both`), Istio only adds **7ms**.
 
