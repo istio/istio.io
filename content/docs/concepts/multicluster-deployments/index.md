@@ -42,9 +42,11 @@ Istio control plane. There are two possible deployment approaches:
 
 1. Multiple synchronized Istio control planes that have replicated service and routing configurations.
 
-1. A single Istio control plane that can access and configure all the services in the mesh.
+1. A shared Istio control plane that can access and configure the services in more than one cluster.
 
-Even within these two topologies, there is more than one way to configure a multicluster service mesh.
+Even with these two approaches, there is more than one way to configure a multicluster service mesh.
+In a large multicluster mesh, a combination of the approaches might even be used. For example,
+two clusters might share a control plane while a third has its own.
 Which approach to use and how to configure it depends on the requirements of the application
 and on the features and limitations of the underlying cloud deployment platform.
 
@@ -78,15 +80,15 @@ configuration. You configure service discovery of `foo.ns.global` by creating an
 [service entry](/docs/concepts/traffic-management/#service-entries).
 
 To configure this type of multicluster topology, visit our
-[multiple control planes with gateways instructions](/docs/setup/kubernetes/install/multicluster/gateways/).
+[multiple control planes instructions](/docs/setup/kubernetes/install/multicluster/gateways/).
 
-### Single control plane topology
+### Shared control plane topology
 
 This multicluster configuration uses a single Istio control plane running on one of the clusters.
 The control plane's Pilot manages services on the local and remote clusters and configures the
 Envoy sidecars for all of the clusters.
 
-#### Single control plane with VPN connectivity
+#### Single-network shared control plane
 
 The following topology works best in environments where all of the participating clusters
 have VPN connectivity so every pod in the mesh is reachable from anywhere else using the
@@ -100,16 +102,16 @@ same IP address.
 In this topology, the Istio control plane is deployed on one of the clusters while all other
 clusters run a simpler remote Istio configuration which connects them to the single Istio control plane
 that manages all of the Envoy's as a single mesh. The IP addresses on the various clusters must not
-overlap and DNS resolution for services on remote clusters is not automatic.  Users need to replicate
+overlap and DNS resolution for services on remote clusters is not automatic. Users need to replicate
 the services on every participating cluster.
 
 To configure this type of multicluster topology, visit our
-[single control plane with VPN instructions](/docs/setup/kubernetes/install/multicluster/vpn/).
+[single-network shared control plane instructions](/docs/setup/kubernetes/install/multicluster/shared-vpn/).
 
-#### Single control plane without VPN connectivity
+#### Multi-network shared control plane
 
 If setting up an environment with universal pod-to-pod connectivity is difficult or impossible,
-it may still be possible to configure a single control plane topology using Istio gateways and
+it may still be possible to configure a shared control plane topology using Istio gateways and
 by enabling Istio Pilot's location-aware service routing feature.
 
 This topology requires connectivity to Kubernetes API servers from all of the clusters. If this is
@@ -121,9 +123,8 @@ not possible, a multiple control plane topology is probably a better alternative
 >}}
 
 In this topology, a request from a sidecar in one cluster to a service in the same cluster
-is forwarded to the local service IP as usual.  If the destination workload is running in a
+is forwarded to the local service IP as usual. If the destination workload is running in a
 different cluster, the remote cluster Gateway IP is used to connect to the service instead.
 
 To configure this type of multicluster topology, visit our
-[single control plane with gateways example](/docs/tasks/multicluster/split-horizon-eds/) to experiment
-with this feature.
+[multi-network shared control plane instructions](/docs/setup/kubernetes/install/multicluster/shared-gateways/).

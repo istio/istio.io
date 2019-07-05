@@ -1,6 +1,6 @@
 ---
 title: Quick Start Evaluation Install
-description: Instructions to install and configure an Istio mesh in a Kubernetes cluster for evaluation.
+description: Instructions to install Istio in a Kubernetes cluster for evaluation.
 weight: 10
 keywords: [kubernetes]
 aliases:

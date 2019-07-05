@@ -4,12 +4,12 @@ description: Set up a multicluster mesh over two GKE clusters.
 weight: 65
 keywords: [kubernetes,multicluster]
 aliases:
-  - /docs/examples/multicluster/gke/
+  - /docs/tasks/multicluster/gke/
 ---
 
 This example shows how to configure a multicluster mesh with a
-[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology)
-over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
+[single-network shared control plane](/docs/concepts/multicluster-deployments/#single-network-shared-control-plane)
+topology over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
 
 ## Before you begin
 

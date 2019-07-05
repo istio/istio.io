@@ -1,19 +1,22 @@
 ---
-title: Cluster-Aware Service Routing
+title: Shared control plane (multi-network)
 description: Leveraging Istio's Split-horizon EDS to create a multicluster mesh.
+description: Install an Istio mesh across multiple Kubernetes clusters using a shared control plane for diconnected cluster networks.
 weight: 85
 keywords: [kubernetes,multicluster]
 aliases:
     - /docs/examples/multicluster/split-horizon-eds/
+    - /docs/tasks/multicluster/split-horizon-eds/
 ---
 
-This example shows how to configure a multicluster mesh with a
-[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology)
-and using Istio's _Split-horizon EDS (Endpoints Discovery Service)_ feature (introduced in Istio 1.1) to
+Follow this guide to configure a multicluster mesh with a
+[shared control plane topology](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)
+and using Istio's _Split-horizon EDS (Endpoints Discovery Service)_ feature to
 route service requests to other clusters via their ingress gateway.
-Split-horizon EDS enables Istio to route requests to different endpoints, depending on the location of the request source.
+Split-horizon EDS enables Istio to route requests to different endpoints,
+depending on the location of the request source.
 
-By following the instructions in this example, you will setup a two cluster mesh as shown in the following diagram:
+By following the instructions in this guide, you will setup a two cluster mesh as shown in the following diagram:
 
   {{< image width="80%"
   link="./diagram.svg"
@@ -23,9 +26,11 @@ The primary cluster, `cluster1`, runs the full set of Istio control plane compon
 Sidecar Injector, and Ingress gateway.
 No VPN connectivity nor direct network access between workloads in different clusters is required.
 
-## Before you begin
+## Prerequisites
 
-In addition to the prerequisites for installing Istio, the following is required for this example:
+* Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
+
+* Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/install/helm/)
 
 * Two Kubernetes clusters (referred to as `cluster1` and `cluster2`).
 
