@@ -49,20 +49,12 @@ on **each** Kubernetes cluster.
     organization's root CA. The shared root CA enables mutual TLS communication
     across different clusters.
 
-    {{< tip >}}
     For illustration purposes, the following instructions use the certificates
     from the Istio samples directory for both clusters. In real world deployments,
     you would likely use a different CA certificate for each cluster, all signed
     by a common root CA.
-    {{< /tip >}}
 
 1. Generate a multicluster-gateways Istio configuration file using `helm`:
-
-    {{< warning >}}
-    If you're not sure if your `helm` dependencies are up to date, update them using the
-    command shown in [Helm installation steps](/docs/setup/kubernetes/install/helm/#installation-steps)
-    before running the following command.
-    {{< /warning >}}
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -73,17 +65,17 @@ on **each** Kubernetes cluster.
     [Installation with Helm](/docs/setup/kubernetes/install/helm/) instructions.
 
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
-   configuration in all of them.
+    configuration in all of them.
 
-    {{< warning >}}
-
-    Make sure that the current user has cluster administrator (`cluster-admin`) permissions and grant them if not. On the GKE platform, for example, the following command can be used:
+    {{< tip >}}
+    Make sure that the current user has cluster administrator (`cluster-admin`) permissions and grant them if not.
+    On the GKE platform, for example, the following command can be used:
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
     {{< /text >}}
 
-    {{< /warning >}}
+    {{< /tip >}}
 
     * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
