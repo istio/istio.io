@@ -33,7 +33,7 @@ Mixer generates metrics to monitor its own behavior. The first step is to check 
     $ kubectl -n istio-system port-forward <istio-telemetry pod> 15014 &
     {{< /text >}}
 
-1. Verify successful report calls. On the Mixer self-monitoring endpoint, search for `grpc_io_server_completed_rpcs`. You should see something like:
+1. Verify successful report calls. On the [Mixer self-monitoring endpoint](http://localhost:15014/metrics), search for `grpc_io_server_completed_rpcs`. You should see something like:
 
     {{< text plain >}}
     grpc_io_server_completed_rpcs{grpc_server_method="istio.mixer.v1.Mixer/Report",grpc_server_status="OK"} 2532
