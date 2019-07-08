@@ -213,7 +213,7 @@ performance.
   network paths between services. Istio uses sidecar proxies to capture traffic
   and, where possible, automatically program the networking layer to route
   traffic through those proxies without any changes to the deployed application
-  code. In Kubernetes, the proxies are injected into {{<gloss pods>}}pod{{</gloss>}} and traffic is
+  code. In Kubernetes, the proxies are injected into {{<gloss pod>}}pods{{</gloss>}} and traffic is
   captured by programming ``iptables`` rules. Once the sidecar proxies are
   injected and traffic routing is programmed, Istio can mediate all traffic.
   This principle also applies to performance. When applying Istio to a
