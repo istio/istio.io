@@ -18,7 +18,7 @@ By following the instructions in this guide, you will setup a two cluster mesh a
 
   {{< image width="80%"
   link="./diagram.svg"
-  caption="Single Istio control plane topology spanning multiple Kubernetes clusters using gateways" >}}
+  caption="Shared Istio control plane topology spanning multiple Kubernetes clusters using gateways" >}}
 
 The primary cluster, `cluster1`, runs the full set of Istio control plane components while `cluster2` only
 runs Istio Citadel, Sidecar Injector, and Ingress gateway.
