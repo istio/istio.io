@@ -35,7 +35,7 @@ source pod's TLS traffic, and define policies based on SNI and service accounts.
 In all cases you have to apply some
 the [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) or an L3
 firewall that will enforce that traffic from the cluster to the outside is allowed for the egress gateway only. See
-[an example for Kubernetes Network Policies configuration](/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies).
+an example of the [Kubernetes network policies configuration](/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies).
 
 You must also increase the security measures applied to the Istio control plane pods and the egress gateway, for example:
 
