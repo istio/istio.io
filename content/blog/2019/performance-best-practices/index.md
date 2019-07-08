@@ -46,7 +46,9 @@ Why test with only two pods? Because scaling up throughput (RPS) and connections
 
 While many Istio features, such as [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication), rely on an Envoy proxy next to an application pod, you can [selectively disable](/docs/setup/kubernetes/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook) sidecar proxy injection for some of your mesh services. As you scale up Istio for production, you may want to incrementally add the sidecar proxy to your workloads.
 
-To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`). We also provide an option to disable [Mixer](/docs/concepts/observability/) (telemetry) during the performance tests, which will provide results in line with the performance we expect when the Mixer V2 work is completed. Also, Istio now supports [Envoy native telemetry](https://github.com/istio/istio/wiki/Envoy-native-telemetry), and its performance is comparable to Mixer with telemetry disabled.
+To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`).
+
+You can also disable [Mixer](/docs/concepts/observability/) to stop Istio's telemetry during the performance tests, which provides results in line with the performance we expect when the Mixer V2 work is completed. Istio also supports [Envoy native telemetry](https://github.com/istio/istio/wiki/Envoy-native-telemetry), which performs similarly to having Istio's telemetry disabled.
 
 ## Istio 1.2 Performance
 
