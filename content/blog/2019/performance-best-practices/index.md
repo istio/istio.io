@@ -101,7 +101,7 @@ In the process of benchmarking Istio's performance, we learned several key lesso
 - Measure against a baseline.
 - Increase concurrent connections as well as total throughput.
 
-For Istio 1.2, we found that on average, with 1000 RPS across 16 connections, Istio adds just **3 milliseconds** of latency over the baseline.
+For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds, on average, just **3 milliseconds** of latency over the baseline.
 
 {{< tip >}}
 Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repo](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark).
