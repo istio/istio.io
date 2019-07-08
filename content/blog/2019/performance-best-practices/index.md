@@ -3,7 +3,7 @@ title: "Best Practices: Benchmarking Service Mesh Performance"
 description: "Tools and guidance for evaluating Istio's data plane performance."
 publishdate: 2019-07-09
 subtitle:
-attribution: John Howard (Google), Mandar Jog (Google), Megan O'Keefe (Google)
+attribution: Megan O'Keefe (Google), John Howard (Google), Mandar Jog (Google)
 keywords: [performance,scalability,scale,benchmarks]
 ---
 
