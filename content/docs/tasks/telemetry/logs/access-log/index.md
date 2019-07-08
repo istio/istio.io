@@ -43,7 +43,7 @@ All three of these parameters may also be configured via [helm values](/docs/ref
 1.  Send a request from `sleep` to `httpbin`:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl -v httpbin:8000/status/418
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -v httpbin:8000/status/418
     *   Trying 172.21.13.94...
     * TCP_NODELAY set
     * Connected to httpbin (172.21.13.94) port 8000 (#0)
