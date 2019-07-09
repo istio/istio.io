@@ -180,7 +180,8 @@ posts [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
     In the Kubernetes cluster created, install, initialize, unseal, and login Vault.
     Examples of install, initialize, unseal, and login Vault can be found in the post
     [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/).
-    The example Vault server used in this guide is of 0.10.3 version.
+    The example Vault server used in this guide is of 0.10.3 release version,
+    downloadable from the [docker hub](https://hub.docker.com/_/vault?tab=tags&page=1).
 
 1.  Follow the post [2](https://github.com/coreos/vault-operator/blob/master/doc/user/kubernetes-auth-backend.md)
     to set up a Kubernetes service account for Vault token review.
