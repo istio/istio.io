@@ -74,7 +74,7 @@ Consider the following security policies for egress traffic:
 Suppose the attackers have the following goals:
 
 - Access `*.ibm.com` from your cluster.
-1. To access `*.ibm.com` from your cluster, unmonitored. The attackers want their traffic to be unmonitored to prevent a
+- Access `*.ibm.com` from your cluster, unmonitored. The attackers want their traffic to be unmonitored to prevent a
 possibility that you will detect the forbidden access.
 - Access `mongo1.composedb.com` from your cluster.
 
