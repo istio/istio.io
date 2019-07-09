@@ -87,7 +87,7 @@ least initially, between the original and the compromised versions of the pod.
 access to external services, you could detect suspicious traffic and thwart the second goal of the attackers.
 For example, you could apply anomaly detection tools on the egress traffic logs.
 1. You can thwart the third goal if you can correctly detect the source of the traffic, in this case, application **A**,
-and check that it is not allowed to access the destination, `mongo1.composedb.com`, according to the security policies
+and verify that it is not allowed to access `mongo1.composedb.com` according to the security policies
 mentioned above.
 
 Now, let's see which attacks malicious actors could attempt to achieve their goals and how secure control of egress
