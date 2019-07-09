@@ -28,7 +28,11 @@ to Node Agent, which returns the signed certificate to the Istio proxy.
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
     $ kubectl create namespace istio-system
+<<<<<<< HEAD
     $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+=======
+    $ kubectl apply -f install/kubernetes/helm/istio-init/files/crd*
+>>>>>>> Fix a CRD command
     $ helm template \
         --name=istio \
         --namespace=istio-system \
