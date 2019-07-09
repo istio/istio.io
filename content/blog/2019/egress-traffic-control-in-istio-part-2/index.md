@@ -48,7 +48,7 @@ security mechanisms you apply for the same goal, the better.
 
 You must also insure that Istio control plane and the egress gateway cannot be compromised. While you may have hundreds
 or thousands of application pods in your cluster, there are only a dozen of control plane pods and the gateways.
-You can and should focus on protecting the control planes pods and the gateways, since it is easy (there is a small
+You can and should focus on protecting the control plane pods and the gateways, since it is easy (there is a small
 number of pods to protect) and it is most crucial for the security of your cluster.
 If attackers compromise the control plane or the egress gateway, they could violate any policy.
 
