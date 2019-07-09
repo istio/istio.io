@@ -44,7 +44,7 @@ You must also increase the security measures applied to the Istio control plane 
 - Apply the Kubernetes RBAC and network policies to protect the control plane pods.
 - Monitor the control plane pods more closely than you do the application pods.
 
-After all, if the attackers are able to attack Istio Mixer or the egress gateway, they could
+Increasing the security measures for the control plane pods is important. If attackers compromise the control plane or the egress gateway, they could
 violate any policy.
 
 Once you direct egress traffic through an egress gateway and apply the additional security mechanisms,
