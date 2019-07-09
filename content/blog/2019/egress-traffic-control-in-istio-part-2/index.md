@@ -76,7 +76,7 @@ Suppose the attackers have the following goals:
 1. To access `*.ibm.com` from your cluster.
 1. To access `*.ibm.com` from your cluster, unmonitored. The attackers want their traffic to be unmonitored to prevent a
 possibility that you will detect the forbidden access.
-1. To access `mongo1.composedb.com` from your cluster.
+- Access `mongo1.composedb.com` from your cluster.
 
 Now suppose that the attackers manage to break into one of the pods of application **A**, and try to use the compromised pod to perform the forbidden access.
 
