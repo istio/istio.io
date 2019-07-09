@@ -32,7 +32,7 @@ performs TLS origination, you can
 [monitor SNI and the service account](/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/) of the
 source pod's TLS traffic, and define policies based on SNI and service accounts.
 
-In all cases you have to apply some
+We recommend you apply all [additional security mechanisms](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations), for example,
 the [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) or an L3
 firewall that will enforce that traffic from the cluster to the outside is allowed for the egress gateway only. See
 an example of the [Kubernetes network policies configuration](/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies).
