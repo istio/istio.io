@@ -95,14 +95,14 @@ Now suppose that the attackers manage to break into one of the pods of applicati
 
 Next, let's see if we can thwart the attackers' goals:
 
-- Initially, there is no way to prevent a compromised application **A** to access `*.ibm.com`, because the compromised pod is able to access it indistinguishable from the original pod.
-least initially, between the original and the compromised versions of the pod.
-- Fortunately, you can monitor all access to external services, detect suspicious traffic, and thwart attackers from 
-  gaining unmonitored access to `*.ibm.com`. For example, you could apply anomaly detection tools on the 
+- Initially, there is no way to prevent a compromised application **A** to access `*.ibm.com`, because the compromised
+  pod is able to access it indistinguishable from the original pod.
+- Fortunately, you can monitor all access to external services, detect suspicious traffic, and thwart attackers from
+  gaining unmonitored access to `*.ibm.com`. For example, you could apply anomaly detection tools on the
   egress traffic logs.
-- To stop attackers from accessing `mongo1.composedb.com` from your cluster, you can correctly detect the source of the traffic, application **A** in this case,
-and verify that it is not allowed to access `mongo1.composedb.com` according to the security policies
-mentioned above.
+- To stop attackers from accessing `mongo1.composedb.com` from your cluster, you can correctly detect the source of the
+  traffic, application **A** in this case, and verify that it is not allowed to access `mongo1.composedb.com` according
+  to the security policies mentioned above.
 
 Now, let's see which attacks malicious actors could attempt to achieve their goals and how secure control of egress
 traffic in Istio will prevent each kind of attack. The attackers may try to:
