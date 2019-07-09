@@ -39,7 +39,7 @@ an example of the [Kubernetes network policies configuration](/docs/tasks/traffi
 
 You must also increase the security measures applied to the Istio control plane pods and the egress gateway, for example:
 
-* run them on nodes separate from the application nodes
+- Run the control plane pods on nodes separate from the application nodes.
 * run them in a separate namespace
 * apply Kubernetes RBAC and Network policies to protect them
 * monitor them more thoroughly and more frequently than the application pods
