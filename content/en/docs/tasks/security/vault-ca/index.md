@@ -174,7 +174,7 @@ based on the Vault Kubernetes auth method.
 **The instructions here are for illustrative purposes only. Please consult with security experts
 to set up the security configuration and certificate issuance policies of your Vault servers.** The instructions are based on the
 posts [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
-[2](https://coreos.com/tectonic/docs/latest/vault-operator/user/kubernetes-auth-backend.html).
+[2](https://github.com/coreos/vault-operator/blob/master/doc/user/kubernetes-auth-backend.md).
 
 1.  Create a Kubernetes cluster to host an example basic Vault server.
     In the Kubernetes cluster created, install, initialize, unseal, and login Vault.
@@ -182,7 +182,7 @@ posts [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
     [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/).
     The example Vault server used in this guide is of 0.10.3 version.
 
-1.  Follow the post [2](https://coreos.com/tectonic/docs/latest/vault-operator/user/kubernetes-auth-backend.html)
+1.  Follow the post [2](https://github.com/coreos/vault-operator/blob/master/doc/user/kubernetes-auth-backend.md)
     to set up a Kubernetes service account for Vault token review.
 
     {{< text bash >}}
@@ -206,7 +206,7 @@ posts [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
     $ TR_ACCOUNT_TOKEN=$(kubectl get secret ${SECRET_NAME} -o jsonpath='{.data.token}' | base64 --decode)
     {{< /text >}}
 
-1.  Follow the post [2](https://coreos.com/tectonic/docs/latest/vault-operator/user/kubernetes-auth-backend.html)
+1.  Follow the post [2](https://github.com/coreos/vault-operator/blob/master/doc/user/kubernetes-auth-backend.md)
     to enable and configure the Vault Kubernetes Auth method. The parameters `kubernetes_host`
     and `kubernetes_ca_cert` are described in the
     [Vault API document](https://www.vaultproject.io/api/auth/kubernetes/index.html#kubernetes_host).
@@ -217,7 +217,7 @@ posts [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
         kubernetes_ca_cert=<your-kubernetes-ca-cert> token_reviewer_jwt=$TR_ACCOUNT_TOKEN
     {{< /text >}}
 
-1.  Follow the post [2](https://coreos.com/tectonic/docs/latest/vault-operator/user/kubernetes-auth-backend.html)
+1.  Follow the post [2](https://github.com/coreos/vault-operator/blob/master/doc/user/kubernetes-auth-backend.md)
     to create a Vault policy and a role bound to the `default` service account.
 
     {{< text bash >}}
