@@ -36,20 +36,29 @@ performs TLS origination, you can
 [monitor SNI and the service account](/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/) of the
 source pod's TLS traffic, and define policies based on SNI and service accounts.
 
-We recommend you apply all [additional security mechanisms](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations), for example,
+You must ensure that traffic from your cluster to the outside cannot bypass the egress gateway. Istio cannot enforce it
+for you, so you must apply some
+[additional security mechanisms](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations),
+for example,
 the [Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) or an L3
-firewall to enforce that traffic from the cluster to the outside is allowed for the egress gateway only. See
-an example of the [Kubernetes network policies configuration](/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies).
+firewall. See an example of the
+[Kubernetes network policies configuration](/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies).
+According to the [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) concept, the more
+security mechanisms you apply for the same goal, the better.
 
-You must also increase the security measures applied to the Istio control plane pods and the egress gateway, for example:
+You must also insure that Istio control plane and the egress gateway cannot be compromised. While you may have hundreds
+or thousands of application pods in your cluster, there are only a dozen of control plane pods and the gateways.
+You can and should focus on protecting the control planes pods and the gateways, since it is easy (there is a small
+number of pods to protect) and it is most crucial for the security of your cluster. If attackers
+compromise the control plane or the egress gateway, they could violate any policy.
+
+You might have multiple tools to protect the control plane pods, depending on your environment.
+The reasonable security measures are:
 
 - Run the control plane pods on nodes separate from the application nodes.
 - Run the control plane pods in their own separate namespace.
 - Apply the Kubernetes RBAC and network policies to protect the control plane pods.
 - Monitor the control plane pods more closely than you do the application pods.
-
-Increasing the security measures for the control plane pods is important. If attackers compromise the control plane or the egress gateway, they could
-violate any policy.
 
 Once you direct egress traffic through an egress gateway and apply the additional security mechanisms,
 you can securely monitor and enforce security policies for the traffic.
