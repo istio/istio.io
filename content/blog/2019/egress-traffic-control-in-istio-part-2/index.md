@@ -80,7 +80,7 @@ possibility that you will detect the forbidden access.
 
 Now suppose that the attackers manage to break into one of the pods of application **A**, and try to use the compromised pod to perform the forbidden access.
 
-First, let's see which attacker's goals it is possible for you to thwart:
+Next, let's see if we can thwart the attackers' goals:
 
 1. Since application **A** is allowed to access `*.ibm.com`, the compromised pod is able to access it. There is no way to prevent such access since there is no way to distinguish, at
 least initially, between the original and the compromised versions of the pod.
