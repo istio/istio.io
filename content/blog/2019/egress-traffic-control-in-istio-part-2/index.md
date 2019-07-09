@@ -84,7 +84,9 @@ Next, let's see if we can thwart the attackers' goals:
 
 - Initially, there is no way to prevent a compromised application **A** to access `*.ibm.com`, because the compromised pod is able to access it indistinguishable from the original pod.
 least initially, between the original and the compromised versions of the pod.
-1. Fortunately, if you can monitor all
+- Fortunately, you can monitor all access to external services, detect suspicious traffic, and thwart attackers from 
+  gaining unmonitored access to `*.ibm.com`. For example, you could apply anomaly detection tools on the 
+  egress traffic logs.
 access to external services, you could detect suspicious traffic and thwart the second goal of the attackers.
 - To stop attackers from accessing `mongo1.composedb.com` from your cluster, you can correctly detect the source of the traffic, application **A** in this case,
 and verify that it is not allowed to access `mongo1.composedb.com` according to the security policies
