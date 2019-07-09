@@ -56,7 +56,7 @@ Let's see how to use this test environment to analyze the data plane performance
 
 For measuring Istio's sidecar proxy latency, we look at the 50th, 90th, and 99th percentiles for an increasing number of concurrent connections,keeping request throughput (RPS) constant.
 
-We found that with 16 concurrent connections and 1000 RPS, Istio adds **3ms** over the baseline (P50) when a request travels through both a client and server proxy. At 64 concurrent connections, Istio adds **12ms** over the baseline, but with Mixer disabled (`nomixer_both`), Istio only adds **7ms**.
+We found that with 16 concurrent connections and 1000 RPS, Istio adds **3ms** over the baseline (P50) when a request travels through both a client and server proxy. (Subtract the pink line, `base`, from the green line, `both`.) At 64 concurrent connections, Istio adds **12ms** over the baseline, but with Mixer disabled (`nomixer_both`), Istio only adds **7ms**.
 
 {{< image  width="75%" ratio="60%"
     link="./latency_p50.png"
@@ -101,7 +101,7 @@ In the process of benchmarking Istio's performance, we learned several key lesso
 - Measure against a baseline.
 - Increase concurrent connections as well as total throughput.
 
-For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds, on average, just **3 milliseconds** of latency over the baseline.
+For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds just **3 milliseconds** of latency over the baseline, in the 50th percentile.
 
 {{< tip >}}
 Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repo](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark).
