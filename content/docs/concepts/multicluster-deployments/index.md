@@ -91,7 +91,7 @@ Envoy sidecars for all of the clusters.
 #### Single-network shared control plane
 
 The following topology works best in environments where all of the participating clusters
-have VPN connectivity so every pod in the mesh is reachable from anywhere else using the
+have VPN or similar connectivity so every pod in the mesh is reachable from anywhere else using the
 same IP address.
 
 {{< image width="80%"
