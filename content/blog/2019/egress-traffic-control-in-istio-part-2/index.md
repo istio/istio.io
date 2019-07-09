@@ -115,6 +115,10 @@ Having failed to achieve their goals in a straightforward way, the malicious act
 - **Impersonate as application B** since application **B** is allowed to access `mongo1.composedb.com`. This attack,
   fortunately, is prevented by Istio's [strong identity support](/docs/concepts/security/#istio-identity).
 
+As far as we can see, all the forbidden access is prevented, or at least is monitored and can be prevented later.
+If you see other attacks that involve egress traffic or security holes in the current design, we would be happy
+[to hear about it](https://discuss.istio.io).
+
 ## Summary
 
 Hopefully, I managed to convince you that Istio is an effective tool to prevent attacks involving egress
