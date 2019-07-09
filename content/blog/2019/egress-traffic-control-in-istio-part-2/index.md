@@ -82,7 +82,7 @@ Now suppose that the attackers manage to break into one of the pods of applicati
 
 Next, let's see if we can thwart the attackers' goals:
 
-1. Since application **A** is allowed to access `*.ibm.com`, the compromised pod is able to access it. There is no way to prevent such access since there is no way to distinguish, at
+- Initially, there is no way to prevent a compromised application **A** to access `*.ibm.com`, because the compromised pod is able to access it indistinguishable from the original pod.
 least initially, between the original and the compromised versions of the pod.
 1. Fortunately, if you can monitor all
 access to external services, you could detect suspicious traffic and thwart the second goal of the attackers.
