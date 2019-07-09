@@ -57,7 +57,8 @@ that should be provided outside of Istio.
 {{< image width="80%" link="./SecurityArchitectureWithL3Firewalls.svg" caption="Istio Security Architecture with Egress Gateway and L3 Firewall" >}}
 
 You can configure the L3 firewall trivially to only allow incoming traffic through the Istio ingress gateway and
-only allow outgoing traffic through the Istio egress gateway. The Istio proxies of the gateways enforce policies and report telemetry as all other proxies in the mesh.
+only allow outgoing traffic through the Istio egress gateway. The Istio proxies of the gateways enforce
+policies and report telemetry just as all other proxies in the mesh do.
 
 Now let's examine possible attacks and let me show you how the secure control of egress traffic in Istio prevents them.
 
