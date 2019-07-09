@@ -66,10 +66,10 @@ Now let's examine possible attacks and let me show you how the secure control of
 
 Consider the following security policies for egress traffic:
 
-* Application **A** is allowed to access `*.ibm.com`, which includes all the external services with URLs matching
+- Application **A** is allowed to access `*.ibm.com`, which includes all the external services with URLs matching
 `*.ibm.com`.
-* Application **B** is allowed to access `mongo1.composedb.com`.
-* All egress traffic is monitored.
+- Application **B** is allowed to access `mongo1.composedb.com`.
+- All egress traffic is monitored.
 
 Suppose the attackers have the following goals:
 
@@ -93,10 +93,10 @@ mentioned above.
 Now, let's see which attacks malicious actors could attempt to achieve their goals and how secure control of egress
 traffic in Istio will prevent each kind of attack. The attackers may try to:
 
-* **Bypass** the container's sidecar proxy to be able to access any external service directly, without the sidecar's
+- **Bypass** the container's sidecar proxy to be able to access any external service directly, without the sidecar's
    policy enforcement and reporting. This attack is prevented by a Kubernetes Network Policy or by an L3 firewall that
    allow egress traffic to exit the mesh only from the egress gateway.
-* **Compromise** the egress gateway to be able to force it to send fake information to the monitoring system or to
+- **Compromise** the egress gateway to be able to force it to send fake information to the monitoring system or to
    disable enforcement of the security policies. This attack is prevented by applying the special security measures to
    the egress gateway pods.
 
@@ -105,7 +105,7 @@ egress gateway. The traffic will be monitored by the egress gateway, so the goal
 external services unmonitored is thwarted. The attackers may try another attempt to achieve their second goal,
 that is to access `mongo1.composedb.com`:
 
-* **Impersonate** as application **B** since application **B** is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong identity support](/docs/concepts/security/#istio-identity).
+- **Impersonate** as application **B** since application **B** is allowed to access `mongo1.composedb.com`. This attack, fortunately, is prevented by Istio's [strong identity support](/docs/concepts/security/#istio-identity).
 
 ## Summary
 
