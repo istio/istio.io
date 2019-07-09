@@ -78,7 +78,7 @@ Suppose the attackers have the following goals:
 possibility that you will detect the forbidden access.
 1. To access `mongo1.composedb.com` from your cluster.
 
-Now suppose that the attackers manage to break into one of the pods of application **A**. The attackers try to use the compromised pod to perform the forbidden access.
+Now suppose that the attackers manage to break into one of the pods of application **A**, and try to use the compromised pod to perform the forbidden access.
 
 First, let's see which attacker's goals it is possible for you to thwart:
 
