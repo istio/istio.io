@@ -85,7 +85,6 @@ First, let's see which attacker's goals it is possible for you to thwart:
 least initially, between the original and the compromised versions of the pod.
 1. Fortunately, if you can monitor all
 access to external services, you could detect suspicious traffic and thwart the second goal of the attackers.
-For example, you could apply anomaly detection tools on the egress traffic logs.
 - To stop attackers from accessing `mongo1.composedb.com` from your cluster, you can correctly detect the source of the traffic, application **A** in this case,
 and verify that it is not allowed to access `mongo1.composedb.com` according to the security policies
 mentioned above.
