@@ -1,31 +1,34 @@
 ---
-title: Cluster-Aware Service Routing
-description: Leveraging Istio's Split-horizon EDS to create a multicluster mesh.
+title: Shared control plane (multi-network)
+description: Install an Istio mesh across multiple Kubernetes clusters using a shared control plane for diconnected cluster networks.
 weight: 85
 keywords: [kubernetes,multicluster]
 aliases:
     - /docs/examples/multicluster/split-horizon-eds/
+    - /docs/tasks/multicluster/split-horizon-eds/
 ---
 
-This example shows how to configure a multicluster mesh with a
-[single control plane topology](/docs/concepts/multicluster-deployments/#single-control-plane-topology)
-and using Istio's _Split-horizon EDS (Endpoints Discovery Service)_ feature (introduced in Istio 1.1) to
-route service requests to other clusters via their ingress gateway.
-Split-horizon EDS enables Istio to route requests to different endpoints, depending on the location of the request source.
+Follow this guide to configure a multicluster mesh using a
+[shared control plane topology](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)
+with gateways to connect network-isolated clusters.
+Istio's location-aware service routing feature is used to route requests to different endpoints,
+depending on the location of the request source.
 
-By following the instructions in this example, you will setup a two cluster mesh as shown in the following diagram:
+By following the instructions in this guide, you will setup a two cluster mesh as shown in the following diagram:
 
   {{< image width="80%"
   link="./diagram.svg"
-  caption="Single Istio control plane topology spanning multiple Kubernetes clusters with Split-horizon EDS configured" >}}
+  caption="Shared Istio control plane topology spanning multiple Kubernetes clusters using gateways" >}}
 
-The primary cluster, `cluster1`, runs the full set of Istio control plane components while `cluster2` only runs Istio Citadel,
-Sidecar Injector, and Ingress gateway.
+The primary cluster, `cluster1`, runs the full set of Istio control plane components while `cluster2` only
+runs Istio Citadel, Sidecar Injector, and Ingress gateway.
 No VPN connectivity nor direct network access between workloads in different clusters is required.
 
-## Before you begin
+## Prerequisites
 
-In addition to the prerequisites for installing Istio, the following is required for this example:
+* Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
+
+* Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/install/helm/)
 
 * Two Kubernetes clusters (referred to as `cluster1` and `cluster2`).
 
@@ -35,9 +38,9 @@ In addition to the prerequisites for installing Istio, the following is required
 
 {{< boilerplate kubectl-multicluster-contexts >}}
 
-## Example multicluster setup
+## Setup the multicluster mesh
 
-In this example you will install Istio with mutual TLS enabled for both the control plane and application pods.
+In this configuration you install Istio with mutual TLS enabled for both the control plane and application pods.
 For the shared root CA, you create a `cacerts` secret on both `cluster1` and `cluster2` clusters using the same Istio
 certificate from the Istio samples directory.
 
@@ -328,10 +331,10 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
 Now that you have your `cluster1` and `cluster2` clusters set up, you can deploy an example service.
 
-## Example service
+## Deploy example service
 
-In this demo you will see how traffic to a service can be distributed across the two clusters.
-As shown in the diagram, above, you will deploy two instances of the `helloworld` service, one on `cluster1` and one on `cluster2`.
+As shown in the diagram, above, deploy two instances of the `helloworld` service,
+one on `cluster1` and one on `cluster2`.
 The difference between the two instances is the version of their `helloworld` image.
 
 ### Deploy helloworld v2 in cluster 2
@@ -382,9 +385,10 @@ The difference between the two instances is the version of their `helloworld` im
     helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
 
-### Split-horizon EDS in action
+### Cross-cluster routing in action
 
-We will call the `helloworld.sample` service from another in-mesh `sleep` service.
+To demonstrate how traffic to the `helloworld` service is distributed across the two clusters,
+call the `helloworld` service from another in-mesh `sleep` service.
 
 1. Deploy the `sleep` service in both clusters:
 
@@ -420,11 +424,8 @@ We will call the `helloworld.sample` service from another in-mesh `sleep` servic
 If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances on `cluster1` and `cluster2`
 resulting in responses with either `v1` or `v2` in the body:
 
-{{< text sh >}}
+{{< text plain >}}
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
-{{< /text >}}
-
-{{< text sh >}}
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 {{< /text >}}
 
@@ -436,7 +437,7 @@ $ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CT
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
 
-The gateway IP, `192.23.120.32:15443`, of `cluster2` is logged when v2 was called and the instance IP, `10.10.0.90:5000`, of `cluster1` is logged when v1 was called.
+In `cluster1`, the gateway IP of `cluster2` (`192.23.120.32:15443`) is logged when v2 was called and the instance IP in `cluster1` (`10.10.0.90:5000`) is logged when v1 was called.
 
 {{< text bash >}}
 $ kubectl logs --context=$CTX_CLUSTER2 -n sample $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
@@ -444,11 +445,11 @@ $ kubectl logs --context=$CTX_CLUSTER2 -n sample $(kubectl get pod --context=$CT
 [2019-05-25T08:06:12.834Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 181 180 "-" "curl/7.60.0" "ce480b56-fafd-468b-9996-9fea5257cb1e" "helloworld.sample:5000" "10.32.0.9:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36886 -
 {{< /text >}}
 
-The gateway IP, `192.168.1.246:15443`, of `cluster1` is logged when v1 was called and the gateway IP, `10.32.0.9:5000`, of `cluster2` is logged when v2 was called.
+In `cluster2`, the gateway IP of `cluster1` (`192.168.1.246:15443`) is logged when v1 was called and the gateway IP in `cluster2` (`10.32.0.9:5000`) is logged when v2 was called.
 
 ## Cleanup
 
-Execute the following commands to clean up the demo services __and__ the Istio components.
+Execute the following commands to clean up the example services __and__ the Istio components.
 
 Cleanup the `cluster2` cluster:
 
