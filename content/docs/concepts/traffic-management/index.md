@@ -252,7 +252,7 @@ metadata:
   name: reviews
 spec:
   hosts:
-    - reviews
+  - reviews
   http:
   - route:
     - destination:
@@ -371,12 +371,12 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    - "*.my-co.org"
-    http:
-      - route:
-        - destination:
-            host: my-svc
-            subset: v1
+  - "*.my-co.org"
+  http:
+  - route:
+    - destination:
+        host: my-svc
+        subset: v1
 {{< /text >}}
 
 In the example, under `spec`,
@@ -426,7 +426,7 @@ easily lead to misconfigurations. Therefore we do
 [not recommend it for production deployments](/docs/reference/config/networking/v1alpha3/virtual-service/#Destination).
 
 The following example shows a virtual service configuration with fully qualified traffic routes
-for two services in the `my-namespace.svc.cluster.local` Kubernetes namespace.
+for two services in the `my-namespace` Kubernetes namespace.
 The configuration relies on the URI prefixes of the two services to distinguish
 them.
 
@@ -437,7 +437,7 @@ metadata:
   name: my-namespace
 spec:
   hosts:
-    - my-namespace.com
+  - my-namespace.com
   http:
   - match:
     - uri:
@@ -489,20 +489,20 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    - "*"
- http:
- - match:
-   - headers:
-       cookie:
-         regex: "^(.*?;)?(user=jason)(;.*)?$"
-   route:
-     - destination:
-         host: my-svc
-         subset: v2
- - route:
-   - destination:
-       host: my-svc
-       subset: v1
+  - "*"
+  http:
+  - match:
+    - headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+    route:
+    - destination:
+        host: my-svc
+        subset: v2
+  - route:
+    - destination:
+        host: my-svc
+        subset: v1
 {{< /text >}}
 
 In the preceding example, there are two routing rules in the `http` section,
@@ -612,7 +612,7 @@ metadata:
   name: reviews
 spec:
   hosts:
-    - reviews
+  - reviews
   http:
   - match:
     - headers:
@@ -637,7 +637,7 @@ metadata:
   name: productpage
 spec:
   hosts:
-    - productpage
+  - productpage
   http:
   - match:
     - uri:
@@ -951,7 +951,7 @@ metadata:
   name: virtual-svc
 spec:
   hosts:
-    - ext-svc
+  - ext-svc
   gateways:
     - ext-host-gwy
 {{< /text >}}
@@ -1165,7 +1165,7 @@ metadata:
   name: ratings
 spec:
   hosts:
-    - ratings
+  - ratings
   http:
   - route:
     - destination:
@@ -1194,7 +1194,7 @@ metadata:
   name: ratings
 spec:
   hosts:
-    - ratings
+  - ratings
   http:
   - route:
     - destination:
