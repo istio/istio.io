@@ -7,5 +7,13 @@ aliases:
     - /docs/setup/kubernetes/multicluster/
 keywords: [kubernetes,multicluster]
 ---
+
+{{< tip >}}
+Note that these instructions are not mutually exclusive.
+In a large multicluster mesh, composed from more than two clusters,
+a combination of the approaches can be used. For example,
+two clusters might share a control plane while a third has its own.
+{{< /tip >}}
+
 Refer to the [multicluster service mesh](/docs/concepts/multicluster-deployments/) concept documentation
 for more information.
