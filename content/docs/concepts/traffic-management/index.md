@@ -778,7 +778,7 @@ to configure the set of policies that Envoy proxies apply to a request at a
 specific destination.
 
 Destination rules are applied after the routing rules are evaluated.
-Destination rules are matched against the destination in the routing rules,
+Therefore, destination rules are matched against the destination in the routing rules,
 not the host of the virtual service itself.
 You can use wildcard prefixes in a
 destination rule to specify a single rule for multiple services.
