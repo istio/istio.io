@@ -1,13 +1,14 @@
 ---
-title: VPN Connectivity
-description: Install an Istio mesh across multiple Kubernetes clusters with direct network access to remote pods.
+title: Shared control plane (single-network)
+description: Install an Istio mesh across multiple Kubernetes clusters with a shared control plane and VPN connectivity between clusters.
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
     - /docs/setup/kubernetes/multicluster-install/vpn/
+    - /docs/setup/kubernetes/install/multicluster/vpn/
 ---
 
-Follow this flow to install an Istio [multicluster service mesh](/docs/concepts/multicluster-deployments/)
+Follow this guide to install an Istio [multicluster service mesh](/docs/concepts/multicluster-deployments/)
 where the Kubernetes cluster services and the applications in each cluster
 have the capability to expose their internal Kubernetes network to other
 clusters.

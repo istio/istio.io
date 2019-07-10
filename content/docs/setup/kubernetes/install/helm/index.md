@@ -1,6 +1,6 @@
 ---
 title: Customizable Install with Helm
-description: Instructions to install Istio using a Helm chart.
+description: Install and configure Istio for in-depth evaluation or production use.
 weight: 20
 keywords: [kubernetes,helm]
 aliases:
