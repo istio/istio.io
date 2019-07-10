@@ -68,7 +68,7 @@ manages authentication, authorization, and encryption of service communication a
 letting you enforce policies consistently across diverse protocols and runtimes -- all with little or no application changes.
 
 While Istio is platform independent, using it with Kubernetes (or infrastructure) network policies, the benefits are even greater, including the ability to
-secure pod-to-pod or service-to-service communication at the network and application layers.
+secure {{<gloss>}}pod{{</gloss>}}-to-pod or service-to-service communication at the network and application layers.
 
 ### Observability
 
@@ -141,7 +141,7 @@ for example:
 * Rich metrics
 
 Envoy is deployed as a **sidecar** to the relevant service in the same
-Kubernetes pod. This deployment allows Istio to extract a wealth of signals
+Kubernetes {{<gloss>}}pod{{</gloss>}}. This deployment allows Istio to extract a wealth of signals
 about traffic behavior as
 [attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes). Istio can, in
 turn, use these attributes in [Mixer](/docs/reference/config/policy-and-telemetry/)
@@ -213,7 +213,7 @@ performance.
   network paths between services. Istio uses sidecar proxies to capture traffic
   and, where possible, automatically program the networking layer to route
   traffic through those proxies without any changes to the deployed application
-  code. In Kubernetes, the proxies are injected into pods and traffic is
+  code. In Kubernetes, the proxies are injected into {{<gloss pod>}}pods{{</gloss>}} and traffic is
   captured by programming ``iptables`` rules. Once the sidecar proxies are
   injected and traffic routing is programmed, Istio can mediate all traffic.
   This principle also applies to performance. When applying Istio to a
