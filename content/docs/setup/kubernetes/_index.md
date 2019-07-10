@@ -21,14 +21,14 @@ Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< 
 Visit our [getting started guide](/docs/setup/kubernetes/getting-started/) to
 learn how to evaluate and try Istio's basic features quickly.
 
-Istio offers [multiple installation flows](/docs/setup/kubernetes/getting-started/)
+Istio offers multiple installation flows
 depending on your platform and whether or not you intend to use Istio in production.
 At a high level, the basic flow is the same regardless of platform:
 
 1. [Review the pod requirements](/docs/setup/kubernetes/additional-setup/requirements/)
 1. [Prepare your platform for Istio](/docs/setup/kubernetes/platform-setup/)
 1. [Download the Istio release](#downloading-the-release)
-1. [Install Istio on your platform](/docs/setup/kubernetes/install)
+1. [Install Istio on your platform](#installing-istio)
 
 ## Installing Istio
 
