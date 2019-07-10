@@ -96,7 +96,7 @@ pod to perform the forbidden access. The attackers may try their luck and access
 straightforward way. You will react to the straightforward attempts as follows:
 
 - Initially, there is no way to prevent a compromised application **A** to access `*.ibm.com`, because the compromised
-  pod is able to access it indistinguishable from the original pod.
+  pod is indistinguishable from the original pod.
 - Fortunately, you can monitor all access to external services, detect suspicious traffic, and thwart attackers from
   gaining unmonitored access to `*.ibm.com`. For example, you could apply anomaly detection tools on the
   egress traffic logs.
