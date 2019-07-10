@@ -58,7 +58,7 @@ keywords: [profiles,install,helm]
 
 Istio 提供了两种附加的内置配置，专门用于搭建[多集群服务网格](/docs/concepts/multicluster-deployments/#multicluster-service-mesh)。
 
-1. **remote**：用于搭建[单控制平面拓扑](/docs/concepts/multicluster-deployments/#single-control-plane-topology)的多集群网格。
+1. **remote**：用于搭建[单控制平面拓扑](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)的多集群网格。
 
 1. **multicluster-gateways**：用来搭建[多控制平面拓扑](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology)的多集群网络。
 
