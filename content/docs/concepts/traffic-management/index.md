@@ -252,7 +252,7 @@ metadata:
   name: reviews
 spec:
   hosts:
-    - reviews
+  - reviews
   http:
   - route:
     - destination:
@@ -305,7 +305,7 @@ to route traffic in or out of your mesh, or combine virtual services with
 [destination rules](/docs/concepts/traffic-management/#destination-rules)
 to configure the behavior of the traffic. You can use a [service entry](/docs/concepts/traffic-management/#service-entries)
 to add external dependencies to the mesh and combine them with virtual services
-to configure the traffic to and from these dependencies. The following diagrams
+to configure the traffic to these dependencies. The following diagrams
 show some example virtual service configurations:
 
 - 1:1 relationship: Virtual service A configures routing rules for traffic to
@@ -371,12 +371,12 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    - "*.my-co.org"
-    http:
-      - route:
-        - destination:
-            host: my-svc
-            subset: v1
+  - "*.my-co.org"
+  http:
+  - route:
+    - destination:
+        host: my-svc
+        subset: v1
 {{< /text >}}
 
 In the example, under `spec`,
@@ -426,7 +426,7 @@ easily lead to misconfigurations. Therefore we do
 [not recommend it for production deployments](/docs/reference/config/networking/v1alpha3/virtual-service/#Destination).
 
 The following example shows a virtual service configuration with fully qualified traffic routes
-for two services in the `my-namespace.svc.cluster.local` Kubernetes namespace.
+for two services in the `my-namespace` Kubernetes namespace.
 The configuration relies on the URI prefixes of the two services to distinguish
 them.
 
@@ -437,7 +437,7 @@ metadata:
   name: my-namespace
 spec:
   hosts:
-    - my-namespace.com
+  - my-namespace.com
   http:
   - match:
     - uri:
@@ -489,20 +489,20 @@ metadata:
   name: my-vtl-svc
 spec:
   hosts:
-    - "*"
- http:
- - match:
-   - headers:
-       cookie:
-         regex: "^(.*?;)?(user=jason)(;.*)?$"
-   route:
-     - destination:
-         host: my-svc
-         subset: v2
- - route:
-   - destination:
-       host: my-svc
-       subset: v1
+  - "*"
+  http:
+  - match:
+    - headers:
+        cookie:
+          regex: "^(.*?;)?(user=jason)(;.*)?$"
+    route:
+    - destination:
+        host: my-svc
+        subset: v2
+  - route:
+    - destination:
+        host: my-svc
+        subset: v1
 {{< /text >}}
 
 In the preceding example, there are two routing rules in the `http` section,
@@ -576,7 +576,7 @@ spec:
 {{< /text >}}
 
 The value of the `sourceLabels` key depends on the implementation of the
-service. In Kubernetes, the value corresponds to the same labels you use in the
+client workload. In Kubernetes, the value typically corresponds to the same labels you use in the
 pod selector of the corresponding Kubernetes service.
 
 The following example further refines the rule to apply only to requests from
@@ -612,7 +612,7 @@ metadata:
   name: reviews
 spec:
   hosts:
-    - reviews
+  - reviews
   http:
   - match:
     - headers:
@@ -637,7 +637,7 @@ metadata:
   name: productpage
 spec:
   hosts:
-    - productpage
+  - productpage
   http:
   - match:
     - uri:
@@ -829,16 +829,9 @@ spec:
 {{< /text >}}
 
 As shown above, you can specify multiple policies in a single destination rule.
-In this example, the default policy is defined above the subsets field. The `v2`
-specific policy is defined in the corresponding subset's field. The following
-diagram shows how the different configurations in the `my-destination-rule`
-destination rule and in the routing rules in `my-vtl-svc` virtual service would
-apply to the traffic to and from the `my-svc` service:
-
-{{< image width="40%"
-    link="./destination-rules-1.svg"
-    caption="Configurable route examples defined in the destination rule"
-    >}}
+In this example, the default policy, defined above the subsets field,
+sets a simple random load balancer for the `v1` and `v3` subsets. A `v2`
+specific policy, a round robin load balancer, is defined in the corresponding subset's field.
 
 See our [destination rules reference documentation](/docs/reference/config/networking/v1alpha3/destination-rule/)
 to review all the enabled keys and values.
@@ -958,7 +951,7 @@ metadata:
   name: virtual-svc
 spec:
   hosts:
-    - ext-svc
+  - ext-svc
   gateways:
     - ext-host-gwy
 {{< /text >}}
@@ -999,7 +992,7 @@ outside of the mesh:
 - Add a service running in a Virtual Machine (VM) to the mesh to [expand your mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/#running-services-on-a-mesh-expansion-machine).
 
 - Logically add services from a different cluster to the mesh to configure a
-  [multicluster Istio mesh](/docs/tasks/multicluster/gateways/#configure-the-example-services)
+  [multicluster Istio mesh](/docs/setup/kubernetes/install/multicluster/gateways/#configure-the-example-services)
   on Kubernetes.
 
 You don’t need to add a service entry for every external service that you
@@ -1172,7 +1165,7 @@ metadata:
   name: ratings
 spec:
   hosts:
-    - ratings
+  - ratings
   http:
   - route:
     - destination:
@@ -1201,7 +1194,7 @@ metadata:
   name: ratings
 spec:
   hosts:
-    - ratings
+  - ratings
   http:
   - route:
     - destination:

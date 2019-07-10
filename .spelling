@@ -38,6 +38,9 @@
 7ms
 8ms
 9ms
+12ms
+20ms
+25ms
 6s
 72.96ms
 7Mb
@@ -263,6 +266,7 @@ istio.io
 istio.io.
 Istiofied
 IstioMesh
+istio-identity
 istio-mixer
 istio-system
 iter8
@@ -296,6 +300,7 @@ learnings
 LibreSSL
 lifecycle
 LightStep
+Linkerd
 linter
 linters
 liveness
@@ -527,10 +532,12 @@ v1alpha1
 v1alpha3
 v1beta1#MutatingWebhookConfiguration
 v2
+V2
 v2-mysql
 v3
 ValueType
 vCPU
+vCPUs
 versioned
 versioning
 veth-pair
