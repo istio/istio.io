@@ -40,7 +40,7 @@ To achieve this behavior, a single logical control plane needs to manage all ser
 however, the single logical control plane doesn't necessarily need to be a single physical
 Istio control plane. There are two possible deployment approaches:
 
-1. Multiple synchronized Istio control planes that have replicated service and routing configurations.
+1. Multiple Istio control planes that have replicated service and routing configurations.
 
 1. A shared Istio control plane that can access and configure the services in more than one cluster.
 
