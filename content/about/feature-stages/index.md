@@ -48,7 +48,6 @@ Below is our list of existing features and their current phases. This informatio
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) | Alpha
-| SNI (multiple certs) at ingress | Stable
 
 The `Sidecar` runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
 
