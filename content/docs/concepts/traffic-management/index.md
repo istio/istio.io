@@ -814,7 +814,6 @@ You use service subsets in the routing rules of [virtual services](/docs/concept
 to control the traffic to your services.
 You can also use subsets to customize Envoy's traffic policies when calling particular versions of a service.
 
-
 Understanding service subsets in Istio allows you to configure the
 communication to services with multiple versions within your mesh and configure
 the following common use cases:
