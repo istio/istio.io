@@ -4,13 +4,13 @@ description: Example multicluster mesh over two IBM Cloud Private clusters.
 weight: 70
 keywords: [kubernetes,multicluster]
 aliases:
-    - /docs/examples/multicluster/icp/
+    - /docs/tasks/multicluster/icp/
 ---
 
 This example demonstrates how to setup network connectivity between two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
 and then compose them into a multicluster mesh using a
-[single control plane with VPN connectivity](/docs/concepts/multicluster-deployments/#single-control-plane-with-vpn-connectivity)
+[single-network shared control plane](/docs/concepts/multicluster-deployments/#single-network-shared-control-plane)
 topology.
 
 ## Create the IBM Cloud Private Clusters
@@ -148,7 +148,7 @@ across all nodes in the two IBM Cloud Private Clusters.
 
 ## Install Istio for multicluster
 
-[Follow the VPN-based multicluster installation steps](/docs/setup/kubernetes/install/multicluster/vpn/) to install and configure
+Follow the [single-network shared control plane instructions](/docs/setup/kubernetes/install/multicluster/shared-vpn/) to install and configure
 local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
 
 In this guide, it is assumed that the local Istio control plane is deployed in `cluster-1`, while the Istio remote is deployed in `cluster-2`.
