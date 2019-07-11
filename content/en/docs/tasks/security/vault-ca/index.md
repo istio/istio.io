@@ -6,7 +6,7 @@ keywords: [security,certificate]
 ---
 
 This task shows you how to integrate a [Vault Certificate Authority (CA)](https://www.vaultproject.io/) with Istio to issue certificates
-for workloads in the mesh. This task includes a demo of Istio mutual TLS using certificates issued by a Vault CA.
+for workloads in the mesh. Istio Vault integration is an experimental feature. This task includes a demo of Istio mutual TLS using certificates issued by a Vault CA.
 
 ## Before you begin
 
@@ -28,11 +28,7 @@ to Node Agent, which returns the signed certificate to the Istio proxy.
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
     $ kubectl create namespace istio-system
-<<<<<<< HEAD
     $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-=======
-    $ kubectl apply -f install/kubernetes/helm/istio-init/files/crd*
->>>>>>> Fix a CRD command
     $ helm template \
         --name=istio \
         --namespace=istio-system \
