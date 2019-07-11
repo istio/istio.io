@@ -62,6 +62,87 @@ to propagate to all the sidecars.  With large deployments the
 propagation will take longer and there may be a lag time on the
 order of seconds.
 
+## Destination rule policy not activated
+
+Although destination rules are associated with a particular destination host,
+the activation of subset-specific policies depends on route rule evaluation.
+
+When routing a request, Envoy first evaluates route rules in virtual services
+to determine if a particular subset is being routed to.
+If so, only then will it activate any destination rule policies corresponding to the subset.
+Consequently, Istio only applies the policies you define for specific subsets if
+you explicitly routed traffic to the corresponding subset.
+
+For example, consider the following destination rule as the one and only configuration defined for the
+*reviews* service, that is, there are no route rules in a corresponding virtual service definition:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 100
+{{< /text >}}
+
+Even if Istio's default round-robin routing calls "v1" instances on occasion,
+maybe even always if "v1" is the only running version, the above traffic policy will never be invoked.
+
+You can fix the above example in one of two ways:
+
+1. Move the traffic policy in the destination rule up a level to make the policy
+    apply to any subset, for example:
+
+    {{< text yaml >}}
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: reviews
+    spec:
+      host: reviews
+      trafficPolicy:
+        connectionPool:
+          tcp:
+            maxConnections: 100
+      subsets:
+      - name: v1
+        labels:
+          version: v1
+    {{< /text >}}
+
+1. Define proper route rules for the service using a virtual service.
+    For example, add a simple route rule for the `v1` subset of the `reviews` service:
+
+    {{< text yaml >}}
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+    {{< /text >}}
+
+The default Istio behavior conveniently sends traffic from any source
+to all versions of the destination service without you setting any rules.
+As soon as you need to differentiate between the versions of a service,
+you need to define routing rules.
+Due to this fact, we consider a best practice to set a default routing rule
+for every service from the start.
+
 ## 503 errors after setting destination rule
 
 If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
