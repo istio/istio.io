@@ -285,7 +285,7 @@ SNI 代理会将流量转发到 `443` 端口。
 1. 以下命令将生成 `istio-egressgateway-with-sni-proxy.yaml` 文件，您可以选择性编辑并部署。
 
     {{< text bash >}}
-    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
+    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
     gateways:
       enabled: true
       istio-ingressgateway:
@@ -332,8 +332,8 @@ SNI 代理会将流量转发到 `443` 端口。
     {{< text bash >}}
     $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
     serviceaccount "istio-egressgateway-with-sni-proxy-service-account" created
-    clusterrole "istio-egressgateway-with-sni-proxy-istio-system" created
-    clusterrolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
+    role "istio-egressgateway-with-sni-proxy-istio-system" created
+    rolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
     service "istio-egressgateway-with-sni-proxy" created
     deployment "istio-egressgateway-with-sni-proxy" created
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created

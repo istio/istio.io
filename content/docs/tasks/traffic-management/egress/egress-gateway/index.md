@@ -53,7 +53,7 @@ controlled way.
     $ helm template install/kubernetes/helm/istio --name istio-egressgateway --namespace istio-system \
         -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml \
         -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml \
-        -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml \
+        -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml \
         --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false \
         --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
     {{< /text >}}
