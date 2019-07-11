@@ -1332,7 +1332,7 @@ spec:
 
 You can use delay and abort faults together. The following configuration
 introduces a delay of 5 seconds for all requests from the `v2` subset of the
-`ratings` service to the `v1` subset of the `ratings` service and an abort for
+`reviews` service to the `v1` subset of the `ratings` service and an abort for
 10% of them:
 
 {{< text yaml >}}
