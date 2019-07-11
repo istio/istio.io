@@ -71,7 +71,7 @@ When routing a request, Envoy first evaluates route rules in virtual services
 to determine if a particular subset is being routed to.
 If so, only then will it activate any destination rule policies corresponding to the subset.
 Consequently, Istio only applies the policies you define for specific subsets if
-the corresponding subset is explicitly routed to.
+you explicitly routed traffic to the corresponding subset.
 
 For example, consider the following destination rule as the one and only configuration defined for the
 *reviews* service, that is, there are no route rules in a corresponding virtual service definition:
