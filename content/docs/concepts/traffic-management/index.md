@@ -775,11 +775,12 @@ including the matching `Foo` header.
 You specify the path for traffic with routing rules, and then you use
 [destination rules](/docs/reference/config/networking/v1alpha3/destination-rule/)
 to configure the set of policies that Envoy proxies apply to a request at a
-specific destination. Destination rules are applied after the routing rules are
-evaluated.
+specific destination.
 
-Configurations you set in destination rules apply to traffic that you route
-through your platform's basic connectivity. You can use wildcard prefixes in a
+Destination rules are applied after the routing rules are evaluated.
+Therefore, destination rules are matched against the destination in the routing rules,
+not the host of the virtual service itself.
+You can use wildcard prefixes in a
 destination rule to specify a single rule for multiple services.
 
 You can use destination rules to specify service subsets, that is, to group all
@@ -849,6 +850,7 @@ scenarios:
 
 You use service subsets in the routing rules of [virtual services](/docs/concepts/traffic-management/#virtual-services)
 to control the traffic to your services.
+You can also use subsets to customize Envoy's traffic policies when calling particular versions of a service.
 
 Understanding service subsets in Istio allows you to configure the
 communication to services with multiple versions within your mesh and configure
