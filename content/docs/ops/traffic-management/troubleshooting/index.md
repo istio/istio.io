@@ -67,11 +67,10 @@ order of seconds.
 Although destination rules are associated with a particular destination host,
 the activation of subset-specific policies depends on route rule evaluation.
 
-The first step in Envoy's service routing process is to evaluate the route rules in
-a virtual service corresponding to the requested host, if there are any,
-to determine if a subset (that is, specific version) of the destination is being routed to.
-If so, the policies corresponding to the subset, if any, are then evaluated.
-Consequently, policies that are defined for specific subsets are only applied if
+When routing a request, Envoy first evaluates route rules in virtual services
+to determine if a particular subset is being routed to.
+If so, only then will it activate any destination rule policies corresponding to the subset.
+Consequently, Istio only applies the policies you define for specific subsets if
 the corresponding subset is explicitly routed to.
 
 For example, consider the following destination rule as the one and only configuration defined for the
@@ -94,58 +93,55 @@ spec:
           maxConnections: 100
 {{< /text >}}
 
-Since there is no specific route rule defined for the *reviews*
-service, default round-robin routing behavior will apply, which will
-presumably call "v1" instances on occasion, maybe even always if "v1" is
-the only running version. Nevertheless, the above policy will never be
-invoked since the default routing is done at a lower level. The rule
-evaluation engine will be unaware of the final destination and therefore
-unable to match the subset policy to the request.
+Even if Istio's default round-robin routing calls "v1" instances on occasion,
+maybe even always if "v1" is the only running version, the above traffic policy will never be invoked.
 
-You can fix the above example in one of two ways. You can either move the
-traffic policy up a level in the destination rule to make it apply to any subset:
+You can fix the above example in one of two ways:
 
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews
-spec:
-  host: reviews
-  trafficPolicy:
-    connectionPool:
-      tcp:
-        maxConnections: 100
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-{{< /text >}}
+1. Move the traffic policy in the destination rule up a level to make the policy
+    apply to any subset, for example:
 
-Or, better yet, define proper route rules for the service in the virtual service definition.
-For example, add a simple route rule for "reviews:v1":
+    {{< text yaml >}}
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: reviews
+    spec:
+      host: reviews
+      trafficPolicy:
+        connectionPool:
+          tcp:
+            maxConnections: 100
+      subsets:
+      - name: v1
+        labels:
+          version: v1
+    {{< /text >}}
 
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews
-spec:
-  hosts:
-  - reviews
-  http:
-  - route:
-    - destination:
-        host: reviews
-        subset: v1
-{{< /text >}}
+1. Define proper route rules for the service using a virtual service.
+    For example, add a simple route rule for the `v1` subset of the `reviews` service:
 
-Although the default Istio behavior conveniently sends traffic from any
-source to all versions of a destination service
-without any rules being set, as soon as version discrimination is desired
-rules are going to be needed.
-Therefore, setting a default rule for every service, right from the
-start, is generally considered a best practice in Istio.
+    {{< text yaml >}}
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews
+      http:
+      - route:
+        - destination:
+            host: reviews
+            subset: v1
+    {{< /text >}}
+
+The default Istio behavior conveniently sends traffic from any source
+to all versions of the destination service without you setting any rules.
+As soon as you need to differentiate between the versions of a service,
+you need to define routing rules.
+Due to this fact, we consider a best practice to set a default routing rule
+for every service from the start.
 
 ## 503 errors after setting destination rule
 
