@@ -7,7 +7,7 @@ attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress,security,gateway,tls]
 ---
 
-Welcome to part 3 in our new series about secure control of egress traffic in Istio.
+Welcome to part 3 in our series about secure control of egress traffic in Istio.
 In [the first part in the series](/blog/2019/egress-traffic-control-in-istio-part-1/), I presented the attacks involving
 egress traffic and the requirements we collected for a secure control system for egress traffic.
 In [the second part in the series](/blog/2019/egress-traffic-control-in-istio-part-2/), I presented the Istio way of
