@@ -41,7 +41,7 @@ per cluster or per pod but operators can't identify external services by domain 
 Network policies only satisfy the fifth requirement if the attackers are not able to break from a malicious container into the Kubernetes
 node and interfere with the implementation of the policies inside said node.
 Lastly, network policies do satisfy the sixth requirement: Operators don't need to change the code or the
-container environment. We can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic
+container environment. In summary, we can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic
 control, which is not DNS-aware.
 
 Another approach that predates Kubernetes network policies is a **DNS-aware egress proxy/firewall**. In this
