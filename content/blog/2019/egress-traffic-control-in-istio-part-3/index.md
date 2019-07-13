@@ -48,7 +48,8 @@ The second alternative predates the Kubernetes network policies. Using a **DNS-a
 configure applications to direct the traffic to the proxy and use some proxy protocol, for example,
 [SOCKS](https://en.wikipedia.org/wiki/SOCKS).
 Since operators must configure the applications, this solution is not transparent. Moreover, operators can't use 
-Kubernetes-aware, since neither pod labels nor pod service account are known to the egress proxy. Such egress proxies
+pod labels or pod service accounts to configure the proxies because the egress proxies don't know about them. Therefore, **the egress proxies are not Kubernetes-aware** and can't fulfill the fourth requirement because
+
 cannot fulfill the fourth requirement, that is they cannot enforce policies by source if the source is specified by a
 Kubernetes artifact. The egress proxies can fulfill the first, second, third and fifth requirements,
 but not the fourth and the six requirements.
