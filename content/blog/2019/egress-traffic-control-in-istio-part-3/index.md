@@ -38,7 +38,7 @@ Cluster operators can identify pods by pod labels, namespace labels, or by IP ra
 The network policies satisfy the first requirement since they can control any TCP traffic.
 Network policies only partially satisfy requirements 3 and 4 because cluster operators can specify policies
 per cluster or per pod but operators can't identify external services by domain names.
-The fifth requirement is satisfied if the attackers are not able to break from a malicious container into the Kubernetes
+Network policies only satisfy the fifth requirement if the attackers are not able to break from a malicious container into the Kubernetes
 node and to interfere with the implementation of the Kubernetes Network Policies inside the node.
 The sixth requirement is satisfied as well: there is no need to change the code or the
 container environment. We can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic
