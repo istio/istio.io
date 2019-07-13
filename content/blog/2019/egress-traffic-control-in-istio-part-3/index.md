@@ -13,7 +13,7 @@ egress traffic and the requirements we collected for a secure control system for
 In [the second part in the series](/blog/2019/egress-traffic-control-in-istio-part-2/), I presented the Istio way of
 securing egress traffic and showed how you can prevent the attacks using Istio.
 
-In this installment, I compare secure control of egress traffic in Istio with alternative solutions such as Kubernetes
+In this installment, I compare secure control of egress traffic in Istio with alternative solutions such as using Kubernetes
 Network Policies and legacy egress proxies/firewalls. Finally, I describe the performance considerations regarding the
 secure control of egress traffic in Istio.
 
