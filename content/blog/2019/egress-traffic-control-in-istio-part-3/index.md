@@ -22,7 +22,7 @@ secure control of egress traffic in Istio.
 First, let's remember the [requirements for egress traffic control](/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control) we previously collected:
 
 1.  Support of [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/docs/reference/glossary/#tls-origination) by Istio.
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or of [TLS origination](/docs/reference/glossary/#tls-origination).
 1.  **Monitor** SNI and the source workload of every egress access.
 1.  Define and enforce **policies per cluster**.
 1.  Define and enforce **policies per source**, _Kubernetes-aware_.
