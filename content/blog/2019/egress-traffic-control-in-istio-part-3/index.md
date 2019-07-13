@@ -29,7 +29,7 @@ First, let's remember the [requirements for egress traffic control](/blog/2019/e
 1.  **Prevent tampering**.
 1.  Traffic control is **transparent** to the applications.
 
-Now, let me present two alternative solutions for egress traffic control and show which requirements they satisfy, and,
+Next, I'm going to cover two alternative solutions for egress traffic control and show the requirements they satisfy, and,
 more importantly, cannot satisfy.
 
 The most natural solution for egress traffic control is
