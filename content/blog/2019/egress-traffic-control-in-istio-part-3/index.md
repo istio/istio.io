@@ -19,7 +19,7 @@ secure control of egress traffic in Istio.
 
 ## Alternative solutions for egress traffic control
 
-First, let me remind you the [requirements for egress traffic control we collected](/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control):
+First, let's remember the [requirements for egress traffic control](/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control) we previously collected:
 
 1.  Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with
     [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/docs/reference/glossary/#tls-origination) by Istio.
