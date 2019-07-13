@@ -50,7 +50,7 @@ configure applications to direct the traffic to the proxy and use some proxy pro
 Since operators must configure the applications, this solution is not transparent. Moreover, operators can't use 
 pod labels or pod service accounts to configure the proxies because the egress proxies don't know about them. Therefore, **the egress proxies are not Kubernetes-aware** and can't fulfill the fourth requirement because
 
-cannot fulfill the fourth requirement, that is they cannot enforce policies by source if the source is specified by a
+egress proxies cannot enforce policies by source if a Kubernetes artifact specifies the source.
 Kubernetes artifact. The egress proxies can fulfill the first, second, third and fifth requirements,
 but not the fourth and the six requirements.
 They are DNS-aware, but not transparent and not Kubernetes-aware.
