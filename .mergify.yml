@@ -11,7 +11,7 @@ pull_request_rules:
     actions:
       merge:
         method: squash
-        strict: false
+        strict: true
 
   - name: Automatically cherry pick a PR from master to the release branch if the right label is set
     conditions:
