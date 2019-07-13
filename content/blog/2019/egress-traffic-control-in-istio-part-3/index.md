@@ -40,7 +40,7 @@ Network policies only partially satisfy requirements 3 and 4 because cluster ope
 per cluster or per pod but operators can't identify external services by domain names.
 Network policies only satisfy the fifth requirement if the attackers are not able to break from a malicious container into the Kubernetes
 node and interfere with the implementation of the policies inside said node.
-The sixth requirement is satisfied as well: there is no need to change the code or the
+Lastly, network policies do satisfy the sixth requirement: Operators don't need to change the code or the
 container environment. We can say that Kubernetes Network Policies provide transparent, Kubernetes-aware egress traffic
 control, which is not DNS-aware.
 
