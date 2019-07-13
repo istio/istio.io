@@ -36,8 +36,8 @@ Kubernetes provides a native solution for traffic control, and in particular, fo
 Using these network policies, cluster operators can configure which pods can access specific external services.
 Cluster operators can identify pods by pod labels, namespace labels, or by IP ranges. To specify the external services, cluster operators can use IP ranges, but cannot use domain names like `cnn.com`. This is because **Kubernetes network policies are not DNS-aware**.
 The network policies satisfy the first requirement since they can control any TCP traffic.
-The requirements 3 and 4 are satisfied partially: the policies can be
-specified per cluster or per pod, however the external services cannot be identified by domain names.
+Network policies only partially satisfy requirements 3 and 4 because cluster operators can specify policies
+per cluster or per pod but operators can't identify external services by domain names.
 The fifth requirement is satisfied if the attackers are not able to break from a malicious container into the Kubernetes
 node and to interfere with the implementation of the Kubernetes Network Policies inside the node.
 The sixth requirement is satisfied as well: there is no need to change the code or the
