@@ -53,7 +53,7 @@ pod labels or pod service accounts to configure the proxies because the egress p
 egress proxies cannot enforce policies by source if a Kubernetes artifact specifies the source.
 Kubernetes artifact. In summary, egress proxies can fulfill the first, second, third and fifth requirements,
 but can't satisfy the fourth and the six requirements because
-They are DNS-aware, but not transparent and not Kubernetes-aware.
+they are DNS-aware, but not transparent and not Kubernetes-aware.
 
 ## Advantages of Istio egress traffic control
 
