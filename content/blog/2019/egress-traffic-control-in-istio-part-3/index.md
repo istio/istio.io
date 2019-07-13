@@ -29,8 +29,8 @@ First, let's remember the [requirements for egress traffic control](/blog/2019/e
 1.  **Prevent tampering**.
 1.  Traffic control is **transparent** to the applications.
 
-Next, I'm going to cover two alternative solutions for egress traffic control and show the requirements they satisfy, and,
-more importantly, the requirements they can't satisfy.
+Next, I'm going to cover two alternative solutions for egress traffic control, namely Kubernetes Network Policies and
+egress proxies and firewalls, and show the requirements they satisfy, and, more importantly, the requirements they can't satisfy.
 
 The most natural solution for egress traffic control is
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/). Using
