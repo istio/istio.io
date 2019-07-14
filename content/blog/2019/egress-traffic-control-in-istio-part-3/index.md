@@ -50,9 +50,8 @@ configure applications to direct the traffic to the proxy and use some proxy pro
 Since operators must configure the applications, this solution is not transparent. Moreover, operators can't use
 pod labels or pod service accounts to configure the proxies because the egress proxies don't know about them. Therefore, **the egress proxies are not Kubernetes-aware** and can't fulfill the fourth requirement because
 egress proxies cannot enforce policies by source if a Kubernetes artifact specifies the source.
-Kubernetes artifact. In summary, egress proxies can fulfill the first, second, third and fifth requirements,
-but can't satisfy the fourth and the six requirements because
-they are DNS-aware, but not transparent and not Kubernetes-aware.
+In summary, egress proxies can fulfill the first, second, third and fifth requirements, but can't satisfy the fourth and
+the six requirements because they are DNS-aware, but not transparent and not Kubernetes-aware.
 
 ## Advantages of Istio egress traffic control
 
