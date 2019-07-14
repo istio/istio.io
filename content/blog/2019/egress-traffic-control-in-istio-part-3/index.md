@@ -14,7 +14,7 @@ In [the second part in the series](/blog/2019/egress-traffic-control-in-istio-pa
 securing egress traffic and showed how you can prevent the attacks using Istio.
 
 In this installment, I compare secure control of egress traffic in Istio with alternative solutions such as using Kubernetes
-Network Policies and legacy egress proxies and firewalls. Finally, I describe the performance considerations regarding the
+network policies and legacy egress proxies and firewalls. Finally, I describe the performance considerations regarding the
 secure control of egress traffic in Istio.
 
 ## Alternative solutions for egress traffic control
@@ -29,10 +29,10 @@ First, let's remember the [requirements for egress traffic control](/blog/2019/e
 1.  **Prevent tampering**.
 1.  Traffic control is **transparent** to the applications.
 
-Next, I'm going to cover two alternative solutions for egress traffic control, namely Kubernetes Network Policies and
+Next, I'm going to cover two alternative solutions for egress traffic control, namely Kubernetes network policies and
 egress proxies and firewalls, and show the requirements they satisfy, and, more importantly, the requirements they can't satisfy.
 
-Kubernetes provides a native solution for traffic control, and in particular, for control of egress traffic, through the [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
+Kubernetes provides a native solution for traffic control, and in particular, for control of egress traffic, through the [network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
 Using these network policies, cluster operators can configure which pods can access specific external services.
 Cluster operators can identify pods by pod labels, namespace labels, or by IP ranges. To specify the external services, cluster operators can use IP ranges, but cannot use domain names like `cnn.com`. This is because **Kubernetes network policies are not DNS-aware**.
 The network policies satisfy the first requirement since they can control any TCP traffic.
@@ -58,7 +58,7 @@ they are DNS-aware, but not transparent and not Kubernetes-aware.
 ## Advantages of Istio egress traffic control
 
 Istio egress traffic control is **DNS-aware**: you can define policies based on URLs or on wildcard domains like
-`*.ibm.com`. In this sense, it is better than Kubernetes Network Policies which are not DNS-aware.
+`*.ibm.com`. In this sense, it is better than Kubernetes network policies which are not DNS-aware.
 
 Istio egress traffic control is **transparent** with regard to TLS traffic, since Istio is transparent:
 you do not need to change the applications or to configure their containers.
