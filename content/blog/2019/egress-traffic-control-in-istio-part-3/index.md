@@ -120,7 +120,7 @@ additional hop with one or two proxies in the egress gateway, should not have a 
 Moreover, we are working to reduce
 performance overhead of Istio, so I hope the overhead of egress traffic control in Istio will be reduced in the future.
 Possible optimizations are to extend Envoy to handle wildcard domains so there will be no need for the
-third proxy; or to use mutual TLS for authentication only without encrypting the TLS traffic (since it is already
+third proxy; or to use mutual TLS for authentication only, without encrypting the TLS traffic (since it is already
 encrypted).
 
 ## Summary
