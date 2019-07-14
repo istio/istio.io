@@ -115,7 +115,7 @@ Let me provide our take on the performance overhead of Istio egress traffic cont
 The latency of access to external services could be already high, so adding the overhead
 of two or three proxies inside the cluster could be not very significant.
 After all, in the microservice architecture you can have chains of dozens of calls between microservices, so adding an
-additional hop with one or two proxies in the egress gateway, should not have a large impact.
+additional hop with one or two proxies in the egress gateway should not have a large impact.
 
 Moreover, we are working to reduce
 performance overhead of Istio, so I hope the overhead of egress traffic control in Istio will be reduced in the future.
