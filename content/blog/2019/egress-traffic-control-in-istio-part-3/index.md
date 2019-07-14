@@ -133,5 +133,5 @@ In my opinion, you can even choose secure control of egress traffic as the first
 cluster.
 Istio will already be beneficial for you, even before you start using all other features, such as
 traffic management, security, policies and telemetry, applied to traffic between microservices inside the cluster.
-You should pay attention, however, to performance considerations of Istio egress traffic control and measure performance
-overhead for your use cases.
+You should pay attention, however, to performance overhead of Istio egress traffic control and measure it for your use
+cases.
