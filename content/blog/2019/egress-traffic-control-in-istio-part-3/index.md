@@ -119,7 +119,7 @@ Let me share my thoughts on the performance overhead that controlling egress tra
 Accessing external services already could have high latency and the overhead added
 because of two or three proxies inside the cluster could likely not be very significant by comparison.
 After all, applications with a microservice architecture can have chains of dozens of calls between microservices.
-additional hop with one or two proxies in the egress gateway should not have a large impact.
+Therefore, an additional hop with one or two proxies in the egress gateway should not have a large impact.
 
 Moreover, we are working to reduce performance overhead of Istio.
 Possible optimizations are to extend Envoy to handle wildcard domains so there will be no need for the
