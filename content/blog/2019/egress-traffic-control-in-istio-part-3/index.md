@@ -115,7 +115,7 @@ external services, before you decide whether you can afford the performance over
 required level of security versus your performance requirements and compare the performance overhead of all
 alternative solutions.
 
-Let me provide our take on the performance overhead of Istio egress traffic control.
+Let me share my thoughts on the performance overhead that controlling egress traffic using Istio adds:
 The latency of access to external services could be already high, so adding the overhead
 of two or three proxies inside the cluster could be not very significant.
 After all, in the microservice architecture you can have chains of dozens of calls between microservices, so adding an
