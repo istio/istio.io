@@ -133,7 +133,7 @@ Possible optimizations include:
 
 I hope that after reading this series you are convinced that controlling egress traffic is very important for the
 security of your cluster.
-I also hope that I managed to convince you that Istio can serve as an effective tool for controlling egress traffic
+Hopefully, I also managed to convince you that Istio is an effective tool to control egress traffic
 securely, and that Istio has multiple advantages over the alternative solutions.
 In my opinion, you can even choose secure control of egress traffic as the first use case for applying Istio to your
 cluster.
