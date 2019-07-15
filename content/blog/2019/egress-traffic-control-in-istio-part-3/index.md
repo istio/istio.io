@@ -112,7 +112,7 @@ network, that traffic shouldn't have a significant impact on latency.
 See a [performance evaluation](/blog/2019/egress-performance/) of different Istio configurations set to control egress
 traffic. I would encourage you to carefully measure different configurations with your own applications and your own
 external services, before you decide whether you can afford the performance overhead for your use cases. You should weigh the
-required level of security versus your performance requirements, and also compare with the performance overhead of
+required level of security versus your performance requirements and compare the performance overhead of all
 alternative solutions.
 
 Let me provide our take on the performance overhead of Istio egress traffic control.
