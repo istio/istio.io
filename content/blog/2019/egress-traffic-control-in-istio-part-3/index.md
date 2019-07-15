@@ -73,12 +73,12 @@ Istio's traffic control is resilient to tampering.
 
 Additionally, Istio's egress traffic control provides the following advantages:
 
-*  Define access policies in the same language for ingress, egress, and in-cluster traffic. You
+-  Define access policies in the same language for ingress, egress, and in-cluster traffic. You
    need to learn a single policy and configuration language for all types of traffic.
-*  Out-of-the-Box integration of Istio's egress traffic control with Istio's policy and telemetry adapters.
-*  Write the adapters to use external monitoring or access control systems with Istio only once and
+-  Out-of-the-Box integration of Istio's egress traffic control with Istio's policy and telemetry adapters.
+-  Write the adapters to use external monitoring or access control systems with Istio only once and
    and apply them for all types of traffic: ingress, egress, and in-cluster.
-*  Use Istio's [traffic management features](/docs/concepts/traffic-management/) for egress traffic:
+-  Use Istio's [traffic management features](/docs/concepts/traffic-management/) for egress traffic:
    load balancing, passive and active health checking, circuit breaker, timeouts, retries, fault injection, and others.
 
 We refer to a system with the advantages above as **Istio-aware**.
