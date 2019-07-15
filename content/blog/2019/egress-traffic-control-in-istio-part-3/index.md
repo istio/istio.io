@@ -105,7 +105,7 @@ Traffic passes through two proxies:
 If you use [TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
 you must add
 [an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
-making the count of proxies between the application and the external service three. The traffic between the second and
+adding a third proxy between the application and the external service. Since the traffic between the egress gateway's proxy and
 third proxies is on the local network of the pod, so it should not have significant impact on the latency.
 
 See a [performance evaluation](/blog/2019/egress-performance/) of different configurations of Istio egress
