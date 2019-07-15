@@ -82,7 +82,7 @@ Additionally, Istio's egress traffic control provides the following advantages:
 *  Use Istio's [traffic management features](/docs/concepts/traffic-management/) for egress traffic:
    load balancing, passive and active health checking, circuit breaker, timeouts, retries, fault injection, and others.
 
-We call a system that has the advantages above **Istio-aware**.
+We refer to a system with the advantages above as **Istio-aware**.
 
 Let me summarize the features of Istio egress traffic control and of the alternative solutions in the following table:
 
