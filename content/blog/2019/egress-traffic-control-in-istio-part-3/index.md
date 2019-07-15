@@ -97,7 +97,9 @@ The following table summarizes the egress traffic control features that Istio an
 
 Controlling egress traffic using Istio has a price: increased latency of calls to external services and
 increased CPU usage by the cluster's pods.
-After all, the traffic has to pass through two proxies, namely the sidecar proxy of the
+Traffic passes through two proxies:
+
+- The application's sidecar proxy
 application and the proxy of the egress gateway. In the case of
 [TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
 you must add
