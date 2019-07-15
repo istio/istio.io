@@ -100,7 +100,7 @@ increased CPU usage by the cluster's pods.
 Traffic passes through two proxies:
 
 - The application's sidecar proxy
-application and the proxy of the egress gateway. In the case of
+- The egress gateway's proxy
 [TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
 you must add
 [an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
