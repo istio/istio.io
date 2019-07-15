@@ -109,7 +109,7 @@ adding a third proxy between the application and the external service. Since the
 the proxy needed for the configuration of arbitrary domains using wildcards is on the pod's local
 network, that traffic shouldn't have a significant impact on latency.
 
-See a [performance evaluation](/blog/2019/egress-performance/) of different configurations of Istio egress
+See a [performance evaluation](/blog/2019/egress-performance/) of different Istio configurations set to control egress
 traffic control. I would encourage you to measure carefully different configurations for your own applications and your
 external services, and decide whether you can afford the performance overhead for your use cases. You should weigh the
 required level of security versus your performance requirements, and also compare with the performance overhead of
