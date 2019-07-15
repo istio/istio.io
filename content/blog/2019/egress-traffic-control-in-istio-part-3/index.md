@@ -110,7 +110,7 @@ the proxy needed for the configuration of arbitrary domains using wildcards is o
 network, that traffic shouldn't have a significant impact on latency.
 
 See a [performance evaluation](/blog/2019/egress-performance/) of different Istio configurations set to control egress
-traffic control. I would encourage you to measure carefully different configurations for your own applications and your
+traffic. I would encourage you to carefully measure different configurations with your own applications and your own
 external services, and decide whether you can afford the performance overhead for your use cases. You should weigh the
 required level of security versus your performance requirements, and also compare with the performance overhead of
 alternative solutions.
