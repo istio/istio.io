@@ -106,7 +106,8 @@ If you use [TLS egress traffic to wildcard domains](/docs/tasks/traffic-manageme
 you must add
 [an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
 adding a third proxy between the application and the external service. Since the traffic between the egress gateway's proxy and
-third proxies is on the local network of the pod, so it should not have significant impact on the latency.
+the proxy needed for the configuration of arbitrary domains using wildcards is on the pod's local
+network, that traffic shouldn't have a significant impact on latency.
 
 See a [performance evaluation](/blog/2019/egress-performance/) of different configurations of Istio egress
 traffic control. I would encourage you to measure carefully different configurations for your own applications and your
