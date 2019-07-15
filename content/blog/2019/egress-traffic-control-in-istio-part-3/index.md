@@ -101,7 +101,8 @@ Traffic passes through two proxies:
 
 - The application's sidecar proxy
 - The egress gateway's proxy
-[TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
+
+If you use [TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
 you must add
 [an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
 making the count of proxies between the application and the external service three. The traffic between the second and
