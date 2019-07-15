@@ -35,7 +35,7 @@ egress proxies and firewalls. I show the requirements they satisfy, and, more im
 Kubernetes provides a native solution for traffic control, and in particular, for control of egress traffic, through the [network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
 Using these network policies, cluster operators can configure which pods can access specific external services.
 Cluster operators can identify pods by pod labels, namespace labels, or by IP ranges. To specify the external services, cluster operators can use IP ranges, but cannot use domain names like `cnn.com`. This is because **Kubernetes network policies are not DNS-aware**.
-The network policies satisfy the first requirement since they can control any TCP traffic.
+Network policies satisfy the first requirement since they can control any TCP traffic.
 Network policies only partially satisfy the third and the fourth requirements because cluster operators can specify policies
 per cluster or per pod but operators can't identify external services by domain names.
 Network policies only satisfy the fifth requirement if the attackers are not able to break from a malicious container into the Kubernetes
