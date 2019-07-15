@@ -86,12 +86,12 @@ We refer to a system with the advantages above as **Istio-aware**.
 
 The following table summarizes the egress traffic control features that Istio and the alternative solutions provide:
 
-| | Kubernetes Network Policies | Legacy Egress Proxy or Firewall | Istio Egress Traffic Control |
+| | Istio Egress Traffic Control | Kubernetes Network Policies | Legacy Egress Proxy or Firewall |
 | --- | --- | --- | ---|
-| DNS-aware | {{< cancel_icon >}} | {{< checkmark_icon >}} | {{< checkmark_icon >}} |
-| Kubernetes-aware | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
-| Transparent | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
-| Istio-aware | {{< cancel_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
+| DNS-aware | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< checkmark_icon >}} |
+| Kubernetes-aware | {{< checkmark_icon >}} | {{< checkmark_icon >}} | {{< cancel_icon >}} | {
+| Transparent | {{< checkmark_icon >}} | {{< checkmark_icon >}} | {{< cancel_icon >}} |
+| Istio-aware | {{< checkmark_icon >}} | {{< cancel_icon >}} | {{< cancel_icon >}} |
 
 ## Performance considerations
 
