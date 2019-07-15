@@ -59,7 +59,7 @@ Istio egress traffic control is **DNS-aware**: you can define policies based on 
 `*.ibm.com`. In this sense, it is better than Kubernetes network policies which are not DNS-aware.
 
 Istio egress traffic control is **transparent** with regard to TLS traffic, since Istio is transparent:
-you do not need to change the applications or to configure their containers.
+you don't need to change the applications or configure their containers.
 For HTTP traffic with TLS origination, you must configure the applications to use HTTP instead of HTTPS
 when the applications run with Istio sidecars injected.
 
