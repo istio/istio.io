@@ -72,7 +72,7 @@ apply
 [additional security measures](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations),
 Istio's traffic control is resilient to tampering.
 
-On top of these beneficial features, Istio egress traffic control provides additional advantages:
+Additionally, Istio's egress traffic control provides the following advantages:
 
 *  It allows defining access policies in the same language for ingress, egress and in-cluster traffic. You
    need to learn a single policy and configuration language for all types of traffic.
