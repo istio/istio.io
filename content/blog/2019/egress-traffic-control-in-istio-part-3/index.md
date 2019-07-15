@@ -30,7 +30,7 @@ First, let's remember the [requirements for egress traffic control](/blog/2019/e
 1.  Traffic control is **transparent** to the applications.
 
 Next, I'm going to cover two alternative solutions for egress traffic control: the Kubernetes network policies and
-egress proxies and firewalls, and show the requirements they satisfy, and, more importantly, the requirements they can't satisfy.
+egress proxies and firewalls. I show the requirements they satisfy, and, more importantly, the requirements they can't satisfy.
 
 Kubernetes provides a native solution for traffic control, and in particular, for control of egress traffic, through the [network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
 Using these network policies, cluster operators can configure which pods can access specific external services.
