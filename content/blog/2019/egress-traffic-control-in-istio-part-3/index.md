@@ -121,7 +121,7 @@ because of two or three proxies inside the cluster could likely not be very sign
 After all, applications with a microservice architecture can have chains of dozens of calls between microservices.
 Therefore, an additional hop with one or two proxies in the egress gateway should not have a large impact.
 
-Moreover, we are working to reduce performance overhead of Istio.
+Moreover, we continue to work towards reducing Istio's performance overhead.
 Possible optimizations are to extend Envoy to handle wildcard domains so there will be no need for the
 third proxy; or to use mutual TLS for authentication only, without encrypting the TLS traffic (since it is already
 encrypted).
