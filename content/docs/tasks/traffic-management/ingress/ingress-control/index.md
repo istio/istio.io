@@ -58,8 +58,9 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 {{< warning >}}
 In certain environments, the load balancer may be exposed using a host name, instead of an IP address.
-In this case, the `EXTERNAL-IP` value in the output from the command in the previous section will not be an IP address,
-but rather a host name, and the above command will have failed to set the `INGRESS_HOST` environment variable. In this case, use the following command to correct the `INGRESS_HOST` value:
+In this case, the ingress gateway's `EXTERNAL-IP` value will not be an IP address,
+but rather a host name, and the above command will have failed to set the `INGRESS_HOST` environment variable.
+Use the following command to correct the `INGRESS_HOST` value:
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
