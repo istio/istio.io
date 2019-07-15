@@ -126,7 +126,7 @@ An ingress [Gateway](/docs/reference/config/networking/v1alpha3/gateway/) descri
 It configures exposed ports, protocols, etc.
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
-using Istio routing rules, exactly in the same was as for internal service requests.
+using Istio routing rules, exactly in the same way as for internal service requests.
 
 Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
