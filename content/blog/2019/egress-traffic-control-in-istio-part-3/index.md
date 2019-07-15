@@ -122,7 +122,10 @@ After all, applications with a microservice architecture can have chains of doze
 Therefore, an additional hop with one or two proxies in the egress gateway should not have a large impact.
 
 Moreover, we continue to work towards reducing Istio's performance overhead.
-Possible optimizations are to extend Envoy to handle wildcard domains so there will be no need for the
+Possible optimizations include:
+
+- Extending Envoy to handle wildcard domains: This would eliminate the need for a third proxy between
+  the application and the external services for that use case.
 third proxy; or to use mutual TLS for authentication only, without encrypting the TLS traffic (since it is already
 encrypted).
 
