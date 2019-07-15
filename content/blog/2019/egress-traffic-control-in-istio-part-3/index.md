@@ -135,6 +135,6 @@ security of your cluster.
 Hopefully, I also managed to convince you that Istio is an effective tool to control egress traffic
 securely, and that Istio has multiple advantages over the alternative solutions.
 In my opinion, secure control of egress traffic is a great choice if you are looking for your first Istio use case.
-Istio will already be beneficial for you, even before you start using all other features, such as
+In this case, Istio already provides you some benefits even before you start using all other Istio features:
 [traffic management](/docs/tasks/traffic-management/), [security](/docs/tasks/security/),
 [policies](/docs/tasks/policy-enforcement/) and [telemetry](/docs/tasks/telemetry/), applied to traffic between microservices inside the cluster.
