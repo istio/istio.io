@@ -70,7 +70,7 @@ are not transparent and not Kubernetes-aware.
 Istio egress traffic control is **secure**: it is based on the strong identity of Istio and, when you
 apply
 [additional security measures](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations),
-it is tamper-proof.
+Istio's traffic control is resilient to tampering.
 
 On top of these beneficial features, Istio egress traffic control provides additional advantages:
 
