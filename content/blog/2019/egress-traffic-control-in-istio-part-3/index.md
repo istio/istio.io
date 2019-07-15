@@ -127,7 +127,7 @@ Possible optimizations include:
 - Extending Envoy to handle wildcard domains: This would eliminate the need for a third proxy between
   the application and the external services for that use case.
 - Using mutual TLS for authentication only without encrypting the TLS traffic, since the traffic is already
-encrypted).
+  encrypted.
 
 ## Summary
 
