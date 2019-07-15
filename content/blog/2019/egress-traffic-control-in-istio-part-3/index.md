@@ -84,7 +84,7 @@ Additionally, Istio's egress traffic control provides the following advantages:
 
 We refer to a system with the advantages above as **Istio-aware**.
 
-Let me summarize the features of Istio egress traffic control and of the alternative solutions in the following table:
+The following table summarizes the egress traffic control features that Istio and the alternative solutions provide:
 
 | | Kubernetes Network Policies | Legacy Egress Proxy or Firewall | Istio Egress Traffic Control |
 | --- | --- | --- | ---|
