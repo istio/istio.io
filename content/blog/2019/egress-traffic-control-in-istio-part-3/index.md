@@ -118,7 +118,7 @@ alternative solutions.
 Let me share my thoughts on the performance overhead that controlling egress traffic using Istio adds:
 Accessing external services already could have high latency and the overhead added
 because of two or three proxies inside the cluster could likely not be very significant by comparison.
-After all, in the microservice architecture you can have chains of dozens of calls between microservices, so adding an
+After all, applications with a microservice architecture can have chains of dozens of calls between microservices.
 additional hop with one or two proxies in the egress gateway should not have a large impact.
 
 Moreover, we are working to reduce performance overhead of Istio.
