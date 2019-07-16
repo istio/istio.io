@@ -103,8 +103,8 @@ Traffic passes through two proxies:
 
 If you use [TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
 you must add
-[an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains),
-adding a third proxy between the application and the external service. Since the traffic between the egress gateway's proxy and
+[an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)
+between the application and the external service. Since the traffic between the egress gateway's proxy and
 the proxy needed for the configuration of arbitrary domains using wildcards is on the pod's local
 network, that traffic shouldn't have a significant impact on latency.
 
