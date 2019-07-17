@@ -45,7 +45,6 @@ on **each** Kubernetes cluster.
 
 ## Deploy the Istio control plane in each cluster {#deploy-istio}
 
-
 {{< tip >}}
 This mode of multicluster works best when L4 network load balancers (NLB) are
 used in the cloud provider's environment for the gateways. In some cloud
