@@ -144,4 +144,4 @@ microservices inside the cluster.
 
 So, if you did not yet have a chance to work with Istio, [install](/docs/setup/kubernetes/install/) it in your cluster
 and check [egress traffic control](/docs/tasks/traffic-management/egress/) and other
-[Istio feautures](https://istio.io/docs/tasks/). Tell us what you think at [discuss.istio.io](https://discuss.istio.io).
+[Istio features](https://istio.io/docs/tasks/). Tell us what you think at [discuss.istio.io](https://discuss.istio.io).
