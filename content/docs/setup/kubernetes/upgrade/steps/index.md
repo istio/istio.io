@@ -206,8 +206,12 @@ After the control plane upgrade, the applications already running Istio will sti
 If you're using automatic sidecar injection, you can upgrade the sidecar
 by doing a rolling update for all the pods, so that the new version of the
 sidecar will be automatically re-injected. There are some tricks to reload
-all pods. E.g. There is a sample [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
+all pods. E.g. There is a sample [bash script](https://github.com/truongnh1992/playing-with-istio/blob/master/upgrade-sidecar.sh)
 which triggers the rolling update by patching the grace termination period.
+
+{{< text bash >}}
+$ ./upgrade-sidecar.sh $namespace
+{{< /text >}}
 
 If you're using manual injection, you can upgrade the
 sidecar by executing:
