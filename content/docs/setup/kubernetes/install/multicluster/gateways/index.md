@@ -45,6 +45,16 @@ on **each** Kubernetes cluster.
 
 ## Deploy the Istio control plane in each cluster {#deploy-istio}
 
+
+{{< tip >}}
+This mode of multicluster works best when L4 network load balancers (NLB) are
+used in the cloud provider's environment for the gateways. In some cloud
+porvider environments NLBs are simply not available. In others cloud
+providers, an annotation is required on the service load balancer. In any case,
+other forms of serivce type load balancers are viable and should function, but
+NLBs provide the best user experience.
+{{< /tip >}}
+
 1. Generate intermediate CA certificates for each cluster's Citadel from your
     organization's root CA. The shared root CA enables mutual TLS communication
     across different clusters.
