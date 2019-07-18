@@ -31,7 +31,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
 * Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/install/helm/)
-on **each** Kubernetes cluster.
+  on **each** Kubernetes cluster.
 
 * The IP address of the `istio-ingressgateway` service in each cluster must
   be accessible from every other cluster.
@@ -43,16 +43,16 @@ on **each** Kubernetes cluster.
   sample root CA certificate available in the Istio installation
   under the `samples/certs` directory.
 
-## Deploy the Istio control plane in each cluster {#deploy-istio}
+* This mode of multicluster works best with L4 network load balancers (NLB).
+  Not all cloud providers provide NLBs and some cloud providers require
+  special annottions to use a L4 NLB.  Please consult your cloud provider's
+  documentation for enabling NLBs for service object type
+  [load balancers](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer).
+  This mode of multicluster also works on cloud providers without NLBs, however,
+  in some occasions the healthchecks must be modified for the load balancer
+  to register the ingress gateway.
 
-{{< tip >}}
-This mode of multicluster works best when L4 network load balancers (NLB) are
-used in the cloud provider's environment for the gateways. In some cloud
-porvider environments NLBs are simply not available. In others cloud
-providers, an annotation is required on the service load balancer. In any case,
-other forms of serivce type load balancers are viable and should function, but
-NLBs provide the best user experience.
-{{< /tip >}}
+## Deploy the Istio control plane in each cluster {#deploy-istio}
 
 1. Generate intermediate CA certificates for each cluster's Citadel from your
     organization's root CA. The shared root CA enables mutual TLS communication
