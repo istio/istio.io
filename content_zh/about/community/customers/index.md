@@ -15,6 +15,7 @@ skip_seealso: true
     {{< company_logo link="https://www.coohom.com" logo="/about/community/customers/coohom.svg" alt="COOHOM" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="/about/community/customers/descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="/about/community/customers/ebay.png" alt="eBay" >}}
+    {{< company_logo link="https://www.flexe.com/" logo="/about/community/customers/flexe.svg" alt="FLEXE" >}}
     {{< company_logo link="https://www.fitstation.com" logo="/about/community/customers/fitstation.png" alt="FitStation" >}}
     {{< company_logo link="https://juspay.in" logo="/about/community/customers/juspay.png" alt="JUSPAY" >}}
     {{< company_logo link="https://www.namely.com" logo="/about/community/customers/namely.svg" alt="Namely" >}}
