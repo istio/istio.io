@@ -31,10 +31,15 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
 * Authority to deploy the [Istio control plane using Helm](/docs/setup/kubernetes/install/helm/)
-on **each** Kubernetes cluster.
+  on **each** Kubernetes cluster.
 
-* The IP address of the `istio-ingressgateway` service in each cluster must
-  be accessible from every other cluster.
+* The IP address of the `istio-ingressgateway` service in each cluster must be accessible
+  from every other cluster, ideally using L4 network load balancers (NLB).
+  Not all cloud providers support NLBs and some require special annotations to use them,
+  so please consult your cloud provider’s documentation for enabling NLBs for
+  service object type load balancers. When deploying on platforms without
+  NLB support, it may be necessary to modify the healthchecks for the load
+  balancer to register the ingress gateway.
 
 * A **Root CA**. Cross cluster communication requires mutual TLS connection
   between services. To enable mutual TLS communication across clusters, each
