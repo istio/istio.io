@@ -201,10 +201,19 @@ still be using an older sidecar. To upgrade the sidecar, you will need to re-inj
 If you're using automatic sidecar injection, you can upgrade the sidecar
 by doing a rolling update for all the pods, so that the new version of the
 sidecar will be automatically re-injected. There are some tricks to reload
-all pods. E.g. There is a sample [bash script](https://gist.github.com/jmound/ff6fa539385d1a057c82fa9fa739492e)
+all pods. E.g. There is a sample [bash script](https://github.com/truongnh1992/playing-with-istio/blob/master/upgrade-sidecar.sh)
 which triggers the rolling update by patching the grace termination period.
 
+<<<<<<< HEAD
 If you're using manual injection, you can upgrade the sidecar by executing:
+=======
+{{< text bash >}}
+$ ./upgrade-sidecar.sh $namespace
+{{< /text >}}
+
+If you're using manual injection, you can upgrade the
+sidecar by executing:
+>>>>>>> fba893e94... Updating the bash script for upgrading sidecar (#4675)
 
 {{< text bash >}}
 $ kubectl apply -f <(istioctl kube-inject -f $ORIGINAL_DEPLOYMENT_YAML)
