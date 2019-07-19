@@ -67,11 +67,11 @@ in the client namespace.
 
 If you now send the request from a different namespace, for example `ns2`,
 the client is no longer in the same namespace as the destination rule, `ns1`.
-Because the corresponding service, `reviews`, is also not in `ns1`, but rather in the
-`default` namespace, the destination rule will also not be found in the second namespace
-of the lookup path, the service namespace.
+Because the corresponding service, `reviews.default.svc.cluster.local`, is also not in `ns1`,
+but rather in the `default` namespace, the destination rule will also not be found in
+the second namespace of the lookup path, the service namespace.
 
-Even though the `reviews` service is exported to all namespaces and therefore visible
+Even if the `reviews` service is exported to all namespaces and therefore visible
 in `ns2` and the destination rule is also exported to all namespaces, including `ns2`,
 it will not be applied during the request from `ns2` because it's not in any
 of the namespaces on the lookup path.
