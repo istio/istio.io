@@ -16,6 +16,7 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="./descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="./ebay.png" alt="eBay" >}}
+    {{< company_logo link="https://www.flexe.com/" logo="/about/community/customers/flexe.svg" alt="FLEXE" >}}
     {{< company_logo link="https://www.fitstation.com" logo="./fitstation.png" alt="FitStation" >}}
     {{< company_logo link="https://www.getyourguide.com/" logo="./getyourguide.svg" alt="GetYourGuide" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
