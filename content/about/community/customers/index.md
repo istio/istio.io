@@ -19,6 +19,7 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.fitstation.com" logo="./fitstation.png" alt="FitStation" >}}
     {{< company_logo link="https://www.getyourguide.com/" logo="./getyourguide.svg" alt="GetYourGuide" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
+    {{< company_logo link="https://loblawdigital.co" logo="./loblaw-digital.png" alt="Loblaw Digital" >}}
     {{< company_logo link="https://www.namely.com" logo="./namely.svg" alt="Namely" >}}
     {{< company_logo link="https://www.nashtechglobal.com" logo="./nashtech.png" alt="NashTech" >}}
     {{< company_logo link="https://www.plangrid.com" logo="./plangrid.svg" alt="PlanGrid" >}}
