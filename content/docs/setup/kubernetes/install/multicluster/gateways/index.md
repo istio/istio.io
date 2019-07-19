@@ -94,11 +94,13 @@ on **each** Kubernetes cluster.
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-    * Install Istio's CRDs:
+    * Install all the Istio
+    [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
+    (CRDs) using `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
 
-        {{< text bash >}}
-        $ kubectl apply -f install/kubernetes/helm/istio-init/files/crd/
-        {{< /text >}}
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+    {{< /text >}}
 
     * {{< boilerplate verify-crds >}}
 
