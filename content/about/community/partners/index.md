@@ -26,6 +26,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.redhat.com" logo="./redhat.svg" alt="Red Hat" tagline="We make open source technologies for the enterprise" >}}
     {{< company_logo link="https://www.solarwinds.com" logo="./solarwinds.png" alt="SolarWinds" tagline="Solve your toughest IT management problem, today" >}}
     {{< company_logo link="https://sysdig.com" logo="./sysdig.svg" alt="Sysdig" tagline="The first unified approach to container security, monitoring and forensics" >}}
+    {{< company_logo link="https://scytale.io" logo="./scytale.svg" alt="Scytale" tagline="Service Identity Management for the Cloud Native Enterprise" >}}
     {{< company_logo link="https://www.tigera.io" logo="./tigera.svg" alt="Tigera" tagline="Zero Trust Network Security & Continuous Compliance for Kubernetes Platforms" >}}
     {{< company_logo link="https://www.vmware.com" logo="./vmware.svg" alt="VMware" >}}
     {{< company_logo link="https://wso2.com" logo="./wso2.svg" alt="WSO2" tagline="The #1 Open Source API Management and Integration Platform" >}}
