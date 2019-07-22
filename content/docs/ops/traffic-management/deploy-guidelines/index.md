@@ -35,10 +35,10 @@ spec:
 Visibility of a Kubernetes `Service` can similarly be controlled using the `networking.istio.io/exportTo` annotation.
 {{< /tip >}}
 
-The visibility of a `DestinationRule` resource in a particular namespace, however, does not
+The visibility of a `DestinationRule` resource in a particular namespace does not
 guarantee it will be used. Exporting a destination rule to other namespaces enables it to be used
 in those namespaces, but to actually be applied during a request the namespace also needs to be
-on the following destination rule lookup path:
+on the destination rule lookup path:
 
 1. client namespace
 1. service namespace
