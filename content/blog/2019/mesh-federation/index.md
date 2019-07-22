@@ -45,11 +45,11 @@ Two Kubernetes clusters (referred to as `cluster1` and `cluster2`) with default 
 
 ### Setup the first cluster
 
-*  Install the [Bookinfo](/docs/examples/bookinfo/) sample application,
+1. Install the [Bookinfo](/docs/examples/bookinfo/) sample application,
 [confirm the app is accessible outside the cluster](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
 and [apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
-*   Direct the traffic to the _v1_ version of all the microservices:
+1.  Direct the traffic to the _v1_ version of all the microservices:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -62,7 +62,7 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     Access the web page of the Bookinfo application and verify that the reviews appear without stars, which means that the
 _v1_ version of _reviews_ is used.
 
-*   Delete the deployments of `reviews v2`, `reviews v3` and `ratings v1`:
+1.  Delete the deployments of `reviews v2`, `reviews v3` and `ratings v1`:
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v2 reviews-v3 ratings-v1 --context=$CTX_CLUSTER1
@@ -73,7 +73,7 @@ _v1_ version of _reviews_ is used.
 
     Access the web page of the Bookinfo application and verify that it continues to work as before.
 
-*   Check the pods:
+1.  Check the pods:
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER1
@@ -87,7 +87,7 @@ _v1_ version of _reviews_ is used.
 
 ### Setup the second cluster
 
-*   Create the `bookinfo` namespace and label it for sidecar injection. Note that while you deployed the Bookinfo
+1.  Create the `bookinfo` namespace and label it for sidecar injection. Note that while you deployed the Bookinfo
 application in the first cluster in the `default` namespace, you use the `bookinfo`
 namespace in the second cluster. This is to demonstrate that you can use different namespaces in the clusters you
 federate, there is no requirement for uniform naming.
@@ -99,7 +99,7 @@ federate, there is no requirement for uniform naming.
     namespace/bookinfo labeled
     {{< /text >}}
 
-*   Deploy `reviews v2`, `reviews v3` and `ratings v1`:
+1.  Deploy `reviews v2`, `reviews v3` and `ratings v1`:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
@@ -116,7 +116,7 @@ federate, there is no requirement for uniform naming.
     deployment.apps/ratings-v1 created
     {{< /text >}}
 
-*   Check the pods in the `bookinfo` namespace:
+1.  Check the pods in the `bookinfo` namespace:
 
     {{< text bash >}}
     $ kubectl get pods -n bookinfo --context=$CTX_CLUSTER2
@@ -127,7 +127,7 @@ federate, there is no requirement for uniform naming.
 
     You should have three pods of the Bookinfo application.
 
-*   Create a service for reviews. Call it `myreviews`, to demonstrate that you can use a different names for services in
+1.  Create a service for reviews. Call it `myreviews`, to demonstrate that you can use a different names for services in
     the clusters, there is no requirement for uniform naming in mesh federation.
 
     {{< text bash >}}
@@ -147,12 +147,126 @@ federate, there is no requirement for uniform naming.
     EOF
     {{< /text >}}
 
-*   Verify that `myreviews.bookinfo` works as expected:
+1.  Create destination rules for reviews and ratings:
+
+    {{< text bash >}}
+    $ kubectl apply -n bookinfo --context=$CTX_CLUSTER2 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: reviews
+    spec:
+      host: myreviews
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+      subsets:
+      - name: v2
+        labels:
+          version: v2
+      - name: v3
+        labels:
+          version: v3
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: ratings
+    spec:
+      host: ratings
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+      subsets:
+      - name: v1
+        labels:
+          version: v1
+    EOF
+    {{< /text >}}
+
+1.  Verify that `myreviews.bookinfo` works as expected:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER2) -c sleep --context=$CTX_CLUSTER2 -- curl myreviews.bookinfo:9080/reviews/0
     {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
     {{< /text >}}
+
+## Deploy private gateways for cross-cluster communication
+
+### Generate certificates and keys for cluster1 and cluster2
+
+{{< text bash >}}
+$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example.com/CN=Root CA' -keyout example.com.key -out example.com.crt
+$ openssl req -subj '/O=example.com/CN=Root CA/L=c1.cluster.com' -out c1.example.com.csr -newkey rsa:2048 -nodes -keyout c1.example.com.key
+$ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in c1.example.com.csr -out c1.example.com.crt
+$ openssl req -subj '/O=example.com/CN=Root CA/L=c2.cluster.com' -out c2.example.com.csr -newkey rsa:2048 -nodes -keyout c2.example.com.key
+$ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in c2.example.com.csr -out c2.example.com.crt
+{{< /text >}}
+
+### Deploy private egress gateway in cluster1
+
+1.  Create `istio-private-gateways`:
+
+    {{< text bash >}}
+    $ kubernetes create namespace istio-private-gateways --context=$CTX_CLUSTER2
+    {{< /text >}}
+
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
+   certificates.
+
+    {{< text bash >}}
+    $ kubectl create -n istio-private-gateways secret tls c1-client-certs --key c1.example.com.key --cert c1.example.com.crt
+    $ kubectl create -n istio-private-gateways secret generic ca-certs --from-file=example.com.crt
+    {{< /text >}}
+
+1.  Generate the `istio-egressgateway` deployment with a volume to be mounted from the new secrets. Use the same options
+    you used for generating your `istio.yaml`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
+    --set gateways.istio-egressgateway.enabled=true \
+    --set 'gateways.istio-egressgateway.secretVolumes[0].name'=egressgateway-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[0].secretName'=istio-egressgateway-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[0].mountPath'=/etc/istio/egressgateway-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[1].name'=egressgateway-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[1].secretName'=istio-egressgateway-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[1].mountPath'=/etc/istio/egressgateway-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[2].name'=nginx-client-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[2].secretName'=nginx-client-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[2].mountPath'=/etc/nginx-client-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[3].name'=nginx-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[3].secretName'=nginx-ca-certs \
+    --set 'gateways.istio-egressgateway.secretVolumes[3].mountPath'=/etc/nginx-ca-certs > \
+    ./istio-egressgateway.yaml
+    {{< /text >}}
+
+1.  Redeploy `istio-egressgateway`:
+
+    {{< text bash >}}
+    $ kubectl apply -f ./istio-egressgateway.yaml
+    deployment "istio-egressgateway" configured
+    {{< /text >}}
+
+1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
+
+    {{< text bash >}}
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/nginx-client-certs /etc/nginx-ca-certs
+    {{< /text >}}
+
+    `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
+    `/etc/istio/nginx-ca-certs`.
+
+### Deploy private ingress gateway in cluster2
+
+## Expose and consume services
+
+### Expose reviews v2
+
+### Consume reviews v2
+
+### Expose details
+
+### Consume details
 
 ## Cleanup
 
