@@ -138,8 +138,8 @@ Istio is the only solution I'm aware of that lets you:
 
 - Control egress traffic in a secure and transparent way
 - Specify external services as domain names
+- Use Kubernetes artifacts to specify the traffic source.
 
-- Use Kubernetes artifacts to specify a traffic source.
 In my opinion, secure control of egress traffic is a great choice if you are looking for your first Istio use case.
 In this case, Istio already provides you some benefits even before you start using all other Istio features:
 [traffic management](/docs/tasks/traffic-management/), [security](/docs/tasks/security/),
