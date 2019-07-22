@@ -13,10 +13,19 @@ pull_request_rules:
         method: squash
         strict: false
 
-  - name: Automatically cherry pick a PR from master to the release branch if the right label is set
+  - name: Automatically cherry pick a PR from master to the release-1.2 branch if the right label is set
     conditions:
       - base=master
-      - label=action/merge-to-release-branch
+      - label=action/merge-to-release-1.2-branch
+    actions:
+      backport:
+        branches:
+          - release-1.2
+
+  - name: Automatically cherry pick a PR from master to the release-1.3 branch if the right label is set
+    conditions:
+      - base=master
+      - label=action/merge-to-release-1.3-branch
     actions:
       backport:
         branches:
@@ -24,7 +33,7 @@ pull_request_rules:
 
   - name: Automatically cherry pick a PR from the release branch to master if the right label is set
     conditions:
-      - base=release-1.2
+      - base~=release-?.?
       - label=action/merge-to-master
     actions:
       backport:

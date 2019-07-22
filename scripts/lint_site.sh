@@ -132,7 +132,7 @@ done
 npx sass-lint -c sass-lint.yml --verbose 'src/sass/**/*.scss'
 npx tslint src/ts/*.ts
 
-htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/"
+htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/"
 if [[ "$?" != "0" ]]
 then
     FAILED=1

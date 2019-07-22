@@ -792,7 +792,7 @@ to hold the configuration of the Nginx SNI proxy:
 1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` to edit and deploy.
 
     {{< text bash >}}
-    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/clusterrole.yaml -x charts/gateways/templates/clusterrolebindings.yaml --set  global.mtls.enabled=true --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
+    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.mtls.enabled=true --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
     gateways:
       enabled: true
       istio-ingressgateway:
@@ -839,8 +839,8 @@ to hold the configuration of the Nginx SNI proxy:
     {{< text bash >}}
     $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
     serviceaccount "istio-egressgateway-with-sni-proxy-service-account" created
-    clusterrole "istio-egressgateway-with-sni-proxy-istio-system" created
-    clusterrolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
+    role "istio-egressgateway-with-sni-proxy-istio-system" created
+    rolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
     service "istio-egressgateway-with-sni-proxy" created
     deployment "istio-egressgateway-with-sni-proxy" created
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
