@@ -2,7 +2,7 @@
 title: Secure Control of Egress Traffic in Istio, part 3
 subtitle: Comparison of alternative solutions to control egress traffic including performance considerations
 description: Comparison of alternative solutions to control egress traffic including performance considerations.
-publishdate: 2019-07-16
+publishdate: 2019-07-22
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress,security,gateway,tls]
 ---
