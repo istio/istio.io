@@ -146,6 +146,6 @@ In this case, Istio already provides you some benefits even before you start usi
 [policies](/docs/tasks/policy-enforcement/) and [telemetry](/docs/tasks/telemetry/), applied to traffic between
 microservices inside the cluster.
 
-So, if you did not yet have a chance to work with Istio, [install](/docs/setup/kubernetes/install/) it in your cluster
+So, if you haven't had the chance to work with Istio yet, [install Istio](/docs/setup/kubernetes/install/) on your cluster
 and check [egress traffic control](/docs/tasks/traffic-management/egress/) and other
 [Istio features](https://istio.io/docs/tasks/). Tell us what you think at [discuss.istio.io](https://discuss.istio.io).
