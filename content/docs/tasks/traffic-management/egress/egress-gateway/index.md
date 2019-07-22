@@ -779,7 +779,7 @@ external service.
 1.  If you're using a `SOURCE_POD` that is running in a different namespace than the one where you applied the
     configuration resources, the requests will fail because the destination rule for the egress gateway is not on the
     [destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing).
-    A simple workaround is to create a stand-in `ServiceEntry` for the egress gateway, in the same namespace
+    A simple solution is to create a stand-in `ServiceEntry` for the egress gateway, in the same namespace
     as the `DestinationRule`:
 
     {{< text bash >}}
