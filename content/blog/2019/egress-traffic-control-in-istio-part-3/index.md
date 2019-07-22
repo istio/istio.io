@@ -134,7 +134,11 @@ I hope that after reading this series you are convinced that controlling egress 
 security of your cluster.
 Hopefully, I also managed to convince you that Istio is an effective tool to control egress traffic
 securely, and that Istio has multiple advantages over the alternative solutions.
-If you need to control egress traffic in a secure and transparent way, specifying external services as domain names and
+Istio is the only solution I'm aware of that lets you:
+
+- Control egress traffic in a secure and transparent way
+- Specify external services as domain names
+
 specifying traffic source by Kubernetes artifacts, Istio is the only solution for you I am aware of.
 In my opinion, secure control of egress traffic is a great choice if you are looking for your first Istio use case.
 In this case, Istio already provides you some benefits even before you start using all other Istio features:
