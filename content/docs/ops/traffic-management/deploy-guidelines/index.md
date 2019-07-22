@@ -78,9 +78,11 @@ in `ns2` and the destination rule is also exported to all namespaces, including 
 it will not be applied during the request from `ns2` because it's not in any
 of the namespaces on the lookup path.
 
-If you move the destination rule to the `istio-system` namespace, the third namespace on
-the lookup path, it would then get applied to requests from clients in any namespace.
-Nevertheless, this isn't recommended unless the destination rule is really a global
+You can avoid this problem by creating the destination rule in the same namespace as
+the corresponding service, `default` in this example. It would then get applied to requests
+from clients in any namespace.
+You can also move the destination rule to the `istio-system` namespace, the third namespace on
+the lookup path, although this isn't recommended unless the destination rule is really a global
 configuration that is applicable in all namespaces, and it would require administrator authority.
 
 Istio uses this restricted destination rule lookup path for two reasons:
