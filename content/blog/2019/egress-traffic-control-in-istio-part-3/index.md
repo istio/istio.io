@@ -147,5 +147,5 @@ In this case, Istio already provides you some benefits even before you start usi
 microservices inside the cluster.
 
 So, if you haven't had the chance to work with Istio yet, [install Istio](/docs/setup/kubernetes/install/) on your cluster
-and check [egress traffic control](/docs/tasks/traffic-management/egress/) and other
+and check our [egress traffic control task](/docs/tasks/traffic-management/egress/) and the tasks for the other
 [Istio features](https://istio.io/docs/tasks/). Tell us what you think at [discuss.istio.io](https://discuss.istio.io).
