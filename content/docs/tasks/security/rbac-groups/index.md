@@ -122,7 +122,7 @@ communicating with `httpbin`.
     EOF
     {{< /text >}}
 
-    Policy needs some time to take affect. Wait at least one minute.
+    Policies take effect after some time, please wait at least one minute.
 
 1.  Set the `TOKEN` environmental variable to contain a valid sample JWT.
 
@@ -156,7 +156,7 @@ wait until the newly defined RBAC policy to take effect.
 1.  Enable the Istio RBAC for the namespace:
 
     {{< warning >}}
-    This is a cluster-wide policy. If your cluster is using another `ClusterRbacConfig`, it will be overwritten.
+    This is a cluster-wide policy and Istio overwrites any another `ClusterRbacConfig`.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -264,7 +264,7 @@ You may use the `gen-jwt`
 [python script]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py)
 to generate a JWT with other list-typed claims for testing purposes.
 Follow the instructions in the `gen-jwt` script to use the `gen-jwt.py` file.
-For the `key.pem` file, you may use one at
+To get the `key.pem` file, run the following command:
 
 {{< text bash >}}
 $ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
