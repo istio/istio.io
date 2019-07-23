@@ -83,7 +83,6 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
-| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
 | [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
@@ -108,6 +107,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
 | [Istio CNI plugin](/docs/setup/kubernetes/additional-setup/cni/) | Alpha
 | IPv6 support for Kubernetes | Alpha
+| Distroless base images for Istio | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!
