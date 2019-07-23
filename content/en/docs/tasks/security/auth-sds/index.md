@@ -48,31 +48,8 @@ This approach has the following benefits:
 ## Before you begin
 
 * Set up Istio by following the instructions using
-  [Helm](/docs/setup/install/helm/) with SDS setup and global mutual
-  TLS enabled:
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
-    {{< /text >}}
-
-    If you are using Kubernetes v1.12 or above, run:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values @install/kubernetes/helm/istio/values-istio-sds-auth.yaml@ > istio-auth-sds.yaml
-    {{< /text >}}
-
-    Or if you're running a version older than v1.12, run:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set global.sds.useNormalJwt=true --set global.sds.useTrustworthyJwt=false --values @install/kubernetes/helm/istio/values-istio-sds-auth.yaml@ > istio-auth-sds.yaml
-    {{< /text >}}
-
-    After `istio-auth-sds.yaml` has been generated, run:
-
-    {{< text bash >}}
-    $ kubectl apply -f istio-auth-sds.yaml
-    {{< /text >}}
+  [Helm](/docs/setup/kubernetes/install/helm/) with SDS setup and global mutual
+  TLS enabled.
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
 

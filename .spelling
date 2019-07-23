@@ -363,6 +363,7 @@ nginx
 NLBs
 nodePorts
 non-sandboxed
+non-GKE
 normalization
 ns
 NUL
@@ -547,6 +548,7 @@ v1
 v1.7.4
 v1.7.6_coreos.0
 v1.9
+v1.12
 v1alpha1
 v1alpha3
 v1beta1#MutatingWebhookConfiguration

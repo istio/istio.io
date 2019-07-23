@@ -42,6 +42,16 @@ and then further customize the configuration for your specific needs.
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
 
+1. For Istio with SDS enabled:
+  * Please use Kubernetes v1.12 or above.
+  * For non-GKE environments, please add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/?origin_team=T382U9E4U#service-account-token-volume-projection) to your Kubernetes. You may
+  also want to refer to the [api-server](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) page for the most up-to-date flag names.
+
+{{< warning >}}
+You can bypass the above requirement by setting `--set global.sds.useNormalJwt=true --set global.sds.useTrustworthyJwt=false` when installing with Helm.
+We advise against doing this for production usage due to security risks.
+{{< /warning >}}
+
 ## Helm chart release repositories
 
 The commands in this guide use the Helm charts that are included in the Istio release image.
