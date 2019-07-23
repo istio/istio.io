@@ -215,13 +215,13 @@ For example, the following command would be required to add a route rule to the 
 namespace:
 
 {{< text bash >}}
-$ kubectl –i istio-system1 apply -n ns-1 -f route_rule_v2.yaml
+$ istioctl -i istio-system1 apply -n ns-1 -f route_rule_v2.yaml
 {{< /text >}}
 
 And can be displayed using the command:
 
 {{< text bash >}}
-$ kubectl -i istio-system1 -n ns-1 get routerule
+$ istioctl -i istio-system1 -n ns-1 get routerule
 NAME                  KIND                                  NAMESPACE
 details-Default       RouteRule.v1alpha2.config.istio.io    ns-1
 productpage-default   RouteRule.v1alpha2.config.istio.io    ns-1
