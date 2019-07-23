@@ -58,6 +58,15 @@ controlled way.
         --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
     {{< /text >}}
 
+{{< warning >}}
+The following instructions create a destination rule for the egress gateway in the `default` namespace
+and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
+If not, the destination rule will not be found on the
+[destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)
+and the client requests will fail.
+
+{{< /warning >}}
+
 ## Egress gateway for HTTP traffic
 
 First create a `ServiceEntry` to allow direct traffic to an external service.
@@ -774,24 +783,6 @@ external service.
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
-    {{< /text >}}
-
-1.  If you're using a `SOURCE_POD` that is running in a different namespace than the one where you applied the
-    configuration resources, the requests will fail because the destination rule for the egress gateway is not on the
-    [destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing).
-    A simple solution is to create a stand-in `ServiceEntry` for the egress gateway, in the same namespace
-    as the `DestinationRule`:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: serviceentry-for-egressgateway
-    spec:
-      hosts:
-      - istio-egressgateway.istio-system.svc.cluster.local
-    EOF
     {{< /text >}}
 
 ## Cleanup
