@@ -58,6 +58,15 @@ controlled way.
         --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
     {{< /text >}}
 
+{{< warning >}}
+The following instructions create a destination rule for the egress gateway in the `default` namespace
+and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
+If not, the destination rule will not be found on the
+[destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)
+and the client requests will fail.
+
+{{< /warning >}}
+
 ## Egress gateway for HTTP traffic
 
 First create a `ServiceEntry` to allow direct traffic to an external service.
