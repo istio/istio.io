@@ -29,6 +29,7 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.trulia.com" logo="./trulia.svg" alt="Trulia" >}}
     {{< company_logo link="https://www.ibm.com/watson" logo="./watson.png" alt="IBM Watson" >}}
     {{< company_logo link="https://ygrene.com" logo="./ygrene.jpeg" alt="Ygrene Energy Fund" >}}
+    {{< company_logo link="https://ygrene.com" logo="./softonic.png" alt="Softonic S.L." >}}
 </div>
 
 Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).
