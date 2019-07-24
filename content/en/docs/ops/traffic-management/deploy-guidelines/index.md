@@ -1,9 +1,10 @@
 ---
-title: Deployment and Configuration Guidelines
-description: Provides specific deployment and configuration guidelines.
-weight: 20
+title: Avoiding Traffic Management Issues
+description: Provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
+weight: 2
 aliases:
     - /help/ops/traffic-management/deploy-guidelines
+    - /help/ops/deploy-guidelines
 ---
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
@@ -219,7 +220,7 @@ spec:
 The downside of this kind of configuration is that other configuration (e.g., route rules) for any of the
 underlying microservices, will need to also be included in this single configuration file, instead of
 in separate resources associated with, and potentially owned by, the individual service teams.
-See [Route rules have no effect on ingress gateway requests](/docs/ops/traffic-management/troubleshooting/#route-rules-have-no-effect-on-ingress-gateway-requests)
+See [Route rules have no effect on ingress gateway requests](/docs/ops/troubleshooting/network-issues)
 for details.
 
 To avoid this problem, it may be preferable to break up the configuration of `myapp.com` into several
@@ -319,30 +320,4 @@ To make sure services will have zero down-time when configuring routes with subs
 
     1. Update the `DestinationRule` to remove the unused subsets.
 
-## Browser problem when multiple gateways configured with same TLS certificate
 
-Configuring more than one gateway using the same TLS certificate will cause browsers
-that leverage [HTTP/2 connection reuse](https://httpwg.org/specs/rfc7540.html#reuse)
-(i.e., most browsers) to produce 404 errors when accessing a second host after a
-connection to another host has already been established.
-
-For example, let's say you have 2 hosts that share the same TLS certificate like this:
-
-* Wildcard certificate `*.test.com` installed in `istio-ingressgateway`
-* `Gateway` configuration `gw1` with host `service1.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
-* `Gateway` configuration `gw2` with host `service2.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
-* `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw1`
-* `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw2`
-
-Since both gateways are served by the same workload (i.e., selector `istio: ingressgateway`) requests to both services
-(`service1.test.com` and `service2.test.com`) will resolve to the same IP. If `service1.test.com` is accessed first, it
-will return the wildcard certificate (`*.test.com`) indicating that connections to `service2.test.com` can use the same certificate.
-Browsers like Chrome and Firefox will consequently reuse the existing connection for requests to `service2.test.com`.
-Since the gateway (`gw1`) has no route for `service2.test.com`, it will then return a 404 (Not Found) response.
-
-You can avoid this problem by configuring a single wildcard `Gateway`, instead of two (`gw1` and `gw2`).
-Then, simply bind both `VirtualServices` to it like this:
-
-* `Gateway` configuration `gw` with host `*.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
-* `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw`
-* `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw`

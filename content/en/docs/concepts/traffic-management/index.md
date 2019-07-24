@@ -148,7 +148,7 @@ Istio supports the following load balancing methods:
    for more information.
 
 You can also choose to prioritize your load balancing pools based on geographic
-location. Visit the [operations guide](/docs/ops/traffic-management/locality-load-balancing/)
+location. Visit the [operations guide](/docs/tasks/traffic-management/locality-load-balancing/)
 for more information on the locality load balancing feature.
 
 In addition to basic service discovery and load balancing, Istio provides a rich
