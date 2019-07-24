@@ -10,12 +10,12 @@ This section provides specific deployment or configuration guidelines to avoid n
 
 ## Cross-namespace configuration sharing
 
-A `VirtualService`, `DestinationRule`, or `ServiceEntry` configuration resource
-can be defined in one namespace and then reused in other namespaces, if it is exported.
-All traffic management resources are exported to all namespaces by default,
-but the visibility can be overridden using the `exportTo` field.
-For example, the following virtual service can only be used by clients in the same namespace
-as the configuration:
+You can define virtual services, destination rules, or service entries
+in one namespace and then reuse them in other namespaces, if they are exported
+to those namespaces.
+Istio exports all traffic management resources to all namespaces by default,
+but you can override the visibility with the `exportTo` field.
+For example, only clients in the same namespace can use the following virtual service:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -34,11 +34,11 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-Visibility of a Kubernetes `Service` can similarly be controlled using the `networking.istio.io/exportTo` annotation.
+You can similarly control the visibility of a Kubernetes `Service` using the `networking.istio.io/exportTo` annotation.
 {{< /tip >}}
 
-The visibility of a `DestinationRule` resource in a particular namespace does not
-guarantee it will be used. Exporting a destination rule to other namespaces enables it to be used
+Setting the visibility of destination rules in a particular namespace doesn't
+guarantee the rule is used. Exporting a destination rule to other namespaces enables you to use it
 in those namespaces, but to actually be applied during a request the namespace also needs to be
 on the destination rule lookup path:
 
