@@ -20,13 +20,13 @@ in more than one cluster, i.e., in a
 [multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
 The simplest way to setup a multicluster mesh, because it has no special networking requirements,
 is using a
-[multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
+[dedicated control plane topology](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology).
 In this configuration, each Kubernetes cluster contributing to the mesh has its own control plane,
 but each control plane is synchronized and running under a single administrative control.
 
 In this article we'll look at how one of the features of Istio,
 [traffic management](/docs/concepts/traffic-management/), works in a multicluster mesh with
-a multiple control plane topology.
+a dedicated control plane topology.
 We'll show how to configure Istio route rules to call remote services in a multicluster service mesh
 by deploying the [Bookinfo sample]({{<github_tree>}}/samples/bookinfo) with version `v1` of the `reviews` service
 running in one cluster, versions `v2` and `v3` running in a second cluster.
@@ -36,7 +36,7 @@ running in one cluster, versions `v2` and `v3` running in a second cluster.
 To start, you'll need two Kubernetes clusters, both running a slightly customized configuration of Istio.
 
 * Set up a multicluster environment with two Istio clusters by following the
-    [multiple control planes with gateways](/docs/setup/kubernetes/install/multicluster/gateways/) instructions.
+    [dedicated control planes](/docs/setup/kubernetes/install/multicluster/gateways/) instructions.
 
 * The `kubectl` command is used to access both clusters with the `--context` flag.
     Use the following command to list your contexts:
@@ -454,7 +454,7 @@ only see reviews without ratings (`v1`).
 
 In this article, we've seen how to use Istio route rules to distribute the versions of a service
 across clusters in a multicluster service mesh with a
-[multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
+[dedicated control plane topology](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology).
 In this example, we manually configured the `.global` service entry and destination rules needed to provide
 connectivity to one remote service, `reviews`. In general, however, if we wanted to enable any service
 to run either locally or remotely, we would need to create `.global` resources for every service.
