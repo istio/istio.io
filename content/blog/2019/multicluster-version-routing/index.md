@@ -454,7 +454,7 @@ only see reviews without ratings (`v1`).
 
 In this article, we've seen how to use Istio route rules to distribute the versions of a service
 across clusters in a multicluster service mesh with a
-[multiple control plane topology](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology).
+[dedicated control plane topology](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology).
 In this example, we manually configured the `.global` service entry and destination rules needed to provide
 connectivity to one remote service, `reviews`. In general, however, if we wanted to enable any service
 to run either locally or remotely, we would need to create `.global` resources for every service.
