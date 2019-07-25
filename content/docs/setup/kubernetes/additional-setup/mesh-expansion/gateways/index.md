@@ -33,7 +33,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/example-values/values-istio-meshexpansion-gateways.yaml@ \ > $HOME/istio.meshexpansion-gateways.yaml
+        -f https://github.com/irisdingbj/meshExpansion/blob/master/values-istio-meshexpansion-gateways.yaml \ > $HOME/istio.meshexpansion-gateways.yaml
     {{< /text >}}
 
     For further details and customization options, refer to the
@@ -188,7 +188,7 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [ustomized installation of Istio on the Cluster](#Customized-installation-of-Istio-on-the-Cluster) section to learn how to obtain the IP address.
+1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [Customized installation of Istio on the Cluster](#Customized-installation-of-Istio-on-the-Cluster) section to learn how to obtain the IP address.
 The following example updates the `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
