@@ -8,17 +8,16 @@ aliases:
 ---
 
 This guide provides instructions to integrate VMs and bare metal hosts into
-an Istio mesh deployed on Kubernetes with gateways. No VPN connectivity nor direct network access between workloads in 
+an Istio mesh deployed on Kubernetes with gateways. No VPN connectivity nor direct network access between workloads in
 VMs, bare metals and clusters is required.
 
 ## Prerequisites
 
 * One or more Kubernetes clusters with versions: 1.12, 1.13, 1.14
 
-* Mesh expansion machines must have IP connectivity to the Ingress gateways in the mesh. 
+* Mesh expansion machines must have IP connectivity to the Ingress gateways in the mesh.
 
 * Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to enable mesh expansion.
-
 
 ## Installation steps
 
@@ -45,19 +44,17 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     {{< text bash >}}
     $ kubectl create namespace istio-system
     $ helm template  install/kubernetes/helm/istio-init --name istio-init --namespace istio-system  | kubectl apply -f -
-    $ kubectl apply -f istio.meshexpansion-gateways.yaml
+    $ kubectl apply -f $HOME/istio.meshexpansion-gateways.yaml
     {{< /text >}}
 
 1. Verify Istio is installed successfully
 
-    
     {{< text bash >}}
-    $ istioctl verify-install -f istio.gateway.expansion.yaml
+    $ istioctl verify-install -f $HOME/istio.meshexpansion-gateways.yaml
     {{< /text >}}
 
-
 1. Create `vm` namespace for the VM services.
- 
+
     {{< text bash >}}
     $ kubectl create ns vm
     {{< /text >}}
@@ -105,8 +102,8 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 ### Setup DNS
 
 Providing DNS resolution to allow services running on VM can access the
-services runnning in the cluster. Istio itself does not use the DNS for 
-routing requests between services. Services local to a cluster share a 
+services runnning in the cluster. Istio itself does not use the DNS for
+routing requests between services. Services local to a cluster share a
 common DNS suffix(e.g., `svc.cluster.local`). Kubernetes DNS provides
 DNS resolution for these services.
 
@@ -183,7 +180,7 @@ EOF
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
-1.  Copy the previously created `cluster.env` and `*.pem` files to the VM. 
+1.  Copy the previously created `cluster.env` and `*.pem` files to the VM.
 
 
 1.  Install the Debian package with the Envoy sidecar.
@@ -252,7 +249,7 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 | destinationrule.networking.istio.io| istio-policy                     | Set traffic policy for `istio-policy`        |
 | destinationrule.networking.istio.io| istio-telemetry                  | Set traffic policy for `istio-telemetry`     |
 | virtualservice.networking.istio.io | meshexpansion-vs-pilot           | Set route info for `istio-pilot`             |
-| virtualservice.networking.istio.io | meshexpansion-vs-citadel         | Set route info for `istio-citadel` 
+| virtualservice.networking.istio.io | meshexpansion-vs-citadel         | Set route info for `istio-citadel`           |
 
 
 ## Expose service running on cluster to VMs
@@ -261,7 +258,7 @@ Every service in the cluster that needs to be accessed from the VM requires a Se
 
 To demonstrate access from VM to  cluster services, configure the
 the [httpbin service]({{<github_tree>}}/samples/httpbin)
-in the cluster. 
+in the cluster.
 
 1. Deploy the `httpbin` service in the cluster
 
@@ -355,7 +352,7 @@ The following example shows accessing a service running in the Kubernetes cluste
 
     {{< text bash >}}
 $ echo "127.255.0.3 httpbin.bar.global" | sudo tee -a /etc/hosts
-$ curl -v httpbin.bar.global:8000 
+$ curl -v httpbin.bar.global:8000
 < HTTP/1.1 200 OK
 < server: envoy
 < content-type: text/html; charset=utf-8
@@ -375,7 +372,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ python -m SimpleHTTPServer 8888
     {{< /text >}}
 
-1. Determine the VM instance's IP address. 
+1. Determine the VM instance's IP address.
 
 1. Configure a service entry to enable service discovery for the VM. You can add VM services to the mesh using a
     [service entry](/docs/reference/config/networking/v1alpha3/service-entry/). Service entries let you manually add
