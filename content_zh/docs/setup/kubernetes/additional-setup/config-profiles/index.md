@@ -60,7 +60,7 @@ Istio 提供了两种附加的内置配置，专门用于搭建[多集群服务�
 
 1. **remote**：用于搭建[单控制平面拓扑](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)的多集群网格。
 
-1. **multicluster-gateways**：用来搭建[多控制平面拓扑](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology)的多集群网络。
+1. **multicluster-gateways**：用来搭建[多控制平面拓扑](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology)的多集群网络。
 
 **remote** 配置对应的配置文件是 `values-istio-remote.yaml`。这个配置仅安装两个核心组件：
 
