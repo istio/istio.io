@@ -171,7 +171,8 @@ all of these requirements, in particular it is transparent, DNS-aware, and Kuber
 
 I hope that you are convinced that controlling egress traffic is important for the security of your cluster. In [the
 part 2 of this series](/blog/2019/egress-traffic-control-in-istio-part-2/) I describe the Istio way to perform secure
-control of egress traffic.
-Next, I will compare it with alternative solutions such as
+control of egress traffic. In
+[the
+part 3 of this series](/blog/2019/egress-traffic-control-in-istio-part-3/) I compare it with alternative solutions such as
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
 egress proxies/firewalls.
