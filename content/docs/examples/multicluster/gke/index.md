@@ -8,8 +8,8 @@ aliases:
 ---
 
 This example shows how to configure a multicluster mesh with a
-[single-network shared control plane](/docs/concepts/multicluster-deployments/#single-network-shared-control-plane)
-topology over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
+[single-network shared control plane topology](/docs/concepts/multicluster-deployments/#single-network-shared-control-plane-topology)
+over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
 
 ## Before you begin
 
