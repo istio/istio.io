@@ -6,7 +6,7 @@ aliases:
   - /docs/setup/kubernetes/multicluster-install/gateways/
   - /docs/examples/multicluster/gateways/
   - /docs/tasks/multicluster/gateways/
-keywords: [kubernetes,multicluster,federation,gateway]
+keywords: [kubernetes,multicluster,gateway]
 ---
 
 Follow this guide to install an Istio
