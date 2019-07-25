@@ -13,9 +13,11 @@ where the Kubernetes cluster services and the applications in each cluster
 have the capability to expose their internal Kubernetes network to other
 clusters.
 
-In this configuration, one or several Istio control planes watch Kubernetes API servers in multiple remote clusters.
-Envoys in clusters without Istio control plane communicate with Istio control planes deployed outside of their cluster
-and form a single mesh across multiple clusters.
+In this configuration, multiple Kubernetes control planes running
+a remote configuration connect to a **single** Istio control plane.
+Once one or more remote Kubernetes clusters are connected to the
+Istio control plane, Envoy can then communicate with the **single**
+control plane and form a mesh network across multiple clusters.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
