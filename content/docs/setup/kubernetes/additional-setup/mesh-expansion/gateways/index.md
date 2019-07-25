@@ -90,6 +90,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
     to intercept and redirect via Envoy.
 
+    {{< text bash >}}
     $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
 
