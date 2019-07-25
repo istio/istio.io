@@ -88,7 +88,7 @@ This multicluster configuration uses one or several Istio control planes running
 The control planes' Pilots manage services on the local and remote clusters and configure the
 Envoy sidecars for all of the clusters.
 
-#### Single-network shared control plane
+#### Single-network shared control plane topology
 
 The following topology works best in environments where all of the participating clusters
 have VPN or similar connectivity so every pod in the mesh is reachable from anywhere else using the
@@ -108,7 +108,7 @@ the services on every participating cluster.
 To configure this type of multicluster topology, visit our
 [single-network shared control plane instructions](/docs/setup/kubernetes/install/multicluster/shared-vpn/).
 
-#### Multi-network shared control plane
+#### Multi-network shared control plane topology
 
 If setting up an environment with universal pod-to-pod connectivity is difficult or impossible,
 it may still be possible to configure a shared control plane topology using Istio gateways and
