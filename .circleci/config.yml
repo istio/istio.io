@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: gcr.io/istio-testing/website-builder:2019-05-03
+      - image: gcr.io/istio-testing/website-tools:2019-07-25
 
     working_directory: ~/site
 
