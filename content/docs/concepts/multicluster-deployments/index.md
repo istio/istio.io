@@ -50,9 +50,9 @@ two clusters might share a control plane while a third has its own.
 Which approach to use and how to configure it depends on the requirements of the application
 and on the features and limitations of the underlying cloud deployment platform.
 
-### Multiple control plane topology
+### Dedicated control plane topology
 
-In a multiple control plane topology, each cluster has an identical Istio control plane
+In a dedicated control plane topology, each cluster has an identical Istio control plane
 installation and each control plane manages its own endpoints.
 Using Istio gateways, a common root Certificate Authority (CA), and service entries,
 you can configure a single logical service mesh that is composed from the participating clusters.
@@ -80,7 +80,7 @@ configuration. You configure service discovery of `foo.ns.global` by creating an
 [service entry](/docs/concepts/traffic-management/#service-entries).
 
 To configure this type of multicluster topology, visit our
-[multiple control planes instructions](/docs/setup/kubernetes/install/multicluster/gateways/).
+[dedicated control planes instructions](/docs/setup/kubernetes/install/multicluster/gateways/).
 
 ### Shared control plane topology
 
@@ -115,7 +115,7 @@ it may still be possible to configure a shared control plane topology using Isti
 by enabling Istio Pilot's location-aware service routing feature.
 
 This topology requires connectivity to Kubernetes API servers from all of the clusters. If this is
-not possible, a multiple control plane topology is probably a better alternative.
+not possible, a dedicated control plane topology is probably a better alternative.
 
 {{< image width="80%"
     link="./multicluster-split-horizon-eds.svg"

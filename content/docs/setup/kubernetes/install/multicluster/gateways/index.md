@@ -1,5 +1,5 @@
 ---
-title: Multiple control planes
+title: Dedicated control planes
 description: Install an Istio mesh across multiple Kubernetes clusters with individually deployed control planes.
 weight: 2
 aliases:
