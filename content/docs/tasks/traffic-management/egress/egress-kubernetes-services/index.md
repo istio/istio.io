@@ -98,6 +98,9 @@ Kubernetes Services for egress traffic work with other protocols as well.
       name: my-httpbin
     spec:
       host: my-httpbin.default.svc.cluster.local
+      trafficPolicy:
+        tls:
+          mode: DISABLE
     EOF
     {{< /text >}}
 
@@ -188,6 +191,9 @@ $ kubectl delete service my-httpbin
       name: my-wikipedia
     spec:
       host: my-wikipedia.default.svc.cluster.local
+      trafficPolicy:
+        tls:
+          mode: DISABLE
     EOF
     {{< /text >}}
 
