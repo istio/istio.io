@@ -175,13 +175,11 @@ data:
 EOF
 {{< /text >}}
 
-
 ### Setting up the VM
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
 1.  Copy the previously created `cluster.env` and `*.pem` files to the VM.
-
 
 1.  Install the Debian package with the Envoy sidecar.
 
@@ -235,7 +233,6 @@ The following example updates the `/etc/hosts` file with the Istio gateway addre
 
 Below Istio resources are added to support Mesh Expansion with gateways. This released the flat network requirement between the VM and  cluster.
 
-
 | Resource Kind| Resource Name | Function |
 | ----------------------------       |---------------------------       | -----------------                          |
 | configmap                          | coredns                          | Send *.global request to istiocordns service |
@@ -250,7 +247,6 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 | destinationrule.networking.istio.io| istio-telemetry                  | Set traffic policy for `istio-telemetry`     |
 | virtualservice.networking.istio.io | meshexpansion-vs-pilot           | Set route info for `istio-pilot`             |
 | virtualservice.networking.istio.io | meshexpansion-vs-citadel         | Set route info for `istio-citadel`           |
-
 
 ## Expose service running on cluster to VMs
 
@@ -337,15 +333,12 @@ in the cluster.
     Do not create a `Gateway` configuration for port 15443.
     {{< /warning >}}
 
-
-
 ## Send requests from VM to Kubernetes services
 
 After setup, the machine can access services running in the Kubernetes cluster.
 
 The following example shows accessing a service running in the Kubernetes cluster from a mesh expansion VM using
 `/etc/hosts/`, in this case using a service from the [httpbin service]({{<github_tree>}}/samples/httpbin).
-
 
 1.  On the mesh expansion machine, add the service name and address to its `etc/hosts` file. You can then connect to
     the cluster service from the VM, as in the example below:
