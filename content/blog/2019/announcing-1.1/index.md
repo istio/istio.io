@@ -43,8 +43,8 @@ policy. We introduced a new component called
 sweet YAML, reducing the chance of configuration errors. Galley will also be
 instrumental in [multicluster setups](/docs/setup/kubernetes/install/multicluster/),
 gathering service discovery information from each Kubernetes cluster. We are
-also supporting additional multicluster topologies including [single control plane](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)
-and [multiple synchronized control planes](/docs/concepts/multicluster-deployments/#multiple-control-plane-topology)
+also supporting additional multicluster topologies including [shared control plane](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)
+and [dedicated control plane](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology)
 without requiring a flat network.
 
 There is lots more -- see the [release notes](/about/notes/1.1/) for complete
