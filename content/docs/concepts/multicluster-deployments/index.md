@@ -114,9 +114,8 @@ If setting up an environment with universal pod-to-pod connectivity is difficult
 it may still be possible to configure a shared control plane topology using Istio gateways and
 by enabling Istio Pilot's location-aware service routing feature.
 
-This topology requires connectivity to Kubernetes API servers from all of the clusters with
-Istio control planes. If this is not possible, a dedicated control plane topology is probably a
-better alternative.
+This topology requires connectivity to Kubernetes API servers from all of the clusters. If this is
+not possible, a dedicated control plane topology is probably a better alternative.
 
 {{< image width="80%"
     link="./multicluster-split-horizon-eds.svg"
