@@ -25,14 +25,53 @@ application beyond a single cluster, for example:
 * You can combine the services from more than one cluster into a single composite service mesh.
 * You can create ad-hoc, loosely coupled _federation_ of multiple service meshes.
 
+## Criteria for selecting the right topology
+
+When you plan your multi-mesh topology, ask yourself the following questions:
+
+**Uniform naming**: Will your meshes have _unoform naming_. In case of multiple Kubernetes clusters, _uniform naming_
+means that a service named `foo` in namespace `ns1` of cluster 1 has the same API and semantics as a service named `foo`
+in `ns1` of cluster 2.
+
+**Exposing behavior**: Will your combined meshes expose all their services one to another, or selective exposure is
+required? _Selective exposure_ means that the owner of mesh 1 may want to control which services they expose to the
+workloads in mesh 2. Selective exposure may be required for security or compliance reasons. Some security standards
+require exposure of services on the need-to-know basis.
+
+**Isolation for security or compliance**: Are you required to control all the traffic that enters your mesh **at the
+point of entrance**, for example at the Ingres Gateway?
+
+**Common trust**: Can you setup a common CA root for your meshes? Will you perform authentication by Istio
+[mutual TLS](/docs/concepts/security/#mutual-tls-authentication) or will you use access tokens like
+[JWT](https://istio.io/docs/concepts/security/#origin-authentication)?
+
+**Operating multiple control planes**: Do you have infrastructure capabilities to manage multiple Istio control planes
+or do you prefer to manage a single control plane for multiple clusters?
+
+**Providing access to Kubernetes APIs**: Are you allowed to provide access to Kubernetes APIs of one cluster to
+other clusters?
+
+**Sending telemetry to external meshes**: Are you allowed to send telemetry data from your mesh to other meshes, from
+the security or compliance point of view? In particular, are your pods allowed to communicate with external meshes
+directly?
+
+The following decision diagram instructs you on choosing the correct topology based on the answers to the questions
+above:
+
+{{< image width="80%"
+    link="./multicluster-patterns.png"
+    caption="Decision diagram for selecting the right multi-cluster topology"
+>}}
+
 ## Multicluster service mesh
 
-A multicluster service mesh is a mesh composed of services running within more than one underlying
-cluster but with all services running under a single administrative control.
-In a multicluster service mesh, a service named `foo` in namespace `ns1` of cluster 1 is the same service
-as `foo` in `ns1` of cluster 2.
-This is different from a loosely-coupled service mesh where two clusters may have different
-definitions of the same service which will need to be reconciled when integrating the clusters.
+A multicluster service mesh is a **single locical** mesh composed of services running in multiple clusters.
+It exhibits the following characteristics
+(see [Criteria for selecting the right topology](#criteria-for-selecting-the-right-topology)):
+
+1. Uniform naming.
+1. Expose-all behavior: all the services are exposed by default to all the clusters.
+1. Common CA root between Citadel instances in all the clusters.
 
 A multicluster service mesh has the advantage that all the services look the same to clients,
 regardless of where the workloads are actually running. It's transparent
@@ -41,7 +80,7 @@ To achieve this behavior, a single logical control plane needs to manage all ser
 however, the single logical control plane doesn't necessarily need to be a single physical
 Istio control plane. There are two possible deployment approaches:
 
-1. Multiple Istio control planes that have replicated service and routing configurations.
+1. Multiple dedicated Istio control planes that have replicated service and routing configurations.
 
 1. A shared Istio control plane that can access and configure the services in more than one cluster.
 
@@ -129,3 +168,19 @@ different cluster, the remote cluster Gateway IP is used to connect to the servi
 
 To configure this type of multicluster topology, visit our
 [multi-network shared control plane instructions](/docs/setup/kubernetes/install/multicluster/shared-gateways/).
+
+## Mesh Federation
+
+Mesh federation is ad-hoc, loosely coupled composition of services running in multiple meshes.
+It exhibits the following characteristics
+(see [Criteria for selecting the right topology](#criteria-for-selecting-the-right-topology)):
+
+1. No uniform naming is assumed.
+1. Selective exposure: the mesh operators decide which services to expose to other meshes. By default, no service is
+exposed.
+1. Ingress Gateways control the incoming traffic from the coupled meshes.
+1. Common CA root between Citadel instances in the federated meshes is optional.
+
+You can achieve mesh federation by applying Istio [Ingress](/docs/tasks/traffic-management/ingress/) and
+[Egress](/docs/tasks/traffic-management/egress/) traffic control in your service meshes and by specifying the services
+you expose in one mesh and consume in other meshes.
