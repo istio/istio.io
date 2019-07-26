@@ -38,7 +38,7 @@ required? _Selective exposure_ means that the owner of cluster 1 may want to con
 workloads in cluster 2. Selective exposure may be required for security or compliance reasons. Some security standards
 require exposure of services on the need-to-know basis.
 
-**Isolation for security or compliance**: Are you required to control all the traffic that enters your mesh **at the
+**Isolation for security or compliance**: Are you required to control all the traffic that enters your cluster **at the
 point of entrance**, for example at the Ingres Gateway?
 
 **Common trust**: Can you setup a common CA root for your meshes? Will you perform authentication by Istio
