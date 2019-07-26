@@ -23,6 +23,7 @@ application beyond a single cluster, for example:
 * You can [expand the service mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/) to include
   services running on VMs or bare metal hosts.
 * You can combine the services from more than one cluster into a single composite service mesh.
+* You can create ad-hoc, loosely coupled _federation_ of multiple service meshes.
 
 ## Multicluster service mesh
 
