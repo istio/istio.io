@@ -348,7 +348,7 @@ becomes addressable by a local cluster domain name, for example by `mysqldb.vm.s
 entry to access this service; however, the service must be registered with Istio. To enable such integration, Istio
 components (_Envoy proxy_, _node-agent_, `_istio-agent_`) must be installed on the machine and the Istio control plane
 (_Pilot_, _Mixer_, _Citadel_) must be accessible from it. See the
-[Istio Mesh Expansion](/docs/setup/kubernetes/additional-setup/mesh-expansion/) instructions for more details.
+[Istio Mesh Expansion](/docs/examples/mesh-expansion/) instructions for more details.
 
 In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is
 no requirement to integrate the machine with Istio. The Istio control plane does not have to be accessible from the

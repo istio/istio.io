@@ -4,7 +4,7 @@ description: Integrate VMs and bare metal hosts into an Istio mesh deployed on K
 weight: 95
 keywords: [kubernetes,vms,gateways]
 aliases:
-    - /docs/setup/kubernetes/mesh-expansion-with-gateways/
+    - /docs/examples/mesh-expansion-with-gateways/
 ---
 
 This guide provides instructions to integrate VMs and bare metal hosts into
@@ -13,7 +13,7 @@ VMs, bare metals and clusters is required.
 
 ## Prerequisites
 
-* One or more Kubernetes clusters with versions: 1.12, 1.13, 1.14
+* One or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
 * Mesh expansion machines must have IP connectivity to the Ingress gateways in the mesh.
 
@@ -33,7 +33,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f https://github.com/irisdingbj/meshExpansion/blob/master/values-istio-meshexpansion-gateways.yaml \ > $HOME/istio.meshexpansion-gateways.yaml
+        -f https://github.com/irisdingbj/meshExpansion/blob/master/values-istio-meshexpansion-gateways.yaml \ > $HOME/istio-mesh-expansion-gatways.yaml
     {{< /text >}}
 
     For further details and customization options, refer to the
@@ -44,13 +44,13 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     {{< text bash >}}
     $ kubectl create namespace istio-system
     $ helm template  install/kubernetes/helm/istio-init --name istio-init --namespace istio-system  | kubectl apply -f -
-    $ kubectl apply -f $HOME/istio.meshexpansion-gateways.yaml
+    $ kubectl apply -f $HOME/istio-mesh-expansion-gatways.yaml
     {{< /text >}}
 
 1. Verify Istio is installed successfully
 
     {{< text bash >}}
-    $ istioctl verify-install -f $HOME/istio.meshexpansion-gateways.yaml
+    $ istioctl verify-install -f $HOME/istio-mesh-expansion-gatways.yaml
     {{< /text >}}
 
 1. Create `vm` namespace for the VM services.
@@ -69,14 +69,14 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 
     {{< text bash >}}
     $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-        -o jsonpath='{.data.root-cert\.pem}' |base64 --decode > root-cert.pem
+        -o jsonpath='{.data.root-cert\.pem}' | base64 --decode > root-cert.pem
     $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-        -o jsonpath='{.data.key\.pem}' |base64 --decode > key.pem
+        -o jsonpath='{.data.key\.pem}' | base64 --decode > key.pem
     $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-          -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
+          -o jsonpath='{.data.cert-chain\.pem}' | base64 --decode > cert-chain.pem
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/),[Pilot](/docs/concepts/traffic-management/#pilot) and workloads on cluster through this IP address.
+1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot) and workloads on cluster through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -388,7 +388,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
         protocol: HTTP
       resolution: STATIC
       endpoints:
-      - address: ${GCE_IP}
+      - address: ${VM_IP}
         ports:
           http: 8888
         labels:
@@ -402,11 +402,11 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     service, for example:
 
     {{< text bash >}}
-    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${VM IP} 8888
+    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${VM_IP} 8888
     {{< /text >}}
 
     {{< tip >}}
-    Make sure you have already added `istioctl` client to your `PATH` environment variable, as described in the Download page.
+    Ensure you have added `istioctl` client to your `PATH` environment variable, as described in the [Download page](/docs/setup/kubernetes/#downloading-the-release).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
@@ -426,7 +426,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8888
     {{< /text >}}
 
-    You should see something similar to the output below.
+    If configured properly, you will see something similar to the output below.
 
     ```html
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
