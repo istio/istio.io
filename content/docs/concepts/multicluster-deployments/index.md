@@ -52,7 +52,7 @@ or do you prefer to manage a single control plane for multiple clusters?
 other clusters?
 
 **Sending telemetry to external meshes**: Are you allowed to send telemetry data from your cluster to other clusters, from
-the security or compliance point of view? In particular, are your pods allowed to communicate with external meshes
+the security or compliance point of view? In particular, are your pods allowed to communicate with external clusters
 directly?
 
 The following decision diagram instructs you on choosing the correct topology based on the answers to the questions
