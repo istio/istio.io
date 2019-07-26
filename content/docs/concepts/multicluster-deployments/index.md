@@ -30,7 +30,7 @@ application beyond a single cluster, for example:
 When you plan your multicluster topology, you first need to decide if you are going to combine the clusters into a
 single multicluster mesh or create a federation of multiple meshes. Ask yourself the following questions:
 
-**Uniform naming**: Will your meshes have _unoform naming_. In case of multiple Kubernetes clusters, _uniform naming_
+**Uniform naming**: Will your meshes have _uniform naming_. In case of multiple Kubernetes clusters, _uniform naming_
 means that a service named `foo` in namespace `ns1` of cluster 1 has the same API and semantics as a service named `foo`
 in `ns1` of cluster 2.
 
@@ -66,7 +66,7 @@ above:
 
 ## Multicluster service mesh
 
-A multicluster service mesh is a **single locical** mesh composed of services running in multiple clusters.
+A multicluster service mesh is a **single logical** mesh composed of services running in multiple clusters.
 It exhibits the following characteristics
 (see [Criteria for selecting the right topology](#criteria-for-selecting-the-right-topology)):
 
