@@ -18,8 +18,8 @@ etc., most applications will eventually need to be distributed and have some of 
 Istio supports many possible topologies for distributing the services of an
 application beyond a single cluster, for example:
 
-* Services within the mesh can use [service entries](/docs/concepts/traffic-management/#service-entries)
-  to access standalone external services or to access services exposed by another loosely-coupled service mesh.
+* You can use [egress traffic control](/docs/tasks/traffic-management/egress/) to allow workloads inside the mesh
+  access standalone external services or to access services exposed by another loosely-coupled service mesh.
 * You can [expand the service mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/) to include
   services running on VMs or bare metal hosts.
 * You can combine the services from more than one cluster into a single composite service mesh.
