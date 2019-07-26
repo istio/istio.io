@@ -40,4 +40,4 @@ spec:
 * 必须创建一个权重为 0 的路由，让 Istio 据此通知 Envoy 创建对应的集群定义; [这应该在未来的版本中解决](https://github.com/istio/istio/issues/3270)。
 
 访问[镜像任务](/zh/docs/tasks/traffic-management/mirroring/)了解有关镜像的更多信息，并查看更多信息
-[在我的博客上综合处理这种情况](https://blog.christianposta.com/microservices/traffic-shadowing-with-istio-reduce-the-risk-of-code-release/).
+[在我的博客上综合处理这种情况](https://dzone.com/articles/traffic-shadowing-with-istio-reducing-the-risk-of).
