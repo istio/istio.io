@@ -20,7 +20,7 @@ keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 1. 如要配置到追踪仪表盘的访问，请使用端口转发：
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items[0].metadata.name}') 15032:15032 &
+    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 15032:16686
     {{< /text >}}
 
     打开浏览器访问 [http://localhost:15032](http://localhost:15032)。
