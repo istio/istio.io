@@ -528,38 +528,6 @@ These environment variables affect the behavior of the <code>galley</code> comma
 </tr>
 </tbody>
 </table>
-<h2 id="annotations">Annotations</h2>
-These resource annotations are used by the <code>galley</code> command.
-<table class="annotations">
-<thead>
-<tr>
-<th>Annotation Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>policy.istio.io/check</code></td>
-<td>Determines the policy for behavior when unable to connect to Mixer. If not set, FAIL_CLOSE is set, rejecting requests.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/checkBaseRetryWaitTime</code></td>
-<td>Base time to wait between retries, will be adjusted by backoff and jitter. In duration format. If not set, this will be 80ms.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/checkMaxRetryWaitTime</code></td>
-<td>Maximum time to wait between retries to Mixer. In duration format. If not set, this will be 1000ms.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/checkRetries</code></td>
-<td>The maximum number of retries on transport errors to Mixer. If not set, this will be 0, indicating no retries.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/lang</code></td>
-<td>Select a language runtime</td>
-</tr>
-</tbody>
-</table>
 <h2 id="metrics">Exported metrics</h2>
 <table class="metrics">
 <thead>
@@ -623,6 +591,8 @@ These resource annotations are used by the <code>galley</code> command.
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>

@@ -584,8 +584,8 @@ destination service from the service registry.</p>
 <tr id="Server-TLSOptions-TLSmode-MUTUAL">
 <td><code>MUTUAL</code></td>
 <td>
-<p>Secure connections to the upstream using mutual TLS by presenting
-client certificates for authentication.</p>
+<p>Secure connections to the downstream using mutual TLS by presenting
+server certificates for authentication.</p>
 
 </td>
 </tr>
@@ -602,6 +602,18 @@ used to provide connectivity between services in disparate L3
 networks that otherwise do not have direct connectivity between
 their respective endpoints. Use of this mode assumes that both the
 source and the destination are using Istio mTLS to secure traffic.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSmode-ISTIO_MUTUAL">
+<td><code>ISTIO_MUTUAL</code></td>
+<td>
+<p>Secure connections from the downstream using mutual TLS by presenting
+server certificates for authentication.
+Compared to Mutual mode, this mode uses certificates, representing
+gateway workload identity, generated automatically by Istio for
+mTLS authentication. When this mode is used, all other fields in
+<code>TLSOptions</code> should be empty.</p>
 
 </td>
 </tr>

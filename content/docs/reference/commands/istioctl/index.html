@@ -138,7 +138,7 @@ and check if TLS settings are compatible between them.
 # Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default:
 istioctl authn tls-check foo-656bd7df7c-5zp4s.default
 
-# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default, filtered on destintation
+# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default, filtered on destination
 service &#34;bar&#34; :
 istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
 
@@ -1695,7 +1695,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
 <td>Integer</td>
 <td><code>100000</code></td>
-<td></td>
+<td>Sets the maximum number of concurrent grpc streams.</td>
 </tr>
 <tr>
 <td><code>ISTIO_LANG</code></td>
@@ -1719,13 +1719,13 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
 <td>Time Duration</td>
 <td><code>100ms</code></td>
-<td></td>
+<td>The delay added to config/registry events for debouncing. This will delay the push by at least this internal. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_MAX</code></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
-<td></td>
+<td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
@@ -1734,27 +1734,9 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_DISABLE_EDS_ISOLATION</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_EMPTY_ROUTE_RESPONSE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>DisableEmptyRouteResponse provides an option to disable a partial route response. This will cause Pilot to ignore a route request if Pilot generates a nil route (due to an error). This may cause Envoy to wait forever for the route, blocking listeners from receiving traffic. The default behavior (without this flag set) is to explicitly send an empty route. This will break routing for that particular route, but allow others on the same listener to work.</td>
-</tr>
-<tr>
-<td><code>PILOT_DISABLE_PARTIAL_ROUTE_RESPONSE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>DisablePartialRouteResponse provides an option to disable a partial route response. This will cause Pilot to send an error if any routes are invalid. The default behavior (without this flag) is to just skip the invalid route.</td>
-</tr>
-<tr>
 <td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
-<td>String</td>
-<td><code></code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
 <td></td>
 </tr>
 <tr>
@@ -1762,12 +1744,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LOCALITY_LOAD_BALANCING</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
@@ -1782,16 +1758,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_WAIT_CACHE_SYNC</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_HTTP10</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td></td>
+<td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
 </tr>
 <tr>
 <td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
@@ -1800,16 +1770,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
 </tr>
 <tr>
-<td><code>PILOT_PUSH_BURST</code></td>
-<td>Integer</td>
-<td><code>100</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
 <td>Integer</td>
-<td><code>10</code></td>
-<td></td>
+<td><code>100</code></td>
+<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
@@ -1821,7 +1785,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>PILOT_TRACE_SAMPLING</code></td>
 <td>Floating-Point</td>
 <td><code>100</code></td>
-<td></td>
+<td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
 </tr>
 <tr>
 <td><code>POD_NAME</code></td>
@@ -1830,157 +1794,21 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
-<td><code>ProxyInboundListenPort</code></td>
+<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
 <td>Integer</td>
-<td><code>15006</code></td>
-<td></td>
+<td><code>5</code></td>
+<td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
 </tr>
 <tr>
-<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
+<td><code>USE_ISTIO_JWT_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Use the Istio JWT filter for JWT token verification.</td>
 </tr>
 <tr>
 <td><code>V2_REFRESH</code></td>
 <td>Time Duration</td>
 <td><code>0s</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="annotations">Annotations</h2>
-These resource annotations are used by the <code>istioctl</code> command.
-<table class="annotations">
-<thead>
-<tr>
-<th>Annotation Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>policy.istio.io/check</code></td>
-<td>Determines the policy for behavior when unable to connect to Mixer. If not set, FAIL_CLOSE is set, rejecting requests.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/checkBaseRetryWaitTime</code></td>
-<td>Base time to wait between retries, will be adjusted by backoff and jitter. In duration format. If not set, this will be 80ms.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/checkMaxRetryWaitTime</code></td>
-<td>Maximum time to wait between retries to Mixer. In duration format. If not set, this will be 1000ms.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/checkRetries</code></td>
-<td>The maximum number of retries on transport errors to Mixer. If not set, this will be 0, indicating no retries.</td>
-</tr>
-<tr>
-<td><code>policy.istio.io/lang</code></td>
-<td>Select a language runtime</td>
-</tr>
-<tr>
-<td><code>readiness.status.sidecar.istio.io/applicationPorts</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>readiness.status.sidecar.istio.io/failureThreshold</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>readiness.status.sidecar.istio.io/initialDelaySeconds</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>readiness.status.sidecar.istio.io/periodSeconds</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/bootstrapOverride</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/controlPlaneAuthPolicy</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/discoveryAddress</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/inject</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/interceptionMode</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/proxyCPU</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/proxyImage</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/proxyMemory</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/rewriteAppHTTPProbers</code></td>
-<td>Rewrite HTTP readiness and liveness probes to be redirected to istio-proxy sidecar</td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/statsInclusionPrefixes</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/statsInclusionRegexps</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/statsInclusionSuffixes</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/status</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/userVolume</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sidecar.istio.io/userVolumeMount</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.sidecar.istio.io/port</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>traffic.sidecar.istio.io/excludeInboundPorts</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>traffic.sidecar.istio.io/excludeOutboundIPRanges</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>traffic.sidecar.istio.io/excludeOutboundPorts</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>traffic.sidecar.istio.io/includeInboundPorts</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>traffic.sidecar.istio.io/includeOutboundIPRanges</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
 <td></td>
 </tr>
 </tbody>
@@ -2027,11 +1855,14 @@ These resource annotations are used by the <code>istioctl</code> command.
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
 <tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
 <tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
 <tr><td><code>pilot_k8s_object_errors</code></td><td><code>LastValue</code></td><td>Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay between config change and all proxies converging.</td></tr>
+<tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time a proxy is in the push queue before being dequeued.</td></tr>
 <tr><td><code>pilot_rds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of RDS messages with an expired nonce.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
@@ -2045,9 +1876,6 @@ These resource annotations are used by the <code>istioctl</code> command.
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
 <tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
-<tr><td><code>pilot_xds_push_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) pushing to sidecars.</td></tr>
-<tr><td><code>pilot_xds_push_timeout</code></td><td><code>Sum</code></td><td>Pilot push timeout, will retry.</td></tr>
-<tr><td><code>pilot_xds_push_timeout_failures</code></td><td><code>Sum</code></td><td>Pilot push timeout failures after repeated attempts.</td></tr>
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
