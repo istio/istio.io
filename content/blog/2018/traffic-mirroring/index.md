@@ -40,4 +40,4 @@ A few things to note here:
 * You'll need to have the 0-weighted route to hint to Istio to create the proper Envoy cluster under the covers; [this should be ironed out in future releases](https://github.com/istio/istio/issues/3270).
 
 Learn more about mirroring by visiting the [Mirroring Task](/docs/tasks/traffic-management/mirroring/) and see a more
-[comprehensive treatment of this scenario on my blog](https://blog.christianposta.com/microservices/traffic-shadowing-with-istio-reduce-the-risk-of-code-release/).
+[comprehensive treatment of this scenario on my blog](https://dzone.com/articles/traffic-shadowing-with-istio-reducing-the-risk-of).
