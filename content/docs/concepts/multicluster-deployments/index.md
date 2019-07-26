@@ -35,7 +35,7 @@ in `ns1` of cluster 2.
 
 **Exposing behavior**: Will your combined clusters expose all their services one to another, or selective exposure is
 required? _Selective exposure_ means that the owner of cluster 1 may want to control which services are exposed to the
-workloads in mesh 2. Selective exposure may be required for security or compliance reasons. Some security standards
+workloads in cluster 2. Selective exposure may be required for security or compliance reasons. Some security standards
 require exposure of services on the need-to-know basis.
 
 **Isolation for security or compliance**: Are you required to control all the traffic that enters your mesh **at the
