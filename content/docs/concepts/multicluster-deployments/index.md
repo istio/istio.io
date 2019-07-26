@@ -41,7 +41,7 @@ require exposure of services on the need-to-know basis.
 **Isolation for security or compliance**: Are you required to control all the traffic that enters your cluster **at the
 point of entrance**, for example at the Ingres Gateway?
 
-**Common trust**: Can you setup a common CA root for your meshes? Will you perform authentication by Istio
+**Common trust**: Can you setup a common CA root for your clusters? Will you perform authentication by Istio
 [mutual TLS](/docs/concepts/security/#mutual-tls-authentication) or will you use access tokens like
 [JWT](https://istio.io/docs/concepts/security/#origin-authentication)?
 
