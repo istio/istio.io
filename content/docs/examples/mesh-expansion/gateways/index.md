@@ -358,7 +358,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
 ## Running services on a mesh expansion machine
 
-1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8080:
+1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8888:
 
     {{< text bash >}}
     $ python -m SimpleHTTPServer 8888
