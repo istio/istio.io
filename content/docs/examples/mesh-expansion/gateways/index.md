@@ -340,7 +340,7 @@ After setup, the machine can access services running in the Kubernetes cluster.
 The following example shows accessing a service running in the Kubernetes cluster from a mesh expansion VM using
 `/etc/hosts/`, in this case using a service from the [httpbin service]({{<github_tree>}}/samples/httpbin).
 
-1.  On the mesh expansion machine, add the service name and address to its `etc/hosts` file. You can then connect to
+1.  On the mesh expansion machine, add the service name and address to its `/etc/hosts` file. You can then connect to
     the cluster service from the VM, as in the example below:
 
     {{< text bash >}}
@@ -361,7 +361,6 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8080:
 
     {{< text bash >}}
-    $ gcloud compute ssh ${GCE_NAME}
     $ python -m SimpleHTTPServer 8888
     {{< /text >}}
 
@@ -451,7 +450,7 @@ Run the following commands to remove the expansion VM from the mesh's abstract
 model.
 
 {{< text bash >}}
-$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP}
+$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${VM_IP}
 2019-02-21T22:12:22.023775Z     info    Deregistered service successfull
 $ kubectl delete ServiceEntry vmhttp -n ${SERVICE_NAMESPACE}
 serviceentry.networking.istio.io "vmhttp" deleted
