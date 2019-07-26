@@ -12,8 +12,8 @@ a single controllable composite application.
 
 For applications up to a certain size, all of the microservices comprising the
 application can be running on a single orchestration platform (e.g., Kubernetes cluster).
-However, for many reasons such as scale, redundancy, workload isolation, compliance, etc., most applications
-will eventually need to be distributed and have some of their services running elsewhere.
+However, for many reasons such as scale, redundancy, workload isolation, compliance, integration with legacy services,
+etc., most applications will eventually need to be distributed and have some of their services running elsewhere.
 
 Istio supports many possible topologies for distributing the services of an
 application beyond a single cluster, for example:
