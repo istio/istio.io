@@ -51,7 +51,7 @@ or do you prefer to manage a single control plane for multiple clusters?
 **Providing access to Kubernetes APIs**: Are you allowed to provide access to Kubernetes APIs of one cluster to
 other clusters?
 
-**Sending telemetry to external meshes**: Are you allowed to send telemetry data from your mesh to other meshes, from
+**Sending telemetry to external meshes**: Are you allowed to send telemetry data from your cluster to other clusters, from
 the security or compliance point of view? In particular, are your pods allowed to communicate with external meshes
 directly?
 
