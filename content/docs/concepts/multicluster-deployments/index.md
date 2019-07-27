@@ -19,7 +19,6 @@ Eventually, you will need to distribute most applications and run some or all of
 * Workload isolation
 * Compliance
 * Integration with legacy services
-etc., most applications will eventually need to be distributed and have some of their services running elsewhere.
 
 Istio supports many possible topologies for distributing the services of an
 application beyond a single cluster, for example:
