@@ -41,7 +41,8 @@ single multicluster mesh or create a federation of multiple meshes. To make that
 means that a service named `foo` in the `ns1` namespace of a cluster has the same API and semantics as the `foo` service
 in the `ns1` namespace of another cluster.
 
-**Exposing behavior**: Will your combined clusters expose all their services one to another, or selective exposure is
+1. **Do your combined clusters expose all their services to each other?**: Due to compliance or security reasons, 
+  you might need {{< gloss >}}selective exposure{{< /gloss >}} of services.
 required? _Selective exposure_ means that the owner of cluster 1 may want to control which services are exposed to the
 workloads in cluster 2. Selective exposure may be required for security or compliance reasons. Some security standards
 require exposure of services on the need-to-know basis.
