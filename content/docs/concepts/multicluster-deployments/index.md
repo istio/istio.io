@@ -74,7 +74,6 @@ above:
 
 A multicluster service mesh is a **single logical** mesh composed of services running in multiple clusters.
 A multicluster service mesh has the following characteristics:
-(see [Criteria for selecting the right topology](#criteria-for-selecting-the-right-topology)):
 
 1. Uniform naming.
 1. Expose-all behavior: all the services are exposed by default to all the clusters.
