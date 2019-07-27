@@ -195,7 +195,8 @@ A mesh federation has the following characteristics:
 - There is control on the traffic that arrives from the coupled clusters.
 - Common CA root between the Citadels in the coupled clusters is optional.
 
-To learn more, see[ single multicluster service mesh or mesh federation?](#single-multicluster-service-mesh-or-mesh-federation).
+To learn more, see
+[single multicluster service mesh or mesh federation?](#single-multicluster-service-mesh-or-mesh-federation).
 
 To create a mesh federation, configure traffic control for [ingress](/docs/tasks/traffic-management/ingress/) and
 [egress](/docs/tasks/traffic-management/egress/) traffic in your service meshes and specify which services
