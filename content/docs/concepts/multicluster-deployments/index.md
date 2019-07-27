@@ -35,7 +35,7 @@ application beyond a single cluster, for example:
 ## Selecting the right topology
 
 As you plan your multicluster topology, you need to determine if you should combine the clusters into a
-single multicluster mesh or create a federation of multiple meshes. Ask yourself the following questions:
+single multicluster mesh or create a federation of multiple meshes. To make that decision, ask yourself the following questions:
 
 1. **Do your clusters use uniform naming?**: _Uniform naming_ in the context of multiple Kubernetes clusters, 
 means that a service named `foo` in namespace `ns1` of cluster 1 has the same API and semantics as a service named `foo`
