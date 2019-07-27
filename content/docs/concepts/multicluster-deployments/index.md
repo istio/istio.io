@@ -180,7 +180,7 @@ To configure this type of multicluster topology, visit our
 ## Mesh Federation
 
 A mesh federation is loosely coupled composition of services running in multiple meshes that only connect to each other as necessary.
-It exhibits the following characteristics
+A mesh federation has the following characteristics:
 (see [Criteria for selecting the right topology](#criteria-for-selecting-the-right-topology)):
 
 1. No uniform naming is assumed.
