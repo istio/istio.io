@@ -191,5 +191,5 @@ exposed.
 To learn more, see [Selecting the right topology](#selecting-the-right-topology)
 
 To create a mesh federation, configure traffic control for [ingress](/docs/tasks/traffic-management/ingress/) and
-[Egress](/docs/tasks/traffic-management/egress/) traffic control in your service meshes and by specifying the services
+[egress](/docs/tasks/traffic-management/egress/) traffic in your service meshes and specify which services
 you expose in one mesh and consume in other meshes.
