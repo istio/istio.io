@@ -188,6 +188,8 @@ exposed.
 1. Ingress Gateways control the incoming traffic from the coupled meshes.
 1. Common CA root between Citadel instances in the federated meshes is optional.
 
+To learn more, see [Selecting the right topology](#selecting-the-right-topology)
+
 You can achieve mesh federation by applying Istio [Ingress](/docs/tasks/traffic-management/ingress/) and
 [Egress](/docs/tasks/traffic-management/egress/) traffic control in your service meshes and by specifying the services
 you expose in one mesh and consume in other meshes.
