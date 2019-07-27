@@ -37,7 +37,7 @@ application beyond a single cluster, for example:
 As you plan your multicluster topology, you need to determine if you should combine the clusters into a
 single multicluster mesh or create a federation of multiple meshes. To make that decision, ask yourself the following questions:
 
-1. **Do your clusters use uniform naming?**: _Uniform naming_ in the context of multiple Kubernetes clusters, 
+1. **Do your clusters use uniform naming?**: _Uniform naming_ in the context of multiple Kubernetes clusters,
 means that a service named `foo` in the `ns1` namespace of a cluster has the same API and semantics as the `foo` service
 in the `ns1` namespace of another cluster.
 
@@ -53,7 +53,7 @@ required? _Selective exposure_ means that the owner of cluster 1 may want to con
 
 1. **Do you require a single control plane?** Managing multiple Istio control planes
   requires different infrastructure capabilities to those needed to manage a single
-  control plane. Be certain of your preference when planning your topology. 
+  control plane. Be certain of your preference when planning your topology.
 
 **Providing access to Kubernetes APIs**: Are you allowed to provide access to Kubernetes APIs of one cluster to
 other clusters?
