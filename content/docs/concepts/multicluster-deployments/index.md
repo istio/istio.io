@@ -54,7 +54,6 @@ required? _Selective exposure_ means that the owner of cluster 1 may want to con
 1. **Do you require a single control plane?** Managing multiple Istio control planes
   requires different infrastructure capabilities to those needed to manage a single
   control plane. Be certain of your preference when planning your topology. 
-or do you prefer to manage a single control plane for multiple clusters?
 
 **Providing access to Kubernetes APIs**: Are you allowed to provide access to Kubernetes APIs of one cluster to
 other clusters?
