@@ -44,7 +44,6 @@ in the `ns1` namespace of another cluster.
 1. **Do your combined clusters expose all their services to each other?**: Due to compliance or security reasons, 
   you might need {{< gloss >}}selective exposure{{< /gloss >}} of services.
 required? _Selective exposure_ means that the owner of cluster 1 may want to control which services are exposed to the
-require exposure of services on the need-to-know basis.
 
 **Isolation for security or compliance**: Are you required to control all the traffic that enters your cluster **at the
 point of entrance**, for example at the Ingres Gateway?
