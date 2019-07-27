@@ -39,7 +39,7 @@ single multicluster mesh or create a federation of multiple meshes. To make that
 
 1. **Do your clusters use uniform naming?**: _Uniform naming_ in the context of multiple Kubernetes clusters, 
 means that a service named `foo` in the `ns1` namespace of a cluster has the same API and semantics as the `foo` service
-in `ns1` of cluster 2.
+in the `ns1` namespace of another cluster.
 
 **Exposing behavior**: Will your combined clusters expose all their services one to another, or selective exposure is
 required? _Selective exposure_ means that the owner of cluster 1 may want to control which services are exposed to the
