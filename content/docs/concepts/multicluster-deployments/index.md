@@ -34,7 +34,7 @@ application beyond a single cluster, for example:
 
 ## Selecting the right topology
 
-When you plan your multicluster topology, you first need to decide if you are going to combine the clusters into a
+As you plan your multicluster topology, you need to determine if you should combine the clusters into a
 single multicluster mesh or create a federation of multiple meshes. Ask yourself the following questions:
 
 1. **Do your clusters use uniform naming?**: _Uniform naming_ in the context of multiple Kubernetes clusters, 
