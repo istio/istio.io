@@ -96,7 +96,7 @@ To choose the correct topology, follow the decision tree below. The diagram show
 
 {{< image width="80%"
     link="./multicluster-mesh-topology.png"
-    caption="Decision tree for selectingthe correct multicluster mesh topology"
+    caption="Decision tree for selecting the correct multicluster mesh topology"
 >}}
 
 Even with these three approaches, there is more than one way to configure a multicluster service mesh.
