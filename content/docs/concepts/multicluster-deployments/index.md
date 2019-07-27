@@ -79,6 +79,8 @@ A multicluster service mesh has the following characteristics:
 1. Expose-all behavior: all the services are exposed by default to all the clusters.
 1. Common CA root between Citadel instances in all the clusters.
 
+To learn more, see [Selecting the right topology](#selecting-the-right-topology)
+
 A multicluster service mesh has the advantage that all the services look the same to clients,
 regardless of where the workloads are actually running. It's transparent
 to the application whether it's deployed in a single or multicluster service mesh.
