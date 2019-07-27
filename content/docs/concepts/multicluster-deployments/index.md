@@ -32,7 +32,7 @@ application beyond a single cluster, for example:
 * You can combine the services from more than one cluster into a single composite service mesh.
 * You can combine autonomous service meshes in multiple clusters into a loosely coupled [federation of service meshes](#mesh-federation).
 
-## Criteria for selecting the right topology
+## Selecting the right topology
 
 When you plan your multicluster topology, you first need to decide if you are going to combine the clusters into a
 single multicluster mesh or create a federation of multiple meshes. Ask yourself the following questions:
