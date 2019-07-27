@@ -5,13 +5,17 @@ keywords: [traffic-management,egress]
 weight: 60
 ---
 
-Sometimes, for various reasons, for example in pre-Istio scenarios,
 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname)
-services or Kubernetes services with
-[Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors) are used to
-access external services.
+services and Kubernetes services with
+[Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors)
+let you create a local DNS _alias_ to an external service.
+This DNS alias has the same form as the DNS entries for local services, namely
+`<service name>.<namespace name>.svc.cluster.local`. DNS aliases provide _location transparency_ for your workloads:
+the workloads can call local and external services in the same way. If at some point in time you decide to deploy the
+external service inside your cluster, you can just update its Kubernetes service to reference the local version. The workloads will continue to operate without any change.
+
 This task shows that these Kubernetes mechanisms for accessing external services continue to work with Istio.
-The only configuration step you must perform is to disable Istio's
+The only configuration step you must perform is to use a TLS mode other than Istio's
 [mutual TLS](/docs/concepts/security/#mutual-tls-authentication).
 
 While the examples in this task use HTTP protocols,
