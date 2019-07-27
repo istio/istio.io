@@ -179,7 +179,7 @@ To configure this type of multicluster topology, visit our
 
 ## Mesh Federation
 
-Mesh federation is an ad hoc, loosely coupled composition of services running in multiple meshes.
+A mesh federation is loosely coupled composition of services running in multiple meshes that only connect to each other as necessary.
 It exhibits the following characteristics
 (see [Criteria for selecting the right topology](#criteria-for-selecting-the-right-topology)):
 
