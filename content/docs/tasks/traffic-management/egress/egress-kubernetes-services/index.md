@@ -99,7 +99,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
 
 1.  In this example, unencrypted HTTP requests are sent to `httpbin.org`. For the sake of the example only, you disable
     the TLS mode and allow the unencrypted traffic to the external service. In the real life scenarios, we recommend
-    to perform [Egress TLS origination](docs/tasks/traffic-management/egress/egress-tls-origination/) by Istio.
+    to perform [Egress TLS origination](/docs/tasks/traffic-management/egress/egress-tls-origination/) by Istio.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
