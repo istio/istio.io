@@ -16,7 +16,8 @@ external service inside your cluster, you can just update its Kubernetes service
 
 This task shows that these Kubernetes mechanisms for accessing external services continue to work with Istio.
 The only configuration step you must perform is to use a TLS mode other than Istio's
-[mutual TLS](/docs/concepts/security/#mutual-tls-authentication).
+[mutual TLS](/docs/concepts/security/#mutual-tls-authentication). The external services are not part of an Istio service
+mesh so they cannot perform the mutual TLS of Istio.
 
 While the examples in this task use HTTP protocols,
 Kubernetes Services for egress traffic work with other protocols as well.
