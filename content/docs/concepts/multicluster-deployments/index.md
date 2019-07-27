@@ -62,7 +62,7 @@ other clusters?
 the security or compliance point of view? In particular, are your pods allowed to communicate with external clusters
 directly?
 
-The following decision diagram instructs you on choosing the correct topology based on the answers to the questions
+To choose the correct topology, follow the decision diagram below. The diagram shows what topology to implement based on the answers to the questions
 above:
 
 {{< image width="80%"
