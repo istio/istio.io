@@ -45,7 +45,7 @@ in the `ns1` namespace of another cluster.
   you might need {{< gloss >}}selective exposure{{< /gloss >}} of services.
 required? _Selective exposure_ means that the owner of cluster 1 may want to control which services are exposed to the
 
-**Isolation for security or compliance**: Are you required to control all the traffic that enters your cluster **at the
+1. **Are you required to control all the traffic that enters your cluster?**
 point of entrance**, for example at the Ingres Gateway?
 
 **Common trust**: Can you setup a common CA root for your clusters? Will you perform authentication by Istio
