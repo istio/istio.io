@@ -184,7 +184,8 @@ $ kubectl delete service my-httpbin
     my-wikipedia   ClusterIP   172.21.156.230   <none>        443/TCP   21h
     {{< /text >}}
 
-1.  Access `wikipedia.org` by your Kubernetes service's cluster IP from the source pod without Istio sidecar.
+1.  Send HTTPS requests to `wikipedia.org` by your Kubernetes service's cluster IP from the source pod without Istio
+    sidecar.
     Use the `--resolve` option of `curl` to access `wikipedia.org` by the cluster IP:
 
     {{< text bash >}}
@@ -192,7 +193,8 @@ $ kubectl delete service my-httpbin
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  Disable mutual TLS for the calls to the external service:
+1.  In this case, the workload send HTTPS requests (open TLS connection) to the `wikipedia.org`. The traffic is already
+    encrypted by the workload so you can safely disable Istio's mutual TLS:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
