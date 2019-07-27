@@ -38,7 +38,7 @@ As you plan your multicluster topology, you need to determine if you should comb
 single multicluster mesh or create a federation of multiple meshes. To make that decision, ask yourself the following questions:
 
 1. **Do your clusters use uniform naming?**: _Uniform naming_ in the context of multiple Kubernetes clusters, 
-means that a service named `foo` in namespace `ns1` of cluster 1 has the same API and semantics as a service named `foo`
+means that a service named `foo` in the `ns1` namespace of a cluster has the same API and semantics as the `foo` service
 in `ns1` of cluster 2.
 
 **Exposing behavior**: Will your combined clusters expose all their services one to another, or selective exposure is
