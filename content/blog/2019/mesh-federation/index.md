@@ -127,7 +127,7 @@ federate, there is no requirement for uniform naming.
 
     You should have three pods of the Bookinfo application.
 
-1.  Create a service for reviews. Call it `myreviews`, to demonstrate that you can use a different names for services in
+1.  Create a service for reviews. Call it `myreviews`, to demonstrate that you can use different names for services in
     the clusters, there is no requirement for uniform naming in mesh federation.
 
     {{< text bash >}}
