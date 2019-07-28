@@ -103,15 +103,17 @@ federate, there is no requirement for uniform naming.
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $  kubectl apply --context=$CTX_CLUSTER2 -l app=reviews,version=v2 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    $  kubectl apply --context=$CTX_CLUSTER2 -l app=reviews,version=v3 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    $  kubectl apply --context=$CTX_CLUSTER2 -l app=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply --context=$CTX_CLUSTER2 -l app=reviews,version=v2 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply --context=$CTX_CLUSTER2 -l app=reviews,version=v3 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply --context=$CTX_CLUSTER2 -l service=reviews -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply --context=$CTX_CLUSTER2 -l app=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     serviceaccount/bookinfo-details created
     serviceaccount/bookinfo-ratings created
     serviceaccount/bookinfo-reviews created
     serviceaccount/bookinfo-productpage created
     deployment.apps/reviews-v2 created
     deployment.apps/reviews-v3 created
+    service/reviews created
     service/ratings created
     deployment.apps/ratings-v1 created
     {{< /text >}}
@@ -145,6 +147,13 @@ federate, there is no requirement for uniform naming.
       selector:
         app: reviews
     EOF
+    {{< /text >}}
+
+1.  Delete the `reviews` service (`myreviews` will be used instead):
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -l service=reviews -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    service "reviews" deleted
     {{< /text >}}
 
 1.  Create destination rules for reviews and ratings:
