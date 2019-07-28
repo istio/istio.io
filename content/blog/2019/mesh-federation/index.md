@@ -217,7 +217,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 1.  Create `istio-private-gateways`:
 
     {{< text bash >}}
-    $ kubernetes create namespace istio-private-gateways --context=$CTX_CLUSTER2
+    $ kubectl create namespace istio-private-gateways --context=$CTX_CLUSTER2
     {{< /text >}}
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
