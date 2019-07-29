@@ -418,14 +418,15 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
       http:
       - match:
         - uri:
-            prefix: /bookinfo/reviews/v2/
+            prefix: /bookinfo/myreviews/v2/
         rewrite:
           uri: /
         route:
         - destination:
             port:
-              number: 8000
-            host: myreviews.bookinfo
+              number: 9080
+            subset: v2
+            host: myreviews.bookinfo.svc.cluster.local
     EOF
     {{< /text >}}
 
@@ -452,7 +453,8 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 1.  Test your configuration by accessing the `myreviews` service in `cluster1`:
 
     {{< text bash >}}
-    $ curl -v -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/reviews/v2/reviews/0
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v2/reviews/0
+    {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}}]}
     {{< /text >}}
 
 ### Consume reviews v2
