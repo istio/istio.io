@@ -676,6 +676,18 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     $ kubectl logs -l istio=private-ingressgateway --context=$CTX_CLUSTER2 -n istio-private-gateways
     {{< /text >}}
 
+1.  Check the logs of the private egress gateway at `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl logs -l istio=private-egressgateway --context=$CTX_CLUSTER1 -n istio-private-gateways
+    {{< /text >}}
+
+1.  Check the logs of `productpage` at `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl logs -l app=productpage -c istio-proxy --context=$CTX_CLUSTER1
+    {{< /text >}}
+
 ## Cleanup
 
 ### Delete the private gateway in `cluster1`
