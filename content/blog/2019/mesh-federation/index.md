@@ -418,9 +418,9 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
       http:
       - match:
         - uri:
-            prefix: /bookinfo/reviews/v2
+            prefix: /bookinfo/reviews/v2/
         rewrite:
-          uri: ""
+          uri: /
         route:
         - destination:
             port:
