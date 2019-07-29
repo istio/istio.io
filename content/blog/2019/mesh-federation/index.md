@@ -384,19 +384,86 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
 ## Cleanup
 
-{{< text bash >}}
-$ kubectl delete --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
-$  kubectl delete --context=$CTX_CLUSTER2 -l app=reviews,version=v2 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-$  kubectl delete --context=$CTX_CLUSTER2 -l app=reviews,version=v3 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-$  kubectl delete --context=$CTX_CLUSTER2 -l app=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-serviceaccount "bookinfo-details" deleted
-serviceaccount "bookinfo-ratings" deleted
-serviceaccount "bookinfo-reviews" deleted
-serviceaccount "bookinfo-productpage" deleted
-deployment.apps "reviews-v2" deleted
-deployment.apps "reviews-v3" deleted
-service "ratings" deleted
-deployment.apps "ratings-v1" deleted
-{{< /text >}}
+### Delete the private gateway in `cluster1`
+
+1.  Undeploy the private egress gateway from `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways deployment istio-private-egressgateway
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways service istio-private-egressgateway
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways serviceaccount istio-private-egressgateway-service-account
+    {{< /text >}}
+
+1.  Delete the secrets from `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways secrets c1-example-com-certs example-com-ca-certs
+    {{< /text >}}
+
+1.  Delete the `istio-private-gateways` namespace from `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER1 namespace istio-private-gateways
+    {{< /text >}}
+
+### Delete the private gateway in `cluster2`
+
+1.  Delete the gateway and the virtual service in `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways virtualservice reviews-bookinfo-v2
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways gateway private-ingressgateway
+    {{< /text >}}
+
+1.  Undeploy the private ingress gateway from `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways deployment istio-private-ingressgateway
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways service istio-private-ingressgateway
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways serviceaccount istio-private-ingressgateway-service-account
+    {{< /text >}}
+
+1.  Delete the secrets from `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways secrets c2-example-com-certs example-com-ca-certs
+    {{< /text >}}
+
+1.  Delete the `istio-private-gateways` namespace from `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 namespace istio-private-gateways
+    {{< /text >}}
+
+### Delete the Bookinfo services from both clusters
+
+1.  Delete the Bookinfo application in `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/platform/kube/bookinfo.yaml
+    {{< /text >}}
+
+1.  Delete the services in `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
+    $  kubectl delete --context=$CTX_CLUSTER2 -l app=reviews,version=v2 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $  kubectl delete --context=$CTX_CLUSTER2 -l app=reviews,version=v3 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $  kubectl delete --context=$CTX_CLUSTER2 -l app=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    serviceaccount "bookinfo-details" deleted
+    serviceaccount "bookinfo-ratings" deleted
+    serviceaccount "bookinfo-reviews" deleted
+    serviceaccount "bookinfo-productpage" deleted
+    deployment.apps "reviews-v2" deleted
+    deployment.apps "reviews-v3" deleted
+    service "ratings" deleted
+    deployment.apps "ratings-v1" deleted
+    {{< /text >}}
+
+1.  Delete the Bookinfo application in `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
+    {{< /text >}}
 
 ## Summary
