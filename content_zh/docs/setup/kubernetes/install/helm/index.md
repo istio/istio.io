@@ -54,7 +54,6 @@ icon: helm
 
 1. {{< boilerplate verify-crds >}}
 
-
 1. 选择一个 [配置文件](/docs/setup/kubernetes/additional-setup/config-profiles/)，接着部署与你选择的配置文件相对应的 Istio 的核心组件，我们建议在生成环境部署中使用 **default** 配置文件:
 
     {{< tip >}}
@@ -133,7 +132,6 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
     {{< /text >}}
 
 1. {{< boilerplate verify-crds >}}
-
 
 1. 选择一个 [配置文件](/docs/setup/kubernetes/additional-setup/config-profiles/)，接着部署与你选择的配置文件相对应的 Istio 的核心组件，我们建议在生成环境部署中使用 **default** 配置文件:
 
