@@ -205,10 +205,10 @@ federate, there is no requirement for uniform naming.
 ### Generate certificates and keys for cluster1 and cluster2
 
 {{< text bash >}}
-$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example.com/CN=Root CA' -keyout example.com.key -out example.com.crt
-$ openssl req -subj '/O=example.com/CN=Root CA/L=c1.cluster.com' -out c1.example.com.csr -newkey rsa:2048 -nodes -keyout c1.example.com.key
+$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+$ openssl req -subj '/O=example Inc., department 1/CN=c1.example.com' -out c1.example.com.csr -newkey rsa:2048 -nodes -keyout c1.example.com.key
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in c1.example.com.csr -out c1.example.com.crt
-$ openssl req -subj '/O=example.com/CN=Root CA/L=c2.cluster.com' -out c2.example.com.csr -newkey rsa:2048 -nodes -keyout c2.example.com.key
+$ openssl req -subj '/O=example Inc., department 2/CN=c2.example.com' -out c2.example.com.csr -newkey rsa:2048 -nodes -keyout c2.example.com.key
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in c2.example.com.csr -out c2.example.com.crt
 {{< /text >}}
 
