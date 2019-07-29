@@ -82,6 +82,23 @@ JWT 声明值可以是字符串或字符串列表;两种类型都受支持。
     EOF
     {{< /text >}}
 
+1.  部署 `DestinationRule`, 用于 `sleep` 与 `httpbin` 通信时的双向 TLS 认证。
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -n $NS -f -
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: use-mtls-on-sleep
+    spec:
+      host: httpbin.$NS.svc.cluster.local
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    EOF
+    {{< /text >}}
+
+
 1.  设置 `TOKEN` 环境变量以包含有效的示例 JWT。
 
     {{< text bash>}}
