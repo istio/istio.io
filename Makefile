@@ -2,10 +2,11 @@ ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
 img := gcr.io/istio-testing/website-tools:2019-07-25
-docker := docker run -e INTERNAL_ONLY=true -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site $(img)
+uid := $(shell id -u)
+docker := docker run -e INTERNAL_ONLY=true -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site $(img)
 
 ifeq ($(INTERNAL_ONLY),)
-docker := docker run -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site $(img)
+docker := docker run -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site $(img)
 endif
 
 ifeq ($(CONTEXT),production)
@@ -31,7 +32,7 @@ lint: clean_public build gen
 	@$(docker) scripts/lint_site.sh
 
 serve: build
-	@docker run -t -i --sig-proxy=true --rm -v $(shell pwd):/site -w /site -p 1313:1313 $(img) hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
+	@docker run -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site -p 1313:1313 $(img) hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 
 install:
 	@npm install -g sass sass-lint typescript tslint @babel/cli @babel/core svgstore-cli
