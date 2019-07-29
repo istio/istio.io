@@ -376,6 +376,85 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
 ### Expose reviews v2
 
+1.  Define a `Gateway`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: private-ingressgateway
+    spec:
+      selector:
+        istio: private-ingressgateway # use istio default ingress gateway
+      servers:
+      - port:
+          number: 15443
+          name: https
+          protocol: HTTPS
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/istio/c2.example.com/certs/tls.crt
+          privateKey: /etc/istio/c2.example.com/certs/tls.key
+          caCertificates: /etc/istio/example.com/certs/example.com.crt
+        hosts:
+        - c2.example.com
+    EOF
+    {{< /text >}}
+
+1.  Configure routing to `reviews v2`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews-bookinfo-v2
+    spec:
+      hosts:
+      - c2.example.com
+      gateways:
+      - private-ingressgateway
+      http:
+      - match:
+        - uri:
+            prefix: /bookinfo/reviews/v2
+        rewrite:
+          uri: ""
+        route:
+        - destination:
+            port:
+              number: 8000
+            host: myreviews.bookinfo
+    EOF
+    {{< /text >}}
+
+1.  Execute the following command to determine if your Kubernetes cluster is running in an environment that supports
+   external load balancers:
+
+    {{< text bash >}}
+    $ kubectl get svc istio-private-ingressgateway -n istio-private-gateways --context=$CTX_CLUSTER2
+    NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
+    istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+    {{< /text >}}
+
+    If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
+    If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
+    In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
+
+    Set the private ingress IP and ports:
+
+    {{< text bash >}}
+    $ export CLUSTER2_INGRESS_HOST=$(kubectl -n istio-private-gateways get service istio-private-ingressgateway --context=$CTX_CLUSTER2 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export CLUSTER2_SECURE_INGRESS_PORT=$(kubectl -n istio-private-gateways get service istio-private-ingressgateway --context=$CTX_CLUSTER2 -o jsonpath='{.spec.ports[?(@.name=="https-for-cross-cluster-communication")].port}')
+    {{< /text >}}
+
+1.  Test your configuration by accessing the `myreviews` service in `cluster1`:
+
+    {{< text bash >}}
+    $ curl -v -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/reviews/v2/reviews/0
+    {{< /text >}}
+
 ### Consume reviews v2
 
 ### Expose details
