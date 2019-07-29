@@ -250,8 +250,8 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
           targetAverageUtilization: 80
         type: ClusterIP
         ports:
-        - port: 15443
-          name: https-for-cross-cluster-communication
+        - port: 80
+          name: http
         secretVolumes:
         - name: c1-example-com-certs
           secretName: c1-example-com-certs
