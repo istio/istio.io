@@ -328,7 +328,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
         autoscaleMax: 5
         cpu:
           targetAverageUtilization: 80
-        type: ClusterIP
+        type: LoadBalancer
         ports:
         - port: 15443
           name: https-for-cross-cluster-communication
