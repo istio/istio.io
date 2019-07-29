@@ -459,6 +459,199 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
 ### Consume reviews v2
 
+Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `cluster1`.
+
+1.  Create a Kubernetes service for `c2.example.com` since it is not a real URL. In the real life, you
+    would use the real host name of your cluster.
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: c2-example-com
+    spec:
+      ports:
+      - protocol: TCP
+        port: 15443
+    EOF
+    {{< /text >}}
+
+1.  Create an endpoint for `c2.example.com`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    kind: Endpoints
+    apiVersion: v1
+    metadata:
+      name: c2-example-com
+    subsets:
+      - addresses:
+          - ip: $CLUSTER2_INGRESS_HOST
+        ports:
+          - port: 15443
+    EOF
+    {{< /text >}}
+
+1.  Create a destination rule for `c2.example.com`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: c2-example-com
+    spec:
+      host: c2-example-com
+      exportTo:
+      - "."
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 15443
+          tls:
+            mode: MUTUAL
+            clientCertificate: /etc/istio/c1.example.com/certs/tls.crt
+            privateKey: /etc/istio/c1.example.com/certs/tls.key
+            caCertificates: /etc/istio/example.com/certs/example.com.crt
+            sni: c2.example.com
+    EOF
+    {{< /text >}}
+
+1.  Create an egress `Gateway` for `reviews.default.svc.cluster.local`, port 80, and a destination rule for
+    traffic directed to the egress gateway.
+
+    Choose the instructions corresponding to whether or not you have
+    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+
+    {{< tabset cookie-name="mtls" >}}
+
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+
+    {{< text_hack bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-private-egressgateway
+    spec:
+      selector:
+        istio: private-egressgateway
+      servers:
+      - port:
+          number: 80
+          name: https
+          protocol: HTTPS
+        hosts:
+        - c2-example-com.istio-private-gateways.svc.cluster.local
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: private-egressgateway
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: reviews-default
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 80
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: reviews.default.svc.cluster.local
+    EOF
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+
+    {{< text_hack bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - reviews.default.svc.cluster.local
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-reviews-default
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: reviews-default
+    EOF
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+1.  Define a `VirtualService` to direct traffic from the sidecars to the egress gateway and from the egress gateway
+    to the external service:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews.default.svc.cluster.local
+      gateways:
+      - istio-private-egressgateway
+      - mesh
+      http:
+      - match:
+        - gateways:
+          - mesh
+          port: 9080
+        route:
+        - destination:
+            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+            subset: reviews-default
+            port:
+              number: 80
+          weight: 100
+      - match:
+        - gateways:
+          - istio-private-egressgateway
+          port: 80
+          prefix: /
+        route:
+        - destination:
+            host: c2-example-com.istio-private-gateways.svc.cluster.local
+            rewrite:
+              uri: /bookinfo/myreviews/v2/
+              authority: c2.example.com
+            port:
+              number: 15433
+          weight: 100
+    EOF
+    {{< /text >}}
+
 ### Expose details
 
 ### Consume details
