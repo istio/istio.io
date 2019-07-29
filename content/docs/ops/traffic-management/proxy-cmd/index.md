@@ -287,10 +287,10 @@ one route that matches on everything. This route tells Envoy to send the request
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
-    ENDPOINT             STATUS      CLUSTER
-    172.17.0.17:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
-    172.17.0.18:9080     HEALTHY     outbound|9080||reviews.default.svc.cluster.local
-    172.17.0.5:9080      HEALTHY     outbound|9080||reviews.default.svc.cluster.local
+    ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
+    172.17.0.17:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.18:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
+    172.17.0.5:9080      HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
 ## Inspecting Bootstrap configuration
