@@ -217,53 +217,80 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 1.  Create `istio-private-gateways`:
 
     {{< text bash >}}
-    $ kubectl create namespace istio-private-gateways --context=$CTX_CLUSTER2
+    $ kubectl create namespace istio-private-gateways --context=$CTX_CLUSTER1
     {{< /text >}}
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.
 
     {{< text bash >}}
-    $ kubectl create -n istio-private-gateways secret tls c1-client-certs --key c1.example.com.key --cert c1.example.com.crt
-    $ kubectl create -n istio-private-gateways secret generic ca-certs --from-file=example.com.crt
+    $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret tls c1-example-com-certs --key c1.example.com.key --cert c1.example.com.crt
+    $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret generic example-com-ca-certs --from-file=example.com.crt
     {{< /text >}}
 
-1.  Generate the `istio-egressgateway` deployment with a volume to be mounted from the new secrets. Use the same options
-    you used for generating your `istio.yaml`:
+1.  Deploy a private ingress gateway with a volume to be mounted from the new secrets:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
-    --set gateways.istio-egressgateway.enabled=true \
-    --set 'gateways.istio-egressgateway.secretVolumes[0].name'=egressgateway-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[0].secretName'=istio-egressgateway-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[0].mountPath'=/etc/istio/egressgateway-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[1].name'=egressgateway-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[1].secretName'=istio-egressgateway-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[1].mountPath'=/etc/istio/egressgateway-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[2].name'=nginx-client-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[2].secretName'=nginx-client-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[2].mountPath'=/etc/nginx-client-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[3].name'=nginx-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[3].secretName'=nginx-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[3].mountPath'=/etc/nginx-ca-certs > \
-    ./istio-egressgateway.yaml
+    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio --namespace istio-private-gateways -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.istioNamespace=istio-system -f - | kubectl apply --context=$CTX_CLUSTER1 -f -
+    gateways:
+      enabled: true
+      istio-egressgateway:
+        enabled: false
+      istio-ingressgateway:
+        enabled: false
+      istio-private-egressgateway:
+        enabled: true
+        labels:
+          app: istio-private-egressgateway
+          istio: private-egressgateway
+        replicaCount: 1
+        autoscaleMin: 1
+        autoscaleMax: 5
+        cpu:
+          targetAverageUtilization: 80
+        type: ClusterIP
+        ports:
+        - port: 15443
+          name: https-for-cross-cluster-communication
+        secretVolumes:
+        - name: c1-example-com-certs
+          secretName: c1-example-com-certs
+          mountPath: /etc/istio/c1.example.com/certs
+        - name: example-com-ca-certs
+          secretName: example-com-ca-certs
+          mountPath: /etc/istio/example.com/certs
+    EOF
     {{< /text >}}
 
-1.  Redeploy `istio-egressgateway`:
+1.  Verify that the egress gateway's pod is running:
 
     {{< text bash >}}
-    $ kubectl apply -f ./istio-egressgateway.yaml
-    deployment "istio-egressgateway" configured
+    $ kubectl get pods $(kubectl get pod -l istio=private-egressgateway -n istio-private-gateways -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER1)  -n istio-private-gateways --context=$CTX_CLUSTER1
+    NAME                                           READY   STATUS    RESTARTS   AGE
+    istio-private-egressgateway-586c8cb5db-5m77h   1/1     Running   0          43s
     {{< /text >}}
 
-1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
+1.  Verify that the key and the certificate are successfully loaded in the egress gateway's pod:
 
     {{< text bash >}}
-    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/nginx-client-certs /etc/nginx-ca-certs
-    {{< /text >}}
+    $ kubectl exec -it $(kubectl get pod -l istio=private-egressgateway -n istio-private-gateways -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER1)  -n istio-private-gateways --context=$CTX_CLUSTER1 -- ls -al /etc/istio/c1.example.com/certs /etc/istio/example.com/certs
+    /etc/istio/c1.example.com/certs:
+    total 4
+    drwxrwxrwt 3 root root  120 Jul 29 00:27 .
+    drwxr-xr-x 3 root root 4096 Jul 29 00:27 ..
+    drwxr-xr-x 2 root root   80 Jul 29 00:27 ..2019_07_29_00_27_05.153388454
+    lrwxrwxrwx 1 root root   31 Jul 29 00:27 ..data -> ..2019_07_29_00_27_05.153388454
+    lrwxrwxrwx 1 root root   14 Jul 29 00:27 tls.crt -> ..data/tls.crt
+    lrwxrwxrwx 1 root root   14 Jul 29 00:27 tls.key -> ..data/tls.key
 
-    `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
-    `/etc/istio/nginx-ca-certs`.
+    /etc/istio/example.com/certs:
+    total 4
+    drwxrwxrwt 3 root root  100 Jul 29 00:27 .
+    drwxr-xr-x 3 root root 4096 Jul 29 00:27 ..
+    drwxr-xr-x 2 root root   60 Jul 29 00:27 ..2019_07_29_00_27_05.678454477
+    lrwxrwxrwx 1 root root   31 Jul 29 00:27 ..data -> ..2019_07_29_00_27_05.678454477
+    lrwxrwxrwx 1 root root   22 Jul 29 00:27 example.com.crt -> ..data/example.com.crt
+    {{< /text >}}
 
 ### Deploy private ingress gateway in cluster2
 
