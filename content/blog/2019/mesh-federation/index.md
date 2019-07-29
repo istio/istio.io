@@ -463,6 +463,26 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
 ### Consume details
 
+## Troubleshooting
+
+1.  Enable Envoy access logs for `cluster1`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" | kubectl replace --context=$CTX_CLUSTER1 -f -
+    {{< /text >}}
+
+1.  Enable Envoy access logs for `cluster2`:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" | kubectl replace --context=$CTX_CLUSTER2 -f -
+    {{< /text >}}
+
+1.  Check the logs of the private ingress gateway at `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl logs -l istio=private-ingressgateway --context=$CTX_CLUSTER2 -n istio-private-gateways
+    {{< /text >}}
+
 ## Cleanup
 
 ### Delete the private gateway in `cluster1`
