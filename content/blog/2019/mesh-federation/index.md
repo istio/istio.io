@@ -252,6 +252,8 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
         ports:
         - port: 80
           name: http
+        - port: 443
+          name: https
         secretVolumes:
         - name: c1-example-com-certs
           secretName: c1-example-com-certs
@@ -541,11 +543,11 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
         istio: private-egressgateway
       servers:
       - port:
-          number: 80
+          number: 443
           name: https
           protocol: HTTPS
         hosts:
-        - c2-example-com.istio-private-gateways.svc.cluster.local
+        - reviews.default.svc.cluster.local
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
@@ -565,7 +567,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
             simple: ROUND_ROBIN
           portLevelSettings:
           - port:
-              number: 80
+              number: 443
             tls:
               mode: ISTIO_MUTUAL
               sni: reviews.default.svc.cluster.local
@@ -581,15 +583,15 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: istio-egressgateway
+      name: istio-private-egressgateway
     spec:
       selector:
-        istio: egressgateway
+        istio: private-egressgateway
       servers:
       - port:
-          number: 80
-          name: http
-          protocol: HTTP
+          number: 443
+          name: https
+          protocol: HTTPS
         hosts:
         - reviews.default.svc.cluster.local
     ---
@@ -620,25 +622,35 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     spec:
       hosts:
       - reviews.default.svc.cluster.local
-      gateways:
-      - istio-private-egressgateway
-      - mesh
       http:
       - match:
-        - gateways:
-          - mesh
-          port: 9080
+        - port: 9080
         route:
         - destination:
             host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
             subset: reviews-default
             port:
-              number: 80
+              number: 443
           weight: 100
+    EOF
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews.default.svc.cluster.local
+      gateways:
+      - istio-private-egressgateway
+      http:
       - match:
         - gateways:
           - istio-private-egressgateway
-          port: 80
+          port: 443
           prefix: /
         route:
         - destination:
