@@ -29,12 +29,12 @@ number_of_entries: 5
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -59,7 +59,7 @@ number_of_entries: 5
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -99,12 +99,12 @@ number_of_entries: 5
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -129,7 +129,7 @@ number_of_entries: 5
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -207,6 +207,11 @@ number_of_entries: 5
 <td>DNS domain suffix  (default `cluster.local`)</td>
 </tr>
 <tr>
+<td><code>--enable-reconcileWebhookConfiguration</code></td>
+<td></td>
+<td>Enable reconciliation for webhook configuration. </td>
+</tr>
+<tr>
 <td><code>--enable-server</code></td>
 <td></td>
 <td>Run galley server mode </td>
@@ -259,12 +264,12 @@ number_of_entries: 5
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -289,7 +294,7 @@ number_of_entries: 5
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -372,6 +377,11 @@ number_of_entries: 5
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
+<td><code>--useOldProcessor</code></td>
+<td></td>
+<td>Use the old processing pipeline for config processing </td>
+</tr>
+<tr>
 <td><code>--validation-port &lt;uint&gt;</code></td>
 <td></td>
 <td>HTTPS port of the validation service. Must be 443 if service has more than one port   (default `443`)</td>
@@ -441,12 +451,12 @@ validation:
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -471,7 +481,7 @@ validation:
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, runtime, server, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -525,6 +535,22 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <td>String</td>
 <td><code></code></td>
 <td>Selects the attribute expression langauge runtime for Mixer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="annotations">Annotations</h2>
+These resource annotations are used by the <code>galley</code> command.
+<table class="annotations">
+<thead>
+<tr>
+<th>Annotation Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kubernetes.io/ingress.class</code></td>
+<td>IngressClass is the annotation on Ingress resources for the class of controllers responsible for it</td>
 </tr>
 </tbody>
 </table>
