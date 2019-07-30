@@ -622,9 +622,14 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     spec:
       hosts:
       - reviews.default.svc.cluster.local
+      gateways:
+      - mesh
+      - istio-private-egressgateway
       http:
       - match:
         - port: 9080
+          gateways:
+          - mesh
         route:
         - destination:
             host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
@@ -632,26 +637,11 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
             port:
               number: 443
           weight: 100
-    EOF
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews.default.svc.cluster.local
-      gateways:
-      - istio-private-egressgateway
-      http:
       - match:
-        - gateways:
-          - istio-private-egressgateway
-          port: 443
-          prefix: /
+          - port: 443
+            prefix: /
+            gateways:
+            - istio-private-egressgateway
         route:
         - destination:
             host: c2-example-com.istio-private-gateways.svc.cluster.local
