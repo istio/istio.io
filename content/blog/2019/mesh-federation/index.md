@@ -624,7 +624,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
       - reviews.default.svc.cluster.local
       gateways:
       - mesh
-      - istio-private-egressgateway
+      - istio-private-egressgateway.istio-private-gateways
       http:
       - match:
         - port: 9080
@@ -641,7 +641,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
           - port: 443
             prefix: /
             gateways:
-            - istio-private-egressgateway
+            - istio-private-egressgateway.istio-private-gateways
         route:
         - destination:
             host: c2-example-com.istio-private-gateways.svc.cluster.local
