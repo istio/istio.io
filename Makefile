@@ -48,4 +48,9 @@ netlify_archive:
 archive:
 	@$(docker) scripts/gen_archive_site.sh "$(baseurl)"
 
+prow:
+	@scripts/build_site.sh
+	@scripts/gen_site.sh "" -no_minify
+	@scripts/lint_site.sh
+
 include Makefile.common.mk
