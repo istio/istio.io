@@ -210,6 +210,53 @@ In this setup, Kubernetes can isolate the operator privileges on managing the se
 Istio manages certificates and keys in all namespaces
 and enforces different access control rules to the services.
 
+### How Citadel determines whether to create Service Account secrets
+
+When a Citadel instance notices that a `ServiceAccount` was created in a namespace, it needs to decide whether it should generate an `istio.io/key-and-cert` secret for that `ServiceAccount`. In order to make that decision, there are three relevant values (note: there can be multiple Citadel instances deployed in a single cluster, and the following targeting rules are applied to each instance):
+
+1. `ca.istio.io/env` namespace label: *string valued* label which should be pointed at the namespace of the desired Citadel instance
+
+1. `ca.istio.io/override` namespace label: *boolean valued* label which overrides all other configurations and forces all Citadel instances either to target or ignore a namespace
+
+1. [`enableNamespacesByDefault` security configuration](/docs/reference/config/installation-options/#security-options): default behavior if no labels are found on the `ServiceAccount's` namespace
+
+From these three values, the decision process mirrors that of the [`Sidecar Injection Webhook`](/docs/ops/setup/injection-concepts/). The detailed behavior is that:
+
+- If `ca.istio.io/override` exists and is valid, then follow what it tells us (generate key/cert secrets for workloads if `true`, don't if `false`)
+
+- If not, then check `ca.istio.io/env: "ns-foo"`. The Citadel instance in namespace `ns-foo` will be responsible for generating key/cert secrets for workloads
+
+- If `ca.istio.io/env` is nonexistent or invalid, follow the `enableNamespacesByDefault` helm flag
+
+- If `enableNamespacesByDefault` is `true`, the Citadel instance will create secrets for unlabeled namespaces, otherwise it will not
+
+This logic is captured in the truth table below:
+
+| `ca.istio.io/override` value | `ca.istio.io/env` match | `enableNamespacesByDefault` configuration | Workload secret created |
+|------------------------------|-------------------------|-------------------------------------------|-------------------------|
+|true|yes|true|yes|
+|true|yes|false|yes|
+|true|no|true|yes|
+|true|no|false|yes|
+|true|`unset`|true|yes|
+|true|`unset`|false|yes|
+|false|yes|true|no|
+|false|yes|false|no|
+|false|no|true|no|
+|false|no|false|no|
+|false|`unset`|true|no|
+|false|`unset`|false|no|
+|`unset`|yes|true|yes|
+|`unset`|yes|false|yes|
+|`unset`|no|true|no|
+|`unset`|no|false|no|
+|`unset`|`unset`|true|yes|
+|`unset`|`unset`|false|no|
+
+{{< idea >}}
+When a namespace transitions from `disabled` to `enabled`, Citadel will retroactively generate secrets for all `ServiceAccounts` in that namespace. When transitioning from `enabled` to `disabled`, however, Citadel will not delete the namespace's generated secrets until certificate renewal
+{{< /idea >}}
+
 ## Authentication
 
 Istio provides two types of authentication:
