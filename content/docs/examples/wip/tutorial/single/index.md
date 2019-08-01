@@ -5,7 +5,7 @@ weight: 10
 ---
 
 This module demonstrates work on a single microservice, `ratings`, on a local developer machine.
-The microservice is written in [Node.js](https://nodejs.org/en/) and is a small web app on its own.
+The `ratings` service is a small web app written in [Node.js](https://nodejs.org/en/) that can run on its own.
 Being a web app, it listens to a port, expects for HTTP GET requests on the `/ratings/{productID}` path and returns
 ratings of a product with `productID`.
 
