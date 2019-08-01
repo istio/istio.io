@@ -611,11 +611,11 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
 
     {{< /tabset >}}
 
-1.  Define a `VirtualService` to direct traffic from the sidecars to the egress gateway and from the egress gateway
+1.  Define a `VirtualService` to direct traffic from the egress gateway
     to the external service:
 
     {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -624,20 +624,8 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
       hosts:
       - reviews.default.svc.cluster.local
       gateways:
-      - mesh
       - istio-private-egressgateway.istio-private-gateways
       http:
-      - match:
-        - port: 9080
-          gateways:
-          - mesh
-        route:
-        - destination:
-            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-            subset: reviews-default
-            port:
-              number: 443
-          weight: 100
       - match:
           - port: 443
             uri:
@@ -651,7 +639,33 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
         - destination:
             host: c2-example-com.istio-private-gateways.svc.cluster.local
             port:
-              number: 15433
+              number: 15443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Define a virtual service to direct the traffic from sidecars to the egress gateway:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews
+      http:
+      - match:
+        - port: 9080
+        rewrite:
+          authority: reviews.default.svc.cluster.local
+        route:
+        - destination:
+            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+            subset: reviews-default
+            port:
+              number: 443
           weight: 100
     EOF
     {{< /text >}}
