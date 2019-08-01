@@ -57,7 +57,7 @@ Since `ratings` is a web app it performs the following actions:
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
-1.  Change ratings by using the POST method, set them to `1`:
+1.  Use the `POST` method of the `curl` command to set the ratings for the product to `1`:
 
     {{< text bash >}}
     $ curl -X POST localhost:9080/ratings/7 -d '{"Reviewer1":1,"Reviewer2":1}'
