@@ -64,7 +64,7 @@ Since `ratings` is a web app it performs the following actions:
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
 
-1.  Check that `curl` returns the updated ratings:
+1.  Check the updated ratings:
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
