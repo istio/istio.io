@@ -385,10 +385,10 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
-      name: private-ingressgateway
+      name: istio-private-ingressgateway
     spec:
       selector:
-        istio: private-ingressgateway # use istio default ingress gateway
+        istio: private-ingressgateway
       servers:
       - port:
           number: 15443
@@ -411,18 +411,19 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: reviews-bookinfo-v2
+      name: myreviews-bookinfo-v2
     spec:
       hosts:
       - c2.example.com
       gateways:
-      - private-ingressgateway
+      - istio-private-ingressgateway
       http:
       - match:
         - uri:
             prefix: /bookinfo/myreviews/v2/
         rewrite:
           uri: /
+          authority: myreviews.bookinfo.svc.cluster.local
         route:
         - destination:
             port:
@@ -557,7 +558,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: private-egressgateway
+      name: istio-private-egressgateway-reviews-default
     spec:
       host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
       subsets:
@@ -598,7 +599,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: egressgateway-reviews-default
+      name: istio-private-egressgateway-reviews-default
     spec:
       host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
       subsets:
