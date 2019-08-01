@@ -71,4 +71,4 @@ Since `ratings` is a web app it performs the following actions:
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
 
-1.  Stop the microservice by killing its process (`Ctrl-C` in the terminal).
+1.  To stop the service stop its process, press `Ctrl-C` while in the terminal running it.
