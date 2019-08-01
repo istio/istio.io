@@ -28,7 +28,7 @@ Since `ratings` is a web app it performs the following actions:
     Skim the service's code. Note the "embedded" Web Server and the aspects related to HTTP, such as the headers, the
     path, the status code.
 
-1.  Run the following command to install the service's dependencies in the directory with the service code and the
+1.  Install the service's dependencies in the same folder you used to store the service code and the
     package file:
 
     {{< text bash >}}
