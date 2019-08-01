@@ -6,7 +6,7 @@ weight: 2
 ## Instructors in a guided workshop or participants with their own cluster
 
 - You can access a Kubernetes cluster and have administrator privileges for said cluster.
-- Ability to create a namespace in the cluster per participant
+- You can create a namespace in the cluster for each participant.
 
 ## Participants
 
