@@ -706,7 +706,31 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     $ kubectl logs -l app=productpage -c istio-proxy --context=$CTX_CLUSTER1
     {{< /text >}}
 
+1.  Check the logs of `reviews v2` at `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl logs -l app=reviews,version=v2 -n bookinfo -c istio-proxy --context=$CTX_CLUSTER2
+    {{< /text >}}
+
 ## Cleanup
+
+### Delete consumption of services in `cluster1`
+
+{{< text bash >}}
+$ kubectl delete --context=$CTX_CLUSTER1 virtualservice reviews -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 destinationrule istio-private-egressgateway-reviews-default -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 gateway istio-private-egressgateway -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 service c2-example-com -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 endpoints c2-example-com -n istio-private-gateways
+$ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+{{< /text >}}
+
+### Delete exposure of services in `cluster2`
+
+{{< text bash >}}
+$ kubectl delete --context=$CTX_CLUSTER2 virtualservice myreviews-bookinfo-v2 -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n istio-private-gateways
+{{< /text >}}
 
 ### Delete the private gateway in `cluster1`
 
@@ -731,13 +755,6 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     {{< /text >}}
 
 ### Delete the private gateway in `cluster2`
-
-1.  Delete the gateway and the virtual service in `cluster2`:
-
-    {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways virtualservice reviews-bookinfo-v2
-    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways gateway private-ingressgateway
-    {{< /text >}}
 
 1.  Undeploy the private ingress gateway from `cluster2`:
 
@@ -790,5 +807,18 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     service "ratings" deleted
     deployment.apps "ratings-v1" deleted
     {{< /text >}}
+
+1.  Delete the `bookinfo` namespace in `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete namespace bookinfo --context=$CTX_CLUSTER2
+    {{< /text >}}
+
+### Delete the sleep samples
+
+{{< text bash >}}
+$ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER1
+$ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER2
+{{< /text >}}
 
 ## Summary
