@@ -8,7 +8,7 @@ weight: 3
 1. Install [Node.js](https://nodejs.org/en/download/)
     1. Install [Docker](https://docs.docker.com/install/).
     1. Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
-    For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or
+    You can try using the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
     [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/container-service).
 
 1.  Create a shell variable to store the name of the namespace you will work with.
