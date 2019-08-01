@@ -679,13 +679,13 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
 1.  Enable Envoy access logs for `cluster1`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" | kubectl replace --context=$CTX_CLUSTER1 -f -
+    $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" --set global.proxy.accessLogFormat='[%START_TIME%] "%REQ(:METHOD)% %REQ(PATH)% %PROTOCOL%" %REQ(X-ENVOY-ORIGINAL-PATH)% %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%"\n' | kubectl replace --context=$CTX_CLUSTER1 -f -
     {{< /text >}}
 
 1.  Enable Envoy access logs for `cluster2`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" | kubectl replace --context=$CTX_CLUSTER2 -f -
+    $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" --set global.proxy.accessLogFormat='[%START_TIME%] "%REQ(:METHOD)% %REQ(PATH)% %PROTOCOL%" %REQ(X-ENVOY-ORIGINAL-PATH)% %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%"\n' | kubectl replace --context=$CTX_CLUSTER2 -f -
     {{< /text >}}
 
 1.  Check the logs of the private ingress gateway at `cluster2`:
