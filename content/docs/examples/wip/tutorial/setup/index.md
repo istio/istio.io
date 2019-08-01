@@ -20,7 +20,7 @@ weight: 3
     $ kubectl create namespace $NAMESPACE
     {{< /text >}}
 
-1.  If you do not have Istio installed in your cluster, install it **with strict mutual TLS enabled**, following
+1. [Install Istio with strict mutual TLS enabled](/docs/setup/kubernetes/install/kubernetes/).
     [these instructions](/docs/setup/kubernetes/install/kubernetes/).
 
 1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
