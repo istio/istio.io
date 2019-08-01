@@ -6,7 +6,8 @@ weight: 3
 1. Install [curl](https://curl.haxx.se/download.html)
 
 1. Install [Node.js](https://nodejs.org/en/download/)
-    [Docker](https://docs.docker.com/install/) and get access to a [Kubernetes](https://kubernetes.io) cluster.
+    1. Install [Docker](https://docs.docker.com/install/).
+    1. Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
     For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or
     [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/container-service).
 
