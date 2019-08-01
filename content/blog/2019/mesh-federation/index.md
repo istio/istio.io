@@ -743,13 +743,20 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     $ kubectl delete --context=$CTX_CLUSTER2 namespace istio-private-gateways
     {{< /text >}}
 
-### Delete the Bookinfo services from both clusters
+### Delete the Bookinfo services
+
+#### `Cluster1`
 
 1.  Delete the Bookinfo application in `cluster1`:
 
     {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/virtual-service-all-v1.yaml
+    $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/bookinfo-gateway.yaml
     $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/platform/kube/bookinfo.yaml
     {{< /text >}}
+
+#### `Cluster2`
 
 1.  Delete the services in `cluster2`:
 
@@ -766,12 +773,6 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     deployment.apps "reviews-v3" deleted
     service "ratings" deleted
     deployment.apps "ratings-v1" deleted
-    {{< /text >}}
-
-1.  Delete the Bookinfo application in `cluster1`:
-
-    {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
     {{< /text >}}
 
 ## Summary
