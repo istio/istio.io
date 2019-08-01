@@ -3,7 +3,9 @@ title: Setup
 weight: 3
 ---
 
-1.  Install [curl](https://curl.haxx.se/download.html), [Node.js](https://nodejs.org/en/download/),
+1. Install [curl](https://curl.haxx.se/download.html)
+
+1. Install [Node.js](https://nodejs.org/en/download/)
     [Docker](https://docs.docker.com/install/) and get access to a [Kubernetes](https://kubernetes.io) cluster.
     For example, you can try [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) or
     [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/container-service).
