@@ -705,9 +705,9 @@ EOF
 
 1.  Refresh your app webpage and see reviews with black stars appear roughly 50% of the time.
 
-### Expose details
+### Expose ratings
 
-### Consume details
+### Consume ratings
 
 ## Troubleshooting
 
