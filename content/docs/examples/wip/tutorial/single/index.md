@@ -10,7 +10,7 @@ Since `ratings` is a web app it performs the following actions:
 
 - Listen to port `9080`.
 - Expect `HTTP GET` requests on the `/ratings/{productID}` path
-ratings of a product with `productID`.
+- Return the ratings of the product matching the value you specify for `productID`.
 
 1.  Download
     [the service's code]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
