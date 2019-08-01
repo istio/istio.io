@@ -200,7 +200,11 @@ federate, there is no requirement for uniform naming.
     {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
     {{< /text >}}
 
-## Deploy private gateways for cross-cluster communication
+The following diagram shows the state of the clusters of deploying the Bookinfo services:
+
+{{< image width="100%" link="./MeshFederation1_bookinfo.svg" caption="Two clusters after initial setup" >}}
+
+## Deploy private gateways for cross-cluster communication (one-time setup)
 
 ### Generate certificates and keys for cluster1 and cluster2
 
@@ -374,7 +378,11 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     lrwxrwxrwx 1 root root   22 Jul 29 00:35 example.com.crt -> ..data/example.com.crt
     {{< /text >}}
 
-## Expose and consume services
+The following diagram shows the state of the clusters after deploying the private gateways:
+
+{{< image width="100%" link="./MeshFederation2_bookinfo.svg" caption="Two clusters after deploying private gateways" >}}
+
+## Expose and consume services (on a per-service basis)
 
 ### Expose reviews v2
 
@@ -704,6 +712,10 @@ EOF
 {{< /text >}}
 
 1.  Refresh your app webpage and see reviews with black stars appear roughly 50% of the time.
+
+The following diagram shows the state of the clusters after configuring exposing and consuming of the `reviews` service:
+
+{{< image width="100%" link="./MeshFederation3_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
 
 ### Expose ratings
 
