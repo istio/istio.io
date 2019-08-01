@@ -155,7 +155,7 @@ weight: 3
         EOF
         {{< /text >}}
 
-    1.  Generate a Kube config file (`./${NAMESPACE}-user-config.yaml`) for the user of the namespace:
+    1. Generate the `./${NAMESPACE}-user-config.yaml` Kubernetes configuration file needed for each user of each namespace:
 
         {{< text bash >}}
         $ cat <<EOF > ./${NAMESPACE}-user-config.yaml
