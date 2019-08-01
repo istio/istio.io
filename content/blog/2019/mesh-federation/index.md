@@ -639,15 +639,16 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
           weight: 100
       - match:
           - port: 443
-            prefix: /
+            uri:
+              prefix: /
             gateways:
             - istio-private-egressgateway.istio-private-gateways
+        rewrite:
+          uri: /bookinfo/myreviews/v2/
+          authority: c2.example.com
         route:
         - destination:
             host: c2-example-com.istio-private-gateways.svc.cluster.local
-            rewrite:
-              uri: /bookinfo/myreviews/v2/
-              authority: c2.example.com
             port:
               number: 15433
           weight: 100
