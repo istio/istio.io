@@ -9,7 +9,7 @@ icon: vulnerabilities
 
 ## 报告漏洞{#Reporting-a-vulnerability}
 
-创建报告，可以发送电子邮件至 [`vulnerabilities@discuss.istio.io`](mailto:vulnerabilities@discuss.istio.io) 邮件列表，包含漏洞详细信息。对于与潜在安全漏洞无关的常见产品错误，请访问我们的[`报告错误页面`](/zh/about/bugs)了解该怎么做。
+创建报告，可以发送电子邮件至 [istio-security-vulnerability-reports@googlegroups.com](mailto:istio-security-vulnerability-reports@googlegroups.com) 邮件列表，包含漏洞详细信息。对于与潜在安全漏洞无关的常见产品错误，请访问我们的[`报告错误页面`](/zh/about/bugs)了解该怎么做。
 
 ### 何时报告安全漏洞？
 
