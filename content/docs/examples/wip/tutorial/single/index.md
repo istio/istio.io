@@ -1,6 +1,6 @@
 ---
 title: Run a single microservice locally
-overview: Work on a single microservice, on a local developer machine.
+overview: Learn how to work on a single service on your local machine.
 weight: 10
 ---
 
