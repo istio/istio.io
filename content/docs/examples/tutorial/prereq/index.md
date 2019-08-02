@@ -1,5 +1,6 @@
 ---
 title: Prerequisites
+overview: Check the prerequisites for this tutorial.
 weight: 2
 ---
 
