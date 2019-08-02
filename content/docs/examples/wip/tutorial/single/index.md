@@ -25,7 +25,12 @@ Since `ratings` is a web app it performs the following actions:
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/package.json -o package.json
     {{< /text >}}
 
-    Skim the service's code. Note the "embedded" Web Server and the aspects related to HTTP, such as the headers, the
+1. Skim the service's code and note the following elements on the code:
+    - The embedded web server
+    - The aspects related to HTTP:
+        - Headers
+        - Path
+        - Status code
     path, the status code.
 
 1.  Install the service's dependencies in the same folder you used to store the service code and the
