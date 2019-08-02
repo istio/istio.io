@@ -10,7 +10,7 @@ In this module you prepare your local computer for the tutorial.
 
 1.  Install [curl](https://curl.haxx.se/download.html).
 
-1.  Install [Node.js](https://nodejs.org/en/download/) &copy;.
+1.  Install [Node.js](https://nodejs.org/en/download/).
 
 1.  Install [Docker](https://docs.docker.com/install/).
 
