@@ -3,6 +3,8 @@ title: Prerequisites
 weight: 2
 ---
 
+{{< boilerplate work-in-progress >}}
+
 ## Instructors in a guided workshop or participants with their own cluster
 
 - You can access a Kubernetes cluster and have administrator privileges for said cluster.

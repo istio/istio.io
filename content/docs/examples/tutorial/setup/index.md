@@ -3,6 +3,8 @@ title: Setup
 weight: 3
 ---
 
+{{< boilerplate work-in-progress >}}
+
 1. Install [curl](https://curl.haxx.se/download.html)
 
 1. Install [Node.js](https://nodejs.org/en/download/)
