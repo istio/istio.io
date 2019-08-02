@@ -1,49 +1,54 @@
 ---
-title: Setup
-weight: 3
+title: Setup Kubernetes cluster
+overview: Set up your Kubernetes cluster for the tutorial.
+weight: 2
 ---
 
 {{< boilerplate work-in-progress >}}
 
-1. Install [curl](https://curl.haxx.se/download.html)
+In this module you set up a Kubernetes cluster with Istio installed and with a dedicated namespace for the tutorial.
 
-1. Install [Node.js](https://nodejs.org/en/download/)
-    1. Install [Docker](https://docs.docker.com/install/).
-    1. Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
+{{< warning >}}
+In case you participate in a workshop and the instructors provide a cluster for you, skip this module.
+{{</ warning >}}
+
+1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
     You can try using the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
-    [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/container-service).
+    [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
-1.  Create a shell variable to store the name of the namespace you will work with.
+1.  Create an environment variable to store the name of a namespace to perform the commands of the tutorial on.
+    You can use any name, for example `tutorial`. `coolstuff` will do as well.
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
-1.  Create a namespace for the tutorial, e.g.:
+1.  Create the namespace:
 
     {{< text bash >}}
     $ kubectl create namespace $NAMESPACE
     {{< /text >}}
 
-1. [Install Istio with strict mutual TLS enabled](/docs/setup/kubernetes/install/kubernetes/).
-    [these instructions](/docs/setup/kubernetes/install/kubernetes/).
+    {{< tip >}}
+    If you run the tutorial for multiple participants (you are an instructor in a class or you want to complete this
+    tutorial with your friends using your cluster), you may want to allocate a separate namespace per each
+    participant. The tutorial supports work in multiple namespaces simultaneously by multiple participants.
+    {{< /tip >}}
+
+1.  Install Istio with strict mutual TLS enabled. The simplest way is to follow
+    [these instructions](/docs/setup/kubernetes/install/kubernetes/#installation-steps),
+    select the `strict mutual TLS` tab.
 
 1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
 
-1.  Download one of the [Istio release archives](https://github.com/istio/istio/releases) and extract
-    the `istioctl` command line tool from it. The tool is in the `bin` directory of the archive.
-
-    Verify that you can run `istioctl`:
-
-    {{< text bash >}}
-    $ istioctl version
-    version.BuildInfo{Version:"release-1.1-20190214-09-16", GitRevision:"6113e155ac85e2485e30dfea2b80fd97afd3130a", User:"root", Host:"4496ae63-3039-11e9-86e9-0a580a2c0304", GolangVersion:"go1.10.4", DockerHub:"gcr.io/istio-release", BuildStatus:"Clean", GitTag:"1.1.0-snapshot.6-6-g6113e15"}
-    {{< /text >}}
-
-1.  **For cluster owners**: you may want to allocate a separate namespace per
-    different participant. The tutorial supports work in multiple namespaces simultaneously by multiple participants.
-
 1.  Create a Kubernetes Ingress resource for common Istio services:
+
+    - [Grafana](https://grafana.com/docs/guides/getting_started/)
+    - [Jaeger] (https://www.jaegertracing.io/docs/1.13/getting-started/)
+    - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
+    - [Kiali](https://www.kiali.io/documentation/getting-started/)
+
+    If you do not know what are the services above - great, this tutorial will teach you about each of them.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -85,9 +90,11 @@ weight: 3
     EOF
     {{< /text >}}
 
-1.  **For cluster owners**: you may want to limit the permissions of each
-    participant so they will be able to create resources only in their namespace. Perform the following steps to achieve
-    this:
+1.  You may want to limit the permissions of each participant so they will be able to create resources only in their
+    namespace. Even if you run the tutorial alone on your own cluster, it could be a good practice to limit yourself so
+    your learning will not interfere with other namespaces in your cluster.
+
+    Perform the following steps to achieve this:
 
     1.  Create a role to provide read access to `istio-system` namespace:
 
@@ -157,7 +164,8 @@ weight: 3
         EOF
         {{< /text >}}
 
-    1. Generate the `./${NAMESPACE}-user-config.yaml` Kubernetes configuration file needed for each user of each namespace:
+    1.  Generate the `./${NAMESPACE}-user-config.yaml` Kubernetes configuration file needed for each user of each
+        namespace:
 
         {{< text bash >}}
         $ cat <<EOF > ./${NAMESPACE}-user-config.yaml
@@ -189,12 +197,11 @@ weight: 3
         EOF
         {{< /text >}}
 
-        You can send this Kube config file to a tutorial's participant. The participant will define the
-        `KUBECONFIG` variable to store the location of the file, and as a result will have access to the tutorial's
-        namespace only.
+        Now you can send the generated config file to each tutorial's participant (or use it yourself, if you are the participant). The participant will define the `KUBECONFIG` environment variable to store the location of the
+        file, and as a result will have access to the tutorial's namespace only. See the next module for the local
+        computer setup.
 
-        A commnad to set `KUBECONFIG` to point to the generated configuration:
-
-        {{< text bash >}}
-        $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
-        {{< /text >}}
+You performed the setup of your cluster for the tutorial and can proceed to the setup of your local computer in the next
+module.
+We understand that this setup process could be rather boring. Bear with us, you are just a single module before the
+actual learning!
