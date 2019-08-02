@@ -168,3 +168,4 @@ and `1.x.Y` is the name of the release.
 
 For the first three files, please look at existing files in the same locations for example content and
 layout.
+
