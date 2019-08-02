@@ -4,7 +4,7 @@ overview: Learn how to work on a single service on your local machine.
 weight: 10
 ---
 
-This module demonstrates work on a single microservice, `ratings`, on a local developer machine.
+This module demonstrates teaches you how to work on a single service, `ratings`, on your local machine.
 The `ratings` service is a small web app written in [Node.js](https://nodejs.org/en/) that can run on its own.
 Since `ratings` is a web app it performs the following actions:
 
