@@ -9,7 +9,8 @@ weight: 2
 In this module you set up a Kubernetes cluster with Istio installed and with a dedicated namespace for the tutorial.
 
 {{< warning >}}
-In case you participate in a workshop and the instructors provide a cluster for you, skip this module.
+In case you participate in a workshop and the instructors provide a cluster for you,
+proceed to [the next module](/docs/examples/tutorial/setup-local-computer).
 {{</ warning >}}
 
 1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
@@ -198,10 +199,10 @@ In case you participate in a workshop and the instructors provide a cluster for 
         {{< /text >}}
 
         Now you can send the generated config file to each tutorial's participant (or use it yourself, if you are the participant). The participant will define the `KUBECONFIG` environment variable to store the location of the
-        file, and as a result will have access to the tutorial's namespace only. See the next module for the local
-        computer setup.
+        file, and as a result will have access to the tutorial's namespace only.
+        See [the next module](/docs/examples/tutorial/setup-local-computer) for the local computer setup.
 
-You performed the setup of your cluster for the tutorial and can proceed to the setup of your local computer in the next
-module.
-We understand that this setup process could be rather boring. Bear with us, you are just a single module before the
-actual learning!
+You performed the setup of your cluster for the tutorial and can proceed to the setup of your local computer in
+[the next module](/docs/examples/tutorial/setup-local-computer).
+We understand that for some of you this setup process could be rather boring.
+Bear with us, you are just a single module before running your first microservice!
