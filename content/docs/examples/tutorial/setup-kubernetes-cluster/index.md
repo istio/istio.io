@@ -45,7 +45,7 @@ proceed to [the next module](/docs/examples/tutorial/setup-local-computer).
 1.  Create a Kubernetes Ingress resource for common Istio services:
 
     - [Grafana](https://grafana.com/docs/guides/getting_started/)
-    - [Jaeger] (https://www.jaegertracing.io/docs/1.13/getting-started/)
+    - [Jaeger](https://www.jaegertracing.io/docs/1.13/getting-started/)
     - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
     - [Kiali](https://www.kiali.io/documentation/getting-started/)
 
