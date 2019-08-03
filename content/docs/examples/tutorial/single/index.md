@@ -6,13 +6,22 @@ weight: 10
 
 {{< boilerplate work-in-progress >}}
 
-This module demonstrates teaches you how to work on a single service, `ratings`, on your local machine.
-The `ratings` service is a small web app written in [Node.js](https://nodejs.org/en/) that can run on its own.
-Since `ratings` is a web app it performs the following actions:
+This module demonstrates different aspects of developing a single service on a local machine.
+We will not ask you to write code, your task will be to build, run and test an already implemented service,
+`ratings`.
+The goal is to show that you can implement, build, run and test a service on your local machine,
+before deploying it to a development, testing or production environment.
 
-- Listen to port `9080`.
-- Expect `HTTP GET` requests on the `/ratings/{productID}` path
-- Return the ratings of the product matching the value you specify for `productID`.
+The `ratings` service is a small web app written in [Node.js](https://nodejs.org/en/) that can run on its own.
+It performs the following actions, similar to the actions the web apps usually perform:
+
+- Listen to the port it receives as a parameter.
+- Expect `HTTP GET` requests on the `/ratings/{productID}` path and return the ratings of the product matching the value
+  you specify for `productID`.
+- Expect `HTTP POST` requests on the `/ratings/{productID}` path and update the ratings of the product matching the value
+  you specify for `productID`.
+
+Download the code of the app, install its dependencies and run it locally following the steps below:
 
 1.  Download
     [the service's code]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
@@ -28,15 +37,26 @@ Since `ratings` is a web app it performs the following actions:
     {{< /text >}}
 
 1. Skim the service's code and note the following elements on the code:
-    - The embedded web server
+    - The web serving features
+        - listening to a port
+        - handling requests and responses
     - The aspects related to HTTP:
         - Headers
         - Path
         - Status code
-    path, the status code.
 
-1.  Install the service's dependencies in the same folder you used to store the service code and the
-    package file:
+    A quick explanation for those who are not familiar with Node.js or some of other modern web application framework.
+    As opposed to the architecture of frameworks like [Apache Tomcat](http://tomcat.apache.org) or
+    [Webshere Application Server](https://www.ibm.com/support/knowledgecenter/SS7K4U_9.0.5/com.ibm.websphere.zseries.doc/ae/welc6productov.html),
+    where one web server software runs multiple applications, in the case of Node.js the web serving functionality is
+    embedded in the code of a single web application. A Node.js web application runs as a standalone process and
+    contains all the web serving features.
+
+1.  Since Node.js applications are written in JavaScript they are interpreted
+    (well, with [just-in-time compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation)),
+    so there is no explicit compilation step. To build a Node.js application, roughly means to install its dependencies.
+
+    Install the service's dependencies in the same folder you used to store the service code and the package file:
 
     {{< text bash >}}
     $ npm install
@@ -48,7 +68,7 @@ Since `ratings` is a web app it performs the following actions:
     added 24 packages in 2.094s
     {{< /text >}}
 
-1.  Run the service:
+1.  Run the service, passing `9080` as a parameter. The application will listen on port 9080.
 
     {{< text bash >}}
     $ npm start 9080
@@ -57,7 +77,12 @@ Since `ratings` is a web app it performs the following actions:
     Server listening on: http://0.0.0.0:9080
     {{< /text >}}
 
-1.  Access [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or by the `curl` command:
+1.  Since the service is a web app, you can communicate with it as with any other web app, via a browser or by a
+    command line web client like [cURL](https://curl.haxx.se) or [Wget](https://www.gnu.org/software/wget/).
+    Since you run the service locally, you can access it via the `localhost` hostname.
+
+    Open [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or access it the `curl`
+    command:
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
@@ -79,3 +104,6 @@ Since `ratings` is a web app it performs the following actions:
     {{< /text >}}
 
 1.  To stop the service stop its process, press `Ctrl-C` while in the terminal running it.
+
+In this module you saw how you can implement, build, test and run a service on a local machine.
+In the next module you will learn how create a container for your service and how to run the container locally.
