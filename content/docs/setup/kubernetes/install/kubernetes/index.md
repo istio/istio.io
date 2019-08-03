@@ -54,11 +54,9 @@ requirements.
 {{< tabset cookie-name="profile" >}}
 
 {{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
-When using the permissive mutual TLS mode, all services accept both plaintext and
+When using the [permissive mutual TLS mode](/docs/concepts/security/#permissive-mode), all services accept both plaintext and
 mutual TLS traffic. Clients send plaintext traffic unless configured for
-[mutual migration](/docs/tasks/security/mtls-migration/#configure-clients-to-send-mutual-tls-traffic).
-Visit our [mutual TLS permissive mode page](/docs/concepts/security/#permissive-mode)
-for more information.
+[mutual TLS migration](/docs/tasks/security/mtls-migration/).
 
 Choose this variant for:
 
