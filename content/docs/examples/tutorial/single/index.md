@@ -47,7 +47,7 @@ Download the code of the app, install its dependencies and run it locally follow
 
     A quick explanation for those who are not familiar with Node.js or some of other modern web application framework.
     As opposed to the architecture of frameworks like [Apache Tomcat](http://tomcat.apache.org) or
-    [Webshere Application Server](https://www.ibm.com/support/knowledgecenter/SS7K4U_9.0.5/com.ibm.websphere.zseries.doc/ae/welc6productov.html),
+    [WebSphere Application Server](https://www.ibm.com/support/knowledgecenter/SS7K4U_9.0.5/com.ibm.websphere.zseries.doc/ae/welc6productov.html),
     where one web server software runs multiple applications, in the case of Node.js the web serving functionality is
     embedded in the code of a single web application. A Node.js web application runs as a standalone process and
     contains all the web serving features.
