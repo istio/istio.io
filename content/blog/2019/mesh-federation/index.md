@@ -419,7 +419,7 @@ The following diagram shows the state of the clusters after deploying the privat
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: myreviews-bookinfo-v2
+      name: privately-exposed-services
     spec:
       hosts:
       - c2.example.com
@@ -846,7 +846,7 @@ $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/virtual-
 ### Delete exposure of services in `cluster2`
 
 {{< text bash >}}
-$ kubectl delete --context=$CTX_CLUSTER2 virtualservice myreviews-bookinfo-v2 -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER2 virtualservice privately-exposed-services -n istio-private-gateways
 $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n istio-private-gateways
 {{< /text >}}
 
