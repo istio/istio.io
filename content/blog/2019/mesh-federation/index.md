@@ -712,6 +712,7 @@ spec:
     route:
     - destination:
         host: reviews.default.svc.cluster.local
+        subset: v1
         port:
           number: 9080
       weight: 50
