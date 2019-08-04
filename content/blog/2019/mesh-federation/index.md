@@ -790,6 +790,73 @@ The following diagram shows the state of the clusters after configuring exposing
 
 ### Expose ratings and reviews v3
 
+1.  Redefine the `privately-exposed-services` virtual service you created earlier, to perform routing to `reviews v3`
+    and `ratings`, and to stop routing to `reviews v2`
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: privately-exposed-services
+    spec:
+      hosts:
+      - c2.example.com
+      gateways:
+      - istio-private-ingressgateway
+      http:
+      - match:
+        - uri:
+            prefix: /bookinfo/myreviews/v3/
+        rewrite:
+          uri: /
+          authority: myreviews.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v3
+            host: myreviews.bookinfo.svc.cluster.local
+      - match:
+        - uri:
+            prefix: /bookinfo/ratings/v1/
+        rewrite:
+          uri: /
+          authority: ratings.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v1
+            host: ratings.bookinfo.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+    Test your configurationby performing the commands below:
+
+1.  Access `reviews v3` from your local machine:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
+    {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
+    Response code: 200
+    {{< /text >}}
+
+1.  Access `ratings`:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
+    Response code: 200
+    {{< /text >}}
+
+1.  Try to access `reviews v2`, it should not be accessible anymore:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v2/reviews/0 -w "\nResponse code: %{http_code}\n"
+    Response code: 404
+    {{< /text >}}
+
 ### Consume ratings and reviews v3
 
 ## Troubleshooting
