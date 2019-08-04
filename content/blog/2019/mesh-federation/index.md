@@ -1145,6 +1145,94 @@ and `ratings` services:
 
 {{< image width="100%" link="./MeshFederation5_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the ratings and reviews v3 services" >}}
 
+## Apply Istio RBAC on `cluster2`
+
+### Apply Istio RBAC on the `bookinfo` namespace
+
+1.   Create Istio service roles for read access to `reviews` and `ratings`.
+
+    {{< text bash >}}
+    $ kubectl apply  --context=$CTX_CLUSTER2 -n bookinfo -f - <<EOF
+    apiVersion: rbac.istio.io/v1alpha1
+    kind: ServiceRole
+    metadata:
+      name: reviews-reader
+    spec:
+      rules:
+      - services: ["myreviews.bookinfo.svc.cluster.local"]
+        methods: ["GET"]
+    ---
+    apiVersion: rbac.istio.io/v1alpha1
+    kind: ServiceRole
+    metadata:
+      name: ratings-reader
+    spec:
+      rules:
+      - services: ["ratings.bookinfo.svc.cluster.local"]
+        methods: ["GET"]
+    EOF
+    {{< /text >}}
+
+1.  Create role bindings to enable read access to microservices according to the requirements of the application:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n bookinfo -f - <<EOF
+    apiVersion: rbac.istio.io/v1alpha1
+    kind: ServiceRoleBinding
+    metadata:
+      name: reviews-reader
+    spec:
+      subjects:
+      - user: "cluster.local/ns/istio-private-gateways/sa/istio-private-ingressgateway-service-account"
+      roleRef:
+        kind: ServiceRole
+        name: reviews-reader
+    ---
+    apiVersion: rbac.istio.io/v1alpha1
+    kind: ServiceRoleBinding
+    metadata:
+      name: ratings-reader
+    spec:
+      subjects:
+      - user: "cluster.local/ns/bookinfo/sa/bookinfo-reviews"
+      - user: "cluster.local/ns/istio-private-gateways/sa/istio-private-ingressgateway-service-account"
+      roleRef:
+        kind: ServiceRole
+        name: ratings-reader
+    EOF
+    {{< /text >}}
+
+1.  Enable [Istio RBAC](/docs/concepts/security/#authorization) on the `bookinfo` namespace.
+
+    {{< warning >}}
+    If you have Istio RBAC already enabled on some of your namespaces, add `bookinfo` to the list of the included namespaces. The command below assumes that you do not have Istio RBAC in your cluster enabled.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -f - <<EOF
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ClusterRbacConfig
+    metadata:
+      name: default
+      namespace: istio-system
+    spec:
+      mode: ON_WITH_INCLUSION
+      inclusion:
+        namespaces: [ bookinfo ]
+    EOF
+    {{< /text >}}
+
+1.  Access the application's webpage in `cluster` and verify that the application continues to work, which would mean that the
+    authorized access is allowed and you configured your policy rules correctly.
+
+1.  Check that unauthorized access is denied. Send a GET request from `ratings` to `reviews`:
+
+    {{< text bash >}}
+    $  kubectl exec -it $(kubectl get pod -l app=ratings --context=$CTX_CLUSTER2 -n bookinfo -o jsonpath='{.items[0].metadata.name}') --context=$CTX_CLUSTER2 -n bookinfo -c ratings -- curl myreviews:9080/reviews/0 -w "\nResponse code: %{http_code}\n"
+    RBAC: access denied
+    Response code: 403
+    {{< /text >}}
+
 ## Troubleshooting
 
 1.  Enable Envoy access logs for `cluster1`:
@@ -1245,6 +1333,27 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 
     {{< text bash >}}
     $ kubectl delete --context=$CTX_CLUSTER2 namespace istio-private-gateways
+    {{< /text >}}
+
+### Disable Istio RBAC in `cluster2`
+
+1.  Disable [Istio RBAC](/docs/concepts/security/#authorization) on the `bookinfo` and `istio-private-gateways`
+    namespaces.
+
+    {{< warning >}}
+    If you have Istio RBAC enabled on some of your namespaces, remove `bookinfo` and `istio-private-gateways`
+    from the list of the included namespaces. The command below assumes that you do not have Istio RBAC in your cluster enabled on namespaces other than `bookinfo` and `istio-private-gateways`.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-system clusterrbacconfig default
+    {{< /text >}}
+
+1.  Delete the service roles and service role bindings:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER2 -n bookinfo servicerolebinding ratings-reader reviews-reader
+    $ kubectl delete --context=$CTX_CLUSTER2 -n bookinfo servicerole ratings-reader reviews-reader
     {{< /text >}}
 
 ### Delete the Bookinfo services
