@@ -764,6 +764,14 @@ The following diagram shows the state of the clusters after configuring exposing
     EOF
     {{< /text >}}
 
+1.  Delete the consumption of the remote service from `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete --context=$CTX_CLUSTER1 virtualservice reviews -n istio-private-gateways
+    $ kubectl delete --context=$CTX_CLUSTER1 destinationrule istio-private-egressgateway-reviews-default -n istio-private-gateways
+    $ kubectl delete --context=$CTX_CLUSTER1 gateway istio-private-egressgateway -n istio-private-gateways
+    {{< /text >}}
+
 1.  Delete the deployments of `reviews v1`:
 
     {{< text bash >}}
@@ -789,7 +797,7 @@ The following diagram shows the state of the clusters after configuring exposing
 
     The current deployment of the services in the two clusters is shown below:
 
-    {{< image width="100%" link="./MeshFederation4_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
+    {{< image width="100%" link="./MeshFederation4_bookinfo.svg" caption="Two clusters after deploying reviews v2 in cluster1" >}}
 
 ### Expose ratings and reviews v3
 
