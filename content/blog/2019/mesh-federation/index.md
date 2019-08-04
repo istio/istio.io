@@ -731,9 +731,66 @@ The following diagram shows the state of the clusters after configuring exposing
 
 {{< image width="100%" link="./MeshFederation3_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
 
-### Expose ratings
+### Deploy `reviews v2` locally and retire `reviews v1`
 
-### Consume ratings
+1.  Deploy `reviews v2` locally:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -l app=reviews,version=v2 -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    {{< /text >}}
+
+1.  Direct all the traffic to the local version `reviews v2`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews
+      http:
+      - match:
+        - port: 9080
+        route:
+        - destination:
+            host: reviews.default.svc.cluster.local
+            subset: v2
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Delete the deployments of `reviews v1`:
+
+    {{< text bash >}}
+    $ kubectl delete deployment reviews-v1 --context=$CTX_CLUSTER1
+    deployment.extensions "reviews-v1" deleted
+    {{< /text >}}
+
+1.  Check the pods:
+
+    {{< text bash >}}
+    $ kubectl get pods --context=$CTX_CLUSTER1
+    details-v1-59489d6fb6-m5s5j       2/2     Running   0          4h31m
+    productpage-v1-689ff955c6-7qsk6   2/2     Running   0          4h31m
+    reviews-v1-657b76fc99-lx46g       2/2     Running   0          4h31m
+    sleep-57f9d6fd6b-px97z            2/2     Running   0          4h31m
+    {{< /text >}}
+
+    You should have three pods of the Bookinfo application and a pod for the sleep testing app.
+
+1.  Access the web page of the Bookinfo application. Notice the `Ratings service is currently unavailable` error. This
+    is because the `ratings` service in a remote cluster and you neither exposed it in `cluster2` nor configured
+    consuming it in `cluster1`. You will do it in the next sections.
+
+    The current deployment of the services in the two clusters is shown below:
+
+    {{< image width="100%" link="./MeshFederation4_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
+
+### Expose ratings and reviews v3
+
+### Consume ratings and reviews v3
 
 ## Troubleshooting
 
