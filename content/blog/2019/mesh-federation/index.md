@@ -1,8 +1,8 @@
 ---
 title: Mesh Federation
-subtitle: Federate distinct service mesh in an ad-hoc manner, with limited service exposure and cross-cluster traffic control
-description: Federate distinct service mesh in an ad-hoc manner, with limited service exposure and cross-cluster traffic control.
-publishdate: 2019-07-23
+subtitle: Federate two service meshes in an ad-hoc manner, with limited service exposure and cross-cluster traffic control
+description: Federate two service meshes in an ad-hoc manner, with limited service exposure and cross-cluster traffic control.
+publishdate: 2019-08-08
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
