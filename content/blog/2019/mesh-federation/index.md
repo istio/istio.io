@@ -386,7 +386,7 @@ The following diagram shows the state of the clusters after deploying the privat
 
 ### Expose reviews v2
 
-1.  Define a `Gateway`:
+1.  Define an ingress `Gateway`:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
