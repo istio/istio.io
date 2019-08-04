@@ -711,7 +711,7 @@ spec:
       authority: reviews.default.svc.cluster.local
     route:
     - destination:
-        host: reviews.default.svc.cluster.local
+        host: reviews
         subset: v1
         port:
           number: 9080
