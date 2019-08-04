@@ -652,7 +652,8 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     EOF
     {{< /text >}}
 
-1.  Define a virtual service to direct the traffic from sidecars to the egress gateway:
+1.  Now you can perform a canary release for `reviews v2`.
+    Define a virtual service to direct the traffic from sidecars to the egress gateway for the `jason` user:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
@@ -666,6 +667,9 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
       http:
       - match:
         - port: 9080
+          headers:
+            end-user:
+              exact: jason
         rewrite:
           authority: reviews.default.svc.cluster.local
         route:
@@ -674,11 +678,20 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
             subset: reviews-default
             port:
               number: 443
+      - match:
+        - port: 9080
+        route:
+        - destination:
+            host: reviews
+            subset: v1
           weight: 100
     EOF
     {{< /text >}}
 
-1.  Refresh your app webpage and see reviews with black stars appear.
+1.  Use the _Sign in_ button in the top right corner to sign in as `jason` (any password would do).
+    You will see that now the ratings with black starts appear which means that the remote version is used.
+
+1.  Sign out and see that for the rest of the users the local version is used.
 
 1.  Perform load balancing 50:50 between your local version of reviews (v1) and the remote version of reviews (v2):
 
