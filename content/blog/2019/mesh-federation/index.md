@@ -870,6 +870,281 @@ The following diagram shows the state of the clusters after configuring exposing
 
 ### Consume ratings and reviews v3
 
+1.  Note that in this case the local version of the `reviews` service issues requests to the `ratings`, which does not
+    exist locally. In this case you must handle:
+    1. The DNS should have an entry for `ratings.default.svc.cluster.local`. Otherwise the local `reviews` service will
+    fail at DNS query.
+    1. Routing to the remote `ratings` service
+
+    To handle DNS, create a Kubernetes service for `ratings.default.svc.cluster.local`. Handle routing to the remote
+    `ratings` service, and also to `reviews v3` in the steps that follow after the next step.
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: ratings
+    spec:
+      type: ExternalName
+      externalName: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      ports:
+      - name: http
+        protocol: TCP
+        port: 9080
+    EOF
+    {{< /text >}}
+
+1.  Create an egress `Gateway` for `ratings.default.svc.cluster.local` and `reviews.default.svc.cluster.local`, port 80,
+    and destination rules for traffic directed to the egress gateway.
+
+    Choose the instructions corresponding to whether or not you have
+    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+
+    {{< tabset cookie-name="mtls" >}}
+
+    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+
+    {{< text_hack bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-private-egressgateway
+    spec:
+      selector:
+        istio: private-egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - reviews.default.svc.cluster.local
+        - ratings.default.svc.cluster.local
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: istio-private-egressgateway-reviews-default
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: reviews-default
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: reviews.default.svc.cluster.local
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: istio-private-egressgateway-ratings-default
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: ratings-default
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: ratings.default.svc.cluster.local
+    EOF
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+
+    {{< text_hack bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-private-egressgateway
+    spec:
+      selector:
+        istio: private-egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - reviews.default.svc.cluster.local
+        - ratings.default.svc.cluster.local
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: istio-private-egressgateway-reviews-default
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: reviews-default
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: istio-private-egressgateway-ratings-default
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: ratings-default
+    EOF
+    {{< /text_hack >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+1.  Define a `VirtualService` to direct traffic from the egress gateway
+    to `ratings`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+    spec:
+      hosts:
+      - ratings.default.svc.cluster.local
+      gateways:
+      - istio-private-egressgateway.istio-private-gateways
+      http:
+      - match:
+          - port: 443
+            uri:
+              prefix: /
+            gateways:
+            - istio-private-egressgateway.istio-private-gateways
+        rewrite:
+          uri: /bookinfo/ratings/v1/
+          authority: c2.example.com
+        route:
+        - destination:
+            host: c2-example-com.istio-private-gateways.svc.cluster.local
+            port:
+              number: 15443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Define a `VirtualService` to direct traffic from the egress gateway
+    to `reviews-v3`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews.default.svc.cluster.local
+      gateways:
+      - istio-private-egressgateway.istio-private-gateways
+      http:
+      - match:
+          - port: 443
+            uri:
+              prefix: /
+            gateways:
+            - istio-private-egressgateway.istio-private-gateways
+        rewrite:
+          uri: /bookinfo/myreviews/v3/
+          authority: c2.example.com
+        route:
+        - destination:
+            host: c2-example-com.istio-private-gateways.svc.cluster.local
+            port:
+              number: 15443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Direct traffic destined to `ratings` to the egress gateway:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: ratings
+    spec:
+      hosts:
+      - ratings
+      http:
+      - match:
+        - port: 9080
+        rewrite:
+          authority: ratings.default.svc.cluster.local
+        route:
+        - destination:
+            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+            subset: ratings-default
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Access the webpage of your application and verify that the ratings are now displayed correctly, with black stars.
+
+1.  Perform load balancing 50:50 between your local version of reviews (v2) and the remote version of reviews (v3):
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews
+      http:
+      - match:
+        - port: 9080
+        rewrite:
+          authority: reviews.default.svc.cluster.local
+        route:
+        - destination:
+            host: reviews
+            subset: v2
+            port:
+              number: 9080
+          weight: 50
+        - destination:
+            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+            subset: reviews-default
+            port:
+              number: 443
+          weight: 50
+    EOF
+    {{< /text >}}
+
+1.  Refresh your app webpage and see reviews with black and red stars appear roughly 50:50.
+
+The following diagram shows the state of the clusters after configuring exposing and consuming of the `reviews v3`
+and `ratings` services:
+
+{{< image width="100%" link="./MeshFederation5_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the ratings and reviews v3 services" >}}
+
 ## Troubleshooting
 
 1.  Enable Envoy access logs for `cluster1`:
