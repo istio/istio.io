@@ -30,16 +30,16 @@ Istio and Kubernetes often go together, but Istio is much more than an add-on to
 
 The number of objects that must be configured to deploy applications is a concrete example of Kubernetes’ composability. By our count, at least 10 objects need to be configured:
 
-* Namespace
-* Service 
-* Ingress
-* Deployment
-* HorizontalPodAutoscaler
-* Secret
-* ConfigMap
-* RBAC
-* PodDisruptionBudget
-* NetworkPolicy
+- Namespace
+- Service 
+- Ingress
+- Deployment
+- HorizontalPodAutoscaler
+- Secret
+- ConfigMap
+- RBAC
+- PodDisruptionBudget
+- NetworkPolicy
 
 It sounds complicated, but not everyone needs to interact with those concepts. Some are the responsibility of different teams like the cluster, network, or security admin teams, and many provide sensible defaults. A great benefit of cloud native platforms and deployment tools is that they can hide that complexity by taking in a small amount of information and configuring those objects for you.
 
@@ -55,10 +55,10 @@ AutoTrader UK has one of our favorite examples of a custom platform built on Ist
 
 Some areas of improvement that we’re working on for upcoming releases include: 
 
-* Installation profiles to setup standard patterns for ingress and egress, with the Istio operator
-* Automatic inference of container ports and protocols for telemetry
-* Support for routing all traffic by default to constrain routing incrementally
-* Add a single global flag to enable mTLS and encrypt all inter-pod traffic
+- Installation profiles to setup standard patterns for ingress and egress, with the Istio operator
+- Automatic inference of container ports and protocols for telemetry
+- Support for routing all traffic by default to constrain routing incrementally
+- Add a single global flag to enable mTLS and encrypt all inter-pod traffic
 
 Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](https://istio.io/docs/setup/kubernetes/additional-setup/config-profiles/) that works with your adapters.
 
