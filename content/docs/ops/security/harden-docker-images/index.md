@@ -16,7 +16,7 @@ The following images haven't been updated to support *distroless* yet:
 - `kubectl`
 - `app_sidecar`
 
-Still, they are available with a `-distroless` suffix.
+For ease of the installation, they are available with a `-distroless` suffix.
 {{< /warning >}}
 
 ## Install distroless images
