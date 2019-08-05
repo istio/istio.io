@@ -209,13 +209,65 @@ The following diagram shows the state of the clusters of deploying the Bookinfo 
 
 ### Generate certificates and keys for cluster1 and cluster2
 
-{{< text bash >}}
-$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
-$ openssl req -subj '/O=example Inc., department 1/CN=c1.example.com' -out c1.example.com.csr -newkey rsa:2048 -nodes -keyout c1.example.com.key
-$ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in c1.example.com.csr -out c1.example.com.crt
-$ openssl req -subj '/O=example Inc., department 2/CN=c2.example.com' -out c2.example.com.csr -newkey rsa:2048 -nodes -keyout c2.example.com.key
-$ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in c2.example.com.csr -out c2.example.com.crt
-{{< /text >}}
+1.  Create a configuration file for `cluster1`:
+
+    {{< text bash >}}
+    $ cat > ./certificate1.conf <<EOF
+    [ req ]
+    encrypt_key = no
+    prompt = no
+    utf8 = yes
+    default_md = sha256
+    req_extensions = req_ext
+    x509_extensions = req_ext
+    distinguished_name = req_dn
+    [ req_ext ]
+    subjectKeyIdentifier = hash
+    basicConstraints = critical, CA:false
+    keyUsage = critical, digitalSignature, nonRepudiation
+    subjectAltName=@san
+    [req_dn]
+    O=example Inc., department 1
+    CN=c1.example.com
+    [ san ]
+    URI.1 = spiffe://c1.example.com/istio-private-egressgateway"
+    EOF
+    {{< /text >}}
+
+1.  Create a configuration file for `cluster2`:
+
+    {{< text bash >}}
+    $ cat > ./certificate2.conf <<EOF
+    [ req ]
+    encrypt_key = no
+    prompt = no
+    utf8 = yes
+    default_md = sha256
+    req_extensions = req_ext
+    x509_extensions = req_ext
+    distinguished_name = req_dn
+    [ req_ext ]
+    subjectKeyIdentifier = hash
+    basicConstraints = critical, CA:false
+    keyUsage = critical, digitalSignature, nonRepudiation
+    subjectAltName=@san
+    [req_dn]
+    O=example Inc., department 2
+    CN=c2.example.com
+    [ san ]
+    URI.1 = spiffe://c2.example.com/istio-private-ingressgateway"
+    EOF
+    {{< /text >}}
+
+1.  Create the certificates:
+
+    {{< text bash >}}
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+    $ openssl req -reqexts req_ext -out c1.example.com.csr -newkey rsa:2048 -nodes -keyout c1.example.com.key -config ./certificate1.conf
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in c1.example.com.csr -out c1.example.com.crt -extensions req_ext -extfile ./certificate1.conf
+    $ openssl req -reqexts req_ext -out c2.example.com.csr -newkey rsa:2048 -nodes -keyout c2.example.com.key -config ./certificate2.conf
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in c2.example.com.csr -out c2.example.com.crt -extensions req_ext -extfile ./certificate2.conf
+    {{< /text >}}
 
 ### Deploy private egress gateway in cluster1
 
