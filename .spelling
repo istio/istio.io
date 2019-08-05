@@ -159,6 +159,7 @@ devops
 discuss.istio.io
 distro
 Distroless
+distroless
 Divya
 DNS
 docker-compose's
@@ -177,6 +178,7 @@ env
 etcd
 example.com
 ExecAction
+executables
 Exfiltrating
 ExternalName
 facto
