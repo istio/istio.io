@@ -261,6 +261,32 @@ The following diagram shows the state of the clusters of deploying the Bookinfo 
     EOF
     {{< /text >}}
 
+1.  Create a configuration file for `cluster3`, for testing RBAC policies:
+
+    {{< text bash >}}
+    $ cat > ./certificate3.conf <<EOF
+    [ req ]
+    encrypt_key = no
+    prompt = no
+    utf8 = yes
+    default_md = sha256
+    req_extensions = req_ext
+    x509_extensions = req_ext
+    distinguished_name = req_dn
+    [ req_ext ]
+    subjectKeyIdentifier = hash
+    basicConstraints = critical, CA:false
+    keyUsage = critical, digitalSignature, nonRepudiation
+    extendedKeyUsage = clientAuth
+    subjectAltName = critical, @san
+    [req_dn]
+    O=example Inc., department 3
+    CN=c3.example.com
+    [ san ]
+    URI.1 = spiffe://c3.example.com/istio-private-egressgateway
+    EOF
+    {{< /text >}}
+
 1.  Create the certificates:
 
     {{< text bash >}}
@@ -269,6 +295,8 @@ The following diagram shows the state of the clusters of deploying the Bookinfo 
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in c1.example.com.csr -out c1.example.com.crt -extensions req_ext -extfile ./certificate1.conf
     $ openssl req -reqexts req_ext -out c2.example.com.csr -newkey rsa:2048 -nodes -keyout c2.example.com.key -config ./certificate2.conf
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in c2.example.com.csr -out c2.example.com.crt -extensions req_ext -extfile ./certificate2.conf
+    $ openssl req -reqexts req_ext -out c3.example.com.csr -newkey rsa:2048 -nodes -keyout c3.example.com.key -config ./certificate3.conf
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 2 -in c3.example.com.csr -out c3.example.com.crt -extensions req_ext -extfile ./certificate3.conf
     {{< /text >}}
 
 ### Deploy private egress gateway in cluster1
