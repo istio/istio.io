@@ -1321,53 +1321,144 @@ and `ratings` services:
 
     {{< text bash >}}
     $ kubectl apply  --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRole
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
     metadata:
-      name: ingress-reader
+      name: private-ingress-rbac
     spec:
-      rules:
-      - services: ["istio-private-ingressgateway.istio-private-gateways.svc.cluster.local"]
-        methods: ["GET"]
+      workloadLabels:
+        istio: private-ingressgateway
+      filters:
+      - filterName: envoy.filters.http.rbac
+        filterType: HTTP
+        listenerMatch:
+          portNumber: 15443
+          listenerType: GATEWAY
+          listenerProtocol: HTTP
+        filterConfig:
+          rules:
+            action: ALLOW
+            policies:
+              reviews_v3:
+                permissions:
+                  and_rules:
+                    rules:
+                    - header:
+                        name: ":path"
+                        prefix_match: "/bookinfo/myreviews/v3/"
+                    - header:
+                        name: ":method"
+                        exact_match: "GET"
+                principals:
+                - authenticated:
+                    principal_name:
+                      exact: "spiffe://c1.example.com/istio-private-egressgateway"
+              ratings_v1:
+                permissions:
+                  and_rules:
+                    rules:
+                    - header:
+                        name: ":path"
+                        prefix_match: "/bookinfo/ratings/v1/"
+                    - header:
+                        name: ":method"
+                        exact_match: "GET"
+                principals:
+                - authenticated:
+                    principal_name:
+                      exact: "spiffe://c1.example.com/istio-private-egressgateway"
     EOF
     {{< /text >}}
 
-1.  Create role binding to enable read access to microservices according to the requirements of the application:
+1.  Refresh the webpage of your application and verify that everything is working as before.
+
+1.  Let's change the RBAC policy to allow `reviews` to be exposed to the `c1` cluster while `ratings` will be exposed to
+    the `c3` cluster:
 
     {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRoleBinding
+    $ kubectl apply  --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
     metadata:
-      name: ingress-reader
+      name: private-ingress-rbac
     spec:
-      subjects:
-      - user: "c1.example.com/istio-private-egressgateway"
-      roleRef:
-        kind: ServiceRole
-        name: ingress-reader
+      workloadLabels:
+        istio: private-ingressgateway
+      filters:
+      - filterName: envoy.filters.http.rbac
+        filterType: HTTP
+        listenerMatch:
+          portNumber: 15443
+          listenerType: GATEWAY
+          listenerProtocol: HTTP
+        filterConfig:
+          rules:
+            action: ALLOW
+            policies:
+              reviews_v3:
+                permissions:
+                  and_rules:
+                    rules:
+                    - header:
+                        name: ":path"
+                        prefix_match: "/bookinfo/myreviews/v3/"
+                    - header:
+                        name: ":method"
+                        exact_match: "GET"
+                principals:
+                - authenticated:
+                    principal_name:
+                      exact: "spiffe://c1.example.com/istio-private-egressgateway"
+              ratings_v1:
+                permissions:
+                  and_rules:
+                    rules:
+                    - header:
+                        name: ":path"
+                        prefix_match: "/bookinfo/ratings/v1/"
+                    - header:
+                        name: ":method"
+                        exact_match: "GET"
+                principals:
+                - authenticated:
+                    principal_name:
+                      exact: "spiffe://c3.example.com/istio-private-egressgateway"
     EOF
     {{< /text >}}
 
-1.  Enable [Istio RBAC](/docs/concepts/security/#authorization) on the `istio-private-gateways` namespace.
+1.  Refresh the webpage of your application multiple times. Note that the red stars appear as before, roughly 50% of
+    time. For other 50% of time, the `Ratings service is currently unavailable` message is shown.
 
-    {{< warning >}}
-    If you have Istio RBAC already enabled on some of your namespaces, add `istio-private-gateways` to the list of the
-    included namespaces. The command below assumes that you do not have Istio RBAC in your cluster enabled.
-    {{< /warning >}}
+1.  Verify by `curl` that `reviews` is allowed for the `c1` cluster:
 
     {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER2 -f - <<EOF
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ClusterRbacConfig
-    metadata:
-      name: default
-      namespace: istio-system
-    spec:
-      mode: ON_WITH_INCLUSION
-      inclusion:
-        namespaces: [ bookinfo, istio-private-gateways]
-    EOF
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
+    {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
+    Response code: 200
+    {{< /text >}}
+
+1.  Verify by `curl` that `reviews` is denied for the `c3` cluster:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
+    RBAC: access denied
+    Response code: 403
+    {{< /text >}}
+
+1.  Verify by `curl` that `ratings` is denied for the `c1` cluster:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+    RBAC: access denied
+    Response code: 403
+    {{< /text >}}
+
+1.  Verify by `curl` that `ratings` is allowed for the `c3` cluster:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
+    Response code: 200
     {{< /text >}}
 
 ## Troubleshooting
