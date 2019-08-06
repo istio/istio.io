@@ -225,7 +225,8 @@ The following diagram shows the state of the clusters of deploying the Bookinfo 
     subjectKeyIdentifier = hash
     basicConstraints = critical, CA:false
     keyUsage = critical, digitalSignature, nonRepudiation
-    subjectAltName=@san
+    extendedKeyUsage = clientAuth
+    subjectAltName = critical, @san
     [req_dn]
     O=example Inc., department 1
     CN=c1.example.com
@@ -250,7 +251,8 @@ The following diagram shows the state of the clusters of deploying the Bookinfo 
     subjectKeyIdentifier = hash
     basicConstraints = critical, CA:false
     keyUsage = critical, digitalSignature, nonRepudiation
-    subjectAltName=@san
+    extendedKeyUsage = serverAuth
+    subjectAltName = critical, @san
     [req_dn]
     O=example Inc., department 2
     CN=c2.example.com
