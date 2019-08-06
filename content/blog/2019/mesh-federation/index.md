@@ -230,7 +230,7 @@ The following diagram shows the state of the clusters of deploying the Bookinfo 
     O=example Inc., department 1
     CN=c1.example.com
     [ san ]
-    URI.1 = spiffe://c1.example.com/istio-private-egressgateway"
+    URI.1 = spiffe://c1.example.com/istio-private-egressgateway
     EOF
     {{< /text >}}
 
@@ -255,7 +255,7 @@ The following diagram shows the state of the clusters of deploying the Bookinfo 
     O=example Inc., department 2
     CN=c2.example.com
     [ san ]
-    URI.1 = spiffe://c2.example.com/istio-private-ingressgateway"
+    URI.1 = spiffe://c2.example.com/istio-private-ingressgateway
     EOF
     {{< /text >}}
 
