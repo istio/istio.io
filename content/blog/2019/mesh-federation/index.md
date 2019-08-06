@@ -1285,6 +1285,61 @@ and `ratings` services:
     Response code: 403
     {{< /text >}}
 
+### Enable RBAC on the ingress gateway
+
+1.   Create Istio service role for read access to `istio-private-ingressgateway`:
+
+    {{< text bash >}}
+    $ kubectl apply  --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: rbac.istio.io/v1alpha1
+    kind: ServiceRole
+    metadata:
+      name: ingress-reader
+    spec:
+      rules:
+      - services: ["istio-private-ingressgateway.istio-private-gateways.svc.cluster.local"]
+        methods: ["GET"]
+    EOF
+    {{< /text >}}
+
+1.  Create role binding to enable read access to microservices according to the requirements of the application:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: rbac.istio.io/v1alpha1
+    kind: ServiceRoleBinding
+    metadata:
+      name: ingress-reader
+    spec:
+      subjects:
+      - user: "c1.example.com/istio-private-egressgateway"
+      roleRef:
+        kind: ServiceRole
+        name: ingress-reader
+    EOF
+    {{< /text >}}
+
+1.  Enable [Istio RBAC](/docs/concepts/security/#authorization) on the `istio-private-gateways` namespace.
+
+    {{< warning >}}
+    If you have Istio RBAC already enabled on some of your namespaces, add `istio-private-gateways` to the list of the
+    included namespaces. The command below assumes that you do not have Istio RBAC in your cluster enabled.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -f - <<EOF
+    apiVersion: "rbac.istio.io/v1alpha1"
+    kind: ClusterRbacConfig
+    metadata:
+      name: default
+      namespace: istio-system
+    spec:
+      mode: ON_WITH_INCLUSION
+      inclusion:
+        namespaces: [ bookinfo, istio-private-gateways]
+    EOF
+    {{< /text >}}
+
 ## Troubleshooting
 
 1.  Enable Envoy access logs for `cluster1`:
