@@ -92,6 +92,7 @@ autoscaler
 Autoscalers
 autoscalers
 autoscaling
+AutoTrader
 az
 backend
 backends
@@ -125,6 +126,9 @@ CloudWatch
 CNI
 cnn.com
 colocated
+composable
+Composability
+composability
 ConfigMap
 configmap
 configmap
@@ -222,6 +226,7 @@ gRPC
 grpc
 helloworld
 Herness
+HorizontalPodAutoscaler
 hostIP
 hostname
 hostnames
@@ -330,6 +335,7 @@ misordered
 Mitigations
 MongoDB
 mongodb
+mTLS
 Multicloud
 multicloud
 Multicluster
@@ -344,6 +350,7 @@ namespaces
 natively
 netmask
 networking.istio.io
+NetworkPolicy
 nginx
 nodePorts
 non-sandboxed
@@ -382,6 +389,7 @@ platform-specific
 pluggability
 pluggable
 png
+PodDisruptionBudget
 pprof
 pre-connected
 pre-specified
@@ -476,6 +484,7 @@ Stackdriver
 Statsd
 stdout
 Steitz
+Stoney
 strongSwan
 struct
 Styra
@@ -551,6 +560,7 @@ VMs
 VMware
 VPN
 VPNs
+Warman
 WBoilerplates
 WeaveWorks
 webhook

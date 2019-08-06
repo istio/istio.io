@@ -6,7 +6,7 @@ attribution: Louis Ryan (Google), Sandeep Parikh (Google)
 keywords: [apis,composability,evolution]
 ---
 
-One of Istio’s main goals has always been, and continues to be, enabling teams to develop abstractions that work best for their specific organization and workloads. Istio provides robust and powerful building blocks for service-to-service networking. Since [version 0.1](https://istio.io/blog/2017/0.1-announcement/), the Istio team has been learning from production users about how they map their own architectures, workloads, and constraints to Istio’s capabilities, and we’ve been evolving Istio’s APIs to make them work better for you.
+One of Istio’s main goals has always been, and continues to be, enabling teams to develop abstractions that work best for their specific organization and workloads. Istio provides robust and powerful building blocks for service-to-service networking. Since [version 0.1](/blog/2017/0.1-announcement/), the Istio team has been learning from production users about how they map their own architectures, workloads, and constraints to Istio’s capabilities, and we’ve been evolving Istio’s APIs to make them work better for you.
 
 ## Evolving Istio’s APIs
 
@@ -31,7 +31,7 @@ Istio and Kubernetes often go together, but Istio is much more than an add-on to
 The number of objects that must be configured to deploy applications is a concrete example of Kubernetes’ composability. By our count, at least 10 objects need to be configured:
 
 - Namespace
-- Service 
+- Service
 - Ingress
 - Deployment
 - HorizontalPodAutoscaler
@@ -45,7 +45,7 @@ It sounds complicated, but not everyone needs to interact with those concepts. S
 
 Another example of composability in the networking space can be found in the [Google Cloud HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) (GCLB). To correctly use an instance of the GCLB, six different infrastructure objects need to be created and configured. This design is the result of our 20 years of experience in operating distributed systems and [there is a reason why each one is separate from the others](https://www.youtube.com/watch?v=J5HJ1y6PeyE). But the steps are simplified when you’re creating an instance via the Google Cloud console. We provide the more common end-user/role-specific configurations, and you can configure less common settings later. Ultimately, the goals of infrastructure APIs are to offer the most flexibility without sacrificing functionality.
 
-[Knative](http://knative.dev) is a platform for building, running, and operating serverless workloads that provides a great real-world example of role-centric, higher-level APIs. [Knative Serving](https://knative.dev/docs/serving/), a component of Knative that builds on Kubernetes and Istio to support deploying and serving serverless applications and functions, provides an opinionated workflow for application developers to manage routes and revisions of their services. Thanks to that opinionated approach, Knative Serving exposes a subset of Istio’s networking APIs that are most relevant to application developers via a simplified [Routes](https://github.com/knative/serving/blob/master/docs/spec/spec.md#route) object that supports revisions and traffic routing, abstracting Istio’s [virtual service](https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/)s and [destination rule](https://istio.io/docs/reference/config/networking/v1alpha3/destination-rule/)s resources.
+[Knative](http://knative.dev) is a platform for building, running, and operating serverless workloads that provides a great real-world example of role-centric, higher-level APIs. [Knative Serving](https://knative.dev/docs/serving/), a component of Knative that builds on Kubernetes and Istio to support deploying and serving serverless applications and functions, provides an opinionated workflow for application developers to manage routes and revisions of their services. Thanks to that opinionated approach, Knative Serving exposes a subset of Istio’s networking APIs that are most relevant to application developers via a simplified [Routes](https://github.com/knative/serving/blob/master/docs/spec/spec.md#route) object that supports revisions and traffic routing, abstracting Istio’s [virtual service](/docs/reference/config/networking/v1alpha3/virtual-service/)s and [destination rule](/docs/reference/config/networking/v1alpha3/destination-rule/)s resources.
 
 As Istio has matured, we’ve also seen production users develop workload- and organization-specific abstractions on top of Istio’s infrastructure APIs.
 
@@ -60,8 +60,8 @@ Some areas of improvement that we’re working on for upcoming releases include:
 - Support for routing all traffic by default to constrain routing incrementally
 - Add a single global flag to enable mTLS and encrypt all inter-pod traffic
 
-Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](https://istio.io/docs/setup/kubernetes/additional-setup/config-profiles/) that works with your adapters.
+Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](/docs/setup/kubernetes/additional-setup/config-profiles/) that works with your adapters.
 
 All service meshes and, by extension, Istio seeks to automate complex infrastructure operations, like networking and security. That means there will always be complexity in its APIs, but Istio will always aim to solve the needs of operators, while continuing to evolve the API to provide robust building blocks and prioritize flexibility through role-centric abstractions.
 
-We can't wait for you to join our [community](https://istio.io/about/community/join/) to see what you build with Istio next!
+We can't wait for you to join our [community](/about/community/join/) to see what you build with Istio next!
