@@ -47,7 +47,7 @@ Some areas of improvement that we’re working on for upcoming releases include:
 - Installation profiles to setup standard patterns for ingress and egress, with the Istio operator
 - Automatic inference of container ports and protocols for telemetry
 - Support for routing all traffic by default to constrain routing incrementally
-- Add a single global flag to enable mTLS and encrypt all inter-pod traffic
+- Add a single global flag to enable mutual TLS and encrypt all inter-pod traffic
 
 Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](/docs/setup/kubernetes/additional-setup/config-profiles/) that works with your adapters.
 
