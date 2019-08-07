@@ -17,9 +17,7 @@ REPOS=(
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
-
-# This is disabled since it causes a linting error at the moment
-#    https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
+    https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
 )
 
 # The components to build and extract usage docs from.

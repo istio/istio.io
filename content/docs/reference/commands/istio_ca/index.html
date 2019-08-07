@@ -50,10 +50,6 @@ number_of_entries: 4
 <td>Enable dual-use mode. Generates certificates with a CommonName identical to the SAN. </td>
 </tr>
 <tr>
-<td><code>--explicit-opt-in</code></td>
-<td>Specifies whether Citadel requires explicit opt-in for creating secrets. If set, only namespaces labeled with &#39;istio-managed=enabled&#39; will have secrets created. This feature is only available in key and certificates delivered through secret volume mount. </td>
-</tr>
-<tr>
 <td><code>--grpc-host-identities &lt;string&gt;</code></td>
 <td>The list of hostnames for istio ca server, separated by comma.  (default `istio-ca,istio-citadel`)</td>
 </tr>
@@ -357,6 +353,12 @@ These environment variables affect the behavior of the <code>istio_ca</code> com
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>CITADEL_ENABLE_NAMESPACES_BY_DEFAULT</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Determines whether unlabeled namespaces should be targeted by this Citadel instance</td>
+</tr>
 <tr>
 <td><code>NAMESPACE</code></td>
 <td>String</td>

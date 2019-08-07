@@ -365,6 +365,13 @@ These environment variables affect the behavior of the <code>mixs</code> command
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
+<tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
+<tr><td><code>istio_mcp_reconnections</code></td><td><code>Sum</code></td><td>The number of times the sink has reconnected.</td></tr>
+<tr><td><code>istio_mcp_recv_failures_total</code></td><td><code>Sum</code></td><td>The number of recv failures in the source.</td></tr>
+<tr><td><code>istio_mcp_request_acks_total</code></td><td><code>Sum</code></td><td>The number of request acks received by the source.</td></tr>
+<tr><td><code>istio_mcp_request_nacks_total</code></td><td><code>Sum</code></td><td>The number of request nacks received by the source.</td></tr>
+<tr><td><code>istio_mcp_send_failures_total</code></td><td><code>Sum</code></td><td>The number of send failures in the source.</td></tr>
 <tr><td><code>mixer_config_adapter_info_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the adapter info configuration.</td></tr>
 <tr><td><code>mixer_config_adapter_info_configs_total</code></td><td><code>LastValue</code></td><td>The number of known adapters in the current config.</td></tr>
 <tr><td><code>mixer_config_attributes_total</code></td><td><code>LastValue</code></td><td>The number of known attributes in the current config.</td></tr>
