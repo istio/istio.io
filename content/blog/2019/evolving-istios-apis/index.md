@@ -28,18 +28,7 @@ Over the course of the next several releases we will share our progress as we st
 
 Istio and Kubernetes often go together, but Istio is much more than an add-on to Kubernetes – it is as much a _platform_ as Kubernetes is. Istio aims to provide infrastructure, and surface the capabilities you need in a powerful service mesh. For example, there are platform-as-a-service offerings that use Kubernetes as their foundation, and build on Kubernetes’ composability to provide a subset of APIs to application developers.
 
-The number of objects that must be configured to deploy applications is a concrete example of Kubernetes’ composability. By our count, at least 10 objects need to be configured:
-
-- Namespace
-- Service
-- Ingress
-- Deployment
-- HorizontalPodAutoscaler
-- Secret
-- ConfigMap
-- RBAC
-- PodDisruptionBudget
-- NetworkPolicy
+The number of objects that must be configured to deploy applications is a concrete example of Kubernetes’ composability. By our count, at least 10 objects need to be configured: `Namespace`, `Service`, `Ingress`, `Deployment`, `HorizontalPodAutoscaler`, `Secret`, `ConfigMap`, `RBAC`, `PodDisruptionBudget`, and `NetworkPolicy`.
 
 It sounds complicated, but not everyone needs to interact with those concepts. Some are the responsibility of different teams like the cluster, network, or security admin teams, and many provide sensible defaults. A great benefit of cloud native platforms and deployment tools is that they can hide that complexity by taking in a small amount of information and configuring those objects for you.
 
