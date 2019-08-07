@@ -224,7 +224,6 @@ gRPC
 grpc
 helloworld
 Herness
-HorizontalPodAutoscaler
 hostIP
 hostname
 hostnames
@@ -348,7 +347,6 @@ namespaces
 natively
 netmask
 networking.istio.io
-NetworkPolicy
 nginx
 nodePorts
 non-sandboxed
@@ -387,7 +385,6 @@ platform-specific
 pluggability
 pluggable
 png
-PodDisruptionBudget
 pprof
 pre-connected
 pre-specified
