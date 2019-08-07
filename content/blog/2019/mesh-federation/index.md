@@ -1577,6 +1577,18 @@ Let's consider a scenario where the owners of `cluster2` decide to stop exposure
     $ kubectl logs -l app=reviews,version=v2 -n bookinfo -c istio-proxy --context=$CTX_CLUSTER2
     {{< /text >}}
 
+1.  Check the Istio configuration artifacts in `cluster1`:
+
+    {{< text bash >}}
+    $ kubectl get gw,vs,dr -n istio-private-gateways --context=$CTX_CLUSTER1
+    {{< /text >}}
+
+1.  Check the Istio configuration artifacts in `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl get gw,vs,dr,envoyfilter -n istio-private-gateways --context=$CTX_CLUSTER2
+    {{< /text >}}
+
 ## Cleanup
 
 ### Delete consumption of services in `cluster1`
