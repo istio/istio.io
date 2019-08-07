@@ -214,12 +214,12 @@ number_of_entries: 5
 <tr>
 <td><code>--mcpInitialConnWindowSize &lt;int&gt;</code></td>
 <td></td>
-<td>Max message size received by MCP&#39;s grpc client  (default `1048576`)</td>
+<td>Initial connection window size for MCP&#39;s gRPC connection  (default `1048576`)</td>
 </tr>
 <tr>
 <td><code>--mcpInitialWindowSize &lt;int&gt;</code></td>
 <td></td>
-<td>Max message size received by MCP&#39;s grpc client  (default `1048576`)</td>
+<td>Initial window size for MCP&#39;s gRPC connection  (default `1048576`)</td>
 </tr>
 <tr>
 <td><code>--mcpMaxMsgSize &lt;int&gt;</code></td>
@@ -552,6 +552,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, this will block inbound traffic from matching outbound listeners, which could result in an infinite loop of traffic. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
 </tr>
 <tr>
+<td><code>PILOT_SCOPE_PUSHES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will attempt to limit unnecessary pushes by determining what proxies a config or endpoint update will impact.</td>
+</tr>
+<tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -602,6 +608,13 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 </thead>
 <tbody>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
+<tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
+<tr><td><code>istio_mcp_reconnections</code></td><td><code>Sum</code></td><td>The number of times the sink has reconnected.</td></tr>
+<tr><td><code>istio_mcp_recv_failures_total</code></td><td><code>Sum</code></td><td>The number of recv failures in the source.</td></tr>
+<tr><td><code>istio_mcp_request_acks_total</code></td><td><code>Sum</code></td><td>The number of request acks received by the source.</td></tr>
+<tr><td><code>istio_mcp_request_nacks_total</code></td><td><code>Sum</code></td><td>The number of request nacks received by the source.</td></tr>
+<tr><td><code>istio_mcp_send_failures_total</code></td><td><code>Sum</code></td><td>The number of send failures in the source.</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
