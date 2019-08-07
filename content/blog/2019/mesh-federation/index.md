@@ -1227,6 +1227,84 @@ and `ratings` services:
 
 {{< image width="100%" link="./MeshFederation5_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the ratings and reviews v3 services" >}}
 
+### Cancel exposure of ratings
+
+Let's consider a scenario where the owners of `cluster2` decide to stop exposure of the `ratings` service. They can do it in the following way:
+
+1.  Remove routing to `ratings` in `cluster2` (leave routing to `reviews` only):
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: privately-exposed-services
+    spec:
+      hosts:
+      - c2.example.com
+      gateways:
+      - istio-private-ingressgateway
+      http:
+      - match:
+        - uri:
+            prefix: /bookinfo/myreviews/v3/
+        rewrite:
+          uri: /
+          authority: myreviews.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v3
+            host: myreviews.bookinfo.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  Access the webpage of your application and verify that instead of the black stars appear the
+    `Ratings service is currently unavailable` message. The red stars are displayed correctly, since they are shown by
+    `reviews v3` that runs in `cluster2` and has access to `ratings`.
+
+1.  To expose the `ratings` back, run:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: privately-exposed-services
+    spec:
+      hosts:
+      - c2.example.com
+      gateways:
+      - istio-private-ingressgateway
+      http:
+      - match:
+        - uri:
+            prefix: /bookinfo/myreviews/v3/
+        rewrite:
+          uri: /
+          authority: myreviews.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v3
+            host: myreviews.bookinfo.svc.cluster.local
+      - match:
+        - uri:
+            prefix: /bookinfo/ratings/v1/
+        rewrite:
+          uri: /
+          authority: ratings.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v1
+            host: ratings.bookinfo.svc.cluster.local
+    EOF
+    {{< /text >}}
+
 ## Apply Istio RBAC on `cluster2`
 
 ### Apply Istio RBAC on the `bookinfo` namespace
