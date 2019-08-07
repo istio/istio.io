@@ -1,32 +1,78 @@
 ---
 title: Mesh Federation
-subtitle: Federate two service meshes in an ad-hoc manner, with limited service exposure and cross-cluster traffic control
-description: Federate two service meshes in an ad-hoc manner, with limited service exposure and cross-cluster traffic control.
+subtitle: Connect multiple service meshes ad-hoc, with limited service exposure and cross-cluster traffic control
+description: Connect multiple service meshes ad-hoc, with limited service exposure and cross-cluster traffic control.
 publishdate: 2019-08-08
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
 
+Managing applications across multiple Kubernetes clusters is currently one of the hottest topics in Kubernetes and Istio
+communities. You may need to split your applications between multiple clusters for the many different reasons:
+
+-  scalability limits of a single cluster
+-  separation of production/dev/test/staging environments
+-  different security and compliance requirements for different parts of the application
+
+And it is just a partial list.
+
 Currently there are [three patterns](https://istio.io/docs/setup/kubernetes/install/multicluster/) in Istio to create a
 [multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
 A _multicluster service mesh_ is a single _logical_ service mesh, spread among multiple Kubernetes clusters.
-In such a service mesh, there is uniform identical naming of namespaces and services, all the services are exposed to
-all the clusters and common identity and common trust are established between multiple clusters. The patterns differ by
-the following criteria:
 
-* The clusters are on a single (_flat_) network or on different networks
-* The Istio control planes are shared between the clusters or each cluster has its own dedicated control plane
+Such a service mesh has the following characteristics:
 
-However, there are use cases when you want to connect different independent clusters while limiting exposure of services
-from one cluster to other clusters and with strict control of which clusters may consume specific services of the
+- **uniform identical naming** of namespaces and services. The `withdraw` service in the `accounts` namespace in one
+cluster has the same functionality and API as the `withdraw` service in the `accounts` namespace in all other clusters
+in the mesh.
+- **expose-all by default**. All the services are exposed by default to all the clusters in the mesh.
+- **common identity and common trust** are established between all the clusters in the mesh.
+
+The three patterns differ by the following aspects:
+
+- The clusters are on a **single network** or on **multiple networks**. Single network means that the pods in one
+cluster can reach the pods in other clusters directly. Multiple networks means that the pods in one cluster can reach
+the pods in other clusters in the mesh only through their ingress gateways.
+- The Istio control planes are **shared** between the clusters in the mesh or each cluster has its own **dedicated**
+control plane.
+
+There are use cases when you want to connect service meshes in separate clusters while limiting exposure of services
+from one cluster to other clusters. You may want strict control of which clusters may consume specific services of the
 exposing cluster.
 Sometimes different clusters are operated by different organizations that do not have common naming rules and didn't
-establish common trust. We call such ad-hoc loosely-coupled connection between independent service meshes
-_mesh federation_.
+establish common trust. The Istio community has not yet decided on the right name for such a loosely-coupled
+connection between independent service meshes. One of the proposed names is _mesh federation_. While I use this name in
+this blog post, I do not claim that it is the best name for this pattern.
 
-In this blog post I show how using standard Istio traffic control patterns you expose specific services in one
-cluster to workloads in another cluster, in a controlled manner, and perform load balancing between the local and
-remote services.
+In this blog post I describe requirements for _mesh federation_ and propose a possible solution for it. I don't claim
+that this is the best solution, the goal of the blog post is to share it with the community and the users, to get their
+feedback.
+
+## Requirements for mesh federation
+
+- **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one cluster might have
+different functionality and API as the `withdraw` services in the `accounts` namespace in other clusters.
+- **expose-nothing by default**. None of the services in a cluster are exposed by default, the cluster owners must
+explicitly specify which services are exposed.
+- **access control at the ingress gateway**. The access control of the traffic must be enforced at the ingress gateway,
+forbidden traffic should not enter the cluster. This requirement implements [Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of
+some compliance standards.
+- **common trust may not exist**. The Istio sidecars in one cluster may not trust the Citadel certificates in other
+cluster.
+
+## The proposed implementation
+
+I propose to base implementation of mesh federation on the following principles:
+
+- use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC
+- use **standard Istio installations**, no specific support for mesh federation is required
+- **ad-hoc cluster _pairing_** at any time. The owners of the clusters can install Istio and operate it independently,
+  and decide to connect the clusters at some later point in time.
+- **private gateways for cross-cluster communication**, with special certificates/private keys. Only the gateways trust
+  each other, there is no trust between sidecars from different clusters
+
+In the following sections I demonstrate mesh federation using two clusters and the Istio
+[Bookinfo](/docs/examples/bookinfo/) application as an example.
 
 ## Prerequisites
 
