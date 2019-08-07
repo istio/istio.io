@@ -925,7 +925,7 @@ The following diagram shows the state of the clusters after configuring exposing
     EOF
     {{< /text >}}
 
-    Test your configurationby performing the commands below:
+    Test your configuration by performing the commands below:
 
 1.  Access `reviews v3` from your local machine:
 
