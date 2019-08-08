@@ -8,7 +8,7 @@ keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
 
 Managing applications across multiple Kubernetes clusters is currently one of the hottest topics in Kubernetes and Istio
-communities. You may need to split your applications between multiple clusters for the many different reasons:
+communities. You may need to split your applications between multiple clusters for different reasons:
 
 -  scalability limits of a single cluster
 -  separation of production/dev/test/staging environments
