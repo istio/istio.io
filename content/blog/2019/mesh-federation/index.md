@@ -370,7 +370,7 @@ You can use the command of your choice to generate certificates and keys, the co
     $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret generic example-com-ca-certs --from-file=example.com.crt
     {{< /text >}}
 
-1.  Deploy a private egress gateway and mount volumes from the new secrets by the following command:
+1.  Deploy a private egress gateway and mount the new secrets as data volumes by the following command:
 
     {{< text bash >}}
     $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio --namespace istio-private-gateways -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.istioNamespace=istio-system -f - | kubectl apply --context=$CTX_CLUSTER1 -f -
