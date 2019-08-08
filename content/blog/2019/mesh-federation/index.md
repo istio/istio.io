@@ -1070,8 +1070,7 @@ The following diagram shows the state of the clusters after configuring exposing
     EOF
     {{< /text >}}
 
-1.  Define a `VirtualService` to direct traffic from the egress gateway
-    to `ratings`:
+1.  Define a virtual service to direct traffic from the egress gateway to remote ratings:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
@@ -1103,8 +1102,7 @@ The following diagram shows the state of the clusters after configuring exposing
     EOF
     {{< /text >}}
 
-1.  Define a `VirtualService` to direct traffic from the egress gateway
-    to `reviews-v3`:
+1.  Define a virtual service to direct traffic from the egress gateway to remote reviews v3:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
