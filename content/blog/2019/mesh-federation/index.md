@@ -1310,7 +1310,9 @@ the following way:
     EOF
     {{< /text >}}
 
-1.  Create role bindings to enable read access to microservices according to the requirements of the application:
+1.  Create role bindings to enable read access to the services according to the requirements of the application.
+    `reviews` may be called from the private ingress gateway, `ratings` can also be called from the private ingress
+    gateway and also from `reviews`. These role bindings forbid, for example, calls from `ratings` to `reviews`.
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER2 -n bookinfo -f - <<EOF
