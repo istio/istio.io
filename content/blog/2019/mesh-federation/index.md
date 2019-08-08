@@ -689,14 +689,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
 1.  Create an egress `Gateway` for `reviews.default.svc.cluster.local`, port 443, and a destination rule for
     traffic directed to the egress gateway.
 
-    Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
-
-    {{< tabset cookie-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
-
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -736,43 +729,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
               mode: ISTIO_MUTUAL
               sni: reviews.default.svc.cluster.local
     EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
-
-    {{< text_hack bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-private-egressgateway
-    spec:
-      selector:
-        istio: private-egressgateway
-      servers:
-      - port:
-          number: 443
-          name: https
-          protocol: HTTPS
-        hosts:
-        - reviews.default.svc.cluster.local
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: istio-private-egressgateway-reviews-default
-    spec:
-      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-      subsets:
-      - name: reviews-default
-    EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
+    {{< /text >}}
 
 1.  Define a `VirtualService` to direct traffic from the egress gateway
     to the external service:
@@ -1050,14 +1007,7 @@ The following diagram shows the state of the clusters after configuring exposing
 1.  Create an egress `Gateway` for `ratings.default.svc.cluster.local` and `reviews.default.svc.cluster.local`, port 80,
     and destination rules for traffic directed to the egress gateway.
 
-    Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
-
-    {{< tabset cookie-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
-
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -1116,53 +1066,7 @@ The following diagram shows the state of the clusters after configuring exposing
               mode: ISTIO_MUTUAL
               sni: ratings.default.svc.cluster.local
     EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
-
-    {{< text_hack bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-private-egressgateway
-    spec:
-      selector:
-        istio: private-egressgateway
-      servers:
-      - port:
-          number: 443
-          name: https
-          protocol: HTTPS
-        hosts:
-        - reviews.default.svc.cluster.local
-        - ratings.default.svc.cluster.local
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: istio-private-egressgateway-reviews-default
-    spec:
-      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-      subsets:
-      - name: reviews-default
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: istio-private-egressgateway-ratings-default
-    spec:
-      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-      subsets:
-      - name: ratings-default
-    EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
+    {{< /text >}}
 
 1.  Define a `VirtualService` to direct traffic from the egress gateway
     to `ratings`:
