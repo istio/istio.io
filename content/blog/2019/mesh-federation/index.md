@@ -1282,7 +1282,7 @@ the following way:
     EOF
     {{< /text >}}
 
-## Apply Istio RBAC on `cluster2`
+## Apply Istio RBAC on the second cluster
 
 ### Apply Istio RBAC on the `bookinfo` namespace
 
@@ -1570,7 +1570,7 @@ the following way:
 
 ## Cleanup
 
-### Delete consumption of services in `cluster1`
+### Delete consumption of services in the first cluster
 
 {{< text bash >}}
 $ kubectl delete --context=$CTX_CLUSTER1 virtualservice reviews -n istio-private-gateways
@@ -1581,14 +1581,14 @@ $ kubectl delete --context=$CTX_CLUSTER1 endpoints c2-example-com -n istio-priva
 $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 {{< /text >}}
 
-### Delete exposure of services in `cluster2`
+### Delete exposure of services in the second cluster
 
 {{< text bash >}}
 $ kubectl delete --context=$CTX_CLUSTER2 virtualservice privately-exposed-services -n istio-private-gateways
 $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n istio-private-gateways
 {{< /text >}}
 
-### Delete the private gateway in `cluster1`
+### Delete the private gateway in the first cluster
 
 1.  Undeploy the private egress gateway from `cluster1`:
 
@@ -1610,7 +1610,7 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
     $ kubectl delete --context=$CTX_CLUSTER1 namespace istio-private-gateways
     {{< /text >}}
 
-### Delete the private gateway in `cluster2`
+### Delete the private gateway in the second cluster
 
 1.  Undeploy the private ingress gateway from `cluster2`:
 
@@ -1632,7 +1632,7 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
     $ kubectl delete --context=$CTX_CLUSTER2 namespace istio-private-gateways
     {{< /text >}}
 
-### Disable Istio RBAC in `cluster2`
+### Disable Istio RBAC in the second cluster
 
 1.  Disable [Istio RBAC](/docs/concepts/security/#authorization) on the `bookinfo` and `istio-private-gateways`
     namespaces.
@@ -1655,7 +1655,7 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 
 ### Delete the Bookinfo services
 
-#### `Cluster1`
+#### Delete the Bookinfo services in the first cluster
 
 1.  Delete the Bookinfo application in `cluster1`:
 
@@ -1666,7 +1666,7 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
     $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/platform/kube/bookinfo.yaml
     {{< /text >}}
 
-#### `Cluster2`
+#### Delete the Bookinfo services in the second cluster
 
 1.  Delete the services in `cluster2`:
 
