@@ -609,15 +609,17 @@ to expose. They can cancel the exposure at any point if they want.
     If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
     In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
 
-1.  In case you have a load balancer, set the private ingress IP and ports for the second cluster:
+1.  In case you have a load balancer, set the private ingress IP and ports for the second cluster by running the
+    commands below. Otherwise, read
+    [the instructions for NodePort Ingress](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) and adapt them for your private ingress gateway.
 
     {{< text bash >}}
     $ export CLUSTER2_INGRESS_HOST=$(kubectl -n istio-private-gateways get service istio-private-ingressgateway --context=$CTX_CLUSTER2 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ export CLUSTER2_SECURE_INGRESS_PORT=$(kubectl -n istio-private-gateways get service istio-private-ingressgateway --context=$CTX_CLUSTER2 -o jsonpath='{.spec.ports[?(@.name=="https-for-cross-cluster-communication")].port}')
     {{< /text >}}
 
-1.  Test your configuration by accessing the exposed service. The `curl` command below uses the certificates of
-    `cluster1`:
+1.  Test your configuration by accessing the exposed service. The `curl` command below uses the certificate and the
+    private key of `cluster1`:
 
     {{< text bash >}}
     $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v2/reviews/0 -w "\nResponse code: %{http_code}\n"
