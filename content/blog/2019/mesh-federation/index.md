@@ -1,7 +1,7 @@
 ---
 title: Mesh Federation
-subtitle: Connect multiple service meshes ad-hoc, with limited service exposure and cross-cluster traffic control
-description: Connect multiple service meshes ad-hoc, with limited service exposure and cross-cluster traffic control.
+subtitle: Connect multiple service meshes ad-hoc, with limited service exposure and strict cross-cluster access control
+description: Connect multiple service meshes ad-hoc, with limited service exposure and strict cross-cluster access control.
 publishdate: 2019-08-08
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
