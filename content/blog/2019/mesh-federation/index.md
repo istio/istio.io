@@ -596,7 +596,7 @@ to expose. They can cancel the exposure at any point if they want.
     EOF
     {{< /text >}}
 
-1.  Execute the following command to determine if your Kubernetes cluster is running in an environment that supports
+1.  Execute the following command to determine if your second cluster is running in an environment that supports
    external load balancers:
 
     {{< text bash >}}
