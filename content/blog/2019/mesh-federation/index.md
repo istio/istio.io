@@ -117,7 +117,7 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     deployment.extensions "ratings-v1" deleted
     {{< /text >}}
 
-    Access the web page of the Bookinfo application and verify that it continues to work as before.
+    Access the webpage of the Bookinfo application and verify that it continues to work as before.
 
 1.  Check the pods:
 
