@@ -32,7 +32,7 @@ The three patterns differ by the following aspects:
 
 - The clusters are on a **single network** or on **multiple networks**. Single network means that the pods in one
 cluster can reach the pods in other clusters directly. Multiple networks means that the pods in one cluster can reach
-the pods in other clusters in the mesh only through their ingress gateways.
+the pods in other clusters in the mesh only through corresponding ingress gateways.
 - The Istio control planes are **shared** between the clusters in the mesh or each cluster has its own **dedicated**
 control plane.
 
