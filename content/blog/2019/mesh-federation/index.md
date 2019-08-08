@@ -1006,7 +1006,7 @@ The following diagram shows the state of the clusters after configuring exposing
     EOF
     {{< /text >}}
 
-1.  Create an egress `Gateway` for `ratings.default.svc.cluster.local` and `reviews.default.svc.cluster.local`, port 80,
+1.  Create an egress `Gateway` for `ratings.default.svc.cluster.local` and `reviews.default.svc.cluster.local`, port 443,
     and destination rules for traffic directed to the egress gateway.
 
     {{< text bash >}}
