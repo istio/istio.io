@@ -731,8 +731,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     EOF
     {{< /text >}}
 
-1.  Define a `VirtualService` to direct traffic from the egress gateway
-    to the external service:
+1.  Define a virtual service to direct traffic from the egress gateway to the external service:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
