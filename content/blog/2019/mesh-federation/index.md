@@ -1426,8 +1426,8 @@ Let's consider a scenario where the owners of `cluster2` decide to stop exposure
 
 1.  Refresh the webpage of your application and verify that everything is working as before.
 
-1.  Let's change the RBAC policy to allow `reviews` to be exposed to the `c1` cluster while `ratings` will be exposed to
-    the `c3` cluster:
+1.  Change the RBAC policy to allow only the `c1` cluster to access `reviews`  and only the `c3` cluster to access
+    `ratings`:
 
     {{< text bash >}}
     $ kubectl apply  --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
