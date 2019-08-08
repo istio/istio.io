@@ -909,7 +909,7 @@ The following diagram shows the state of the clusters after configuring exposing
 
     The current deployment of the services in the two clusters is shown below:
 
-    {{< image width="100%" link="./MeshFederation4_bookinfo.svg" caption="Two clusters after deploying reviews v2 in cluster1" >}}
+    {{< image width="100%" link="./MeshFederation4_bookinfo.svg" caption="Two clusters after deploying reviews v2 in the first cluster" >}}
 
 ### Expose ratings and reviews v3
 
