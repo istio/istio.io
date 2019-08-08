@@ -1239,7 +1239,7 @@ the following way:
 
 1.  Access the webpage of your application and verify that instead of the black stars appear the
     `Ratings service is currently unavailable` message. The red stars are displayed correctly, since they are shown by
-    `reviews v3` that runs in `cluster2` and has access to `ratings`.
+    `reviews v3` that runs in `cluster2` and has access to `ratings` locally.
 
 1.  To expose the `ratings` back, run:
 
