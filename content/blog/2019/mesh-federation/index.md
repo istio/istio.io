@@ -1483,37 +1483,39 @@ Let's consider a scenario where the owners of `cluster2` decide to stop exposure
 1.  Refresh the webpage of your application multiple times. Note that the red stars appear as before, roughly 50% of
     time. For other 50% of time, the `Ratings service is currently unavailable` message is shown.
 
-1.  Verify by `curl` that `reviews` is allowed for the `c1` cluster:
+1.  Perform the following tests by the `curl` command using identities of the `c1` and the `c3` clusters:
 
-    {{< text bash >}}
-    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
-    {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
-    Response code: 200
-    {{< /text >}}
+    1.  Verify that `reviews` is allowed for the `c1` cluster:
 
-1.  Verify by `curl` that `reviews` is denied for the `c3` cluster:
+        {{< text bash >}}
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
+        {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
+        Response code: 200
+        {{< /text >}}
 
-    {{< text bash >}}
-    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
-    RBAC: access denied
-    Response code: 403
-    {{< /text >}}
+    1.  Verify that `reviews` is denied for the `c3` cluster:
 
-1.  Verify by `curl` that `ratings` is denied for the `c1` cluster:
+        {{< text bash >}}
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
+        RBAC: access denied
+        Response code: 403
+        {{< /text >}}
 
-    {{< text bash >}}
-    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
-    RBAC: access denied
-    Response code: 403
-    {{< /text >}}
+    1.  Verify that `ratings` is denied for the `c1` cluster:
 
-1.  Verify by `curl` that `ratings` is allowed for the `c3` cluster:
+        {{< text bash >}}
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+        RBAC: access denied
+        Response code: 403
+        {{< /text >}}
 
-    {{< text bash >}}
-    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
-    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
-    Response code: 200
-    {{< /text >}}
+    1.  Verify that `ratings` is allowed for the `c3` cluster:
+
+        {{< text bash >}}
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+        {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
+        Response code: 200
+        {{< /text >}}
 
 ## Troubleshooting
 
