@@ -1,7 +1,7 @@
 ---
 title: Mesh Federation
-subtitle: Connect multiple service meshes ad-hoc, with limited service exposure and strict cross-cluster access control
-description: Connect multiple service meshes ad-hoc, with limited service exposure and strict cross-cluster access control.
+subtitle: Connect multiple service meshes ad hoc, with limited service exposure and strict cross-cluster access control
+description: Connect multiple service meshes ad hoc, with limited service exposure and strict cross-cluster access control.
 publishdate: 2019-08-08
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
@@ -68,7 +68,7 @@ I propose to base the implementation of mesh federation on the following princip
 
 - use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC.
 - use **standard Istio installations**, no specific support for mesh federation is required.
-- **ad-hoc cluster _pairing_** at any time. The owners of the clusters can install Istio and operate it independently,
+- **ad hoc cluster _pairing_** at any time. The owners of the clusters can install Istio and operate it independently,
   and decide to connect the clusters at some later point in time.
 - **private gateways for cross-cluster communication**, with dedicated certificates and private keys. Only the gateways
   trust each other, there is no trust between sidecars from different clusters.
