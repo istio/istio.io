@@ -62,7 +62,7 @@ cluster.
 
 ## The proposed implementation
 
-I propose to base implementation of mesh federation on the following principles:
+I propose to base the implementation of mesh federation on the following principles:
 
 - use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC
 - use **standard Istio installations**, no specific support for mesh federation is required
