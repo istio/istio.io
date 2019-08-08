@@ -257,6 +257,14 @@ In this section you create certificates and keys for `cluster1` and `cluster2` a
 and an ingress gateway in `cluster2`. You mount the certificates and the keys to the gateways to establish trust between
 the gateways. Note that only the gateways trust each other, there is no trust between workloads in the different
 clusters.
+These gateways could be different from the public gateways you use to control
+[ingress](/docs/tasks/traffic-management/ingress/secure-ingress-mount/)
+and
+[egress](/docs/tasks/traffic-management/egress/egress-gateway/)
+traffic
+from and to the public Internet. You may want to deploy them on a private network of your
+organization (or of your cloud provider) to reduce the possibilities for attacks from the public Internet. You may want
+to use these gateways for cross-cluster communication only.
 
 ### Generate certificates and keys for cluster1 and cluster2
 
