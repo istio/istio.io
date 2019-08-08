@@ -609,7 +609,7 @@ to expose. They can cancel the exposure at any point if they want.
     If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
     In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
 
-    Set the private ingress IP and ports:
+1.  In case you have a load balancer, set the private ingress IP and ports for the second cluster:
 
     {{< text bash >}}
     $ export CLUSTER2_INGRESS_HOST=$(kubectl -n istio-private-gateways get service istio-private-ingressgateway --context=$CTX_CLUSTER2 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
