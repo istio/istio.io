@@ -266,6 +266,9 @@ from and to the public Internet. You may want to deploy them on a private networ
 organization (or of your cloud provider) to reduce the possibilities for attacks from the public Internet. You may want
 to use these gateways for cross-cluster communication only.
 
+In this blog post you use non-existent hostnames, `c1.example.com`, `c2.example.com` and `c3.example.com`, as the
+hostnames of three clusters. You do not deploy a third cluster in this blog post, only use its identity for testing RBAC policies.
+
 ### Generate certificates and keys for both clusters
 
 You can use the command of your choice to generate certificates and keys, the command below use
