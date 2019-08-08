@@ -134,9 +134,9 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
 ### Setup the second cluster
 
 1.  Create the `bookinfo` namespace and label it for sidecar injection. Note that while you deployed the Bookinfo
-application in the first cluster in the `default` namespace, you use the `bookinfo`
-namespace in the second cluster. This is to demonstrate that you can use different namespaces in the clusters you
-federate, there is no requirement for uniform naming.
+    application in the first cluster in the `default` namespace, you use the `bookinfo`
+    namespace in the second cluster. This is to demonstrate that you can use different namespaces in the clusters you
+    federate, there is no requirement for uniform naming.
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 namespace bookinfo
