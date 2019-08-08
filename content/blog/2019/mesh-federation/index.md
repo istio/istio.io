@@ -1362,8 +1362,8 @@ the following way:
     EOF
     {{< /text >}}
 
-1.  Access the application's webpage in `cluster` and verify that the application continues to work, which would mean that the
-    authorized access is allowed and you configured your policy rules correctly.
+1.  Access the webpage of the Bookinfo application in `cluster1` and verify that the application continues to work.
+    It means that the authorized access is allowed and you configured your policy rules correctly.
 
 1.  Check that unauthorized access is denied. Send a GET request from `ratings` to `reviews`:
 
