@@ -1691,6 +1691,15 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
     $ kubectl delete namespace bookinfo --context=$CTX_CLUSTER2
     {{< /text >}}
 
+### Delete the certificates and keys
+
+{{< text bash >}}
+$ rm example.com.crt
+$ rm certificate1.conf c1.example.com.crt c1.example.com.csr c1.example.com.key
+$ rm certificate2.conf c2.example.com.crt c2.example.com.csr c2.example.com.key
+$ rm certificate3.conf c3.example.com.crt c3.example.com.csr c3.example.com.key
+{{< /text >}}
+
 ### Delete the sleep samples
 
 {{< text bash >}}
