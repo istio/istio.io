@@ -1488,7 +1488,7 @@ the following way:
     {{< /text >}}
 
 1.  Refresh the webpage of your application multiple times. Note that the red stars appear as before, roughly 50% of
-    time. For other 50% of time, the `Ratings service is currently unavailable` message is shown.
+    time. For the other 50% of time, the `Ratings service is currently unavailable` message is shown.
 
 1.  Perform the following tests by the `curl` command using identities of the `c1` and the `c3` clusters:
 
