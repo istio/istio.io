@@ -982,6 +982,7 @@ The following diagram shows the state of the clusters after configuring exposing
 
 1.  Note that in this case the local version of the `reviews` service issues requests to the `ratings`, which does not
     exist locally. In this case you must handle:
+
     1. The DNS should have an entry for `ratings.default.svc.cluster.local`. Otherwise the local `reviews` service will
     fail at DNS query.
     1. Routing to the remote `ratings` service
