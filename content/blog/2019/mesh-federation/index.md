@@ -266,7 +266,7 @@ from and to the public Internet. You may want to deploy them on a private networ
 organization (or of your cloud provider) to reduce the possibilities for attacks from the public Internet. You may want
 to use these gateways for cross-cluster communication only.
 
-### Generate certificates and keys for cluster1 and cluster2
+### Generate certificates and keys for both clusters
 
 You can use the command of your choice to generate certificates and keys, the command below use
 [openssl](https://man.openbsd.org/openssl.1).
