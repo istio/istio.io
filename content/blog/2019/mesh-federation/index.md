@@ -1284,6 +1284,26 @@ the following way:
 
 ## Apply Istio RBAC on the second cluster
 
+In this section you harden the security of your second cluster by applying
+[Istio RBAC](/docs/concepts/security/#authorization) on the `bookinfo` namespace and on the namespace of the private
+ingress gateway. The goal is to control which service is allowed to call which specific service, which services are
+allowed to be accessed from the outside though the private ingress gateway and which external clusters are allowed to
+access which specific services. The goal is to reduce the possible attack vector in case some of the internal services
+or the external clusters is compromised.
+
+Access control is enforced at the entrance to the cluster and also inside the cluster, following the
+[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing) and
+[Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
+
+The security is hardened in two phases in the next subsections:
+
+1. You enable Istio RBAC on the `bookinfo` namespace, and declare that only `reviews` is allowed to call `ratings` and
+that only `reviews` and `ratings` are allowed to be accessed from the outside through the private ingress gateway.
+1. You enable Istio RBAC on the `istio-private-gateways` namespace and declare that only cluster `c1` is allowed to
+access the `reviews` and `ratings` services through the private ingress gateway.
+
+Istio will deny all the unspecified access.
+
 ### Apply Istio RBAC on the `bookinfo` namespace
 
 1.   Create Istio service roles for read access to `reviews` and `ratings`.
