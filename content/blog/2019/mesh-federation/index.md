@@ -1344,7 +1344,8 @@ the following way:
 1.  Enable [Istio RBAC](/docs/concepts/security/#authorization) on the `bookinfo` namespace.
 
     {{< warning >}}
-    If you have Istio RBAC already enabled on some of your namespaces, add `bookinfo` to the list of the included namespaces. The command below assumes that you do not have Istio RBAC in your cluster enabled.
+    If you already enabled Istio RBAC on some of your namespaces, add `bookinfo` to the list of the included namespaces.
+    The command below assumes that `bookinfo` is the only namespace you enabled RBAC on.
     {{< /warning >}}
 
     {{< text bash >}}
