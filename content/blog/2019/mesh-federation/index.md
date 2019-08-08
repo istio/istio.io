@@ -310,7 +310,8 @@ You can use the command of your choice to generate the certificates and the keys
     EOF
     {{< /text >}}
 
-1.  Create a configuration file for `cluster3`, for testing RBAC policies:
+1.  Create a configuration file for `cluster3`. You do not deploy a third cluster in this blog post, only use the
+    certificate and key of `cluster3` for testing RBAC policies.
 
     {{< text bash >}}
     $ cat > ./certificate3.conf <<EOF
