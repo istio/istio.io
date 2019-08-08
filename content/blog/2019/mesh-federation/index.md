@@ -842,7 +842,7 @@ The following diagram shows the state of the clusters after configuring exposing
 
 {{< image width="100%" link="./MeshFederation3_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
 
-### Deploy `reviews v2` locally and retire `reviews v1`
+### Deploy reviews v2 locally and retire reviews v1
 
 1.  Deploy `reviews v2` locally:
 
