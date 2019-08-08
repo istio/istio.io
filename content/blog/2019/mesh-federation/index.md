@@ -903,7 +903,7 @@ The following diagram shows the state of the clusters after configuring exposing
 
     You should have a new pod for `reviews v2` instead of the pod of `reviews v1`.
 
-1.  Access the web page of the Bookinfo application. Notice the `Ratings service is currently unavailable` error. This
+1.  Access the webpage of the Bookinfo application. Notice the `Ratings service is currently unavailable` error. This
     is because the `ratings` service is in a remote cluster and you neither exposed it in `cluster2` nor configured
     consuming it in `cluster1`. You will do it in the next sections.
 
