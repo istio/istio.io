@@ -260,7 +260,7 @@ clusters.
 
 ### Generate certificates and keys for cluster1 and cluster2
 
-You can use the command of your choice to generate the certificates and the keys, the command below use
+You can use the command of your choice to generate certificates and keys, the command below use
 [openssl](https://man.openbsd.org/openssl.1).
 
 1.  Create an `openssl` configuration file for `cluster1`:
