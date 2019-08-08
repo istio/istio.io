@@ -66,12 +66,12 @@ cluster.
 
 I propose to base the implementation of mesh federation on the following principles:
 
-- use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC
-- use **standard Istio installations**, no specific support for mesh federation is required
+- use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC.
+- use **standard Istio installations**, no specific support for mesh federation is required.
 - **ad-hoc cluster _pairing_** at any time. The owners of the clusters can install Istio and operate it independently,
   and decide to connect the clusters at some later point in time.
-- **private gateways for cross-cluster communication**, with special certificates/private keys. Only the gateways trust
-  each other, there is no trust between sidecars from different clusters
+- **private gateways for cross-cluster communication**, with dedicated certificates and private keys. Only the gateways
+  trust each other, there is no trust between sidecars from different clusters.
 
 In the following sections I demonstrate mesh federation using two clusters and the Istio
 [Bookinfo](/docs/examples/bookinfo/) application as an example.
