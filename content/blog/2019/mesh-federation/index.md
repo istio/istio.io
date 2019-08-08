@@ -611,7 +611,7 @@ to expose. They can cancel the exposure at any point if they want.
 
 1.  In case you have a load balancer, set the private ingress IP and ports for the second cluster by running the
     commands below. Otherwise, read
-    [the instructions for NodePort Ingress](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) and adapt them for your private ingress gateway.
+    [the instructions for using a node port for ingress](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) and adapt them for your private ingress gateway.
 
     {{< text bash >}}
     $ export CLUSTER2_INGRESS_HOST=$(kubectl -n istio-private-gateways get service istio-private-ingressgateway --context=$CTX_CLUSTER2 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
