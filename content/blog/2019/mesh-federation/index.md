@@ -897,11 +897,11 @@ The following diagram shows the state of the clusters after configuring exposing
     $ kubectl get pods --context=$CTX_CLUSTER1
     details-v1-59489d6fb6-m5s5j       2/2     Running   0          4h31m
     productpage-v1-689ff955c6-7qsk6   2/2     Running   0          4h31m
-    reviews-v1-657b76fc99-lx46g       2/2     Running   0          4h31m
+    reviews-v2-5cfcfb547f-fv922       2/2     Running   0          4h51m
     sleep-57f9d6fd6b-px97z            2/2     Running   0          4h31m
     {{< /text >}}
 
-    You should have three pods of the Bookinfo application and a pod for the sleep testing app.
+    You should have a new pod for `reviews v2` instead of the pod of `reviews v1`.
 
 1.  Access the web page of the Bookinfo application. Notice the `Ratings service is currently unavailable` error. This
     is because the `ratings` service is in a remote cluster and you neither exposed it in `cluster2` nor configured
