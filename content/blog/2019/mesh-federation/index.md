@@ -255,7 +255,10 @@ The following diagram shows the state of the clusters after deploying the Bookin
 
 ### Generate certificates and keys for cluster1 and cluster2
 
-1.  Create a configuration file for `cluster1`:
+You can use the command of your choice to generate the certificates and the keys, the command below use
+[openssl](https://man.openbsd.org/openssl.1).
+
+1.  Create an `openssl` configuration file for `cluster1`:
 
     {{< text bash >}}
     $ cat > ./certificate1.conf <<EOF
