@@ -530,7 +530,11 @@ The following diagram shows the state of the clusters after deploying the privat
 
 ## Expose and consume services (on a per-service basis)
 
-### Expose reviews v2
+Once you create the private gateways, you can start exposing services in one cluster and consume them in another
+cluster. Note that by default no service is exposed, the cluster owners must specify explicitly which service they want
+to expose. They can cancel the exposure at any point if they want.
+
+### Expose reviews v2 in the second cluster
 
 1.  Define an ingress `Gateway`:
 
@@ -616,7 +620,7 @@ The following diagram shows the state of the clusters after deploying the privat
     Response code: 200
     {{< /text >}}
 
-### Consume reviews v2
+### Consume reviews v2 in the first cluster
 
 Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `cluster1`.
 
