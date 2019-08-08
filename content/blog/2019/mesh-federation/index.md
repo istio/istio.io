@@ -1205,7 +1205,8 @@ and `ratings` services:
 
 ### Cancel exposure of ratings
 
-Consider a scenario where the owners of `cluster2` decide to stop exposure of the `ratings` service. They can do it in the following way:
+Consider a scenario where the owners of `cluster2` decide to stop exposure of the `ratings` service. They can do it in
+the following way:
 
 1.  Remove routing to `ratings` in `cluster2` (leave routing to `reviews` only):
 
