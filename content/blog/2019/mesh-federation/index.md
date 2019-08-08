@@ -247,7 +247,7 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     Response code: 200
     {{< /text >}}
 
-The following diagram shows the state of the clusters of deploying the Bookinfo services:
+The following diagram shows the state of the clusters after deploying the Bookinfo services:
 
 {{< image width="100%" link="./MeshFederation1_bookinfo.svg" caption="Two clusters after initial setup" >}}
 
