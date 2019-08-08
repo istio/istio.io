@@ -342,7 +342,7 @@ You can use the command of your choice to generate the certificates and the keys
     EOF
     {{< /text >}}
 
-1.  Create the certificates:
+1.  Create the certificates and the keys:
 
     {{< text bash >}}
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
