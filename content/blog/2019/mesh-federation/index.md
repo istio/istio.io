@@ -253,6 +253,11 @@ The following diagram shows the state of the clusters after deploying the Bookin
 
 ## Deploy private gateways for cross-cluster communication (one-time setup)
 
+In this section you create certificates and keys for `cluster1` and `cluster2` and deploy an egress gateway in `cluster1`
+and an ingress gateway in `cluster2`. You mount the certificates and the keys to the gateways to establish trust between
+the gateways. Note that only the gateways trust each other, there is no trust between workloads in the different
+clusters.
+
 ### Generate certificates and keys for cluster1 and cluster2
 
 You can use the command of your choice to generate the certificates and the keys, the command below use
