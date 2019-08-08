@@ -627,8 +627,8 @@ to expose. They can cancel the exposure at any point if they want.
 
 Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `cluster1`.
 
-1.  Create a Kubernetes service for `c2.example.com` since it is not a real URL. In the real life, you
-    would use the real host name of your cluster.
+1.  Create a Kubernetes service for `c2.example.com` since it is not an existing hostname. In the real life, you
+    would use the real hostname of your cluster.
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
