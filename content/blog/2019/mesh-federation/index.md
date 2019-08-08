@@ -900,7 +900,7 @@ The following diagram shows the state of the clusters after configuring exposing
     You should have three pods of the Bookinfo application and a pod for the sleep testing app.
 
 1.  Access the web page of the Bookinfo application. Notice the `Ratings service is currently unavailable` error. This
-    is because the `ratings` service in a remote cluster and you neither exposed it in `cluster2` nor configured
+    is because the `ratings` service is in a remote cluster and you neither exposed it in `cluster2` nor configured
     consuming it in `cluster1`. You will do it in the next sections.
 
     The current deployment of the services in the two clusters is shown below:
