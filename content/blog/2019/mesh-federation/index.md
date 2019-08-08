@@ -105,8 +105,8 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     virtualservice.networking.istio.io/details created
     {{< /text >}}
 
-    Access the web page of the Bookinfo application and verify that the reviews appear without stars, which means that the
-_v1_ version of _reviews_ is used.
+    Access the web page of the Bookinfo application and verify that the reviews appear without stars, which means that
+    the _v1_ version of _reviews_ is used.
 
 1.  Delete the deployments of `reviews v2`, `reviews v3` and `ratings v1`:
 
