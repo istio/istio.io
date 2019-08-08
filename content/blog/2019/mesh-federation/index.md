@@ -97,7 +97,7 @@ Two Kubernetes clusters (referred to as `cluster1` and `cluster2`) with default 
 [confirm the app is accessible outside the cluster](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
 and [apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
-1.  Direct the traffic to the _v1_ version of all the microservices:
+1.  Direct the traffic to the `v1` version of all the microservices:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -108,7 +108,7 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     {{< /text >}}
 
     Access the web page of the Bookinfo application and verify that the reviews appear without stars, which means that
-    the _v1_ version of _reviews_ is used.
+    the `v1` version of _reviews_ is used.
 
 1.  Delete the deployments of `reviews v2`, `reviews v3` and `ratings v1`:
 
