@@ -686,7 +686,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     EOF
     {{< /text >}}
 
-1.  Create an egress `Gateway` for `reviews.default.svc.cluster.local`, port 80, and a destination rule for
+1.  Create an egress `Gateway` for `reviews.default.svc.cluster.local`, port 443, and a destination rule for
     traffic directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you have
