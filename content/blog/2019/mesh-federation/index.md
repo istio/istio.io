@@ -1715,3 +1715,11 @@ $ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER2
 {{< /text >}}
 
 ## Summary
+
+In this blog post I showed how you can connect two independent Istio service mesh instances, each one residing in a separate Kubernetes cluster. The connected meshes have non-uniform naming: their services reside in different namespaces and might have different names. The sidecars in different meshes do not trust each other. The services are not exposed until the owners of a cluster decide to expose them and they must do it explicitly. The owners of a cluster have control over which cluster can access their specific services.
+
+Once the two meshes are "paired, and exposure and consumption of services is configured, you can perform cross-cluster routing and load balancing between local and remote versions of the same service.
+
+Since configuration of exposure and consumption of services is rather complex and contains a lot of boilerplate YAMLs, the next step is automation of the whole federation process.
+
+I will be happy to hear your opinion about multi-cluster meshes and mesh federation at [discuss.istio.io](https://discuss.istio.io).
