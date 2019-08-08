@@ -354,23 +354,23 @@ You can use the command of your choice to generate certificates and keys, the co
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 2 -in c3.example.com.csr -out c3.example.com.crt -extensions req_ext -extfile ./certificate3.conf
     {{< /text >}}
 
-### Deploy private egress gateway in cluster1
+### Deploy a private egress gateway in the first cluster
 
-1.  Create `istio-private-gateways`:
+1.  Create the `istio-private-gateways` namespace:
 
     {{< text bash >}}
     $ kubectl create namespace istio-private-gateways --context=$CTX_CLUSTER1
     {{< /text >}}
 
-1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
-   certificates.
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the gateways's
+   certificates and keys.
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret tls c1-example-com-certs --key c1.example.com.key --cert c1.example.com.crt
     $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret generic example-com-ca-certs --from-file=example.com.crt
     {{< /text >}}
 
-1.  Deploy a private ingress gateway with a volume to be mounted from the new secrets:
+1.  Deploy a private egress gateway and mount volumes from the new secrets by the following command:
 
     {{< text bash >}}
     $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio --namespace istio-private-gateways -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.istioNamespace=istio-system -f - | kubectl apply --context=$CTX_CLUSTER1 -f -
@@ -414,7 +414,7 @@ You can use the command of your choice to generate certificates and keys, the co
     istio-private-egressgateway-586c8cb5db-5m77h   1/1     Running   0          43s
     {{< /text >}}
 
-1.  Verify that the key and the certificate are successfully loaded in the egress gateway's pod:
+1.  Verify that the key and the certificates are successfully loaded in the egress gateway's pod:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l istio=private-egressgateway -n istio-private-gateways -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER1)  -n istio-private-gateways --context=$CTX_CLUSTER1 -- ls -al /etc/istio/c1.example.com/certs /etc/istio/example.com/certs
@@ -436,23 +436,23 @@ You can use the command of your choice to generate certificates and keys, the co
     lrwxrwxrwx 1 root root   22 Jul 29 00:27 example.com.crt -> ..data/example.com.crt
     {{< /text >}}
 
-### Deploy private ingress gateway in cluster2
+### Deploy a private ingress gateway in the second cluster
 
-1.  Create `istio-private-gateways`:
+1.  Create the `istio-private-gateways` namespace:
 
     {{< text bash >}}
     $ kubectl create namespace istio-private-gateways --context=$CTX_CLUSTER2
     {{< /text >}}
 
-1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
-   certificates.
+1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the gateways's
+    certificates and keys.
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 -n istio-private-gateways secret tls c2-example-com-certs --key c2.example.com.key --cert c2.example.com.crt
     $ kubectl create --context=$CTX_CLUSTER2 -n istio-private-gateways secret generic example-com-ca-certs --from-file=example.com.crt
     {{< /text >}}
 
-1.  Deploy a private ingress gateway with a volume to be mounted from the new secrets:
+1.  Deploy a private ingress gateway and mount the new secrets as data volumes by the following command:
 
     {{< text bash >}}
     $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio --namespace istio-private-gateways -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.istioNamespace=istio-system -f - | kubectl apply --context=$CTX_CLUSTER2 -f -
