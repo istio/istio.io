@@ -806,35 +806,35 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
 
 1.  Perform load balancing 50:50 between your local version of reviews (v1) and the remote version of reviews (v2):
 
-{{< text bash >}}
-$ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews
-spec:
-  hosts:
-  - reviews
-  http:
-  - match:
-    - port: 9080
-    rewrite:
-      authority: reviews.default.svc.cluster.local
-    route:
-    - destination:
-        host: reviews
-        subset: v1
-        port:
-          number: 9080
-      weight: 50
-    - destination:
-        host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-        subset: reviews-default
-        port:
-          number: 443
-      weight: 50
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: reviews
+    spec:
+      hosts:
+      - reviews
+      http:
+      - match:
+        - port: 9080
+        rewrite:
+          authority: reviews.default.svc.cluster.local
+        route:
+        - destination:
+            host: reviews
+            subset: v1
+            port:
+              number: 9080
+          weight: 50
+        - destination:
+            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+            subset: reviews-default
+            port:
+              number: 443
+          weight: 50
+    EOF
+    {{< /text >}}
 
 1.  Refresh your app webpage and see reviews with black stars appear roughly 50% of the time.
 
