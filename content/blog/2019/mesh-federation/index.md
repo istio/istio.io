@@ -1538,25 +1538,25 @@ the following way:
     $ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" | kubectl replace --context=$CTX_CLUSTER2 -f -
     {{< /text >}}
 
-1.  Check the logs of the private ingress gateway at `cluster2`:
+1.  Check the logs of the private ingress gateway in `cluster2`:
 
     {{< text bash >}}
     $ kubectl logs -l istio=private-ingressgateway --context=$CTX_CLUSTER2 -n istio-private-gateways
     {{< /text >}}
 
-1.  Check the logs of the private egress gateway at `cluster1`:
+1.  Check the logs of the private egress gateway in `cluster1`:
 
     {{< text bash >}}
     $ kubectl logs -l istio=private-egressgateway --context=$CTX_CLUSTER1 -n istio-private-gateways
     {{< /text >}}
 
-1.  Check the logs of `productpage` at `cluster1`:
+1.  Check the logs of `productpage` in `cluster1`:
 
     {{< text bash >}}
     $ kubectl logs -l app=productpage -c istio-proxy --context=$CTX_CLUSTER1
     {{< /text >}}
 
-1.  Check the logs of `reviews v2` at `cluster2`:
+1.  Check the logs of `reviews v2` in `cluster2`:
 
     {{< text bash >}}
     $ kubectl logs -l app=reviews,version=v2 -n bookinfo -c istio-proxy --context=$CTX_CLUSTER2
