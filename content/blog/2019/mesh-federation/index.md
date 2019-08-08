@@ -37,7 +37,9 @@ the pods in other clusters in the mesh only through their ingress gateways.
 control plane.
 
 There are use cases when you want to connect service meshes in separate clusters while limiting exposure of services
-from one cluster to other clusters. You may want strict control of which clusters may consume specific services of the
+from one cluster to other clusters. You also want _expose-nothing_ behaviour by default, to prevent accidential
+exposure of your services.
+You may want strict control of which clusters may consume specific services of the
 exposing cluster.
 Sometimes different clusters are operated by different organizations that do not have common naming rules and didn't
 establish common trust. The Istio community has not yet decided on the right name for such a loosely-coupled
