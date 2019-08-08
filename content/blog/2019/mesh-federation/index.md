@@ -1241,7 +1241,7 @@ the following way:
     `Ratings service is currently unavailable` message. The red stars are displayed correctly, since they are shown by
     `reviews v3` that runs in `cluster2` and has access to `ratings` locally.
 
-1.  To expose the `ratings` back, run:
+1.  To expose `ratings` back, run:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
