@@ -279,7 +279,8 @@ organization (or of your cloud provider) to reduce the possibilities for attacks
 to use these gateways for cross-cluster communication only.
 
 In this blog post you use non-existent hostnames, `c1.example.com`, `c2.example.com` and `c3.example.com`, as the
-hostnames of three clusters. You do not deploy a third cluster in this blog post, only use its identity for testing RBAC policies.
+hostnames of three clusters. You do not deploy a third cluster in this blog post, only use its identity for testing RBAC
+policies.
 
 ### Generate certificates and keys for both clusters
 
