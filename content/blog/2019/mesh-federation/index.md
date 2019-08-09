@@ -55,7 +55,11 @@ feedback.
 ## Requirements for mesh federation
 
 - **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one cluster might have
-different functionality and API as the `withdraw` services in the `accounts` namespace in other clusters.
+different functionality and API as the `withdraw` services in the `accounts` namespace in other clusters. The same
+service with the same functionality can have different names and can reside in different namespaces in a cluster. For
+example, the same service can be called `withdraw` and `withdraw-funds`, and can reside in the `accounts` and
+`private-accounts` namespaces in different clusters. Such situation could happen in an organization where there is no
+uniform policy on naming of namespaces and services, or when the clusters belong to different organizations.
 - **expose-nothing by default**. None of the services in a cluster are exposed by default, the cluster owners must
 explicitly specify which services are exposed.
 - **access control at the ingress gateway**. The access control of the traffic must be enforced at the ingress gateway,
