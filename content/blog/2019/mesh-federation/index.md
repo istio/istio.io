@@ -39,7 +39,10 @@ There are use cases when you want to connect service meshes in separate clusters
 from one cluster to other clusters. You also want _expose-nothing_ behavior by default, to prevent accidental
 exposure of your services.
 You may want strict control of which clusters may consume specific services of the
-exposing cluster.
+exposing cluster, as part of
+[boundary protection](https://insights.sei.cmu.edu/insider-threat/2018/09/cybersecurity-architecture-part-2-system-boundary-and-boundary-protection.html)
+for some of the clusters.
+
 Sometimes different clusters are operated by different organizations that do not have common naming rules and didn't
 establish common trust. The Istio community has not yet decided on the right name for such a loosely-coupled
 connection between independent service meshes. One of the proposed names is _mesh federation_. While I use this name in
