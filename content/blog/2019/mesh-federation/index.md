@@ -1307,7 +1307,6 @@ Access control is enforced at the entrance to the cluster and also inside the cl
 [Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and implementing
 [boundary protection](https://insights.sei.cmu.edu/insider-threat/2018/09/cybersecurity-architecture-part-2-system-boundary-and-boundary-protection.html).
 
-
 The security is hardened in two phases in the next subsections:
 
 1. You enable Istio RBAC on the `bookinfo` namespace, and declare that only `reviews` is allowed to call `ratings` and
