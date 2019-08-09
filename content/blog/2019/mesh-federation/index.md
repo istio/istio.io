@@ -84,12 +84,12 @@ Two Kubernetes clusters (referred to as `cluster1` and `cluster2`) with default 
 
 ## Initial setup
 
-*   In each of the clusters, deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for
-  sending requests.
+In each of the clusters, deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for
+sending requests.
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f @samples/sleep/sleep.yaml@
+{{< /text >}}
 
 ### Setup the first cluster
 
