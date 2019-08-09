@@ -68,7 +68,8 @@ forbidden traffic from entering the cluster. This requirement implements
 standards, such as
 [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
 - **common trust may not exist**. The Istio sidecars in one cluster may not trust the Citadel certificates in other
-cluster.
+cluster, due to some security requirement or due to the fact that the cluster owners did not initially plan to couple
+the clusters.
 
 ## The proposed implementation
 
