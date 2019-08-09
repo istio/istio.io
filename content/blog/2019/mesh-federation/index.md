@@ -1304,8 +1304,9 @@ access which specific services. The goal is to reduce the possible attack vector
 or the external clusters is compromised.
 
 Access control is enforced at the entrance to the cluster and also inside the cluster, following the
-[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and
-[Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
+[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and implementing
+[boundary protection](https://insights.sei.cmu.edu/insider-threat/2018/09/cybersecurity-architecture-part-2-system-boundary-and-boundary-protection.html).
+
 
 The security is hardened in two phases in the next subsections:
 
