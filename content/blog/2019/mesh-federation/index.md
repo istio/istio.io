@@ -41,10 +41,10 @@ exposure of your services.
 You may want strict control of which clusters may consume specific services of the
 exposing cluster, as part of
 [boundary protection](https://insights.sei.cmu.edu/insider-threat/2018/09/cybersecurity-architecture-part-2-system-boundary-and-boundary-protection.html)
-for some of the clusters.
+for some of the clusters. Sometimes different clusters are operated by different organizations that do not have common naming rules and didn't
+establish common trust.
 
-Sometimes different clusters are operated by different organizations that do not have common naming rules and didn't
-establish common trust. The Istio community has not yet decided on the right name for such a loosely-coupled
+The Istio community has not yet decided on the right name for such a loosely-coupled
 connection between independent service meshes. One of the proposed names is _mesh federation_. While I use this name in
 this blog post, I do not claim that it is the best name for this pattern.
 
