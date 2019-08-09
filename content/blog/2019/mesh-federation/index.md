@@ -1753,7 +1753,7 @@ separate Kubernetes cluster.
 The connected meshes have non-uniform naming: their services reside in different namespaces and might have different
 names.
 The sidecars in different meshes do not trust each other.
-The services are not exposed until the owners of a cluster decide to expose them and they must do it explicitly.
+The services are not exposed until the owners of a cluster decide to explicitly expose them.
 The owners of a cluster have control over which cluster can access their specific services.
 
 Once the two meshes are "paired, and exposure and consumption of services is configured, you can perform cross-cluster
