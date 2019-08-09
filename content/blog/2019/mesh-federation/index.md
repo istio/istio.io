@@ -62,9 +62,11 @@ example, the same service can be called `withdraw` and `withdraw-funds`, and can
 uniform policy on naming of namespaces and services, or when the clusters belong to different organizations.
 - **expose-nothing by default**. None of the services in a cluster are exposed by default, the cluster owners must
 explicitly specify which services are exposed.
-- **access control at the ingress gateway**. The access control of the traffic must be enforced at the ingress gateway,
-forbidden traffic should not enter the cluster. This requirement implements [Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of
-some compliance standards.
+- **boundary protection**. The access control of the traffic must be enforced at the ingress gateway, which stops
+forbidden traffic from entering the cluster. This requirement implements
+[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of some compliance
+standards, such as
+[Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
 - **common trust may not exist**. The Istio sidecars in one cluster may not trust the Citadel certificates in other
 cluster.
 
