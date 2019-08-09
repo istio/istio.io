@@ -4,7 +4,7 @@ description: Illustrates how to use Istio to control a Kubernetes cluster and ra
 weight: 60
 keywords: [vms]
 aliases:
-    - /docs/guides/integrating-vms/index.html
+    - /docs/examples/mesh-expansion/integrating-vms/index.html
 ---
 
 This example deploys the Bookinfo services across Kubernetes and a set of

@@ -1,5 +1,5 @@
 ---
-title: Mesh Expansion with gateways (multi-network)
+title: Mesh Expansion with Gateways
 description: Integrate VMs and bare metal hosts into an Istio mesh deployed on Kubernetes with gateways.
 weight: 95
 keywords: [kubernetes,vms,gateways]
