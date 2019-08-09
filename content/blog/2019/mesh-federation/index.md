@@ -16,7 +16,7 @@ communities. You may need to split your applications between multiple clusters f
 
 And it is just a partial list.
 
-Currently there are [three patterns](https://istio.io/docs/setup/kubernetes/install/multicluster/) in Istio to create a
+Currently there are [three patterns](/docs/setup/kubernetes/install/multicluster/) in Istio to create a
 [multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
 A _multicluster service mesh_ is a single _logical_ service mesh, spread among multiple Kubernetes clusters.
 
