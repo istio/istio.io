@@ -1147,7 +1147,7 @@ Handle DNS and routing by the following steps:
     EOF
     {{< /text >}}
 
-1.  Direct traffic destined to `ratings` to the egress gateway:
+1.  Direct traffic destined to `ratings`, to the egress gateway:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
