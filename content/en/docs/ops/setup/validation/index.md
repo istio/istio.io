@@ -38,7 +38,7 @@ invalid configuration should be listed in one of the two `webhooks`
 entries.
 
 {{< text bash yaml >}}
-$ kubectl get validatingwebhookconfiguration istio-galley -o yaml
+$ kubectl -n istio-system get validatingwebhookconfiguration istio-galley -o yaml
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
