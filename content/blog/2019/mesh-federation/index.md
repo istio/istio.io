@@ -1762,4 +1762,5 @@ routing and load balancing between local and remote versions of the same service
 Since configuration of exposure and consumption of services is rather complex and contains a lot of boilerplate YAMLs,
 the next step is automation of the whole federation process.
 
-I will be happy to hear your opinion about multi-cluster meshes and mesh federation at [discuss.istio.io](https://discuss.istio.io).
+I will be happy to hear your opinion about multi-cluster meshes and mesh federation at
+[discuss.istio.io](https://discuss.istio.io).
