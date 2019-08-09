@@ -8,13 +8,12 @@ keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
 
 Managing applications across multiple Kubernetes clusters is currently one of the hottest topics in Kubernetes and Istio
-communities. You may need to split your applications between multiple clusters for different reasons:
+communities. You may need to split your applications between multiple clusters for different reasons, for example:
 
 -  scalability limits of a single cluster
 -  separation of production/dev/test/staging environments
 -  different security and compliance requirements for different parts of the application
-
-And it is just a partial list.
+-  running parts of the application on multiple public clouds, and on a private cloud
 
 Currently there are [three patterns](/docs/setup/kubernetes/install/multicluster/) in Istio to create a
 [multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
