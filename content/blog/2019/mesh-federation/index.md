@@ -992,8 +992,8 @@ The following diagram shows the state of the clusters after configuring exposing
 
 ### Consume ratings and reviews v3
 
-1.  Note that in this case the local version of the `reviews` service sends requests to the `ratings`, which does not
-    exist locally. In this case you must handle:
+1.  Note that in this case the local version of the `reviews` service sends requests to the `ratings` service, which
+    does not exist locally. In this case you must handle:
 
     1. The DNS should have an entry for `ratings.default.svc.cluster.local`. Otherwise the local `reviews` service will
     fail at DNS query.
