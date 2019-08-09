@@ -14,7 +14,7 @@ with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
 depending on the location of the request source.
 
-By following the instructions in this guide, you will setup a two cluster mesh as shown in the following diagram:
+By following the instructions in this guide, you will setup a two-cluster mesh as shown in the following diagram:
 
   {{< image width="80%"
   link="./diagram.svg"

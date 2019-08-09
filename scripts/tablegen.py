@@ -24,6 +24,12 @@ import re
 from ruamel import yaml
 
 #
+# This script generates the installation options from the helm charts
+# for the current release (by parsing the values.yaml files under the
+# charts and subcharts directory).
+#
+
+#
 # Reads a documented Helm values.yaml file and produces a
 # MD formatted table.  pip install ruamel to obtain the proper
 # YAML decoder.  ruamel maintains ordering and comments.  The
@@ -72,7 +78,7 @@ prdict = collections.defaultdict(list)
 def decode_helm_yaml(s):
     ret_val = ''
     #
-    # Iterate through all the directories under /istio/install/kubernetes/heml/subcharts 
+    # Iterate through all the directories under /istio/install/kubernetes/helm/subcharts 
     # and process the configuration options from the respective values.yaml. The
     # configuration option name is the name of the directory that contains values.yaml.
     # This name will be passed in to the the function process_helm_yaml
@@ -340,3 +346,4 @@ with open(os.path.join(ISTIO_IO_DIR, CONFIG_INDEX_DIR), 'r') as f:
             endReached = True
         if endReached:
             print d
+

@@ -17,6 +17,7 @@ REPOS=(
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
+    https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
 )
 
 # The components to build and extract usage docs from.
@@ -96,7 +97,7 @@ handle_doc_scraping() {
 
         echo "  INPUT REPO: ${REPO_URL}@${REPO_BRANCH}"
 
-        git clone -q -b ${REPO_BRANCH} ${REPO_URL} ${DEST_DIR}
+        git clone --depth=1 -q -b ${REPO_BRANCH} ${REPO_URL} ${DEST_DIR}
 
         # delete the vendor directory so we don't get .pb.html out of there
         rm -fr ${DEST_DIR}/vendor
@@ -121,12 +122,18 @@ handle_components() {
 
         echo "  COMPONENT: ${COMP_NAME} from ${REPO_URL}@${REPO_BRANCH}"
 
-        git clone -q -b ${REPO_BRANCH} ${REPO_URL}
+        git clone --depth=1 -q -b ${REPO_BRANCH} ${REPO_URL}
 
         pushd ${REPO_NAME}
         pushd ${COMP_PATH}
-        # until we're on the go module plan in istio/istio and istio/operator
+
+        # until we're on the go module plan in istio/istio
         GO111MODULE=off
+        if [[ "${COMP_NAME}" == "operator" ]]
+        then
+            GO111MODULE=on
+        fi
+
         go build -o ${COMP_NAME}
         mkdir -p ${COMP_OUTPUT_DIR}/${COMP_NAME}
         ./${COMP_NAME} collateral -o ${COMP_OUTPUT_DIR}/${COMP_NAME} --html_fragment_with_front_matter > /dev/null

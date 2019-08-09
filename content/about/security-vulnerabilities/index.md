@@ -11,7 +11,7 @@ back Istio security vulnerabilities. We investigate every report thoroughly.
 ## Reporting a vulnerability
 
 To make a report, send an email to the private
-[`vulnerabilities@discuss.istio.io`](mailto:vulnerabilities@discuss.istio.io)
+[istio-security-vulnerability-reports@googlegroups.com](mailto:istio-security-vulnerability-reports@googlegroups.com)
 mailing list with the vulnerability details. For normal product bugs
 unrelated to latent security vulnerabilities, please head to
 our [Reporting Bugs](/about/bugs/) page to learn what to do.

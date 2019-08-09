@@ -8,6 +8,90 @@ aliases:
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
 
+## Cross-namespace configuration sharing
+
+You can define virtual services, destination rules, or service entries
+in one namespace and then reuse them in other namespaces, if they are exported
+to those namespaces.
+Istio exports all traffic management resources to all namespaces by default,
+but you can override the visibility with the `exportTo` field.
+For example, only clients in the same namespace can use the following virtual service:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myservice
+spec:
+  hosts:
+  - myservice.com
+  exportTo:
+  - "."
+  http:
+  - route:
+    - destination:
+        host: myservice
+{{< /text >}}
+
+{{< tip >}}
+You can similarly control the visibility of a Kubernetes `Service` using the `networking.istio.io/exportTo` annotation.
+{{< /tip >}}
+
+Setting the visibility of destination rules in a particular namespace doesn't
+guarantee the rule is used. Exporting a destination rule to other namespaces enables you to use it
+in those namespaces, but to actually be applied during a request the namespace also needs to be
+on the destination rule lookup path:
+
+1. client namespace
+1. service namespace
+1. Istio configuration root (`istio-system` by default)
+
+For example, consider the following destination rule:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: myservice
+spec:
+  host: myservice.default.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+{{< /text >}}
+
+Let's assume you create this destination rule in namespace `ns1`.
+
+If you send a request to the `myservice` service from a client in `ns1`, the destination
+rule would be applied, because it is in the first namespace on the lookup path, that is,
+in the client namespace.
+
+If you now send the request from a different namespace, for example `ns2`,
+the client is no longer in the same namespace as the destination rule, `ns1`.
+Because the corresponding service, `myservice.default.svc.cluster.local`, is also not in `ns1`,
+but rather in the `default` namespace, the destination rule will also not be found in
+the second namespace of the lookup path, the service namespace.
+
+Even if the `myservice` service is exported to all namespaces and therefore visible
+in `ns2` and the destination rule is also exported to all namespaces, including `ns2`,
+it will not be applied during the request from `ns2` because it's not in any
+of the namespaces on the lookup path.
+
+You can avoid this problem by creating the destination rule in the same namespace as
+the corresponding service, `default` in this example. It would then get applied to requests
+from clients in any namespace.
+You can also move the destination rule to the `istio-system` namespace, the third namespace on
+the lookup path, although this isn't recommended unless the destination rule is really a global
+configuration that is applicable in all namespaces, and it would require administrator authority.
+
+Istio uses this restricted destination rule lookup path for two reasons:
+
+1. Prevent destination rules from being defined that can override the behavior of services
+   in completely unrelated namespaces.
+1. Have a clear lookup order in case there is more than one destination rule for
+   the same host.
+
 ## Configuring multiple TLS hosts in a gateway
 
 If you apply a `Gateway` configuration that has the same `selector` labels as another

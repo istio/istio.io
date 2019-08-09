@@ -92,6 +92,7 @@ autoscaler
 Autoscalers
 autoscalers
 autoscaling
+AutoTrader
 az
 backend
 backends
@@ -125,6 +126,9 @@ CloudWatch
 CNI
 cnn.com
 colocated
+composable
+Composability
+composability
 ConfigMap
 configmap
 configmap
@@ -477,6 +481,7 @@ Stackdriver
 Statsd
 stdout
 Steitz
+Stoney
 strongSwan
 struct
 Styra
@@ -552,6 +557,7 @@ VMs
 VMware
 VPN
 VPNs
+Warman
 WBoilerplates
 WeaveWorks
 webhook

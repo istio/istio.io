@@ -11,6 +11,7 @@
 /gogo-genproto/* go-get=1 /golang/gogo-genproto.html 200
 /test-infra/* go-get=1 /golang/test-infra.html 200
 /tools/* go-get=1 /golang/tools.html 200
+/operator/* go-get=1 /golang/operator.html 200
 
 # Redirect default Netlify subdomain to primary domain
 https://istio.netlify.com/* https://istio.io/:splat 301!
@@ -19,7 +20,7 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /  /zh   302  Language=zh
 
 # Redirect for the helm charts
-/charts/ https://gcsweb.istio.io/gcs/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301
+/charts/ https://storage.googleapis.com/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301
 
 # Redirects for all aliases
 {{- range $p := .Site.Pages -}}
