@@ -55,7 +55,7 @@ feedback.
 ## Requirements for mesh federation
 
 - **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one cluster might have
-different functionality and API as the `withdraw` services in the `accounts` namespace in other clusters. The same
+different functionality and API than the `withdraw` services in the `accounts` namespace in other clusters. The same
 service with the same functionality can have different names and can reside in different namespaces in a cluster. For
 example, the same service can be called `withdraw` and `withdraw-funds`, and can reside in the `accounts` and
 `private-accounts` namespaces in different clusters. Such situation could happen in an organization where there is no
