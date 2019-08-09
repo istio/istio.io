@@ -992,15 +992,16 @@ The following diagram shows the state of the clusters after configuring exposing
 
 ### Consume ratings and reviews v3
 
-1.  Note that in this case the local version of the `reviews` service sends requests to the `ratings` service, which
-    does not exist locally. In this case you must handle:
+Note that in this case the local version of the `reviews` service sends requests to the `ratings` service, which
+does not exist locally. In this case you must handle:
 
-    1. The DNS should have an entry for `ratings.default.svc.cluster.local`. Otherwise the local `reviews` service will
-    fail at DNS query.
-    1. Routing to the remote `ratings` service
+- The DNS should have an entry for `ratings.default.svc.cluster.local`. Otherwise the local `reviews` service will
+  fail at DNS query.
+- Routing to the remote `ratings` service.
 
-    To handle DNS, create a Kubernetes service for `ratings.default.svc.cluster.local`. Handle routing to the remote
-    `ratings` service, and also to `reviews v3` in the steps that follow after the next step.
+Handle DNS and routing by the following steps:
+
+1.  To handle DNS, create a Kubernetes service for `ratings.default.svc.cluster.local`.
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
