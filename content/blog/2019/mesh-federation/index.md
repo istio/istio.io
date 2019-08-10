@@ -72,6 +72,29 @@ standards, such as
 cluster, due to some security requirement or due to the fact that the cluster owners did not initially plan to couple
 the clusters.
 
+### Isolation of system components and boundary protection
+
+Isolation of system components and boundary protection of the isolation is the most important use case for mesh
+federation, in my opinion.
+Boundary protection mechanisms are explained in [NIST Special Publication 800-53, Revision 4, Security and Privacy
+Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4), _Appendix F,
+Security Control Catalog, SC-7 Boundary Protection_.
+
+In particular, the _Boundary protection, isolation of information system components_ control enhancement:
+
+> Organizations can isolate information system components performing different missions and/or business functions.
+Such isolation limits unauthorized information flows among system components and also provides the opportunity to deploy
+greater levels of protection for selected components. Separating system components with boundary protection mechanisms
+provides the capability for increased protection of individual components and to more effectively control information
+flows between those components. This type of enhanced protection limits the potential harm from cyber attacks and
+errors. The degree of separation provided varies depending upon the mechanisms chosen. Boundary protection mechanisms
+include, for example, routers, gateways, and firewalls separating system components into physically separate networks or
+subnetworks, cross-domain devices separating subnetworks, virtualization techniques, and encrypting information flows
+among system components using distinct encryption keys.
+
+In the proposed implementation of mesh federation, the cross-cluster traffic is controlled at the mesh boundary, at an
+ingress gateway dedicated to cross-cluster communication.
+
 ## The proposed implementation
 
 I propose to base the implementation of mesh federation on the following principles:
