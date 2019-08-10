@@ -92,8 +92,8 @@ include, for example, routers, gateways, and firewalls separating system compone
 subnetworks, cross-domain devices separating subnetworks, virtualization techniques, and encrypting information flows
 among system components using distinct encryption keys.
 
-In the proposed implementation of mesh federation, the cross-cluster traffic is controlled at the mesh boundary, at an
-ingress gateway dedicated to cross-cluster communication.
+In the proposed implementation of mesh federation, a dedicated ingress gateway controls the cross-cluster traffic at
+the mesh boundary.
 
 ## The proposed implementation
 
