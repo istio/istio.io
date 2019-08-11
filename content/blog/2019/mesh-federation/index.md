@@ -74,8 +74,8 @@ the clusters.
 
 ### Isolation of system components and boundary protection
 
-Isolation of system components and protection of the isolation boundary is the most important use case for mesh
-federation, in my opinion.
+Isolation of system components and boundary protection is the most important use case for mesh federation, in my
+opinion.
 
 Isolation and boundary protection mechanisms are explained in
 [NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
@@ -83,7 +83,8 @@ _Appendix F, Security Control Catalog, SC-7 Boundary Protection_.
 
 In particular, the _Boundary protection, isolation of information system components_ control enhancement:
 
-> Organizations can isolate information system components performing different missions and/or business functions.
+{{< quote >}}
+Organizations can isolate information system components performing different missions and/or business functions.
 Such isolation limits unauthorized information flows among system components and also provides the opportunity to deploy
 greater levels of protection for selected components. Separating system components with boundary protection mechanisms
 provides the capability for increased protection of individual components and to more effectively control information
@@ -92,9 +93,34 @@ errors. The degree of separation provided varies depending upon the mechanisms c
 include, for example, routers, gateways, and firewalls separating system components into physically separate networks or
 subnetworks, cross-domain devices separating subnetworks, virtualization techniques, and encrypting information flows
 among system components using distinct encryption keys.
+{{< /quote >}}
 
-In the proposed implementation of mesh federation, a dedicated ingress gateway controls the cross-cluster traffic at
-the mesh boundary.
+Various compliance standards recommend isolating environments that process sensitive data from the rest of the
+organization. [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/)
+recommends implementing network isolation for _cardholder data_ environment and requires isolating this environment from
+the [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)). [FedRAMP Authorization Boundary Guidance](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf) describes _authorization boundary_ for federal information and data,
+while
+[NIST Special Publication 800-37, Revision 2, Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy](https://doi.org/10.6028/NIST.SP.800-37r2) recommends protecting of such a boundary in
+_Appendix G, Authorization Boundary Considerations_:
+
+{{< quote >}}
+Dividing a system into subsystems (i.e., divide and conquer) facilitates a targeted application of controls to achieve
+adequate security, protection of individual privacy, and a cost-effective risk management process. Dividing complex
+systems into subsystems also supports the important security concepts of domain separation and network segmentation,
+which can be significant when dealing with high value assets. When systems are divided into subsystems, organizations
+may choose to develop individual subsystem security and privacy plans or address the system and subsystems in the same
+security and privacy plans.
+Information security and privacy architectures play a key part in the process of dividing complex systems into
+subsystems. This includes monitoring and controlling communications at internal boundaries among subsystems and
+selecting, allocating, and implementing controls that meet or exceed the security and privacy requirements of the
+constituent subsystems.
+{{< /quote >}}
+
+The proposed mesh federation facilitates division of a system into subsystems with different security and compliance
+requirements, and facilitates the boundary protection.
+You put each subsystem into a separate Kubernetes cluster, preferably on a separate network. You install
+a dedicated Istio control plane into each cluster and connect the Istio meshes using ingress and egress gateways.
+The gateways monitor and control cross-cluster traffic at the boundary of each cluster.
 
 ## The proposed implementation
 
