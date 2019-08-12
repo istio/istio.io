@@ -7,7 +7,7 @@ weight: 2
 {{< boilerplate work-in-progress >}}
 
 For this tutorial you need a Kubernetes cluster with a namespace for the tutorial's modules and a
-local computer to run the commands of the tutorial's modules. In case you participate in a guided workshop and the
+local computer to run the commands. If you are participating in a guided workshop
 instructors provide a cluster for you, let them handle the prerequisites of the Kubernetes cluster, you only need to
 setup your local computer.
 If you intend to run the tutorial's commands on your own cluster, mind the prerequisites for the cluster as well.
