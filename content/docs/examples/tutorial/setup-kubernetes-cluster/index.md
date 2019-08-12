@@ -10,7 +10,7 @@ Complete this module to set up a Kubernetes cluster that has Istio installed and
 
 {{< warning >}}
 In case you participate in a workshop and the instructors provide a cluster for you,
-proceed to [the next module](/docs/examples/tutorial/setup-local-computer).
+go to [setting up your local computer](/docs/examples/tutorial/setup-local-computer).
 {{</ warning >}}
 
 1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
