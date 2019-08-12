@@ -9,7 +9,7 @@ weight: 2
 Complete this module to set up a Kubernetes cluster that has Istio installed and a namespace for you to use throughout the tutorial.
 
 {{< warning >}}
-In case you participate in a workshop and the instructors provide a cluster for you,
+If you are participating in a workshop and the instructors provide a cluster for you,
 go to [setting up your local computer](/docs/examples/tutorial/setup-local-computer).
 {{</ warning >}}
 
