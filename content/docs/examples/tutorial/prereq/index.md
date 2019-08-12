@@ -14,7 +14,7 @@ If you want to proceed using your own cluster, ensure your cluster satisfies the
 
 ## Kubernetes cluster
 
-Make sure that:
+Ensure the following conditions are met:
 
 - You can access a Kubernetes cluster and have administrator privileges for said cluster.
 - You can create a namespace in the cluster for each participant.
