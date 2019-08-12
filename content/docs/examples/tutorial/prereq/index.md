@@ -21,7 +21,7 @@ Ensure the following conditions are met:
 
 ## Local computer
 
-Make sure that:
+Ensure the following conditions are met:
 
 - You have write access to `/etc/hosts` file
 - You have the ability and permission to download, install and run command line tools on a local computer
