@@ -10,7 +10,7 @@ For this tutorial you need a Kubernetes cluster with a namespace for the tutoria
 local computer to run the commands. If you are participating in a guided workshop
 and the instructors provide the cluster, let them handle the Kubernetes cluster prerequisites, and you can skip ahead to
 setup your local computer.
-If you intend to run the tutorial's commands on your own cluster, mind the prerequisites for the cluster as well.
+If you want to proceed using your own cluster, ensure your cluster satisfies the prerequisites for the cluster as well.
 
 ## Kubernetes cluster
 
