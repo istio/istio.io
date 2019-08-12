@@ -29,7 +29,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to config
 generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
 cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
 
-1. Generate a meshexpansion-gateways Istio configuration file using `helm`:
+1. Generate a `meshexpansion-gateways` Istio configuration file using `helm`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -107,7 +107,7 @@ routing requests between services. Services local to a cluster share a
 common DNS suffix(e.g., `svc.cluster.local`). Kubernetes DNS provides
 DNS resolution for these services.
 
-To provide a similar setup to allow services accessible from Vms, you name
+To provide a similar setup to allow services accessible from VMs, you name
 services in the clusters in the format
 `<name>.<namespace>.global`. Istio also ships with a CoreDNS server that
 will provide DNS resolution for these services. In order to utilize this
@@ -235,22 +235,22 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 
 | Resource Kind| Resource Name | Function |
 | ----------------------------       |---------------------------       | -----------------                          |
-| configmap                          | coredns                          | Send *.global request to istiocordns service |
-| service                            | istiocoredns                     | Resolve *.global to Istio Ingress gateway    |
-| gateway.networking.istio.io        | meshexpansion-gateway            | Open port for Pilot, Citadel and Mixer       |
-| gateway.networking.istio.io        | istio-multicluster-egressgateway | Open port 15443 for outbound *.global traffic|
-| gateway.networking.istio.io        | istio-multicluster-ingressgateway| Open port 15443 for inbound *.global traffic |
-| envoyfilter.networking.istio.io    | istio-multicluster-ingressgateway| Transform *.global to *. svc.cluster.local   |
-| destinationrule.networking.istio.io| stio-multicluster-destinationrule| Set traffic policy for 15443 traffic         |
-| destinationrule.networking.istio.io| meshexpansion-dr-pilot           | Set traffic policy for `istio-pilot`         |
-| destinationrule.networking.istio.io| istio-policy                     | Set traffic policy for `istio-policy`        |
-| destinationrule.networking.istio.io| istio-telemetry                  | Set traffic policy for `istio-telemetry`     |
-| virtualservice.networking.istio.io | meshexpansion-vs-pilot           | Set route info for `istio-pilot`             |
-| virtualservice.networking.istio.io | meshexpansion-vs-citadel         | Set route info for `istio-citadel`           |
+| configmap                          | coredns                          | Send *.global request to `istiocordns` service |
+| service                            | `istiocoredns`                     | Resolve *.global to Istio Ingress gateway    |
+| `gateway.networking.istio.io`        | `meshexpansion-gateway`           | Open port for Pilot, Citadel and Mixer       |
+| `gateway.networking.istio.io`        | `istio-multicluster-egressgateway` | Open port 15443 for outbound *.global traffic|
+| `gateway.networking.istio.io`        | `istio-multicluster-ingressgateway`| Open port 15443 for inbound *.global traffic |
+| `envoyfilter.networking.istio.io`    | `istio-multicluster-ingressgateway`| Transform *.global to *. svc.cluster.local   |
+| `destinationrule.networking.istio.io`| `istio-multicluster-destinationrule`| Set traffic policy for 15443 traffic         |
+| `destinationrule.networking.istio.io`| `meshexpansion-dr-pilot`           | Set traffic policy for `istio-pilot`         |
+| `destinationrule.networking.istio.io`| `istio-policy`                     | Set traffic policy for `istio-policy`        |
+| `destinationrule.networking.istio.io`| `istio-telemetry`                  | Set traffic policy for `istio-telemetry`     |
+| `virtualservice.networking.istio.io` | `meshexpansion-vs-pilot`           | Set route info for `istio-pilot`             |
+| `virtualservice.networking.istio.io` | `meshexpansion-vs-citadel`         | Set route info for `istio-citadel`           |
 
 ## Expose service running on cluster to VMs
 
-Every service in the cluster that needs to be accessed from the VM requires a ServiceEntry configuration in the cluster. The host used in the service entry should be of the form <name>.<namespace>.global where name and namespace correspond to the service’s name and namespace respectively.
+Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form <name>.<namespace>.global where name and namespace correspond to the service’s name and namespace respectively.
 
 To demonstrate access from VM to  cluster services, configure the
 the [httpbin service]({{<github_tree>}}/samples/httpbin)
@@ -266,7 +266,7 @@ in the cluster.
 
 1. Create a service entry for the `httpbin` service in the cluster.
 
-    To allow services running in VM  to access `httpbin` in the cluster, we need to create
+    To allow services in VM  to access `httpbin` in the cluster, we need to create
     a service entry for it. The host name of the service entry should be of the form
     `<name>.<namespace>.global` where name and namespace correspond to the
     remote service's name and namespace respectively.
