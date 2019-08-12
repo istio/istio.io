@@ -81,7 +81,6 @@ Download the code of the app, install its dependencies and run it locally follow
     command line web client like [cURL](https://curl.haxx.se) or [Wget](https://www.gnu.org/software/wget/).
     Since you run the service locally, you can access it via the `localhost` hostname.
 
-    command:
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
