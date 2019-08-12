@@ -18,7 +18,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
 1.  Create an environment variable to store the name of a namespace to perform the commands of the tutorial on.
-    You can use any name, for example `tutorial`. `coolstuff` will do as well.
+    You can use any name, for example `tutorial`, but `coolstuff` would do as well.
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
