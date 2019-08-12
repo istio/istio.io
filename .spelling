@@ -107,6 +107,8 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+c.f.
+callouts
 Callouts
 camelCase
 canaried
@@ -140,10 +142,14 @@ CSRs
 Ctrl
 Customizable
 CVE
-CVEs
-D3.js
+CVE-2019-9512
+CVE-2019-9513
+CVE-2019-9514
+CVE-2019-9515
+CVE-2019-9518
 Datadog
 datapath
+CVEs
 dataset
 datastore
 Datawire
@@ -262,6 +268,8 @@ IPv4
 IPv6
 Istio
 istio.io
+ISTIO-SECURITY-2019-004
+ISTIO-SECURITY-2019-003
 istio.io.
 Istiofied
 IstioMesh
@@ -404,6 +412,7 @@ pwd
 qps
 quay.io
 quo
+queueing
 radis
 Rajagopalan
 ratelimit-handler
@@ -437,6 +446,7 @@ rollout
 rollouts
 routable
 RPC
+RST_STREAM
 RPCs
 runtime
 runtimes
@@ -519,6 +529,7 @@ unmanaged
 unnormalized
 unsampled
 untrusted
+URIs
 uptime
 url
 user
