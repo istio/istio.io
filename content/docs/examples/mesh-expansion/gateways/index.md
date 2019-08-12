@@ -102,7 +102,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
 ### Setup DNS
 
 Providing DNS resolution to allow services running on VM can access the
-services runnning in the cluster. Istio itself does not use the DNS for
+services running in the cluster. Istio itself does not use the DNS for
 routing requests between services. Services local to a cluster share a
 common DNS suffix(e.g., `svc.cluster.local`). Kubernetes DNS provides
 DNS resolution for these services.
@@ -235,12 +235,12 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 
 | Resource Kind| Resource Name | Function |
 | ----------------------------       |---------------------------       | -----------------                          |
-| configmap                          | coredns                          | Send *.global request to `istiocordns` service |
-| service                            | `istiocoredns`                     | Resolve *.global to Istio Ingress gateway    |
+| `configmap`                          | `coredns`                          | Send *.global request to `istiocordns` service |
+| `service`                            | `istiocoredns`                     | Resolve *.global to Istio Ingress gateway    |
 | `gateway.networking.istio.io`        | `meshexpansion-gateway`           | Open port for Pilot, Citadel and Mixer       |
 | `gateway.networking.istio.io`        | `istio-multicluster-egressgateway` | Open port 15443 for outbound *.global traffic|
 | `gateway.networking.istio.io`        | `istio-multicluster-ingressgateway`| Open port 15443 for inbound *.global traffic |
-| `envoyfilter.networking.istio.io`    | `istio-multicluster-ingressgateway`| Transform *.global to *. svc.cluster.local   |
+| `envoyfilter.networking.istio.io`    | `istio-multicluster-ingressgateway`| Transform `*.global` to `*. svc.cluster.local`   |
 | `destinationrule.networking.istio.io`| `istio-multicluster-destinationrule`| Set traffic policy for 15443 traffic         |
 | `destinationrule.networking.istio.io`| `meshexpansion-dr-pilot`           | Set traffic policy for `istio-pilot`         |
 | `destinationrule.networking.istio.io`| `istio-policy`                     | Set traffic policy for `istio-policy`        |
