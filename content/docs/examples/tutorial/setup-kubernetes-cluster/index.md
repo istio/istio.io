@@ -38,7 +38,6 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
 
 1.  Install Istio with strict mutual TLS enabled. The simplest way is to follow
     [the Kubernetes installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps).
-    select the `strict mutual TLS` tab.
 
 1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
 
