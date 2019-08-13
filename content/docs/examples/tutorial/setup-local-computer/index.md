@@ -18,7 +18,6 @@ In this module you prepare your local computer for the tutorial.
     the `istioctl` command line tool from the `bin` directory, and verify that you
     can run `istioctl` with the following command:
 
-    Verify that you can run `istioctl`:
 
     {{< text bash >}}
     $ istioctl version
