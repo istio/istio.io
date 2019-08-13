@@ -15,7 +15,7 @@ communities. You may need to split your applications between multiple clusters f
 -  different security and compliance requirements for different parts of the application
 -  running parts of the application on multiple public clouds, and on a private cloud
 
-Currently there are [three patterns](/docs/setup/kubernetes/install/multicluster/) in Istio to create a
+Currently there are [three documented patterns](/docs/setup/kubernetes/install/multicluster/) in Istio to create a
 [multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
 A _multicluster service mesh_ is a single _logical_ service mesh, spread among multiple Kubernetes clusters.
 
