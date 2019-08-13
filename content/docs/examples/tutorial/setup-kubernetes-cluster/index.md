@@ -91,7 +91,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     {{< /text >}}
 
 1. Limit each participant's permissions. Participants only need to create resources in their
-    namespace. Even if you run the tutorial alone on your own cluster, it could be a good practice to limit yourself so
+    namespace. Follow this best practice even if using your own cluster to prevent
     your learning will not interfere with other namespaces in your cluster.
 
     Perform the following steps to achieve this:
