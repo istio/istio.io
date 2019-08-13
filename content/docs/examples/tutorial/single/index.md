@@ -50,7 +50,8 @@ Follow these steps to download the code of the app, install its dependencies, an
     web application runs as a standalone process and contains all the web serving features.
     {{< /tip >}}
 
-1.  Since Node.js applications are written in JavaScript they are interpreted
+1. Node.js applications are written in JavaScript, which means that there is no explicit compilation step. 
+    Instead, they use [just-in-time compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation).
     (well, with [just-in-time compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation)),
     so there is no explicit compilation step. To build a Node.js application, roughly means to install its dependencies.
 
