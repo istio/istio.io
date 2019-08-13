@@ -96,7 +96,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
 
     To limit the permissions of each participant on a namespace-basis, complete the following steps:
 
-    1.  Create a role to provide read access to `istio-system` namespace:
+    1.  Create a role to provide read access to the `istio-system` namespace:
 
         {{< text bash >}}
         $ kubectl apply -f - <<EOF
