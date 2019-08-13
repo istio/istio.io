@@ -48,7 +48,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
     - [Kiali](https://www.kiali.io/documentation/getting-started/)
 
-    If you do not know what are the services above - great, this tutorial will teach you about each of them.
+    Have no clue what are the services above? Worry not! This tutorial has modules teaching you about each of them.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
