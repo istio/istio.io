@@ -90,116 +90,124 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     EOF
     {{< /text >}}
 
-1. Limit each participant's permissions. During the tutorial, participants only need to create resources in their
-   namespace. It is a good practice even if using your own cluster to prevent your learning from interfering with other
-   namespaces in your cluster.
+1.  Create a role to provide read access to the `istio-system` namespace. This role is required to limit permissions of
+    the participants in the steps below.
 
-    To limit the permissions of each participant on a namespace-basis, complete the following steps:
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    kind: Role
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: istio-system-access
+      namespace: istio-system
+    rules:
+    - apiGroups: ["", "extensions", "apps"]
+      resources: ["*"]
+      verbs: ["get", "list"]
+    EOF
+    {{< /text >}}
 
-    1.  Create a role to provide read access to the `istio-system` namespace:
+1.  Each participant needs a service account to represent their identity. Create a service account for each participant:
 
-        {{< text bash >}}
-        $ kubectl apply -f - <<EOF
-        kind: Role
-        apiVersion: rbac.authorization.k8s.io/v1beta1
-        metadata:
-          name: istio-system-access
-          namespace: istio-system
-        rules:
-        - apiGroups: ["", "extensions", "apps"]
-          resources: ["*"]
-          verbs: ["get", "list"]
-        EOF
-        {{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: ${NAMESPACE}-user
+      namespace: $NAMESPACE
+    {{< /text >}}
 
-    1.  Each user of a namespace needs a service account. Create a service account and grant it access to the namespace's resources with the following command:
-    service account:
+1.  Limit each participant's permissions. During the tutorial, participants only need to create resources in their
+    namespace and to read resources from `istio-system` namespace.
+    It is a good practice even if using your own cluster to prevent your learning from interfering with other
+    namespaces in your cluster.
 
-        {{< text bash >}}
-        $ kubectl apply -f - <<EOF
-        apiVersion: v1
-        kind: ServiceAccount
-        metadata:
-          name: ${NAMESPACE}-user
-          namespace: $NAMESPACE
-        ---
-        kind: Role
-        apiVersion: rbac.authorization.k8s.io/v1beta1
-        metadata:
-          name: ${NAMESPACE}-access
-          namespace: $NAMESPACE
-        rules:
-        - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io", "authentication.istio.io",
-                      "rbac.istio.io", "config.istio.io"]
-          resources: ["*"]
-          verbs: ["*"]
-        ---
-        kind: RoleBinding
-        apiVersion: rbac.authorization.k8s.io/v1beta1
-        metadata:
-          name: ${NAMESPACE}-access
-          namespace: $NAMESPACE
-        subjects:
-        - kind: ServiceAccount
-          name: ${NAMESPACE}-user
-          namespace: $NAMESPACE
-        roleRef:
-          apiGroup: rbac.authorization.k8s.io
-          kind: Role
-          name: ${NAMESPACE}-access
-        ---
-        kind: RoleBinding
-        apiVersion: rbac.authorization.k8s.io/v1beta1
-        metadata:
-          name: ${NAMESPACE}-istio-system-access
-          namespace: istio-system
-        subjects:
-        - kind: ServiceAccount
-          name: ${NAMESPACE}-user
-          namespace: $NAMESPACE
-        roleRef:
-          apiGroup: rbac.authorization.k8s.io
-          kind: Role
-          name: istio-system-access
-        EOF
-        {{< /text >}}
+    Create a role to allow read-write access to each participant's namespace and bind participant's service account
+    to this role and to the role for reading resources from `istio-system`:
 
-    1.  Generate the `./${NAMESPACE}-user-config.yaml` Kubernetes configuration file needed for each user of each
-        namespace:
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    kind: Role
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: ${NAMESPACE}-access
+      namespace: $NAMESPACE
+    rules:
+    - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io", "authentication.istio.io",
+                  "rbac.istio.io", "config.istio.io"]
+      resources: ["*"]
+      verbs: ["*"]
+    ---
+    kind: RoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: ${NAMESPACE}-access
+      namespace: $NAMESPACE
+    subjects:
+    - kind: ServiceAccount
+      name: ${NAMESPACE}-user
+      namespace: $NAMESPACE
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: ${NAMESPACE}-access
+    ---
+    kind: RoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: ${NAMESPACE}-istio-system-access
+      namespace: istio-system
+    subjects:
+    - kind: ServiceAccount
+      name: ${NAMESPACE}-user
+      namespace: $NAMESPACE
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: istio-system-access
+    EOF
+    {{< /text >}}
 
-        {{< text bash >}}
-        $ cat <<EOF > ./${NAMESPACE}-user-config.yaml
-        apiVersion: v1
-        kind: Config
-        preferences: {}
+1.  Each participant needs to use their own Kubernetes configuration file. This configuration file specifies
+    the cluster details, the service account, the credentials and the namespace of the participant.
+    The `kubectl` command uses the configuration file to operate on the cluster.
 
-        clusters:
-        - cluster:
-            certificate-authority-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
-            server: $(kubectl config view -o jsonpath="{.clusters[?(.name==\"$(kubectl config view -o jsonpath="{.contexts[?(.name==\"$(kubectl config current-context)\")].context.cluster}")\")].cluster.server}")
-          name: ${NAMESPACE}-cluster
+    Generate a Kubernetes configuration file for each participant:
 
-        users:
-        - name: ${NAMESPACE}-user
-          user:
-            as-user-extra: {}
-            client-key-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
-            token: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath={.data.token} | base64 --decode)
+    {{< text bash >}}
+    $ cat <<EOF > ./${NAMESPACE}-user-config.yaml
+    apiVersion: v1
+    kind: Config
+    preferences: {}
 
-        contexts:
-        - context:
-            cluster: ${NAMESPACE}-cluster
-            namespace: ${NAMESPACE}
-            user: ${NAMESPACE}-user
-          name: ${NAMESPACE}
+    clusters:
+    - cluster:
+        certificate-authority-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
+        server: $(kubectl config view -o jsonpath="{.clusters[?(.name==\"$(kubectl config view -o jsonpath="{.contexts[?(.name==\"$(kubectl config current-context)\")].context.cluster}")\")].cluster.server}")
+      name: ${NAMESPACE}-cluster
 
-        current-context: ${NAMESPACE}
-        EOF
-        {{< /text >}}
+    users:
+    - name: ${NAMESPACE}-user
+      user:
+        as-user-extra: {}
+        client-key-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
+        token: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath={.data.token} | base64 --decode)
 
-        Now you can send the generated config file to each tutorial's participant (or use it yourself, if you are the participant). The participant will define the `KUBECONFIG` environment variable to store the location of the
-        file, and as a result will have access to the tutorial's namespace only.
-        See the [local computer setup module](/docs/examples/tutorial/setup-local-computer) for more details.
+    contexts:
+    - context:
+        cluster: ${NAMESPACE}-cluster
+        namespace: ${NAMESPACE}
+        user: ${NAMESPACE}-user
+      name: ${NAMESPACE}
+
+    current-context: ${NAMESPACE}
+    EOF
+    {{< /text >}}
+
+1.  If you are an instructor, send the generated configuration file to each participant. If you are setting up the
+    cluster for yourself, use the configuration file as described in the
+    [local computer setup module](/docs/examples/tutorial/setup-local-computer) for more details.
 
 You completed the setup of your cluster and can start the [setup of your local computer](/docs/examples/tutorial/setup-local-computer).
 Once your local computer is set, you can [run your first service](/docs/examples/tutorial/single/)!
