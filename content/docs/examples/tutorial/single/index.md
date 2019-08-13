@@ -66,7 +66,6 @@ Follow these steps to download the code of the app, install its dependencies, an
     To build a Node.js application, then means to install its dependencies. Install the dependencies of
     the `ratings` service in the same folder where you stored the service code and the package file:
 
-
     {{< text bash >}}
     $ npm install
     npm notice created a lockfile as package-lock.json. You should commit this file.
@@ -92,7 +91,6 @@ The `ratings` service is a web app and you can communicate with it as you would 
 
 1.  Open [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or access
     `ratings` using the `curl` command:
-
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
