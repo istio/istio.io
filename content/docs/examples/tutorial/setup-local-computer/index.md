@@ -43,4 +43,4 @@ In this module you prepare your local computer for the tutorial.
 Congratulations! 
 
 You set up your local computer and you have a [Kubernetes cluster ready](/docs/examples/tutorial/setup-kubernetes-cluster) for learning.
-Proceed to [the next module](/docs/examples/tutorial/single/) to run your first microservice. Enjoy!
+You are ready to [run a single service locally](/docs/examples/tutorial/single/). Enjoy!
