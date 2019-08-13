@@ -52,7 +52,8 @@ Follow these steps to download the code of the app, install its dependencies, an
 
 1. Node.js applications are written in JavaScript, which means that there is no explicit compilation step. 
     Instead, they use [just-in-time compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation).
-    so there is no explicit compilation step. To build a Node.js application, roughly means to install its dependencies.
+    To build a Node.js application, then means to install its dependencies. Install the dependencies of
+    the `ratings` service in the same folder where you stored the service code and the package file:
 
     Install the service's dependencies in the same folder you used to store the service code and the package file:
 
