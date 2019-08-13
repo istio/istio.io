@@ -75,7 +75,6 @@ the clusters.
 ### Isolation of system components and boundary protection
 
 In my opinion, isolation of system components and boundary protection is the most important use case for mesh federation.
-opinion.
 
 Isolation and boundary protection mechanisms are explained in
 [NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
