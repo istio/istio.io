@@ -41,7 +41,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
 
 1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
 
-1.  Create a Kubernetes Ingress resource for common Istio services:
+1.  Create a Kubernetes Ingress resource for the following common Istio services:
 
     - [Grafana](https://grafana.com/docs/guides/getting_started/)
     - [Jaeger](https://www.jaegertracing.io/docs/1.13/getting-started/)
