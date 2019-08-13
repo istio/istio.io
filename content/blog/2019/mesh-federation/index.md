@@ -21,7 +21,7 @@ A _multicluster service mesh_ is a single _logical_ service mesh, spread among m
 
 Such a service mesh has the following characteristics:
 
-- **uniform identical naming** of namespaces and services. The `withdraw` service in the `accounts` namespace in one
+- **uniform naming** of namespaces and services. The `withdraw` service in the `accounts` namespace in one
 cluster has the same functionality and API as the `withdraw` service in the `accounts` namespace in all other clusters
 in the mesh.
 - **expose-all by default**. All the services are exposed by default to all the clusters in the mesh.
