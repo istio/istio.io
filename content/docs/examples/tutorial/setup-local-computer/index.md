@@ -31,7 +31,7 @@ In this module you prepare your local computer for the tutorial.
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
     {{< /text >}}
 
-1.  Verify that you configuration took effect by printing the current namespace:
+1.  Verify that the configuration took effect by printing the current namespace:
 
     {{< text bash >}}
     $ kubectl config view -o jsonpath="{.contexts == \"$(kubectl config current-context)\")].context.namespace}"
