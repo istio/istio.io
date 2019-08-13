@@ -95,7 +95,7 @@ among system components using distinct encryption keys.
 {{< /quote >}}
 
 Various compliance standards recommend isolating environments that process sensitive data from the rest of the
-organization. [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/)
+organization. The [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/)
 recommends implementing network isolation for _cardholder data_ environment and requires isolating this environment from
 the [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)). [FedRAMP Authorization Boundary Guidance](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf) describes _authorization boundary_ for federal information and data,
 while
