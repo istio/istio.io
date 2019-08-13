@@ -46,8 +46,8 @@ Follow these steps to download the code of the app, install its dependencies, an
         - Status code
 
     {{< tip >}}
-    In Node.js, the web serving is embedded in the code of the web application. A Node.js
-    web application runs as a standalone process and contains all the web serving features.
+    In Node.js, the web server's functionality is embedded in the code of the application. A Node.js
+    web application runs as a standalone process.
     {{< /tip >}}
 
 1. Node.js applications are written in JavaScript, which means that there is no explicit compilation step.
