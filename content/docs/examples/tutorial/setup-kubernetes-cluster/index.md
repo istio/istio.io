@@ -124,7 +124,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     It is a good practice even if using your own cluster to prevent your learning from interfering with other
     namespaces in your cluster.
 
-    Create a role to allow read-write access to each participant's namespace and bind participant's service account
+    Create a role to allow read-write access to each participant's namespace. Bind the participant's service account
     to this role and to the role for reading resources from `istio-system`:
 
     {{< text bash >}}
