@@ -15,7 +15,8 @@ In this module you prepare your local computer for the tutorial.
 1.  Install [Docker](https://docs.docker.com/install/).
 
 1.  Download one of the [Istio release archives](https://github.com/istio/istio/releases) and extract
-    the `istioctl` command line tool from it. The tool is in the `bin` directory of the archive.
+    the `istioctl` command line tool from the `bin` directory, and verify that you
+    can run `istioctl` with the following command:
 
     Verify that you can run `istioctl`:
 
