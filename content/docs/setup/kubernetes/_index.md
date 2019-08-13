@@ -63,7 +63,7 @@ When you're ready to consider more advanced Istio use cases, check out the follo
 [multicluster installation documents](/docs/setup/kubernetes/install/multicluster/).
 
 - To expand your existing mesh with additional containers or VMs not running on
-your mesh's Kubernetes cluster, follow our [mesh expansion guide](/docs/setup/kubernetes/additional-setup/mesh-expansion/).
+your mesh's Kubernetes cluster, follow our [mesh expansion guide](/docs/examples/mesh-expansion/).
 
 - To add services requires a detailed understanding of sidecar injection. Visit our
 [sidecar injection guide](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
