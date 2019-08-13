@@ -9,7 +9,7 @@ keywords: [CVE]
 Today we are releasing two new versions of Istio. Istio [1.1.13](/about/notes/1.1.13/) and [1.2.4](/about/notes/1.2.4/) address vulnerabilities that can be used to mount a Denial of Service (DoS) attack against services using Istio.
 
 __ISTIO-SECURITY-2019-003__: An Envoy user reported publicly an issue (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) about regular expressions (or regex) matching that crashes Envoy with very large URIs.
-   After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio, if users are employing regular expressions in some of the Istio APIs: `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.
+  * __[CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)__: After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio, if users are employing regular expressions in some of the Istio APIs: `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.
 
 __ISTIO-SECURITY-2019-004__: Envoy, and subsequently Istio are vulnerable to a series of trivial HTTP/2-based DoS attacks:
   * __[CVE-2019-9512](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9512)__: HTTP/2 flood using `PING` frames and queuing of response `PING` ACK frames that results in unbounded memory growth (which can lead to out of memory conditions).
