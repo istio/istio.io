@@ -102,7 +102,7 @@ The `ratings` service is a web app and you can communicate with it as you would 
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
 
-1.  To stop the service stop its process, press `Ctrl-C` while in the terminal running it.
+1.  Use `Ctrl-C` in the terminal running the service to stop it.
 
 In this module you saw how you can implement, build, test and run a service on a local machine.
 In the next module you will learn how create a container for your service and how to run the container locally.
