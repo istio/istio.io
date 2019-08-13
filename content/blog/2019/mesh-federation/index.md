@@ -25,7 +25,7 @@ Such a service mesh has the following characteristics:
 cluster has the same functionality and API as the `withdraw` service in the `accounts` namespace in all other clusters
 in the mesh.
 - **expose-all by default**. All the services are exposed by default to all the clusters in the mesh.
-- **common identity and common trust** are established between all the clusters in the mesh.
+- **common identity and trust** are established between all the clusters in the mesh.
 
 The differences between the three patterns are the following:
 
