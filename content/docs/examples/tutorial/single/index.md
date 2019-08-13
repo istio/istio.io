@@ -106,4 +106,4 @@ The `ratings` service is a web app and you can communicate with it as you would 
 
 Success!
 You can now build, test, and run a service on a local machine.
-In the next module you will learn how create a container for your service and how to run the container locally.
+Go to the next module to learn how to create a container for your service and run the container locally.
