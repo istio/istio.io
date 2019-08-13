@@ -199,7 +199,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
 
         Now you can send the generated config file to each tutorial's participant (or use it yourself, if you are the participant). The participant will define the `KUBECONFIG` environment variable to store the location of the
         file, and as a result will have access to the tutorial's namespace only.
-        See [the next module](/docs/examples/tutorial/setup-local-computer) for the local computer setup.
+        See the [local computer setup module](/docs/examples/tutorial/setup-local-computer) for more details.
 
 You performed the setup of your cluster for the tutorial and can proceed to the setup of your local computer in
 [the next module](/docs/examples/tutorial/setup-local-computer).
