@@ -66,7 +66,7 @@ explicitly specify which services are exposed.
 - **boundary protection**. The access control of the traffic must be enforced at the ingress gateway, which stops
 forbidden traffic from entering the cluster. This requirement implements
 [Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of some compliance
-standards, such as
+standards, such as the
 [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
 - **common trust may not exist**. The Istio sidecars in one cluster may not trust the Citadel certificates in other
 cluster, due to some security requirement or due to the fact that the cluster owners did not initially plan to couple
