@@ -46,7 +46,7 @@ Follow these steps to download the code of the app, install its dependencies, an
         - Status code
 
     {{< tip >}}
-    In Node.js, the web serving is embedded in the code of the web application. Therefore, a Node.js 
+    In Node.js, the web serving is embedded in the code of the web application. A Node.js
     web application runs as a standalone process and contains all the web serving features.
     {{< /tip >}}
 
