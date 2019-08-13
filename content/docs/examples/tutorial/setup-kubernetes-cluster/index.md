@@ -201,6 +201,6 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
         file, and as a result will have access to the tutorial's namespace only.
         See the [local computer setup module](/docs/examples/tutorial/setup-local-computer) for more details.
 
-You performed the setup of your cluster for the tutorial and can proceed to the setup of your local computer in
+You completed the setup of your cluster and can start the [setup of your local computer](/docs/examples/tutorial/setup-local-computer).
 [the next module](/docs/examples/tutorial/setup-local-computer).
 Bear with us, you are just a single module before running your first microservice!
