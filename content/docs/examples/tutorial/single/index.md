@@ -51,9 +51,9 @@ Follow these steps to download the code of the app, install its dependencies, an
         - listening to a port
         - handling requests and responses
     - The aspects related to HTTP:
-        - Headers
-        - Path
-        - Status code
+        - headers
+        - path
+        - status code
 
     {{< tip >}}
     In Node.js, the web server's functionality is embedded in the code of the application. A Node.js
