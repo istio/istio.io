@@ -203,5 +203,4 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
 
 You performed the setup of your cluster for the tutorial and can proceed to the setup of your local computer in
 [the next module](/docs/examples/tutorial/setup-local-computer).
-We understand that for some of you this setup process could be rather boring.
 Bear with us, you are just a single module before running your first microservice!
