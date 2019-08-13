@@ -116,6 +116,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     metadata:
       name: ${NAMESPACE}-user
       namespace: $NAMESPACE
+    EOF
     {{< /text >}}
 
 1.  Limit each participant's permissions. During the tutorial, participants only need to create resources in their
