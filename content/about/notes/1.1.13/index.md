@@ -5,6 +5,6 @@ icon: notes
 release: 1.1.13
 ---
 
-This release includes bug fixes to improve robustness.  This release note describes what's different between Istio 1.1.12 and Istio 1.1.13.
+This release includes an important security update.  This release note describes what's different between Istio 1.1.12 and Istio 1.1.13.
 
 {{< relnote >}}
