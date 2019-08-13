@@ -47,7 +47,7 @@ Follow these steps to download the code of the app, install its dependencies, an
     {{< /text >}}
 
 1. Skim the service's code and note the following elements on the code:
-    - The web serving features
+    - The web server's features:
         - listening to a port
         - handling requests and responses
     - The aspects related to HTTP:
