@@ -26,7 +26,6 @@ In this module you prepare your local computer for the tutorial.
 
 1. Set the `KUBECONFIG` environment variable to store the `${NAMESPACE}-user-config.yaml`
     configuration file generated while [setting up the cluster](/docs/examples/tutorial/setup-kubernetes-cluster):
-    (or received from someone who set up the cluster for you) in the `KUBECONFIG` environment variable:
 
     {{< text bash >}}
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
