@@ -13,7 +13,7 @@ The goal is to show that you can implement, build, run and test a service on you
 before deploying it to a development, testing or production environment.
 
 The `ratings` service is a small web app written in [Node.js](https://nodejs.org/en/) that can run on its own.
-It performs the following actions, similar to the actions the web apps usually perform:
+It performs similar actions to those of other web apps:
 
 - Listen to the port it receives as a parameter.
 - Expect `HTTP GET` requests on the `/ratings/{productID}` path and return the ratings of the product matching the value
