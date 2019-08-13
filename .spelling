@@ -108,6 +108,7 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+c.f.
 callouts
 Callouts
 camelCase
@@ -145,10 +146,15 @@ CSRs
 Ctrl
 Customizable
 CVE
-CVEs
-D3.js
+CVE-2019-14993
+CVE-2019-9512
+CVE-2019-9513
+CVE-2019-9514
+CVE-2019-9515
+CVE-2019-9518
 Datadog
 datapath
+CVEs
 dataset
 datastore
 Datawire
@@ -270,6 +276,8 @@ IPv4
 IPv6
 Istio
 istio.io
+ISTIO-SECURITY-2019-004
+ISTIO-SECURITY-2019-003
 istio.io.
 Istiofied
 IstioMesh
@@ -529,6 +537,7 @@ unmanaged
 unnormalized
 unsampled
 untrusted
+URIs
 uptime
 url
 user
