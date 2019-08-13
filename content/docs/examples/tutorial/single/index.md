@@ -6,11 +6,22 @@ weight: 10
 
 {{< boilerplate work-in-progress >}}
 
+Before the advent of microservices, it took a large team of developers to develop a large application. Development teams
+built, deployed and ran the whole application as one large chunk of software. To test a small change in their module,
+apart from unit testing, the developers had to build the whole application. Therefore the builds
+took large amount of time. After the build, the developers deployed their version of the application into a test server.
+The server either ran on a remote machine, or on the local computer of the developer. In the
+latter case, the developers had to install and operate a rather complex environment on their local computer.
+
+In the era of microservices, the developers write, build, test and run much smaller software parts, microservices,
+on their local machine. Builds are fast. With modern frameworks like [Node.js](https://nodejs.org/en/) there is no
+need to install and operate complex server environments since the service runs as
+a regular process on a local computer. There is no deployment process, so you just build your service and run it
+immediately.
+
 This module covers the different aspects involved in developing a single service on a local machine.
 You don't need to write code though. Instead, you build, run, and test an existing service:
 `ratings`.
-The goal is to show that you can implement, build, run and test a service on your local machine,
-before deploying it to a development, testing or production environment.
 
 The `ratings` service is a small web app written in [Node.js](https://nodejs.org/en/) that can run on its own.
 It performs similar actions to those of other web apps:
@@ -106,4 +117,5 @@ The `ratings` service is a web app and you can communicate with it as you would 
 
 Success!
 You can now build, test, and run a service on a local machine.
-Go to the next module to learn how to create a container for your service and run the container locally.
+Go to the next module to learn how to package the service into a container. Once packaged, the service can be deployed
+into a test, staging or production environment.
