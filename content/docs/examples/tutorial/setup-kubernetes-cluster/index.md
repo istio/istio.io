@@ -36,7 +36,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     participant. The tutorial supports work in multiple namespaces simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  Install Istio with strict mutual TLS enabled. The simplest way is to follow
+1.  Install Istio with strict mutual TLS enabled. Just remember to select the `strict mutual TLS` tab when you follow
     [the Kubernetes installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps).
 
 1.  [Enable Envoy's access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging).
