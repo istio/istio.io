@@ -35,7 +35,7 @@ the pods in other clusters in the mesh only through corresponding ingress gatewa
 - The Istio control planes are **shared** between the clusters in the mesh or each cluster has its own **dedicated**
 control plane.
 
-There are use cases when you want to connect service meshes in separate clusters while limiting exposure of services
+There are use cases where none of the multicluster patterns apply, for example, when you want to connect service meshes in separate clusters while limiting exposure of services
 from one cluster to other clusters. You also want _expose-nothing_ behavior by default, to prevent accidental
 exposure of your services.
 You may want strict control of which clusters may consume specific services of the
