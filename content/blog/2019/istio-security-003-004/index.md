@@ -9,15 +9,17 @@ keywords: [CVE]
 Today we are releasing two new versions of Istio. Istio [1.1.13](/about/notes/1.1.13/) and [1.2.4](/about/notes/1.2.4/) address vulnerabilities that can be used to mount a Denial of Service (DoS) attack against services using Istio.
 
 __ISTIO-SECURITY-2019-003__: An Envoy user reported publicly an issue (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) about regular expressions (or regex) matching that crashes Envoy with very large URIs.
-  * __[CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)__: After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio, if users are employing regular expressions in some of the Istio APIs: `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.
+
+* __[CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)__: After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio, if users are employing regular expressions in some of the Istio APIs: `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.
 
 __ISTIO-SECURITY-2019-004__: Envoy, and subsequently Istio are vulnerable to a series of trivial HTTP/2-based DoS attacks:
-  * __[CVE-2019-9512](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9512)__: HTTP/2 flood using `PING` frames and queuing of response `PING` ACK frames that results in unbounded memory growth (which can lead to out of memory conditions).
-  * __[CVE-2019-9513](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9513)__: HTTP/2 flood using PRIORITY frames that results in excessive CPU usage and starvation of other clients.
-  * __[CVE-2019-9514](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9514)__: HTTP/2 flood using `HEADERS` frames with invalid HTTP headers and queuing of response `RST_STREAM` frames that results in unbounded memory growth (which can lead to out of memory conditions).
-  * __[CVE-2019-9515](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9515)__: HTTP/2 flood using SETTINGS frames and queuing of `SETTINGS` ACK frames that results in unbounded memory growth (which can lead to out of memory conditions).
-  * __[CVE-2019-9518](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9518)__: HTTP/2 flood using frames with an empty payload that results in excessive CPU usage and starvation of other clients.
-  * See [this security bulletin](https://github.com/Netflix/security-bulletins/blob/master/advisories/third-party/2019-002.md) for more information
+
+* __[CVE-2019-9512](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9512)__: HTTP/2 flood using `PING` frames and queuing of response `PING` ACK frames that results in unbounded memory growth (which can lead to out of memory conditions).
+* __[CVE-2019-9513](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9513)__: HTTP/2 flood using PRIORITY frames that results in excessive CPU usage and starvation of other clients.
+* __[CVE-2019-9514](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9514)__: HTTP/2 flood using `HEADERS` frames with invalid HTTP headers and queuing of response `RST_STREAM` frames that results in unbounded memory growth (which can lead to out of memory conditions).
+* __[CVE-2019-9515](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9515)__: HTTP/2 flood using SETTINGS frames and queuing of `SETTINGS` ACK frames that results in unbounded memory growth (which can lead to out of memory conditions).
+* __[CVE-2019-9518](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9518)__: HTTP/2 flood using frames with an empty payload that results in excessive CPU usage and starvation of other clients.
+* See [this security bulletin](https://github.com/Netflix/security-bulletins/blob/master/advisories/third-party/2019-002.md) for more information
 
 Those HTTP/2-based vulnerabilities were reported externally and affect multiple proxy implementations.
 
@@ -38,11 +40,12 @@ All versions prior to 1.1 are no longer supported and are considered vulnerable.
 ## Vulnerability impact and detection
 
 __ISTIO-SECURITY-2019-003__: To detect if there is any regular expressions used in Istio APIs in your cluster, run the following command which prints either of the following output:
-  * YOU ARE AFFECTED: found regex used in `AuthenticationPolicy` or `VirtualService`
-  * YOU ARE NOT AFFECTED: did not find regex usage
 
-```bash
-cat <<'EOF' | bash -
+* YOU ARE AFFECTED: found regex used in `AuthenticationPolicy` or `VirtualService`
+* YOU ARE NOT AFFECTED: did not find regex usage
+
+{{< text bash >}}
+$ cat <<'EOF' | bash -
 set -e
 set -u
 set -o pipefail
@@ -87,14 +90,15 @@ fi
 
 echo "${green}YOU ARE NOT AFFECTED: did not find regex usage${reset}"
 EOF
-```
+{{< /text >}}
 
 __ISTIO-SECURITY-2019-004__: If Istio terminates externally originated HTTP then it is vulnerable.   If Istio is instead fronted by an intermediary that terminates HTTP (e.g., a HTTP load balancer), then that intermediary would protect Istio, assuming the intermediary is not itself vulnerable to the same HTTP/2 exploits.
 
 ## Mitigations
 
 For both vulnerabilities:
-  * For Istio 1.1.x deployments: update to a minimum version of Istio 1.1.13
-  * For Istio 1.2.x deployments: update to a minimum version of Istio 1.2.4
+
+* For Istio 1.1.x deployments: update to a minimum version of Istio 1.1.13
+* For Istio 1.2.x deployments: update to a minimum version of Istio 1.2.4
 
 We’d like to remind our community to follow the [vulnerability reporting process](/about/security-vulnerabilities/) to report any bug that can result in a security vulnerability.
