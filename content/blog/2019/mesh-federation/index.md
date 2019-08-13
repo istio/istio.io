@@ -49,7 +49,7 @@ connection between independent service meshes. One of the proposed names is _mes
 this blog post, I do not claim that it is the best name for this pattern.
 
 In this blog post I describe requirements for _mesh federation_ and propose a possible solution for it. I don't claim
-that this is the best solution, the goal of the blog post is to share it with the community and the users, to get their
+that this is the best or only solution. The goal of this blog post is to share an approach with the community and to get user
 feedback.
 
 ## Requirements for mesh federation
