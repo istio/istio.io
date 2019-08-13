@@ -89,7 +89,7 @@ echo "${green}YOU ARE NOT AFFECTED: did not find regex usage${reset}"
 EOF
 ```
 
-__ISTIO-SECURITY-2019-004__: If Istio terminates externally originated HTTP then it is vulnerable.   If Istio is instead fronted by an intermediary that terminates HTTP (e.g., a HTTP load balancer), than that intermediary would protect Istio, assuming the intermediary is not itself vulnerable to the same HTTP/2 exploits.
+__ISTIO-SECURITY-2019-004__: If Istio terminates externally originated HTTP then it is vulnerable.   If Istio is instead fronted by an intermediary that terminates HTTP (e.g., a HTTP load balancer), then that intermediary would protect Istio, assuming the intermediary is not itself vulnerable to the same HTTP/2 exploits.
 
 ## Mitigations
 
