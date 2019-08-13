@@ -104,5 +104,6 @@ The `ratings` service is a web app and you can communicate with it as you would 
 
 1.  Use `Ctrl-C` in the terminal running the service to stop it.
 
-In this module you saw how you can implement, build, test and run a service on a local machine.
+Success!
+You can now build, test, and run a service on a local machine.
 In the next module you will learn how create a container for your service and how to run the container locally.
