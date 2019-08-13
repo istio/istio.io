@@ -4,7 +4,7 @@ description: Integrate VMs and bare metal hosts into an Istio mesh deployed on K
 weight: 95
 keywords: [kubernetes,vms]
 aliases:
-    - /docs/setup/kubernetes/mesh-expansion/
+    - /docs/examples/mesh-expansion/
 ---
 
 This guide provides instructions to integrate VMs and bare metal hosts into
