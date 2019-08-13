@@ -66,7 +66,7 @@ Follow these steps to download the code of the app, install its dependencies, an
     added 24 packages in 2.094s
     {{< /text >}}
 
-1.  Run the service, passing `9080` as a parameter. The application will listen on port 9080.
+1.  Run the service, passing `9080` as a parameter. The application then listens on port 9080.
 
     {{< text bash >}}
     $ npm start 9080
