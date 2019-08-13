@@ -6,14 +6,15 @@ weight: 10
 
 {{< boilerplate work-in-progress >}}
 
-Before the advent of microservices, development teams built, deployed and ran the whole application as one large chunk
-of software. To test a small change in their module not merely by unit testing, the developers had to build the whole
-application. Therefore the builds took large amount of time. After the build, the developers deployed their version of
-the application into a test server. The server either ran on a remote machine, or on the local computer of the developer.
-In the latter case, the developers had to install and operate a rather complex environment on their local computer.
+Before the advent of microservice architecture, development teams built, deployed and ran the whole application as one
+large chunk of software. To test a small change in their module not merely by unit testing, the developers had to build
+the whole application. Therefore the builds took large amount of time. After the build, the developers deployed their
+version of the application into a test server. The server either ran on a remote machine, or on the local computer of
+the developer. In the latter case, the developers had to install and operate a rather complex environment on their local
+computer.
 
-In the era of microservices, the developers write, build, test and run much smaller software parts, microservices,
-on their local machine. Builds are fast. With modern frameworks like [Node.js](https://nodejs.org/en/) there is no
+In the era of microservice architecture, the developers write, build, test and run small software services.
+Builds are fast. With modern frameworks like [Node.js](https://nodejs.org/en/) there is no
 need to install and operate complex server environments to test a single service, since the service runs as a regular
 process. You do not have to deploy your service to some environment to merely test it,
 so you just build your service and run it immediately on your local computer.
