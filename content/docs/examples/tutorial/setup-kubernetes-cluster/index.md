@@ -94,7 +94,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     namespace. Follow this best practice even if using your own cluster to prevent
     your learning from interfering with other namespaces in your cluster.
 
-    Perform the following steps to achieve this:
+    To limit the permissions of each participant on a namespace-basis, complete the following steps:
 
     1.  Create a role to provide read access to `istio-system` namespace:
 
