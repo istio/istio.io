@@ -7,7 +7,7 @@ weight: 10
 {{< boilerplate work-in-progress >}}
 
 This module covers the different aspects involved in developing a single service on a local machine.
-We will not ask you to write code, your task will be to build, run and test an already implemented service,
+You don't need to write code though. Instead, you build, run, and test an existing service:
 `ratings`.
 The goal is to show that you can implement, build, run and test a service on your local machine,
 before deploying it to a development, testing or production environment.
