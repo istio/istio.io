@@ -1,13 +1,11 @@
 ---
-title: Mesh Expansion with Gateways
+title: Multi-network Mesh Expansion
 description: Integrate VMs and bare metal hosts into an Istio mesh deployed on Kubernetes with gateways.
-weight: 95
+weight: 30
 keywords: [kubernetes,vms,gateways]
-aliases:
-    - /docs/examples/mesh-expansion-with-gateways/
 ---
 
-This guide provides instructions to integrate VMs and bare metal hosts into
+This example provides instructions to integrate VMs and bare metal hosts into
 an Istio mesh deployed on Kubernetes with gateways. No VPN connectivity nor direct network access between workloads in
 VMs, bare metals and clusters is required.
 
