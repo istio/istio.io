@@ -991,7 +991,7 @@ outside of the mesh:
    and [fault injection](/docs/concepts/traffic-management/#fault-injection)
    policies for external destinations.
 
-- Add a service running in a Virtual Machine (VM) to the mesh to [expand your mesh](/docs/setup/kubernetes/additional-setup/mesh-expansion/#running-services-on-a-mesh-expansion-machine).
+- Add a service running in a Virtual Machine (VM) to the mesh to [expand your mesh](/docs/examples/mesh-expansion/shared-vpn/setups/#running-services-on-a-mesh-expansion-machine).
 
 - Logically add services from a different cluster to the mesh to configure a
   [multicluster Istio mesh](/docs/setup/kubernetes/install/multicluster/gateways/#configure-the-example-services)
