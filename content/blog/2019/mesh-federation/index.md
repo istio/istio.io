@@ -27,7 +27,7 @@ in the mesh.
 - **expose-all by default**. All the services are exposed by default to all the clusters in the mesh.
 - **common identity and common trust** are established between all the clusters in the mesh.
 
-The three patterns differ by the following aspects:
+The differences between the three patterns are the following:
 
 - The clusters are on a **single network** or on **multiple networks**. Single network means that the pods in one
 cluster can reach the pods in other clusters directly. Multiple networks means that the pods in one cluster can reach
