@@ -114,5 +114,5 @@ The `ratings` service is a web app and you can communicate with it as you would 
 
 Success!
 You can now build, test, and run a service on a local machine.
-Go to the next module to learn how to package the service into a container. Once packaged, the service can be deployed
-into a test, staging or production environment.
+Go to the next module to learn how to package the service into a container. Once you package the service, you can
+deploy it into a test, staging or production environment.
