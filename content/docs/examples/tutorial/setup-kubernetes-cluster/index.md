@@ -90,7 +90,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     EOF
     {{< /text >}}
 
-1.  You may want to limit the permissions of each participant so they will be able to create resources only in their
+1. Limit each participant's permissions. Participants only need to create resources in their
     namespace. Even if you run the tutorial alone on your own cluster, it could be a good practice to limit yourself so
     your learning will not interfere with other namespaces in your cluster.
 
