@@ -6,7 +6,7 @@ weight: 10
 
 {{< boilerplate work-in-progress >}}
 
-This module demonstrates different aspects of developing a single service on a local machine.
+This module covers the different aspects involved in developing a single service on a local machine.
 We will not ask you to write code, your task will be to build, run and test an already implemented service,
 `ratings`.
 The goal is to show that you can implement, build, run and test a service on your local machine,
