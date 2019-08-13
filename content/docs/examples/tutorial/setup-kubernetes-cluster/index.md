@@ -90,9 +90,9 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     EOF
     {{< /text >}}
 
-1. Limit each participant's permissions. Participants only need to create resources in their
-    namespace. Follow this best practice even if using your own cluster to prevent
-    your learning from interfering with other namespaces in your cluster.
+1. Limit each participant's permissions. During the tutorial, participants only need to create resources in their
+   namespace. It is a good practice even if using your own cluster to prevent your learning from interfering with other
+   namespaces in your cluster.
 
     To limit the permissions of each participant on a namespace-basis, complete the following steps:
 
