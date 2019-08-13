@@ -81,7 +81,6 @@ The `ratings` service is a web app and you can communicate with it as you would 
 
 1. Open [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or access 
     `ratings using the `curl` command:
-    command line web client like [cURL](https://curl.haxx.se) or [Wget](https://www.gnu.org/software/wget/).
     Since you run the service locally, you can access it via the `localhost` hostname.
 
 
