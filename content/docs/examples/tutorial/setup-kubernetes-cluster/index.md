@@ -206,7 +206,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
     EOF
     {{< /text >}}
 
-1.  If you are an instructor, send the generated configuration file to each participant. If you are setting up the
+1.  If you are an instructor, send the generated configuration files to each participant. If you are setting up the
     cluster for yourself, use the configuration file as described in the
     [local computer setup module](/docs/examples/tutorial/setup-local-computer) for more details.
 
