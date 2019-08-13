@@ -45,7 +45,10 @@ Follow these steps to download the code of the app, install its dependencies, an
         - Path
         - Status code
 
-    where one web server software runs multiple applications, in the case of Node.js the web serving functionality is
+    {{< tip >}}
+    In Node.js, the web serving is embedded in the code of the web application. Therefore, a Node.js 
+    web application runs as a standalone process and contains all the web serving features.
+    {{< /tip >}}
     embedded in the code of a single web application. A Node.js web application runs as a standalone process and
     contains all the web serving features.
 
