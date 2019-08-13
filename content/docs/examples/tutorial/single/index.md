@@ -45,7 +45,6 @@ Follow these steps to download the code of the app, install its dependencies, an
         - Path
         - Status code
 
-    As opposed to the architecture of frameworks like [Apache Tomcat](http://tomcat.apache.org) or
     [WebSphere Application Server](https://www.ibm.com/support/knowledgecenter/SS7K4U_9.0.5/com.ibm.websphere.zseries.doc/ae/welc6productov.html),
     where one web server software runs multiple applications, in the case of Node.js the web serving functionality is
     embedded in the code of a single web application. A Node.js web application runs as a standalone process and
