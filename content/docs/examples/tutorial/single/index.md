@@ -50,7 +50,7 @@ Follow these steps to download the code of the app, install its dependencies, an
     web application runs as a standalone process and contains all the web serving features.
     {{< /tip >}}
 
-1. Node.js applications are written in JavaScript, which means that there is no explicit compilation step. 
+1. Node.js applications are written in JavaScript, which means that there is no explicit compilation step.
     Instead, they use [just-in-time compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation).
     To build a Node.js application, then means to install its dependencies. Install the dependencies of
     the `ratings` service in the same folder where you stored the service code and the package file:
@@ -79,7 +79,7 @@ Follow these steps to download the code of the app, install its dependencies, an
 The `ratings` service is a web app and you can communicate with it as you would with any other web app. You can use a browser or a command line web client like [cURL](https://curl.haxx.se) or [Wget](https://www.gnu.org/software/wget/). Since you run the `ratings` service locally, you can also access it via the `localhost` hostname.
 {{< /tip >}}
 
-1. Open [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or access 
+1. Open [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in your browser or access
     `ratings using the `curl` command:
 
 
