@@ -40,5 +40,7 @@ In this module you prepare your local computer for the tutorial.
 
     You should see the name of your namespace in the output.
 
-Congratulations! You have a Kubernetes cluster ready for learning and you set up your local computer.
+Congratulations! 
+
+You set up your local computer and you have a [Kubernetes cluster ready](/docs/examples/tutorial/setup-kubernetes-cluster) for learning.
 Proceed to [the next module](/docs/examples/tutorial/single/) to run your first microservice. Enjoy!
