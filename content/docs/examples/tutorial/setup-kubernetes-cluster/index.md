@@ -112,7 +112,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
         EOF
         {{< /text >}}
 
-    1.  Create a service account for the user of the namespace and provide access to the namespace's resources to that
+    1.  Each user of a namespace needs a service account. Create a service account and grant it access to the namespace's resources with the following command:
     service account:
 
         {{< text bash >}}
