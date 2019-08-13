@@ -21,7 +21,7 @@ It performs similar actions to those of other web apps:
 - Expect `HTTP POST` requests on the `/ratings/{productID}` path and update the ratings of the product matching the value
   you specify for `productID`.
 
-Download the code of the app, install its dependencies and run it locally following the steps below:
+Follow these steps to download the code of the app, install its dependencies, and run it locally:
 
 1.  Download
     [the service's code]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
