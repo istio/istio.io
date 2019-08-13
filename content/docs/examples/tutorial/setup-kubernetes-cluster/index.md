@@ -92,7 +92,7 @@ go to [setting up your local computer](/docs/examples/tutorial/setup-local-compu
 
 1. Limit each participant's permissions. Participants only need to create resources in their
     namespace. Follow this best practice even if using your own cluster to prevent
-    your learning will not interfere with other namespaces in your cluster.
+    your learning from interfering with other namespaces in your cluster.
 
     Perform the following steps to achieve this:
 
