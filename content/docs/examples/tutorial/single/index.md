@@ -7,17 +7,17 @@ weight: 10
 {{< boilerplate work-in-progress >}}
 
 Before the advent of microservices, it took a large team of developers to develop a large application. Development teams
-built, deployed and ran the whole application as one large chunk of software. To test a small change in their module,
-apart from unit testing, the developers had to build the whole application. Therefore the builds
+built, deployed and ran the whole application as one large chunk of software. To test a small change in their module
+in addition to unit testing, the developers had to build the whole application. Therefore the builds
 took large amount of time. After the build, the developers deployed their version of the application into a test server.
 The server either ran on a remote machine, or on the local computer of the developer. In the
 latter case, the developers had to install and operate a rather complex environment on their local computer.
 
 In the era of microservices, the developers write, build, test and run much smaller software parts, microservices,
 on their local machine. Builds are fast. With modern frameworks like [Node.js](https://nodejs.org/en/) there is no
-need to install and operate complex server environments since the service runs as
-a regular process on a local computer. There is no deployment process, so you just build your service and run it
-immediately.
+need to install and operate complex server environments to test a single service, since the service runs as a regular
+process. You do not have to deploy your service to some environment merely to test it,
+so you just build your service and run it immediately on your local computer.
 
 This module covers the different aspects involved in developing a single service on a local machine.
 You don't need to write code though. Instead, you build, run, and test an existing service:
