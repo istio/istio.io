@@ -55,7 +55,6 @@ Follow these steps to download the code of the app, install its dependencies, an
     To build a Node.js application, then means to install its dependencies. Install the dependencies of
     the `ratings` service in the same folder where you stored the service code and the package file:
 
-    Install the service's dependencies in the same folder you used to store the service code and the package file:
 
     {{< text bash >}}
     $ npm install
