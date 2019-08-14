@@ -84,7 +84,7 @@
                             <a tabindex="-1" role="menuitem" class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
                         {{ else }}
                             {{ if eq $home.Lang "zh" }}
-                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content_zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ else }}
                                 <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ end }}
