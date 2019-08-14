@@ -718,7 +718,7 @@ complaining before you can submit your changes into the repository. The linters 
 
 - Style checking, which makes sure your markdown files comply with our common style rules.
 
-You can run these linters locally using:
+You can run these linters locally with:
 
 {{< text bash >}}
 $ make lint
