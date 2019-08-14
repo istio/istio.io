@@ -75,7 +75,7 @@ echo "### Building landing page"
 cd ..
 
 # Adjust a few things for archive_landing
-rm -fr content/about content/docs content/faq content/blog content_zh
+rm -fr content/about content/docs content/faq content/blog content/zh
 rm -fr static/talks
 sed -i 's/preliminary: true/preliminary: false/g' data/args.yml
 sed -i 's/archive_landing: false/archive_landing: true/g' data/args.yml
