@@ -1,10 +1,10 @@
 ---
-title: Integrating Virtual Machines
-description: Illustrates how to use Istio to control a Kubernetes cluster and raw VMs as a single mesh.
+title: Bookinfo with Mesh Expansion
+description: Illustrates how to expand the Bookinfo application's mesh with a raw VM service.
 weight: 60
 keywords: [vms]
 aliases:
-    - /docs/examples/mesh-expansion/shared-vpn/integrating-vms/index.html
+    - /docs/examples/integrating-vms/
 ---
 
 This example deploys the Bookinfo services across Kubernetes and a set of
@@ -32,7 +32,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/examples/mesh-expansion/shared-vpn/setups/).
+* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/examples/mesh-expansion/single-network/).
 
 ## Running MySQL on the VM
 

@@ -1,13 +1,13 @@
 ---
-title: Mesh Expansion
+title: Single-network Mesh Expansion
 description: Integrate VMs and bare metal hosts into an Istio mesh deployed on Kubernetes.
-weight: 95
+weight: 20
 keywords: [kubernetes,vms]
 aliases:
-    - /docs/examples/mesh-expansion/
+    - /docs/setup/kubernetes/additional-setup/mesh-expansion/
 ---
 
-This guide provides instructions to integrate VMs and bare metal hosts into
+This example provides instructions to integrate VMs and bare metal hosts into
 an Istio mesh deployed on Kubernetes.
 
 ## Prerequisites
