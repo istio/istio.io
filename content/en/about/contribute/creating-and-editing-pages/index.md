@@ -704,8 +704,8 @@ $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 This will build the site and start a web server hosting the site. You can then connect to the web server
 at `http://192.168.7.105:1313`.
 
-All English content for the site is located in the `content` directory, as well as in sibling translated
-directories such as `content_zh`.
+All English content for the site is located in the `content/en` directory, as well as in sibling translated
+directories such as `content/zh`.
 
 ### Linting
 
@@ -718,7 +718,7 @@ complaining before you can submit your changes into the repository. The linters 
 
 - Style checking, which makes sure your markdown files comply with our common style rules.
 
-You can run these linters locally using:
+You can run these linters locally with:
 
 {{< text bash >}}
 $ make lint
