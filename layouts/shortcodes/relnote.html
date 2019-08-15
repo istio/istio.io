@@ -6,6 +6,22 @@
 {{ $patch := int (index $parts 2) }}
 {{ $release_name := strings.TrimSuffix ".0" $full_version }}
 
+{{ $page_version := int (index $parts 0) }}
+{{ $page_revision := int (index $parts 1) }}
+{{ $page_patch := int (index $parts 2) }}
+
+{{ $site_parts := split .Site.Data.args.full_version "." }}
+{{ $site_version := int (index $site_parts 0) }}
+{{ $site_revision := int (index $site_parts 1) }}
+{{ $site_patch := int (index $site_parts 2) }}
+
+{{ $site_normalized_version := add (add (mul $site_version 1000000) (mul $site_revision 1000)) $site_patch }}
+{{ $page_normalized_version := add (add (mul $page_version 1000000) (mul $page_revision 1000)) $page_patch }}
+
+{{ if gt $page_normalized_version $site_normalized_version }}
+    {{ errorf "Can't have a release note with a greater version then the site's version (%s vs %s)" $full_version $.Site.Data.args.full_version }}
+{{ end }}
+
 {{ $home := .Site.GetPage "home" }}
 {{ $lang := $home.Lang }}
 {{ if eq $lang "en" }}
