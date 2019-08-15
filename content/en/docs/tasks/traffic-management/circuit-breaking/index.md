@@ -41,6 +41,8 @@ when calling the `httpbin` service:
     spec:
       host: httpbin
       trafficPolicy:
+        tls:
+          mode: DISABLE      
         connectionPool:
           tcp:
             maxConnections: 1
@@ -99,7 +101,7 @@ governed by Istio:
 Pass in `-curl` to indicate that you just want to make one call:
 
     {{< text bash >}}
-    $ FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
+    $ FORTIO_POD=$(kubectl -n httpbin get pod -l app=fortio -o jsonpath='{.items[0].metadata.name}')
     $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -curl  http://httpbin:8000/get
     HTTP/1.1 200 OK
     server: envoy
