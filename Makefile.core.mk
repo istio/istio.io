@@ -1,7 +1,7 @@
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
-img := gcr.io/istio-testing/website-tools:2019-07-25
+img := gcr.io/istio-testing/build-tools:2019-08-15
 uid := $(shell id -u)
 docker := docker run -e INTERNAL_ONLY=true -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site $(img)
 
