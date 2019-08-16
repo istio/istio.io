@@ -22,7 +22,7 @@ to Node Agent, which returns the signed certificate to the Istio proxy.
 
 ## Install Istio with mutual TLS and SDS enabled
 
-1.  Install Istio with mutual TLS and SDS enabled using [Helm](/docs/setup/kubernetes/install/helm/#prerequisites)
+1.  Install Istio with mutual TLS and SDS enabled using [Helm](/docs/setup/install/helm/#prerequisites)
     and Node Agent sending certificate signing requests to a testing Vault CA:
 
     {{< text bash >}}

@@ -36,7 +36,7 @@ running in one cluster, versions `v2` and `v3` running in a second cluster.
 To start, you'll need two Kubernetes clusters, both running a slightly customized configuration of Istio.
 
 * Set up a multicluster environment with two Istio clusters by following the
-    [dedicated control planes](/docs/setup/kubernetes/install/multicluster/gateways/) instructions.
+    [dedicated control planes](/docs/setup/install/multicluster/gateways/) instructions.
 
 * The `kubectl` command is used to access both clusters with the `--context` flag.
     Use the following command to list your contexts:
@@ -262,7 +262,7 @@ Just like any application, we'll use an Istio gateway to access the `bookinfo` a
     $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
-* Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
+* Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
     to determine the ingress IP and port and then point your browser to `http://$GATEWAY_URL/productpage`.
 
 You should see the `productpage` with reviews, but without ratings, because only `v1` of the `reviews` service
@@ -270,7 +270,7 @@ is running on `cluster1` and we have not yet configured access to `cluster2`.
 
 ## Create a service entry and destination rule on `cluster1` for the remote reviews service
 
-As described in the [setup instructions](/docs/setup/kubernetes/install/multicluster/gateways/#setup-dns),
+As described in the [setup instructions](/docs/setup/install/multicluster/gateways/#setup-dns),
 remote services are accessed with a `.global` DNS name. In our case, it's `reviews.default.global`,
 so we need to create a service entry and destination rule for that host.
 The service entry will use the `cluster2` gateway as the endpoint address to access the service.
@@ -329,7 +329,7 @@ EOF
 The address `127.255.0.3` of the service entry can be any arbitrary unallocated IP.
 Using an IP from the loopback range 127.0.0.0/8 is a good choice.
 Check out the
-[gateway-connected multicluster example](/docs/setup/kubernetes/install/multicluster/gateways/#configure-the-example-services)
+[gateway-connected multicluster example](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
 for more details.
 
 Note that the labels of the subsets in the destination rule map to the service entry

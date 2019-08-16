@@ -93,7 +93,7 @@ percentage in one of two ways:
 
 * During the mesh setup, use the Helm option `pilot.traceSampling` to
   set the percentage of trace sampling. See the
-  [Helm Install](/docs/setup/kubernetes/install/helm/) documentation for
+  [Helm Install](/docs/setup/install/helm/) documentation for
   details on setting options.
 * In a running mesh, edit the `istio-pilot` deployment and
   change the environment variable with the following steps:

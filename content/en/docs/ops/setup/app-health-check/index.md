@@ -26,7 +26,7 @@ mutual TLS enabled.
 * Understand [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), Istio
 [authentication policy](/docs/concepts/security/#authentication-policies) and [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (meaning use `istio.yaml` as described in [installation steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/kubernetes/install/helm/)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (meaning use `istio.yaml` as described in [installation steps](/docs/setup/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/install/helm/)).
 
 ## Liveness and readiness probes with command option
 
@@ -99,7 +99,7 @@ You have two ways to enable Istio to rewrite the liveness HTTP probes.
 
 #### Enable via Helm Option Globally
 
-[Install Istio](/docs/setup/kubernetes/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`
+[Install Istio](/docs/setup/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`
 [Helm installation option](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
 
 **Alternatively**, update the configuration map of Istio sidecar injection:

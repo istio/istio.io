@@ -10,7 +10,7 @@ This task demonstrates how to use a policy adapter to manipulate request headers
 ## Before you begin
 
 * Set up Istio on Kubernetes by following the instructions in the
-  [Installation guide](/docs/setup/kubernetes/).
+  [Installation guide](/docs/setup/).
 
     {{< warning >}}
     Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in

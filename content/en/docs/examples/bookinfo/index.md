@@ -39,15 +39,14 @@ for the `reviews` service.
 ## Before you begin
 
 If you haven't already done so, setup Istio by following the instructions
-corresponding to your platform [installation guide](/docs/setup/).
+in the [installation guide](/docs/setup/).
 
 ## Deploying the application
 
 To run the sample with Istio requires no changes to the
-application itself. Instead, we simply need to configure and run the services in an
+application itself. Instead, you simply need to configure and run the services in an
 Istio-enabled environment, with Envoy sidecars injected along side each service.
-The needed commands and configuration vary depending on the runtime environment
-although in all cases the resulting deployment will look like this:
+The resulting deployment will look like this:
 
 {{< image width="80%" link="./withistio.svg" caption="Bookinfo Application" >}}
 
@@ -56,12 +55,7 @@ and outgoing calls for the services, providing the hooks needed to externally co
 via the Istio control plane, routing, telemetry collection, and policy enforcement
 for the application as a whole.
 
-To start the application, follow the instructions corresponding to your Istio runtime environment.
-
-* [If you are running on Kubernetes](#if-you-are-running-on-kubernetes)
-* [If you are running on Docker with Consul](#if-you-are-running-on-docker-with-consul)
-
-### If you are running on Kubernetes
+### Start the application services
 
 {{< tip >}}
 If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
@@ -69,7 +63,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
 1.  Change directory to the root of the Istio installation.
 
-1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
     Label the namespace that will host the application with `istio-injection=enabled`:
 
     {{< text bash >}}
@@ -84,7 +78,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
     {{< warning >}}
     If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
-    (/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
+    (/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
     use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
     file before deploying your application. For more information please
     visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
@@ -136,7 +130,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-#### Determining the ingress IP and port
+### Determine the ingress IP and port
 
 Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
 Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
@@ -163,43 +157,6 @@ is used for this purpose.
     {{< text bash >}}
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
-
-1.  Proceed to [Confirm the app is running](#confirm-the-app-is-accessible-from-outside-the-cluster), below.
-
-### If you are running on Docker with Consul
-
-1.  Change directory to the root of the Istio installation directory.
-
-1.  Bring up the application containers.
-
-    To test with Consul, run the following commands:
-
-    {{< text bash >}}
-    $ docker-compose -f @samples/bookinfo/platform/consul/bookinfo.yaml@ up -d
-    $ docker-compose -f samples/bookinfo/platform/consul/bookinfo.sidecars.yaml up -d
-    {{< /text >}}
-
-1.  Confirm that all docker containers are running:
-
-    {{< text bash >}}
-    $ docker ps -a
-    {{< /text >}}
-
-    {{< tip >}}
-    If the Istio Pilot container terminates, re-run the command `docker-compose -f install/consul/istio.yaml up -d`.
-    {{< /tip >}}
-
-1.  Set `GATEWAY_URL`:
-
-    {{< text bash >}}
-    $ export GATEWAY_URL=localhost:9081
-    {{< /text >}}
-
-1.  __Note for Consul users:__ In the following instructions, and when performing any follow-on routing tasks, the yaml files
-    in `samples/bookinfo/networking` will not work due to an issue with the current implementation of the default subdomain
-    for short service host names. For now, you need to use the corresponding yaml files in `samples/bookinfo/platform/consul`.
-    For example, replace `samples/bookinfo/networking/destination-rule-all.yaml` with
-    `samples/bookinfo/platform/consul/destination-rule-all.yaml` in the `kubectl apply` command, below.
 
 ## Confirm the app is accessible from outside the cluster
 
@@ -254,9 +211,7 @@ is a good place to start for beginners.
 ## Cleanup
 
 When you're finished experimenting with the Bookinfo sample, uninstall and clean
-it up using the following instructions corresponding to your Istio runtime environment.
-
-### Uninstall from Kubernetes environment
+it up using the following instructions:
 
 1.  Delete the routing rules and terminate the application pods
 
@@ -270,22 +225,5 @@ it up using the following instructions corresponding to your Istio runtime envir
     $ kubectl get virtualservices   #-- there should be no virtual services
     $ kubectl get destinationrules  #-- there should be no destination rules
     $ kubectl get gateway           #-- there should be no gateway
-    $ kubectl get pods               #-- the Bookinfo pods should be deleted
-    {{< /text >}}
-
-### Uninstall from Docker with Consul environment
-
-1.  Delete the routing rules and application containers
-
-    In a Consul setup, run the following command:
-
-    {{< text bash >}}
-    $ @samples/bookinfo/platform/consul/cleanup.sh@
-    {{< /text >}}
-
-1.  Confirm cleanup
-
-    {{< text bash >}}
-    $ kubectl get virtualservices   #-- there should be no more routing rules
-    $ docker ps -a                   #-- the Bookinfo containers should be deleted
+    $ kubectl get pods              #-- the Bookinfo pods should be deleted
     {{< /text >}}

@@ -35,7 +35,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     {{< /text >}}
 
     For further details and customization options, refer to the
-    [Installation with Helm](/docs/setup/kubernetes/install/helm/) instructions.
+    [Installation with Helm](/docs/setup/install/helm/) instructions.
 
 1. Deploy Istio control plane into the cluster
 
@@ -403,7 +403,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
     {{< tip >}}
-    Ensure you have added `istioctl` client to your `PATH` environment variable, as described in the [Download page](/docs/setup/kubernetes/#downloading-the-release).
+    Ensure you have added `istioctl` client to your `PATH` environment variable, as described in the [Download page](/docs/setup/#downloading-the-release).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
