@@ -44,7 +44,7 @@ check_content() {
     # switch to the temp dir
     pushd ${TMP} >/dev/null
 
-    mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report *.md */*.md */*/*.md */*/*/*.md */*/*/*/*.md */*/*/*/*/*.md */*/*/*/*/*/*.md
+    mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report `find content/en -type f -name '*.md'`
     if [[ "$?" != "0" ]]
     then
         echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
@@ -99,8 +99,7 @@ check_content() {
     rm -fr ${TMP}
 }
 
-check_content content/en --en-us
-check_content content/zh --en-us
+check_content content --en-us
 
 for f in `find ./content/en -type f \( -name '*.html' -o -name '*.md' \)`
 do
