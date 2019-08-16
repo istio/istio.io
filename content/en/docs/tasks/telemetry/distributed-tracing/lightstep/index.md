@@ -82,7 +82,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 ## Visualize trace data
 
-1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 1.  To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
 

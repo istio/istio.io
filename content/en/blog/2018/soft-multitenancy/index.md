@@ -75,7 +75,7 @@ istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 {{< /text >}}
 
-The Istio [sidecar](/docs/setup/kubernetes/additional-setup/sidecar-injection/)
+The Istio [sidecar](/docs/setup/additional-setup/sidecar-injection/)
 and [addons](/docs/tasks/telemetry/), if required, manifests must also be
 deployed to match the configured `namespace` in use by the tenant's Istio
 control plane.

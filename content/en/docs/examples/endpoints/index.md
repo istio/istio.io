@@ -21,7 +21,7 @@ You may test the service using the following command:
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/kubernetes/platform-setup/gke).
+To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/platform-setup/gke).
 
 ## HTTP Endpoints service
 
@@ -73,7 +73,7 @@ Otherwise, ESP will not be able to access Google cloud service control.
     EOF
     {{< /text >}}
 
-1.  Get the ingress gateway IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports).
+1.  Get the ingress gateway IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
 You can verify accessing the Endpoints service through Istio ingress:
 
     {{< text bash >}}

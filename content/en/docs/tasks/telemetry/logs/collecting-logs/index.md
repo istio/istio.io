@@ -14,7 +14,7 @@ as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup/kubernetes) in your cluster and deploy an
+* [Install Istio](/docs/setup) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.

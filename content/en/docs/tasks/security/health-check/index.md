@@ -27,13 +27,13 @@ this feature is not needed if the production setup is not using the
 To complete this task, you can install Istio using one of the following paths:
 
 * To setup Istio without using Helm, follow the instructions in the
-  [Kubernetes installation guide](/docs/setup/kubernetes/install/kubernetes/). Remember to enable global mutual TLS with:
+  [Kubernetes installation guide](/docs/setup/install/kubernetes/). Remember to enable global mutual TLS with:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     {{< /text >}}
 
-* Use [Helm](/docs/setup/kubernetes/install/helm/) to setup Istio and set the `global.mtls.enabled` flag to `true`.
+* Use [Helm](/docs/setup/install/helm/) to setup Istio and set the `global.mtls.enabled` flag to `true`.
 
 {{< tip >}}
 Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for

@@ -444,7 +444,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `sidecarInjectorWebhook.podAntiAffinityLabelSelector` | `[]` |  |
 | `sidecarInjectorWebhook.podAntiAffinityTermLabelSelector` | `[]` |  |
 | `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | `If true, webhook or istioctl injector will rewrite PodSpec for liveness health check to redirect request to sidecar. This makes liveness check work even when mTLS is enabled.` |
-| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `You can use the field called alwaysInjectSelector and neverInjectSelector which will always inject the sidecar or always skip the injection on pods that match that label selector, regardless of the global policy. See https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
+| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `You can use the field called alwaysInjectSelector and neverInjectSelector which will always inject the sidecar or always skip the injection on pods that match that label selector, regardless of the global policy. See https://istio.io/docs/setup/additional-setup/sidecar-injection/more-control-adding-exceptions` |
 | `sidecarInjectorWebhook.alwaysInjectSelector` | `[]` |  |
 
 ## `tracing` options

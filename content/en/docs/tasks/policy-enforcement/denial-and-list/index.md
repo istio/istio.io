@@ -14,7 +14,7 @@ This task shows how to control access to a service using simple denials, attribu
 ## Before you begin
 
 * Set up Istio on Kubernetes by following the instructions in the
-  [Installation guide](/docs/setup/kubernetes/).
+  [Installation guide](/docs/setup/).
 
     {{< warning >}}
     Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in

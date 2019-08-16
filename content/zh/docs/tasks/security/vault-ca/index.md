@@ -13,7 +13,7 @@ keywords: [security,certificate]
 
 ## 安装启用 SDS 的 Istio
 
-1.  使用 [Helm](/docs/setup/kubernetes/install/helm/#prerequisites) 安装 Istio 启用 SDS 和向节点代理发送证书签名请求来测试 Vault CA ：
+1.  使用 [Helm](/docs/setup/install/helm/#prerequisites) 安装 Istio 启用 SDS 和向节点代理发送证书签名请求来测试 Vault CA ：
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"

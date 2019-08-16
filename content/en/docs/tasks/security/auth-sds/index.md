@@ -48,7 +48,7 @@ This approach has the following benefits:
 ## Before you begin
 
 * Set up Istio by following the instructions using
-  [Helm](/docs/setup/kubernetes/install/helm/) with SDS setup and global mutual
+  [Helm](/docs/setup/install/helm/) with SDS setup and global mutual
   TLS enabled:
 
     {{< text bash >}}

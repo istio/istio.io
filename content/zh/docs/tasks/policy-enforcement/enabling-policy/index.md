@@ -12,7 +12,7 @@ keywords: [policies]
 在 Istio 默认的安装配置中，策略检查是被禁用的。
 要安装启用策略检查功能的 Istio，请使用 `--set global.disablePolicyChecks=false` Helm 安装选项。
 
-或者，您也可以[使用演示配置安装 Istio](/docs/setup/kubernetes/install/kubernetes/)，这默认就启用了策略检查。
+或者，您也可以[使用演示配置安装 Istio](/docs/setup/install/kubernetes/)，这默认就启用了策略检查。
 
 ## 对于已经存在的 Istio 网格
 

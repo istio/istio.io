@@ -14,7 +14,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/kubernetes/install/helm)
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/helm)
     and then configure:
 
     a) a demo/test environment by setting the `--set tracing.enabled=true`  Helm install option to enable tracing "out of the box"

@@ -26,7 +26,7 @@ This task shows you how to access external services in three different ways:
 
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
-    [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
     enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}
@@ -416,7 +416,7 @@ For example, if the range is 10.0.0.1&#47;24, use the following command:
 $ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
 {{< /text >}}
 
-Use the same Helm command that you used to [install Istio](/docs/setup/kubernetes/install/helm),
+Use the same Helm command that you used to [install Istio](/docs/setup/install/helm),
 specifically, ensure you use the same value for the `--namespace` flag and
 add these flags: `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
 

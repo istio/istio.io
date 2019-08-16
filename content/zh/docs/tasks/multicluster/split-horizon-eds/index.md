@@ -12,7 +12,7 @@ aliases:
 按照此示例中的说明，您将设置一个两集群网格，如下图所示：
 
   {{< image width="80%"
-  link="/docs/setup/kubernetes/install/multicluster/shared-gateways/diagram.svg"
+  link="/docs/setup/install/multicluster/shared-gateways/diagram.svg"
   caption="单个 Istio 控制平面配置水平分割 EDS，跨越多个 Kubernetes 集群" >}}
 
  原始集群 `cluster1` 将运行完整的 Istio 控制平面组件，而 `cluster2` 集群仅运行 Istio Citadel、Sidecar Injector 和 Ingress gateway。不需要 VPN 连接，不同集群中的工作负载之间也无需直接网络访问。
@@ -40,7 +40,7 @@ aliases:
 1. 使用 Helm 创建 Istio `cluster1` 的部署 YAML：
 
    {{< warning >}}
-    如果不确定 `helm` 的依赖项是否为最新版本, 在运行下列命令前，请先根据 [Helm 安装步骤](/docs/setup/kubernetes/install/helm/#installation-steps) 更新依赖项.
+    如果不确定 `helm` 的依赖项是否为最新版本, 在运行下列命令前，请先根据 [Helm 安装步骤](/docs/setup/install/helm/#installation-steps) 更新依赖项.
     {{< /warning >}}
 
     {{< text bash >}}

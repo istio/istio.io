@@ -129,7 +129,7 @@ You can easily test the new configuration by once again refreshing the `/product
 of the Bookinfo app.
 
 1.  Open the Bookinfo site in your browser. The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port) doc.
+the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
     Notice that the reviews part of the page displays with no rating stars, no
     matter how many times you refresh. This is because you configured Istio to route
@@ -206,7 +206,7 @@ to the request by the `productpage` service.
 
 Note that Kubernetes services, like the Bookinfo ones used in this task, must
 adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/setup/kubernetes/additional-setup/requirements/) for details.
+Refer to the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/) for details.
 
 In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
 will follow the same basic pattern you learned here to configure route rules to

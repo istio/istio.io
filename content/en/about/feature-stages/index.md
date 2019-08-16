@@ -92,20 +92,20 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/kubernetes/)        | Stable
-| [Kubernetes: Istio Control Plane Installation](/docs/setup/kubernetes/) | Stable
+| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/)        | Stable
+| [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
 | Mixer Out-of-Process Adapter Authoring Model | Beta
-| [Helm](/docs/setup/kubernetes/install/helm/) | Beta
-| [Multicluster Mesh over VPN](/docs/setup/kubernetes/install/multicluster/) | Alpha
-| [Kubernetes: Istio Control Plane Upgrade](/docs/setup/kubernetes/) | Beta
-| [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
+| [Helm](/docs/setup/install/helm/) | Beta
+| [Multicluster Mesh over VPN](/docs/setup/install/multicluster/) | Alpha
+| [Kubernetes: Istio Control Plane Upgrade](/docs/setup/) | Beta
+| Consul Integration | Alpha
 | Basic Configuration Resource Validation | Beta
 | Configuration Processing with Galley | Beta
 | [Mixer Self Monitoring](/faq/mixer/#mixer-self-monitoring) | Beta
 | [Custom Mixer Build Model](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) | deprecated
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
-| [Istio CNI plugin](/docs/setup/kubernetes/additional-setup/cni/) | Alpha
+| [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
 | IPv6 support for Kubernetes | Alpha
 | [Distroless base images for Istio](/docs/ops/security/harden-docker-images/) | Alpha
 
