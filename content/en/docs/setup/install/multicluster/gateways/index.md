@@ -39,7 +39,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
   Not all cloud providers support NLBs and some require special annotations to use them,
   so please consult your cloud provider’s documentation for enabling NLBs for
   service object type load balancers. When deploying on platforms without
-  NLB support, it may be necessary to modify the healthchecks for the load
+  NLB support, it may be necessary to modify the health checks for the load
   balancer to register the ingress gateway.
 
 * A **Root CA**. Cross cluster communication requires mutual TLS connection
@@ -49,7 +49,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
   sample root CA certificate available in the Istio installation
   under the `samples/certs` directory.
 
-## Deploy the Istio control plane in each cluster {#deploy-istio}
+## Deploy the Istio control plane in each cluster
 
 1. Generate intermediate CA certificates for each cluster's Citadel from your
     organization's root CA. The shared root CA enables mutual TLS communication

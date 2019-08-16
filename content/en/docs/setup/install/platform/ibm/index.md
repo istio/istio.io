@@ -27,17 +27,17 @@ To install the managed Istio add-on in IBM Cloud Public, you can use the UI or t
 
 1. In your [cluster dashboard](https://cloud.ibm.com/kubernetes/clusters), click the name of a cluster.
 
-1. Click the **Add-ons** tab.
+1. Click the `Add-ons` tab.
 
-1. On the Istio card, click **Install**. The Istio check box is already selected. To also install the Istio extras and BookInfo sample app, select the Istio Extras and the Istio Sample check boxes.
+1. On the Istio card, click **Install**. The Istio check box is already selected. To also install the Istio extras and Bookinfo sample app, select the Istio Extras and the Istio Sample check boxes.
 
     {{< image link="./add-on-install.png" caption="Enable managed Istio add-ons in the IBM Cloud console" >}}
 
-1. Click Install. On the Istio card, verify that the add-ons you enabled are listed.
+1. Click Install. On the Istio card, verify that the addons you enabled are listed.
 
 **To use the CLI**:
 
-1. Install the `istio`, `istio-extras`, and `istio-sample-bookinfo` add-ons.
+1. Install the `istio`, `istio-extras`, and `istio-sample-bookinfo` addons.
 
     {{< text bash >}}
     $ ibmcloud ks cluster-addon-enable istio --cluster <cluster_name_or_ID>
@@ -61,7 +61,7 @@ To install the managed Istio add-on in IBM Cloud Public, you can use the UI or t
     $ kubectl get pods -n istio-system
     {{< /text >}}
 
-1. Verify that the BookInfo microservices are deployed and their corresponding pods have a `STATUS` of `Running`.
+1. Verify that the Bookinfo microservices are deployed and their corresponding pods have a `STATUS` of `Running`.
 
     {{< text bash >}}
     $ kubectl get svc -n default
