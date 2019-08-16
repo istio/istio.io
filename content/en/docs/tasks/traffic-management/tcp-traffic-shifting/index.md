@@ -28,7 +28,7 @@ weighted routing feature.
 
 1.  To get started, deploy the `v1` version of the `tcp-echo` microservice.
 
-    *   If you are using [manual sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#manual-sidecar-injection),
+    *   If you are using [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
         use the following command
 
         {{< text bash >}}
@@ -39,7 +39,7 @@ weighted routing feature.
         file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     *   If you are using a cluster with
-        [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+        [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
         enabled, label the `default` namespace with `istio-injection=enabled`
 
         {{< text bash >}}

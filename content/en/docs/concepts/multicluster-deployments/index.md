@@ -80,7 +80,7 @@ configuration. You configure service discovery of `foo.ns.global` by creating an
 [service entry](/docs/concepts/traffic-management/#service-entries).
 
 To configure this type of multicluster topology, visit our
-[dedicated control planes instructions](/docs/setup/kubernetes/install/multicluster/gateways/).
+[dedicated control planes instructions](/docs/setup/install/multicluster/gateways/).
 
 ### Shared control plane topology
 
@@ -106,7 +106,7 @@ overlap and DNS resolution for services on remote clusters is not automatic. Use
 the services on every participating cluster.
 
 To configure this type of multicluster topology, visit our
-[single-network shared control plane instructions](/docs/setup/kubernetes/install/multicluster/shared-vpn/).
+[single-network shared control plane instructions](/docs/setup/install/multicluster/shared-vpn/).
 
 #### Multi-network shared control plane topology
 
@@ -127,4 +127,4 @@ is forwarded to the local service IP as usual. If the destination workload is ru
 different cluster, the remote cluster Gateway IP is used to connect to the service instead.
 
 To configure this type of multicluster topology, visit our
-[multi-network shared control plane instructions](/docs/setup/kubernetes/install/multicluster/shared-gateways/).
+[multi-network shared control plane instructions](/docs/setup/install/multicluster/shared-gateways/).

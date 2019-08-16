@@ -65,7 +65,7 @@ The tables below show changes made to the installation options used to customize
 | --- | --- | --- |
 | `sidecarInjectorWebhook.podAntiAffinityLabelSelector` | `[]` |  |
 | `sidecarInjectorWebhook.podAntiAffinityTermLabelSelector` | `[]` |  |
-| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `You can use the field called alwaysInjectSelector and neverInjectSelector which will always inject the sidecar or always skip the injection on pods that match that label selector, regardless of the global policy. See https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
+| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `You can use the field called alwaysInjectSelector and neverInjectSelector which will always inject the sidecar or always skip the injection on pods that match that label selector, regardless of the global policy. See https://istio.io/docs/setup/additional-setup/sidecar-injection/more-control-adding-exceptions` |
 | `sidecarInjectorWebhook.alwaysInjectSelector` | `[]` |  |
 
 ### New `global` key/value pairs

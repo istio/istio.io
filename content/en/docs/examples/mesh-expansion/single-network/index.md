@@ -12,7 +12,7 @@ an Istio mesh deployed on Kubernetes.
 
 ## Prerequisites
 
-* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/kubernetes/install/kubernetes/).
+* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/install/kubernetes/).
 
 * Mesh expansion machines must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that

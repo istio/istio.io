@@ -31,7 +31,7 @@ is that Istio can produce better telemetry and provide more routing control for 
 
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
+    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@

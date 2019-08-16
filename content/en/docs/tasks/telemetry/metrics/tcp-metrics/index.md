@@ -16,7 +16,7 @@ as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup/kubernetes) in your cluster and deploy an
+* [Install Istio](/docs/setup) in your cluster and deploy an
 application.
 
 * This task assumes that the Bookinfo sample will be deployed in the `default`
