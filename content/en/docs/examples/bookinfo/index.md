@@ -150,7 +150,7 @@ is used for this purpose.
     bookinfo-gateway   32s
     {{< /text >}}
 
-1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determine-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
+1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
 
 1.  Set `GATEWAY_URL`:
 

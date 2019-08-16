@@ -237,7 +237,7 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 1.  Follow the instructions in
-    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determine-the-ingress-ip-and-ports)
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
     to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 1.  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and
