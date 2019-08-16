@@ -99,7 +99,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 | [Helm](/docs/setup/install/helm/) | Beta
 | [Multicluster Mesh over VPN](/docs/setup/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/) | Beta
-| [Consul Integration](/docs/setup/consul/quick-start/) | Alpha
+| Consul Integration | Alpha
 | Basic Configuration Resource Validation | Beta
 | Configuration Processing with Galley | Beta
 | [Mixer Self Monitoring](/faq/mixer/#mixer-self-monitoring) | Beta

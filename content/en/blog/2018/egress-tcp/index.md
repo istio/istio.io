@@ -228,7 +228,7 @@ Note that the MySQL database is outside the Istio service mesh, or more precisel
 ### Access the webpage
 
 Access the webpage of the application, after
-[determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+[determining the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 You have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
  displayed below each review:

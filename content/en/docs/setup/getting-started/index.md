@@ -16,7 +16,7 @@ Istio's built-in **demo** configuration:
 1. [Download the Istio release](/docs/setup/#downloading-the-release)
 1. [Follow the quick-start installation instructions](/docs/setup/install/kubernetes)
 
-With Istio installed, you can [deploy the Bookinfo sample](/docs/examples/bookinfo/#if-you-are-running-on-kubernetes)
+With Istio installed, you can [deploy the Bookinfo sample](/docs/examples/bookinfo/#deploying-the-application)
 and evaluate Istio's features for traffic routing, fault injection, rate
 limiting, etc. Explore the various [Istio tasks](/docs/tasks/), and try out the
 tasks that interest you. If you are not sure where to begin, the following

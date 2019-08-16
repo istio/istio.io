@@ -152,7 +152,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         {{< /text >}}
 
     1.   Follow the instructions in
-        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determine-the-ingress-ip-and-ports),
         to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
 
     1.  Restore the previous `kubectl` context:
@@ -246,7 +246,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         {{< /text >}}
 
     1.   Follow the instructions in
-        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determine-the-ingress-ip-and-ports),
         to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
 
     1.  Restore the previous `kubectl` context:

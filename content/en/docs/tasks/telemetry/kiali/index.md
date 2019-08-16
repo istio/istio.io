@@ -117,7 +117,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
     $ kubectl -n istio-system get svc kiali
     {{< /text >}}
 
-1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 1.  To send traffic to the mesh, you have three options
 

@@ -262,7 +262,7 @@ Just like any application, we'll use an Istio gateway to access the `bookinfo` a
     $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
-* Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
+* Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
     to determine the ingress IP and port and then point your browser to `http://$GATEWAY_URL/productpage`.
 
 You should see the `productpage` with reviews, but without ratings, because only `v1` of the `reviews` service

@@ -73,7 +73,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) section.
 
 Access the web page of the application, after
-[determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+[determining the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 Oops... Instead of the book details you have the _Error fetching product details_ message displayed:
 

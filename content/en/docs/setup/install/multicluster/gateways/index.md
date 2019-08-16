@@ -243,7 +243,7 @@ running in a second cluster. Before you begin:
     If `cluster2` is running in an environment that does not
     support external load balancers, you will need to use a nodePort to access the gateway.
     Instructions for obtaining the IP to use can be found in the
-    [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control/#determine-the-ingress-ip-and-ports)
     guide. You will also need to change the service entry endpoint port in the following step from 15443
     to its corresponding nodePort
     (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).

@@ -18,7 +18,7 @@ using a file mount based approach.
 ## Before you begin
 
 1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
-and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports)
+and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control#determine-the-ingress-ip-and-ports)
 sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
 and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.

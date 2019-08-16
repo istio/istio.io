@@ -40,7 +40,7 @@ aliases:
 1. 使用 Helm 创建 Istio `cluster1` 的部署 YAML：
 
    {{< warning >}}
-    如果不确定 `helm` 的依赖项是否为最新版本, 在运行下列命令前，请先根据 [Helm 安装步骤](/docs/setup/kubernetes/install/helm/#installation-steps) 更新依赖项.
+    如果不确定 `helm` 的依赖项是否为最新版本, 在运行下列命令前，请先根据 [Helm 安装步骤](/docs/setup/install/helm/#installation-steps) 更新依赖项.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -179,7 +179,7 @@ aliases:
         $ kubectl config use-context $CTX_CLUSTER2
         {{< /text >}}
 
-    1. 根据[确定入口 IP 和端口](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的命令，设置 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量。
+    1. 根据[确定入口 IP 和端口](/docs/tasks/traffic-management/ingress/ingress-control/#determine-the-ingress-ip-and-ports)的命令，设置 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量。
 
     1. 恢复  `kubectl` 之前的上下文：
 
