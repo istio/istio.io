@@ -93,7 +93,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/#installation-steps). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and
 [change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
@@ -145,7 +145,7 @@ boundary of the service mesh is marked by a dashed line.
 ### Access the webpage
 
 Access the webpage of the application, after
-[determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+[determining the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 Since you did not configure the egress traffic control yet, the access to the MongoDB service is blocked by Istio.
 This is why instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently

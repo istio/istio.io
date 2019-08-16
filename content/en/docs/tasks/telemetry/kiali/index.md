@@ -24,7 +24,7 @@ To install Kiali without using Helm, follow the [Kiali installation instructions
 ### Create a secret
 
 {{< idea >}}
-If you plan on installing Kiali using the `istio-demo.yaml` or `istio-demo-auth.yaml` file as described in the [Istio Quick Start Installation Steps](/docs/setup/kubernetes/install/kubernetes/#installation-steps) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
+If you plan on installing Kiali using the `istio-demo.yaml` or `istio-demo-auth.yaml` file as described in the [Istio Quick Start Installation Steps](/docs/setup/install/kubernetes/#installation-steps) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
 {{< /idea >}}
 
 Create a secret in your Istio namespace with the credentials that you use to
@@ -70,7 +70,7 @@ EOF
 ### Install Via Helm
 
 Once you create the Kiali secret, follow
-[the Helm install instructions](/docs/setup/kubernetes/install/helm/) to install Kiali via Helm.
+[the Helm install instructions](/docs/setup/install/helm/) to install Kiali via Helm.
 You must use the `--set kiali.enabled=true` option when you run the `helm` command, for example:
 
 {{< text bash >}}
@@ -117,7 +117,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
     $ kubectl -n istio-system get svc kiali
     {{< /text >}}
 
-1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 1.  To send traffic to the mesh, you have three options
 

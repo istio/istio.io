@@ -318,7 +318,7 @@ example stack.
 1.  Send traffic to the sample application.
 
     For the
-    [Bookinfo](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port)
+    [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
     sample, visit `http://$GATEWAY_URL/productpage` in your web browser
     or issue the following command:
 

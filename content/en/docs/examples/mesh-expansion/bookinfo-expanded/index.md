@@ -28,7 +28,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/kubernetes/install/kubernetes/).
+  [Installation guide](/docs/setup/install/kubernetes/).
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 

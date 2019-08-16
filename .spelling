@@ -351,6 +351,7 @@ natively
 netmask
 networking.istio.io
 nginx
+NLBs
 nodePorts
 non-sandboxed
 normalization

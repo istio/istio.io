@@ -41,7 +41,7 @@ Mixer generates metrics to monitor its own behavior. The first step is to check 
 
     If you do not see any data for `grpc_io_server_completed_rpcs` with a `grpc_server_method="istio.mixer.v1.Mixer/Report"`, then Envoy is not calling Mixer to report telemetry.
 
-1. In this case, ensure you integrated the services properly into the mesh. You can achieve this task with either [automatic or manual sidecar injection](/docs/setup/kubernetes/additional-setup/sidecar-injection/).
+1. In this case, ensure you integrated the services properly into the mesh. You can achieve this task with either [automatic or manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/).
 
 ## Verify the Mixer rules exist
 

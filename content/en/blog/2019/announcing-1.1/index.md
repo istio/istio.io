@@ -41,7 +41,7 @@ We listened to the community and improved defaults for traffic control and
 policy. We introduced a new component called
 [Galley](/docs/concepts/what-is-istio/#galley). Galley validates that sweet,
 sweet YAML, reducing the chance of configuration errors. Galley will also be
-instrumental in [multicluster setups](/docs/setup/kubernetes/install/multicluster/),
+instrumental in [multicluster setups](/docs/setup/install/multicluster/),
 gathering service discovery information from each Kubernetes cluster. We are
 also supporting additional multicluster topologies including [shared control plane](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)
 and [dedicated control plane](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology) topologies
@@ -68,4 +68,4 @@ us installing and upgrading to the early builds and helping us catch problems
 before the release.
 
 So: now’s the time! Grab 1.1, check out [the updated documentation](/docs/),
-[install it](/docs/setup/kubernetes/) and...happy meshing!
+[install it](/docs/setup/) and...happy meshing!

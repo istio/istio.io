@@ -11,7 +11,7 @@ keywords: [kubernetes,upgrading]
 在下面的步骤中，我们假设 Istio 组件在  `istio-system` namespace 中安装和升级。
 
 {{< warning >}}
-将部署升级到 Istio 1.1 前您一定要先看看[升级通知](/docs/setup/kubernetes/upgrade/notice) 的简明事项列表。
+将部署升级到 Istio 1.1 前您一定要先看看[升级通知](/docs/setup/upgrade/notice) 的简明事项列表。
 {{< /warning >}}
 
 ## 升级步骤
@@ -40,7 +40,7 @@ Istio 控制平面组件包括：Citadel、Ingress 网关、Egress 网关、Pilo
 {{< tab name="Kubernetes 的滚动更新" cookie-value="k8supdate" >}}
 您可以使用 Kubernetes 的滚动更新机制来升级控制平面组件。
 这适用于使用 `kubectl apply` 部署 Istio 组件的情况，
-包括使用 [helm template](/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template) 生成的配置。
+包括使用 [helm template](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) 生成的配置。
 
 1. 使用 `kubectl apply` 升级 Istio 所有的 CRD。稍微等待几秒钟，让 Kubernetes API 服务器接收升级后的 CRD：
 
@@ -82,7 +82,7 @@ Istio 控制平面组件包括：Citadel、Ingress 网关、Egress 网关、Pilo
 {{< /tab >}}
 
 {{< tab name="Helm 升级" cookie-value="helmupgrade" >}}
-如果你使用 [Helm 和 Tiller](/docs/setup/kubernetes/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装了 Istio，
+如果你使用 [Helm 和 Tiller](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装了 Istio，
 首选升级选项是让 Helm 负责升级。
 
 1. 升级 `istio-init` chart 以更新所有 Istio [自定义资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)（CRD）。

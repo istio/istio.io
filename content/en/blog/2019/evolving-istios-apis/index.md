@@ -49,7 +49,7 @@ Some areas of improvement that we’re working on for upcoming releases include:
 - Support for routing all traffic by default to constrain routing incrementally
 - Add a single global flag to enable mutual TLS and encrypt all inter-pod traffic
 
-Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](/docs/setup/kubernetes/additional-setup/config-profiles/) that works with your adapters.
+Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](/docs/setup/additional-setup/config-profiles/) that works with your adapters.
 
 All service meshes and, by extension, Istio seeks to automate complex infrastructure operations, like networking and security. That means there will always be complexity in its APIs, but Istio will always aim to solve the needs of operators, while continuing to evolve the API to provide robust building blocks and prioritize flexibility through role-centric abstractions.
 

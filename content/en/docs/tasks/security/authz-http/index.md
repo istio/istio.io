@@ -18,7 +18,7 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/kubernetes/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
+* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio using the **strict mutual TLS profile**.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 

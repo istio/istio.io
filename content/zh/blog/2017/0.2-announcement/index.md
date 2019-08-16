@@ -25,7 +25,7 @@ attribution: The Istio Team
 
 * _网格扩展_:  Istio 网格现在可以在 Kubernetes 之外跨服务 ——  就像那些运行在虚拟机中的服务一样，他们同时享受诸如自动双向 TLS认证、流量管理、遥测和跨网格策略实施带来的好处。
 
-* _运行在 Kubernetes 外部_: 我们知道许多客户使用其他的服务注册中心和 orchestration 解决方案（如 [Consul/Nomad](/docs/setup/consul/quick-start/) 和 Eureka）， Istio Pilot 可以在 Kubernetes 外部单独运行，同时从这些系统中获取信息，并在虚拟机或容器中管理 Envoy fleet 。
+* _运行在 Kubernetes 外部_: 我们知道许多客户使用其他的服务注册中心和 orchestration 解决方案（如 [Consul/Nomad](/zh/docs/setup/consul/quick-start/) 和 Eureka）， Istio Pilot 可以在 Kubernetes 外部单独运行，同时从这些系统中获取信息，并在虚拟机或容器中管理 Envoy fleet 。
 
 ## 加入到塑造 Istio 未来的队伍中
 

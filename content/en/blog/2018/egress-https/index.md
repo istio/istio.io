@@ -20,7 +20,7 @@ HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/kubernetes/install/kubernetes/#installation-steps). Then I deploy
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/#installation-steps). Then I deploy
 [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
 book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
 details without consulting any external service.
@@ -73,7 +73,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) section.
 
 Access the web page of the application, after
-[determining the ingress IP and port](/docs/examples/bookinfo/#determining-the-ingress-ip-and-port).
+[determining the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 Oops... Instead of the book details you have the _Error fetching product details_ message displayed:
 
