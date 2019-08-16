@@ -1,7 +1,7 @@
 ---
 title: Required Pod Capabilities
 description: Describes how to check which capabilities are allowed for your pods.
-weight: 40
+weight: 9
 aliases:
     - /help/ops/setup/required-pod-capabilities
 ---

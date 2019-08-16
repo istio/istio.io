@@ -44,7 +44,7 @@ Below is our list of existing features and their current phases. This informatio
 | Gateway: Ingress, Egress for all protocols | Stable
 | TLS termination and SNI Support in Gateways | Stable
 | SNI (multiple certs) at ingress | Stable
-| [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
+| [Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) | Alpha
