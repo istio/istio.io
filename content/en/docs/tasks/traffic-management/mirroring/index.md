@@ -100,12 +100,15 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: sleep
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: sleep
       template:
         metadata:
           labels:
