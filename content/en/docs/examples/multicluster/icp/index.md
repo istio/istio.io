@@ -10,7 +10,7 @@ aliases:
 This example demonstrates how to setup network connectivity between two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
 and then compose them into a multicluster mesh using a
-[single-network shared control plane topology](/docs/concepts/multicluster-deployments/#single-network-shared-control-plane-topology).
+[single-network shared control plane topology]/docs/concepts/deployment-models/#single-network-shared-control-plane-topology).
 
 ## Create the IBM Cloud Private Clusters
 

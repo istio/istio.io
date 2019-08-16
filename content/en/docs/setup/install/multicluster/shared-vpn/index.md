@@ -9,7 +9,7 @@ aliases:
     - /docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
-Follow this guide to install an Istio [multicluster service mesh](/docs/concepts/multicluster-deployments/)
+Follow this guide to install an Istio [multicluster service mesh]/docs/concepts/deployment-models/)
 where the Kubernetes cluster services and the applications in each cluster
 have the capability to expose their internal Kubernetes network to other
 clusters.
