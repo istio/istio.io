@@ -310,8 +310,8 @@ running in a second cluster. Before you begin:
     `<IPofCluster2IngressGateway>:15443` over a mutual TLS connection.
 
     The gateway for port 15443 is a special SNI-aware Envoy
-    preconfigured and installed as part of the multicluster Istio installation step
-    in the [deploy the Istio control plane](#deploy-istio) section. Traffic entering port 15443 will be
+    preconfigured and installed when you deployed the Istio control plane in the cluster.
+    Traffic entering port 15443 will be
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in `cluster2`).
 
