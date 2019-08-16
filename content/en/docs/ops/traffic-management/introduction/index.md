@@ -1,9 +1,10 @@
 ---
 title: Introduction to Network Operations
 description: An introduction to Istio networking operational aspects.
-weight: 10
+weight: 1
 aliases:
     - /help/ops/traffic-management/introduction
+    - /help/ops/introduction
 ---
 This section is intended as a guide to operators of an Istio based
 deployment.  It will provide information an operator of a Istio deployment

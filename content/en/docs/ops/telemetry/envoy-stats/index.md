@@ -33,7 +33,7 @@ keys are:
 
 To see the Envoy settings for statistics data collection use
 `istioctl proxy-config bootstrap` and follow the
-[deep dive into Envoy configuration](/docs/ops/traffic-management/proxy-cmd/#deep-dive-into-envoy-configuration).
+[deep dive into Envoy configuration](/docs/ops/troubleshooting/proxy-cmd/#deep-dive-into-envoy-configuration).
 Envoy only collects statistical data on items matching the `inclusion_list` within
 the `stats_matcher` JSON element.
 

@@ -55,7 +55,7 @@ operators can easily expand the set of collected proxy metrics when required. Th
 overall cost of monitoring across the mesh.
 
 The [Envoy documentation site](https://www.envoyproxy.io/docs/envoy/latest/) includes a detailed overview of [Envoy statistics collection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/statistics.html?highlight=statistics).
-The operations guide on [Envoy Statistics](/docs/ops/telemetry/envoy-stats/) provides more information on controlling the generation of proxy-level metrics.
+The operations guide on [Envoy Statistics](/docs/ops/troubleshooting/proxy-cmd/) provides more information on controlling the generation of proxy-level metrics.
 
 Example proxy-level Metrics:
 
