@@ -73,7 +73,7 @@ Otherwise, ESP will not be able to access Google cloud service control.
     EOF
     {{< /text >}}
 
-1.  Get the ingress gateway IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control#determine-the-ingress-ip-and-ports).
+1.  Get the ingress gateway IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
 You can verify accessing the Endpoints service through Istio ingress:
 
     {{< text bash >}}
