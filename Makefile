@@ -28,15 +28,9 @@ RUN =
 # to build the repo. The only dependencies in this mode are to have make and
 # docker. If you'd rather build with a local tool chain instead, you'll need to
 # figure out all the tools you need in your environment to make that work.
-
-ifeq ($(JOB_NAME),istio.io-presubmit)
 export BUILD_WITH_CONTAINER ?= 0
-else
-export BUILD_WITH_CONTAINER ?= 1
-endif
-
 ifeq ($(BUILD_WITH_CONTAINER),1)
-IMG = gcr.io/istio-testing/build-tools:2019-08-15
+IMG = gcr.io/istio-testing/build-tools:2019-08-16T20-50-36
 UID = $(shell id -u)
 PWD = $(shell pwd)
 GOBIN_SOURCE ?= $(GOPATH)/bin
