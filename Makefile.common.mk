@@ -24,3 +24,4 @@ updatecommon:
 	@cd common-files ; git rev-parse HEAD >.commonfiles.sha
 	@cp -r common-files/files/* common-files/.commonfiles.sha common-files/files/.[^.]* .
 	@rm -fr common-files
+	@touch Makefile.overrides.mk  # make sure this at least exists

@@ -40,6 +40,7 @@ install:
 	    svgstore-cli \
 	    svgo
 	@npm install --save-dev @babel/core @babel/cli @babel/preset-env
+	@npm install --save-dev babel-preset-minify
 	@npm install --save @babel/polyfill
 
 netlify: install
