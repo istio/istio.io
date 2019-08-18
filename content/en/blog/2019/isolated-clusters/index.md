@@ -1,80 +1,35 @@
 ---
-title: Mesh Federation
+title: Use Istio to connect Kubernetes clusters with isolation and boundary protection
 subtitle: Connect multiple service meshes ad hoc, with limited service exposure and strict cross-cluster access control
 description: Connect multiple service meshes ad hoc, with limited service exposure and strict cross-cluster access control.
-publishdate: 2019-08-12
+publishdate: 2019-08-22
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
+Various compliance standards require protection of sensitive data environments. Some of the important standards appear
+below:
 
-Managing applications across multiple Kubernetes clusters is currently one of the hottest topics in the Kubernetes and Istio
-communities. You may need to split your applications between multiple clusters for different reasons, for example:
+- [PCI DSS]((https://www.pcisecuritystandards.org/pci_security/)): credit card data
+- [FedRAMP](https://www.fedramp.gov): federal data and information
+- [HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736):
+personal health data
+- [GDPR](https://eugdpr.org): personal data
 
--  scalability limits of a single cluster
--  separation of production/dev/test/staging environments
--  different security and compliance requirements for different parts of the application
--  running parts of the application on multiple public clouds, and on a private cloud
+PCI DSS, for example, recommends putting cardholder data environment on a separate network. It requires using a DMZ
+(on a separate network) and setting firewalls between the public Internet and the DMZ, and between the DMZ and the
+internal network.
 
-Currently there are [three documented patterns](/docs/setup/kubernetes/install/multicluster/) in Istio to create a
-[multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh).
-A _multicluster service mesh_ is a single _logical_ service mesh, spread among multiple Kubernetes clusters.
+Isolation of sensitive data can reduce the scope of the compliance checks and improve the security of the sensitive
+data. Reducing the scope reduces the risks of failing a compliance check and reduces the costs of compliance since
+there are less components to check and secure, according to compliance requirements.
 
-Such a service mesh has the following characteristics:
+You can achieve isolation of sensitive data environments by deploying the applications that process the sensitive data
+in separate Kubernetes clusters, preferably on separate networks.
+Then you can use Istio to connect applications in clusters with different compliance requirements.
+In this blog post I show how you can use Istio to connect isolated clusters, each cluster with its own Istio mesh, while
+providing boundary protection.
 
-- **uniform naming** of namespaces and services. The `withdraw` service in the `accounts` namespace in one
-cluster has the same functionality and API as the `withdraw` service in the `accounts` namespace in all other clusters
-in the mesh.
-- **expose-all by default**. All the services are exposed by default to all the clusters in the mesh.
-- **common identity and trust** are established between all the clusters in the mesh.
-
-The differences between the three patterns are the following:
-
-- The clusters are on a **single network** or on **multiple networks**. Single network means that the pods in one
-cluster can reach the pods in other clusters directly. Multiple networks means that the pods in one cluster can reach
-the pods in other clusters in the mesh only through corresponding ingress gateways.
-- The Istio control planes are **shared** between the clusters in the mesh or each cluster has its own **dedicated**
-control plane.
-
-There are use cases where none of the multicluster patterns apply, for example, when you want to connect service meshes in separate clusters while limiting exposure of services
-from one cluster to other clusters. You also want _expose-nothing_ behavior by default, to prevent accidental
-exposure of your services.
-You may want strict control of which clusters may consume specific services of the
-exposing cluster, as part of
-[boundary protection](https://insights.sei.cmu.edu/insider-threat/2018/09/cybersecurity-architecture-part-2-system-boundary-and-boundary-protection.html)
-for some of the clusters. Sometimes different clusters are operated by different organizations that do not have common
-naming rules and have not established common trust.
-
-The Istio community has not yet decided on the right name for such a loosely-coupled
-connection between independent service meshes. One of the proposed names is _mesh federation_. While I use this name in
-this blog post, I do not claim that it is the best name for this pattern.
-
-In this blog post I describe requirements for _mesh federation_ and propose a possible solution for it. I don't claim
-that this is the best or only solution. The goal of this blog post is to share an approach with the community and to get user
-feedback.
-
-## Requirements for mesh federation
-
-- **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one cluster might have
-different functionality and API than the `withdraw` services in the `accounts` namespace in other clusters. The same
-service with the same functionality can have different names and can reside in different namespaces in different
-clusters.
-For example, the same service can be called `withdraw` and `withdraw-funds`, and can reside in the `accounts` and
-`private-accounts` namespaces in different clusters. Such situation could happen in an organization where there is no
-uniform policy on naming of namespaces and services, or when the clusters belong to different organizations.
-- **expose-nothing by default**. None of the services in a cluster are exposed by default, the cluster owners must
-explicitly specify which services are exposed.
-- **boundary protection**. The access control of the traffic must be enforced at the ingress gateway, which stops
-forbidden traffic from entering the cluster. This requirement implements
-[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of some compliance
-standards, such as the
-[Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
-- **common trust may not exist**. The Istio sidecars in one cluster may not trust the Citadel certificates in other
-cluster, due to some security requirement or due to the fact that the cluster owners did not initially plan to couple
-the clusters.
-
-### Isolation of system components and boundary protection
-
-In my opinion, isolation of system components and boundary protection is the most important use case for mesh federation.
+### Isolation and boundary protection
 
 Isolation and boundary protection mechanisms are explained in the
 [NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
@@ -95,12 +50,14 @@ among system components using distinct encryption keys.
 {{< /quote >}}
 
 Various compliance standards recommend isolating environments that process sensitive data from the rest of the
-organization. The [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/)
+organization.
+The [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/)
 recommends implementing network isolation for _cardholder data_ environment and requires isolating this environment from
-the [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)). [FedRAMP Authorization Boundary Guidance](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf) describes _authorization boundary_ for federal information and data,
-while
-[NIST Special Publication 800-37, Revision 2, Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy](https://doi.org/10.6028/NIST.SP.800-37r2) recommends protecting of such a boundary in
-_Appendix G, Authorization Boundary Considerations_:
+the [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)).
+[FedRAMP Authorization Boundary Guidance](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf)
+describes _authorization boundary_ for federal information and data, while
+[NIST Special Publication 800-37, Revision 2, Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy](https://doi.org/10.6028/NIST.SP.800-37r2)
+recommends protecting of such a boundary in _Appendix G, Authorization Boundary Considerations_:
 
 {{< quote >}}
 Dividing a system into subsystems (i.e., divide and conquer) facilitates a targeted application of controls to achieve
@@ -115,24 +72,55 @@ selecting, allocating, and implementing controls that meet or exceed the securit
 constituent subsystems.
 {{< /quote >}}
 
-The proposed mesh federation approach facilitates division of a system into subsystems with different security and compliance
-requirements, and facilitates the boundary protection.
+The approach I propose in this blog post facilitates division of a system into subsystems with different security and
+compliance requirements, and facilitates the boundary protection.
 You put each subsystem into a separate Kubernetes cluster, preferably on a separate network. You install
 a dedicated Istio control plane into each cluster and connect the Istio meshes using ingress and egress gateways.
 The gateways monitor and control cross-cluster traffic at the boundary of each cluster.
 
+## Features of the proposed approach
+
+The approach I propose has the following features:
+
+- **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one cluster might have
+different functionality and API than the `withdraw` services in the `accounts` namespace in other clusters. The same
+service with the same functionality can have different names and can reside in different namespaces in different
+clusters.
+For example, the same service can be called `withdraw` and `withdraw-funds`, and can reside in the `accounts` and
+`private-accounts` namespaces in different clusters. Such situation could happen in an organization where there is no
+uniform policy on naming of namespaces and services, or when the clusters belong to different organizations.
+- **expose-nothing by default**. None of the services in a cluster are exposed by default, the cluster owners must
+explicitly specify which services are exposed.
+- **boundary protection**. The access control of the traffic must be enforced at the ingress gateway, which stops
+forbidden traffic from entering the cluster. This requirement implements
+[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of some compliance
+standards, such as the
+[Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
+- **common trust may not exist**. The Istio sidecars in one cluster may not trust the Citadel certificates in other
+cluster, due to some security requirement or due to the fact that the cluster owners did not initially plan to couple
+the clusters.
+- **service location transparency**: consuming services send requests to the exposed services in remote clusters using
+local service names. The consuming services are oblivious to the fact that some of the destinations are in remote
+clusters and some are local services. The access is uniform, using the local service names of Kubernetes, for example reviews.default.svc.cluster.local.
+
+While **expose-nothing by default** and **boundary protection** are required to facilitate compliance and improve
+security, **non-uniform naming** and **common trust may not exist** are required when connecting
+clusters of different organizations, or of an organization that cannot enforce uniform naming or cannot or may not
+establish common trust between the clusters. **Service localtion transparency** is important since you do not want to
+change the code of your applications when the location of the consumed services changes.
+
 ## The proposed implementation
 
-I propose to base the implementation of mesh federation on the following principles:
+I propose to base connecting isolated clusters on the following principles:
 
 - use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC.
-- use **standard Istio installations**, no specific support for mesh federation is required.
+- use **standard Istio installations**.
 - **ad hoc cluster _pairing_** at any time. The owners of the clusters can install Istio and operate it independently,
   and decide to connect the clusters at some later point in time.
 - **private gateways for cross-cluster communication**, with dedicated certificates and private keys. Only the gateways
   trust each other, there is no trust between sidecars from different clusters.
 
-In the following sections I demonstrate mesh federation using two clusters and the Istio
+In the following sections I demonstrate connecting isolated clusters using two clusters and the Istio
 [Bookinfo](/docs/examples/bookinfo/) application as an example.
 
 ## Prerequisites
@@ -237,7 +225,7 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     You should have three pods of the Bookinfo application.
 
 1.  Create a service for reviews. Call it `myreviews`, to demonstrate that you can use different names for services in
-    the clusters, there is no requirement for uniform naming in mesh federation.
+    the clusters, there is no requirement for uniform naming.
 
     {{< text bash >}}
     $ kubectl apply -n bookinfo --context=$CTX_CLUSTER2 -f - <<EOF
@@ -1811,5 +1799,4 @@ routing and load balancing between local and remote versions of the same service
 Since configuration of exposure and consumption of services is rather complex and contains a lot of boilerplate YAMLs,
 the next step is automation of the whole federation process.
 
-I will be happy to hear your opinion about multi-cluster meshes and mesh federation at
-[discuss.istio.io](https://discuss.istio.io).
+I will be happy to hear your opinion about this pattern at [discuss.istio.io](https://discuss.istio.io).
