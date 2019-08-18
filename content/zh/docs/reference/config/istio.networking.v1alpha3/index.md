@@ -666,7 +666,7 @@ spec:
 |`scheme`|[`StringMatch`]|URI 模式的匹配要求，大小写敏感。|
 |`method`|[`StringMatch`]|HTTP 方法的匹配条件，大小写敏感。|
 |`authority`|[`StringMatch`]|HTTP 认证值的匹配要求，大小写敏感。|
-|`headers`|`map<string,` [`StringMatch`]`>`|Header 的键必须是小写的，使用连字符作为分隔符，例如 `x-request-id`。Headers 的匹配同样是大小写敏感的。**注意在 Header 中的 `uri`、`shceme`、`method` 以及 `authority` 会被忽略。**|
+|`headers`|`map<string,` [`StringMatch`]`>`|Header 的键必须是小写的，使用连字符作为分隔符，例如 `x-request-id`。Headers 的匹配同样是大小写敏感的。**注意在 Header 中的 `uri`、`scheme`、`method` 以及 `authority` 会被忽略。**|
 |`port`|`uint32`|指定主机上的端口。有的服务只开放一个端口，有的服务会用协议作为前缀给端口命名，这两种情况下，都不需要显式的指明端口号。|
 |`sourceLabels`|`map<string, string>`|用一个或多个标签选择工作负载，应用到规则之中。如果 `VirtualService` 中指定了 `gateways` 字段，需要将保留的 `mesh` 也加入列表，才能让这一字段生效。|
 |`gateways`|`string[]`|规则所涉及的 `Gateway` 的名称列表。这一字段会覆盖 `VirtualService` 自身的 `gateways` 设置。`gateways` 匹配是独立于 `sourceLabels` 的。|
