@@ -8,9 +8,9 @@ echo -ne "mdl "
 mdl --version
 htmlproofer --version
 echo -ne "sass-lint "
-npx sass-lint --version
+sass-lint --version
 echo -ne "tslint "
-npx tslint  --version
+tslint  --version
 
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
@@ -128,8 +128,8 @@ do
     fi
 done
 
-npx sass-lint -c sass-lint.yml --verbose 'src/sass/**/*.scss'
-npx tslint src/ts/*.ts
+sass-lint -c sass-lint.yml --verbose 'src/sass/**/*.scss'
+tslint src/ts/*.ts
 
 htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/"
 if [[ "$?" != "0" ]]
