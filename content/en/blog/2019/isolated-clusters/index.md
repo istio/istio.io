@@ -1739,9 +1739,9 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
     namespaces.
 
     {{< warning >}}
-    If you enabled Istio RBAC on some of your namespaces, remove `bookinfo` and `istio-private-gateways`
+    If you enabled Istio RBAC on some of your namespaces, remove `bookinfo`
     from the list of the included namespaces. The command below assumes that you enabled Istio RBAC only on the
-    `bookinfo` and `istio-private-gateways` namespaces.
+    `bookinfo` namespace.
     {{< /warning >}}
 
     {{< text bash >}}
