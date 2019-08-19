@@ -26,6 +26,6 @@ set -e
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOTDIR=$(dirname "${SCRIPTPATH}")
 
-img=gcr.io/istio-testing/api-build-tools:2019-07-30
+img=gcr.io/istio-testing/build-tools:2019-08-18T16-45-52
 
 docker run -i --sig-proxy=true --rm --entrypoint go-bindata --user "$(id -u)" -v /etc/passwd:/etc/passwd:ro -v "${ROOTDIR}:${ROOTDIR}" -w "$(pwd)" ${img} "$@"

@@ -29,21 +29,23 @@ lint: clean_public gen_nominify
 serve: build
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 
-install:
+# used by netlify.com when building the site. The tool versions should correspond
+# to what is included in the tools repo in docker/build-tools/Dockerfile.
+netlify_install:
 	@npm init -y
-	@npm install -g \
-	    sass \
-	    sass-lint \
-	    typescript \
-	    tslint \
-	    markdown-spellcheck \
-	    svgstore-cli \
-	    svgo
-	@npm install --save-dev @babel/core @babel/cli @babel/preset-env
-	@npm install --save-dev babel-preset-minify
-	@npm install --save @babel/polyfill
+	@npm install --production --global \
+	    sass@v1.22.10 \
+	    typescript@v3.5.3 \
+	    svgstore-cli@v1.3.1 \
+		@babel/core@v7.5.5 \
+		@babel/cli@v7.5.5 \
+		@babel/preset-env@v7.5.5
+	@npm install --production --save-dev \
+		babel-preset-minify@v0.5.1
+	@npm install --save-dev \
+		@babel/polyfill@v7.4.4
 
-netlify: install
+netlify: netlify_install
 	@scripts/build_site.sh
 	@scripts/gen_site.sh "$(baseurl)"
 
