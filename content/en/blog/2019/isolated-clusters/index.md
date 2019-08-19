@@ -30,7 +30,7 @@ Then you can use Istio to connect applications in clusters with different compli
 In this blog post I show how you can use Istio to connect isolated clusters, each cluster with its own Istio mesh, while
 providing boundary protection.
 
-### Isolation and boundary protection
+## Isolation and boundary protection
 
 Isolation and boundary protection mechanisms are explained in the
 [NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
