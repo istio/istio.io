@@ -1353,6 +1353,18 @@ access the `reviews` and `ratings` services through the private ingress gateway.
 
 Istio will deny all the unspecified access.
 
+Note that you cannot specify which specific service in the first cluster may call specific services in the second
+cluster. On the one hand, this is less strict access control comparing to RBAC policies within the cluster where you can
+specify exactly which service is allowed to call specific services. On the other hand, the owners of the second cluster
+might be unfamiliar with the names and the identities of the consuming services in other clusters. So the identity of
+the calling service will not tell them much.
+
+In the current setting the owners of the exposing cluster can provide access to specific services in their cluster on
+the per-cluster basis: they specify which cluster (not which remote service) is allowed to access their services.
+The trust is based on the cluster's identity, more specifically on the private egress gateway's identity of the cluster.
+If you need more strict access control, you may employ [access tokens](https://en.wikipedia.org/wiki/Access_token),
+for example [JWT](https://jwt.io).
+
 ### Apply Istio RBAC on the `bookinfo` namespace
 
 1.   Create Istio service roles for read access to `reviews` and `ratings`.
