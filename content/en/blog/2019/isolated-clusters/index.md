@@ -102,7 +102,7 @@ cluster, due to some security requirement or due to the fact that the cluster ow
 the clusters.
 - **service location transparency**: consuming services send requests to the exposed services in remote clusters using
 local service names. The consuming services are oblivious to the fact that some of the destinations are in remote
-clusters and some are local services. The access is uniform, using the local service names of Kubernetes, for example reviews.default.svc.cluster.local.
+clusters and some are local services. The access is uniform, using the local service names of Kubernetes, for example `reviews.default.svc.cluster.local`.
 
 While **expose-nothing by default** and **boundary protection** are required to facilitate compliance and improve
 security, **non-uniform naming** and **common trust may not exist** are required when connecting
