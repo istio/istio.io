@@ -795,14 +795,14 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
       hosts:
       - reviews.default.svc.cluster.local
       gateways:
-      - istio-private-egressgateway.istio-private-gateways
+      - istio-private-egressgateway
       http:
       - match:
           - port: 443
             uri:
               prefix: /
             gateways:
-            - istio-private-egressgateway.istio-private-gateways
+            - istio-private-egressgateway
         rewrite:
           uri: /bookinfo/myreviews/v2/
           authority: c2.example.com
@@ -1133,14 +1133,14 @@ Handle DNS and routing by the following steps:
       hosts:
       - ratings.default.svc.cluster.local
       gateways:
-      - istio-private-egressgateway.istio-private-gateways
+      - istio-private-egressgateway
       http:
       - match:
           - port: 443
             uri:
               prefix: /
             gateways:
-            - istio-private-egressgateway.istio-private-gateways
+            - istio-private-egressgateway
         rewrite:
           uri: /bookinfo/ratings/v1/
           authority: c2.example.com
@@ -1165,14 +1165,14 @@ Handle DNS and routing by the following steps:
       hosts:
       - reviews.default.svc.cluster.local
       gateways:
-      - istio-private-egressgateway.istio-private-gateways
+      - istio-private-egressgateway
       http:
       - match:
           - port: 443
             uri:
               prefix: /
             gateways:
-            - istio-private-egressgateway.istio-private-gateways
+            - istio-private-egressgateway
         rewrite:
           uri: /bookinfo/myreviews/v3/
           authority: c2.example.com
