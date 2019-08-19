@@ -421,7 +421,12 @@ You can use the command of your choice to generate certificates and keys, the co
 1.  Create the `istio-private-gateways` namespace:
 
     {{< text bash >}}
-    $ kubectl create namespace istio-private-gateways --context=$CTX_CLUSTER1
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: istio-private-gateways
+    EOF
     {{< /text >}}
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the gateways's
@@ -503,7 +508,12 @@ You can use the command of your choice to generate certificates and keys, the co
 1.  Create the `istio-private-gateways` namespace:
 
     {{< text bash >}}
-    $ kubectl create namespace istio-private-gateways --context=$CTX_CLUSTER2
+    $ kubectl apply --context=$CTX_CLUSTER2 -f - <<EOF
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: istio-private-gateways
+    EOF
     {{< /text >}}
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the gateways's
