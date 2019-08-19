@@ -13,7 +13,7 @@ below:
 - [FedRAMP](https://www.fedramp.gov): federal data and information
 - [HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736):
 personal health data
-- [GDPR](https://eugdpr.org): personal data
+- [GDPR](https://gdpr-info.eu): personal data
 
 PCI DSS, for example, recommends putting cardholder data environment on a separate network. It requires using a DMZ
 (on a separate network) and setting firewalls between the public Internet and the DMZ, and between the DMZ and the
