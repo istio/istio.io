@@ -1643,6 +1643,319 @@ Istio will deny all the unspecified access.
     $ kubectl get gw,vs,dr,envoyfilter -n istio-private-gateways --context=$CTX_CLUSTER2
     {{< /text >}}
 
+### Testing the certificates in the chain of calls
+
+Deploy the `httpbin` sample app in the second cluster:
+
+{{< text bash >}}
+$ kubectl apply -f samples/httpbin/httpbin.yaml --context=$CTX_CLUSTER2
+service/httpbin created
+deployment.extensions/httpbin created
+{{< /text >}}
+
+### Expose the `httpbin` service
+
+1.  Redefine the `privately-exposed-services` virtual service you created earlier, to add routing to `httpbin`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: privately-exposed-services
+    spec:
+      hosts:
+      - c2.example.com
+      gateways:
+      - istio-private-ingressgateway
+      http:
+      - match:
+        - uri:
+            prefix: /bookinfo/myreviews/v3/
+        rewrite:
+          uri: /
+          authority: myreviews.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v3
+            host: myreviews.bookinfo.svc.cluster.local
+      - match:
+        - uri:
+            prefix: /bookinfo/ratings/v1/
+        rewrite:
+          uri: /
+          authority: ratings.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v1
+            host: ratings.bookinfo.svc.cluster.local
+      - match:
+        - uri:
+            prefix: /default/httpbin/
+        rewrite:
+          uri: /
+          authority: httpbin.default.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 8000
+            host: httpbin.default.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  Access `httpbin` from your local machine:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/default/httpbin/headers -w "\nResponse code: %{http_code}\n"
+    Response code: 200
+    {
+      "headers": {
+        "Accept": "*/*",
+        "Content-Length": "0",
+        "Host": "httpbin.default.svc.cluster.local",
+        "User-Agent": "curl/7.54.0",
+        "X-B3-Parentspanid": "77b2c965e93b1384",
+        "X-B3-Sampled": "1",
+        "X-B3-Spanid": "090e954847ce329d",
+        "X-B3-Traceid": "974e887fcf82058577b2c965e93b1384",
+        "X-Envoy-Internal": "true",
+        "X-Envoy-Original-Path": "/default/httpbin/headers",
+        "X-Forwarded-Client-Cert": "By=spiffe://c2.example.com/istio-private-ingressgateway;Hash=7c446bdaa484c27db8a4dda33829d169ac18b9403e4d515d22e470757bfdb852;Cert=\"-----BEGIN%20CERTIFICATE-----
+        ...
+        -----END%20CERTIFICATE-----%0A\";Subject=\"CN=c1.example.com,O=example Inc.\\, department 1\";URI=spiffe://c1.example.com/istio-private-egressgateway,By=spiffe://cluster.local/ns/default/sa/default;Hash=c096f869a5548677a6ecc4df5e8541d249d358c91b0c2fbb2c697f860d1616bb;Subject=\"\";URI=spiffe://cluster.local/ns/istio-private-gateways/sa/istio-private-ingressgateway-service-account"
+      }
+    }
+    {{< /text >}}
+
+### Consume the `httpbin` service in the first cluster
+
+1.  To handle DNS, create a Kubernetes service for `httpbin.default.svc.cluster.local`.
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: httpbin
+    spec:
+      type: ExternalName
+      externalName: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      ports:
+      - name: http
+        protocol: TCP
+        port: 8000
+    EOF
+    {{< /text >}}
+
+1.  Update the egress `Gateway` to include `httpbin`:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-private-egressgateway
+    spec:
+      selector:
+        istio: private-egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - reviews.default.svc.cluster.local
+        - ratings.default.svc.cluster.local
+        - httpbin.default.svc.cluster.local
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: istio-private-egressgateway-httpbin-default
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: httpbin-default
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: httpbin.default.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  Define a virtual service to direct traffic from the egress gateway to remote httpbin:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - httpbin.default.svc.cluster.local
+      gateways:
+      - istio-private-egressgateway.istio-private-gateways
+      http:
+      - match:
+          - port: 443
+            uri:
+              prefix: /
+            gateways:
+            - istio-private-egressgateway.istio-private-gateways
+        rewrite:
+          uri: /default/httpbin/
+          authority: c2.example.com
+        route:
+        - destination:
+            host: c2-example-com.istio-private-gateways.svc.cluster.local
+            port:
+              number: 15443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Direct traffic destined to `httpbin`, to the egress gateway:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - httpbin
+      http:
+      - match:
+        - port: 8000
+        rewrite:
+          authority: httpbin.default.svc.cluster.local
+        route:
+        - destination:
+            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+            subset: httpbin-default
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1. Consume `httpbin` from the `sleep` pod in the first cluster:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER1) -c sleep --context=$CTX_CLUSTER1 -- curl httpbin:8000/headers -w "\nResponse code: %{http_code}\n"
+    {
+      "headers": {
+        "Accept": "*/*",
+        "Content-Length": "0",
+        "Host": "httpbin.default.svc.cluster.local",
+        "User-Agent": "curl/7.60.0",
+        "X-B3-Parentspanid": "3d289699ae0f142f",
+        "X-B3-Sampled": "1",
+        "X-B3-Spanid": "2ae693a577733bb2",
+        "X-B3-Traceid": "50c93c85e8e12e489a07f3107ede2b52",
+        "X-Envoy-External-Address": "10.73.214.88",
+        "X-Envoy-Original-Path": "/default/httpbin/headers",
+        "X-Forwarded-Client-Cert": "By=spiffe://c2.example.com/istio-private-ingressgateway;Hash=7c446bdaa484c27db8a4dda33829d169ac18b9403e4d515d22e470757bfdb852;Cert=\"-----BEGIN%20CERTIFICATE-----%0A
+        ...
+        %0A-----END%20CERTIFICATE-----%0A\";Subject=\"CN=c1.example.com,O=example Inc.\\, department 1\";URI=spiffe://c1.example.com/istio-private-egressgateway,By=spiffe://cluster.local/ns/default/sa/default;Hash=c096f869a5548677a6ecc4df5e8541d249d358c91b0c2fbb2c697f860d1616bb;Subject=\"\";URI=spiffe://cluster.local/ns/istio-private-gateways/sa/istio-private-ingressgateway-service-account"
+      }
+    }
+    {{< /text >}}
+
+#### Cleanup of testing the certificates in the chain of calls
+
+1.  Restore the previous version of the `privately-exposed-services` in the first cluster:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: privately-exposed-services
+    spec:
+      hosts:
+      - c2.example.com
+      gateways:
+      - istio-private-ingressgateway
+      http:
+      - match:
+        - uri:
+            prefix: /bookinfo/myreviews/v3/
+        rewrite:
+          uri: /
+          authority: myreviews.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v3
+            host: myreviews.bookinfo.svc.cluster.local
+      - match:
+        - uri:
+            prefix: /bookinfo/ratings/v1/
+        rewrite:
+          uri: /
+          authority: ratings.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v1
+            host: ratings.bookinfo.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  Restore the previous definition of the egress gateway in the first cluster:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-private-egressgateway
+    spec:
+      selector:
+        istio: private-egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - reviews.default.svc.cluster.local
+        - ratings.default.svc.cluster.local
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    EOF
+    {{< /text >}}
+
+1.  Delete the `httpbin` related configuration items:
+
+    {{< text bash >}}
+    $ kubectl delete virtualservice httpbin --context=$CTX_CLUSTER1
+    $ kubectl delete virtualservice httpbin -n istio-private-gateways --context=$CTX_CLUSTER1
+    $ kubectl delete destinationrule istio-private-egressgateway-httpbin-default -n istio-private-gateways --context=$CTX_CLUSTER1
+    {{< /text >}}
+
 ## Cleanup
 
 ### Delete consumption of services in the first cluster
