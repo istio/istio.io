@@ -9,7 +9,7 @@ keywords: [traffic-management,multicluster,security,gateway,tls]
 Various compliance standards require protection of sensitive data environments. Some of the important standards appear
 below:
 
-- [PCI&nbsp;DSS](https://www.pcisecuritystandards.org/pci_security): credit card data
+- [PCI DSS](https://www.pcisecuritystandards.org/pci_security): credit card data
 - [FedRAMP](https://www.fedramp.gov): federal data and information
 - [HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736):
 personal health data
