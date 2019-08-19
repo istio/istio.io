@@ -429,7 +429,7 @@ You can use the command of your choice to generate certificates and keys, the co
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret tls c1-example-com-certs --key c1.example.com.key --cert c1.example.com.crt
-    $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret generic example-com-ca-certs --from-file=example.com.crt
+    $ kubectl create --context=$CTX_CLUSTER1 -n istio-private-gateways secret generic c1-trusted-certs --from-file=example.com.crt
     {{< /text >}}
 
 1.  Deploy a private egress gateway and mount the new secrets as data volumes by the following command:
@@ -462,8 +462,8 @@ You can use the command of your choice to generate certificates and keys, the co
         - name: c1-example-com-certs
           secretName: c1-example-com-certs
           mountPath: /etc/istio/c1.example.com/certs
-        - name: example-com-ca-certs
-          secretName: example-com-ca-certs
+        - name: c1-trusted-certs
+          secretName: c1-trusted-certs
           mountPath: /etc/istio/example.com/certs
     EOF
     {{< /text >}}
@@ -511,7 +511,7 @@ You can use the command of your choice to generate certificates and keys, the co
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 -n istio-private-gateways secret tls c2-example-com-certs --key c2.example.com.key --cert c2.example.com.crt
-    $ kubectl create --context=$CTX_CLUSTER2 -n istio-private-gateways secret generic example-com-ca-certs --from-file=example.com.crt
+    $ kubectl create --context=$CTX_CLUSTER2 -n istio-private-gateways secret generic c2-trusted-certs --from-file=example.com.crt
     {{< /text >}}
 
 1.  Deploy a private ingress gateway and mount the new secrets as data volumes by the following command:
@@ -542,8 +542,8 @@ You can use the command of your choice to generate certificates and keys, the co
         - name: c2-example-com-certs
           secretName: c2-example-com-certs
           mountPath: /etc/istio/c2.example.com/certs
-        - name: example-com-ca-certs
-          secretName: example-com-ca-certs
+        - name: c2-trusted-certs
+          secretName: c2-trusted-certs
           mountPath: /etc/istio/example.com/certs
     EOF
     {{< /text >}}
@@ -1689,7 +1689,7 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 1.  Delete the secrets from `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways secrets c1-example-com-certs example-com-ca-certs
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways secrets c1-example-com-certs c1-trusted-certs
     {{< /text >}}
 
 1.  Delete the `istio-private-gateways` namespace from `cluster1`:
@@ -1711,7 +1711,7 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 1.  Delete the secrets from `cluster2`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways secrets c2-example-com-certs example-com-ca-certs
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways secrets c2-example-com-certs c2-trusted-certs
     {{< /text >}}
 
 1.  Delete the `istio-private-gateways` namespace from `cluster2`:
