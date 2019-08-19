@@ -107,7 +107,7 @@ clusters and some are local services. The access is uniform, using the local ser
 While **expose-nothing by default** and **boundary protection** are required to facilitate compliance and improve
 security, **non-uniform naming** and **common trust may not exist** are required when connecting
 clusters of different organizations, or of an organization that cannot enforce uniform naming or cannot or may not
-establish common trust between the clusters. **Service localtion transparency** is important since you do not want to
+establish common trust between the clusters. **Service location transparency** is important since you do not want to
 change the code of your applications when the location of the consumed services changes.
 
 ## The proposed implementation
