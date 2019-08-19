@@ -6,18 +6,19 @@ publishdate: 2019-08-22
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
-Various compliance standards require protection of sensitive data environments. Some of the important standards appear
-below:
+Various compliance standards require protection of sensitive data environments. Some of the important standards and the
+types of sensitive data they protect appear in the following table:
 
-- [PCI DSS](https://www.pcisecuritystandards.org/pci_security): credit card data
-- [FedRAMP](https://www.fedramp.gov): federal data and information
-- [HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736):
-personal health data
-- [GDPR](https://gdpr-info.eu): personal data
+|Standard|Sensitive data|
+| --- | --- |
+|[PCI DSS](https://www.pcisecuritystandards.org/pci_security)|credit card data|
+|[FedRAMP](https://www.fedramp.gov)|federal information, data and metadata|
+|[HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736)|personal health data|
+|[GDPR](https://gdpr-info.eu)| personal data|
 
-PCI DSS, for example, recommends putting cardholder data environment on a separate network. It requires using a DMZ
-(on a separate network) and setting firewalls between the public Internet and the DMZ, and between the DMZ and the
-internal network.
+[PCI DSS](https://www.pcisecuritystandards.org/pci_security), for example, recommends putting cardholder data
+environment on a separate network. It requires using a [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)),
+and setting firewalls between the public Internet and the DMZ, and between the DMZ and the internal network.
 
 Isolation of sensitive data can reduce the scope of the compliance checks and improve the security of the sensitive
 data. Reducing the scope reduces the risks of failing a compliance check and reduces the costs of compliance since
