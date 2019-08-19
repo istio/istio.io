@@ -162,9 +162,11 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
 
     {{< text bash >}}
     $ kubectl delete deployment reviews-v2 reviews-v3 ratings-v1 --context=$CTX_CLUSTER1
+    $ kubectl delete service ratings --context=$CTX_CLUSTER1
     deployment.extensions "reviews-v2" deleted
     deployment.extensions "reviews-v3" deleted
     deployment.extensions "ratings-v1" deleted
+    service "ratings" deleted
     {{< /text >}}
 
     Access the webpage of the Bookinfo application and verify that it continues to work as before.
