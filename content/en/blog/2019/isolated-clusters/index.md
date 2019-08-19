@@ -1336,7 +1336,7 @@ the following way:
 In this section you harden the security of your second cluster by applying
 [Istio RBAC](/docs/concepts/security/#authorization) on the `bookinfo` namespace and on the namespace of the private
 ingress gateway. The goal is to control which service is allowed to call which specific service, which services are
-allowed to be accessed from the outside though the private ingress gateway and which external clusters are allowed to
+allowed to be accessed from the outside through the private ingress gateway and which external clusters are allowed to
 access which specific services. The goal is to reduce the possible attack vector in case some of the internal services
 or the external clusters is compromised.
 
