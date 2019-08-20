@@ -115,7 +115,7 @@ $ cat <<EOF | istioctl create -n foo -f -
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "example-httpbin-permissive"
+  name: "example-httpbin-strict"
   namespace: foo
 spec:
   targets:
