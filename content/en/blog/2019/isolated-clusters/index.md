@@ -81,7 +81,7 @@ The gateways monitor and control cross-cluster traffic at the boundary of each c
 
 ## Features of the approach
 
-The approach I propose has the following features:
+The approach I use has the following features:
 
 - **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one cluster might have
 different functionality and API than the `withdraw` services in the `accounts` namespace in other clusters. The same
