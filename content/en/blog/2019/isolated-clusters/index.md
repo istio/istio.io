@@ -73,7 +73,7 @@ selecting, allocating, and implementing controls that meet or exceed the securit
 constituent subsystems.
 {{< /quote >}}
 
-The approach I propose in this blog post facilitates division of a system into subsystems with different security and
+The approach I use in this blog post facilitates division of a system into subsystems with different security and
 compliance requirements, and facilitates the boundary protection.
 You put each subsystem into a separate Kubernetes cluster, preferably on a separate network. You install
 a dedicated Istio control plane into each cluster and connect the Istio meshes using ingress and egress gateways.
