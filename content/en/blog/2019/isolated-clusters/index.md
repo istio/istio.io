@@ -1694,21 +1694,21 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 1.  Undeploy the private egress gateway from `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways deployment istio-private-egressgateway
-    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways service istio-private-egressgateway
-    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways serviceaccount istio-private-egressgateway-service-account
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways deployment istio-private-egressgateway --ignore-not-found=true
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways service istio-private-egressgateway --ignore-not-found=true
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways serviceaccount istio-private-egressgateway-service-account --ignore-not-found=true
     {{< /text >}}
 
 1.  Delete the secrets from `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways secrets c1-example-com-certs c1-trusted-certs
+    $ kubectl delete --context=$CTX_CLUSTER1 -n istio-private-gateways secrets c1-example-com-certs c1-trusted-certs --ignore-not-found=true
     {{< /text >}}
 
 1.  Delete the `istio-private-gateways` namespace from `cluster1`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 namespace istio-private-gateways
+    $ kubectl delete --context=$CTX_CLUSTER1 namespace istio-private-gateways --ignore-not-found=true
     {{< /text >}}
 
 ### Delete the private gateway in the second cluster
@@ -1716,21 +1716,21 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 1.  Undeploy the private ingress gateway from `cluster2`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways deployment istio-private-ingressgateway
-    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways service istio-private-ingressgateway
-    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways serviceaccount istio-private-ingressgateway-service-account
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways deployment istio-private-ingressgateway --ignore-not-found=true
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways service istio-private-ingressgateway --ignore-not-found=true
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways serviceaccount istio-private-ingressgateway-service-account --ignore-not-found=true
     {{< /text >}}
 
 1.  Delete the secrets from `cluster2`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways secrets c2-example-com-certs c2-trusted-certs
+    $ kubectl delete --context=$CTX_CLUSTER2 -n istio-private-gateways secrets c2-example-com-certs c2-trusted-certs --ignore-not-found=true
     {{< /text >}}
 
 1.  Delete the `istio-private-gateways` namespace from `cluster2`:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 namespace istio-private-gateways
+    $ kubectl delete --context=$CTX_CLUSTER2 namespace istio-private-gateways --ignore-not-found=true
     {{< /text >}}
 
 ### Disable Istio RBAC in the second cluster
@@ -1765,7 +1765,7 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
     $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/virtual-service-all-v1.yaml
     $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
     $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/networking/bookinfo-gateway.yaml
-    $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl delete --context=$CTX_CLUSTER1 -f samples/bookinfo/platform/kube/bookinfo.yaml --ignore-not-found=true
     {{< /text >}}
 
 #### Delete the Bookinfo services in the second cluster
@@ -1805,8 +1805,8 @@ $ rm certificate3.conf c3.example.com.crt c3.example.com.csr c3.example.com.key
 ### Delete the sleep samples
 
 {{< text bash >}}
-$ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER1
-$ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER2
+$ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER1 --ignore-not-found=true
+$ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER2 --ignore-not-found=true
 {{< /text >}}
 
 ## Summary
