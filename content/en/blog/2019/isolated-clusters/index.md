@@ -1846,6 +1846,12 @@ $ rm certificate2.conf c2.example.com.crt c2.example.com.csr c2.example.com.key
 $ rm certificate3.conf c3.example.com.crt c3.example.com.csr c3.example.com.key
 {{< /text >}}
 
+### Unset environment variables
+
+{{< text bash >}}
+$ unset CTX_CLUSTER1 CTX_CLUSTER2 INGRESS_HOST INGRESS_PORT SECURE_INGRESS_PORT CLUSTER2_INGRESS_HOST CLUSTER2_SECURE_INGRESS_PORT
+{{< /text >}}
+
 ### Delete the sleep samples
 
 {{< text bash >}}
