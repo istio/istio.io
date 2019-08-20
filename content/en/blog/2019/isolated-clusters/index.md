@@ -126,9 +126,41 @@ In the following sections I demonstrate connecting isolated clusters using two c
 
 ## Prerequisites
 
-Two Kubernetes clusters (referred to as `cluster1` and `cluster2`) with default Istio installations
+You can perform the instructions in this blog post on two Kubernetes clusters or on a single cluster.
+
+The case of a single cluster demonstrates isolation between namespaces within the same cluster. To implement isolation
+between namespaces you must use
+[Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+that forbid direct communication between namespaces. You use Istio to connect two namespaces with boundary protection,
+in the same way you use Istio to connect two clusters, as I show in this blog post.
+You may want to use a single cluster for easy testing of the instructions of this blog post, even if your goal is to
+connect multiple clusters. To better understand isolation between namespaces in a single cluster, take a look at an
+[initial state](#the-single-cluster-with-isolation-between-namespaces-after-initial-setup) of a single cluster
+and the
+[state of the cluster with two namespaces connected](#the-single-cluster-with-isolation-between-namespaces-after-configuring-exposing-and-consuming-the-reviews-service)
+by Istio, with boundary protection.
+
+### Prerequisites for two clusters
+
+Two Kubernetes clusters (referred to as `cluster1` and `cluster2`) with default Istio installations.
 
 {{< boilerplate kubectl-multicluster-contexts >}}
+
+### Prerequisites for a single cluster
+
+A single Kubernetes cluster with a default Istio installation. I wrote the instructions in this blog post to handle
+both the case of two clusters and the case of a single cluster. In the case of a single cluster, the instructions refer
+to the same cluster as "the first cluster" and "the second cluster", and use `CTX_CLUSTER1` and `CTX_CLUSTER2`
+environment variables to refer to the same cluster.
+
+Store the context name of your cluster in environment variables:
+
+{{< text bash >}}
+$ export CTX_CLUSTER1=$(kubectl config current-context)
+$ export CTX_CLUSTER2=${CTX_CLUSTER1}
+$ echo CTX_CLUSTER1 = ${CTX_CLUSTER1}, CTX_CLUSTER2 = ${CTX_CLUSTER2}
+CTX_CLUSTER1 = cluster1, CTX_CLUSTER2 = cluster1
+{{< /text >}}
 
 ## Initial setup
 
@@ -302,6 +334,12 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
 The following diagram shows the state of the clusters after deploying the Bookinfo services:
 
 {{< image width="100%" link="./MeshFederation1_bookinfo.svg" caption="Two clusters after initial setup" >}}
+
+### A single cluster with isolation between namespaces after initial setup
+
+In case you perform the instructions in this blog post on a single cluster, your cluster has the following state now:
+
+{{< image width="100%" link="./MeshFederation1b_bookinfo.svg" caption="A single cluster with isolation between namespaces after initial setup" >}}
 
 ## Deploy private gateways for cross-cluster communication (one-time setup)
 
@@ -906,6 +944,12 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
 The following diagram shows the state of the clusters after configuring exposing and consuming of the `reviews` service:
 
 {{< image width="100%" link="./MeshFederation3_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
+
+### A single cluster with isolation between namespaces after configuring exposing and consuming the reviews service
+
+In case you perform the instructions in this blog post on a single cluster, your cluster has the following state now:
+
+{{< image width="100%" link="./MeshFederation3b_bookinfo.svg" caption="A single cluster with isolation between namespaces after configuring exposing and consuming the reviews service" >}}
 
 ### Deploy reviews v2 locally and retire reviews v1
 
