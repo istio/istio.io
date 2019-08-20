@@ -135,9 +135,9 @@ that forbid direct communication between namespaces. You use Istio to connect tw
 in the same way you use Istio to connect two clusters, as I show in this blog post.
 You may want to use a single cluster for easy testing of the instructions of this blog post, even if your goal is to
 connect multiple clusters. To better understand isolation between namespaces in a single cluster, take a look at an
-[initial state](#the-single-cluster-with-isolation-between-namespaces-after-initial-setup) of a single cluster
+[initial state](#a-single-cluster-with-isolation-between-namespaces-after-initial-setup) of a single cluster
 and the
-[state of the cluster with two namespaces connected](#the-single-cluster-with-isolation-between-namespaces-after-configuring-exposing-and-consuming-the-reviews-service)
+[state of the cluster with two namespaces connected](#a-single-cluster-with-isolation-between-namespaces-after-configuring-exposing-and-consuming-the-reviews-service)
 by Istio, with boundary protection.
 
 ### Prerequisites for two clusters
