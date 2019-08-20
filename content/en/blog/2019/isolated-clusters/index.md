@@ -11,7 +11,7 @@ types of sensitive data they protect appear in the following table:
 
 |Standard|Sensitive data|
 | --- | --- |
-|[PCI DSS](https://www.pcisecuritystandards.org/pci_security)|credit card data|
+|[PCI DSS](https://www.pcisecuritystandards.org/pci_security)|payment card data|
 |[FedRAMP](https://www.fedramp.gov)|federal information, data and metadata|
 |[HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736)|personal health data|
 |[GDPR](https://gdpr-info.eu)| personal data|
