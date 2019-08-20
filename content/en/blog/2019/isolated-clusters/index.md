@@ -1873,6 +1873,6 @@ Once the two meshes are _paired_, and exposure and consumption of services is co
 routing and load balancing between local and remote versions of the same service.
 
 Since configuration of exposure and consumption of services is rather complex and contains a lot of boilerplate YAMLs,
-the next step is automation of the whole federation process.
+some of the process could clearly benefit from automation. The term "Mesh Federation", and possible support for it, is currently being discussed by the Istio community. Hopefully automation for a pattern, or patterns, similar the one I showed here will be provided by Istio in the not too distant future. 
 
 I will be happy to hear your opinion about this pattern at [discuss.istio.io](https://discuss.istio.io).
