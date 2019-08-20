@@ -112,7 +112,7 @@ change the code of your applications when the location of the consumed services 
 
 ## The proposed implementation
 
-I propose to base connecting isolated clusters on the following principles:
+I connect isolated clusters based on the following principles:
 
 - use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC.
 - use **standard Istio installations**.
