@@ -110,7 +110,7 @@ clusters of different organizations, or of an organization that cannot enforce u
 establish common trust between the clusters. **Service location transparency** is important since you do not want to
 change the code of your applications when the location of the consumed services changes.
 
-## The proposed implementation
+## The implementation pattern
 
 I connect isolated clusters based on the following principles:
 
