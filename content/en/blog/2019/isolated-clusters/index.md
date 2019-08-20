@@ -79,7 +79,7 @@ You put each subsystem into a separate Kubernetes cluster, preferably on a separ
 a dedicated Istio control plane into each cluster and connect the Istio meshes using ingress and egress gateways.
 The gateways monitor and control cross-cluster traffic at the boundary of each cluster.
 
-## Features of the proposed approach
+## Features of the approach
 
 The approach I propose has the following features:
 
