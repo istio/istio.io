@@ -68,7 +68,7 @@ Administrative privileges are required to run minikube.
 
 1.  (Optional, recommended) If you want minikube to provide a load balancer for use
     by Istio, you can use the
-    [minikube tunnel](https://github.com/kubernetes/minikube/blob/master/docs/tunnel.md) feature.
+    [minikube tunnel](https://minikube.sigs.k8s.io/docs/tasks/loadbalancer/#using-minikube-tunnel) feature.
     Run this command in a different terminal, because the minikube tunnel feature will block your
     terminal to output diagnostic information about the network:
 
