@@ -63,12 +63,12 @@ omit this value and it will be computed automatically.
 
 {{- $path := "" }}
 {{- if eq .Page.Language.Lang "zh" -}}
-    {{- $path = printf "content_zh%s" $link }}
+    {{- $path = printf "content/zh%s" $link }}
     {{- if not (fileExists $path) -}}
-        {{- $path = printf "content%s" $link }}
+        {{- $path = printf "content/en%s" $link }}
     {{- end -}}
 {{- else -}}
-    {{- $path = printf "content%s" $link }}
+    {{- $path = printf "content/en%s" $link }}
 {{- end -}}
 
 {{- if strings.HasSuffix $link ".svg" -}}

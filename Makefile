@@ -1,56 +1,84 @@
-ISTIO_SERVE_DOMAIN ?= localhost
-export ISTIO_SERVE_DOMAIN
+# WARNING: DO NOT EDIT, THIS FILE IS PROBABLY A COPY
+#
+# The original version of this file is located in the https://github.com/istio/common-files repo.
+# If you're looking at this file in a different repo and want to make a change, please go to the
+# common-files repo, make the change there and check it in. Then come back to this repo and run
+# "make updatecommon".
 
-img := gcr.io/istio-testing/website-tools:2019-07-25
-uid := $(shell id -u)
-docker := docker run -e INTERNAL_ONLY=true -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site $(img)
+# Copyright 2019 Istio Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-ifeq ($(INTERNAL_ONLY),)
-docker := docker run -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site $(img)
+# allow optional per-repo overrides
+-include Makefile.overrides.mk
+
+RUN =
+
+# Set the environment variable BUILD_WITH_CONTAINER to use a container
+# to build the repo. The only dependencies in this mode are to have make and
+# docker. If you'd rather build with a local tool chain instead, you'll need to
+# figure out all the tools you need in your environment to make that work.
+export BUILD_WITH_CONTAINER ?= 0
+ifeq ($(BUILD_WITH_CONTAINER),1)
+IMG = gcr.io/istio-testing/build-tools:2019-08-18T16-45-52
+UID = $(shell id -u)
+PWD = $(shell pwd)
+GOBIN_SOURCE ?= $(GOPATH)/bin
+export GOBIN ?= /work/out/bin
+
+LOCAL_ARCH := $(shell uname -m)
+ifeq ($(LOCAL_ARCH),x86_64)
+GOARCH_LOCAL := amd64
+else ifeq ($(shell echo $(LOCAL_ARCH) | head -c 5),armv8)
+GOARCH_LOCAL := arm64
+else ifeq ($(shell echo $(LOCAL_ARCH) | head -c 4),armv)
+GOARCH_LOCAL := arm
+else
+GOARCH_LOCAL := $(LOCAL_ARCH)
+endif
+export GOARCH ?= $(GOARCH_LOCAL)
+
+LOCAL_OS := $(shell uname)
+ifeq ($(LOCAL_OS),Linux)
+   export GOOS_LOCAL = linux
+else ifeq ($(LOCAL_OS),Darwin)
+   export GOOS_LOCAL = darwin
+else
+   $(error "This system's OS $(LOCAL_OS) isn't recognized/supported")
 endif
 
-ifeq ($(CONTEXT),production)
-baseurl := "$(URL)"
+export GOOS ?= $(GOOS_LOCAL)
+
+RUN = docker run -t --sig-proxy=true -u $(UID) --rm \
+	-e GOOS="$(GOOS)" \
+	-e GOARCH="$(GOARCH)" \
+	-e GOBIN="$(GOBIN)" \
+	-v /etc/passwd:/etc/passwd:ro \
+	-v $(readlink /etc/localtime):/etc/localtime:ro \
+	$(CONTAINER_OPTIONS) \
+	--mount type=bind,source="$(PWD)",destination="/work" \
+	--mount type=volume,source=istio-go-mod,destination="/go/pkg/mod" \
+	--mount type=volume,source=istio-go-cache,destination="/gocache" \
+	--mount type=bind,source="$(GOBIN_SOURCE)",destination="/go/out/bin" \
+	-w /work $(IMG)
+else
+export GOBIN ?= ./out/bin
 endif
 
-build:
-	@$(docker) scripts/build_site.sh
+MAKE = $(RUN) make --no-print-directory -e -f Makefile.core.mk
 
-gen: build
-	@$(docker) scripts/gen_site.sh ""
+%:
+	@$(MAKE) $@
 
-opt:
-	@$(docker) scripts/opt_site.sh
-
-clean_public:
-	@rm -fr public
-
-clean: clean_public
-	@rm -fr resources .htmlproofer tmp
-
-lint: clean_public build gen
-	@$(docker) scripts/lint_site.sh
-
-serve: build
-	@docker run -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site -p 1313:1313 $(img) hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
-
-install:
-	@npm install -g sass sass-lint typescript tslint @babel/cli @babel/core svgstore-cli
-	@npm install babel-preset-minify --save-dev
-
-netlify: install
-	@scripts/build_site.sh
-	@scripts/gen_site.sh "$(baseurl)"
-
-netlify_archive:
-	@scripts/gen_archive_site.sh "$(baseurl)"
-
-archive:
-	@$(docker) scripts/gen_archive_site.sh "$(baseurl)"
-
-prow:
-	@scripts/build_site.sh
-	@scripts/gen_site.sh "" -no_minify
-	@scripts/lint_site.sh
-
-include Makefile.common.mk
+default:
+	@$(MAKE)

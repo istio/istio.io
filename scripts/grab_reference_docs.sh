@@ -17,9 +17,7 @@ REPOS=(
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
-
-# This is disabled since it causes a linting error at the moment
-#    https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
+    https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
 )
 
 # The components to build and extract usage docs from.
@@ -41,7 +39,7 @@ cd "${ROOTDIR}"
 
 export GOPATH=$(mktemp -d)
 WORK_DIR=${GOPATH}/src/istio.io
-COMP_OUTPUT_DIR=${ROOTDIR}/content/docs/reference/commands
+COMP_OUTPUT_DIR=${ROOTDIR}/content/en/docs/reference/commands
 
 echo "WORK_DIR =" ${WORK_DIR}
 
@@ -56,7 +54,7 @@ popd () {
 }
 
 # Given the name of a .pb.html file, extracts the $location marker and then proceeds to
-# copy the file to the corresponding content/docs/ hierarchy.
+# copy the file to the corresponding content/en/docs/ hierarchy.
 locate_file() {
     FILENAME=$1
 
@@ -72,22 +70,22 @@ locate_file() {
     FN=$(echo ${FNP} | rev | cut -d'/' -f1 | rev)
     FN=${FN%.html}
     PP=$(echo ${FNP} | rev | cut -d'/' -f2- | rev)
-    mkdir -p ${ROOTDIR}/content/docs${PP}/${FN}
-    sed -e 's/href="https:\/\/istio.io/href="/g' ${FILENAME} >${ROOTDIR}/content/docs${PP}/${FN}/index.html
+    mkdir -p ${ROOTDIR}/content/en/docs${PP}/${FN}
+    sed -e 's/href="https:\/\/istio.io/href="/g' ${FILENAME} >${ROOTDIR}/content/en/docs${PP}/${FN}/index.html
 
     LEN=${#WORK_DIR}
     REL_PATH=${FILENAME:LEN}
 
     if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" ]]
     then
-        sed -e 's/layout: protoc-gen-docs/layout: partner-component/g' -i "" ${ROOTDIR}/content/docs${PP}/${FN}/index.html
+        sed -e 's/layout: protoc-gen-docs/layout: partner-component/g' -i "" ${ROOTDIR}/content/en/docs${PP}/${FN}/index.html
     fi
 
     REPOX=${REPO_URL/.git/}
     REPOX=${REPOX//\//\\\/}
 
     sed -e 's/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\'$'\n''title: /g' -i "" ${ROOTDIR}/content/docs${PP}/${FN}/index.html
-    sed -e 's/title: /source_repo: '${REPOX}'\'$'\n''title: /g' -i "" ${ROOTDIR}/content/docs${PP}/${FN}/index.html
+    sed -e 's/title: /source_repo: '${REPOX}'\'$'\n''title: /g' -i "" ${ROOTDIR}/content/en/docs${PP}/${FN}/index.html
 }
 
 handle_doc_scraping() {
@@ -151,7 +149,7 @@ handle_components() {
 }
 
 # delete all the existing generated files so that any stale files are removed
-find ${ROOTDIR}/content/docs/reference -name '*.html' -type f|xargs rm 2>/dev/null
+find ${ROOTDIR}/content/en/docs/reference -name '*.html' -type f|xargs rm 2>/dev/null
 
 # Prepare the work directory
 mkdir -p ${WORK_DIR}

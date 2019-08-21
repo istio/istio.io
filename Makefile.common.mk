@@ -2,10 +2,10 @@
 #
 # The original version of this file is located in the https://github.com/istio/common-files repo.
 # If you're looking at this file in a different repo and want to make a change, please go to the
-# common-files repo, make the change there and check it in. Then come back to this repo and run the
-# scripts/updatecommonfiles.sh script.
+# common-files repo, make the change there and check it in. Then come back to this repo and run
+# "make updatecommon".
 
-# Copyright 2018 Istio Authors
+# Copyright 2019 Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@
 # limitations under the License.
 
 updatecommon:
-	@git clone https://github.com/istio/common-files
-	@cd common-files
-	@git rev-parse HEAD >.commonfiles.sha
-	@cp -r common-files/files/* common-files/files/.[^.]* .
+	@git clone --depth 1 --single-branch --branch master https://github.com/istio/common-files
+	@cd common-files ; git rev-parse HEAD >.commonfiles.sha
+	@cp -r common-files/files/* common-files/.commonfiles.sha common-files/files/.[^.]* .
 	@rm -fr common-files
+	@touch Makefile.overrides.mk  # make sure this at least exists

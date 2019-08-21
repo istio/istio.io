@@ -92,6 +92,7 @@ autoscaler
 Autoscalers
 autoscalers
 autoscaling
+AutoTrader
 az
 backend
 backends
@@ -125,6 +126,9 @@ CloudWatch
 CNI
 cnn.com
 colocated
+composable
+Composability
+composability
 ConfigMap
 configmap
 configmap
@@ -159,6 +163,7 @@ devops
 discuss.istio.io
 distro
 Distroless
+distroless
 Divya
 DNS
 docker-compose's
@@ -177,6 +182,7 @@ env
 etcd
 example.com
 ExecAction
+executables
 Exfiltrating
 ExternalName
 facto
@@ -346,6 +352,7 @@ natively
 netmask
 networking.istio.io
 nginx
+NLBs
 Node.js
 nodePorts
 non-sandboxed
@@ -478,6 +485,7 @@ Stackdriver
 Statsd
 stdout
 Steitz
+Stoney
 strongSwan
 struct
 Styra
@@ -553,6 +561,7 @@ VMs
 VMware
 VPN
 VPNs
+Warman
 WBoilerplates
 WeaveWorks
 webhook
