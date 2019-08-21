@@ -19,10 +19,10 @@ The geographic location typically represents a data center. Istio uses
 this information to prioritize load balancing pools to control
 the geographic location where requests are sent.
 
-## Enabling Locality Load Balancing
+## Configuring Locality Load Balancing
 
-This feature is experimental and off by default in 1.1. To enable locality load balancing,
-set the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
+This feature is enabled by default. To disable locality load balancing,
+pass the `--set global.localityLbSetting.enabled=false` flag when installing Istio.
 
 ## Requirements
 
@@ -76,6 +76,7 @@ An example configuration:
 {{< text yaml >}}
 global:
   localityLbSetting:
+    enabled: true
     failover:
     - from: us-east
       to: eu-west
@@ -92,6 +93,7 @@ For example, if we want to keep 80% of traffic within our region, and send 20% o
 {{< text yaml >}}
 global:
   localityLbSetting:
+    enabled: true
     distribute:
     - from: "us-central1/*"
       to:
