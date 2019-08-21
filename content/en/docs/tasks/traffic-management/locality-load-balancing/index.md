@@ -21,8 +21,8 @@ the geographic location where requests are sent.
 
 ## Enabling Locality Load Balancing
 
-This feature is experimental and off by default in 1.1. To enable locality load balancing,
-set the `PILOT_ENABLE_LOCALITY_LOAD_BALANCING` environment variable in all Pilot instances.
+This feature is disabled by default. To disable locality load balancing,
+pass the `--set global.localityLbSetting.enabled=false` flag when installing Istio.
 
 ## Requirements
 
