@@ -48,7 +48,7 @@ varies between infrastructure providers. In single cluster and single network
 models, you commonly deploy a single Istio control plane, which results in the
 simplest Istio deployment.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./single-cluster.svg"
     alt="A service mesh with a single cluster"
     title="Single cluster"
@@ -71,7 +71,7 @@ affords the following capabilities beyond that of a single cluster model:
   levels of availability.
 - Team or project isolation: Each team runs its own set of clusters.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./multi-cluster.svg"
     alt="A service mesh with multiple clusters"
     title="Multi-cluster"
@@ -110,7 +110,7 @@ connected network. A single network model satisfies the following conditions:
 A single network allows Istio to configure service consumers in a uniform
 way across the mesh with the ability to directly address workload instances.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./single-net.svg"
     alt="A service mesh with a single network"
     title="Single network"
@@ -136,7 +136,7 @@ Istio uses **partitioned service discovery** to provide consumers a different
 view of {{< gloss >}}service endpoint{{< /gloss >}}s. The view depends on the
 network of the consumers.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./multi-net.svg"
     alt="A service mesh with multiple networks"
     title="Multi-network deployment"
@@ -180,7 +180,7 @@ inter-mesh communication with **mesh peering**. When
 peering, each mesh can export a set of services and identities, which all
 participating meshes can recognize.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./multi-mesh.svg"
     alt="Multiple service meshes"
     title="Multi-mesh"
@@ -221,7 +221,7 @@ If you run your mesh on a single cluster, a single control plane deployment
 suffices. Each workload instance in the cluster connects to a control plane
 instance to get its configuration.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./single-cluster.svg"
     alt="A service mesh with a single control plane"
     title="Single control plane"
@@ -247,7 +247,7 @@ The configuration of each control plane could be identical or different
 depending on the [network](#network-models) and [cluster](#cluster-models)
 models of the system.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./multi-control.svg"
     alt="A service mesh with multiple control planes"
     title="Multiple control planes"
@@ -270,7 +270,7 @@ planes affords the following benefits:
     - Memory
     - Network
 
-{{< image width="75%"
+{{< image width="50%"
     link="./managed-control.svg"
     alt="A service mesh with a managed control plane"
     title="Managed control plane"
@@ -308,7 +308,7 @@ workload instance has the key material needed to recognize all identities in the
 mesh. This model allows workload instances in the mesh to authenticate each
 other when communicating.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./single-trust.svg"
     alt="A service mesh with a certificate authority"
     title="Trust within a mesh"
@@ -324,7 +324,7 @@ either manually or automatically using a protocol such as [SPIFFE Trust Domain F
 Once you import a trust bundle to a mesh, you can configure local policies for
 those identities.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./multi-cluster.svg"
     alt="Multiple service meshes with certificate authorities"
     title="Trust between meshes"
@@ -360,7 +360,7 @@ permission to deploy their workloads only to a given namespace or set of
 namespaces. By default, services from multiple tenant namespaces can communicate
 with each other.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./iso-ns.svg"
     alt="A service mesh with two isolated namespaces"
     title="Isolated namespaces"
@@ -371,7 +371,7 @@ To improve isolation, you can selectively choose which services to expose to
 other namespaces. You can configure authorization policies for exposed services
 to restrict access to only the appropriate callers.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./exp-ns.svg"
     alt="A service mesh with two namespaces and an exposed service"
     title="Namespaces with an exposed service"
@@ -384,7 +384,7 @@ same namespace. For example, `foo/B` in `cluster-1` and `foo/B` in
 `cluster-2` refer to the same service, and Istio merges their endpoints for
 service discovery and load balancing.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./cluster-ns.svg"
     alt="A service mesh with two clusters with the same namespace"
     title="Multi-cluster namespaces"
@@ -404,7 +404,7 @@ example:
 
 With cluster tenancy, Istio considers each cluster as an independent mesh.
 
-{{< image width="75%"
+{{< image width="50%"
     link="./cluster-iso.svg"
     alt="Two isolated service meshes with two clusters and two namespaces"
     title="Cluster isolation"

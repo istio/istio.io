@@ -10,7 +10,7 @@ aliases:
 ---
 
 Follow this guide to configure a multicluster mesh using a
-[shared control plane topology](/docs/concepts/deployment-models/#shared-control-plane-topology)
+[single control plane deployment](/docs/concepts/deployment-models/#single-control-plane)
 with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
 depending on the location of the request source.
