@@ -2,7 +2,7 @@
 title: Identity
 ---
 
-An identity is a unique name backed by a key material, for
+An identity is a unique name backed by key material, for
 example:
 
 - [X.509 certificate](https://en.wikipedia.org/wiki/X.509)
@@ -11,8 +11,5 @@ example:
 Each identity Istio assigns is understood throughout the mesh and you can use it
 to enable mutual authentication and enforce policies.
 
-An identity contains a substring identifying the mesh that created it. For
-example in `spiffe://mytrustdomain.com/ns/default/sa/myname` the substring
-identifying the mesh is: `mytrustdomain.com`. We call this substring the trust
-domain of the mesh. Every Istio mesh has a globally unique trust domain used to
-create identity names.
+An identity contains a [trust domain](/docs/reference/glossary/#trust-domain)
+identifying the mesh that created it.
