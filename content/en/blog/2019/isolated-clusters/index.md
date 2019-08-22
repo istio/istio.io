@@ -121,6 +121,10 @@ I connect isolated clusters based on the following principles:
 - **private gateways for cross-cluster communication**, with dedicated certificates and private keys. Only the gateways
   trust each other, there is no trust between sidecars from different clusters.
 
+Note that my approach is different from the [Istio multicluster patterns](/docs/setup/kubernetes/install/multicluster/)
+that create a single _logical_ mesh composed of multiple Kubernetes clusters. In my approach I connect multiple
+independent meshes. Each mesh represents an isolated environment protected by Istio gateways.
+
 In the following sections I demonstrate connecting isolated clusters using two clusters and the Istio
 [Bookinfo](/docs/examples/bookinfo/) application as an example.
 
