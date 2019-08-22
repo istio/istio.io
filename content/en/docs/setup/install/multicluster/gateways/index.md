@@ -145,8 +145,8 @@ Create one of the following ConfigMaps, or update an existing one, in each
 cluster that will be calling services in remote clusters
 (every cluster in the general case):
 
-For clusters that use `kube-dns`:
-
+{{< tabset cookie-name="platform" >}}
+{{< tab name="KubeDNS" cookie-value="kube-dns" >}}
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: v1
@@ -159,9 +159,9 @@ data:
     {"global": ["$(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})"]}
 EOF
 {{< /text >}}
+{{< /tab >}}
 
-For clusters that use CoreDNS (< 1.4.0):
-
+{{< tab name="CoreDNS (< 1.4.0)" cookie-value="coredns-prev-1.4.0" >}}
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: v1
@@ -193,9 +193,9 @@ data:
     }
 EOF
 {{< /text >}}
+{{< /tab >}}
 
-For clusters that use CoreDNS (> 1.4.0):
-
+{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: v1
@@ -227,6 +227,8 @@ data:
     }
 EOF
 {{< /text >}}
+{{< /tab >}}
+{{< /tabset >}}
 
 ## Configure application services
 
