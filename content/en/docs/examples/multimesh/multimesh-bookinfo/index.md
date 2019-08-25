@@ -1,148 +1,19 @@
 ---
-title: Use Istio to connect Kubernetes clusters with isolation and boundary protection
-subtitle: Connect multiple service meshes ad hoc, with limited service exposure and strict cross-cluster access control
-description: Connect multiple service meshes ad hoc, with limited service exposure and strict cross-cluster access control.
-publishdate: 2019-08-22
-attribution: Vadim Eisenberg (IBM)
+title: Multi-mesh with Bookinfo
+description: An example of a multi-mesh Bookinfo application
 keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
-Various compliance standards require protection of sensitive data environments. Some of the important standards and the
-types of sensitive data they protect appear in the following table:
-
-|Standard|Sensitive data|
-| --- | --- |
-|[PCI DSS](https://www.pcisecuritystandards.org/pci_security)|payment card data|
-|[FedRAMP](https://www.fedramp.gov)|federal information, data and metadata|
-|[HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736)|personal health data|
-|[GDPR](https://gdpr-info.eu)| personal data|
-
-[PCI DSS](https://www.pcisecuritystandards.org/pci_security), for example, recommends putting cardholder data
-environment on a separate network. It requires using a [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)),
-and setting firewalls between the public Internet and the DMZ, and between the DMZ and the internal network.
-
-Isolation of sensitive data can reduce the scope of the compliance checks and improve the security of the sensitive
-data. Reducing the scope reduces the risks of failing a compliance check and reduces the costs of compliance since
-there are less components to check and secure, according to compliance requirements.
-
-You can achieve isolation of sensitive data environments by deploying the applications that process the sensitive data
-in separate Kubernetes clusters, preferably on separate networks.
-Then you can use Istio to connect applications in clusters with different compliance requirements.
-In this blog post I show how you can use Istio to connect isolated clusters, each cluster with its own Istio mesh, while
-providing boundary protection.
-
-## Isolation and boundary protection
-
-Isolation and boundary protection mechanisms are explained in the
-[NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
-_Appendix F, Security Control Catalog, SC-7 Boundary Protection_.
-
-In particular, the _Boundary protection, isolation of information system components_ control enhancement:
-
-{{< quote >}}
-Organizations can isolate information system components performing different missions and/or business functions.
-Such isolation limits unauthorized information flows among system components and also provides the opportunity to deploy
-greater levels of protection for selected components. Separating system components with boundary protection mechanisms
-provides the capability for increased protection of individual components and to more effectively control information
-flows between those components. This type of enhanced protection limits the potential harm from cyber attacks and
-errors. The degree of separation provided varies depending upon the mechanisms chosen. Boundary protection mechanisms
-include, for example, routers, gateways, and firewalls separating system components into physically separate networks or
-subnetworks, cross-domain devices separating subnetworks, virtualization techniques, and encrypting information flows
-among system components using distinct encryption keys.
-{{< /quote >}}
-
-Various compliance standards recommend isolating environments that process sensitive data from the rest of the
-organization.
-The [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/)
-recommends implementing network isolation for _cardholder data_ environment and requires isolating this environment from
-the [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)).
-[FedRAMP Authorization Boundary Guidance](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf)
-describes _authorization boundary_ for federal information and data, while
-[NIST Special Publication 800-37, Revision 2, Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy](https://doi.org/10.6028/NIST.SP.800-37r2)
-recommends protecting of such a boundary in _Appendix G, Authorization Boundary Considerations_:
-
-{{< quote >}}
-Dividing a system into subsystems (i.e., divide and conquer) facilitates a targeted application of controls to achieve
-adequate security, protection of individual privacy, and a cost-effective risk management process. Dividing complex
-systems into subsystems also supports the important security concepts of domain separation and network segmentation,
-which can be significant when dealing with high value assets. When systems are divided into subsystems, organizations
-may choose to develop individual subsystem security and privacy plans or address the system and subsystems in the same
-security and privacy plans.
-Information security and privacy architectures play a key part in the process of dividing complex systems into
-subsystems. This includes monitoring and controlling communications at internal boundaries among subsystems and
-selecting, allocating, and implementing controls that meet or exceed the security and privacy requirements of the
-constituent subsystems.
-{{< /quote >}}
-
-The approach I use in this blog post facilitates division of a system into subsystems with different security and
-compliance requirements, and facilitates the boundary protection.
-You put each subsystem into a separate Kubernetes cluster, preferably on a separate network. You install
-a dedicated Istio control plane into each cluster and connect the Istio meshes using ingress and egress gateways.
-The gateways monitor and control cross-cluster traffic at the boundary of each cluster.
-
-## Features of the approach
-
-The approach I use has the following features:
-
-- **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one cluster might have
-different functionality and API than the `withdraw` services in the `accounts` namespace in other clusters. The same
-service with the same functionality can have different names and can reside in different namespaces in different
-clusters.
-For example, the same service can be called `withdraw` and `withdraw-funds`, and can reside in the `accounts` and
-`private-accounts` namespaces in different clusters. Such situation could happen in an organization where there is no
-uniform policy on naming of namespaces and services, or when the clusters belong to different organizations.
-- **expose-nothing by default**. None of the services in a cluster are exposed by default, the cluster owners must
-explicitly specify which services are exposed.
-- **boundary protection**. The access control of the traffic must be enforced at the ingress gateway, which stops
-forbidden traffic from entering the cluster. This requirement implements
-[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of some compliance
-standards, such as the
-[Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
-- **common trust may not exist**. The Istio sidecars in one cluster may not trust the Citadel certificates in other
-cluster, due to some security requirement or due to the fact that the cluster owners did not initially plan to couple
-the clusters.
-- **service location transparency**: consuming services send requests to the exposed services in remote clusters using
-local service names. The consuming services are oblivious to the fact that some of the destinations are in remote
-clusters and some are local services. The access is uniform, using the local service names of Kubernetes, for example `reviews.default.svc.cluster.local`.
-
-While **expose-nothing by default** and **boundary protection** are required to facilitate compliance and improve
-security, **non-uniform naming** and **common trust may not exist** are required when connecting
-clusters of different organizations, or of an organization that cannot enforce uniform naming or cannot or may not
-establish common trust between the clusters. **Service location transparency** is important since you do not want to
-change the code of your applications when the location of the consumed services changes.
-
-## The implementation pattern
-
-I connect isolated clusters based on the following principles:
-
-- use **standard Istio mechanisms** such as gateways, virtual services, destination rules, RBAC.
-- use **standard Istio installations**.
-- **ad hoc cluster _pairing_** at any time. The owners of the clusters can install Istio and operate it independently,
-  and decide to connect the clusters at some later point in time.
-- **private gateways for cross-cluster communication**, with dedicated certificates and private keys. Only the gateways
-  trust each other, there is no trust between sidecars from different clusters.
-
-Note that my approach is different from the [Istio multicluster patterns](/docs/setup/install/multicluster/)
-that create a single _logical_ mesh composed of multiple Kubernetes clusters. In my approach I connect multiple
-independent meshes. Each mesh represents an isolated environment protected by Istio gateways.
-
-In the following sections I demonstrate connecting isolated clusters using two clusters and the Istio
-[Bookinfo](/docs/examples/bookinfo/) application as an example.
+This example shows how to connect different services of the [Bookinfo](/docs/examples/bookinfo/) sample application that
+are deployed in different meshes, including how to setup cross-mesh load balancing.
 
 ## Prerequisites
 
-You can perform the instructions in this blog post on two Kubernetes clusters or on a single cluster.
-
-The case of a single cluster demonstrates isolation between namespaces within the same cluster. To implement isolation
-between namespaces you must use
-[Kubernetes network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
-that forbid direct communication between namespaces. You use Istio to connect two namespaces with boundary protection,
-in the same way you use Istio to connect two clusters, as I show in this blog post.
-You may want to use a single cluster for easy testing of the instructions of this blog post, even if your goal is to
-connect multiple clusters. To better understand isolation between namespaces in a single cluster, take a look at an
+You can run the instructions in this example on two Kubernetes clusters or on a single cluster.
+You may want to use a single cluster for easy testing of the instructions of this example. To better understand how the
+example works in a single cluster, take a look at an
 [initial state](#a-single-cluster-with-isolation-between-namespaces-after-initial-setup) of a single cluster
 and the
-[state of the cluster with two namespaces connected](#a-single-cluster-with-isolation-between-namespaces-after-configuring-exposing-and-consuming-the-reviews-service)
-by Istio, with boundary protection.
+[state of the cluster with two namespaces connected](#a-single-cluster-with-isolation-between-namespaces-after-configuring-exposing-and-consuming-the-reviews-service).
 
 ### Prerequisites for two clusters
 
@@ -152,7 +23,7 @@ Two Kubernetes clusters (referred to as `cluster1` and `cluster2`) with default 
 
 ### Prerequisites for a single cluster
 
-A single Kubernetes cluster with a default Istio installation. I wrote the instructions in this blog post to handle
+A single Kubernetes cluster with a default Istio installation. We wrote the instructions in this example to handle
 both the case of two clusters and the case of a single cluster. In the case of a single cluster, the instructions refer
 to the same cluster as "the first cluster" and "the second cluster", and use `CTX_CLUSTER1` and `CTX_CLUSTER2`
 environment variables to refer to the same cluster.
@@ -341,7 +212,7 @@ The following diagram shows the state of the clusters after deploying the Bookin
 
 ### A single cluster with isolation between namespaces after initial setup
 
-In case you perform the instructions in this blog post on a single cluster, your cluster has the following state now:
+In case you perform the instructions in this example on a single cluster, your cluster has the following state now:
 
 {{< image width="100%" link="./MeshFederation1b_bookinfo.svg" caption="A single cluster with isolation between namespaces after initial setup" >}}
 
@@ -360,8 +231,8 @@ from and to the public Internet. You may want to deploy them on a private networ
 organization (or of your cloud provider) to reduce the possibilities for attacks from the public Internet. You may want
 to use these gateways for cross-cluster communication only.
 
-In this blog post you use non-existent hostnames, `c1.example.com`, `c2.example.com` and `c3.example.com`, as the
-hostnames of three clusters. You do not deploy a third cluster in this blog post, only use its identity for testing RBAC
+In this example you use non-existent hostnames, `c1.example.com`, `c2.example.com` and `c3.example.com`, as the
+hostnames of three clusters. You do not deploy a third cluster in this example, only use its identity for testing RBAC
 policies.
 
 ### Generate certificates and keys for both clusters
@@ -421,7 +292,7 @@ You can use the command of your choice to generate certificates and keys, the co
     EOF
     {{< /text >}}
 
-1.  Create a configuration file for `cluster3`. You do not deploy a third cluster in this blog post, only use the
+1.  Create a configuration file for `cluster3`. You do not deploy a third cluster in this example, only use the
     certificate and key of `cluster3` for testing RBAC policies.
 
     {{< text bash >}}
@@ -951,7 +822,7 @@ The following diagram shows the state of the clusters after configuring exposing
 
 ### A single cluster with isolation between namespaces after configuring exposing and consuming the reviews service
 
-In case you perform the instructions in this blog post on a single cluster, your cluster has the following state now:
+In case you perform the instructions in this example on a single cluster, your cluster has the following state now:
 
 {{< image width="100%" link="./MeshFederation3b_bookinfo.svg" caption="A single cluster with isolation between namespaces after configuring exposing and consuming the reviews service" >}}
 
@@ -1865,20 +1736,19 @@ $ kubectl delete -f samples/sleep/sleep.yaml --context=$CTX_CLUSTER2 --ignore-no
 
 ## Summary
 
-In this blog post I showed how you can connect two independent Istio service mesh instances, each one residing in a
+In this example you leaned to connect two independent Istio service mesh instances, each one residing in a
 separate Kubernetes cluster.
 The connected meshes have non-uniform naming: their services reside in different namespaces and might have different
 names.
 The sidecars in different meshes do not trust each other.
-The services are not exposed until the owners of a cluster decide to explicitly expose them.
-The owners of a cluster have control over which cluster can access their specific services.
+The services are not exposed until the owners of a mesh decide to explicitly expose them.
+The owners of a mesh have control over which remote mesh can access their specific services.
 
-Once the two meshes are _paired_, and exposure and consumption of services is configured, you can perform cross-cluster
+Once you _federate_ the two meshes, and configure exposure and consumption of services, you can perform cross-mesh
 routing and load balancing between local and remote versions of the same service.
 
 Since configuration of exposure and consumption of services is rather complex and contains a lot of boilerplate YAMLs,
-some of the process could clearly benefit from automation. The term "Mesh Federation", and possible support for it,
-is currently being discussed by the Istio community. Hopefully automation for a pattern, or patterns, similar to the one
-I showed here will be provided by Istio in the not too distant future.
+some of the process could clearly benefit from automation. Hopefully, the community will implement automation for
+multi-mesh in the not too distant future.
 
-I will be happy to hear your opinion about this pattern at [discuss.istio.io](https://discuss.istio.io).
+We will be happy to hear your opinion about multi-mesh at [discuss.istio.io](https://discuss.istio.io).
