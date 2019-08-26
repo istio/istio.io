@@ -57,4 +57,7 @@ archive:
 
 prow: lint
 
+update_ref_docs:
+	@scripts/grab_reference_docs.sh
+
 include common/Makefile.common.mk
