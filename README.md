@@ -72,7 +72,7 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
-1. Run `scripts/grab_reference_docs.sh` in order to get the latest reference docs.
+1. Run `make update_ref_docs` in order to get the latest reference docs.
 
 1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version 
 (in this case release-0.6) to the `TOBUILD` variable.
@@ -164,8 +164,7 @@ and `1.x.Y` is the name of the release.
 
 1. Edit the `data/args.yml` file and change the `full_version` field to the name of the release.
 
-1. Run `scripts/grab_reference_docs.sh` to get the latest reference docs.
+1. Run `make update_ref_docs` to get the latest reference docs.
 
 For the first three files, please look at existing files in the same locations for example content and
 layout.
-

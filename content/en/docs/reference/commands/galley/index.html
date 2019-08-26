@@ -531,10 +531,148 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <td>Whether or not to validate SANs for out-of-process adapters auth.</td>
 </tr>
 <tr>
+<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
+<td>Integer</td>
+<td><code>100000</code></td>
+<td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
 <td><code>ISTIO_LANG</code></td>
 <td>String</td>
 <td><code></code></td>
 <td>Selects the attribute expression langauge runtime for Mixer.</td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_AFTER</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>The delay added to config/registry events for debouncing. This will delay the push by at least this internal. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_MAX</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, protocol sniffing will be used on ports whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP10</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr>
+<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_THROTTLE</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
+</tr>
+<tr>
+<td><code>PILOT_RESPECT_DNS_TTL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, DNS based clusters will respect the TTL of the DNS, rather than polling at a fixed rate. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
+<td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, this will block inbound traffic from matching outbound listeners, which could result in an infinite loop of traffic. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_PUSHES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will attempt to limit unnecessary pushes by determining what proxies a config or endpoint update will impact.</td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
+</tr>
+<tr>
+<td><code>PILOT_TRACE_SAMPLING</code></td>
+<td>Floating-Point</td>
+<td><code>100</code></td>
+<td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
+</tr>
+<tr>
+<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
+<td>Integer</td>
+<td><code>5</code></td>
+<td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
+</tr>
+<tr>
+<td><code>USE_ISTIO_JWT_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Use the Istio JWT filter for JWT token verification.</td>
+</tr>
+<tr>
+<td><code>V2_REFRESH</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -568,6 +706,7 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <tr><td><code>galley_validation_failed</code></td><td><code>Count</code></td><td>Resource validation failed</td></tr>
 <tr><td><code>galley_validation_http_error</code></td><td><code>Count</code></td><td>Resource validation http serve errors</td></tr>
 <tr><td><code>galley_validation_passed</code></td><td><code>Count</code></td><td>Resource is valid</td></tr>
+<tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
 <tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
 <tr><td><code>istio_mcp_reconnections</code></td><td><code>Sum</code></td><td>The number of times the sink has reconnected.</td></tr>
