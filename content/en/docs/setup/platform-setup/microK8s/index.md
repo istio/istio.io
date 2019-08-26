@@ -16,6 +16,7 @@ Administrative privileges are required to run MicroK8s.
 {{< /warning >}}
 
 1.  Install the latest version of [microK8s](https://microK8s.io) using the command 
+
     {{< text bash >}}
     $ sudo snap install microk8s --classic
     {{< /text >}}
