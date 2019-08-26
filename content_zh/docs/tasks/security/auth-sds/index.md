@@ -5,7 +5,7 @@ weight: 70
 keywords: [security,auth-sds]
 ---
 
-该任务展示了启用 [SDS (secret discovery service)](https://www.envoyproxy.io/docs/envoy/latest/configuration/secret#config-secret-discovery-service) 来为 Istio 提供身份服务的过程。
+该任务展示了启用 [SDS (secret discovery service)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#config-secret-discovery-service) 来为 Istio 提供身份服务的过程。
 
 Istio 1.1 之前，Istio 为工作负载提供的密钥和证书是由 Citadel 生成并使用加载 Secret 卷的方式分发给 Sidecar 的，这种方式有几大缺陷：
 

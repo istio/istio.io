@@ -21,7 +21,7 @@ keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 这一选项**仅包含**了对传输层的加密工作。要把服务进行公开，还应该为遥测插件配置认证功能。
 {{< /warning >}}
 
-1. 在集群中[安装 Istio](/zh/docs/setup/kubernetes)，并启用 `cert-manager`，配置 `istio-ingressgateway`，打开对 [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/secret#config-secret-discovery-service) 的支持。
+1. 在集群中[安装 Istio](/zh/docs/setup/kubernetes)，并启用 `cert-manager`，配置 `istio-ingressgateway`，打开对 [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#config-secret-discovery-service) 的支持。
 
     使用下面的 Helm 参数来完成 Istio 部署：
 

@@ -156,7 +156,7 @@ For TCP traffic, Istio generates the following metrics:
     {{< /text >}}
 
 *   **Response Flags**: Additional details about the response or connection from proxy.
-    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration)
+    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)
     for more detail.
 
     {{< text yaml >}}

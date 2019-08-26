@@ -126,7 +126,7 @@ weight: 50
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}
 
-* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration) 中的  `%RESPONSE_FLAGS%` 相关说明。
+* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) 中的  `%RESPONSE_FLAGS%` 相关说明。
 
     {{< text yaml >}}
     response_flags: context.proxy_error_code | "-"

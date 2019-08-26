@@ -214,7 +214,7 @@ instructions in this section. Alternatively, if you do want to direct your traff
 
     If you know that the plain MongoDB protocol is used, without encryption, you can specify the protocol as `MONGO` and
     let the Istio proxy produce
-    [MongoDB related statistics](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter#statistics).
+    [MongoDB related statistics](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/mongo_proxy_filter#statistics).
     Also note that when the protocol `TCP` is specified, the configuration is not specific for MongoDB, but is the same
     for any other database with the protocol on top of TCP.
 

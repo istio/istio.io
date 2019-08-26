@@ -18,7 +18,7 @@ $ kubectl logs -it PODNAME -c istio-proxy -n NAMESPACE
 在默认访问日志格式中，Envoy响应标志和 Mixer 策略状态位于响应代码之后，
 如果您使用的是自定义日志格式，请确保包含`％RESPONSE_FLAGS％`和`％DYNAMIC_METADATA（istio.mixer：status）％`。
 
-详细的响应标志请参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-response-flags)
+详细的响应标志请参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#config-access-log-format-response-flags)
 
 常见的响应标志是：
 
