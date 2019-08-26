@@ -30,7 +30,7 @@ addons to require authentication when exposing them externally.
 {{< /warning >}}
 
 1. [Install Istio](/docs/setup) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
-the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/secret#config-secret-discovery-service).
+the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration).
 
     To install Istio accordingly, use the following Helm installation options:
 
