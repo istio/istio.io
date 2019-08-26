@@ -1,7 +1,7 @@
 ---
 title: App Identity and Access Adapter
 subtitle: Using Istio to Secure Multicloud Kubernetes Applications with Zero Code Changes
-description: Using Istio to Secure Multicloud Kubernetes Applications with Zero Code Changes
+description: Using Istio to Secure Multicloud Kubernetes Applications with Zero Code Changes.
 publishdate: 2019-09-01
 attribution: Anton Aleksandrov (IBM)
 keywords: [security,oidc,jwt,policies]
