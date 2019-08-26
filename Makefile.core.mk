@@ -57,4 +57,4 @@ archive:
 
 prow: lint
 
-include Makefile.common.mk
+include common/Makefile.common.mk
